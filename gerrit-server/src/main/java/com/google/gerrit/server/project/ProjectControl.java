@@ -24,6 +24,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /** Access control management for a user accessing a project's data. */
@@ -137,63 +138,60 @@ public class ProjectControl {
 
   private boolean canPerformOnAnyRef(ApprovalCategory.Id actionId,
       short requireValue) {
-    return canPerform(actionId, requireValue, null /* any ref */);
-  }
-
-  private boolean canPerformOnAllRefs(ApprovalCategory.Id actionId,
-      short requireValue) {
-    return canPerform(actionId, requireValue, "refs/*");
-  }
-
-  /**
-   * Can this user perform the action in this project, at the level asked?
-   * <p>
-   * This method checks the project rights against the user's effective groups.
-   * If no right for the given category was granted to any of the user's
-   * effective groups, then the rights from the wildcard project are checked.
-   *
-   * @param actionId unique action id.
-   * @param requireValue minimum value the application needs to perform this
-   *        action.
-   * @param refPattern if null, matches any RefRight, otherwise matches only
-   *        those RefRights with the pattern exactly equal to the input.
-   * @return true if the action can be performed; false if the user lacks the
-   *         necessary permission.
-   */
-  private boolean canPerform(final ApprovalCategory.Id actionId,
-      final short requireValue, final String refPattern) {
     final Set<AccountGroup.Id> groups = user.getEffectiveGroups();
     int val = Integer.MIN_VALUE;
 
-    for (final RefRight pr : state.getLocalRights()) {
-      if (actionId.equals(pr.getApprovalCategoryId())
-          && (refPattern == null || refPattern.equals(pr.getRefPattern()))
-          && groups.contains(pr.getAccountGroupId())) {
+    for (final RefRight pr : state.getLocalRights(actionId)) {
+      if (groups.contains(pr.getAccountGroupId())) {
         if (val < 0 && pr.getMaxValue() > 0) {
-          // If one of the user's groups had denied them access, but
-          // this group grants them access, prefer the grant over
-          // the denial. We have to break the tie somehow and we
-          // prefer being "more open" to being "more closed".
-          //
           val = pr.getMaxValue();
         } else {
-          // Otherwise we use the largest value we can get.
-          //
           val = Math.max(pr.getMaxValue(), val);
         }
       }
     }
 
     if (val == Integer.MIN_VALUE && actionId.canInheritFromWildProject()) {
-      for (final RefRight pr : state.getInheritedRights()) {
-        if (actionId.equals(pr.getApprovalCategoryId())
-            && (refPattern == null || refPattern.equals(pr.getRefPattern()))
-            && groups.contains(pr.getAccountGroupId())) {
+      for (final RefRight pr : state.getInheritedRights(actionId)) {
+        if (groups.contains(pr.getAccountGroupId())) {
           val = Math.max(pr.getMaxValue(), val);
         }
       }
     }
 
     return val >= requireValue;
+  }
+
+  private boolean canPerformOnAllRefs(ApprovalCategory.Id actionId,
+      short requireValue) {
+    boolean canPerform = false;
+    final Set<String> patterns = allRefPatterns(actionId);
+    if (patterns.contains(RefRight.ALL)) {
+      // Only possible if granted on the pattern that
+      // matches every possible reference.  Check all
+      // patterns also have the permission.
+      //
+      for (final String pattern : patterns) {
+        if (controlForRef(pattern).canPerform(actionId, requireValue)) {
+          canPerform = true;
+        } else {
+          return false;
+        }
+      }
+    }
+    return canPerform;
+  }
+
+  private Set<String> allRefPatterns(ApprovalCategory.Id actionId) {
+    final Set<String> all = new HashSet<String>();
+    for (final RefRight pr : state.getLocalRights(actionId)) {
+      all.add(pr.getRefPattern());
+    }
+    if (actionId.canInheritFromWildProject()) {
+      for (final RefRight pr : state.getInheritedRights(actionId)) {
+        all.add(pr.getRefPattern());
+      }
+    }
+    return all;
   }
 }

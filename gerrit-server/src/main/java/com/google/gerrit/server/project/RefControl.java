@@ -224,7 +224,7 @@ public class RefControl {
     return canPerform(FORGE_IDENTITY, FORGE_SERVER);
   }
 
-  private boolean canPerform(ApprovalCategory.Id actionId, short level) {
+  boolean canPerform(ApprovalCategory.Id actionId, short level) {
     final Set<AccountGroup.Id> groups = getCurrentUser().getEffectiveGroups();
     int val = Integer.MIN_VALUE;
 

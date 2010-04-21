@@ -83,7 +83,19 @@ public class RefControl {
 
   /** Is this user a ref owner? */
   public boolean isOwner() {
-    return canPerform(OWN, (short) 1) || getProjectControl().isOwner();
+    if (canPerform(OWN, (short) 1)) {
+      return true;
+    }
+
+    // We have to prevent infinite recursion here, the project control
+    // calls us to find out if there is ownership of all references in
+    // order to determine project level ownership.
+    //
+    if (!RefRight.ALL.equals(getRefName()) && getProjectControl().isOwner()) {
+      return true;
+    }
+
+    return false;
   }
 
   /** Can this user see this reference exists? */

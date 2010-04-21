@@ -120,7 +120,7 @@ public class ProjectControl {
 
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
   public boolean isOwner() {
-    return canPerformOnAllRefs(ApprovalCategory.OWN, (short) 1)
+    return controlForRef(RefRight.ALL).isOwner()
         || getCurrentUser().isAdministrator();
   }
 

@@ -11,7 +11,7 @@ SYNOPSIS
 'ssh' -p <port> <host> 'gerrit create-project' \
 \--name <NAME> \
 [--branch <REF>] \
-[\--owner <GROUP>] \
+[\--owner <GROUP> ...] \
 [\--description <DESC>] \
 [\--submit-type <TYPE>] \
 [\--use-contributor-agreements] \
@@ -32,7 +32,11 @@ on the remote system to create the empty repository.
 
 ACCESS
 ------
-Caller must be a member of the privileged 'Administrators' group.
+Caller must be a member of any of the groups defined by
+repository.*.createGroup in gerrit.config.
+
+If there is no such declaration, caller is required to be a member
+of the privileged 'Administrators' group.
 
 SCRIPTING
 ---------
@@ -49,13 +53,14 @@ OPTIONS
 	Defaults to 'master'.
 
 \--owner::
-	Name of the group which will initially own this repository.
-	The specified group must already be defined within Gerrit.
-	Only one group can be specified on the command line.
-	To specify additional owners, add the additional owners
-	through the web interface after project creation.
+	Name of the group(s) which will initially own this repository.
+	The specified group(s) must already be defined within Gerrit.
+	Several groups can be specified on the command line.
 +
-Defaults to `Administrators` if not specified.
+Defaults to what is specified by repository.*.ownerGroup
+in gerrit.config. If no such declaration(s) exist,
+repository.*.createGroup will be used. If they don't exist,
+`Administrators` will be used.
 
 \--description::
 	Initial description of the project.  If not specified,

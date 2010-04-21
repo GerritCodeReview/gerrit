@@ -16,9 +16,18 @@ package com.google.gerrit.server.config;
 
 import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
 
+import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountGroupName;
+import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class ConfigUtil {
@@ -197,6 +206,60 @@ public class ConfigUtil {
     } catch (NumberFormatException nfe) {
       throw notTimeUnit(section, subsection, setting, valueString);
     }
+  }
+
+  /**
+   * Resolve groups from group names, via the database. Group names not found in
+   * the database will be skipped.
+   *
+   * @param dbfactory database to resolve from.
+   * @param groupNames group names to resolve.
+   * @param log log for any warnings and errors.
+   * @param groupNotFoundWarning formatted message to output to the log for each
+   *        group name which is not found in the database. <code>{0}</code> will
+   *        be replaced with the group name.
+   * @return the actual groups resolved from the database. If no groups are
+   *         found, returns an empty {@code Set}, never {@code null}.
+   */
+  public static Set<AccountGroup.Id> groupsFor(
+      SchemaFactory<ReviewDb> dbfactory, String[] groupNames, Logger log,
+      String groupNotFoundWarning) {
+    final Set<AccountGroup.Id> result = new HashSet<AccountGroup.Id>();
+    try {
+      final ReviewDb db = dbfactory.open();
+      try {
+        for (String name : groupNames) {
+          AccountGroupName group =
+              db.accountGroupNames().get(new AccountGroup.NameKey(name));
+          if (group == null) {
+            log.warn(MessageFormat.format(groupNotFoundWarning, name));
+          } else {
+            result.add(group.getId());
+          }
+        }
+      } finally {
+        db.close();
+      }
+    } catch (OrmException e) {
+      log.error("Database error, cannot load groups", e);
+    }
+    return result;
+  }
+
+  /**
+   * Resolve groups from group names, via the database. Group names not found in
+   * the database will be skipped.
+   *
+   * @param dbfactory database to resolve from.
+   * @param groupNames group names to resolve.
+   * @param log log for any warnings and errors.
+   * @return the actual groups resolved from the database. If no groups are
+   *         found, returns an empty {@code Set}, never {@code null}.
+   */
+  public static Set<AccountGroup.Id> groupsFor(
+      SchemaFactory<ReviewDb> dbfactory, String[] groupNames, Logger log) {
+    return groupsFor(dbfactory, groupNames, log,
+        "Group \"{0}\" not in database, skipping.");
   }
 
   private static boolean match(final String a, final String... cases) {

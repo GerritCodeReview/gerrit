@@ -273,16 +273,11 @@ public class RefControl {
   }
 
   private List<RefRight> getLocalRights(ApprovalCategory.Id actionId) {
-    return filter(projectControl.getProjectState().getLocalRights(), actionId);
+    return filter(getProjectState().getLocalRights(actionId));
   }
 
   private List<RefRight> getInheritedRights(ApprovalCategory.Id actionId) {
-    if (actionId.canInheritFromWildProject()) {
-      return filter(projectControl.getProjectState().getInheritedRights(),
-          actionId);
-    } else {
-      return Collections.emptyList();
-    }
+    return filter(getProjectState().getInheritedRights(actionId));
   }
 
   public List<RefRight> getAllRights(final ApprovalCategory.Id id) {
@@ -293,16 +288,18 @@ public class RefControl {
     return Collections.unmodifiableList(RefControl.filterMostSpecific(l));
   }
 
-  private List<RefRight> filter(Collection<RefRight> all,
-      ApprovalCategory.Id actionId) {
+  private List<RefRight> filter(Collection<RefRight> all) {
     List<RefRight> mine = new ArrayList<RefRight>(all.size());
     for (RefRight right : all) {
-      if (matches(getRefName(), right.getRefPattern())
-          && right.getApprovalCategoryId().equals(actionId)) {
+      if (matches(getRefName(), right.getRefPattern())) {
         mine.add(right);
       }
     }
     return mine;
+  }
+
+  private ProjectState getProjectState() {
+    return projectControl.getProjectState();
   }
 
   public static boolean matches(String refName, String refPattern) {

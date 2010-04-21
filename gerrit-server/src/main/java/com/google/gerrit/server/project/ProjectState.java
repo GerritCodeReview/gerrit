@@ -24,9 +24,11 @@ import com.google.gerrit.server.config.WildProjectName;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /** Cached information on a project. */
@@ -80,12 +82,35 @@ public class ProjectState {
     return localRights;
   }
 
+  /**
+   * Get the rights that pertain only to this project.
+   *
+   * @param action the category requested.
+   * @return immutable collection of rights for the requested category.
+   */
+  public Collection<RefRight> getLocalRights(ApprovalCategory.Id action) {
+    return filter(getLocalRights(), action);
+  }
+
   /** Get the rights this project inherits from the wild project. */
   public Collection<RefRight> getInheritedRights() {
     if (isSpecialWildProject()) {
       return Collections.emptyList();
     }
     return inheritedRights.get();
+  }
+
+  /**
+   * Get the rights this project inherits from the wild project.
+   *
+   * @param action the category requested.
+   * @return immutable collection of rights for the requested category.
+   */
+  public Collection<RefRight> getInheritedRights(ApprovalCategory.Id action) {
+    if (action.canInheritFromWildProject()) {
+      return filter(getInheritedRights(), action);
+    }
+    return Collections.emptyList();
   }
 
   /** Is this the special wild project which manages inherited rights? */
@@ -103,5 +128,22 @@ public class ProjectState {
 
   public ProjectControl controlFor(final CurrentUser user) {
     return new ProjectControl(user, this);
+  }
+
+  private static Collection<RefRight> filter(Collection<RefRight> all,
+      ApprovalCategory.Id actionId) {
+    if (all.isEmpty()) {
+      return Collections.emptyList();
+    }
+    final Collection<RefRight> mine = new ArrayList<RefRight>(all.size());
+    for (final RefRight right : all) {
+      if (right.getApprovalCategoryId().equals(actionId)) {
+        mine.add(right);
+      }
+    }
+    if (mine.isEmpty()) {
+      return Collections.emptyList();
+    }
+    return Collections.unmodifiableCollection(mine);
   }
 }

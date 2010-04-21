@@ -130,20 +130,18 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     final ProjectState pe = projectCache.get(change.getProject());
     for (ApprovalCategory.Id category : approvalTypes.getApprovalCategories()) {
       List<RefRight> categoryRights = new ArrayList<RefRight>();
-      categoryRights.addAll(filterMatching(pe.getLocalRights(), category));
-      categoryRights.addAll(filterMatching(pe.getInheritedRights(), category));
+      categoryRights.addAll(filterMatching(pe.getLocalRights(category)));
+      categoryRights.addAll(filterMatching(pe.getInheritedRights(category)));
       Collections.sort(categoryRights, RefRight.REF_PATTERN_ORDER);
       categoryRights = RefControl.filterMostSpecific(categoryRights);
       computeAllowed(am, categoryRights, category);
     }
   }
 
-  private List<RefRight> filterMatching(Collection<RefRight> rights,
-      ApprovalCategory.Id category) {
+  private List<RefRight> filterMatching(Collection<RefRight> rights) {
     List<RefRight> result = new ArrayList<RefRight>();
     for (RefRight right : rights) {
-      if (RefControl.matches(change.getDest().get(), right.getRefPattern())
-          && category.equals(right.getApprovalCategoryId())) {
+      if (RefControl.matches(change.getDest().get(), right.getRefPattern())) {
         result.add(right);
       }
     }

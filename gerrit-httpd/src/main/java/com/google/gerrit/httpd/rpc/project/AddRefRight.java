@@ -114,25 +114,25 @@ class AddRefRight extends Handler<ProjectDetail> {
       if (categoryId.equals(ApprovalCategory.SUBMIT)
           || categoryId.equals(ApprovalCategory.PUSH_HEAD)) {
         // Explicitly related to a branch head.
-        refPattern = "refs/heads/*";
+        refPattern = Constants.R_HEADS + "*";
 
       } else if (!at.getCategory().isAction()) {
         // Non actions are approval votes on a change, assume these apply
         // to branch heads only.
-        refPattern = "refs/heads/*";
+        refPattern = Constants.R_HEADS + "*";
 
       } else if (categoryId.equals(ApprovalCategory.PUSH_TAG)) {
         // Explicitly related to the tag namespace.
-        refPattern = "refs/tags/*";
+        refPattern = Constants.R_TAGS + "*";
 
       } else if (categoryId.equals(ApprovalCategory.READ)
           || categoryId.equals(ApprovalCategory.OWN)) {
         // Currently these are project-wide rights, so apply that way.
-        refPattern = "refs/*";
+        refPattern = RefRight.ALL;
 
       } else {
         // Assume project wide for the default.
-        refPattern = "refs/*";
+        refPattern = RefRight.ALL;
       }
     }
     while (refPattern.startsWith("/")) {

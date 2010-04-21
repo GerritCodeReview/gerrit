@@ -86,8 +86,8 @@ class Schema_28 extends SchemaVersion {
 
     RefRight right =
         new RefRight(new RefRight.Key(sConfig.wildProjectName,
-            new RefRight.RefPattern("refs/*"), ApprovalCategory.FORGE_IDENTITY,
-            sConfig.registeredGroupId));
+            new RefRight.RefPattern(RefRight.ALL),
+            ApprovalCategory.FORGE_IDENTITY, sConfig.registeredGroupId));
     right.setMinValue(ApprovalCategory.FORGE_AUTHOR);
     right.setMaxValue(ApprovalCategory.FORGE_AUTHOR);
     c.refRights().insert(Collections.singleton(right));

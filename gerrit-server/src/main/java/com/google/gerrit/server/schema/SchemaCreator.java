@@ -234,7 +234,7 @@ public class SchemaCreator {
     c.approvalCategories().insert(Collections.singleton(cat));
     c.approvalCategoryValues().insert(vals);
 
-    final RefRight.RefPattern pattern = new RefRight.RefPattern("refs/*");
+    final RefRight.RefPattern pattern = new RefRight.RefPattern(RefRight.ALL);
     {
       final RefRight read =
           new RefRight(new RefRight.Key(DEFAULT_WILD_NAME, pattern,
@@ -327,8 +327,8 @@ public class SchemaCreator {
 
     RefRight right =
         new RefRight(new RefRight.Key(sConfig.wildProjectName,
-            new RefRight.RefPattern("refs/*"), ApprovalCategory.FORGE_IDENTITY,
-            sConfig.registeredGroupId));
+            new RefRight.RefPattern(RefRight.ALL),
+            ApprovalCategory.FORGE_IDENTITY, sConfig.registeredGroupId));
     right.setMinValue(ApprovalCategory.FORGE_AUTHOR);
     right.setMaxValue(ApprovalCategory.FORGE_AUTHOR);
     c.refRights().insert(Collections.singleton(right));

@@ -24,6 +24,8 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.lib.Constants;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -85,20 +87,20 @@ class Schema_25 extends SchemaVersion {
         || category.equals(ApprovalCategory.PUSH_HEAD)
         || nonActions.contains(category)) {
       // Explicitly related to a branch head.
-      ref = new RefRight.RefPattern("refs/heads/*");
+      ref = new RefRight.RefPattern(Constants.R_HEADS + "*");
 
     } else if (category.equals(ApprovalCategory.PUSH_TAG)) {
       // Explicitly related to the tag namespace.
-      ref = new RefRight.RefPattern("refs/tags/*");
+      ref = new RefRight.RefPattern(Constants.R_TAGS + "/*");
 
     } else if (category.equals(ApprovalCategory.READ)
         || category.equals(ApprovalCategory.OWN)) {
       // Currently these are project-wide rights, so apply that way.
-      ref = new RefRight.RefPattern("refs/*");
+      ref = new RefRight.RefPattern(RefRight.ALL);
 
     } else {
       // Assume project wide for the default.
-      ref = new RefRight.RefPattern("refs/*");
+      ref = new RefRight.RefPattern(RefRight.ALL);
     }
 
     RefRight.Key key = new RefRight.Key(project, ref, category, group);

@@ -115,8 +115,8 @@ final class AdminCreateProject extends BaseCommand {
     final Project.NameKey newProjectNameKey = new Project.NameKey(projectName);
 
     final RefRight.Key prk =
-        new RefRight.Key(newProjectNameKey, new RefRight.RefPattern("refs/*"),
-            ApprovalCategory.OWN, ownerId);
+        new RefRight.Key(newProjectNameKey, new RefRight.RefPattern(
+            RefRight.ALL), ApprovalCategory.OWN, ownerId);
     final RefRight pr = new RefRight(prk);
     pr.setMaxValue((short) 1);
     pr.setMinValue((short) 1);

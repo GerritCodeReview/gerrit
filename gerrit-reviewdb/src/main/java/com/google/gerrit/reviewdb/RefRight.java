@@ -22,6 +22,9 @@ import java.util.Comparator;
 
 /** Grant to use an {@link ApprovalCategory} in the scope of a git ref. */
 public final class RefRight {
+  /** Pattern that matches all references in a project. */
+  public static final String ALL = "refs/*";
+
   public static class RefPattern extends
       StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;

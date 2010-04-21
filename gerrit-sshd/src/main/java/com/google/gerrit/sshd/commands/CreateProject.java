@@ -17,17 +17,17 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.Project.SubmitType;
-import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.ProjectCreatorGroups;
+import com.google.gerrit.server.config.ProjectOwnerGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
-import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
-
 import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -35,17 +35,22 @@ import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /** Create a new project. **/
-@AdminCommand
-final class AdminCreateProject extends BaseCommand {
+final class CreateProject extends BaseCommand {
   @Option(name = "--name", required = true, aliases = {"-n"}, metaVar = "NAME", usage = "name of project to be created")
   private String projectName;
 
-  @Option(name = "--owner", aliases = {"-o"}, usage = "owner of project\n"
-      + "(default: Administrators)")
-  private AccountGroup.Id ownerId;
+  @Option(name = "--owner", aliases = {"-o"}, usage = "owner(s) of project\n"
+      + "(default: as configured by repository.*.ownerGroup, or if that's not configured: " +
+          "repository.*.createGroup, or if that's not configured: \"Administrators\")")
+  private List<AccountGroup.Id> ownerIds;
 
   @Option(name = "--description", aliases = {"-d"}, metaVar = "DESC", usage = "description of project")
   private String projectDescription = "";
@@ -71,7 +76,15 @@ final class AdminCreateProject extends BaseCommand {
   private GitRepositoryManager repoManager;
 
   @Inject
-  private AuthConfig authConfig;
+  @ProjectCreatorGroups
+  private Set<AccountGroup.Id> projectCreatorGroups;
+
+  @Inject
+  @ProjectOwnerGroups
+  private Set<AccountGroup.Id> projectOwnerGroups;
+
+  @Inject
+  private IdentifiedUser currentUser;
 
   @Inject
   private ReplicationQueue rq;
@@ -83,7 +96,6 @@ final class AdminCreateProject extends BaseCommand {
       public void run() throws Exception {
         PrintWriter p = toPrintWriter(out);
 
-        ownerId = authConfig.getAdministratorsGroup();
         parseCommandLine();
 
         try {
@@ -111,16 +123,35 @@ final class AdminCreateProject extends BaseCommand {
     });
   }
 
+  /**
+   * Checks if any of the elements in the first collection can be found in the second collection.
+   * @param findAnyOfThese which elements to look for.
+   * @param inThisCollection where to look for them.
+   * @param <E> type of the elements in question.
+   * @return {@code true} if any of the elements in {@code findAnyOfThese} can be found in
+   * {@code inThisCollection}, {@code false} otherwise.
+   */
+  private static <E> boolean isAnyIncludedIn(Collection<E> findAnyOfThese, Collection<E> inThisCollection) {
+    for (E findThisItem : findAnyOfThese) {
+      if (inThisCollection.contains(findThisItem)){
+        return true;
+      }
+    }
+    return false;
+  }
+
   private void createProject() throws OrmException {
     final Project.NameKey newProjectNameKey = new Project.NameKey(projectName);
 
-    final RefRight.Key prk =
-        new RefRight.Key(newProjectNameKey, new RefRight.RefPattern(
-            RefRight.ALL), ApprovalCategory.OWN, ownerId);
-    final RefRight pr = new RefRight(prk);
-    pr.setMaxValue((short) 1);
-    pr.setMinValue((short) 1);
-    db.refRights().insert(Collections.singleton(pr));
+    for (AccountGroup.Id ownerId : ownerIds) {
+      final RefRight.Key prk =
+          new RefRight.Key(newProjectNameKey, new RefRight.RefPattern(
+              RefRight.ALL), ApprovalCategory.OWN, ownerId);
+      final RefRight pr = new RefRight(prk);
+      pr.setMaxValue((short) 1);
+      pr.setMinValue((short) 1);
+      db.refRights().insert(Collections.singleton(pr));
+    }
 
     final Project newProject = new Project(newProjectNameKey);
     newProject.setDescription(projectDescription);
@@ -135,6 +166,15 @@ final class AdminCreateProject extends BaseCommand {
     if (projectName.endsWith(".git")) {
       projectName =
           projectName.substring(0, projectName.length() - ".git".length());
+    }
+
+    if (!isAnyIncludedIn(currentUser.getEffectiveGroups(), projectCreatorGroups)){
+      throw new Failure(1, "You are not a member of any required group for creating projects.");
+    }
+    if (ownerIds != null && !ownerIds.isEmpty()){
+      ownerIds = new ArrayList<AccountGroup.Id>(new HashSet<AccountGroup.Id>(ownerIds));
+    }else{
+      ownerIds = new ArrayList<AccountGroup.Id>(projectOwnerGroups);
     }
 
     while (branch.startsWith("/")) {

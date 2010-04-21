@@ -15,15 +15,14 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReplicationUser;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -55,7 +54,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -322,7 +320,8 @@ public class PushReplication implements ReplicationQueue {
       String[] authGroupNames =
           cfg.getStringList("remote", rc.getName(), "authGroup");
       authEnabled = authGroupNames.length > 0;
-      Set<AccountGroup.Id> authGroups = groupsFor(db, authGroupNames);
+      Set<AccountGroup.Id> authGroups = ConfigUtil.groupsFor(db, authGroupNames, log,
+              "Group \"{0}\" not in database, removing from authGroup");
 
       final ReplicationUser remoteUser =
           replicationUserFactory.create(authGroups);
@@ -345,31 +344,6 @@ public class PushReplication implements ReplicationQueue {
               FactoryProvider.newFactory(PushOp.Factory.class, PushOp.class));
         }
       }).getInstance(PushOp.Factory.class);
-    }
-
-    private static Set<AccountGroup.Id> groupsFor(
-        SchemaFactory<ReviewDb> dbfactory, String[] groupNames) {
-      final Set<AccountGroup.Id> result = new HashSet<AccountGroup.Id>();
-      try {
-        final ReviewDb db = dbfactory.open();
-        try {
-          for (String name : groupNames) {
-            AccountGroupName group =
-                db.accountGroupNames().get(new AccountGroup.NameKey(name));
-            if (group == null) {
-              log.warn("Group \"" + name + "\" not in database,"
-                  + " removing from authGroup");
-            } else {
-              result.add(group.getId());
-            }
-          }
-        } finally {
-          db.close();
-        }
-      } catch (OrmException e) {
-        log.error("Database error: " + e);
-      }
-      return result;
     }
 
     private int getInt(final RemoteConfig rc, final Config cfg,

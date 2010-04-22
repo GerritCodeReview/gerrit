@@ -29,6 +29,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -42,7 +43,7 @@ public class ProjectCacheImpl implements ProjectCache {
       @Override
       protected void configure() {
         final TypeLiteral<Cache<Project.NameKey, ProjectState>> type =
-            new TypeLiteral<Cache<Project.NameKey, ProjectState>>() {};
+          new TypeLiteral<Cache<Project.NameKey, ProjectState>>() {};
         core(type, CACHE_NAME);
         bind(ProjectCacheImpl.class);
         bind(ProjectCache.class).to(ProjectCacheImpl.class);
@@ -51,8 +52,6 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   private final ProjectState.Factory projectStateFactory;
-  private final Project.NameKey wildProject;
-  private final ProjectState.InheritedRights inheritedRights;
   private final SchemaFactory<ReviewDb> schema;
   private final SelfPopulatingCache<Project.NameKey, ProjectState> byName;
 
@@ -63,7 +62,6 @@ public class ProjectCacheImpl implements ProjectCache {
       @Named(CACHE_NAME) final Cache<Project.NameKey, ProjectState> byName) {
     projectStateFactory = psf;
     schema = sf;
-    wildProject = wp;
 
     this.byName =
         new SelfPopulatingCache<Project.NameKey, ProjectState>(byName) {
@@ -73,15 +71,15 @@ public class ProjectCacheImpl implements ProjectCache {
             return lookup(key);
           }
         };
-
-    this.inheritedRights = new ProjectState.InheritedRights() {
-      @Override
-      public Collection<RefRight> get() {
-        return ProjectCacheImpl.this.get(wildProject).getLocalRights();
-      }
-    };
   }
 
+  /**
+   * Lookup for a state of a specified project on database
+   *
+   * @param key the project name key
+   * @return the project state
+   * @throws OrmException
+   */
   private ProjectState lookup(final Project.NameKey key) throws OrmException {
     final ReviewDb db = schema.open();
     try {
@@ -94,7 +92,7 @@ public class ProjectCacheImpl implements ProjectCache {
           Collections.unmodifiableCollection(db.refRights().byProject(
               p.getNameKey()).toList());
 
-      return projectStateFactory.create(p, rights, inheritedRights);
+      return projectStateFactory.create(p, rights);
     } finally {
       db.close();
     }
@@ -115,5 +113,10 @@ public class ProjectCacheImpl implements ProjectCache {
     if (p != null) {
       byName.remove(p.getNameKey());
     }
+  }
+
+  /** Invalidate the cached information about all projects. */
+  public void evictAll() {
+    byName.removeAll();
   }
 }

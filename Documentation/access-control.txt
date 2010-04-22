@@ -106,9 +106,9 @@ members of `Foo` have submit rights on a project, and the members of
 Project Access Control Lists
 ----------------------------
 
-A system wide access control list affecting all projects is stored
-in project id 0 (named "`\-- All Projects \--`" in a default
-installation).  Only the id is recognized as special by Gerrit.
+A system wide access control list affecting all projects is stored in
+project "`\-- All Projects \--`".  This inheritance can be configured
+through link:cmd-set-project-parent.html[gerrit set-project-parent].
 
 Per-project access control lists are also supported.
 

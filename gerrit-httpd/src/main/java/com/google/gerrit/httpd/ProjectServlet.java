@@ -17,11 +17,13 @@ package com.google.gerrit.httpd;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommits;
+import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.AbstractModule;
@@ -171,13 +173,23 @@ public class ProjectServlet extends GitServlet {
   }
 
   static class Upload implements UploadPackFactory {
+    private final Provider<ReviewDb> db;
+
+    @Inject
+    Upload(final Provider<ReviewDb> db) {
+      this.db = db;
+    }
+
     @Override
-    public UploadPack create(HttpServletRequest req, Repository db)
+    public UploadPack create(HttpServletRequest req, Repository repo)
         throws ServiceNotEnabledException {
       // The Resolver above already checked READ access for us.
       //
       ProjectControl pc = getProjectControl(req);
-      UploadPack up = new UploadPack(db);
+      UploadPack up = new UploadPack(repo);
+      if (!pc.allRefsAreVisible()) {
+        up.setRefFilter(new VisibleRefFilter(repo, pc, db.get()));
+      }
       return up;
     }
   }

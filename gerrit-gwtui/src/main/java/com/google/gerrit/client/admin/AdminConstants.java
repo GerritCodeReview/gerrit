@@ -36,6 +36,7 @@ public interface AdminConstants extends Constants {
   String useSignedOffBy();
 
   String headingOwner();
+  String headingParentProjectName();
   String headingDescription();
   String headingSubmitType();
   String headingGroupType();

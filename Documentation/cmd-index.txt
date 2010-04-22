@@ -87,6 +87,9 @@ link:cmd-flush-caches.html[gerrit flush-caches]::
 link:cmd-gsql.html[gerrit gsql]::
 	Administrative interface to active database.
 
+link:cmd-set-project-parent.html[gerrit set-project-parent]::
+	Change the project permissions are inherited from.
+
 link:cmd-show-caches.html[gerrit show-caches]::
 	Display current cache statistics.
 

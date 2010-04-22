@@ -121,6 +121,11 @@ public abstract class SelfPopulatingCache<K, V> implements Cache<K, V> {
     }
   }
 
+  /** Remove all cached items, forcing them to be created again on demand. */
+  public void removeAll(){
+    self.removeAll();
+  }
+
   public void put(K key, V value) {
     self.put(new Element(key, value));
   }

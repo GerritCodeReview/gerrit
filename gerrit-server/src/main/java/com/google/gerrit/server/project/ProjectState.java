@@ -34,34 +34,31 @@ import java.util.Set;
 /** Cached information on a project. */
 public class ProjectState {
   public interface Factory {
-    ProjectState create(Project project, Collection<RefRight> localRights,
-        InheritedRights inheritedRights);
-  }
-
-  public interface InheritedRights {
-    Collection<RefRight> get();
+    ProjectState create(Project project, Collection<RefRight> localRights);
   }
 
   private final AnonymousUser anonymousUser;
   private final Project.NameKey wildProject;
+  private final ProjectCache projectCache;
 
   private final Project project;
   private final Collection<RefRight> localRights;
-  private final InheritedRights inheritedRights;
   private final Set<AccountGroup.Id> owners;
+
+  private volatile Collection<RefRight> inheritedRights;
 
   @Inject
   protected ProjectState(final AnonymousUser anonymousUser,
+      final ProjectCache projectCache,
       @WildProjectName final Project.NameKey wildProject,
       @Assisted final Project project,
-      @Assisted final Collection<RefRight> rights,
-      @Assisted final InheritedRights inheritedRights) {
+      @Assisted final Collection<RefRight> rights) {
     this.anonymousUser = anonymousUser;
+    this.projectCache = projectCache;
     this.wildProject = wildProject;
 
     this.project = project;
     this.localRights = rights;
-    this.inheritedRights = inheritedRights;
 
     final HashSet<AccountGroup.Id> groups = new HashSet<AccountGroup.Id>();
     for (final RefRight right : rights) {
@@ -94,10 +91,42 @@ public class ProjectState {
 
   /** Get the rights this project inherits from the wild project. */
   public Collection<RefRight> getInheritedRights() {
+    if (inheritedRights == null) {
+      inheritedRights = computeInheritedRights();
+    }
+    return inheritedRights;
+  }
+
+  private Collection<RefRight> computeInheritedRights() {
     if (isSpecialWildProject()) {
       return Collections.emptyList();
     }
-    return inheritedRights.get();
+
+    List<RefRight> inherited = new ArrayList<RefRight>();
+    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
+    Project.NameKey parent = project.getParent();
+
+    while (parent != null && seen.add(parent)) {
+      ProjectState s = projectCache.get(parent);
+      if (s != null) {
+        inherited.addAll(s.getLocalRights());
+        parent = s.getProject().getParent();
+      } else {
+        break;
+      }
+    }
+
+    // Wild project is the parent, or the root of the tree
+    if (parent == null) {
+      inherited.addAll(getWildProjectRights());
+    }
+
+    return Collections.unmodifiableCollection(inherited);
+  }
+
+  private Collection<RefRight> getWildProjectRights() {
+    final ProjectState s = projectCache.get(wildProject);
+    return s != null ? s.getLocalRights() : Collections.<RefRight> emptyList();
   }
 
   /**

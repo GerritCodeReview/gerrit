@@ -31,5 +31,6 @@ public class SlaveCommandModule extends CommandModule {
     command(gerrit, "gsql").to(ErrorSlaveMode.class);
     command(gerrit, "receive-pack").to(ErrorSlaveMode.class);
     command(gerrit, "replicate").to(ErrorSlaveMode.class);
+    command(gerrit, "set-project-parent").to(ErrorSlaveMode.class);
   }
 }

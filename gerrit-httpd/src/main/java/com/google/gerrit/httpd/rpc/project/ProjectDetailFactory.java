@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.InheritedRefRight;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -71,26 +72,34 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     detail.setProject(projectState.getProject());
 
     groups = new HashMap<AccountGroup.Id, AccountGroup>();
-    final List<RefRight> refRights = new ArrayList<RefRight>();
-    for (final RefRight r : projectState.getLocalRights()) {
-      refRights.add(r);
-      wantGroup(r.getAccountGroupId());
-    }
+    final List<InheritedRefRight> refRights = new ArrayList<InheritedRefRight>();
+
     for (final RefRight r : projectState.getInheritedRights()) {
-      refRights.add(r);
+      InheritedRefRight refRight = new InheritedRefRight(r, true);
+      if (!refRights.contains(refRight)) {
+        refRights.add(refRight);
+        wantGroup(r.getAccountGroupId());
+      }
+    }
+
+    for (final RefRight r : projectState.getLocalRights()) {
+      refRights.add(new InheritedRefRight(r, false));
       wantGroup(r.getAccountGroupId());
     }
+
     loadGroups();
 
-    Collections.sort(refRights, new Comparator<RefRight>() {
+    Collections.sort(refRights, new Comparator<InheritedRefRight>() {
       @Override
-      public int compare(final RefRight a, final RefRight b) {
-        int rc = categoryOf(a).compareTo(categoryOf(b));
+      public int compare(final InheritedRefRight a, final InheritedRefRight b) {
+        final RefRight right1 = a.getRight();
+        final RefRight right2 = b.getRight();
+        int rc = categoryOf(right1).compareTo(categoryOf(right2));
         if (rc == 0) {
-          rc = a.getRefPattern().compareTo(b.getRefPattern());
+          rc = right1.getRefPattern().compareTo(right2.getRefPattern());
         }
         if (rc == 0) {
-          rc = groupOf(a).compareTo(groupOf(b));
+          rc = groupOf(right1).compareTo(groupOf(right2));
         }
         return rc;
       }

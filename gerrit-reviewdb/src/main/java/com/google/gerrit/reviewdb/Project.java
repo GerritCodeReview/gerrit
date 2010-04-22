@@ -96,6 +96,9 @@ public final class Project {
   @Column(id = 5)
   protected char submitType;
 
+  @Column(id = 6, notNull = false, name = "parent_name")
+  protected NameKey parent;
+
   protected Project() {
   }
 
@@ -150,5 +153,13 @@ public final class Project {
     useContributorAgreements = update.useContributorAgreements;
     useSignedOffBy = update.useSignedOffBy;
     submitType = update.submitType;
+  }
+
+  public Project.NameKey getParent() {
+    return parent;
+  }
+
+  public void setParent(final Project.NameKey parentProjectName) {
+      parent = parentProjectName;
   }
 }

@@ -152,6 +152,23 @@ public final class RefRight {
     maxValue = m;
   }
 
+  @Override
+  public int hashCode() {
+    return getKey().hashCode();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof RefRight) {
+      RefRight a = this;
+      RefRight b = (RefRight) o;
+      return a.getKey().equals(b.getKey())
+          && a.getMinValue() == b.getMinValue()
+          && a.getMaxValue() == b.getMaxValue();
+    }
+    return false;
+  }
+
   private static class RefPatternOrder implements Comparator<RefRight> {
 
     @Override

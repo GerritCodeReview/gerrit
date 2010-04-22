@@ -14,13 +14,16 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.GerritConfig;
+import com.google.gerrit.common.data.InheritedRefRight;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
@@ -46,6 +49,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
@@ -58,6 +62,9 @@ import java.util.Map;
 
 public class ProjectRightsPanel extends Composite {
   private Project.NameKey projectName;
+
+  private Panel parentPanel;
+  private Hyperlink parentName;
 
   private RightsTable rights;
   private Button delRight;
@@ -73,6 +80,7 @@ public class ProjectRightsPanel extends Composite {
     projectName = toShow;
 
     final FlowPanel body = new FlowPanel();
+    initParent(body);
     initRights(body);
     initWidget(body);
   }
@@ -101,6 +109,15 @@ public class ProjectRightsPanel extends Composite {
     catBox.setEnabled(canAdd);
     rangeMinBox.setEnabled(canAdd);
     rangeMaxBox.setEnabled(canAdd);
+  }
+
+  private void initParent(final Panel body) {
+    parentPanel = new VerticalPanel();
+    parentPanel.add(new SmallHeading(Util.C.headingParentProjectName()));
+
+    parentName = new Hyperlink("", "");
+    parentPanel.add(parentName);
+    body.add(parentPanel);
   }
 
   private void initRights(final Panel body) {
@@ -230,6 +247,20 @@ public class ProjectRightsPanel extends Composite {
   }
 
   void display(final ProjectDetail result) {
+    final Project project = result.project;
+
+    final Project.NameKey wildKey = Gerrit.getConfig().getWildProject();
+    final boolean isWild = wildKey.equals(project.getNameKey());
+    Project.NameKey parent = project.getParent();
+    if (parent == null) {
+      parent = wildKey;
+    }
+
+    parentPanel.setVisible(!isWild);
+    parentName.setTargetHistoryToken(Dispatcher.toProjectAdmin(parent,
+        ProjectAdminScreen.ACCESS_TAB));
+    parentName.setText(parent.get());
+
     rights.display(result.groups, result.rights);
   }
 
@@ -400,11 +431,11 @@ public class ProjectRightsPanel extends Composite {
     }
 
     void display(final Map<AccountGroup.Id, AccountGroup> groups,
-        final List<RefRight> refRights) {
+        final List<InheritedRefRight> refRights) {
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
-      for (final RefRight r : refRights) {
+      for (final InheritedRefRight r : refRights) {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
@@ -413,14 +444,16 @@ public class ProjectRightsPanel extends Composite {
     }
 
     void populate(final int row,
-        final Map<AccountGroup.Id, AccountGroup> groups, final RefRight r) {
+        final Map<AccountGroup.Id, AccountGroup> groups,
+        final InheritedRefRight r) {
       final GerritConfig config = Gerrit.getConfig();
+      final RefRight right = r.getRight();
       final ApprovalType ar =
-          config.getApprovalTypes().getApprovalType(r.getApprovalCategoryId());
-      final AccountGroup group = groups.get(r.getAccountGroupId());
+          config.getApprovalTypes().getApprovalType(
+              right.getApprovalCategoryId());
+      final AccountGroup group = groups.get(right.getAccountGroupId());
 
-      if (!projectName.equals(Gerrit.getConfig().getWildProject())
-          && Gerrit.getConfig().getWildProject().equals(r.getProjectNameKey())) {
+      if (r.isInherited()) {
         table.setText(row, 1, "");
       } else {
         table.setWidget(row, 1, new CheckBox());
@@ -429,27 +462,28 @@ public class ProjectRightsPanel extends Composite {
       if (ar != null) {
         table.setText(row, 2, ar.getCategory().getName());
       } else {
-        table.setText(row, 2, r.getApprovalCategoryId().get());
+        table.setText(row, 2, right.getApprovalCategoryId().get());
       }
 
       if (group != null) {
         table.setText(row, 3, group.getName());
       } else {
-        table.setText(row, 3, Util.M.deletedGroup(r.getAccountGroupId().get()));
+        table.setText(row, 3, Util.M.deletedGroup(right.getAccountGroupId()
+            .get()));
       }
 
-      table.setText(row, 4, r.getRefPattern());
+      table.setText(row, 4, right.getRefPattern());
 
       {
         final SafeHtmlBuilder m = new SafeHtmlBuilder();
         final ApprovalCategoryValue min, max;
-        min = ar != null ? ar.getValue(r.getMinValue()) : null;
-        max = ar != null ? ar.getValue(r.getMaxValue()) : null;
+        min = ar != null ? ar.getValue(right.getMinValue()) : null;
+        max = ar != null ? ar.getValue(right.getMaxValue()) : null;
 
-        formatValue(m, r.getMinValue(), min);
-        if (r.getMinValue() != r.getMaxValue()) {
+        formatValue(m, right.getMinValue(), min);
+        if (right.getMinValue() != right.getMaxValue()) {
           m.br();
-          formatValue(m, r.getMaxValue(), max);
+          formatValue(m, right.getMaxValue(), max);
         }
         SafeHtml.set(table, row, 5, m);
       }
@@ -463,7 +497,7 @@ public class ProjectRightsPanel extends Composite {
       fmt.addStyleName(row, 5, Gerrit.RESOURCES.css()
           .projectAdminApprovalCategoryRangeLine());
 
-      setRowItem(row, r);
+      setRowItem(row, right);
     }
 
     private void formatValue(final SafeHtmlBuilder m, final short v,

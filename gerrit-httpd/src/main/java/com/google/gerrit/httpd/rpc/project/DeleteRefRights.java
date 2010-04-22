@@ -79,7 +79,7 @@ class DeleteRefRights extends Handler<VoidResult> {
         db.refRights().delete(Collections.singleton(m));
       }
     }
-    projectCache.evict(projectControl.getProject());
+    projectCache.evictAll();
     return VoidResult.INSTANCE;
   }
 

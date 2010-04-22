@@ -24,42 +24,39 @@ import com.google.gerrit.server.config.WildProjectName;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /** Cached information on a project. */
 public class ProjectState {
   public interface Factory {
-    ProjectState create(Project project, Collection<RefRight> localRights,
-        InheritedRights inheritedRights);
-  }
-
-  public interface InheritedRights {
-    Collection<RefRight> get();
+    ProjectState create(Project project, Collection<RefRight> localRights);
   }
 
   private final AnonymousUser anonymousUser;
   private final Project.NameKey wildProject;
+  private final ProjectCache projectCache;
 
   private final Project project;
   private final Collection<RefRight> localRights;
-  private final InheritedRights inheritedRights;
   private final Set<AccountGroup.Id> owners;
 
   @Inject
   protected ProjectState(final AnonymousUser anonymousUser,
+      final ProjectCache projectCache,
       @WildProjectName final Project.NameKey wildProject,
       @Assisted final Project project,
-      @Assisted final Collection<RefRight> rights,
-      @Assisted final InheritedRights inheritedRights) {
+      @Assisted final Collection<RefRight> rights) {
     this.anonymousUser = anonymousUser;
+    this.projectCache = projectCache;
     this.wildProject = wildProject;
 
     this.project = project;
     this.localRights = rights;
-    this.inheritedRights = inheritedRights;
 
     final HashSet<AccountGroup.Id> groups = new HashSet<AccountGroup.Id>();
     for (final RefRight right : rights) {
@@ -85,7 +82,32 @@ public class ProjectState {
     if (isSpecialWildProject()) {
       return Collections.emptyList();
     }
-    return inheritedRights.get();
+
+    List<RefRight> inheritedRights = new ArrayList<RefRight>();
+
+    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
+    Project.NameKey parent = project.getParent();
+
+    while (parent != null && seen.add(parent)) {
+      ProjectState s = projectCache.get(parent);
+      if (s != null) {
+        inheritedRights.addAll(s.getLocalRights());
+        parent = s.getProject().getParent();
+      } else {
+        break;
+      }
+    }
+
+    // Wild project is the parent, or the root of the tree
+    if (parent == null) {
+      inheritedRights.addAll(getWildProjectRights());
+    }
+
+    return Collections.unmodifiableCollection(inheritedRights);
+  }
+
+  private Collection<RefRight> getWildProjectRights() {
+    return projectCache.get(wildProject).getLocalRights();
   }
 
   /** Is this the special wild project which manages inherited rights? */

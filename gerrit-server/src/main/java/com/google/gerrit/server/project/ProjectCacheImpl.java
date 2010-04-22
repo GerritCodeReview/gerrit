@@ -29,6 +29,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -42,17 +43,15 @@ public class ProjectCacheImpl implements ProjectCache {
       @Override
       protected void configure() {
         final TypeLiteral<Cache<Project.NameKey, ProjectState>> type =
-            new TypeLiteral<Cache<Project.NameKey, ProjectState>>() {};
-        core(type, CACHE_NAME);
-        bind(ProjectCacheImpl.class);
-        bind(ProjectCache.class).to(ProjectCacheImpl.class);
+          new TypeLiteral<Cache<Project.NameKey, ProjectState>>() {};
+          core(type, CACHE_NAME);
+          bind(ProjectCacheImpl.class);
+          bind(ProjectCache.class).to(ProjectCacheImpl.class);
       }
     };
   }
 
   private final ProjectState.Factory projectStateFactory;
-  private final Project.NameKey wildProject;
-  private final ProjectState.InheritedRights inheritedRights;
   private final SchemaFactory<ReviewDb> schema;
   private final SelfPopulatingCache<Project.NameKey, ProjectState> byName;
 
@@ -63,25 +62,23 @@ public class ProjectCacheImpl implements ProjectCache {
       @Named(CACHE_NAME) final Cache<Project.NameKey, ProjectState> byName) {
     projectStateFactory = psf;
     schema = sf;
-    wildProject = wp;
 
     this.byName =
-        new SelfPopulatingCache<Project.NameKey, ProjectState>(byName) {
-          @Override
-          public ProjectState createEntry(final Project.NameKey key)
-              throws Exception {
-            return lookup(key);
-          }
-        };
-
-    this.inheritedRights = new ProjectState.InheritedRights() {
+      new SelfPopulatingCache<Project.NameKey, ProjectState>(byName) {
       @Override
-      public Collection<RefRight> get() {
-        return ProjectCacheImpl.this.get(wildProject).getLocalRights();
+      public ProjectState createEntry(final Project.NameKey key)
+      throws Exception {
+        return lookup(key);
       }
     };
   }
 
+  /**
+   * Lookup for a state of a specified project on database
+   * @param key the project name key
+   * @return the project state
+   * @throws OrmException
+   */
   private ProjectState lookup(final Project.NameKey key) throws OrmException {
     final ReviewDb db = schema.open();
     try {
@@ -94,7 +91,7 @@ public class ProjectCacheImpl implements ProjectCache {
           Collections.unmodifiableCollection(db.refRights().byProject(
               p.getNameKey()).toList());
 
-      return projectStateFactory.create(p, rights, inheritedRights);
+      return projectStateFactory.create(p, rights);
     } finally {
       db.close();
     }
@@ -114,6 +111,38 @@ public class ProjectCacheImpl implements ProjectCache {
   public void evict(final Project p) {
     if (p != null) {
       byName.remove(p.getNameKey());
+    }
+  }
+
+  /** Invalidate the cached information about all projects. */
+  public void evictAll() {
+    // evict all projects
+    byName.removeAll();
+  }
+
+  /**
+   * inner class to compose project inherited rights from parent project state
+   */
+  class InheritedRightsComposer {
+    Collection<RefRight> rights = new ArrayList<RefRight>();
+
+    /**
+     * Composes a project state inherited rights from parent project state
+     * @param parentProjectState the parent project state
+     */
+    public InheritedRightsComposer(ProjectState parentProjectState) {
+      // project inherited rights is defined by union of parent project rights
+      // and parent project inherited rights
+      for (RefRight right : parentProjectState.getLocalRights()) {
+        rights.add(right);
+      }
+      for (RefRight right : parentProjectState.getInheritedRights()) {
+        rights.add(right);
+      }
+    }
+
+    public Collection<RefRight> get() {
+      return Collections.unmodifiableCollection(rights);
     }
   }
 }

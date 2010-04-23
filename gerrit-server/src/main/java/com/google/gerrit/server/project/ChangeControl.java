@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -139,6 +141,36 @@ public class ChangeControl {
       final IdentifiedUser i = (IdentifiedUser) getCurrentUser();
       return i.getAccountId().equals(change.getOwner());
     }
+    return false;
+  }
+
+  /** @return true if the user is allowed to remove this reviewer. */
+  public boolean canRemoveReviewer(PatchSetApproval approval) {
+    if (getChange().getStatus().isOpen()) {
+      // A user can always remove themselves.
+      //
+      if (getCurrentUser() instanceof IdentifiedUser) {
+        final IdentifiedUser i = (IdentifiedUser) getCurrentUser();
+        if (i.getAccountId().equals(approval.getAccountId())) {
+          return true; // can remove self
+        }
+      }
+
+      // The change owner may remove any zero or positive score.
+      //
+      if (isOwner() && 0 <= approval.getValue()) {
+        return true;
+      }
+
+      // The branch owner, project owner, site admin can remove anyone.
+      //
+      if (getRefControl().isOwner() // branch owner
+          || getProjectControl().isOwner() // project owner
+          || getCurrentUser().isAdministrator()) {
+        return true;
+      }
+    }
+
     return false;
   }
 }

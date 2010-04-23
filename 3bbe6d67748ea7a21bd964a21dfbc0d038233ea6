@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAw3///1E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-23T21:20:49Z",
+      "side": 1,
+      "message": "Probably should escape the text from the server, so new SafeHtmlBuilder().append(result.getErrors().get(0)) instead.",
+      "revId": "3bbe6d67748ea7a21bd964a21dfbc0d038233ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAw3///08\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/RemoveReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-23T21:20:49Z",
+      "side": 1,
+      "message": "Should be 2010?",
+      "revId": "3bbe6d67748ea7a21bd964a21dfbc0d038233ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAw3///04\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/RemoveReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-23T21:20:49Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t record @author tags, git has the history.",
+      "revId": "3bbe6d67748ea7a21bd964a21dfbc0d038233ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAw3///00\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/RemoveReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-23T21:20:49Z",
+      "side": 1,
+      "message": "This should be Change.Id not Id.  We have too many Id classes floating around in the system to import one specifically.",
+      "revId": "3bbe6d67748ea7a21bd964a21dfbc0d038233ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAw3///0w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/RemoveReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-23T21:20:49Z",
+      "side": 1,
+      "message": "We shouldn\u0027t permit deleting blocking negative scores unless the user is an administrator.",
+      "revId": "3bbe6d67748ea7a21bd964a21dfbc0d038233ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

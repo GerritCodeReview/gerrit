@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAw3///1A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-23T21:20:49Z",
+      "side": 0,
+      "message": "Please don\u0027t rename this action.  Make a new method for your canRemoveReviewer test.  We may in the future chose to make these have different behaviors, and that\u0027s harder when its all one method.",
+      "revId": "9d823b2e3e83258c5786d909c2d70980f337c99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

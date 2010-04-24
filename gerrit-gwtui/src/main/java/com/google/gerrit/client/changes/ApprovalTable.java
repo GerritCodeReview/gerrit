@@ -154,7 +154,7 @@ public class ApprovalTable extends Composite {
     } else {
       table.setVisible(true);
       for (int i = 0; i < rows.size(); i++) {
-        displayRow(i + 1, rows.get(i));
+        displayRow(i + 1, rows.get(i), change);
       }
     }
 
@@ -235,7 +235,8 @@ public class ApprovalTable extends Composite {
         });
   }
 
-  private void displayRow(final int row, final ApprovalDetail ad) {
+  private void displayRow(final int row, final ApprovalDetail ad,
+      final Change change) {
     final CellFormatter fmt = table.getCellFormatter();
     final Map<ApprovalCategory.Id, PatchSetApproval> am = ad.getApprovalMap();
     final StringBuilder hint = new StringBuilder();
@@ -284,7 +285,7 @@ public class ApprovalTable extends Composite {
     //
     // Remove button
     //
-    if (Gerrit.isSignedIn()) {
+    if (change.getStatus().isOpen() && Gerrit.isSignedIn()) {
       Button removeButton = new Button("X");
       removeButton.setStyleName(Gerrit.RESOURCES.css().removeReviewer());
       removeButton.addClickHandler(new ClickHandler() {

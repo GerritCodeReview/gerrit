@@ -12,6 +12,7 @@ SYNOPSIS
 \--name <NAME> \
 [--branch <REF>] \
 [\--owner <GROUP> ...] \
+[\--parent <NAME>] \
 [\--description <DESC>] \
 [\--submit-type <TYPE>] \
 [\--use-contributor-agreements] \
@@ -61,6 +62,11 @@ Defaults to what is specified by repository.*.ownerGroup
 in gerrit.config. If no such declaration(s) exist,
 repository.*.createGroup will be used. If they don't exist,
 `Administrators` will be used.
+
+\--parent::
+	Name of the parent project to inherit access rights
+	through. If not specified, the parent is set to the default
+	project `\-- All Projects \--`.
 
 \--description::
 	Initial description of the project.  If not specified,

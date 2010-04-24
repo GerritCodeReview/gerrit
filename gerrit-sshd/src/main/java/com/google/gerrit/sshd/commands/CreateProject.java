@@ -25,6 +25,7 @@ import com.google.gerrit.server.config.ProjectCreatorGroups;
 import com.google.gerrit.server.config.ProjectOwnerGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -50,6 +51,9 @@ final class CreateProject extends BaseCommand {
 
   @Option(name = "--owner", aliases = {"-o"}, usage = "owner(s) of project")
   private List<AccountGroup.Id> ownerIds;
+
+  @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "parent project")
+  private ProjectControl newParent;
 
   @Option(name = "--description", aliases = {"-d"}, metaVar = "DESC", usage = "description of project")
   private String projectDescription = "";
@@ -162,6 +166,9 @@ final class CreateProject extends BaseCommand {
     newProject.setSubmitType(submitType);
     newProject.setUseContributorAgreements(contributorAgreements);
     newProject.setUseSignedOffBy(signedOffBy);
+    if (newParent != null) {
+      newProject.setParent(newParent.getProject().getNameKey());
+    }
 
     db.projects().insert(Collections.singleton(newProject));
   }

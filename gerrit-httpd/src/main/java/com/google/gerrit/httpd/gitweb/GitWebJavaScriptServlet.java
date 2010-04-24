@@ -20,8 +20,10 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.util.IO;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -31,29 +33,48 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 class GitWebJavaScriptServlet extends HttpServlet {
+  private static final long MAX_AGE =
+      TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES);
+  private static final String CACHE_CTRL =
+      "public, max-age=" + (MAX_AGE / 1000L);
+
+  private final long modified;
   private final byte[] raw;
 
   @Inject
   GitWebJavaScriptServlet(final GitWebConfig gitWebConfig) throws IOException {
     byte[] png;
-    if (gitWebConfig.getGitwebJS() != null) {
+    final File src = gitWebConfig.getGitwebJS();
+    if (src != null) {
       try {
-        png = IO.readFully(gitWebConfig.getGitwebJS());
+        png = IO.readFully(src);
       } catch (FileNotFoundException e) {
         png = null;
       }
+      modified = src.lastModified();
     } else {
+      modified = -1;
       png = null;
     }
     raw = png;
   }
 
   @Override
+  protected long getLastModified(final HttpServletRequest req) {
+    return modified;
+  }
+
+  @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     if (raw != null) {
+      final long now = System.currentTimeMillis();
       rsp.setContentType("text/javascript");
       rsp.setContentLength(raw.length);
+      rsp.setHeader("Cache-Control", CACHE_CTRL);
+      rsp.setDateHeader("Date", now);
+      rsp.setDateHeader("Expires", now + MAX_AGE);
+      rsp.setDateHeader("Last-Modified", modified);
 
       final ServletOutputStream os = rsp.getOutputStream();
       try {

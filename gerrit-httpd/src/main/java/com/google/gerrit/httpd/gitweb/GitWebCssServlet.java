@@ -23,6 +23,7 @@ import com.google.inject.Singleton;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -50,6 +51,12 @@ abstract class GitWebCssServlet extends HttpServlet {
   }
 
   private static final String ENC = "UTF-8";
+  private static final long MAX_AGE =
+      TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES);
+  private static final String CACHE_CTRL =
+      "public, max-age=" + (MAX_AGE / 1000L);
+
+  private final long modified;
   private final byte[] raw_css;
   private final byte[] gz_css;
 
@@ -60,22 +67,31 @@ abstract class GitWebCssServlet extends HttpServlet {
       final String name = src.getName();
       final String raw = HtmlDomUtil.readFile(dir, name);
       if (raw != null) {
+        modified = src.lastModified();
         raw_css = raw.getBytes(ENC);
         gz_css = HtmlDomUtil.compress(raw_css);
       } else {
+        modified = -1L;
         raw_css = null;
         gz_css = null;
       }
     } else {
+      modified = -1;
       raw_css = null;
       gz_css = null;
     }
   }
 
   @Override
+  protected long getLastModified(final HttpServletRequest req) {
+    return modified;
+  }
+
+  @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     if (raw_css != null) {
+      final long now = System.currentTimeMillis();
       rsp.setContentType("text/css");
       rsp.setCharacterEncoding(ENC);
       final byte[] toSend;
@@ -86,6 +102,10 @@ abstract class GitWebCssServlet extends HttpServlet {
         toSend = raw_css;
       }
       rsp.setContentLength(toSend.length);
+      rsp.setHeader("Cache-Control", CACHE_CTRL);
+      rsp.setDateHeader("Date", now);
+      rsp.setDateHeader("Expires", now + MAX_AGE);
+      rsp.setDateHeader("Last-Modified", modified);
 
       final ServletOutputStream os = rsp.getOutputStream();
       try {

@@ -282,10 +282,7 @@ public class ApprovalTable extends Composite {
       col++;
     }
 
-    //
-    // Remove button
-    //
-    if (change.getStatus().isOpen() && Gerrit.isSignedIn()) {
+    if (ad.canRemove()) {
       Button removeButton = new Button("X");
       removeButton.setStyleName(Gerrit.RESOURCES.css().removeReviewer());
       removeButton.addClickHandler(new ClickHandler() {
@@ -306,6 +303,8 @@ public class ApprovalTable extends Composite {
         }
       });
       table.setWidget(row, col++, removeButton);
+    } else {
+      table.setText(row, col++, "");
     }
     table.setText(row, col++, hint.toString());
   }

@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.PatchSetAncestor;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -154,13 +155,19 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       detail.setCurrentActions(currentActions);
     }
 
+    final boolean canRemoveReviewers = detail.getChange().getStatus().isOpen() //
+        && control.getCurrentUser() instanceof IdentifiedUser;
     final HashMap<Account.Id, ApprovalDetail> ad =
         new HashMap<Account.Id, ApprovalDetail>();
     for (PatchSetApproval ca : allApprovals) {
       ApprovalDetail d = ad.get(ca.getAccountId());
       if (d == null) {
         d = new ApprovalDetail(ca.getAccountId());
+        d.setCanRemove(canRemoveReviewers);
         ad.put(d.getAccount(), d);
+      }
+      if (d.canRemove()) {
+        d.setCanRemove(control.canRemoveReviewer(ca));
       }
       if (ca.getPatchSetId().equals(psId)) {
         d.add(ca);

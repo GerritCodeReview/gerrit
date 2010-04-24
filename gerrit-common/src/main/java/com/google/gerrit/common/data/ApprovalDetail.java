@@ -41,6 +41,7 @@ public class ApprovalDetail {
 
   protected Account.Id account;
   protected List<PatchSetApproval> approvals;
+  protected boolean canRemove;
 
   private transient int hasNonZero;
   private transient Timestamp sortOrder = EG_D;
@@ -55,6 +56,14 @@ public class ApprovalDetail {
 
   public Account.Id getAccount() {
     return account;
+  }
+
+  public boolean canRemove() {
+    return canRemove;
+  }
+
+  public void setCanRemove(boolean removeable) {
+    canRemove = removeable;
   }
 
   public Map<ApprovalCategory.Id, PatchSetApproval> getApprovalMap() {

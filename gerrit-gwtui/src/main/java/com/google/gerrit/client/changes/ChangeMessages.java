@@ -32,6 +32,7 @@ public interface ChangeMessages extends Messages {
   String patchTableComments(@PluralCount int count);
   String patchTableDrafts(@PluralCount int count);
 
+  String removeReviewer(String fullName);
   String messageWrittenOn(String date);
 
   String renamedFrom(String sourcePath);

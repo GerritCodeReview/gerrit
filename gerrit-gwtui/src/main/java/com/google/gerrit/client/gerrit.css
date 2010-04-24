@@ -782,9 +782,7 @@
 
 .infoTable td.approvalhint {
   white-space: nowrap;
-  background-left: 1px none;
-  background-bottom: 1px none;
-  border: none;
+  text-align: left;
   color: #444444;
 }
 
@@ -882,7 +880,12 @@
   white-space: nowrap;
 }
 .removeReviewer {
-  width: 30px;
+  padding: 0px;
+  font-size: 6pt;
+}
+td.removeReviewerCell {
+  padding-left: 4em;
+  border-left: none;
 }
 td.downloadLinkListCell {
   padding: 0px;

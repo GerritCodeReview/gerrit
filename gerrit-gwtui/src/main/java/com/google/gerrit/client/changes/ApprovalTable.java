@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.ErrorDialog;
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -57,12 +58,11 @@ public class ApprovalTable extends Composite {
   private final Panel addReviewer;
   private final AddMemberBox addMemberBox;
   private Change.Id changeId;
-  private boolean changeIsOpen;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
 
   public ApprovalTable() {
     types = Gerrit.getConfig().getApprovalTypes().getApprovalTypes();
-    table = new Grid(1, 4 + types.size());
+    table = new Grid(1, 3 + types.size());
     table.addStyleName(Gerrit.RESOURCES.css().infoTable());
     displayHeader();
 
@@ -96,35 +96,27 @@ public class ApprovalTable extends Composite {
   }
 
   private void displayHeader() {
+    final CellFormatter fmt = table.getCellFormatter();
     int col = 0;
-    header(col++, Util.C.approvalTableReviewer());
-    header(col++, "");
+
+    table.setText(0, col, Util.C.approvalTableReviewer());
+    fmt.setStyleName(0, col, Gerrit.RESOURCES.css().header());
+    col++;
+
+    table.clearCell(0, col);
+    fmt.setStyleName(0, col, Gerrit.RESOURCES.css().header());
+    col++;
 
     for (final ApprovalType t : types) {
-      header(col++, t.getCategory().getName());
+      table.setText(0, col, t.getCategory().getName());
+      fmt.setStyleName(0, col, Gerrit.RESOURCES.css().header());
+      col++;
     }
-    header(col++, Util.C.removeReviewer());
-    applyEdgeStyles(0);
-  }
 
-  private void header(final int col, final String title) {
-    table.setText(0, col, title);
-    table.getCellFormatter().addStyleName(0, col, Gerrit.RESOURCES.css().header());
-  }
-
-  private void applyEdgeStyles(final int row) {
-    final CellFormatter fmt = table.getCellFormatter();
-    fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().approvalrole());
-    fmt.addStyleName(row, 1 + types.size(), Gerrit.RESOURCES.css().rightmost());
-    fmt.addStyleName(row, 2 + types.size(), Gerrit.RESOURCES.css().rightmost());
-    fmt.addStyleName(row, 3 + types.size(), Gerrit.RESOURCES.css().approvalhint());
-  }
-
-  private void applyScoreStyles(final int row) {
-    final CellFormatter fmt = table.getCellFormatter();
-    for (int col = 0; col < types.size(); col++) {
-      fmt.addStyleName(row, 2 + col, Gerrit.RESOURCES.css().approvalscore());
-    }
+    table.clearCell(0, col);
+    fmt.setStyleName(0, col, Gerrit.RESOURCES.css().header());
+    fmt.addStyleName(0, col, Gerrit.RESOURCES.css().rightmost());
+    col++;
   }
 
   public void setAccountInfoCache(final AccountInfoCache aic) {
@@ -140,22 +132,14 @@ public class ApprovalTable extends Composite {
       final List<ApprovalDetail> rows) {
     changeId = change.getId();
 
-    final int oldcnt = table.getRowCount();
-    table.resizeRows(1 + rows.size());
-    if (oldcnt < 1 + rows.size()) {
-      for (int row = oldcnt; row < 1 + rows.size(); row++) {
-        applyEdgeStyles(row);
-        applyScoreStyles(row);
-      }
-    }
-
     if (rows.isEmpty()) {
       table.setVisible(false);
     } else {
-      table.setVisible(true);
+      table.resizeRows(1 + rows.size());
       for (int i = 0; i < rows.size(); i++) {
         displayRow(i + 1, rows.get(i), change);
       }
+      table.setVisible(true);
     }
 
     final Element missingList = missing.getElement();
@@ -177,8 +161,7 @@ public class ApprovalTable extends Composite {
       }
     }
 
-    changeIsOpen = change.getStatus().isOpen();
-    addReviewer.setVisible(Gerrit.isSignedIn() && changeIsOpen);
+    addReviewer.setVisible(Gerrit.isSignedIn() && change.getStatus().isOpen());
   }
 
   private void doAddReviewer() {
@@ -241,10 +224,29 @@ public class ApprovalTable extends Composite {
     final Map<ApprovalCategory.Id, PatchSetApproval> am = ad.getApprovalMap();
     final StringBuilder hint = new StringBuilder();
     int col = 0;
+
     table.setWidget(row, col++, link(ad.getAccount()));
-    table.clearCell(row, col++); // TODO populate the account role
+
+    if (ad.canRemove()) {
+      Button remove = new Button("X");
+      remove.setTitle(Util.M.removeReviewer( //
+          FormatUtil.name(accountCache.get(ad.getAccount()))));
+      remove.setStyleName(Gerrit.RESOURCES.css().removeReviewer());
+      remove.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          doRemove(ad);
+        }
+      });
+      table.setWidget(row, col, remove);
+    } else {
+      table.clearCell(row, col);
+    }
+    fmt.setStyleName(row, col++, Gerrit.RESOURCES.css().removeReviewerCell());
 
     for (final ApprovalType type : types) {
+      fmt.setStyleName(row, col, Gerrit.RESOURCES.css().approvalscore());
+
       final PatchSetApproval ca = am.get(type.getCategory().getId());
       if (ca == null || ca.getValue() == 0) {
         table.clearCell(row, col);
@@ -270,11 +272,9 @@ public class ApprovalTable extends Composite {
         String vstr = String.valueOf(ca.getValue());
         if (ca.getValue() > 0) {
           vstr = "+" + vstr;
-          fmt.removeStyleName(row, col, Gerrit.RESOURCES.css().negscore());
           fmt.addStyleName(row, col, Gerrit.RESOURCES.css().posscore());
         } else {
           fmt.addStyleName(row, col, Gerrit.RESOURCES.css().negscore());
-          fmt.removeStyleName(row, col, Gerrit.RESOURCES.css().posscore());
         }
         table.setText(row, col, vstr);
       }
@@ -282,30 +282,24 @@ public class ApprovalTable extends Composite {
       col++;
     }
 
-    if (ad.canRemove()) {
-      Button removeButton = new Button("X");
-      removeButton.setStyleName(Gerrit.RESOURCES.css().removeReviewer());
-      removeButton.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          PatchUtil.DETAIL_SVC.removeReviewer(changeId, ad.getAccount(),
-              new GerritCallback<ReviewerResult>() {
-                @Override
-                public void onSuccess(ReviewerResult result) {
-                  if (result.getErrors().isEmpty()) {
-                    final ChangeDetail r = result.getChange();
-                    display(r.getChange(), r.getMissingApprovals(), r.getApprovals());
-                  } else {
-                    new ErrorDialog(result.getErrors().get(0).toString()).center();
-                  }
-                }
-          });
-        }
-      });
-      table.setWidget(row, col++, removeButton);
-    } else {
-      table.setText(row, col++, "");
-    }
-    table.setText(row, col++, hint.toString());
+    table.setText(row, col, hint.toString());
+    fmt.setStyleName(row, col, Gerrit.RESOURCES.css().rightmost());
+    fmt.addStyleName(row, col, Gerrit.RESOURCES.css().approvalhint());
+    col++;
+  }
+
+  private void doRemove(final ApprovalDetail ad) {
+    PatchUtil.DETAIL_SVC.removeReviewer(changeId, ad.getAccount(),
+        new GerritCallback<ReviewerResult>() {
+          @Override
+          public void onSuccess(ReviewerResult result) {
+            if (result.getErrors().isEmpty()) {
+              final ChangeDetail r = result.getChange();
+              display(r.getChange(), r.getMissingApprovals(), r.getApprovals());
+            } else {
+              new ErrorDialog(result.getErrors().get(0).toString()).center();
+            }
+          }
+        });
   }
 }

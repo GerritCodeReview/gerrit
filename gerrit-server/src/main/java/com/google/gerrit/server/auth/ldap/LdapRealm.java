@@ -366,7 +366,7 @@ class LdapRealm implements Realm {
 
   private void recursivelyExpandGroups(final Set<String> groupDNs,
       final LdapSchema schema, final DirContext ctx, final String groupDN) {
-    if (groupDNs.add(groupDN)) {
+    if (groupDNs.add(groupDN) && schema.accountMemberField != null) {
       // Recursively identify the groups it is a member of.
       //
       try {

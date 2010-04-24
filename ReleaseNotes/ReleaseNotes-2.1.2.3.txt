@@ -18,3 +18,24 @@ Gson library.  Fixed by upgrading.
 URLs at the end of a commit message sometimes caused the Change-Id
 to be inserted above the URL, rather than below it.  Fixed, but
 users will need to recopy the hook to their local repositories.
+
+* Don't allow OWN to be inherited from All Projects
++
+The project Owner permission was accidentally inherited from the
+magical All Projects in certain cases.  This was not meant to happen,
+ownership cannot be inherited down.  Fortunately we didn't permit
+the Owner permission to be added to All Projects, so this was not
+likely to have occurred in real installations.
+
+* Traverse all LDAP groups that a user is member of
+* Expand LDAP groups only if accountMemberField set
++
+Fixes traversal of groups on an Active Directory server, ensuring
+that the user's grandparent groups are available to Gerrit as part
+of their user session.
+
+* Define a toString for PatchListKey to improve errors
++
+Minor bug fix to improve the level of detail that is available when
+the server is unable to difference two patch sets on demand for a
+user request.

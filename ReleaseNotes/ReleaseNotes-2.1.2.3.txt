@@ -18,3 +18,65 @@ Gson library.  Fixed by upgrading.
 URLs at the end of a commit message sometimes caused the Change-Id
 to be inserted above the URL, rather than below it.  Fixed, but
 users will need to recopy the hook to their local repositories.
+
+* issue 538 create-project: Don't destroy description of repository
++
+If the repository `foo` existed without the standard `.git` suffix,
+executing `gerrit create-project -n foo` trashed the description
+file that existed in `foo`, while also creating a useless sibling
+directory called `foo.git`.  Fixed by detecting the existing `foo`
+during create-project and refusing to continue.
+
+* issue 521 Use OpenID PAPE extension to force reauthentication
++
+The new configuration parameter auth.maxOpenIdSessionAge is now
+sent as part of OpenID authentication requests, encouraging the
+provider to verify the user's password.
+
+* issue 507 Enter on auto-complete causes application error
++
+Pressing enter while the auto-complete box was open inside of
+the project watch panel or the project rights panel caused an
+application error.  Fixed.
+
+* Advertise our relying party XRDS document
++
+The OpenID 2.0 specification requests relying parties to document
+themselves, so the provider can verify the request is authentic
+for this domain.  Document Gerrit's requests in the standard XRDS
+format, and advertise it properly.  This hides warnings during the
+Yahoo! provider's login process.
+
+* Don't allow OWN to be inherited from All Projects
++
+The project Owner permission was accidentally inherited from the
+magical All Projects in certain cases.  This was not meant to happen,
+ownership cannot be inherited down.  Fortunately we didn't permit
+the Owner permission to be added to All Projects, so this was not
+likely to have occurred in real installations.
+
+* Traverse all LDAP groups that a user is member of
+* Expand LDAP groups only if accountMemberField set
++
+Fixes traversal of groups on an Active Directory server, ensuring
+that the user's grandparent groups are available to Gerrit as part
+of their user session.
+
+* Serve gitweb.js when serving gitweb.cgi
++
+Recent versions of gitweb have a JavaScript asset which provides
+additional features.  Make sure that is served to browsers, in
+addition to the CSS and logo image.
+
+* Allow gitweb assets to be cached by browser
++
+Browsers were always loading the gitweb assets on each request,
+as no caching data was made available to them.  Now assets are
+cached for up to 5 minutes, and 304 Not Modified replies can be
+sent when the assets haven't changed.
+
+* Define a toString for PatchListKey to improve errors
++
+Minor bug fix to improve the level of detail that is available when
+the server is unable to difference two patch sets on demand for a
+user request.

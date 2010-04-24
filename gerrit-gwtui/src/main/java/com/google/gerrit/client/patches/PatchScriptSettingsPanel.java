@@ -14,8 +14,6 @@
 
 package com.google.gerrit.client.patches;
 
-
-
 import static com.google.gerrit.reviewdb.AccountGeneralPreferences.DEFAULT_CONTEXT;
 import static com.google.gerrit.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
 

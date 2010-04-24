@@ -31,12 +31,12 @@ public class GitWebConfig {
   private final String url;
   private final File gitweb_cgi;
   private final File gitweb_css;
+  private final File gitweb_js;
   private final File git_logo_png;
   private GitWebType type;
 
   @Inject
-  GitWebConfig(final SitePaths sitePaths,
-      @GerritServerConfig final Config cfg) {
+  GitWebConfig(final SitePaths sitePaths, @GerritServerConfig final Config cfg) {
     final String cfgUrl = cfg.getString("gitweb", null, "url");
     final String cfgCgi = cfg.getString("gitweb", null, "cgi");
 
@@ -64,6 +64,7 @@ public class GitWebConfig {
       url = null;
       gitweb_cgi = null;
       gitweb_css = null;
+      gitweb_js = null;
       git_logo_png = null;
       return;
     }
@@ -74,6 +75,7 @@ public class GitWebConfig {
       url = cfgUrl;
       gitweb_cgi = null;
       gitweb_css = null;
+      gitweb_js = null;
       git_logo_png = null;
       return;
     }
@@ -113,10 +115,11 @@ public class GitWebConfig {
       resourcePaths = new String[] {};
     }
 
-    File css = null, logo = null;
+    File css = null, js = null, logo = null;
     for (String path : resourcePaths) {
       File dir = new File(path);
       css = new File(dir, "gitweb.css");
+      js = new File(dir, "gitweb.js");
       logo = new File(dir, "git-logo.png");
       if (css.isFile() && logo.isFile()) {
         break;
@@ -126,6 +129,7 @@ public class GitWebConfig {
     url = cgi != null ? "gitweb" : null;
     gitweb_cgi = cgi;
     gitweb_css = css;
+    gitweb_js = js;
     git_logo_png = logo;
   }
 
@@ -151,6 +155,11 @@ public class GitWebConfig {
   /** @return local path of the {@code gitweb.css} matching the CGI. */
   public File getGitwebCSS() {
     return gitweb_css;
+  }
+
+  /** @return local path of the {@code gitweb.js} for the CGI. */
+  public File getGitwebJS() {
+    return gitweb_js;
   }
 
   /** @return local path of the {@code git-logo.png} for the CGI. */

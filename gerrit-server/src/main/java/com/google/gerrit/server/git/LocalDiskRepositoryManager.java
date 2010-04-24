@@ -107,10 +107,21 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
 
     try {
-      if (!name.endsWith(".git")) {
-        name = name + ".git";
+      File dir = FileKey.resolve(new File(basePath, name));
+      FileKey loc;
+      if (dir != null) {
+        // Already exists on disk, use the repository we found.
+        //
+        loc = FileKey.exact(dir);
+      } else {
+        // It doesn't exist under any of the standard permutations
+        // of the repository name, so prefer the standard bare name.
+        //
+        if (!name.endsWith(".git")) {
+          name = name + ".git";
+        }
+        loc = FileKey.exact(new File(basePath, name));
       }
-      final FileKey loc = FileKey.exact(new File(basePath, name));
       return RepositoryCache.open(loc, false);
     } catch (IOException e1) {
       final RepositoryNotFoundException e2;

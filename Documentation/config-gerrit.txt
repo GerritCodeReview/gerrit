@@ -112,6 +112,30 @@ end with `$`) or be a simple prefix (any other string).
 By default, the list contains two values, `http://` and `https://`,
 allowing Gerrit to trust any OpenID it receives.
 
+[[auth.maxOpenIdSessionAge]]auth.maxOpenIdSessionAge::
++
+Time in seconds before an OpenID provider must force the user
+to authenticate themselves again before authentication to this
+Gerrit server.  Currently this is only a polite request, and users
+coming from providers that don't support the PAPE extension will
+be accepted anyway.  In the future it may be enforced, rejecting
+users coming from providers that don't honor the max session age.
++
+If set to 0, the provider will always force the user to authenticate
+(e.g. supply their password).  Values should use common unit suffixes
+to express their setting:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
+* d, day, days
+* w, week, weeks (`1 week` is treated as `7 days`)
+* mon, month, months (`1 month` is treated as `30 days`)
+* y, year, years (`1 year` is treated as `365 days`)
+
++
+Default is -1, permitting infinite time between authentications.
+
 [[auth.httpHeader]]auth.httpHeader::
 +
 HTTP header to trust the username from, or unset to select HTTP basic

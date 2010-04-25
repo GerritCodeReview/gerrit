@@ -42,6 +42,8 @@ public class OpenIdModule extends ServletModule {
     });
 
     serve("/" + OpenIdServiceImpl.RETURN_URL).with(OpenIdLoginServlet.class);
+    serve("/" + XrdsServlet.LOCATION).with(XrdsServlet.class);
+    filter("/").through(XrdsFilter.class);
 
     install(new RpcServletModule(RpcServletModule.PREFIX) {
       @Override

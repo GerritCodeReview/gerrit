@@ -166,14 +166,6 @@ public class ProjectRightsPanel extends Composite {
         }
       }
     });
-    nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
-          doAddNewRight();
-        }
-      }
-    });
     addGrid.setText(1, 0, Util.C.columnGroupName() + ":");
     addGrid.setWidget(1, 1, nameTxt);
 

@@ -31,6 +31,8 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -38,6 +40,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -50,6 +53,7 @@ class ProjectWatchPanel extends Composite {
   private Button addNew;
   private SuggestBox nameTxt;
   private Button delSel;
+  private boolean submitOnSelection;
 
   ProjectWatchPanel() {
     final FlowPanel body = new FlowPanel();
@@ -83,7 +87,22 @@ class ProjectWatchPanel extends Composite {
       box.addKeyPressHandler(new KeyPressHandler() {
         @Override
         public void onKeyPress(KeyPressEvent event) {
+          submitOnSelection = false;
+
           if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+            if (nameTxt.isSuggestionListShowing()) {
+              submitOnSelection = true;
+            } else {
+              doAddNew();
+            }
+          }
+        }
+      });
+      nameTxt.addSelectionHandler(new SelectionHandler<Suggestion>() {
+        @Override
+        public void onSelection(SelectionEvent<Suggestion> event) {
+          if (submitOnSelection) {
+            submitOnSelection = false;
             doAddNew();
           }
         }

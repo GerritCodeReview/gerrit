@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
 package com.google.gerrit.httpd.gitweb;
 
 import com.google.gerrit.httpd.GitWebConfig;
-import com.google.gerrit.httpd.HtmlDomUtil;
-import com.google.gerrit.server.config.SitePaths;
-import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.util.IO;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -31,55 +31,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
-abstract class GitWebCssServlet extends HttpServlet {
-  @SuppressWarnings("serial")
-  @Singleton
-  static class Site extends GitWebCssServlet {
-    @Inject
-    Site(SitePaths paths, GitWebConfig gwc) throws IOException {
-      super(paths.site_css, gwc);
-    }
-  }
-
-  @SuppressWarnings("serial")
-  @Singleton
-  static class Default extends GitWebCssServlet {
-    @Inject
-    Default(GitWebConfig gwc) throws IOException {
-      super(gwc.getGitwebCSS(), gwc);
-    }
-  }
-
-  private static final String ENC = "UTF-8";
+@Singleton
+class GitWebJavaScriptServlet extends HttpServlet {
   private static final long MAX_AGE =
       TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES);
   private static final String CACHE_CTRL =
       "public, max-age=" + (MAX_AGE / 1000L);
 
   private final long modified;
-  private final byte[] raw_css;
-  private final byte[] gz_css;
+  private final byte[] raw;
 
-  GitWebCssServlet(final File src, final GitWebConfig gitWebConfig)
-      throws IOException {
+  @Inject
+  GitWebJavaScriptServlet(final GitWebConfig gitWebConfig) throws IOException {
+    byte[] png;
+    final File src = gitWebConfig.getGitwebJS();
     if (src != null) {
-      final File dir = src.getParentFile();
-      final String name = src.getName();
-      final String raw = HtmlDomUtil.readFile(dir, name);
-      if (raw != null) {
-        modified = src.lastModified();
-        raw_css = raw.getBytes(ENC);
-        gz_css = HtmlDomUtil.compress(raw_css);
-      } else {
-        modified = -1L;
-        raw_css = null;
-        gz_css = null;
+      try {
+        png = IO.readFully(src);
+      } catch (FileNotFoundException e) {
+        png = null;
       }
+      modified = src.lastModified();
     } else {
       modified = -1;
-      raw_css = null;
-      gz_css = null;
+      png = null;
     }
+    raw = png;
   }
 
   @Override
@@ -90,18 +67,10 @@ abstract class GitWebCssServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    if (raw_css != null) {
+    if (raw != null) {
       final long now = System.currentTimeMillis();
-      rsp.setContentType("text/css");
-      rsp.setCharacterEncoding(ENC);
-      final byte[] toSend;
-      if (RPCServletUtils.acceptsGzipEncoding(req)) {
-        rsp.setHeader("Content-Encoding", "gzip");
-        toSend = gz_css;
-      } else {
-        toSend = raw_css;
-      }
-      rsp.setContentLength(toSend.length);
+      rsp.setContentType("text/javascript");
+      rsp.setContentLength(raw.length);
       rsp.setHeader("Cache-Control", CACHE_CTRL);
       rsp.setDateHeader("Date", now);
       rsp.setDateHeader("Expires", now + MAX_AGE);
@@ -109,7 +78,7 @@ abstract class GitWebCssServlet extends HttpServlet {
 
       final ServletOutputStream os = rsp.getOutputStream();
       try {
-        os.write(toSend);
+        os.write(raw);
       } finally {
         os.close();
       }

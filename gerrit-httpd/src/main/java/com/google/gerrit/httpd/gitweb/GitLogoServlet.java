@@ -12,21 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// CGI environment and execution management portions are:
-//
-// ========================================================================
-// Copyright (c) 2006-2009 Mort Bay Consulting Pty. Ltd.
-// ------------------------------------------------------------------------
-// All rights reserved. This program and the accompanying materials
-// are made available under the terms of the Eclipse Public License v1.0
-// and Apache License v2.0 which accompanies this distribution.
-// The Eclipse Public License is available at
-// http://www.eclipse.org/legal/epl-v10.html
-// The Apache License v2.0 is available at
-// http://www.opensource.org/licenses/apache2.0.php
-// You may elect to redistribute this code under either of these licenses.
-// ========================================================================
-
 package com.google.gerrit.httpd.gitweb;
 
 import com.google.gerrit.httpd.GitWebConfig;
@@ -35,8 +20,10 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.util.IO;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -46,18 +33,27 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 class GitLogoServlet extends HttpServlet {
+  private static final long MAX_AGE =
+      TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES);
+  private static final String CACHE_CTRL =
+      "public, max-age=" + (MAX_AGE / 1000L);
+
+  private final long modified;
   private final byte[] raw;
 
   @Inject
   GitLogoServlet(final GitWebConfig gitWebConfig) throws IOException {
     byte[] png;
-    if (gitWebConfig.getGitLogoPNG() != null) {
+    final File src = gitWebConfig.getGitLogoPNG();
+    if (src != null) {
       try {
-        png = IO.readFully(gitWebConfig.getGitLogoPNG());
+        png = IO.readFully(src);
       } catch (FileNotFoundException e) {
         png = null;
       }
+      modified = src.lastModified();
     } else {
+      modified = -1;
       png = null;
     }
     raw = png;
@@ -67,8 +63,13 @@ class GitLogoServlet extends HttpServlet {
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     if (raw != null) {
+      final long now = System.currentTimeMillis();
       rsp.setContentType("image/png");
       rsp.setContentLength(raw.length);
+      rsp.setHeader("Cache-Control", CACHE_CTRL);
+      rsp.setDateHeader("Date", now);
+      rsp.setDateHeader("Expires", now + MAX_AGE);
+      rsp.setDateHeader("Last-Modified", modified);
 
       final ServletOutputStream os = rsp.getOutputStream();
       try {

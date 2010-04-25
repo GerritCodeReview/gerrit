@@ -28,6 +28,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
@@ -50,6 +51,9 @@ import org.openid4java.message.ParameterList;
 import org.openid4java.message.ax.AxMessage;
 import org.openid4java.message.ax.FetchRequest;
 import org.openid4java.message.ax.FetchResponse;
+import org.openid4java.message.pape.PapeMessage;
+import org.openid4java.message.pape.PapeRequest;
+import org.openid4java.message.pape.PapeResponse;
 import org.openid4java.message.sreg.SRegMessage;
 import org.openid4java.message.sreg.SRegRequest;
 import org.openid4java.message.sreg.SRegResponse;
@@ -62,6 +66,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
 import javax.servlet.http.Cookie;
@@ -97,6 +102,9 @@ class OpenIdServiceImpl implements OpenIdService {
   private final AccountManager accountManager;
   private final ConsumerManager manager;
   private final SelfPopulatingCache<String, List> discoveryCache;
+
+  /** Maximum age, in seconds, before forcing re-authentication of account. */
+  private final int papeMaxAuthAge;
 
   @Inject
   OpenIdServiceImpl(final Provider<WebSession> cf,
@@ -135,6 +143,8 @@ class OpenIdServiceImpl implements OpenIdService {
     urlProvider = up;
     accountManager = am;
     manager = new ConsumerManager();
+    papeMaxAuthAge = (int) ConfigUtil.getTimeUnit(config, //
+        "auth", null, "maxOpenIdSessionAge", -1, TimeUnit.SECONDS);
 
     discoveryCache = new SelfPopulatingCache<String, List>(openidCache) {
       @Override
@@ -176,6 +186,12 @@ class OpenIdServiceImpl implements OpenIdService {
         fetch.addAttribute("LastName", SCHEMA_LASTNAME, true);
         fetch.addAttribute("Email", SCHEMA_EMAIL, true);
         aReq.addExtension(fetch);
+      }
+
+      if (0 <= papeMaxAuthAge) {
+        final PapeRequest pape = PapeRequest.createPapeRequest();
+        pape.setMaxAuthAge(papeMaxAuthAge);
+        aReq.addExtension(pape);
       }
     } catch (MessageException e) {
       callback.onSuccess(new DiscoveryResult(false));
@@ -276,6 +292,28 @@ class OpenIdServiceImpl implements OpenIdService {
     final Message authRsp = result.getAuthResponse();
     SRegResponse sregRsp = null;
     FetchResponse fetchRsp = null;
+
+    if (0 <= papeMaxAuthAge) {
+      PapeResponse ext;
+      boolean unsupported = false;
+
+      try {
+        ext = (PapeResponse) authRsp.getExtension(PapeMessage.OPENID_NS_PAPE);
+      } catch (MessageException err) {
+        // Far too many providers are unable to provide PAPE extensions
+        // right now. Instead of blocking all of them log the error and
+        // let the authentication complete anyway.
+        //
+        log.error("Invalid PAPE response " + openidIdentifier + ": " + err);
+        unsupported = true;
+        ext = null;
+      }
+      if (!unsupported && ext == null) {
+        log.error("No PAPE extension response from " + openidIdentifier);
+        cancelWithError(req, rsp, "OpenID provider does not support PAPE.");
+        return;
+      }
+    }
 
     if (authRsp.hasExtension(SRegMessage.OPENID_NS_SREG)) {
       final MessageExtension ext =

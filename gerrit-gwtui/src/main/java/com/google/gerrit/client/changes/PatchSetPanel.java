@@ -225,6 +225,14 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
     }
 
     if (!urls.isEmpty()) {
+      commands.add(new DownloadCommandLink(DownloadCommand.CHECKOUT, "checkout") {
+        @Override
+        void setCurrentUrl(DownloadUrlLink link) {
+          urls.setVisible(true);
+          copyLabel.setText("git fetch " + link.urlData
+              + " && git checkout FETCH_HEAD");
+        }
+      });
       commands.add(new DownloadCommandLink(DownloadCommand.PULL, "pull") {
         @Override
         void setCurrentUrl(DownloadUrlLink link) {

@@ -216,6 +216,13 @@ through the web UI, but not through SSH.  To get SSH branch access
 project owners must grant an access right to a group they are a
 member of, just like for any other user.
 
+Ownership over a particular branch subspace may be delegated by
+entering a branch pattern.  To delegate control over all branches
+that begin with `qa/` to the QA group, add `Owner` category
+for reference `refs/heads/qa/\*`.  Members of the QA group can
+further refine access, but only for references that begin with
+`refs/heads/qa/`.
+
 [[category_READ]]
 Read Access
 ~~~~~~~~~~~

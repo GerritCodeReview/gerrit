@@ -17,10 +17,17 @@ package com.google.gerrit.server.patch;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.mozilla.universalchardet.UniversalDetector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.Charset;
+import java.nio.charset.IllegalCharsetNameException;
+import java.nio.charset.UnsupportedCharsetException;
 
 public class Text extends RawText {
+  private static final Logger log = LoggerFactory.getLogger(Text.class);
+  private static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
+
   public static final byte[] NO_BYTES = {};
   public static final Text EMPTY = new Text(NO_BYTES);
 
@@ -36,9 +43,19 @@ public class Text extends RawText {
       encoding = d.getDetectedCharset();
     }
     if (encoding == null) {
-      encoding = "ISO-8859-1";
+      return ISO_8859_1;
     }
-    return Charset.forName(encoding);
+    try {
+      return Charset.forName(encoding);
+
+    } catch (IllegalCharsetNameException err) {
+      log.error("Invalid detected charset name '" + encoding + "': " + err);
+      return ISO_8859_1;
+
+    } catch (UnsupportedCharsetException err) {
+      log.error("Detected charset '" + encoding + "' not supported: " + err);
+      return ISO_8859_1;
+    }
   }
 
   private Charset charset;

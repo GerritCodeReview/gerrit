@@ -14,11 +14,16 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
+
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.errors.NoSuchAccountException;
+// This import does not work because it introduces a circular dependency.
+// import com.google.gerrit.httpd.rpc.changedetail.ChangeDetailFactory;
 import com.google.gerrit.reviewdb.AbstractAgreement;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountAgreement;
@@ -1271,9 +1276,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         }
       }
 
+      final Map<Change.Key, Change.Id> openChanges = openChangesByKey();
+      final Set<Change.Key> seenChanges = new HashSet<Change.Key>();
+
       RevCommit c;
       while ((c = walk.next()) != null) {
-        if (!validCommit(ctl, cmd, c)) {
+        if (!validCommit(ctl, cmd, c, openChanges, seenChanges)) {
           break;
         }
       }
@@ -1284,7 +1292,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   }
 
   private boolean validCommit(final RefControl ctl, final ReceiveCommand cmd,
-      final RevCommit c) throws MissingObjectException, IOException {
+      final RevCommit c, final Map<Change.Key, Change.Id> openChanges,
+      final Set<Change.Key> seenChanges) throws
+      MissingObjectException, IOException {
     rp.getRevWalk().parseBody(c);
     final PersonIdent committer = c.getCommitterIdent();
     final PersonIdent author = c.getAuthorIdent();
@@ -1315,6 +1325,34 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         && !ctl.canForgeCommitter()) {
       reject(cmd, "you are not committer " + committer.getEmailAddress());
       return false;
+    }
+
+    // Require that the Change-Id, if it exists, is valid.
+    // we re-use canForgeGerritServerIdentity as an escape hatch
+    //
+    if (!ctl.canForgeGerritServerIdentity()) {
+      for (final String idStr : c.getFooterLines(CHANGE_ID)) {
+        final Change.Key key = new Change.Key(idStr.trim());
+        if (!seenChanges.add(key)) {
+          reject(cmd, "duplicate Change-Id " + key.get());
+          return false;
+        }
+        final Change.Id changeId = openChanges.get(key);
+        if (changeId == null) {
+          reject(cmd, "unknown Change-Id " + key.get());
+          return false;
+        } else {
+          final ChangeDetailFactory.Factory changeDetailFactory;
+          final ChangeDetail changeDetail =
+            changeDetailFactory.create(changeId).call();
+          final boolean isOpen = changeDetail.getChange().getStatus().isOpen();
+          Set<ApprovalCategory.Id> allowed = changeDetail.getCurrentActions();
+          if (!isOpen || !allowed.contains(ApprovalCategory.SUBMIT)) {
+            reject(cmd, "you are not allowed to submit Change-Id " + key.get());
+            return false;
+          }
+        }
+      }
     }
 
     if (project.isUseSignedOffBy()) {

@@ -53,7 +53,7 @@ limitations under the License.
     <gwtVersion>2.0.3</gwtVersion>
     <slf4jVersion>1.5.8</slf4jVersion>
     <guiceVersion>2.0</guiceVersion>
-    <jettyVersion>7.0.1.v20091125</jettyVersion>
+    <jettyVersion>7.0.2.v20100331</jettyVersion>
     <keyappletVersion>1.0</keyappletVersion>
 
     <gwt.soyc>false</gwt.soyc>

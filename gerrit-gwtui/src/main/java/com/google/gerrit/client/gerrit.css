@@ -882,6 +882,8 @@
 .removeReviewer {
   padding: 0px;
   font-size: 6pt;
+  color: red;
+  text-decoration: none;
 }
 td.removeReviewerCell {
   padding-left: 4em;

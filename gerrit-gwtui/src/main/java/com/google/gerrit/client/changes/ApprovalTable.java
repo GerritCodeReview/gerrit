@@ -35,6 +35,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -228,7 +229,7 @@ public class ApprovalTable extends Composite {
     table.setWidget(row, col++, link(ad.getAccount()));
 
     if (ad.canRemove()) {
-      Button remove = new Button("X");
+      Widget remove = new Anchor(u"\u2297");
       remove.setTitle(Util.M.removeReviewer( //
           FormatUtil.name(accountCache.get(ad.getAccount()))));
       remove.setStyleName(Gerrit.RESOURCES.css().removeReviewer());

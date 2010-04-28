@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAx3///wU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitProjectImporter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003698
+      },
+      "writtenOn": "2010-04-28T03:02:03Z",
+      "side": 1,
+      "message": "I basically removed this continue and tweaked the warning message, and it appears to work well.",
+      "revId": "bbf1aaccde2cd0c9d9becff1f7a784466726abda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

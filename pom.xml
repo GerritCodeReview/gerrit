@@ -667,7 +667,7 @@ limitations under the License.
       <dependency>
         <groupId>com.h2database</groupId>
         <artifactId>h2</artifactId>
-        <version>1.2.128</version>
+        <version>1.2.134</version>
       </dependency>
 
       <dependency>

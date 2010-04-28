@@ -18,7 +18,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
-import org.h2.util.StartBrowser;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -87,6 +86,6 @@ public class Browser {
       url += "#" + link;
     }
     System.err.println("Opening browser ...");
-    StartBrowser.openURL(url);
+    org.h2.tools.Server.openBrowser(url);
   }
 }

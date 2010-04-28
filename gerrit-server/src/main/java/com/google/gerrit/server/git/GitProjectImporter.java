@@ -85,8 +85,9 @@ public class GitProjectImporter {
 
         } else {
           name = prefix + name;
-          messages.warning("Ignoring non-standard name '" + name + "'");
-          continue;
+          if (!have.contains(name)) {
+            messages.warning("Importing non-standard name '" + name + "'");
+          }
         }
 
         if (have.contains(name)) {

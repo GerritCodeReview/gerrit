@@ -1,0 +1,46 @@
+Release notes for Gerrit 2.1.2.4
+================================
+
+Gerrit 2.1.2.4 is now available in the usual location:
+
+link:http://code.google.com/p/gerrit/downloads/list[http://code.google.com/p/gerrit/downloads/list]
+
+New Features
+------------
+
+* Add 'checkout' download command to patch sets
++
+The Download area of a patch set now offers a command line to fetch
+and checkout the patch set on a detached HEAD.  This is more suitable
+for building and testing the change locally.
+
+Bug Fixes
+---------
+
+* issue 545 Fallback to ISO-8859-1 if charset isn't supported
++
+Some input files are misrecognized by the jchardet library that is
+used to automatically guess a character set.  A guessed charset
+might not even be supported by the local JRE.  In such cases the
+ISO-8859-1 character set is used as a fallback, so the file content
+is still visible.
+
+* Update JGit to 0.7.1.34-gf36df5d to fix empty tree bug
++
+Repositories which contained an empty tree object (very uncommon, its
+technically a bug to produce a repository like this) wouldn't clone
+properly from the embedded Gerrit SSH or HTTP daemon.  Fixed upstream
+in JGit 0.7.0, but we never picked up the bug fix release.
+
+Documentation Corrections
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* documentation: Elaborate on branch level Owner
++
+Documentation didn't describe that the Owner permission within a
+project can be used to delegate control over a branch namespace to
+another group.
+
+* documentation: Document Read Access +2 aka Upload Access
++
+The documentation didn't describe what Read +2 means.

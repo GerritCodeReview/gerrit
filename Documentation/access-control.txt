@@ -216,13 +216,21 @@ through the web UI, but not through SSH.  To get SSH branch access
 project owners must grant an access right to a group they are a
 member of, just like for any other user.
 
+Ownership over a particular branch subspace may be delegated by
+entering a branch pattern.  To delegate control over all branches
+that begin with `qa/` to the QA group, add `Owner` category
+for reference `refs/heads/qa/\*`.  Members of the QA group can
+further refine access, but only for references that begin with
+`refs/heads/qa/`.
+
 [[category_READ]]
 Read Access
 ~~~~~~~~~~~
 
 The `Read Access` category controls visibility to the project's
-changes, comments, code diffs, and Git access over SSH.  A user must
-have `Read Access +1` in order to see a project or any of its data.
+changes, comments, code diffs, and Git access over SSH or HTTP.
+A user must have `Read Access +1` in order to see a project, its
+changes, or any of its data.
 
 This category has a special behavior, where the per-project ACL is
 evaluated before the global all projects ACL.  If the per-project
@@ -232,12 +240,12 @@ is ignored.  This behavior is useful to hide a handful of projects
 on an otherwise public server.
 
 For an open source, public Gerrit installation it is common to grant
-`Read Access +1` to `Anonymous Users` in the `\-- All Projects \--`
-ACL, enabling casual browsing of any project's changes, as well as
-fetching any project's repository over SSH.  New projects can be
-temporarily hidden from public view by granting `Read Access -1`
-to `Anonymous Users` and granting `Read Access +1` to the project
-owner's group within the per-project ACL.
+`Read Access +1` to `Anonymous Users` in the `\-- All Projects
+\--` ACL, enabling casual browsing of any project's changes,
+as well as fetching any project's repository over SSH or HTTP.
+New projects can be temporarily hidden from public view by granting
+`Read Access -1` to `Anonymous Users` and granting `Read Access +1`
+to the project owner's group within the per-project ACL.
 
 For a private Gerrit installation using a trusted HTTP authentication
 source, granting `Read Access +1` to `Registered Users` may be more
@@ -245,6 +253,26 @@ typical, enabling read access only to those users who have been
 able to authenticate through the HTTP access controls.  This may
 be suitable in a corporate deployment if the HTTP access control
 is already restricted to the correct set of users.
+
+[[category_READ_2]]
+Upload Access
+~~~~~~~~~~~~~
+
+The `Read Access +2` permits the user to upload a commit to the
+project's `refs/for/BRANCH` namespace, creating a new change for
+code review.
+
+Rather than place this permission in its own category, its chained
+into the Read Access category as a higher level of access.  A user
+must be able to clone or fetch the project in order to create a new
+commit on their local system, so in practice they must also have
+Read Access +1 to even develop a change.  Therefore upload access
+implies read access by simply being a higher level of it.
+
+For an open source, public Gerrit installation, it is common to
+grant `Read Access +1..+2` to `Registered Users` in the `\-- All
+Projects \--` ACL.  For more private installations, its common to
+simply grant `Read Access +1..+2` to all users of a project.
 
 [[category_pTAG]]
 Push Tag

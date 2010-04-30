@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -168,7 +169,15 @@ public class WorkQueue {
       r = super.decorateTask(runnable, r);
       for (;;) {
         final int id = idGenerator.next();
-        final Task<V> task = new Task<V>(runnable, r, this, id);
+
+        Task<V> task;
+
+        if (runnable instanceof ProjectRunnable) {
+          task = new ProjectTask<V>((ProjectRunnable)runnable, r, this, id);
+        } else {
+          task = new Task<V>(runnable, r, this, id);
+        }
+
         if (all.putIfAbsent(task.getTaskId(), task) == null) {
           return task;
         }
@@ -326,6 +335,35 @@ public class WorkQueue {
     @Override
     public String toString() {
       return runnable.toString();
+    }
+  }
+
+  /** Same as Task class, but with a reference to ProjectRunnable, used to retrieve
+   *  the project name from the operation queued
+   **/
+  public static class ProjectTask<V> extends Task<V> implements ProjectRunnable {
+
+    private final ProjectRunnable runnable;
+
+    ProjectTask(ProjectRunnable runnable, RunnableScheduledFuture<V> task,
+        Executor executor, int taskId) {
+      super(runnable, task, executor, taskId);
+      this.runnable = runnable;
+    }
+
+    @Override
+    public NameKey getProjectNameKey() {
+      return runnable.getProjectNameKey();
+    }
+
+    @Override
+    public String getRemoteName() {
+      return runnable.getRemoteName();
+    }
+
+    @Override
+    public boolean hasCustomizedPrint() {
+      return runnable.hasCustomizedPrint();
     }
   }
 }

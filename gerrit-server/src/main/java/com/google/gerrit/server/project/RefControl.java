@@ -44,8 +44,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 
 /** Manages access control for Git references (aka branches, tags). */
@@ -225,6 +230,59 @@ public class RefControl {
     return canPerform(FORGE_IDENTITY, FORGE_SERVER);
   }
 
+  /**
+   * Convenience holder class used to map a ref pattern to the list of
+   * {@code RefRight}s that use it in the database.
+   */
+  public final static class RefRightsForPattern {
+    private final List<RefRight> rights;
+    private boolean containsExclusive;
+
+    public RefRightsForPattern() {
+      rights = new ArrayList<RefRight>();
+      containsExclusive = false;
+    }
+
+    public void addRight(RefRight right) {
+      rights.add(right);
+      if (right.isExclusive()) {
+        containsExclusive = true;
+      }
+    }
+
+    public List<RefRight> getRights() {
+      return Collections.unmodifiableList(rights);
+    }
+
+    public boolean containsExclusive() {
+      return containsExclusive;
+    }
+
+    /**
+     * Returns The max allowed value for this ref pattern for all specified
+     * groups.
+     *
+     * @param groups The groups of the user
+     * @return The allowed value for this ref for all the specified groups
+     */
+    public int allowedValueForRef(Set<AccountGroup.Id> groups) {
+      int val = Integer.MIN_VALUE;
+      for (RefRight right : rights) {
+        if (groups.contains(right.getAccountGroupId())) {
+          if ((val < 0 && right.getMaxValue() > 0)) {
+            // If one of the user's groups had denied them access, but
+            // this group grants them access, prefer the grant over
+            // the denial. We have to break the tie somehow and we
+            // prefer being "more open" to being "more closed".
+            //
+            val = Math.max(right.getMaxValue(), val);
+          }
+        }
+      }
+      return val;
+    }
+  }
+
   boolean canPerform(ApprovalCategory.Id actionId, short level) {
     final Set<AccountGroup.Id> groups = getCurrentUser().getEffectiveGroups();
     int val = Integer.MIN_VALUE;
@@ -236,42 +294,68 @@ public class RefControl {
       allRights.addAll(getInheritedRights(actionId));
     }
 
-    // Sort in descending refPattern length
-    Collections.sort(allRights, RefRight.REF_PATTERN_ORDER);
+    SortedMap<String, RefRightsForPattern> perPatternRights =
+      sortedRightsByPattern(allRights);
 
-    for (RefRight right : filterMostSpecific(allRights)) {
-      if (groups.contains(right.getAccountGroupId())) {
-        val = Math.max(right.getMaxValue(), val);
+    for (RefRightsForPattern right : perPatternRights.values()) {
+      val = Math.max(val, right.allowedValueForRef(groups));
+      if (val >= level || right.containsExclusive()) {
+        return val >= level;
       }
     }
     return val >= level;
   }
 
-  public static List<RefRight> filterMostSpecific(List<RefRight> actionRights) {
-    // Grab the first set of RefRight which have the same refPattern
-    // those are the most specific RefRights we have, and are the
-    // we will consider to verify if this action can be performed.
-    // We do this so that one can override the ref rights for a specific
-    // project on a specific branch
-    boolean sameRefPattern = true;
-    List<RefRight> mostSpecific = new ArrayList<RefRight>();
-    String currentRefPattern = null;
-    int i = 0;
-    while (sameRefPattern && i < actionRights.size()) {
-      if (currentRefPattern == null) {
-        currentRefPattern = actionRights.get(i).getRefPattern();
-        mostSpecific.add(actionRights.get(i));
-        i++;
-      } else {
-        if (currentRefPattern.equals(actionRights.get(i).getRefPattern())) {
-          mostSpecific.add(actionRights.get(i));
-          i++;
-        } else {
-          sameRefPattern = false;
-        }
+  public static final Comparator<String> DESCENDING_SORT =
+      new Comparator<String>() {
+
+    @Override
+    public int compare(String a, String b) {
+      int aLength = a.length();
+      int bLength = b.length();
+      if (bLength == aLength) {
+        return a.compareTo(b);
       }
+      return bLength - aLength;
     }
-    return mostSpecific;
+  };
+
+  /**
+   * Sorts all given rights into a map, ordered by descending length of
+   * ref pattern.
+   *
+   * For example, if given the following rights in argument:
+   *
+   * ["refs/heads/master", group1, -1, +1],
+   * ["refs/heads/master", group2, -2, +2],
+   * ["refs/heads/*", group3, -1, +1]
+   * ["refs/heads/stable", group2, -1, +1]
+   *
+   * Then the following map is returned:
+   * "refs/heads/*" => {["refs/heads/*", group3, -1, +1]}
+   * "refs/heads/master" => {
+   *      ["refs/heads/master", group1, -1, +1],
+   *      ["refs/heads/master", group2, -2, +2]
+   *  }
+   * "refs/heads/stable" => {["refs/heads/stable", group2, -1, +1]}
+   *
+   * @param actionRights
+   * @return A sorted map keyed off the ref pattern of all rights.
+   */
+  private static SortedMap<String, RefRightsForPattern> sortedRightsByPattern(
+      List<RefRight> actionRights) {
+    SortedMap<String, RefRightsForPattern> rights =
+      new TreeMap<String, RefRightsForPattern>(DESCENDING_SORT);
+    for (RefRight actionRight : actionRights) {
+      RefRightsForPattern patternRights =
+        rights.get(actionRight.getRefPattern());
+      if (patternRights == null) {
+        patternRights = new RefRightsForPattern();
+        rights.put(actionRight.getRefPattern(), patternRights);
+      }
+      patternRights.addRight(actionRight);
+    }
+    return rights;
   }
 
   private List<RefRight> getLocalRights(ApprovalCategory.Id actionId) {
@@ -282,12 +366,30 @@ public class RefControl {
     return filter(getProjectState().getInheritedRights(actionId));
   }
 
-  public List<RefRight> getAllRights(final ApprovalCategory.Id id) {
+  /**
+   * Returns all applicable rights for a given approval category.
+   *
+   * Applicable rights are defined as the list of {@code RefRight}s which match
+   * the ref for which this object was created, stopping the ref wildcard
+   * matching when an exclusive ref right was encountered, for the given
+   * approval category.
+   * @param id The {@link ApprovalCategory.Id}.
+   * @return All applicalbe rights.
+   */
+  public List<RefRight> getApplicableRights(final ApprovalCategory.Id id) {
     List<RefRight> l = new ArrayList<RefRight>();
     l.addAll(getLocalRights(id));
     l.addAll(getInheritedRights(id));
-    Collections.sort(l, RefRight.REF_PATTERN_ORDER);
-    return Collections.unmodifiableList(RefControl.filterMostSpecific(l));
+    SortedMap<String, RefRightsForPattern> perPatternRights =
+      sortedRightsByPattern(l);
+    List<RefRight> applicable = new ArrayList<RefRight>();
+    for (RefRightsForPattern patternRights : perPatternRights.values()) {
+      applicable.addAll(patternRights.getRights());
+      if (patternRights.containsExclusive()) {
+        break;
+      }
+    }
+    return Collections.unmodifiableList(applicable);
   }
 
   private List<RefRight> filter(Collection<RefRight> all) {

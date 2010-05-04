@@ -135,6 +135,12 @@ class AddRefRight extends Handler<ProjectDetail> {
         refPattern = RefRight.ALL;
       }
     }
+
+    boolean exclusive = refPattern.startsWith("-");
+    if (exclusive) {
+      refPattern = refPattern.substring(1);
+    }
+
     while (refPattern.startsWith("/")) {
       refPattern = refPattern.substring(1);
     }
@@ -150,6 +156,10 @@ class AddRefRight extends Handler<ProjectDetail> {
       if (!Repository.isValidRefName(refPattern)) {
         throw new InvalidNameException();
       }
+    }
+
+    if (exclusive) {
+      refPattern = "-" + refPattern;
     }
 
     if (!controlForRef(projectControl, refPattern).isOwner()) {

@@ -121,11 +121,22 @@ public final class RefRight {
   }
 
   public String getRefPattern() {
+    if (isExclusive()) {
+      return key.refPattern.get().substring(1);
+    }
+    return key.refPattern.get();
+  }
+
+  public String getRefPatternForDisplay() {
     return key.refPattern.get();
   }
 
   public Project.NameKey getProjectNameKey() {
     return getKey().getProjectNameKey();
+  }
+
+  public boolean isExclusive() {
+    return key.refPattern.get().startsWith("-");
   }
 
   public ApprovalCategory.Id getApprovalCategoryId() {
@@ -153,6 +164,25 @@ public final class RefRight {
   }
 
   @Override
+  public String toString() {
+    StringBuilder s = new StringBuilder();
+    s.append("{group :");
+    s.append(getAccountGroupId().get());
+    s.append(", proj :");
+    s.append(getProjectNameKey().get());
+    s.append(", cat :");
+    s.append(getApprovalCategoryId().get());
+    s.append(", pattern :");
+    s.append(getRefPatternForDisplay());
+    s.append(", min :");
+    s.append(getMinValue());
+    s.append(", max :");
+    s.append(getMaxValue());
+    s.append("}");
+    return s.toString();
+  }
+
+  @Override
   public int hashCode() {
     return getKey().hashCode();
   }
@@ -169,19 +199,23 @@ public final class RefRight {
     return false;
   }
 
-  private static class RefPatternOrder implements Comparator<RefRight> {
+  public static final Comparator<RefRight> REF_PATTERN_ORDER =
+      new Comparator<RefRight>() {
 
     @Override
     public int compare(RefRight a, RefRight b) {
       int aLength = a.getRefPattern().length();
       int bLength = b.getRefPattern().length();
-      if ((bLength - aLength) == 0) {
+      if (bLength == aLength) {
+        ApprovalCategory.Id aCat = a.getApprovalCategoryId();
+        ApprovalCategory.Id bCat = b.getApprovalCategoryId();
+        if (aCat.get().equals(bCat.get())) {
+          return a.getRefPattern().compareTo(b.getRefPattern());
+        }
         return a.getApprovalCategoryId().get()
             .compareTo(b.getApprovalCategoryId().get());
       }
       return bLength - aLength;
     }
-  }
-
-  public static final RefPatternOrder REF_PATTERN_ORDER = new RefPatternOrder();
+  };
 }

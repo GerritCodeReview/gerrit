@@ -67,6 +67,11 @@ public class SchemaUpdaterTest extends TestCase {
       }
 
       @Override
+      public boolean yesno(boolean def, String msg) {
+        return true;
+      }
+
+      @Override
       public void pruneSchema(StatementExecutor e, List<String> pruneList)
           throws OrmException {
         for (String sql : pruneList) {

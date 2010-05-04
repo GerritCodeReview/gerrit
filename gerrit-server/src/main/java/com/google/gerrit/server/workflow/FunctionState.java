@@ -146,7 +146,7 @@ public class FunctionState {
     // Find the maximal range actually granted to the user.
     //
     short minAllowed = 0, maxAllowed = 0;
-    for (final RefRight r : rc.getAllRights(a.getCategoryId())) {
+    for (final RefRight r : rc.getApplicableRights(a.getCategoryId())) {
       final AccountGroup.Id grp = r.getAccountGroupId();
       if (user.getEffectiveGroups().contains(grp)) {
         minAllowed = (short) Math.min(minAllowed, r.getMinValue());
@@ -154,8 +154,7 @@ public class FunctionState {
       }
     }
 
-    // Normalize the value into that range, returning true if we changed
-    // the value.
+    // Normalize the value into that range.
     //
     if (a.getValue() < minAllowed) {
       a.setValue(minAllowed);

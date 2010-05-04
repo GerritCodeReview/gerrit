@@ -25,7 +25,13 @@ might not even be supported by the local JRE.  In such cases the
 ISO-8859-1 character set is used as a fallback, so the file content
 is still visible.
 
-* Update JGit to 0.7.1.34-gf36df5d to fix empty tree bug
+* issue 553 Bugs sometimes added as change reviewers
++
+Bug references were sometimes added as an 'Anonymous Coward' change
+reviewer when the line used to mention the bug in the commit message
+was the same length as 'Signed-off-by'.  Fixed.
+
+* Update JGit to 0.7.1.46-gdd63f5c to fix empty tree bug
 +
 Repositories which contained an empty tree object (very uncommon, its
 technically a bug to produce a repository like this) wouldn't clone

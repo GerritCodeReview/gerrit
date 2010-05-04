@@ -483,7 +483,7 @@ public class ProjectRightsPanel extends Composite {
             .get()));
       }
 
-      table.setText(row, 4, right.getRefPattern());
+      table.setText(row, 4, right.getRefPatternForDisplay());
 
       {
         final SafeHtmlBuilder m = new SafeHtmlBuilder();

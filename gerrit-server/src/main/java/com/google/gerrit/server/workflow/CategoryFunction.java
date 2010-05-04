@@ -92,7 +92,7 @@ public abstract class CategoryFunction {
   public boolean isValid(final CurrentUser user, final ApprovalType at,
       final FunctionState state) {
     RefControl rc = state.controlFor(user);
-    for (final RefRight pr : rc.getAllRights(at.getCategory().getId())) {
+    for (final RefRight pr : rc.getApplicableRights(at.getCategory().getId())) {
       if (user.getEffectiveGroups().contains(pr.getAccountGroupId())
           && (pr.getMinValue() < 0 || pr.getMaxValue() > 0)) {
         return true;

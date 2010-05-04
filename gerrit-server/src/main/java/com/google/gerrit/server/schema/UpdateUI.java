@@ -22,6 +22,8 @@ import java.util.List;
 public interface UpdateUI {
   void message(String msg);
 
+  boolean yesno(String msg);
+
   void pruneSchema(StatementExecutor e, List<String> pruneList)
       throws OrmException;
 }

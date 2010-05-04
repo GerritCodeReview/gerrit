@@ -121,11 +121,22 @@ public final class RefRight {
   }
 
   public String getRefPattern() {
+    if (isExclusive()) {
+      return key.refPattern.get().substring(1);
+    }
+    return key.refPattern.get();
+  }
+
+  public String getRefPatternForDisplay() {
     return key.refPattern.get();
   }
 
   public Project.NameKey getProjectNameKey() {
     return getKey().getProjectNameKey();
+  }
+
+  public boolean isExclusive() {
+    return key.refPattern.get().startsWith("-");
   }
 
   public ApprovalCategory.Id getApprovalCategoryId() {
@@ -150,6 +161,25 @@ public final class RefRight {
 
   public void setMaxValue(final short m) {
     maxValue = m;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder s = new StringBuilder();
+    s.append("{group :");
+    s.append(getAccountGroupId().get());
+    s.append(", proj :");
+    s.append(getProjectNameKey().get());
+    s.append(", cat :");
+    s.append(getApprovalCategoryId().get());
+    s.append(", pattern :");
+    s.append(getRefPatternForDisplay());
+    s.append(", min :");
+    s.append(getMinValue());
+    s.append(", max :");
+    s.append(getMaxValue());
+    s.append("}");
+    return s.toString();
   }
 
   @Override

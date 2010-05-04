@@ -388,7 +388,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private Account.Id toAccountId(final String nameOrEmail) throws OrmException,
       NoSuchAccountException {
-    final Account a = accountResolver.find(nameOrEmail);
+    final Account a = accountResolver.findByNameOrEmail(nameOrEmail);
     if (a == null) {
       throw new NoSuchAccountException("\"" + nameOrEmail
           + "\" is not registered");

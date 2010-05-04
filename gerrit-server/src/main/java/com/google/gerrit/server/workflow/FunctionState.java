@@ -154,8 +154,7 @@ public class FunctionState {
       }
     }
 
-    // Normalize the value into that range, returning true if we changed
-    // the value.
+    // Normalize the value into that range.
     //
     if (a.getValue() < minAllowed) {
       a.setValue(minAllowed);

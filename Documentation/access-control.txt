@@ -140,10 +140,19 @@ prefix. So a permission with `refs/heads/*` will match
 `refs/heads/master` and `refs/heads/experimental`, etc.
 
 When evaluating a reference-level access right, Gerrit will use
-the most specific set of access rights to determine if the user
-is allowed to perform a given action. For example, if a user
-tries to review a change destined for branch `refs/heads/qa`
-in project `tools/gerrit`, and the following ACLs are granted:
+the full set of access rights to determine if the user
+is allowed to perform a given action.
+
+Gerrit also supports exclusive reference-level access control.
+
+It is possible to configure Gerrit to grant an exclusive ref level
+access control so that only users of a specific group can perform
+an operation on a project/reference pair. This is done by prefixing
+the reference specified with a `'-'`.
+
+For example, if a user tries to review a change destined for branch
+`refs/heads/qa` in project `tools/gerrit`, and the following ACLs
+are granted:
 
 [grid="all"]
 `---------------`----------------`-------------`-------
@@ -152,7 +161,7 @@ Group            Reference Name  Category       Range
 Anonymous Users  refs/heads/*    Code Review     -1..+1
 Registered Users refs/heads/*    Code Review     -1..+1
 Foo Leads        refs/heads/*    Code Review     -2..+2
-QA Leads         refs/heads/qa   Code Review     -2..+2
+QA Leads         -refs/heads/qa   Code Review     -2..+2
 -------------------------------------------------------
 
 Then this user will have `Code Review -2..+2` if he is a member

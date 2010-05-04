@@ -135,22 +135,20 @@ class AddRefRight extends Handler<ProjectDetail> {
         refPattern = RefRight.ALL;
       }
     }
+
     while (refPattern.startsWith("/")) {
       refPattern = refPattern.substring(1);
     }
-    if (!refPattern.startsWith(Constants.R_REFS)) {
+
+    if (refPattern.startsWith("-")) {
+      if (!refPattern.startsWith("-" + Constants.R_REFS)) {
+        refPattern = "-" + Constants.R_HEADS + refPattern;
+      }
+    } else if (!refPattern.startsWith(Constants.R_REFS)) {
       refPattern = Constants.R_HEADS + refPattern;
     }
-    if (refPattern.endsWith("/*")) {
-      final String prefix = refPattern.substring(0, refPattern.length() - 2);
-      if (!"refs".equals(prefix) && !Repository.isValidRefName(prefix)) {
-        throw new InvalidNameException();
-      }
-    } else {
-      if (!Repository.isValidRefName(refPattern)) {
-        throw new InvalidNameException();
-      }
-    }
+
+    checkPatternFormat(refPattern);
 
     if (!controlForRef(projectControl, refPattern).isOwner()) {
       throw new NoSuchRefException(refPattern);
@@ -176,6 +174,26 @@ class AddRefRight extends Handler<ProjectDetail> {
     }
     projectCache.evictAll();
     return projectDetailFactory.create(projectName).call();
+  }
+
+  private void checkPatternFormat(String refPattern)
+      throws InvalidNameException {
+    String tmpPattern;
+    if (refPattern.startsWith("-")) {
+      tmpPattern = refPattern.substring(1);
+    } else {
+      tmpPattern = refPattern;
+    }
+    if (tmpPattern.endsWith("/*")) {
+      final String prefix = tmpPattern.substring(0, tmpPattern.length() - 2);
+      if (!"refs".equals(prefix) && !Repository.isValidRefName(prefix)) {
+        throw new InvalidNameException();
+      }
+    } else {
+      if (!Repository.isValidRefName(tmpPattern)) {
+        throw new InvalidNameException();
+      }
+    }
   }
 
   private RefControl controlForRef(ProjectControl p, String ref) {

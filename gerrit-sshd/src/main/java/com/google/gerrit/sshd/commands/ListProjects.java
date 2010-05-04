@@ -33,6 +33,9 @@ import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
 
 final class ListProjects extends BaseCommand {
   @Inject
@@ -54,6 +57,15 @@ final class ListProjects extends BaseCommand {
   @Option(name = "--show-branch", aliases = {"-b"}, usage = "displays the sha of each project in the specified branch")
   private String showBranch;
 
+  @Option(name = "--tree", aliases = {"-t"}, usage = "displays project inheritance in a tree-like format")
+  private boolean showTree;
+
+  private static final String NODE_PREFIX = "|-- ";
+  private static final String LAST_NODE_PREFIX = "`-- ";
+  private static final String DEFAULT_TAB_SEPARATOR = "|";
+  private static final String NOT_VISIBLE_PROJECT = "(x)";
+  private String currentTabSeparator = DEFAULT_TAB_SEPARATOR;
+
   @Override
   public void start(final Environment env) {
     startThread(new CommandRunnable() {
@@ -67,6 +79,13 @@ final class ListProjects extends BaseCommand {
 
   private void display() throws Failure {
     final PrintWriter stdout = toPrintWriter(out);
+
+    TreeMap<String, TreeNode> treeMap = null;
+
+    if (showTree) {
+      treeMap = new TreeMap<String, TreeNode>();
+    }
+
     try {
       for (final Project p : db.projects().all()) {
         if (p.getNameKey().equals(wildProject)) {
@@ -83,27 +102,55 @@ final class ListProjects extends BaseCommand {
         }
 
         final ProjectControl pctl = e.controlFor(currentUser);
-        if (!pctl.isVisible()) {
-          // Require the project itself to be visible to the user.
-          //
-          continue;
-        }
 
-        if (showBranch != null) {
-          final Ref ref = getBranchRef(p.getNameKey());
-          if (ref == null || ref.getObjectId() == null
-              || !pctl.controlForRef(ref.getLeaf().getName()).isVisible()) {
-            // No branch, or the user can't see this branch, so skip it.
+        if (!showTree) {
+
+          if (!pctl.isVisible()) {
+            // Require the project itself to be visible to the user.
             //
             continue;
           }
 
-          stdout.print(ref.getObjectId().name());
-          stdout.print(' ');
+          if (showBranch != null) {
+            final Ref ref = getBranchRef(p.getNameKey());
+            if (ref == null || ref.getObjectId() == null
+                || !pctl.controlForRef(ref.getLeaf().getName()).isVisible()) {
+              // No branch, or the user can't see this branch, so skip it.
+              //
+              continue;
+            }
+
+            stdout.print(ref.getObjectId().name());
+            stdout.print(' ');
+          }
+
+          stdout.print(p.getName());
+          stdout.println();
+        } else {
+          TreeNode node = new TreeNode(p, pctl.isVisible());
+          treeMap.put(p.getName(), node);
+        }
+      }
+
+      if (showTree && treeMap.size() > 0) {
+        final List<TreeNode> sortedNodes = new ArrayList<TreeNode>();
+
+        // Builds the inheritance tree using a list.
+        //
+        for(final TreeNode key : treeMap.values()) {
+          final String parentName = key.getParentName();
+          if (parentName != null) {
+            final TreeNode node = (TreeNode)treeMap.get((String)parentName);
+            node.addChild(key);
+          } else {
+            sortedNodes.add(key);
+          }
         }
 
-        stdout.print(p.getName());
-        stdout.println();
+        // Builds a fake root node, which contains the sorted projects.
+        //
+        final TreeNode fakeRoot = new TreeNode(null, sortedNodes, false);
+        printElement(stdout, fakeRoot, -1, false, sortedNodes.get(sortedNodes.size() - 1));
       }
     } catch (OrmException e) {
       throw new Failure(1, "fatal: database error", e);
@@ -122,6 +169,142 @@ final class ListProjects extends BaseCommand {
       }
     } catch (IOException ioe) {
       return null;
+    }
+  }
+
+  /** Class created to manipulate the nodes of the project inheritance tree **/
+  private static class TreeNode {
+    private final List<TreeNode> children;
+    private final Project project;
+    private final boolean isVisible;
+
+    /**
+     * Constructor
+     * @param p Project
+     */
+    public TreeNode(Project p, boolean visible) {
+      this.children = new ArrayList<TreeNode>();
+      this.project = p;
+      this.isVisible = visible;
+    }
+
+    /**
+     * Constructor used for creating the fake node
+     * @param p Project
+     * @param c List of nodes
+     */
+    public TreeNode(Project p, List<TreeNode> c, boolean visible) {
+      this.children = c;
+      this.project = p;
+      this.isVisible = visible;
+    }
+
+    /**
+     * Returns if the the node is leaf
+     * @return True if is lead, false, otherwise
+     */
+    public boolean isLeaf() {
+      return children.size() == 0;
+    }
+
+    /**
+     * Returns the project parent name
+     * @return Project parent name
+     */
+    public String getParentName() {
+      if (project.getParent() != null) {
+        return project.getParent().get();
+      }
+
+      return null;
+    }
+
+    /**
+     * Adds a child to the list
+     * @param node TreeNode child
+     */
+    public void addChild(TreeNode node) {
+      children.add(node);
+    }
+
+    /**
+     * Returns the project instance
+     * @return Project instance
+     */
+    public Project getProject() {
+      return project;
+    }
+
+    /**
+     * Returns the list of children nodes
+     * @return List of children nodes
+     */
+    public List<TreeNode> getChildren() {
+      return children;
+    }
+
+    /**
+     * Returns if the project is visible to the user
+     * @return True if is visible, false, otherwise
+     */
+    public boolean isVisible() {
+      return isVisible;
+    }
+  }
+
+  /**
+   * Used to display the project inheritance tree recursively
+   * @param stdout PrintWriter used do print
+   * @param node Tree node
+   * @param level Current level of the tree
+   * @param isLast True, if is the last node of a level, false, otherwise
+   * @param lastParentNode Last "root" parent node
+   */
+  private void printElement(final PrintWriter stdout, TreeNode node, int level, boolean isLast,
+      final TreeNode lastParentNode) {
+    // Checks if is not the "fake" root project.
+    //
+    if (node.getProject() != null) {
+
+      // Check if is not the last "root" parent node,
+      // so the "|" separator will not longer be needed.
+      //
+      if (!currentTabSeparator.equals(" ")) {
+        final String nodeProject = node.getProject().getName();
+        final String lastParentProject = lastParentNode.getProject().getName();
+
+        if (nodeProject.equals(lastParentProject)) {
+          currentTabSeparator = " ";
+        }
+      }
+
+      if (level > 0) {
+        stdout.print(String.format("%-" + 4 * level + "s", currentTabSeparator));
+      }
+
+      final String prefix = isLast ? LAST_NODE_PREFIX : NODE_PREFIX ;
+
+      String printout;
+
+      if (node.isVisible()) {
+        printout = prefix + node.getProject().getName();
+      } else {
+        printout = prefix + NOT_VISIBLE_PROJECT;
+      }
+
+      stdout.println(printout);
+      stdout.flush();
+    }
+
+    if (node.isLeaf()) {
+      return;
+    } else {
+      final List<TreeNode> children = node.getChildren();
+      ++level;
+      for(TreeNode treeNode : children) {
+        final boolean isLastIndex = children.indexOf(treeNode) == children.size() - 1;
+        printElement(stdout, treeNode, level, isLastIndex, lastParentNode);
+      }
     }
   }
 }

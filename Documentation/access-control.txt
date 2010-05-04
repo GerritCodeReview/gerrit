@@ -140,26 +140,65 @@ prefix. So a permission with `refs/heads/*` will match
 `refs/heads/master` and `refs/heads/experimental`, etc.
 
 When evaluating a reference-level access right, Gerrit will use
-the most specific set of access rights to determine if the user
-is allowed to perform a given action. For example, if a user
-tries to review a change destined for branch `refs/heads/qa`
-in project `tools/gerrit`, and the following ACLs are granted:
+the full set of access rights to determine if the user
+is allowed to perform a given action. For example, if a user is a
+member of `Foo Leads`, they are reviewing a change destined for
+the `refs/heads/qa` branch, and the following ACLs are granted
+on the project:
 
 [grid="all"]
-`---------------`----------------`-------------`-------
-Group            Reference Name  Category       Range
--------------------------------------------------------
-Anonymous Users  refs/heads/*    Code Review     -1..+1
-Registered Users refs/heads/*    Code Review     -1..+1
-Foo Leads        refs/heads/*    Code Review     -2..+2
-QA Leads         refs/heads/qa   Code Review     -2..+2
--------------------------------------------------------
+`---------------`---------------`-------------`-------
+Group            Reference Name Category       Range
+------------------------------------------------------
+Registered Users refs/heads/*   Code Review     -1..+1
+Foo Leads        refs/heads/*   Code Review     -2..+2
+QA Leads         refs/heads/qa  Code Review     -2..+2
+------------------------------------------------------
 
-Then this user will have `Code Review -2..+2` if he is a member
-of `QA Leads`, and will not have any rights if not. Inherited ACLs
-from the `\-- All Projects \--` project thus allow system wide
-lock-down of a branch, by granting a permission to a limited group
-of users on that branch.
+Then the effective range permitted to be used by the user is
+`-2..+2`, as the user's membership of `Foo Leads` effectively grant
+them access to the entire reference space, thanks to the wildcard.
+
+Gerrit also supports exclusive reference-level access control.
+
+It is possible to configure Gerrit to grant an exclusive ref level
+access control so that only users of a specific group can perform
+an operation on a project/reference pair. This is done by prefixing
+the reference specified with a `'-'`.
+
+For example, if a user who is a member of `Foo Leads` tries to
+review a change destined for branch `refs/heads/qa` in a project,
+and the following ACLs are granted:
+
+[grid="all"]
+`---------------`----------------`--------------`-------
+Group            Reference Name   Category       Range
+--------------------------------------------------------
+Registered Users refs/heads/*     Code Review     -1..+1
+Foo Leads        refs/heads/*     Code Review     -2..+2
+QA Leads         -refs/heads/qa   Code Review     -2..+2
+--------------------------------------------------------
+
+Then this user will not have `Code Review` rights on that change,
+since there is an exclusive access right in place for the
+`refs/heads/qa` branch. This allows locking down access for a
+particular branch to a limited set of users, bypassing inherited
+rights and wildcards.
+
+In order to grant the ability to `Code Review` to the members of
+`Foo Leads`, in `refs/heads/qa` then the following access rights
+would be needed:
+
+[grid="all"]
+`---------------`----------------`--------------`-------
+Group            Reference Name   Category       Range
+--------------------------------------------------------
+Registered Users refs/heads/*     Code Review     -1..+1
+Foo Leads        refs/heads/*     Code Review     -2..+2
+QA Leads         -refs/heads/qa   Code Review     -2..+2
+Foo Leads        refs/heads/qa    Code Review     -2..+2
+--------------------------------------------------------
+
 
 OpenID Authentication
 ~~~~~~~~~~~~~~~~~~~~~

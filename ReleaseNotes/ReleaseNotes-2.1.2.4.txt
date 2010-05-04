@@ -32,6 +32,13 @@ technically a bug to produce a repository like this) wouldn't clone
 properly from the embedded Gerrit SSH or HTTP daemon.  Fixed upstream
 in JGit 0.7.0, but we never picked up the bug fix release.
 
+* Allow LDAP to unset the user name
++
+If the user name is configured to be set only by the LDAP directory,
+and an account has a user name, but the name is no longer present
+in the directory, Gerrit crashed during sign-in while trying to
+clear out the user name.  Fixed.
+
 Documentation Corrections
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 

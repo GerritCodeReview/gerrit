@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAyX////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitProjectImporter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003698
+      },
+      "writtenOn": "2010-05-05T01:21:12Z",
+      "side": 1,
+      "message": "Ok, that makes some sense now.\n\nSo should the output something like\nif newProject\n  println Importing new project as:\nelse\n  println Importing repo who name (new name) doesn\u0027t match project name (project name).",
+      "revId": "0ea4907a0eb9756f4807ef7b21b4a92af4e45f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

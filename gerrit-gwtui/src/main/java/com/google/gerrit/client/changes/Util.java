@@ -24,6 +24,7 @@ import com.google.gwtjsonrpc.client.JsonUtil;
 public class Util {
   public static final ChangeConstants C = GWT.create(ChangeConstants.class);
   public static final ChangeMessages M = GWT.create(ChangeMessages.class);
+  public static final ChangeResources R = GWT.create(ChangeResources.class);
 
   public static final ChangeDetailService DETAIL_SVC;
   public static final ChangeListService LIST_SVC;

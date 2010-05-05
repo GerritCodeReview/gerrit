@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -49,7 +51,7 @@ import java.util.Set;
  * Instance members are protected by the lock within PushQueue. Callers must
  * take that lock to ensure they are working with a current view of the object.
  */
-class PushOp implements Runnable {
+class PushOp implements ProjectRunnable {
   interface Factory {
     PushOp create(String d, URIish u);
   }
@@ -283,5 +285,20 @@ class PushOp implements Runnable {
     final String dst = spec.getDestination();
     final boolean force = spec.isForceUpdate();
     cmds.add(new RemoteRefUpdate(db, null, dst, force, null, null));
+  }
+
+  @Override
+  public NameKey getProjectNameKey() {
+    return new Project.NameKey(projectName);
+  }
+
+  @Override
+  public String getRemoteName() {
+    return config.getName();
+  }
+
+  @Override
+  public boolean hasCustomizedPrint() {
+    return true;
   }
 }

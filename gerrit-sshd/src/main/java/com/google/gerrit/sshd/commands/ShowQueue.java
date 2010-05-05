@@ -14,10 +14,14 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.WorkQueue.ProjectTask;
 import com.google.gerrit.server.git.WorkQueue.Task;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.IdGenerator;
-import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
@@ -33,13 +37,18 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /** Display the current work queue. */
-@AdminCommand
-final class AdminShowQueue extends BaseCommand {
+final class ShowQueue extends BaseCommand {
   @Option(name = "-w", usage = "display without line width truncation")
   private boolean wide;
 
   @Inject
   private WorkQueue workQueue;
+
+  @Inject
+  private ProjectCache projectCache;
+
+  @Inject
+  private CurrentUser userProvider;
 
   private PrintWriter p;
   private int columns = 80;
@@ -60,7 +69,7 @@ final class AdminShowQueue extends BaseCommand {
       @Override
       public void run() throws Exception {
         parseCommandLine();
-        AdminShowQueue.this.display();
+        ShowQueue.this.display();
       }
     });
   }
@@ -97,7 +106,10 @@ final class AdminShowQueue extends BaseCommand {
     p.print("----------------------------------------------"
         + "--------------------------------\n");
 
+    int numberOfPendingTasks = 0;
     final long now = System.currentTimeMillis();
+    final boolean isAdministrator = userProvider.isAdministrator();
+
     for (final Task<?> task : pending) {
       final long delay = task.getDelay(TimeUnit.MILLISECONDS);
       final Task.State state = task.getState();
@@ -115,12 +127,56 @@ final class AdminShowQueue extends BaseCommand {
           break;
       }
 
-      p.print(String.format("%8s %-12s %-8s %s\n", //
-          id(task.getTaskId()), start, "", format(task)));
+      boolean regularUserCanSee = false;
+      boolean hasCustomizedPrint = true;
+
+      // If the user is not administrator, check if has rights to see
+      // the Task
+      Project.NameKey projectName = null;
+      String remoteName = null;
+
+      if (!isAdministrator) {
+        if (task instanceof ProjectTask<?>) {
+          projectName = ((ProjectTask<?>)task).getProjectNameKey();
+          remoteName = ((ProjectTask<?>)task).getRemoteName();
+          hasCustomizedPrint = ((ProjectTask<?>)task).hasCustomizedPrint();
+        }
+
+        ProjectState e = null;
+        if (projectName != null) {
+          e = projectCache.get(projectName);
+        }
+
+        regularUserCanSee = e != null && e.controlFor(userProvider).isVisible();
+
+        if (regularUserCanSee) {
+          numberOfPendingTasks++;
+        }
+      }
+
+      // Shows information about tasks depending on the user rights
+      if (isAdministrator || (!hasCustomizedPrint && regularUserCanSee)) {
+        p.print(String.format("%8s %-12s %-8s %s\n", //
+            id(task.getTaskId()), start, "", format(task)));
+      } else if (regularUserCanSee) {
+        if (remoteName == null) {
+          remoteName = projectName.get();
+        } else {
+          remoteName = remoteName + "/" + projectName;
+        }
+
+        p.print(String.format("%8s %-12s %-8s %s\n", //
+            id(task.getTaskId()), start, "", remoteName));
+      }
     }
     p.print("----------------------------------------------"
         + "--------------------------------\n");
-    p.print("  " + pending.size() + " tasks\n");
+
+    if (isAdministrator) {
+      numberOfPendingTasks = pending.size();
+    }
+
+    p.print("  " + numberOfPendingTasks + " tasks\n");
 
     p.flush();
   }

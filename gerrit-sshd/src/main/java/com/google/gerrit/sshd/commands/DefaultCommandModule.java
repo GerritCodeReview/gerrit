@@ -38,7 +38,7 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, "ls-projects").to(ListProjects.class);
     command(gerrit, "show-caches").to(AdminShowCaches.class);
     command(gerrit, "show-connections").to(AdminShowConnections.class);
-    command(gerrit, "show-queue").to(AdminShowQueue.class);
+    command(gerrit, "show-queue").to(ShowQueue.class);
     command(gerrit, "stream-events").to(StreamEvents.class);
 
     command(git).toProvider(new DispatchCommandProvider(git));

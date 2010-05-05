@@ -58,11 +58,21 @@ public abstract class AbstractGitCommand extends BaseCommand {
     Context ctx = context.subContext(newSession(), context.getCommandLine());
     final Context old = SshScope.set(ctx);
     try {
-      startThread(new CommandRunnable() {
+      startThread(new ProjectCommandRunnable() {
+        @Override
+        public void executeParseCommand() throws Exception {
+          parseCommandLine();
+        }
+
         @Override
         public void run() throws Exception {
-          parseCommandLine();
           AbstractGitCommand.this.service();
+        }
+
+        @Override
+        public Project.NameKey getProjectName() {
+          Project project = projectControl.getProjectState().getProject();
+          return project.getNameKey();
         }
       });
     } finally {

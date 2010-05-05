@@ -14,9 +14,12 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -335,10 +338,11 @@ public abstract class BaseCommand implements Command {
     }
   }
 
-  private final class TaskThunk implements CancelableRunnable {
+  private final class TaskThunk implements CancelableRunnable, ProjectRunnable {
     private final CommandRunnable thunk;
     private final Context context;
     private final String taskName;
+    private Project.NameKey projectName;
 
     private TaskThunk(final CommandRunnable thunk) {
       this.thunk = thunk;
@@ -372,6 +376,12 @@ public abstract class BaseCommand implements Command {
       try {
         context.started = System.currentTimeMillis();
         thisThread.setName("SSH " + taskName);
+
+        if (thunk instanceof ProjectCommandRunnable) {
+          ((ProjectCommandRunnable) thunk).executeParseCommand();
+          projectName = ((ProjectCommandRunnable) thunk).getProjectName();
+        }
+
         try {
           thunk.run();
         } catch (NoSuchProjectException e) {
@@ -379,6 +389,7 @@ public abstract class BaseCommand implements Command {
         } catch (NoSuchChangeException e) {
           throw new UnloggedFailure(1, e.getMessage() + " no such change");
         }
+
         out.flush();
         err.flush();
       } catch (Throwable e) {
@@ -405,11 +416,35 @@ public abstract class BaseCommand implements Command {
     public String toString() {
       return taskName;
     }
+
+    @Override
+    public NameKey getProjectNameKey() {
+      return projectName;
+    }
+
+    @Override
+    public String getRemoteName() {
+      return null;
+    }
+
+    @Override
+    public boolean hasCustomizedPrint() {
+      return false;
+    }
   }
 
   /** Runnable function which can throw an exception. */
   public static interface CommandRunnable {
     public void run() throws Exception;
+  }
+
+  /** Runnable function which can retrieve a project name related to the task */
+  public static interface ProjectCommandRunnable extends CommandRunnable {
+    // execute parser command before running, in order to be able to retrieve
+    // project name
+    public void executeParseCommand() throws Exception;
+
+    public Project.NameKey getProjectName();
   }
 
   /** Thrown from {@link CommandRunnable#run()} with client message and code. */

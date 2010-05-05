@@ -45,8 +45,9 @@ public class AccountResolver {
    * Locate exactly one account matching the name or name/email string.
    *
    * @param nameOrEmail a string of the format
-   *        "Full Name &lt;email@example&gt;", or just the email address
-   *        ("email@example"), or a full name, or an account id.
+   *        "Full Name &lt;email@example&gt;", just the email address
+   *        ("email@example"), a full name ("Full Name"), or an account id
+   *        ("18419").
    * @return the single account that matches; null if no account matches or
    *         there are multiple candidates.
    */
@@ -60,6 +61,20 @@ public class AccountResolver {
       return byId.get(Account.Id.parse(nameOrEmail)).getAccount();
     }
 
+    return findByNameOrEmail(nameOrEmail);
+  }
+
+  /**
+   * Locate exactly one account matching the name or name/email string.
+   *
+   * @param nameOrEmail a string of the format
+   *        "Full Name &lt;email@example&gt;", just the email address
+   *        ("email@example"), a full name ("Full Name").
+   * @return the single account that matches; null if no account matches or
+   *         there are multiple candidates.
+   */
+  public Account findByNameOrEmail(final String nameOrEmail)
+      throws OrmException {
     final int lt = nameOrEmail.indexOf('<');
     final int gt = nameOrEmail.indexOf('>');
     if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {

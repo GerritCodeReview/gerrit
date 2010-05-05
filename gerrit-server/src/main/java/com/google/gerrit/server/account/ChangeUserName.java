@@ -36,6 +36,8 @@ import java.util.Collections;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nullable;
+
 /** Operation to change the username of an account. */
 public class ChangeUserName implements Callable<VoidResult> {
   private static final Pattern USER_NAME_PATTERN =
@@ -77,7 +79,7 @@ public class ChangeUserName implements Callable<VoidResult> {
       final SshKeyCache sshKeyCache,
 
       @Assisted final ReviewDb db, @Assisted final IdentifiedUser user,
-      @Assisted final String newUsername) {
+      @Nullable @Assisted final String newUsername) {
     this.accountCache = accountCache;
     this.sshKeyCache = sshKeyCache;
 

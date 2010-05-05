@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.transport.UploadPack;
 
@@ -25,15 +26,14 @@ import java.io.IOException;
 
 /** Publishes Git repositories over SSH using the Git upload-pack protocol. */
 final class Upload extends AbstractGitCommand {
-
   @Inject
-  private ReviewDb db;
+  private Provider<ReviewDb> db;
 
   @Override
   protected void runImpl() throws IOException {
     final UploadPack up = new UploadPack(repo);
     if (!projectControl.allRefsAreVisible()) {
-      up.setRefFilter(new VisibleRefFilter(repo, projectControl, db));
+      up.setRefFilter(new VisibleRefFilter(repo, projectControl, db.get()));
     }
     up.upload(in, out, err);
   }

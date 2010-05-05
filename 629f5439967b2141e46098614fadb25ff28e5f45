@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAyX////o\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-05T01:58:07Z",
+      "side": 1,
+      "message": "Yea, I\u0027m still not clear on what this is supposed to do.  I tried staring at the code in PatchSetPublishDetailFactory, and that just made things even more confusing for me.\n\nCan you elaborate this description and maybe give some examples of the different cases?  It just isn\u0027t clear enough for me to review the logic, which means there is no way its clear enough for an administrator to actually take advantage of this on a production server.",
+      "revId": "629f5439967b2141e46098614fadb25ff28e5f45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAyX////s\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-05T01:58:07Z",
+      "side": 1,
+      "message": "Please drop a space before Code Review so the columns line up again.  I think AsciiDoc relies on alignment to setup the table in HTML.",
+      "revId": "629f5439967b2141e46098614fadb25ff28e5f45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

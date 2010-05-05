@@ -35,12 +35,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -228,7 +228,9 @@ public class ApprovalTable extends Composite {
     table.setWidget(row, col++, link(ad.getAccount()));
 
     if (ad.canRemove()) {
-      Button remove = new Button("X");
+      PushButton remove = new PushButton( //
+          new Image(Util.R.removeReviewerNormal()), //
+          new Image(Util.R.removeReviewerPressed()));
       remove.setTitle(Util.M.removeReviewer( //
           FormatUtil.name(accountCache.get(ad.getAccount()))));
       remove.setStyleName(Gerrit.RESOURCES.css().removeReviewer());

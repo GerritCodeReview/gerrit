@@ -80,7 +80,8 @@ public class ProjectInfoPanel extends Composite {
     Util.PROJECT_SVC.projectDetail(projectName,
         new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
-            enableForm(true);
+            enableForm(result.canModifyData);
+            saveProject.setVisible(result.canModifyData);
             saveProject.setEnabled(false);
             display(result);
           }
@@ -92,6 +93,7 @@ public class ProjectInfoPanel extends Composite {
     descTxt.setEnabled(on);
     useContributorAgreements.setEnabled(on);
     useSignedOffBy.setEnabled(on);
+    saveProject.setEnabled(on);
   }
 
   private void initDescription(final Panel body) {

@@ -17,6 +17,7 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.InvalidRevisionException;
@@ -57,6 +58,8 @@ public class ProjectBranchesPanel extends Composite {
   private NpTextBox nameTxtBox;
   private NpTextBox irevTxtBox;
 
+  private final FlowPanel addPanel = new FlowPanel();
+
   public ProjectBranchesPanel(final Project.NameKey toShow) {
     final FlowPanel body = new FlowPanel();
     initBranches(body);
@@ -71,12 +74,18 @@ public class ProjectBranchesPanel extends Composite {
     super.onLoad();
 
     Util.PROJECT_SVC.listBranches(projectName,
-        new GerritCallback<List<Branch>>() {
-          public void onSuccess(final List<Branch> result) {
+        new GerritCallback<ListBranchesResult>() {
+          public void onSuccess(final ListBranchesResult result) {
             enableForm(true);
-            branches.display(result);
+            display(result.getBranches());
+            addPanel.setVisible(result.getCanAdd());
           }
         });
+  }
+
+  private void display(final List<Branch> listBranches) {
+    branches.display(listBranches);
+    delBranch.setVisible(branches.hasBranchCanDelete());
   }
 
   private void enableForm(final boolean on) {
@@ -87,7 +96,6 @@ public class ProjectBranchesPanel extends Composite {
   }
 
   private void initBranches(final Panel body) {
-    final FlowPanel addPanel = new FlowPanel();
     addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
 
     final Grid addGrid = new Grid(2, 2);
@@ -209,12 +217,12 @@ public class ProjectBranchesPanel extends Composite {
 
     addBranch.setEnabled(false);
     Util.PROJECT_SVC.addBranch(projectName, branchName, rev,
-        new GerritCallback<List<Branch>>() {
-          public void onSuccess(final List<Branch> result) {
+        new GerritCallback<ListBranchesResult>() {
+          public void onSuccess(final ListBranchesResult result) {
             addBranch.setEnabled(true);
             nameTxtBox.setText("");
             irevTxtBox.setText("");
-            branches.display(result);
+            display(result.getBranches());
           }
 
           @Override
@@ -239,6 +247,8 @@ public class ProjectBranchesPanel extends Composite {
   }
 
   private class BranchesTable extends FancyFlexTable<Branch> {
+    boolean canDelete;
+
     BranchesTable() {
       table.setWidth("");
       table.setText(0, 2, Util.C.columnBranchName());
@@ -296,7 +306,13 @@ public class ProjectBranchesPanel extends Composite {
     void populate(final int row, final Branch k) {
       final GitwebLink c = Gerrit.getConfig().getGitwebLink();
 
-      table.setWidget(row, 1, new CheckBox());
+      if (k.getCanDelete()) {
+        table.setWidget(row, 1, new CheckBox());
+        canDelete = true;
+      } else {
+        table.setText(row, 1, "");
+      }
+
       table.setText(row, 2, k.getShortName());
 
       if (k.getRevision() != null) {
@@ -319,6 +335,10 @@ public class ProjectBranchesPanel extends Composite {
       }
 
       setRowItem(row, k);
+    }
+
+    boolean hasBranchCanDelete() {
+      return canDelete;
     }
   }
 }

@@ -71,6 +71,7 @@ public final class Branch {
 
   protected NameKey name;
   protected RevId revision;
+  protected boolean canDelete;
 
   protected Branch() {
   }
@@ -97,5 +98,13 @@ public final class Branch {
 
   public void setRevision(final RevId id) {
     revision = id;
+  }
+
+  public boolean getCanDelete() {
+    return canDelete;
+  }
+
+  public void setCanDelete(boolean canDelete) {
+    this.canDelete = canDelete;
   }
 }

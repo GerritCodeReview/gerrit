@@ -184,25 +184,6 @@ public class RefControl {
     }
   }
 
-  /**
-   * Determines whether the user can delete the Git ref controlled by this
-   * object.
-   *
-   * @return {@code true} if the user specified can delete a Git ref.
-   */
-  public boolean canDelete() {
-    switch (getCurrentUser().getAccessPath()) {
-      case WEB_UI:
-        return isOwner() || canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE);
-
-      case GIT:
-        return canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE);
-
-      default:
-        return false;
-    }
-  }
-
   /** @return true if this user can forge the author line in a commit. */
   public boolean canForgeAuthor() {
     if (canForgeAuthor == null) {
@@ -255,6 +236,25 @@ public class RefControl {
       }
     }
     return val >= level;
+  }
+
+  /**
+   * Determines whether the user can delete the Git ref controlled by this
+   * object.
+   *
+   * @return {@code true} if the user specified can delete a Git ref.
+   */
+  public boolean canDelete() {
+    switch (getCurrentUser().getAccessPath()) {
+      case WEB_UI:
+        return isOwner() || canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE);
+
+      case GIT:
+        return canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE);
+
+      default:
+        return false;
+    }
   }
 
   public static List<RefRight> filterMostSpecific(List<RefRight> actionRights) {

@@ -24,6 +24,7 @@ public class ProjectDetail {
   public Project project;
   public Map<AccountGroup.Id, AccountGroup> groups;
   public List<InheritedRefRight> rights;
+  public boolean canModifyData;
 
   public ProjectDetail() {
   }
@@ -38,5 +39,9 @@ public class ProjectDetail {
 
   public void setRights(final List<InheritedRefRight> r) {
     rights = r;
+  }
+
+  public void setCanModifyData(final boolean cmd) {
+    canModifyData = cmd;
   }
 }

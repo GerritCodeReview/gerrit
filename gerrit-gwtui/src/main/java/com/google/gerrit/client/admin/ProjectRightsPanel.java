@@ -76,6 +76,8 @@ public class ProjectRightsPanel extends Composite {
   private SuggestBox nameTxt;
   private NpTextBox referenceTxt;
 
+  private final FlowPanel addPanel = new FlowPanel();
+
   public ProjectRightsPanel(final Project.NameKey toShow) {
     projectName = toShow;
 
@@ -95,7 +97,10 @@ public class ProjectRightsPanel extends Composite {
           public void onSuccess(final ProjectDetail result) {
             enableForm(true);
             display(result);
-          }
+
+            addPanel.setVisible(result.canModifyData);
+            delRight.setVisible(result.canModifyData);
+            }
         });
   }
 
@@ -121,7 +126,6 @@ public class ProjectRightsPanel extends Composite {
   }
 
   private void initRights(final Panel body) {
-    final FlowPanel addPanel = new FlowPanel();
     addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
 
     final Grid addGrid = new Grid(5, 2);
@@ -253,7 +257,7 @@ public class ProjectRightsPanel extends Composite {
         ProjectAdminScreen.ACCESS_TAB));
     parentName.setText(parent.get());
 
-    rights.display(result.groups, result.rights);
+    rights.display(result.groups, result.rights, !result.canModifyData);
   }
 
   private void doAddNewRight() {
@@ -423,7 +427,7 @@ public class ProjectRightsPanel extends Composite {
     }
 
     void display(final Map<AccountGroup.Id, AccountGroup> groups,
-        final List<InheritedRefRight> refRights) {
+        final List<InheritedRefRight> refRights, final boolean readOnly) {
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
@@ -431,13 +435,12 @@ public class ProjectRightsPanel extends Composite {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
-        populate(row, groups, r);
+        populate(row, groups, r, readOnly);
       }
     }
 
-    void populate(final int row,
-        final Map<AccountGroup.Id, AccountGroup> groups,
-        final InheritedRefRight r) {
+    void populate(final int row, final Map<AccountGroup.Id, AccountGroup> groups,
+        final InheritedRefRight r, final boolean readOnly) {
       final GerritConfig config = Gerrit.getConfig();
       final RefRight right = r.getRight();
       final ApprovalType ar =
@@ -445,7 +448,7 @@ public class ProjectRightsPanel extends Composite {
               right.getApprovalCategoryId());
       final AccountGroup group = groups.get(right.getAccountGroupId());
 
-      if (r.isInherited()) {
+      if (readOnly || r.isInherited()) {
         table.setText(row, 1, "");
       } else {
         table.setWidget(row, 1, new CheckBox());

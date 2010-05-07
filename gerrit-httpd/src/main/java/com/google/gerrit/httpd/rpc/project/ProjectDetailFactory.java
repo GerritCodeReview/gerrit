@@ -118,8 +118,11 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
       }
     });
 
+    final boolean userCanModifyData = projectControlFactory.controlFor(projectName).isOwner();
+
     detail.setRights(refRights);
     detail.setGroups(groups);
+    detail.setCanModifyData(userCanModifyData);
     return detail;
   }
 

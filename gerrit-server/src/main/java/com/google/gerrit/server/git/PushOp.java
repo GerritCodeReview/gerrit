@@ -53,7 +53,7 @@ import java.util.Set;
  */
 class PushOp implements ProjectRunnable {
   interface Factory {
-    PushOp create(String d, URIish u);
+    PushOp create(Project.NameKey d, URIish u);
   }
 
   private static final Logger log = PushReplication.log;
@@ -64,15 +64,16 @@ class PushOp implements ProjectRunnable {
   private final RemoteConfig config;
 
   private final Set<String> delta = new HashSet<String>();
-  private final String projectName;
+  private final Project.NameKey projectName;
   private final URIish uri;
   private boolean mirror;
 
   private Repository db;
 
   @Inject
-  PushOp(final GitRepositoryManager grm, final PushReplication.ReplicationConfig p,
-      final RemoteConfig c, @Assisted final String d, @Assisted final URIish u) {
+  PushOp(final GitRepositoryManager grm,
+      final PushReplication.ReplicationConfig p, final RemoteConfig c,
+      @Assisted final Project.NameKey d, @Assisted final URIish u) {
     repoManager = grm;
     pool = p;
     config = c;
@@ -100,7 +101,7 @@ class PushOp implements ProjectRunnable {
       // created and scheduled for a future point in time.)
       //
       pool.notifyStarting(this);
-      db = repoManager.openRepository(projectName);
+      db = repoManager.openRepository(projectName.get());
       runImpl();
     } catch (RepositoryNotFoundException e) {
       log.error("Cannot replicate " + projectName + "; " + e.getMessage());
@@ -289,7 +290,7 @@ class PushOp implements ProjectRunnable {
 
   @Override
   public NameKey getProjectNameKey() {
-    return new Project.NameKey(projectName);
+    return projectName;
   }
 
   @Override

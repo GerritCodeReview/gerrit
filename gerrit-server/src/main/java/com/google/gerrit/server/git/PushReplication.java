@@ -366,7 +366,7 @@ public class PushReplication implements ReplicationQueue {
       synchronized (pending) {
         PushOp e = pending.get(uri);
         if (e == null) {
-          e = opFactory.create(project.get(), uri);
+          e = opFactory.create(project, uri);
           pool.schedule(e, delay, TimeUnit.SECONDS);
           pending.put(uri, e);
         }

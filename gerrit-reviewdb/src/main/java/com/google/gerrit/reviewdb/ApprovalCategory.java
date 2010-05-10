@@ -157,6 +157,10 @@ public final class ApprovalCategory {
     return position < 0;
   }
 
+  public boolean isRange() {
+    return !isAction();
+  }
+
   public String getFunctionName() {
     return functionName;
   }

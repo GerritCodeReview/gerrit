@@ -279,13 +279,27 @@ public class ProjectRightsPanel extends Composite {
       return;
     }
 
-    idx = rangeMaxBox.getSelectedIndex();
-    if (idx < 0) {
-      return;
-    }
-    max = at.getValue(Short.parseShort(rangeMaxBox.getValue(idx)));
-    if (max == null) {
-      return;
+    if (at.getCategory().isRange()) {
+      idx = rangeMaxBox.getSelectedIndex();
+      if (idx < 0) {
+        return;
+      }
+      max = at.getValue(Short.parseShort(rangeMaxBox.getValue(idx)));
+      if (max == null) {
+        return;
+      }
+    } else {
+      // If its not a range, the maximum box was disabled.  Use the min
+      // value as the max, and select the min from the category values.
+      //
+      max = min;
+      min = at.getMin();
+      for (ApprovalCategoryValue v : at.getValues()) {
+        if (0 <= v.getValue() && v.getValue() <= max.getValue()) {
+          min = v;
+          break;
+        }
+      }
     }
 
     final String groupName = nameTxt.getText();
@@ -373,6 +387,7 @@ public class ProjectRightsPanel extends Composite {
     }
     rangeMinBox.setSelectedIndex(minIndex >= 0 ? minIndex : 0);
     rangeMaxBox.setSelectedIndex(maxIndex >= 0 ? maxIndex : curIndex - 1);
+    rangeMaxBox.setVisible(at.getCategory().isRange());
 
     addRight.setEnabled(true);
   }
@@ -472,11 +487,11 @@ public class ProjectRightsPanel extends Composite {
         min = ar != null ? ar.getValue(right.getMinValue()) : null;
         max = ar != null ? ar.getValue(right.getMaxValue()) : null;
 
-        formatValue(m, right.getMinValue(), min);
-        if (right.getMinValue() != right.getMaxValue()) {
+        if (ar != null && ar.getCategory().isRange()) {
+          formatValue(m, right.getMinValue(), min);
           m.br();
-          formatValue(m, right.getMaxValue(), max);
         }
+        formatValue(m, right.getMaxValue(), max);
         SafeHtml.set(table, row, 5, m);
       }
 

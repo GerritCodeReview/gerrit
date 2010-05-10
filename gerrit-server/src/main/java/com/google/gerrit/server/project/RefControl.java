@@ -100,7 +100,8 @@ public class RefControl {
 
   /** Can this user see this reference exists? */
   public boolean isVisible() {
-    return canPerform(READ, (short) 1);
+    return getProjectControl().visibleForReplication()
+        || canPerform(READ, (short) 1);
   }
 
   /**

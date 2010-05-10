@@ -15,7 +15,12 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.NameKey;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -40,6 +45,8 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +67,7 @@ class PushOp implements ProjectRunnable {
   static final String MIRROR_ALL = "..all..";
 
   private final GitRepositoryManager repoManager;
+  private final SchemaFactory<ReviewDb> schema;
   private final PushReplication.ReplicationConfig pool;
   private final RemoteConfig config;
 
@@ -71,10 +79,11 @@ class PushOp implements ProjectRunnable {
   private Repository db;
 
   @Inject
-  PushOp(final GitRepositoryManager grm,
+  PushOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> s,
       final PushReplication.ReplicationConfig p, final RemoteConfig c,
       @Assisted final Project.NameKey d, @Assisted final URIish u) {
     repoManager = grm;
+    schema = s;
     pool = p;
     config = c;
     projectName = d;
@@ -198,9 +207,44 @@ class PushOp implements ProjectRunnable {
 
   private List<RemoteRefUpdate> generateUpdates(final Transport tn)
       throws IOException {
-    final List<RemoteRefUpdate> cmds = new ArrayList<RemoteRefUpdate>();
-    final Map<String, Ref> local = db.getAllRefs();
+    final ProjectControl pc;
+    try {
+      pc = pool.controlFor(projectName);
+    } catch (NoSuchProjectException e) {
+      return Collections.emptyList();
+    }
 
+    Map<String, Ref> local = db.getAllRefs();
+    if (!pc.allRefsAreVisible()) {
+      if (!mirror) {
+        // If we aren't mirroring, reduce the space we need to filter
+        // to only the references we will update during this operation.
+        //
+        Map<String, Ref> n = new HashMap<String, Ref>();
+        for (String src : delta) {
+          Ref r = local.get(src);
+          if (r != null) {
+            n.put(src, r);
+          }
+        }
+        local = n;
+      }
+
+      final ReviewDb meta;
+      try {
+        meta = schema.open();
+      } catch (OrmException e) {
+        log.error("Cannot read database to replicate to " + projectName, e);
+        return Collections.emptyList();
+      }
+      try {
+        local = new VisibleRefFilter(db, pc, meta).filter(local);
+      } finally {
+        meta.close();
+      }
+    }
+
+    final List<RemoteRefUpdate> cmds = new ArrayList<RemoteRefUpdate>();
     if (mirror) {
       final Map<String, Ref> remote = listRemote(tn);
 

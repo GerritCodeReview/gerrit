@@ -304,7 +304,6 @@ public class PushReplication implements ReplicationQueue {
     private final Map<URIish, PushOp> pending = new HashMap<URIish, PushOp>();
     private final PushOp.Factory opFactory;
     private final ProjectControl.Factory projectControlFactory;
-    private final boolean authEnabled;
 
     ReplicationConfig(final Injector injector, final WorkQueue workQueue,
         final RemoteConfig rc, final Config cfg, SchemaFactory<ReviewDb> db,
@@ -319,9 +318,13 @@ public class PushReplication implements ReplicationQueue {
 
       String[] authGroupNames =
           cfg.getStringList("remote", rc.getName(), "authGroup");
-      authEnabled = authGroupNames.length > 0;
-      Set<AccountGroup.Id> authGroups = ConfigUtil.groupsFor(db, authGroupNames, log,
-              "Group \"{0}\" not in database, removing from authGroup");
+      final Set<AccountGroup.Id> authGroups;
+      if (authGroupNames.length > 0) {
+        authGroups = ConfigUtil.groupsFor(db, authGroupNames, //
+            log, "Group \"{0}\" not in database, removing from authGroup");
+      } else {
+        authGroups = ReplicationUser.EVERYTHING_VISIBLE;
+      }
 
       final ReplicationUser remoteUser =
           replicationUserFactory.create(authGroups);
@@ -354,8 +357,7 @@ public class PushReplication implements ReplicationQueue {
     void schedule(final Project.NameKey project, final String ref,
         final URIish uri) {
       try {
-        if (authEnabled
-            && !projectControlFactory.controlFor(project).isVisible()) {
+        if (!controlFor(project).isVisible()) {
           return;
         }
       } catch (NoSuchProjectException e1) {
@@ -372,6 +374,11 @@ public class PushReplication implements ReplicationQueue {
         }
         e.addRef(ref);
       }
+    }
+
+    ProjectControl controlFor(final Project.NameKey project)
+        throws NoSuchProjectException {
+      return projectControlFactory.controlFor(project);
     }
 
     void notifyStarting(final PushOp op) {

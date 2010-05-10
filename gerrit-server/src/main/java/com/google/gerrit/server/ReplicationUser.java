@@ -25,6 +25,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ReplicationUser extends CurrentUser {
+  /** Magic set of groups enabling read of any project and reference. */
+  public static final Set<AccountGroup.Id> EVERYTHING_VISIBLE =
+      Collections.unmodifiableSet(new HashSet<AccountGroup.Id>(0));
+
   public interface Factory {
     ReplicationUser create(@Assisted Set<AccountGroup.Id> authGroups);
   }
@@ -36,7 +40,10 @@ public class ReplicationUser extends CurrentUser {
       @Assisted Set<AccountGroup.Id> authGroups) {
     super(AccessPath.REPLICATION, authConfig);
 
-    if (authGroups.isEmpty()) {
+    if (authGroups == EVERYTHING_VISIBLE) {
+      effectiveGroups = EVERYTHING_VISIBLE;
+
+    } else if (authGroups.isEmpty()) {
       // Only include the registered groups if no specific groups
       // were provided. This allows an administrator to configure
       // a replication user with a narrower view of the system than
@@ -62,5 +69,9 @@ public class ReplicationUser extends CurrentUser {
   @Override
   public Set<Change.Id> getStarredChanges() {
     return Collections.emptySet();
+  }
+
+  public boolean isEverythingVisible() {
+    return getEffectiveGroups() == EVERYTHING_VISIBLE;
   }
 }

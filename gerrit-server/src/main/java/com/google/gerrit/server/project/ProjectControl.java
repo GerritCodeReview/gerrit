@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.ReplicationUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -116,12 +117,20 @@ public class ProjectControl {
 
   /** Can this user see this project exists? */
   public boolean isVisible() {
-    return canPerformOnAnyRef(ApprovalCategory.READ, (short) 1);
+    return visibleForReplication()
+        || canPerformOnAnyRef(ApprovalCategory.READ, (short) 1);
   }
 
   /** Can this user see all the refs in this projects? */
   public boolean allRefsAreVisible() {
-    return canPerformOnAllRefs(ApprovalCategory.READ, (short) 1);
+    return visibleForReplication()
+        || canPerformOnAllRefs(ApprovalCategory.READ, (short) 1);
+  }
+
+  /** Is this project completely visible for replication? */
+  boolean visibleForReplication() {
+    return getCurrentUser() instanceof ReplicationUser
+        && ((ReplicationUser) getCurrentUser()).isEverythingVisible();
   }
 
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */

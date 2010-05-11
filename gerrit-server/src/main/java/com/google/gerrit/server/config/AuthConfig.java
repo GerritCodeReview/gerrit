@@ -39,7 +39,8 @@ public class AuthConfig {
   private final AuthType authType;
   private final String httpHeader;
   private final String logoutUrl;
-  private final List<OpenIdProviderPattern> trusted;
+  private final List<OpenIdProviderPattern> trustedOpenIDs;
+  private final List<OpenIdProviderPattern> allowedOpenIDs;
   private final SignedToken emailReg;
 
   private final AccountGroup.Id administratorGroup;
@@ -54,7 +55,8 @@ public class AuthConfig {
     authType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
     logoutUrl = cfg.getString("auth", null, "logouturl");
-    trusted = toPatterns(cfg, "trustedopenid");
+    trustedOpenIDs = toPatterns(cfg, "trustedOpenID");
+    allowedOpenIDs = toPatterns(cfg, "allowedOpenID");
     emailReg = new SignedToken(5 * 24 * 60 * 60, s.registerEmailPrivateKey);
 
     final HashSet<AccountGroup.Id> r = new HashSet<AccountGroup.Id>(2);
@@ -125,6 +127,11 @@ public class AuthConfig {
     return registeredGroups;
   }
 
+  /** OpenID identities which the server permits for authentication. */
+  public List<OpenIdProviderPattern> getAllowedOpenIDs() {
+    return allowedOpenIDs;
+  }
+
   public boolean isIdentityTrustable(final Collection<AccountExternalId> ids) {
     switch (getAuthType()) {
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
@@ -184,7 +191,7 @@ public class AuthConfig {
       return true;
     }
 
-    for (final OpenIdProviderPattern p : trusted) {
+    for (final OpenIdProviderPattern p : trustedOpenIDs) {
       if (p.matches(id)) {
         return true;
       }

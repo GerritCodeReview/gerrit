@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.auth.openid;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.auth.openid.DiscoveryResult;
+import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.common.auth.openid.OpenIdService;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.httpd.WebSession;
@@ -27,6 +28,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -101,6 +103,7 @@ class OpenIdServiceImpl implements OpenIdService {
   private final Provider<String> urlProvider;
   private final AccountManager accountManager;
   private final ConsumerManager manager;
+  private final List<OpenIdProviderPattern> allowedOpenIDs;
   private final SelfPopulatingCache<String, List> discoveryCache;
 
   /** Maximum age, in seconds, before forcing re-authentication of account. */
@@ -111,8 +114,8 @@ class OpenIdServiceImpl implements OpenIdService {
       final Provider<IdentifiedUser> iu,
       @CanonicalWebUrl @Nullable final Provider<String> up,
       @Named("openid") final Cache<String, List> openidCache,
-      @GerritServerConfig final Config config, final AccountManager am)
-      throws ConsumerException, MalformedURLException {
+      @GerritServerConfig final Config config, final AuthConfig ac,
+      final AccountManager am) throws ConsumerException, MalformedURLException {
 
     if (config.getString("http", null, "proxy") != null) {
       final URL proxyUrl = new URL(config.getString("http", null, "proxy"));
@@ -143,6 +146,7 @@ class OpenIdServiceImpl implements OpenIdService {
     urlProvider = up;
     accountManager = am;
     manager = new ConsumerManager();
+    allowedOpenIDs = ac.getAllowedOpenIDs();
     papeMaxAuthAge = (int) ConfigUtil.getTimeUnit(config, //
         "auth", null, "maxOpenIdSessionAge", -1, TimeUnit.SECONDS);
 
@@ -162,11 +166,16 @@ class OpenIdServiceImpl implements OpenIdService {
 
   public void discover(final String openidIdentifier, final SignInMode mode,
       final boolean remember, final String returnToken,
-      final AsyncCallback<DiscoveryResult> callback) {
+      final AsyncCallback<DiscoveryResult> cb) {
+    if (!isAllowedOpenID(openidIdentifier)) {
+      cb.onSuccess(new DiscoveryResult(DiscoveryResult.Status.NOT_ALLOWED));
+      return;
+    }
+
     final State state;
     state = init(openidIdentifier, mode, remember, returnToken);
     if (state == null) {
-      callback.onSuccess(new DiscoveryResult(false));
+      cb.onSuccess(new DiscoveryResult(DiscoveryResult.Status.NO_PROVIDER));
       return;
     }
 
@@ -194,14 +203,16 @@ class OpenIdServiceImpl implements OpenIdService {
         aReq.addExtension(pape);
       }
     } catch (MessageException e) {
-      callback.onSuccess(new DiscoveryResult(false));
+      log.error("Cannot create OpenID redirect for " + openidIdentifier, e);
+      cb.onSuccess(new DiscoveryResult(DiscoveryResult.Status.ERROR));
       return;
     } catch (ConsumerException e) {
-      callback.onSuccess(new DiscoveryResult(false));
+      log.error("Cannot create OpenID redirect for " + openidIdentifier, e);
+      cb.onSuccess(new DiscoveryResult(DiscoveryResult.Status.ERROR));
       return;
     }
 
-    callback.onSuccess(new DiscoveryResult(true, aReq.getDestinationUrl(false),
+    cb.onSuccess(new DiscoveryResult(aReq.getDestinationUrl(false), //
         aReq.getParameterMap()));
   }
 
@@ -244,6 +255,13 @@ class OpenIdServiceImpl implements OpenIdService {
     final String rediscoverIdentifier =
         claimedIdentifier != null ? claimedIdentifier : openidIdentifier;
     final State state;
+
+    if (!isAllowedOpenID(rediscoverIdentifier)
+        || !isAllowedOpenID(openidIdentifier)
+        || (claimedIdentifier != null && !isAllowedOpenID(claimedIdentifier))) {
+      cancelWithError(req, rsp, "Provider not allowed");
+      return;
+    }
 
     state = init(rediscoverIdentifier, mode, remember, returnToken);
     if (state == null) {
@@ -523,6 +541,15 @@ class OpenIdServiceImpl implements OpenIdService {
       retTo.put(P_CLAIMED, discovered.getClaimedIdentifier().getIdentifier());
     }
     return new State(discovered, retTo, contextUrl);
+  }
+
+  private boolean isAllowedOpenID(final String id) {
+    for (final OpenIdProviderPattern pattern : allowedOpenIDs) {
+      if (pattern.matches(id)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private static class State {

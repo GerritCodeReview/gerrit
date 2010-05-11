@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.Project;
@@ -24,6 +25,8 @@ import java.util.Set;
 
 public class GerritConfig implements Cloneable {
   protected String registerUrl;
+  protected List<OpenIdProviderPattern> allowedOpenIDs;
+
   protected GitwebLink gitweb;
   protected boolean useContributorAgreements;
   protected boolean useContactInfo;
@@ -50,6 +53,14 @@ public class GerritConfig implements Cloneable {
 
   public void setRegisterUrl(final String u) {
     registerUrl = u;
+  }
+
+  public List<OpenIdProviderPattern> getAllowedOpenIDs() {
+    return allowedOpenIDs;
+  }
+
+  public void setAllowedOpenIDs(List<OpenIdProviderPattern> l) {
+    allowedOpenIDs = l;
   }
 
   public AuthType getAuthType() {

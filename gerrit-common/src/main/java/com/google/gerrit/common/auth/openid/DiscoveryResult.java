@@ -17,21 +17,34 @@ package com.google.gerrit.common.auth.openid;
 import java.util.Map;
 
 public final class DiscoveryResult {
-  public boolean validProvider;
+  public static enum Status {
+    /** Provider was discovered and {@code providerUrl} is valid. */
+    VALID,
+
+    /** The identifier is not allowed to be used, by site configuration. */
+    NOT_ALLOWED,
+
+    /** Identifier isn't for an OpenID provider. */
+    NO_PROVIDER,
+
+    /** The provider was discovered, but something else failed. */
+    ERROR;
+  }
+
+  public Status status;
   public String providerUrl;
   public Map<String, String> providerArgs;
 
   protected DiscoveryResult() {
   }
 
-  public DiscoveryResult(final boolean valid, final String redirect,
-      final Map<String, String> args) {
-    validProvider = valid;
+  public DiscoveryResult(final String redirect, final Map<String, String> args) {
+    status = Status.VALID;
     providerUrl = redirect;
     providerArgs = args;
   }
 
-  public DiscoveryResult(final boolean fail) {
-    this(false, null, null);
+  public DiscoveryResult(final Status s) {
+    status = s;
   }
 }

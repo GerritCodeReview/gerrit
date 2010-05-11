@@ -96,6 +96,18 @@ authentication is not possible.
 +
 By default, OpenID.
 
+[[auth.allowedOpenID]]auth.allowedOpenID::
++
+List of permitted OpenID providers.  A user may only authenticate
+with an OpenID that matches this list.  Only used if `auth.type`
+was set to OpenID (the default).
++
+Patterns may be either a regular expression (start with `^` and
+end with `$`) or be a simple prefix (any other string).
++
+By default, the list contains two values, `http://` and `https://`,
+allowing users to authenticate with any OpenID provider.
+
 [[auth.trustedOpenID]]auth.trustedOpenID::
 +
 List of trusted OpenID providers.  Only used if `auth.type` was

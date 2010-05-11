@@ -80,6 +80,10 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private GerritConfig create() throws MalformedURLException {
     final GerritConfig config = new GerritConfig();
     switch (authConfig.getAuthType()) {
+      case OPENID:
+        config.setAllowedOpenIDs(authConfig.getAllowedOpenIDs());
+        break;
+
       case LDAP:
       case LDAP_BIND:
         config.setRegisterUrl(cfg.getString("auth", null, "registerurl"));

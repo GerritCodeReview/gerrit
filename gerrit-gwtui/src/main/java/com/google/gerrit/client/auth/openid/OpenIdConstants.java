@@ -22,7 +22,10 @@ public interface OpenIdConstants extends Constants {
   String buttonLinkId();
 
   String rememberMe();
-  String notSupported();
+
+  String notAllowed();
+  String noProvider();
+  String error();
 
   String nameGoogle();
   String nameYahoo();

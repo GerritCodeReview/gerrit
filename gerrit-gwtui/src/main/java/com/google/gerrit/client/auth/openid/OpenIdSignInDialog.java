@@ -14,11 +14,13 @@
 
 package com.google.gerrit.client.auth.openid;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.SignInDialog;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.auth.openid.DiscoveryResult;
+import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -230,6 +232,10 @@ public class OpenIdSignInDialog extends SignInDialog implements
 
   private void link(final String identUrl, final String who,
       final ImageResource icon) {
+    if (!isAllowedProvider(identUrl)) {
+      return;
+    }
+
     final ClickHandler i = new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
@@ -266,6 +272,15 @@ public class OpenIdSignInDialog extends SignInDialog implements
     formBody.add(line);
   }
 
+  private static boolean isAllowedProvider(final String identUrl) {
+    for (OpenIdProviderPattern p : Gerrit.getConfig().getAllowedOpenIDs()) {
+      if (p.matches(identUrl)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private void enable(final boolean on) {
     providerId.setEnabled(on);
     login.setEnabled(on);
@@ -274,33 +289,40 @@ public class OpenIdSignInDialog extends SignInDialog implements
   private void onDiscovery(final DiscoveryResult result) {
     discovering = false;
 
-    if (result.validProvider) {
-      redirectForm.setMethod(FormPanel.METHOD_POST);
-      redirectForm.setAction(result.providerUrl);
-      redirectBody.clear();
-      for (final Map.Entry<String, String> e : result.providerArgs.entrySet()) {
-        redirectBody.add(new Hidden(e.getKey(), e.getValue()));
-      }
+    switch (result.status) {
+      case VALID:
+        // The provider won't support operation inside an IFRAME,
+        // so we replace our entire application.
+        //
+        redirectForm.setMethod(FormPanel.METHOD_POST);
+        redirectForm.setAction(result.providerUrl);
+        redirectBody.clear();
+        for (final Map.Entry<String, String> e : result.providerArgs.entrySet()) {
+          redirectBody.add(new Hidden(e.getKey(), e.getValue()));
+        }
+        FormElement.as(redirectForm.getElement()).setTarget("_top");
+        redirectForm.submit();
+        break;
 
-      // The provider won't support operation inside an IFRAME, so we
-      // replace our entire application. No fancy waits are needed,
-      // the browser won't update anything until its started to load
-      // the provider's page.
-      //
-      FormElement.as(redirectForm.getElement()).setTarget("_top");
-      redirectForm.submit();
+      case NOT_ALLOWED:
+        showError(OpenIdUtil.C.notAllowed());
+        enableRetryDiscovery();
+        break;
 
-    } else {
-      // We failed discovery. We have to use a deferred command here
-      // as we are being called from within an invisible IFRAME. Jump
-      // back to the main event loop in the parent window.
-      //
-      onDiscoveryFailure();
+      case NO_PROVIDER:
+        showError(OpenIdUtil.C.noProvider());
+        enableRetryDiscovery();
+        break;
+
+      case ERROR:
+      default:
+        showError(OpenIdUtil.C.error());
+        enableRetryDiscovery();
+        break;
     }
   }
 
-  private void onDiscoveryFailure() {
-    showError(OpenIdUtil.C.notSupported());
+  private void enableRetryDiscovery() {
     enable(true);
     providerId.selectAll();
     providerId.setFocus(true);
@@ -313,6 +335,12 @@ public class OpenIdSignInDialog extends SignInDialog implements
     final String openidIdentifier = providerId.getText();
     if (openidIdentifier == null || openidIdentifier.equals("")) {
       enable(true);
+      return;
+    }
+
+    if (!isAllowedProvider(openidIdentifier)) {
+      showError(OpenIdUtil.C.notAllowed());
+      enableRetryDiscovery();
       return;
     }
 
@@ -330,7 +358,7 @@ public class OpenIdSignInDialog extends SignInDialog implements
           @Override
           public void onFailure(final Throwable caught) {
             super.onFailure(caught);
-            onDiscoveryFailure();
+            enableRetryDiscovery();
           }
         });
   }

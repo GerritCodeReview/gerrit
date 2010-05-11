@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAyn////w\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-11T01:32:32Z",
+      "side": 1,
+      "message": "This is unused, so it can be dropped from the change.",
+      "revId": "e55f8397f5adc23c61fcd409035f9498f5650b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAyX///YQ\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ListBranchesResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-11T01:32:32Z",
+      "side": 1,
+      "message": "Missing common AOSP license header.",
+      "revId": "e55f8397f5adc23c61fcd409035f9498f5650b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAyX///YI\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ListBranchesResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-11T01:32:32Z",
+      "side": 1,
+      "message": "Typically we use protected for these fields in JSON objects.  It permits slightly cleaner generated code for the encoder/decoder.",
+      "revId": "e55f8397f5adc23c61fcd409035f9498f5650b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAyX///YM\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ListBranchesResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-11T01:32:32Z",
+      "side": 1,
+      "message": "Since this constructor exists only for the JSON encoding, which will recursively process and populate the fields, there\u0027s no need to call this().  Just accept the default initialization of false/null for the fields and let the JSON decoder finish building the object.",
+      "revId": "e55f8397f5adc23c61fcd409035f9498f5650b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAyX///X8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesPanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-11T01:32:32Z",
+      "side": 1,
+      "message": "This should be reset to false during display() just in case the data changed on the server since the UI was built, and we\u0027re now redrawing it.  (Like after a branch add.)",
+      "revId": "e55f8397f5adc23c61fcd409035f9498f5650b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAyn////4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectRightsPanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-11T01:32:32Z",
+      "side": 1,
+      "message": "This isn\u0027t canModifyData.  I think you\u0027ve overloaded the variable for too many meanings.  What we need is:\n\n* canModifyDescription\n* canModifyMergeType\n* canModifyAgreements\n* canModifyAccess\n\nThe first 3 are true only if projectControl.isOwner() is true.  The last one is true if projectControl.isOwnerAnyRef() is true, and is what you want to be using here for addPanel.",
+      "revId": "e55f8397f5adc23c61fcd409035f9498f5650b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAyn////0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectRightsPanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-11T01:32:32Z",
+      "side": 1,
+      "message": "The ability to delete an access rule is per-access rule, because of the per-reference ownership features.  So we should make the delete button visible for a given InheritedRefRight if the user has ownership over that reference space according to the RefControl.  See DeleteRefRights to see the logic the server is using to determine if this row can be removed.  That should be exported into the InheritedRefRight as a new boolean field so the UI can show (or hide) the delete checkbox.",
+      "revId": "e55f8397f5adc23c61fcd409035f9498f5650b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAyn////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-11T01:32:32Z",
+      "side": 1,
+      "message": "This is moving a method within the file.  I\u0027d just assume not make that change.",
+      "revId": "e55f8397f5adc23c61fcd409035f9498f5650b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

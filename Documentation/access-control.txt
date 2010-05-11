@@ -173,15 +173,19 @@ in the `auth.trustedOpenID` list from `gerrit.config`.
 All Projects
 ~~~~~~~~~~~~
 
-Only members of the group `Administrators` may edit the access
-control list for `\-- All Projects \--`.
-
-Ownership of this project cannot be delegated to another group.
-
 Any access right granted to a group within `\-- All Projects \--`
 is automatically inherited by every other project in the same
 Gerrit instance.  These rights can be seen, but not modified,
 in any other project's `Access` administration tab.
+
+Only members of the group `Administrators` may edit the access
+control list for `\-- All Projects \--`.
+
+Ownership of this project cannot be delegated to another group.
+This restriction is by design.  Granting ownership to another
+group gives nearly the same level of access as membership in
+`Administrators` does, as group members would be able to alter
+permissions for every managed project.
 
 Per-Project
 ~~~~~~~~~~~

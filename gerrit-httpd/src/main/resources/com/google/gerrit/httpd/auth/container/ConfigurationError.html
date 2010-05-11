@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>Configuration Error - Gerrit Code Review</title>
+    <style>
+      .check_msg {
+        background: orange;
+        padding: 20px;
+        width: 25em;
+      }
+
+      .apache_config {
+        font-size: small;
+        border: 1px dotted black;
+        width: 40em;
+        margin-left: 5em;
+        padding: 1em;
+      }
+
+      .apache_auth {
+        background: lightgrey;
+      }
+
+      #loginHeader {
+        font-weight: bold;
+        background: lightgrey;
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Configuration Error</h1>
+    <div class='check_msg'>
+      <b>Check the HTTP server's authentication settings.</b>
+    </div>
+
+    <p>
+      The HTTP server did not provide the username in the
+      <span id='loginHeader'>HEADER</span> header when it
+      forwarded the request to Gerrit Code Review.
+    </p>
+
+    <p>
+      If the HTTP server is Apache HTTPd, check the proxy
+      configuration includes an authorization directive with
+      the proper location, ensuring it ends with '/':
+    </p>
+    <pre class='apache_config'>
+&lt;VirtualHost <span class='ServerName'>review.example.com</span><span class='ServerPort'>:80</span>&gt;
+    ServerName <span class='ServerName'>review.example.com</span>
+
+    ProxyRequests Off
+    ProxyVia Off
+    ProxyPreserveHost On
+
+    &lt;Proxy *&gt;
+          Order deny,allow
+          Allow from all
+    &lt;/Proxy&gt;
+
+<div class='apache_auth'>    &lt;Location <span class='ContextPath'>/r</span>/login/&gt;
+      AuthType Basic
+      AuthName "Gerrit Code Review"
+      Require valid-user
+      ...
+    &lt;/Location&gt;</div>
+    ProxyPass <span class='ContextPath'>/r</span>/ http://...<span class='ContextPath'>/r</span>/
+&lt;/VirtualHost&gt;
+    </pre>
+  </body>
+</html>

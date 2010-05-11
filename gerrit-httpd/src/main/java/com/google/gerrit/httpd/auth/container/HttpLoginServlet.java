@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.auth.container;
 
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
@@ -29,11 +30,16 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import java.io.IOException;
 
 import javax.annotation.Nullable;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,11 +85,35 @@ class HttpLoginServlet extends HttpServlet {
       return;
     }
 
+    rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
+    rsp.setHeader("Pragma", "no-cache");
+    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
+
     final String user = getRemoteUser(req);
     if (user == null || "".equals(user)) {
       log.error("Unable to authenticate user by " + loginHeader
           + " request header.  Check container or server configuration.");
-      rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+
+      final Document doc = HtmlDomUtil.parseFile( //
+          HttpLoginServlet.class, "ConfigurationError.html");
+
+      replace(doc, "loginHeader", loginHeader);
+      replace(doc, "ServerName", req.getServerName());
+      replace(doc, "ServerPort", ":" + req.getServerPort());
+      replace(doc, "ContextPath", req.getContextPath());
+
+      final byte[] bin = HtmlDomUtil.toUTF8(doc);
+      rsp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+      rsp.setContentType("text/html");
+      rsp.setCharacterEncoding("UTF-8");
+      rsp.setContentLength(bin.length);
+      final ServletOutputStream out = rsp.getOutputStream();
+      try {
+        out.write(bin);
+      } finally {
+        out.flush();
+        out.close();
+      }
       return;
     }
 
@@ -107,10 +137,30 @@ class HttpLoginServlet extends HttpServlet {
     rdr.append(token);
 
     webSession.get().login(arsp, false);
-    rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
-    rsp.setHeader("Pragma", "no-cache");
-    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
     rsp.sendRedirect(rdr.toString());
+  }
+
+  private void replace(Document doc, String name, String value) {
+    Element e = HtmlDomUtil.find(doc, name);
+    if (e != null) {
+      e.setTextContent(value);
+    } else {
+      replaceByClass(doc, name, value);
+    }
+  }
+
+  private void replaceByClass(Node parent, String name, String value) {
+    final NodeList list = parent.getChildNodes();
+    for (int i = 0; i < list.getLength(); i++) {
+      final Node n = list.item(i);
+      if (n instanceof Element) {
+        final Element e = (Element) n;
+        if (name.equals(e.getAttribute("class"))) {
+          e.setTextContent(value);
+        }
+      }
+      replaceByClass(n, name, value);
+    }
   }
 
   private String getToken(final HttpServletRequest req) {

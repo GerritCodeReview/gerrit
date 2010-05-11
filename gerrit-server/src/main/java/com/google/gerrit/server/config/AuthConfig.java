@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AuthType;
@@ -25,9 +26,11 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /** Authentication related settings from {@code gerrit.config}. */
@@ -36,7 +39,7 @@ public class AuthConfig {
   private final AuthType authType;
   private final String httpHeader;
   private final String logoutUrl;
-  private final String[] trusted;
+  private final List<OpenIdProviderPattern> trusted;
   private final SignedToken emailReg;
 
   private final AccountGroup.Id administratorGroup;
@@ -51,7 +54,7 @@ public class AuthConfig {
     authType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
     logoutUrl = cfg.getString("auth", null, "logouturl");
-    trusted = toTrusted(cfg);
+    trusted = toPatterns(cfg, "trustedopenid");
     emailReg = new SignedToken(5 * 24 * 60 * 60, s.registerEmailPrivateKey);
 
     final HashSet<AccountGroup.Id> r = new HashSet<AccountGroup.Id>(2);
@@ -69,12 +72,17 @@ public class AuthConfig {
     }
   }
 
-  private String[] toTrusted(final Config cfg) {
-    final String[] r = cfg.getStringList("auth", null, "trustedopenid");
-    if (r.length == 0) {
-      return new String[] {"http://", "https://"};
+  private static List<OpenIdProviderPattern> toPatterns(Config cfg, String name) {
+    String[] s = cfg.getStringList("auth", null, name);
+    if (s.length == 0) {
+      s = new String[] {"http://", "https://"};
     }
-    return r;
+
+    List<OpenIdProviderPattern> r = new ArrayList<OpenIdProviderPattern>();
+    for (String pattern : s) {
+      r.add(OpenIdProviderPattern.create(pattern));
+    }
+    return Collections.unmodifiableList(r);
   }
 
   private static AuthType toType(final Config cfg) {
@@ -176,20 +184,11 @@ public class AuthConfig {
       return true;
     }
 
-    for (final String p : trusted) {
-      if (matches(p, id)) {
+    for (final OpenIdProviderPattern p : trusted) {
+      if (p.matches(id)) {
         return true;
       }
     }
     return false;
-  }
-
-  private boolean matches(final String p, final AccountExternalId id) {
-    if (p.startsWith("^") && p.endsWith("$")) {
-      return id.getExternalId().matches(p);
-
-    } else {
-      return id.getExternalId().startsWith(p);
-    }
   }
 }

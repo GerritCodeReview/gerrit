@@ -241,18 +241,7 @@ public class RefControl {
 
     for (RefRight right : filterMostSpecific(allRights)) {
       if (groups.contains(right.getAccountGroupId())) {
-        if (val < 0 && right.getMaxValue() > 0) {
-          // If one of the user's groups had denied them access, but
-          // this group grants them access, prefer the grant over
-          // the denial. We have to break the tie somehow and we
-          // prefer being "more open" to being "more closed".
-          //
-          val = right.getMaxValue();
-        } else {
-          // Otherwise we use the largest value we can get.
-          //
-          val = Math.max(right.getMaxValue(), val);
-        }
+        val = Math.max(right.getMaxValue(), val);
       }
     }
     return val >= level;

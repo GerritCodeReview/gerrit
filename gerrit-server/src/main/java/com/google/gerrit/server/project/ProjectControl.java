@@ -157,11 +157,7 @@ public class ProjectControl {
 
     for (final RefRight pr : state.getLocalRights(actionId)) {
       if (groups.contains(pr.getAccountGroupId())) {
-        if (val < 0 && pr.getMaxValue() > 0) {
-          val = pr.getMaxValue();
-        } else {
-          val = Math.max(pr.getMaxValue(), val);
-        }
+        val = Math.max(pr.getMaxValue(), val);
       }
     }
 

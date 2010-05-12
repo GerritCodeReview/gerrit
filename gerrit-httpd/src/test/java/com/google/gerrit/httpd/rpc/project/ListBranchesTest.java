@@ -24,6 +24,7 @@ import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Ref.Storage.LOOSE;
 
+import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -121,11 +122,12 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
   }
 
 
-  private List<Branch> permitted(boolean getHead)
+  private ListBranchesResult permitted(boolean getHead)
       throws NoSuchProjectException, IOException {
     Map<String, Ref> refs = realDb.getAllRefs();
 
     validate().andReturn(pc);
+
     expect(grm.openRepository(eq(name.get()))).andReturn(mockDb);
     expect(mockDb.getAllRefs()).andDelegateTo(realDb);
     if (getHead) {
@@ -140,12 +142,16 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     }
 
     mockDb.close();
+
+    expect(pc.canAddRefs()).andReturn(true);
+
     expectLastCall();
 
     doReplay();
-    final List<Branch> r = new ListBranches(pcf, grm, name).call();
+    final ListBranchesResult r = new ListBranches(pcf, grm, name).call();
     doVerify();
     assertNotNull(r);
+    assertNotNull(r.getBranches());
     return r;
   }
 
@@ -153,6 +159,9 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     RefControl rc = createStrictMock(RefControl.class);
     refMocks.add(rc);
     expect(rc.isVisible()).andReturn(visible);
+    if (visible) {
+      expect(rc.canDelete()).andReturn(true);
+    }
 
     if (ref.isSymbolic()) {
       expect(pc.controlForRef(ref.getTarget().getName())).andReturn(rc);
@@ -162,10 +171,11 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
   }
 
   public void testEmptyProject() throws Exception {
-    List<Branch> r = permitted(true);
-    assertEquals(1, r.size());
+    ListBranchesResult r = permitted(true);
 
-    Branch b = r.get(0);
+    assertEquals(1, r.getBranches().size());
+
+    Branch b = r.getBranches().get(0);
     assertNotNull(b);
 
     assertNotNull(b.getNameKey());
@@ -182,10 +192,10 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
   public void testMasterBranch() throws Exception {
     set("master", idA);
 
-    List<Branch> r = permitted(false);
-    assertEquals(2, r.size());
+    ListBranchesResult r = permitted(false);
+    assertEquals(2, r.getBranches().size());
 
-    Branch b = r.get(0);
+    Branch b = r.getBranches().get(0);
     assertNotNull(b);
 
     assertNotNull(b.getNameKey());
@@ -198,7 +208,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     assertNotNull(b.getRevision());
     assertEquals("master", b.getRevision().get());
 
-    b = r.get(1);
+    b = r.getBranches().get(1);
     assertNotNull(b);
 
     assertNotNull(b.getNameKey());
@@ -215,10 +225,10 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
   public void testBranchNotHead() throws Exception {
     set("foo", idA);
 
-    List<Branch> r = permitted(true);
-    assertEquals(2, r.size());
+    ListBranchesResult r = permitted(true);
+    assertEquals(2, r.getBranches().size());
 
-    Branch b = r.get(0);
+    Branch b = r.getBranches().get(0);
     assertNotNull(b);
 
     assertNotNull(b.getNameKey());
@@ -231,7 +241,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     assertNotNull(b.getRevision());
     assertEquals("master", b.getRevision().get());
 
-    b = r.get(1);
+    b = r.getBranches().get(1);
     assertNotNull(b);
 
     assertNotNull(b.getNameKey());
@@ -258,18 +268,19 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     for (Ref ref : u.values()) {
       assumeVisible(ref, true);
     }
+    expect(pc.canAddRefs()).andReturn(true);
     mockDb.close();
     expectLastCall();
 
     doReplay();
-    final List<Branch> r = new ListBranches(pcf, grm, name).call();
+    final ListBranchesResult r = new ListBranches(pcf, grm, name).call();
     doVerify();
     assertNotNull(r);
 
-    assertEquals(3, r.size());
-    assertEquals(HEAD, r.get(0).getShortName());
-    assertEquals("bar", r.get(1).getShortName());
-    assertEquals("foo", r.get(2).getShortName());
+    assertEquals(3, r.getBranches().size());
+    assertEquals(HEAD, r.getBranches().get(0).getShortName());
+    assertEquals("bar", r.getBranches().get(1).getShortName());
+    assertEquals("foo", r.getBranches().get(2).getShortName());
   }
 
   public void testHeadNotVisible() throws Exception {
@@ -284,14 +295,15 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     expect(mockDb.getAllRefs()).andReturn(u);
     assumeVisible(bar, false);
     assumeVisible(bar, false);
+    expect(pc.canAddRefs()).andReturn(true);
     mockDb.close();
     expectLastCall();
 
     doReplay();
-    final List<Branch> r = new ListBranches(pcf, grm, name).call();
+    final ListBranchesResult r = new ListBranches(pcf, grm, name).call();
     doVerify();
     assertNotNull(r);
-    assertTrue(r.isEmpty());
+    assertTrue(r.getBranches().isEmpty());
   }
 
   public void testHeadVisibleButBranchHidden() throws Exception {
@@ -311,16 +323,17 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     assumeVisible(bar, true);
     assumeVisible(bar, true);
     assumeVisible(foo, false);
+    expect(pc.canAddRefs()).andReturn(true);
     mockDb.close();
     expectLastCall();
 
     doReplay();
-    final List<Branch> r = new ListBranches(pcf, grm, name).call();
+    final ListBranchesResult r = new ListBranches(pcf, grm, name).call();
     doVerify();
     assertNotNull(r);
 
-    assertEquals(2, r.size());
-    assertEquals(HEAD, r.get(0).getShortName());
-    assertEquals("bar", r.get(1).getShortName());
+    assertEquals(2, r.getBranches().size());
+    assertEquals(HEAD, r.getBranches().get(0).getShortName());
+    assertEquals("bar", r.getBranches().get(1).getShortName());
   }
 }

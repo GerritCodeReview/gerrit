@@ -121,6 +121,11 @@ public class ProjectControl {
         || canPerformOnAnyRef(ApprovalCategory.READ, (short) 1);
   }
 
+  public boolean canAddRefs() {
+    return (canPerformOnAnyRef(ApprovalCategory.PUSH_HEAD, ApprovalCategory.PUSH_HEAD_CREATE)
+        || isOwnerAnyRef());
+  }
+
   /** Can this user see all the refs in this projects? */
   public boolean allRefsAreVisible() {
     return visibleForReplication()

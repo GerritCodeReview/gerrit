@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.RefRight;
 public class InheritedRefRight {
   private RefRight right;
   private boolean inherited;
+  private boolean owner;
 
   /**
    * Creates a instance of a {@link RefRight} with data about inheritance
@@ -35,10 +36,12 @@ public class InheritedRefRight {
    *
    * @param right the right
    * @param inherited true if the right is inherited, false otherwise
+   * @param owner true if right is owned by current user, false otherwise
    */
-  public InheritedRefRight(RefRight right, boolean inherited) {
+  public InheritedRefRight(RefRight right, boolean inherited, boolean owner) {
     this.right = right;
     this.inherited = inherited;
+    this.owner = owner;
   }
 
   public RefRight getRight() {
@@ -47,6 +50,10 @@ public class InheritedRefRight {
 
   public boolean isInherited() {
     return inherited;
+  }
+
+  public boolean isOwner() {
+    return owner;
   }
 
   @Override

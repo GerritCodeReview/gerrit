@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
@@ -23,7 +24,6 @@ import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
-import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -31,12 +31,13 @@ import com.google.inject.assistedinject.Assisted;
 import java.util.Collections;
 import java.util.Set;
 
-class DeleteRefRights extends Handler<VoidResult> {
+class DeleteRefRights extends Handler<ProjectDetail> {
   interface Factory {
     DeleteRefRights create(@Assisted Project.NameKey projectName,
         @Assisted Set<RefRight.Key> toRemove);
   }
 
+  private final ProjectDetailFactory.Factory projectDetailFactory;
   private final ProjectControl.Factory projectControlFactory;
   private final ProjectCache projectCache;
   private final ReviewDb db;
@@ -45,11 +46,13 @@ class DeleteRefRights extends Handler<VoidResult> {
   private final Set<RefRight.Key> toRemove;
 
   @Inject
-  DeleteRefRights(final ProjectControl.Factory projectControlFactory,
+  DeleteRefRights(final ProjectDetailFactory.Factory projectDetailFactory,
+      final ProjectControl.Factory projectControlFactory,
       final ProjectCache projectCache, final ReviewDb db,
 
       @Assisted final Project.NameKey projectName,
       @Assisted final Set<RefRight.Key> toRemove) {
+    this.projectDetailFactory = projectDetailFactory;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
     this.db = db;
@@ -59,7 +62,7 @@ class DeleteRefRights extends Handler<VoidResult> {
   }
 
   @Override
-  public VoidResult call() throws NoSuchProjectException, OrmException,
+  public ProjectDetail call() throws NoSuchProjectException, OrmException,
       NoSuchRefException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
@@ -80,7 +83,7 @@ class DeleteRefRights extends Handler<VoidResult> {
       }
     }
     projectCache.evictAll();
-    return VoidResult.INSTANCE;
+    return projectDetailFactory.create(projectName).call();
   }
 
   private RefControl controlForRef(ProjectControl p, String ref) {

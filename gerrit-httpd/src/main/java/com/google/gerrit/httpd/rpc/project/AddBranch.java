@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -42,9 +43,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.List;
 
-class AddBranch extends Handler<List<Branch>> {
+class AddBranch extends Handler<ListBranchesResult> {
   private static final Logger log = LoggerFactory.getLogger(AddBranch.class);
 
   interface Factory {
@@ -85,7 +85,7 @@ class AddBranch extends Handler<List<Branch>> {
   }
 
   @Override
-  public List<Branch> call() throws NoSuchProjectException,
+  public ListBranchesResult call() throws NoSuchProjectException,
       InvalidNameException, InvalidRevisionException, IOException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);

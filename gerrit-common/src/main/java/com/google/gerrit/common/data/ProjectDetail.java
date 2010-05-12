@@ -24,6 +24,10 @@ public class ProjectDetail {
   public Project project;
   public Map<AccountGroup.Id, AccountGroup> groups;
   public List<InheritedRefRight> rights;
+  public boolean canModifyDescription;
+  public boolean canModifyMergeType;
+  public boolean canModifyAgreements;
+  public boolean canModifyAccess;
 
   public ProjectDetail() {
   }
@@ -38,5 +42,21 @@ public class ProjectDetail {
 
   public void setRights(final List<InheritedRefRight> r) {
     rights = r;
+  }
+
+  public void setCanModifyDescription(final boolean cmd) {
+    canModifyDescription = cmd;
+  }
+
+  public void setCanModifyMergeType(final boolean cmmt) {
+    canModifyMergeType = cmmt;
+  }
+
+  public void setCanModifyAgreements(final boolean cma) {
+    canModifyAgreements = cma;
+  }
+
+  public void setCanModifyAccess(final boolean cma) {
+    canModifyAccess = cma;
   }
 }

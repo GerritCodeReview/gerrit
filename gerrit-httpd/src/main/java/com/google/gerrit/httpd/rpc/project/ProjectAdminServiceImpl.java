@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.ApprovalCategory;
@@ -21,7 +22,6 @@ import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.inject.Inject;
 
 import java.util.List;
@@ -32,7 +32,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ChangeProjectSettings.Factory changeProjectSettingsFactory;
   private final DeleteBranches.Factory deleteBranchesFactory;
   private final ListBranches.Factory listBranchesFactory;
-  private final OwnedProjects.Factory ownedProjectsFactory;
+  private final VisibleProjects.Factory visibleProjectsFactory;
   private final ProjectDetailFactory.Factory projectDetailFactory;
   private final AddRefRight.Factory addRefRightFactory;
   private final DeleteRefRights.Factory deleteRefRightsFactory;
@@ -42,7 +42,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final ChangeProjectSettings.Factory changeProjectSettingsFactory,
       final DeleteBranches.Factory deleteBranchesFactory,
       final ListBranches.Factory listBranchesFactory,
-      final OwnedProjects.Factory ownedProjectsFactory,
+      final VisibleProjects.Factory visibleProjectsFactory,
       final ProjectDetailFactory.Factory projectDetailFactory,
       final AddRefRight.Factory addRefRightFactory,
       final DeleteRefRights.Factory deleteRefRightsFactory) {
@@ -50,15 +50,15 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
     this.deleteBranchesFactory = deleteBranchesFactory;
     this.listBranchesFactory = listBranchesFactory;
-    this.ownedProjectsFactory = ownedProjectsFactory;
+    this.visibleProjectsFactory = visibleProjectsFactory;
     this.projectDetailFactory = projectDetailFactory;
     this.addRefRightFactory = addRefRightFactory;
     this.deleteRefRightsFactory = deleteRefRightsFactory;
   }
 
   @Override
-  public void ownedProjects(final AsyncCallback<List<Project>> callback) {
-    ownedProjectsFactory.create().to(callback);
+  public void visibleProjects(final AsyncCallback<List<Project>> callback) {
+    visibleProjectsFactory.create().to(callback);
   }
 
   @Override
@@ -75,7 +75,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
 
   @Override
   public void deleteRight(final Project.NameKey projectName,
-      final Set<RefRight.Key> toRemove, final AsyncCallback<VoidResult> callback) {
+      final Set<RefRight.Key> toRemove, final AsyncCallback<ProjectDetail> callback) {
     deleteRefRightsFactory.create(projectName, toRemove).to(callback);
   }
 
@@ -90,7 +90,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
 
   @Override
   public void listBranches(final Project.NameKey projectName,
-      final AsyncCallback<List<Branch>> callback) {
+      final AsyncCallback<ListBranchesResult> callback) {
     listBranchesFactory.create(projectName).to(callback);
   }
 
@@ -104,7 +104,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   @Override
   public void addBranch(final Project.NameKey projectName,
       final String branchName, final String startingRevision,
-      final AsyncCallback<List<Branch>> callback) {
+      final AsyncCallback<ListBranchesResult> callback) {
     addBranchFactory.create(projectName, branchName, startingRevision).to(
         callback);
   }

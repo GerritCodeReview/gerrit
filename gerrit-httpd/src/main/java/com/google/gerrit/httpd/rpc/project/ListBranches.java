@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
@@ -21,6 +22,7 @@ import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -36,7 +38,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-class ListBranches extends Handler<List<Branch>> {
+class ListBranches extends Handler<ListBranchesResult> {
   interface Factory {
     ListBranches create(@Assisted Project.NameKey name);
   }
@@ -58,7 +60,7 @@ class ListBranches extends Handler<List<Branch>> {
   }
 
   @Override
-  public List<Branch> call() throws NoSuchProjectException,
+  public ListBranchesResult call() throws NoSuchProjectException,
       RepositoryNotFoundException {
     final ProjectControl pctl = projectControlFactory.validateFor( //
         projectName, //
@@ -91,7 +93,8 @@ class ListBranches extends Handler<List<Branch>> {
           // showing the resolved value, show the name it references.
           //
           String target = ref.getTarget().getName();
-          if (!pctl.controlForRef(target).isVisible()) {
+          RefControl targetRefControl = pctl.controlForRef(target);
+          if (!targetRefControl.isVisible()) {
             continue;
           }
           if (target.startsWith(Constants.R_HEADS)) {
@@ -100,6 +103,8 @@ class ListBranches extends Handler<List<Branch>> {
 
           Branch b = createBranch(Constants.HEAD);
           b.setRevision(new RevId(target));
+          b.setCanDelete(targetRefControl.canDelete());
+
           if (Constants.HEAD.equals(ref.getName())) {
             headBranch = b;
           } else {
@@ -108,12 +113,17 @@ class ListBranches extends Handler<List<Branch>> {
           continue;
         }
 
+        RefControl refControl = pctl.controlForRef(ref.getName());
+
         if (ref.getName().startsWith(Constants.R_HEADS)
-            && pctl.controlForRef(ref.getName()).isVisible()) {
+            && refControl.isVisible()) {
           final Branch b = createBranch(ref.getName());
           if (ref.getObjectId() != null) {
             b.setRevision(new RevId(ref.getObjectId().name()));
           }
+
+          b.setCanDelete(refControl.canDelete());
+
           branches.add(b);
         }
       }
@@ -129,7 +139,7 @@ class ListBranches extends Handler<List<Branch>> {
     if (headBranch != null) {
       branches.add(0, headBranch);
     }
-    return branches;
+    return new ListBranchesResult(branches, pctl.canAddRefs());
   }
 
   private Branch createBranch(final String name) {

@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.RefRight;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.RpcImpl;
-import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
 import java.util.List;
@@ -31,7 +30,7 @@ import java.util.Set;
 @RpcImpl(version = Version.V2_0)
 public interface ProjectAdminService extends RemoteJsonService {
   @SignInRequired
-  void ownedProjects(AsyncCallback<List<Project>> callback);
+  void visibleProjects(AsyncCallback<List<Project>> callback);
 
   @SignInRequired
   void projectDetail(Project.NameKey projectName,
@@ -43,7 +42,7 @@ public interface ProjectAdminService extends RemoteJsonService {
 
   @SignInRequired
   void deleteRight(Project.NameKey projectName, Set<RefRight.Key> ids,
-      AsyncCallback<VoidResult> callback);
+      AsyncCallback<ProjectDetail> callback);
 
   @SignInRequired
   void addRight(Project.NameKey projectName, ApprovalCategory.Id categoryId,
@@ -52,11 +51,11 @@ public interface ProjectAdminService extends RemoteJsonService {
 
   @SignInRequired
   void listBranches(Project.NameKey projectName,
-      AsyncCallback<List<Branch>> callback);
+      AsyncCallback<ListBranchesResult> callback);
 
   @SignInRequired
   void addBranch(Project.NameKey projectName, String branchName,
-      String startingRevision, AsyncCallback<List<Branch>> callback);
+      String startingRevision, AsyncCallback<ListBranchesResult> callback);
 
   @SignInRequired
   void deleteBranch(Project.NameKey projectName, Set<Branch.NameKey> ids,

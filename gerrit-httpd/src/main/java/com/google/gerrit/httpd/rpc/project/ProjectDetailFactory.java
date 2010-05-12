@@ -26,6 +26,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -68,6 +69,8 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
         projectControlFactory.validateFor(projectName,
             ProjectControl.OWNER | ProjectControl.VISIBLE).getProjectState();
 
+    final ProjectControl pc = projectControlFactory.controlFor(projectName);
+
     final ProjectDetail detail = new ProjectDetail();
     detail.setProject(projectState.getProject());
 
@@ -75,7 +78,8 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     final List<InheritedRefRight> refRights = new ArrayList<InheritedRefRight>();
 
     for (final RefRight r : projectState.getInheritedRights()) {
-      InheritedRefRight refRight = new InheritedRefRight(r, true);
+      InheritedRefRight refRight = new InheritedRefRight(
+          r, true, controlForRef(pc, r.getRefPattern()).isOwner());
       if (!refRights.contains(refRight)) {
         refRights.add(refRight);
         wantGroup(r.getAccountGroupId());
@@ -83,7 +87,8 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     }
 
     for (final RefRight r : projectState.getLocalRights()) {
-      refRights.add(new InheritedRefRight(r, false));
+      refRights.add(new InheritedRefRight(
+          r, false, controlForRef(pc, r.getRefPattern()).isOwner()));
       wantGroup(r.getAccountGroupId());
     }
 
@@ -118,8 +123,15 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
       }
     });
 
+    final boolean userIsOwner = pc.isOwner();
+    final boolean userIsOwnerAnyRef = pc.isOwnerAnyRef();
+
     detail.setRights(refRights);
     detail.setGroups(groups);
+    detail.setCanModifyAccess(userIsOwnerAnyRef);
+    detail.setCanModifyAgreements(userIsOwner);
+    detail.setCanModifyDescription(userIsOwner);
+    detail.setCanModifyMergeType(userIsOwner);
     return detail;
   }
 
@@ -133,5 +145,12 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     for (AccountGroup.Id groupId : toGet) {
       groups.put(groupId, groupCache.get(groupId));
     }
+  }
+
+  private RefControl controlForRef(ProjectControl p, String ref) {
+    if (ref.endsWith("/*")) {
+      ref = ref.substring(0, ref.length() - 1);
+    }
+    return p.controlForRef(ref);
   }
 }

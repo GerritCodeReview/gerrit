@@ -54,7 +54,6 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
 import java.util.List;
@@ -75,6 +74,8 @@ public class ProjectRightsPanel extends Composite {
   private NpTextBox nameTxtBox;
   private SuggestBox nameTxt;
   private NpTextBox referenceTxt;
+
+  private final FlowPanel addPanel = new FlowPanel();
 
   public ProjectRightsPanel(final Project.NameKey toShow) {
     projectName = toShow;
@@ -121,7 +122,6 @@ public class ProjectRightsPanel extends Composite {
   }
 
   private void initRights(final Panel body) {
-    final FlowPanel addPanel = new FlowPanel();
     addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
 
     final Grid addGrid = new Grid(5, 2);
@@ -223,7 +223,8 @@ public class ProjectRightsPanel extends Composite {
     delRight.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
-        rights.deleteChecked();
+        final HashSet<RefRight.Key> refRightIds = rights.getRefRightIdsChecked();
+        doDeleteRefRights(refRightIds);
       }
     });
 
@@ -254,6 +255,22 @@ public class ProjectRightsPanel extends Composite {
     parentName.setText(parent.get());
 
     rights.display(result.groups, result.rights);
+
+    addPanel.setVisible(result.canModifyAccess);
+    delRight.setVisible(rights.getCanDelete());
+  }
+
+  private void doDeleteRefRights(final HashSet<RefRight.Key> refRightIds) {
+    if (!refRightIds.isEmpty()) {
+      Util.PROJECT_SVC.deleteRight(projectName, refRightIds,
+          new GerritCallback<ProjectDetail>() {
+        @Override
+        public void onSuccess(final ProjectDetail result) {
+          //The user could no longer modify access after deleting a ref right.
+          display(result);
+        }
+      });
+    }
   }
 
   private void doAddNewRight() {
@@ -378,6 +395,8 @@ public class ProjectRightsPanel extends Composite {
   }
 
   private class RightsTable extends FancyFlexTable<RefRight> {
+    boolean canDelete;
+
     RightsTable() {
       table.setWidth("");
       table.setText(0, 2, Util.C.columnApprovalCategory());
@@ -393,7 +412,7 @@ public class ProjectRightsPanel extends Composite {
       fmt.addStyleName(0, 5, Gerrit.RESOURCES.css().dataHeader());
     }
 
-    void deleteChecked() {
+    HashSet<RefRight.Key> getRefRightIdsChecked() {
       final HashSet<RefRight.Key> refRightIds = new HashSet<RefRight.Key>();
       for (int row = 1; row < table.getRowCount(); row++) {
         RefRight r = getRowItem(row);
@@ -402,28 +421,13 @@ public class ProjectRightsPanel extends Composite {
           refRightIds.add(r.getKey());
         }
       }
-
-      GerritCallback<VoidResult> updateTable =
-          new GerritCallback<VoidResult>() {
-            @Override
-            public void onSuccess(final VoidResult result) {
-              for (int row = 1; row < table.getRowCount();) {
-                RefRight r = getRowItem(row);
-                if (r != null && refRightIds.contains(r.getKey())) {
-                  table.removeRow(row);
-                } else {
-                  row++;
-                }
-              }
-            }
-          };
-      if (!refRightIds.isEmpty()) {
-        Util.PROJECT_SVC.deleteRight(projectName, refRightIds, updateTable);
-      }
+      return refRightIds;
     }
 
     void display(final Map<AccountGroup.Id, AccountGroup> groups,
         final List<InheritedRefRight> refRights) {
+      canDelete = false;
+
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
@@ -435,8 +439,7 @@ public class ProjectRightsPanel extends Composite {
       }
     }
 
-    void populate(final int row,
-        final Map<AccountGroup.Id, AccountGroup> groups,
+    void populate(final int row, final Map<AccountGroup.Id, AccountGroup> groups,
         final InheritedRefRight r) {
       final GerritConfig config = Gerrit.getConfig();
       final RefRight right = r.getRight();
@@ -445,10 +448,11 @@ public class ProjectRightsPanel extends Composite {
               right.getApprovalCategoryId());
       final AccountGroup group = groups.get(right.getAccountGroupId());
 
-      if (r.isInherited()) {
+      if (r.isInherited() || !r.isOwner()) {
         table.setText(row, 1, "");
       } else {
         table.setWidget(row, 1, new CheckBox());
+        canDelete = true;
       }
 
       if (ar != null) {
@@ -509,6 +513,10 @@ public class ProjectRightsPanel extends Composite {
         m.append(": ");
         m.append(e.getName());
       }
+    }
+
+    private boolean getCanDelete() {
+      return canDelete;
     }
   }
 }

@@ -70,7 +70,7 @@ public class ProjectInfoPanel extends Composite {
 
   @Override
   protected void onLoad() {
-    enableForm(false);
+    enableForm(false, false, false);
     saveProject.setEnabled(false);
     super.onLoad();
     refresh();
@@ -80,18 +80,26 @@ public class ProjectInfoPanel extends Composite {
     Util.PROJECT_SVC.projectDetail(projectName,
         new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
-            enableForm(true);
+            enableForm(result.canModifyAgreements,
+                result.canModifyDescription, result.canModifyMergeType);
+            saveProject.setVisible(
+                result.canModifyAgreements ||
+                result.canModifyDescription ||
+                result.canModifyMergeType);
             saveProject.setEnabled(false);
             display(result);
           }
         });
   }
 
-  private void enableForm(final boolean on) {
-    submitType.setEnabled(on);
-    descTxt.setEnabled(on);
-    useContributorAgreements.setEnabled(on);
-    useSignedOffBy.setEnabled(on);
+  private void enableForm(final boolean canModifyAgreements,
+      final boolean canModifyDescription, final boolean canModifyMergeType) {
+    submitType.setEnabled(canModifyMergeType);
+    descTxt.setEnabled(canModifyDescription);
+    useContributorAgreements.setEnabled(canModifyAgreements);
+    useSignedOffBy.setEnabled(canModifyAgreements);
+    saveProject.setEnabled(
+        canModifyAgreements || canModifyDescription || canModifyMergeType);
   }
 
   private void initDescription(final Panel body) {
@@ -185,13 +193,14 @@ public class ProjectInfoPanel extends Composite {
           .getValue(submitType.getSelectedIndex())));
     }
 
-    enableForm(false);
+    enableForm(false, false, false);
     saveProject.setEnabled(false);
 
     Util.PROJECT_SVC.changeProjectSettings(project,
         new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
-            enableForm(true);
+            enableForm(result.canModifyAgreements,
+                result.canModifyDescription, result.canModifyMergeType);
             display(result);
           }
 

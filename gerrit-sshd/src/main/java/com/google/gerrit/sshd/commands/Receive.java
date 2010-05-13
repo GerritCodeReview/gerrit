@@ -18,12 +18,14 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.sshd.AbstractGitCommand;
+import com.google.gerrit.sshd.TransferConfig;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.transport.ReceivePack;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,6 +39,9 @@ final class Receive extends AbstractGitCommand {
 
   @Inject
   private IdentifiedUser.GenericFactory identifiedUserFactory;
+
+  @Inject
+  private TransferConfig config;
 
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
@@ -68,7 +73,12 @@ final class Receive extends AbstractGitCommand {
 
     final ReceivePack rp = receive.getReceivePack();
     rp.setRefLogIdent(currentUser.newRefLogIdent());
-    rp.receive(in, out, err);
+    rp.setTimeout(config.getTimeout());
+    try {
+      rp.receive(in, out, err);
+    } catch (InterruptedIOException err) {
+      throw new Failure(128, "fatal: client IO read/write timeout", err);
+    }
   }
 
   private void verifyProjectVisible(final String type, final Set<Account.Id> who)

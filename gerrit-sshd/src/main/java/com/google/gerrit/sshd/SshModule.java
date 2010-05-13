@@ -81,6 +81,7 @@ public class SshModule extends FactoryModule {
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
     bind(PasswordAuthenticator.class).to(DatabasePasswordAuth.class);
     bind(KeyPairProvider.class).toProvider(HostKeyProvider.class).in(SINGLETON);
+    bind(TransferConfig.class);
 
     install(new DefaultCommandModule());
 

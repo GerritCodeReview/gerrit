@@ -17,24 +17,34 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.sshd.AbstractGitCommand;
+import com.google.gerrit.sshd.TransferConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.transport.UploadPack;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 
 /** Publishes Git repositories over SSH using the Git upload-pack protocol. */
 final class Upload extends AbstractGitCommand {
   @Inject
   private Provider<ReviewDb> db;
 
+  @Inject
+  private TransferConfig config;
+
   @Override
-  protected void runImpl() throws IOException {
+  protected void runImpl() throws IOException, Failure {
     final UploadPack up = new UploadPack(repo);
     if (!projectControl.allRefsAreVisible()) {
       up.setRefFilter(new VisibleRefFilter(repo, projectControl, db.get()));
     }
-    up.upload(in, out, err);
+    up.setTimeout(config.getTimeout());
+    try {
+      up.upload(in, out, err);
+    } catch (InterruptedIOException err) {
+      throw new Failure(128, "fatal: client IO read/write timeout", err);
+    }
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
@@ -24,32 +25,24 @@ import org.eclipse.jgit.lib.Config;
 import java.util.concurrent.ThreadFactory;
 
 class CommandExecutorProvider implements Provider<WorkQueue.Executor> {
-  private final int poolSize;
-  private final WorkQueue queues;
+
+  private final QueueProvider queues;
+  private final Provider<CurrentUser> userProvider;
 
   @Inject
-  CommandExecutorProvider(@GerritServerConfig final Config config,
-      final WorkQueue wq) {
-    final int cores = Runtime.getRuntime().availableProcessors();
-    poolSize = config.getInt("sshd", "threads", 3 * cores / 2);
-    queues = wq;
+  CommandExecutorProvider(QueueProvider queues,
+      Provider<CurrentUser> userProvider) {
+    this.queues = queues;
+    this.userProvider = userProvider;
   }
 
   @Override
   public WorkQueue.Executor get() {
-    final WorkQueue.Executor executor;
-
-    executor = queues.createQueue(poolSize, "SSH-Worker");
-
-    final ThreadFactory parent = executor.getThreadFactory();
-    executor.setThreadFactory(new ThreadFactory() {
-      @Override
-      public Thread newThread(final Runnable task) {
-        final Thread t = parent.newThread(task);
-        t.setPriority(Thread.MIN_PRIORITY);
-        return t;
-      }
-    });
+    CurrentUser user = userProvider.get();
+    WorkQueue.Executor executor = queues.getInteractiveQueue();
+    if (user.isBatchUser()) {
+      executor = queues.getBatchQueue();
+    }
     return executor;
   }
 }

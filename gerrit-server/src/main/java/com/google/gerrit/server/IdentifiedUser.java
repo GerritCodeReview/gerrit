@@ -296,6 +296,11 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   @Override
+  public boolean isBatchUser() {
+    return getEffectiveGroups().contains(authConfig.getBatchUsersGroup());
+  }
+
+  @Override
   public String toString() {
     return "IdentifiedUser[account " + getAccountId() + "]";
   }

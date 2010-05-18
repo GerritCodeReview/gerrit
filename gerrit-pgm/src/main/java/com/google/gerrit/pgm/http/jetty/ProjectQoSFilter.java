@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.http.jetty;
 
 import static com.google.gerrit.server.config.ConfigUtil.getTimeUnit;
+import static com.google.inject.Scopes.SINGLETON;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
@@ -23,7 +24,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
-import com.google.gerrit.sshd.CommandExecutor;
+import com.google.gerrit.sshd.CommandExecutorQueueProvider;
+import com.google.gerrit.sshd.QueueProvider;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -73,33 +75,28 @@ public class ProjectQoSFilter implements Filter {
   private static final Pattern URI_PATTERN = Pattern.compile(FILTER_RE);
 
   public static class Module extends ServletModule {
-    private final WorkQueue.Executor executor;
-
-    @Inject
-    Module(@CommandExecutor final WorkQueue.Executor executor) {
-      this.executor = executor;
-    }
 
     @Override
     protected void configureServlets() {
-      bind(WorkQueue.Executor.class).annotatedWith(CommandExecutor.class)
-          .toInstance(executor);
+      bind(QueueProvider.class).to(CommandExecutorQueueProvider.class)
+          .in(SINGLETON);
       filterRegex(FILTER_RE).through(ProjectQoSFilter.class);
     }
   }
 
   private final Provider<CurrentUser> userProvider;
-  private final WorkQueue.Executor executor;
+  private final QueueProvider queue;
+
   private final ServletContext context;
   private final long maxWait;
 
   @SuppressWarnings("unchecked")
   @Inject
   ProjectQoSFilter(final Provider<CurrentUser> userProvider,
-      @CommandExecutor final WorkQueue.Executor executor,
-      final ServletContext context, @GerritServerConfig final Config cfg) {
+      QueueProvider queue, final ServletContext context,
+      @GerritServerConfig final Config cfg) {
     this.userProvider = userProvider;
-    this.executor = executor;
+    this.queue = queue;
     this.context = context;
     this.maxWait = getTimeUnit(cfg, "httpd", null, "maxwait", 5, MINUTES);
   }
@@ -110,6 +107,13 @@ public class ProjectQoSFilter implements Filter {
     final HttpServletRequest req = (HttpServletRequest) request;
     final HttpServletResponse rsp = (HttpServletResponse) response;
     final Continuation cont = ContinuationSupport.getContinuation(req);
+
+    WorkQueue.Executor executor;
+    if (userProvider.get().isBatchUser()) {
+      executor = queue.getBatchQueue();
+    } else {
+      executor = queue.getInteractiveQueue();
+    }
 
     if (cont.isInitial()) {
       TaskThunk task = new TaskThunk(cont, req);
@@ -210,6 +214,12 @@ public class ProjectQoSFilter implements Filter {
 
     @Override
     public void onTimeout(Continuation self) {
+      WorkQueue.Executor executor;
+      if (userProvider.get().isBatchUser()) {
+        executor = queue.getBatchQueue();
+      } else {
+        executor = queue.getInteractiveQueue();
+      }
       executor.remove(this);
     }
 

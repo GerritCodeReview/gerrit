@@ -140,11 +140,22 @@ public class SchemaCreator {
     c.accountGroupNames().insert(
         Collections.singleton(new AccountGroupName(registered)));
 
+    final AccountGroup batchUsers =
+      new AccountGroup(new AccountGroup.NameKey("Non-Interactive Users"),
+          new AccountGroup.Id(c.nextAccountGroupId()));
+    batchUsers.setDescription("Users who perform batch actions on Gerrit");
+    batchUsers.setOwnerGroupId(admin.getId());
+    batchUsers.setType(AccountGroup.Type.INTERNAL);
+    c.accountGroups().insert(Collections.singleton(batchUsers));
+    c.accountGroupNames().insert(
+        Collections.singleton(new AccountGroupName(batchUsers)));
+
     final SystemConfig s = SystemConfig.create();
     s.registerEmailPrivateKey = SignedToken.generateRandomKey();
     s.adminGroupId = admin.getId();
     s.anonymousGroupId = anonymous.getId();
     s.registeredGroupId = registered.getId();
+    s.batchUsersGroupId = batchUsers.getId();
     s.wildProjectName = DEFAULT_WILD_NAME;
     try {
       s.sitePath = site_path.getCanonicalPath();

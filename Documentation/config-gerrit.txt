@@ -512,6 +512,12 @@ Additional options to pass along to the Java runtime.  If multiple
 values are configured, they are passed in order on the command line,
 separated by spaces.  These options are appended onto 'JAVA_OPTIONS'.
 
+[[container.slave]]container.slave::
++
+Used on Gerrit slave installations. If set to true the Gerrit JVM is
+called with the '--slave' switch, enabling slave mode. If no value is
+set (or any other value), gerrit defaults to master mode.
+
 [[container.user]]container.user::
 +
 Login name (or UID) of the operating system user the Gerrit JVM

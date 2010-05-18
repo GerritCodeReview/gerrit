@@ -97,6 +97,18 @@ get_config() {
         esac
 
         n=${n#*=}
+
+        if test "x$1" = x--bool ; then
+          case "$n" in
+          true|on|1|yes) n=true ;;
+          false|off|0|no) n=false ;;
+          *)
+            echo >&2 "error: $2=$n not supported, assuming false."
+            n=false
+            ;;
+          esac
+        fi
+
         if test "x$1" = x--int ; then
           case "$n" in
           *g) n=`expr ${n%%g} \* 1024`m ;;
@@ -330,6 +342,9 @@ fi
 
 test -z "$GERRIT_USER" && GERRIT_USER=$(whoami)
 RUN_ARGS="-jar $GERRIT_WAR daemon -d $GERRIT_SITE"
+if test "`get_config --bool container.slave`" = "true" ; then
+  RUN_ARGS="$RUN_ARGS --slave"
+fi
 if test -n "$JAVA_OPTIONS" ; then
   RUN_ARGS="$JAVA_OPTIONS $RUN_ARGS"
 fi

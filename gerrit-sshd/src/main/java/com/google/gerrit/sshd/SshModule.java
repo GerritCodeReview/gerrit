@@ -40,6 +40,7 @@ import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlerFactory;
 import com.google.gerrit.util.cli.OptionHandlerUtil;
 import com.google.inject.Key;
+import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryProvider;
 import com.google.inject.servlet.RequestScoped;
@@ -72,11 +73,9 @@ public class SshModule extends FactoryModule {
         .toInstance(new DispatchCommandProvider("", Commands.CMD_ROOT));
     bind(CommandFactoryProvider.class);
     bind(CommandFactory.class).toProvider(CommandFactoryProvider.class);
-
-    bind(WorkQueue.Executor.class).annotatedWith(CommandExecutor.class)
-        .toProvider(CommandExecutorProvider.class).in(SINGLETON);
     bind(WorkQueue.Executor.class).annotatedWith(StreamCommandExecutor.class)
         .toProvider(StreamCommandExecutorProvider.class).in(SINGLETON);
+    bind(QueueProvider.class).to(CommandExecutorQueueProvider.class).in(SINGLETON);
 
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
     bind(PasswordAuthenticator.class).to(DatabasePasswordAuth.class);
@@ -106,6 +105,9 @@ public class SshModule extends FactoryModule {
         SshScope.REQUEST);
     bind(IdentifiedUser.class).toProvider(SshIdentifiedUserProvider.class).in(
         SshScope.REQUEST);
+
+    bind(WorkQueue.Executor.class).annotatedWith(CommandExecutor.class)
+        .toProvider(CommandExecutorProvider.class).in(SshScope.REQUEST);
 
     install(new GerritRequestModule());
   }

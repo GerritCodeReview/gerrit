@@ -46,6 +46,7 @@ public class AuthConfig {
   private final AccountGroup.Id administratorGroup;
   private final Set<AccountGroup.Id> anonymousGroups;
   private final Set<AccountGroup.Id> registeredGroups;
+  private final AccountGroup.Id batchUsersGroup;
 
   private final boolean allowGoogleAccountUpgrade;
 
@@ -65,6 +66,7 @@ public class AuthConfig {
     registeredGroups = Collections.unmodifiableSet(r);
     anonymousGroups = Collections.singleton(s.anonymousGroupId);
     administratorGroup = s.adminGroupId;
+    batchUsersGroup = s.batchUsersGroupId;
 
     if (authType == AuthType.OPENID) {
       allowGoogleAccountUpgrade =
@@ -115,6 +117,11 @@ public class AuthConfig {
   /** Identity of the magic group with full powers. */
   public AccountGroup.Id getAdministratorsGroup() {
     return administratorGroup;
+  }
+
+  /** Identity of the group whose service is degraded to lower priority. */
+  public AccountGroup.Id getBatchUsersGroup() {
+    return batchUsersGroup;
   }
 
   /** Groups that all users, including anonymous users, belong to. */

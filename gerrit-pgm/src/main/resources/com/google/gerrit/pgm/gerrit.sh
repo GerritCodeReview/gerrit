@@ -330,6 +330,9 @@ fi
 
 test -z "$GERRIT_USER" && GERRIT_USER=$(whoami)
 RUN_ARGS="-jar $GERRIT_WAR daemon -d $GERRIT_SITE"
+if test "`get_config --get container.slave`" = "true" ; then
+  RUN_ARGS="$RUN_ARGS --slave"
+fi
 if test -n "$JAVA_OPTIONS" ; then
   RUN_ARGS="$JAVA_OPTIONS $RUN_ARGS"
 fi

@@ -71,7 +71,7 @@ public class WorkQueue {
       };
 
   private Executor defaultQueue;
-  private final IdGenerator idGenerator;
+  private static IdGenerator idGenerator;
   private final CopyOnWriteArrayList<Executor> queues;
 
   @Inject
@@ -139,7 +139,7 @@ public class WorkQueue {
   }
 
   /** An isolated queue. */
-  public class Executor extends ScheduledThreadPoolExecutor {
+  public static class Executor extends ScheduledThreadPoolExecutor {
     private final ConcurrentHashMap<Integer, Task<?>> all;
 
     Executor(final int corePoolSize, final String prefix) {

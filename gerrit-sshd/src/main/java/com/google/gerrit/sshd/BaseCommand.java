@@ -97,6 +97,9 @@ public abstract class BaseCommand implements Command {
   /** Unparsed command line options. */
   private String[] argv;
 
+  private boolean isAdminCaller;
+
+
   public void setInputStream(final InputStream in) {
     this.in = in;
   }
@@ -238,11 +241,12 @@ public abstract class BaseCommand implements Command {
    */
   protected synchronized void startThread(final CommandRunnable thunk) {
     final TaskThunk tt = new TaskThunk(thunk);
-    if (isAdminCommand()) {
+    if (isAdminCommand()||userProvider.get().isAdministrator()) {
       // Admin commands should not block the main work threads (there
       // might be an interactive shell there), nor should they wait
       // for the main work threads.
       //
+      PrintWriter p = toPrintWriter(out);
       new Thread(tt, tt.toString()).start();
     } else {
       task = executor.submit(tt);
@@ -252,6 +256,11 @@ public abstract class BaseCommand implements Command {
   private final boolean isAdminCommand() {
     return getClass().getAnnotation(AdminCommand.class) != null;
   }
+
+
+
+
+
 
   /**
    * Terminate this command and return a result code to the remote client.
@@ -336,6 +345,14 @@ public abstract class BaseCommand implements Command {
       }
       return 128;
     }
+  }
+
+  public void setAdminCaller(boolean isAdminCaller) {
+    this.isAdminCaller = isAdminCaller;
+  }
+
+  public boolean isAdminCaller() {
+    return isAdminCaller;
   }
 
   private final class TaskThunk implements CancelableRunnable, ProjectRunnable {

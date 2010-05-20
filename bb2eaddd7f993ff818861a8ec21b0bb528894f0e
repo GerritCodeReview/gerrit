@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzH///N4\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-20T02:01:54Z",
+      "side": 1,
+      "message": "No, you really need to do this selection dynamically based on the current user.  Batch jobs coming in over the http:// interface for fetch should get degraded service just like when they come in over ssh://.",
+      "revId": "bb2eaddd7f993ff818861a8ec21b0bb528894f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///Og\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-20T02:01:54Z",
+      "side": 1,
+      "message": "Just hoist this into the superclass CurrentUser.  No reason for this to be in the subclass IdentifiedUser.",
+      "revId": "bb2eaddd7f993ff818861a8ec21b0bb528894f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///Oc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-20T02:01:54Z",
+      "side": 1,
+      "message": "Add Javadoc:\n\n /** Identity of the group whose service is degraded to lower priority. */",
+      "revId": "bb2eaddd7f993ff818861a8ec21b0bb528894f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///N8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-20T02:01:54Z",
+      "side": 1,
+      "message": "As far as I can tell, the edits to this file aren\u0027t necessary for your change.  Revert them?",
+      "revId": "bb2eaddd7f993ff818861a8ec21b0bb528894f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///OQ\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-20T02:01:54Z",
+      "side": 1,
+      "message": "Since this is request-scoped you can actually take CurrentUser directly and don\u0027t need to deal with the Provider wrapper.",
+      "revId": "bb2eaddd7f993ff818861a8ec21b0bb528894f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///OU\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-20T02:01:54Z",
+      "side": 1,
+      "message": "Style-nit: Don\u0027t assign then replace.  Instead use a proper if-else:\n\n  if (user.isBatchUser) {\n    return queues.getBatchQueue();\n  } else {\n    return queues.getInteractiveQueue();\n  }",
+      "revId": "bb2eaddd7f993ff818861a8ec21b0bb528894f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///OA\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorQueueProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-20T02:01:54Z",
+      "side": 1,
+      "message": "Missing AOSP header.",
+      "revId": "bb2eaddd7f993ff818861a8ec21b0bb528894f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///OM\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorQueueProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-20T02:01:54Z",
+      "side": 1,
+      "message": "If poolSize \u003d 1, batchThreads \u003d 0 and we starve the batch threads.  So I would instead say:\n\n  int batchThreads \u003d Math.min(1, poolSize - interactiveThreads)\n\nBut... I actually would invert this.  Let the admin set the number of batch threads, and allow the rest of the pool to be the interactive threads.  I think its a lot easier to say what your batch concurrency level needs to be.  E.g. we have X build machines, so set batchThreads \u003d X.\n\nI also wonder if we shouldn\u0027t have some smarts about this.  What if sshd.batchThreads is set but sshd.threads isn\u0027t, and sshd.batchThreads is \u003e sshd.threads default?  Should we automatically increase sshd.threads to match?  Yes, probably.",
+      "revId": "bb2eaddd7f993ff818861a8ec21b0bb528894f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///OI\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorQueueProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-20T02:01:54Z",
+      "side": 1,
+      "message": "Just suck it up and rename the interactive threads.  \"SSH-Interactive-Worker\".",
+      "revId": "bb2eaddd7f993ff818861a8ec21b0bb528894f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///OE\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorQueueProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-20T02:01:54Z",
+      "side": 1,
+      "message": "Drop the println.  :-)",
+      "revId": "bb2eaddd7f993ff818861a8ec21b0bb528894f0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

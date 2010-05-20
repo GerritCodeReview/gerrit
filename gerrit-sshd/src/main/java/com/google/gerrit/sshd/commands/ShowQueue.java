@@ -22,6 +22,7 @@ import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.IdGenerator;
+import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
@@ -37,6 +38,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /** Display the current work queue. */
+@AdminHighPriorityCommand
 final class ShowQueue extends BaseCommand {
   @Option(name = "-w", usage = "display without line width truncation")
   private boolean wide;

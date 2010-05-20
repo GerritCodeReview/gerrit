@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzH///LY\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-20T18:24:00Z",
+      "side": 1,
+      "message": "Style-nit: unnecessary new blank line.",
+      "revId": "e6f842f683498ccee25fdc29502f7da5a3da4db8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///LU\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-20T18:24:00Z",
+      "side": 1,
+      "message": "Style-nit: unnecessary blank lines.  We only put one line between members.",
+      "revId": "e6f842f683498ccee25fdc29502f7da5a3da4db8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///LQ\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-20T18:24:00Z",
+      "side": 1,
+      "message": "Please supply this annotation, so the code will compile.  :-)",
+      "revId": "e6f842f683498ccee25fdc29502f7da5a3da4db8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+gerrit submit
+==============
+
+NAME
+----
+gerrit submit - Submit one or more patch sets
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit submit' [\--project <PROJECT>] {COMMIT | CHANGEID,PATCHSET}...
+
+DESCRIPTION
+-----------
+Submits the specified patch sets for merging.  Naturally, to be
+eligible for merging the patch sets must first have all
+approvals met.
+
+Patch sets should be specified as complete or abbreviated commit
+SHA-1s.  If the same commit is available in multiple projects the
+\--project option may be used to limit where Gerrit searches for
+the change to only the contents of the specified project.
+
+For current backward compatibility with user tools patch sets may
+also be specified in the legacy 'CHANGEID,PATCHSET' format, such as
+'8242,2'.  Support for this legacy format is planned to be removed
+in a future edition of Gerrit Code Review.  Use of commit SHA-1s
+is strongly encouraged.
+
+OPTIONS
+-------
+
+\--project::
+-p::
+	Name of the project the intended changes are contained
+	within.  This option must be supplied before the commit
+	SHA-1 in order to take effect.
+
+\--help::
+-h::
+	Display site-specific usage information, including the
+	complete listing of supported approval categories and values.
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+EXAMPLES
+--------
+
+Submit the change with commit c0ff33
+=====
+	$ ssh -p 29418 review.example.com gerrit submit --project=this/cafbevs c0ff33
+=====
+
+
+SEE ALSO
+--------
+
+* link:access-control.html[Access Controls]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

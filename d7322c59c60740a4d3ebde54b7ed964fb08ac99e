@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzH///Kw\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-05-20T20:39:18Z",
+      "side": 1,
+      "message": "It seems like this option is not compatible with the --show-branch option. I don\u0027t have a problem with that, but you might want to specify that in the help or have some kind of a check to warn the user.",
+      "revId": "d7322c59c60740a4d3ebde54b7ed964fb08ac99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

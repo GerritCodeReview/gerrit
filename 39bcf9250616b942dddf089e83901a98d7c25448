@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzH///Ns\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-20T02:09:27Z",
+      "side": 1,
+      "message": "My problem with this change is, admins who execute a git clone will now get their own thread.  That means an admin user could swamp the server by creating lots of clones at once.  Sure, they shouldn\u0027t do that... but we have a change proposed for `repo sync` that adds `repo sync --jobs 200`, allowing for 200 concurrent fetches at once... and asking Gerrit to queue them up and execute them efficiently.  If an admin were to do that with your code change, the server would fall over and die.  So the admin would have to manually adjust his behavior to use a different --jobs parameter than his normal users.  Bad.\n\nMaybe we should just add a new annotation:\n\n @AdminHighPriorityCommand\n\nand use here:\n\n if (isAdminHighPriorityCommand() \u0026\u0026 userProvider.get().isAdministrator()) {\n    new Thread()....",
+      "revId": "39bcf9250616b942dddf089e83901a98d7c25448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -32,5 +32,6 @@ public class MasterCommandModule extends CommandModule {
     command(gerrit, "receive-pack").to(Receive.class);
     command(gerrit, "replicate").to(AdminReplicate.class);
     command(gerrit, "set-project-parent").to(AdminSetParent.class);
+    command(gerrit, "submit").to(SubmitCommand.class);
   }
 }

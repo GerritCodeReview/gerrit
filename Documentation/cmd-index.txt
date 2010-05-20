@@ -63,6 +63,9 @@ review.  See link:user-upload.html#push_create[Creating Changes].
 link:cmd-approve.html[gerrit approve]::
 	Approve a patch set from the command line.
 
+link:cmd-submit.html[gerrit submit]::
+	Submit a patch set from the command line.
+
 link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 

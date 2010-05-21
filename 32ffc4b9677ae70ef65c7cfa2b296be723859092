@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzH///J0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-21T01:27:37Z",
+      "side": 1,
+      "message": "This statement and the one before it can be refactored:\n\n  final ProjectControl pc \u003d projectControlFactory.validateFor(projectName,\n    ProjectControl.OWNER | ProjectControl.VISIBLE);\n  final ProjectState projectState \u003d pc.getProjectState();",
+      "revId": "32ffc4b9677ae70ef65c7cfa2b296be723859092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///Jw\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-21T01:27:37Z",
+      "side": 1,
+      "message": "Elsewhere when getting a control for wildcards we don\u0027t trim the trailing \u0027*\u0027.  Why do we need to do that here?",
+      "revId": "32ffc4b9677ae70ef65c7cfa2b296be723859092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

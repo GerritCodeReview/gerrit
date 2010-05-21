@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzH///KE\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-21T00:11:46Z",
+      "side": 1,
+      "message": "Since this block is used twice, perhaps pull it into a private method?",
+      "revId": "a32de9a4143f357b16ce74b9f1cb434553e0b4bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///KA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-21T00:11:46Z",
+      "side": 1,
+      "message": "You should revert this file from the change.",
+      "revId": "a32de9a4143f357b16ce74b9f1cb434553e0b4bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///J8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandExecutorQueueProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-21T00:11:46Z",
+      "side": 1,
+      "message": "Please document the new variable.",
+      "revId": "a32de9a4143f357b16ce74b9f1cb434553e0b4bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

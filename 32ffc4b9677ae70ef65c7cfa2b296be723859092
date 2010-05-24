@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAzH///EY\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-05-24T13:50:22Z",
+      "side": 1,
+      "message": "I will change the code according your suggestion.",
+      "parentUuid": "AAAAzH///J0\u003d",
+      "revId": "32ffc4b9677ae70ef65c7cfa2b296be723859092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAzH///Jw\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2010-05-21T01:27:37Z",
       "side": 1,
       "message": "Elsewhere when getting a control for wildcards we don\u0027t trim the trailing \u0027*\u0027.  Why do we need to do that here?",
+      "revId": "32ffc4b9677ae70ef65c7cfa2b296be723859092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///Ec\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-05-24T13:50:22Z",
+      "side": 1,
+      "message": "I have completely based this code in the controlForRef method of AddRefRight method. The reason, I believe, is that the controlForRef method called in the 154th line requires a refName, not a refPattern. I believe we would have problems if a refPattern (ending with \u0027*\u0027) is provided as a refName of RefControl instance.",
+      "parentUuid": "AAAAzH///Jw\u003d",
       "revId": "32ffc4b9677ae70ef65c7cfa2b296be723859092",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

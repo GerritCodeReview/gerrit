@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzH///Gk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-24T16:47:26Z",
+      "side": 1,
+      "message": "This is messy to read, and you\u0027ve already got the bug where you left the \"-\" in the middle of the ref string when prefixing with \"refs/heads/\".  Redo this logic:\n\n  boolean exclusive \u003d refPattern.startsWith(\"-\");\n  if (exclusive) {\n    refPattern \u003d refPattern.substring(1);\n  }\n  ... all of the old code ...\n  if (exclusive) {\n    refPattern \u003d \"-\" + refPattern;\n  }",
+      "revId": "c22638fa0eb058ceda0ab3b92874fd4ced7cc116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///C8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-24T16:47:26Z",
+      "side": 1,
+      "message": "Can\u0027t we make this private?  It looks like its never accessed outside of this class and we wouldn\u0027t want a caller bypassing addRight on us.",
+      "revId": "c22638fa0eb058ceda0ab3b92874fd4ced7cc116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///GE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-24T16:47:26Z",
+      "side": 1,
+      "message": "Can\u0027t we simplify this block down to just this?\n\n  val \u003d Math.max(val, right.getMaxValue())",
+      "revId": "c22638fa0eb058ceda0ab3b92874fd4ced7cc116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///DA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-24T16:47:26Z",
+      "side": 1,
+      "message": "Since you need the RefRightsForPattern only, why not loop over the values() collection instead?  In the case of a SortedMap its required to iterate over the key order anyway.",
+      "revId": "c22638fa0eb058ceda0ab3b92874fd4ced7cc116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///DI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-24T16:47:26Z",
+      "side": 1,
+      "message": "Style-nit: Usually I do these as anonymous inner classes defined right where their singleton variable holding them is defined.",
+      "revId": "c22638fa0eb058ceda0ab3b92874fd4ced7cc116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///DU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-24T16:47:26Z",
+      "side": 1,
+      "message": "Why not bLength \u003d\u003d aLength ?",
+      "revId": "c22638fa0eb058ceda0ab3b92874fd4ced7cc116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///DE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-24T16:47:26Z",
+      "side": 1,
+      "message": "Style-nit: usually I do these as:\n\n  RefRightsForPattern patternRights \u003d rights.get(right.getRefPattern());\n  if (patternRights \u003d\u003d null) {\n    patternRights \u003d new RefRightsForPattern();\n    rights.put(right.getRefPattern(), patternRights);\n  }\n  patternRights.addRight(right);",
+      "revId": "c22638fa0eb058ceda0ab3b92874fd4ced7cc116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH///Cw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-24T16:47:26Z",
+      "side": 1,
+      "message": "This isn\u0027t accounting for exclusive bits on the RefRight.  FunctionState relies on this method to return the proper rights for this reference.  If those rights have the exclusive flag set on them, we\u0027d still allow wildcard rights in anything that relies on FunctionState.",
+      "revId": "c22638fa0eb058ceda0ab3b92874fd4ced7cc116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

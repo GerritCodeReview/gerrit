@@ -59,6 +59,11 @@ public abstract class CurrentUser {
   /** Set of changes starred by this user. */
   public abstract Set<Change.Id> getStarredChanges();
 
+  /** Is the user a non-interactive user? */
+  public boolean isBatchUser() {
+    return getEffectiveGroups().contains(authConfig.getBatchUsersGroup());
+  }
+
   @Deprecated
   public final boolean isAdministrator() {
     return getEffectiveGroups().contains(authConfig.getAdministratorsGroup());

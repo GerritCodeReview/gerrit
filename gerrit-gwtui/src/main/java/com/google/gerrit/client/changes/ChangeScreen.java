@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.Change.Status;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -64,6 +65,8 @@ public class ChangeScreen extends Screen {
   private ChangeDescriptionBlock descriptionBlock;
   private ApprovalTable approvals;
 
+  private IncludedInTable includedInTable;
+  private DisclosurePanel includedInPanel;
   private DisclosurePanel dependenciesPanel;
   private ChangeTable dependencies;
   private ChangeTable.Section dependsOn;
@@ -171,6 +174,12 @@ public class ChangeScreen extends Screen {
     approvals = new ApprovalTable();
     add(approvals);
 
+    includedInPanel = new DisclosurePanel(Util.C.changeScreenIncludedIn());
+    includedInTable = new IncludedInTable(changeId);
+
+    includedInPanel.setContent(includedInTable);
+    add(includedInPanel);
+
     dependencies = new ChangeTable() {
       {
         table.setWidth("98%");
@@ -217,6 +226,13 @@ public class ChangeScreen extends Screen {
 
     if (starChange != null) {
       setStarred(detail.isStarred());
+    }
+
+    if (Status.MERGED == detail.getChange().getStatus()) {
+      includedInPanel.setVisible(true);
+      includedInPanel.addOpenHandler(includedInTable);
+    } else {
+      includedInPanel.setVisible(false);
     }
 
     dependencies.setAccountInfoCache(detail.getAccounts());

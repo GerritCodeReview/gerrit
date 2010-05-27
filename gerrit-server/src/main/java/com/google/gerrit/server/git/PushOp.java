@@ -181,8 +181,15 @@ class PushOp implements ProjectRunnable {
           break;
 
         case REJECTED_OTHER_REASON:
-          log.error("Failed replicate of " + u.getRemoteName() + " to " + uri
-              + ", reason: " + u.getMessage());
+          if ("non-fast-forward".equals(u.getMessage())) {
+            log.error("Failed replicate of " + u.getRemoteName() + " to " + uri
+                + ", remote rejected non-fast-forward push."
+                + "  Check receive.denyNonFastForwards variable in config file"
+                + " of destination repository.");
+          } else {
+            log.error("Failed replicate of " + u.getRemoteName() + " to " + uri
+                + ", reason: " + u.getMessage());
+          }
           break;
       }
     }

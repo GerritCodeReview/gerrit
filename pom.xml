@@ -770,11 +770,4 @@ limitations under the License.
       <url>http://maven.objectweb.org/maven2/</url>
     </repository>
   </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>gwt-maven-plugins</id>
-      <url>http://snapshots.repository.codehaus.org/</url>
-    </pluginRepository>
-  </pluginRepositories>
 </project>

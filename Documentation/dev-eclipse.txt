@@ -29,7 +29,8 @@ settings prefer when formatting source code.
 Import Projects
 ---------------
 
-Import pom.xml using General -> Maven Projects
+Import the projects into Eclipse by going to File -> Import... -> Maven ->
+Existing Maven Projects and selecting the directory containing pom.xml.
 
 Some of the source code is generated with ANTLR sources.  To build
 these files, right click on the imported projects, Maven -> Update

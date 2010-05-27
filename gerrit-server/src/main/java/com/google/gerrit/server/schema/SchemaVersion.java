@@ -68,22 +68,22 @@ public abstract class SchemaVersion {
     return versionNbr;
   }
 
-  public final void check(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db)
+  public final void check(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db, boolean toTargetVersion)
       throws OrmException, SQLException {
     if (curr.versionNbr == versionNbr) {
       // Nothing to do, we are at the correct schema.
       //
     } else {
-      upgradeFrom(ui, curr, db);
+      upgradeFrom(ui, curr, db, toTargetVersion);
     }
   }
 
   /** Runs check on the prior schema version, and then upgrades. */
-  protected void upgradeFrom(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db)
+  protected void upgradeFrom(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db, boolean toTargetVersion)
       throws OrmException, SQLException {
     final JdbcSchema s = (JdbcSchema) db;
 
-    prior.get().check(ui, curr, db);
+    prior.get().check(ui, curr, db, false);
 
     ui.message("Upgrading database schema from version " + curr.versionNbr
         + " to " + versionNbr + " ...");
@@ -94,15 +94,17 @@ public abstract class SchemaVersion {
       s.updateSchema(e);
       migrateData(db, ui);
 
-      final List<String> pruneList = new ArrayList<String>();
-      s.pruneSchema(new StatementExecutor() {
-        public void execute(String sql) {
-          pruneList.add(sql);
-        }
-      });
+      if (toTargetVersion) {
+        final List<String> pruneList = new ArrayList<String>();
+        s.pruneSchema(new StatementExecutor() {
+          public void execute(String sql) {
+            pruneList.add(sql);
+          }
+        });
 
-      if (!pruneList.isEmpty()) {
-        ui.pruneSchema(e, pruneList);
+        if (!pruneList.isEmpty()) {
+          ui.pruneSchema(e, pruneList);
+        }
       }
     } finally {
       e.close();

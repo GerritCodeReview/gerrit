@@ -33,7 +33,7 @@ class Schema_19 extends SchemaVersion {
 
   @Override
   protected void upgradeFrom(UpdateUI ui, CurrentSchemaVersion curr,
-      ReviewDb db) throws OrmException {
+      ReviewDb db, boolean toTargetVersion) throws OrmException {
     throw new OrmException("Cannot upgrade from " + curr.versionNbr
         + "; manually run scripts from"
         + " http://gerrit.googlecode.com/files/schema-upgrades003_019.zip"

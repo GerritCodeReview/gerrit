@@ -17,7 +17,7 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.TabPanel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectAdminScreen extends AccountScreen {
+public class ProjectAdminScreen extends Screen {
   static final String INFO_TAB = "info";
   static final String BRANCH_TAB = "branches";
   static final String ACCESS_TAB = "access";

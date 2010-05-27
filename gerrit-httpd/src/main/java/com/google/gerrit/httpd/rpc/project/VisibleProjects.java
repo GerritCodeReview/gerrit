@@ -18,11 +18,12 @@ package com.google.gerrit.httpd.rpc.project;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -34,12 +35,12 @@ class VisibleProjects extends Handler<List<Project>> {
   }
 
   private final ProjectControl.Factory projectControlFactory;
-  private final IdentifiedUser user;
+  private final CurrentUser user;
   private final ReviewDb db;
 
   @Inject
   VisibleProjects(final ProjectControl.Factory projectControlFactory,
-      final IdentifiedUser user, final ReviewDb db) {
+      final CurrentUser user, final ReviewDb db) {
     this.projectControlFactory = projectControlFactory;
     this.user = user;
     this.db = db;

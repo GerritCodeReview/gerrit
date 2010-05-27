@@ -29,10 +29,8 @@ import java.util.Set;
 
 @RpcImpl(version = Version.V2_0)
 public interface ProjectAdminService extends RemoteJsonService {
-  @SignInRequired
   void visibleProjects(AsyncCallback<List<Project>> callback);
 
-  @SignInRequired
   void projectDetail(Project.NameKey projectName,
       AsyncCallback<ProjectDetail> callback);
 
@@ -49,7 +47,6 @@ public interface ProjectAdminService extends RemoteJsonService {
       String groupName, String refName, short min, short max,
       AsyncCallback<ProjectDetail> callback);
 
-  @SignInRequired
   void listBranches(Project.NameKey projectName,
       AsyncCallback<ListBranchesResult> callback);
 

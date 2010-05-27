@@ -17,9 +17,9 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
+import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Project;
@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 import java.util.List;
 
-public class ProjectListScreen extends AccountScreen {
+public class ProjectListScreen extends Screen {
   private ProjectTable projects;
 
   @Override

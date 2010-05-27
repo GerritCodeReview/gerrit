@@ -16,6 +16,24 @@
       "revId": "dda868c8d018447fe1a76a6e5b0ad6df95499576",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzH//+40\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-27T22:51:33Z",
+      "side": 1,
+      "message": "No.  The REJECTED_NONFASTFORWARD case above gets triggered when Gerrit has a push spec configured without the leading \u0027+\u0027.  Its an entirely different error message.  The error there would suggest to look at your replication.config and update the push to spec to support fast-forward pushes.\n\nWe have two different error codes, because one is the client (Gerrit, above) and one is the server (remote repository, this block) reporting about the same thing, as they both do the same check.",
+      "parentUuid": "AAAAzH//+5M\u003d",
+      "revId": "dda868c8d018447fe1a76a6e5b0ad6df95499576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

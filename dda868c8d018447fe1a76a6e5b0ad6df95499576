@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzH//+5M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1002235
+      },
+      "writtenOn": "2010-05-27T22:46:36Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be in the REJECTED_NONFASTFORWARD case?",
+      "revId": "dda868c8d018447fe1a76a6e5b0ad6df95499576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

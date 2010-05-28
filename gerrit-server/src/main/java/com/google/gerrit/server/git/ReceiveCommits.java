@@ -291,8 +291,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     ContributorAgreement bestCla = null;
 
     OUTER: for (AccountGroup.Id groupId : currentUser.getEffectiveGroups()) {
-      for (final AccountGroupAgreement a : db.accountGroupAgreements().byGroup(
-          groupId)) {
+      final List<AccountGroupAgreement> temp =
+          db.accountGroupAgreements().byGroup(groupId).toList();
+
+      Collections.reverse(temp);
+
+      for (final AccountGroupAgreement a : temp) {
         final ContributorAgreement cla =
             db.contributorAgreements().get(a.getAgreementId());
         if (cla == null) {
@@ -306,8 +310,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     if (bestAgreement == null) {
-      for (final AccountAgreement a : db.accountAgreements().byAccount(
-          currentUser.getAccountId()).toList()) {
+      final List<AccountAgreement> temp =
+          db.accountAgreements().byAccount(currentUser.getAccountId()).toList();
+
+      Collections.reverse(temp);
+
+      for (final AccountAgreement a : temp) {
         final ContributorAgreement cla =
             db.contributorAgreements().get(a.getAgreementId());
         if (cla == null) {

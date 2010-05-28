@@ -25,6 +25,6 @@ public interface AccountAgreementAccess extends
   @PrimaryKey("key")
   AccountAgreement get(AccountAgreement.Key key) throws OrmException;
 
-  @Query("WHERE key.accountId = ? ORDER BY acceptedOn DESC")
+  @Query("WHERE key.accountId = ? ORDER BY acceptedOn")
   ResultSet<AccountAgreement> byAccount(Account.Id id) throws OrmException;
 }

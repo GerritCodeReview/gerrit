@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX///+Y\u003d",
+        "filename": ".gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-28T23:49:45Z",
+      "side": 1,
+      "message": "Probably makes sense to have this, but its unrelated to the bug that is otherwise being fixed, so it should go into a separate change.",
+      "revId": "a40f4c32c1dd3d95a549b817c11ea7f2e0ef2f63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///7g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SubmitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-28T23:49:45Z",
+      "side": 1,
+      "message": "We shouldn\u0027t need optionList here.  The user can\u0027t comment on the change, just submit it.  So there isn\u0027t a need to do a dynamic computation of the supported voting categories and values permitted by the user, so we shouldn\u0027t need to make our own CmdLineParser instance.",
+      "revId": "a40f4c32c1dd3d95a549b817c11ea7f2e0ef2f63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///7M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SubmitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-28T23:49:45Z",
+      "side": 1,
+      "message": "Please use a ChangeControlFactory and its validateFor(changeId) method to get the Change object.  This will check that the user has permission to actually see this change in this project, and throws an exception if they cannot.  It has the nice side effect of loading the Change into memory for you.",
+      "revId": "a40f4c32c1dd3d95a549b817c11ea7f2e0ef2f63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///7A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SubmitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-28T23:49:45Z",
+      "side": 1,
+      "message": "If actionType is null we enter here, then crash trying to lookup the name.  Instead of actionType.getCategory().getName() in the exception message use myAction.getCategoryId().",
+      "revId": "a40f4c32c1dd3d95a549b817c11ea7f2e0ef2f63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

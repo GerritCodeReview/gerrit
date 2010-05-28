@@ -16,6 +16,108 @@
       "revId": "d7322c59c60740a4d3ebde54b7ed964fb08ac99e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///+4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-28T01:20:08Z",
+      "side": 1,
+      "message": "Style-nit:  We prefer static finals to be first in the class, before other instance members.",
+      "revId": "d7322c59c60740a4d3ebde54b7ed964fb08ac99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX////I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-28T01:20:08Z",
+      "side": 1,
+      "message": "Please add a conditional to check for showTree \u0026\u0026 showBranch !\u003d null and alert the user that these options are not compatible and abort the command from running any further.",
+      "revId": "d7322c59c60740a4d3ebde54b7ed964fb08ac99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX////E\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-28T01:20:08Z",
+      "side": 1,
+      "message": "Style-nit: This can be shortened into a single statement:\n\n  treeMap.put(p.getName(), new TreeNode(p, pctl.isVisible()));",
+      "revId": "d7322c59c60740a4d3ebde54b7ed964fb08ac99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX////M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-28T01:20:08Z",
+      "side": 1,
+      "message": "This will NullPointerException if the parent isn\u0027t in the cache above because its gone.",
+      "revId": "d7322c59c60740a4d3ebde54b7ed964fb08ac99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX////A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-28T01:20:08Z",
+      "side": 1,
+      "message": "We try to avoid println() and use instead print(str + \"\\n\").  That way we always use LF as a line separator even if the server is running on Windows.",
+      "revId": "d7322c59c60740a4d3ebde54b7ed964fb08ac99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///+8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-05-28T01:20:08Z",
+      "side": 1,
+      "message": "Don\u0027t flush on each row, flush only at the end after everything was successfully printed.",
+      "revId": "d7322c59c60740a4d3ebde54b7ed964fb08ac99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

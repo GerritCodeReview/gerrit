@@ -25,6 +25,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,11 +50,18 @@ class AgreementInfoFactory extends Handler<AgreementInfo> {
   public AgreementInfo call() throws Exception {
     final List<AccountAgreement> userAccepted =
         db.accountAgreements().byAccount(user.getAccountId()).toList();
+
+    Collections.reverse(userAccepted);
+
     final List<AccountGroupAgreement> groupAccepted =
         new ArrayList<AccountGroupAgreement>();
     for (final AccountGroup.Id groupId : user.getEffectiveGroups()) {
-      groupAccepted.addAll(db.accountGroupAgreements().byGroup(groupId)
-          .toList());
+      final List<AccountGroupAgreement> temp =
+          db.accountGroupAgreements().byGroup(groupId).toList();
+
+      Collections.reverse(temp);
+
+      groupAccepted.addAll(temp);
     }
 
     final Map<ContributorAgreement.Id, ContributorAgreement> agreements =

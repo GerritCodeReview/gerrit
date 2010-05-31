@@ -1,6 +1,5 @@
 /* Copyright (C) 2009 The Android Open Source Project
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -112,6 +111,10 @@
   padding: 0.2em 0.2em 0.2em 0.5em;
 }
 
+.parentProjectPanel {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 
 /** CommentPanel **/
 .commentPanelBorder {
@@ -360,6 +363,95 @@
   overflow: hidden;
 }
 
+/** Filter Project List **/
+
+.filterProjectList .gwt-DisclosurePanel .header td {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.filterProjectList .gwt-DisclosurePanel .content {
+  margin-bottom: 100px;
+  background-color: trimColor;
+  padding: 5px 5px 5px 5px;
+}
+
+.filterProjectList .selectAllRow {
+  font-size: 11px;
+  color: #ad9a89;
+  background-color: #f1fcda;
+}
+
+.filterProjectList .setParentPanel {
+  margin-top: 10px;
+  background-color: trimColor;
+  padding: 5px 5px 5px 10px;
+}
+
+.filterProjectList .onSuccessPanel {
+  margin-bottom: 5px;
+  font-size: 11pt;
+  color: #ad9a89;
+  background-color: #f1fcda;
+}
+
+.filterProjectList .viewPanel {
+  text-align: right;
+}
+
+.filterProjectList .treePanel {
+  background-color: #f4fde2;
+  border: 1px solid #ddebb6;
+}
+
+.filterProjectList .treeSelectAllPanel {
+  background-color: #fff;
+  border-bottom: 1px solid #ddebb6;
+  text-align: left;
+}
+
+.filterProjectList .selectAllTreeLabel {
+  font-size: 11px;
+  color: #ad9a89;
+  text-align: middle;
+}
+
+.filterProjectList .selectedProjectsDataCell {
+  padding-left: 5px;
+  padding-right: 5px;
+  border-right: 1px solid trimColor;
+  border-bottom: 1px solid trimColor;
+  background-color: #f1fcda;
+}
+
+.filterProjectList .highlightPanel {
+  background-color: #ffff00;
+}
+
+.filterProjectList .buttonLink{
+  font-size: 12px;
+  color: #1926b3;
+  border: 0;
+  background-color: #FFF;
+  margin-bottom: 5px;
+  margin-top: 2px;
+  height: 20px;
+}
+
+.filterProjectList .buttonTrash{
+  border: 0px;
+  cursor: hand;
+  cursor: pointer;
+  background-color: #f1fcda;
+  height: 25px;
+  background-repeat:no-repeat;
+  width:25px;
+}
+
+.filterProjectList .gwt-Button {
+  margin-top: 5px;
+  margin-right: 5px;
+}
 
 /** ChangeTable **/
 .changeTable {

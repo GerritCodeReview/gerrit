@@ -29,7 +29,7 @@ import java.util.Set;
 
 @RpcImpl(version = Version.V2_0)
 public interface ProjectAdminService extends RemoteJsonService {
-  void visibleProjects(AsyncCallback<List<Project>> callback);
+  void projectsTO(AsyncCallback<List<ProjectRightsBased>> callback);
 
   void projectDetail(Project.NameKey projectName,
       AsyncCallback<ProjectDetail> callback);
@@ -57,4 +57,8 @@ public interface ProjectAdminService extends RemoteJsonService {
   @SignInRequired
   void deleteBranch(Project.NameKey projectName, Set<Branch.NameKey> ids,
       AsyncCallback<Set<Branch.NameKey>> callback);
+
+  @SignInRequired
+  void setParentProject(String parentName, List<Project.NameKey> childProjects,
+      AsyncCallback<String> callback);
 }

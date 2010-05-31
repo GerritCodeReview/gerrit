@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.rpc.project;
 import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.common.data.ProjectRightsBased;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
@@ -32,33 +33,36 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ChangeProjectSettings.Factory changeProjectSettingsFactory;
   private final DeleteBranches.Factory deleteBranchesFactory;
   private final ListBranches.Factory listBranchesFactory;
-  private final VisibleProjects.Factory visibleProjectsFactory;
+  private final ProjectsTO.Factory projectsTOFactory;
   private final ProjectDetailFactory.Factory projectDetailFactory;
   private final AddRefRight.Factory addRefRightFactory;
   private final DeleteRefRights.Factory deleteRefRightsFactory;
+  private final SetParent.Factory setParentFactory;
 
   @Inject
   ProjectAdminServiceImpl(final AddBranch.Factory addBranchFactory,
       final ChangeProjectSettings.Factory changeProjectSettingsFactory,
       final DeleteBranches.Factory deleteBranchesFactory,
       final ListBranches.Factory listBranchesFactory,
-      final VisibleProjects.Factory visibleProjectsFactory,
+      final ProjectsTO.Factory projectsTOFactory,
       final ProjectDetailFactory.Factory projectDetailFactory,
       final AddRefRight.Factory addRefRightFactory,
-      final DeleteRefRights.Factory deleteRefRightsFactory) {
+      final DeleteRefRights.Factory deleteRefRightsFactory,
+      final SetParent.Factory setParentFactory) {
     this.addBranchFactory = addBranchFactory;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
     this.deleteBranchesFactory = deleteBranchesFactory;
     this.listBranchesFactory = listBranchesFactory;
-    this.visibleProjectsFactory = visibleProjectsFactory;
+    this.projectsTOFactory = projectsTOFactory;
     this.projectDetailFactory = projectDetailFactory;
     this.addRefRightFactory = addRefRightFactory;
     this.deleteRefRightsFactory = deleteRefRightsFactory;
+    this.setParentFactory = setParentFactory;
   }
 
   @Override
-  public void visibleProjects(final AsyncCallback<List<Project>> callback) {
-    visibleProjectsFactory.create().to(callback);
+  public void projectsTO(final AsyncCallback<List<ProjectRightsBased>> callback) {
+    projectsTOFactory.create().to(callback);
   }
 
   @Override
@@ -107,5 +111,11 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final AsyncCallback<ListBranchesResult> callback) {
     addBranchFactory.create(projectName, branchName, startingRevision).to(
         callback);
+  }
+
+  @Override
+  public void setParentProject(String parentName, List<Project.NameKey> childProjects,
+      AsyncCallback<String> callback) {
+    setParentFactory.create(parentName, childProjects).to(callback);
   }
 }

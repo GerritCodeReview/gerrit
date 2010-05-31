@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc.project;
 
 
+import com.google.gerrit.common.data.ProjectRightsBased;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -29,9 +30,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-class VisibleProjects extends Handler<List<Project>> {
+class ProjectsTO extends Handler<List<ProjectRightsBased>> {
   interface Factory {
-    VisibleProjects create();
+    ProjectsTO create();
   }
 
   private final ProjectControl.Factory projectControlFactory;
@@ -39,7 +40,7 @@ class VisibleProjects extends Handler<List<Project>> {
   private final ReviewDb db;
 
   @Inject
-  VisibleProjects(final ProjectControl.Factory projectControlFactory,
+  ProjectsTO(final ProjectControl.Factory projectControlFactory,
       final CurrentUser user, final ReviewDb db) {
     this.projectControlFactory = projectControlFactory;
     this.user = user;
@@ -47,28 +48,37 @@ class VisibleProjects extends Handler<List<Project>> {
   }
 
   @Override
-  public List<Project> call() throws OrmException {
-    final List<Project> result;
+  public List<ProjectRightsBased> call() throws OrmException {
+    final List<ProjectRightsBased> result;
     if (user.isAdministrator()) {
-      result = db.projects().all().toList();
+      result = new ArrayList<ProjectRightsBased>();
+
+      for(final Project p : db.projects().all().toList()) {
+        result.add(new ProjectRightsBased(p, true));
+      }
+
     } else {
-      result = new ArrayList<Project>();
+      result = new ArrayList<ProjectRightsBased>();
       for (Project p : db.projects().all().toList()) {
         try {
           ProjectControl c = projectControlFactory.controlFor(p.getNameKey());
           if (c.isVisible() || c.isOwner()) {
-            result.add(p);
+            result.add(new ProjectRightsBased(p, true));
+          } else {
+            result.add(new ProjectRightsBased(p, false));
           }
         } catch (NoSuchProjectException e) {
           continue;
         }
       }
     }
-    Collections.sort(result, new Comparator<Project>() {
-      public int compare(final Project a, final Project b) {
-        return a.getName().compareTo(b.getName());
+    Collections.sort(result, new Comparator<ProjectRightsBased>() {
+      public int compare(final ProjectRightsBased a, final ProjectRightsBased b) {
+        return a.getProject().getName().compareTo(b.getProject().getName());
       }
     });
     return result;
   }
+
+
 }

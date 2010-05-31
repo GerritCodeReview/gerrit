@@ -16,13 +16,17 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.HasMouseOverHandlers;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 
 /** Standard GWT hyperlink with late updating of the token. */
-public class Hyperlink extends com.google.gwt.user.client.ui.Hyperlink {
+public class Hyperlink extends com.google.gwt.user.client.ui.Hyperlink implements HasMouseOverHandlers{
   static final HyperlinkImpl impl = GWT.create(HyperlinkImpl.class);
 
   /**
@@ -61,5 +65,10 @@ public class Hyperlink extends com.google.gwt.user.client.ui.Hyperlink {
   /** Create the screen and start rendering, updating the browser history. */
   public void go() {
     Gerrit.display(getTargetHistoryToken());
+  }
+
+  @Override
+  public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+    return addDomHandler(handler, MouseOverEvent.getType());
   }
 }

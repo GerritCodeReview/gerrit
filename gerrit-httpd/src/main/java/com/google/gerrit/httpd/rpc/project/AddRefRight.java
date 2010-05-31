@@ -39,6 +39,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 
 import java.util.Collections;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
@@ -146,7 +147,7 @@ class AddRefRight extends Handler<ProjectDetail> {
       if (!"refs".equals(prefix) && !Repository.isValidRefName(prefix)) {
         throw new InvalidNameException();
       }
-    } else {
+    } else if (!Pattern.compile("refs/.*").matcher(refPattern.replace("*", ".*")).matches()) {
       if (!Repository.isValidRefName(refPattern)) {
         throw new InvalidNameException();
       }

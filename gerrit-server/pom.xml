@@ -133,6 +133,12 @@ limitations under the License.
       <groupId>com.google.gerrit</groupId>
       <artifactId>juniversalchardet</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>dk.brics.automaton</groupId>
+      <artifactId>automaton</artifactId>
+      <version>1.11.2</version>
+    </dependency>
   </dependencies>
 
   <build>

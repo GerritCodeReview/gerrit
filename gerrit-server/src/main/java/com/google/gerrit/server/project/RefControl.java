@@ -44,8 +44,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
+
+import dk.brics.automaton.Automaton;
+import dk.brics.automaton.RegExp;
 
 
 /** Manages access control for Git references (aka branches, tags). */
@@ -236,9 +241,6 @@ public class RefControl {
       allRights.addAll(getInheritedRights(actionId));
     }
 
-    // Sort in descending refPattern length
-    Collections.sort(allRights, RefRight.REF_PATTERN_ORDER);
-
     for (RefRight right : filterMostSpecific(allRights)) {
       if (groups.contains(right.getAccountGroupId())) {
         val = Math.max(right.getMaxValue(), val);
@@ -247,31 +249,55 @@ public class RefControl {
     return val >= level;
   }
 
-  public static List<RefRight> filterMostSpecific(List<RefRight> actionRights) {
-    // Grab the first set of RefRight which have the same refPattern
-    // those are the most specific RefRights we have, and are the
-    // we will consider to verify if this action can be performed.
-    // We do this so that one can override the ref rights for a specific
-    // project on a specific branch
-    boolean sameRefPattern = true;
-    List<RefRight> mostSpecific = new ArrayList<RefRight>();
-    String currentRefPattern = null;
-    int i = 0;
-    while (sameRefPattern && i < actionRights.size()) {
-      if (currentRefPattern == null) {
-        currentRefPattern = actionRights.get(i).getRefPattern();
-        mostSpecific.add(actionRights.get(i));
-        i++;
-      } else {
-        if (currentRefPattern.equals(actionRights.get(i).getRefPattern())) {
-          mostSpecific.add(actionRights.get(i));
-          i++;
-        } else {
-          sameRefPattern = false;
+  public static List<RefRight> filterMostSpecific(List<RefRight> refRights) {
+    //Order the refRights list by the most specific RefRight for a given right.
+    //This ordering is done:
+    //1 - By finites first, infinities after.
+    //    Considering multiple results with the same value in the previous condition.
+    //2 - By the minor value of transitions
+    //3 - By the major value of the regex length
+
+    Collections.sort(refRights, new Comparator<RefRight>() {
+      public int compare(final RefRight o1, final RefRight o2) {
+        int cmp = 0;
+
+        final String refPattern1 = o1.getRefPattern().replace("*", "(.*)");
+        final String refPattern2 = o2.getRefPattern().replace("*", "(.*)");
+
+        final RegExp regexp1 = new RegExp(refPattern1);
+        final RegExp regexp2 = new RegExp(refPattern2);
+
+        final Automaton automaton1 = regexp1.toAutomaton();
+        final Automaton automaton2 = regexp2.toAutomaton();
+
+        if (automaton1.isFinite() && !automaton2.isFinite()) {
+          cmp = -1;
         }
+        if (!automaton1.isFinite() && automaton2.isFinite()) {
+          cmp = 1;
+        }
+        if (automaton1.isFinite() == automaton2.isFinite()) {
+          if (automaton1.getNumberOfTransitions() < automaton2.getNumberOfTransitions()) {
+            cmp = -1;
+          }
+          if (automaton1.getNumberOfTransitions() > automaton2.getNumberOfTransitions()) {
+            cmp = 1;
+          }
+          if (automaton1.getNumberOfTransitions() == automaton2.getNumberOfTransitions()) {
+            if (refPattern1.length() > refPattern2.length()) {
+              cmp = -1;
+            }
+            if (refPattern1.length() < refPattern2.length()) {
+              cmp = 1;
+            }
+          }
+        }
+
+        return cmp;
       }
-    }
-    return mostSpecific;
+    });
+
+    return refRights;
   }
 
   private List<RefRight> getLocalRights(ApprovalCategory.Id actionId) {
@@ -286,7 +312,6 @@ public class RefControl {
     List<RefRight> l = new ArrayList<RefRight>();
     l.addAll(getLocalRights(id));
     l.addAll(getInheritedRights(id));
-    Collections.sort(l, RefRight.REF_PATTERN_ORDER);
     return Collections.unmodifiableList(RefControl.filterMostSpecific(l));
   }
 
@@ -305,12 +330,6 @@ public class RefControl {
   }
 
   public static boolean matches(String refName, String refPattern) {
-    if (refPattern.endsWith("/*")) {
-      String prefix = refPattern.substring(0, refPattern.length() - 1);
-      return refName.startsWith(prefix);
-
-    } else {
-      return refName.equals(refPattern);
-    }
+    return Pattern.matches(refPattern.replace("*", "(.*)"), refName);
   }
 }

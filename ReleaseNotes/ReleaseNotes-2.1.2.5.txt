@@ -1,0 +1,24 @@
+Release notes for Gerrit 2.1.2.5
+================================
+
+Gerrit 2.1.2.5 is now available in the usual location:
+
+link:http://code.google.com/p/gerrit/downloads/list[http://code.google.com/p/gerrit/downloads/list]
+
+Bug Fixes
+---------
+
+* issue 390 Resolve objects going missing
++
+Clients disconnecting from the SSH server sometimes caused an
+interrupt to be delivered to their corresponding server work thread.
+That interrupt delivered at the wrong time caused a file to be
+closed unexpectedly, resulting in JGit marking the file as invalid
+and thereby losing access to its contents.  Fixed by serializing
+access to the file.
+
+* ps: Fix implementation to alias to gerrit show-queue
++
+The SSH command `ps` was meant to be an alias for `gerrit show-queue`
+but due to a copy-and-paste error was actually an alias for a
+different command.  Fixed.

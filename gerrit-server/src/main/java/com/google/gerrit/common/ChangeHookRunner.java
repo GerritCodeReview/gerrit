@@ -253,6 +253,9 @@ public class ChangeHookRunner {
         args.add(event.change.project);
         args.add("--branch");
         args.add(event.change.branch);
+        args.add("--uploader");
+        final AccountState uploader = accountCache.get(patchSet.getUploader());
+        args.add(getDisplayName(uploader.getAccount()));
         args.add("--commit");
         args.add(event.patchSet.revision);
         args.add("--patchset");

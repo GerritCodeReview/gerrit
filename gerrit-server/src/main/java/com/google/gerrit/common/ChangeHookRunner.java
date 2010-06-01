@@ -88,6 +88,7 @@ public class ChangeHookRunner {
         public String number;
         public String revision;
         public String ref;
+        public AuthorAttribute uploader;
     }
 
     public static class CommentAddedEvent extends ChangeEvent {
@@ -472,6 +473,8 @@ public class ChangeHookRunner {
         p.revision = patchSet.getRevision().get();
         p.number = Integer.toString(patchSet.getPatchSetId());
         p.ref = patchSet.getRefName();
+        final AccountState uploader = accountCache.get(patchSet.getUploader());
+        p.uploader = getAccountAttribute(uploader.getAccount());
         return p;
     }
 

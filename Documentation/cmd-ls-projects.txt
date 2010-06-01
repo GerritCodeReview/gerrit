@@ -32,6 +32,11 @@ OPTIONS
 \-b::
 	Name of the branch for which the command will display the sha of each project.
 
+\--tree::
+\-t::
+	Displays project inheritance in a tree-like format.
+	This option does not work together with the show-branch option.
+
 EXAMPLES
 --------
 

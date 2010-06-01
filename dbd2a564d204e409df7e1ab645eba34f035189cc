@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX///30\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-01T18:02:47Z",
+      "side": 1,
+      "message": "I\u0027d rather not.  I hope to kill these in the future.\n\nIf you need a URL to the change, you instead should use:\n\n  $BASE_URL/r/$change\n\nWhere $BASE_URL is the URL you would access the server from in your browser and $change is the event.change_id that is being passed in as the --change flag.\n\nOr.. have the server generate the URL and pass it down with a --change-url flag.",
+      "revId": "dbd2a564d204e409df7e1ab645eba34f035189cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

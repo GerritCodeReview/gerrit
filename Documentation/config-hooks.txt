@@ -27,7 +27,7 @@ This is called whenever a patchset is created (this includes new
 changes)
 
 ====
-  patchset-created --change <change id> --change-url <change url> --project <project name> --branch <branch> --commit <sha1> --patchset <patchset id>
+  patchset-created --change <change id> --change-url <change url> --project <project name> --branch <branch> --uploader <uploader> --commit <sha1> --patchset <patchset id>
 ====
 
 comment-added

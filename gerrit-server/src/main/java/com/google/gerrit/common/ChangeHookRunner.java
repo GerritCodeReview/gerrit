@@ -247,6 +247,8 @@ public class ChangeHookRunner {
 
         args.add("--change");
         args.add(event.change.id);
+        args.add("--change-number");
+        args.add(event.change.number);
         args.add("--project");
         args.add(event.change.project);
         args.add("--branch");
@@ -291,6 +293,8 @@ public class ChangeHookRunner {
 
         args.add("--change");
         args.add(event.change.id);
+        args.add("--change-number");
+        args.add(event.change.number);
         args.add("--project");
         args.add(event.change.project);
         args.add("--branch");
@@ -329,6 +333,8 @@ public class ChangeHookRunner {
 
         args.add("--change");
         args.add(event.change.id);
+        args.add("--change-number");
+        args.add(event.change.number);
         args.add("--project");
         args.add(event.change.project);
         args.add("--branch");
@@ -361,6 +367,8 @@ public class ChangeHookRunner {
 
         args.add("--change");
         args.add(event.change.id);
+        args.add("--change-number");
+        args.add(event.change.number);
         args.add("--project");
         args.add(event.change.project);
         args.add("--branch");

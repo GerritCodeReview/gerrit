@@ -351,6 +351,10 @@ public final class Change {
   @Column(id = 13)
   protected String subject;
 
+  /** Max 64 bit unsigned value (0xFFFFFFFFFFFFFFFF) minus {@link #sortKey} */
+  @Column(id = 14, length = 16)
+  protected String sortKeyDesc;
+
   protected Change() {
   }
 
@@ -404,6 +408,11 @@ public final class Change {
 
   public void setSortKey(final String newSortKey) {
     sortKey = newSortKey;
+
+    // Since long is signed in Java, we need to use a little two's compliment
+    // trickery to get the same hex value that we would have gotten if we could
+    // do 0xFFFFFFFFFFFFFFFF - sortKey unsigned.
+    sortKeyDesc = Long.toHexString(-1l - Long.parseLong(sortKey, 16));
   }
 
   public Account.Id getOwner() {

@@ -29,6 +29,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
@@ -52,6 +53,8 @@ class SubmitAction extends Handler<ChangeDetail> {
   private final FunctionState.Factory functionState;
   private final IdentifiedUser user;
   private final ChangeDetailFactory.Factory changeDetailFactory;
+  @Inject
+  private ChangeControl.Factory changeControlFactory;
 
   private final PatchSet.Id patchSetId;
 
@@ -74,79 +77,15 @@ class SubmitAction extends Handler<ChangeDetail> {
   public ChangeDetail call() throws OrmException, NoSuchEntityException,
       IllegalStateException, PatchSetInfoNotAvailableException,
       NoSuchChangeException {
+
     final Change.Id changeId = patchSetId.getParentKey();
-    Change change = db.changes().get(changeId);
-    if (change == null) {
-      throw new NoSuchEntityException();
-    }
+    final ChangeControl changeControl = changeControlFactory.validateFor(changeId);
 
-    if (!patchSetId.equals(change.currentPatchSetId())) {
-      throw new IllegalStateException("Patch set " + patchSetId
-          + " not current");
-    }
-    if (change.getStatus().isClosed()) {
-      throw new IllegalStateException("Change" + changeId + " is closed");
-    }
+    String err = changeControl.canSubmit(patchSetId, db, approvalTypes,
+        functionState);
+    if(err != null) { throw new IllegalStateException(err); }
 
-    final List<PatchSetApproval> allApprovals =
-        new ArrayList<PatchSetApproval>(db.patchSetApprovals().byPatchSet(
-            patchSetId).toList());
-
-    final PatchSetApproval.Key ak =
-        new PatchSetApproval.Key(patchSetId, user.getAccountId(), SUBMIT);
-    PatchSetApproval myAction = null;
-    for (final PatchSetApproval ca : allApprovals) {
-      if (ak.equals(ca.getKey())) {
-        myAction = ca;
-        myAction.setValue((short) 1);
-        myAction.setGranted();
-        break;
-      }
-    }
-    if (myAction == null) {
-      myAction = new PatchSetApproval(ak, (short) 1);
-      allApprovals.add(myAction);
-    }
-
-    final ApprovalType actionType =
-        approvalTypes.getApprovalType(myAction.getCategoryId());
-    if (actionType == null || !actionType.getCategory().isAction()) {
-      throw new IllegalArgumentException(actionType.getCategory().getName()
-          + " not an action");
-    }
-
-    final FunctionState fs =
-        functionState.create(change, patchSetId, allApprovals);
-    for (ApprovalType c : approvalTypes.getApprovalTypes()) {
-      CategoryFunction.forCategory(c.getCategory()).run(c, fs);
-    }
-    if (!CategoryFunction.forCategory(actionType.getCategory()).isValid(user,
-        actionType, fs)) {
-      throw new IllegalStateException(actionType.getCategory().getName()
-          + " not permitted");
-    }
-    fs.normalize(actionType, myAction);
-    if (myAction.getValue() <= 0) {
-      throw new IllegalStateException(actionType.getCategory().getName()
-          + " not permitted");
-    }
-
-    db.patchSetApprovals().upsert(Collections.singleton(myAction));
-
-    change = db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
-      @Override
-      public Change update(Change change) {
-        if (change.getStatus() == Change.Status.NEW) {
-          change.setStatus(Change.Status.SUBMITTED);
-          ChangeUtil.updated(change);
-        }
-        return change;
-      }
-    });
-
-    if (change.getStatus() == Change.Status.SUBMITTED) {
-      merger.merge(change.getDest());
-    }
+    ChangeUtil.submit(patchSetId, user, db, merger);
 
     return changeDetailFactory.create(changeId).call();
   }

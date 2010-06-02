@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX///o4\u003d",
+        "filename": "gerrit-reviewdb/src/main/test/com/google/gerrit/reviewdb/ChangeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-02T16:45:06Z",
+      "side": 1,
+      "message": "Tests need to go into src/test/java/com/... otherwise Maven won\u0027t find them.",
+      "revId": "a265453c5b0a59a55e259f8f5175a365b61e9958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,16 +14,26 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.workflow.CategoryFunction;
+import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /** Access control management for a user accessing a single change. */
 public class ChangeControl {
@@ -172,5 +182,56 @@ public class ChangeControl {
     }
 
     return false;
+  }
+
+  /** Can this user submit patch set to this change? */
+  public String canSubmit(final PatchSet.Id patchSetId, final ReviewDb db,
+        final ApprovalTypes approvalTypes,
+        FunctionState.Factory functionStateFactory)
+      throws NoSuchChangeException, OrmException,
+        PatchSetInfoNotAvailableException {
+
+    final Change.Id changeId = patchSetId.getParentKey();
+    if (change.getStatus().isClosed()) {
+      return "Change " + changeId + " is closed";
+    }
+
+    final Change change = getChange();
+    if (!patchSetId.equals(change.currentPatchSetId())) {
+      return "Patch set " + patchSetId + " not current";
+    }
+
+    final List<PatchSetApproval> allApprovals =
+        new ArrayList<PatchSetApproval>(db.patchSetApprovals().byPatchSet(
+            patchSetId).toList());
+
+    if(!(getCurrentUser() instanceof IdentifiedUser)) {
+      throw new IllegalArgumentException("user is not identified");
+    }
+    final PatchSetApproval myAction =
+        ChangeUtil.createSubmitApproval(patchSetId,
+            (IdentifiedUser) getCurrentUser(), db);
+
+    final ApprovalType actionType =
+        approvalTypes.getApprovalType(myAction.getCategoryId());
+    if (actionType == null || !actionType.getCategory().isAction()) {
+      throw new IllegalArgumentException(myAction.getCategoryId() +
+        " not an action");
+    }
+
+    final FunctionState fs =
+        functionStateFactory.create(change, patchSetId, allApprovals);
+    for (ApprovalType c : approvalTypes.getApprovalTypes()) {
+      CategoryFunction.forCategory(c.getCategory()).run(c, fs);
+    }
+    if (!CategoryFunction.forCategory(actionType.getCategory()).isValid(
+         getCurrentUser(), actionType, fs)) {
+      return actionType.getCategory().getName() + " not permitted";
+    }
+    fs.normalize(actionType, myAction);
+    if (myAction.getValue() <= 0) {
+      return actionType.getCategory().getName() + " not permitted";
+    }
+    return null;
   }
 }

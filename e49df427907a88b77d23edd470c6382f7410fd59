@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX///ig\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_100.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-03T22:49:27Z",
+      "side": 1,
+      "message": "Don\u0027t include the \";\" in JDBC statements like this.  Its not officially part of the SQL standard and not all databases will accept it in a query submitted through their APIs.",
+      "revId": "e49df427907a88b77d23edd470c6382f7410fd59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///ic\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_100.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-03T22:49:27Z",
+      "side": 1,
+      "message": "Style-nit:  We put curly braces around blocks, forcing the break to go into a new line and indent under the if.",
+      "revId": "e49df427907a88b77d23edd470c6382f7410fd59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

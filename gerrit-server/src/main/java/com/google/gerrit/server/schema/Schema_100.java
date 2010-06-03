@@ -14,12 +14,69 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Schema_100 extends SchemaVersion {
   @Inject
   Schema_100(Provider<Schema_33> prior) {
     super(prior);
+  }
+
+  @Override
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException {
+
+    List<String> toCalc = new ArrayList<String>(1000);
+
+    PreparedStatement selectStmt =
+        ((JdbcSchema) db).getConnection().prepareStatement(
+            "SELECT sort_key FROM changes WHERE sort_key_desc IS NULL"
+                + " OR sort_key_desc='';");
+
+    selectStmt.setMaxRows(1000);
+
+    PreparedStatement updateStmt =
+        ((JdbcSchema) db).getConnection().prepareStatement(
+            "UPDATE changes SET sort_key_desc = ? WHERE sort_key = ?;");
+
+    try {
+      while (true) {
+        ResultSet rs = selectStmt.executeQuery();
+
+        try {
+          while (rs.next()) {
+            toCalc.add(rs.getString(1));
+          }
+        } finally {
+          rs.close();
+        }
+
+        if (toCalc.isEmpty()) break;
+
+        for (String s : toCalc) {
+          String sortKeyDesc = Long.toHexString(-1l - Long.parseLong(s, 16));
+
+          updateStmt.setString(1, sortKeyDesc);
+          updateStmt.setString(2, s);
+
+          updateStmt.addBatch();
+        }
+        updateStmt.executeBatch();
+
+        toCalc.clear();
+
+      }
+    } finally {
+      updateStmt.close();
+      selectStmt.close();
+    }
   }
 }

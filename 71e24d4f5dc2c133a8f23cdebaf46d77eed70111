@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX///io\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-03T22:25:03Z",
+      "side": 1,
+      "message": "I just figured out why this is working for you when I expected it to fail.  You only changed the ORDER BY clause.  We also need to change the column in the WHERE clause to use the sortKeyDesc.  Otherwise the server isn\u0027t scanning along the range we want.\n\n:-)",
+      "revId": "71e24d4f5dc2c133a8f23cdebaf46d77eed70111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX///lQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-03T09:28:26Z",
+      "side": 1,
+      "message": "I\u0027m not sure I get the point of this change.  As far as I can tell this only runs the isValidRefName test if the proposed new pattern does _not_ start with refs/.  We\u0027ve already made that test above at line 142 and added refs/heads/ to the beginning, so this should always be false and you are bypassing the isValidRefName check.\n\nI can understand why you need to bypass isValidRefName for some patterns.  If its a regex using meta characters the string is likely to fail the isVaildRefName test.  So that check is probably overkill here.\n\nReally what we want to do is avoid some common pitfalls that an admin can make when setting up an access entry:\n\n* reject spaces\n* reject non-printables in the US-ASCII set below space\n* reject multiple contiguous slashes (e.g. \"refs//heads\" is bad)\n\nThat might be sufficient for our needs here, and would still allow complex regex metacharacters.  So lets just rip out the isValidRefName test and replace it with something that rejects based on those 3 simple rules above.",
+      "revId": "e060d3758e5184a7cedd38883253f60817a04e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///lc\u003d",
+        "filename": "gerrit-server/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-03T09:28:26Z",
+      "side": 1,
+      "message": "Please add this package to Documentation/licenses.txt so proper notice is given per its license.",
+      "revId": "e060d3758e5184a7cedd38883253f60817a04e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///lg\u003d",
+        "filename": "gerrit-server/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-03T09:28:26Z",
+      "side": 1,
+      "message": "Style-nit:  Please declare the version of each dependency in the top level pom.xml and only use the groupId/artifactId here.  That ensures we only have one consistent version in use in the runtime.",
+      "revId": "e060d3758e5184a7cedd38883253f60817a04e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///lU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-03T09:28:26Z",
+      "side": 1,
+      "message": "So we can\u0027t ever write \"refs/heads/fo*\" to permit branches like refs/heads/f, refs/heads/fo, and refs/heads/foooooo but not refs/heads/fudge?\n\nDo we want to have some sort of rule to activate the regex behavior?  E.g. check if the string ends with \"/*\" and if it does then its an old-style glob and replace \"/*\" with \"/(.*)\" before evaluating as a regex.  But if it doesn\u0027t end with /* then treat it as a regex?\n\nOf course a lot of regex meta characters are valid in a ref name.  Dot being pretty common.  So we would want to avoid a pattern like \"refs/tags/v1.0/*\" also matching refs/tags/v1b0 just because the regex honored the dot wild card and the glob didn\u0027t.\n\nIn the past when I\u0027ve had this confusion I have only enabled the regex when the pattern starts with ^.  I think we already do this for the trustedOpenId variable in gerrit.config.  Without the leading ^ the pattern is treated as the more simple glob style.",
+      "revId": "e060d3758e5184a7cedd38883253f60817a04e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

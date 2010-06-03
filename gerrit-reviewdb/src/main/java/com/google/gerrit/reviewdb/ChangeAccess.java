@@ -41,10 +41,10 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE owner = ? AND open = true ORDER BY createdOn, changeId")
   ResultSet<Change> byOwnerOpen(Account.Id id) throws OrmException;
 
-  @Query("WHERE owner = ? AND open = false ORDER BY lastUpdatedOn DESC LIMIT 5")
+  @Query("WHERE owner = ? AND open = false ORDER BY sortKeyDesc LIMIT 5")
   ResultSet<Change> byOwnerClosed(Account.Id id) throws OrmException;
 
-  @Query("WHERE owner = ? AND open = false ORDER BY lastUpdatedOn")
+  @Query("WHERE owner = ? AND open = false ORDER BY sortKey")
   ResultSet<Change> byOwnerClosedAll(Account.Id id) throws OrmException;
 
   @Query("WHERE dest = ? AND status = '" + Change.STATUS_SUBMITTED
@@ -57,7 +57,7 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE open = true AND sortKey > ? ORDER BY sortKey LIMIT ?")
   ResultSet<Change> allOpenPrev(String sortKey, int limit) throws OrmException;
 
-  @Query("WHERE open = true AND sortKey < ? ORDER BY sortKey DESC LIMIT ?")
+  @Query("WHERE open = true AND sortKey < ? ORDER BY sortKeyDesc LIMIT ?")
   ResultSet<Change> allOpenNext(String sortKey, int limit) throws OrmException;
 
   @Query("WHERE open = true AND dest.projectName = ?")
@@ -69,7 +69,7 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
       int limit) throws OrmException;
 
   @Query("WHERE open = true AND dest.projectName = ? AND sortKey < ?"
-      + " ORDER BY sortKey DESC LIMIT ?")
+      + " ORDER BY sortKeyDesc LIMIT ?")
   ResultSet<Change> byProjectOpenNext(Project.NameKey p, String sortKey,
       int limit) throws OrmException;
 
@@ -79,7 +79,7 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
       String sortKey, int limit) throws OrmException;
 
   @Query("WHERE open = false AND status = ? AND dest.projectName = ? AND sortKey < ?"
-      + " ORDER BY sortKey DESC LIMIT ?")
+      + " ORDER BY sortKeyDesc LIMIT ?")
   ResultSet<Change> byProjectClosedNext(char status, Project.NameKey p,
       String sortKey, int limit) throws OrmException;
 
@@ -87,7 +87,7 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   ResultSet<Change> allClosedPrev(char status, String sortKey, int limit)
       throws OrmException;
 
-  @Query("WHERE open = false AND status = ? AND sortKey < ? ORDER BY sortKey DESC LIMIT ?")
+  @Query("WHERE open = false AND status = ? AND sortKey < ? ORDER BY sortKeyDesc LIMIT ?")
   ResultSet<Change> allClosedNext(char status, String sortKey, int limit)
       throws OrmException;
 }

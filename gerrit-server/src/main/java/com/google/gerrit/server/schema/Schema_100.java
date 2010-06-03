@@ -14,12 +14,89 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Schema_100 extends SchemaVersion {
+  private static final int MAX_SCAN_SIZE = 50000;
+
   @Inject
   Schema_100(Provider<Schema_33> prior) {
     super(prior);
+  }
+
+  @Override
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException {
+    List<ToUpdate> changes = new ArrayList<ToUpdate>(MAX_SCAN_SIZE);
+
+    PreparedStatement selectStmt =
+        ((JdbcSchema) db).getConnection().prepareStatement(
+            "SELECT change_id, sort_key FROM changes"
+                + " WHERE sort_key_desc IS NULL OR sort_key_desc=''");
+
+    selectStmt.setMaxRows(MAX_SCAN_SIZE);
+
+    PreparedStatement updateStmt =
+        ((JdbcSchema) db).getConnection().prepareStatement(
+            "UPDATE changes SET sort_key_desc = ? WHERE change_id = ?");
+
+    try {
+      while (true) {
+        ResultSet rs = selectStmt.executeQuery();
+        try {
+          while (rs.next() && changes.size() < MAX_SCAN_SIZE) {
+            changes.add(new ToUpdate(rs.getInt(1), rs.getString(2)));
+          }
+        } finally {
+          rs.close();
+        }
+
+        if (changes.isEmpty()) {
+          break;
+        }
+
+        int batchSize = 0;
+        for (ToUpdate u : changes) {
+          String desc = Long.toHexString(-1l - Long.parseLong(u.sortKey, 16));
+
+          updateStmt.setString(1, desc);
+          updateStmt.setInt(2, u.id);
+
+          updateStmt.addBatch();
+          batchSize++;
+
+          if (batchSize >= 200) {
+            updateStmt.executeBatch();
+            batchSize = 0;
+          }
+        }
+        if (batchSize > 0) {
+          updateStmt.executeBatch();
+        }
+
+        changes.clear();
+      }
+    } finally {
+      updateStmt.close();
+      selectStmt.close();
+    }
+  }
+
+  private static class ToUpdate {
+    int id;
+    String sortKey;
+
+    ToUpdate(int changeId, String sortKey) {
+      this.id = changeId;
+      this.sortKey = sortKey;
+    }
   }
 }

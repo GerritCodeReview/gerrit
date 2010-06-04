@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX///ek\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-04T18:20:05Z",
+      "side": 1,
+      "message": "Style-nit: Please don\u0027t insert unnecessary blank lines.",
+      "revId": "9482a6df2207579b435d856fec71cda68ab31f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///eY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-04T18:20:05Z",
+      "side": 1,
+      "message": "For completeness should we also invert \u0027/\u0027 to \u0027z\u0027 ?",
+      "revId": "9482a6df2207579b435d856fec71cda68ab31f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///eg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-04T18:20:05Z",
+      "side": 1,
+      "message": "Style-nit:  We don\u0027t put a blank line at the start of a method.",
+      "revId": "9482a6df2207579b435d856fec71cda68ab31f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///ec\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-04T18:20:05Z",
+      "side": 1,
+      "message": "I wonder if it would be more clear to do these as high and low, such as:\n\n  final long h \u003d Long.parseLong(s.substring(0, 1), 16);\n  final long l \u003d Long.parseLong(s.substring(1), 16);\n  return (h \u003c\u003c 60) | l;",
+      "revId": "9482a6df2207579b435d856fec71cda68ab31f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

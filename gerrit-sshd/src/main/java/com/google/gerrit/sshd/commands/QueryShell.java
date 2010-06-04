@@ -79,16 +79,20 @@ public class QueryShell {
     try {
       db = dbFactory.open();
       try {
-        connection = ((JdbcSchema) db).getConnection();
-        connection.setAutoCommit(true);
+        if (db instanceof JdbcSchema) {
+          connection = ((JdbcSchema) db).getConnection();
+          connection.setAutoCommit(true);
 
-        statement = connection.createStatement();
-        try {
-          showBanner();
-          readEvalPrintLoop();
-        } finally {
-          statement.close();
-          statement = null;
+          statement = connection.createStatement();
+          try {
+            showBanner();
+            readEvalPrintLoop();
+          } finally {
+            statement.close();
+            statement = null;
+          }
+        } else {
+          out.println("fatal: Backend database is not SQL; aborting.");
         }
       } finally {
         db.close();

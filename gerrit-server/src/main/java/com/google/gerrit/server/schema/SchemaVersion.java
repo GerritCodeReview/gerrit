@@ -81,22 +81,20 @@ public abstract class SchemaVersion {
   /** Runs check on the prior schema version, and then upgrades. */
   protected void upgradeFrom(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db, boolean toTargetVersion)
       throws OrmException, SQLException {
-    final JdbcSchema s = (JdbcSchema) db;
-
     prior.get().check(ui, curr, db, false);
 
     ui.message("Upgrading database schema from version " + curr.versionNbr
         + " to " + versionNbr + " ...");
 
     preUpdateSchema(db);
-    final JdbcExecutor e = new JdbcExecutor(s);
+    final StatementExecutor e = newExecutor(db);
     try {
-      s.updateSchema(e);
+      db.updateSchema(e);
       migrateData(db, ui);
 
       if (toTargetVersion) {
         final List<String> pruneList = new ArrayList<String>();
-        s.pruneSchema(new StatementExecutor() {
+        db.pruneSchema(new StatementExecutor() {
           public void execute(String sql) {
             pruneList.add(sql);
           }
@@ -107,9 +105,23 @@ public abstract class SchemaVersion {
         }
       }
     } finally {
-      e.close();
+      if (e instanceof JdbcExecutor) {
+        ((JdbcExecutor)e).close();
+      }
     }
     finish(curr, db);
+  }
+
+  private StatementExecutor newExecutor(ReviewDb db) throws OrmException {
+    if (db instanceof JdbcSchema) {
+      return new JdbcExecutor((JdbcSchema) db);
+    }
+    return new StatementExecutor() {
+      @Override
+      public void execute(String sql) throws OrmException {
+        throw new OrmException("SQL statement execution not supported");
+      }
+    };
   }
 
   /** Invoke before updateSchema adds new columns/tables. */

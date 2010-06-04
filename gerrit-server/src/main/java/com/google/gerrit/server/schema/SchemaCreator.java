@@ -29,6 +29,7 @@ import com.google.gerrit.server.workflow.NoOpFunction;
 import com.google.gerrit.server.workflow.SubmitFunction;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.StatementExecutor;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.schema.sql.DialectH2;
@@ -71,12 +72,21 @@ public class SchemaCreator {
   }
 
   public void create(final ReviewDb db) throws OrmException {
-    final JdbcSchema jdbc = (JdbcSchema) db;
-    final JdbcExecutor e = new JdbcExecutor(jdbc);
-    try {
-      jdbc.updateSchema(e);
-    } finally {
-      e.close();
+    if (db instanceof JdbcSchema) {
+      final JdbcSchema jdbc = (JdbcSchema) db;
+      final JdbcExecutor e = new JdbcExecutor(jdbc);
+      try {
+        jdbc.updateSchema(e);
+      } finally {
+        e.close();
+      }
+    } else {
+      db.updateSchema(new StatementExecutor() {
+        @Override
+        public void execute(String sql) throws OrmException {
+          throw new OrmException("Raw SQL not supported");
+        }
+      });
     }
 
     final CurrentSchemaVersion sVer = CurrentSchemaVersion.create();
@@ -94,19 +104,21 @@ public class SchemaCreator {
     initForgeIdentityCategory(db, sConfig);
     initWildCardProject(db);
 
-    final SqlDialect d = jdbc.getDialect();
-    if (d instanceof DialectH2) {
-      index_generic.run(db);
+    if (db instanceof JdbcSchema) {
+      final SqlDialect d = ((JdbcSchema) db).getDialect();
+      if (d instanceof DialectH2) {
+        index_generic.run(db);
 
-    } else if (d instanceof DialectMySQL) {
-      index_generic.run(db);
-      mysql_nextval.run(db);
+      } else if (d instanceof DialectMySQL) {
+        index_generic.run(db);
+        mysql_nextval.run(db);
 
-    } else if (d instanceof DialectPostgreSQL) {
-      index_postgres.run(db);
+      } else if (d instanceof DialectPostgreSQL) {
+        index_postgres.run(db);
 
-    } else {
-      throw new OrmException("Unsupported database " + d.getClass().getName());
+      } else {
+        throw new OrmException("Unsupported database " + d.getClass().getName());
+      }
     }
   }
 

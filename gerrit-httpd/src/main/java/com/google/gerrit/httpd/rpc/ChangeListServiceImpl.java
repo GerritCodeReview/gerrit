@@ -559,7 +559,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
               break;
             }
           }
-          sortKey = c.getSortKey();
+          sortKey = nextSortKey(c);
         }
       }
 
@@ -567,6 +567,10 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       d.setChanges(list, atEnd);
       d.setAccounts(ac.create());
       return d;
+    }
+
+    protected String nextSortKey(final Change c) {
+      return ChangeUtil.invertSortKey(c.getSortKey());
     }
 
     boolean finish(final ArrayList<ChangeInfo> list) {
@@ -591,6 +595,10 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final boolean atEnd = super.finish(list);
       Collections.reverse(list);
       return atEnd;
+    }
+
+    protected String nextSortKey(final Change c) {
+      return c.getSortKey();
     }
   }
 }

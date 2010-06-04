@@ -94,4 +94,36 @@ public class ChangeUtil {
       dst.setCharAt(o--, '0');
     }
   }
+
+  public static String invertSortKey(String sk) {
+    if (sk.equalsIgnoreCase("z")) {
+      return "/"; // The character before '0'
+    } else if (sk.equalsIgnoreCase("/")) {
+      return "z";
+    }
+
+    StringBuilder inv = new StringBuilder(16);
+    inv.setLength(16);
+    formatHexLong(inv, -1l - parseUnsignedHex(sk));
+
+    return inv.toString();
+  }
+
+  private static void formatHexLong(final StringBuilder dst, long l) {
+    int o = 15;
+    while (o >= 0 && l != 0) {
+      dst.setCharAt(o--, hexchar[(int) (l & 0xf)]);
+      l >>>= 4;
+    }
+    while (o >= 0) {
+      dst.setCharAt(o--, '0');
+    }
+  }
+
+  private static long parseUnsignedHex(String s) {
+    final long h = Long.parseLong(s.substring(0, 1), 16);
+    final long l = Long.parseLong(s.substring(1), 16);
+
+    return (h << 60) | l;
+  }
 }

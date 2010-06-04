@@ -87,11 +87,7 @@ public final class DataSourceProvider implements Provider<DataSource>,
 
     if (url == null || url.isEmpty()) {
       if (type == null) {
-        if (url != null && !url.isEmpty()) {
-          type = Type.JDBC;
-        } else {
-          type = Type.H2;
-        }
+        type = Type.H2;
       }
 
       switch (type) {

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX///cs\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/ChangeUtilTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-04T19:50:50Z",
+      "side": 1,
+      "message": "Why is this toLowerCase?",
+      "revId": "0846f83690af78d5b1f621ce55c897a0d192307a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///co\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/ChangeUtilTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-04T19:50:50Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we format these lowercase in the test too since the original input is lowercase?",
+      "revId": "0846f83690af78d5b1f621ce55c897a0d192307a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///ck\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/ChangeUtilTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-04T19:50:50Z",
+      "side": 1,
+      "message": "Ditto with lowercase?",
+      "revId": "0846f83690af78d5b1f621ce55c897a0d192307a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

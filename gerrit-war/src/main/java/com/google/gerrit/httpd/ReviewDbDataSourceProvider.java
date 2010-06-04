@@ -15,6 +15,10 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
+import com.google.gwtorm.jdbc.Database;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
@@ -25,14 +29,22 @@ import javax.sql.DataSource;
 
 /** Provides access to the {@code ReviewDb} DataSource. */
 @Singleton
-final class ReviewDbDataSourceProvider implements Provider<DataSource>,
-    LifecycleListener {
-  private DataSource ds;
+final class ReviewDbDataSourceProvider implements
+    Provider<SchemaFactory<ReviewDb>>, LifecycleListener {
+  private SchemaFactory<ReviewDb> ds;
+  private DataSource dataSource;
 
   @Override
-  public synchronized DataSource get() {
+  public synchronized SchemaFactory<ReviewDb> get() {
+    if (dataSource == null) {
+      dataSource = open();
+    }
     if (ds == null) {
-      ds = open();
+      try {
+        ds = new Database<ReviewDb>(dataSource, ReviewDb.class);
+      } catch (OrmException err) {
+        throw new ProvisionException("Cannot initialize database", err);
+      }
     }
     return ds;
   }
@@ -43,8 +55,8 @@ final class ReviewDbDataSourceProvider implements Provider<DataSource>,
 
   @Override
   public synchronized void stop() {
-    if (ds != null) {
-      closeDataSource(ds);
+    if (dataSource != null) {
+      closeDataSource(dataSource);
     }
   }
 

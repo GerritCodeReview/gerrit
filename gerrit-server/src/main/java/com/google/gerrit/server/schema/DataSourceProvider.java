@@ -15,12 +15,17 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.gerrit.server.config.ConfigUtil.getEnum;
-import static java.util.concurrent.TimeUnit.*;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
+import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -35,22 +40,25 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import javax.sql.DataSource;
-
 /** Provides access to the DataSource. */
 @Singleton
-public final class DataSourceProvider implements Provider<DataSource>,
-    LifecycleListener {
-  private final DataSource ds;
+public final class DataSourceProvider implements
+    Provider<SchemaFactory<ReviewDb>>, LifecycleListener {
+  private final SchemaFactory<ReviewDb> ds;
+  private BasicDataSource basicDataSource;
 
   @Inject
   DataSourceProvider(final SitePaths site,
       @GerritServerConfig final Config cfg, Context ctx) {
-    ds = open(site, cfg, ctx);
+    try {
+      ds = open(site, cfg, ctx);
+    } catch (OrmException e) {
+      throw new ProvisionException("Cannot create ReviewDb", e);
+    }
   }
 
   @Override
-  public synchronized DataSource get() {
+  public SchemaFactory<ReviewDb> get() {
     return ds;
   }
 
@@ -60,11 +68,13 @@ public final class DataSourceProvider implements Provider<DataSource>,
 
   @Override
   public synchronized void stop() {
-    if (ds instanceof BasicDataSource) {
+    if (basicDataSource != null) {
       try {
-        ((BasicDataSource) ds).close();
+        basicDataSource.close();
       } catch (SQLException e) {
         // Ignore the close failure.
+      } finally {
+        basicDataSource = null;
       }
     }
   }
@@ -77,8 +87,8 @@ public final class DataSourceProvider implements Provider<DataSource>,
     H2, POSTGRESQL, MYSQL, JDBC;
   }
 
-  private DataSource open(final SitePaths site, final Config cfg,
-      final Context context) {
+  private SchemaFactory<ReviewDb> open(final SitePaths site, final Config cfg,
+      final Context context) throws OrmException {
     Type type = getEnum(cfg, "database", null, "type", Type.values(), null);
     String driver = optional(cfg, "driver");
     String url = optional(cfg, "url");
@@ -185,7 +195,8 @@ public final class DataSourceProvider implements Provider<DataSource>,
       ds.setMaxWait(ConfigUtil.getTimeUnit(cfg, "database", null,
           "poolmaxwait", MILLISECONDS.convert(30, SECONDS), MILLISECONDS));
       ds.setInitialSize(ds.getMinIdle());
-      return ds;
+      basicDataSource = ds;
+      return new Database<ReviewDb>(ds, ReviewDb.class);
 
     } else {
       // Don't use the connection pool.
@@ -200,7 +211,7 @@ public final class DataSourceProvider implements Provider<DataSource>,
         if (password != null) {
           p.setProperty("password", password);
         }
-        return new SimpleDataSource(p);
+        return new Database<ReviewDb>(new SimpleDataSource(p), ReviewDb.class);
       } catch (SQLException se) {
         throw new ProvisionException("Database unavailable", se);
       }

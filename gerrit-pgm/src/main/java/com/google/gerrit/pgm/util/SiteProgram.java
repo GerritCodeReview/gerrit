@@ -18,17 +18,20 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.schema.DataSourceProvider;
-import com.google.gerrit.server.schema.DatabaseModule;
+import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.google.inject.spi.Message;
 
@@ -156,13 +159,13 @@ public abstract class SiteProgram extends AbstractProgram {
       @Override
       protected void configure() {
         bind(DataSourceProvider.Context.class).toInstance(context);
-        bind(Key.get(DataSource.class, Names.named("ReviewDb"))).toProvider(
+        bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).toProvider(
             DataSourceProvider.class).in(SINGLETON);
         listener().to(DataSourceProvider.class);
       }
     });
     modules.add(new GerritServerConfigModule());
-    modules.add(new DatabaseModule());
+    modules.add(new SchemaVersion.Module());
 
     try {
       return Guice.createInjector(PRODUCTION, modules);

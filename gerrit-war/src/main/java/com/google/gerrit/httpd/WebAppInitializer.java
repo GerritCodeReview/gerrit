@@ -19,6 +19,7 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
@@ -27,17 +28,17 @@ import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePathFromSystemConfigProvider;
 import com.google.gerrit.server.schema.DataSourceProvider;
-import com.google.gerrit.server.schema.DatabaseModule;
+import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
-import com.google.inject.name.Names;
+import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.spi.Message;
 
@@ -51,7 +52,6 @@ import java.util.List;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
 
 /** Configures the web application environment for Gerrit Code Review. */
 public class WebAppInitializer extends GuiceServletContextListener {
@@ -129,7 +129,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
           bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
           bind(DataSourceProvider.Context.class).toInstance(
               DataSourceProvider.Context.MULTI_USER);
-          bind(Key.get(DataSource.class, Names.named("ReviewDb"))).toProvider(
+          bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).toProvider(
               DataSourceProvider.class).in(SINGLETON);
           listener().to(DataSourceProvider.class);
         }
@@ -140,13 +140,13 @@ public class WebAppInitializer extends GuiceServletContextListener {
       modules.add(new LifecycleModule() {
         @Override
         protected void configure() {
-          bind(Key.get(DataSource.class, Names.named("ReviewDb"))).toProvider(
+          bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).toProvider(
               ReviewDbDataSourceProvider.class).in(SINGLETON);
           listener().to(ReviewDbDataSourceProvider.class);
         }
       });
     }
-    modules.add(new DatabaseModule());
+    modules.add(new SchemaVersion.Module());
     return Guice.createInjector(PRODUCTION, modules);
   }
 

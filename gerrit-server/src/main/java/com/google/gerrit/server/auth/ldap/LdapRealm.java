@@ -74,6 +74,7 @@ class LdapRealm implements Realm {
   private final String server;
   private final String username;
   private final String password;
+  private final String referral;
   private final boolean sslVerify;
 
   private final AuthConfig authConfig;
@@ -105,6 +106,7 @@ class LdapRealm implements Realm {
     this.server = required(config, "server");
     this.username = optional(config, "username");
     this.password = optional(config, "password");
+    this.referral = optional(config, "referral");
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
     this.readOnlyAccountFields = new HashSet<Account.FieldName>();
 
@@ -467,6 +469,7 @@ class LdapRealm implements Realm {
       env.put(Context.SECURITY_AUTHENTICATION, "simple");
       env.put(Context.SECURITY_PRINCIPAL, username);
       env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
+      env.put(Context.REFERRAL, referral != null ? referral : "ignore");
     }
     return new InitialDirContext(env);
   }
@@ -477,6 +480,7 @@ class LdapRealm implements Realm {
     env.put(Context.SECURITY_AUTHENTICATION, "simple");
     env.put(Context.SECURITY_PRINCIPAL, dn);
     env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
+    env.put(Context.REFERRAL, referral != null ? referral : "ignore");
     try {
       return new InitialDirContext(env);
     } catch (NamingException e) {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX///dQ\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/ChangeUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-04T19:37:47Z",
+      "side": 1,
+      "message": "Missing copyright header.  :-)",
+      "revId": "d5064a2410d4333c1fa7c36130a91928093430a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///dM\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/ChangeUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-04T19:37:47Z",
+      "side": 1,
+      "message": "Why are you toUpperCase in the test?  We only use lower case for sort keys, and we should only use lower case for their inverses.  Uppercase sorts in a different location in a simple binary tree than lowercase does.",
+      "revId": "d5064a2410d4333c1fa7c36130a91928093430a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

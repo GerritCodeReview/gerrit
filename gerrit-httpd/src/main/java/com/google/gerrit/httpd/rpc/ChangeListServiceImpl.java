@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.project.ChangeControl;
@@ -530,7 +531,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     protected final int slim;
 
     QueryNext(final int pageSize, final String pos) {
-      this.pos = pos;
+      this.pos = ChangeUtil.invertSortKey(pos);
       this.limit = safePageSize(pageSize);
       this.slim = limit + 1;
     }
@@ -582,7 +583,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
   private abstract class QueryPrev extends QueryNext {
     QueryPrev(int pageSize, String pos) {
-      super(pageSize, pos);
+      super(pageSize, ChangeUtil.invertSortKey(pos));
     }
 
     @Override
@@ -592,4 +593,5 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       return atEnd;
     }
   }
+
 }

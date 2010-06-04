@@ -1086,6 +1086,16 @@ _(Optional)_ Password for the user identified by `ldap.username`.
 If not set, an anonymous (or passwordless) connection to the LDAP
 server is attempted.
 
+[[ldap.referral]]ldap.referral::
++
+_(Optional)_ How an LDAP referral should be handled if it is
+encountered during directory traversal.  Set to `follow` to
+automatically follow any referrals, or `ignore` to stop and fail
+with `javax.naming.PartialResultException: Unprocessed Continuation
+Reference(s)`
++
+By default, `ignore`.
+
 [[ldap.accountBase]]ldap.accountBase::
 +
 Root of the tree containing all user accounts.  This is typically

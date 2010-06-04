@@ -28,25 +28,25 @@ public interface PatchLineCommentAccess extends
   @Query("WHERE key.patchKey.patchSetId.changeId = ?"
       + " AND key.patchKey.fileName = ? AND status = '"
       + PatchLineComment.STATUS_PUBLISHED + "' ORDER BY lineNbr,writtenOn")
-  ResultSet<PatchLineComment> published(Change.Id id, String file)
+  ResultSet<PatchLineComment> publishedByChangeFile(Change.Id id, String file)
       throws OrmException;
 
   @Query("WHERE key.patchKey.patchSetId = ? AND status = '"
       + PatchLineComment.STATUS_PUBLISHED + "'")
-  ResultSet<PatchLineComment> published(PatchSet.Id patchset)
+  ResultSet<PatchLineComment> publishedByPatchSet(PatchSet.Id patchset)
       throws OrmException;
 
   @Query("WHERE key.patchKey.patchSetId = ? AND status = '"
       + PatchLineComment.STATUS_DRAFT
       + "' AND author = ? ORDER BY key.patchKey,lineNbr,writtenOn")
-  ResultSet<PatchLineComment> draft(PatchSet.Id patchset, Account.Id author)
-      throws OrmException;
+  ResultSet<PatchLineComment> draftByPatchSet(PatchSet.Id patchset,
+      Account.Id author) throws OrmException;
 
   @Query("WHERE key.patchKey.patchSetId.changeId = ?"
       + " AND key.patchKey.fileName = ? AND author = ? AND status = '"
       + PatchLineComment.STATUS_DRAFT + "' ORDER BY lineNbr,writtenOn")
-  ResultSet<PatchLineComment> draft(Change.Id id, String file, Account.Id author)
-      throws OrmException;
+  ResultSet<PatchLineComment> draftByChangeFile(Change.Id id, String file,
+      Account.Id author) throws OrmException;
 
   @Query("WHERE status = '" + PatchLineComment.STATUS_DRAFT
       + "' AND author = ?")

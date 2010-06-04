@@ -265,7 +265,7 @@ public class PublishComments implements Callable<VoidResult> {
   }
 
   private List<PatchLineComment> drafts() throws OrmException {
-    return db.patchComments().draft(patchSetId, user.getAccountId()).toList();
+    return db.patchComments().draftByPatchSet(patchSetId, user.getAccountId()).toList();
   }
 
   private void email() {

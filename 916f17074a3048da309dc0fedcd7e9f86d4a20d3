@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX///c4\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/ChangeUtilTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-04T19:47:33Z",
+      "side": 1,
+      "message": "Why do you need to .toLowerCase here?  Isn\u0027t that a bug in the inverse of \u0027/\u0027 ?",
+      "revId": "916f17074a3048da309dc0fedcd7e9f86d4a20d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

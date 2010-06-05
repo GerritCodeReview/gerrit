@@ -47,7 +47,7 @@ limitations under the License.
 
   <properties>
     <jgitVersion>0.7.1.74-g16419da</jgitVersion>
-    <gwtormVersion>1.1.4</gwtormVersion>
+    <gwtormVersion>1.2-SNAPSHOT</gwtormVersion>
     <gwtjsonrpcVersion>1.2.2</gwtjsonrpcVersion>
     <gwtexpuiVersion>1.2.1</gwtexpuiVersion>
     <gwtVersion>2.0.3</gwtVersion>
@@ -551,6 +551,12 @@ limitations under the License.
         <groupId>commons-pool</groupId>
         <artifactId>commons-pool</artifactId>
         <version>1.5.4</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>2.2.0</version>
       </dependency>
 
       <dependency>

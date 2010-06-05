@@ -27,6 +27,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;
+import com.google.gwtorm.nosql.heap.FileDatabase;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -34,6 +35,8 @@ import com.google.inject.Singleton;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +47,9 @@ import java.util.Properties;
 @Singleton
 public final class DataSourceProvider implements
     Provider<SchemaFactory<ReviewDb>>, LifecycleListener {
+  private static final Logger log =
+      LoggerFactory.getLogger(DataSourceProvider.class);
+
   private final SchemaFactory<ReviewDb> ds;
   private BasicDataSource basicDataSource;
 
@@ -66,6 +72,7 @@ public final class DataSourceProvider implements
   public void start() {
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public synchronized void stop() {
     if (basicDataSource != null) {
@@ -77,6 +84,14 @@ public final class DataSourceProvider implements
         basicDataSource = null;
       }
     }
+
+    if (ds instanceof FileDatabase) {
+      try {
+        ((FileDatabase) ds).close();
+      } catch (OrmException err) {
+        log.warn("Cannot safely close database", err);
+      }
+    }
   }
 
   public static enum Context {
@@ -84,7 +99,11 @@ public final class DataSourceProvider implements
   }
 
   public static enum Type {
-    H2, POSTGRESQL, MYSQL, JDBC;
+    // Traditional SQL databases
+    H2, POSTGRESQL, MYSQL, JDBC,
+
+    // NoSQL types we also support
+    NOSQL_HEAP_FILE;
   }
 
   private SchemaFactory<ReviewDb> open(final SitePaths site, final Config cfg,
@@ -142,6 +161,20 @@ public final class DataSourceProvider implements
           driver = required(cfg, "driver");
           url = required(cfg, "url");
           break;
+
+        case NOSQL_HEAP_FILE: {
+          String database = optional(cfg, "database");
+          if (database == null || database.isEmpty()) {
+            database = "db/ReviewDB";
+          }
+          File db = site.resolve(database);
+          try {
+            db = db.getCanonicalFile();
+          } catch (IOException e) {
+            db = db.getAbsoluteFile();
+          }
+          return new FileDatabase<ReviewDb>(db, ReviewDb.class);
+        }
 
         default:
           throw new IllegalArgumentException(type + " not supported");

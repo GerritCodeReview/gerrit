@@ -36,6 +36,7 @@ Ehcache                     <<apache2,Apache License 2.0>>
 mime-util                   <<apache2,Apache License 2.0>>
 Jetty                       <<apache2,Apache License 2.0>>, or link:http://www.eclipse.org/legal/epl-v10.html[EPL]
 Google Code Prettify        <<apache2,Apache License 2.0>>
+Google Protobuf             <<apache2,Apache License 2.0>>
 JGit                        <<jgit,New-Style BSD>>
 JSch                        <<sshd,New-Style BSD>>
 PostgreSQL JDBC Driver      <<postgresql,New-Style BSD>>

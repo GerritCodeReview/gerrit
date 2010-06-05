@@ -633,6 +633,12 @@ Connect to a MySQL database server.
 * `JDBC`
 +
 Connect using a JDBC driver class name and URL.
++
+* `NOSQL_HEAP_FILE`
++
+Connect to a locally stored NoSQL database.  Similar to H2, except
+its a binary tree NoSQL implementation that is only suitable for
+development and testing.  Do not use for a production server.
 
 +
 If not specified, database.driver and database.url are used as-is,
@@ -651,8 +657,8 @@ of the server named by database.type.
 +
 For POSTGRESQL or MYSQL, the name of the database on the server.
 +
-For H2, this is the path to the database, and if not absolute is
-relative to `'$site_path'`.
+For H2 and NOSQL_HEAP_FILE, this is the path to the database,
+and if not absolute is relative to `'$site_path'`.
 
 [[database.username]]database.username::
 +

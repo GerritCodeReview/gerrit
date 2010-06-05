@@ -57,6 +57,7 @@ class InitDatabase implements InitStep {
 
     final boolean userPassAuth;
     switch (db_type) {
+      case NOSQL_HEAP_FILE:
       case H2: {
         userPassAuth = false;
         String path = database.get("database");

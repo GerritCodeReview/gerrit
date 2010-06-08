@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX///Ps\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-08T16:17:30Z",
+      "side": 1,
+      "message": "Drop this if entirely.  The if-else block right here can just be simplified down to the val \u003d Math.max(...) expression.",
+      "revId": "beef27ea6bee0a860708da69c8c14c75ab06ac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///Po\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-08T16:17:30Z",
+      "side": 1,
+      "message": "Isn\u0027t this example wrong?  Don\u0027t we need refs/heads/* to appear in the map\u0027s traversal *after* refs/heads/master would appear?  Because you rely on that later inside of getApplicableRights when you break out upon finding an exclusive group.",
+      "revId": "beef27ea6bee0a860708da69c8c14c75ab06ac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///Pc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_34.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-08T16:17:30Z",
+      "side": 1,
+      "message": "Lets only print this the first time through.  So do something like:\n\n  boolean showedBanner \u003d false;\n\n  ... later in the loop before prompting ...\n  if (!showedBanner) {\n    showedBanner \u003d true;\n    ui.message(\"Entering interactive reference rights migration...\");\n  }\n\nBasically my theory is, many servers will only have RefRights on patterns \"refs/*\", or \"refs/heads/*\" or \"refs/tags/*\".  These are so broad that they aren\u0027t exclusive, and don\u0027t even need to prompt for it.  So we only should interact with the admin when we find something that isn\u0027t one of those patterns.",
+      "revId": "beef27ea6bee0a860708da69c8c14c75ab06ac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///PY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_34.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-08T16:17:30Z",
+      "side": 1,
+      "message": "Like the banner above, I\u0027d like to avoid printing the project name unless we actually have a RefRight that isn\u0027t one of the 3 main wildcards.",
+      "revId": "beef27ea6bee0a860708da69c8c14c75ab06ac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///PU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_34.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-08T16:17:30Z",
+      "side": 1,
+      "message": "Skip prompting if its one of those 3 main wildcards:\n\n* refs/*\n* refs/heads/*\n* refs/tags/*",
+      "revId": "beef27ea6bee0a860708da69c8c14c75ab06ac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///Pg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_34.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-08T16:17:30Z",
+      "side": 1,
+      "message": "I\u0027m in the middle of deleting Transaction support from gwtorm.  So please do this instead as:\n\n  db.refRights().insert(toUpdate);\n  db.refRights().delete(toDelete);\n\nThat way if we crash in the middle, its relatively easy to clean up and try again.",
+      "revId": "beef27ea6bee0a860708da69c8c14c75ab06ac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///PQ\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaUpdaterTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-08T16:17:30Z",
+      "side": 1,
+      "message": "Return def, not true.",
+      "revId": "beef27ea6bee0a860708da69c8c14c75ab06ac75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

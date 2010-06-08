@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX///HQ\u003d",
+        "filename": "contrib/check-valid-commit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2010-06-08T22:29:24Z",
+      "side": 1,
+      "message": "(ugh tabs)\n\nThe one thing I couldn\u0027t figure out... how can I send a newline over ssh?  \\n, \\\\n, \\012, etc didn\u0027t work.  Is it possible to send a code review which contains newlines?",
+      "revId": "0d0d16876df20a01821e963dc56c4d36d777c555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

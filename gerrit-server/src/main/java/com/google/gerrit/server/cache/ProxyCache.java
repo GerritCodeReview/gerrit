@@ -14,6 +14,33 @@
 
 package com.google.gerrit.server.cache;
 
-public interface CachePool {
-  public <K, V> ProxyCache<K, V> register(CacheProvider<K, V> provider);
+import java.util.concurrent.TimeUnit;
+
+/** Proxy around a cache which has not yet been created. */
+public final class ProxyCache<K, V> implements Cache<K, V> {
+  private volatile Cache<K, V> self;
+
+  public void bind(Cache<K, V> self) {
+    this.self = self;
+  }
+
+  public V get(K key) {
+    return self.get(key);
+  }
+
+  public long getTimeToLive(TimeUnit unit) {
+    return self.getTimeToLive(unit);
+  }
+
+  public void put(K key, V value) {
+    self.put(key, value);
+  }
+
+  public void remove(K key) {
+    self.remove(key);
+  }
+
+  public void removeAll() {
+    self.removeAll();
+  }
 }

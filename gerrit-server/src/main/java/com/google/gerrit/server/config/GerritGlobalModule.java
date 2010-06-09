@@ -36,7 +36,6 @@ import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.ldap.LdapModule;
-import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
@@ -64,8 +63,8 @@ import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.inject.Inject;
-
 import com.google.inject.TypeLiteral;
+
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -111,7 +110,6 @@ public class GerritGlobalModule extends FactoryModule {
         GerritPersonIdentProvider.class);
 
     bind(IdGenerator.class);
-    bind(CachePool.class);
     install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());
     install(GroupCacheImpl.module());
@@ -152,7 +150,6 @@ public class GerritGlobalModule extends FactoryModule {
       @Override
       protected void configure() {
         listener().to(LocalDiskRepositoryManager.Lifecycle.class);
-        listener().to(CachePool.Lifecycle.class);
         listener().to(WorkQueue.Lifecycle.class);
       }
     });

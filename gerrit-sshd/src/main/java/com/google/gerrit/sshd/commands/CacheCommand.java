@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.server.cache.CachePool;
+import com.google.gerrit.server.cache.EhcachePoolImpl;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
@@ -27,7 +27,7 @@ import java.util.TreeSet;
 
 abstract class CacheCommand extends BaseCommand {
   @Inject
-  protected CachePool cachePool;
+  protected EhcachePoolImpl cachePool;
 
   protected SortedSet<String> cacheNames() {
     final SortedSet<String> names = new TreeSet<String>();

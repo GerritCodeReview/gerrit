@@ -26,6 +26,7 @@ import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.server.cache.EhcachePoolImpl;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
@@ -187,6 +188,7 @@ public class Daemon extends SiteProgram {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(new LogFileCompressor.Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    modules.add(new EhcachePoolImpl.Module());
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {
         @Override

@@ -19,9 +19,8 @@ import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.SelfPopulatingCache;
+import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -34,114 +33,45 @@ import java.util.Collection;
 /** Tracks group objects in memory for efficient access. */
 @Singleton
 public class GroupCacheImpl implements GroupCache {
-  private static final String CACHE_NAME = "groups";
+  private static final String BYID_NAME = "groups";
+  private static final String BYNAME_NAME = "groups_byname";
+  private static final String BYEXT_NAME = "groups_byext";
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<com.google.gwtorm.client.Key<?>, AccountGroup>> byId =
-            new TypeLiteral<Cache<com.google.gwtorm.client.Key<?>, AccountGroup>>() {};
-        core(byId, CACHE_NAME);
+        final TypeLiteral<Cache<AccountGroup.Id, AccountGroup>> byId =
+            new TypeLiteral<Cache<AccountGroup.Id, AccountGroup>>() {};
+        core(byId, BYID_NAME).populateWith(ByIdLoader.class);
+
+        final TypeLiteral<Cache<AccountGroup.NameKey, AccountGroup>> byName =
+            new TypeLiteral<Cache<AccountGroup.NameKey, AccountGroup>>() {};
+        core(byName, BYNAME_NAME).populateWith(ByNameLoader.class);
+
+        final TypeLiteral<Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>>> byExternalName =
+            new TypeLiteral<Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>>>() {};
+        core(byExternalName, BYEXT_NAME) //
+            .populateWith(ByExternalNameLoader.class);
+
         bind(GroupCacheImpl.class);
         bind(GroupCache.class).to(GroupCacheImpl.class);
       }
     };
   }
 
-  private final SchemaFactory<ReviewDb> schema;
-  private final AccountGroup.Id administrators;
-  private final SelfPopulatingCache<AccountGroup.Id, AccountGroup> byId;
-  private final SelfPopulatingCache<AccountGroup.NameKey, AccountGroup> byName;
-  private final SelfPopulatingCache<AccountGroup.ExternalNameKey, Collection<AccountGroup>> byExternalName;
+  private final Cache<AccountGroup.Id, AccountGroup> byId;
+  private final Cache<AccountGroup.NameKey, AccountGroup> byName;
+  private final Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>> byExternalName;
 
   @Inject
   GroupCacheImpl(
-      final SchemaFactory<ReviewDb> sf,
-      final AuthConfig authConfig,
-      @Named(CACHE_NAME) final Cache<com.google.gwtorm.client.Key<?>, AccountGroup> rawAny) {
-    schema = sf;
-    administrators = authConfig.getAdministratorsGroup();
-
-    byId =
-        new SelfPopulatingCache<AccountGroup.Id, AccountGroup>((Cache) rawAny) {
-          @Override
-          public AccountGroup createEntry(final AccountGroup.Id key)
-              throws Exception {
-            return lookup(key);
-          }
-
-          @Override
-          protected AccountGroup missing(final AccountGroup.Id key) {
-            return missingGroup(key);
-          }
-        };
-
-    byName =
-        new SelfPopulatingCache<AccountGroup.NameKey, AccountGroup>(
-            (Cache) rawAny) {
-          @Override
-          public AccountGroup createEntry(final AccountGroup.NameKey key)
-              throws Exception {
-            return lookup(key);
-          }
-        };
-
-    byExternalName =
-        new SelfPopulatingCache<AccountGroup.ExternalNameKey, Collection<AccountGroup>>(
-            (Cache) rawAny) {
-          @Override
-          public Collection<AccountGroup> createEntry(
-              final AccountGroup.ExternalNameKey key) throws Exception {
-            return lookup(key);
-          }
-        };
-  }
-
-  private AccountGroup lookup(final AccountGroup.Id groupId)
-      throws OrmException {
-    final ReviewDb db = schema.open();
-    try {
-      final AccountGroup group = db.accountGroups().get(groupId);
-      if (group != null) {
-        return group;
-      } else {
-        return missingGroup(groupId);
-      }
-    } finally {
-      db.close();
-    }
-  }
-
-  private AccountGroup missingGroup(final AccountGroup.Id groupId) {
-    final AccountGroup.NameKey name =
-        new AccountGroup.NameKey("Deleted Group" + groupId.toString());
-    final AccountGroup g = new AccountGroup(name, groupId);
-    g.setType(AccountGroup.Type.SYSTEM);
-    g.setOwnerGroupId(administrators);
-    return g;
-  }
-
-  private AccountGroup lookup(final AccountGroup.NameKey name)
-      throws OrmException {
-    final AccountGroupName r;
-    final ReviewDb db = schema.open();
-    try {
-      r = db.accountGroupNames().get(name);
-    } finally {
-      db.close();
-    }
-    return r != null ? get(r.getId()) : null;
-  }
-
-  private Collection<AccountGroup> lookup(
-      final AccountGroup.ExternalNameKey name) throws OrmException {
-    final ReviewDb db = schema.open();
-    try {
-      return db.accountGroups().byExternalName(name).toList();
-    } finally {
-      db.close();
-    }
+      @Named(BYID_NAME) Cache<AccountGroup.Id, AccountGroup> byId,
+      @Named(BYNAME_NAME) Cache<AccountGroup.NameKey, AccountGroup> byName,
+      @Named(BYEXT_NAME) Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>> byExternalName) {
+    this.byId = byId;
+    this.byName = byName;
+    this.byExternalName = byExternalName;
   }
 
   public AccountGroup get(final AccountGroup.Id groupId) {
@@ -165,5 +95,89 @@ public class GroupCacheImpl implements GroupCache {
   public Collection<AccountGroup> get(
       final AccountGroup.ExternalNameKey externalName) {
     return byExternalName.get(externalName);
+  }
+
+  static class ByIdLoader extends EntryCreator<AccountGroup.Id, AccountGroup> {
+    private final SchemaFactory<ReviewDb> schema;
+    private final AccountGroup.Id administrators;
+
+    @Inject
+    ByIdLoader(final SchemaFactory<ReviewDb> sf, final AuthConfig authConfig) {
+      schema = sf;
+      administrators = authConfig.getAdministratorsGroup();
+    }
+
+    @Override
+    public AccountGroup createEntry(final AccountGroup.Id key) throws Exception {
+      final ReviewDb db = schema.open();
+      try {
+        final AccountGroup group = db.accountGroups().get(key);
+        if (group != null) {
+          return group;
+        } else {
+          return missing(key);
+        }
+      } finally {
+        db.close();
+      }
+    }
+
+    @Override
+    public AccountGroup missing(final AccountGroup.Id key) {
+      final AccountGroup.NameKey name =
+          new AccountGroup.NameKey("Deleted Group" + key.toString());
+      final AccountGroup g = new AccountGroup(name, key);
+      g.setType(AccountGroup.Type.SYSTEM);
+      g.setOwnerGroupId(administrators);
+      return g;
+    }
+  }
+
+  static class ByNameLoader extends
+      EntryCreator<AccountGroup.NameKey, AccountGroup> {
+    private final SchemaFactory<ReviewDb> schema;
+
+    @Inject
+    ByNameLoader(final SchemaFactory<ReviewDb> sf) {
+      schema = sf;
+    }
+
+    @Override
+    public AccountGroup createEntry(final AccountGroup.NameKey key)
+        throws Exception {
+      final AccountGroupName r;
+      final ReviewDb db = schema.open();
+      try {
+        r = db.accountGroupNames().get(key);
+        if (r != null) {
+          return db.accountGroups().get(r.getId());
+        } else {
+          return null;
+        }
+      } finally {
+        db.close();
+      }
+    }
+  }
+
+  static class ByExternalNameLoader extends
+      EntryCreator<AccountGroup.ExternalNameKey, Collection<AccountGroup>> {
+    private final SchemaFactory<ReviewDb> schema;
+
+    @Inject
+    ByExternalNameLoader(final SchemaFactory<ReviewDb> sf) {
+      schema = sf;
+    }
+
+    @Override
+    public Collection<AccountGroup> createEntry(
+        final AccountGroup.ExternalNameKey key) throws Exception {
+      final ReviewDb db = schema.open();
+      try {
+        return db.accountGroups().byExternalName(key).toList();
+      } finally {
+        db.close();
+      }
+    }
   }
 }

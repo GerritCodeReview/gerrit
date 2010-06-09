@@ -19,9 +19,7 @@ import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.SelfPopulatingCache;
-import com.google.gerrit.server.config.WildProjectName;
-import com.google.gwtorm.client.OrmException;
+import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -29,7 +27,6 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -43,59 +40,20 @@ public class ProjectCacheImpl implements ProjectCache {
       @Override
       protected void configure() {
         final TypeLiteral<Cache<Project.NameKey, ProjectState>> type =
-          new TypeLiteral<Cache<Project.NameKey, ProjectState>>() {};
-        core(type, CACHE_NAME);
+            new TypeLiteral<Cache<Project.NameKey, ProjectState>>() {};
+        core(type, CACHE_NAME).populateWith(Loader.class);
         bind(ProjectCacheImpl.class);
         bind(ProjectCache.class).to(ProjectCacheImpl.class);
       }
     };
   }
 
-  private final ProjectState.Factory projectStateFactory;
-  private final SchemaFactory<ReviewDb> schema;
-  private final SelfPopulatingCache<Project.NameKey, ProjectState> byName;
+  private final Cache<Project.NameKey, ProjectState> byName;
 
   @Inject
-  ProjectCacheImpl(final ProjectState.Factory psf,
-      final SchemaFactory<ReviewDb> sf,
-      @WildProjectName final Project.NameKey wp,
+  ProjectCacheImpl(
       @Named(CACHE_NAME) final Cache<Project.NameKey, ProjectState> byName) {
-    projectStateFactory = psf;
-    schema = sf;
-
-    this.byName =
-        new SelfPopulatingCache<Project.NameKey, ProjectState>(byName) {
-          @Override
-          public ProjectState createEntry(final Project.NameKey key)
-              throws Exception {
-            return lookup(key);
-          }
-        };
-  }
-
-  /**
-   * Lookup for a state of a specified project on database
-   *
-   * @param key the project name key
-   * @return the project state
-   * @throws OrmException
-   */
-  private ProjectState lookup(final Project.NameKey key) throws OrmException {
-    final ReviewDb db = schema.open();
-    try {
-      final Project p = db.projects().get(key);
-      if (p == null) {
-        return null;
-      }
-
-      final Collection<RefRight> rights =
-          Collections.unmodifiableCollection(db.refRights().byProject(
-              p.getNameKey()).toList());
-
-      return projectStateFactory.create(p, rights);
-    } finally {
-      db.close();
-    }
+    this.byName = byName;
   }
 
   /**
@@ -118,5 +76,35 @@ public class ProjectCacheImpl implements ProjectCache {
   /** Invalidate the cached information about all projects. */
   public void evictAll() {
     byName.removeAll();
+  }
+
+  static class Loader extends EntryCreator<Project.NameKey, ProjectState> {
+    private final ProjectState.Factory projectStateFactory;
+    private final SchemaFactory<ReviewDb> schema;
+
+    @Inject
+    Loader(ProjectState.Factory psf, SchemaFactory<ReviewDb> sf) {
+      projectStateFactory = psf;
+      schema = sf;
+    }
+
+    @Override
+    public ProjectState createEntry(Project.NameKey key) throws Exception {
+      final ReviewDb db = schema.open();
+      try {
+        final Project p = db.projects().get(key);
+        if (p == null) {
+          return null;
+        }
+
+        final Collection<RefRight> rights =
+            Collections.unmodifiableCollection(db.refRights().byProject(
+                p.getNameKey()).toList());
+
+        return projectStateFactory.create(p, rights);
+      } finally {
+        db.close();
+      }
+    }
   }
 }

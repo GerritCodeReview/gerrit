@@ -33,6 +33,9 @@ public interface Cache<K, V> {
   /** Remove any existing value from the cache, no-op if not present. */
   public void remove(K key);
 
+  /** Remove all cached items. */
+  public void removeAll();
+
   /**
    * Get the time an element will survive in the cache.
    *

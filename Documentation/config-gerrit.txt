@@ -250,7 +250,6 @@ except when the cache is full.
 Default is `90 days` for most caches, except:
 +
 * `"ldap_groups"`: default is `1 hour`
-* `"openid"`: default is `5 minutes`
 * `"web_sessions"`: default is `12 hours`
 
 [[cache.name.memoryLimit]]cache.<name>.memoryLimit::
@@ -261,7 +260,6 @@ this is total number of items, not bytes of heap used.
 Default is 1024 for most caches, except:
 +
 * `"diff"`: default is `128`
-* `"openid"`: default is `64`
 
 [[cache.name.diskLimit]]cache.<name>.diskLimit::
 +
@@ -344,13 +342,6 @@ cache `"ldap_usernames"`::
 Caches a mapping of LDAP username to Gerrit account identity.  The
 cache automatically updates when a user first creates their account
 within Gerrit, so the cache expire time is largely irrelevant.
-
-cache `"openid"`::
-+
-If OpenID authentication is enabled, caches the OpenID discovery
-response by URL, for up to 5 minutes.  This can reduce the time
-required for OpenID authentication through very common providers,
-such as Google Accounts.
 
 cache `"projects"`::
 +

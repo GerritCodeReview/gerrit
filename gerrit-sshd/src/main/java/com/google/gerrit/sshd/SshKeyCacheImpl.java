@@ -22,7 +22,7 @@ import com.google.gerrit.reviewdb.AccountSshKey;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.SelfPopulatingCache;
+import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
@@ -59,7 +59,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
       protected void configure() {
         final TypeLiteral<Cache<String, Iterable<SshKeyCacheEntry>>> type =
             new TypeLiteral<Cache<String, Iterable<SshKeyCacheEntry>>>() {};
-        core(type, CACHE_NAME);
+        core(type, CACHE_NAME).populateWith(Loader.class);
         bind(SshKeyCacheImpl.class);
         bind(SshKeyCache.class).to(SshKeyCacheImpl.class);
       }
@@ -71,33 +71,20 @@ public class SshKeyCacheImpl implements SshKeyCache {
         .asList(new SshKeyCacheEntry[0]));
   }
 
-  private final SchemaFactory<ReviewDb> schema;
-  private final SelfPopulatingCache<String, Iterable<SshKeyCacheEntry>> self;
+  private final Cache<String, Iterable<SshKeyCacheEntry>> cache;
 
   @Inject
-  SshKeyCacheImpl(final SchemaFactory<ReviewDb> schema,
-      @Named(CACHE_NAME) final Cache<String, Iterable<SshKeyCacheEntry>> raw) {
-    this.schema = schema;
-    self = new SelfPopulatingCache<String, Iterable<SshKeyCacheEntry>>(raw) {
-      @Override
-      protected Iterable<SshKeyCacheEntry> createEntry(final String username)
-          throws Exception {
-        return lookup(username);
-      }
-
-      @Override
-      protected Iterable<SshKeyCacheEntry> missing(final String username) {
-        return Collections.emptyList();
-      }
-    };
+  SshKeyCacheImpl(
+      @Named(CACHE_NAME) final Cache<String, Iterable<SshKeyCacheEntry>> cache) {
+    this.cache = cache;
   }
 
   public Iterable<SshKeyCacheEntry> get(String username) {
-    return self.get(username);
+    return cache.get(username);
   }
 
   public void evict(String username) {
-    self.remove(username);
+    cache.remove(username);
   }
 
   @Override
@@ -120,52 +107,68 @@ public class SshKeyCacheImpl implements SshKeyCache {
     }
   }
 
-  private Iterable<SshKeyCacheEntry> lookup(final String username)
-      throws Exception {
-    final ReviewDb db = schema.open();
-    try {
-      final AccountExternalId.Key key =
-          new AccountExternalId.Key(SCHEME_USERNAME, username);
-      final AccountExternalId user = db.accountExternalIds().get(key);
-      if (user == null) {
-        return NO_SUCH_USER;
-      }
+  static class Loader extends EntryCreator<String, Iterable<SshKeyCacheEntry>> {
+    private final SchemaFactory<ReviewDb> schema;
 
-      final List<SshKeyCacheEntry> kl = new ArrayList<SshKeyCacheEntry>(4);
-      for (AccountSshKey k : db.accountSshKeys().byAccount(user.getAccountId())) {
-        if (k.isValid()) {
-          add(db, kl, k);
+    @Inject
+    Loader(SchemaFactory<ReviewDb> schema) {
+      this.schema = schema;
+    }
+
+    @Override
+    public Iterable<SshKeyCacheEntry> createEntry(String username)
+        throws Exception {
+      final ReviewDb db = schema.open();
+      try {
+        final AccountExternalId.Key key =
+            new AccountExternalId.Key(SCHEME_USERNAME, username);
+        final AccountExternalId user = db.accountExternalIds().get(key);
+        if (user == null) {
+          return NO_SUCH_USER;
         }
-      }
-      if (kl.isEmpty()) {
-        return NO_KEYS;
-      }
-      return Collections.unmodifiableList(kl);
-    } finally {
-      db.close();
-    }
-  }
 
-  private void add(ReviewDb db, List<SshKeyCacheEntry> kl, AccountSshKey k) {
-    try {
-      kl.add(new SshKeyCacheEntry(k.getKey(), SshUtil.parse(k)));
-    } catch (OutOfMemoryError e) {
-      // This is the only case where we assume the problem has nothing
-      // to do with the key object, and instead we must abort this load.
-      //
-      throw e;
-    } catch (Throwable e) {
-      markInvalid(db, k);
+        final List<SshKeyCacheEntry> kl = new ArrayList<SshKeyCacheEntry>(4);
+        for (AccountSshKey k : db.accountSshKeys().byAccount(
+            user.getAccountId())) {
+          if (k.isValid()) {
+            add(db, kl, k);
+          }
+        }
+        if (kl.isEmpty()) {
+          return NO_KEYS;
+        }
+        return Collections.unmodifiableList(kl);
+      } finally {
+        db.close();
+      }
     }
-  }
 
-  private void markInvalid(final ReviewDb db, final AccountSshKey k) {
-    try {
-      log.info("Flagging SSH key " + k.getKey() + " invalid");
-      k.setInvalid();
-      db.accountSshKeys().update(Collections.singleton(k));
-    } catch (OrmException e) {
-      log.error("Failed to mark SSH key" + k.getKey() + " invalid", e);
+    @Override
+    public Iterable<SshKeyCacheEntry> missing(String username) {
+      return Collections.emptyList();
+    }
+
+    private void add(ReviewDb db, List<SshKeyCacheEntry> kl, AccountSshKey k) {
+      try {
+        kl.add(new SshKeyCacheEntry(k.getKey(), SshUtil.parse(k)));
+      } catch (OutOfMemoryError e) {
+        // This is the only case where we assume the problem has nothing
+        // to do with the key object, and instead we must abort this load.
+        //
+        throw e;
+      } catch (Throwable e) {
+        markInvalid(db, k);
+      }
+    }
+
+    private void markInvalid(final ReviewDb db, final AccountSshKey k) {
+      try {
+        log.info("Flagging SSH key " + k.getKey() + " invalid");
+        k.setInvalid();
+        db.accountSshKeys().update(Collections.singleton(k));
+      } catch (OrmException e) {
+        log.error("Failed to mark SSH key" + k.getKey() + " invalid", e);
+      }
     }
   }
 }

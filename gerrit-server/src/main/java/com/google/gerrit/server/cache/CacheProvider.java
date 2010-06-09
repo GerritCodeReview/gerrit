@@ -27,7 +27,8 @@ import net.sf.ehcache.Ehcache;
 import java.util.concurrent.TimeUnit;
 
 final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
-    NamedCacheBinding, UnnamedCacheBinding {
+    NamedCacheBinding<K, V>, UnnamedCacheBinding<K, V> {
+  private final CacheModule module;
   private final boolean disk;
   private int memoryLimit;
   private int diskLimit;
@@ -35,9 +36,11 @@ final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
   private EvictionPolicy evictionPolicy;
   private String cacheName;
   private ProxyEhcache cache;
+  private Provider<EntryCreator<K, V>> entryCreator;
 
-  CacheProvider(final boolean disk) {
+  CacheProvider(final boolean disk, CacheModule module) {
     this.disk = disk;
+    this.module = module;
 
     memoryLimit(1024);
     maxAge(90, DAYS);
@@ -84,7 +87,7 @@ final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     return evictionPolicy;
   }
 
-  public NamedCacheBinding name(final String name) {
+  public NamedCacheBinding<K, V> name(final String name) {
     if (cacheName != null) {
       throw new IllegalStateException("Cache name already set");
     }
@@ -92,12 +95,12 @@ final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     return this;
   }
 
-  public NamedCacheBinding memoryLimit(final int objects) {
+  public NamedCacheBinding<K, V> memoryLimit(final int objects) {
     memoryLimit = objects;
     return this;
   }
 
-  public NamedCacheBinding diskLimit(final int objects) {
+  public NamedCacheBinding<K, V> diskLimit(final int objects) {
     if (!disk) {
       // TODO This should really be a compile time type error, but I'm
       // too lazy to create the mess of permutations required to setup
@@ -109,20 +112,29 @@ final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     return this;
   }
 
-  public NamedCacheBinding maxAge(final long duration, final TimeUnit unit) {
+  public NamedCacheBinding<K, V> maxAge(final long duration, final TimeUnit unit) {
     maxAge = SECONDS.convert(duration, unit);
     return this;
   }
 
   @Override
-  public NamedCacheBinding evictionPolicy(final EvictionPolicy policy) {
+  public NamedCacheBinding<K, V> evictionPolicy(final EvictionPolicy policy) {
     evictionPolicy = policy;
+    return this;
+  }
+
+  public NamedCacheBinding<K, V> populateWith(
+      Class<? extends EntryCreator<K, V>> creator) {
+    entryCreator = module.getEntryCreator(this, creator);
     return this;
   }
 
   public Cache<K, V> get() {
     if (cache == null) {
       throw new ProvisionException("Cache \"" + cacheName + "\" not available");
+    }
+    if (entryCreator != null) {
+      return new PopulatingCache<K, V>(cache, entryCreator.get());
     }
     return new SimpleCache<K, V>(cache);
   }

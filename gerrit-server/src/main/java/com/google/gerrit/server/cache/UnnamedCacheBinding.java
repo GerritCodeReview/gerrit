@@ -16,7 +16,7 @@ package com.google.gerrit.server.cache;
 
 
 /** Configure a cache declared within a {@link CacheModule} instance. */
-public interface UnnamedCacheBinding {
+public interface UnnamedCacheBinding<K, V> {
   /** Set the name of the cache. */
-  public NamedCacheBinding name(String cacheName);
+  public NamedCacheBinding<K, V> name(String cacheName);
 }

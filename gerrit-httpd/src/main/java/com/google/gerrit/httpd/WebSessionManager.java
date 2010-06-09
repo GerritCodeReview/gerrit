@@ -78,12 +78,13 @@ class WebSessionManager {
     final Account.Id who = val.getAccountId();
     final boolean remember = val.isPersistentCookie();
     final AccountExternalId.Key lastLogin = val.getExternalId();
+    final String xsrfToken = val.getXsrfToken();
 
-    return createVal(key, who, remember, lastLogin);
+    return createVal(key, who, remember, lastLogin, xsrfToken);
   }
 
   Val createVal(final Key key, final Account.Id who, final boolean remember,
-      final AccountExternalId.Key lastLogin) {
+      final AccountExternalId.Key lastLogin, String xsrfToken) {
     // Refresh the cookie every hour or when it is half-expired.
     // This reduces the odds that the user session will be kicked
     // early but also avoids us needing to refresh the cookie on
@@ -94,7 +95,17 @@ class WebSessionManager {
     final long refresh = Math.min(halfAgeRefresh, minRefresh);
     final long refreshCookieAt = now() + refresh;
 
-    final Val val = new Val(who, refreshCookieAt, remember, lastLogin);
+    if (xsrfToken == null) {
+      // If we don't yet have a token for this session, establish one.
+      //
+      final int nonceLen = 20;
+      final ByteArrayOutputStream buf;
+      final byte[] rnd = new byte[nonceLen];
+      prng.nextBytes(rnd);
+      xsrfToken = CookieBase64.encode(rnd);
+    }
+
+    Val val = new Val(who, refreshCookieAt, remember, lastLogin, xsrfToken);
     self.put(key, val);
     return val;
   }
@@ -162,13 +173,16 @@ class WebSessionManager {
     private transient long refreshCookieAt;
     private transient boolean persistentCookie;
     private transient AccountExternalId.Key externalId;
+    private transient String xsrfToken;
 
     Val(final Account.Id accountId, final long refreshCookieAt,
-        final boolean persistentCookie, final AccountExternalId.Key externalId) {
+        final boolean persistentCookie, final AccountExternalId.Key externalId,
+        final String xsrfToken) {
       this.accountId = accountId;
       this.refreshCookieAt = refreshCookieAt;
       this.persistentCookie = persistentCookie;
       this.externalId = externalId;
+      this.xsrfToken = xsrfToken;
     }
 
     Account.Id getAccountId() {
@@ -187,6 +201,10 @@ class WebSessionManager {
       return persistentCookie;
     }
 
+    String getXsrfToken() {
+      return xsrfToken;
+    }
+
     private void writeObject(final ObjectOutputStream out) throws IOException {
       writeVarInt32(out, 1);
       writeVarInt32(out, accountId.get());
@@ -201,6 +219,9 @@ class WebSessionManager {
         writeVarInt32(out, 4);
         writeString(out, externalId.get());
       }
+
+      writeVarInt32(out, 5);
+      writeString(out, xsrfToken);
 
       writeVarInt32(out, 0);
     }
@@ -222,6 +243,9 @@ class WebSessionManager {
             continue;
           case 4:
             externalId = new AccountExternalId.Key(readString(in));
+            continue;
+          case 5:
+            xsrfToken = readString(in);
             continue;
           default:
             throw new IOException("Unknown tag found in object: " + tag);

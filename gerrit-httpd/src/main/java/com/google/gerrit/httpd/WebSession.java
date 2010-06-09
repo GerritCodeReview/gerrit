@@ -119,12 +119,14 @@ public final class WebSession {
     return val != null;
   }
 
-  String getToken() {
-    return isSignedIn() ? key.getToken() : null;
+  public String getToken() {
+    return isSignedIn() ? val.getXsrfToken() : null;
   }
 
   public boolean isTokenValid(final String inputToken) {
-    return isSignedIn() && key.getToken().equals(inputToken);
+    return isSignedIn() //
+        && val.getXsrfToken() != null //
+        && val.getXsrfToken().equals(inputToken);
   }
 
   public AccountExternalId.Key getLastLoginExternalId() {
@@ -149,7 +151,7 @@ public final class WebSession {
     }
 
     key = manager.createKey(id);
-    val = manager.createVal(key, id, rememberMe, identity);
+    val = manager.createVal(key, id, rememberMe, identity, null);
     saveCookie();
   }
 
@@ -161,7 +163,7 @@ public final class WebSession {
   /** Set the user account for this current request only. */
   void setUserAccountId(Account.Id id) {
     key = new Key("id:" + id);
-    val = new Val(id, 0, false, null);
+    val = new Val(id, 0, false, null, "");
   }
 
   public void logout() {

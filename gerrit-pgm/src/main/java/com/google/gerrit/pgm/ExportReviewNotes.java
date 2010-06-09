@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.cache.CachePool;
+import com.google.gerrit.server.cache.EhcachePoolImpl;
 import com.google.gerrit.server.config.ApprovalTypesProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
@@ -100,6 +101,7 @@ public class ExportReviewNotes extends SiteProgram {
 
         install(AccountCacheImpl.module());
         install(GroupCacheImpl.module());
+        install(new EhcachePoolImpl.Module());
         install(new FactoryModule() {
           @Override
           protected void configure() {
@@ -109,7 +111,6 @@ public class ExportReviewNotes extends SiteProgram {
         install(new LifecycleModule() {
           @Override
           protected void configure() {
-            listener().to(CachePool.Lifecycle.class);
             listener().to(LocalDiskRepositoryManager.Lifecycle.class);
           }
         });

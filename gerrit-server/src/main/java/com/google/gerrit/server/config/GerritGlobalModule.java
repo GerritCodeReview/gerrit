@@ -17,7 +17,6 @@ package com.google.gerrit.server.config;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.rules.RulesCache;
@@ -36,7 +35,6 @@ import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.GroupInfoCacheFactory;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.ldap.LdapModule;
-import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitModule;
@@ -101,7 +99,6 @@ public class GerritGlobalModule extends FactoryModule {
         SINGLETON);
 
     bind(IdGenerator.class);
-    bind(CachePool.class);
     bind(RulesCache.class);
     install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());
@@ -144,12 +141,5 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ProjectControl.GenericFactory.class);
     factory(FunctionState.Factory.class);
     factory(ReplicationUser.Factory.class);
-
-    install(new LifecycleModule() {
-      @Override
-      protected void configure() {
-        listener().to(CachePool.Lifecycle.class);
-      }
-    });
   }
 }

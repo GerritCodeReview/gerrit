@@ -19,6 +19,7 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.cache.EhcachePoolImpl;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
@@ -184,6 +185,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(new WorkQueue.Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    modules.add(new EhcachePoolImpl.Module());
     modules.add(new SmtpEmailSender.Module());
     modules.add(new PushReplication.Module());
     modules.add(new CanonicalWebUrlModule() {

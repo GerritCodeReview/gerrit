@@ -203,8 +203,13 @@ public final class WebSession {
     }
 
     outCookie = new Cookie(ACCOUNT_COOKIE, token);
+    outCookie.setSecure(isSecure(request));
     outCookie.setPath(path);
     outCookie.setMaxAge(ageSeconds);
     response.addCookie(outCookie);
+  }
+
+  private static boolean isSecure(final HttpServletRequest req) {
+    return req.isSecure() || "https".equals(req.getScheme());
   }
 }

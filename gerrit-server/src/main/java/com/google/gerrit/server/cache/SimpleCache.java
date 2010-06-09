@@ -72,6 +72,10 @@ final class SimpleCache<K, V> implements Cache<K, V> {
     }
   }
 
+  public void removeAll() {
+    self.removeAll();
+  }
+
   @Override
   public long getTimeToLive(final TimeUnit unit) {
     final long maxAge = self.getCacheConfiguration().getTimeToLiveSeconds();

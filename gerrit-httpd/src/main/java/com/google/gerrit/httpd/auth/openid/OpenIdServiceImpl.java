@@ -26,8 +26,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.cache.Cache;
-import com.google.gerrit.server.cache.SelfPopulatingCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -37,7 +35,6 @@ import com.google.gwtorm.client.KeyUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 
 import org.eclipse.jgit.lib.Config;
 import org.openid4java.consumer.ConsumerException;
@@ -104,7 +101,6 @@ class OpenIdServiceImpl implements OpenIdService {
   private final AccountManager accountManager;
   private final ConsumerManager manager;
   private final List<OpenIdProviderPattern> allowedOpenIDs;
-  private final SelfPopulatingCache<String, List> discoveryCache;
 
   /** Maximum age, in seconds, before forcing re-authentication of account. */
   private final int papeMaxAuthAge;
@@ -113,7 +109,6 @@ class OpenIdServiceImpl implements OpenIdService {
   OpenIdServiceImpl(final Provider<WebSession> cf,
       final Provider<IdentifiedUser> iu,
       @CanonicalWebUrl @Nullable final Provider<String> up,
-      @Named("openid") final Cache<String, List> openidCache,
       @GerritServerConfig final Config config, final AuthConfig ac,
       final AccountManager am) throws ConsumerException, MalformedURLException {
 
@@ -149,19 +144,6 @@ class OpenIdServiceImpl implements OpenIdService {
     allowedOpenIDs = ac.getAllowedOpenIDs();
     papeMaxAuthAge = (int) ConfigUtil.getTimeUnit(config, //
         "auth", null, "maxOpenIdSessionAge", -1, TimeUnit.SECONDS);
-
-    discoveryCache = new SelfPopulatingCache<String, List>(openidCache) {
-      @Override
-      protected List createEntry(final String url) throws Exception {
-        try {
-          final List<?> list = manager.discover(url);
-          return list != null && !list.isEmpty() ? list : null;
-        } catch (DiscoveryException e) {
-          log.error("Cannot discover OpenID " + url, e);
-          return null;
-        }
-      }
-    };
   }
 
   public void discover(final String openidIdentifier, final SignInMode mode,
@@ -522,7 +504,13 @@ class OpenIdServiceImpl implements OpenIdService {
 
   private State init(final String openidIdentifier, final SignInMode mode,
       final boolean remember, final String returnToken) {
-    final List<?> list = discoveryCache.get(openidIdentifier);
+    final List<?> list;
+    try {
+      list = manager.discover(openidIdentifier);
+    } catch (DiscoveryException e) {
+      log.error("Cannot discover OpenID " + openidIdentifier, e);
+      return null;
+    }
     if (list == null || list.isEmpty()) {
       return null;
     }

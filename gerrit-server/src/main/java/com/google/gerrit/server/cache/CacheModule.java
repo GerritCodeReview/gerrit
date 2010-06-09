@@ -16,7 +16,10 @@ package com.google.gerrit.server.cache;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Key;
+import com.google.inject.Provider;
+import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
+import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.name.Names;
 
 import java.io.Serializable;
@@ -35,7 +38,8 @@ public abstract class CacheModule extends AbstractModule {
    * @return binding to describe the cache. Caller must set at least the name on
    *         the returned binding.
    */
-  protected <K, V> UnnamedCacheBinding core(final TypeLiteral<Cache<K, V>> type) {
+  protected <K, V> UnnamedCacheBinding<K, V> core(
+      final TypeLiteral<Cache<K, V>> type) {
     return core(Key.get(type));
   }
 
@@ -49,15 +53,15 @@ public abstract class CacheModule extends AbstractModule {
    *        and with {@code @Named} annotations.
    * @return binding to describe the cache.
    */
-  protected <K, V> NamedCacheBinding core(final TypeLiteral<Cache<K, V>> type,
-      final String name) {
+  protected <K, V> NamedCacheBinding<K, V> core(
+      final TypeLiteral<Cache<K, V>> type, final String name) {
     return core(Key.get(type, Names.named(name))).name(name);
   }
 
-  private <K, V> UnnamedCacheBinding core(final Key<Cache<K, V>> key) {
+  private <K, V> UnnamedCacheBinding<K, V> core(final Key<Cache<K, V>> key) {
     final boolean disk = false;
-    final CacheProvider<K, V> b = new CacheProvider<K, V>(disk);
-    bind(key).toProvider(b);
+    final CacheProvider<K, V> b = new CacheProvider<K, V>(disk, this);
+    bind(key).toProvider(b).in(Scopes.SINGLETON);
     return b;
   }
 
@@ -72,7 +76,7 @@ public abstract class CacheModule extends AbstractModule {
    * @return binding to describe the cache. Caller must set at least the name on
    *         the returned binding.
    */
-  protected <K extends Serializable, V extends Serializable> UnnamedCacheBinding disk(
+  protected <K extends Serializable, V extends Serializable> UnnamedCacheBinding<K, V> disk(
       final TypeLiteral<Cache<K, V>> type) {
     return disk(Key.get(type));
   }
@@ -87,15 +91,31 @@ public abstract class CacheModule extends AbstractModule {
    *        and with {@code @Named} annotations.
    * @return binding to describe the cache.
    */
-  protected <K extends Serializable, V extends Serializable> NamedCacheBinding disk(
+  protected <K extends Serializable, V extends Serializable> NamedCacheBinding<K, V> disk(
       final TypeLiteral<Cache<K, V>> type, final String name) {
     return disk(Key.get(type, Names.named(name))).name(name);
   }
 
-  private <K, V> UnnamedCacheBinding disk(final Key<Cache<K, V>> key) {
+  private <K, V> UnnamedCacheBinding<K, V> disk(final Key<Cache<K, V>> key) {
     final boolean disk = true;
-    final CacheProvider<K, V> b = new CacheProvider<K, V>(disk);
-    bind(key).toProvider(b);
+    final CacheProvider<K, V> b = new CacheProvider<K, V>(disk, this);
+    bind(key).toProvider(b).in(Scopes.SINGLETON);
     return b;
+  }
+
+  <K, V> Provider<EntryCreator<K, V>> getEntryCreator(CacheProvider<K, V> cp,
+      Class<? extends EntryCreator<K, V>> type) {
+    Key<EntryCreator<K, V>> key = newKey();
+    bind(key).to(type).in(Scopes.SINGLETON);
+    return getProvider(key);
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <K, V> Key<EntryCreator<K, V>> newKey() {
+    return (Key<EntryCreator<K, V>>) newKeyImpl();
+  }
+
+  private static Key<?> newKeyImpl() {
+    return Key.get(EntryCreator.class, UniqueAnnotations.create());
   }
 }

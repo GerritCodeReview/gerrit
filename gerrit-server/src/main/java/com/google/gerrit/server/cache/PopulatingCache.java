@@ -29,61 +29,39 @@ import java.util.concurrent.TimeUnit;
 /**
  * A decorator for {@link Cache} which automatically constructs missing entries.
  * <p>
- * On a cache miss {@link #createEntry(Object)} is invoked, allowing the
- * application specific subclass to compute the entry and return it for caching.
- * During a miss the cache takes a lock related to the missing key, ensuring
- * that at most one thread performs the creation work, and other threads wait
- * for the result. Concurrent creations are possible if two different keys miss
- * and hash to different locks in the internal lock table.
+ * On a cache miss {@link EntryCreator#createEntry(Object)} is invoked, allowing
+ * the application specific subclass to compute the entry and return it for
+ * caching. During a miss the cache takes a lock related to the missing key,
+ * ensuring that at most one thread performs the creation work, and other
+ * threads wait for the result. Concurrent creations are possible if two
+ * different keys miss and hash to different locks in the internal lock table.
  *
  * @param <K> type of key used to name cache entries.
  * @param <V> type of value stored within a cache entry.
  */
-public abstract class SelfPopulatingCache<K, V> implements Cache<K, V> {
+class PopulatingCache<K, V> implements Cache<K, V> {
   private static final Logger log =
-      LoggerFactory.getLogger(SelfPopulatingCache.class);
+      LoggerFactory.getLogger(PopulatingCache.class);
 
   private final net.sf.ehcache.constructs.blocking.SelfPopulatingCache self;
+  private final EntryCreator<K, V> creator;
 
-  /**
-   * Create a new cache which uses another cache to store entries.
-   *
-   * @param backingStore cache which will store the entries for this cache.
-   */
-  @SuppressWarnings("unchecked")
-  public SelfPopulatingCache(final Cache<K, V> backingStore) {
-    final Ehcache s = ((SimpleCache) backingStore).getEhcache();
+  PopulatingCache(Ehcache s, EntryCreator<K, V> entryCreator) {
+    creator = entryCreator;
     final CacheEntryFactory f = new CacheEntryFactory() {
       @SuppressWarnings("unchecked")
       @Override
       public Object createEntry(Object key) throws Exception {
-        return SelfPopulatingCache.this.createEntry((K) key);
+        return creator.createEntry((K) key);
       }
     };
     self = new net.sf.ehcache.constructs.blocking.SelfPopulatingCache(s, f);
   }
 
   /**
-   * Invoked on a cache miss, to compute the cache entry.
-   *
-   * @param key entry whose content needs to be obtained.
-   * @return new cache content. The caller will automatically put this object
-   *         into the cache.
-   * @throws Exception the cache content cannot be computed. No entry will be
-   *         stored in the cache, and {@link #missing(Object)} will be invoked
-   *         instead. Future requests for the same key will retry this method.
-   */
-  protected abstract V createEntry(K key) throws Exception;
-
-  /** Invoked when {@link #createEntry(Object)} fails, by default return null. */
-  protected V missing(K key) {
-    return null;
-  }
-
-  /**
-   * Get the element from the cache, or {@link #missing(Object)} if not found.
+   * Get the element from the cache, or {@link EntryCreator#missing(Object)} if not found.
    * <p>
-   * The {@link #missing(Object)} method is only invoked if:
+   * The {@link EntryCreator#missing(Object)} method is only invoked if:
    * <ul>
    * <li>{@code key == null}, in which case the application should return a
    * suitable return value that callers can accept, or throw a RuntimeException.
@@ -99,7 +77,7 @@ public abstract class SelfPopulatingCache<K, V> implements Cache<K, V> {
   @SuppressWarnings("unchecked")
   public V get(final K key) {
     if (key == null) {
-      return missing(key);
+      return creator.missing(key);
     }
 
     final Element m;
@@ -107,12 +85,12 @@ public abstract class SelfPopulatingCache<K, V> implements Cache<K, V> {
       m = self.get(key);
     } catch (IllegalStateException err) {
       log.error("Cannot lookup " + key + " in \"" + self.getName() + "\"", err);
-      return missing(key);
+      return creator.missing(key);
     } catch (CacheException err) {
       log.error("Cannot lookup " + key + " in \"" + self.getName() + "\"", err);
-      return missing(key);
+      return creator.missing(key);
     }
-    return m != null ? (V) m.getObjectValue() : missing(key);
+    return m != null ? (V) m.getObjectValue() : creator.missing(key);
   }
 
   public void remove(final K key) {
@@ -122,7 +100,7 @@ public abstract class SelfPopulatingCache<K, V> implements Cache<K, V> {
   }
 
   /** Remove all cached items, forcing them to be created again on demand. */
-  public void removeAll(){
+  public void removeAll() {
     self.removeAll();
   }
 

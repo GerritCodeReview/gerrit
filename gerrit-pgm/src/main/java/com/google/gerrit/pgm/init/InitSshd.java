@@ -54,13 +54,20 @@ class InitSshd implements InitStep {
     String hostname = "*";
     int port = 29418;
     String listenAddress = sshd.get("listenAddress");
-    if (listenAddress != null && !listenAddress.isEmpty()) {
+    if (isOff(listenAddress)) {
+      hostname = "off";
+    } else if (listenAddress != null && !listenAddress.isEmpty()) {
       final InetSocketAddress addr = SocketUtil.parse(listenAddress, port);
       hostname = SocketUtil.hostname(addr);
       port = addr.getPort();
     }
 
     hostname = ui.readString(hostname, "Listen on address");
+    if (isOff(hostname)) {
+      sshd.set("listenAddress", "off");
+      return;
+    }
+
     port = ui.readInt(port, "Listen on port");
     sshd.set("listenAddress", SocketUtil.format(hostname, port));
 
@@ -71,6 +78,12 @@ class InitSshd implements InitStep {
     }
 
     generateSshHostKeys();
+  }
+
+  private static boolean isOff(String listenHostname) {
+    return "off".equalsIgnoreCase(listenHostname)
+        || "none".equalsIgnoreCase(listenHostname)
+        || "no".equalsIgnoreCase(listenHostname);
   }
 
   private void generateSshHostKeys() throws InterruptedException, IOException {

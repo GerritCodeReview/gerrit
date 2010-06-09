@@ -18,10 +18,11 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.reviewdb.AuthType;
+import com.google.gerrit.server.cache.EhcachePoolImpl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
@@ -190,6 +191,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    modules.add(new EhcachePoolImpl.Module());
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PushReplication.Module());

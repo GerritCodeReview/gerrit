@@ -22,11 +22,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
-import net.sf.ehcache.Ehcache;
-
 import java.util.concurrent.TimeUnit;
 
-final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
+public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     NamedCacheBinding<K, V>, UnnamedCacheBinding<K, V> {
   private final CacheModule module;
   private final boolean disk;
@@ -35,7 +33,7 @@ final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
   private long maxAge;
   private EvictionPolicy evictionPolicy;
   private String cacheName;
-  private ProxyEhcache cache;
+  private ProxyCache<K, V> cache;
   private Provider<EntryCreator<K, V>> entryCreator;
 
   CacheProvider(final boolean disk, CacheModule module) {
@@ -56,34 +54,41 @@ final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     this.cache = pool.register(this);
   }
 
-  void bind(final Ehcache ehcache) {
-    cache.bind(ehcache);
+  public void bind(Cache<K, V> impl) {
+    if (cache == null) {
+      throw new ProvisionException("Cache was never registered");
+    }
+    cache.bind(impl);
   }
 
-  String getName() {
+  public EntryCreator<K, V> getEntryCreator() {
+    return entryCreator != null ? entryCreator.get() : null;
+  }
+
+  public String getName() {
     if (cacheName == null) {
       throw new ProvisionException("Cache has no name");
     }
     return cacheName;
   }
 
-  boolean disk() {
+  public boolean disk() {
     return disk;
   }
 
-  int memoryLimit() {
+  public int memoryLimit() {
     return memoryLimit;
   }
 
-  int diskLimit() {
+  public int diskLimit() {
     return diskLimit;
   }
 
-  long maxAge() {
+  public long maxAge() {
     return maxAge;
   }
 
-  EvictionPolicy evictionPolicy() {
+  public EvictionPolicy evictionPolicy() {
     return evictionPolicy;
   }
 
@@ -133,9 +138,6 @@ final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     if (cache == null) {
       throw new ProvisionException("Cache \"" + cacheName + "\" not available");
     }
-    if (entryCreator != null) {
-      return new PopulatingCache<K, V>(cache, entryCreator.get());
-    }
-    return new SimpleCache<K, V>(cache);
+    return cache;
   }
 }

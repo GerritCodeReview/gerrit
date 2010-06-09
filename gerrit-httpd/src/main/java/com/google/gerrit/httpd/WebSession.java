@@ -147,7 +147,11 @@ public final class WebSession {
     final Account.Id id = res.getAccountId();
     final AccountExternalId.Key identity = res.getExternalId();
 
-    logout();
+    if (val != null) {
+      manager.destroy(key);
+      key = null;
+      val = null;
+    }
 
     key = manager.createKey(id);
     val = manager.createVal(key, id, rememberMe, identity);
@@ -186,22 +190,21 @@ public final class WebSession {
       ageSeconds = manager.getCookieAge(val);
     }
 
-    if (outCookie == null) {
-      String path = authConfig.getCookiePath();
-      if (path == null || path.isEmpty()) {
-        path = request.getContextPath();
-        if (path.isEmpty()) {
-          path = "/";
-        }
+    String path = authConfig.getCookiePath();
+    if (path == null || path.isEmpty()) {
+      path = request.getContextPath();
+      if (path.isEmpty()) {
+        path = "/";
       }
-      outCookie = new Cookie(ACCOUNT_COOKIE, token);
-      outCookie.setPath(path);
-      outCookie.setMaxAge(ageSeconds);
-      outCookie.setSecure(authConfig.getCookieSecure());
-      response.addCookie(outCookie);
-    } else {
-      outCookie.setValue(token);
-      outCookie.setMaxAge(ageSeconds);
     }
+
+    if (outCookie != null) {
+      throw new IllegalStateException("Cookie " + ACCOUNT_COOKIE + " was set");
+    }
+
+    outCookie = new Cookie(ACCOUNT_COOKIE, token);
+    outCookie.setPath(path);
+    outCookie.setMaxAge(ageSeconds);
+    response.addCookie(outCookie);
   }
 }

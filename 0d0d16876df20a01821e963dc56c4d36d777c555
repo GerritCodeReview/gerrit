@@ -16,6 +16,24 @@
       "revId": "0d0d16876df20a01821e963dc56c4d36d777c555",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX///FQ\u003d",
+        "filename": "contrib/check-valid-commit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003555
+      },
+      "writtenOn": "2010-06-09T02:00:42Z",
+      "side": 1,
+      "message": "Yes, take a look at how I do it in http://github.com/jaysoffian/buildbot/commit/e4c0d458374b9a0ce34c1e9e1c9813015b2e6add (search for _shell_escape which is identical to commands.mkarg).",
+      "parentUuid": "AAAAzX///HQ\u003d",
+      "revId": "0d0d16876df20a01821e963dc56c4d36d777c555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

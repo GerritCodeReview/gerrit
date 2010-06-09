@@ -73,13 +73,13 @@ public class Gerrit implements EntryPoint {
   public static final GerritResources RESOURCES =
       GWT.create(GerritResources.class);
   public static final SystemInfoService SYSTEM_SVC;
-  private static final String SESSION_COOKIE = "GerritAccount";
 
   private static String myHost;
   private static GerritConfig myConfig;
   private static HostPageData.Theme myTheme;
   private static Account myAccount;
   private static AccountDiffPreference myAccountDiffPref;
+  private static String xsrfToken;
 
   private static MorphingTabPanel menuLeft;
   private static LinkMenuBar menuRight;
@@ -265,10 +265,15 @@ public class Gerrit implements EntryPoint {
   }
 
   static void deleteSessionCookie() {
-    Cookies.removeCookie(SESSION_COOKIE);
     myAccount = null;
     myAccountDiffPref = null;
+    xsrfToken = null;
     refreshMenuBar();
+
+    // If the cookie was HttpOnly, this request to delete it will
+    // most likely not be successful.  We can try anyway though.
+    //
+    Cookies.removeCookie("GerritAccount");
   }
 
   public void onModuleLoad() {
@@ -305,9 +310,11 @@ public class Gerrit implements EntryPoint {
         myTheme = result.theme;
         if (result.account != null) {
           myAccount = result.account;
+          xsrfToken = result.xsrfToken;
         }
         if (result.accountDiffPref != null) {
           myAccountDiffPref = result.accountDiffPref;
+          applyUserPreferences();
         }
         onModuleLoad2();
       }
@@ -436,7 +443,7 @@ public class Gerrit implements EntryPoint {
     JsonUtil.setDefaultXsrfManager(new XsrfManager() {
       @Override
       public String getToken(JsonDefTarget proxy) {
-        return Cookies.getCookie(SESSION_COOKIE);
+        return xsrfToken;
       }
 
       @Override

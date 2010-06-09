@@ -1784,6 +1784,8 @@ default of 29418.
 If multiple values are supplied, the daemon will listen on all
 of them.
 +
+To disable the internal SSHD, set listenAddress to `off`.
++
 By default, *:29418.
 
 [[sshd.advertisedAddress]]sshd.advertisedAddress::

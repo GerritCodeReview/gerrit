@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
+import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
 import com.google.gerrit.sshd.commands.SlaveCommandModule;
@@ -113,10 +114,6 @@ public class Daemon extends SiteProgram {
     }
     if (slave && httpd) {
       throw die("Cannot combine --slave and --enable-httpd");
-    }
-    if (httpd && !sshd) {
-      // TODO Support HTTP without SSH.
-      throw die("--enable-httpd currently requires --enable-sshd");
     }
 
     if (consoleLog) {
@@ -217,11 +214,15 @@ public class Daemon extends SiteProgram {
 
   private Injector createSshInjector() {
     final List<Module> modules = new ArrayList<Module>();
-    modules.add(new SshModule());
-    if (slave) {
-      modules.add(new SlaveCommandModule());
+    if (sshd) {
+      modules.add(new SshModule());
+      if (slave) {
+        modules.add(new SlaveCommandModule());
+      } else {
+        modules.add(new MasterCommandModule());
+      }
     } else {
-      modules.add(new MasterCommandModule());
+      modules.add(new NoSshModule());
     }
     return sysInjector.createChildInjector(modules);
   }
@@ -240,7 +241,9 @@ public class Daemon extends SiteProgram {
   private Injector createWebInjector() {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(sshInjector.getInstance(WebModule.class));
-    modules.add(sshInjector.getInstance(ProjectQoSFilter.Module.class));
+    if (sshd) {
+      modules.add(sshInjector.getInstance(ProjectQoSFilter.Module.class));
+    }
     return sysInjector.createChildInjector(modules);
   }
 

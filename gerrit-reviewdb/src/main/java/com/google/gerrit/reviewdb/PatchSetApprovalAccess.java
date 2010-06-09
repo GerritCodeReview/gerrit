@@ -40,7 +40,7 @@ public interface PatchSetApprovalAccess extends
       throws OrmException;
 
   @Query("WHERE changeOpen = false AND key.accountId = ?"
-      + " ORDER BY changeSortKey DESC LIMIT 10")
+      + " ORDER BY changeSortKeyDesc LIMIT 10")
   ResultSet<PatchSetApproval> closedByUser(Account.Id account)
       throws OrmException;
 

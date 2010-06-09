@@ -44,9 +44,13 @@ public class Schema_100 extends SchemaVersion {
 
     selectStmt.setMaxRows(MAX_SCAN_SIZE);
 
-    PreparedStatement updateStmt =
+    PreparedStatement updateChangeStmt =
         ((JdbcSchema) db).getConnection().prepareStatement(
             "UPDATE changes SET sort_key_desc = ? WHERE change_id = ?");
+    PreparedStatement updateApprovalStmt =
+        ((JdbcSchema) db).getConnection().prepareStatement(
+            "UPDATE patch_set_approvals SET change_sort_key_desc = ?"
+                + " WHERE change_id = ?");
 
     try {
       while (true) {
@@ -67,25 +71,31 @@ public class Schema_100 extends SchemaVersion {
         for (ToUpdate u : changes) {
           String desc = Long.toHexString(-1l - Long.parseLong(u.sortKey, 16));
 
-          updateStmt.setString(1, desc);
-          updateStmt.setInt(2, u.id);
+          updateChangeStmt.setString(1, desc);
+          updateChangeStmt.setInt(2, u.id);
+          updateChangeStmt.addBatch();
 
-          updateStmt.addBatch();
+          updateApprovalStmt.setString(1, desc);
+          updateApprovalStmt.setInt(2, u.id);
+          updateApprovalStmt.addBatch();
+
           batchSize++;
 
           if (batchSize >= 200) {
-            updateStmt.executeBatch();
+            updateChangeStmt.executeBatch();
+            updateApprovalStmt.executeBatch();
             batchSize = 0;
           }
         }
         if (batchSize > 0) {
-          updateStmt.executeBatch();
+          updateChangeStmt.executeBatch();
+          updateApprovalStmt.executeBatch();
         }
 
         changes.clear();
       }
     } finally {
-      updateStmt.close();
+      updateChangeStmt.close();
       selectStmt.close();
     }
   }

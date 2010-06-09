@@ -88,6 +88,10 @@ public final class PatchSetApproval {
   @Column(id = 5, length = 16, notNull = false)
   protected String changeSortKey;
 
+  /** <i>Cached copy of Change.sortKeyDesc</i>; only if {@link #changeOpen} = false */
+  @Column(id = 6, length = 16, notNull = false)
+  protected String changeSortKeyDesc;
+
   protected PatchSetApproval() {
   }
 
@@ -141,5 +145,6 @@ public final class PatchSetApproval {
   public void cache(final Change c) {
     changeOpen = c.open;
     changeSortKey = c.sortKey;
+    changeSortKeyDesc = c.sortKeyDesc;
   }
 }

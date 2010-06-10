@@ -27,10 +27,12 @@ import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -56,9 +58,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ApproveCommand extends BaseCommand {
+public class ReviewCommand extends BaseCommand {
   private static final Logger log =
-      LoggerFactory.getLogger(ApproveCommand.class);
+      LoggerFactory.getLogger(ReviewCommand.class);
 
   @Override
   protected final CmdLineParser newCmdLineParser() {
@@ -71,7 +73,7 @@ public class ApproveCommand extends BaseCommand {
 
   private final Set<PatchSet.Id> patchSetIds = new HashSet<PatchSet.Id>();
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}", usage = "patch to approve")
+  @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}", usage = "patch to review")
   void addPatchSetId(final String token) {
     try {
       patchSetIds.addAll(parsePatchSetId(token));
@@ -88,11 +90,17 @@ public class ApproveCommand extends BaseCommand {
   @Option(name = "--message", aliases = "-m", usage = "cover message to publish on change", metaVar = "MESSAGE")
   private String changeComment;
 
+  @Option(name = "--submit", aliases = "-s", usage = "submit the patch set")
+  private boolean submitChange;
+
   @Inject
   private ReviewDb db;
 
   @Inject
   private IdentifiedUser currentUser;
+
+  @Inject
+  private MergeQueue merger;
 
   @Inject
   private CommentSender.Factory commentSenderFactory;
@@ -209,6 +217,17 @@ public class ApproveCommand extends BaseCommand {
 
     hooks.doCommentAddedHook(change, currentUser.getAccount(), db.patchSets()
         .get(patchSetId), changeComment, approvalsMap);
+
+    if (submitChange) {
+      CanSubmitResult result =
+          changeControl.canSubmit(patchSetId, db, approvalTypes,
+              functionStateFactory);
+      if (result == CanSubmitResult.OK) {
+        ChangeUtil.submit(patchSetId, currentUser, db, merger);
+      } else {
+        throw error(result.getMessage());
+      }
+    }
   }
 
   private Set<PatchSet.Id> parsePatchSetId(final String patchIdentity)

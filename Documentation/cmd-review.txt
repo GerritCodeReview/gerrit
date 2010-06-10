@@ -1,19 +1,21 @@
-gerrit approve
+gerrit review
 ==============
 
 NAME
 ----
-gerrit approve - Approve one or more patch sets
+gerrit review - Verify, approve and/or submit one or more patch sets
 
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit approve' [\--project <PROJECT>] [\--message <MESSAGE>] {COMMIT | CHANGEID,PATCHSET}...
+'ssh' -p <port> <host> 'gerrit approve' [\--project <PROJECT>] [\--message <MESSAGE>] [\--verified <N>] [\--code-review <N>] [\--submit] {COMMIT | CHANGEID,PATCHSET}...
+'ssh' -p <port> <host> 'gerrit review' [\--project <PROJECT>] [\--message <MESSAGE>] [\--verified <N>] [\--code-review <N>] [\--submit] {COMMIT | CHANGEID,PATCHSET}...
 
 DESCRIPTION
 -----------
 Updates the current user's approval status of the specified patch
-sets, sending out email notifications and updating the database.
+sets and/or submits them for merging, sending out email
+notifications and updating the database.
 
 Patch sets should be specified as complete or abbreviated commit
 SHA-1s.  If the same commit is available in multiple projects the
@@ -52,6 +54,10 @@ OPTIONS
 	differs per site, check the output of \--help, or contact
 	your site administrator for further details.
 
+\--submit::
+-s::
+	Submit the specified patch set(s) for merging.
+
 ACCESS
 ------
 Any user who has configured an SSH key.
@@ -65,14 +71,16 @@ EXAMPLES
 
 Approve the change with commit c0ff33 as "Verified +1"
 =====
-	$ ssh -p 29418 review.example.com gerrit approve --verified=+1 c0ff33
+	$ ssh -p 29418 review.example.com gerrit review --verified=+1 c0ff33
 =====
 
-Mark the unmerged commits both "Verified +1" and "Code Review +2":
+Mark the unmerged commits both "Verified +1" and "Code Review +2" and
+submit them for merging:
 ====
-	$ ssh -p 29418 review.example.com gerrit approve \
+	$ ssh -p 29418 review.example.com gerrit review \
 	--verified=+1 \
 	--code-review=+2 \
+	--submit \
 	--project=this/project \
 	$(git rev-list origin/master..HEAD)
 ====

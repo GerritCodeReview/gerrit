@@ -14,15 +14,23 @@
 
 package com.google.gerrit.server;
 
+import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
+
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.git.MergeQueue;
+import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmConcurrencyException;
 import com.google.gwtorm.client.OrmException;
 
 import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.NB;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class ChangeUtil {
   private static int uuidPrefix;
@@ -66,6 +74,49 @@ public class ChangeUtil {
     c.resetLastUpdatedOn();
     computeSortKey(c);
   }
+
+  public static void submit(PatchSet.Id patchSetId, IdentifiedUser user, ReviewDb db, MergeQueue merger)
+      throws OrmException {
+    final Change.Id changeId = patchSetId.getParentKey();
+    final PatchSetApproval approval = createSubmitApproval(patchSetId, user, db);
+
+    db.patchSetApprovals().upsert(Collections.singleton(approval));
+
+    final Change change = db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
+      @Override
+      public Change update(Change change) {
+        if (change.getStatus() == Change.Status.NEW) {
+          change.setStatus(Change.Status.SUBMITTED);
+          ChangeUtil.updated(change);
+        }
+        return change;
+      }
+    });
+
+    if (change.getStatus() == Change.Status.SUBMITTED) {
+      merger.merge(change.getDest());
+    }
+  }
+
+  public static PatchSetApproval createSubmitApproval(PatchSet.Id patchSetId, IdentifiedUser user, ReviewDb db)
+      throws OrmException {
+    final List<PatchSetApproval> allApprovals =
+        new ArrayList<PatchSetApproval>(db.patchSetApprovals().byPatchSet(
+            patchSetId).toList());
+
+    final PatchSetApproval.Key akey =
+        new PatchSetApproval.Key(patchSetId, user.getAccountId(), SUBMIT);
+
+    for (final PatchSetApproval approval : allApprovals) {
+      if (akey.equals(approval.getKey())) {
+        approval.setValue((short) 1);
+        approval.setGranted();
+        return approval;
+      }
+    }
+    return new PatchSetApproval(akey, (short) 1);
+  }
+
 
   public static void computeSortKey(final Change c) {
     // The encoding uses minutes since Wed Oct 1 00:00:00 2008 UTC.

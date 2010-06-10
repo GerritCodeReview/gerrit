@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Copyright (C) 2009 The Android Open Source Project
+Copyright (C) 2010 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,49 +25,22 @@ limitations under the License.
     <version>2.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>gerrit-sshd</artifactId>
-  <name>Gerrit Code Review - SSHd</name>
+  <artifactId>gerrit-ehcache</artifactId>
+  <name>Gerrit Code Review - Ehcache Bindings</name>
 
   <description>
-    Java SSH daemon with Gerrit commands and Git support
+    Bindings to Ehcache
   </description>
 
   <dependencies>
     <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.junit</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.sshd</groupId>
-      <artifactId>sshd-core</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.gerrit</groupId>
-      <artifactId>gerrit-util-cli</artifactId>
-      <version>${project.version}</version>
+      <groupId>net.sf.ehcache</groupId>
+      <artifactId>ehcache-core</artifactId>
     </dependency>
 
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-server</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.gerrit</groupId>
-      <artifactId>gerrit-ehcache</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

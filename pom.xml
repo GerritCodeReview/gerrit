@@ -74,6 +74,7 @@ limitations under the License.
     <module>gerrit-util-ssl</module>
 
     <module>gerrit-common</module>
+    <module>gerrit-ehcache</module>
     <module>gerrit-httpd</module>
     <module>gerrit-launcher</module>
     <module>gerrit-main</module>

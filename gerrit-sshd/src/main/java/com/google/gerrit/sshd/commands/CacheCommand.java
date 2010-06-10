@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.server.cache.EhcachePoolImpl;
+import com.google.gerrit.ehcache.EhcachePoolImpl;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 

@@ -12,13 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.ehcache;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.CachePool;
+import com.google.gerrit.server.cache.CacheProvider;
+import com.google.gerrit.server.cache.EntryCreator;
+import com.google.gerrit.server.cache.EvictionPolicy;
+import com.google.gerrit.server.cache.ProxyCache;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;

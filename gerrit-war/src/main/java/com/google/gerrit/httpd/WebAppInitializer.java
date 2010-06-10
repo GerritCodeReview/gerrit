@@ -17,10 +17,10 @@ package com.google.gerrit.httpd;
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
+import com.google.gerrit.ehcache.EhcachePoolImpl;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.cache.EhcachePoolImpl;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.GerritGlobalModule;

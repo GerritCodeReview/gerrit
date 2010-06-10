@@ -18,6 +18,7 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
 import com.google.gerrit.httpd.WebModule;
+import com.google.gerrit.httpd.WebSshGlueModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
@@ -241,6 +242,7 @@ public class Daemon extends SiteProgram {
   private Injector createWebInjector() {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(sshInjector.getInstance(WebModule.class));
+    modules.add(sshInjector.getInstance(WebSshGlueModule.class));
     if (sshd) {
       modules.add(sshInjector.getInstance(ProjectQoSFilter.Module.class));
     }

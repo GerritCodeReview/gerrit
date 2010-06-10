@@ -33,6 +33,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -121,6 +122,9 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     detail.setDrafts(drafts);
     detail.setAllowed(allowed);
     detail.setGiven(given);
+
+    final CanSubmitResult canSubmitResult = control.canSubmit(patchSetId);
+    detail.setSubmitAllowed(canSubmitResult == CanSubmitResult.OK);
 
     return detail;
   }

@@ -185,11 +185,7 @@ public class ChangeControl {
   }
 
   /** @return {@link CanSubmitResult#OK}, or a result with an error message. */
-  public CanSubmitResult canSubmit(final PatchSet.Id patchSetId, final ReviewDb db,
-        final ApprovalTypes approvalTypes,
-        FunctionState.Factory functionStateFactory)
-         throws OrmException {
-
+  public CanSubmitResult canSubmit(final PatchSet.Id patchSetId) {
     if (change.getStatus().isClosed()) {
       return new CanSubmitResult("Change " + change.getId() + " is closed");
     }
@@ -201,6 +197,19 @@ public class ChangeControl {
     }
     if (!(getCurrentUser() instanceof IdentifiedUser)) {
       return new CanSubmitResult("User is not signed-in");
+    }
+    return CanSubmitResult.OK;
+  }
+
+  /** @return {@link CanSubmitResult#OK}, or a result with an error message. */
+  public CanSubmitResult canSubmit(final PatchSet.Id patchSetId, final ReviewDb db,
+        final ApprovalTypes approvalTypes,
+        FunctionState.Factory functionStateFactory)
+         throws OrmException {
+
+    CanSubmitResult result = canSubmit(patchSetId);
+    if (result != CanSubmitResult.OK) {
+      return result;
     }
 
     final List<PatchSetApproval> allApprovals =

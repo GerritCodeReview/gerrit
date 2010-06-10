@@ -32,6 +32,7 @@ public class PatchSetPublishDetail {
   protected List<PatchLineComment> drafts;
   protected Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> allowed;
   protected Map<ApprovalCategory.Id, PatchSetApproval> given;
+  protected boolean isSubmitAllowed;
 
   public Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> getAllowed() {
     return allowed;
@@ -66,6 +67,10 @@ public class PatchSetPublishDetail {
     this.drafts = drafts;
   }
 
+  public void setSubmitAllowed(boolean allowed) {
+    isSubmitAllowed = allowed;
+  }
+
   public AccountInfoCache getAccounts() {
     return accounts;
   }
@@ -93,5 +98,9 @@ public class PatchSetPublishDetail {
 
   public PatchSetApproval getChangeApproval(final ApprovalCategory.Id id) {
     return given.get(id);
+  }
+
+  public boolean isSubmitAllowed() {
+    return isSubmitAllowed;
   }
 }

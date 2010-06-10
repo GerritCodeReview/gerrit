@@ -16,8 +16,8 @@ package com.google.gerrit.server.mail;
 
 import java.io.UnsupportedEncodingException;
 
-class Address {
-  static Address parse(final String in) {
+public class Address {
+  public static Address parse(final String in) {
     final int lt = in.indexOf('<');
     final int gt = in.indexOf('>');
     final int at = in.indexOf("@");
@@ -37,13 +37,21 @@ class Address {
   final String name;
   final String email;
 
-  Address(String email) {
+  public Address(String email) {
     this(null, email);
   }
 
-  Address(String name, String email) {
+  public Address(String name, String email) {
     this.name = name;
     this.email = email;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public String getEmail() {
+    return email;
   }
 
   @Override
@@ -55,7 +63,7 @@ class Address {
     }
   }
 
-  String toHeaderString() throws UnsupportedEncodingException {
+  public String toHeaderString() throws UnsupportedEncodingException {
     if (name != null) {
       return quotedPhrase(name) + " <" + email + ">";
     } else if (isSimple()) {

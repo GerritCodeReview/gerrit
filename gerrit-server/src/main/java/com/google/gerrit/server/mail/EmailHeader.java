@@ -20,28 +20,33 @@ import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-abstract class EmailHeader {
-  abstract boolean isEmpty();
+public abstract class EmailHeader {
+  public abstract boolean isEmpty();
 
-  abstract void write(Writer w) throws IOException;
+  public abstract void write(Writer w) throws IOException;
 
-  static class String extends EmailHeader {
+  public static class String extends EmailHeader {
     private java.lang.String value;
 
-    String(java.lang.String v) {
+    public String(java.lang.String v) {
       value = v;
     }
 
+    public java.lang.String getString() {
+      return value;
+    }
+
     @Override
-    boolean isEmpty() {
+    public boolean isEmpty() {
       return value == null || value.length() == 0;
     }
 
     @Override
-    void write(Writer w) throws IOException {
+    public void write(Writer w) throws IOException {
       if (needsQuotedPrintable(value)) {
         w.write(quotedPrintable(value));
       } else {
@@ -84,20 +89,24 @@ abstract class EmailHeader {
     return r.toString();
   }
 
-  static class Date extends EmailHeader {
+  public static class Date extends EmailHeader {
     private java.util.Date value;
 
-    Date(java.util.Date v) {
+    public Date(java.util.Date v) {
       value = v;
     }
 
+    public java.util.Date getDate() {
+      return value;
+    }
+
     @Override
-    boolean isEmpty() {
+    public boolean isEmpty() {
       return value == null;
     }
 
     @Override
-    void write(Writer w) throws IOException {
+    public void write(Writer w) throws IOException {
       final SimpleDateFormat fmt;
       // Mon, 1 Jun 2009 10:49:44 -0700
       fmt = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
@@ -105,17 +114,21 @@ abstract class EmailHeader {
     }
   }
 
-  static class AddressList extends EmailHeader {
+  public static class AddressList extends EmailHeader {
     private final List<Address> list = new ArrayList<Address>();
 
-    AddressList() {
+    public AddressList() {
     }
 
-    AddressList(Address addr) {
+    public AddressList(Address addr) {
       add(addr);
     }
 
-    void add(Address addr) {
+    public List<Address> getAddressList() {
+      return Collections.unmodifiableList(list);
+    }
+
+    public void add(Address addr) {
       list.add(addr);
     }
 
@@ -128,12 +141,12 @@ abstract class EmailHeader {
     }
 
     @Override
-    boolean isEmpty() {
+    public boolean isEmpty() {
       return list.isEmpty();
     }
 
     @Override
-    void write(Writer w) throws IOException {
+    public void write(Writer w) throws IOException {
       int len = 8;
       boolean firstAddress = true;
       boolean needComma = false;

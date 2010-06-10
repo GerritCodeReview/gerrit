@@ -60,11 +60,14 @@ link:cmd-receive-pack.html[git receive-pack]::
 Also implements the magic associated with uploading commits for
 review.  See link:user-upload.html#push_create[Creating Changes].
 
-link:cmd-approve.html[gerrit approve]::
-	Approve a patch set from the command line.
+link:cmd-review.html[gerrit approve]::
+  Alias for 'gerrit review'.
 
 link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
+
+link:cmd-review.html[gerrit review]::
+  Verify, approve and/or submit a patch set from the command line.
 
 link:cmd-stream-events.html[gerrit stream-events]::
 	Monitor events occuring in real time.

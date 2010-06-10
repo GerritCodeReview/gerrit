@@ -349,6 +349,11 @@ public class RefControl {
     return rights;
   }
 
+  /** @return true if this user can ever submit patch sets to this change */
+  public boolean canSubmit() {
+    return canPerform(ApprovalCategory.SUBMIT, (short) 1);
+  }
+
   private List<RefRight> getLocalRights(ApprovalCategory.Id actionId) {
     return filter(getProjectState().getLocalRights(actionId));
   }

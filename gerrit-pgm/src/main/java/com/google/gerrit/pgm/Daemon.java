@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
+import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.sshd.SshModule;
@@ -187,6 +188,7 @@ public class Daemon extends SiteProgram {
     modules.add(SchemaVersionCheck.module());
     modules.add(new LogFileCompressor.Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    modules.add(new SmtpEmailSender.Module());
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {
         @Override

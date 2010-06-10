@@ -50,10 +50,8 @@ import com.google.gerrit.server.git.SecureCredentialsProvider;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
-import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.AccessControlModule;
@@ -175,7 +173,6 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(FromAddressGenerator.class).toProvider(
         FromAddressGeneratorProvider.class).in(SINGLETON);
-    bind(EmailSender.class).to(SmtpEmailSender.class).in(SINGLETON);
 
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);

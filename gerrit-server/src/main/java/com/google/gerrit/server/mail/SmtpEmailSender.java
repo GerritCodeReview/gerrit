@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -40,6 +41,13 @@ import java.util.Set;
 /** Sends email via a nearby SMTP server. */
 @Singleton
 public class SmtpEmailSender implements EmailSender {
+  public static class Module extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(EmailSender.class).to(SmtpEmailSender.class);
+    }
+  }
+
   public static enum Encryption {
     NONE, SSL, TLS;
   }

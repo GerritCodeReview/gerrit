@@ -25,6 +25,7 @@ import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetPublishDetail;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
@@ -67,6 +68,7 @@ public class PublishCommentScreen extends AccountScreen implements
   private NpTextArea message;
   private FlowPanel draftsPanel;
   private Button send;
+  private Button submit;
   private Button cancel;
   private boolean saveStateOnUnload = true;
   private List<CommentEditorPanel> commentEditors;
@@ -109,6 +111,10 @@ public class PublishCommentScreen extends AccountScreen implements
     send.addClickHandler(this);
     buttonRow.add(send);
 
+    submit = new Button(Util.C.buttonPublishSubmitSend());
+    submit.addClickHandler(this);
+    buttonRow.add(submit);
+
     cancel = new Button(Util.C.buttonPublishCommentsCancel());
     cancel.addClickHandler(this);
     buttonRow.add(cancel);
@@ -142,7 +148,9 @@ public class PublishCommentScreen extends AccountScreen implements
   public void onClick(final ClickEvent event) {
     final Widget sender = (Widget) event.getSource();
     if (send == sender) {
-      onSend();
+      onSend(false);
+    } else if (submit == sender) {
+      onSend(true);
     } else if (cancel == sender) {
       saveStateOnUnload = false;
       goChange();
@@ -250,6 +258,7 @@ public class PublishCommentScreen extends AccountScreen implements
     if (r.getChange().getStatus().isOpen()) {
       initApprovals(r, approvalPanel);
     }
+
     if (lastState != null && patchSetId.equals(lastState.patchSetId)) {
       message.setText(lastState.message);
     }
@@ -285,11 +294,13 @@ public class PublishCommentScreen extends AccountScreen implements
         panel.add(editor);
       }
     }
+
+    submit.setVisible(r.isSubmitAllowed());
   }
 
-  private void onSend() {
+  private void onSend(final boolean submit) {
     if (commentEditors.isEmpty()) {
-      onSend2();
+      onSend2(submit);
     } else {
       final GerritCallback<VoidResult> afterSaveDraft =
           new GerritCallback<VoidResult>() {
@@ -298,7 +309,7 @@ public class PublishCommentScreen extends AccountScreen implements
             @Override
             public void onSuccess(final VoidResult result) {
               if (++done == commentEditors.size()) {
-                onSend2();
+                onSend2(submit);
               }
             }
           };
@@ -308,7 +319,7 @@ public class PublishCommentScreen extends AccountScreen implements
     }
   }
 
-  private void onSend2() {
+  private void onSend2(final boolean submit) {
     final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> values =
         new HashMap<ApprovalCategory.Id, ApprovalCategoryValue.Id>();
     for (final ValueRadioButton b : approvalButtons) {
@@ -321,6 +332,20 @@ public class PublishCommentScreen extends AccountScreen implements
         new HashSet<ApprovalCategoryValue.Id>(values.values()),
         new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {
+            if(submit) {
+              submit();
+            } else {
+              saveStateOnUnload = false;
+              goChange();
+            }
+          }
+        });
+  }
+
+  private void submit() {
+    Util.MANAGE_SVC.submit(patchSetId,
+        new GerritCallback<ChangeDetail>() {
+          public void onSuccess(ChangeDetail result) {
             saveStateOnUnload = false;
             goChange();
           }

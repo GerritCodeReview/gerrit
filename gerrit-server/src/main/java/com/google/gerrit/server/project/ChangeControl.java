@@ -184,13 +184,9 @@ public class ChangeControl {
     return false;
   }
 
-  /** @return an error string if this user cannot currently submit patch
-   *          sets to this change */
-  public String canSubmit(final PatchSet.Id patchSetId, final ReviewDb db,
-        final ApprovalTypes approvalTypes,
-        FunctionState.Factory functionStateFactory)
-         throws OrmException {
-
+  /** @return an error string if this user can never submit patch sets
+   *          to this change */
+  public String canSubmit(final PatchSet.Id patchSetId) {
     if (change.getStatus().isClosed()) {
       return "Change " + patchSetId.getParentKey() + " is closed";
     }
@@ -199,6 +195,20 @@ public class ChangeControl {
     }
     if (!getRefControl().canSubmit()) {
       return "User does not have permission to submit";
+    }
+    return null;
+  }
+
+  /** @return an error string if this user cannot currently submit patch
+   *          sets to this change */
+  public String canSubmit(final PatchSet.Id patchSetId, final ReviewDb db,
+        final ApprovalTypes approvalTypes,
+        FunctionState.Factory functionStateFactory)
+         throws OrmException {
+
+    String err = canSubmit(patchSetId);
+    if (err != null) {
+      return err;
     }
 
     final List<PatchSetApproval> allApprovals =

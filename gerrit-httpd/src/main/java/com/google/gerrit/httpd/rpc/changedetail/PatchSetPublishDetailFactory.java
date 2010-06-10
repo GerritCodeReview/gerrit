@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -121,6 +122,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     detail.setDrafts(drafts);
     detail.setAllowed(allowed);
     detail.setGiven(given);
+    detail.setSubmitAllowed(control.canSubmit(patchSetId) == null);
 
     return detail;
   }

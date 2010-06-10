@@ -24,7 +24,6 @@ import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
-import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
@@ -38,12 +37,9 @@ import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.contact.ContactStoreProvider;
-import com.google.gerrit.server.ssh.SshInfo;
-import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
@@ -53,20 +49,14 @@ import java.net.SocketAddress;
 import javax.annotation.Nullable;
 
 public class WebModule extends FactoryModule {
-  private final Provider<SshInfo> sshInfoProvider;
-  private final Provider<SshKeyCache> sshKeyCacheProvider;
   private final AuthConfig authConfig;
   private final boolean wantSSL;
   private final GitWebConfig gitWebConfig;
 
   @Inject
-  WebModule(final Provider<SshInfo> sshInfoProvider,
-      final Provider<SshKeyCache> sshKeyCacheProvider,
-      final AuthConfig authConfig,
+  WebModule(final AuthConfig authConfig,
       @CanonicalWebUrl @Nullable final String canonicalUrl,
       final Injector creatingInjector) {
-    this.sshInfoProvider = sshInfoProvider;
-    this.sshKeyCacheProvider = sshKeyCacheProvider;
     this.authConfig = authConfig;
     this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
 
@@ -128,9 +118,6 @@ public class WebModule extends FactoryModule {
     install(new UiRpcModule());
     install(new GerritRequestModule());
     install(new ProjectServlet.Module());
-
-    bind(SshInfo.class).toProvider(sshInfoProvider);
-    bind(SshKeyCache.class).toProvider(sshKeyCacheProvider);
 
     bind(GitWebConfig.class).toInstance(gitWebConfig);
     if (gitWebConfig.getGitwebCGI() != null) {

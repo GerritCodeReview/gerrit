@@ -133,7 +133,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       categoryRights.addAll(filterMatching(pe.getLocalRights(category)));
       categoryRights.addAll(filterMatching(pe.getInheritedRights(category)));
       Collections.sort(categoryRights, RefRight.REF_PATTERN_ORDER);
-      categoryRights = RefControl.filterMostSpecific(categoryRights);
+
       computeAllowed(am, categoryRights, category);
     }
   }
@@ -157,10 +157,26 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       allowed.put(category, s);
     }
 
+    boolean foundExclusive = false;
+    String previousPattern = "";
     for (final RefRight r : list) {
+
       if (!am.contains(r.getAccountGroupId())) {
+        if (r.isExclusive()) {
+          foundExclusive = true;
+        }
         continue;
       }
+
+      if (foundExclusive && !previousPattern.equals(r.getRefPattern())) {
+        break;
+      }
+
+      if (r.isExclusive()) {
+        foundExclusive = true;
+      }
+
+      previousPattern = r.getRefPattern();
 
       final ApprovalType at =
           approvalTypes.getApprovalType(r.getApprovalCategoryId());

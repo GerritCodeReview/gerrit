@@ -52,6 +52,7 @@ import com.google.inject.spi.Message;
 
 import org.kohsuke.args4j.Option;
 
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -192,6 +193,11 @@ public class Init extends SiteProgram {
         public void message(String msg) {
           System.err.println(msg);
           System.err.flush();
+        }
+
+        @Override
+        public boolean yesno(boolean def, String msg) {
+          return ui.yesno(def, msg);
         }
 
         @Override

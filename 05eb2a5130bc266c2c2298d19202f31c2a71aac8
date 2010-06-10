@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX//+xY\u003d",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2010-06-10T23:16:46Z",
+      "side": 1,
+      "message": "align this with a tab",
+      "revId": "05eb2a5130bc266c2c2298d19202f31c2a71aac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+xU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2010-06-10T23:16:46Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "revId": "05eb2a5130bc266c2c2298d19202f31c2a71aac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+xQ\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2010-06-10T23:16:46Z",
+      "side": 1,
+      "message": "extra whitespace",
+      "revId": "05eb2a5130bc266c2c2298d19202f31c2a71aac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

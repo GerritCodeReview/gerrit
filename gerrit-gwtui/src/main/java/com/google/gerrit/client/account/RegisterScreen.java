@@ -99,18 +99,20 @@ public class RegisterScreen extends AccountScreen {
       formBody.add(fp);
     }
 
-    final FlowPanel sshKeyGroup = new FlowPanel();
-    sshKeyGroup.setStyleName(Gerrit.RESOURCES.css().registerScreenSection());
-    sshKeyGroup.add(new SmallHeading(Util.C.welcomeSshKeyHeading()));
-    final HTML whySshKey = new HTML(Util.C.welcomeSshKeyText());
-    whySshKey.setStyleName(Gerrit.RESOURCES.css().registerScreenExplain());
-    sshKeyGroup.add(whySshKey);
-    sshKeyGroup.add(new SshPanel() {
-      {
-        setKeyTableVisible(false);
-      }
-    });
-    formBody.add(sshKeyGroup);
+    if (Gerrit.getConfig().getSshdAddress() != null) {
+      final FlowPanel sshKeyGroup = new FlowPanel();
+      sshKeyGroup.setStyleName(Gerrit.RESOURCES.css().registerScreenSection());
+      sshKeyGroup.add(new SmallHeading(Util.C.welcomeSshKeyHeading()));
+      final HTML whySshKey = new HTML(Util.C.welcomeSshKeyText());
+      whySshKey.setStyleName(Gerrit.RESOURCES.css().registerScreenExplain());
+      sshKeyGroup.add(whySshKey);
+      sshKeyGroup.add(new SshPanel() {
+        {
+          setKeyTableVisible(false);
+        }
+      });
+      formBody.add(sshKeyGroup);
+    }
 
     final FlowPanel choices = new FlowPanel();
     choices.setStyleName(Gerrit.RESOURCES.css().registerScreenNextLinks());

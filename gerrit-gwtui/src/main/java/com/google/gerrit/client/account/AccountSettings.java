@@ -124,13 +124,15 @@ public class AccountSettings extends AccountScreen {
     }, Util.C.tabContactInformation());
     tabTokens.add(PageLinks.SETTINGS_CONTACT);
 
-    tabs.add(new LazyPanel() {
-      @Override
-      protected SshPanel createWidget() {
-        return new SshPanel();
-      }
-    }, Util.C.tabSshKeys());
-    tabTokens.add(PageLinks.SETTINGS_SSHKEYS);
+    if (Gerrit.getConfig().getSshdAddress() != null) {
+      tabs.add(new LazyPanel() {
+        @Override
+        protected SshPanel createWidget() {
+          return new SshPanel();
+        }
+      }, Util.C.tabSshKeys());
+      tabTokens.add(PageLinks.SETTINGS_SSHKEYS);
+    }
 
     tabs.add(new LazyPanel() {
       @Override

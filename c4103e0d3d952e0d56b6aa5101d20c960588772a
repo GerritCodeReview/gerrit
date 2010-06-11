@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX//+uw\u003d",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-11T15:33:35Z",
+      "side": 1,
+      "message": "Instead of --get, I think we want --bool.  That allows users to say things like container.slave \u003d on in gerrit.config, and yet we get true here.  Its just nice to be compatible with how Git parses that file.\n\nIf you change this to --bool, you may need to add a block to get_config() function around line 100 to handle normalization into true/false:\n\n  if test \"x$1\" \u003d x--bool ; then\n    case \"$n\" in\n    true|on|1|yes) n\u003dtrue ;;\n    false|off|0|no) n\u003dfalse ;;\n    *)\n      echo \u003e\u00262 \"error: $2\u003d$n not supported, assuming false\"\n      n\u003dfalse\n      ;;\n    esac\n  fi",
+      "revId": "c4103e0d3d952e0d56b6aa5101d20c960588772a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

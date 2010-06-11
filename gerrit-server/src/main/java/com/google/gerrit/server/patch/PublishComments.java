@@ -143,6 +143,7 @@ public class PublishComments implements Callable<VoidResult> {
     final Set<ApprovalCategory.Id> dirty = new HashSet<ApprovalCategory.Id>();
     final List<PatchSetApproval> ins = new ArrayList<PatchSetApproval>();
     final List<PatchSetApproval> upd = new ArrayList<PatchSetApproval>();
+    final List<ApprovalCategoryValue.Id> ignore = new ArrayList<ApprovalCategoryValue.Id>();
     final Collection<PatchSetApproval> all =
         db.patchSetApprovals().byPatchSet(patchSetId).toList();
     final Map<ApprovalCategory.Id, PatchSetApproval> mine = mine(all);
@@ -152,13 +153,17 @@ public class PublishComments implements Callable<VoidResult> {
     for (final ApprovalCategoryValue.Id want : approvals) {
       PatchSetApproval a = mine.get(want.getParentKey());
       if (a == null) {
-        a = new PatchSetApproval(new PatchSetApproval.Key(//
-            patchSetId, user.getAccountId(), want.getParentKey()), want.get());
-        a.cache(change);
-        ins.add(a);
-        all.add(a);
-        mine.put(a.getCategoryId(), a);
-        dirty.add(a.getCategoryId());
+       if (want.get() != 0) {
+          a = new PatchSetApproval(new PatchSetApproval.Key(
+              patchSetId, user.getAccountId(), want.getParentKey()), want.get());
+          a.cache(change);
+          ins.add(a);
+          all.add(a);
+          mine.put(a.getCategoryId(), a);
+          dirty.add(a.getCategoryId());
+        } else {
+          ignore.add(want);
+        }
       }
     }
 
@@ -167,19 +172,21 @@ public class PublishComments implements Callable<VoidResult> {
     final FunctionState functionState =
         functionStateFactory.create(change, patchSetId, all);
     for (final ApprovalCategoryValue.Id want : approvals) {
-      final PatchSetApproval a = mine.get(want.getParentKey());
-      final short o = a.getValue();
-      a.setValue(want.get());
-      a.cache(change);
-      functionState.normalize(types.getApprovalType(a.getCategoryId()), a);
-      if (o != a.getValue()) {
-        // Value changed, ensure we update the database.
-        //
-        a.setGranted();
-        dirty.add(a.getCategoryId());
-      }
-      if (!ins.contains(a)) {
-        upd.add(a);
+      if (ignore.indexOf(want) == -1) {
+        final PatchSetApproval a = mine.get(want.getParentKey());
+        final short o = a.getValue();
+        a.setValue(want.get());
+        a.cache(change);
+        functionState.normalize(types.getApprovalType(a.getCategoryId()), a);
+        if (o != a.getValue()) {
+          // Value changed, ensure we update the database.
+          //
+          a.setGranted();
+          dirty.add(a.getCategoryId());
+        }
+        if (!ins.contains(a)) {
+          upd.add(a);
+        }
       }
     }
 
@@ -215,6 +222,8 @@ public class PublishComments implements Callable<VoidResult> {
 
     db.patchSetApprovals().update(upd);
     db.patchSetApprovals().insert(ins);
+
+    summarizeInlineComments(msgbuf);
     message(msgbuf.toString());
   }
 
@@ -292,5 +301,32 @@ public class PublishComments implements Callable<VoidResult> {
     }
 
     hooks.doCommentAddedHook(change, user.getAccount(), patchSet, messageText, changed);
+  }
+
+  private void summarizeInlineComments(StringBuilder in) {
+    StringBuilder txt = new StringBuilder();
+
+    String prev = null;
+    int count = 0;
+    for (final PatchLineComment c : drafts) {
+      String name = c.getKey().getParentKey().get();
+      if(prev != null && prev != name) {
+        txt.append("\t"+ prev +"("+ count +")\n");
+        count = 1;
+      } else {
+        count++;
+      }
+      prev = name;
+    }
+    if (count != 0) {
+      txt.append("\t"+ prev +"("+ count +")\n");
+    }
+
+    if(txt.length() != 0) {
+      if(in.length() != 0) {
+        in.append("\n\n");
+      }
+      in.append("Inline Comments:\n" + txt);
+    }
   }
 }

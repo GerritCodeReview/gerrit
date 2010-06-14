@@ -67,6 +67,24 @@
       "revId": "e060d3758e5184a7cedd38883253f60817a04e1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+hM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-06-14T18:40:35Z",
+      "side": 1,
+      "message": "So we can\u0027t ever write \"refs/heads/fo*\" to permit branches like refs/heads/f, refs/heads/fo, and refs/heads/foooooo but not refs/heads/fudge?\n\nCorrect, we can\u0027t!\nThe formal meaning of * is repeat last character 0 or N times, but most of users understand * as anything like most OSs.\nReplacing * for (.*) is a way to change the meaning of *, because the API used considers the formal meaning.\n\nDo we want to have some sort of rule to activate the regex behavior? E.g. check if the string ends with \"/*\" and if it does then its an old-style glob and replace \"/*\" with \"/(.*)\" before evaluating as a regex. But if it doesn\u0027t end with /* then treat it as a regex?\n\nWell, we want to treat everything as regex just replacing all occurrences of * for (.*) before treating.\n\nOf course a lot of regex meta characters are valid in a ref name. Dot being pretty common. So we would want to avoid a pattern like \"refs/tags/v1.0/*\" also matching refs/tags/v1b0 just because the regex honored the dot wild card and the glob didn\u0027t.\n\nOk, that\u0027s true, so we can consider as regex only if starts with ^ as you said.",
+      "parentUuid": "AAAAzX///lU\u003d",
+      "revId": "e060d3758e5184a7cedd38883253f60817a04e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

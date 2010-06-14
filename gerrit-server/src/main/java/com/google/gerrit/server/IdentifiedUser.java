@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
@@ -176,6 +177,20 @@ public class IdentifiedUser extends CurrentUser {
 
   public Account getAccount() {
     return state().getAccount();
+  }
+
+  public AccountDiffPreference getAccountDiffPreference() {
+    AccountDiffPreference diffPref;
+    try {
+      diffPref = dbProvider.get().accountDiffPreferences().get(getAccountId());
+      if (diffPref == null) {
+        diffPref = AccountDiffPreference.createDefault(getAccountId());
+      }
+    } catch (OrmException e) {
+      log.warn("Cannot query account diff preferences", e);
+      diffPref = AccountDiffPreference.createDefault(getAccountId());
+    }
+    return diffPref;
   }
 
   public Set<String> getEmailAddresses() {

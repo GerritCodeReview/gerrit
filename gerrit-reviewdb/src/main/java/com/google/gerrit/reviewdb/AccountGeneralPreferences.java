@@ -18,15 +18,6 @@ import com.google.gwtorm.client.Column;
 
 /** Preferences about a single user. */
 public final class AccountGeneralPreferences {
-  /** Default number of lines of context. */
-  public static final short DEFAULT_CONTEXT = 10;
-
-  /** Context setting to display the entire file. */
-  public static final short WHOLE_FILE_CONTEXT = -1;
-
-  /** Typical valid choices for the default context setting. */
-  public static final short[] CONTEXT_CHOICES =
-      {3, 10, 25, 50, 75, 100, WHOLE_FILE_CONTEXT};
 
   /** Default number of items to display per page. */
   public static final short DEFAULT_PAGESIZE = 25;
@@ -43,10 +34,6 @@ public final class AccountGeneralPreferences {
   public static enum DownloadCommand {
     REPO_DOWNLOAD, PULL, CHECKOUT, CHERRY_PICK, FORMAT_PATCH;
   }
-
-  /** Default number of lines of context when viewing a patch. */
-  @Column(id = 1)
-  protected short defaultContext;
 
   /** Number of changes to show in a screen. */
   @Column(id = 2)
@@ -73,16 +60,6 @@ public final class AccountGeneralPreferences {
   protected boolean copySelfOnEmail;
 
   public AccountGeneralPreferences() {
-  }
-
-  /** Get the default number of lines of context when viewing a patch. */
-  public short getDefaultContext() {
-    return defaultContext;
-  }
-
-  /** Set the number of lines of context when viewing a patch. */
-  public void setDefaultContext(final short s) {
-    defaultContext = s;
   }
 
   public short getMaximumPageSize() {
@@ -148,7 +125,6 @@ public final class AccountGeneralPreferences {
   }
 
   public void resetToDefaults() {
-    defaultContext = DEFAULT_CONTEXT;
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
     useFlashClipboard = true;

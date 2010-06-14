@@ -27,6 +27,7 @@ import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -70,6 +71,7 @@ public class Gerrit implements EntryPoint {
   private static String myHost;
   private static GerritConfig myConfig;
   private static Account myAccount;
+  private static AccountDiffPreference myAccountDiffPref;
 
   private static TabPanel menuLeft;
   private static LinkMenuBar menuRight;
@@ -172,6 +174,15 @@ public class Gerrit implements EntryPoint {
     return myAccount;
   }
 
+  /** @return the currently signed in users's diff preferences; null if no diff preferences defined for the account */
+  public static AccountDiffPreference getAccountDiffPreference() {
+    return myAccountDiffPref;
+  }
+
+  public static void setAccountDiffPreference(AccountDiffPreference accountDiffPref) {
+    myAccountDiffPref = accountDiffPref;
+  }
+
   /** @return true if the user is currently authenticated */
   public static boolean isSignedIn() {
     return getUserAccount() != null;
@@ -203,6 +214,7 @@ public class Gerrit implements EntryPoint {
   static void deleteSessionCookie() {
     Cookies.removeCookie(SESSION_COOKIE);
     myAccount = null;
+    myAccountDiffPref = null;
     refreshMenuBar();
   }
 
@@ -233,6 +245,9 @@ public class Gerrit implements EntryPoint {
         myConfig = result.config;
         if (result.account != null) {
           myAccount = result.account;
+        }
+        if (result.accountDiffPref != null) {
+          myAccountDiffPref = result.accountDiffPref;
         }
         onModuleLoad2();
       }

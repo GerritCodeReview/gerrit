@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-/** Provides a cached list of {@link PatchListEntry}. */
-public interface PatchListCache {
-  public PatchList get(PatchListKey key);
+public class Schema_36 extends SchemaVersion {
 
-  public PatchList get(Change change, PatchSet patchSet);
-
-  public PatchList get(Change change, PatchSet patchSet, Whitespace whitespace);
+  @Inject
+  Schema_36(Provider<Schema_35> prior) {
+    super(prior);
+  }
 }

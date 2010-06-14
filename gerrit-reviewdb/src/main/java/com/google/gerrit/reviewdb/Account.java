@@ -52,6 +52,10 @@ import java.sql.Timestamp;
  * <li>{@link StarredChange}: user has starred the change, tracking
  * notifications of updates on that change, or just book-marking it for faster
  * future reference. One record per starred change.</li>
+ *
+ * <li>{@link AccountDiffPreference}: user's preferences for rendering side-to-side
+ * and unified diff</li>
+ *
  * </ul>
  */
 public final class Account {

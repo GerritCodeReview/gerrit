@@ -16,7 +16,6 @@ package com.google.gerrit.common.data;
 
 import static com.google.gerrit.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
 
-import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.PrettyFormatter;
@@ -25,6 +24,7 @@ import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
+import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.Patch.ChangeType;
 
 import org.eclipse.jgit.diff.Edit;

@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.AgreementInfo;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Project;
@@ -64,6 +65,16 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     callback.onSuccess(currentUser.get().getAccount());
   }
 
+  @Override
+  public void myDiffPreferences(AsyncCallback<AccountDiffPreference> callback) {
+    run(callback, new Action<AccountDiffPreference>() {
+      @Override
+      public AccountDiffPreference run(ReviewDb db) throws OrmException {
+        return currentUser.get().getAccountDiffPreference();
+      }
+    });
+  }
+
   public void changePreferences(final AccountGeneralPreferences pref,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
@@ -75,6 +86,22 @@ class AccountServiceImpl extends BaseServiceImplementation implements
         a.setGeneralPreferences(pref);
         db.accounts().update(Collections.singleton(a));
         accountCache.evict(a.getId());
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  @Override
+  public void changeDiffPreferences(final AccountDiffPreference diffPref,
+      AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>(){
+      public VoidResult run(ReviewDb db) throws OrmException {
+        Account.Id accountId = getAccountId();
+        if (!diffPref.getAccountId().equals(getAccountId())) {
+          throw new IllegalArgumentException("diffPref.getAccountId() " + diffPref.getAccountId() + " doesn't match" +
+          		"the accountId of the signed in user " + getAccountId());
+        }
+        db.accountDiffPreferences().upsert(Collections.singleton(diffPref));
         return VoidResult.INSTANCE;
       }
     });

@@ -21,8 +21,8 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeCanBeNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
-import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;

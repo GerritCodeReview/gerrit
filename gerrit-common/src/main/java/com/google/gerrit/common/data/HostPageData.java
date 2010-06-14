@@ -15,9 +15,11 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
 
 /** Data sent as part of the host page, to bootstrap the UI. */
 public class HostPageData {
   public Account account;
+  public AccountDiffPreference accountDiffPref;
   public GerritConfig config;
 }

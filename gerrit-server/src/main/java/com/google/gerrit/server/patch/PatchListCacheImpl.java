@@ -14,12 +14,11 @@
 
 package com.google.gerrit.server.patch;
 
-import static com.google.gerrit.common.data.PatchScriptSettings.Whitespace.IGNORE_NONE;
 
-import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EvictionPolicy;
@@ -116,7 +115,7 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   public PatchList get(final Change change, final PatchSet patchSet) {
-    return get(change, patchSet, IGNORE_NONE);
+    return get(change, patchSet, Whitespace.IGNORE_NONE);
   }
 
   public PatchList get(final Change change, final PatchSet patchSet,

@@ -14,11 +14,8 @@
 
 package com.google.gerrit.client.account;
 
-import static com.google.gerrit.reviewdb.AccountGeneralPreferences.CONTEXT_CHOICES;
-import static com.google.gerrit.reviewdb.AccountGeneralPreferences.DEFAULT_CONTEXT;
 import static com.google.gerrit.reviewdb.AccountGeneralPreferences.DEFAULT_PAGESIZE;
 import static com.google.gerrit.reviewdb.AccountGeneralPreferences.PAGESIZE_CHOICES;
-import static com.google.gerrit.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -40,7 +37,6 @@ import com.google.gwtjsonrpc.client.VoidResult;
 class PreferencePanel extends Composite {
   private CheckBox showSiteHeader;
   private CheckBox useFlashClipboard;
-  private ListBox defaultContext;
   private ListBox maximumPageSize;
   private Button save;
 
@@ -72,18 +68,6 @@ class PreferencePanel extends Composite {
     }
     maximumPageSize.addChangeHandler(onChangeSave);
 
-    defaultContext = new ListBox();
-    for (final short v : CONTEXT_CHOICES) {
-      final String label;
-      if (v == WHOLE_FILE_CONTEXT) {
-        label = Util.C.contextWholeFile();
-      } else {
-        label = Util.M.lines(v);
-      }
-      defaultContext.addItem(label, String.valueOf(v));
-    }
-    defaultContext.addChangeHandler(onChangeSave);
-
     final int labelIdx, fieldIdx;
     if (LocaleInfo.getCurrentLocale().isRTL()) {
       labelIdx = 1;
@@ -105,10 +89,6 @@ class PreferencePanel extends Composite {
 
     formGrid.setText(row, labelIdx, Util.C.maximumPageSizeFieldLabel());
     formGrid.setWidget(row, fieldIdx, maximumPageSize);
-    row++;
-
-    formGrid.setText(row, labelIdx, Util.C.defaultContextFieldLabel());
-    formGrid.setWidget(row, fieldIdx, defaultContext);
     row++;
 
     body.add(formGrid);
@@ -141,14 +121,12 @@ class PreferencePanel extends Composite {
     showSiteHeader.setEnabled(on);
     useFlashClipboard.setEnabled(on);
     maximumPageSize.setEnabled(on);
-    defaultContext.setEnabled(on);
   }
 
   private void display(final AccountGeneralPreferences p) {
     showSiteHeader.setValue(p.isShowSiteHeader());
     useFlashClipboard.setValue(p.isUseFlashClipboard());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.getMaximumPageSize());
-    setListBox(defaultContext, DEFAULT_CONTEXT, p.getDefaultContext());
   }
 
   private void setListBox(final ListBox f, final short defaultValue,
@@ -178,7 +156,6 @@ class PreferencePanel extends Composite {
     p.setShowSiteHeader(showSiteHeader.getValue());
     p.setUseFlashClipboard(useFlashClipboard.getValue());
     p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
-    p.setDefaultContext(getListBox(defaultContext, DEFAULT_CONTEXT));
 
     enable(false);
     save.setEnabled(false);

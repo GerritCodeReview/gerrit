@@ -85,13 +85,6 @@ limitations under the License.
           tabIndex='5'>
         <ui:attribute name='text'/>
       </g:CheckBox>
-      <br/>
-      <g:CheckBox
-          ui:field='showFullFile'
-          text='Show Full File'
-          tabIndex='6'>
-        <ui:attribute name='text'/>
-      </g:CheckBox>
     </td>
 
     <td rowspan='2'>
@@ -110,7 +103,7 @@ limitations under the License.
       </g:CheckBox>
     </td>
 
-    <td valign='bottom' rowspan='2'>
+    <td valign='bottom' rowspan='3'>
       <g:Button
           ui:field='update'
           text='Update'
@@ -152,7 +145,19 @@ limitations under the License.
         tabIndex='3'/>
       </ui:msg>
     </td>
-  </tr>    
+  </tr>
+
+  <tr valign='top'>
+    <td>
+      <ui:msg>
+      Context Lines:
+      <g:ListBox
+          ui:field='context'
+          visibleItemCount='1'
+          tabIndex='6'/>
+      </ui:msg>
+    </td>
+  </tr>
 </table>
 </g:HTMLPanel>
 </ui:UiBinder>

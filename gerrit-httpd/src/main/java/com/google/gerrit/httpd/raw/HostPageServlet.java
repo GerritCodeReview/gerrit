@@ -158,6 +158,10 @@ public class HostPageServlet extends HttpServlet {
       w.write(HPD_ID + ".account=");
       json(((IdentifiedUser) user).getAccount(), w);
       w.write(";");
+      w.write(HPD_ID + ".accountDiffPref=");
+      json(((IdentifiedUser) user).getAccountDiffPreference(), w);
+      w.write(";");
+
       final byte[] userData = w.toString().getBytes("UTF-8");
 
       raw = concat(page.part1, userData, page.part2);

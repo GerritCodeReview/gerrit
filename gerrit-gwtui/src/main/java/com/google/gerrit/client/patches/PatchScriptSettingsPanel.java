@@ -18,11 +18,14 @@ import static com.google.gerrit.reviewdb.AccountGeneralPreferences.DEFAULT_CONTE
 import static com.google.gerrit.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.account.Util;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.common.data.PatchScriptSettings;
 import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.prettify.common.PrettySettings;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -43,6 +46,7 @@ import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtjsonrpc.client.VoidResult;
 
 public class PatchScriptSettingsPanel extends Composite implements
     HasValueChangeHandlers<PatchScriptSettings> {
@@ -103,15 +107,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     tabWidth.addKeyPressHandler(onEnter);
     colWidth.addKeyPressHandler(onEnter);
 
-    final PatchScriptSettings s = new PatchScriptSettings();
-    if (Gerrit.isSignedIn()) {
-      final Account u = Gerrit.getUserAccount();
-      final AccountGeneralPreferences pref = u.getGeneralPreferences();
-      s.setContext(pref.getDefaultContext());
-    } else {
-      s.setContext(DEFAULT_CONTEXT);
-    }
-    setValue(s);
+    setValue(new PatchScriptSettings());
   }
 
   @Override
@@ -197,6 +193,9 @@ public class PatchScriptSettingsPanel extends Composite implements
   @UiHandler("update")
   void onUpdate(ClickEvent event) {
     update();
+    if (Gerrit.isSignedIn()) {
+      persistDiffPreferences();
+    }
   }
 
   private void update() {
@@ -227,6 +226,49 @@ public class PatchScriptSettingsPanel extends Composite implements
 
     value = s;
     fireEvent(new ValueChangeEvent<PatchScriptSettings>(s) {});
+  }
+
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+    if (Gerrit.isSignedIn()) {
+      Util.ACCOUNT_SVC.myDiffPreferences(new GerritCallback<AccountDiffPreference>() {
+        @Override
+        public void onSuccess(AccountDiffPreference result) {
+          final PatchScriptSettings s = new PatchScriptSettings();
+          final Account u = Gerrit.getUserAccount();
+          final AccountGeneralPreferences pref = u.getGeneralPreferences();
+          s.setContext(pref.getDefaultContext());
+          s.setWhitespace(Whitespace.forCode(result.getIgnoreWhitespace()));
+          final PrettySettings p = s.getPrettySettings();
+          p.setTabSize(result.getTabSize());
+          p.setLineLength(result.getLineLength());
+          p.setSyntaxHighlighting(result.isSyntaxHighlighting());
+          p.setIntralineDifference(result.isIntralineDifference());
+          p.setShowWhiteSpaceErrors(result.isShowWhitespaceErrors());
+          p.setShowTabs(result.isShowTabs());
+
+          setValue(s);
+          fireEvent(new ValueChangeEvent<PatchScriptSettings>(s) {});
+        }
+      });
+    }
+  }
+
+  private void persistDiffPreferences() {
+    AccountDiffPreference diffPref = new AccountDiffPreference();
+    diffPref.setIgnoreWhitespace(getIgnoreWhitespace().getCode());
+    diffPref.setTabSize(tabWidth.getIntValue());
+    diffPref.setLineLength(colWidth.getIntValue());
+    diffPref.setSyntaxHighlighting(syntaxHighlighting.getValue());
+    diffPref.setShowWhitespaceErrors(whitespaceErrors.getValue());
+    diffPref.setIntralineDifference(intralineDifference.getValue());
+    diffPref.setShowTabs(showTabs.getValue());
+    Util.ACCOUNT_SVC.changeDiffPreferences(diffPref, new GerritCallback<VoidResult>() {
+      @Override
+      public void onSuccess(VoidResult result) {
+      }
+    });
   }
 
   private void initIgnoreWhitespace(ListBox ws) {

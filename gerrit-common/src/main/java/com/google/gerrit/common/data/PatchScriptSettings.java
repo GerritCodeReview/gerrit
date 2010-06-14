@@ -17,6 +17,7 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.prettify.common.PrettySettings;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.CodedEnum;
+import com.google.gerrit.reviewdb.Patch.PatchType;
 
 public class PatchScriptSettings {
   public static enum Whitespace implements CodedEnum {
@@ -33,6 +34,15 @@ public class PatchScriptSettings {
 
     public char getCode() {
       return code;
+    }
+
+    public static Whitespace forCode(final char c) {
+      for (final Whitespace s : Whitespace.values()) {
+        if (s.code == c) {
+          return s;
+        }
+      }
+      return null;
     }
   }
 

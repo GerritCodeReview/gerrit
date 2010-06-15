@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX//+Ls\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T22:20:03Z",
+      "side": 1,
+      "message": "How are you ensuring that Guice isn\u0027t recreating the SecureRandom on every request?",
+      "revId": "19cd2142dad42f12063cd6caf6c44bbfd498d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Kc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T22:20:03Z",
+      "side": 1,
+      "message": "This change wasn\u0027t handled inside of OpenIdServiceImpl.  You missed it because the parent method throws Exception, and its exception isn\u0027t handled well.  It returns a server 500 error in this case.\n\nInstead you want to make OpenIdServiceImpl call:\n\n  cancelWithError(req, rsp, \"Cannot start new session\");\n  return;\n\nOr something to that effect, so the user knows there is a problem.  That message, \"Cannot start new session\", will show up in the OpenID login dialog.",
+      "revId": "19cd2142dad42f12063cd6caf6c44bbfd498d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+K4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T22:20:03Z",
+      "side": 1,
+      "message": "Your needsCacheRefresh and expiredFromCache should be consistent in how they implement the same concept of a date compare.\n\nThis style, using Timestamp.after(), is prehaps the more clear way to write the code.  So why not do the same in needsCacheRefresh?",
+      "revId": "19cd2142dad42f12063cd6caf6c44bbfd498d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Kk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T22:20:03Z",
+      "side": 1,
+      "message": "If we can\u0027t login, we shouldn\u0027t issue the redirect.  The browser will potentially enter an infinite loop as it tries to authenticate the user again, fail, try again, fail...\n\nWe need to report an error message using plain HTML here, and not fall through to the rsp.sendRedirect() below.",
+      "revId": "19cd2142dad42f12063cd6caf6c44bbfd498d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Kg\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/UserPassAuthServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T22:20:03Z",
+      "side": 1,
+      "message": "You should log this exception to the server\u0027s log file, so the administrator knows why the browser cannot sign-in.",
+      "revId": "19cd2142dad42f12063cd6caf6c44bbfd498d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Ks\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ActiveSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T22:20:03Z",
+      "side": 1,
+      "message": "Just new Timestamp() is enough here.  The default constructor loads the current time.",
+      "revId": "19cd2142dad42f12063cd6caf6c44bbfd498d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -125,7 +125,21 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
 
     if (res != null) {
-      webSession.get().login(res, false);
+      try {
+        webSession.get().login(res, false);
+      } catch (OrmException e) {
+        rsp.setContentType("text/html");
+        rsp.setCharacterEncoding(HtmlDomUtil.ENC);
+        final Writer out = rsp.getWriter();
+        out.write("<html>");
+        out.write("<body>");
+        out.write("<h1>Could not log in</h1>");
+        out.write("</body>");
+        out.write("</html>");
+        out.close();
+        log("Could not log in", e);
+        return;
+      }
       final StringBuilder rdr = new StringBuilder();
       rdr.append(urlProvider.get());
       if (IS_DEV && req.getParameter("gwt.codesvr") != null) {

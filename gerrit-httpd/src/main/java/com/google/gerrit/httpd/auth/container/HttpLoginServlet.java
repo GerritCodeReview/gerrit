@@ -23,6 +23,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -36,6 +37,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.IOException;
+import java.io.Writer;
 
 import javax.annotation.Nullable;
 import javax.servlet.ServletException;
@@ -136,7 +138,21 @@ class HttpLoginServlet extends HttpServlet {
     }
     rdr.append(token);
 
-    webSession.get().login(arsp, false);
+    try {
+      webSession.get().login(arsp, false);
+    } catch (OrmException e) {
+      log.error("Unable to log in user \"" + user + "\"", e);
+      rsp.setContentType("text/html");
+      rsp.setCharacterEncoding(HtmlDomUtil.ENC);
+      final Writer out = rsp.getWriter();
+      out.write("<html>");
+      out.write("<body>");
+      out.write("<h1>An error occurred while attempting to log in</h1>");
+      out.write("</body>");
+      out.write("</html>");
+      out.close();
+      return;
+    }
     rsp.sendRedirect(rdr.toString());
   }
 

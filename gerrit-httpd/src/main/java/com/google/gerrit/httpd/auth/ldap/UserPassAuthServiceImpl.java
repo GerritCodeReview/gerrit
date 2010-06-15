@@ -22,6 +22,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -63,7 +64,13 @@ class UserPassAuthServiceImpl implements UserPassAuthService {
 
     result.success = true;
     result.isNew = res.isNew();
-    webSession.get().login(res, false);
+    try {
+      webSession.get().login(res, false);
+    } catch (OrmException e) {
+      result.success = false;
+      callback.onSuccess(result);
+      return;
+    }
     callback.onSuccess(result);
   }
 }

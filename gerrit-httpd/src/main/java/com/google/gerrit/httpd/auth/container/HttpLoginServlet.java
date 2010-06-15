@@ -23,6 +23,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -136,7 +137,11 @@ class HttpLoginServlet extends HttpServlet {
     }
     rdr.append(token);
 
-    webSession.get().login(arsp, false);
+    try {
+      webSession.get().login(arsp, false);
+    } catch (OrmException e) {
+      log.error("Unable to log in user \"" + user + "\"", e);
+    }
     rsp.sendRedirect(rdr.toString());
   }
 

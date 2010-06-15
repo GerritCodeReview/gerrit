@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX//+Rw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T17:55:45Z",
+      "side": 1,
+      "message": "Instead of an ArrayList and indexOf, you could have used a HashSet and contains.",
+      "revId": "35c1ac351585858ec57988366fbfec060602c3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Rs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T17:55:45Z",
+      "side": 1,
+      "message": "This won\u0027t test string equality.  The two strings are likely different objects, but the same text.  To get string equality, you need to use .equals().\n\nBut I wonder why we need this output per file.  Why not just have a \"35 inline comments\" message be put here?",
+      "revId": "35c1ac351585858ec57988366fbfec060602c3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Ro\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T17:55:45Z",
+      "side": 1,
+      "message": "This refactoring should be its own change.",
+      "revId": "35c1ac351585858ec57988366fbfec060602c3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -220,6 +220,8 @@ public class PublishComments implements Callable<VoidResult> {
 
     db.patchSetApprovals().update(upd);
     db.patchSetApprovals().insert(ins);
+
+    summarizeInlineComments(msgbuf);
     message(msgbuf.toString());
   }
 
@@ -297,5 +299,18 @@ public class PublishComments implements Callable<VoidResult> {
     }
 
     hooks.doCommentAddedHook(change, user.getAccount(), patchSet, messageText, changed);
+  }
+
+  private void summarizeInlineComments(StringBuilder in) {
+    if (!drafts.isEmpty()) {
+      if (in.length() != 0) {
+        in.append("\n\n");
+      }
+      if (drafts.size() == 1) {
+        in.append("(1 inline comment)");
+      } else {
+        in.append("(" + drafts.size() + " inline comments)");
+      }
+    }
   }
 }

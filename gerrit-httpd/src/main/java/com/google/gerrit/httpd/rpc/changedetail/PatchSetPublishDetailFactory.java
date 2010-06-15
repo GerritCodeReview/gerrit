@@ -43,9 +43,6 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -133,23 +130,10 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     final Set<AccountGroup.Id> am = user.getEffectiveGroups();
     final ProjectState pe = projectCache.get(change.getProject());
     for (ApprovalCategory.Id category : approvalTypes.getApprovalCategories()) {
-      List<RefRight> categoryRights = new ArrayList<RefRight>();
-      categoryRights.addAll(filterMatching(pe.getLocalRights(category)));
-      categoryRights.addAll(filterMatching(pe.getInheritedRights(category)));
-      Collections.sort(categoryRights, RefRight.REF_PATTERN_ORDER);
-
+      RefControl rc = pe.controlFor(user).controlForRef(change.getDest());
+      List<RefRight> categoryRights = rc.getApplicableRights(category);
       computeAllowed(am, categoryRights, category);
     }
-  }
-
-  private List<RefRight> filterMatching(Collection<RefRight> rights) {
-    List<RefRight> result = new ArrayList<RefRight>();
-    for (RefRight right : rights) {
-      if (RefControl.matches(change.getDest().get(), right.getRefPattern())) {
-        result.add(right);
-      }
-    }
-    return result;
   }
 
   private void computeAllowed(final Set<AccountGroup.Id> am,
@@ -161,27 +145,10 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       allowed.put(category, s);
     }
 
-    boolean foundExclusive = false;
-    String previousPattern = "";
     for (final RefRight r : list) {
-
       if (!am.contains(r.getAccountGroupId())) {
-        if (r.isExclusive()) {
-          foundExclusive = true;
-        }
         continue;
       }
-
-      if (foundExclusive && !previousPattern.equals(r.getRefPattern())) {
-        break;
-      }
-
-      if (r.isExclusive()) {
-        foundExclusive = true;
-      }
-
-      previousPattern = r.getRefPattern();
-
       final ApprovalType at =
           approvalTypes.getApprovalType(r.getApprovalCategoryId());
       for (short m = r.getMinValue(); m <= r.getMaxValue(); m++) {

@@ -141,7 +141,7 @@ public class ReviewCommand extends BaseCommand {
             ok = false;
             writeError("fatal: internal server error while approving "
                 + patchSetId + "\n");
-            log.error("internal error while approving " + patchSetId);
+            log.error("internal error while approving " + patchSetId, e);
           }
         }
         if (!ok) {

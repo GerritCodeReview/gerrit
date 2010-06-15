@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX//+NY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-06-15T20:22:32Z",
+      "side": 1,
+      "message": "Now that I understand the need to enter a 0 record, I agree with this.  I am concerned how this interacts with the ssh review command, which does not change anything, will it cause emails to be sent out and hooks to be run?  Same question for  if the ssh reviewer just wants to do a --submit?",
+      "revId": "556b6d7999fc8d91d227dbe49d5042b8a821d5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

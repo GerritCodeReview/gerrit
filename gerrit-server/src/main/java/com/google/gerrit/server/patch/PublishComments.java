@@ -189,6 +189,11 @@ public class PublishComments implements Callable<VoidResult> {
     for (final ApprovalType at : types.getApprovalTypes()) {
       if (dirty.contains(at.getCategory().getId())) {
         final PatchSetApproval a = mine.get(at.getCategory().getId());
+        if (a.getValue() == 0 && ins.contains(a)) {
+          // Don't say "no score" for an initial entry.
+          continue;
+        }
+
         final ApprovalCategoryValue val = at.getValue(a);
         if (msgbuf.length() > 0) {
           msgbuf.append("; ");

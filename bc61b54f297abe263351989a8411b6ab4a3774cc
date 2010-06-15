@@ -16,6 +16,24 @@
       "revId": "bc61b54f297abe263351989a8411b6ab4a3774cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+L4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T21:56:52Z",
+      "side": 1,
+      "message": "Hmm, good point.  But I\u0027m inclined not to care.\n\nOn the web UI side I think we normalize to what you can actually use and store that into the database... because the web UI didn\u0027t present you radio buttons outside of the range you can use.  Which means you shouldn\u0027t be surprised at what we store.\n\nIf you managed to give us something you can\u0027t do (e.g. you send \"Code Review +2\" but can only do +1), we limit you to +1 when we write to the database, but we don\u0027t tell you, because you shouldn\u0027t have sent us a +2 in the first place... it wasn\u0027t offered to you in the web UI.\n\nOn the SSH command line its another story.  You got offered everything in --help, because we didn\u0027t have enough context to know what you can and cannot do, as no project was specified.    So we have to validate it, at which point its reasonable to let you know that you can\u0027t do what you are trying to do.  The case I was envisioning here was a build-bot.  It should get an error message back if it can\u0027t do `ssh gerrit review --verified\u003d+1` on a project, because the admin forgot to grant the permission to the bot.\n\nBut a user attacking the web UI and asking us to do something different?  Bleh, we ignore them and don\u0027t say anything.\n\nSince this is still attributed to you, its up to you how to proceed.  Are you OK with this check only in the SSH code path?  Or do you think it should be in both?  If you want it in both, can you please amend and send me a replacement?",
+      "parentUuid": "AAAAzX//+No\u003d",
+      "revId": "bc61b54f297abe263351989a8411b6ab4a3774cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

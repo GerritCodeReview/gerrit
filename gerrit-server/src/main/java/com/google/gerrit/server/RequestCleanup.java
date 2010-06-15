@@ -33,16 +33,21 @@ public class RequestCleanup implements Runnable {
       LoggerFactory.getLogger(RequestCleanup.class);
 
   private final List<Runnable> cleanup = new LinkedList<Runnable>();
+  private boolean run;
 
   /** Register a task to be completed after the request ends. */
   public void add(final Runnable task) {
     synchronized (cleanup) {
+      if (run) {
+        throw new IllegalStateException("Request has already been cleaned up");
+      }
       cleanup.add(task);
     }
   }
 
   public void run() {
     synchronized (cleanup) {
+      run = true;
       for (final Iterator<Runnable> i = cleanup.iterator(); i.hasNext();) {
         try {
           i.next().run();

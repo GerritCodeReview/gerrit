@@ -365,7 +365,7 @@ public class RefControl {
    * matching when an exclusive ref right was encountered, for the given
    * approval category.
    * @param id The {@link ApprovalCategory.Id}.
-   * @return All applicalbe rights.
+   * @return All applicable rights.
    */
   public List<RefRight> getApplicableRights(final ApprovalCategory.Id id) {
     List<RefRight> l = new ArrayList<RefRight>();

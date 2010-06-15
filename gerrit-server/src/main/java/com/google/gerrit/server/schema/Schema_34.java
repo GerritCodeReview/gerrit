@@ -51,7 +51,6 @@ public class Schema_34 extends SchemaVersion {
       Map<ApprovalCategory.Id, Map<String, RefRightsForPattern>> r =
         new HashMap<ApprovalCategory.Id, Map<String, RefRightsForPattern>>();
       for (RefRight right : pr) {
-        ui.message(right.toString());
         ApprovalCategory.Id cat = right.getApprovalCategoryId();
         if (r.get(cat) == null) {
           Map<String, RefRightsForPattern> m =

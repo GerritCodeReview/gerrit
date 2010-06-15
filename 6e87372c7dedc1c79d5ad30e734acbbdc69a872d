@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX//+Gw\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T23:35:55Z",
+      "side": 1,
+      "message": "I would put this bind inside of WebSession.module(), as its really a private detail of WebSession.",
+      "revId": "6e87372c7dedc1c79d5ad30e734acbbdc69a872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Gk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T23:35:55Z",
+      "side": 1,
+      "message": "This login call site also throws OrmException.  :-)\n\nHere its OK to not cancelWithError I think.  Just catch the exception, log it, and keep going.",
+      "revId": "6e87372c7dedc1c79d5ad30e734acbbdc69a872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Gg\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ReviewDb.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T23:35:55Z",
+      "side": 1,
+      "message": "Please don\u0027t change the copyright date in file headers.",
+      "revId": "6e87372c7dedc1c79d5ad30e734acbbdc69a872d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

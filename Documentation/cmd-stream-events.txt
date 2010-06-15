@@ -58,6 +58,8 @@ change:: <<change,change attribute>>
 
 patchset:: <<patchset,patchset attribute>>
 
+uploader:: <<account,account attribute>>
+
 Change Abandoned
 ^^^^^^^^^^^^^^^^
 type:: "change-abandoned"
@@ -126,6 +128,8 @@ patchset:: Refers to a specific patchset within a change
   revision;; Git commit-ish for this patchset
 
   ref;; Git reference pointing at revision
+
+  uploader;; Uploader of patch set in account attribute
 
 SEE ALSO
 --------

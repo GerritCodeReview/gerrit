@@ -88,6 +88,7 @@ public class ChangeHookRunner {
         public String number;
         public String revision;
         public String ref;
+        public AuthorAttribute uploader;
     }
 
     public static class CommentAddedEvent extends ChangeEvent {
@@ -118,6 +119,7 @@ public class ChangeHookRunner {
         public final String type = "patchset-created";
         public ChangeAttribute change;
         public PatchSetAttribute patchSet;
+        public AuthorAttribute uploader;
     }
 
     private static class ChangeListenerHolder {
@@ -237,9 +239,11 @@ public class ChangeHookRunner {
      */
     public void doPatchsetCreatedHook(final Change change, final PatchSet patchSet) {
         final PatchSetCreatedEvent event = new PatchSetCreatedEvent();
+        final AccountState uploader = accountCache.get(patchSet.getUploader());
 
         event.change = getChangeAttribute(change);
         event.patchSet = getPatchSetAttribute(patchSet);
+        event.uploader = getAccountAttribute(uploader.getAccount());
         fireEvent(change, event);
 
         final List<String> args = new ArrayList<String>();
@@ -253,6 +257,8 @@ public class ChangeHookRunner {
         args.add(event.change.project);
         args.add("--branch");
         args.add(event.change.branch);
+        args.add("--uploader");
+        args.add(getDisplayName(uploader.getAccount()));
         args.add("--commit");
         args.add(event.patchSet.revision);
         args.add("--patchset");
@@ -472,6 +478,8 @@ public class ChangeHookRunner {
         p.revision = patchSet.getRevision().get();
         p.number = Integer.toString(patchSet.getPatchSetId());
         p.ref = patchSet.getRefName();
+        final AccountState uploader = accountCache.get(patchSet.getUploader());
+        p.uploader = getAccountAttribute(uploader.getAccount());
         return p;
     }
 

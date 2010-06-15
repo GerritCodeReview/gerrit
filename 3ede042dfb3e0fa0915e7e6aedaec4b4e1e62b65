@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX//+VI\u003d",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T16:27:13Z",
+      "side": 1,
+      "message": "Please indent with a tab (not two spaces) here.",
+      "revId": "3ede042dfb3e0fa0915e7e6aedaec4b4e1e62b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+VA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T16:27:13Z",
+      "side": 1,
+      "message": "I think its odd to return a String here, and have null be the \"good\" result and !\u003d null be the \"bad result\".  Feels icky to me.\n\nBetter would be to use an enum, or some other sort of state object.",
+      "revId": "3ede042dfb3e0fa0915e7e6aedaec4b4e1e62b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+VE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T16:27:13Z",
+      "side": 1,
+      "message": "Style-nit:  Space between if and (.",
+      "revId": "3ede042dfb3e0fa0915e7e6aedaec4b4e1e62b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+U8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T16:27:13Z",
+      "side": 1,
+      "message": "s/change/branch/",
+      "revId": "3ede042dfb3e0fa0915e7e6aedaec4b4e1e62b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+U0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T16:27:13Z",
+      "side": 1,
+      "message": "Style-nit: Space between if and (",
+      "revId": "3ede042dfb3e0fa0915e7e6aedaec4b4e1e62b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Uw\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T16:27:13Z",
+      "side": 1,
+      "message": "Style-nit: Space before (, and {} blocks go on new lines:\n\n  if (err !\u003d null) {\n    throw error(err);\n  }",
+      "revId": "3ede042dfb3e0fa0915e7e6aedaec4b4e1e62b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

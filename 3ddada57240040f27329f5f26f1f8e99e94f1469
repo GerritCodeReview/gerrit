@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX//+HQ\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/TrackingIdAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T23:29:47Z",
+      "side": 1,
+      "message": "Style-nit: Should be called byChange",
+      "revId": "3ddada57240040f27329f5f26f1f8e99e94f1469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+HM\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/TrackingIdAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T23:29:47Z",
+      "side": 1,
+      "message": "Style-nit: Should be called byTrackingId",
+      "revId": "3ddada57240040f27329f5f26f1f8e99e94f1469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+G8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1218,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T23:29:47Z",
+      "side": 1,
+      "message": "Should be !m.group(1).isEmpty().  Testing reference equality against \"\" doesn\u0027t work.",
+      "revId": "3ddada57240040f27329f5f26f1f8e99e94f1469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+G4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1238,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T23:29:47Z",
+      "side": 1,
+      "message": "Since this isn\u0027t a transaction, deleting and insert may cause them to disappear for a short time window.  Its better to do a set difference in memory and only execute the insert or deletes that are different from the last pass through.",
+      "revId": "3ddada57240040f27329f5f26f1f8e99e94f1469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -29,6 +29,7 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
+import com.google.inject.servlet.GuiceHelper;
 import com.google.inject.servlet.GuiceServletContextListener;
 
 import org.eclipse.jetty.io.EndPoint;
@@ -66,6 +67,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 public class JettyServer {
@@ -117,7 +122,23 @@ public class JettyServer {
 
     Handler app = makeContext(env, cfg);
     if (cfg.getBoolean("httpd", "requestlog", !reverseProxy)) {
-      RequestLogHandler handler = new RequestLogHandler();
+      RequestLogHandler handler = new RequestLogHandler() {
+        @Override
+        public void handle(String target, Request baseRequest,
+            final HttpServletRequest req, final HttpServletResponse rsp)
+            throws IOException, ServletException {
+          // Force the user to construct, so its available to our HttpLog
+          // later on when the request gets logged out to the access file.
+          //
+          GuiceHelper.runInContext(req, rsp, new Runnable() {
+            @Override
+            public void run() {
+              userProvider.get();
+            }
+          });
+          super.handle(target, baseRequest, req, rsp);
+        }
+      };
       handler.setRequestLog(new HttpLog(site, userProvider));
       handler.setHandler(app);
       app = handler;

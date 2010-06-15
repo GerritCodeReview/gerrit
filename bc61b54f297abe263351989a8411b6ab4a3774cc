@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX//+No\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-06-15T19:47:46Z",
+      "side": 1,
+      "message": "Should these assertions be done via some utility class instead so that they can be done from the WUI also?",
+      "revId": "bc61b54f297abe263351989a8411b6ab4a3774cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

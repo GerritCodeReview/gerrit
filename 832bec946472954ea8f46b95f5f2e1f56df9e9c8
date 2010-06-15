@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX//+Yw\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T00:25:33Z",
+      "side": 1,
+      "message": "This doesn\u0027t exactly work anymore.  We need to implement the same behavior in the database code.",
+      "revId": "832bec946472954ea8f46b95f5f2e1f56df9e9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Y0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T00:25:33Z",
+      "side": 1,
+      "message": "This must be a singleton injected through the constructor.  We need a single SecureRandom for the entire life of the JVM.  Creating one on the fly each time we create a new web request will exhaust the system of entropy, and the entire site will drag down to a crawl, and almost stop responding.",
+      "revId": "832bec946472954ea8f46b95f5f2e1f56df9e9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+ZQ\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ActiveSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T00:25:33Z",
+      "side": 1,
+      "message": "This should be a Timestamp, since its an actual date value.  I\u0027d rather use Timestamp in the database than a long.",
+      "revId": "832bec946472954ea8f46b95f5f2e1f56df9e9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+ZM\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ActiveSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T00:25:33Z",
+      "side": 1,
+      "message": "You also need to declare a protected no-arg constructor so that gwtorm can create an instance of this type when it reads from the database.",
+      "revId": "832bec946472954ea8f46b95f5f2e1f56df9e9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+ZI\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ActiveSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T00:25:33Z",
+      "side": 1,
+      "message": "We shouldn\u0027t ever change the Account.Id once its been set by the initial constructor call.",
+      "revId": "832bec946472954ea8f46b95f5f2e1f56df9e9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+ZE\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ActiveSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T00:25:33Z",
+      "side": 1,
+      "message": "We shouldn\u0027t be changing the cookie persistence once the session was created.",
+      "revId": "832bec946472954ea8f46b95f5f2e1f56df9e9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+ZA\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ActiveSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T00:25:33Z",
+      "side": 1,
+      "message": "We shouldn\u0027t be changing the externalId after the session was created.",
+      "revId": "832bec946472954ea8f46b95f5f2e1f56df9e9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Y8\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ActiveSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T00:25:33Z",
+      "side": 1,
+      "message": "We shouldn\u0027t be changing the xsrfToken once the session is created.",
+      "revId": "832bec946472954ea8f46b95f5f2e1f56df9e9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

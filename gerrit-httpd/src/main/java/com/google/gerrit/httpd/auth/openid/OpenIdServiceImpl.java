@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -415,7 +416,12 @@ class OpenIdServiceImpl implements OpenIdService {
             lastId.setMaxAge(0);
           }
           rsp.addCookie(lastId);
-          webSession.get().login(arsp, remember);
+          try {
+            webSession.get().login(arsp, remember);
+          } catch (OrmException e) {
+            cancelWithError(req, rsp, "Cannot start new session");
+            return;
+          }
           if (arsp.isNew() && claimedIdentifier != null) {
             final com.google.gerrit.server.account.AuthRequest linkReq =
                 new com.google.gerrit.server.account.AuthRequest(

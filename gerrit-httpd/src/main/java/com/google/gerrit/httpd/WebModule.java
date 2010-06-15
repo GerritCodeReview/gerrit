@@ -40,6 +40,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
+import com.google.inject.Singleton;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
 
@@ -133,6 +134,8 @@ public class WebModule extends FactoryModule {
         HttpRemotePeerProvider.class).in(RequestScoped.class);
 
     install(WebSession.module());
+
+    bind(WebSession.KeyGenerator.class).in(SINGLETON);
 
     bind(CurrentUser.class).toProvider(HttpCurrentUserProvider.class).in(
         RequestScoped.class);

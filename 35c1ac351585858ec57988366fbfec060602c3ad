@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAzX//+RQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T18:23:43Z",
+      "side": 1,
+      "message": "You need to rethink this logic.\n\nWith this change, when the user publishes comments with no scores, the change will no longer show up in their dashboard.  \n\nThe way a change shows in a user dashboard\u0027s middle section is by having at least one PatchSetApproval record by that user.  When we \"CC\" a user on a change, or \"Add Reviewer\", we actually insert a 0 value entry for at least one ApprovalCategory, so that it shows up.\n\nI think what you want is to continue to write that record to the database, but edit the logic in the 3rd loop below that says \"Format a message explaining the actions taken\".  I think you just want to skip over the 0 value scores in that bottom loop.",
+      "revId": "35c1ac351585858ec57988366fbfec060602c3ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAzX//+Rw\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
         "patchSetId": 1

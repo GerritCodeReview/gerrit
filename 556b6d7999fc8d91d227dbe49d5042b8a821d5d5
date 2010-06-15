@@ -16,6 +16,24 @@
       "revId": "556b6d7999fc8d91d227dbe49d5042b8a821d5d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+MU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-15T21:50:49Z",
+      "side": 1,
+      "message": "An `ssh review` with no approval flag and no message is a no-op, isn\u0027t it?\n\nHooks fire no matter what happened, but the email is only sent if there is actually text in the body... which means at least one inline draft was published, or an approval changed, or there was a cover-letter/message.\n\nA no-op ssh review will still fire hooks, but as far as I can tell won\u0027t send email.  That isn\u0027t much different from what we have now though I think.",
+      "parentUuid": "AAAAzX//+NY\u003d",
+      "revId": "556b6d7999fc8d91d227dbe49d5042b8a821d5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

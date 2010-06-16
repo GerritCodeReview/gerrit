@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,19 +14,16 @@
 
 package com.google.gerrit.server.config;
 
-import static com.google.inject.Scopes.SINGLETON;
+import java.util.List;
 
-import com.google.inject.AbstractModule;
+public class TrackingFooters {
+  protected List<TrackingFooter> trackingFooters;
 
-import org.eclipse.jgit.lib.Config;
+  public TrackingFooters (final List<TrackingFooter> trFooters) {
+    trackingFooters = trFooters;
+  }
 
-/** Creates {@link GerritServerConfig}. */
-public class GerritServerConfigModule extends AbstractModule {
-  @Override
-  protected void configure() {
-    bind(SitePaths.class);
-    bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON) ;
-    bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
-        GerritServerConfigProvider.class).in(SINGLETON);
+  public List<TrackingFooter> getTrackingFooters() {
+    return trackingFooters;
   }
 }

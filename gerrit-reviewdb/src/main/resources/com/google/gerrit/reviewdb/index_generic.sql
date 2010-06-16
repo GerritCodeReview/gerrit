@@ -167,6 +167,13 @@ ON ref_rights (category_id, group_id);
 
 
 -- *********************************************************************
+-- TrackingIdAccess
+--
+CREATE INDEX tracking_ids_byTrkId
+ON tracking_ids (tracking_id);
+
+
+-- *********************************************************************
 -- StarredChangeAccess
 --    @PrimaryKey covers: byAccount
 

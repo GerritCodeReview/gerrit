@@ -36,11 +36,14 @@ import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.TrackingFooter;
+import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
@@ -138,6 +141,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final ChangeHookRunner hooks;
   private final String canonicalWebUrl;
   private final PersonIdent gerritIdent;
+  private final TrackingFooters trackingFooters;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -167,6 +171,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final ChangeHookRunner hooks,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
+      final TrackingFooters trackingFooters,
 
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo) {
@@ -182,6 +187,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.hooks = hooks;
     this.canonicalWebUrl = canonicalWebUrl;
     this.gerritIdent = gerritIdent;
+    this.trackingFooters = trackingFooters;
 
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
@@ -803,7 +809,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     Change.Key changeKey = new Change.Key("I" + c.name());
     final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
     final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
-    for (final FooterLine footerLine : c.getFooterLines()) {
+    final List<FooterLine> footerLines = c.getFooterLines();
+    for (final FooterLine footerLine : footerLines) {
       try {
         if (footerLine.matches(CHANGE_ID)) {
           final String v = footerLine.getValue().trim();
@@ -887,6 +894,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       log.error("Cannot send email for new change " + change.getId(), e);
     }
 
+    addTrackingIds(change, footerLines);
     hooks.doPatchsetCreatedHook(change, ps);
   }
 
@@ -928,7 +936,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     final Account.Id me = currentUser.getAccountId();
     final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
     final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
-    for (final FooterLine footerLine : c.getFooterLines()) {
+    final List<FooterLine> footerLines = c.getFooterLines();
+    for (final FooterLine footerLine : footerLines) {
       try {
         if (isReviewer(footerLine)) {
           reviewers.add(toAccountId(footerLine.getValue().trim()));
@@ -1184,8 +1193,62 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     } catch (EmailException e) {
       log.error("Cannot send email for new patch set " + ps.getId(), e);
     }
+
+    addTrackingIds(change, footerLines);
     sendMergedEmail(result);
     return result != null ? result.info.getKey() : null;
+  }
+
+  private void addTrackingIds(final Change change,
+      final List<FooterLine> footerLines) throws OrmException {
+    if (trackingFooters.getTrackingFooters().isEmpty() || footerLines.isEmpty()) {
+      return;
+    }
+
+    final Set<TrackingId> want = new HashSet<TrackingId>();
+    final Set<TrackingId> have = new HashSet<TrackingId>( //
+        db.trackingIds().byChange(change.getId()).toList());
+
+    for (final TrackingFooter footer : trackingFooters.getTrackingFooters()) {
+      for (final FooterLine footerLine : footerLines) {
+        if (footerLine.matches(footer.footerKey())) {
+          // supporting multiple tracking-ids on a single line
+          final Matcher m = footer.match().matcher(footerLine.getValue());
+          while (m.find()) {
+            if (m.group().isEmpty()) {
+              continue;
+            }
+
+            String idstr;
+            if (m.groupCount() > 0) {
+              idstr = m.group(1);
+            } else {
+              idstr = m.group();
+            }
+
+            if (idstr.isEmpty()) {
+              continue;
+            }
+            if (idstr.length() > TrackingId.TRACKING_ID_MAX_CHAR) {
+              continue;
+            }
+
+            want.add(new TrackingId(change.getId(), idstr, footer.system()));
+          }
+        }
+      }
+    }
+
+    // Only insert the rows we don't have, and delete rows we don't match.
+    //
+    final Set<TrackingId> toInsert = new HashSet<TrackingId>(want);
+    final Set<TrackingId> toDelete = new HashSet<TrackingId>(have);
+
+    toInsert.removeAll(have);
+    toDelete.removeAll(want);
+
+    db.trackingIds().insert(toInsert);
+    db.trackingIds().delete(toDelete);
   }
 
   static boolean parentsEqual(RevCommit a, RevCommit b) {

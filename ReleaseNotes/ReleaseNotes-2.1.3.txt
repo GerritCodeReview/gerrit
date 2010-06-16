@@ -182,9 +182,9 @@ at checking this setting on the remote repository.
 
 * Internal dependencies updated
 +
-Updated JGit to 0.7.1.11-g2b6c555, Jetty to 7.0.2.v20100331, H2
-database to 1.2.134, Apache Commons Codec to 1.4, Apache Commons
-Net to 2.1, Apache Commons DBCP to 1.4.
+Updated JGit to 0.8.4, Jetty to 7.0.2.v20100331, H2 database to
+1.2.134, Apache Commons Codec to 1.4, Apache Commons Net to 2.1,
+Apache Commons DBCP to 1.4.
 
 
 Bug Fixes

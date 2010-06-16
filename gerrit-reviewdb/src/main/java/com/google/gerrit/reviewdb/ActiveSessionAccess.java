@@ -17,9 +17,14 @@ package com.google.gerrit.reviewdb;
 import com.google.gwtorm.client.Access;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.PrimaryKey;
+import com.google.gwtorm.client.Query;
+import com.google.gwtorm.client.ResultSet;
 
 public interface ActiveSessionAccess extends
     Access<ActiveSession, ActiveSession.Key> {
   @PrimaryKey("key")
   ActiveSession get(ActiveSession.Key key) throws OrmException;
+
+  @Query
+  ResultSet<ActiveSession> all() throws OrmException;
 }

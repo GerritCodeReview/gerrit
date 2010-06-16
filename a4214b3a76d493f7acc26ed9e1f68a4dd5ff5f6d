@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX//+GQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-16T00:08:16Z",
+      "side": 1,
+      "message": "Please don\u0027t edit this file, you have no other relevant changes here.",
+      "revId": "a4214b3a76d493f7acc26ed9e1f68a4dd5ff5f6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -270,7 +270,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       if (parsedQuery.length > 1) {
         want.addAll(changesReviewedBy(db, parsedQuery[1]));
       }
-    } else if (query.contains("tr:")) {
+    } else if (query.contains("bug:") || query.contains("tr:")) {
       String[] parsedQuery = query.split(":");
       if (parsedQuery.length > 1) {
         want.addAll(changesReferencingTr(db, parsedQuery[1]));

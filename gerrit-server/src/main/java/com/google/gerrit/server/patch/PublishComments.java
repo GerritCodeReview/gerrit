@@ -226,7 +226,9 @@ public class PublishComments implements Callable<VoidResult> {
   }
 
   private void publishMessageOnly() throws OrmException {
-    message(null);
+    StringBuilder msgbuf = new StringBuilder();
+    summarizeInlineComments(msgbuf);
+    message(msgbuf.toString());
   }
 
   private void message(String actions) throws OrmException {

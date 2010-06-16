@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAzX//+Es\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectAdminService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-16T01:40:16Z",
+      "side": 1,
+      "message": "This should be a separate change.  This patch is already pretty large, it would be easier to digest if the visualization of the tree was separated from the web UI to modify the tree.",
+      "revId": "577907faf0d09d84604f1f5c61e93a929d13a99a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Ek\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Hyperlink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-16T01:40:16Z",
+      "side": 1,
+      "message": "Style-nit:  Space before {, but also this line probably should have been line-wrapped.  Its a bit long if its over 100 characters.",
+      "revId": "577907faf0d09d84604f1f5c61e93a929d13a99a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Ew\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectsTO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-16T01:40:16Z",
+      "side": 1,
+      "message": "Why the TO suffix?  What does TO stand for?  We (usually) try to avoid abbreviations, especially if they are obtuse to the reader.  And this one is certainly obtuse to me.",
+      "revId": "577907faf0d09d84604f1f5c61e93a929d13a99a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+E0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectsTO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-16T01:40:16Z",
+      "side": 1,
+      "message": "My problem with this is we expose all project names to the browser.  An evil user could just install Firebug into their Firefox browser and easily view the list of projects he/she cannot see.\n\nFor an open source website like review.source.android.com, this is not a big deal.  However for a more private installation, leaking the name of known projects might leak the code name of an unannounced product or partnership, which can be a very big problem.\n\nSo we can\u0027t do this.  The only project names you can expose are the projects the user can currently see, and their parents, up to the --All Projects-- project.  So this logic needs to be rethought to ensure that the browser only sees that limited subset.",
+      "revId": "577907faf0d09d84604f1f5c61e93a929d13a99a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Eo\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/SetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-16T01:40:16Z",
+      "side": 1,
+      "message": "If you instead put this into the gerrit-server directory, you can then refactor the AdminSetParent SSHD command to also use this implementation.  That would reduce the amount of code needed to add this feature, since its mostly just extracting the existing code from AdminSetParent.",
+      "revId": "577907faf0d09d84604f1f5c61e93a929d13a99a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

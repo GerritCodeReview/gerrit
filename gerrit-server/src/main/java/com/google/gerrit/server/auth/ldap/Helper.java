@@ -58,7 +58,7 @@ import javax.net.ssl.SSLSocketFactory;
     this.server = LdapRealm.required(config, "server");
     this.username = LdapRealm.optional(config, "username");
     this.password = LdapRealm.optional(config, "password");
-    this.referral = optional(config, "referral");
+    this.referral = LdapRealm.optional(config, "referral");
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
   }
 

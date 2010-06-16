@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAzX//+Ds\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectsTO.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2010-06-16T14:15:36Z",
+      "side": 1,
+      "message": "I changed the VisibleProjects name because  this class was no longer carrying only visible projects. I was in doubt about naming it also. Btw, TO means Transfer Object. \nAnyway I will rollback it.",
+      "parentUuid": "AAAAzX//+Ew\u003d",
+      "revId": "577907faf0d09d84604f1f5c61e93a929d13a99a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAzX//+E0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectsTO.java",
         "patchSetId": 1

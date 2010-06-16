@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.project.ChangeControl;
@@ -269,6 +270,11 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       String[] parsedQuery = query.split(":");
       if (parsedQuery.length > 1) {
         want.addAll(changesReviewedBy(db, parsedQuery[1]));
+      }
+    } else if (query.contains("tr:")) {
+      String[] parsedQuery = query.split(":");
+      if (parsedQuery.length > 1) {
+        want.addAll(changesReferencingTr(db, parsedQuery[1]));
       }
     }
 
@@ -521,6 +527,21 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       for (PatchSetApproval a : db.patchSetApprovals().closedByUserAll(account)) {
         resultChanges.add(a.getPatchSetId().getParentKey());
       }
+    }
+    return resultChanges;
+  }
+
+  /**
+   * @return a set of all the changes referencing tracking id. This method find
+   *         all changes with a reference to the given external tracking id.
+   *         The returned changes are unique and sorted by time stamp, newer first.
+   */
+  private Set<Change.Id> changesReferencingTr(final ReviewDb db,
+      final String trackingId) throws OrmException {
+    final Set<Change.Id> resultChanges = new HashSet<Change.Id>();
+    for (final TrackingId tr : db.trackingIds().byTrackingId(
+        new TrackingId.Id(trackingId))) {
+      resultChanges.add(tr.getChangeId());
     }
     return resultChanges;
   }

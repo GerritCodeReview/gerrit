@@ -189,6 +189,11 @@ public class PublishComments implements Callable<VoidResult> {
     for (final ApprovalType at : types.getApprovalTypes()) {
       if (dirty.contains(at.getCategory().getId())) {
         final PatchSetApproval a = mine.get(at.getCategory().getId());
+        if (a.getValue() == 0 && ins.contains(a)) {
+          // Don't say "no score" for an initial entry.
+          continue;
+        }
+
         final ApprovalCategoryValue val = at.getValue(a);
         if (msgbuf.length() > 0) {
           msgbuf.append("; ");
@@ -215,6 +220,8 @@ public class PublishComments implements Callable<VoidResult> {
 
     db.patchSetApprovals().update(upd);
     db.patchSetApprovals().insert(ins);
+
+    summarizeInlineComments(msgbuf);
     message(msgbuf.toString());
   }
 
@@ -292,5 +299,18 @@ public class PublishComments implements Callable<VoidResult> {
     }
 
     hooks.doCommentAddedHook(change, user.getAccount(), patchSet, messageText, changed);
+  }
+
+  private void summarizeInlineComments(StringBuilder in) {
+    if (!drafts.isEmpty()) {
+      if (in.length() != 0) {
+        in.append("\n\n");
+      }
+      if (drafts.size() == 1) {
+        in.append("(1 inline comment)");
+      } else {
+        in.append("(" + drafts.size() + " inline comments)");
+      }
+    }
   }
 }

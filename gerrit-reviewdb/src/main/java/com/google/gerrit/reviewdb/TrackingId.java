@@ -1,0 +1,143 @@
+// Copyright (C) 2010 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.reviewdb;
+
+import com.google.gwtorm.client.Column;
+import com.google.gwtorm.client.CompoundKey;
+import com.google.gwtorm.client.StringKey;
+
+/** External tracking id associated with a {@link Change} */
+public final class TrackingId {
+  public static final int TRACKING_ID_MAX_CHAR = 20;
+  public static final int TRACKING_SYSTEM_MAX_CHAR = 10;
+
+  /** External tracking id */
+  public static class Id extends StringKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
+    @Column(id = 1, length = TrackingId.TRACKING_ID_MAX_CHAR)
+    protected String id;
+
+    protected Id() {
+    }
+
+    public Id(final String id) {
+      this.id = id;
+    }
+
+    @Override
+    public String get() {
+      return id;
+    }
+
+    @Override
+    protected void set(String newValue) {
+      id = newValue;
+    }
+  }
+
+  /** Name of external tracking system */
+  public static class System extends StringKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
+    @Column(id = 1, length = TrackingId.TRACKING_SYSTEM_MAX_CHAR)
+    protected String system;
+
+    protected System() {
+    }
+
+    public System(final String s) {
+      this.system = s;
+    }
+
+    @Override
+    public String get() {
+      return system;
+    }
+
+    @Override
+    protected void set(String newValue) {
+      system = newValue;
+    }
+  }
+
+  public static class Key extends CompoundKey<Change.Id> {
+    private static final long serialVersionUID = 1L;
+
+    @Column(id = 1)
+    protected Change.Id changeId;
+
+    @Column(id = 2)
+    protected Id trackingId;
+
+    @Column(id = 3)
+    protected System trackingSystem;
+
+    protected Key() {
+      changeId = new Change.Id();
+      trackingId = new Id();
+      trackingSystem = new System();
+    }
+
+    protected Key(final Change.Id ch, final Id id, final System s) {
+      changeId = ch;
+      trackingId = id;
+      trackingSystem = s;
+    }
+
+    @Override
+    public Change.Id getParentKey() {
+      return changeId;
+    }
+
+    @Override
+    public com.google.gwtorm.client.Key<?>[] members() {
+      return new com.google.gwtorm.client.Key<?>[] {trackingId, trackingSystem};
+    }
+  }
+
+  @Column(id = 1, name = Column.NONE)
+  protected Key key;
+
+  protected TrackingId() {
+  }
+
+  public TrackingId(final Change.Id ch, final TrackingId.Id id,
+      final TrackingId.System s) {
+    key = new Key(ch, id, s);
+  }
+
+  public TrackingId(final Change.Id ch, final String id, final String s) {
+    key = new Key(ch, new TrackingId.Id(id), new TrackingId.System(s));
+  }
+
+  public Change.Id getChangeId() {
+    return key.changeId;
+  }
+
+  @Override
+  public int hashCode() {
+    return key.hashCode();
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (obj instanceof TrackingId) {
+      final TrackingId tr = (TrackingId) obj;
+      return tr.key.equals(tr.key);
+    }
+    return false;
+  }
+}

@@ -47,6 +47,7 @@ import javax.net.ssl.SSLSocketFactory;
   private final String server;
   private final String username;
   private final String password;
+  private final String referral;
   private final boolean sslVerify;
   private volatile LdapSchema ldapSchema;
 
@@ -57,6 +58,7 @@ import javax.net.ssl.SSLSocketFactory;
     this.server = LdapRealm.required(config, "server");
     this.username = LdapRealm.optional(config, "username");
     this.password = LdapRealm.optional(config, "password");
+    this.referral = optional(config, "referral");
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
   }
 
@@ -77,6 +79,7 @@ import javax.net.ssl.SSLSocketFactory;
       env.put(Context.SECURITY_AUTHENTICATION, "simple");
       env.put(Context.SECURITY_PRINCIPAL, username);
       env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
+      env.put(Context.REFERRAL, referral != null ? referral : "ignore");
     }
     return new InitialDirContext(env);
   }
@@ -86,6 +89,7 @@ import javax.net.ssl.SSLSocketFactory;
     env.put(Context.SECURITY_AUTHENTICATION, "simple");
     env.put(Context.SECURITY_PRINCIPAL, dn);
     env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
+    env.put(Context.REFERRAL, referral != null ? referral : "ignore");
     try {
       return new InitialDirContext(env);
     } catch (NamingException e) {

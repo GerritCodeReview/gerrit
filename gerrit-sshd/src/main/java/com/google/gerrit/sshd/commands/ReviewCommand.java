@@ -14,23 +14,20 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.mail.CommentSender;
-import com.google.gerrit.server.mail.EmailException;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.git.MergeQueue;
+import com.google.gerrit.server.patch.PublishComments;
+import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -50,15 +47,13 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-public class ApproveCommand extends BaseCommand {
+public class ReviewCommand extends BaseCommand {
   private static final Logger log =
-      LoggerFactory.getLogger(ApproveCommand.class);
+      LoggerFactory.getLogger(ReviewCommand.class);
 
   @Override
   protected final CmdLineParser newCmdLineParser() {
@@ -71,7 +66,7 @@ public class ApproveCommand extends BaseCommand {
 
   private final Set<PatchSet.Id> patchSetIds = new HashSet<PatchSet.Id>();
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}", usage = "patch to approve")
+  @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}", usage = "patch to review")
   void addPatchSetId(final String token) {
     try {
       patchSetIds.addAll(parsePatchSetId(token));
@@ -88,6 +83,9 @@ public class ApproveCommand extends BaseCommand {
   @Option(name = "--message", aliases = "-m", usage = "cover message to publish on change", metaVar = "MESSAGE")
   private String changeComment;
 
+  @Option(name = "--submit", aliases = "-s", usage = "submit the patch set")
+  private boolean submitChange;
+
   @Inject
   private ReviewDb db;
 
@@ -95,10 +93,7 @@ public class ApproveCommand extends BaseCommand {
   private IdentifiedUser currentUser;
 
   @Inject
-  private CommentSender.Factory commentSenderFactory;
-
-  @Inject
-  private PatchSetInfoFactory patchSetInfoFactory;
+  private MergeQueue merger;
 
   @Inject
   private ApprovalTypes approvalTypes;
@@ -109,10 +104,10 @@ public class ApproveCommand extends BaseCommand {
   @Inject
   private FunctionState.Factory functionStateFactory;
 
-  @Inject
-  private ChangeHookRunner hooks;
-
   private List<ApproveOption> optionList;
+
+  @Inject
+  private PublishComments.Factory publishCommentsFactory;
 
   @Override
   public final void start(final Environment env) {
@@ -133,7 +128,7 @@ public class ApproveCommand extends BaseCommand {
             ok = false;
             writeError("fatal: internal server error while approving "
                 + patchSetId + "\n");
-            log.error("internal error while approving " + patchSetId);
+            log.error("internal error while approving " + patchSetId, e);
           }
         }
         if (!ok) {
@@ -145,70 +140,37 @@ public class ApproveCommand extends BaseCommand {
   }
 
   private void approveOne(final PatchSet.Id patchSetId)
-      throws NoSuchChangeException, UnloggedFailure, OrmException,
-      PatchSetInfoNotAvailableException, EmailException {
+      throws NoSuchChangeException, UnloggedFailure, OrmException {
+
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl changeControl =
         changeControlFactory.validateFor(changeId);
-    final Change change = changeControl.getChange();
 
-    final StringBuffer msgBuf = new StringBuffer();
-    msgBuf.append("Patch Set ");
-    msgBuf.append(patchSetId.get());
-    msgBuf.append(": ");
+    if (changeComment == null) {
+      changeComment = "";
+    }
 
-    final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> approvalsMap =
-        new HashMap<ApprovalCategory.Id, ApprovalCategoryValue.Id>();
-
-    if (change.getStatus().isOpen()) {
-      for (ApproveOption co : optionList) {
-        final ApprovalCategory.Id category = co.getCategoryId();
-        PatchSetApproval.Key psaKey =
-            new PatchSetApproval.Key(patchSetId, currentUser.getAccountId(),
-                category);
-        PatchSetApproval psa = db.patchSetApprovals().get(psaKey);
-
-        Short score = co.value();
-
-        if (score != null) {
-          addApproval(psaKey, score, change, co);
-        } else {
-          if (psa == null) {
-            score = 0;
-            addApproval(psaKey, score, change, co);
-          } else {
-            score = psa.getValue();
-          }
-        }
-
-        final ApprovalCategoryValue.Id val =
-            new ApprovalCategoryValue.Id(category, score);
-
-        String message = db.approvalCategoryValues().get(val).getName();
-        msgBuf.append(" " + message + ";");
-        approvalsMap.put(category, val);
+    Set<ApprovalCategoryValue.Id> aps = new HashSet<ApprovalCategoryValue.Id>();
+    for (ApproveOption ao : optionList) {
+      Short v = ao.value();
+      if (v != null) {
+        assertScoreIsAllowed(patchSetId, changeControl, ao, v);
+        aps.add(new ApprovalCategoryValue.Id(ao.getCategoryId(), v));
       }
     }
 
-    msgBuf.deleteCharAt(msgBuf.length() - 1);
-    msgBuf.append("\n\n");
+    publishCommentsFactory.create(patchSetId, changeComment, aps).call();
 
-    if (changeComment != null) {
-      msgBuf.append(changeComment);
+    if (submitChange) {
+      CanSubmitResult result =
+          changeControl.canSubmit(patchSetId, db, approvalTypes,
+              functionStateFactory);
+      if (result == CanSubmitResult.OK) {
+        ChangeUtil.submit(patchSetId, currentUser, db, merger);
+      } else {
+        throw error(result.getMessage());
+      }
     }
-
-    String uuid = ChangeUtil.messageUUID(db);
-    ChangeMessage cm =
-        new ChangeMessage(new ChangeMessage.Key(changeId, uuid), currentUser
-            .getAccountId());
-    cm.setMessage(msgBuf.toString());
-    db.changeMessages().insert(Collections.singleton(cm));
-
-    ChangeUtil.touch(change, db);
-    sendMail(change, change.currentPatchSetId(), cm);
-
-    hooks.doCommentAddedHook(change, currentUser.getAccount(), db.patchSets()
-        .get(patchSetId), changeComment, approvalsMap);
   }
 
   private Set<PatchSet.Id> parsePatchSetId(final String patchIdentity)
@@ -275,34 +237,20 @@ public class ApproveCommand extends BaseCommand {
     return projectControl.getProject().getNameKey().equals(change.getProject());
   }
 
-  private void sendMail(final Change c, final PatchSet.Id psid,
-      final ChangeMessage message) throws PatchSetInfoNotAvailableException,
-      EmailException, OrmException {
-    PatchSet ps = db.patchSets().get(psid);
-    final CommentSender cm;
-    cm = commentSenderFactory.create(c);
-    cm.setFrom(currentUser.getAccountId());
-    cm.setPatchSet(ps, patchSetInfoFactory.get(psid));
-    cm.setChangeMessage(message);
-    cm.setReviewDb(db);
-    cm.send();
-  }
-
-  private void addApproval(final PatchSetApproval.Key psaKey,
-      final Short score, final Change c, final ApproveOption co)
-      throws OrmException, UnloggedFailure {
-    final PatchSetApproval psa = new PatchSetApproval(psaKey, score);
-    final List<PatchSetApproval> approvals = Collections.emptyList();
+  private void assertScoreIsAllowed(final PatchSet.Id patchSetId,
+      final ChangeControl changeControl, ApproveOption ao, Short v)
+      throws UnloggedFailure {
+    final PatchSetApproval psa =
+        new PatchSetApproval(new PatchSetApproval.Key(patchSetId, currentUser
+            .getAccountId(), ao.getCategoryId()), v);
     final FunctionState fs =
-        functionStateFactory.create(c, psaKey.getParentKey(), approvals);
-    psa.setValue(score);
+        functionStateFactory.create(changeControl.getChange(), patchSetId,
+            Collections.<PatchSetApproval> emptyList());
+    psa.setValue(v);
     fs.normalize(approvalTypes.getApprovalType(psa.getCategoryId()), psa);
-    if (score != psa.getValue()) {
-      throw error(co.name() + "=" + co.value() + " not permitted");
+    if (v != psa.getValue()) {
+      throw error(ao.name() + "=" + ao.value() + " not permitted");
     }
-
-    psa.setGranted();
-    db.patchSetApprovals().upsert(Collections.singleton(psa));
   }
 
   private void initOptionList() {

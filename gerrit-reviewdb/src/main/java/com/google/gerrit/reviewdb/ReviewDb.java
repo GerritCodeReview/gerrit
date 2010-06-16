@@ -109,6 +109,9 @@ public interface ReviewDb extends Schema {
   RefRightAccess refRights();
 
   @Relation
+  TrackingIdAccess trackingIds();
+
+  @Relation
   ActiveSessionAccess activeSessions();
 
   /** Create the next unique id for an {@link Account}. */

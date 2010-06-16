@@ -96,6 +96,7 @@ public interface ChangeConstants extends Constants {
 
   String buttonReview();
   String buttonPublishCommentsSend();
+  String buttonPublishSubmitSend();
   String buttonPublishCommentsCancel();
   String headingCoverMessage();
   String headingPatchComments();

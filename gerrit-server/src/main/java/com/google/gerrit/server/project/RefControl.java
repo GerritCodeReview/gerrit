@@ -118,6 +118,11 @@ public class RefControl {
     return canPerform(READ, (short) 2);
   }
 
+  /** @return true if this user can submit patch sets to this ref */
+  public boolean canSubmit() {
+    return canPerform(ApprovalCategory.SUBMIT, (short) 1);
+  }
+
   /** @return true if the user can update the reference as a fast-forward. */
   public boolean canUpdate() {
     return canPerform(PUSH_HEAD, PUSH_HEAD_UPDATE);
@@ -365,7 +370,7 @@ public class RefControl {
    * matching when an exclusive ref right was encountered, for the given
    * approval category.
    * @param id The {@link ApprovalCategory.Id}.
-   * @return All applicalbe rights.
+   * @return All applicable rights.
    */
   public List<RefRight> getApplicableRights(final ApprovalCategory.Id id) {
     List<RefRight> l = new ArrayList<RefRight>();

@@ -18,6 +18,7 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 
 import com.google.gerrit.ehcache.EhcachePoolImpl;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
+import com.google.gerrit.httpd.SessionCacheCleaner;
 import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.httpd.WebSshGlueModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -248,6 +249,9 @@ public class Daemon extends SiteProgram {
     }
     modules.add(sshInjector.getInstance(WebModule.class));
     modules.add(sshInjector.getInstance(WebSshGlueModule.class));
+    if (!slave) {
+      modules.add(new SessionCacheCleaner.Module());
+    }
     return sysInjector.createChildInjector(modules);
   }
 

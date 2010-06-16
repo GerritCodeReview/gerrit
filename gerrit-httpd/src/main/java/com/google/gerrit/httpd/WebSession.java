@@ -60,7 +60,7 @@ import javax.servlet.http.HttpServletResponse;
 public final class WebSession {
   private static final Logger log = LoggerFactory.getLogger(WebSession.class);
   private static final String ACCOUNT_COOKIE = "GerritAccount";
-  private static final String CACHE_NAME = "web_sessions";
+  static final String CACHE_NAME = "web_sessions";
   private static final long UPDATE_WAIT_MILLISECONDS =
       MILLISECONDS.convert(5, TimeUnit.MINUTES);
 

@@ -85,6 +85,24 @@
       "revId": "e060d3758e5184a7cedd38883253f60817a04e1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAzX//+Fc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-16T00:58:43Z",
+      "side": 1,
+      "message": "OK.  Lets respin this with ^ as at the start as the trigger for regex, otherwise assume the current glob style we have now.",
+      "parentUuid": "AAAAzX//+hM\u003d",
+      "revId": "e060d3758e5184a7cedd38883253f60817a04e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

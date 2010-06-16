@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.rpc.changedetail;
 
 import com.google.gerrit.common.data.IncludedInDetail;
 import com.google.gerrit.common.errors.InvalidRevisionException;
-import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -36,14 +35,18 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /** Creates a {@link IncludedInDetail} of a {@link Change}. */
 class IncludedInDetailFactory extends Handler<IncludedInDetail> {
+  private static final Logger log =
+      LoggerFactory.getLogger(IncludedInDetailFactory.class);
+
   interface Factory {
     IncludedInDetailFactory create(Change.Id id);
   }
@@ -68,44 +71,59 @@ class IncludedInDetailFactory extends Handler<IncludedInDetail> {
 
   @Override
   public IncludedInDetail call() throws OrmException, NoSuchChangeException,
-      NoSuchEntityException, IOException, InvalidRevisionException {
+      IOException, InvalidRevisionException {
     control = changeControlFactory.validateFor(changeId);
+
     final PatchSet patch =
         db.patchSets().get(control.getChange().currentPatchSetId());
     final Repository repo =
         repoManager.openRepository(control.getProject().getName());
-    final Map<String, Ref> refsHeads =
-        repo.getRefDatabase().getRefs(Constants.R_HEADS);
-    final Map<String, Ref> refsTags =
-        repo.getRefDatabase().getRefs(Constants.R_TAGS);
-    RevWalk rw = new RevWalk(repo);
-
     try {
-      final RevCommit rev =
-          rw.parseCommit(ObjectId.fromString(patch.getRevision().get()));
-      final List<String> branches = new ArrayList<String>();
-      for (final String branch : refsHeads.keySet()) {
-        if (rw.isMergedInto(rev, rw.parseCommit(refsHeads.get(branch)
-            .getObjectId()))) {
-          branches.add(branch);
-        }
+      final RevWalk rw = new RevWalk(repo);
+      final RevCommit rev;
+      try {
+        rev = rw.parseCommit(ObjectId.fromString(patch.getRevision().get()));
+      } catch (IncorrectObjectTypeException err) {
+        throw new InvalidRevisionException();
+      } catch (MissingObjectException err) {
+        throw new InvalidRevisionException();
       }
-      final List<String> tags = new ArrayList<String>();
-      for (final String tag : refsTags.keySet()) {
-        if (rw.isMergedInto(rev, rw
-            .parseCommit(refsTags.get(tag).getObjectId()))) {
-          tags.add(tag);
-        }
-      }
+
       detail = new IncludedInDetail();
-      detail.setBranches(branches);
-      detail.setTags(tags);
+      detail.setBranches(includedIn(repo, rw, rev, Constants.R_HEADS));
+      detail.setTags(includedIn(repo, rw, rev, Constants.R_TAGS));
 
       return detail;
-    } catch (IncorrectObjectTypeException err) {
-      throw new InvalidRevisionException();
-    } catch (MissingObjectException err) {
-      throw new InvalidRevisionException();
+    } finally {
+      repo.close();
     }
+  }
+
+  private List<String> includedIn(final Repository repo, final RevWalk rw,
+      final RevCommit rev, final String namespace) throws IOException,
+      MissingObjectException, IncorrectObjectTypeException {
+    final List<String> result = new ArrayList<String>();
+    for (final Ref ref : repo.getRefDatabase().getRefs(namespace).values()) {
+      final RevCommit tip;
+      try {
+        tip = rw.parseCommit(ref.getObjectId());
+      } catch (IncorrectObjectTypeException notCommit) {
+        // Its OK for a tag reference to point to a blob or a tree, this
+        // is common in the Linux kernel or git.git repository.
+        //
+        continue;
+      } catch (MissingObjectException notHere) {
+        // Log the problem with this branch, but keep processing.
+        //
+        log.warn("Reference " + ref.getName() + " in " + repo.getDirectory()
+            + " points to dangling object " + ref.getObjectId());
+        continue;
+      }
+
+      if (rw.isMergedInto(rev, tip)) {
+        result.add(ref.getName().substring(namespace.length()));
+      }
+    }
+    return result;
   }
 }

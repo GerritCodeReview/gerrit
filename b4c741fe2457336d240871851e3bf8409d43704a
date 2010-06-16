@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAz3///+c\u003d",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/gerrit.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-16T23:16:18Z",
+      "side": 1,
+      "message": "You need this line before the --bool test.  Its splitting the key and the \u003d off of the text read from the configuration line.",
+      "revId": "b4c741fe2457336d240871851e3bf8409d43704a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

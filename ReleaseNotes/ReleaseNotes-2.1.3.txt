@@ -121,7 +121,7 @@ command line flag to gerrit review.
 +
 To support the new \--submit flag, gerrit approve has been renamed
 to gerrit review, better matching the web UI name for the concept.
-The old `gerrit review` name will be kept around as an alias to
+The old `gerrit approve` name will be kept around as an alias to
 provide time to migrate hooks/scripts/etc.
 
 Hooks / Stream Events

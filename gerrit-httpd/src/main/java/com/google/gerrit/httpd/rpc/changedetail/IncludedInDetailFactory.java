@@ -80,6 +80,8 @@ class IncludedInDetailFactory extends Handler<IncludedInDetail> {
         repoManager.openRepository(control.getProject().getName());
     try {
       final RevWalk rw = new RevWalk(repo);
+      rw.setRetainBody(false);
+
       final RevCommit rev;
       try {
         rev = rw.parseCommit(ObjectId.fromString(patch.getRevision().get()));

@@ -36,13 +36,11 @@ import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
@@ -57,6 +55,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -471,13 +470,17 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   }
 
   private void parseCreate(final ReceiveCommand cmd) {
-    final RevObject obj;
+    RevObject obj;
     try {
       obj = rp.getRevWalk().parseAny(cmd.getNewId());
     } catch (IOException err) {
       log.error("Invalid object " + cmd.getNewId().name() + " for "
           + cmd.getRefName() + " creation", err);
       reject(cmd, "invalid object");
+      return;
+    }
+
+    if (isHead(cmd) && !isCommit(cmd)) {
       return;
     }
 
@@ -493,10 +496,33 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private void parseUpdate(final ReceiveCommand cmd) {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canUpdate()) {
+      if (isHead(cmd) && !isCommit(cmd)) {
+        return;
+      }
+
       validateNewCommits(ctl, cmd);
       // Let the core receive process handle it
     } else {
       reject(cmd);
+    }
+  }
+
+  private boolean isCommit(final ReceiveCommand cmd) {
+    RevObject obj;
+    try {
+      obj = rp.getRevWalk().parseAny(cmd.getNewId());
+    } catch (IOException err) {
+      log.error("Invalid object " + cmd.getNewId().name() + " for "
+          + cmd.getRefName(), err);
+      reject(cmd, "invalid object");
+      return false;
+    }
+
+    if (obj instanceof RevCommit) {
+      return true;
+    } else {
+      reject(cmd, "not a commit");
+      return false;
     }
   }
 

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAz3///9Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/SessionCacheCleaner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T00:25:49Z",
+      "side": 1,
+      "message": "Please don\u0027t hold onto the database connection for 12 hours, open and close it during the run method each time you execute.  These are borrowed from a small pool, and keeping it tied up for hours with no use isn\u0027t friendly to the other threads in the JVM.",
+      "revId": "49143f6798fd0c75e948573c8c836cb1f7c140ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAz3///9M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/SessionCacheCleaner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T00:25:49Z",
+      "side": 1,
+      "message": "Cache now at the start of run() and use the same now value for all of the sessions you are expiring in this single pass.",
+      "revId": "49143f6798fd0c75e948573c8c836cb1f7c140ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

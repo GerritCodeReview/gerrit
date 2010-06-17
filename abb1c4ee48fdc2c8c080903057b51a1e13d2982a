@@ -1,0 +1,412 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0H///9M\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "Because this is a bit vague of a class, I would appreciate some Javadoc on these members that tells me which side \"target\" and \"source\" are.\n\nI guess I should assume target is the git parent repository that needs to have one of its entries updated whenever source changes?",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0H///9E\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubscriptionAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "Style-nit:  We tend to call these query methods byFoo rather than getFoo.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0H///9I\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubscriptionAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "We need a change in the generic_index.sql, postgres_index.sql, and Schema_NN files to create an index on the source column.  Its buried behind the target and the database can\u0027t do an efficient scan for relevant sources.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "srvUrl can be null.  The reason is, urlProvider.get() is allowed to return null if the site administrator has not configured gerrit.canonicalWebUrl in gerrit.config and we are not currently inside of a web request.  MergeOp often does not run inside of a web request, so we don\u0027t always have the URL.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "Why are you clipping the server name at the first dot in the hostname?  So for \"http://gerrit.example.com:8080/\" you are returning \"gerrit\"?  That might not be the correct name in the .gitmodules file.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "We\u0027re trying to remove Transaction support in order to support NoSQL type storage systems.  So we probably should reconsider using it here.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0H///84\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "Style-nit:  Unnecessary parens here.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "This only validates its a blob.  Symbolic links are stored as blobs too.  I think the better test would be to verify its actually a file and not something else:\n\n  FileMode.REGULAR_FILE.equals(tw.getRawMode(0))\n  || FileMode.EXECUTABLE_FILE.equals(tw.getRawMode(0))",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "You can read the file without using a temporary file on disk.  Use JGit\u0027s BlobBasedConfig class.  Heck, its constructor even takes a RevCommit (aka mergeTip) and path (aka \".gitmodules\") and parses for you in memory.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 992,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "Instead of deleting everything up front, load what exists in the database already, and do a set-difference in memory, so that you only have to update the rows that were changed.  For most merge operations in the manifest repository there will be no difference, so not churning the SQL server\u0027s transaction log would be appreciated by the SQL server\u0027s administrators.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "The proper test here is:\n\n  if (revision.equals(\".\")) {\n    revision \u003d destBranch.get();\n  } else if (!revision.startsWith(Constants.R_REFS)) {\n    revision \u003d Constants.R_HEADS + revision;\n  }\n\nThis does unfortunately mean that tags must be written as refs/tags/v2.1.2 rather than just v2.1.2 in order to be registered properly, but tags don\u0027t move so I\u0027m not really concerned about registering tags for automatic updating.  :-)",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1017,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "The submodule.path field is the location in the checkout client, *not* the location in Gerrit Code Review.\n\nFor Android, this actually matters.  Most servers have \"platform/\" as a prefix for the Project.NameKey of each project, but in the checkout client that isn\u0027t present.  E.g. \"platform/bionic\" vs. \"bionic\".  Here submodule.path \u003d \"bionic\", as that is where it is when checked out in a client.  But we need Project.NameKey(\"platform/bionic\").\n\nThis is where relative URLs come in handy in the submodule.url field.  You need to resolve the submodule\u0027s URL in context with destProject\u0027s own name to discover the correct name for the thing you need to subscribe to.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "I would prefer using a HashSet\u003cBranch.NameKey\u003e.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "I think the full message is too verbose.  I would suggest using the same summary logic we already use for merge commits, that is pull out and reuse the formatting code inside of writeMergeCommits().",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "You should try to use the same rule that writeMergeCommit does.\n\nIf we have a single submitter responsible for all of the commits being processed, use them as the author, and the default gerrit server identity as the committer.  See the block inside of writeMergeCommit() where it says \"Try to use the submitter\u0027s identity\"",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "This is really useless for gitk/git shortlog.  It might be better to try and use the same short summary that a merge commit uses.  Or to say \"Updated $NAME\" where $NAME is the project name that was updated.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "You should wrap the following code into a try/finally and close the pdb when you are done with it.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "Two things about this line:\n\n1)  Please don\u0027t use mapCommit.  I\u0027m trying to get rid of it.\n\n2)  You are looking up the *new* commit of the submodule.  Which was passed in to you as mergedCommit above, which if I\u0027m right is actually derived from mergeTip.  Yes?  If so, mergeTip is a RevCommit... which already has all of the commit message data available, including better, getShortDescription() which would be much less verbose.\n\nSo don\u0027t reparse the commit, use the one you already have in memory.  Which probably means you don\u0027t neve need to open the repository right here.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "Like my note above, make sure you try/finally and do pdb.close() in the finally block.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1145,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "Be prepared for getRef to return null.  If the branch was deleted from the subscriber repository before the database was updated, we might try to be updating it here, and die horribly with an NPE when getRef returned null.  :-)",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "Please don\u0027t use mapTree and the Tree class to make the edits, JGit is trying to get rid of these.  Instead you can use RevWalk, DirCache, etc:\n\n  private DirCache readTree(Repository pdb, Ref branch) {\n    RevWalk rw \u003d new RevWalk(pdb);\n    \n    DirCache dc \u003d DirCache.newInCore();\n    DirCacheBuilder b \u003d dc.builder();\n    b.addTree(new byte[0], // no prefix path\n      DirCacheEntry.STAGE_0, // standard stage\n      rw.parseTree(branch.getObjectId()));\n    b.finish();\n    return dc;\n  }\n\nThen you can modify a path:\n\n  DirCache dc \u003d readTree(pdb, branch);\n  DirCacheEditor ed \u003d dc.editor();\n  ed.add(new PathEdit(\"path/to/module\") {\n    public void apply(DirCacheEntry ent) {\n      ent.setFileMode(FileMode.GITLINK);\n      ent.setObjectId(me.getValue().copy());\n    }\n  });\n  ed.finish();\n\n  ObjectWriter ow \u003d new ObjectWriter(pdb);\n  ObjectId tree \u003d dc.writeTree(ow);",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "Because the path field can differ from the project name, and because you need the path field in order to update the GITLINK properly here, you should reparse the .gitmodules file from currentCommitId and make sure you still need to make this update.\n\nI\u0027m a bit worried about a race condition. What happens if an update to the .gitmodules file occurs and is pushed directly into the repository by the site administrator, behind Gerrit\u0027s back?  After that commit hits the branch, we shouldn\u0027t automatically update a GITLINK pointer if we\u0027re no longer subscribed, even if our database Subscription information is stale and says we should.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "You also need to set the old id to perform an atomic compare-and-swap and correctly detect race conditions.\n\n  rfu.setOldObjectId(currentCommitId);",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T21:45:26Z",
+      "side": 1,
+      "message": "\"submit to $NAME\" might be a better message for the reflog, its an automatic update to this project caused by a submit to project called $NAME.",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

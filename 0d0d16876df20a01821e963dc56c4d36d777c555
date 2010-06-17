@@ -34,6 +34,24 @@
       "revId": "0d0d16876df20a01821e963dc56c4d36d777c555",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0H///90\u003d",
+        "filename": "contrib/check-valid-commit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2010-06-17T19:31:55Z",
+      "side": 1,
+      "message": "Thanks Jay,\n\nI wasn\u0027t able to get newlines to work with your _shell_escape method... but it did lead me to a workable solution.  If I pass the string as \"part of message.\"$\u0027\\n\\n\u0027\"Another part of message.\", things work.  I have to escape the \"s, so it turns into\n\n ... + FAILURE_MESSAGE + \"\\\\\\\"$\u0027\\n\\n\u0027\\\\\\\"\" + message...\n\nWhich is really ugly, but it works.  Is your _shell_escape method meant to handle this case?  I\u0027d certainly like to use a general solution if possible..",
+      "parentUuid": "AAAAzX///FQ\u003d",
+      "revId": "0d0d16876df20a01821e963dc56c4d36d777c555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

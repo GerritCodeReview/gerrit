@@ -52,6 +52,24 @@
       "revId": "0d0d16876df20a01821e963dc56c4d36d777c555",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0H///9c\u003d",
+        "filename": "contrib/check-valid-commit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003555
+      },
+      "writtenOn": "2010-06-17T19:47:29Z",
+      "side": 1,
+      "message": "My _shell_escape method correctly sends the argument to gerrit afaik. The problem is that gerrit reformats the incoming message, collapsing newlines. You can either use a double-newline to denote a new paragraph or you can precede each line with a single space to prevent gerrit from reformatting those lines.",
+      "parentUuid": "AAAA0H///90\u003d",
+      "revId": "0d0d16876df20a01821e963dc56c4d36d777c555",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

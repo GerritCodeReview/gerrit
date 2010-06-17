@@ -16,6 +16,24 @@
       "revId": "7187981def2deca747a98acbb41239781fb50c7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0H////A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-17T14:17:53Z",
+      "side": 1,
+      "message": "Whoops. I knew there was a reason why we had !\u003d null tests around these, its because HostPageServlet strips them as it sends the file out to the browser.\n\nI\u0027ll put the null checks back.",
+      "parentUuid": "AAAA0H////I\u003d",
+      "revId": "7187981def2deca747a98acbb41239781fb50c7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

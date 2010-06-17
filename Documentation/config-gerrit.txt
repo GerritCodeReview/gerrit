@@ -1560,9 +1560,11 @@ By default a shade of yellow, `FFFFCC`.
 [[trackingid]] Section trackingid
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Tagged footer lines containing references to external tracking
-systems, parsed out of the commit message and saved in Gerrit's
-database.
+Tagged footer lines containing references to external
+tracking systems, parsed out of the commit message and
+saved in Gerrit's database.  After making changes to
+this section, existing changes must be reindexed with the
+link:pgm-ScanTrackingIds.html[ScanTrackingIds] program.
 
 The tracking ids are serachable using tr:<tracking id> or
 bug:<tracking id>.

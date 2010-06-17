@@ -894,7 +894,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       log.error("Cannot send email for new change " + change.getId(), e);
     }
 
-    addTrackingIds(change, footerLines);
+    ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
     hooks.doPatchsetCreatedHook(change, ps);
   }
 
@@ -1194,61 +1194,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       log.error("Cannot send email for new patch set " + ps.getId(), e);
     }
 
-    addTrackingIds(change, footerLines);
+    ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
     sendMergedEmail(result);
     return result != null ? result.info.getKey() : null;
-  }
-
-  private void addTrackingIds(final Change change,
-      final List<FooterLine> footerLines) throws OrmException {
-    if (trackingFooters.getTrackingFooters().isEmpty() || footerLines.isEmpty()) {
-      return;
-    }
-
-    final Set<TrackingId> want = new HashSet<TrackingId>();
-    final Set<TrackingId> have = new HashSet<TrackingId>( //
-        db.trackingIds().byChange(change.getId()).toList());
-
-    for (final TrackingFooter footer : trackingFooters.getTrackingFooters()) {
-      for (final FooterLine footerLine : footerLines) {
-        if (footerLine.matches(footer.footerKey())) {
-          // supporting multiple tracking-ids on a single line
-          final Matcher m = footer.match().matcher(footerLine.getValue());
-          while (m.find()) {
-            if (m.group().isEmpty()) {
-              continue;
-            }
-
-            String idstr;
-            if (m.groupCount() > 0) {
-              idstr = m.group(1);
-            } else {
-              idstr = m.group();
-            }
-
-            if (idstr.isEmpty()) {
-              continue;
-            }
-            if (idstr.length() > TrackingId.TRACKING_ID_MAX_CHAR) {
-              continue;
-            }
-
-            want.add(new TrackingId(change.getId(), idstr, footer.system()));
-          }
-        }
-      }
-    }
-
-    // Only insert the rows we don't have, and delete rows we don't match.
-    //
-    final Set<TrackingId> toInsert = new HashSet<TrackingId>(want);
-    final Set<TrackingId> toDelete = new HashSet<TrackingId>(have);
-
-    toInsert.removeAll(have);
-    toDelete.removeAll(want);
-
-    db.trackingIds().insert(toInsert);
-    db.trackingIds().delete(toDelete);
   }
 
   static boolean parentsEqual(RevCommit a, RevCommit b) {

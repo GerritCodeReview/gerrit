@@ -35,7 +35,8 @@ id numbers.  Site administrators can configure trackingid sections
 in gerrit.config to parse and extract issue tracking links from
 a commit message's footer, and have them indexed by Gerrit.
 Users can search for relevant changes using the search operator
-`tr:`, for example `tr:432181`.
+`tr:`, for example `tr:432181`.  Administrators can index existing
+change records using the ScanTrackingIds program.
 
 * List branches/tags containing a merged change
 +

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0H////I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-06-17T12:59:57Z",
+      "side": 1,
+      "message": "After the removal of the null checks for siteHeader and siteFooter I\u0027m now getting a NullPointerException exactly in this place when I log on to Gerrit.\r\nThe reason for this is that the HTML document is indeed not containing the site header and site footer tags.\r\nI can see that these tags are actually by default included in HostPage.html. However in HostPageServlet it is tried to inject the contents of the files GerritSiteHeader.html and GerritSiteFooter.html into these tags. Since for me these two files do not exist the injectXmlFile method decides to remove the empty tags.\r\n\r\nShould we reintroduce the null checks or is it expected that GerritSiteHeader.html and GerritSiteFooter.html always exist?",
+      "revId": "7187981def2deca747a98acbb41239781fb50c7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

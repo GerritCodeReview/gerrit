@@ -31,12 +31,12 @@ they no longer have an interest in, but had commented on previously.
 * issue 124 Index changes by external issue tracking id numbers
 +
 Changes can be searched for by an external issue tracking system's
-id numbers.  Site administrators can configure trackingid sections
-in gerrit.config to parse and extract issue tracking links from
-a commit message's footer, and have them indexed by Gerrit.
-Users can search for relevant changes using the search operator
-`tr:`, for example `tr:432181`.  Administrators can index existing
-change records using the ScanTrackingIds program.
+id numbers.  Site administrators can configure trackingid sections in
+gerrit.config to parse and extract issue tracking links from a commit
+message's footer, and have them indexed by Gerrit.  Users can search
+for relevant changes using the search operator `tr:` or `bug:`,
+for example `tr:432181` or `bug:JIRA-42`.  Administrators can index
+existing change records using the ScanTrackingIds program.
 
 * List branches/tags containing a merged change
 +
@@ -164,6 +164,13 @@ transfer.timeout to place an upper bound on how long the server will
 wait for the client before aborting the connection and releasing
 the worker thread back into the pool.
 
+* container.slave: Automatically enable --slave
++
+Adminstrators can now add `container.slave = true` to their slave's
+gerrit.config file, avoiding the need to make sure they always
+pass the --slave flag on the command line when starting their
+slave server.
+
 * Add separate task queue for non-interactive users
 +
 Users who are a member of the special 'Non Interactive Users' group
@@ -191,6 +198,9 @@ Apache Commons DBCP to 1.4.
 Bug Fixes
 ---------
 
+Web UI
+~~~~~~
+
 * issue 396 Prevent 'no-score' approvals from being recorded
 +
 Change messages no longer say 'No score; no score' when the user
@@ -205,6 +215,28 @@ auto-generated message is a one line summary indicating how many
 inline comments were published at that time.  This makes it easier
 to see what has occurred on the change.
 
+* issue 461 Space out Review and Submit Patch Set buttons
++
+The risk of clicking 'Submit Patch Set n' when the user meant to
+click 'Review' has been reduced by spacing the buttons further apart.
+
+* issue 587 Fix user site header/footer preference
++
+The user preference to hide the site header/footer wasn't always
+being applied.  Fixed.
+
+* issue 575 Require branches to always start from commits
++
+Branches could be created starting from annotated tags, resulting
+in crashes when a change gets submitted to the branch.  Fixed by
+ensuring branches always start from commits.
+
+* issue 574 Add Cancel button to Register New Email dialog
++
+Users couldn't (easily) get out of the dialog popped up by the
+'Register New Email...' button.  A cancel button was added to
+close the dialog.
+
 Server Programs
 ~~~~~~~~~~~~~~~
 
@@ -213,6 +245,13 @@ Server Programs
 When scanning for projects, any directory that is a valid Git
 repository is now imported, even if its name does not end with
 the standard '.git' suffix.
+
+* issue 460 gerrit.sh: Request at least 1024 file descriptors
++
+In the default configuration, Gerrit Code Review started with a
+hard limit of 256 file descriptors, which is too small for any site.
+This caused a number of failures, and a number of bugs were filed.
+The default has been raised to 1024.
 
 * issue 578 Improve schema version update by avoiding early pruning
 +
@@ -272,4 +311,4 @@ the current stable version of the Maven plugin.
 Version
 -------
 
-56f76b2bd01bc95fbcfa5cb9cbb3afa2c75eb9a6
+e8fd49f5f7481e2f916cb0d8cfbada79309562b4

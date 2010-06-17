@@ -20,17 +20,24 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.TrackingId;
+import com.google.gerrit.server.config.TrackingFooter;
+import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmConcurrencyException;
 import com.google.gwtorm.client.OrmException;
 
+import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.NB;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
 
 public class ChangeUtil {
   private static int uuidPrefix;
@@ -73,6 +80,59 @@ public class ChangeUtil {
   public static void updated(final Change c) {
     c.resetLastUpdatedOn();
     computeSortKey(c);
+  }
+
+  public static void updateTrackingIds(ReviewDb db, Change change,
+      TrackingFooters trackingFooters, List<FooterLine> footerLines)
+      throws OrmException {
+    if (trackingFooters.getTrackingFooters().isEmpty() || footerLines.isEmpty()) {
+      return;
+    }
+
+    final Set<TrackingId> want = new HashSet<TrackingId>();
+    final Set<TrackingId> have = new HashSet<TrackingId>( //
+        db.trackingIds().byChange(change.getId()).toList());
+
+    for (final TrackingFooter footer : trackingFooters.getTrackingFooters()) {
+      for (final FooterLine footerLine : footerLines) {
+        if (footerLine.matches(footer.footerKey())) {
+          // supporting multiple tracking-ids on a single line
+          final Matcher m = footer.match().matcher(footerLine.getValue());
+          while (m.find()) {
+            if (m.group().isEmpty()) {
+              continue;
+            }
+
+            String idstr;
+            if (m.groupCount() > 0) {
+              idstr = m.group(1);
+            } else {
+              idstr = m.group();
+            }
+
+            if (idstr.isEmpty()) {
+              continue;
+            }
+            if (idstr.length() > TrackingId.TRACKING_ID_MAX_CHAR) {
+              continue;
+            }
+
+            want.add(new TrackingId(change.getId(), idstr, footer.system()));
+          }
+        }
+      }
+    }
+
+    // Only insert the rows we don't have, and delete rows we don't match.
+    //
+    final Set<TrackingId> toInsert = new HashSet<TrackingId>(want);
+    final Set<TrackingId> toDelete = new HashSet<TrackingId>(have);
+
+    toInsert.removeAll(have);
+    toDelete.removeAll(want);
+
+    db.trackingIds().insert(toInsert);
+    db.trackingIds().delete(toDelete);
   }
 
   public static void submit(PatchSet.Id patchSetId, IdentifiedUser user, ReviewDb db, MergeQueue merger)

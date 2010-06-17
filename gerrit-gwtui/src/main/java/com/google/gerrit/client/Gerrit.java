@@ -479,8 +479,12 @@ public class Gerrit implements EntryPoint {
     if (myAccount != null) {
       final AccountGeneralPreferences p = myAccount.getGeneralPreferences();
       CopyableLabel.setFlashEnabled(p.isUseFlashClipboard());
-      siteHeader.setVisible(p.isShowSiteHeader());
-      siteFooter.setVisible(p.isShowSiteHeader());
+      if (siteHeader != null) {
+        siteHeader.setVisible(p.isShowSiteHeader());
+      }
+      if (siteFooter != null) {
+        siteFooter.setVisible(p.isShowSiteHeader());
+      }
     }
   }
 

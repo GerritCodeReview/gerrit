@@ -295,6 +295,7 @@ fi
 GERRIT_FDS=`get_config --int core.packedGitOpenFiles`
 test -z "$GERRIT_FDS" && GERRIT_FDS=128
 GERRIT_FDS=`expr $GERRIT_FDS + $GERRIT_FDS`
+test $GERRIT_FDS -lt 1024 && GERRIT_FDS=1024
 
 GERRIT_USER=`get_config --get container.user`
 

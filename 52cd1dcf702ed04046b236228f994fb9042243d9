@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0X///yo\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchScriptSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "Unnecessary import?",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///yY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "Should we also embed this object into the Settings page?",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///yg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "This should be in the update() method below, ensuring that we save preferences even if we were invoked by the key binding to \"Enter\", setup in our constructor.",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///yk\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "Can we somehow avoid this?  Say caching the last preferences of the user in Gerrit.java?  Or piggy-packing the diff preferences for the account into the RPC that is otherwise loading the page?\n\nRight now I think you might cause a double-load, once with the standard preferences, and then again when the user\u0027s preferences are loaded, applied, and differ from the standard preferences.  E.g. what if the user turns of syntax highlighting?  We have to go reload everything from the server again when fireEvent below triggers.\n\nIf you cache this in a global in the browser than you can initialize to the cached copy and ensure the first request for the page is using the cached preferences, avoiding the double load.",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///yc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "When we save stuff we try to disable all of the related widgets until the save RPC completes, then we re-enable them.\n\nWe also disable them while the page is loading.  So the patch viewers which embed this panel are watching for our ValueChangeEvent and call setEnabled(false), do their own RPC, then call setEnabled(true).\n\nIf we are also saving preferences, we should setEnabled(false), and avoid doing their setEnabled(true) until after both their RPC and our own is done.\n\nSo we need some sort of additional flag to tell us whether or not we are waiting for an application setEnabled(true) before we can re-enable our widgets.",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///yI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "These last exceptions aren\u0027t actually throw here.  Copy and paste error?",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///yU\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "If the user doesn\u0027t have a preference object yet this will return null.  I can\u0027t remember if its safe to pass null back over the JSON-RPC interface... IIRC the encoder might crash, or the decoder in the browser might crash.  Should we check for that condition and return a new object instead?",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///yE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "These last exceptions aren\u0027t actually throw here.  Copy and paste error?",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///yQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "Please use Account.Id here rather than the auto-imported Id.  We have too many .Ids in the system to keep track of them by imports alone, so I avoid importing .Id of anything.",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///yM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "Instead of setting it, what we do is validate that the incoming diffPref object\u0027s accountId matches the accountId from getAccountId().  If it doesn\u0027t we throw an exception.",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///yA\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "You might want to just use upsert(Collections.singleton(diffPref)) as it avoids the get-insert-update logic.",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///0E\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountDiffPreference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "Since this is the primary key and we don\u0027t support changing the primary key of an entity, we pass this into the constructor.  So really you want:\n\n  protected AccountDiffPreference() {\n  }\n\n  public AccountDiffPreference(Account.Id accountId) {\n    this.accountId \u003d accountId;\n  }\n\nThe first constructor permits the ORM to load the record; the second constructor permits application code to construct a record for a user account.  And by not having a setAccountId method, we can\u0027t change it once its been created.",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///0A\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountDiffPreference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "We try to prefer these to be the proper enum for the getter/setter methods, with the translation of char\u003c-\u003eenum hidden inside of the getter/setter methods.  That way we store the smaller char in the database, but application code isn\u0027t exposed to the database\u0027s insane char based storage.",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///z8\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountDiffPreferenceAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "s/2008/1010/",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0X///ys\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_36.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-21T21:34:17Z",
+      "side": 1,
+      "message": "Please add an AOSP copyright header.",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

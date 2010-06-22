@@ -107,7 +107,19 @@ class AddBranch extends Handler<ListBranchesResult> {
     try {
       final ObjectId revid = parseStartingRevision(repo);
       final RevWalk rw = verifyConnected(repo, revid);
-      final RevObject object = rw.parseAny(revid);
+      RevObject object = rw.parseAny(revid);
+
+      if (refname.startsWith(Constants.R_HEADS)) {
+        // Ensure that what we start the branch from is a commit. If we
+        // were given a tag, deference to the commit instead.
+        //
+        try {
+          object = rw.parseCommit(object);
+        } catch (IncorrectObjectTypeException notCommit) {
+          throw new IllegalStateException(startingRevision + " not a commit");
+        }
+      }
+
       if (!refControl.canCreate(rw, object)) {
         throw new IllegalStateException("Cannot create " + refname);
       }
@@ -115,7 +127,7 @@ class AddBranch extends Handler<ListBranchesResult> {
       try {
         final RefUpdate u = repo.updateRef(refname);
         u.setExpectedOldObjectId(ObjectId.zeroId());
-        u.setNewObjectId(revid);
+        u.setNewObjectId(object.copy());
         u.setRefLogIdent(identifiedUser.newRefLogIdent());
         u.setRefLogMessage("created via web from " + startingRevision, false);
         final RefUpdate.Result result = u.update(rw);

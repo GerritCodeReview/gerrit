@@ -239,7 +239,6 @@ public class Gerrit implements EntryPoint {
         if (result.account != null) {
           myAccount = result.account;
           xsrfToken = result.xsrfToken;
-          applyUserPreferences();
         }
         onModuleLoad2();
       }
@@ -376,6 +375,7 @@ public class Gerrit implements EntryPoint {
         gStarting.getElement());
     RootPanel.detachNow(gStarting);
 
+    applyUserPreferences();
     initHistoryHooks();
     populateBottomMenu(gBottomMenu);
     refreshMenuBar();
@@ -482,13 +482,15 @@ public class Gerrit implements EntryPoint {
   }
 
   public static void applyUserPreferences() {
-    final AccountGeneralPreferences p = myAccount.getGeneralPreferences();
-    CopyableLabel.setFlashEnabled(p.isUseFlashClipboard());
-    if (siteHeader != null) {
-      siteHeader.setVisible(p.isShowSiteHeader());
-    }
-    if (siteFooter != null) {
-      siteFooter.setVisible(p.isShowSiteHeader());
+    if (myAccount != null) {
+      final AccountGeneralPreferences p = myAccount.getGeneralPreferences();
+      CopyableLabel.setFlashEnabled(p.isUseFlashClipboard());
+      if (siteHeader != null) {
+        siteHeader.setVisible(p.isShowSiteHeader());
+      }
+      if (siteFooter != null) {
+        siteFooter.setVisible(p.isShowSiteHeader());
+      }
     }
   }
 

@@ -254,6 +254,7 @@ class ContactPanelShort extends Composite {
     inEmail.setVisibleLength(60);
 
     final Button register = new Button(Util.C.buttonSendRegisterNewEmail());
+    final Button cancel = new Button(Util.C.buttonCancel());
     final FormPanel form = new FormPanel();
     form.addSubmitHandler(new FormPanel.SubmitHandler() {
       @Override
@@ -288,9 +289,21 @@ class ContactPanelShort extends Composite {
         form.submit();
       }
     });
+    cancel.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        box.hide();
+      }
+    });
+
+    final FlowPanel buttons = new FlowPanel();
+    buttons.setStyleName(Gerrit.RESOURCES.css().patchSetActions());
+    buttons.add(register);
+    buttons.add(cancel);
+
     body.add(new HTML(Util.C.descRegisterNewEmail()));
     body.add(inEmail);
-    body.add(register);
+    body.add(buttons);
 
     box.setText(Util.C.titleRegisterNewEmail());
     box.setWidget(form);

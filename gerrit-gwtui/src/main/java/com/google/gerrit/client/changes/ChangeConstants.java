@@ -63,6 +63,7 @@ public interface ChangeConstants extends Constants {
   String prevPatchLinkIcon();
   String nextPatchLinkIcon();
 
+  String changeScreenIncludedIn();
   String changeScreenDependencies();
   String changeScreenDependsOn();
   String changeScreenNeededBy();
@@ -78,6 +79,9 @@ public interface ChangeConstants extends Constants {
   String changeInfoBlockUpdated();
   String changeInfoBlockStatus();
   String changePermalink();
+
+  String includedInTableBranch();
+  String includedInTableTag();
 
   String messageNoAuthor();
   String messageExpandRecent();

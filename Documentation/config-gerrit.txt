@@ -503,6 +503,12 @@ Additional options to pass along to the Java runtime.  If multiple
 values are configured, they are passed in order on the command line,
 separated by spaces.  These options are appended onto 'JAVA_OPTIONS'.
 
+[[container.slave]]container.slave::
++
+Used on Gerrit slave installations. If set to true the Gerrit JVM is
+called with the '--slave' switch, enabling slave mode. If no value is
+set (or any other value), gerrit defaults to master mode.
+
 [[container.user]]container.user::
 +
 Login name (or UID) of the operating system user the Gerrit JVM
@@ -1551,12 +1557,16 @@ code, or standard color name.
 By default a shade of yellow, `FFFFCC`.
 
 [[trackingid]] Section trackingid
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Tagged footer lines containing references to exteranal tracking systems,
-parsed out of the commit message and saved in Gerrit's DB.
+Tagged footer lines containing references to external
+tracking systems, parsed out of the commit message and
+saved in Gerrit's database.  After making changes to
+this section, existing changes must be reindexed with the
+link:pgm-ScanTrackingIds.html[ScanTrackingIds] program.
 
-The tracking ids are serachable using tr:<tracking id>.
+The tracking ids are serachable using tr:<tracking id> or
+bug:<tracking id>.
 
 ----
 [trackingid "jira-bug"]

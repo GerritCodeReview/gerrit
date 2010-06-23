@@ -26,7 +26,6 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -77,7 +76,7 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
 
     for (final RefRight r : projectState.getInheritedRights()) {
       InheritedRefRight refRight = new InheritedRefRight(
-          r, true, controlForRef(pc, r.getRefPattern()).isOwner());
+          r, true, pc.controlForRef(r.getRefPattern()).isOwner());
       if (!refRights.contains(refRight)) {
         refRights.add(refRight);
         wantGroup(r.getAccountGroupId());
@@ -86,7 +85,7 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
 
     for (final RefRight r : projectState.getLocalRights()) {
       refRights.add(new InheritedRefRight(
-          r, false, controlForRef(pc, r.getRefPattern()).isOwner()));
+          r, false, pc.controlForRef(r.getRefPattern()).isOwner()));
       wantGroup(r.getAccountGroupId());
     }
 
@@ -143,12 +142,5 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     for (AccountGroup.Id groupId : toGet) {
       groups.put(groupId, groupCache.get(groupId));
     }
-  }
-
-  private RefControl controlForRef(ProjectControl p, String ref) {
-    if (ref.endsWith("/*")) {
-      ref = ref.substring(0, ref.length() - 1);
-    }
-    return p.controlForRef(ref);
   }
 }

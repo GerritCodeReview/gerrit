@@ -71,7 +71,7 @@ class DeleteRefRights extends Handler<ProjectDetail> {
       if (!projectName.equals(k.getProjectNameKey())) {
         throw new IllegalArgumentException("All keys must be from same project");
       }
-      if (!controlForRef(projectControl, k.getRefPattern()).isOwner()) {
+      if (!projectControl.controlForRef(k.getRefPattern()).isOwner()) {
         throw new NoSuchRefException(k.getRefPattern());
       }
     }
@@ -84,12 +84,5 @@ class DeleteRefRights extends Handler<ProjectDetail> {
     }
     projectCache.evictAll();
     return projectDetailFactory.create(projectName).call();
-  }
-
-  private RefControl controlForRef(ProjectControl p, String ref) {
-    if (ref.endsWith("/*")) {
-      ref = ref.substring(0, ref.length() - 1);
-    }
-    return p.controlForRef(ref);
   }
 }

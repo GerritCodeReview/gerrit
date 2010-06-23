@@ -144,17 +144,34 @@ class AddRefRight extends Handler<ProjectDetail> {
     while (refPattern.startsWith("/")) {
       refPattern = refPattern.substring(1);
     }
-    if (!refPattern.startsWith(Constants.R_REFS)) {
-      refPattern = Constants.R_HEADS + refPattern;
-    }
-    if (refPattern.endsWith("/*")) {
-      final String prefix = refPattern.substring(0, refPattern.length() - 2);
-      if (!"refs".equals(prefix) && !Repository.isValidRefName(prefix)) {
+
+    if (refPattern.startsWith(RefRight.REGEX_PREFIX)) {
+      String example = RefControl.shortestExample(refPattern);
+
+      if (!example.startsWith(Constants.R_REFS)) {
+        refPattern = RefRight.REGEX_PREFIX + Constants.R_HEADS
+                + refPattern.substring(RefRight.REGEX_PREFIX.length());
+        example = RefControl.shortestExample(refPattern);
+      }
+
+      if (!Repository.isValidRefName(example)) {
         throw new InvalidNameException();
       }
+
     } else {
-      if (!Repository.isValidRefName(refPattern)) {
-        throw new InvalidNameException();
+      if (!refPattern.startsWith(Constants.R_REFS)) {
+        refPattern = Constants.R_HEADS + refPattern;
+      }
+
+      if (refPattern.endsWith("/*")) {
+        final String prefix = refPattern.substring(0, refPattern.length() - 2);
+        if (!"refs".equals(prefix) && !Repository.isValidRefName(prefix)) {
+          throw new InvalidNameException();
+        }
+      } else {
+        if (!Repository.isValidRefName(refPattern)) {
+          throw new InvalidNameException();
+        }
       }
     }
 
@@ -162,7 +179,7 @@ class AddRefRight extends Handler<ProjectDetail> {
       refPattern = "-" + refPattern;
     }
 
-    if (!controlForRef(projectControl, refPattern).isOwner()) {
+    if (!projectControl.controlForRef(refPattern).isOwner()) {
       throw new NoSuchRefException(refPattern);
     }
 
@@ -186,12 +203,5 @@ class AddRefRight extends Handler<ProjectDetail> {
     }
     projectCache.evictAll();
     return projectDetailFactory.create(projectName).call();
-  }
-
-  private RefControl controlForRef(ProjectControl p, String ref) {
-    if (ref.endsWith("/*")) {
-      ref = ref.substring(0, ref.length() - 1);
-    }
-    return p.controlForRef(ref);
   }
 }

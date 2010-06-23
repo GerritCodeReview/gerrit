@@ -19,19 +19,33 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.RefRight.RefPattern;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.project.RefControl.RefRightsForPattern;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Schema_34 extends SchemaVersion {
+  private static final Comparator<String> DESCENDING_SORT =
+      new Comparator<String>() {
+
+        @Override
+        public int compare(String a, String b) {
+          int aLength = a.length();
+          int bLength = b.length();
+          if (bLength == aLength) {
+            return a.compareTo(b);
+          }
+          return bLength - aLength;
+        }
+      };
+
   @Inject
   Schema_34(Provider<Schema_33> prior) {
     super(prior);
@@ -54,7 +68,7 @@ public class Schema_34 extends SchemaVersion {
         ApprovalCategory.Id cat = right.getApprovalCategoryId();
         if (r.get(cat) == null) {
           Map<String, RefRightsForPattern> m =
-            new TreeMap<String, RefRightsForPattern>(RefControl.DESCENDING_SORT);
+            new TreeMap<String, RefRightsForPattern>(DESCENDING_SORT);
           r.put(cat, m);
         }
         if (r.get(cat).get(right.getRefPattern()) == null) {

@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0n///4Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-23T02:15:54Z",
+      "side": 1,
+      "message": "This is using the platform default encoding, which can vary wildly.  We should instead force to UTF-8 here as that is an encoding that Patch will happily parse.",
+      "revId": "4a64291727d62d0cc799864eec9d43dd9ea9722b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///4M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-23T02:15:54Z",
+      "side": 1,
+      "message": "You should flush the PrintWriter before calling toByteArray here.  Its permitted to have buffered some text which it hasn\u0027t yet sent down to the ByteArrayOutputStream, and we would miss that output if you didn\u0027t flush before getting the byte[].",
+      "revId": "4a64291727d62d0cc799864eec9d43dd9ea9722b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///4c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-23T02:15:54Z",
+      "side": 1,
+      "message": "Although there really is only one way to write this function, someone other than Google has copyright over it.  However, we can reuse the code thanks to the original source license being compatible with our own, but that license requires us to give notice.\n\nPlease copy the header of the source file into our file, below our own copyright header above, and add a note to the start of it like:\n\n  /*\n   * Some portions (e.g. outputDiff) below are:",
+      "revId": "4a64291727d62d0cc799864eec9d43dd9ea9722b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///4g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-23T02:15:54Z",
+      "side": 1,
+      "message": "This isn\u0027t your fault, as the source of this code also had this bug, but you need to quote the file name if it contains funny characters.\n\nThere isn\u0027t an easy way to tell if you need to quote name1 or name2.  Right now I think the best strategy is to try:\n\n  String name1 \u003d \"a/\" + path;\n  if (needsQuoting(name1)) {\n    name1 \u003d QuotedString.GIT_PATH.quote(name1);\n  }\n\n  private static boolean needsQuoting(String path) {\n    // We should quote the path if the quoted form of the path\n    // differs by more than simply having a leading and trailing\n    // double quote added.\n    //\n    return !QuotedString.GIT_PATH.quote(path).equals(\u0027\"\u0027 + path + \u0027\"\u0027);\n  }\n\nThis would be less of an issue if we were filling the Patch structure directly.  But we\u0027re not, so we need to be careful to ensure that funny file names will be parsed back by Patch to the same text that we created them with.",
+      "revId": "4a64291727d62d0cc799864eec9d43dd9ea9722b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///4Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-23T02:15:54Z",
+      "side": 1,
+      "message": "Relying on println() for PrintWriter is platform specific.  Yuck.  On Windows println() outputs \"\\r\\n\".  But Patch only wants a UNIX formatted file, on any platform.  Avoid using println and write the \\n directly as part of each line.\n\nYou should also check the source code for the DiffFormatter and make sure its not going to use println().",
+      "revId": "4a64291727d62d0cc799864eec9d43dd9ea9722b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///4U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-23T02:15:54Z",
+      "side": 1,
+      "message": "I would have written this code as:\n\n  boolean isNew \u003d FileMode.MISSING.equals(mode1);\n  boolean isDelete \u003d FileMode.MISSING.equals(mode2);\n\n  if (isNew) {\n    out.print(\"new file mode \" + mode2+ \"\\n\");\n  } else if (isDelete) {\n    out.print(\"deleted file mode \" + mode1 + \"\\n\");\n  } ...\n\nas then its more clear what\u0027s going on.  Also, FileMode.MISSING comparing with mode1 or mode2 should be faster than comparing ObjectId.zeroId().  The latter requires comparing 5 ints, while the former is a single int.",
+      "revId": "4a64291727d62d0cc799864eec9d43dd9ea9722b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///4k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-23T02:15:54Z",
+      "side": 1,
+      "message": "Style-nit: Use curly brackets and wrap the return to next line.",
+      "revId": "4a64291727d62d0cc799864eec9d43dd9ea9722b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

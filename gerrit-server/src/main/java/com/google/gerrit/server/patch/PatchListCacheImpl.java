@@ -11,6 +11,47 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
+// Some portions (e.g. outputDiff) below are:
+/*
+ * Copyright (C) 2009, Christian Halstrick <christian.halstrick@sap.com>
+ * Copyright (C) 2009, Johannes E. Schindelin Copyright (C) 2009, Johannes
+ * Schindelin <johannes.schindelin@gmx.de> and other copyright owners as
+ * documented in the project's IP log.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v1.0 which accompanies this
+ * distribution, is reproduced below, and is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer.
+ *
+ * - Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ *
+ * - Neither the name of the Eclipse Foundation, Inc. nor the names of its
+ * contributors may be used to endorse or promote products derived from this
+ * software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 
 package com.google.gerrit.server.patch;
 
@@ -32,8 +73,10 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.MyersDiff;
+import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.ReplaceEdit;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
@@ -49,9 +92,13 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.QuotedString;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -130,63 +177,39 @@ public class PatchListCacheImpl implements PatchListCache {
 
     private PatchList readPatchList(final PatchListKey key,
         final Repository repo) throws IOException {
+      // TODO(jeffschu) correctly handle file renames
+      // TODO(jeffschu) correctly handle merge commits
+      // TODO(jeffschu) implement whitespace ignore
+
       final RevWalk rw = new RevWalk(repo);
       final RevCommit b = rw.parseCommit(key.getNewId());
       final AnyObjectId a = aFor(key, repo, b);
 
-      final List<String> args = new ArrayList<String>();
-      args.add("git");
-      args.add("--git-dir=.");
-      args.add("diff-tree");
-      args.add("-M");
-      switch (key.getWhitespace()) {
-        case IGNORE_NONE:
-          break;
-        case IGNORE_SPACE_AT_EOL:
-          args.add("--ignore-space-at-eol");
-          break;
-        case IGNORE_SPACE_CHANGE:
-          args.add("--ignore-space-change");
-          break;
-        case IGNORE_ALL_SPACE:
-          args.add("--ignore-all-space");
-          break;
-        default:
-          throw new IOException("Unsupported whitespace " + key.getWhitespace());
-      }
-      if (a == null /* want combined diff */) {
-        args.add("--cc");
-        args.add(b.name());
-      } else {
-        args.add("--unified=1");
-        args.add(a.name());
-        args.add(b.name());
+      if (a == null) {
+        return new PatchList(a, b, computeIntraline, new PatchListEntry[0]);
       }
 
-      final org.eclipse.jgit.patch.Patch p = new org.eclipse.jgit.patch.Patch();
-      final Process diffProcess = exec(repo, args);
-      try {
-        diffProcess.getOutputStream().close();
-        diffProcess.getErrorStream().close();
-
-        final InputStream in = diffProcess.getInputStream();
-        try {
-          p.parse(in);
-        } finally {
-          in.close();
-        }
-      } finally {
-        try {
-          final int rc = diffProcess.waitFor();
-          if (rc != 0) {
-            throw new IOException("git diff-tree exited abnormally: " + rc);
-          }
-        } catch (InterruptedException ie) {
-        }
-      }
-
-      RevTree aTree = a != null ? rw.parseTree(a) : null;
+      RevTree aTree = rw.parseTree(a);
       RevTree bTree = b.getTree();
+
+      final TreeWalk walk = new TreeWalk(repo);
+      walk.reset();
+      walk.setRecursive(true);
+      walk.addTree(aTree);
+      walk.addTree(bTree);
+      walk.setFilter(TreeFilter.ANY_DIFF);
+
+      ByteArrayOutputStream buf = new ByteArrayOutputStream();
+      PrintStream ps = new PrintStream(buf, true, "UTF-8");
+
+      while (walk.next()) {
+        outputDiff(ps, walk.getPathString(), walk.getObjectId(0), walk
+            .getFileMode(0), walk.getObjectId(1), walk.getFileMode(1), repo);
+      }
+
+      org.eclipse.jgit.patch.Patch p = new org.eclipse.jgit.patch.Patch();
+      ps.flush();
+      p.parse(new ByteArrayInputStream(buf.toByteArray()));
 
       final int cnt = p.getFiles().size();
       final PatchListEntry[] entries = new PatchListEntry[cnt];
@@ -194,6 +217,59 @@ public class PatchListCacheImpl implements PatchListCache {
         entries[i] = newEntry(repo, aTree, bTree, p.getFiles().get(i));
       }
       return new PatchList(a, b, computeIntraline, entries);
+    }
+
+    private void outputDiff(PrintStream out, String path, ObjectId id1,
+        FileMode mode1, ObjectId id2, FileMode mode2, Repository repo)
+        throws IOException {
+      DiffFormatter fmt = new DiffFormatter();
+
+      String name1 = "a/" + path;
+      if (needsQuoting(name1)) {
+        name1 = QuotedString.GIT_PATH.quote(name1);
+      }
+      String name2 = "b/" + path;
+      if (needsQuoting(name2)) {
+        name2 = QuotedString.GIT_PATH.quote(name2);
+      }
+
+      out.print("diff --git " + name1 + " " + name2 + "\n");
+
+      boolean isNew = FileMode.MISSING.equals(mode1);
+      boolean isDelete = FileMode.MISSING.equals(mode2);
+
+      if (isNew) {
+        out.print("new file mode " + mode2 + "\n");
+      } else if (isDelete) {
+        out.print("deleted file mode " + mode1 + "\n");
+      } else if (!mode1.equals(mode2)) {
+        out.print("old mode " + mode1 + "\n");
+        out.print("new mode " + mode2 + "\n");
+      }
+      out.print("index " + id1.abbreviate(repo, 7).name() + ".."
+          + id2.abbreviate(repo, 7).name()
+          + (mode1.equals(mode2) ? " " + mode1 : "") + "\n");
+      out.print("--- " + (isNew ? "/dev/null" : name1) + "\n");
+      out.print("+++ " + (isDelete ? "/dev/null" : name2) + "\n");
+      RawText a = getRawText(id1, repo);
+      RawText b = getRawText(id2, repo);
+      MyersDiff diff = new MyersDiff(a, b);
+      fmt.formatEdits(out, a, b, diff.getEdits());
+    }
+
+    private static boolean needsQuoting(String path) {
+      // We should quote the path if the quoted form of the path
+      // differs by more than simply having a leading and trailing
+      // double quote added.
+      //
+      return !QuotedString.GIT_PATH.quote(path).equals('"' + path + '"');
+    }
+
+    private RawText getRawText(ObjectId id, Repository repo) throws IOException {
+      if (id.equals(ObjectId.zeroId())) {
+        return new RawText(new byte[] {});
+      }
+      return new RawText(repo.openBlob(id).getCachedBytes());
     }
 
     private PatchListEntry newEntry(Repository repo, RevTree aTree,
@@ -520,12 +596,6 @@ public class PatchListCacheImpl implements PatchListCache {
           // merge commit, return null to force combined diff behavior
           return null;
       }
-    }
-
-    private static Process exec(final Repository repo, final List<String> args)
-        throws IOException {
-      final String[] argv = args.toArray(new String[args.size()]);
-      return Runtime.getRuntime().exec(argv, null, repo.getDirectory());
     }
 
     private static ObjectId emptyTree(final Repository repo) throws IOException {

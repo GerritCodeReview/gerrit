@@ -48,6 +48,7 @@ Clippy                      <<clippy,MIT License>>
 juniversalchardet           <<mpl1_1,MPL 1.1>>
 AOP Alliance                Public Domain
 JSR 305                     <<jsr305,New-Style BSD>>
+Automaton                   <<brics,BSD License>>
 -----------------------------------------------------------
 
 Cryptography Notice

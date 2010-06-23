@@ -38,7 +38,13 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
 import java.util.Collections;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import javax.annotation.Nullable;
 
@@ -144,6 +150,23 @@ class AddRefRight extends Handler<ProjectDetail> {
     while (refPattern.startsWith("/")) {
       refPattern = refPattern.substring(1);
     }
+    while (refPattern.contains(" ")) {
+      refPattern = refPattern.replaceAll(" ","");
+    }
+    while (refPattern.contains("//")) {
+      refPattern = refPattern.replace("//", "/");
+    }
+    CharsetDecoder decoder = Charset.forName("US-ASCII").newDecoder();
+    try {
+      decoder.decode(ByteBuffer.wrap(refPattern.getBytes()));
+    } catch (CharacterCodingException e) {
+      throw new InvalidNameException();
+    }
+    try {
+      Pattern.compile(refPattern.replace("*", "(.*)"));
+    } catch (PatternSyntaxException e) {
+      throw new InvalidNameException();
+    }
     if (!refPattern.startsWith(Constants.R_REFS)) {
       refPattern = Constants.R_HEADS + refPattern;
     }
@@ -152,12 +175,7 @@ class AddRefRight extends Handler<ProjectDetail> {
       if (!"refs".equals(prefix) && !Repository.isValidRefName(prefix)) {
         throw new InvalidNameException();
       }
-    } else {
-      if (!Repository.isValidRefName(refPattern)) {
-        throw new InvalidNameException();
-      }
     }
-
     if (exclusive) {
       refPattern = "-" + refPattern;
     }

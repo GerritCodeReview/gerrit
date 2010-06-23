@@ -769,5 +769,10 @@ limitations under the License.
       <id>objectweb-repository</id>
       <url>http://maven.objectweb.org/maven2/</url>
     </repository>
+    
+    <repository>
+      <id>clojars-repo</id>
+      <url>http://clojars.org/repo</url>
+    </repository>
   </repositories>
 </project>

@@ -31,6 +31,10 @@ limitations under the License.
   <description>
     Commons server routines
   </description>
+  
+  <properties>
+  	<bricsVersion>1.11.2</bricsVersion>
+  </properties>
 
   <dependencies>
     <dependency>
@@ -132,6 +136,12 @@ limitations under the License.
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>juniversalchardet</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>dk.brics.automaton</groupId>
+      <artifactId>automaton</artifactId>
+      <version>${bricsVersion}</version>
     </dependency>
   </dependencies>
 

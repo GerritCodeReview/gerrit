@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0n///0o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-23T22:30:58Z",
+      "side": 1,
+      "message": "This got line-wrap busted somehow here.  The 2nd Copyright on this line belongs on a new line.",
+      "revId": "00bd6171e4ca730f37e151be7a8c5eeb4e1542a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///0k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-23T22:30:58Z",
+      "side": 1,
+      "message": "Another line wrap breakage, \"and other\" belongs on a new line.",
+      "revId": "00bd6171e4ca730f37e151be7a8c5eeb4e1542a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///0g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-23T22:30:58Z",
+      "side": 1,
+      "message": "These used to indent differently under the bullet point.  Did the Eclipse source code formatter mess up this block?  If so maybe we should convert it to // style just to try and preserve the readability of it.",
+      "revId": "00bd6171e4ca730f37e151be7a8c5eeb4e1542a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

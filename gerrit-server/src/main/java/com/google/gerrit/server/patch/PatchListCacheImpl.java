@@ -32,8 +32,10 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.MyersDiff;
+import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.ReplaceEdit;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
@@ -48,10 +50,16 @@ import org.eclipse.jgit.patch.FileHeader.PatchType;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.AndTreeFilter;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -130,63 +138,38 @@ public class PatchListCacheImpl implements PatchListCache {
 
     private PatchList readPatchList(final PatchListKey key,
         final Repository repo) throws IOException {
+      // TODO(jeffschu) correctly handle file renames
+      // TODO(jeffschu) correctly handle merge commits
+      // TODO(jeffschu) implement whitespace ignore
+
       final RevWalk rw = new RevWalk(repo);
       final RevCommit b = rw.parseCommit(key.getNewId());
       final AnyObjectId a = aFor(key, repo, b);
 
-      final List<String> args = new ArrayList<String>();
-      args.add("git");
-      args.add("--git-dir=.");
-      args.add("diff-tree");
-      args.add("-M");
-      switch (key.getWhitespace()) {
-        case IGNORE_NONE:
-          break;
-        case IGNORE_SPACE_AT_EOL:
-          args.add("--ignore-space-at-eol");
-          break;
-        case IGNORE_SPACE_CHANGE:
-          args.add("--ignore-space-change");
-          break;
-        case IGNORE_ALL_SPACE:
-          args.add("--ignore-all-space");
-          break;
-        default:
-          throw new IOException("Unsupported whitespace " + key.getWhitespace());
-      }
-      if (a == null /* want combined diff */) {
-        args.add("--cc");
-        args.add(b.name());
-      } else {
-        args.add("--unified=1");
-        args.add(a.name());
-        args.add(b.name());
+      if (a == null) {
+        return new PatchList(a, b, computeIntraline, new PatchListEntry[0]);
       }
 
-      final org.eclipse.jgit.patch.Patch p = new org.eclipse.jgit.patch.Patch();
-      final Process diffProcess = exec(repo, args);
-      try {
-        diffProcess.getOutputStream().close();
-        diffProcess.getErrorStream().close();
-
-        final InputStream in = diffProcess.getInputStream();
-        try {
-          p.parse(in);
-        } finally {
-          in.close();
-        }
-      } finally {
-        try {
-          final int rc = diffProcess.waitFor();
-          if (rc != 0) {
-            throw new IOException("git diff-tree exited abnormally: " + rc);
-          }
-        } catch (InterruptedException ie) {
-        }
-      }
-
-      RevTree aTree = a != null ? rw.parseTree(a) : null;
+      RevTree aTree = rw.parseTree(a);
       RevTree bTree = b.getTree();
+
+      final TreeWalk walk = new TreeWalk(repo);
+      walk.reset();
+      walk.setRecursive(true);
+      walk.addTree(aTree);
+      walk.addTree(bTree);
+      walk.setFilter(TreeFilter.ANY_DIFF);
+
+      ByteArrayOutputStream buf = new ByteArrayOutputStream();
+      PrintStream ps = new PrintStream(buf);
+
+      while (walk.next()) {
+        outputDiff(ps, walk.getPathString(), walk.getObjectId(0), walk
+            .getFileMode(0), walk.getObjectId(1), walk.getFileMode(1), repo);
+      }
+
+      org.eclipse.jgit.patch.Patch p = new org.eclipse.jgit.patch.Patch();
+      p.parse(new ByteArrayInputStream(buf.toByteArray()));
 
       final int cnt = p.getFiles().size();
       final PatchListEntry[] entries = new PatchListEntry[cnt];
@@ -194,6 +177,41 @@ public class PatchListCacheImpl implements PatchListCache {
         entries[i] = newEntry(repo, aTree, bTree, p.getFiles().get(i));
       }
       return new PatchList(a, b, computeIntraline, entries);
+    }
+
+    private void outputDiff(PrintStream out, String path, ObjectId id1,
+        FileMode mode1, ObjectId id2, FileMode mode2, Repository repo)
+        throws IOException {
+      DiffFormatter fmt = new DiffFormatter();
+      String name1 = "a/" + path;
+      String name2 = "b/" + path;
+      out.println("diff --git " + name1 + " " + name2);
+      boolean isNew = false;
+      boolean isDelete = false;
+      if (id1.equals(ObjectId.zeroId())) {
+        out.println("new file mode " + mode2);
+        isNew = true;
+      } else if (id2.equals(ObjectId.zeroId())) {
+        out.println("deleted file mode " + mode1);
+        isDelete = true;
+      } else if (!mode1.equals(mode2)) {
+        out.println("old mode " + mode1);
+        out.println("new mode " + mode2);
+      }
+      out.println("index " + id1.abbreviate(repo, 7).name() + ".."
+          + id2.abbreviate(repo, 7).name()
+          + (mode1.equals(mode2) ? " " + mode1 : ""));
+      out.println("--- " + (isNew ? "/dev/null" : name1));
+      out.println("+++ " + (isDelete ? "/dev/null" : name2));
+      RawText a = getRawText(id1, repo);
+      RawText b = getRawText(id2, repo);
+      MyersDiff diff = new MyersDiff(a, b);
+      fmt.formatEdits(out, a, b, diff.getEdits());
+    }
+
+    private RawText getRawText(ObjectId id, Repository repo) throws IOException {
+      if (id.equals(ObjectId.zeroId())) return new RawText(new byte[] {});
+      return new RawText(repo.openBlob(id).getCachedBytes());
     }
 
     private PatchListEntry newEntry(Repository repo, RevTree aTree,

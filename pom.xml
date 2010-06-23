@@ -736,6 +736,12 @@ limitations under the License.
         <artifactId>juniversalchardet</artifactId>
         <version>1.0.3</version>
       </dependency>
+
+      <dependency>
+        <groupId>dk.brics.automaton</groupId>
+        <artifactId>automaton</artifactId>
+        <version>1.11.2</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -768,6 +774,11 @@ limitations under the License.
     <repository>
       <id>objectweb-repository</id>
       <url>http://maven.objectweb.org/maven2/</url>
+    </repository>
+
+    <repository>
+      <id>clojars-repo</id>
+      <url>http://clojars.org/repo</url>
     </repository>
   </repositories>
 </project>

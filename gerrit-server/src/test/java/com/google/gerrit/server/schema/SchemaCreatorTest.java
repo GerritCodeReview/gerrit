@@ -318,7 +318,7 @@ public class SchemaCreatorTest extends TestCase {
       throws OrmException {
     db.create();
     final SystemConfig config = db.getSystemConfig();
-    assertDefaultRight("refs/*", config.anonymousGroupId,
+    assertDefaultRight(RefRight.REGEX_SYMBOL+"refs/*", config.anonymousGroupId,
         ApprovalCategory.READ, 1, 1);
   }
 
@@ -326,7 +326,7 @@ public class SchemaCreatorTest extends TestCase {
       throws OrmException {
     db.create();
     final SystemConfig config = db.getSystemConfig();
-    assertDefaultRight("refs/*", config.registeredGroupId,
+    assertDefaultRight(RefRight.REGEX_SYMBOL+"refs/*", config.registeredGroupId,
         ApprovalCategory.READ, 1, 2);
     assertDefaultRight("refs/heads/*", config.registeredGroupId, codeReview,
         -1, 1);
@@ -336,7 +336,7 @@ public class SchemaCreatorTest extends TestCase {
       throws OrmException {
     db.create();
     final SystemConfig config = db.getSystemConfig();
-    assertDefaultRight("refs/*", config.adminGroupId, ApprovalCategory.READ, 1,
+    assertDefaultRight(RefRight.REGEX_SYMBOL+"refs/*", config.adminGroupId, ApprovalCategory.READ, 1,
         1);
   }
 

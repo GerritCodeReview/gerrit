@@ -38,7 +38,13 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
 import java.util.Collections;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import javax.annotation.Nullable;
 
@@ -114,16 +120,16 @@ class AddRefRight extends Handler<ProjectDetail> {
       if (categoryId.equals(ApprovalCategory.SUBMIT)
           || categoryId.equals(ApprovalCategory.PUSH_HEAD)) {
         // Explicitly related to a branch head.
-        refPattern = Constants.R_HEADS + "*";
+        refPattern = RefRight.REGEX_SYMBOL + Constants.R_HEADS + "*";
 
       } else if (!at.getCategory().isAction()) {
         // Non actions are approval votes on a change, assume these apply
         // to branch heads only.
-        refPattern = Constants.R_HEADS + "*";
+        refPattern = RefRight.REGEX_SYMBOL + Constants.R_HEADS + "*";
 
       } else if (categoryId.equals(ApprovalCategory.PUSH_TAG)) {
         // Explicitly related to the tag namespace.
-        refPattern = Constants.R_TAGS + "*";
+        refPattern = RefRight.REGEX_SYMBOL + Constants.R_TAGS + "*";
 
       } else if (categoryId.equals(ApprovalCategory.READ)
           || categoryId.equals(ApprovalCategory.OWN)) {
@@ -144,20 +150,32 @@ class AddRefRight extends Handler<ProjectDetail> {
     while (refPattern.startsWith("/")) {
       refPattern = refPattern.substring(1);
     }
-    if (!refPattern.startsWith(Constants.R_REFS)) {
+    while (refPattern.contains(" ")) {
+      refPattern = refPattern.replaceAll(" ", "");
+    }
+    while (refPattern.contains("//")) {
+      refPattern = refPattern.replace("//", "/");
+    }
+    CharsetDecoder decoder = Charset.forName("US-ASCII").newDecoder();
+    try {
+      decoder.decode(ByteBuffer.wrap(refPattern.getBytes()));
+    } catch (CharacterCodingException e) {
+      throw new InvalidNameException();
+    }
+    try {
+      Pattern.compile(refPattern.replace("*", "(.*)"));
+    } catch (PatternSyntaxException e) {
+      throw new InvalidNameException();
+    }
+    if (!refPattern.startsWith(Constants.R_REFS)&&!refPattern.startsWith(RefRight.REGEX_SYMBOL+Constants.R_REFS)) {
       refPattern = Constants.R_HEADS + refPattern;
     }
     if (refPattern.endsWith("/*")) {
       final String prefix = refPattern.substring(0, refPattern.length() - 2);
-      if (!"refs".equals(prefix) && !Repository.isValidRefName(prefix)) {
-        throw new InvalidNameException();
-      }
-    } else {
-      if (!Repository.isValidRefName(refPattern)) {
+      if (!"refs".equals(prefix.substring(1)) && !Repository.isValidRefName(prefix.substring(1))) {
         throw new InvalidNameException();
       }
     }
-
     if (exclusive) {
       refPattern = "-" + refPattern;
     }

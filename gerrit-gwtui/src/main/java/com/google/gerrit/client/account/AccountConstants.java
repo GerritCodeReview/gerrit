@@ -90,6 +90,7 @@ public interface AccountConstants extends Constants {
   String contactFieldFax();
   String buttonOpenRegisterNewEmail();
   String buttonSendRegisterNewEmail();
+  String buttonCancel();
   String titleRegisterNewEmail();
   String descRegisterNewEmail();
 

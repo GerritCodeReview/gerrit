@@ -1,0 +1,314 @@
+Release notes for Gerrit 2.1.3
+==============================
+
+Gerrit 2.1.3 is now available in the usual location:
+
+link:http://code.google.com/p/gerrit/downloads/list[http://code.google.com/p/gerrit/downloads/list]
+
+Schema Change
+-------------
+
+*WARNING* This release contains multiple schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+
+New Features
+------------
+
+Web UI
+~~~~~~
+
+* issue 289 Remove reviewers (or self) from a change
++
+Project and change owners can now remove any reviewer from a change
+by clicking an "X" next to their name in the approval table.
+Individual users can also remove themselves from any change.
+This feature permits users to stop getting notified about a change
+they no longer have an interest in, but had commented on previously.
+
+* issue 124 Index changes by external issue tracking id numbers
++
+Changes can be searched for by an external issue tracking system's
+id numbers.  Site administrators can configure trackingid sections in
+gerrit.config to parse and extract issue tracking links from a commit
+message's footer, and have them indexed by Gerrit.  Users can search
+for relevant changes using the search operator `tr:` or `bug:`,
+for example `tr:432181` or `bug:JIRA-42`.  Administrators can index
+existing change records using the ScanTrackingIds program.
+
+* List branches/tags containing a merged change
++
+Merged change pages now display a new expandable section, 'Included
+In', listing all branches and tags that contain the change.
+
+* issue 391 Reduce clicks need to approve and submit
++
+Users who have Submit +1 permission for a change can now click
+'Publish Comments and Submit' on the publish comments screen,
+combining the 'Publish Comments' and 'Submit Patch Set n' actions
+into a single click.
+
+* Simplify setup of non-range access such as Submit
++
+If an access control doesn't really make sense as a range of values,
+Gerrit now displays only one box to select the maximum permitted
+value from, rather than two boxes to set the min/max.
+
+* Make Admin > Projects UI accessible to all users
++
+All projects that are visible to the current user are now listed
+in the Admin > Projects page, as are the project's Branches and
+Access tabs.  Editing is obviously disabled, unless the user has
+owner level access to the project, or one of its branches.
+
+Access Controls
+~~~~~~~~~~~~~~~
+
+* Branch-level read access is now supported
++
+Project owners/administrators can now use the access tab to
+control which groups can read certain branches, enabling hidden
+branches within a more widely visible project.  Additionally,
+replication.config honors these settings through the authGroup
+variable, allowing a server administrator to limit which branches
+are replicated to certain mirrors.
+
+* issue 273 Inherit project permissions from more than just All Projects
++
+Projects can now be organized into an inheritance hierarchy, allowing
+administrators to cluster common access rules for different groups
+of projects.  The create-project command learned a new \--parent
+option to set the hierarchy immediately.
+
+* auth.allowedOpenID can limit which providers can be used
++
+Administrators can now set auth.allowedOpenID in gerrit.config
+to restrict which OpenID provider(s) a user can use to register
+for an account.  This may be useful to restrict login to only the
+organization's local provider, or a single trusted 3rd party.
+
+* Branch-level access control is now inherited by default
++
+Previously branch level access controls were exclusive, locking out
+all other groups that may have been inherited from All Projects,
+or through a wildcard like 'refs/heads/*'.  Branch access is now
+inherited by default, but the old exclusive behavior can be obtained
+by prefixing the reference with '-'.
+
+SSH Commands
+~~~~~~~~~~~~
+
+* create-account: Permit creation of batch user accounts over SSH
+* issue 269 Enable create-project for non-Administrators
+
+* ls-projects: New -b option displays the sha1 of each branch
+* ls-projects: New -t option shows the project hierarchy
+
+* gerrit show-queue is now accessible to all users
++
+Results are filtered to display only queue entries that are operating
+on projects the user is permitted to see.  Replication URLs are
+masked for non-admin users, and instead display the remote name
+from the replication.config file.
+
+* issue 310 review \--submit: Submit a change over SSH
++
+Changes can now be submitted over SSH by using the new \--submit
+command line flag to gerrit review.
+
+* gerrit approve deprecated
++
+To support the new \--submit flag, gerrit approve has been renamed
+to gerrit review, better matching the web UI name for the concept.
+The old `gerrit approve` name will be kept around as an alias to
+provide time to migrate hooks/scripts/etc.
+
+Hooks / Stream Events
+~~~~~~~~~~~~~~~~~~~~~
+
+* \--change-url parameter passed to hooks
++
+The change URL was supplied in the stream-events feed, but was
+not passed into hooks, making it difficult for a hook to send a
+notification email with a link back to Gerrit.  Fixed by adding
+the parameter.
+
+* Patch set uploader passed to hooks
++
+The identity of the user who uploaded a patch set was added as both
+a parameter to patchset-created hook, and to the patch set entity
+sent through stream-events.
+
+* issue 506 stream-events: Include the ref in patch sets
++
+The reference (e.g. 'refs/changes/12/812/2') to download a patch
+set is now included in the stream-events record, making it possible
+for a monitor to easily pull down a patch set and compile it.
+
+Contrib
+~~~~~~~
+
+* Example hook to auto-re-approve a trivial rebase
+
+Misc.
+~~~~~
+
+* transfer.timeout: Support configurable timeouts for dead clients
++
+Sometimes `repo sync` can leave dead connections open to Gerrit Code
+Review, resulting in worker threads that are tied up indefinitely,
+waiting for client IO that will never occur.  Administrators may set
+transfer.timeout to place an upper bound on how long the server will
+wait for the client before aborting the connection and releasing
+the worker thread back into the pool.
+
+* container.slave: Automatically enable --slave
++
+Adminstrators can now add `container.slave = true` to their slave's
+gerrit.config file, avoiding the need to make sure they always
+pass the --slave flag on the command line when starting their
+slave server.
+
+* Add separate task queue for non-interactive users
++
+Users who are a member of the special 'Non Interactive Users' group
+can now have all of their SSH commands scheduled onto a different
+thread pool than everyone else.  If enabled, this feature can help
+ensure quick response time for normal users when the system is
+heavily loaded by batch tasks.
+
+* Explain a remote rejection of a non-fast-forward
++
+If the remote peer rejected a non-fast-forward replication, make
+it clear that it was the remote that rejected the push, and not
+Gerrit Code Review's client logic.  The error is often caused by
+the remote repository having receive.denyNonFastForwards being set
+to true in $GIT_DIR/config.  Gerrit's error log message now hints
+at checking this setting on the remote repository.
+
+* Internal dependencies updated
++
+Updated JGit to 0.8.4, Jetty to 7.0.2.v20100331, H2 database to
+1.2.134, Apache Commons Codec to 1.4, Apache Commons Net to 2.1,
+Apache Commons DBCP to 1.4.
+
+
+Bug Fixes
+---------
+
+Web UI
+~~~~~~
+
+* issue 396 Prevent 'no-score' approvals from being recorded
++
+Change messages no longer say 'No score; no score' when the user
+has not selected a particular approval setting.
+
+* issue 396 Summarize the number of inline comments
++
+A change message is now always recorded at the top level of a change
+anytime inline comments are published, even if no score change
+took place, and no cover letter was supplied by the user. The
+auto-generated message is a one line summary indicating how many
+inline comments were published at that time.  This makes it easier
+to see what has occurred on the change.
+
+* issue 461 Space out Review and Submit Patch Set buttons
++
+The risk of clicking 'Submit Patch Set n' when the user meant to
+click 'Review' has been reduced by spacing the buttons further apart.
+
+* issue 587 Fix user site header/footer preference
++
+The user preference to hide the site header/footer wasn't always
+being applied.  Fixed.
+
+* issue 575 Require branches to always start from commits
++
+Branches could be created starting from annotated tags, resulting
+in crashes when a change gets submitted to the branch.  Fixed by
+ensuring branches always start from commits.
+
+* issue 574 Add Cancel button to Register New Email dialog
++
+Users couldn't (easily) get out of the dialog popped up by the
+'Register New Email...' button.  A cancel button was added to
+close the dialog.
+
+Server Programs
+~~~~~~~~~~~~~~~
+
+* init: Import non-standardly named Git repositories
++
+When scanning for projects, any directory that is a valid Git
+repository is now imported, even if its name does not end with
+the standard '.git' suffix.
+
+* issue 460 gerrit.sh: Request at least 1024 file descriptors
++
+In the default configuration, Gerrit Code Review started with a
+hard limit of 256 file descriptors, which is too small for any site.
+This caused a number of failures, and a number of bugs were filed.
+The default has been raised to 1024.
+
+* issue 578 Improve schema version update by avoiding early pruning
++
+Previously init kept trying to remove unused tables or columns
+during each schema upgrade step.  These removes are now deferred
+until the last step.
+
+* review: Actually log an internal server error's root cause
++
+Internal server failures (such as database connectivity errors)
+were not properly logged by `gerrit approve` (now gerrit review).
+Fixed by logging the root cause of the failure.
+
+Configuration
+~~~~~~~~~~~~~
+
+* Display error when HTTP authentication isn't configured
++
+Error reporting for a failed login attempt when auth.type is HTTP
+and the HTTP server isn't supplying the expected header is now more
+explicit about describing the problem.  This helps new site setups,
+but doesn't have any impact on an existing site.
+
+* Fix javax.naming.PartialResultException: Unprocessed Continuation
++
+LDAP directory trees that require following a referral in order
+to lookup a name usually failed with the above Java exception
+during sign-in.  Administrators can enable following by adding
+`ldap.referral = follow` to their gerrit.config file.
+
+Documentation
+~~~~~~~~~~~~~
+
+* documentation: Clarified the ownership of '\-- All Projects \--'
++
+The magic project All Projects isn't allowed to have ownership
+delegated, and the documentation wasn't clear why.  Fixed by
+explaining the rationale in more detail.
+
+* issue 533 Fix JAR versions in other container installation
++
+The installation process for putting Gerrit Code Review under a
+3rd party servlet container was out of date, as some JARs had
+the wrong versions listed.  Fixed.
+
+* suexec: Document the suexec command
++
+The suexec command introduced in 2.1.2 was never documented.  Fixed.
+
+* Corrected Eclipse documentation on importing Maven projects
++
+The Maven plugin changed some of its user interface, resulting in
+our step-by-step documentation being out of date.  Fixed to match
+the current stable version of the Maven plugin.
+
+
+Version
+-------
+
+e8fd49f5f7481e2f916cb0d8cfbada79309562b4

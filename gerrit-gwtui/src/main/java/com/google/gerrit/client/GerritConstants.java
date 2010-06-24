@@ -47,7 +47,7 @@ public interface GerritConstants extends Constants {
 
   String menuMine();
   String menuMyChanges();
-  String menyMyDrafts();
+  String menuMyDrafts();
   String menuMyStarredChanges();
 
   String menuAdmin();

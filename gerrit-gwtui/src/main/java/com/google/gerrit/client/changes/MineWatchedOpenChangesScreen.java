@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,27 +16,26 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
 
-
-
-public class AllOpenChangesScreen extends PagedSingleListScreen {
-  public AllOpenChangesScreen(final String positionToken) {
-    super("all,open", positionToken);
+public class MineWatchedOpenChangesScreen extends PagedSingleListScreen {
+  public MineWatchedOpenChangesScreen(final String positionToken) {
+    super("mine,watched", positionToken);
   }
 
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setWindowTitle(Gerrit.C.menuAllOpen());
-    setPageTitle(Util.C.allOpenChanges());
+    setWindowTitle(Gerrit.C.menuMyWatchedChanges());
+    setPageTitle(Util.C.watchedHeading());
+    setRequiresSignIn(true);
   }
 
   @Override
   protected void loadPrev() {
-    Util.LIST_SVC.allOpenPrev(pos, pageSize, loadCallback());
+    Util.LIST_SVC.myWatchedOpenPrev(pos, pageSize, loadCallback());
   }
 
   @Override
   protected void loadNext() {
-    Util.LIST_SVC.allOpenNext(pos, pageSize, loadCallback());
+    Util.LIST_SVC.myWatchedOpenNext(pos, pageSize, loadCallback());
   }
 }

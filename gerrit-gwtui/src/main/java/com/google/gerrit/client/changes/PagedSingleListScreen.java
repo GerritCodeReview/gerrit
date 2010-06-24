@@ -31,7 +31,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import java.util.List;
 
 
-public abstract class AllSingleListScreen extends Screen {
+public abstract class PagedSingleListScreen extends Screen {
   protected static final String MIN_SORTKEY = "";
   protected static final String MAX_SORTKEY = "z";
 
@@ -46,7 +46,7 @@ public abstract class AllSingleListScreen extends Screen {
   protected boolean useLoadPrev;
   protected String pos;
 
-  protected AllSingleListScreen(final String anchorToken,
+  protected PagedSingleListScreen(final String anchorToken,
       final String positionToken) {
     anchorPrefix = anchorToken;
     useLoadPrev = positionToken.startsWith("p,");

@@ -18,7 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.reviewdb.Change;
 
 
-public class AllMergedChangesScreen extends AllSingleListScreen {
+public class AllMergedChangesScreen extends PagedSingleListScreen {
   public AllMergedChangesScreen(final String positionToken) {
     super("all,merged", positionToken);
   }

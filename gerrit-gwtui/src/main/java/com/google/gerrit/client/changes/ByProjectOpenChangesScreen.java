@@ -17,7 +17,7 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.reviewdb.Project;
 
 
-public class ByProjectOpenChangesScreen extends AllSingleListScreen {
+public class ByProjectOpenChangesScreen extends PagedSingleListScreen {
   private final Project.NameKey projectKey;
 
   public ByProjectOpenChangesScreen(final Project.NameKey proj,

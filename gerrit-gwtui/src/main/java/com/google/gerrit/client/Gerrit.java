@@ -410,6 +410,7 @@ public class Gerrit implements EntryPoint {
       m = new LinkMenuBar();
       addLink(m, C.menuMyChanges(), PageLinks.MINE);
       addLink(m, C.menuMyDrafts(), PageLinks.MINE_DRAFTS);
+      addLink(m, C.menuMyWatchedChanges(), PageLinks.MINE_WATCHED);
       addLink(m, C.menuMyStarredChanges(), PageLinks.MINE_STARRED);
       menuLeft.add(m, C.menuMine());
       menuLeft.selectTab(1);

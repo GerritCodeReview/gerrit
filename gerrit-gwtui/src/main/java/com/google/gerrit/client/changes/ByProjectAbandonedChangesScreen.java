@@ -18,7 +18,7 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 
 
-public class ByProjectAbandonedChangesScreen extends AllSingleListScreen {
+public class ByProjectAbandonedChangesScreen extends PagedSingleListScreen {
   private final Project.NameKey projectKey;
 
   public ByProjectAbandonedChangesScreen(final Project.NameKey proj,

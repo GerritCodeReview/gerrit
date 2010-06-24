@@ -39,6 +39,7 @@ import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.AllAbandonedChangesScreen;
 import com.google.gerrit.client.changes.AllMergedChangesScreen;
 import com.google.gerrit.client.changes.AllOpenChangesScreen;
+import com.google.gerrit.client.changes.MineWatchedOpenChangesScreen;
 import com.google.gerrit.client.changes.ByProjectAbandonedChangesScreen;
 import com.google.gerrit.client.changes.ByProjectMergedChangesScreen;
 import com.google.gerrit.client.changes.ByProjectOpenChangesScreen;
@@ -154,6 +155,11 @@ public class Dispatcher {
       return new MineDraftsScreen();
 
     } else {
+      String p = "mine,watched,";
+      if (token.startsWith(p)) {
+        return new MineWatchedOpenChangesScreen(skip(p, token));
+      }
+
       return new NotFoundScreen();
     }
   }
@@ -175,6 +181,7 @@ public class Dispatcher {
     if (token.startsWith(p)) {
       return new AllOpenChangesScreen(skip(p, token));
     }
+
     return new NotFoundScreen();
   }
 

@@ -74,6 +74,7 @@ public interface GerritConstants extends Constants {
   String sectionJumping();
   String jumpAllOpen();
   String jumpAllMerged();
+  String jumpAllAbandoned();
   String jumpMine();
   String jumpMineDrafts();
   String jumpMineStarred();

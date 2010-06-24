@@ -38,6 +38,12 @@ class JumpKeys {
         Gerrit.display(PageLinks.ALL_MERGED);
       }
     });
+    jumps.add(new KeyCommand(0, 'a', Gerrit.C.jumpAllAbandoned()) {
+      @Override
+      public void onKeyPress(final KeyPressEvent event) {
+        Gerrit.display(PageLinks.ALL_ABANDONED);
+      }
+    });
 
     if (Gerrit.isSignedIn()) {
       jumps.add(new KeyCommand(0, 'i', Gerrit.C.jumpMine()) {

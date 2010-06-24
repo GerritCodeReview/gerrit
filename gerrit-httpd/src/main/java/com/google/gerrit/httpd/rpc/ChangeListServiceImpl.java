@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.config.SystemConfigProvider;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -89,16 +90,19 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   private final Provider<CurrentUser> currentUser;
   private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
+  private final SystemConfigProvider systemConfigProvider;
 
   @Inject
   ChangeListServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
       final ChangeControl.Factory changeControlFactory,
-      final AccountInfoCacheFactory.Factory accountInfoCacheFactory) {
+      final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
+      final SystemConfigProvider systemConfigProvider) {
     super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
     this.accountInfoCacheFactory = accountInfoCacheFactory;
+    this.systemConfigProvider = systemConfigProvider;
   }
 
   private boolean canRead(final Change c) {
@@ -129,6 +133,43 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         return db.changes().allOpenNext(sortKey, slim);
       }
     });
+  }
+
+  public void myWatchedOpenPrev(final String pos, final int pageSize,
+      final AsyncCallback<SingleListChangeInfo> callback) {
+    run(callback, new QueryPrev(pageSize, pos) {
+      @Override
+      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
+          throws OrmException {
+        return db.changes().allOpenPrev(sortKey, slim);
+      }
+
+      @Override
+      protected boolean accept(Change c) {
+        return isWatched(c);
+      }
+    });
+  }
+
+  public void myWatchedOpenNext(final String pos, final int pageSize,
+      final AsyncCallback<SingleListChangeInfo> callback) {
+    run(callback, new QueryNext(pageSize, pos) {
+      @Override
+      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
+          throws OrmException {
+        return db.changes().allOpenNext(sortKey, slim);
+      }
+
+      @Override
+      protected boolean accept(Change c) {
+        return isWatched(c);
+      }
+    });
+  }
+
+  private boolean isWatched(Change c) {
+    Set<Project.NameKey> watchedProjects = currentUser.get().getWatchedProjects();
+    return watchedProjects.contains(c.getProject()) || watchedProjects.contains(systemConfigProvider.get().wildProjectName);
   }
 
   public void byProjectOpenPrev(final Project.NameKey project,
@@ -569,7 +610,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         final ResultSet<Change> rs = query(db, slim, sortKey);
         for (final Change c : rs) {
           results = true;
-          if (canRead(c)) {
+          if (canRead(c) && accept(c)) {
             final ChangeInfo ci = new ChangeInfo(c);
             ac.want(ci.getOwner());
             ci.setStarred(starred.contains(ci.getId()));
@@ -587,6 +628,10 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       d.setChanges(list, atEnd);
       d.setAccounts(ac.create());
       return d;
+    }
+
+    protected boolean accept(final Change c) {
+      return true;
     }
 
     boolean finish(final ArrayList<ChangeInfo> list) {

@@ -64,6 +64,7 @@ class UrlModule extends ServletModule {
     serve("/mine").with(screen(PageLinks.MINE));
     serve("/open").with(screen(PageLinks.ALL_OPEN));
     serve("/settings").with(screen(PageLinks.SETTINGS));
+    serve("/watched").with(screen(PageLinks.MINE_WATCHED));
     serve("/starred").with(screen(PageLinks.MINE_STARRED));
 
     serveRegex( //

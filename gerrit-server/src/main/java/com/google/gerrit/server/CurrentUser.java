@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.servlet.RequestScoped;
 
@@ -58,6 +59,9 @@ public abstract class CurrentUser {
 
   /** Set of changes starred by this user. */
   public abstract Set<Change.Id> getStarredChanges();
+
+  /** Set of project that are watched by this user */
+  public abstract Set<Project.NameKey> getWatchedProjects();
 
   /** Is the user a non-interactive user? */
   public boolean isBatchUser() {

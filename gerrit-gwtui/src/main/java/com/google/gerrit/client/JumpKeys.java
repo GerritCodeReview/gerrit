@@ -52,6 +52,12 @@ class JumpKeys {
           Gerrit.display(PageLinks.MINE_DRAFTS);
         }
       });
+      jumps.add(new KeyCommand(0, 'w', Gerrit.C.jumpMineWatched()) {
+        @Override
+        public void onKeyPress(final KeyPressEvent event) {
+          Gerrit.display(PageLinks.MINE_WATCHED);
+        }
+      });
       jumps.add(new KeyCommand(0, 's', Gerrit.C.jumpMineStarred()) {
         @Override
         public void onKeyPress(final KeyPressEvent event) {

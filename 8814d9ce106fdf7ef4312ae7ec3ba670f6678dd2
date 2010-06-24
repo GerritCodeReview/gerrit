@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0n///w0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/MineWatchedOpenChangesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-06-24T12:29:47Z",
+      "side": 1,
+      "message": "\u0027AllSingleListScreen\u0027 is extended to get support for showing the result in pages. Here I\u0027m not sure if it is ok that a screen under \u0027My\u0027 is extending this class, since from the name it looks like this class is only intended to be used for screens under \u0027All\u0027. Actually for screens under \u0027My\u0027 the base class seems to be  \u0027MineSingleListScreen\u0027. I did not extend \u0027MineSingleListScreen\u0027 because this class doesn\u0027t support paging. Would it not be better to rename \u0027AllSingleListScreen\u0027 to \u0027PagedSingleListScreen\u0027 and \u0027MineSingleListScreen\u0027 to \u0027SingleListScreen\u0027?",
+      "revId": "8814d9ce106fdf7ef4312ae7ec3ba670f6678dd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

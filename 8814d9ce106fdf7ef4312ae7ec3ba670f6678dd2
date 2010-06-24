@@ -16,6 +16,41 @@
       "revId": "8814d9ce106fdf7ef4312ae7ec3ba670f6678dd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///ug\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/MineWatchedOpenChangesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-24T21:14:41Z",
+      "side": 1,
+      "message": "Using AllSingleListScreen here is OK, and we probably want to do that rename you are suggesting of AllSingle-\u003ePagedSingle, but not the other rename of MineSingleListScreen to SingleListScreen.\n\nSadly, the only difference between an All and a Mine screen is... this line in the constructor:\n\n      setRequiresSignIn(true);\n\nIts just there to ensure we have a user before we try to show this screen, and if we don\u0027t, we prompt for login.\n\nSo.  Rename AllSingleListScreen to PagedSingleListScreen, then add that one line to this class\u0027s constructor, and its fine.",
+      "parentUuid": "AAAA0n///w0\u003d",
+      "revId": "8814d9ce106fdf7ef4312ae7ec3ba670f6678dd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///uc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/ChangeListServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-24T21:14:41Z",
+      "side": 1,
+      "message": "Don\u0027t ask for the SystemConfigProvider when all you need is the wildcard project.\n\nUse instead:\n\n  private final Project.NameKey wildProject;\n\n  @Inject\n  ChangeListServiceImpl(....\n    @WildProjectName Project.NameKey wildProject",
+      "revId": "8814d9ce106fdf7ef4312ae7ec3ba670f6678dd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -24,7 +24,7 @@ import com.google.gwtorm.client.KeyUtil;
 
 
 
-public class ChangeQueryResultsScreen extends AllSingleListScreen {
+public class ChangeQueryResultsScreen extends PagedSingleListScreen {
   private final String query;
 
   public ChangeQueryResultsScreen(final String encQuery,

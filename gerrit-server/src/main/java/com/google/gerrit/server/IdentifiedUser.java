@@ -16,9 +16,12 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
+import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Realm;
@@ -138,6 +141,7 @@ public class IdentifiedUser extends CurrentUser {
   private Set<String> emailAddresses;
   private Set<AccountGroup.Id> effectiveGroups;
   private Set<Change.Id> starredChanges;
+  private Set<Project.NameKey> watchedProjects;
 
   private IdentifiedUser(final AccessPath accessPath,
       final AuthConfig authConfig, final Provider<String> canonicalUrl,
@@ -214,6 +218,28 @@ public class IdentifiedUser extends CurrentUser {
       starredChanges = Collections.unmodifiableSet(h);
     }
     return starredChanges;
+  }
+
+  @Override
+  public Set<NameKey> getWatchedProjects() {
+    if (watchedProjects == null) {
+      if (dbProvider == null) {
+        throw new OutOfScopeException("Not in request scoped user");
+      }
+      final Set<Project.NameKey> h = new HashSet<Project.NameKey>();
+      try {
+        for (AccountProjectWatch projectWatch : dbProvider.get().accountProjectWatches().byAccount(getAccountId()).toList()) {
+          h.add(projectWatch.getProjectNameKey());
+        }
+      } catch (ProvisionException e) {
+        log.warn("Cannot query project watches of a user", e);
+      } catch (OrmException e) {
+        log.warn("Cannot query project watches of a user", e);
+      }
+      watchedProjects = Collections.unmodifiableSet(h);
+    }
+
+    return watchedProjects;
   }
 
   public PersonIdent newRefLogIdent() {

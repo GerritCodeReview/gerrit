@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n///so\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/MineWatchedOpenChangesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-06-25T05:34:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA0n///ug\u003d",
+      "revId": "8814d9ce106fdf7ef4312ae7ec3ba670f6678dd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0n///uc\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/ChangeListServiceImpl.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2010-06-24T21:14:41Z",
       "side": 1,
       "message": "Don\u0027t ask for the SystemConfigProvider when all you need is the wildcard project.\n\nUse instead:\n\n  private final Project.NameKey wildProject;\n\n  @Inject\n  ChangeListServiceImpl(....\n    @WildProjectName Project.NameKey wildProject",
+      "revId": "8814d9ce106fdf7ef4312ae7ec3ba670f6678dd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///sg\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/ChangeListServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-06-25T05:34:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA0n///uc\u003d",
       "revId": "8814d9ce106fdf7ef4312ae7ec3ba670f6678dd2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

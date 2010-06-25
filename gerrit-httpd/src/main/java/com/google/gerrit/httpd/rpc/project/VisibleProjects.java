@@ -14,22 +14,23 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-
+import com.google.gerrit.common.data.ProjectData;
+import com.google.gerrit.common.data.ProjectRightsBased;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.TreeMap;
 
-class VisibleProjects extends Handler<List<Project>> {
+class VisibleProjects extends Handler<List<ProjectRightsBased>> {
   interface Factory {
     VisibleProjects create();
   }
@@ -37,6 +38,12 @@ class VisibleProjects extends Handler<List<Project>> {
   private final ProjectControl.Factory projectControlFactory;
   private final CurrentUser user;
   private final ReviewDb db;
+
+  private static final Project.NameKey NOT_VISIBLE_PROJECT = new Project.NameKey("(x)");
+
+  @Inject
+  @WildProjectName
+  private Project.NameKey wildProject;
 
   @Inject
   VisibleProjects(final ProjectControl.Factory projectControlFactory,
@@ -47,28 +54,64 @@ class VisibleProjects extends Handler<List<Project>> {
   }
 
   @Override
-  public List<Project> call() throws OrmException {
-    final List<Project> result;
-    if (user.isAdministrator()) {
-      result = db.projects().all().toList();
-    } else {
-      result = new ArrayList<Project>();
-      for (Project p : db.projects().all().toList()) {
-        try {
-          ProjectControl c = projectControlFactory.controlFor(p.getNameKey());
-          if (c.isVisible() || c.isOwner()) {
-            result.add(p);
+  public List<ProjectRightsBased> call() throws OrmException {
+    final List<ProjectRightsBased> result;
+    final TreeMap<String, Project> projectsMap = new TreeMap<String, Project>();
+
+    for(final Project p : db.projects().all().toList()) {
+      projectsMap.put(p.getName(), p);
+    }
+
+    result = new ArrayList<ProjectRightsBased>();
+    ProjectData projectData;
+    int parentId = 0;
+
+    for (Project p : projectsMap.values()) {
+      try {
+        String parentName = null;
+        if (p.getParent() != null) {
+          parentName = p.getParent().get();
+          if (parentName != null) {
+            final Project parent = projectsMap.get((String)parentName);
+            if (parent != null) {
+              parentId = parent.getId();
+            }
+
+            final ProjectControl parentControl = projectControlFactory.controlFor(p.getParent());
+            if (!parentControl.isVisible() || !parentControl.isOwner()) {
+              parentName = NOT_VISIBLE_PROJECT.get();
+            }
           }
-        } catch (NoSuchProjectException e) {
-          continue;
+        } else {
+          final ProjectControl c = projectControlFactory.controlFor(p.getNameKey());
+          if (!c.getProjectState().isSpecialWildProject()) {
+            final Project parent = projectsMap.get((String)wildProject.get());
+            parentId = parent.getId();
+          }
         }
+
+        if (user.isAdministrator()) {
+          projectData = new ProjectData(p.getNameKey(), p.getDescription(),
+              parentId, parentName, p.getId());
+          result.add(new ProjectRightsBased(projectData, true));
+        } else {
+          final ProjectControl c = projectControlFactory.controlFor(p.getNameKey());
+
+          if (c.isVisible() || c.isOwner()) {
+            projectData = new ProjectData(p.getNameKey(), p.getDescription(),
+                parentId, parentName, p.getId());
+            result.add(new ProjectRightsBased(projectData, true));
+          } else {
+            projectData = new ProjectData(NOT_VISIBLE_PROJECT, null,
+                parentId, parentName, p.getId());
+            result.add(new ProjectRightsBased(projectData, false));
+          }
+        }
+      } catch (NoSuchProjectException e) {
+        continue;
       }
     }
-    Collections.sort(result, new Comparator<Project>() {
-      public int compare(final Project a, final Project b) {
-        return a.getName().compareTo(b.getName());
-      }
-    });
+
     return result;
   }
 }

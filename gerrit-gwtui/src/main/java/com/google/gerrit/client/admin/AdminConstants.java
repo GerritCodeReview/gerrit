@@ -85,6 +85,20 @@ public interface AdminConstants extends Constants {
   String projectAdminTabBranches();
   String projectAdminTabAccess();
 
+  String buttonCancelSetParent();
+  String buttonFlatView();
+  String buttonSearchProject();
+  String buttonSetParent();
+  String buttonSetParentProject();
+  String buttonTreeView();
+  String checkBoxSelectAll();
+  String columnFilterProjectName();
+  String columnParentProject();
+  String headingFilterProject();
+  String headingSelectedProjectsTable();
+  String headingSetParentPanel();
+  String labelOnSuccessSetParent();
+
   String noGroupSelected();
   String errorNoMatchingGroups();
 }

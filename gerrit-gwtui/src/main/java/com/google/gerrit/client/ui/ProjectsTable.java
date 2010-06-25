@@ -16,7 +16,7 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.NavigationTable;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.common.data.ProjectData;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
@@ -25,14 +25,17 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import java.util.List;
 
-public class ProjectsTable extends NavigationTable<Project> {
+public class ProjectsTable extends NavigationTable<ProjectData> {
+
+  protected ProjectsTable(boolean callDefaultConstruct) {
+  }
 
   public ProjectsTable() {
     keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.projectListPrev()));
     keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.projectListNext()));
     keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.projectListOpen()));
-    keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
-                                                  Util.C.projectListOpen()));
+    keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C
+        .projectListOpen()));
 
     table.setText(0, 1, Util.C.projectName());
     table.setText(0, 2, Util.C.projectDescription());
@@ -79,7 +82,7 @@ public class ProjectsTable extends NavigationTable<Project> {
   }
 
   @Override
-  protected Object getRowItemKey(final Project item) {
+  protected Object getRowItemKey(final ProjectData item) {
     return item.getNameKey();
   }
 
@@ -90,17 +93,17 @@ public class ProjectsTable extends NavigationTable<Project> {
     }
   }
 
-  public void display(final List<Project> projects) {
+  public void display(final List<ProjectData> projects) {
     while (1 < table.getRowCount())
       table.removeRow(table.getRowCount() - 1);
 
-    for (final Project k : projects)
+    for (final ProjectData k : projects)
       insert(table.getRowCount(), k);
 
     finishDisplay();
   }
 
-  protected void insert(final int row, final Project k) {
+  protected void insert(final int row, final ProjectData k) {
     table.insertRow(row);
 
     applyDataRowStyle(row);
@@ -113,7 +116,7 @@ public class ProjectsTable extends NavigationTable<Project> {
     populate(row, k);
   }
 
-  protected void populate(final int row, final Project k) {
+  protected void populate(final int row, final ProjectData k) {
     table.setText(row, 1, k.getName());
     table.setText(row, 2, k.getDescription());
 

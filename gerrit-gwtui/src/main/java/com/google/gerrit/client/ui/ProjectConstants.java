@@ -22,4 +22,21 @@ public interface ProjectConstants extends Constants {
   String projectListOpen();
   String projectListPrev();
   String projectListNext();
+  String projectListTitle();
+  String parentProject();
+
+  String buttonCancelSetParent();
+  String buttonFlatView();
+  String buttonFilterProject();
+  String buttonHighlightProject();
+  String buttonSetParent();
+  String buttonSetParentProject();
+  String buttonTreeView();
+  String checkBoxSelectAll();
+  String columnFilterProjectName();
+  String columnParentProject();
+  String headingSearchProject();
+  String headingSelectedProjectsTable();
+  String headingSetParentPanel();
+  String labelOnSuccessSetParent();
 }

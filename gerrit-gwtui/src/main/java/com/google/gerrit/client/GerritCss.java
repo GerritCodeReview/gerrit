@@ -29,6 +29,8 @@ public interface GerritCss extends CssResource {
   String accountPassword();
   String activeRow();
   String addReviewer();
+  String buttonLink();
+  String buttonTrash();
   String removeReviewer();
   String removeReviewerCell();
   String addSshKeyPanel();
@@ -109,10 +111,12 @@ public interface GerritCss extends CssResource {
   String fileLineMode();
   String fileLineNone();
   String filePathCell();
+  String filterProjectList();
   String gerritTopMenu();
   String gerritBody();
   String groupName();
   String header();
+  String highlightPanel();
   String hyperlink();
   String iconCell();
   String iconHeader();
@@ -135,6 +139,8 @@ public interface GerritCss extends CssResource {
   String negscore();
   String noLineLineNumber();
   String noborder();
+  String onSuccessPanel();
+  String parentProjectPanel();
   String patchBrowserPopup();
   String patchBrowserPopupBody();
   String patchComments();
@@ -164,6 +170,10 @@ public interface GerritCss extends CssResource {
   String screenHeader();
   String searchPanel();
   String sectionHeader();
+  String selectAllRow();
+  String selectAllTreeLabel();
+  String selectedProjectsDataCell();
+  String setParentPanel();
   String sideBySideScreenLinkTable();
   String sideBySideScreenSideBySideTable();
   String skipLine();
@@ -181,8 +191,11 @@ public interface GerritCss extends CssResource {
   String topmenuTDglue();
   String topmenuTDmenu();
   String topmost();
+  String treePanel();
+  String treeSelectAllPanel();
   String useridentity();
   String usernameField();
   String version();
   String watchedProjectFilter();
+  String viewPanel();
 }

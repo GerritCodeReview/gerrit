@@ -137,4 +137,8 @@ public interface ReviewDb extends Schema {
    */
   @Sequence
   int nextChangeMessageId() throws OrmException;
+
+  /** Next unique id for a {@link Project}. */
+  @Sequence
+  int nextProjectId() throws OrmException;
 }

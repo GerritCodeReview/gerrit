@@ -141,8 +141,8 @@ public class SchemaCreator {
         Collections.singleton(new AccountGroupName(registered)));
 
     final AccountGroup batchUsers =
-      new AccountGroup(new AccountGroup.NameKey("Non-Interactive Users"),
-          new AccountGroup.Id(c.nextAccountGroupId()));
+        new AccountGroup(new AccountGroup.NameKey("Non-Interactive Users"),
+            new AccountGroup.Id(c.nextAccountGroupId()));
     batchUsers.setDescription("Users who perform batch actions on Gerrit");
     batchUsers.setOwnerGroupId(admin.getId());
     batchUsers.setType(AccountGroup.Type.INTERNAL);
@@ -180,7 +180,7 @@ public class SchemaCreator {
   private void initWildCardProject(final ReviewDb c) throws OrmException {
     final Project p;
 
-    p = new Project(DEFAULT_WILD_NAME);
+    p = new Project(DEFAULT_WILD_NAME, c.nextProjectId());
     p.setDescription("Rights inherited by all other projects");
     p.setUseContributorAgreements(false);
     c.projects().insert(Collections.singleton(p));

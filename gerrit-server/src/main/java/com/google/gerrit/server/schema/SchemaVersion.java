@@ -32,7 +32,7 @@ import java.util.List;
 /** A version of the database schema. */
 public abstract class SchemaVersion {
   /** The current schema version. */
-  private static final Class<? extends SchemaVersion> C = Schema_47.class;
+  private static final Class<? extends SchemaVersion> C = Schema_48.class;
 
   public static class Module extends AbstractModule {
     @Override
@@ -68,8 +68,8 @@ public abstract class SchemaVersion {
     return versionNbr;
   }
 
-  public final void check(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db, boolean toTargetVersion)
-      throws OrmException, SQLException {
+  public final void check(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db,
+      boolean toTargetVersion) throws OrmException, SQLException {
     if (curr.versionNbr == versionNbr) {
       // Nothing to do, we are at the correct schema.
       //
@@ -79,8 +79,8 @@ public abstract class SchemaVersion {
   }
 
   /** Runs check on the prior schema version, and then upgrades. */
-  protected void upgradeFrom(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db, boolean toTargetVersion)
-      throws OrmException, SQLException {
+  protected void upgradeFrom(UpdateUI ui, CurrentSchemaVersion curr,
+      ReviewDb db, boolean toTargetVersion) throws OrmException, SQLException {
     final JdbcSchema s = (JdbcSchema) db;
 
     prior.get().check(ui, curr, db, false);
@@ -121,7 +121,8 @@ public abstract class SchemaVersion {
    * (removes deleted columns/tables).
    */
   @SuppressWarnings("unused")
-  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException,
+      SQLException {
   }
 
   /** Mark the current schema version. */

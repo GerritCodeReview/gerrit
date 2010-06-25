@@ -37,6 +37,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.inject.servlet.RequestScoped;
+import com.google.gerrit.server.project.PerformSetParentImpl;
 
 /** Bindings for {@link RequestScoped} entities. */
 public class GerritRequestModule extends FactoryModule {
@@ -52,6 +53,8 @@ public class GerritRequestModule extends FactoryModule {
     bind(ChangeControl.Factory.class).in(SINGLETON);
     bind(GroupControl.Factory.class).in(SINGLETON);
     bind(ProjectControl.Factory.class).in(SINGLETON);
+
+    factory(PerformSetParentImpl.Factory.class);
 
     factory(ChangeQueryBuilder.Factory.class);
     factory(ReceiveCommits.Factory.class);

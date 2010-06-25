@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n///34\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchScriptSettings.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA0X///yo\u003d",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0X///yY\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-06-21T21:34:17Z",
       "side": 1,
       "message": "Should we also embed this object into the Settings page?",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///wU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "Did you mean embedding this object into one of the Tabs under\nthe Settings page? Maybe additional tab named \"Diff Preferences\"?\n\nWhy should a user want to configure diff preferences at 2 places?",
+      "parentUuid": "AAAA0X///yY\u003d",
       "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n///wQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA0X///yg\u003d",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0X///yk\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2010-06-21T21:34:17Z",
       "side": 1,
       "message": "Can we somehow avoid this?  Say caching the last preferences of the user in Gerrit.java?  Or piggy-packing the diff preferences for the account into the RPC that is otherwise loading the page?\n\nRight now I think you might cause a double-load, once with the standard preferences, and then again when the user\u0027s preferences are loaded, applied, and differ from the standard preferences.  E.g. what if the user turns of syntax highlighting?  We have to go reload everything from the server again when fireEvent below triggers.\n\nIf you cache this in a global in the browser than you can initialize to the cached copy and ensure the first request for the page is using the cached preferences, avoiding the double load.",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///rU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA0X///yk\u003d",
       "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n///rI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "done with setEnabledCounter instance member to count calls\nwith true/false. I am not sure if I understood and implemented it properly.\nHowever, I tried to avoid adding any knowledge about any\nparticular ValueChangeEvent handler.",
+      "parentUuid": "AAAA0X///yc\u003d",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0X///yI\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2010-06-21T21:34:17Z",
       "side": 1,
       "message": "These last exceptions aren\u0027t actually throw here.  Copy and paste error?",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///30\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA0X///yI\u003d",
       "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n///3w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "I tried it and it doesn\u0027t crash when invoking myDiffPreferences directly.\n\nHowever, if we use HostPageData(Service) to preload the diff preferences then the Gerrit startup fails mysteriously. The error\nshows up only in the GWT window but the error message is\ncompletely misleading:\n\n com.google.gwt.user.client.rpc.ServiceDefTarget$NoServiceEntryPointSpecifiedException: Service implementation URL not specified\n at com.google.gwtjsonrpc.client.impl.AbstractJsonProxy.doInvoke(AbstractJsonProxy.java:75)\n at com.google.gerrit.client.HostPageDataService_JsonProxy.load(HostPageDataService_JsonProxy.java:23)\n at com.google.gerrit.client.Gerrit.onModuleLoad(Gerrit.java:243)\n\nIt boils down that returning NULL from this method call is the root\ncause but it is not obvious at all. I don\u0027t know how I would find\nthe root cause without this hint.\nIs this misleading error reporting an issue in GWT?",
+      "parentUuid": "AAAA0X///yU\u003d",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0X///yE\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2010-06-21T21:34:17Z",
       "side": 1,
       "message": "These last exceptions aren\u0027t actually throw here.  Copy and paste error?",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///3s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA0X///yE\u003d",
       "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n///3o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA0X///yQ\u003d",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0X///yM\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2010-06-21T21:34:17Z",
       "side": 1,
       "message": "Instead of setting it, what we do is validate that the incoming diffPref object\u0027s accountId matches the accountId from getAccountId().  If it doesn\u0027t we throw an exception.",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///3k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA0X///yM\u003d",
       "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n///3g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA0X///yA\u003d",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0X///0E\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountDiffPreference.java",
         "patchSetId": 1
@@ -200,6 +398,24 @@
       "writtenOn": "2010-06-21T21:34:17Z",
       "side": 1,
       "message": "Since this is the primary key and we don\u0027t support changing the primary key of an entity, we pass this into the constructor.  So really you want:\n\n  protected AccountDiffPreference() {\n  }\n\n  public AccountDiffPreference(Account.Id accountId) {\n    this.accountId \u003d accountId;\n  }\n\nThe first constructor permits the ORM to load the record; the second constructor permits application code to construct a record for a user account.  And by not having a setAccountId method, we can\u0027t change it once its been created.",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///3Y\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountDiffPreference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA0X///0E\u003d",
       "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n///wo\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountDiffPreference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA0X///0A\u003d",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0X///z8\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountDiffPreferenceAccess.java",
         "patchSetId": 1
@@ -240,6 +474,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n///wk\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountDiffPreferenceAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA0X///z8\u003d",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0X///ys\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_36.java",
         "patchSetId": 1
@@ -251,6 +503,24 @@
       "writtenOn": "2010-06-21T21:34:17Z",
       "side": 1,
       "message": "Please add an AOSP copyright header.",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///wg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_36.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T14:44:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA0X///ys\u003d",
       "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

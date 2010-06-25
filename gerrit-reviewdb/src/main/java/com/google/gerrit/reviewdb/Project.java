@@ -105,11 +105,16 @@ public final class Project {
   @Column(id = 8)
   protected boolean useContentMerge;
 
+  /** Unique identity. */
+  @Column(id = 9)
+  protected int projectId;
+
   protected Project() {
   }
 
-  public Project(final Project.NameKey newName) {
+  public Project(final Project.NameKey newName, final int newId) {
     name = newName;
+    projectId = newId;
     useContributorAgreements = true;
     setSubmitType(SubmitType.MERGE_IF_NECESSARY);
   }
@@ -177,6 +182,10 @@ public final class Project {
     useContentMerge = update.useContentMerge;
     requireChangeID = update.requireChangeID;
     submitType = update.submitType;
+  }
+
+  public int getId() {
+    return projectId;
   }
 
   public Project.NameKey getParent() {

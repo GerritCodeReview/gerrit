@@ -212,7 +212,7 @@ final class CreateProject extends BaseCommand {
     }
     db.refRights().insert(access);
 
-    final Project newProject = new Project(newProjectNameKey);
+    final Project newProject = new Project(newProjectNameKey, db.nextProjectId());
     newProject.setDescription(projectDescription);
     newProject.setSubmitType(submitType);
     newProject.setUseContributorAgreements(contributorAgreements);

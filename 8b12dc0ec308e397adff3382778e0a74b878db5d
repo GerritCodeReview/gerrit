@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAA0n///mk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T22:15:49Z",
+      "side": 1,
+      "message": "Please always use Project.NameKey (see remark below about Set\u003cProject.NameKey\u003e) to avoid this import.  We don\u0027t like to import the NameKey / Key / Id classes of database entities.  I apologize for missing this in the first round of review.",
+      "revId": "8b12dc0ec308e397adff3382778e0a74b878db5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///mw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T22:15:49Z",
+      "side": 1,
+      "message": "Please use Set\u003cProject.NameKey\u003e.",
+      "revId": "8b12dc0ec308e397adff3382778e0a74b878db5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0n///sE\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
         "patchSetId": 3
@@ -13,6 +47,24 @@
       "writtenOn": "2010-06-25T07:20:42Z",
       "side": 1,
       "message": "Exceptions only logged. No (re)throwing?\nIn case of an exception the user will see an empty list but will not\nknow why.\nOnly a gerrit admin looking at the log files can find out that there\nwas an error.",
+      "revId": "8b12dc0ec308e397adff3382778e0a74b878db5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///m8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T22:15:49Z",
+      "side": 1,
+      "message": "Yea, its not really worth catching ProvisionException here.  Just let it carry up to the caller.\n\nThing is, about the only way this can be raised here is if the database pool just took longer than 30 seconds to obtain you a database connection.  In 30 seconds, the user has gone away and is no longer waiting for this request to finish anyway.  And, if your pool is out of connections, users will start screaming at the admin, fast, because a whole lot of things are going to stop responding.  I\u0027ve seen it happen on our internal server a few times, and it doesn\u0027t take long to be told its non-responsive.  Don\u0027t even need to check the logs.  Gerrit is normally so fast that any response time over 1 or 2 seconds starts to trigger a user\u0027s \"something is wrong\" flag.",
+      "parentUuid": "AAAA0n///sE\u003d",
       "revId": "8b12dc0ec308e397adff3382778e0a74b878db5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

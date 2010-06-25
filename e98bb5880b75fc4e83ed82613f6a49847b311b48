@@ -1,0 +1,276 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0n///kw\u003d",
+        "filename": "Documentation/licenses.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "You need to add a new section with the label brics below.  Each BSD license is slightly different because of their copyright notice, etc.  So we just reproduced them all below in the document, and these names produce the hyperlink to it.  Just look at one of the other examples, like the jsr305 one on the line above.",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///kU\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "Why are we removing whitespace from the pattern here?",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///kQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "Why are we fixing // -\u003e / here?  I guess a better question is, why are we letting a user enter these bogus patterns?",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///kI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand the purpose of this block of code.  We are taking the input string and converting it into the server\u0027s default locale\u0027s character set, and then trying to convert that to US-ASCII?\n\nIf you just wanted to prove that this is a 7-bit character set, can\u0027t you do something like:\n\n  if (!is7bit(refPattern)) {\n    throw new InvalidNameException();\n  }\n\n  private boolean is7bit(String s) {\n    for (int i \u003d 0; i \u003c s.length(); i++) {\n      if (s.charAt(i) \u003e 127) {\n        return true;\n      }\n    }\n    return false;\n  }\n\nThat avoids the mess of decoding the name into an unknown character set.",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///ko\u003d",
+        "filename": "gerrit-server/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "Style-nit: Trailing space.",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///kk\u003d",
+        "filename": "gerrit-server/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "Style-nit:  We indent with spaces, not tabs.\n\nAlso, please don\u0027t set the version of a package here.  It belongs in the top level pom.",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///kg\u003d",
+        "filename": "gerrit-server/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace.",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///kY\u003d",
+        "filename": "gerrit-server/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "The version tag belongs in the top level pom, and you only need to mention the groupId and artifactId here.  The version will be inherited down from the top level pom\u0027s dependency specification.",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///jk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "Style-nit: Please don\u0027t reformat these comment blocks.",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///jo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "Style-nit: Please don\u0027t reindent this compare method.",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///kE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "Since getLevenshteinDistance cannot be negative, you can simplify this code a bit for the first level of the sort.\n\n  cmp \u003d getLevenshteinDistance(automaton1.getShortestExample(true), getRefName())\n      - getLevenshteinDistance(automaton2.getShortestExample(true), getRefName());\n  if (cmp \u003d\u003d 0) {\n    if (automaton1.isFinite() \u0026\u0026 !automaton2.isFinite()) ...",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///kA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "Like above with getLevenshteinDistance, getNumberOfTransitions cannot be negative, so here you can say:\n\n  cmp \u003d automaton1.getNumberOfTransitions() - automaton2.getNumberOfTransitions();\n  if (cmp \u003d\u003d 0) {\n    cmp \u003d refPattern1.length() - refPattern2.length();\n  }",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///js\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "Style-nit: Please don\u0027t reformat these comment blocks.",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///jE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "This all seems backwards to me.\n\nIf the very first pattern in the result from sortedRightsByPattern has containsExclusive() true, *only* that single RefRightsForPattern should be applied.  Its the most specific pattern, and all other patterns or regexps that match the name aren\u0027t relevant.",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///jg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "Java-5 style iterators are easier to use:\n\n  for (Map.Entry\u003cString, RefRightsForPattern\u003e entry : perPatternRights.entrySet())",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///ks\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T23:23:46Z",
+      "side": 1,
+      "message": "Style-nit:  Trailing space on this line.",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

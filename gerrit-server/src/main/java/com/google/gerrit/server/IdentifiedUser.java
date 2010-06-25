@@ -210,8 +210,6 @@ public class IdentifiedUser extends CurrentUser {
             .byAccount(getAccountId())) {
           h.add(sc.getChangeId());
         }
-      } catch (ProvisionException e) {
-        log.warn("Cannot query starred by user changes", e);
       } catch (OrmException e) {
         log.warn("Cannot query starred by user changes", e);
       }

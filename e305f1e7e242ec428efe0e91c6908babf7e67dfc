@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0n///oI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T19:17:16Z",
+      "side": 1,
+      "message": "We should setEnabled(false) first, run the RPC, then setEnabled(true) in the onSuccess method.  That way the Update button doesn\u0027t re-enable until we have both updated the view and saved the user\u0027s preferences.  Since these are two different RPCs we should see the run in parallel, and the save should be faster, since it has less work to do.",
+      "revId": "e305f1e7e242ec428efe0e91c6908babf7e67dfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///oM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T19:17:16Z",
+      "side": 1,
+      "message": "Style-nit: Whitespace error here, tab after space.  We only use 2 spaces for indentation.\n\nAlso, you are missing a space in the quoted string.  It will format as \"doesn\u0027t matchthe accountId\" because there isn\u0027t a space where you broke it across lines in the source.",
+      "revId": "e305f1e7e242ec428efe0e91c6908babf7e67dfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///pw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T19:17:16Z",
+      "side": 1,
+      "message": "Please don\u0027t initialize a local variable to null.  Instead leave it uninitialized so the compiler can prove we have correctly populated it before use.  Right now this is hiding a bug here where the diffPref can be null if the database threw an exception.  That would probably crash the JSON encoder in HostPageServlet.  If the database fails, we should return a default preference after logging the warning here.",
+      "revId": "e305f1e7e242ec428efe0e91c6908babf7e67dfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

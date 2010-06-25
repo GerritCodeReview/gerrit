@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0n///sE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-06-25T07:20:42Z",
+      "side": 1,
+      "message": "Exceptions only logged. No (re)throwing?\nIn case of an exception the user will see an empty list but will not\nknow why.\nOnly a gerrit admin looking at the log files can find out that there\nwas an error.",
+      "revId": "8b12dc0ec308e397adff3382778e0a74b878db5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

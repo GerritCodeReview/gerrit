@@ -247,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n///qE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-25T16:39:45Z",
+      "side": 1,
+      "message": "The HostPageDataService isn\u0027t wired up to the server.  It exists only to provide a JSON decoder for the JSON object that is embedded into the host page by the server.  So its normal for GWT to crash out here, we didn\u0027t configure the client side stub to communicate with the server, and its trying to tell us that.\n\nTo put the diff preferences into the host page data, you have to put it into the actual HostPageData object that is being transferred over in the HTML content.  It can\u0027t be a new RPC method.",
+      "parentUuid": "AAAA0n///3w\u003d",
+      "revId": "52cd1dcf702ed04046b236228f994fb9042243d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0X///yE\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
         "patchSetId": 1

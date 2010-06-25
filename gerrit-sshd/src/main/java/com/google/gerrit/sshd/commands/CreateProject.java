@@ -55,7 +55,8 @@ import java.util.Set;
 
 /** Create a new project. **/
 final class CreateProject extends BaseCommand {
-  private static final Logger log = LoggerFactory.getLogger(CreateProject.class);
+  private static final Logger log =
+      LoggerFactory.getLogger(CreateProject.class);
 
   @Option(name = "--name", required = true, aliases = {"-n"}, metaVar = "NAME", usage = "name of project to be created")
   private String projectName;
@@ -212,7 +213,8 @@ final class CreateProject extends BaseCommand {
     }
     db.refRights().insert(access);
 
-    final Project newProject = new Project(newProjectNameKey);
+    final Project newProject =
+        new Project(newProjectNameKey, db.nextProjectId());
     newProject.setDescription(projectDescription);
     newProject.setSubmitType(submitType);
     newProject.setUseContributorAgreements(contributorAgreements);
@@ -232,7 +234,8 @@ final class CreateProject extends BaseCommand {
           projectName.substring(0, projectName.length() - ".git".length());
     }
 
-    if (!CollectionsUtil.isAnyIncludedIn(currentUser.getEffectiveGroups(), projectCreatorGroups)) {
+    if (!CollectionsUtil.isAnyIncludedIn(currentUser.getEffectiveGroups(),
+        projectCreatorGroups)) {
       throw new Failure(1, "fatal: Not permitted to create " + projectName);
     }
 

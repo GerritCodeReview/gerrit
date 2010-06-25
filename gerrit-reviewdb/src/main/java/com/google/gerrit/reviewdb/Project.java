@@ -99,11 +99,16 @@ public final class Project {
   @Column(id = 6, notNull = false, name = "parent_name")
   protected NameKey parent;
 
+  /** Unique identity. */
+  @Column(id = 7)
+  protected int projectId;
+
   protected Project() {
   }
 
-  public Project(final Project.NameKey newName) {
+  public Project(final Project.NameKey newName, final int newId) {
     name = newName;
+    projectId = newId;
     useContributorAgreements = true;
     setSubmitType(SubmitType.MERGE_IF_NECESSARY);
   }
@@ -153,6 +158,10 @@ public final class Project {
     useContributorAgreements = update.useContributorAgreements;
     useSignedOffBy = update.useSignedOffBy;
     submitType = update.submitType;
+  }
+
+  public int getId() {
+    return projectId;
   }
 
   public Project.NameKey getParent() {

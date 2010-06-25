@@ -169,7 +169,7 @@ public class SchemaCreator {
   private void initWildCardProject(final ReviewDb c) throws OrmException {
     final Project p;
 
-    p = new Project(DEFAULT_WILD_NAME);
+    p = new Project(DEFAULT_WILD_NAME, c.nextProjectId());
     p.setDescription("Rights inherited by all other projects");
     p.setUseContributorAgreements(false);
     c.projects().insert(Collections.singleton(p));

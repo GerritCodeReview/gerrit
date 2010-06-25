@@ -219,21 +219,29 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
 
   public void setRegisterKeys(final boolean on) {
     if (on && isAttached()) {
-      if (regNavigation == null) {
-        regNavigation = GlobalKey.add(this, keysNavigation);
-      }
-      if (regAction == null) {
-        regAction = GlobalKey.add(this, keysAction);
-      }
+      enableNavigationKeys();
     } else {
-      if (regNavigation != null) {
-        regNavigation.removeHandler();
-        regNavigation = null;
-      }
-      if (regAction != null) {
-        regAction.removeHandler();
-        regAction = null;
-      }
+      disableNavigationKeys();
+    }
+  }
+
+  protected void enableNavigationKeys() {
+    if (regNavigation == null) {
+      regNavigation = GlobalKey.add(this, keysNavigation);
+    }
+    if (regAction == null) {
+      regAction = GlobalKey.add(this, keysAction);
+    }
+  }
+
+  protected void disableNavigationKeys() {
+    if (regNavigation != null) {
+      regNavigation.removeHandler();
+      regNavigation = null;
+    }
+    if (regAction != null) {
+      regAction.removeHandler();
+      regAction = null;
     }
   }
 

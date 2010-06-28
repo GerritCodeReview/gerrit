@@ -86,20 +86,9 @@ ON account_group_members (group_id);
 -- *********************************************************************
 -- AccountProjectWatchAccess
 --    @PrimaryKey covers: byAccount
---    covers:             notifyNewChanges
-CREATE INDEX account_project_watches_ntNew
+--    covers:             byProject
+CREATE INDEX account_project_watches_byProject
 ON account_project_watches (project_name)
-WHERE notify_new_changes = 'Y';
-
---    covers:             notifyAllComments
-CREATE INDEX account_project_watches_ntCmt
-ON account_project_watches (project_name)
-WHERE notify_all_comments = 'Y';
-
---    covers:             notifySubmittedChanges
-CREATE INDEX account_project_watches_ntSub
-ON account_project_watches (project_name)
-WHERE notify_submitted_changes = 'Y';
 
 
 -- *********************************************************************

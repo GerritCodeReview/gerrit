@@ -22,12 +22,14 @@ import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -107,6 +109,10 @@ public abstract class OutgoingEmail {
   @CanonicalWebUrl
   @Nullable
   private Provider<String> urlProvider;
+
+  @Inject
+  @WildProjectName
+  private Project.NameKey wildProject;
 
   private ProjectState projectState;
 
@@ -570,9 +576,10 @@ public abstract class OutgoingEmail {
         //
         final ProjectState ps = getProjectState();
         if (ps != null) {
-          for (final AccountProjectWatch w : db.accountProjectWatches()
-              .notifyAllComments(ps.getProject().getNameKey())) {
-            add(RecipientType.BCC, w.getAccountId());
+          for (final AccountProjectWatch w : getProjectWatches()) {
+            if (w.isNotifyAllComments()) {
+              add(RecipientType.BCC, w.getAccountId());
+            }
           }
         }
       } catch (OrmException err) {
@@ -581,6 +588,27 @@ public abstract class OutgoingEmail {
         // who have a lower interest in the change.
       }
     }
+  }
+
+  /** Returns all watches that are relevant for this project */
+  final protected Set<AccountProjectWatch> getProjectWatches() throws OrmException {
+    final Set<AccountProjectWatch> projectWatches = new HashSet<AccountProjectWatch>();
+    final Set<Account.Id> projectWatchers = new HashSet<Account.Id>();
+    final ProjectState ps = getProjectState();
+    if (ps != null) {
+      for (final AccountProjectWatch w : db.accountProjectWatches().byProject(ps.getProject().getNameKey())) {
+        projectWatches.add(w);
+        projectWatchers.add(w.getAccountId());
+      }
+    }
+    for (final AccountProjectWatch w : db.accountProjectWatches().byProject(wildProject)) {
+      if (!projectWatchers.contains(w.getAccountId())) {
+        // the all projects watch settings are only relevant if the user did not configure
+        // any specific rules for the concrete project
+        projectWatches.add(w);
+      }
+    }
+    return Collections.unmodifiableSet(projectWatches);
   }
 
   /** Any user who has published comments on this change. */

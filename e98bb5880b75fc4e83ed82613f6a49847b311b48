@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n///eM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-06-28T14:39:02Z",
+      "side": 1,
+      "message": "I did it trying to satisfy your comment in first patch set in this same file.",
+      "parentUuid": "AAAA0n///kU\u003d",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0n///kQ\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n///eI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-06-28T14:39:02Z",
+      "side": 1,
+      "message": "The same here, trying to satisfy your comment in first patch set.\nDid I understand wrong?",
+      "parentUuid": "AAAA0n///kQ\u003d",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0n///kI\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2010-06-25T23:23:46Z",
       "side": 1,
       "message": "I\u0027m not sure I understand the purpose of this block of code.  We are taking the input string and converting it into the server\u0027s default locale\u0027s character set, and then trying to convert that to US-ASCII?\n\nIf you just wanted to prove that this is a 7-bit character set, can\u0027t you do something like:\n\n  if (!is7bit(refPattern)) {\n    throw new InvalidNameException();\n  }\n\n  private boolean is7bit(String s) {\n    for (int i \u003d 0; i \u003c s.length(); i++) {\n      if (s.charAt(i) \u003e 127) {\n        return true;\n      }\n    }\n    return false;\n  }\n\nThat avoids the mess of decoding the name into an unknown character set.",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///eE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-06-28T14:39:02Z",
+      "side": 1,
+      "message": "This code is for rejecting non-printables in the US-ASCII as you have suggested at the first patch set comment!\nIs is7bit method enough for that purpose? \nsorry, I\u0027m not such low level specialist :-)",
+      "parentUuid": "AAAA0n///kI\u003d",
       "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -240,6 +294,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n///d4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-06-28T14:39:02Z",
+      "side": 1,
+      "message": "What about having two different patterns with containsExclusive() true?\nShould I still consider the very first or both ?",
+      "parentUuid": "AAAA0n///jE\u003d",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0n///jg\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 2
@@ -251,6 +323,24 @@
       "writtenOn": "2010-06-25T23:23:46Z",
       "side": 1,
       "message": "Java-5 style iterators are easier to use:\n\n  for (Map.Entry\u003cString, RefRightsForPattern\u003e entry : perPatternRights.entrySet())",
+      "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///d0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-06-28T14:39:02Z",
+      "side": 1,
+      "message": "Perfect! Shame on me :-P !",
+      "parentUuid": "AAAA0n///jg\u003d",
       "revId": "e98bb5880b75fc4e83ed82613f6a49847b311b48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

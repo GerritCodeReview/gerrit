@@ -36,7 +36,10 @@ public final class AccountGeneralPreferences {
 
   /** Preferred URL type to download a change. */
   public static enum DownloadUrl {
-    ANON_GIT, ANON_HTTP, ANON_SSH, HTTP, SSH;
+    ANON_GIT, ANON_HTTP, ANON_SSH, HTTP, SSH,
+    SSH_HTTP, SSH_ANON_HTTP, SSH_HTTP_ANON_HTTP, SSH_ANON_HTTP_HTTP,
+    HTTP_SSH, HTTP_ANON_HTTP, HTTP_SSH_ANON_HTTP, HTTP_ANON_HTTP_SSH,
+    ANON_HTTP_SSH, ANON_HTTP_HTTP, ANON_HTTP_SSH_HTTP, ANON_HTTP_HTTP_SSH;
   }
 
   /** Preferred method to download a change. */

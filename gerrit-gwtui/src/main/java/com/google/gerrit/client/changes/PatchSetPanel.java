@@ -129,6 +129,7 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
     final CopyableLabel copyLabel = new CopyableLabel("");
     final DownloadCommandPanel commands = new DownloadCommandPanel();
     final DownloadUrlPanel urls = new DownloadUrlPanel(commands);
+    final DownloadUrl downloadUrl = Gerrit.getConfig().getDownloadUrl();
 
     copyLabel.setStyleName(Gerrit.RESOURCES.css().downloadLinkCopyLabel());
 
@@ -143,7 +144,43 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
           .anonymousDownload("Git"), r.toString()));
     }
 
-    if (changeDetail.isAllowsAnonymous()) {
+    boolean isAnonHttpVisible = false;
+    boolean isHttpVisible = false;
+    boolean isSshVisible = false;
+
+    switch (downloadUrl) {
+      case ANON_HTTP:
+        isAnonHttpVisible = true;
+        break;
+      case ANON_HTTP_SSH:
+      case SSH_ANON_HTTP:
+        isAnonHttpVisible = true;
+        isSshVisible = true;
+        break;
+      case ANON_HTTP_HTTP:
+      case HTTP_ANON_HTTP:
+        isAnonHttpVisible = true;
+        isHttpVisible = true;
+        break;
+      case SSH:
+        isSshVisible = true;
+        break;
+      case SSH_HTTP:
+      case HTTP_SSH:
+        isSshVisible = true;
+        isHttpVisible = true;
+        break;
+      case HTTP:
+        isHttpVisible = true;
+        break;
+      default:
+        isAnonHttpVisible = true;
+        isHttpVisible = true;
+        isSshVisible = true;
+        break;
+    }
+
+    if (changeDetail.isAllowsAnonymous() && isAnonHttpVisible) {
       StringBuilder r = new StringBuilder();
       r.append(GWT.getHostPageBaseURL());
       r.append("p/");
@@ -156,7 +193,8 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
 
     if (Gerrit.getConfig().getSshdAddress() != null && Gerrit.isSignedIn()
         && Gerrit.getUserAccount().getUserName() != null
-        && Gerrit.getUserAccount().getUserName().length() > 0) {
+        && Gerrit.getUserAccount().getUserName().length() > 0
+        && isSshVisible) {
       String sshAddr = Gerrit.getConfig().getSshdAddress();
       final StringBuilder r = new StringBuilder();
       r.append("ssh://");
@@ -177,7 +215,8 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
     }
 
     if (Gerrit.isSignedIn() && Gerrit.getUserAccount().getUserName() != null
-        && Gerrit.getUserAccount().getUserName().length() > 0) {
+        && Gerrit.getUserAccount().getUserName().length() > 0
+        && isHttpVisible) {
       String base = GWT.getHostPageBaseURL();
       int p = base.indexOf("://");
       int s = base.indexOf('/', p + 3);

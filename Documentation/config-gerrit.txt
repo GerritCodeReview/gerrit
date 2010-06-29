@@ -722,6 +722,36 @@ If a unit suffix is not specified, `milliseconds` is assumed.
 +
 Default is `30 seconds`.
 
+[[download]]Section download
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+----
+[download]
+  url = ssh http anon_http
+----
+
+The download section configures the allowed download methods.
+
+[[download.url]]download.url::
++
+URLs that should be used to download changes.
++
+Multiple URLs are supported and must be specified separate by blank:
++
+* `http`
++
+HTTP download is allowed.
++
+* `ssh`
++
+SSH download is allowed.
++
+* `anon_http`
++
+Anonymous HTTP download is allowed.
+
++
+If download.url is not specified, SSH, HTTP and Anonymous HTTP downloads are allowed.
 
 [[gerrit]]Section gerrit
 ~~~~~~~~~~~~~~~~~~~~~~~~

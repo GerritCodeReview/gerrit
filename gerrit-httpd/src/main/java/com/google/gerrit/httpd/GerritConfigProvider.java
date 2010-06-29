@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.DownloadSchemeConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.contact.ContactStore;
@@ -47,6 +48,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final Realm realm;
   private final Config cfg;
   private final AuthConfig authConfig;
+  private final DownloadSchemeConfig schemeConfig;
   private final GitWebConfig gitWebConfig;
   private final Project.NameKey wildProject;
   private final SshInfo sshInfo;
@@ -60,10 +62,12 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   GerritConfigProvider(final Realm r, @GerritServerConfig final Config gsc,
       final AuthConfig ac, final GitWebConfig gwc,
       @WildProjectName final Project.NameKey wp, final SshInfo si,
-      final ApprovalTypes at, final ContactStore cs, final ServletContext sc) {
+      final ApprovalTypes at, final ContactStore cs, final ServletContext sc,
+      final DownloadSchemeConfig dc) {
     realm = r;
     cfg = gsc;
     authConfig = ac;
+    schemeConfig = dc;
     gitWebConfig = gwc;
     sshInfo = si;
     wildProject = wp;
@@ -92,9 +96,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setUseContributorAgreements(cfg.getBoolean("auth",
         "contributoragreements", false));
     config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));
-    config.setUseRepoDownload(cfg.getBoolean("repo", null,
-        "showdownloadcommand", false));
     config.setUseContactInfo(contactStore != null && contactStore.isEnabled());
+    config.setDownloadSchemes(schemeConfig.getDownloadScheme());
     config.setAuthType(authConfig.getAuthType());
     config.setWildProject(wildProject);
     config.setApprovalTypes(approvalTypes);

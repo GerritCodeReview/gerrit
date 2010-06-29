@@ -26,7 +26,9 @@ import org.slf4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -86,6 +88,27 @@ public class ConfigUtil {
       return defaultValue;
     }
 
+    return getEnum(section, subsection, setting, valueString, all);
+  }
+
+  /**
+   * Parse a Java enumeration from the configuration.
+   *
+   * @param <T> type of the enumeration object.
+   * @param section section the key is in.
+   * @param subsection subsection the key is in, or null if not in a subsection.
+   * @param setting name of the setting to read.
+   * @param all all possible values in the enumeration which should be
+   *        recognized. This should be {@code EnumType.values()}.
+   * @param valueString string value from git Config
+   * @param all all possible values in the enumeration which should be
+   *        recognized. This should be {@code EnumType.values()}.
+   * @return the selected enumeration value, or {@code defaultValue}.
+   */
+  private static <T extends Enum<?>> T getEnum(final String section,
+      final String subsection, final String setting, String valueString,
+      final T[] all) {
+
     String n = valueString.replace(' ', '_');
     for (final T e : all) {
       if (equalsIgnoreCase(e.name(), n)) {
@@ -109,7 +132,78 @@ public class ConfigUtil {
       r.append(e.name());
       r.append(" ");
     }
+
     throw new IllegalArgumentException(r.toString().trim());
+  }
+
+  /**
+   * Parse a Java enumeration list from the configuration.
+   *
+   * @param <T> type of the enumeration object.
+   * @param config the configuration file to read.
+   * @param section section the key is in.
+   * @param subsection subsection the key is in, or null if not in a subsection.
+   * @param setting name of the setting to read.
+   * @param defaultValue default value to return if the setting was not set.
+   *        Must not be null as the enumeration values are derived from this.
+   * @return the selected enumeration values list, or {@code defaultValue}.
+   */
+  @SuppressWarnings("unchecked")
+  public static <T extends Enum<?>> List<T> getEnumList(final Config config,
+      final String section, final String subsection, final String setting,
+      final T defaultValue) {
+    final T[] all;
+    try {
+      all = (T[]) defaultValue.getClass().getMethod("values").invoke(null);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
+    } catch (SecurityException e) {
+      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
+    } catch (IllegalAccessException e) {
+      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
+    } catch (InvocationTargetException e) {
+      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
+    } catch (NoSuchMethodException e) {
+      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
+    }
+
+    return getEnumList(config, section, subsection, setting, all, defaultValue);
+  }
+
+  /**
+   * Parse a Java enumeration list from the configuration.
+   *
+   * @param <T> type of the enumeration object.
+   * @param config the configuration file to read.
+   * @param section section the key is in.
+   * @param subsection subsection the key is in, or null if not in a subsection.
+   * @param setting name of the setting to read.
+   * @param all all possible values in the enumeration which should be
+   *        recognized. This should be {@code EnumType.values()}.
+   * @param defaultValue default value to return if the setting was not set.
+   *        This value may be null.
+   * @return the selected enumeration values list, or {@code defaultValue}.
+   */
+  public static <T extends Enum<?>> List<T> getEnumList(final Config config,
+      final String section, final String subsection, final String setting,
+      final T[] all, final T defaultValue) {
+
+    final List<T> list = new ArrayList<T>();
+
+    final String[] strings = config.getStringList(section, subsection, setting);
+    for (final String string : strings) {
+      if (string != null) {
+        try {
+          list.add(getEnum(section, subsection, setting, string, all));
+        } catch (IllegalArgumentException e) {
+        }
+      }
+    }
+
+    if (list.size() == 0) {
+      list.add(defaultValue);
+    }
+    return list;
   }
 
   /**

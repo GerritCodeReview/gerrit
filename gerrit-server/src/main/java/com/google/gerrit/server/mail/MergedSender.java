@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.client.OrmException;
@@ -29,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /** Send notice about a change successfully merged. */
@@ -58,7 +60,7 @@ public class MergedSender extends ReplyToChangeSender {
 
     ccAllApprovals();
     bccStarredBy();
-    bccWatchesNotifyAllComments();
+    bccWatchesNotifyAllComments(null);
     bccWatchesNotifySubmittedChanges();
   }
 
@@ -81,10 +83,10 @@ public class MergedSender extends ReplyToChangeSender {
     if (db != null && patchSet != null) {
       try {
         final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> pos =
-            new HashMap<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>>();
+          new HashMap<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>>();
 
         final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> neg =
-            new HashMap<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>>();
+          new HashMap<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>>();
 
         for (PatchSetApproval ca : db.patchSetApprovals().byPatchSet(
             patchSet.getId())) {
@@ -165,7 +167,12 @@ public class MergedSender extends ReplyToChangeSender {
         if (ps != null) {
           for (AccountProjectWatch w : db.accountProjectWatches()
               .notifySubmittedChanges(ps.getProject().getNameKey())) {
-            add(RecipientType.BCC, w.getAccountId());
+            final List<Patch> patches = getPatches(patchSet.getId());
+            final List<String> patchFileNames = getPatchesFileNames(patches);
+
+            if (canAddRecipient(w, patchFileNames)) {
+              add(RecipientType.BCC, w.getAccountId());
+            }
           }
         }
       } catch (OrmException err) {

@@ -19,12 +19,14 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /** Notify interested parties of a brand new change. */
@@ -61,14 +63,19 @@ public class CreateChangeSender extends NewChangeSender {
             }
           }
 
+          final List<Patch> patches = getPatches(patchSet.getId());
+          final List<String> patchFileNames = getPatchesFileNames(patches);
+
           // BCC anyone who has interest in this project's changes
           //
           for (AccountProjectWatch w : db.accountProjectWatches()
               .notifyNewChanges(ps.getProject().getNameKey())) {
-            if (owners.contains(w.getAccountId())) {
-              add(RecipientType.TO, w.getAccountId());
-            } else {
-              add(RecipientType.BCC, w.getAccountId());
+            if (canAddRecipient(w, patchFileNames)) {
+              if (owners.contains(w.getAccountId())) {
+                add(RecipientType.TO, w.getAccountId());
+              } else {
+                add(RecipientType.BCC, w.getAccountId());
+              }
             }
           }
         }

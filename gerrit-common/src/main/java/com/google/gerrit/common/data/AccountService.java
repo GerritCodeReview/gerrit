@@ -40,7 +40,7 @@ public interface AccountService extends RemoteJsonService {
   void myProjectWatch(AsyncCallback<List<AccountProjectWatchInfo>> callback);
 
   @SignInRequired
-  void addProjectWatch(String projectName,
+  void addProjectWatch(String projectName, String fileMatch,
       AsyncCallback<AccountProjectWatchInfo> callback);
 
   @SignInRequired

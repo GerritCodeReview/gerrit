@@ -109,7 +109,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void addProjectWatch(final String projectName,
+  public void addProjectWatch(final String projectName, final String fileMatch,
       final AsyncCallback<AccountProjectWatchInfo> callback) {
     run(callback, new Action<AccountProjectWatchInfo>() {
       public AccountProjectWatchInfo run(ReviewDb db) throws OrmException,
@@ -120,7 +120,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
         final AccountProjectWatch watch =
             new AccountProjectWatch(
                 new AccountProjectWatch.Key(((IdentifiedUser) ctl
-                    .getCurrentUser()).getAccountId(), nameKey));
+                    .getCurrentUser()).getAccountId(), nameKey, fileMatch));
         db.accountProjectWatches().insert(Collections.singleton(watch));
         return new AccountProjectWatchInfo(watch, ctl.getProject());
       }

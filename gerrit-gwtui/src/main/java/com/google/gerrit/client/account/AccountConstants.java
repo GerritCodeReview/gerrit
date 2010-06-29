@@ -76,6 +76,7 @@ public interface AccountConstants extends Constants {
   String watchedProjects();
   String buttonWatchProject();
   String defaultProjectName();
+  String defaultFileMatch();
   String watchedProjectColumnEmailNotifications();
   String watchedProjectColumnNewChanges();
   String watchedProjectColumnAllComments();

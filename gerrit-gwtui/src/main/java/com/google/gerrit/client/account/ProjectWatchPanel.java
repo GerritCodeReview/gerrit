@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
@@ -52,14 +53,18 @@ class ProjectWatchPanel extends Composite {
 
   private Button addNew;
   private SuggestBox nameTxt;
+  private NpTextBox fileMatchTxt;
   private Button delSel;
   private boolean submitOnSelection;
+  private String fileMatchSuggestionText;
 
   ProjectWatchPanel() {
     final FlowPanel body = new FlowPanel();
+    final Grid addGrid = new Grid(2, 2);
 
     {
       final FlowPanel fp = new FlowPanel();
+      fp.setStyleName(Gerrit.RESOURCES.css().addWatchPanel());
 
       final NpTextBox box = new NpTextBox();
       nameTxt = new SuggestBox(new ProjectNameSuggestOracle(), box);
@@ -107,7 +112,38 @@ class ProjectWatchPanel extends Composite {
           }
         }
       });
-      fp.add(nameTxt);
+
+      addGrid.setText(0, 0, Util.C.defaultProjectName() + ":");
+      addGrid.setWidget(0, 1, nameTxt);
+
+      fileMatchSuggestionText = Util.C.defaultFileMatch() + " (Ex.: com/test/File*.java)";
+
+      fileMatchTxt = new NpTextBox();
+      fileMatchTxt.setVisibleLength(50);
+      fileMatchTxt.setText(fileMatchSuggestionText);
+      fileMatchTxt.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
+      fileMatchTxt.addFocusHandler(new FocusHandler() {
+        @Override
+        public void onFocus(FocusEvent event) {
+          if (fileMatchSuggestionText.equals(fileMatchTxt.getText())) {
+            fileMatchTxt.setText("");
+            fileMatchTxt.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
+          }
+        }
+      });
+
+      fileMatchTxt.addBlurHandler(new BlurHandler() {
+        @Override
+        public void onBlur(BlurEvent event) {
+          if ("".equals(fileMatchTxt.getText())) {
+            fileMatchTxt.setText(fileMatchSuggestionText);
+            fileMatchTxt.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
+          }
+        }
+      });
+
+      addGrid.setText(1, 0, Util.C.defaultFileMatch() + ":");
+      addGrid.setWidget(1, 1, fileMatchTxt);
 
       addNew = new Button(Util.C.buttonWatchProject());
       addNew.addClickHandler(new ClickHandler() {
@@ -116,6 +152,8 @@ class ProjectWatchPanel extends Composite {
           doAddNew();
         }
       });
+
+      fp.add(addGrid);
       fp.add(addNew);
       body.add(fp);
     }
@@ -145,12 +183,18 @@ class ProjectWatchPanel extends Composite {
       return;
     }
 
+    String fileMatch = fileMatchTxt.getText();
+    if (fileMatch.equals(fileMatchSuggestionText)) {
+      fileMatch = "";
+    }
+
     addNew.setEnabled(false);
-    Util.ACCOUNT_SVC.addProjectWatch(projectName,
+    Util.ACCOUNT_SVC.addProjectWatch(projectName, fileMatch,
         new GerritCallback<AccountProjectWatchInfo>() {
           public void onSuccess(final AccountProjectWatchInfo result) {
             addNew.setEnabled(true);
             nameTxt.setText("");
+            fileMatchTxt.setText("");
             watches.insertWatch(result);
           }
 
@@ -179,18 +223,22 @@ class ProjectWatchPanel extends Composite {
       table.insertRow(1);
       table.setText(0, 2, com.google.gerrit.client.changes.Util.C
           .changeTableColumnProject());
-      table.setText(0, 3, Util.C.watchedProjectColumnEmailNotifications());
+      table.setText(0, 3, Util.C.defaultFileMatch());
+      table.setText(0, 4, Util.C.watchedProjectColumnEmailNotifications());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
       fmt.setRowSpan(0, 0, 2);
       fmt.setRowSpan(0, 1, 2);
       fmt.setRowSpan(0, 2, 2);
-      DOM.setElementProperty(fmt.getElement(0, 3), "align", "center");
+      fmt.setRowSpan(0, 3, 2);
 
-      fmt.setColSpan(0, 3, 3);
+      DOM.setElementProperty(fmt.getElement(0, 4), "align", "center");
+
+      fmt.setColSpan(0, 4, 3);
       table.setText(1, 0, Util.C.watchedProjectColumnNewChanges());
       table.setText(1, 1, Util.C.watchedProjectColumnAllComments());
       table.setText(1, 2, Util.C.watchedProjectColumnSubmittedChanges());
@@ -255,6 +303,7 @@ class ProjectWatchPanel extends Composite {
     void populate(final int row, final AccountProjectWatchInfo k) {
       table.setWidget(row, 1, new CheckBox());
       table.setWidget(row, 2, new ProjectLink(k.getProject().getNameKey(), Status.NEW));
+      table.setText(row, 3, k.getWatch().getKey().getFileMatchRegex().get());
       {
         final CheckBox notifyNewChanges = new CheckBox();
         notifyNewChanges.addClickHandler(new ClickHandler() {
@@ -277,7 +326,7 @@ class ProjectWatchPanel extends Composite {
           }
         });
         notifyNewChanges.setValue(k.getWatch().isNotifyNewChanges());
-        table.setWidget(row, 3, notifyNewChanges);
+        table.setWidget(row, 4, notifyNewChanges);
       }
       {
         final CheckBox notifyAllComments = new CheckBox();
@@ -301,7 +350,7 @@ class ProjectWatchPanel extends Composite {
           }
         });
         notifyAllComments.setValue(k.getWatch().isNotifyAllComments());
-        table.setWidget(row, 4, notifyAllComments);
+        table.setWidget(row, 5, notifyAllComments);
       }
       {
         final CheckBox notifySubmittedChanges = new CheckBox();
@@ -327,7 +376,7 @@ class ProjectWatchPanel extends Composite {
         });
         notifySubmittedChanges
             .setValue(k.getWatch().isNotifySubmittedChanges());
-        table.setWidget(row, 5, notifySubmittedChanges);
+        table.setWidget(row, 6, notifySubmittedChanges);
       }
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
@@ -336,6 +385,7 @@ class ProjectWatchPanel extends Composite {
       fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 5, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 6, Gerrit.RESOURCES.css().dataCell());
 
       setRowItem(row, k);
     }

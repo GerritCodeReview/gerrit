@@ -16,26 +16,70 @@ package com.google.gerrit.reviewdb;
 
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
+import com.google.gwtorm.client.StringKey;
 
 /** An {@link Account} interested in a {@link Project}. */
 public final class AccountProjectWatch {
-  public static class Key extends CompoundKey<Account.Id> {
+
+  public static final String DEFAULT_REGEX = "*";
+
+  /** Project Watch name key */
+  public static class RegexKey extends
+      StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
     @Column(id = 1)
+    protected String regex;
+
+    protected RegexKey() {
+    }
+
+    public RegexKey(final String r) {
+      regex = r;
+    }
+
+    @Override
+    public String get() {
+      return regex;
+    }
+
+    @Override
+    protected void set(String newValue) {
+      regex = newValue;
+    }
+  }
+
+  public static class Key extends CompoundKey<Account.Id> {
+    private static final long serialVersionUID = 1L;
+
+    @Column(id = 1, name = "account_id")
     protected Account.Id accountId;
 
-    @Column(id = 2)
+    @Column(id = 2, name = "project_name")
     protected Project.NameKey projectName;
+
+    @Column(id = 3, name = "file_match_regex")
+    protected RegexKey fileMatchRegex;
 
     protected Key() {
       accountId = new Account.Id();
       projectName = new Project.NameKey();
+      fileMatchRegex = new RegexKey(DEFAULT_REGEX);
     }
 
-    public Key(final Account.Id a, final Project.NameKey g) {
+    public Key(final Account.Id a, final Project.NameKey g, String cR) {
       accountId = a;
       projectName = g;
+
+      if (cR == null || cR.isEmpty()) {
+        cR = DEFAULT_REGEX;
+      }
+
+      fileMatchRegex = new RegexKey(cR);
+    }
+
+    public RegexKey getFileMatchRegex() {
+      return fileMatchRegex;
     }
 
     @Override
@@ -45,7 +89,7 @@ public final class AccountProjectWatch {
 
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
-      return new com.google.gwtorm.client.Key<?>[] {projectName};
+      return new com.google.gwtorm.client.Key<?>[] {projectName, fileMatchRegex};
     }
   }
 

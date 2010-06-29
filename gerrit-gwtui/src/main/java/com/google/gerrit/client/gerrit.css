@@ -1009,6 +1009,11 @@ a:hover.downloadLink {
   padding: 5px 5px 5px 5px;
 }
 
+.addWatchPanel {
+  margin-top: 10px;
+  padding: 5px 5px 5px 5px;
+}
+
 .sshHostKeyPanel {
   margin-top: 10px;
   border: 1px solid trimColor;

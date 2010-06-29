@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
+import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
@@ -54,6 +55,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
@@ -211,7 +213,7 @@ public abstract class OutgoingEmail {
     if (change != null && projectCache != null) {
       projectState = projectCache.get(change.getProject());
       projectName =
-          projectState != null ? projectState.getProject().getName() : null;
+        projectState != null ? projectState.getProject().getName() : null;
     } else {
       projectState = null;
       projectName = null;
@@ -563,8 +565,13 @@ public abstract class OutgoingEmail {
   }
 
   /** BCC any user who has set "notify all comments" on this project. */
-  protected void bccWatchesNotifyAllComments() {
+  protected void bccWatchesNotifyAllComments(List<String> specificFileName) {
     if (db != null) {
+      if (specificFileName == null) {
+        final List<Patch> patches = getPatches(patchSet.getId());
+        specificFileName = getPatchesFileNames(patches);
+      }
+
       try {
         // BCC anyone else who has interest in this project's changes
         //
@@ -572,7 +579,10 @@ public abstract class OutgoingEmail {
         if (ps != null) {
           for (final AccountProjectWatch w : db.accountProjectWatches()
               .notifyAllComments(ps.getProject().getNameKey())) {
-            add(RecipientType.BCC, w.getAccountId());
+
+            if (canAddRecipient(w, specificFileName)) {
+              add(RecipientType.BCC, w.getAccountId());
+            }
           }
         }
       } catch (OrmException err) {
@@ -581,6 +591,29 @@ public abstract class OutgoingEmail {
         // who have a lower interest in the change.
       }
     }
+  }
+
+  protected List<String> getPatchesFileNames(List<Patch> patches) {
+    final List<String> fileNames = new ArrayList<String>();
+
+    for(Patch patch: patches) {
+      fileNames.add(patch.getFileName());
+    }
+
+    return fileNames;
+  }
+
+  protected boolean canAddRecipient(AccountProjectWatch w,  List<String> patchFileNames) {
+    final String regex = w.getKey().getFileMatchRegex().get();
+
+    boolean canAddRecipient = true;
+
+    // "*" is the default value, and it matches with all files
+    if (regex != null && !regex.isEmpty() || !regex.equals("*")) {
+      canAddRecipient = patchMatchFileName(regex, patchFileNames);
+    }
+
+    return canAddRecipient;
   }
 
   /** Any user who has published comments on this change. */
@@ -638,6 +671,29 @@ public abstract class OutgoingEmail {
           break;
       }
     }
+  }
+
+  protected List<Patch> getPatches(PatchSet.Id patchSetId) {
+    final PatchList list = patchListCache.get(change, patchSet);
+    return list.toPatchList(patchSet.getId());
+  }
+
+  protected boolean patchMatchFileName(String regex, List<String> patchFileNames) {
+    boolean match = false;
+
+    // "." as: literal char, "*" as: one or more characters ".*"
+    final String modifiedRegex = regex.replace(".", "\\.").replace("*", ".*");
+
+    for(String patchFileName: patchFileNames) {
+      if (patchFileName != null) {
+        if(Pattern.matches(modifiedRegex, patchFileName)) {
+          match = true;
+          break;
+        }
+      }
+    }
+
+    return match;
   }
 
   private Address toAddress(final Account.Id id) {

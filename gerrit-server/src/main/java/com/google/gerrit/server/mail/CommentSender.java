@@ -26,6 +26,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -52,7 +53,14 @@ public class CommentSender extends ReplyToChangeSender {
 
     ccAllApprovals();
     bccStarredBy();
-    bccWatchesNotifyAllComments();
+
+    final List<String> inlineCommentsFiles = new ArrayList<String>();
+    for (final PatchLineComment c : inlineComments) {
+      final String fileName = c.getKey().getParentKey().getFileName();
+      inlineCommentsFiles.add(fileName);
+    }
+
+    bccWatchesNotifyAllComments(inlineCommentsFiles);
   }
 
   @Override

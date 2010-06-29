@@ -44,6 +44,7 @@ import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.SshConfigSessionFactory;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.QuotedString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -231,7 +232,7 @@ public class PushReplication implements ReplicationQueue {
     try {
       sshSession =
           sshFactory.getSession(replicateURI.getUser(), replicateURI.getPass(),
-              replicateURI.getHost(), replicateURI.getPort());
+              replicateURI.getHost(), replicateURI.getPort(), FS.DETECTED);
       sshSession.connect();
 
       Channel channel = sshSession.openChannel("exec");

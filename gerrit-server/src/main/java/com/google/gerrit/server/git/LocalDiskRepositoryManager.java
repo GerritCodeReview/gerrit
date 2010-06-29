@@ -29,6 +29,7 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.WindowCache;
 import org.eclipse.jgit.lib.WindowCacheConfig;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
@@ -90,7 +91,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
 
     try {
-      final FileKey loc = FileKey.lenient(new File(basePath, name));
+      final FileKey loc = FileKey.lenient(new File(basePath, name), FS.DETECTED);
       return RepositoryCache.open(loc);
     } catch (IOException e1) {
       final RepositoryNotFoundException e2;
@@ -107,12 +108,12 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
 
     try {
-      File dir = FileKey.resolve(new File(basePath, name));
+      File dir = FileKey.resolve(new File(basePath, name), FS.DETECTED);
       FileKey loc;
       if (dir != null) {
         // Already exists on disk, use the repository we found.
         //
-        loc = FileKey.exact(dir);
+        loc = FileKey.exact(dir, FS.DETECTED);
       } else {
         // It doesn't exist under any of the standard permutations
         // of the repository name, so prefer the standard bare name.
@@ -120,7 +121,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         if (!name.endsWith(".git")) {
           name = name + ".git";
         }
-        loc = FileKey.exact(new File(basePath, name));
+        loc = FileKey.exact(new File(basePath, name), FS.DETECTED);
       }
       return RepositoryCache.open(loc, false);
     } catch (IOException e1) {

@@ -22,6 +22,7 @@ import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.util.FS;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,7 +77,7 @@ public class GitProjectImporter {
         continue;
       }
 
-      if (FileKey.isGitRepository(f)) {
+      if (FileKey.isGitRepository(f, FS.DETECTED)) {
         if (name.equals(".git")) {
           name = prefix.substring(0, prefix.length() - 1);
 

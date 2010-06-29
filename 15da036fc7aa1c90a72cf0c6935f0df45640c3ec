@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0n///VM\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountProjectWatchAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-29T14:06:00Z",
+      "side": 1,
+      "message": "I don\u0027t have the code open in front of me, but this may affect the indexes.  PostgreSQL might be using 3 different indexes with the notifyNewChanges, notifyAllComments and notifySubmittedChanges fields as filters.  Without those listed in the WHERE clause the server is forced to table scan.  We may need to adjust those at the same time.",
+      "revId": "15da036fc7aa1c90a72cf0c6935f0df45640c3ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n///VI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-06-29T14:06:00Z",
+      "side": 1,
+      "message": "This should be a Set / HashSet.  We only care about membership during the wildProject loop below, and the hash will perform better than the LinkedList for that lookup.",
+      "revId": "15da036fc7aa1c90a72cf0c6935f0df45640c3ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

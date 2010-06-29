@@ -82,6 +82,9 @@ import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.MyersDiff;
 import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.diff.RawTextIgnoreAllWhitespace;
+import org.eclipse.jgit.diff.RawTextIgnoreTrailingWhitespace;
+import org.eclipse.jgit.diff.RawTextIgnoreWhitespaceChange;
 import org.eclipse.jgit.diff.ReplaceEdit;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
@@ -184,7 +187,6 @@ public class PatchListCacheImpl implements PatchListCache {
         final Repository repo) throws IOException {
       // TODO(jeffschu) correctly handle file renames
       // TODO(jeffschu) correctly handle merge commits
-      // TODO(jeffschu) implement whitespace ignore
 
       final RevWalk rw = new RevWalk(repo);
       final RevCommit b = rw.parseCommit(key.getNewId());
@@ -209,7 +211,8 @@ public class PatchListCacheImpl implements PatchListCache {
 
       while (walk.next()) {
         outputDiff(ps, walk.getPathString(), walk.getObjectId(0), walk
-            .getFileMode(0), walk.getObjectId(1), walk.getFileMode(1), repo);
+            .getFileMode(0), walk.getObjectId(1), walk.getFileMode(1), repo,
+            key.getWhitespace());
       }
 
       org.eclipse.jgit.patch.Patch p = new org.eclipse.jgit.patch.Patch();
@@ -225,8 +228,8 @@ public class PatchListCacheImpl implements PatchListCache {
     }
 
     private void outputDiff(PrintStream out, String path, ObjectId id1,
-        FileMode mode1, ObjectId id2, FileMode mode2, Repository repo)
-        throws IOException {
+        FileMode mode1, ObjectId id2, FileMode mode2, Repository repo,
+        Whitespace ws) throws IOException {
       DiffFormatter fmt = new DiffFormatter();
 
       String name1 = "a/" + path;
@@ -256,8 +259,8 @@ public class PatchListCacheImpl implements PatchListCache {
           + (mode1.equals(mode2) ? " " + mode1 : "") + "\n");
       out.print("--- " + (isNew ? "/dev/null" : name1) + "\n");
       out.print("+++ " + (isDelete ? "/dev/null" : name2) + "\n");
-      RawText a = getRawText(id1, repo);
-      RawText b = getRawText(id2, repo);
+      RawText a = getRawText(id1, repo, ws);
+      RawText b = getRawText(id2, repo, ws);
       MyersDiff diff = new MyersDiff(a, b);
       fmt.formatEdits(out, a, b, diff.getEdits());
     }
@@ -270,11 +273,23 @@ public class PatchListCacheImpl implements PatchListCache {
       return !QuotedString.GIT_PATH.quote(path).equals('"' + path + '"');
     }
 
-    private RawText getRawText(ObjectId id, Repository repo) throws IOException {
+    private RawText getRawText(ObjectId id, Repository repo, Whitespace ws)
+        throws IOException {
       if (id.equals(ObjectId.zeroId())) {
         return new RawText(new byte[] {});
       }
-      return new RawText(repo.openBlob(id).getCachedBytes());
+      byte[] raw = repo.openBlob(id).getCachedBytes();
+      switch (ws) {
+        case IGNORE_ALL_SPACE:
+          return new RawTextIgnoreAllWhitespace(raw);
+        case IGNORE_SPACE_AT_EOL:
+          return new RawTextIgnoreTrailingWhitespace(raw);
+        case IGNORE_SPACE_CHANGE:
+          return new RawTextIgnoreWhitespaceChange(raw);
+        case IGNORE_NONE:
+        default:
+          return new RawText(raw);
+      }
     }
 
     private PatchListEntry newEntry(Repository repo, RevTree aTree,

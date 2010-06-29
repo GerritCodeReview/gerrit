@@ -18,6 +18,7 @@ import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwtexpui.safehtml.client.RegexFindReplace;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class GerritConfig implements Cloneable {
   protected boolean useContactInfo;
   protected boolean allowRegisterNewEmail;
   protected AuthType authType;
-  protected boolean useRepoDownload;
+  protected Set<DownloadScheme> downloadSchemes;
   protected String gitDaemonUrl;
   protected String sshdAddress;
   protected Project.NameKey wildProject;
@@ -71,6 +72,14 @@ public class GerritConfig implements Cloneable {
     authType = t;
   }
 
+  public Set<DownloadScheme> getDownloadSchemes() {
+    return downloadSchemes;
+  }
+
+  public void setDownloadSchemes(final Set<DownloadScheme> s) {
+    downloadSchemes = s;
+  }
+
   public GitwebLink getGitwebLink() {
     return gitweb;
   }
@@ -93,14 +102,6 @@ public class GerritConfig implements Cloneable {
 
   public void setUseContactInfo(final boolean r) {
     useContactInfo = r;
-  }
-
-  public boolean isUseRepoDownload() {
-    return useRepoDownload;
-  }
-
-  public void setUseRepoDownload(final boolean r) {
-    useRepoDownload = r;
   }
 
   public String getGitDaemonUrl() {

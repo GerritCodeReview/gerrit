@@ -25,9 +25,9 @@ public final class AccountGeneralPreferences {
   /** Valid choices for the page size. */
   public static final short[] PAGESIZE_CHOICES = {10, 25, 50, 100};
 
-  /** Preferred URL type to download a change. */
-  public static enum DownloadUrl {
-    ANON_GIT, ANON_HTTP, ANON_SSH, HTTP, SSH;
+  /** Preferred scheme type to download a change. */
+  public static enum DownloadScheme {
+    ANON_GIT, ANON_HTTP, ANON_SSH, HTTP, SSH, REPO_DOWNLOAD, DEFAULT_DOWNLOADS;
   }
 
   /** Preferred method to download a change. */
@@ -86,14 +86,14 @@ public final class AccountGeneralPreferences {
     useFlashClipboard = b;
   }
 
-  public DownloadUrl getDownloadUrl() {
+  public DownloadScheme getDownloadUrl() {
     if (downloadUrl == null) {
       return null;
     }
-    return DownloadUrl.valueOf(downloadUrl);
+    return DownloadScheme.valueOf(downloadUrl);
   }
 
-  public void setDownloadUrl(DownloadUrl url) {
+  public void setDownloadUrl(DownloadScheme url) {
     if (url != null) {
       downloadUrl = url.name();
     } else {

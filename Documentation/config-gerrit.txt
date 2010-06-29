@@ -713,6 +713,52 @@ If a unit suffix is not specified, `milliseconds` is assumed.
 +
 Default is `30 seconds`.
 
+[[download]]Section download
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+----
+[download]
+  scheme = ssh
+  scheme = http
+  scheme = anon_http
+  scheme = anon_git
+  scheme = repo_download
+----
+
+The download section configures the allowed download methods.
+
+[[download.scheme]]download.scheme::
++
+Schemes that should be used to download changes.
++
+Multiple schemes are supported:
++
+* `http`
++
+HTTP download is allowed.
++
+* `ssh`
++
+SSH download is allowed.
++
+* `anon_http`
++
+Anonymous HTTP download is allowed.
++
+* `anon_git`
++
+Anonymous Git download is allowed.
+This is not default, it is also necessary to fill gerrit.canonicalGitUrl variable.
++
+* `repo_download`
++
+Gerrit advertises patch set downloads with the `repo download` command,
+assuming that all projects managed by this instance are generally worked
+on with the repo multi-repository tool.
+This is not default, as not all instances will deploy repo.
+
++
+If download.scheme is not specified, SSH, HTTP and Anonymous HTTP downloads are allowed.
 
 [[gerrit]]Section gerrit
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1266,17 +1312,6 @@ Common examples:
 [mimetype "application/vnd.ms-excel"]
   safe = true
 ----
-
-[[repo]]Section repo
-~~~~~~~~~~~~~~~~~~~~
-
-[[repo.showDownloadCommand]]repo.showDownloadCommand::
-+
-If set to true, Gerrit advertises patch set downloads with the
-`repo download` command, assuming that all projects managed by this
-instance are generally worked on with the repo multi-repository tool.
-+
-By default, false, as not all instances will deploy repo.
 
 [[repository]]Section repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

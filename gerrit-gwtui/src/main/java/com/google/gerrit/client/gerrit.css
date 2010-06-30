@@ -841,6 +841,9 @@
   font-size: x-small;
 }
 
+.changeInfoBlock td.changeid div {
+  display: inline;
+}
 
 .patchSetInfoBlock {
   margin-bottom: 10px;

@@ -23,9 +23,12 @@ import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
@@ -73,7 +76,27 @@ public class ChangeInfoBlock extends Composite {
 
   public void display(final Change chg, final AccountInfoCache acc) {
     final Branch.NameKey dst = chg.getDest();
-    table.setText(R_CHANGE_ID, 1, chg.getKey().get());
+
+    /*
+     * Display the change-id together with a copy to clipboard button.
+     * The copy to clipboard button will copy the Change-ID line into the clipboard.
+     * It is important that selecting and copying the Change-ID row in the table
+     * can also be used to copy a valid Change-ID line. This is why we can't use a
+     * FlowPanel here for displaying the change-id and the copy to clipboard button.
+     * Using a FlowPanel would result in inserting a newline between the Change-ID
+     * tag and the change-id when selecting and copying.
+     */
+    final ComplexPanel changeIdPanel = new ComplexPanel() {
+      {
+        // use span element (which is an inline element) to avoid inserting of a newline
+        // between the Change-ID tag and the change-id when selecting and copying
+        setElement(DOM.createSpan());
+        add(new InlineLabel(chg.getKey().get()), getElement());
+        add(new CopyableLabel("Change-Id: " + chg.getKey().get(), false), getElement());
+      }
+    };
+    table.setWidget(R_CHANGE_ID, 1, changeIdPanel);
+
     table.setWidget(R_OWNER, 1, AccountDashboardLink.link(acc, chg.getOwner()));
     table.setWidget(R_PROJECT, 1, new ProjectLink(chg.getProject(), chg.getStatus()));
     table.setText(R_BRANCH, 1, dst.getShortName());
@@ -93,3 +116,4 @@ public class ChangeInfoBlock extends Composite {
     table.setWidget(R_PERMALINK, 1, fp);
   }
 }
+

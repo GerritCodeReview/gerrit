@@ -145,7 +145,8 @@ public class ProjectRightsPanel extends Composite {
         .getActionTypes()) {
       final ApprovalCategory c = at.getCategory();
       if (Gerrit.getConfig().getWildProject().equals(projectName)
-          && ApprovalCategory.OWN.equals(c.getId())) {
+          && (ApprovalCategory.OWN.equals(c.getId()) ||
+              ApprovalCategory.CREATE_PROJECT.equals(c.getId()))) {
         // Giving out control of the WILD_PROJECT to other groups beyond
         // Administrators is dangerous. Having control over WILD_PROJECT
         // is about the same as having Administrator access as users are

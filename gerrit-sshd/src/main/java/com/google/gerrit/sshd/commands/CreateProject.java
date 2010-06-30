@@ -21,8 +21,8 @@ import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.ProjectCreatorGroups;
-import com.google.gerrit.server.config.ProjectOwnerGroups;
+import com.google.gerrit.server.config.AuthConfig;
+
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.ProjectControl;
@@ -37,20 +37,16 @@ import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /** Create a new project. **/
 final class CreateProject extends BaseCommand {
   @Option(name = "--name", required = true, aliases = {"-n"}, metaVar = "NAME", usage = "name of project to be created")
   private String projectName;
 
-  @Option(name = "--owner", aliases = {"-o"}, usage = "owner(s) of project")
-  private List<AccountGroup.Id> ownerIds;
+  @Option(name = "--owner", aliases = {"-o"}, usage = "owner of project\n"
+    + "(default: Administrators)")
+  private AccountGroup.Id ownerId;
 
   @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "parent project")
   private ProjectControl newParent;
@@ -73,18 +69,13 @@ final class CreateProject extends BaseCommand {
   private String branch = Constants.MASTER;
 
   @Inject
+  private AuthConfig authConfig;
+
+  @Inject
   private ReviewDb db;
 
   @Inject
   private GitRepositoryManager repoManager;
-
-  @Inject
-  @ProjectCreatorGroups
-  private Set<AccountGroup.Id> projectCreatorGroups;
-
-  @Inject
-  @ProjectOwnerGroups
-  private Set<AccountGroup.Id> projectOwnerGroups;
 
   @Inject
   private IdentifiedUser currentUser;
@@ -98,6 +89,8 @@ final class CreateProject extends BaseCommand {
       @Override
       public void run() throws Exception {
         PrintWriter p = toPrintWriter(out);
+
+        ownerId = authConfig.getAdministratorsGroup();
 
         parseCommandLine();
 
@@ -126,40 +119,16 @@ final class CreateProject extends BaseCommand {
     });
   }
 
-  /**
-   * Checks if any of the elements in the first collection can be found in the
-   * second collection.
-   *
-   * @param findAnyOfThese which elements to look for.
-   * @param inThisCollection where to look for them.
-   * @param <E> type of the elements in question.
-   * @return {@code true} if any of the elements in {@code findAnyOfThese} can
-   *         be found in {@code inThisCollection}, {@code false} otherwise.
-   */
-  private static <E> boolean isAnyIncludedIn(Collection<E> findAnyOfThese,
-      Collection<E> inThisCollection) {
-    for (E findThisItem : findAnyOfThese) {
-      if (inThisCollection.contains(findThisItem)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   private void createProject() throws OrmException {
     final Project.NameKey newProjectNameKey = new Project.NameKey(projectName);
 
-    List<RefRight> access = new ArrayList<RefRight>();
-    for (AccountGroup.Id ownerId : ownerIds) {
-      final RefRight.Key prk =
-          new RefRight.Key(newProjectNameKey, new RefRight.RefPattern(
-              RefRight.ALL), ApprovalCategory.OWN, ownerId);
-      final RefRight pr = new RefRight(prk);
-      pr.setMaxValue((short) 1);
-      pr.setMinValue((short) 1);
-      access.add(pr);
-    }
-    db.refRights().insert(access);
+    final RefRight.Key prk =
+      new RefRight.Key(newProjectNameKey, new RefRight.RefPattern(RefRight.ALL),
+          ApprovalCategory.OWN, ownerId);
+    final RefRight pr = new RefRight(prk);
+    pr.setMaxValue((short) 1);
+    pr.setMinValue((short) 1);
+    db.refRights().insert(Collections.singleton(pr));
 
     final Project newProject = new Project(newProjectNameKey);
     newProject.setDescription(projectDescription);
@@ -176,18 +145,20 @@ final class CreateProject extends BaseCommand {
   private void validateParameters() throws Failure {
     if (projectName.endsWith(".git")) {
       projectName =
-          projectName.substring(0, projectName.length() - ".git".length());
+        projectName.substring(0, projectName.length() - ".git".length());
     }
 
-    if (!isAnyIncludedIn(currentUser.getEffectiveGroups(), projectCreatorGroups)) {
-      throw new Failure(1, "fatal: Not permitted to create " + projectName);
-    }
-
-    if (ownerIds != null && !ownerIds.isEmpty()) {
-      ownerIds =
-          new ArrayList<AccountGroup.Id>(new HashSet<AccountGroup.Id>(ownerIds));
+    boolean hasCreateProjectPermissions = true;
+    if (newParent == null) {
+      hasCreateProjectPermissions = currentUser.isAdministrator();
     } else {
-      ownerIds = new ArrayList<AccountGroup.Id>(projectOwnerGroups);
+      if (!newParent.isOwnerAnyRef() && !newParent.canCreateProject()) {
+        hasCreateProjectPermissions = false;
+      }
+    }
+
+    if (!hasCreateProjectPermissions) {
+      throw new Failure(1, "fatal: Not permitted to create " + projectName);
     }
 
     while (branch.startsWith("/")) {
@@ -200,4 +171,5 @@ final class CreateProject extends BaseCommand {
       throw new Failure(1, "--branch \"" + branch + "\" is not a valid name");
     }
   }
+
 }

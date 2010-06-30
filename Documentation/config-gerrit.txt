@@ -1463,23 +1463,6 @@ are queued and serviced in a first-come-first-serve order.
 +
 By default, 1.5x the number of CPUs available to the JVM.
 
-[[sshd.batchThreads]]sshd.batchThreads::
-+
-Number of threads to allocate for SSH command requests from
-non-interactive users. If equals to 0, then all non-interactive
-requests are executed in the same queue as interactive requests.
-+
-Any other value will remove the number of threads from the queue
-allocated to interactive users, and create a separate thread pool
-of the requested size, which will be used to run commands from
-non-interactive users.
-+
-If the number of threads requested for non-interactive users is larger
-than the total number of threads allocated in sshd.threads, then the
-value of sshd.threads is increased to accomodate the requested value.
-+
-By default, 0.
-
 [[sshd.streamThreads]]sshd.streamThreads::
 +
 Number of threads to use when formatting events to asynchronous

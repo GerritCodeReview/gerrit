@@ -93,6 +93,7 @@ public class SchemaCreator {
     initPushUpdateBranchCategory(db);
     initForgeIdentityCategory(db, sConfig);
     initWildCardProject(db);
+    initCreateProjectCategory(db);
 
     final SqlDialect d = jdbc.getDialect();
     if (d instanceof DialectH2) {
@@ -141,8 +142,8 @@ public class SchemaCreator {
         Collections.singleton(new AccountGroupName(registered)));
 
     final AccountGroup batchUsers =
-      new AccountGroup(new AccountGroup.NameKey("Non-Interactive Users"),
-          new AccountGroup.Id(c.nextAccountGroupId()));
+        new AccountGroup(new AccountGroup.NameKey("Non-Interactive Users"),
+            new AccountGroup.Id(c.nextAccountGroupId()));
     batchUsers.setDescription("Users who perform batch actions on Gerrit");
     batchUsers.setOwnerGroupId(admin.getId());
     batchUsers.setType(AccountGroup.Type.INTERNAL);
@@ -344,6 +345,20 @@ public class SchemaCreator {
     right.setMaxValue(ApprovalCategory.FORGE_AUTHOR);
     c.refRights().insert(Collections.singleton(right));
   }
+
+  private void initCreateProjectCategory(final ReviewDb c) throws OrmException {
+    final ApprovalCategory cat;
+    final ArrayList<ApprovalCategoryValue> vals;
+
+    cat = new ApprovalCategory(ApprovalCategory.CREATE_PROJECT, "Create Project");
+    cat.setPosition((short) -1);
+    cat.setFunctionName(NoOpFunction.NAME);
+    vals = new ArrayList<ApprovalCategoryValue>();
+    vals.add(value(cat, 1, "Create Projects under this"));
+    c.approvalCategories().insert(Collections.singleton(cat));
+    c.approvalCategoryValues().insert(vals);
+  }
+
 
   private static ApprovalCategoryValue value(final ApprovalCategory cat,
       final int value, final String name) {

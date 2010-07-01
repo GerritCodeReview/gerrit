@@ -37,10 +37,12 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -437,7 +439,11 @@ class SshPanel extends Composite {
         fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().sshKeyPanelInvalid());
       }
       table.setText(row, 3, k.getAlgorithm());
-      table.setText(row, 4, elide(k.getEncodedKey(), 40));
+
+      CopyableLabel keyLabel = new CopyableLabel(k.getEncodedKey());
+      keyLabel.setPreviewText(elide(k.getEncodedKey(), 40));
+      table.setWidget(row, 4, keyLabel);
+
       table.setText(row, 5, k.getComment());
 
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());

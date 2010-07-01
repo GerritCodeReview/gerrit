@@ -976,6 +976,9 @@ a:hover.downloadLink {
   font-family: mono-font;
   font-size: small;
 }
+.sshKeyPanelEncodedKey div {
+  display: inline;
+}
 .sshKeyPanelInvalid {
   white-space: nowrap;
   color: red;

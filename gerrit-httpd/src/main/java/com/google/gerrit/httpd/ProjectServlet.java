@@ -187,10 +187,14 @@ public class ProjectServlet extends GitServlet {
 
     @Override
     public UploadPack create(HttpServletRequest req, Repository repo)
-        throws ServiceNotEnabledException {
+        throws ServiceNotEnabledException, ServiceNotAuthorizedException {
+      ProjectControl pc = getProjectControl(req);
+      if (!pc.canRunUploadPack()) {
+        throw new ServiceNotAuthorizedException();
+      }
+
       // The Resolver above already checked READ access for us.
       //
-      ProjectControl pc = getProjectControl(req);
       UploadPack up = new UploadPack(repo);
       up.setPackConfig(packConfig);
       if (!pc.allRefsAreVisible()) {
@@ -212,6 +216,10 @@ public class ProjectServlet extends GitServlet {
     public ReceivePack create(HttpServletRequest req, Repository db)
         throws ServiceNotEnabledException, ServiceNotAuthorizedException {
       final ProjectControl pc = getProjectControl(req);
+      if (!pc.canRunReceivePack()) {
+        throw new ServiceNotAuthorizedException();
+      }
+
       if (pc.getCurrentUser() instanceof IdentifiedUser) {
         final IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
         final ReceiveCommits rc = factory.create(pc, db);

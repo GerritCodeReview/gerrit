@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.CollectionsUtil;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
@@ -38,7 +39,6 @@ import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -126,26 +126,6 @@ final class CreateProject extends BaseCommand {
     });
   }
 
-  /**
-   * Checks if any of the elements in the first collection can be found in the
-   * second collection.
-   *
-   * @param findAnyOfThese which elements to look for.
-   * @param inThisCollection where to look for them.
-   * @param <E> type of the elements in question.
-   * @return {@code true} if any of the elements in {@code findAnyOfThese} can
-   *         be found in {@code inThisCollection}, {@code false} otherwise.
-   */
-  private static <E> boolean isAnyIncludedIn(Collection<E> findAnyOfThese,
-      Collection<E> inThisCollection) {
-    for (E findThisItem : findAnyOfThese) {
-      if (inThisCollection.contains(findThisItem)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   private void createProject() throws OrmException {
     final Project.NameKey newProjectNameKey = new Project.NameKey(projectName);
 
@@ -179,7 +159,7 @@ final class CreateProject extends BaseCommand {
           projectName.substring(0, projectName.length() - ".git".length());
     }
 
-    if (!isAnyIncludedIn(currentUser.getEffectiveGroups(), projectCreatorGroups)) {
+    if (!CollectionsUtil.isAnyIncludedIn(currentUser.getEffectiveGroups(), projectCreatorGroups)) {
       throw new Failure(1, "fatal: Not permitted to create " + projectName);
     }
 

@@ -1341,6 +1341,27 @@ auto-detected and one thread per CPU is used, per client request.
 By default, 1.
 
 
+[[receive]]Section receive
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sets the group of users allowed to execute 'receive-pack' on the
+server, 'receive-pack' is what runs on the server during a user's
+push or repo upload command.
+
+----
+[receive]
+  allowGroup = GROUP_ALLOWED_TO_EXECUTE
+  allowGroup = YET_ANOTHER_GROUP_ALLOWED_TO_EXECUTE
+----
+
+[[receive.allowGroup]]receive.allowGroup::
++
+Name of the groups of users that are allowed to execute
+'receive-pack' on the server. One or more groups can be set.
++
+If no groups are added, any user will be allowed to execute
+'receive-pack' on the server.
+
+
 [[repository]]Section repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Repositories in this sense are the same as projects.
@@ -1675,6 +1696,28 @@ especially over a WAN link, while 10-30 seconds is a much more
 reasonable timeout value.
 +
 Defaults to 0 seconds, wait indefinitely.
+
+
+[[upload]]Section upload
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sets the group of users allowed to execute 'upload-pack' on the
+server, 'upload-pack' is what runs on the server during a user's
+fetch, clone or repo sync command.
+
+----
+[upload]
+  allowGroup = GROUP_ALLOWED_TO_EXECUTE
+  allowGroup = YET_ANOTHER_GROUP_ALLOWED_TO_EXECUTE
+----
+
+[[upload.allowGroup]]upload.allowGroup::
++
+Name of the groups of users that are allowed to execute 'upload-pack'
+on the server. One or more groups can be set.
++
+If no groups are added, any user will be allowed to execute
+'upload-pack' on the server.
+
 
 [[user]] Section user
 ~~~~~~~~~~~~~~~~~~~~~

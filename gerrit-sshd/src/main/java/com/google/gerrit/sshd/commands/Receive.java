@@ -58,6 +58,10 @@ final class Receive extends AbstractGitCommand {
 
   @Override
   protected void runImpl() throws IOException, Failure {
+    if (!projectControl.canRunReceivePack()) {
+      throw new Failure(1, "fatal: receive-pack not permitted on this server");
+    }
+
     final ReceiveCommits receive = factory.create(projectControl, repo);
 
     ReceiveCommits.Capable r = receive.canUpload();

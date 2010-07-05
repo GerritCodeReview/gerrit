@@ -56,6 +56,7 @@ import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectControl;
@@ -136,10 +137,6 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(Project.NameKey.class).annotatedWith(WildProjectName.class)
         .toProvider(WildProjectNameProvider.class).in(SINGLETON);
-    bind(new TypeLiteral<Set<AccountGroup.Id>>(){}).annotatedWith(ProjectCreatorGroups.class)
-        .toProvider(ProjectCreatorGroupsProvider.class).in(SINGLETON);
-    bind(new TypeLiteral<Set<AccountGroup.Id>>(){}).annotatedWith(ProjectOwnerGroups.class)
-        .toProvider(ProjectOwnerGroupsProvider.class).in(SINGLETON);
     bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
         SINGLETON);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
@@ -156,6 +153,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(GroupCacheImpl.module());
     install(PatchListCacheImpl.module());
     install(ProjectCacheImpl.module());
+    install(new AccessControlModule());
 
     factory(AccountInfoCacheFactory.Factory.class);
     factory(ProjectState.Factory.class);

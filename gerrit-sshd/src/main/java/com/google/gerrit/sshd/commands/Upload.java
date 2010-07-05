@@ -36,6 +36,10 @@ final class Upload extends AbstractGitCommand {
 
   @Override
   protected void runImpl() throws IOException, Failure {
+    if (!projectControl.canRunUploadPack()) {
+        throw new Failure(1, "fatal: upload-pack not permitted on this server");
+    }
+
     final UploadPack up = new UploadPack(repo);
     if (!projectControl.allRefsAreVisible()) {
       up.setRefFilter(new VisibleRefFilter(repo, projectControl, db.get()));

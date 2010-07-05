@@ -10,38 +10,33 @@
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
-// limitations under the License.
+// limitations under the License
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 
 import java.util.Collections;
+import java.util.HashSet;
 
-/**
- * Provider of the group(s) which are allowed to create new projects. Currently
- * only supports {@code createGroup} declarations in the {@code "*"} repository,
- * like so:
- *
- * <pre>
- * [repository &quot;*&quot;]
- *     createGroup = Registered Users
- *     createGroup = Administrators
- * </pre>
- */
-public class ProjectCreatorGroupsProvider extends GroupSetProvider {
+public class GitReceivePackGroupsProvider extends GroupSetProvider {
   @Inject
-  public ProjectCreatorGroupsProvider(@GerritServerConfig final Config config,
-      final SystemConfig systemConfig, final SchemaFactory<ReviewDb> db) {
-    super(config, db, "repository", "*", "createGroup");
+  public GitReceivePackGroupsProvider(@GerritServerConfig Config config,
+      AuthConfig authConfig, SchemaFactory<ReviewDb> db) {
+    super(config, db, "receive", null, "allowGroup");
 
+    // If no group was set, default to "registered users"
+    //
     if (groupIds.isEmpty()) {
-      groupIds = Collections.singleton(systemConfig.adminGroupId);
+      HashSet<AccountGroup.Id> all = new HashSet<AccountGroup.Id>();
+      all.addAll(authConfig.getRegisteredGroups());
+      all.removeAll(authConfig.getAnonymousGroups());
+      groupIds = Collections.unmodifiableSet(all);
     }
   }
 }

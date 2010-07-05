@@ -14,35 +14,37 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.gerrit.server.config.ConfigUtil.groupsFor;
+import static java.util.Collections.unmodifiableSet;
+
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
-/**
- * Provider of the group(s) which should become owners of a newly created
- * project. Currently only supports {@code ownerGroup} declarations in the
- * {@code "*"} repository, like so:
- *
- * <pre>
- * [repository &quot;*&quot;]
- *     ownerGroup = Registered Users
- *     ownerGroup = Administrators
- * </pre>
- */
-public class ProjectOwnerGroupsProvider extends GroupSetProvider {
-  @Inject
-  public ProjectOwnerGroupsProvider(
-      @ProjectCreatorGroups final Set<AccountGroup.Id> creatorGroups,
-      @GerritServerConfig final Config config, final SchemaFactory<ReviewDb> db) {
-    super(config, db, "repository", "*", "ownerGroup");
+public abstract class GroupSetProvider implements
+    Provider<Set<AccountGroup.Id>> {
+  private static final Logger log =
+      LoggerFactory.getLogger(GroupSetProvider.class);
 
-    if (groupIds.isEmpty()) {
-      groupIds = creatorGroups;
-    }
+  protected Set<AccountGroup.Id> groupIds;
+
+  @Inject
+  protected GroupSetProvider(@GerritServerConfig Config config,
+      SchemaFactory<ReviewDb> db, String section, String subsection, String name) {
+    String[] groupNames = config.getStringList(section, subsection, name);
+    groupIds = unmodifiableSet(groupsFor(db, groupNames, log));
+  }
+
+  @Override
+  public Set<AccountGroup.Id> get() {
+    return groupIds;
   }
 }

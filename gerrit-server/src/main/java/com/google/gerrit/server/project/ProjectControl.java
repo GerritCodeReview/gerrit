@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.common.CollectionsUtil.*;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
@@ -22,8 +23,11 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReplicationUser;
+import com.google.gerrit.server.config.GitReceivePackGroups;
+import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -93,10 +97,22 @@ public class ProjectControl {
     }
   }
 
+  interface AssistedFactory {
+    ProjectControl create(CurrentUser who, ProjectState ps);
+  }
+
+  private final Set<AccountGroup.Id> uploadGroups;
+  private final Set<AccountGroup.Id> receiveGroups;
+
   private final CurrentUser user;
   private final ProjectState state;
 
-  ProjectControl(final CurrentUser who, final ProjectState ps) {
+  @Inject
+  ProjectControl(@GitUploadPackGroups Set<AccountGroup.Id> uploadGroups,
+      @GitReceivePackGroups Set<AccountGroup.Id> receiveGroups,
+      @Assisted CurrentUser who, @Assisted ProjectState ps) {
+    this.uploadGroups = uploadGroups;
+    this.receiveGroups = receiveGroups;
     user = who;
     state = ps;
   }
@@ -229,5 +245,13 @@ public class ProjectControl {
       }
     }
     return all;
+  }
+
+  public boolean canRunUploadPack() {
+    return isAnyIncludedIn(uploadGroups, user.getEffectiveGroups());
+  }
+
+  public boolean canRunReceivePack() {
+    return isAnyIncludedIn(receiveGroups, user.getEffectiveGroups());
   }
 }

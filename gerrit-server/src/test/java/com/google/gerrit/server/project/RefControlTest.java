@@ -217,15 +217,18 @@ public class RefControlTest extends TestCase {
   }
 
   private ProjectControl user(AccountGroup.Id... memberOf) {
-    return new ProjectControl(new MockUser(memberOf), newProjectState());
+    return new ProjectControl(Collections.<AccountGroup.Id> emptySet(),
+        Collections.<AccountGroup.Id> emptySet(), new MockUser(memberOf),
+        newProjectState());
   }
 
   private ProjectState newProjectState() {
     ProjectCache projectCache = null;
     Project.NameKey wildProject = null;
+    ProjectControl.AssistedFactory projectControlFactory = null;
     ProjectState ps =
-        new ProjectState(anonymousUser, projectCache, wildProject, new Project(
-            projectNameKey), local);
+        new ProjectState(anonymousUser, projectCache, wildProject,
+            projectControlFactory, new Project(projectNameKey), local);
     ps.setInheritedRights(inherited);
     return ps;
   }

@@ -40,6 +40,7 @@ public class ProjectState {
   private final AnonymousUser anonymousUser;
   private final Project.NameKey wildProject;
   private final ProjectCache projectCache;
+  private final ProjectControl.AssistedFactory projectControlFactory;
 
   private final Project project;
   private final Collection<RefRight> localRights;
@@ -51,11 +52,13 @@ public class ProjectState {
   protected ProjectState(final AnonymousUser anonymousUser,
       final ProjectCache projectCache,
       @WildProjectName final Project.NameKey wildProject,
+      final ProjectControl.AssistedFactory projectControlFactory,
       @Assisted final Project project,
       @Assisted final Collection<RefRight> rights) {
     this.anonymousUser = anonymousUser;
     this.projectCache = projectCache;
     this.wildProject = wildProject;
+    this.projectControlFactory = projectControlFactory;
 
     this.project = project;
     this.localRights = rights;
@@ -160,7 +163,7 @@ public class ProjectState {
   }
 
   public ProjectControl controlFor(final CurrentUser user) {
-    return new ProjectControl(user, this);
+    return projectControlFactory.create(user, this);
   }
 
   private static Collection<RefRight> filter(Collection<RefRight> all,

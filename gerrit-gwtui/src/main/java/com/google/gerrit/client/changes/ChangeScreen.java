@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.CommentPanel;
@@ -259,6 +260,9 @@ public class ChangeScreen extends Screen {
     }
 
     dependenciesPanel.setOpen(depsOpen);
+
+    PatchScreen.cacheCommitMessage(detail.getCurrentPatchSet().getId(), detail
+        .getCurrentPatchSetDetail().getInfo().getMessage());
   }
 
   private void addComments(final ChangeDetail detail) {

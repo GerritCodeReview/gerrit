@@ -18,6 +18,7 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.changes.ChangeScreen;
+import com.google.gerrit.client.changes.CommitMessageBlock;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -50,7 +51,9 @@ import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -103,6 +106,17 @@ public abstract class PatchScreen extends Screen implements
   // Which patch set id's are being diff'ed
   private static PatchSet.Id diffSideA = null;
   private static PatchSet.Id diffSideB = null;
+
+  /** Cached commit message for the <code>diffSideB</code> patch set */
+  private static String cachedCommitMessage = null;
+  /** Id of the patch set for which the commit message was cached */
+  private static PatchSet.Id cachedPatchSetId = null;
+
+  public static final void cacheCommitMessage(PatchSet.Id patchSetId, String commitMessage) {
+    cachedPatchSetId = patchSetId;
+    cachedCommitMessage = commitMessage;
+  }
+
   private static Boolean historyOpen = null;
   private static final OpenHandler<DisclosurePanel> cacheOpenState =
       new OpenHandler<DisclosurePanel>() {
@@ -133,6 +147,8 @@ public abstract class PatchScreen extends Screen implements
   private FlowPanel contentPanel;
   private Label noDifference;
   private AbstractPatchContentTable contentTable;
+
+  private CommitMessageBlock commitMessageBlock;
 
   private int rpcSequence;
   private PatchScript lastScript;
@@ -270,8 +286,17 @@ public abstract class PatchScreen extends Screen implements
         || (historyOpen != null && historyOpen));
     historyPanel.addOpenHandler(cacheOpenState);
     historyPanel.addCloseHandler(cacheCloseState);
-    add(historyPanel);
-    add(settingsPanel);
+
+
+    VerticalPanel vp = new VerticalPanel();
+    vp.add(historyPanel);
+    vp.add(settingsPanel);
+    commitMessageBlock = new CommitMessageBlock("6em");
+    HorizontalPanel hp = new HorizontalPanel();
+    hp.setWidth("100%");
+    hp.add(vp);
+    hp.add(commitMessageBlock);
+    add(hp);
 
     noDifference = new Label(PatchUtil.C.noDifference());
     noDifference.setStyleName(Gerrit.RESOURCES.css().patchNoDifference());
@@ -417,6 +442,14 @@ public abstract class PatchScreen extends Screen implements
     setWindowTitle(PatchUtil.M.patchWindowTitle(cid.abbreviate(), fileName));
     setPageTitle(PatchUtil.M.patchPageTitle(cid.abbreviate(), path));
 
+    if (idSideB != null) {
+      if (idSideB.equals(cachedPatchSetId)) {
+        commitMessageBlock.display(cachedCommitMessage);
+      } else {
+        fetchCommitMessage(idSideB);
+      }
+    }
+
     historyTable.display(script.getHistory());
     historyPanel.setVisible(true);
 
@@ -456,6 +489,18 @@ public abstract class PatchScreen extends Screen implements
       settingsPanel.getReviewedCheckBox().setValue(true);
       setReviewedByCurrentUser(true /* reviewed */);
     }
+  }
+
+  private void fetchCommitMessage(final PatchSet.Id patchSetId) {
+    Util.DETAIL_SVC.patchSetCommitMessage(patchSetId,
+        new GerritCallback<String>() {
+          @Override
+          public void onSuccess(String commitMessage) {
+            commitMessageBlock.display(commitMessage);
+            cachedCommitMessage = commitMessage;
+            cachedPatchSetId = patchSetId;
+          }
+        });
   }
 
   private void showPatch(final boolean showPatch) {

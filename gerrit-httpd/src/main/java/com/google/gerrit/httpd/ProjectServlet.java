@@ -14,13 +14,18 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.gerrit.common.CollectionsUtil;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.ServerCommand;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.ServerCommandConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.VisibleRefFilter;
@@ -46,6 +51,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 import javax.servlet.ServletConfig;
@@ -176,16 +182,31 @@ public class ProjectServlet extends GitServlet {
     private final Provider<ReviewDb> db;
 
     @Inject
+    @ServerCommandConfig
+    private ServerCommand serverCommandConfig;
+
+    @Inject
     Upload(final Provider<ReviewDb> db) {
       this.db = db;
     }
 
     @Override
     public UploadPack create(HttpServletRequest req, Repository repo)
-        throws ServiceNotEnabledException {
+        throws ServiceNotEnabledException, ServiceNotAuthorizedException {
+      final ProjectControl pc = getProjectControl(req);
+      final CurrentUser user = pc.getCurrentUser();
+      final Set<AccountGroup.Id> uploadGroup =
+          serverCommandConfig.getUploadGroup();
+
+      if (uploadGroup != null && !uploadGroup.isEmpty()) {
+        if (!CollectionsUtil.isAnyIncludedIn(user.getEffectiveGroups(),
+            uploadGroup)) {
+          throw new ServiceNotAuthorizedException();
+        }
+      }
+
       // The Resolver above already checked READ access for us.
       //
-      ProjectControl pc = getProjectControl(req);
       UploadPack up = new UploadPack(repo);
       if (!pc.allRefsAreVisible()) {
         up.setRefFilter(new VisibleRefFilter(repo, pc, db.get()));
@@ -198,6 +219,10 @@ public class ProjectServlet extends GitServlet {
     private final ReceiveCommits.Factory factory;
 
     @Inject
+    @ServerCommandConfig
+    private ServerCommand serverCommandConfig;
+
+    @Inject
     Receive(final ReceiveCommits.Factory factory) {
       this.factory = factory;
     }
@@ -208,6 +233,16 @@ public class ProjectServlet extends GitServlet {
       final ProjectControl pc = getProjectControl(req);
       if (pc.getCurrentUser() instanceof IdentifiedUser) {
         final IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
+        final Set<AccountGroup.Id> receiveGroup =
+            serverCommandConfig.getReceiveGroup();
+
+        if (receiveGroup != null && !receiveGroup.isEmpty()) {
+          if (!CollectionsUtil.isAnyIncludedIn(user.getEffectiveGroups(),
+              receiveGroup)) {
+            throw new ServiceNotAuthorizedException();
+          }
+        }
+
         final ReceiveCommits rc = factory.create(pc, db);
         final ReceiveCommits.Capable s = rc.canUpload();
         if (s != ReceiveCommits.Capable.OK) {

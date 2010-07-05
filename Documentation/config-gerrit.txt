@@ -1276,6 +1276,26 @@ Common examples:
   safe = true
 ----
 
+
+[[receive]]Section receive
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sets the group of users allowed to execute the 'receive-pack' command
+on the server.
+
+----
+[receive]
+  allowGroup = GROUP_ALLOWED_TO_EXECUTE
+  allowGroup = YET_ANOTHER_GROUP_ALLOWED_TO_EXECUTE
+----
+
+[[receive.allowGroup]]receive.allowGroup::
++
+Name of the groups of users that are allowed to execute 'receive-pack'
+on the server. One or more groups can be set.
++
+If no groups are added, any user will be allowed to execute 'receive-pack'
+on the server.
+
 [[repo]]Section repo
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -1621,6 +1641,26 @@ especially over a WAN link, while 10-30 seconds is a much more
 reasonable timeout value.
 +
 Defaults to 0 seconds, wait indefinitely.
+
+
+[[upload]]Section upload
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sets the group of users allowed to execute the 'upload-pack' command
+on the server.
+
+----
+[upload]
+  allowGroup = GROUP_ALLOWED_TO_EXECUTE
+  allowGroup = YET_ANOTHER_GROUP_ALLOWED_TO_EXECUTE
+----
+
+[[upload.allowGroup]]upload.allowGroup::
++
+Name of the groups of users that are allowed to execute 'upload-pack'
+on the server. One or more groups can be set.
++
+If no groups are added, any user will be allowed to execute 'upload-pack'
+on the server.
 
 [[user]] Section user
 ~~~~~~~~~~~~~~~~~~~~~

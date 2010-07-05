@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.common.ServerCommand;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -101,6 +102,8 @@ public class GerritGlobalModule extends FactoryModule {
         .toProvider(ProjectCreatorGroupsProvider.class).in(SINGLETON);
     bind(new TypeLiteral<Set<AccountGroup.Id>>(){}).annotatedWith(ProjectOwnerGroups.class)
         .toProvider(ProjectOwnerGroupsProvider.class).in(SINGLETON);
+    bind(new TypeLiteral<ServerCommand>(){}).annotatedWith(ServerCommandConfig.class)
+        .toProvider(ServerCommandConfigProvider.class).in(SINGLETON);
     bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
         SINGLETON);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(

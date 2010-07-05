@@ -14,7 +14,9 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.CollectionsUtil;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.sshd.AbstractGitCommand;
@@ -58,6 +60,17 @@ final class Receive extends AbstractGitCommand {
 
   @Override
   protected void runImpl() throws IOException, Failure {
+    final Set<AccountGroup.Id> receiveGroup =
+        getServerCommandConfig().getReceiveGroup();
+
+    if (receiveGroup != null && !receiveGroup.isEmpty()) {
+      if (!CollectionsUtil.isAnyIncludedIn(currentUser.getEffectiveGroups(),
+          receiveGroup)) {
+        throw new Failure(1, "User: " + currentUser.getUserName()
+            + " not allowed to execute this command on this server");
+      }
+    }
+
     final ReceiveCommits receive = factory.create(projectControl, repo);
 
     ReceiveCommits.Capable r = receive.canUpload();

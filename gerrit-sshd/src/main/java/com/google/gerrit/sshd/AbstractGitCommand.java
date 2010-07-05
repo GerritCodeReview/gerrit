@@ -14,9 +14,11 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.common.ServerCommand;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.ServerCommandConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.SshScope.Context;
@@ -49,6 +51,10 @@ public abstract class AbstractGitCommand extends BaseCommand {
 
   @Inject
   private IdentifiedUser.GenericFactory userFactory;
+
+  @Inject
+  @ServerCommandConfig
+  private ServerCommand serverCommandConfig;
 
   protected Repository repo;
   protected Project project;
@@ -105,6 +111,10 @@ public abstract class AbstractGitCommand extends BaseCommand {
     } finally {
       repo.close();
     }
+  }
+
+  public ServerCommand getServerCommandConfig() {
+    return serverCommandConfig;
   }
 
   protected abstract void runImpl() throws IOException, Failure;

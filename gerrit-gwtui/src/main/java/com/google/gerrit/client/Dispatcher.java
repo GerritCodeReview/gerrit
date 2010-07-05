@@ -70,6 +70,7 @@ import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.auth.SignInMode;
+import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Change;
@@ -124,7 +125,7 @@ public class Dispatcher {
 
   private static void select(final String token) {
     if (token.startsWith("patch,")) {
-      patch(token, null, 0, null);
+      patch(token, null, 0, null, null);
 
     } else if (token.startsWith("change,publish,")) {
       publish(token);
@@ -268,7 +269,8 @@ public class Dispatcher {
   }
 
   public static void patch(String token, final Patch.Key id,
-      final int patchIndex, final PatchTable patchTable) {
+      final int patchIndex, final PatchSetDetail patchSetDetail,
+      final PatchTable patchTable) {
     GWT.runAsync(new AsyncSplit(token) {
       public void onSuccess() {
         Gerrit.display(token, select());
@@ -282,6 +284,7 @@ public class Dispatcher {
           return new PatchScreen.SideBySide( //
               id != null ? id : Patch.Key.parse(skip(p, token)), //
               patchIndex, //
+              patchSetDetail, //
               patchTable //
           );
         }
@@ -291,6 +294,7 @@ public class Dispatcher {
           return new PatchScreen.Unified( //
               id != null ? id : Patch.Key.parse(skip(p, token)), //
               patchIndex, //
+              patchSetDetail, //
               patchTable //
           );
         }

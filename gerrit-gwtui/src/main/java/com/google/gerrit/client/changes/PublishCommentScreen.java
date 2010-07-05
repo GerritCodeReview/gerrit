@@ -281,10 +281,7 @@ public class PublishCommentScreen extends AccountScreen implements
           draftsPanel.add(panel);
           // Parent table can be null here since we are not showing any
           // next/previous links
-          panel.add(new PatchLink.SideBySide(fn, patchKey, 0, null /*
-                                                                    * parent
-                                                                    * table
-                                                                    */));
+          panel.add(new PatchLink.SideBySide(fn, patchKey, 0, null, null));
           priorFile = fn;
         }
 

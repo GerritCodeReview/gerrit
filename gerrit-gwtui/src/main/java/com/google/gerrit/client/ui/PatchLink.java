@@ -16,11 +16,13 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.changes.PatchTable;
+import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Patch;
 
 public abstract class PatchLink extends InlineHyperlink {
   protected Patch.Key patchKey;
   protected int patchIndex;
+  protected PatchSetDetail patchSetDetail;
   protected PatchTable parentPatchTable;
 
   /**
@@ -28,14 +30,17 @@ public abstract class PatchLink extends InlineHyperlink {
    * @param patchKey The key for this patch
    * @param patchIndex The index of the current patch in the patch set
    * @param historyToken The history token
+   * @parma patchSetDetail Detailed information about the patch set.
    * @param parentPatchTable The table used to display this link
    */
   public PatchLink(final String text, final Patch.Key patchKey,
       final int patchIndex, final String historyToken,
-      PatchTable parentPatchTable) {
+      final PatchSetDetail patchSetDetail,
+      final PatchTable parentPatchTable) {
     super(text, historyToken);
     this.patchKey = patchKey;
     this.patchIndex = patchIndex;
+    this.patchSetDetail = patchSetDetail;
     this.parentPatchTable = parentPatchTable;
   }
 
@@ -45,23 +50,26 @@ public abstract class PatchLink extends InlineHyperlink {
         getTargetHistoryToken(), //
         patchKey, //
         patchIndex, //
+        patchSetDetail, //
         parentPatchTable //
         );
   }
 
   public static class SideBySide extends PatchLink {
     public SideBySide(final String text, final Patch.Key patchKey,
-        final int patchIndex, PatchTable parentPatchTable) {
-      super(text, patchKey, patchIndex, Dispatcher
-          .toPatchSideBySide(patchKey), parentPatchTable);
+        final int patchIndex, PatchSetDetail patchSetDetail,
+        PatchTable parentPatchTable) {
+      super(text, patchKey, patchIndex, Dispatcher.toPatchSideBySide(patchKey),
+          patchSetDetail, parentPatchTable);
     }
   }
 
   public static class Unified extends PatchLink {
     public Unified(final String text, final Patch.Key patchKey,
-        final int patchIndex, PatchTable parentPatchTable) {
-      super(text, patchKey, patchIndex,
-          Dispatcher.toPatchUnified(patchKey), parentPatchTable);
+        final int patchIndex, PatchSetDetail patchSetDetail,
+        PatchTable parentPatchTable) {
+      super(text, patchKey, patchIndex, Dispatcher.toPatchUnified(patchKey),
+          patchSetDetail, parentPatchTable);
     }
   }
 }

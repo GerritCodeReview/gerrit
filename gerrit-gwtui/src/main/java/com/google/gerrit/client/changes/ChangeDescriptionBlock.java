@@ -14,42 +14,29 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwtexpui.safehtml.client.SafeHtml;
-import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class ChangeDescriptionBlock extends Composite {
   private final ChangeInfoBlock infoBlock;
-  private final HTML description;
+  private final CommitMessageBlock messageBlock;
 
   public ChangeDescriptionBlock() {
     infoBlock = new ChangeInfoBlock();
-    description = new HTML();
-    description.setStyleName(Gerrit.RESOURCES.css().changeScreenDescription());
+    messageBlock = new CommitMessageBlock();
 
     final HorizontalPanel hp = new HorizontalPanel();
     hp.add(infoBlock);
-    hp.add(description);
+    hp.add(messageBlock);
     initWidget(hp);
   }
 
   public void display(final Change chg, final PatchSetInfo info,
       final AccountInfoCache acc) {
     infoBlock.display(chg, acc);
-
-    SafeHtml msg = new SafeHtmlBuilder().append(info.getMessage());
-    msg = msg.linkify();
-    msg = CommentLinkProcessor.apply(msg);
-    msg = new SafeHtmlBuilder().openElement("p").append(msg).closeElement("p");
-    msg = msg.replaceAll("\n\n", "</p><p>");
-    msg = msg.replaceAll("\n", "<br />");
-    SafeHtml.set(description, msg);
+    messageBlock.display(info);
   }
 }

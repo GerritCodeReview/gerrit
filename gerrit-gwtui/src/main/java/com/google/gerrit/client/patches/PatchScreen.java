@@ -20,6 +20,7 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.changes.ChangeScreen;
+import com.google.gerrit.client.changes.CommitMessageBlock;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -28,6 +29,7 @@ import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScriptSettings;
 import com.google.gerrit.common.data.PatchSetDetail;
@@ -51,7 +53,9 @@ import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -134,6 +138,8 @@ public abstract class PatchScreen extends Screen implements
   private FlowPanel contentPanel;
   private Label noDifference;
   private AbstractPatchContentTable contentTable;
+
+  private CommitMessageBlock commitMessageBlock;
 
   private int rpcSequence;
   private PatchScript lastScript;
@@ -271,8 +277,17 @@ public abstract class PatchScreen extends Screen implements
         || (historyOpen != null && historyOpen));
     historyPanel.addOpenHandler(cacheOpenState);
     historyPanel.addCloseHandler(cacheCloseState);
-    add(historyPanel);
-    add(settingsPanel);
+
+
+    VerticalPanel vp = new VerticalPanel();
+    vp.add(historyPanel);
+    vp.add(settingsPanel);
+    commitMessageBlock = new CommitMessageBlock("6em");
+    HorizontalPanel hp = new HorizontalPanel();
+    hp.setWidth("100%");
+    hp.add(vp);
+    hp.add(commitMessageBlock);
+    add(hp);
 
     noDifference = new Label(PatchUtil.C.noDifference());
     noDifference.setStyleName(Gerrit.RESOURCES.css().patchNoDifference());
@@ -417,6 +432,14 @@ public abstract class PatchScreen extends Screen implements
 
     setWindowTitle(PatchUtil.M.patchWindowTitle(cid.abbreviate(), fileName));
     setPageTitle(PatchUtil.M.patchPageTitle(cid.abbreviate(), path));
+
+    Util.DETAIL_SVC.changeDetail(currentChangeId,
+        new GerritCallback<ChangeDetail>() {
+          @Override
+          public void onSuccess(ChangeDetail detail) {
+            commitMessageBlock.display(detail.getCurrentPatchSetDetail().getInfo());
+          }
+        });
 
     historyTable.display(script.getHistory());
     historyPanel.setVisible(true);

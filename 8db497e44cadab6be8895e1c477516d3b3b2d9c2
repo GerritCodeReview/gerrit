@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0n//+w8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-07-05T11:18:09Z",
+      "side": 1,
+      "message": "How to avoid this RPC?\nWhere to cache the PatchSetInfo instance or, at least, the commit messsage as a String?",
+      "revId": "8db497e44cadab6be8895e1c477516d3b3b2d9c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

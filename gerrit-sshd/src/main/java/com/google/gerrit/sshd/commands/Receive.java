@@ -15,7 +15,9 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.TransferConfig;
@@ -43,6 +45,10 @@ final class Receive extends AbstractGitCommand {
   @Inject
   private TransferConfig config;
 
+  @GitReceivePackGroups
+  @Inject
+  private Set<AccountGroup.Id> receiveGroup;
+
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
 
@@ -58,6 +64,9 @@ final class Receive extends AbstractGitCommand {
 
   @Override
   protected void runImpl() throws IOException, Failure {
+    if (!projectControl.canPerformPackAction(receiveGroup)) {
+      throw new Failure(1, "fatal: receive-pack not permitted on this server");
+    }
     final ReceiveCommits receive = factory.create(projectControl, repo);
 
     ReceiveCommits.Capable r = receive.canUpload();

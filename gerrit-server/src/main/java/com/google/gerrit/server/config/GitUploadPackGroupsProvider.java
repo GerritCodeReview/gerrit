@@ -10,40 +10,29 @@
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
-// limitations under the License.
+// limitations under the License
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 
-import java.util.Set;
-
-/**
- * Provider of the group(s) which should become owners of a newly created
- * project. Currently only supports {@code ownerGroup} declarations in the
- * {@code "*"} repository, like so:
- *
- * <pre>
- * [repository &quot;*&quot;]
- *     ownerGroup = Registered Users
- *     ownerGroup = Administrators
- * </pre>
- */
-public class ProjectOwnerGroupsProvider extends GroupSetProvider {
+public class GitUploadPackGroupsProvider extends GroupSetProvider {
 
   @Inject
-  public ProjectOwnerGroupsProvider(
-      @ProjectCreatorGroups final Set<AccountGroup.Id> creatorGroups,
-      @GerritServerConfig final Config config, final SchemaFactory<ReviewDb> db) {
-    super(config, db, "repository", "*", "ownerGroup");
+  public GitUploadPackGroupsProvider(@GerritServerConfig final Config config,
+      final SystemConfig systemConfig, final SchemaFactory<ReviewDb> db) {
+    super(config, db, "upload", null, "allowGroup");
 
+    // if no group was set, "registered users" and "anonymous" groups are the
+    // default
     if (groupIds.isEmpty()) {
-      groupIds = creatorGroups;
+      groupIds.add(systemConfig.registeredGroupId);
+      groupIds.add(systemConfig.anonymousGroupId);
     }
   }
 }

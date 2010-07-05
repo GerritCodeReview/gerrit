@@ -14,19 +14,14 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
-import java.util.Set;
 
 /**
  * Provider of the group(s) which are allowed to create new projects. Currently
@@ -39,27 +34,15 @@ import java.util.Set;
  *     createGroup = Administrators
  * </pre>
  */
-public class ProjectCreatorGroupsProvider implements
-    Provider<Set<AccountGroup.Id>> {
-  private static final Logger log =
-      LoggerFactory.getLogger(ProjectCreatorGroupsProvider.class);
-
-  private final Set<AccountGroup.Id> groupIds;
+public class ProjectCreatorGroupsProvider extends GroupSetProvider {
 
   @Inject
-  ProjectCreatorGroupsProvider(@GerritServerConfig final Config config,
-      SchemaFactory<ReviewDb> db, final SystemConfig systemConfig) {
-    String[] names = config.getStringList("repository", "*", "createGroup");
-    Set<AccountGroup.Id> createGroups = ConfigUtil.groupsFor(db, names, log);
+  public ProjectCreatorGroupsProvider(@GerritServerConfig final Config config,
+      final SystemConfig systemConfig, final SchemaFactory<ReviewDb> db) {
+    super(config, db, "repository", "*", "createGroup");
 
-    if (createGroups.isEmpty()) {
+    if (groupIds.isEmpty()) {
       groupIds = Collections.singleton(systemConfig.adminGroupId);
-    } else {
-      groupIds = createGroups;
     }
-  }
-
-  public Set<AccountGroup.Id> get() {
-    return groupIds;
   }
 }

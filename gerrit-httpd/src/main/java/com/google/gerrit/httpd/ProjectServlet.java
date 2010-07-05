@@ -15,12 +15,15 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GitReceivePackGroups;
+import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.VisibleRefFilter;
@@ -46,6 +49,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 import javax.servlet.ServletConfig;
@@ -176,6 +180,10 @@ public class ProjectServlet extends GitServlet {
   static class Upload implements UploadPackFactory {
     private final Provider<ReviewDb> db;
 
+    @GitUploadPackGroups
+    @Inject
+    private Set<AccountGroup.Id> uploadGroup;
+
     @Inject
     Upload(final Provider<ReviewDb> db) {
       this.db = db;
@@ -183,10 +191,13 @@ public class ProjectServlet extends GitServlet {
 
     @Override
     public UploadPack create(HttpServletRequest req, Repository repo)
-        throws ServiceNotEnabledException {
+        throws ServiceNotEnabledException, ServiceNotAuthorizedException {
+      final ProjectControl pc = getProjectControl(req);
+      if (!pc.canPerformPackAction(uploadGroup)) {
+        throw new ServiceNotAuthorizedException();
+      }
       // The Resolver above already checked READ access for us.
       //
-      ProjectControl pc = getProjectControl(req);
       UploadPack up = new UploadPack(repo);
       if (!pc.allRefsAreVisible()) {
         up.setRefFilter(new VisibleRefFilter(repo, pc, db.get()));
@@ -197,6 +208,10 @@ public class ProjectServlet extends GitServlet {
 
   static class Receive implements ReceivePackFactory {
     private final ReceiveCommits.Factory factory;
+
+    @GitReceivePackGroups
+    @Inject
+    private Set<AccountGroup.Id> receiveGroup;
 
     @Inject
     Receive(final ReceiveCommits.Factory factory) {
@@ -209,6 +224,9 @@ public class ProjectServlet extends GitServlet {
       final ProjectControl pc = getProjectControl(req);
       if (pc.getCurrentUser() instanceof IdentifiedUser) {
         final IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
+        if (!pc.canPerformPackAction(receiveGroup)) {
+          throw new ServiceNotAuthorizedException();
+        }
         final ReceiveCommits rc = factory.create(pc, db);
         final ReceiveCommits.Capable s = rc.canUpload();
         if (s != ReceiveCommits.Capable.OK) {

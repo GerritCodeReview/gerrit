@@ -14,7 +14,9 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.gerrit.sshd.TransferConfig;
@@ -25,6 +27,7 @@ import org.eclipse.jgit.transport.UploadPack;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
+import java.util.Set;
 
 /** Publishes Git repositories over SSH using the Git upload-pack protocol. */
 final class Upload extends AbstractGitCommand {
@@ -34,8 +37,15 @@ final class Upload extends AbstractGitCommand {
   @Inject
   private TransferConfig config;
 
+  @GitUploadPackGroups
+  @Inject
+  private Set<AccountGroup.Id> uploadGroup;
+
   @Override
   protected void runImpl() throws IOException, Failure {
+    if (!projectControl.canPerformPackAction(uploadGroup)) {
+        throw new Failure(1, "fatal: upload-pack not permitted on this server");
+    }
     final UploadPack up = new UploadPack(repo);
     if (!projectControl.allRefsAreVisible()) {
       up.setRefFilter(new VisibleRefFilter(repo, projectControl, db.get()));

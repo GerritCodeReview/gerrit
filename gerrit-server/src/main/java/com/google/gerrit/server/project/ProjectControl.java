@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.common.CollectionsUtil;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
@@ -140,8 +141,8 @@ public class ProjectControl {
   }
 
   public boolean canAddRefs() {
-    return (canPerformOnAnyRef(ApprovalCategory.PUSH_HEAD, ApprovalCategory.PUSH_HEAD_CREATE)
-        || isOwnerAnyRef());
+    return (canPerformOnAnyRef(ApprovalCategory.PUSH_HEAD,
+        ApprovalCategory.PUSH_HEAD_CREATE) || isOwnerAnyRef());
   }
 
   /** Can this user see all the refs in this projects? */
@@ -203,7 +204,7 @@ public class ProjectControl {
     final Set<String> patterns = allRefPatterns(actionId);
     if (patterns.contains(RefRight.ALL)) {
       // Only possible if granted on the pattern that
-      // matches every possible reference.  Check all
+      // matches every possible reference. Check all
       // patterns also have the permission.
       //
       for (final String pattern : patterns) {
@@ -228,5 +229,18 @@ public class ProjectControl {
       }
     }
     return all;
+  }
+
+  public boolean canPerformPackAction(final Set<AccountGroup.Id> group) {
+    boolean canPerform = false;
+
+    if (group != null && !group.isEmpty()) {
+      if (CollectionsUtil.isAnyIncludedIn(user.getEffectiveGroups(),
+          group)) {
+        canPerform = true;
+      }
+    }
+
+    return canPerform;
   }
 }

@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n//+vg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-07-06T20:36:02Z",
+      "side": 1,
+      "message": "Ok, if urlProvider.get() may return null, how to get the name of the server gerrit is running? This information is used to check if the url of the submodule is local or not.",
+      "parentUuid": "AAAA0X////w\u003d",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0X////s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3

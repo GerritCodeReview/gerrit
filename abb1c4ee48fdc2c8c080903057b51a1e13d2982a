@@ -240,6 +240,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n//+wY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 1003878
+      },
+      "writtenOn": "2010-07-06T06:31:58Z",
+      "side": 1,
+      "message": "I agree, but I would like to preserve any tracking-id footer-lines of the submodules. This will make the manifest project fall out in a tr:\u003cid\u003e search and you can determine in which branch and tag of the manifest project a bug or feature has been fixed.",
+      "parentUuid": "AAAA0X////M\u003d",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0X////I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3

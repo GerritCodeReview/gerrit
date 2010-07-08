@@ -26,6 +26,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.IncrementalCommand;
@@ -35,6 +36,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -85,12 +87,21 @@ public class PatchTable extends Composite {
     }
   }
 
+  public void addClickHandler(final ClickHandler clickHandler) {
+    myTable.addClickHandler(clickHandler);
+
+  }
+
   public void setRegisterKeys(final boolean on) {
     myTable.setRegisterKeys(on);
   }
 
   public void movePointerTo(final Patch.Key k) {
     myTable.movePointerTo(k);
+  }
+
+  public void setActive(boolean active) {
+    myTable.setActive(active);
   }
 
   public void notifyDraftDelta(final Patch.Key k, final int delta) {
@@ -170,13 +181,16 @@ public class PatchTable extends Composite {
     private static final int C_PATH = 2;
     private static final int C_DRAFT = 3;
     private static final int C_SIDEBYSIDE = 4;
+    private int activeRow = -1;
 
     MyTable() {
       keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.patchTablePrev()));
       keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.patchTableNext()));
-      keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.patchTableOpen()));
+      keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.patchTableOpenDiff()));
       keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C
-          .patchTableOpen()));
+          .patchTableOpenDiff()));
+      keysNavigation.add(new OpenUnifiedDiffKeyCommand(0, 'O', Util.C
+          .patchTableOpenUnifiedDiff()));
 
       table.addClickHandler(new ClickHandler() {
         @Override
@@ -188,6 +202,10 @@ public class PatchTable extends Composite {
         }
       });
       setSavePointerId(PatchTable.this.savePointerId);
+    }
+
+    public void addClickHandler(final ClickHandler clickHandler) {
+      table.addClickHandler(clickHandler);
     }
 
     void updateReviewedStatus(final Patch.Key patchKey, boolean reviewed) {
@@ -232,6 +250,22 @@ public class PatchTable extends Composite {
     @Override
     public void movePointerTo(Object oldId) {
       super.movePointerTo(oldId);
+    }
+
+    /** Activates / Deactivates the key navigation and the highlighting of the current row for this table */
+    public void setActive(boolean active) {
+      if (active) {
+        if(activeRow > 0 && getCurrentRow() != activeRow) {
+          super.movePointerTo(activeRow);
+          activeRow = -1;
+        }
+      } else {
+        if(getCurrentRow() > 0) {
+          activeRow = getCurrentRow();
+          super.movePointerTo(-1);
+        }
+      }
+      setRegisterKeys(active);
     }
 
     void initializeRow(int row) {
@@ -460,6 +494,29 @@ public class PatchTable extends Composite {
       }
       if (link instanceof InlineHyperlink) {
         ((InlineHyperlink) link).go();
+      }
+    }
+
+    private final class OpenUnifiedDiffKeyCommand extends KeyCommand {
+
+      public OpenUnifiedDiffKeyCommand(int mask, char key, String help) {
+        super(mask, key, help);
+      }
+
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        Widget link = table.getWidget(getCurrentRow(), C_PATH);
+        if (link instanceof FlowPanel) {
+          link = ((FlowPanel) link).getWidget(0);
+        }
+        if (link instanceof PatchLink.Unified) {
+          ((InlineHyperlink) link).go();
+        } else {
+          link = table.getWidget(getCurrentRow(), C_SIDEBYSIDE + 1);
+          if (link instanceof PatchLink.Unified) {
+            ((InlineHyperlink) link).go();
+          }
+        }
       }
     }
   }

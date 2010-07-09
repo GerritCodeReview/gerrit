@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0n//+Xc\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-07-09T17:37:38Z",
+      "side": 1,
+      "message": "Pros: \n- You will compile these sources, so you always sure they are not broken.\n- Adding this module here makes IDEA happier and it allows to import it automatically. Otherwise you need to add the module manually.\n\nCons:\n- You build an additional module and it slows down the build process. \n\nThe gwtdebug module is not big, but what if we want to add additional modules e.g. Webdriver tests? Should we stay consistent and add it to the parent too?",
+      "revId": "d880135fe6453639472ed6d26c4f1d829e240da6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

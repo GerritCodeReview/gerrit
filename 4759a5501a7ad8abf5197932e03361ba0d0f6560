@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0n//+aM\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-09T14:49:36Z",
+      "side": 1,
+      "message": "I\u0027m not sure we should add this.  What is the point of building it under the top level Maven build when its only used for debugging under Eclipse under the GWT hosted mode?  Is it just to make sure this code still compiles?",
+      "revId": "4759a5501a7ad8abf5197932e03361ba0d0f6560",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

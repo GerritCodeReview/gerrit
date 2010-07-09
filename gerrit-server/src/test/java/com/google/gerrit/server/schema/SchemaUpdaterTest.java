@@ -17,7 +17,7 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.testutil.TestDatabase;
+import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.StatementExecutor;
@@ -33,17 +33,17 @@ import java.util.List;
 import java.util.UUID;
 
 public class SchemaUpdaterTest extends TestCase {
-  private TestDatabase db;
+  private InMemoryDatabase db;
 
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    db = new TestDatabase();
+    db = new InMemoryDatabase();
   }
 
   @Override
   protected void tearDown() throws Exception {
-    TestDatabase.drop(db);
+    InMemoryDatabase.drop(db);
     super.tearDown();
   }
 

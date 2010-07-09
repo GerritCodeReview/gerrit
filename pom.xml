@@ -606,7 +606,7 @@ limitations under the License.
       <dependency>
         <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>
-        <version>1.2.15</version>
+        <version>1.2.16</version>
         <exclusions>
           <exclusion>
             <groupId>javax.mail</groupId>

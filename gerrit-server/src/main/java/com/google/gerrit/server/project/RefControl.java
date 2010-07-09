@@ -386,7 +386,7 @@ public class RefControl {
   private List<RefRight> filter(Collection<RefRight> all) {
     List<RefRight> mine = new ArrayList<RefRight>(all.size());
     for (RefRight right : all) {
-      if (matches(getRefName(), right.getRefPattern())) {
+      if (matches(getRefName(), right.getRefPattern(), getCurrentUser())) {
         mine.add(right);
       }
     }
@@ -397,13 +397,23 @@ public class RefControl {
     return projectControl.getProjectState();
   }
 
-  public static boolean matches(String refName, String refPattern) {
-    if (refPattern.endsWith("/*")) {
-      String prefix = refPattern.substring(0, refPattern.length() - 1);
+  public static boolean matches(String refName, String refPattern, CurrentUser user) {
+    String userPattern = refPattern;
+    if (user instanceof IdentifiedUser) {
+      String userName = ((IdentifiedUser) user).getUserName();
+      userPattern = refPattern.replaceAll("\\$\\{user\\}", userName);
+    } else {
+      if (refPattern.indexOf("${user}") > -1) {
+        return false;
+      }
+    }
+
+    if (userPattern.endsWith("/*")) {
+      String prefix = userPattern.substring(0, userPattern.length() - 1);
       return refName.startsWith(prefix);
 
     } else {
-      return refName.equals(refPattern);
+      return refName.equals(userPattern);
     }
   }
 }

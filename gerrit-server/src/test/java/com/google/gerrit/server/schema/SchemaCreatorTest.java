@@ -23,7 +23,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.workflow.NoOpFunction;
 import com.google.gerrit.server.workflow.SubmitFunction;
-import com.google.gerrit.testutil.TestDatabase;
+import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.jdbc.JdbcSchema;
 
@@ -36,17 +36,17 @@ import java.util.HashSet;
 
 public class SchemaCreatorTest extends TestCase {
   private ApprovalCategory.Id codeReview = new ApprovalCategory.Id("CRVW");
-  private TestDatabase db;
+  private InMemoryDatabase db;
 
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    db = new TestDatabase();
+    db = new InMemoryDatabase();
   }
 
   @Override
   protected void tearDown() throws Exception {
-    TestDatabase.drop(db);
+    InMemoryDatabase.drop(db);
     super.tearDown();
   }
 

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.util;
 
-import static com.google.gerrit.server.util.SocketUtil.format;
 import static com.google.gerrit.server.util.SocketUtil.hostname;
 import static com.google.gerrit.server.util.SocketUtil.isIPv6;
 import static com.google.gerrit.server.util.SocketUtil.parse;
@@ -48,21 +47,21 @@ public class SocketUtilTest extends TestCase {
   }
 
   public void testFormat() throws UnknownHostException {
-    assertEquals("*:1234", format(new InetSocketAddress(1234), 80));
-    assertEquals("*", format(new InetSocketAddress(80), 80));
+    assertEquals("*:1234", SocketUtil.format(new InetSocketAddress(1234), 80));
+    assertEquals("*", SocketUtil.format(new InetSocketAddress(80), 80));
 
-    assertEquals("foo:1234", format(createUnresolved("foo", 1234), 80));
-    assertEquals("foo", format(createUnresolved("foo", 80), 80));
+    assertEquals("foo:1234", SocketUtil.format(createUnresolved("foo", 1234), 80));
+    assertEquals("foo", SocketUtil.format(createUnresolved("foo", 80), 80));
 
     assertEquals("[1:2:3:4:5:6:7:8]:1234",//
-        format(new InetSocketAddress(getByName("1:2:3:4:5:6:7:8"), 1234), 80));
+        SocketUtil.format(new InetSocketAddress(getByName("1:2:3:4:5:6:7:8"), 1234), 80));
     assertEquals("[1:2:3:4:5:6:7:8]",//
-        format(new InetSocketAddress(getByName("1:2:3:4:5:6:7:8"), 80), 80));
+        SocketUtil.format(new InetSocketAddress(getByName("1:2:3:4:5:6:7:8"), 80), 80));
 
     assertEquals("localhost:1234",//
-        format(new InetSocketAddress("localhost", 1234), 80));
+        SocketUtil.format(new InetSocketAddress("localhost", 1234), 80));
     assertEquals("localhost",//
-        format(new InetSocketAddress("localhost", 80), 80));
+        SocketUtil. format(new InetSocketAddress("localhost", 80), 80));
   }
 
   public void testParse() {

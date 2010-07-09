@@ -82,6 +82,7 @@ limitations under the License.
     <module>gerrit-reviewdb</module>
     <module>gerrit-server</module>
     <module>gerrit-sshd</module>
+    <module>gerrit-gwtdebug</module>
     <module>gerrit-war</module>
 
     <module>gerrit-gwtui</module>

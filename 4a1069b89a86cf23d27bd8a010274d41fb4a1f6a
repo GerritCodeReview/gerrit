@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0n//+as\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-07-09T05:41:34Z",
+      "side": 0,
+      "message": "These changes are from another commit. I am going to fix it tomorrow.",
+      "revId": "4a1069b89a86cf23d27bd8a010274d41fb4a1f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

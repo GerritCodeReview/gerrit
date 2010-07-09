@@ -43,10 +43,10 @@ import javax.sql.DataSource;
  * <p>
  * Test classes should create one instance of this class for each unique test
  * database they want to use. When the tests needing this instance are complete,
- * ensure that {@link #drop(TestDatabase)} is called to free the resources so
+ * ensure that {@link #drop(InMemoryDatabase)} is called to free the resources so
  * the JVM running the unit tests doesn't run out of heap space.
  */
-public class TestDatabase implements SchemaFactory<ReviewDb> {
+public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
   private static int dbCnt;
 
   private static synchronized DataSource newDataSource() throws SQLException {
@@ -58,7 +58,7 @@ public class TestDatabase implements SchemaFactory<ReviewDb> {
   }
 
   /** Drop the database from memory; does nothing if the instance was null. */
-  public static void drop(final TestDatabase db) {
+  public static void drop(final InMemoryDatabase db) {
     if (db != null) {
       db.drop();
     }
@@ -69,7 +69,7 @@ public class TestDatabase implements SchemaFactory<ReviewDb> {
   private boolean created;
   private SchemaVersion schemaVersion;
 
-  public TestDatabase() throws OrmException {
+  public InMemoryDatabase() throws OrmException {
     try {
       final DataSource dataSource = newDataSource();
 
@@ -101,7 +101,7 @@ public class TestDatabase implements SchemaFactory<ReviewDb> {
   }
 
   /** Ensure the database schema has been created and initialized. */
-  public TestDatabase create() throws OrmException {
+  public InMemoryDatabase create() throws OrmException {
     if (!created) {
       created = true;
       final ReviewDb c = open();

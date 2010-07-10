@@ -16,6 +16,24 @@
       "revId": "d880135fe6453639472ed6d26c4f1d829e240da6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n//+Qg\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-10T03:04:33Z",
+      "side": 1,
+      "message": "Yea, OK, I guess we should just include it.",
+      "parentUuid": "AAAA0n//+Xc\u003d",
+      "revId": "d880135fe6453639472ed6d26c4f1d829e240da6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

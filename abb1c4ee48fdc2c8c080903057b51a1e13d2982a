@@ -88,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA0n//+QU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-10T03:19:44Z",
+      "side": 1,
+      "message": "If the provider returns null, you cannot get the server name.  Its just not known.  And we shouldn\u0027t guess.  Instead we should fail the operation and log it in the server error log.  This code path is only triggered by submodule stuff, right?  On servers that need it, the admin should make sure gerrit.canonicalWebUrl is configured in their gerrit.config, which ensures the provider won\u0027t return null here.",
+      "parentUuid": "AAAA0n//+vg\u003d",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA0X////s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3
@@ -270,6 +288,24 @@
       "side": 1,
       "message": "I agree, but I would like to preserve any tracking-id footer-lines of the submodules. This will make the manifest project fall out in a tr:\u003cid\u003e search and you can determine in which branch and tag of the manifest project a bug or feature has been fixed.",
       "parentUuid": "AAAA0X////M\u003d",
+      "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n//+QQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-10T03:19:44Z",
+      "side": 1,
+      "message": "The problem is the tracking-id footers won\u0027t be parsed out of a merge commit message that was created by gerrit.  We just don\u0027t do that.  Even if we do, we aren\u0027t creating a change record in the database for every merge commit, which means there isn\u0027t something for the tracking-id index to attach to and report in search results for the tr: operator.\n\nTo do what you are proposing we need to actually push these merge commits in as changes, which is something we haven\u0027t done before.  And if you go that far, you can inject the tracking-id rows manually into the tracking table without putting them into the commit message of the merge commit.",
+      "parentUuid": "AAAA0n//+wY\u003d",
       "revId": "abb1c4ee48fdc2c8c080903057b51a1e13d2982a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

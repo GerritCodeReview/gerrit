@@ -16,6 +16,41 @@
       "revId": "8db497e44cadab6be8895e1c477516d3b3b2d9c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n//+QI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-10T03:25:33Z",
+      "side": 1,
+      "message": "Just stick the message in a static member of some class.  :-)\n\nSince the message is unique for a given PatchSet.Id, store two things:  The PatchSet.Id of the message, and the String of the message text.  If the id matches the id of the file, you can reuse the string.  If it doesn\u0027t match, you need to fetch it from the server, and then cache it.\n\nThe static members are per browser tab/window, which will mean we can nicely cache the message for most browsing activity along a single change.\n\nWhen ChangeScreen loads, it should also set the message into the static field so its available to the files.",
+      "parentUuid": "AAAA0n//+w8\u003d",
+      "revId": "8db497e44cadab6be8895e1c477516d3b3b2d9c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n//+QE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-10T03:25:33Z",
+      "side": 1,
+      "message": "Unfortunately this message might be wrong when you are viewing an older patch set.  If there are currently 3 patch sets on the change, but you are browsing the very first patch set, this method is still getting the most recent commit message.  You will need to introduce a new RPC method to ChangeDetailService to obtain the commit message for a specific PatchSet.Id.",
+      "revId": "8db497e44cadab6be8895e1c477516d3b3b2d9c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

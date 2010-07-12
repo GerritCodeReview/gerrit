@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.ConfirmationCallback;
+import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
@@ -40,6 +42,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
@@ -264,31 +267,47 @@ public class ProjectBranchesPanel extends Composite {
     }
 
     void deleteChecked() {
+      final StringBuilder message = new StringBuilder();
+      message.append("<b>").append(Gerrit.C.branchDeletionConfirmationMessage()).append("</b>");
+      message.append("<p>");
       final HashSet<Branch.NameKey> ids = new HashSet<Branch.NameKey>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final Branch k = getRowItem(row);
         if (k != null && table.getWidget(row, 1) instanceof CheckBox
             && ((CheckBox) table.getWidget(row, 1)).getValue()) {
+          if (!ids.isEmpty()) {
+            message.append(", <br>");
+          }
+          message.append(k.getName());
           ids.add(k.getNameKey());
         }
       }
+      message.append("</p>");
       if (ids.isEmpty()) {
         return;
       }
 
-      Util.PROJECT_SVC.deleteBranch(projectName, ids,
-          new GerritCallback<Set<Branch.NameKey>>() {
-            public void onSuccess(final Set<Branch.NameKey> deleted) {
-              for (int row = 1; row < table.getRowCount();) {
-                final Branch k = getRowItem(row);
-                if (k != null && deleted.contains(k.getNameKey())) {
-                  table.removeRow(row);
-                } else {
-                  row++;
+      ConfirmationDialog confirmationDialog =
+          new ConfirmationDialog(Gerrit.C.branchDeletionDialogTitle(),
+              new HTML(message.toString()), new ConfirmationCallback() {
+        @Override
+        public void onOk() {
+          Util.PROJECT_SVC.deleteBranch(projectName, ids,
+              new GerritCallback<Set<Branch.NameKey>>() {
+                public void onSuccess(final Set<Branch.NameKey> deleted) {
+                  for (int row = 1; row < table.getRowCount();) {
+                    final Branch k = getRowItem(row);
+                    if (k != null && deleted.contains(k.getNameKey())) {
+                      table.removeRow(row);
+                    } else {
+                      row++;
+                    }
+                  }
                 }
-              }
-            }
-          });
+              });
+        }
+      });
+      confirmationDialog.center();
     }
 
     void display(final List<Branch> result) {

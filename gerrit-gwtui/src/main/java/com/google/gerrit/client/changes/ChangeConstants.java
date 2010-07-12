@@ -112,4 +112,7 @@ public interface ChangeConstants extends Constants {
   String reviewed();
   String submitFailed();
   String buttonClose();
+
+  String buttonDiffAllSideBySide();
+  String buttonDiffAllUnified();
 }

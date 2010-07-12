@@ -244,6 +244,7 @@ limitations under the License.
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
           <packagingExcludes>WEB-INF/classes/**,WEB-INF/lib/**</packagingExcludes>
+          <attachClasses>true</attachClasses>
           <archive>
             <addMavenDescriptor>false</addMavenDescriptor>
           </archive>

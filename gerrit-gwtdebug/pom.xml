@@ -42,14 +42,14 @@ limitations under the License.
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-gwtui</artifactId>
       <version>${project.version}</version>
-      <type>war</type>
+      <classifier>classes</classifier>
     </dependency>
 
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-war</artifactId>
       <version>${project.version}</version>
-      <type>war</type>
+      <classifier>classes</classifier>
       <exclusions>
         <exclusion>
           <groupId>com.google.gerrit</groupId>

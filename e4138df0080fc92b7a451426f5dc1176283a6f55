@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA0n//+Og\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-07-12T07:09:25Z",
+      "side": 1,
+      "message": "button display text should be defined in \u0027ChangeConstants.properties\u0027 and accessed by \u0027Util.C.diffAllSideBySide()\u0027",
+      "revId": "e4138df0080fc92b7a451426f5dc1176283a6f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA0n//+Oc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-07-12T07:09:25Z",
+      "side": 1,
+      "message": "same as above, button display text should be defined in \u0027ChangeConstants.properties\u0027",
+      "revId": "e4138df0080fc92b7a451426f5dc1176283a6f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

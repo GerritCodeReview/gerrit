@@ -18,6 +18,9 @@ import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
+import com.google.gerrit.client.ui.PatchLink;
+import com.google.gerrit.client.ui.PatchLink.SideBySide;
+import com.google.gerrit.client.ui.PatchLink.Unified;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Account;
@@ -26,6 +29,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
+import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
@@ -364,6 +368,32 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       });
       actionsPanel.add(b);
     }
+
+    final Button diffAllSideBySide = new Button(Util.C.buttonDiffAllSideBySide());
+    diffAllSideBySide.addClickHandler(new ClickHandler() {
+
+      @Override
+      public void onClick(ClickEvent event) {
+        for (Patch p : detail.getPatches()) {
+          SideBySide link = new PatchLink.SideBySide(p.getFileName(), p.getKey(), 0, null);
+          Window.open(link.getElement().toString(), p.getFileName(), null);
+        }
+      }
+    });
+    actionsPanel.add(diffAllSideBySide);
+
+    final Button diffAllUnified = new Button(Util.C.buttonDiffAllUnified());
+    diffAllUnified.addClickHandler(new ClickHandler() {
+
+      @Override
+      public void onClick(ClickEvent event) {
+        for (Patch p : detail.getPatches()) {
+          Unified link = new PatchLink.Unified(p.getFileName(), p.getKey(), 0, null);
+          Window.open(link.getElement().toString(), p.getFileName(), null);
+        }
+      }
+    });
+    actionsPanel.add(diffAllUnified);
   }
 
   private void populateReviewAction() {

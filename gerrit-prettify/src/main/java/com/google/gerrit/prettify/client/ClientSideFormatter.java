@@ -17,6 +17,8 @@ package com.google.gerrit.prettify.client;
 import com.google.gerrit.prettify.common.PrettyFactory;
 import com.google.gerrit.prettify.common.PrettyFormatter;
 import com.google.gwt.resources.client.TextResource;
+import com.google.gwt.user.client.ui.NamedFrame;
+import com.google.gwt.user.client.ui.RootPanel;
 
 /** Evaluates prettify using the host browser's JavaScript engine. */
 public class ClientSideFormatter extends PrettyFormatter {
@@ -31,6 +33,7 @@ public class ClientSideFormatter extends PrettyFormatter {
     Resources.I.prettify_css().ensureInjected();
     Resources.I.gerrit_css().ensureInjected();
 
+    createFrame();
     compile(Resources.I.core());
     compile(Resources.I.lang_css());
     compile(Resources.I.lang_hs());
@@ -43,12 +46,19 @@ public class ClientSideFormatter extends PrettyFormatter {
     compile(Resources.I.lang_wiki());
   }
 
+  private static void createFrame() {
+    NamedFrame frame = new NamedFrame("_prettify");
+    frame.setUrl("javascript:");
+    frame.setVisible(false);
+    RootPanel.get().add(frame);
+  }
+
   private static void compile(TextResource core) {
     eval(core.getText());
   }
 
   private static native void eval(String js)
-  /*-{ eval(js); }-*/;
+  /*-{ $wnd._prettify.eval(js); }-*/;
 
   @Override
   protected String prettify(String html, String type) {
@@ -57,7 +67,7 @@ public class ClientSideFormatter extends PrettyFormatter {
 
   private static native String go(String srcText, String srcType, int tabSize)
   /*-{
-     window['PR_TAB_WIDTH'] = tabSize;
-     return window.prettyPrintOne(srcText, srcType);
+     $wnd._prettify.PR_TAB_WIDTH = tabSize;
+     return $wnd._prettify.prettyPrintOne(srcText, srcType);
   }-*/;
 }

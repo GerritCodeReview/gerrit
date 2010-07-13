@@ -68,6 +68,10 @@ public final class AccountGeneralPreferences {
   @Column(id = 6, length = 20, notNull = false)
   protected String downloadCommand;
 
+  /** If true we CC the user on their own changes. */
+  @Column(id = 7)
+  protected boolean copySelfOnEmail;
+
   public AccountGeneralPreferences() {
   }
 
@@ -135,11 +139,20 @@ public final class AccountGeneralPreferences {
     }
   }
 
+  public boolean isCopySelfOnEmails() {
+    return copySelfOnEmail;
+  }
+
+  public void setCopySelfOnEmails(boolean includeSelfOnEmail) {
+    copySelfOnEmail = includeSelfOnEmail;
+  }
+
   public void resetToDefaults() {
     defaultContext = DEFAULT_CONTEXT;
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
     useFlashClipboard = true;
+    copySelfOnEmail = false;
     downloadUrl = null;
     downloadCommand = null;
   }

@@ -32,6 +32,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.mail.EmailHeader.AddressList;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -52,6 +53,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -165,12 +167,37 @@ public abstract class OutgoingEmail {
     format();
     if (shouldSendMessage()) {
       if (fromId != null) {
-        // If we are impersonating a user, make sure they receive a CC of
-        // this message so they can always review and audit what we sent
-        // on their behalf to others.
-        //
-        add(RecipientType.CC, fromId);
+        final Account fromUser = accountCache.get(fromId).getAccount();
+
+        if (fromUser.getGeneralPreferences().isCopySelfOnEmails()) {
+          // If we are impersonating a user, make sure they receive a CC of
+          // this message so they can always review and audit what we sent
+          // on their behalf to others.
+          //
+          add(RecipientType.CC, fromId);
+
+        } else if (rcptTo.remove(fromId)) {
+          // If they don't want a copy, but we queued one up anyway,
+          // drop them from the recipient lists.
+          //
+          if (rcptTo.isEmpty()) {
+            return;
+          }
+
+          final String fromEmail = fromUser.getPreferredEmail();
+          for (Iterator<Address> i = smtpRcptTo.iterator(); i.hasNext();) {
+            if (i.next().email.equals(fromEmail)) {
+              i.remove();
+            }
+          }
+          for (EmailHeader hdr : headers.values()) {
+            if (hdr instanceof AddressList) {
+              ((AddressList) hdr).remove(fromEmail);
+            }
+          }
+        }
       }
+
       if (change != null) {
         if (getChangeUrl() != null) {
           openFooter();

@@ -19,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -116,6 +117,14 @@ abstract class EmailHeader {
 
     void add(Address addr) {
       list.add(addr);
+    }
+
+    void remove(java.lang.String email) {
+      for (Iterator<Address> i = list.iterator(); i.hasNext();) {
+        if (i.next().email.equals(email)) {
+          i.remove();
+        }
+      }
     }
 
     @Override

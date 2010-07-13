@@ -63,7 +63,7 @@ class UserPassAuthServiceImpl implements UserPassAuthService {
 
     result.success = true;
     result.isNew = res.isNew();
-    webSession.get().login(res, false);
+    webSession.get().login(res, true /* persistent cookie */);
     callback.onSuccess(result);
   }
 }

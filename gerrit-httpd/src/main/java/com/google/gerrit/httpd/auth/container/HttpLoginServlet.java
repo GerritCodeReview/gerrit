@@ -136,7 +136,7 @@ class HttpLoginServlet extends HttpServlet {
     }
     rdr.append(token);
 
-    webSession.get().login(arsp, false);
+    webSession.get().login(arsp, true /* persistent cookie */);
     rsp.sendRedirect(rdr.toString());
   }
 

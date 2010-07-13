@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -56,6 +57,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.Nullable;
 
@@ -191,6 +193,27 @@ public abstract class OutgoingEmail {
         appendText("Gerrit-MessageType: " + messageClass + "\n");
         appendText("Gerrit-Project: " + projectName + "\n");
         appendText("Gerrit-Branch: " + change.getDest().getShortName() + "\n");
+        appendText("Gerrit-Owner: " + getNameEmailFor(change.getOwner()) + "\n");
+
+        if (db != null) {
+          try {
+            HashSet<Account.Id> reviewers = new HashSet<Account.Id>();
+            for (PatchSetApproval p : db.patchSetApprovals().byChange(
+                change.getId())) {
+              reviewers.add(p.getAccountId());
+            }
+
+            TreeSet<String> names = new TreeSet<String>();
+            for (Account.Id who : reviewers) {
+              names.add(getNameEmailFor(who));
+            }
+
+            for (String name : names) {
+              appendText("Gerrit-Reviewer: " + name + "\n");
+            }
+          } catch (OrmException e) {
+          }
+        }
       }
 
       if (headers.get("Message-ID").isEmpty()) {
@@ -487,6 +510,24 @@ public abstract class OutgoingEmail {
       name = "Anonymous Coward #" + accountId;
     }
     return name;
+  }
+
+  private String getNameEmailFor(Account.Id accountId) {
+    AccountState who = accountCache.get(accountId);
+    String name = who.getAccount().getFullName();
+    String email = who.getAccount().getPreferredEmail();
+
+    if (name != null && email != null) {
+      return name + " <" + email + ">";
+
+    } else if (name != null) {
+      return name;
+    } else if (email != null) {
+      return email;
+
+    } else /* (name == null && email == null) */{
+      return "Anonymous Coward #" + accountId;
+    }
   }
 
   protected boolean shouldSendMessage() {

@@ -231,3 +231,6 @@ ON tracking_ids (tracking_id);
 
 CREATE INDEX starred_changes_byChange
 ON starred_changes (change_id);
+
+ALTER TABLE new_ref_rights ADD CONSTRAINT new_ref_rights_alternate_key 
+UNIQUE (project_name, ref_pattern, category_id, group_id);

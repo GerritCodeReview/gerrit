@@ -19,6 +19,7 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupMember;
+import com.google.gerrit.reviewdb.CodeReviewLabel;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.GroupCache;
@@ -72,6 +73,7 @@ class GroupDetailFactory extends Handler<GroupDetail> {
         break;
     }
     detail.setAccounts(aic.create());
+    detail.setCodeReviewLabels(loadCodeReviewLabels());
     return detail;
   }
 
@@ -107,5 +109,10 @@ class GroupDetailFactory extends Handler<GroupDetail> {
       }
     });
     return members;
+  }
+
+  private List<CodeReviewLabel> loadCodeReviewLabels() throws OrmException {
+    List<CodeReviewLabel> crls = db.codeReviewLabels().byGroup(groupId).toList();
+    return crls;
   }
 }

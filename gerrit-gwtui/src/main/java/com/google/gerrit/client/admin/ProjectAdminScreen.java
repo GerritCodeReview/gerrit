@@ -32,6 +32,7 @@ public class ProjectAdminScreen extends Screen {
   static final String INFO_TAB = "info";
   static final String BRANCH_TAB = "branches";
   static final String ACCESS_TAB = "access";
+  static final String NEW_ACCESS_TAB = "new access";
 
   private final Project.NameKey projectName;
   private final String initialTabToken;
@@ -102,6 +103,14 @@ public class ProjectAdminScreen extends Screen {
       }
     }, Util.C.projectAdminTabAccess());
     tabTokens.add(Dispatcher.toProjectAdmin(projectName, ACCESS_TAB));
+
+    tabs.add(new LazyPanel() {
+      @Override
+      protected NewProjectRightsPanel createWidget() {
+        return new NewProjectRightsPanel(projectName);
+      }
+    }, Util.C.projectAdminNewTabAccess());
+    tabTokens.add(Dispatcher.toProjectAdmin(projectName, NEW_ACCESS_TAB));
 
     tabs.addSelectionHandler(new SelectionHandler<Integer>() {
       @Override

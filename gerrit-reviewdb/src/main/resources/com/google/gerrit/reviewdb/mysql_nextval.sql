@@ -13,3 +13,5 @@ BEGIN
   RETURN LAST_INSERT_ID();
 END;
 //
+
+ALTER TABLE new_ref_rights ADD UNIQUE (project_name, ref_pattern, category_id, group_id);

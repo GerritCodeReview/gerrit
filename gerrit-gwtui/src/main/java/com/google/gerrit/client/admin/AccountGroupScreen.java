@@ -20,6 +20,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.ui.AddCodeReviewLabelBox;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
@@ -29,6 +30,7 @@ import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupMember;
+import com.google.gerrit.reviewdb.CodeReviewLabel;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -83,6 +85,12 @@ public class AccountGroupScreen extends AccountScreen {
   private Button externalNameSearch;
   private Grid externalMatches;
 
+  private Panel labelsPanel;
+  private AddCodeReviewLabelBox addLabelsBox;
+  private Button delLabel;
+  private CodeReviewLabelTable labels;
+
+
   public AccountGroupScreen(final AccountGroup.Id toShow) {
     groupId = toShow;
   }
@@ -107,6 +115,7 @@ public class AccountGroupScreen extends AccountScreen {
     initDescription();
     initGroupType();
     initMemberList();
+    initLabelsList();
     initExternal();
   }
 
@@ -262,6 +271,34 @@ public class AccountGroupScreen extends AccountScreen {
     memberPanel.add(members);
     memberPanel.add(delMember);
     add(memberPanel);
+  }
+
+  private void initLabelsList() {
+    addLabelsBox = new AddCodeReviewLabelBox();
+
+    addLabelsBox.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        //TODO
+      }
+    });
+
+    labels = new CodeReviewLabelTable();
+
+    delLabel = new Button("Delete");
+    delLabel.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        //TODO
+      }
+    });
+
+    labelsPanel = new FlowPanel();
+    labelsPanel.add(new SmallHeading(Util.C.headingLabels()));
+    labelsPanel.add(addLabelsBox);
+    labelsPanel.add(labels);
+    labelsPanel.add(delLabel);
+    add(labelsPanel);
   }
 
   private void initExternal() {
@@ -433,11 +470,17 @@ public class AccountGroupScreen extends AccountScreen {
       case INTERNAL:
         accounts = result.accounts;
         members.display(result.members);
+        labels.display(result.codeReviewLabels);
         break;
 
       case LDAP:
+        labels.display(result.codeReviewLabels);
         externalName.setText(group.getExternalNameKey() != null ? group
             .getExternalNameKey().get() : Util.C.noGroupSelected());
+        break;
+
+      case SYSTEM:
+        labels.display(result.codeReviewLabels);
         break;
     }
 
@@ -536,6 +579,45 @@ public class AccountGroupScreen extends AccountScreen {
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
       fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
+
+      setRowItem(row, k);
+    }
+  }
+
+
+
+  private class CodeReviewLabelTable extends FancyFlexTable<CodeReviewLabel> {
+    CodeReviewLabelTable() {
+      table.setText(0, 2, Util.C.columnLabel());
+
+      final FlexCellFormatter fmt = table.getFlexCellFormatter();
+      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
+      fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
+    }
+
+    void deleteChecked() {
+      //TODO
+    }
+
+    void display(final List<CodeReviewLabel> result) {
+      while (1 < table.getRowCount())
+        table.removeRow(table.getRowCount() - 1);
+
+      for (final CodeReviewLabel k : result) {
+        final int row = table.getRowCount();
+        table.insertRow(row);
+        applyDataRowStyle(row);
+        populate(row, k);
+      }
+    }
+
+    void populate(final int row, final CodeReviewLabel k) {
+      table.setWidget(row, 1, new CheckBox());
+      table.setText(row, 2, k.getKey().getLabelToDisplay().get());
+
+      final FlexCellFormatter fmt = table.getFlexCellFormatter();
+      fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
+      fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
 
       setRowItem(row, k);
     }

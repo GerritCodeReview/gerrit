@@ -15,7 +15,9 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.NewRefRight;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.SubmitLabel;
 
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,8 @@ public class ProjectDetail {
   public Project project;
   public Map<AccountGroup.Id, AccountGroup> groups;
   public List<InheritedRefRight> rights;
+  public List<InheritedNewRefRight> newRights;
+  public Map<NewRefRight.Id, List<SubmitLabel>> submitLabels;
   public boolean canModifyDescription;
   public boolean canModifyMergeType;
   public boolean canModifyAgreements;
@@ -42,6 +46,14 @@ public class ProjectDetail {
 
   public void setRights(final List<InheritedRefRight> r) {
     rights = r;
+  }
+
+  public void setNewRights(final List<InheritedNewRefRight> r) {
+    newRights = r;
+  }
+
+  public void setSubmitLabels(final Map<NewRefRight.Id, List<SubmitLabel>> sl) {
+    submitLabels = sl;
   }
 
   public void setCanModifyDescription(final boolean cmd) {

@@ -32,7 +32,7 @@ import java.util.List;
 /** A version of the database schema. */
 public abstract class SchemaVersion {
   /** The current schema version. */
-  private static final Class<? extends SchemaVersion> C = Schema_35.class;
+  private static final Class<? extends SchemaVersion> C = Schema_40.class;
 
   public static class Module extends AbstractModule {
     @Override
@@ -116,11 +116,13 @@ public abstract class SchemaVersion {
   protected void preUpdateSchema(ReviewDb db) throws OrmException, SQLException {
   }
 
+  public void initData(ReviewDb db) throws OrmException {
+  }
+
   /**
    * Invoked between updateSchema (adds new columns/tables) and pruneSchema
    * (removes deleted columns/tables).
    */
-  @SuppressWarnings("unused")
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
   }
 

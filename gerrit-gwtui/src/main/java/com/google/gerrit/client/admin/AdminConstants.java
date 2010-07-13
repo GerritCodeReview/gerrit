@@ -45,6 +45,7 @@ public interface AdminConstants extends Constants {
   String headingCreateGroup();
   String headingAccessRights();
   String headingAgreements();
+  String headingLabels();
 
   String projectSubmitType_FAST_FORWARD_ONLY();
   String projectSubmitType_MERGE_ALWAYS();
@@ -64,6 +65,9 @@ public interface AdminConstants extends Constants {
   String columnApprovalCategory();
   String columnRightRange();
   String columnRefName();
+  String columnLabels();
+  String columnLabel();
+  String columnPermission();
 
   String columnBranchName();
   String columnBranchRevision();
@@ -84,6 +88,7 @@ public interface AdminConstants extends Constants {
   String projectAdminTabGeneral();
   String projectAdminTabBranches();
   String projectAdminTabAccess();
+  String projectAdminNewTabAccess();
 
   String noGroupSelected();
   String errorNoMatchingGroups();

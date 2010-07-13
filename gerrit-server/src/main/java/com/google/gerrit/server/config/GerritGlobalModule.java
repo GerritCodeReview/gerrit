@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.reviewdb.AccessCategory;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.Project;
@@ -64,11 +65,12 @@ import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.inject.Inject;
-
 import com.google.inject.TypeLiteral;
+
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
+import java.util.Map;
 import java.util.Set;
 
 /** Starts global state with standard dependencies. */
@@ -103,6 +105,8 @@ public class GerritGlobalModule extends FactoryModule {
         .toProvider(ProjectOwnerGroupsProvider.class).in(SINGLETON);
     bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
         SINGLETON);
+    bind(new TypeLiteral<Map<AccessCategory.Id, AccessCategory>>(){}).toProvider(
+        AccessCategoriesProvider.class).in(SINGLETON);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
         SINGLETON);
     bind(AnonymousUser.class);

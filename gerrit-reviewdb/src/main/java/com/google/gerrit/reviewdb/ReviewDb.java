@@ -40,6 +40,9 @@ public interface ReviewDb extends Schema {
   SystemConfigAccess systemConfig();
 
   @Relation
+  AccessCategoryAccess accessCategories();
+
+  @Relation
   ApprovalCategoryAccess approvalCategories();
 
   @Relation
@@ -111,6 +114,15 @@ public interface ReviewDb extends Schema {
   @Relation
   TrackingIdAccess trackingIds();
 
+  @Relation
+  NewRefRightAccess newRefRights();
+
+  @Relation
+  CodeReviewLabelAccess codeReviewLabels();
+
+  @Relation
+  SubmitLabelAccess submitLabels();
+
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)
   int nextAccountId() throws OrmException;
@@ -134,4 +146,7 @@ public interface ReviewDb extends Schema {
    */
   @Sequence
   int nextChangeMessageId() throws OrmException;
+
+  @Sequence
+  int nextNewRefRightId() throws OrmException;
 }

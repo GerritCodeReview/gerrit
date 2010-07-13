@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.reviewdb.NewRefRight;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.SubmitLabel;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
@@ -29,9 +31,11 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /** Cache of project information, including access rights. */
 @Singleton
@@ -43,7 +47,7 @@ public class ProjectCacheImpl implements ProjectCache {
       @Override
       protected void configure() {
         final TypeLiteral<Cache<Project.NameKey, ProjectState>> type =
-          new TypeLiteral<Cache<Project.NameKey, ProjectState>>() {};
+            new TypeLiteral<Cache<Project.NameKey, ProjectState>>() {};
         core(type, CACHE_NAME);
         bind(ProjectCacheImpl.class);
         bind(ProjectCache.class).to(ProjectCacheImpl.class);
@@ -92,7 +96,18 @@ public class ProjectCacheImpl implements ProjectCache {
           Collections.unmodifiableCollection(db.refRights().byProject(
               p.getNameKey()).toList());
 
-      return projectStateFactory.create(p, rights);
+      final Collection<NewRefRight> newRights =
+          Collections.unmodifiableCollection(db.newRefRights().byProject(
+              p.getNameKey()).toList());
+
+      final Map<NewRefRight.Id, List<SubmitLabel>> submitLabels =
+          new HashMap<NewRefRight.Id, List<SubmitLabel>>();
+      for (NewRefRight nrr : newRights) {
+        submitLabels.put(nrr.getId(), db.submitLabels().byNewRefRight(
+            nrr.getId()).toList());
+      }
+
+      return projectStateFactory.create(p, rights, newRights, submitLabels);
     } finally {
       db.close();
     }

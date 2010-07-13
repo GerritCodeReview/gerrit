@@ -16,6 +16,7 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupMember;
+import com.google.gerrit.reviewdb.CodeReviewLabel;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class GroupDetail {
   public AccountGroup group;
   public List<AccountGroupMember> members;
   public AccountGroup ownerGroup;
+  public List<CodeReviewLabel> codeReviewLabels;
 
   public GroupDetail() {
   }
@@ -42,5 +44,9 @@ public class GroupDetail {
 
   public void setOwnerGroup(AccountGroup g) {
     ownerGroup = g;
+  }
+
+  public void setCodeReviewLabels(List<CodeReviewLabel> crls) {
+    codeReviewLabels = crls;
   }
 }

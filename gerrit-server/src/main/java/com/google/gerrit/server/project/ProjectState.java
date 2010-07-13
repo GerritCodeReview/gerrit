@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.reviewdb.AccessCategory;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
+import com.google.gerrit.reviewdb.NewRefRight;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
+import com.google.gerrit.reviewdb.SubmitLabel;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.WildProjectName;
@@ -27,14 +30,18 @@ import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /** Cached information on a project. */
 public class ProjectState {
   public interface Factory {
-    ProjectState create(Project project, Collection<RefRight> localRights);
+    ProjectState create(Project project, Collection<RefRight> localRights,
+        Collection<NewRefRight> localNewRights,
+        Map<NewRefRight.Id, List<SubmitLabel>> localSubmitLabels);
   }
 
   private final AnonymousUser anonymousUser;
@@ -43,22 +50,30 @@ public class ProjectState {
 
   private final Project project;
   private final Collection<RefRight> localRights;
+  private final Collection<NewRefRight> localNewRights;
+  private final Map<NewRefRight.Id, List<SubmitLabel>> localSubmitLabels;
   private final Set<AccountGroup.Id> owners;
 
   private volatile Collection<RefRight> inheritedRights;
+  private volatile Collection<NewRefRight> inheritedNewRights;
+  private volatile Map<NewRefRight.Id, List<SubmitLabel>> inheritedSubmitLabels;
 
   @Inject
   protected ProjectState(final AnonymousUser anonymousUser,
       final ProjectCache projectCache,
       @WildProjectName final Project.NameKey wildProject,
       @Assisted final Project project,
-      @Assisted final Collection<RefRight> rights) {
+      @Assisted final Collection<RefRight> rights,
+      @Assisted final Collection<NewRefRight> newRights,
+      @Assisted final Map<NewRefRight.Id, List<SubmitLabel>> localSubmitLabels) {
     this.anonymousUser = anonymousUser;
     this.projectCache = projectCache;
     this.wildProject = wildProject;
 
     this.project = project;
     this.localRights = rights;
+    this.localNewRights = newRights;
+    this.localSubmitLabels = localSubmitLabels;
 
     final HashSet<AccountGroup.Id> groups = new HashSet<AccountGroup.Id>();
     for (final RefRight right : rights) {
@@ -167,6 +182,96 @@ public class ProjectState {
     final Collection<RefRight> mine = new ArrayList<RefRight>(all.size());
     for (final RefRight right : all) {
       if (right.getApprovalCategoryId().equals(actionId)) {
+        mine.add(right);
+      }
+    }
+    if (mine.isEmpty()) {
+      return Collections.emptyList();
+    }
+    return Collections.unmodifiableCollection(mine);
+  }
+
+  public Map<NewRefRight.Id, List<SubmitLabel>> getLocalSubmitLabels() {
+    return localSubmitLabels;
+  }
+
+  public Map<NewRefRight.Id, List<SubmitLabel>> getInheritedSubmitLabels() {
+    if ((inheritedNewRights == null) || (inheritedSubmitLabels == null)) {
+      computeInheritedNewRights();
+    }
+    return inheritedSubmitLabels;
+  }
+
+  public Collection<NewRefRight> getLocalNewRights() {
+    return localNewRights;
+  }
+
+  public Collection<NewRefRight> getLocalNewRights(
+      AccessCategory.Id accessCategory) {
+    return filter(getLocalNewRights(), accessCategory);
+  }
+
+  public Collection<NewRefRight> getInheritedNewRights() {
+    if ((inheritedNewRights == null) || (inheritedSubmitLabels == null)) {
+      computeInheritedNewRights();
+    }
+    return inheritedNewRights;
+  }
+
+  private void computeInheritedNewRights() {
+    if (isSpecialWildProject()) {
+      inheritedNewRights = Collections.emptyList();
+      inheritedSubmitLabels = new HashMap<NewRefRight.Id, List<SubmitLabel>>();
+    } else {
+      final List<NewRefRight> ir = new ArrayList<NewRefRight>();
+      final Map<NewRefRight.Id, List<SubmitLabel>> il =
+          new HashMap<NewRefRight.Id, List<SubmitLabel>>();
+
+      Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
+      Project.NameKey parent = project.getParent();
+
+      while (parent != null && seen.add(parent)) {
+        ProjectState s = projectCache.get(parent);
+        if (s != null) {
+          ir.addAll(s.getLocalNewRights());
+          il.putAll(s.getLocalSubmitLabels());
+          parent = s.getProject().getParent();
+        } else {
+          break;
+        }
+      }
+
+      // Wild project is the parent, or the root of the tree
+      if (parent == null) {
+        ir.addAll(getWildProjectNewRights());
+        il.putAll(getWildProjectSubmitLabels());
+      }
+
+      inheritedNewRights = Collections.unmodifiableCollection(ir);
+      inheritedSubmitLabels = il;
+    }
+  }
+
+  private Collection<NewRefRight> getWildProjectNewRights() {
+    final ProjectState s = projectCache.get(wildProject);
+    return s != null ? s.getLocalNewRights() : Collections
+        .<NewRefRight> emptyList();
+  }
+
+  private Map<NewRefRight.Id, List<SubmitLabel>> getWildProjectSubmitLabels() {
+    final ProjectState s = projectCache.get(wildProject);
+    return s != null ? s.getLocalSubmitLabels()
+        : new HashMap<NewRefRight.Id, List<SubmitLabel>>();
+  }
+
+  private static Collection<NewRefRight> filter(Collection<NewRefRight> all,
+      AccessCategory.Id acccessCategoryId) {
+    if (all.isEmpty()) {
+      return Collections.emptyList();
+    }
+    final Collection<NewRefRight> mine = new ArrayList<NewRefRight>(all.size());
+    for (final NewRefRight right : all) {
+      if (right.getAccessCategoryId().equals(acccessCategoryId)) {
         mine.add(right);
       }
     }

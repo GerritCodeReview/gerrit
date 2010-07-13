@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -56,6 +57,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.Nullable;
 
@@ -191,6 +193,27 @@ public abstract class OutgoingEmail {
         appendText("Gerrit-MessageType: " + messageClass + "\n");
         appendText("Gerrit-Project: " + projectName + "\n");
         appendText("Gerrit-Branch: " + change.getDest().getShortName() + "\n");
+        appendText("Gerrit-Owner: " + getNameEmailFor(change.getOwner()));
+
+        if (db != null) {
+          try {
+            HashSet<Account.Id> reviewers = new HashSet<Account.Id>();
+            for (PatchSetApproval p : db.patchSetApprovals().byChange(
+                change.getId())) {
+              reviewers.add(p.getAccountId());
+            }
+
+            TreeSet<String> names = new TreeSet<String>();
+            for (Account.Id who : reviewers) {
+              names.add(getNameEmailFor(who));
+            }
+
+            for (String name : names) {
+              appendText("Gerrit-Reviewer: " + name);
+            }
+          } catch (OrmException e) {
+          }
+        }
       }
 
       if (headers.get("Message-ID").isEmpty()) {
@@ -207,6 +230,16 @@ public abstract class OutgoingEmail {
 
       emailSender.send(smtpFromAddress, smtpRcptTo, headers, body.toString());
     }
+  }
+
+  private String getNameEmailFor(Account.Id owner) {
+    AccountState who = accountCache.get(owner);
+    String name = getNameFor(owner);
+    String email = who.getAccount().getPreferredEmail();
+    if (email != null && !name.equals(email)) {
+      name += " <" + email + ">";
+    }
+    return name;
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */

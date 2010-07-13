@@ -111,7 +111,7 @@ public class ProjectQoSFilter implements Filter {
     WorkQueue.Executor executor = getExecutor();
 
     if (cont.isInitial()) {
-      TaskThunk task = new TaskThunk(cont, req);
+      TaskThunk task = new TaskThunk(executor, cont, req);
       if (maxWait > 0) {
         cont.setTimeout(maxWait);
       }
@@ -163,13 +163,16 @@ public class ProjectQoSFilter implements Filter {
   private final class TaskThunk implements CancelableRunnable,
       ContinuationListener {
 
+    private final WorkQueue.Executor executor;
     private final Continuation cont;
     private final String name;
     private final Object lock = new Object();
     private boolean done;
     private Thread worker;
 
-    TaskThunk(final Continuation cont, final HttpServletRequest req) {
+    TaskThunk(final WorkQueue.Executor executor, final Continuation cont,
+        final HttpServletRequest req) {
+      this.executor = executor;
       this.cont = cont;
       this.name = generateName(req);
     }
@@ -219,7 +222,6 @@ public class ProjectQoSFilter implements Filter {
 
     @Override
     public void onTimeout(Continuation self) {
-      WorkQueue.Executor executor = getExecutor();
       executor.remove(this);
     }
 

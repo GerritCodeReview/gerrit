@@ -58,6 +58,17 @@ public abstract class CacheModule extends AbstractModule {
     return core(Key.get(type, Names.named(name))).name(name);
   }
 
+  protected <K, V> NamedCacheBinding<K, V> core(
+      final TypeLiteral<Cache<K, V>> type, final String name,
+      Class<K> keyClass, Class<V> valueClass) {
+    final CacheProvider<K, V> b = new CacheProvider<K, V>(false, this);
+    b.name(name);
+    b.keyClass(keyClass);
+    b.valueClass(valueClass);
+    bind(Key.get(type, Names.named(name))).toProvider(b).in(Scopes.SINGLETON);
+    return b;
+  }
+
   private <K, V> UnnamedCacheBinding<K, V> core(final Key<Cache<K, V>> key) {
     final boolean disk = false;
     final CacheProvider<K, V> b = new CacheProvider<K, V>(disk, this);

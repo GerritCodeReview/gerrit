@@ -35,6 +35,8 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
   private String cacheName;
   private ProxyCache<K, V> cache;
   private Provider<EntryCreator<K, V>> entryCreator;
+  private Class<K> keyClass;
+  private Class<V> valueClass;
 
   CacheProvider(final boolean disk, CacheModule module) {
     this.disk = disk;
@@ -88,6 +90,14 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     return maxAge;
   }
 
+  public Class<K> getKeyClass() {
+    return keyClass;
+  }
+
+  public Class<V> getValueClass() {
+    return valueClass;
+  }
+
   public EvictionPolicy evictionPolicy() {
     return evictionPolicy;
   }
@@ -97,6 +107,22 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
       throw new IllegalStateException("Cache name already set");
     }
     cacheName = name;
+    return this;
+  }
+
+  public NamedCacheBinding<K, V> keyClass(final Class<K> keyClass) {
+    if (this.keyClass != null) {
+      throw new IllegalStateException("Key class already set");
+    }
+    this.keyClass = keyClass;
+    return this;
+  }
+
+  public NamedCacheBinding<K, V> valueClass(final Class<V> valueClass) {
+    if (this.valueClass != null) {
+      throw new IllegalStateException("Value class already set");
+    }
+    this.valueClass = valueClass;
     return this;
   }
 
@@ -140,4 +166,6 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     }
     return cache;
   }
+
+
 }

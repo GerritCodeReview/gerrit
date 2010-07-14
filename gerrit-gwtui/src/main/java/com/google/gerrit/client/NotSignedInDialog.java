@@ -21,17 +21,21 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 
 /** A dialog box telling the user they are not signed in. */
 public class NotSignedInDialog extends AutoCenterDialogBox {
+
+  private Button signin;
+
   public NotSignedInDialog() {
     super(/* auto hide */false, /* modal */true);
     setGlassEnabled(true);
     setText(Gerrit.C.notSignedInTitle());
 
     final FlowPanel buttons = new FlowPanel();
-    final Button signin = new Button();
+    signin = new Button();
     signin.setText(Gerrit.C.menuSignIn());
     signin.addClickHandler(new ClickHandler() {
       @Override
@@ -60,5 +64,12 @@ public class NotSignedInDialog extends AutoCenterDialogBox {
     add(center);
 
     center.setWidth("400px");
+  }
+
+  @Override
+  public void center() {
+    super.center();
+    GlobalKey.dialog(this);
+    signin.setFocus(true);
   }
 }

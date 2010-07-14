@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1H///3M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T00:12:32Z",
+      "side": 1,
+      "message": "I don\u0027t quite like this layout.  I\u0027m going to redo it a bit so the overall height is shorter and we make better use of the width we have over the old version side.",
+      "revId": "db61d770f6dead7cdd5553d201c1ae678507a2a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H////c\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGeneralPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T00:12:32Z",
+      "side": 1,
+      "message": "Please don\u0027t change column ids.  Once the NoSQL backend stuff starts to matter, changing the ids will break any existing data that is stored by them.  I\u0027ll back this out as I cherry-pick onto current master.",
+      "revId": "db61d770f6dead7cdd5553d201c1ae678507a2a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///3Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T00:12:32Z",
+      "side": 1,
+      "message": "Schema\u0027s changed so I had to rebase this to a different version.",
+      "revId": "db61d770f6dead7cdd5553d201c1ae678507a2a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///3U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_36.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T00:12:32Z",
+      "side": 1,
+      "message": "This turns out to be too slow to upgrade for 4100+ accounts.  Turns out most users still use the default of 10, so I\u0027m adding a \u003c\u003e 10 to the WHERE clause of this so we only create preference objects for users who have a non-default value.",
+      "revId": "db61d770f6dead7cdd5553d201c1ae678507a2a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///3Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_36.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T00:12:32Z",
+      "side": 1,
+      "message": "These can be batched up into a single list that we insert at once, to leverage statement batching.",
+      "revId": "db61d770f6dead7cdd5553d201c1ae678507a2a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

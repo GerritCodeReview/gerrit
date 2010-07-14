@@ -16,8 +16,8 @@ package com.google.gerrit.prettify.client;
 
 import com.google.gerrit.prettify.common.PrettyFactory;
 import com.google.gerrit.prettify.common.PrettyFormatter;
-import com.google.gwt.resources.client.TextResource;
-import com.google.gwt.user.client.ui.NamedFrame;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /** Evaluates prettify using the host browser's JavaScript engine. */
@@ -29,45 +29,36 @@ public class ClientSideFormatter extends PrettyFormatter {
     }
   };
 
+  private static final PrivateScopeImpl prettify;
+
   static {
     Resources.I.prettify_css().ensureInjected();
     Resources.I.gerrit_css().ensureInjected();
 
-    createFrame();
-    compile(Resources.I.core());
-    compile(Resources.I.lang_css());
-    compile(Resources.I.lang_hs());
-    compile(Resources.I.lang_lisp());
-    compile(Resources.I.lang_lua());
-    compile(Resources.I.lang_ml());
-    compile(Resources.I.lang_proto());
-    compile(Resources.I.lang_sql());
-    compile(Resources.I.lang_vb());
-    compile(Resources.I.lang_wiki());
-  }
+    prettify = GWT.create(PrivateScopeImpl.class);
+    RootPanel.get().add(prettify);
 
-  private static void createFrame() {
-    NamedFrame frame = new NamedFrame("_prettify");
-    frame.setUrl("javascript:");
-    frame.setVisible(false);
-    RootPanel.get().add(frame);
+    prettify.compile(Resources.I.core());
+    prettify.compile(Resources.I.lang_css());
+    prettify.compile(Resources.I.lang_hs());
+    prettify.compile(Resources.I.lang_lisp());
+    prettify.compile(Resources.I.lang_lua());
+    prettify.compile(Resources.I.lang_ml());
+    prettify.compile(Resources.I.lang_proto());
+    prettify.compile(Resources.I.lang_sql());
+    prettify.compile(Resources.I.lang_vb());
+    prettify.compile(Resources.I.lang_wiki());
   }
-
-  private static void compile(TextResource core) {
-    eval(core.getText());
-  }
-
-  private static native void eval(String js)
-  /*-{ $wnd._prettify.eval(js); }-*/;
 
   @Override
   protected String prettify(String html, String type) {
-    return go(html, type, settings.getTabSize());
+    return go(prettify.getContext(), html, type, settings.getTabSize());
   }
 
-  private static native String go(String srcText, String srcType, int tabSize)
+  private static native String go(JavaScriptObject ctx, String srcText,
+      String srcType, int tabSize)
   /*-{
-     $wnd._prettify.PR_TAB_WIDTH = tabSize;
-     return $wnd._prettify.prettyPrintOne(srcText, srcType);
+     ctx.PR_TAB_WIDTH = tabSize;
+     return ctx.prettyPrintOne(srcText, srcType);
   }-*/;
 }

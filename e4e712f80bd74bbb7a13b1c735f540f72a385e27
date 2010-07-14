@@ -104,6 +104,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA1H///yA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-07-14T13:13:17Z",
+      "side": 1,
+      "message": "Yes! I don\u0027t know how it happend :-(\nAnyway, the new schema was for update the current refs with * to consider as regex.\nIt was just sql command:\nstmt.execute(\"update ref_rights set ref_pattern \u003d \u0027^\u0027||ref_pattern \" +\n          \" where ref_pattern like \u0027%*%\u0027 and ref_pattern not like \u0027^%\u0027; \");",
+      "parentUuid": "AAAA1H///1k\u003d",
+      "revId": "e4e712f80bd74bbb7a13b1c735f540f72a385e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA1H///1o\u003d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaCreatorTest.java",
         "patchSetId": 3

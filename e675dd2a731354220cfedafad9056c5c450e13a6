@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1H///0k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ConfirmationDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-07-14T05:52:32Z",
+      "side": 1,
+      "message": "I actually want to intially set the keyboard focus on the cancel button. I tried \u0027cancelButton.setFocus(true)\u0027 and many other ways but it didn\u0027t work. Any ideas?",
+      "revId": "e675dd2a731354220cfedafad9056c5c450e13a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

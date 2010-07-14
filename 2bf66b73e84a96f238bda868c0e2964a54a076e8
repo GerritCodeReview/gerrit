@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1H///yM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/NotSignedInDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-07-14T12:38:53Z",
+      "side": 1,
+      "message": "Closing the dialog with Escape should have the same effect as closing the dialog via the Close Button. \nAs it is now the dialog would be simply closed on Escape without deleting the session cookie.",
+      "revId": "2bf66b73e84a96f238bda868c0e2964a54a076e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

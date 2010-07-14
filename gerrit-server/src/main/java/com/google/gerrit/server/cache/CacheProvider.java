@@ -21,7 +21,10 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
+import com.google.inject.TypeLiteral;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
 public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
@@ -35,14 +38,24 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
   private String cacheName;
   private ProxyCache<K, V> cache;
   private Provider<EntryCreator<K, V>> entryCreator;
+  private Class<K> keyClass;
+  private Class<V> valueClass;
 
-  CacheProvider(final boolean disk, CacheModule module) {
+  @SuppressWarnings("unchecked")
+  CacheProvider(final boolean disk, CacheModule module,
+      TypeLiteral<Cache<K, V>> typeLiteral) {
     this.disk = disk;
     this.module = module;
 
     memoryLimit(1024);
     maxAge(90, DAYS);
     evictionPolicy(LFU);
+
+    Type[] tmp =
+        ((ParameterizedType) typeLiteral.getType()).getActualTypeArguments();
+
+    this.keyClass = (Class<K>) tmp[0];
+    this.valueClass = (Class<V>) tmp[1];
 
     if (disk) {
       diskLimit(16384);
@@ -86,6 +99,14 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
 
   public long maxAge() {
     return maxAge;
+  }
+
+  public Class<K> getKeyClass() {
+    return keyClass;
+  }
+
+  public Class<V> getValueClass() {
+    return valueClass;
   }
 
   public EvictionPolicy evictionPolicy() {

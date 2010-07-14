@@ -40,7 +40,7 @@ public abstract class CacheModule extends AbstractModule {
    */
   protected <K, V> UnnamedCacheBinding<K, V> core(
       final TypeLiteral<Cache<K, V>> type) {
-    return core(Key.get(type));
+    return core(Key.get(type), type);
   }
 
   /**
@@ -55,12 +55,13 @@ public abstract class CacheModule extends AbstractModule {
    */
   protected <K, V> NamedCacheBinding<K, V> core(
       final TypeLiteral<Cache<K, V>> type, final String name) {
-    return core(Key.get(type, Names.named(name))).name(name);
+    return core(Key.get(type, Names.named(name)), type).name(name);
   }
 
-  private <K, V> UnnamedCacheBinding<K, V> core(final Key<Cache<K, V>> key) {
+  private <K, V> UnnamedCacheBinding<K, V> core(final Key<Cache<K, V>> key,
+      final TypeLiteral<Cache<K, V>> type) {
     final boolean disk = false;
-    final CacheProvider<K, V> b = new CacheProvider<K, V>(disk, this);
+    final CacheProvider<K, V> b = new CacheProvider<K, V>(disk, this, type);
     bind(key).toProvider(b).in(Scopes.SINGLETON);
     return b;
   }
@@ -78,7 +79,7 @@ public abstract class CacheModule extends AbstractModule {
    */
   protected <K extends Serializable, V extends Serializable> UnnamedCacheBinding<K, V> disk(
       final TypeLiteral<Cache<K, V>> type) {
-    return disk(Key.get(type));
+    return disk(Key.get(type), type);
   }
 
   /**
@@ -93,12 +94,13 @@ public abstract class CacheModule extends AbstractModule {
    */
   protected <K extends Serializable, V extends Serializable> NamedCacheBinding<K, V> disk(
       final TypeLiteral<Cache<K, V>> type, final String name) {
-    return disk(Key.get(type, Names.named(name))).name(name);
+    return disk(Key.get(type, Names.named(name)), type).name(name);
   }
 
-  private <K, V> UnnamedCacheBinding<K, V> disk(final Key<Cache<K, V>> key) {
+  private <K, V> UnnamedCacheBinding<K, V> disk(final Key<Cache<K, V>> key,
+      final TypeLiteral<Cache<K, V>> type) {
     final boolean disk = true;
-    final CacheProvider<K, V> b = new CacheProvider<K, V>(disk, this);
+    final CacheProvider<K, V> b = new CacheProvider<K, V>(disk, this, type);
     bind(key).toProvider(b).in(Scopes.SINGLETON);
     return b;
   }

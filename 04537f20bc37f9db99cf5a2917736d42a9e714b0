@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1H///qQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T23:47:54Z",
+      "side": 1,
+      "message": "I don\u0027t think we even need this method.  WebSession can just say:\n\n  cache(type, name)\n    .keyClass(ActiveSession.Key.class)\n    .valueClass(ActiveSession.class)\n    ...",
+      "revId": "04537f20bc37f9db99cf5a2917736d42a9e714b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///qM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T23:47:54Z",
+      "side": 1,
+      "message": "Please don\u0027t add unnecessary blank lines.",
+      "revId": "04537f20bc37f9db99cf5a2917736d42a9e714b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

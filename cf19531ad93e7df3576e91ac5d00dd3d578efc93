@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA1H///sI\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/client/ClientSideFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T22:26:09Z",
+      "side": 1,
+      "message": "Whoops.  You can\u0027t abuse an IE6 IFrame that way.  *sigh*.  I\u0027m debugging it now under IE6 and will submit a change to resolve it as soon as I\u0027ve found a solution that works.",
+      "parentUuid": "AAAA1H///z4\u003d",
+      "revId": "cf19531ad93e7df3576e91ac5d00dd3d578efc93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA1H///z0\u003d",
         "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/client/ClientSideFormatter.java",
         "patchSetId": 1

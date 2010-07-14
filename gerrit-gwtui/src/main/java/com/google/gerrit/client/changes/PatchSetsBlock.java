@@ -150,7 +150,9 @@ public class PatchSetsBlock extends Composite {
     if (activePatchSetId != -1) {
       PatchSetComplexDisclosurePanel patchSetPanel =
           patchSetPanels.get(activePatchSetId);
-      patchSetPanel.setActive(false);
+      if (patchSetPanel != null) {
+        patchSetPanel.setActive(false);
+      }
       activePatchSetId = -1;
     }
   }

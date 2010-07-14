@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1H///qw\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetsBlock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T23:33:14Z",
+      "side": 1,
+      "message": "I can\u0027t seem to reproduce this failure.  Can you update the commit message to better explain under what condition we don\u0027t have a panel, but think we should?",
+      "revId": "11a265287b1e61a23fad369b314cc7e6d9ad5524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

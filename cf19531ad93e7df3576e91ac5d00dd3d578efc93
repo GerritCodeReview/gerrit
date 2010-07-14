@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1H///z4\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/client/ClientSideFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-07-14T08:34:21Z",
+      "side": 1,
+      "message": "I suspect this change to cause some troubles when working with Internet Explorer. With Internet Explorer (Version 6) openening the side-by-side diff is now failing. The reason for this is that initializing the PatchScreen fails when the static field PRETTY is initialized.\n\nThe stacktrace looks like this:\n\n00:15:25,469 [ERROR] Uncaught exception escaped\njava.lang.ExceptionInInitializerError: null\n \tat com.google.gerrit.client.patches.PatchScreen.\u003cclinit\u003e(PatchScreen.java:64)\n \tat com.google.gerrit.client.Dispatcher$2.select(Dispatcher.java:265)\n \tat com.google.gerrit.client.Dispatcher$2.onSuccess(Dispatcher.java:257)\n \tat com.google.gwt.core.client.GWT.runAsyncWithoutCodeSplitting(GWT.java:284)\n \tat com.google.gwt.core.client.GWT.runAsync(GWT.java:228)\n \tat com.google.gerrit.client.Dispatcher.patch(Dispatcher.java:255)\n \tat com.google.gerrit.client.Dispatcher.select(Dispatcher.java:110)\n \tat com.google.gerrit.client.Dispatcher.display(Dispatcher.java:98)\n \tat com.google.gerrit.client.Gerrit.display(Gerrit.java:105)\n \tat com.google.gerrit.client.Gerrit.onModuleLoad2(Gerrit.java:406)\n \tat com.google.gerrit.client.Gerrit.access$4(Gerrit.java:318)\n \tat com.google.gerrit.client.Gerrit$2.onSuccess(Gerrit.java:252)\n \tat com.google.gerrit.client.Gerrit$2.onSuccess(Gerrit.java:1)\n \tat com.google.gwtjsonrpc.client.JsonUtil.invoke(JsonUtil.java:136)\n \tat com.google.gerrit.client.HostPageDataService_JsonProxy.load(HostPageDataService_JsonProxy.java:20)\n \tat com.google.gerrit.client.Gerrit.onModuleLoad(Gerrit.java:243)\n \tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n \tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)\n \tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)\n \tat java.lang.reflect.Method.invoke(Method.java:597)\n \tat com.google.gwt.dev.shell.ModuleSpace.onLoad(ModuleSpace.java:369)\n \tat com.google.gwt.dev.shell.OophmSessionHandler.loadModule(OophmSessionHandler.java:185)\n \tat com.google.gwt.dev.shell.BrowserChannelServer.processConnection(BrowserChannelServer.java:380)\n \tat com.google.gwt.dev.shell.BrowserChannelServer.run(BrowserChannelServer.java:222)\n \tat java.lang.Thread.run(Thread.java:679) \nCaused by: com.google.gwt.core.client.JavaScriptException: (TypeError): Object doesn\u0027t support this property or method \n number: -2146827850 \n description: Object doesn\u0027t support this property or method\n \tat com.google.gwt.dev.shell.BrowserChannelServer.invokeJavascript(BrowserChannelServer.java:195)\n \tat com.google.gwt.dev.shell.ModuleSpaceOOPHM.doInvoke(ModuleSpaceOOPHM.java:120)\n \tat com.google.gwt.dev.shell.ModuleSpace.invokeNative(ModuleSpace.java:507)\n \tat com.google.gwt.dev.shell.ModuleSpace.invokeNativeVoid(ModuleSpace.java:284)\n \tat com.google.gwt.dev.shell.JavaScriptHost.invokeNativeVoid(JavaScriptHost.java:107)\n \tat com.google.gerrit.prettify.client.ClientSideFormatter.eval(ClientSideFormatter.java)\n \tat com.google.gerrit.prettify.client.ClientSideFormatter.compile(ClientSideFormatter.java:57)\n \tat com.google.gerrit.prettify.client.ClientSideFormatter.\u003cclinit\u003e(ClientSideFormatter.java:37)\n \tat com.google.gerrit.client.patches.PatchScreen.\u003cclinit\u003e(PatchScreen.java:64)\n \tat com.google.gerrit.client.Dispatcher$2.select(Dispatcher.java:265)\n \tat com.google.gerrit.client.Dispatcher$2.onSuccess(Dispatcher.java:257)\n \tat com.google.gwt.core.client.GWT.runAsyncWithoutCodeSplitting(GWT.java:284)\n \tat com.google.gwt.core.client.GWT.runAsync(GWT.java:228)\n \tat com.google.gerrit.client.Dispatcher.patch(Dispatcher.java:255)\n \tat com.google.gerrit.client.Dispatcher.select(Dispatcher.java:110)\n \tat com.google.gerrit.client.Dispatcher.display(Dispatcher.java:98)\n \tat com.google.gerrit.client.Gerrit.display(Gerrit.java:105)\n \tat com.google.gerrit.client.Gerrit.onModuleLoad2(Gerrit.java:406)\n \tat com.google.gerrit.client.Gerrit.access$4(Gerrit.java:318)\n \tat com.google.gerrit.client.Gerrit$2.onSuccess(Gerrit.java:252)\n \tat com.google.gerrit.client.Gerrit$2.onSuccess(Gerrit.java:1)\n \tat com.google.gwtjsonrpc.client.JsonUtil.invoke(JsonUtil.java:136)\n \tat com.google.gerrit.client.HostPageDataService_JsonProxy.load(HostPageDataService_JsonProxy.java:20)\n \tat com.google.gerrit.client.Gerrit.onModuleLoad(Gerrit.java:243)\n \tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n \tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)\n \tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)\n \tat java.lang.reflect.Method.invoke(Method.java:597)\n \tat com.google.gwt.dev.shell.ModuleSpace.onLoad(ModuleSpace.java:369)\n \tat com.google.gwt.dev.shell.OophmSessionHandler.loadModule(OophmSessionHandler.java:185)\n \tat com.google.gwt.dev.shell.BrowserChannelServer.processConnection(BrowserChannelServer.java:380)\n \tat com.google.gwt.dev.shell.BrowserChannelServer.run(BrowserChannelServer.java:222)\n \tat java.lang.Thread.run(Thread.java:679)",
+      "revId": "cf19531ad93e7df3576e91ac5d00dd3d578efc93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///z0\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/client/ClientSideFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-07-14T08:34:21Z",
+      "side": 1,
+      "message": "This is where the exception is thrown.",
+      "revId": "cf19531ad93e7df3576e91ac5d00dd3d578efc93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

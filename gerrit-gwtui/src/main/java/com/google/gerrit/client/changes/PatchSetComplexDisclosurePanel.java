@@ -160,6 +160,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         populateActions(detail);
       }
     }
+    populateDiffAllActions(detail);
     body.add(patchTable);
 
     for(ClickHandler clickHandler : registeredClickHandler) {
@@ -409,7 +410,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       });
       actionsPanel.add(b);
     }
+  }
 
+  private void populateDiffAllActions(final PatchSetDetail detail) {
     final Button diffAllSideBySide = new Button(Util.C.buttonDiffAllSideBySide());
     diffAllSideBySide.addClickHandler(new ClickHandler() {
 

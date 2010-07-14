@@ -22,13 +22,17 @@ import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.mail.EmailHeader.AddressList;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -49,11 +53,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.Nullable;
 
@@ -108,6 +114,10 @@ public abstract class OutgoingEmail {
   @Nullable
   private Provider<String> urlProvider;
 
+  @Inject
+  @WildProjectName
+  private Project.NameKey wildProject;
+
   private ProjectState projectState;
 
   protected OutgoingEmail(final Change c, final String mc) {
@@ -157,12 +167,37 @@ public abstract class OutgoingEmail {
     format();
     if (shouldSendMessage()) {
       if (fromId != null) {
-        // If we are impersonating a user, make sure they receive a CC of
-        // this message so they can always review and audit what we sent
-        // on their behalf to others.
-        //
-        add(RecipientType.CC, fromId);
+        final Account fromUser = accountCache.get(fromId).getAccount();
+
+        if (fromUser.getGeneralPreferences().isCopySelfOnEmails()) {
+          // If we are impersonating a user, make sure they receive a CC of
+          // this message so they can always review and audit what we sent
+          // on their behalf to others.
+          //
+          add(RecipientType.CC, fromId);
+
+        } else if (rcptTo.remove(fromId)) {
+          // If they don't want a copy, but we queued one up anyway,
+          // drop them from the recipient lists.
+          //
+          if (rcptTo.isEmpty()) {
+            return;
+          }
+
+          final String fromEmail = fromUser.getPreferredEmail();
+          for (Iterator<Address> i = smtpRcptTo.iterator(); i.hasNext();) {
+            if (i.next().email.equals(fromEmail)) {
+              i.remove();
+            }
+          }
+          for (EmailHeader hdr : headers.values()) {
+            if (hdr instanceof AddressList) {
+              ((AddressList) hdr).remove(fromEmail);
+            }
+          }
+        }
       }
+
       if (change != null) {
         if (getChangeUrl() != null) {
           openFooter();
@@ -185,6 +220,27 @@ public abstract class OutgoingEmail {
         appendText("Gerrit-MessageType: " + messageClass + "\n");
         appendText("Gerrit-Project: " + projectName + "\n");
         appendText("Gerrit-Branch: " + change.getDest().getShortName() + "\n");
+        appendText("Gerrit-Owner: " + getNameEmailFor(change.getOwner()) + "\n");
+
+        if (db != null) {
+          try {
+            HashSet<Account.Id> reviewers = new HashSet<Account.Id>();
+            for (PatchSetApproval p : db.patchSetApprovals().byChange(
+                change.getId())) {
+              reviewers.add(p.getAccountId());
+            }
+
+            TreeSet<String> names = new TreeSet<String>();
+            for (Account.Id who : reviewers) {
+              names.add(getNameEmailFor(who));
+            }
+
+            for (String name : names) {
+              appendText("Gerrit-Reviewer: " + name + "\n");
+            }
+          } catch (OrmException e) {
+          }
+        }
       }
 
       if (headers.get("Message-ID").isEmpty()) {
@@ -483,6 +539,24 @@ public abstract class OutgoingEmail {
     return name;
   }
 
+  private String getNameEmailFor(Account.Id accountId) {
+    AccountState who = accountCache.get(accountId);
+    String name = who.getAccount().getFullName();
+    String email = who.getAccount().getPreferredEmail();
+
+    if (name != null && email != null) {
+      return name + " <" + email + ">";
+
+    } else if (name != null) {
+      return name;
+    } else if (email != null) {
+      return email;
+
+    } else /* (name == null && email == null) */{
+      return "Anonymous Coward #" + accountId;
+    }
+  }
+
   protected boolean shouldSendMessage() {
     if (body.length() == 0) {
       // If we have no message body, don't send.
@@ -570,9 +644,10 @@ public abstract class OutgoingEmail {
         //
         final ProjectState ps = getProjectState();
         if (ps != null) {
-          for (final AccountProjectWatch w : db.accountProjectWatches()
-              .notifyAllComments(ps.getProject().getNameKey())) {
-            add(RecipientType.BCC, w.getAccountId());
+          for (final AccountProjectWatch w : getProjectWatches()) {
+            if (w.isNotifyAllComments()) {
+              add(RecipientType.BCC, w.getAccountId());
+            }
           }
         }
       } catch (OrmException err) {
@@ -581,6 +656,27 @@ public abstract class OutgoingEmail {
         // who have a lower interest in the change.
       }
     }
+  }
+
+  /** Returns all watches that are relevant for this project */
+  final protected Set<AccountProjectWatch> getProjectWatches() throws OrmException {
+    final Set<AccountProjectWatch> projectWatches = new HashSet<AccountProjectWatch>();
+    final Set<Account.Id> projectWatchers = new HashSet<Account.Id>();
+    final ProjectState ps = getProjectState();
+    if (ps != null) {
+      for (final AccountProjectWatch w : db.accountProjectWatches().byProject(ps.getProject().getNameKey())) {
+        projectWatches.add(w);
+        projectWatchers.add(w.getAccountId());
+      }
+    }
+    for (final AccountProjectWatch w : db.accountProjectWatches().byProject(wildProject)) {
+      if (!projectWatchers.contains(w.getAccountId())) {
+        // the all projects watch settings are only relevant if the user did not configure
+        // any specific rules for the concrete project
+        projectWatches.add(w);
+      }
+    }
+    return Collections.unmodifiableSet(projectWatches);
   }
 
   /** Any user who has published comments on this change. */

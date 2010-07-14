@@ -18,7 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.reviewdb.Change;
 
 
-public class AllAbandonedChangesScreen extends AllSingleListScreen {
+public class AllAbandonedChangesScreen extends PagedSingleListScreen {
   public AllAbandonedChangesScreen(final String positionToken) {
     super("all,abandoned", positionToken);
   }

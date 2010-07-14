@@ -25,6 +25,7 @@ public interface ChangeConstants extends Constants {
   String changesRecentlyClosed();
 
   String starredHeading();
+  String watchedHeading();
   String draftsHeading();
   String allOpenChanges();
   String allAbandonedChanges();
@@ -46,6 +47,9 @@ public interface ChangeConstants extends Constants {
   String changeTablePagePrev();
   String changeTablePageNext();
   String upToDashboard();
+  String expandCollapseDependencies();
+  String previousPatchSet();
+  String nextPatchSet();
   String keyPublishComments();
 
   String patchTableColumnName();
@@ -58,7 +62,8 @@ public interface ChangeConstants extends Constants {
 
   String patchTablePrev();
   String patchTableNext();
-  String patchTableOpen();
+  String patchTableOpenDiff();
+  String patchTableOpenUnifiedDiff();
   String upToChangeIconLink();
   String prevPatchLinkIcon();
   String nextPatchLinkIcon();
@@ -111,4 +116,7 @@ public interface ChangeConstants extends Constants {
   String reviewed();
   String submitFailed();
   String buttonClose();
+
+  String buttonDiffAllSideBySide();
+  String buttonDiffAllUnified();
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -38,6 +39,11 @@ public class AnonymousUser extends CurrentUser {
 
   @Override
   public Set<Change.Id> getStarredChanges() {
+    return Collections.emptySet();
+  }
+
+  @Override
+  public Set<NameKey> getWatchedProjects() {
     return Collections.emptySet();
   }
 

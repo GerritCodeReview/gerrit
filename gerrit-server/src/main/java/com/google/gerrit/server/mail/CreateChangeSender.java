@@ -63,12 +63,13 @@ public class CreateChangeSender extends NewChangeSender {
 
           // BCC anyone who has interest in this project's changes
           //
-          for (AccountProjectWatch w : db.accountProjectWatches()
-              .notifyNewChanges(ps.getProject().getNameKey())) {
-            if (owners.contains(w.getAccountId())) {
-              add(RecipientType.TO, w.getAccountId());
-            } else {
-              add(RecipientType.BCC, w.getAccountId());
+          for (final AccountProjectWatch w : getProjectWatches()) {
+            if (w.isNotifyNewChanges()) {
+              if (owners.contains(w.getAccountId())) {
+                add(RecipientType.TO, w.getAccountId());
+              } else {
+                add(RecipientType.BCC, w.getAccountId());
+              }
             }
           }
         }

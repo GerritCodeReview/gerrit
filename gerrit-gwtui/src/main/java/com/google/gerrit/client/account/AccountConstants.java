@@ -24,11 +24,11 @@ public interface AccountConstants extends Constants {
   String registeredOn();
   String accountId();
 
-  String defaultContextFieldLabel();
   String maximumPageSizeFieldLabel();
   String contextWholeFile();
   String showSiteHeader();
   String useFlashClipboard();
+  String copySelfOnEmails();
   String buttonSaveChanges();
 
   String tabPreferences();

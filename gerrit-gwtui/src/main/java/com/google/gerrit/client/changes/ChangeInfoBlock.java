@@ -23,9 +23,12 @@ import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
@@ -73,7 +76,12 @@ public class ChangeInfoBlock extends Composite {
 
   public void display(final Change chg, final AccountInfoCache acc) {
     final Branch.NameKey dst = chg.getDest();
-    table.setText(R_CHANGE_ID, 1, chg.getKey().get());
+
+    CopyableLabel changeIdLabel =
+        new CopyableLabel("Change-Id: " + chg.getKey().get());
+    changeIdLabel.setPreviewText(chg.getKey().get());
+    table.setWidget(R_CHANGE_ID, 1, changeIdLabel);
+
     table.setWidget(R_OWNER, 1, AccountDashboardLink.link(acc, chg.getOwner()));
     table.setWidget(R_PROJECT, 1, new ProjectLink(chg.getProject(), chg.getStatus()));
     table.setText(R_BRANCH, 1, dst.getShortName());

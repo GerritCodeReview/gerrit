@@ -38,6 +38,12 @@ class JumpKeys {
         Gerrit.display(PageLinks.ALL_MERGED);
       }
     });
+    jumps.add(new KeyCommand(0, 'a', Gerrit.C.jumpAllAbandoned()) {
+      @Override
+      public void onKeyPress(final KeyPressEvent event) {
+        Gerrit.display(PageLinks.ALL_ABANDONED);
+      }
+    });
 
     if (Gerrit.isSignedIn()) {
       jumps.add(new KeyCommand(0, 'i', Gerrit.C.jumpMine()) {
@@ -50,6 +56,12 @@ class JumpKeys {
         @Override
         public void onKeyPress(final KeyPressEvent event) {
           Gerrit.display(PageLinks.MINE_DRAFTS);
+        }
+      });
+      jumps.add(new KeyCommand(0, 'w', Gerrit.C.jumpMineWatched()) {
+        @Override
+        public void onKeyPress(final KeyPressEvent event) {
+          Gerrit.display(PageLinks.MINE_WATCHED);
         }
       });
       jumps.add(new KeyCommand(0, 's', Gerrit.C.jumpMineStarred()) {

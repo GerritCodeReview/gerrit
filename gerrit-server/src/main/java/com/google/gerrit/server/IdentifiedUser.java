@@ -15,10 +15,14 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
+import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Realm;
@@ -138,6 +142,7 @@ public class IdentifiedUser extends CurrentUser {
   private Set<String> emailAddresses;
   private Set<AccountGroup.Id> effectiveGroups;
   private Set<Change.Id> starredChanges;
+  private Set<Project.NameKey> watchedProjects;
 
   private IdentifiedUser(final AccessPath accessPath,
       final AuthConfig authConfig, final Provider<String> canonicalUrl,
@@ -174,6 +179,20 @@ public class IdentifiedUser extends CurrentUser {
     return state().getAccount();
   }
 
+  public AccountDiffPreference getAccountDiffPreference() {
+    AccountDiffPreference diffPref;
+    try {
+      diffPref = dbProvider.get().accountDiffPreferences().get(getAccountId());
+      if (diffPref == null) {
+        diffPref = AccountDiffPreference.createDefault(getAccountId());
+      }
+    } catch (OrmException e) {
+      log.warn("Cannot query account diff preferences", e);
+      diffPref = AccountDiffPreference.createDefault(getAccountId());
+    }
+    return diffPref;
+  }
+
   public Set<String> getEmailAddresses() {
     if (emailAddresses == null) {
       emailAddresses = state().getEmailAddresses();
@@ -206,14 +225,33 @@ public class IdentifiedUser extends CurrentUser {
             .byAccount(getAccountId())) {
           h.add(sc.getChangeId());
         }
-      } catch (ProvisionException e) {
-        log.warn("Cannot query starred by user changes", e);
       } catch (OrmException e) {
         log.warn("Cannot query starred by user changes", e);
       }
       starredChanges = Collections.unmodifiableSet(h);
     }
     return starredChanges;
+  }
+
+  @Override
+  public Set<Project.NameKey> getWatchedProjects() {
+    if (watchedProjects == null) {
+      if (dbProvider == null) {
+        throw new OutOfScopeException("Not in request scoped user");
+      }
+      final Set<Project.NameKey> h = new HashSet<Project.NameKey>();
+      try {
+        for (AccountProjectWatch projectWatch : dbProvider.get()
+            .accountProjectWatches().byAccount(getAccountId())) {
+          h.add(projectWatch.getProjectNameKey());
+        }
+      } catch (OrmException e) {
+        log.warn("Cannot query project watches of a user", e);
+      }
+      watchedProjects = Collections.unmodifiableSet(h);
+    }
+
+    return watchedProjects;
   }
 
   public PersonIdent newRefLogIdent() {

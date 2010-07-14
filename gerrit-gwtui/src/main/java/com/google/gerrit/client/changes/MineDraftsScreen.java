@@ -26,7 +26,7 @@ public class MineDraftsScreen extends MineSingleListScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setWindowTitle(Gerrit.C.menyMyDrafts());
+    setWindowTitle(Gerrit.C.menuMyDrafts());
     setPageTitle(Util.C.draftsHeading());
   }
 

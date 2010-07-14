@@ -49,6 +49,7 @@ limitations under the License.
   .controls .gwt-ListBox {
     font-size: fontSize;
     padding: 0;
+    margin-right: 1em;
   }
 
   .updateButton {
@@ -61,13 +62,24 @@ limitations under the License.
 <g:HTMLPanel>
 <table class='{style.controls}'>
   <tr valign='top'>
-    <td colspan='2'>
-      <ui:msg>
-      Ignore Whitespace:
-      <g:ListBox
-        ui:field='ignoreWhitespace'
-        visibleItemCount='1'
-        tabIndex='1'/>
+    <ui:msg>
+      <td align='right'>Ignore Whitespace:</td>
+      <td align='right'>
+        <g:ListBox
+          ui:field='ignoreWhitespace'
+          visibleItemCount='1'
+          tabIndex='1'/>
+      </td>
+    </ui:msg>
+
+    <td align='right'>
+      <ui:msg>Tab Width:
+      <my:NpIntTextBox
+        ui:field='tabWidth'
+        width='2em'
+        visibleLength='2'
+        maxLength='2'
+        tabIndex='3'/>
       </ui:msg>
     </td>
 
@@ -75,20 +87,13 @@ limitations under the License.
       <g:CheckBox
           ui:field='syntaxHighlighting'
           text='Syntax Coloring'
-          tabIndex='4'>
+          tabIndex='5'>
         <ui:attribute name='text'/>
       </g:CheckBox>
       <br/>
       <g:CheckBox
           ui:field='intralineDifference'
           text='Intraline Difference'
-          tabIndex='5'>
-        <ui:attribute name='text'/>
-      </g:CheckBox>
-      <br/>
-      <g:CheckBox
-          ui:field='showFullFile'
-          text='Show Full File'
           tabIndex='6'>
         <ui:attribute name='text'/>
       </g:CheckBox>
@@ -131,28 +136,27 @@ limitations under the License.
   </tr>
 
   <tr valign='top'>
-    <td>
-      <ui:msg>Tab Width:
-      <my:NpIntTextBox
-        ui:field='tabWidth'
-        width='2em'
-        visibleLength='2'
-        maxLength='2'
-        tabIndex='2'/>
-      </ui:msg>
-    </td>
+    <ui:msg>
+      <td align='right'>Context:</td>
+      <td align='right'>
+        <g:ListBox
+            ui:field='context'
+            visibleItemCount='1'
+            tabIndex='2'/>
+      </td>
+    </ui:msg>
 
-    <td>
+    <td align='right'>
       <ui:msg>Columns:
       <my:NpIntTextBox
         ui:field='colWidth'
         width='2.5em'
         visibleLength='3'
         maxLength='3'
-        tabIndex='3'/>
+        tabIndex='4'/>
       </ui:msg>
     </td>
-  </tr>    
+  </tr>
 </table>
 </g:HTMLPanel>
 </ui:UiBinder>

@@ -15,33 +15,16 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.prettify.common.PrettySettings;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.CodedEnum;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
+import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
 
 public class PatchScriptSettings {
-  public static enum Whitespace implements CodedEnum {
-    IGNORE_NONE('N'), //
-    IGNORE_SPACE_AT_EOL('E'), //
-    IGNORE_SPACE_CHANGE('S'), //
-    IGNORE_ALL_SPACE('A');
-
-    private final char code;
-
-    private Whitespace(final char c) {
-      code = c;
-    }
-
-    public char getCode() {
-      return code;
-    }
-  }
-
   protected int context;
   protected Whitespace whitespace;
   protected PrettySettings pretty;
 
   public PatchScriptSettings() {
-    context = AccountGeneralPreferences.DEFAULT_CONTEXT;
+    context = AccountDiffPreference.DEFAULT_CONTEXT;
     whitespace = Whitespace.IGNORE_NONE;
     pretty = new PrettySettings();
   }
@@ -65,7 +48,7 @@ public class PatchScriptSettings {
   }
 
   public void setContext(final int ctx) {
-    assert 0 <= ctx || ctx == AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
+    assert 0 <= ctx || ctx == AccountDiffPreference.WHOLE_FILE_CONTEXT;
     context = ctx;
   }
 

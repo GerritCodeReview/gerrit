@@ -163,9 +163,10 @@ public class MergedSender extends ReplyToChangeSender {
         //
         final ProjectState ps = getProjectState();
         if (ps != null) {
-          for (AccountProjectWatch w : db.accountProjectWatches()
-              .notifySubmittedChanges(ps.getProject().getNameKey())) {
-            add(RecipientType.BCC, w.getAccountId());
+          for (final AccountProjectWatch w : getProjectWatches()) {
+            if (w.isNotifySubmittedChanges()) {
+              add(RecipientType.BCC, w.getAccountId());
+            }
           }
         }
       } catch (OrmException err) {

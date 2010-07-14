@@ -14,11 +14,8 @@
 
 package com.google.gerrit.client.account;
 
-import static com.google.gerrit.reviewdb.AccountGeneralPreferences.CONTEXT_CHOICES;
-import static com.google.gerrit.reviewdb.AccountGeneralPreferences.DEFAULT_CONTEXT;
 import static com.google.gerrit.reviewdb.AccountGeneralPreferences.DEFAULT_PAGESIZE;
 import static com.google.gerrit.reviewdb.AccountGeneralPreferences.PAGESIZE_CHOICES;
-import static com.google.gerrit.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -40,7 +37,7 @@ import com.google.gwtjsonrpc.client.VoidResult;
 class PreferencePanel extends Composite {
   private CheckBox showSiteHeader;
   private CheckBox useFlashClipboard;
-  private ListBox defaultContext;
+  private CheckBox copySelfOnEmails;
   private ListBox maximumPageSize;
   private Button save;
 
@@ -66,23 +63,14 @@ class PreferencePanel extends Composite {
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
     useFlashClipboard.addClickHandler(onClickSave);
 
+    copySelfOnEmails = new CheckBox(Util.C.copySelfOnEmails());
+    copySelfOnEmails.addClickHandler(onClickSave);
+
     maximumPageSize = new ListBox();
     for (final short v : PAGESIZE_CHOICES) {
       maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
     }
     maximumPageSize.addChangeHandler(onChangeSave);
-
-    defaultContext = new ListBox();
-    for (final short v : CONTEXT_CHOICES) {
-      final String label;
-      if (v == WHOLE_FILE_CONTEXT) {
-        label = Util.C.contextWholeFile();
-      } else {
-        label = Util.M.lines(v);
-      }
-      defaultContext.addItem(label, String.valueOf(v));
-    }
-    defaultContext.addChangeHandler(onChangeSave);
 
     final int labelIdx, fieldIdx;
     if (LocaleInfo.getCurrentLocale().isRTL()) {
@@ -103,12 +91,12 @@ class PreferencePanel extends Composite {
     formGrid.setWidget(row, fieldIdx, useFlashClipboard);
     row++;
 
-    formGrid.setText(row, labelIdx, Util.C.maximumPageSizeFieldLabel());
-    formGrid.setWidget(row, fieldIdx, maximumPageSize);
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, copySelfOnEmails);
     row++;
 
-    formGrid.setText(row, labelIdx, Util.C.defaultContextFieldLabel());
-    formGrid.setWidget(row, fieldIdx, defaultContext);
+    formGrid.setText(row, labelIdx, Util.C.maximumPageSizeFieldLabel());
+    formGrid.setWidget(row, fieldIdx, maximumPageSize);
     row++;
 
     body.add(formGrid);
@@ -140,15 +128,15 @@ class PreferencePanel extends Composite {
   private void enable(final boolean on) {
     showSiteHeader.setEnabled(on);
     useFlashClipboard.setEnabled(on);
+    copySelfOnEmails.setEnabled(on);
     maximumPageSize.setEnabled(on);
-    defaultContext.setEnabled(on);
   }
 
   private void display(final AccountGeneralPreferences p) {
     showSiteHeader.setValue(p.isShowSiteHeader());
     useFlashClipboard.setValue(p.isUseFlashClipboard());
+    copySelfOnEmails.setValue(p.isCopySelfOnEmails());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.getMaximumPageSize());
-    setListBox(defaultContext, DEFAULT_CONTEXT, p.getDefaultContext());
   }
 
   private void setListBox(final ListBox f, final short defaultValue,
@@ -177,8 +165,8 @@ class PreferencePanel extends Composite {
     final AccountGeneralPreferences p = new AccountGeneralPreferences();
     p.setShowSiteHeader(showSiteHeader.getValue());
     p.setUseFlashClipboard(useFlashClipboard.getValue());
+    p.setCopySelfOnEmails(copySelfOnEmails.getValue());
     p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
-    p.setDefaultContext(getListBox(defaultContext, DEFAULT_CONTEXT));
 
     enable(false);
     save.setEnabled(false);

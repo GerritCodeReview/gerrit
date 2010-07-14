@@ -14,8 +14,6 @@
 
 package com.google.gerrit.client.patches;
 
-import static com.google.gerrit.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
-
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.RpcStatus;
@@ -33,6 +31,7 @@ import com.google.gerrit.common.data.PatchScriptSettings;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.common.PrettyFactory;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -234,7 +233,7 @@ public abstract class PatchScreen extends Screen implements
     }
 
     final int ctx = s.getContext();
-    if (ctx == WHOLE_FILE_CONTEXT && !last.getA().isWholeFile()) {
+    if (ctx == AccountDiffPreference.WHOLE_FILE_CONTEXT && !last.getA().isWholeFile()) {
       // We don't have the entire file here, so we can't render it.
       return false;
     }

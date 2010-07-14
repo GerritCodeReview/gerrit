@@ -148,6 +148,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
       }
     } else if (clear) {
       table.setWidget(currentRow, C_ARROW, null);
+      pointer.removeFromParent();
     }
     currentRow = newRow;
   }

@@ -70,7 +70,7 @@ class UserPassAuthServiceImpl implements UserPassAuthService {
     result.success = true;
     result.isNew = res.isNew();
     try {
-      webSession.get().login(res, false);
+      webSession.get().login(res, true /* persistent cookie */);
     } catch (OrmException e) {
       log.error("Unable to log in", e);
       result.success = false;

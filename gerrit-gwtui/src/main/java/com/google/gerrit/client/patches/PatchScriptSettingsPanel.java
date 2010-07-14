@@ -14,16 +14,14 @@
 
 package com.google.gerrit.client.patches;
 
-import static com.google.gerrit.reviewdb.AccountGeneralPreferences.DEFAULT_CONTEXT;
-import static com.google.gerrit.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
-
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.account.Util;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.common.data.PatchScriptSettings;
-import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.prettify.common.PrettySettings;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
+import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -43,6 +41,7 @@ import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtjsonrpc.client.VoidResult;
 
 public class PatchScriptSettingsPanel extends Composite implements
     HasValueChangeHandlers<PatchScriptSettings> {
@@ -71,7 +70,7 @@ public class PatchScriptSettingsPanel extends Composite implements
   CheckBox intralineDifference;
 
   @UiField
-  CheckBox showFullFile;
+  ListBox context;
 
   @UiField
   CheckBox whitespaceErrors;
@@ -85,9 +84,24 @@ public class PatchScriptSettingsPanel extends Composite implements
   @UiField
   Button update;
 
+  /**
+   * Counts +1 for every setEnabled(true) and -1 for every setEnabled(false)
+   *
+   * The purpose is to prevent enabling widgets too early. It might happen that
+   * setEnabled(false) is called from this class and from an event handler
+   * of ValueChangeEvent in another class. The first setEnabled(true) would then
+   * enable widgets too early i.e. before the second setEnabled(true) is called.
+   *
+   * With this counter the setEnabled(true) will enable widgets only when
+   * setEnabledCounter == 0. Until it is less than zero setEnabled(true) will
+   * not enable the widgets.
+   */
+  private int setEnabledCounter;
+
   public PatchScriptSettingsPanel() {
     initWidget(uiBinder.createAndBindUi(this));
     initIgnoreWhitespace(ignoreWhitespace);
+    initContext(context);
     if (!Gerrit.isSignedIn()) {
       reviewed.setVisible(false);
     }
@@ -103,15 +117,11 @@ public class PatchScriptSettingsPanel extends Composite implements
     tabWidth.addKeyPressHandler(onEnter);
     colWidth.addKeyPressHandler(onEnter);
 
-    final PatchScriptSettings s = new PatchScriptSettings();
-    if (Gerrit.isSignedIn()) {
-      final Account u = Gerrit.getUserAccount();
-      final AccountGeneralPreferences pref = u.getGeneralPreferences();
-      s.setContext(pref.getDefaultContext());
+    if (Gerrit.isSignedIn() && Gerrit.getAccountDiffPreference() != null) {
+      setValue(createPatchScriptSettings(Gerrit.getAccountDiffPreference()));
     } else {
-      s.setContext(DEFAULT_CONTEXT);
+      setValue(new PatchScriptSettings());
     }
-    setValue(s);
   }
 
   @Override
@@ -121,12 +131,19 @@ public class PatchScriptSettingsPanel extends Composite implements
   }
 
   public void setEnabled(final boolean on) {
-    for (Widget w : (HasWidgets) getWidget()) {
-      if (w instanceof FocusWidget) {
-        ((FocusWidget) w).setEnabled(on);
-      }
+    if (on) {
+      setEnabledCounter++;
+    } else {
+      setEnabledCounter--;
     }
-    toggleEnabledStatus(on);
+    if (on && setEnabledCounter == 0 || !on) {
+      for (Widget w : (HasWidgets) getWidget()) {
+        if (w instanceof FocusWidget) {
+          ((FocusWidget) w).setEnabled(on);
+        }
+      }
+      toggleEnabledStatus(on);
+    };
   }
 
   public void setEnableSmallFileFeatures(final boolean on) {
@@ -135,10 +152,8 @@ public class PatchScriptSettingsPanel extends Composite implements
       final PrettySettings p = getValue().getPrettySettings();
 
       syntaxHighlighting.setValue(p.isSyntaxHighlighting());
-      showFullFile.setValue(getValue().getContext() == WHOLE_FILE_CONTEXT);
     } else {
       syntaxHighlighting.setValue(false);
-      showFullFile.setValue(false);
     }
     toggleEnabledStatus(update.isEnabled());
   }
@@ -157,12 +172,10 @@ public class PatchScriptSettingsPanel extends Composite implements
   private void toggleEnabledStatus(final boolean on) {
     intralineDifference.setEnabled(on & enableIntralineDifference);
     syntaxHighlighting.setEnabled(on & enableSmallFileFeatures);
-    showFullFile.setEnabled(on & enableSmallFileFeatures);
 
     final String title =
         enableSmallFileFeatures ? null : PatchUtil.C.disabledOnLargeFiles();
     syntaxHighlighting.setTitle(title);
-    showFullFile.setTitle(title);
   }
 
   public CheckBox getReviewedCheckBox() {
@@ -178,12 +191,11 @@ public class PatchScriptSettingsPanel extends Composite implements
 
     setIgnoreWhitespace(s.getWhitespace());
     if (enableSmallFileFeatures) {
-      showFullFile.setValue(s.getContext() == WHOLE_FILE_CONTEXT);
       syntaxHighlighting.setValue(p.isSyntaxHighlighting());
     } else {
-      showFullFile.setValue(false);
       syntaxHighlighting.setValue(false);
     }
+    setContext(s.getContext());
 
     tabWidth.setIntValue(p.getTabSize());
     colWidth.setIntValue(p.getLineLength());
@@ -204,20 +216,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     PrettySettings p = s.getPrettySettings();
 
     s.setWhitespace(getIgnoreWhitespace());
-    if (showFullFile.getValue()) {
-      s.setContext(WHOLE_FILE_CONTEXT);
-    } else if (Gerrit.isSignedIn()) {
-      final Account u = Gerrit.getUserAccount();
-      final AccountGeneralPreferences pref = u.getGeneralPreferences();
-      if (pref.getDefaultContext() == WHOLE_FILE_CONTEXT) {
-        s.setContext(DEFAULT_CONTEXT);
-      } else {
-        s.setContext(pref.getDefaultContext());
-      }
-    } else {
-      s.setContext(DEFAULT_CONTEXT);
-    }
-
+    s.setContext(getContext());
     p.setTabSize(tabWidth.getIntValue());
     p.setLineLength(colWidth.getIntValue());
     p.setSyntaxHighlighting(syntaxHighlighting.getValue());
@@ -227,6 +226,35 @@ public class PatchScriptSettingsPanel extends Composite implements
 
     value = s;
     fireEvent(new ValueChangeEvent<PatchScriptSettings>(s) {});
+
+    if (Gerrit.isSignedIn()) {
+      persistDiffPreferences();
+    }
+  }
+
+  private void persistDiffPreferences() {
+    setEnabled(false);
+    final AccountDiffPreference diffPref = new AccountDiffPreference(Gerrit.getUserAccount().getId());
+    diffPref.setIgnoreWhitespace(getIgnoreWhitespace());
+    diffPref.setTabSize(tabWidth.getIntValue());
+    diffPref.setLineLength(colWidth.getIntValue());
+    diffPref.setSyntaxHighlighting(syntaxHighlighting.getValue());
+    diffPref.setShowWhitespaceErrors(whitespaceErrors.getValue());
+    diffPref.setIntralineDifference(intralineDifference.getValue());
+    diffPref.setShowTabs(showTabs.getValue());
+    diffPref.setContext(getContext());
+    Util.ACCOUNT_SVC.changeDiffPreferences(diffPref, new GerritCallback<VoidResult>() {
+      @Override
+      public void onSuccess(VoidResult result) {
+        Gerrit.setAccountDiffPreference(diffPref);
+        setEnabled(true);
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+        setEnabled(true);
+      }
+    });
   }
 
   private void initIgnoreWhitespace(ListBox ws) {
@@ -238,6 +266,18 @@ public class PatchScriptSettingsPanel extends Composite implements
         Whitespace.IGNORE_SPACE_CHANGE.name());
     ws.addItem(PatchUtil.C.whitespaceIGNORE_ALL_SPACE(), //
         Whitespace.IGNORE_ALL_SPACE.name());
+  }
+
+  private void initContext(ListBox context) {
+    for (final short v : AccountDiffPreference.CONTEXT_CHOICES) {
+      final String label;
+      if (v == AccountDiffPreference.WHOLE_FILE_CONTEXT) {
+        label = Util.C.contextWholeFile();
+      } else {
+        label = Util.M.lines(v);
+      }
+      context.addItem(label, String.valueOf(v));
+    }
   }
 
   private Whitespace getIgnoreWhitespace() {
@@ -256,5 +296,40 @@ public class PatchScriptSettingsPanel extends Composite implements
       }
     }
     ignoreWhitespace.setSelectedIndex(0);
+  }
+
+  private short getContext() {
+    final int sel = context.getSelectedIndex();
+    if (0 <= sel) {
+      return Short.parseShort(context.getValue(sel));
+    }
+    return (short) value.getContext();
+  }
+
+  private void setContext(int ctx) {
+    String v = String.valueOf(ctx);
+    for (int i = 0; i < context.getItemCount(); i++) {
+      if (context.getValue(i).equals(v)) {
+        context.setSelectedIndex(i);
+        return;
+      }
+    }
+    context.setSelectedIndex(0);
+  }
+
+  private PatchScriptSettings createPatchScriptSettings(AccountDiffPreference diffPref) {
+    final PatchScriptSettings s = new PatchScriptSettings();
+    if (diffPref != null) {
+      s.setWhitespace(diffPref.getIgnoreWhitespace());
+      s.setContext(diffPref.getContext());
+      final PrettySettings p = s.getPrettySettings();
+      p.setTabSize(diffPref.getTabSize());
+      p.setLineLength(diffPref.getLineLength());
+      p.setSyntaxHighlighting(diffPref.isSyntaxHighlighting());
+      p.setIntralineDifference(diffPref.isIntralineDifference());
+      p.setShowWhiteSpaceErrors(diffPref.isShowWhitespaceErrors());
+      p.setShowTabs(diffPref.isShowTabs());
+    }
+    return s;
   }
 }

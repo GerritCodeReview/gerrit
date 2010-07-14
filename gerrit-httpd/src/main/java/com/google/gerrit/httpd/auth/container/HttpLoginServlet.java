@@ -139,7 +139,7 @@ class HttpLoginServlet extends HttpServlet {
     rdr.append(token);
 
     try {
-      webSession.get().login(arsp, false);
+      webSession.get().login(arsp, true /* persistent cookie */);
     } catch (OrmException e) {
       log.error("Unable to log in user \"" + user + "\"", e);
       rsp.setContentType("text/html");

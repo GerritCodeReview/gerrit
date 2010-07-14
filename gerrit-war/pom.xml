@@ -155,6 +155,7 @@ limitations under the License.
         <configuration>
           <warName>gerrit-${project.version}</warName>
           <archiveClasses>true</archiveClasses>
+          <attachClasses>true</attachClasses>
           <archive>
             <addMavenDescriptor>false</addMavenDescriptor>
             <manifestEntries>

@@ -25,7 +25,7 @@ limitations under the License.
     <version>2.1.4-SNAPSHOT</version>
   </parent>
 
-  <artifactId>gerrit-gwtdbug</artifactId>
+  <artifactId>gerrit-gwtdebug</artifactId>
   <name>Gerrit Code Review - GWT UI Debugging Support</name>
 
   <description>
@@ -42,12 +42,14 @@ limitations under the License.
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-gwtui</artifactId>
       <version>${project.version}</version>
+      <classifier>classes</classifier>
     </dependency>
 
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-war</artifactId>
       <version>${project.version}</version>
+      <classifier>classes</classifier>
       <exclusions>
         <exclusion>
           <groupId>com.google.gerrit</groupId>

@@ -18,7 +18,12 @@ import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
+import com.google.gerrit.client.ui.ComplexDisclosurePanel;
+import com.google.gerrit.client.ui.PatchLink;
+import com.google.gerrit.client.ui.PatchLink.SideBySide;
+import com.google.gerrit.client.ui.PatchLink.Unified;
 import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
@@ -26,6 +31,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
+import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
@@ -39,8 +45,8 @@ import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -50,9 +56,10 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
-class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
+class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements OpenHandler<DisclosurePanel> {
   private static final int R_AUTHOR = 0;
   private static final int R_COMMITTER = 1;
   private static final int R_DOWNLOAD = 2;
@@ -66,14 +73,48 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
   private Grid infoTable;
   private Panel actionsPanel;
   private PatchTable patchTable;
+  private final Set<ClickHandler> registeredClickHandler =  new HashSet<ClickHandler>();
 
-  PatchSetPanel(final ChangeScreen parent, final ChangeDetail detail,
+  /**
+   * Creates a closed complex disclosure panel for a patch set.
+   * The patch set details are loaded when the complex disclosure panel is opened.
+   */
+  PatchSetComplexDisclosurePanel(final ChangeScreen parent, final ChangeDetail detail,
       final PatchSet ps) {
+    this(parent, detail, ps, false);
+    addOpenHandler(this);
+  }
+
+  /**
+   * Creates an open complex disclosure panel for a patch set.
+   */
+  PatchSetComplexDisclosurePanel(final ChangeScreen parent, final ChangeDetail detail,
+      final PatchSetDetail psd) {
+    this(parent, detail, psd.getPatchSet(), true);
+    ensureLoaded(psd);
+  }
+
+  private PatchSetComplexDisclosurePanel(final ChangeScreen parent, final ChangeDetail detail,
+      final PatchSet ps, boolean isOpen) {
+    super(Util.M.patchSetHeader(ps.getPatchSetId()), isOpen);
     changeScreen = parent;
     changeDetail = detail;
     patchSet = ps;
     body = new FlowPanel();
-    initWidget(body);
+    setContent(body);
+
+    final GitwebLink gw = Gerrit.getConfig().getGitwebLink();
+
+    final InlineLabel revtxt = new InlineLabel(ps.getRevision().get() + " ");
+    revtxt.addStyleName(Gerrit.RESOURCES.css().patchSetRevision());
+    getHeader().add(revtxt);
+    if (gw != null) {
+      final Anchor revlink =
+          new Anchor("(gitweb)", false, gw.toRevision(detail.getChange()
+              .getProject(), ps));
+      revlink.addStyleName(Gerrit.RESOURCES.css().patchSetLink());
+      getHeader().add(revlink);
+    }
   }
 
   /**
@@ -120,6 +161,10 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       }
     }
     body.add(patchTable);
+
+    for(ClickHandler clickHandler : registeredClickHandler) {
+      patchTable.addClickHandler(clickHandler);
+    }
   }
 
   private void displayDownload() {
@@ -364,6 +409,32 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       });
       actionsPanel.add(b);
     }
+
+    final Button diffAllSideBySide = new Button(Util.C.buttonDiffAllSideBySide());
+    diffAllSideBySide.addClickHandler(new ClickHandler() {
+
+      @Override
+      public void onClick(ClickEvent event) {
+        for (Patch p : detail.getPatches()) {
+          SideBySide link = new PatchLink.SideBySide(p.getFileName(), p.getKey(), 0, null);
+          Window.open(link.getElement().toString(), p.getFileName(), null);
+        }
+      }
+    });
+    actionsPanel.add(diffAllSideBySide);
+
+    final Button diffAllUnified = new Button(Util.C.buttonDiffAllUnified());
+    diffAllUnified.addClickHandler(new ClickHandler() {
+
+      @Override
+      public void onClick(ClickEvent event) {
+        for (Patch p : detail.getPatches()) {
+          Unified link = new PatchLink.Unified(p.getFileName(), p.getKey(), 0, null);
+          Window.open(link.getElement().toString(), p.getFileName(), null);
+        }
+      }
+    });
+    actionsPanel.add(diffAllUnified);
   }
 
   private void populateReviewAction() {
@@ -385,6 +456,7 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
           new GerritCallback<PatchSetDetail>() {
             public void onSuccess(final PatchSetDetail result) {
               ensureLoaded(result);
+              patchTable.setRegisterKeys(true);
             }
           });
     }
@@ -416,5 +488,28 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       }
     }
     changeScreen.display(result);
+  }
+
+  public PatchSet getPatchSet() {
+    return patchSet;
+  }
+
+  /**
+   * Adds a click handler to the patch table.
+   * If the patch table is not yet initialized it is guaranteed that the click handler
+   * is added to the patch table after initialization.
+   */
+  public void addClickHandler(final ClickHandler clickHandler) {
+    registeredClickHandler.add(clickHandler);
+    if (patchTable != null) {
+      patchTable.addClickHandler(clickHandler);
+    }
+  }
+
+  /** Activates / Deactivates the key navigation and the highlighting of the current row for the patch table */
+  public void setActive(boolean active) {
+    if (patchTable != null) {
+      patchTable.setActive(active);
+    }
   }
 }

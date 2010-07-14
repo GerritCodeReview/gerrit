@@ -18,7 +18,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.CommentPanel;
-import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ExpandAllCommand;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
@@ -28,7 +27,6 @@ import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
-import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.ToggleStarRequest;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
@@ -40,11 +38,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.LocaleInfo;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -61,7 +57,6 @@ public class ChangeScreen extends Screen {
 
   private Image starChange;
   private boolean starred;
-  private PatchSet.Id currentPatchSet;
   private ChangeDescriptionBlock descriptionBlock;
   private ApprovalTable approvals;
 
@@ -72,7 +67,7 @@ public class ChangeScreen extends Screen {
   private ChangeTable.Section dependsOn;
   private ChangeTable.Section neededBy;
 
-  private FlowPanel patchSetPanels;
+  private PatchSetsBlock patchSetsBlock;
 
   private Panel comments;
 
@@ -121,6 +116,7 @@ public class ChangeScreen extends Screen {
     super.registerKeys();
     regNavigation = GlobalKey.add(this, keysNavigation);
     regAction = GlobalKey.add(this, keysAction);
+    patchSetsBlock.setRegisterKeys(true);
   }
 
   public void refresh() {
@@ -150,6 +146,7 @@ public class ChangeScreen extends Screen {
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
     keysNavigation.add(new DashboardKeyCommand(0, 'u', Util.C.upToDashboard()));
+    keysNavigation.add(new ExpandCollapseDependencySectionKeyCommand(0, 'd', Util.C.expandCollapseDependencies()));
 
     if (Gerrit.isSignedIn()) {
       keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));
@@ -195,8 +192,8 @@ public class ChangeScreen extends Screen {
     dependenciesPanel.setWidth("95%");
     add(dependenciesPanel);
 
-    patchSetPanels = new FlowPanel();
-    add(patchSetPanels);
+    patchSetsBlock = new PatchSetsBlock(this);
+    add(patchSetsBlock);
 
     comments = new FlowPanel();
     comments.setStyleName(Gerrit.RESOURCES.css().changeComments());
@@ -245,7 +242,7 @@ public class ChangeScreen extends Screen {
     approvals.display(detail.getChange(), detail.getMissingApprovals(), detail
         .getApprovals());
 
-    addPatchSets(detail);
+    patchSetsBlock.display(detail);
     addComments(detail);
 
     // If any dependency change is still open, show our dependency list.
@@ -262,40 +259,6 @@ public class ChangeScreen extends Screen {
     }
 
     dependenciesPanel.setOpen(depsOpen);
-  }
-
-  private void addPatchSets(final ChangeDetail detail) {
-    patchSetPanels.clear();
-
-    final PatchSet currps = detail.getCurrentPatchSet();
-    final GitwebLink gw = Gerrit.getConfig().getGitwebLink();
-    for (final PatchSet ps : detail.getPatchSets()) {
-      final ComplexDisclosurePanel panel =
-          new ComplexDisclosurePanel(Util.M.patchSetHeader(ps.getPatchSetId()),
-              ps == currps);
-      final PatchSetPanel psp = new PatchSetPanel(this, detail, ps);
-      panel.setContent(psp);
-
-      final InlineLabel revtxt = new InlineLabel(ps.getRevision().get() + " ");
-      revtxt.addStyleName(Gerrit.RESOURCES.css().patchSetRevision());
-      panel.getHeader().add(revtxt);
-      if (gw != null) {
-        final Anchor revlink =
-            new Anchor("(gitweb)", false, gw.toRevision(detail.getChange()
-                .getProject(), ps));
-        revlink.addStyleName(Gerrit.RESOURCES.css().patchSetLink());
-        panel.getHeader().add(revlink);
-      }
-
-      if (ps == currps) {
-        psp.ensureLoaded(detail.getCurrentPatchSetDetail());
-      } else {
-        panel.addOpenHandler(psp);
-      }
-      add(panel);
-      patchSetPanels.add(panel);
-    }
-    currentPatchSet = currps.getId();
   }
 
   private void addComments(final ChangeDetail detail) {
@@ -398,6 +361,17 @@ public class ChangeScreen extends Screen {
     }
   }
 
+  public class ExpandCollapseDependencySectionKeyCommand extends KeyCommand {
+    public ExpandCollapseDependencySectionKeyCommand(int mask, char key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(KeyPressEvent event) {
+      dependenciesPanel.setOpen(!dependenciesPanel.isOpen());
+    }
+  }
+
   public class StarKeyCommand extends NeedsSignInKeyCommand {
     public StarKeyCommand(int mask, char key, String help) {
       super(mask, key, help);
@@ -416,8 +390,9 @@ public class ChangeScreen extends Screen {
 
     @Override
     public void onKeyPress(final KeyPressEvent event) {
-      Gerrit.display("change,publish," + currentPatchSet.toString(),
-          new PublishCommentScreen(currentPatchSet));
+      PatchSet.Id currentPatchSetId = patchSetsBlock.getCurrentPatchSet().getId();
+      Gerrit.display("change,publish," + currentPatchSetId.toString(),
+          new PublishCommentScreen(currentPatchSetId));
     }
   }
 }

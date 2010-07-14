@@ -83,6 +83,7 @@ limitations under the License.
     <module>gerrit-reviewdb</module>
     <module>gerrit-server</module>
     <module>gerrit-sshd</module>
+    <module>gerrit-gwtdebug</module>
     <module>gerrit-war</module>
 
     <module>gerrit-gwtui</module>
@@ -403,12 +404,6 @@ limitations under the License.
       <artifactId>easymock</artifactId>
       <scope>test</scope>
     </dependency>
-
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymockclassextension</artifactId>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <dependencyManagement>
@@ -613,7 +608,7 @@ limitations under the License.
       <dependency>
         <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>
-        <version>1.2.15</version>
+        <version>1.2.16</version>
         <exclusions>
           <exclusion>
             <groupId>javax.mail</groupId>
@@ -668,7 +663,7 @@ limitations under the License.
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>3.8.2</version>
+        <version>4.8.1</version>
       </dependency>
 
       <dependency>
@@ -699,13 +694,7 @@ limitations under the License.
       <dependency>
         <groupId>org.easymock</groupId>
         <artifactId>easymock</artifactId>
-        <version>2.5.1</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.easymock</groupId>
-        <artifactId>easymockclassextension</artifactId>
-        <version>2.4</version>
+        <version>3.0</version>
       </dependency>
 
       <dependency>

@@ -36,6 +36,14 @@ public interface ChangeListService extends RemoteJsonService {
   void allOpenNext(String pos, int limit,
       AsyncCallback<SingleListChangeInfo> callback);
 
+  @SignInRequired
+  void myWatchedOpenPrev(String pos, int limit,
+      AsyncCallback<SingleListChangeInfo> callback);
+
+  @SignInRequired
+  void myWatchedOpenNext(String pos, int limit,
+      AsyncCallback<SingleListChangeInfo> callback);
+
   /** Get all open changes more recent than pos, fetching at most limit rows. */
   void byProjectOpenPrev(Project.NameKey project, String pos, int limit,
       AsyncCallback<SingleListChangeInfo> callback);

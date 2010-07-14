@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1H///14\u003d",
+        "filename": "Documentation/licenses.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T01:37:29Z",
+      "side": 1,
+      "message": "This tag name in [[ ]] must match the name in \u003c\u003c \u003e\u003e given above in the table.  Its how AsciiDoc generate the hyperlink.  I\u0027ll try to fix it up when I apply the change.",
+      "revId": "e4e712f80bd74bbb7a13b1c735f540f72a385e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///10\u003d",
+        "filename": "Documentation/licenses.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T01:37:29Z",
+      "side": 1,
+      "message": "Style-nit:  We only put enough ~~~ on a line to be equal in length to the line above it.",
+      "revId": "e4e712f80bd74bbb7a13b1c735f540f72a385e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///1s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T01:37:29Z",
+      "side": 1,
+      "message": "If these are really in regex format, shouldn\u0027t we append \".*\" rather than \"*\" here?  Because we want \"^refs/heads/.*\" not \"^refs/heads/*\".  The latter would match a significantly smaller space.",
+      "revId": "e4e712f80bd74bbb7a13b1c735f540f72a385e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///1w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T01:37:29Z",
+      "side": 1,
+      "message": "Ouch.  We\u0027re talking about different things here.  My original comment in patch set 1 about non-printable ASCII characters wasn\u0027t meant to exclude a non-ASCII character like e.g. the Euro symbol.  It was meant to exclude something like vertical tab, or LF.  Characters in the ASCII character set that can\u0027t really be displayed because they are terminal control characters for the ancient TTY things we used to have to use.  :-)\n\nIIRC any character \u003c\u003d ASCII space needs to be rejected, its not a valid character in a ref name, and probably also isn\u0027t valid in a regex pattern that is supposed to match a ref name.",
+      "revId": "e4e712f80bd74bbb7a13b1c735f540f72a385e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///1g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T01:37:29Z",
+      "side": 1,
+      "message": "The entire point of having a pattern start with ^ was so we can write logic like this:\n\n  if (refPattern.startsWith(\"^\")) {\n    return Pattern.matches(refPattern, refName);\n  }\n\n  if (refPattern.endsWith(\"/*\")) {\n    String prefix \u003d refPattern.substring(0, refPattern.length() - 1);\n    return refName.startsWith(prefix);\n\n  } else {\n    return refName.equals(refPattern);\n  }\n\nThat is, the regex feature is only enabled if the pattern starts with ^, and otherwise its the old glob suffix style behavior.  Then existing ref rules named \"refs/tags/1.3/*\" don\u0027t suddenly start matching \"refs/tags/1a3/foo\".",
+      "revId": "e4e712f80bd74bbb7a13b1c735f540f72a385e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///1k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T01:37:29Z",
+      "side": 1,
+      "message": "Missing new schema class?",
+      "revId": "e4e712f80bd74bbb7a13b1c735f540f72a385e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///1o\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaCreatorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-14T01:37:29Z",
+      "side": 1,
+      "message": "Style-nit: Spaces around operators like +.",
+      "revId": "e4e712f80bd74bbb7a13b1c735f540f72a385e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

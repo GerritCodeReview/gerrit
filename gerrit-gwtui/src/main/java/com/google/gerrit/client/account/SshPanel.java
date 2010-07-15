@@ -439,7 +439,7 @@ class SshPanel extends Composite {
       }
       table.setText(row, 3, k.getAlgorithm());
 
-      CopyableLabel keyLabel = new CopyableLabel(k.getEncodedKey());
+      CopyableLabel keyLabel = new CopyableLabel(k.getSshPublicKey());
       keyLabel.setPreviewText(elide(k.getEncodedKey(), 40));
       table.setWidget(row, 4, keyLabel);
 

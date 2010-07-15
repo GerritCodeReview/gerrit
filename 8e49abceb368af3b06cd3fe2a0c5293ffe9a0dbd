@@ -16,6 +16,24 @@
       "revId": "8e49abceb368af3b06cd3fe2a0c5293ffe9a0dbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///dI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T16:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA1H///hU\u003d",
+      "revId": "8e49abceb368af3b06cd3fe2a0c5293ffe9a0dbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

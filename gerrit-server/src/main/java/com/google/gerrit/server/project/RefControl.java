@@ -64,7 +64,7 @@ public class RefControl {
   private Boolean canForgeCommitter;
 
   RefControl(final ProjectControl projectControl, String ref) {
-    if (ref.startsWith(RefRight.REGEX_PREFIX)) {
+    if (isRE(ref)) {
       ref = shortestExample(ref);
 
     } else if (ref.endsWith("/*")) {
@@ -366,7 +366,7 @@ public class RefControl {
 
         private int distance(String pattern) {
           String example;
-          if (pattern.startsWith(RefRight.REGEX_PREFIX)) {
+          if (isRE(pattern)) {
             example = shortestExample(pattern);
 
           } else if (pattern.endsWith("/*")) {
@@ -382,7 +382,7 @@ public class RefControl {
         }
 
         private boolean finite(String pattern) {
-          if (pattern.startsWith(RefRight.REGEX_PREFIX)) {
+          if (isRE(pattern)) {
             return toRegExp(pattern).toAutomaton().isFinite();
 
           } else if (pattern.endsWith("/*")) {
@@ -394,7 +394,7 @@ public class RefControl {
         }
 
         private int transitions(String pattern) {
-          if (pattern.startsWith(RefRight.REGEX_PREFIX)) {
+          if (isRE(pattern)) {
             return toRegExp(pattern).toAutomaton().getNumberOfTransitions();
 
           } else if (pattern.endsWith("/*")) {
@@ -506,8 +506,12 @@ public class RefControl {
     }
   }
 
+  private static boolean isRE(String refPattern) {
+    return refPattern.startsWith(RefRight.REGEX_PREFIX);
+  }
+
   public static String shortestExample(String pattern) {
-    if (pattern.startsWith(RefRight.REGEX_PREFIX)) {
+    if (isRE(pattern)) {
       return toRegExp(pattern).toAutomaton().getShortestExample(true);
     } else if (pattern.endsWith("/*")) {
       return pattern.substring(0, pattern.length() - 1) + '1';
@@ -517,7 +521,7 @@ public class RefControl {
   }
 
   private static RegExp toRegExp(String refPattern) {
-    if (refPattern.startsWith(RefRight.REGEX_PREFIX)) {
+    if (isRE(refPattern)) {
       refPattern = refPattern.substring(1);
     }
     return new RegExp(refPattern);

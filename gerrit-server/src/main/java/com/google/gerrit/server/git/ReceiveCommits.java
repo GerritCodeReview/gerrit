@@ -55,7 +55,6 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -158,6 +157,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       new HashMap<RevCommit, ReplaceRequest>();
 
   private Map<ObjectId, Ref> refsById;
+
+  private String destTopicName;
 
   @Inject
   ReceiveCommits(final ReviewDb db, final ApprovalTypes approvalTypes,
@@ -579,38 +580,55 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       destBranchName = Constants.R_HEADS + destBranchName;
     }
 
-    if (rp.getAdvertisedRefs().containsKey(destBranchName)) {
-      // We advertised the branch to the client so we know
-      // the branch exists. Target this branch for the upload.
-      //
-      destBranch = new Branch.NameKey(project.getNameKey(), destBranchName);
-
-    } else {
-      // We didn't advertise the branch, because it doesn't exist yet.
-      // Allow it anyway if HEAD is a symbolic reference to the name.
-      //
-      final String head;
-      try {
-        head = repo.getFullBranch();
-      } catch (IOException e) {
-        log.error("Cannot read HEAD symref", e);
-        reject(cmd, "internal error");
-        return;
-      }
-
-      if (head.equals(destBranchName)) {
-        destBranch = new Branch.NameKey(project.getNameKey(), destBranchName);
-      }
-    }
-
-    if (destBranch == null) {
-      String n = destBranchName;
-      if (n.startsWith(Constants.R_HEADS))
-        n = n.substring(Constants.R_HEADS.length());
-      reject(cmd, "branch " + n + " not found");
+    final String head;
+    try {
+      head = repo.getFullBranch();
+    } catch (IOException e) {
+      log.error("Cannot read HEAD symref", e);
+      reject(cmd, "internal error");
       return;
     }
 
+    // Split the destination branch by branch and topic.  The topic
+    // suffix is entirely optional, so it might not even exist.
+    //
+    int split = destBranchName.length();
+    for (;;) {
+      String name = destBranchName.substring(0, split);
+
+      if (rp.getAdvertisedRefs().containsKey(name)) {
+        // We advertised the branch to the client so we know
+        // the branch exists. Target this branch for the upload.
+        //
+        break;
+      } else if (head.equals(name)) {
+        // We didn't advertise the branch, because it doesn't exist yet.
+        // Allow it anyway as HEAD is a symbolic reference to the name.
+        //
+        break;
+      }
+
+      split = name.lastIndexOf('/', split - 1);
+      if (split <= Constants.R_HEADS.length()) {
+        String n = destBranchName;
+        if (n.startsWith(Constants.R_HEADS))
+          n = n.substring(Constants.R_HEADS.length());
+        reject(cmd, "branch " + n + " not found");
+        return;
+      }
+    }
+
+    if (split < destBranchName.length()) {
+      destTopicName = destBranchName.substring(split + 1);
+    } else {
+      // We use empty string here to denote the topic wasn't
+      // supplied, but the caller used the syntax that allows
+      // for a topic to be given.
+      //
+      destTopicName = "";
+    }
+    destBranch = new Branch.NameKey(project.getNameKey(), //
+        destBranchName.substring(0, split));
     destBranchCtl = projectControl.controlForRef(destBranch);
     if (!destBranchCtl.canUpload()) {
       reject(cmd);
@@ -858,6 +876,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     final Change change =
         new Change(changeKey, new Change.Id(db.nextChangeId()), me, destBranch);
+    change.setTopic(destTopicName.isEmpty() ? null : destTopicName);
     change.nextPatchSetId();
 
     final PatchSet ps = new PatchSet(change.currPatchSetId());
@@ -1158,6 +1177,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
             @Override
             public Change update(Change change) {
               if (change.getStatus().isOpen()) {
+                if (destTopicName != null) {
+                  change.setTopic(destTopicName.isEmpty() //
+                      ? null //
+                      : destTopicName);
+                }
                 change.setStatus(Change.Status.NEW);
                 change.setCurrentPatchSet(result.info);
                 ChangeUtil.updated(change);

@@ -23,12 +23,9 @@ import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
@@ -37,11 +34,12 @@ public class ChangeInfoBlock extends Composite {
   private static final int R_OWNER = 1;
   private static final int R_PROJECT = 2;
   private static final int R_BRANCH = 3;
-  private static final int R_UPLOADED = 4;
-  private static final int R_UPDATED = 5;
-  private static final int R_STATUS = 6;
-  private static final int R_PERMALINK = 7;
-  private static final int R_CNT = 8;
+  private static final int R_TOPIC = 4;
+  private static final int R_UPLOADED = 5;
+  private static final int R_UPDATED = 6;
+  private static final int R_STATUS = 7;
+  private static final int R_PERMALINK = 8;
+  private static final int R_CNT = 9;
 
   private final Grid table;
 
@@ -54,6 +52,7 @@ public class ChangeInfoBlock extends Composite {
     initRow(R_OWNER, Util.C.changeInfoBlockOwner());
     initRow(R_PROJECT, Util.C.changeInfoBlockProject());
     initRow(R_BRANCH, Util.C.changeInfoBlockBranch());
+    initRow(R_TOPIC, Util.C.changeInfoBlockTopic());
     initRow(R_UPLOADED, Util.C.changeInfoBlockUploaded());
     initRow(R_UPDATED, Util.C.changeInfoBlockUpdated());
     initRow(R_STATUS, Util.C.changeInfoBlockStatus());
@@ -85,6 +84,7 @@ public class ChangeInfoBlock extends Composite {
     table.setWidget(R_OWNER, 1, AccountDashboardLink.link(acc, chg.getOwner()));
     table.setWidget(R_PROJECT, 1, new ProjectLink(chg.getProject(), chg.getStatus()));
     table.setText(R_BRANCH, 1, dst.getShortName());
+    table.setText(R_TOPIC, 1, chg.getTopic());
     table.setText(R_UPLOADED, 1, mediumFormat(chg.getCreatedOn()));
     table.setText(R_UPDATED, 1, mediumFormat(chg.getLastUpdatedOn()));
     table.setText(R_STATUS, 1, Util.toLongString(chg.getStatus()));

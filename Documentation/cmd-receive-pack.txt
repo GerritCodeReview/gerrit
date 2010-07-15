@@ -64,6 +64,11 @@ Send a review for a change on the master branch to charlie@example.com:
 	git push --receive-pack='git receive-pack --reviewer charlie@example.com' ssh://review.example.com:29418/project HEAD:refs/for/master
 =====
 
+Send reviews, but tagging them with the topic name 'bug42':
+=====
+	git push --receive-pack='git receive-pack --reviewer charlie@example.com' ssh://review.example.com:29418/project HEAD:refs/for/master/bug42
+=====
+
 Also CC two other parties:
 =====
 	git push --receive-pack='git receive-pack --reviewer charlie@example.com --cc alice@example.com --cc bob@example.com' ssh://review.example.com:29418/project HEAD:refs/for/master

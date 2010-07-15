@@ -58,7 +58,8 @@ public final class DefaultRealm implements Realm {
   @Override
   public Account.Id lookup(final String accountName) {
     if (emailExpander.canExpand(accountName)) {
-      final Set<Account.Id> c = byEmail.get(emailExpander.expand(accountName));
+      final Set<Account.Id> c =
+          byEmail.get(emailExpander.expand(accountName)).getIds();
       if (1 == c.size()) {
         return c.iterator().next();
       }

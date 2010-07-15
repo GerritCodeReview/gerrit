@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,15 +16,17 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.AccountGroup;
 
-/** Tracks group objects in memory for efficient access. */
-public interface GroupCache {
-  public AccountGroup get(AccountGroup.Id groupId);
+import java.util.Collection;
 
-  public AccountGroup get(AccountGroup.NameKey name);
+/** Wrapper around a Collection<Account.Id> */
+public class AccountGroupCollection {
+  private Collection<AccountGroup> groups;
 
-  public AccountGroupCollection get(AccountGroup.ExternalNameKey externalName);
+  public AccountGroupCollection(Collection<AccountGroup> groups) {
+    this.groups = groups;
+  }
 
-  public void evict(AccountGroup group);
-
-  public void evictAfterRename(AccountGroup.NameKey oldName);
+  public Collection<AccountGroup> getGroups() {
+    return groups;
+  }
 }

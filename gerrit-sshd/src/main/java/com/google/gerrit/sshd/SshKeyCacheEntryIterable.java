@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.sshd;
 
-import com.google.gerrit.reviewdb.AccountGroup;
+import java.util.Collections;
 
-/** Tracks group objects in memory for efficient access. */
-public interface GroupCache {
-  public AccountGroup get(AccountGroup.Id groupId);
+/** Wrapper around an Iterable<SshKeyCacheEntry> */
+public class SshKeyCacheEntryIterable {
+  Iterable<SshKeyCacheEntry> sshKeyIter;
 
-  public AccountGroup get(AccountGroup.NameKey name);
+  public static final SshKeyCacheEntryIterable EMPTY =
+      new SshKeyCacheEntryIterable();
 
-  public AccountGroupCollection get(AccountGroup.ExternalNameKey externalName);
+  private SshKeyCacheEntryIterable() {
+    sshKeyIter = Collections.emptyList();
+  }
 
-  public void evict(AccountGroup group);
-
-  public void evictAfterRename(AccountGroup.NameKey oldName);
+  public SshKeyCacheEntryIterable(Iterable<SshKeyCacheEntry> sshKeyIter) {
+    this.sshKeyIter = sshKeyIter;
+  }
 }

@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1H///io\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1283,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T14:50:31Z",
+      "side": 1,
+      "message": "We should use at least one more sentence in the description to remind administrators that receive-pack is what runs on the server during a user\u0027s push command.",
+      "revId": "bd31bd11234e429f8b0201bbb03099f737281f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///ik\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1649,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T14:50:31Z",
+      "side": 1,
+      "message": "We should use at least one more sentence in the description to remind administrators that upload-pack is what runs on the server during a user\u0027s fetch or clone command.",
+      "revId": "bd31bd11234e429f8b0201bbb03099f737281f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///ic\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T14:50:31Z",
+      "side": 1,
+      "message": "I would prefer to push all of this logic down into the ProjectControl class itself.  So add to its interface:\n\n  public boolean canUploadPack();\n  public boolean canReceivePack();",
+      "revId": "bd31bd11234e429f8b0201bbb03099f737281f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///iA\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T14:50:31Z",
+      "side": 1,
+      "message": "Like above, push this into the ProjectControl class.",
+      "revId": "bd31bd11234e429f8b0201bbb03099f737281f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///ig\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/CollectionsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T14:50:31Z",
+      "side": 1,
+      "message": "Classes with no instance members should have a private constructor.",
+      "revId": "bd31bd11234e429f8b0201bbb03099f737281f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///h4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ServerCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T14:50:31Z",
+      "side": 1,
+      "message": "Drop this class and use the groups directly similar to @ProjectCreatorGroups.",
+      "revId": "bd31bd11234e429f8b0201bbb03099f737281f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///iY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ServerCommandConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T14:50:31Z",
+      "side": 1,
+      "message": "Instead of a server command config, lets just create two annotations for the two group types:\n\n  @GitUploadPackGroups\n  @GitReceivePackGroups\n\nPut these in com.google.gerrit.server.config alongside of the ProjectOwnerGroups annotation.  Make a unique provider for each, similar to the ProjectOwnerGroupsProvider.\n\nSince we now have 4 nearly identical providers, consider creating a base class, GroupSetProvider which computes the set for each of the 4 subclasses:\n\n* ProjectCreatorGroupsProvider\n* ProjectOwnerGroupsProvider\n* GitUploadPackGroupsProvider\n* GitReceivePackGroupsProvider",
+      "revId": "bd31bd11234e429f8b0201bbb03099f737281f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///h0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T14:50:31Z",
+      "side": 1,
+      "message": "I wouldn\u0027t bother with including the username in the error.  It will automatically be part of the server error log, and the end-user should know who they are logging as anyway.  So instead maybe use:\n\n  throw new Failure(1, \"fatal: receive-pack not permitted on this server\");",
+      "revId": "bd31bd11234e429f8b0201bbb03099f737281f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///hw\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T14:50:31Z",
+      "side": 1,
+      "message": "Same note as in Receive.",
+      "revId": "bd31bd11234e429f8b0201bbb03099f737281f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

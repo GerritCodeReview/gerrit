@@ -16,6 +16,7 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gerrit.common.data.ProjectDetail;
@@ -28,15 +29,12 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 
-public class ProjectInfoPanel extends Composite {
-  private Project.NameKey projectName;
+public class ProjectInfoScreen extends ProjectScreen {
   private Project project;
 
   private Panel submitTypePanel;
@@ -49,7 +47,14 @@ public class ProjectInfoPanel extends Composite {
   private NpTextArea descTxt;
   private Button saveProject;
 
-  public ProjectInfoPanel(final Project.NameKey toShow) {
+  public ProjectInfoScreen(final Project.NameKey toShow) {
+    super(toShow);
+  }
+
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+
     saveProject = new Button(Util.C.buttonSaveChanges());
     saveProject.addClickHandler(new ClickHandler() {
       @Override
@@ -58,28 +63,18 @@ public class ProjectInfoPanel extends Composite {
       }
     });
 
-    final FlowPanel body = new FlowPanel();
-    initDescription(body);
-    initSubmitType(body);
-    initAgreements(body);
-    body.add(saveProject);
-
-    initWidget(body);
-    projectName = toShow;
+    initDescription();
+    initSubmitType();
+    initAgreements();
+    add(saveProject);
   }
 
   @Override
   protected void onLoad() {
-    enableForm(false, false, false);
-    saveProject.setEnabled(false);
     super.onLoad();
-    refresh();
-  }
-
-  private void refresh() {
-    Util.PROJECT_SVC.projectDetail(projectName,
-        new GerritCallback<ProjectDetail>() {
-          public void onSuccess(final ProjectDetail result) {
+    Util.PROJECT_SVC.projectDetail(getProjectKey(),
+        new ScreenLoadCallback<ProjectDetail>(this) {
+          public void preDisplay(final ProjectDetail result) {
             enableForm(result.canModifyAgreements,
                 result.canModifyDescription, result.canModifyMergeType);
             saveProject.setVisible(
@@ -102,7 +97,7 @@ public class ProjectInfoPanel extends Composite {
         canModifyAgreements || canModifyDescription || canModifyMergeType);
   }
 
-  private void initDescription(final Panel body) {
+  private void initDescription() {
     final VerticalPanel vp = new VerticalPanel();
     vp.add(new SmallHeading(Util.C.headingDescription()));
 
@@ -111,11 +106,11 @@ public class ProjectInfoPanel extends Composite {
     descTxt.setCharacterWidth(60);
     vp.add(descTxt);
 
-    body.add(vp);
+    add(vp);
     new TextSaveButtonListener(descTxt, saveProject);
   }
 
-  private void initSubmitType(final Panel body) {
+  private void initSubmitType() {
     submitTypePanel = new VerticalPanel();
     submitTypePanel.add(new SmallHeading(Util.C.headingSubmitType()));
 
@@ -130,10 +125,10 @@ public class ProjectInfoPanel extends Composite {
       }
     });
     submitTypePanel.add(submitType);
-    body.add(submitTypePanel);
+    add(submitTypePanel);
   }
 
-  private void initAgreements(final Panel body) {
+  private void initAgreements() {
     final ValueChangeHandler<Boolean> onChangeSave =
         new ValueChangeHandler<Boolean>() {
           @Override
@@ -153,7 +148,7 @@ public class ProjectInfoPanel extends Composite {
     useSignedOffBy.addValueChangeHandler(onChangeSave);
     agreementsPanel.add(useSignedOffBy);
 
-    body.add(agreementsPanel);
+    add(agreementsPanel);
   }
 
   private void setSubmitType(final Project.SubmitType newSubmitType) {
@@ -202,12 +197,6 @@ public class ProjectInfoPanel extends Composite {
             enableForm(result.canModifyAgreements,
                 result.canModifyDescription, result.canModifyMergeType);
             display(result);
-          }
-
-          @Override
-          public void onFailure(final Throwable caught) {
-            refresh();
-            super.onFailure(caught);
           }
         });
   }

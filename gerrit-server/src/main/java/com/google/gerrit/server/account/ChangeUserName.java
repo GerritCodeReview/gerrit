@@ -91,6 +91,9 @@ public class ChangeUserName implements Callable<VoidResult> {
   public VoidResult call() throws OrmException, NameAlreadyUsedException,
       InvalidUserNameException {
     final Collection<AccountExternalId> old = old();
+    if (!old.isEmpty()) {
+      throw new IllegalStateException("Username cannot be changed.");
+    }
 
     if (newUsername != null && !newUsername.isEmpty()) {
       if (!USER_NAME_PATTERN.matcher(newUsername).matches()) {

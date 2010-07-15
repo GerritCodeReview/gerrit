@@ -17,7 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gwt.i18n.client.Constants;
 
 public interface AccountConstants extends Constants {
-  String accountSettingsHeading();
+  String settingsHeading();
 
   String fullName();
   String preferredEmail();
@@ -31,9 +31,12 @@ public interface AccountConstants extends Constants {
   String copySelfOnEmails();
   String buttonSaveChanges();
 
+  String tabAccountSummary();
   String tabPreferences();
+  String tabWatchedProjects();
   String tabContactInformation();
   String tabSshKeys();
+  String tabHttpAccess();
   String tabWebIdentities();
   String tabMyGroups();
   String tabAgreements();
@@ -47,7 +50,9 @@ public interface AccountConstants extends Constants {
 
   String userName();
   String password();
+  String buttonSetUserName();
   String buttonChangeUserName();
+  String buttonClearPassword();
   String buttonGeneratePassword();
   String invalidUserName();
 
@@ -73,7 +78,6 @@ public interface AccountConstants extends Constants {
   String buttonDeleteIdentity();
   String buttonLinkIdentity();
 
-  String watchedProjects();
   String buttonWatchProject();
   String defaultProjectName();
   String watchedProjectColumnEmailNotifications();
@@ -116,6 +120,7 @@ public interface AccountConstants extends Constants {
   String welcomeToGerritCodeReview();
   String welcomeReviewContact();
   String welcomeContactFrom();
+  String welcomeUsernameHeading();
   String welcomeSshKeyHeading();
   String welcomeSshKeyText();
   String welcomeAgreementHeading();

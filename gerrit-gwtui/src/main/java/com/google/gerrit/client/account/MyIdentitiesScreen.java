@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.openid.OpenIdUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
@@ -29,8 +30,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import java.util.Collections;
@@ -39,16 +38,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-class ExternalIdPanel extends Composite {
+public class MyIdentitiesScreen extends SettingsScreen {
   private IdTable identites;
   private Button deleteIdentity;
 
-  ExternalIdPanel() {
-    final FlowPanel body = new FlowPanel();
-    body.add(new UsernamePanel());
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
 
     identites = new IdTable();
-    body.add(identites);
+    add(identites);
 
     deleteIdentity = new Button(Util.C.buttonDeleteIdentity());
     deleteIdentity.setEnabled(false);
@@ -58,7 +57,7 @@ class ExternalIdPanel extends Composite {
         identites.deleteChecked();
       }
     });
-    body.add(deleteIdentity);
+    add(deleteIdentity);
 
     switch (Gerrit.getConfig().getAuthType()) {
       case OPENID: {
@@ -70,21 +69,18 @@ class ExternalIdPanel extends Composite {
             new OpenIdSignInDialog(SignInMode.LINK_IDENTIY, to, null).center();
           }
         });
-        body.add(linkIdentity);
+        add(linkIdentity);
         break;
       }
     }
-
-    initWidget(body);
   }
 
   @Override
   protected void onLoad() {
     super.onLoad();
-
     Util.ACCOUNT_SEC
-        .myExternalIds(new GerritCallback<List<AccountExternalId>>() {
-          public void onSuccess(final List<AccountExternalId> result) {
+        .myExternalIds(new ScreenLoadCallback<List<AccountExternalId>>(this) {
+          public void preDisplay(final List<AccountExternalId> result) {
             identites.display(result);
           }
         });

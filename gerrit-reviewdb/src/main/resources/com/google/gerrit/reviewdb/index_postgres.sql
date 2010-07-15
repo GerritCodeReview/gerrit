@@ -88,7 +88,7 @@ ON account_group_members (group_id);
 --    @PrimaryKey covers: byAccount
 --    covers:             byProject
 CREATE INDEX account_project_watches_byProject
-ON account_project_watches (project_name)
+ON account_project_watches (project_name);
 
 
 -- *********************************************************************

@@ -40,14 +40,12 @@ import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlerFactory;
 import com.google.gerrit.util.cli.OptionHandlerUtil;
 import com.google.inject.Key;
-import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryProvider;
 import com.google.inject.servlet.RequestScoped;
 
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.server.CommandFactory;
-import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.kohsuke.args4j.spi.OptionHandler;
 
@@ -78,7 +76,6 @@ public class SshModule extends FactoryModule {
     bind(QueueProvider.class).to(CommandExecutorQueueProvider.class).in(SINGLETON);
 
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
-    bind(PasswordAuthenticator.class).to(DatabasePasswordAuth.class);
     bind(KeyPairProvider.class).toProvider(HostKeyProvider.class).in(SINGLETON);
     bind(TransferConfig.class);
 

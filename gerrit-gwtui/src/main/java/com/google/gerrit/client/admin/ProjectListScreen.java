@@ -105,7 +105,7 @@ public class ProjectListScreen extends Screen {
     }
 
     private String link(final Project item) {
-      return Dispatcher.toProjectAdmin(item.getNameKey(), ProjectAdminScreen.INFO_TAB);
+      return Dispatcher.toProjectAdmin(item.getNameKey(), ProjectScreen.INFO);
     }
 
     void display(final List<Project> result) {

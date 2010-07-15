@@ -19,6 +19,7 @@ import static com.google.gerrit.reviewdb.AccountGeneralPreferences.PAGESIZE_CHOI
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -28,21 +29,20 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
-class PreferencePanel extends Composite {
+public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox showSiteHeader;
   private CheckBox useFlashClipboard;
   private CheckBox copySelfOnEmails;
   private ListBox maximumPageSize;
   private Button save;
 
-  PreferencePanel() {
-    final FlowPanel body = new FlowPanel();
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
 
     final ClickHandler onClickSave = new ClickHandler() {
       @Override
@@ -99,7 +99,7 @@ class PreferencePanel extends Composite {
     formGrid.setWidget(row, fieldIdx, maximumPageSize);
     row++;
 
-    body.add(formGrid);
+    add(formGrid);
 
     save = new Button(Util.C.buttonSaveChanges());
     save.setEnabled(false);
@@ -109,18 +109,15 @@ class PreferencePanel extends Composite {
         doSave();
       }
     });
-    body.add(save);
-
-    initWidget(body);
+    add(save);
   }
 
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.ACCOUNT_SVC.myAccount(new GerritCallback<Account>() {
-      public void onSuccess(final Account result) {
+    Util.ACCOUNT_SVC.myAccount(new ScreenLoadCallback<Account>(this) {
+      public void preDisplay(final Account result) {
         display(result.getGeneralPreferences());
-        enable(true);
       }
     });
   }

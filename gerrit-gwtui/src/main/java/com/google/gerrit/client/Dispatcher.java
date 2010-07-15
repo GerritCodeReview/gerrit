@@ -23,6 +23,7 @@ import static com.google.gerrit.common.PageLinks.REGISTER;
 import static com.google.gerrit.common.PageLinks.SETTINGS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_AGREEMENTS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_CONTACT;
+import static com.google.gerrit.common.PageLinks.SETTINGS_HTTP_PASSWORD;
 import static com.google.gerrit.common.PageLinks.SETTINGS_MYGROUPS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_NEW_AGREEMENT;
 import static com.google.gerrit.common.PageLinks.SETTINGS_PREFERENCES;
@@ -35,6 +36,7 @@ import com.google.gerrit.client.account.MyAgreementsScreen;
 import com.google.gerrit.client.account.MyContactInformationScreen;
 import com.google.gerrit.client.account.MyGroupsScreen;
 import com.google.gerrit.client.account.MyIdentitiesScreen;
+import com.google.gerrit.client.account.MyPasswordScreen;
 import com.google.gerrit.client.account.MyPreferencesScreen;
 import com.google.gerrit.client.account.MyProfileScreen;
 import com.google.gerrit.client.account.MySshKeysScreen;
@@ -329,6 +331,10 @@ public class Dispatcher {
 
         if (token.equals(SETTINGS_WEBIDENT)) {
           return new MyIdentitiesScreen();
+        }
+
+        if (token.equals(SETTINGS_HTTP_PASSWORD)) {
+          return new MyPasswordScreen();
         }
 
         if (token.equals(SETTINGS_MYGROUPS)) {

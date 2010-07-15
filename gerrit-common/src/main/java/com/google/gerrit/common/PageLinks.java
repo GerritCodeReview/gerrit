@@ -26,6 +26,7 @@ public class PageLinks {
   public static final String SETTINGS = "settings";
   public static final String SETTINGS_PREFERENCES = "settings,preferences";
   public static final String SETTINGS_SSHKEYS = "settings,ssh-keys";
+  public static final String SETTINGS_HTTP_PASSWORD = "settings,http-password";
   public static final String SETTINGS_WEBIDENT = "settings,web-identities";
   public static final String SETTINGS_MYGROUPS = "settings,group-memberships";
   public static final String SETTINGS_AGREEMENTS = "settings,agreements";

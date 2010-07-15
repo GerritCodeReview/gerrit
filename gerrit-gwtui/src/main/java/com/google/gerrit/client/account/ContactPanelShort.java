@@ -20,6 +20,7 @@ import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ContactInformation;
+import com.google.gerrit.reviewdb.Account.FieldName;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -98,12 +99,18 @@ class ContactPanelShort extends Composite {
       emailLine.add(registerNewEmail);
     }
 
-    row(infoPlainText, 0, Util.C.contactFieldFullName(), nameTxt);
-    row(infoPlainText, 1, Util.C.contactFieldEmail(), emailLine);
+    int row = 0;
+    if (!Gerrit.getConfig().canEdit(FieldName.USER_NAME)) {
+      infoPlainText.resizeRows(infoPlainText.getRowCount() + 1);
+      row(infoPlainText, row++, Util.C.userName(), new UsernameField());
+    }
+
+    row(infoPlainText, row++, Util.C.contactFieldFullName(), nameTxt);
+    row(infoPlainText, row++, Util.C.contactFieldEmail(), emailLine);
 
     infoPlainText.getCellFormatter().addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
     infoPlainText.getCellFormatter().addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
-    infoPlainText.getCellFormatter().addStyleName(1, 0, Gerrit.RESOURCES.css().bottomheader());
+    infoPlainText.getCellFormatter().addStyleName(row - 1, 0, Gerrit.RESOURCES.css().bottomheader());
 
     save = new Button(Util.C.buttonSaveChanges());
     save.setEnabled(false);

@@ -50,6 +50,10 @@ public interface AccountSecurity extends RemoteJsonService {
       AsyncCallback<AccountExternalId> callback);
 
   @SignInRequired
+  void clearPassword(AccountExternalId.Key key,
+      AsyncCallback<AccountExternalId> gerritCallback);
+
+  @SignInRequired
   void myExternalIds(AsyncCallback<List<AccountExternalId>> callback);
 
   @SignInRequired

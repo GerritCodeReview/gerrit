@@ -24,6 +24,7 @@ import com.google.gwtorm.client.KeyUtil;
 
 public class PageLinks {
   public static final String SETTINGS = "settings";
+  public static final String SETTINGS_PREFERENCES = "settings,preferences";
   public static final String SETTINGS_SSHKEYS = "settings,ssh-keys";
   public static final String SETTINGS_WEBIDENT = "settings,web-identities";
   public static final String SETTINGS_MYGROUPS = "settings,group-memberships";

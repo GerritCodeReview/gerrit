@@ -17,7 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gwt.i18n.client.Constants;
 
 public interface AccountConstants extends Constants {
-  String accountSettingsHeading();
+  String settingsHeading();
 
   String fullName();
   String preferredEmail();
@@ -31,7 +31,9 @@ public interface AccountConstants extends Constants {
   String copySelfOnEmails();
   String buttonSaveChanges();
 
+  String tabAccountSummary();
   String tabPreferences();
+  String tabWatchedProjects();
   String tabContactInformation();
   String tabSshKeys();
   String tabWebIdentities();
@@ -73,7 +75,6 @@ public interface AccountConstants extends Constants {
   String buttonDeleteIdentity();
   String buttonLinkIdentity();
 
-  String watchedProjects();
   String buttonWatchProject();
   String defaultProjectName();
   String watchedProjectColumnEmailNotifications();

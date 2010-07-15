@@ -123,6 +123,7 @@ public interface GerritCss extends CssResource {
   String linkMenuItemNotLast();
   String menuBarUserName();
   String menuItem();
+  String menuScreenMenuBar();
   String missingApproval();
   String missingApprovalList();
   String needsReview();

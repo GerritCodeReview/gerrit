@@ -36,7 +36,6 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -47,7 +46,7 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import java.util.HashSet;
 import java.util.List;
 
-class ProjectWatchPanel extends Composite {
+public class MyWatchedProjectsScreen extends SettingsScreen {
   private WatchTable watches;
 
   private Button addNew;
@@ -55,8 +54,9 @@ class ProjectWatchPanel extends Composite {
   private Button delSel;
   private boolean submitOnSelection;
 
-  ProjectWatchPanel() {
-    final FlowPanel body = new FlowPanel();
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
 
     {
       final FlowPanel fp = new FlowPanel();
@@ -117,11 +117,11 @@ class ProjectWatchPanel extends Composite {
         }
       });
       fp.add(addNew);
-      body.add(fp);
+      add(fp);
     }
 
     watches = new WatchTable();
-    body.add(watches);
+    add(watches);
     {
       final FlowPanel fp = new FlowPanel();
       delSel = new Button(Util.C.buttonDeleteSshKey());
@@ -132,10 +132,8 @@ class ProjectWatchPanel extends Composite {
         }
       });
       fp.add(delSel);
-      body.add(fp);
+      add(fp);
     }
-
-    initWidget(body);
   }
 
   void doAddNew() {
@@ -169,6 +167,7 @@ class ProjectWatchPanel extends Composite {
         .myProjectWatch(new GerritCallback<List<AccountProjectWatchInfo>>() {
           public void onSuccess(final List<AccountProjectWatchInfo> result) {
             watches.display(result);
+            display();
           }
         });
   }

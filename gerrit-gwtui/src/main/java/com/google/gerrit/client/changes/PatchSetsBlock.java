@@ -31,6 +31,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Composite that displays the patch sets of a change. This composite ensures
@@ -38,8 +39,8 @@ import java.util.HashMap;
  */
 public class PatchSetsBlock extends Composite {
 
-  private final HashMap<Integer, PatchSetComplexDisclosurePanel> patchSetPanels =
-      new HashMap<Integer, PatchSetComplexDisclosurePanel>();
+  private final HashMap<PatchSet.Id, PatchSetComplexDisclosurePanel> patchSetPanels =
+      new HashMap<PatchSet.Id, PatchSetComplexDisclosurePanel>();
 
   private final ChangeScreen parent;
   private final FlowPanel body;
@@ -49,10 +50,13 @@ public class PatchSetsBlock extends Composite {
    * the patch set id of the patch set for which is the keyboard navigation is
    * currently enabled
    */
-  private int activePatchSetId = -1;
+  private PatchSet.Id activePatchSetId;
 
   /** the patch set id of the current (latest) patch set */
-  private int currentPatchSetId = -1;
+  private PatchSet.Id currentPatchSetId;
+
+  /** Patch sets on this change, in order. */
+  private List<PatchSet> patchSets;
 
   PatchSetsBlock(final ChangeScreen parent) {
     this.parent = parent;
@@ -65,8 +69,10 @@ public class PatchSetsBlock extends Composite {
     clear();
 
     final PatchSet currps = detail.getCurrentPatchSet();
-    currentPatchSetId = currps.getPatchSetId();
-    for (final PatchSet ps : detail.getPatchSets()) {
+    currentPatchSetId = currps.getId();
+    patchSets = detail.getPatchSets();
+
+    for (final PatchSet ps : patchSets) {
       if (ps == currps) {
         add(new PatchSetComplexDisclosurePanel(parent, detail, detail
             .getCurrentPatchSetDetail()));
@@ -90,11 +96,11 @@ public class PatchSetsBlock extends Composite {
   private void add(final PatchSetComplexDisclosurePanel patchSetPanel) {
     body.add(patchSetPanel);
 
-    int patchSetId = patchSetPanel.getPatchSet().getPatchSetId();
-    ActivationHandler activationHandler = new ActivationHandler(patchSetId);
+    final PatchSet.Id id = patchSetPanel.getPatchSet().getId();
+    ActivationHandler activationHandler = new ActivationHandler(id);
     patchSetPanel.addOpenHandler(activationHandler);
     patchSetPanel.addClickHandler(activationHandler);
-    patchSetPanels.put(patchSetId, patchSetPanel);
+    patchSetPanels.put(id, patchSetPanel);
   }
 
   public void setRegisterKeys(final boolean on) {
@@ -106,7 +112,7 @@ public class PatchSetsBlock extends Composite {
       keysNavigation.add(new NextPatchSetKeyCommand(0, 'n', Util.C
           .nextPatchSet()));
       regNavigation = GlobalKey.add(this, keysNavigation);
-      if (activePatchSetId != -1) {
+      if (activePatchSetId != null) {
         activate(activePatchSetId);
       } else {
         activate(currentPatchSetId);
@@ -134,8 +140,8 @@ public class PatchSetsBlock extends Composite {
    * This method also ensures that the current row is only highlighted in the
    * table of the active patch set panel.
    */
-  private void activate(final int patchSetId) {
-    if (activePatchSetId != patchSetId) {
+  private void activate(final PatchSet.Id patchSetId) {
+    if (!patchSetId.equals(activePatchSetId)) {
       deactivate();
       PatchSetComplexDisclosurePanel patchSetPanel =
           patchSetPanels.get(patchSetId);
@@ -147,11 +153,11 @@ public class PatchSetsBlock extends Composite {
 
   /** Deactivates the keyboard navigation for the currently active patch set panel. */
   private void deactivate() {
-    if (activePatchSetId != -1) {
+    if (activePatchSetId != null) {
       PatchSetComplexDisclosurePanel patchSetPanel =
           patchSetPanels.get(activePatchSetId);
       patchSetPanel.setActive(false);
-      activePatchSetId = -1;
+      activePatchSetId = null;
     }
   }
 
@@ -165,12 +171,21 @@ public class PatchSetsBlock extends Composite {
     }
   }
 
+  private int indexOf(PatchSet.Id id) {
+    for (int i = 0; i < patchSets.size(); i++) {
+      if (patchSets.get(i).getId().equals(id)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   private class ActivationHandler implements OpenHandler<DisclosurePanel>,
       ClickHandler {
 
-    private final int patchSetId;
+    private final PatchSet.Id patchSetId;
 
-    ActivationHandler(int patchSetId) {
+    ActivationHandler(PatchSet.Id patchSetId) {
       this.patchSetId = patchSetId;
     }
 
@@ -197,8 +212,9 @@ public class PatchSetsBlock extends Composite {
 
     @Override
     public void onKeyPress(final KeyPressEvent event) {
-      if (activePatchSetId > 1) {
-        activate(activePatchSetId - 1);
+      int index = indexOf(activePatchSetId) - 1;
+      if (0 <= index) {
+        activate(patchSets.get(index).getId());
       }
     }
   }
@@ -210,8 +226,9 @@ public class PatchSetsBlock extends Composite {
 
     @Override
     public void onKeyPress(final KeyPressEvent event) {
-      if (activePatchSetId > 0 && activePatchSetId < body.getWidgetCount()) {
-        activate(activePatchSetId + 1);
+      int index = indexOf(activePatchSetId) + 1;
+      if (index < patchSets.size()) {
+        activate(patchSets.get(index).getId());
       }
     }
   }

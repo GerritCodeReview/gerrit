@@ -78,20 +78,21 @@ public class AccountSettings extends AccountScreen {
       fieldIdx = 1;
     }
 
-    info = new Grid(4, 2);
+    info = new Grid(5, 2);
     info.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     info.addStyleName(Gerrit.RESOURCES.css().accountInfoBlock());
     add(info);
 
-    infoRow(0, Util.C.fullName());
-    infoRow(1, Util.C.preferredEmail());
-    infoRow(2, Util.C.registeredOn());
-    infoRow(3, Util.C.accountId());
+    infoRow(0, Util.C.userName());
+    infoRow(1, Util.C.fullName());
+    infoRow(2, Util.C.preferredEmail());
+    infoRow(3, Util.C.registeredOn());
+    infoRow(4, Util.C.accountId());
 
     final CellFormatter fmt = info.getCellFormatter();
     fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
     fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
-    fmt.addStyleName(3, 0, Gerrit.RESOURCES.css().bottomheader());
+    fmt.addStyleName(4, 0, Gerrit.RESOURCES.css().bottomheader());
 
     tabTokens = new ArrayList<String>();
     tabs = new TabPanel();
@@ -173,9 +174,10 @@ public class AccountSettings extends AccountScreen {
   }
 
   void display(final Account account) {
-    info.setText(0, fieldIdx, account.getFullName());
-    info.setText(1, fieldIdx, account.getPreferredEmail());
-    info.setText(2, fieldIdx, mediumFormat(account.getRegisteredOn()));
-    info.setText(3, fieldIdx, account.getId().toString());
+    info.setText(0, fieldIdx, account.getUserName());
+    info.setText(1, fieldIdx, account.getFullName());
+    info.setText(2, fieldIdx, account.getPreferredEmail());
+    info.setText(3, fieldIdx, mediumFormat(account.getRegisteredOn()));
+    info.setText(4, fieldIdx, account.getId().toString());
   }
 }

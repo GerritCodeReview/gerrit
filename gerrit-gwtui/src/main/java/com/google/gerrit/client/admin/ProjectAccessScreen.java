@@ -17,6 +17,7 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
@@ -43,7 +44,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
@@ -59,9 +59,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-public class ProjectRightsPanel extends Composite {
-  private Project.NameKey projectName;
-
+public class ProjectAccessScreen extends ProjectScreen {
   private Panel parentPanel;
   private Hyperlink parentName;
 
@@ -74,26 +72,25 @@ public class ProjectRightsPanel extends Composite {
   private NpTextBox nameTxtBox;
   private SuggestBox nameTxt;
   private NpTextBox referenceTxt;
+  private FlowPanel addPanel;
 
-  private final FlowPanel addPanel = new FlowPanel();
+  public ProjectAccessScreen(final Project.NameKey toShow) {
+    super(toShow);
+  }
 
-  public ProjectRightsPanel(final Project.NameKey toShow) {
-    projectName = toShow;
-
-    final FlowPanel body = new FlowPanel();
-    initParent(body);
-    initRights(body);
-    initWidget(body);
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    initParent();
+    initRights();
   }
 
   @Override
   protected void onLoad() {
-    enableForm(false);
     super.onLoad();
-
-    Util.PROJECT_SVC.projectDetail(projectName,
-        new GerritCallback<ProjectDetail>() {
-          public void onSuccess(final ProjectDetail result) {
+    Util.PROJECT_SVC.projectDetail(getProjectKey(),
+        new ScreenLoadCallback<ProjectDetail>(this) {
+          public void preDisplay(final ProjectDetail result) {
             enableForm(true);
             display(result);
           }
@@ -112,16 +109,17 @@ public class ProjectRightsPanel extends Composite {
     rangeMaxBox.setEnabled(canAdd);
   }
 
-  private void initParent(final Panel body) {
+  private void initParent() {
     parentPanel = new VerticalPanel();
     parentPanel.add(new SmallHeading(Util.C.headingParentProjectName()));
 
     parentName = new Hyperlink("", "");
     parentPanel.add(parentName);
-    body.add(parentPanel);
+    add(parentPanel);
   }
 
-  private void initRights(final Panel body) {
+  private void initRights() {
+    addPanel = new FlowPanel();
     addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
 
     final Grid addGrid = new Grid(5, 2);
@@ -144,7 +142,7 @@ public class ProjectRightsPanel extends Composite {
     for (final ApprovalType at : Gerrit.getConfig().getApprovalTypes()
         .getActionTypes()) {
       final ApprovalCategory c = at.getCategory();
-      if (Gerrit.getConfig().getWildProject().equals(projectName)
+      if (Gerrit.getConfig().getWildProject().equals(getProjectKey())
           && ApprovalCategory.OWN.equals(c.getId())) {
         // Giving out control of the WILD_PROJECT to other groups beyond
         // Administrators is dangerous. Having control over WILD_PROJECT
@@ -228,10 +226,10 @@ public class ProjectRightsPanel extends Composite {
       }
     });
 
-    body.add(new SmallHeading(Util.C.headingAccessRights()));
-    body.add(rights);
-    body.add(delRight);
-    body.add(addPanel);
+    add(new SmallHeading(Util.C.headingAccessRights()));
+    add(rights);
+    add(delRight);
+    add(addPanel);
 
     if (catBox.getItemCount() > 0) {
       catBox.setSelectedIndex(0);
@@ -250,8 +248,7 @@ public class ProjectRightsPanel extends Composite {
     }
 
     parentPanel.setVisible(!isWild);
-    parentName.setTargetHistoryToken(Dispatcher.toProjectAdmin(parent,
-        ProjectAdminScreen.ACCESS_TAB));
+    parentName.setTargetHistoryToken(Dispatcher.toProjectAdmin(parent, ACCESS));
     parentName.setText(parent.get());
 
     rights.display(result.groups, result.rights);
@@ -262,7 +259,7 @@ public class ProjectRightsPanel extends Composite {
 
   private void doDeleteRefRights(final HashSet<RefRight.Key> refRightIds) {
     if (!refRightIds.isEmpty()) {
-      Util.PROJECT_SVC.deleteRight(projectName, refRightIds,
+      Util.PROJECT_SVC.deleteRight(getProjectKey(), refRightIds,
           new GerritCallback<ProjectDetail>() {
         @Override
         public void onSuccess(final ProjectDetail result) {
@@ -338,8 +335,8 @@ public class ProjectRightsPanel extends Composite {
     }
 
     addRight.setEnabled(false);
-    Util.PROJECT_SVC.addRight(projectName, at.getCategory().getId(), groupName,
-        refPattern, min.getValue(), max.getValue(),
+    Util.PROJECT_SVC.addRight(getProjectKey(), at.getCategory().getId(),
+        groupName, refPattern, min.getValue(), max.getValue(),
         new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
             addRight.setEnabled(true);

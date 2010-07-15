@@ -113,6 +113,29 @@
 }
 
 
+/** MenuScreen **/
+.menuScreenMenuBar {
+  background: topMenuColor;
+  padding-top: 0.5em;
+  padding-bottom: 10em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  border-right: 1px solid black;
+  margin-right: 0.5em;
+}
+
+.menuScreenMenuBar .menuItem {
+  white-space: nowrap;
+  display: block;
+  border-right: none;
+  padding: 0.2em;
+}
+
+.menuScreenMenuBar .menuItem.activeRow {
+  background: selectionColor;
+}
+
+
 /** CommentPanel **/
 .commentPanelBorder {
   border-top: 1px solid lightgray;

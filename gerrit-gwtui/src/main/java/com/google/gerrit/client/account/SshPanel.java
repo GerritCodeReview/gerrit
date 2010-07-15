@@ -70,9 +70,10 @@ class SshPanel extends Composite {
 
   private Panel serverKeys;
 
+  private int loadCount;
+
   SshPanel() {
     final FlowPanel body = new FlowPanel();
-    body.add(new UsernamePanel());
 
     showAddKeyBlock = new Button(Util.C.buttonShowAddSshKey());
     showAddKeyBlock.addClickHandler(new ClickHandler() {
@@ -320,6 +321,9 @@ class SshPanel extends Composite {
         if (result.isEmpty() && keys.isVisible()) {
           showAddKeyBlock(true);
         }
+        if (++loadCount == 2) {
+          display();
+        }
       }
     });
 
@@ -329,8 +333,14 @@ class SshPanel extends Composite {
         for (final SshHostKey keyInfo : result) {
           serverKeys.add(new SshHostKeyPanel(keyInfo));
         }
+        if (++loadCount == 2) {
+          display();
+        }
       }
     });
+  }
+
+  void display() {
   }
 
   @Override

@@ -16,7 +16,7 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.common.PageLinks;
@@ -26,30 +26,27 @@ import com.google.gerrit.reviewdb.AccountAgreement;
 import com.google.gerrit.reviewdb.AccountGroupAgreement;
 import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
-class AgreementPanel extends Composite {
+public class MyAgreementsScreen extends SettingsScreen {
   private AgreementTable agreements;
 
-  AgreementPanel() {
-    final FlowPanel body = new FlowPanel();
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
 
     agreements = new AgreementTable();
-    body.add(agreements);
-    body.add(new Hyperlink(Util.C.newAgreement(), PageLinks.SETTINGS_NEW_AGREEMENT));
-
-    initWidget(body);
+    add(agreements);
+    add(new Hyperlink(Util.C.newAgreement(), PageLinks.SETTINGS_NEW_AGREEMENT));
   }
 
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.ACCOUNT_SVC.myAgreements(new GerritCallback<AgreementInfo>() {
-      public void onSuccess(final AgreementInfo result) {
+    Util.ACCOUNT_SVC.myAgreements(new ScreenLoadCallback<AgreementInfo>(this) {
+      public void preDisplay(final AgreementInfo result) {
         agreements.display(result);
       }
     });

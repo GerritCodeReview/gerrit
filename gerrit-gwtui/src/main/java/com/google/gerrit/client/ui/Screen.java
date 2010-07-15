@@ -72,7 +72,7 @@ public abstract class Screen extends View {
     header.insert(w, 0);
   }
 
-  protected final void add(final Widget w) {
+  protected void add(final Widget w) {
     body.add(w);
   }
 

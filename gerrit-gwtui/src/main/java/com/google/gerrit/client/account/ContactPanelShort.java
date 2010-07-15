@@ -46,8 +46,6 @@ import java.util.List;
 import java.util.Set;
 
 class ContactPanelShort extends Composite {
-  AccountSettings accountSettings;
-
   protected final FlowPanel body;
   protected int labelIdx, fieldIdx;
   protected Button save;
@@ -227,6 +225,10 @@ class ContactPanelShort extends Composite {
       }
       registerNewEmail.setEnabled(true);
     }
+    display();
+  }
+
+  void display() {
   }
 
   protected void row(final Grid info, final int row, final String name,
@@ -354,9 +356,6 @@ class ContactPanelShort extends Composite {
     me.setFullName(result.getFullName());
     me.setPreferredEmail(result.getPreferredEmail());
     Gerrit.refreshMenuBar();
-    if (accountSettings != null) {
-      accountSettings.display(me);
-    }
   }
 
   ContactInformation toContactInformation() {

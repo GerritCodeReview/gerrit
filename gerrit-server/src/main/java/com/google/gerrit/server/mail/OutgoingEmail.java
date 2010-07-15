@@ -45,6 +45,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.util.SystemReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -65,6 +67,8 @@ import javax.annotation.Nullable;
 
 /** Sends an email to one or more interested parties. */
 public abstract class OutgoingEmail {
+  private static final Logger log = LoggerFactory.getLogger(OutgoingEmail.class);
+
   private static final String HDR_TO = "To";
   private static final String HDR_CC = "CC";
 
@@ -180,10 +184,6 @@ public abstract class OutgoingEmail {
           // If they don't want a copy, but we queued one up anyway,
           // drop them from the recipient lists.
           //
-          if (rcptTo.isEmpty()) {
-            return;
-          }
-
           final String fromEmail = fromUser.getPreferredEmail();
           for (Iterator<Address> i = smtpRcptTo.iterator(); i.hasNext();) {
             if (i.next().email.equals(fromEmail)) {
@@ -194,6 +194,10 @@ public abstract class OutgoingEmail {
             if (hdr instanceof AddressList) {
               ((AddressList) hdr).remove(fromEmail);
             }
+          }
+
+          if (smtpRcptTo.isEmpty()) {
+            return;
           }
         }
       }
@@ -564,7 +568,7 @@ public abstract class OutgoingEmail {
       return false;
     }
 
-    if (rcptTo.isEmpty()) {
+    if (smtpRcptTo.isEmpty()) {
       // If we have nobody to send this message to, then all of our
       // selection filters previously for this type of message were
       // unable to match a destination. Don't bother sending it.
@@ -724,14 +728,18 @@ public abstract class OutgoingEmail {
   /** Schedule delivery of this message to the given account. */
   protected void add(final RecipientType rt, final Address addr) {
     if (addr != null && addr.email != null && addr.email.length() > 0) {
-      smtpRcptTo.add(addr);
-      switch (rt) {
-        case TO:
-          ((EmailHeader.AddressList) headers.get(HDR_TO)).add(addr);
-          break;
-        case CC:
-          ((EmailHeader.AddressList) headers.get(HDR_CC)).add(addr);
-          break;
+      if (emailSender.canEmail(addr.email)) {
+        smtpRcptTo.add(addr);
+        switch (rt) {
+          case TO:
+            ((EmailHeader.AddressList) headers.get(HDR_TO)).add(addr);
+            break;
+          case CC:
+            ((EmailHeader.AddressList) headers.get(HDR_CC)).add(addr);
+            break;
+        }
+      } else {
+        log.warn("Not emailing " + addr.email + " (prohibited by allowrcpt)");
       }
     }
   }

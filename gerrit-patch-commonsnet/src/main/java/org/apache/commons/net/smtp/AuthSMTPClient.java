@@ -17,8 +17,6 @@ package org.apache.commons.net.smtp;
 import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
 
 import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -26,20 +24,16 @@ import java.net.SocketException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.SSLSocketFactory;
 
 public class AuthSMTPClient extends SMTPClient {
-  private static final Logger log = LoggerFactory.getLogger(AuthSMTPClient.class);
   private static final String UTF_8 = "UTF-8";
 
   private String authTypes;
-  private Set<String> allowedRcptTo;
 
   public AuthSMTPClient(final String charset) {
     super(charset);
@@ -66,45 +60,6 @@ public class AuthSMTPClient extends SMTPClient {
     } else {
       return (SSLSocketFactory) BlindSSLSocketFactory.getDefault();
     }
-  }
-
-  public void setAllowRcpt(final String[] allowed) {
-    if (allowed != null && allowed.length > 0) {
-      if (allowedRcptTo == null) {
-        allowedRcptTo = new HashSet<String>();
-      }
-      for (final String addr : allowed) {
-        allowedRcptTo.add(addr);
-      }
-    }
-  }
-
-  @Override
-  public int rcpt(final String forwardPath) throws IOException {
-    if (allowRcpt(forwardPath)) {
-      return super.rcpt(forwardPath);
-    } else {
-      log.warn("Not emailing " + forwardPath + " (prohibited by allowrcpt)");
-      return SMTPReply.ACTION_OK;
-    }
-  }
-
-  private boolean allowRcpt(String addr) {
-    if (allowedRcptTo == null) {
-      return true;
-    }
-    if (addr.startsWith("<") && addr.endsWith(">")) {
-      addr = addr.substring(1, addr.length() - 1);
-    }
-    if (allowedRcptTo.contains(addr)) {
-      return true;
-    }
-    final int at = addr.indexOf('@');
-    if (at > 0) {
-      return allowedRcptTo.contains(addr.substring(at))
-          || allowedRcptTo.contains(addr.substring(at + 1));
-    }
-    return false;
   }
 
   @Override

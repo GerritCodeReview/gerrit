@@ -22,6 +22,14 @@ public interface EmailSender {
   boolean isEnabled();
 
   /**
+   * Can the address receive messages from us?
+   *
+   * @param address the address to consider.
+   * @return true if this sender will deliver to the address.
+   */
+  boolean canEmail(String address);
+
+  /**
    * Sends an email message.
    *
    * @param from who the message is from.

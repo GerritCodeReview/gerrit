@@ -29,8 +29,11 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 /** Sends email via a nearby SMTP server. */
 @Singleton
@@ -47,7 +50,7 @@ public class SmtpEmailSender implements EmailSender {
   private String smtpPass;
   private Encryption smtpEncryption;
   private boolean sslVerify;
-  private String[] allowrcpt;
+  private Set<String> allowrcpt;
 
   @Inject
   SmtpEmailSender(@GerritServerConfig final Config cfg) {
@@ -79,7 +82,12 @@ public class SmtpEmailSender implements EmailSender {
 
     smtpUser = cfg.getString("sendemail", null, "smtpuser");
     smtpPass = cfg.getString("sendemail", null, "smtppass");
-    allowrcpt = cfg.getStringList("sendemail", null, "allowrcpt");
+
+    Set<String> rcpt = new HashSet<String>();
+    for (String addr : cfg.getStringList("sendemail", null, "allowrcpt")) {
+      rcpt.add(addr);
+    }
+    allowrcpt = Collections.unmodifiableSet(rcpt);
   }
 
   @Override
@@ -88,7 +96,29 @@ public class SmtpEmailSender implements EmailSender {
   }
 
   @Override
-  public void send(final Address from, final Collection<Address> rcpt,
+  public boolean canEmail(String address) {
+    if (!isEnabled()) {
+      return false;
+    }
+
+    if (allowrcpt.isEmpty()) {
+      return true;
+    }
+
+    if (allowrcpt.contains(address)) {
+      return true;
+    }
+
+    String domain = address.substring(address.lastIndexOf('@') + 1);
+    if (allowrcpt.contains(domain) || allowrcpt.contains("@" + domain)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  @Override
+  public void send(final Address from, Collection<Address> rcpt,
       final Map<String, EmailHeader> callerHeaders, final String body)
       throws EmailException {
     if (!isEnabled()) {
@@ -161,7 +191,6 @@ public class SmtpEmailSender implements EmailSender {
 
   private SMTPClient open() throws EmailException {
     final AuthSMTPClient client = new AuthSMTPClient("UTF-8");
-    client.setAllowRcpt(allowrcpt);
 
     if (smtpEncryption == Encryption.SSL) {
       client.enableSSL(sslVerify);

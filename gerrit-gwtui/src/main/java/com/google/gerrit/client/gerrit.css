@@ -984,11 +984,14 @@ a:hover.downloadLink {
 
 
 /** AccountSettings  **/
-.sshPanelUsername {
+.usernameField {
+  white-space: nowrap;
+}
+.accountUsername {
   font-family: mono-font;
   font-size: small;
 }
-.sshPanelPassword {
+.accountPassword {
   font-family: mono-font;
   font-size: small;
 }

@@ -36,6 +36,7 @@ public interface AccountConstants extends Constants {
   String tabWatchedProjects();
   String tabContactInformation();
   String tabSshKeys();
+  String tabHttpAccess();
   String tabWebIdentities();
   String tabMyGroups();
   String tabAgreements();
@@ -49,7 +50,9 @@ public interface AccountConstants extends Constants {
 
   String userName();
   String password();
+  String buttonSetUserName();
   String buttonChangeUserName();
+  String buttonClearPassword();
   String buttonGeneratePassword();
   String invalidUserName();
 
@@ -117,6 +120,7 @@ public interface AccountConstants extends Constants {
   String welcomeToGerritCodeReview();
   String welcomeReviewContact();
   String welcomeContactFrom();
+  String welcomeUsernameHeading();
   String welcomeSshKeyHeading();
   String welcomeSshKeyText();
   String welcomeAgreementHeading();

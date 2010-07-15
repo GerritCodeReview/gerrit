@@ -69,7 +69,7 @@ public class MyProfileScreen extends SettingsScreen {
   }
 
   void display(final Account account) {
-    info.setText(0, fieldIdx, account.getUserName());
+    info.setWidget(0, fieldIdx, new UsernameField());
     info.setText(1, fieldIdx, account.getFullName());
     info.setText(2, fieldIdx, account.getPreferredEmail());
     info.setText(3, fieldIdx, mediumFormat(account.getRegisteredOn()));

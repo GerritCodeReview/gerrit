@@ -46,8 +46,6 @@ public class MyIdentitiesScreen extends SettingsScreen {
   protected void onInitUI() {
     super.onInitUI();
 
-    add(new UsernamePanel());
-
     identites = new IdTable();
     add(identites);
 

@@ -25,6 +25,8 @@ public interface GerritCss extends CssResource {
   String accountDashboard();
   String accountInfoBlock();
   String accountName();
+  String accountUsername();
+  String accountPassword();
   String activeRow();
   String addReviewer();
   String removeReviewer();
@@ -169,8 +171,6 @@ public interface GerritCss extends CssResource {
   String sshHostKeyPanelKnownHostEntry();
   String sshKeyPanelEncodedKey();
   String sshKeyPanelInvalid();
-  String sshPanelUsername();
-  String sshPanelPassword();
   String topmenu();
   String topmenuMenuLeft();
   String topmenuMenuRight();
@@ -178,5 +178,6 @@ public interface GerritCss extends CssResource {
   String topmenuTDmenu();
   String topmost();
   String useridentity();
+  String usernameField();
   String version();
 }

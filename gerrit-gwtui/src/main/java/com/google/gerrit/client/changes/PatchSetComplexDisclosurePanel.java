@@ -420,7 +420,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       public void onClick(ClickEvent event) {
         for (Patch p : detail.getPatches()) {
           SideBySide link = new PatchLink.SideBySide(p.getFileName(), p.getKey(), 0, null, null);
-          Window.open(link.getElement().toString(), p.getFileName(), null);
+          Window.open(Window.Location.getPath() + "#"
+              + link.getTargetHistoryToken(), "_blank", null);
         }
       }
     });
@@ -433,7 +434,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       public void onClick(ClickEvent event) {
         for (Patch p : detail.getPatches()) {
           Unified link = new PatchLink.Unified(p.getFileName(), p.getKey(), 0, null, null);
-          Window.open(link.getElement().toString(), p.getFileName(), null);
+          Window.open(Window.Location.getPath() + "#"
+              + link.getTargetHistoryToken(), "_blank", null);
         }
       }
     });

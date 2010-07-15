@@ -16,6 +16,24 @@
       "revId": "cc5b63ec93bccebdaabf1fc42c9a374142fe7384",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///kA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-07-15T09:43:23Z",
+      "side": 0,
+      "message": "Actually I\u0027m neither really satisfied with doing the key registration for the patchSetsBlock here nor in the refresh() and update() method to where I moved it now.\n\nI would rather prefer to do this key registration directly in PatchSetsBlock#display(ChangeDetail). Why? Because this method creates the UI elements to display the patch sets and it knows about the current patch set for which the key navigation should be initially enabled. For me enabling the key navigation is part of the creation and intialization of the UI element. Also it feels a bit inconsistent that PatchSetsBlock#display(ChangeDetail) on the one hand is disabling the key navigation (when the clear() method is invoked) but on the other hand it is not enabling it. This leads to the situation that whenever you invoke PatchSetsBlock#display(ChangeDetail) you have to remember that you also need to invoke PatchSetsBlock#setRegisterKeys(boolean) ...\n\nSo why is the key registration not done in PatchSetsBlock#display(ChangeDetail)? The reason for this is that it is called in the refesh() method from ScreenLoadCallback#preDisplay(...). During this phase it is not possible to do the key registration because the unload of the previous page is not done yet. This means if the previous page has registered key commands they are not yet unregistered since this normally happens in the unload() method. Because of this our key registration would fail in the preDisplay phase if the key registration is in conflict with the key registration of the previous page.\n\nIn the end we have 3 cases in which we have to do the key registration for patchSetsBlock:\n\n1. on loading of the change screen:\ndisplay(...) is called in the preDisplay phase, so the key registration has to happen afterwards, either in the postDisplay phase or in the registerKeys() method\n\n2. on refreshing of the change screen with refresh() method:\ndisplay(...) is called in the preDisplay phase, so the key registration has to happen afterwards in the postDisplay phase (in this case registerKeys() is not invoked)\n\n3. on updating the change screen after submitting or abandoning a change:\nthis is now done in the update() method, before this it was not done and this is why the key navigation got disabled after submitting or abandoning a change\n\nCase 2 explains why the key registration is now done in the refresh() method from ScreenLoadCallback#prostDisplay(...).\nCase 3 explains why the key registration is now done in the update() method.\nSince in case 1 we actually invoke the refresh() method the key registration happens here in the same way as in case 2. This is why it must not be done once again in the registerKeys() method.\n\nOuh, quite long explanation for such a short question. I hope it became not too complicated!?",
+      "parentUuid": "AAAA1H///kY\u003d",
+      "revId": "cc5b63ec93bccebdaabf1fc42c9a374142fe7384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

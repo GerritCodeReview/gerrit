@@ -106,7 +106,7 @@ public class RefControl {
     // calls us to find out if there is ownership of all references in
     // order to determine project level ownership.
     //
-    if (getRefName().equals(
+    if (!getRefName().equals(
         RefRight.ALL.substring(0, RefRight.ALL.length() - 1))
         && getProjectControl().isOwner()) {
       return true;

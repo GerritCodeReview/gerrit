@@ -77,9 +77,9 @@ public class PatchSetsBlock extends Composite {
   }
 
   private void clear() {
+    setRegisterKeys(false);
     body.clear();
     patchSetPanels.clear();
-    setRegisterKeys(false);
   }
 
   /**

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1H///g0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeDetailService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T15:10:46Z",
+      "side": 1,
+      "message": "Heh.  I\u0027d rather just pass the entire PatchSetInfo back.  Making this patchSetInfo.\n\nBut at that point we might as well use the PatchSetDetail and the existing patchSetDetail method.\n\nWhy?  Because the detail bundles the PatchSetInfo and the list of Patch objects.  That list is needed for the next/prev links between files, or the popup viewer.  If we always loaded it, we could ensure those next/prev links are always present.  Right now, anytime you don\u0027t have the message on-hand means you also don\u0027t have that file list on hand.  We might as well get both at once, its about the same round-trip time cost.",
+      "revId": "fc8116900f2e1856dc936d3a4c3af362e05607f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///hA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T15:10:46Z",
+      "side": 1,
+      "message": "Style-nit: Blank line between methods/constructors.",
+      "revId": "fc8116900f2e1856dc936d3a4c3af362e05607f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///g8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetCommitMessageFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T15:10:46Z",
+      "side": 1,
+      "message": "Style-nit: Missing AOSP copyright header.",
+      "revId": "fc8116900f2e1856dc936d3a4c3af362e05607f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

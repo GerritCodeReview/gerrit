@@ -609,7 +609,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       }
 
       split = name.lastIndexOf('/', split - 1);
-      if (split <= Constants.R_HEADS.length()) {
+      if (split <= Constants.R_REFS.length()) {
         String n = destBranchName;
         if (n.startsWith(Constants.R_HEADS))
           n = n.substring(Constants.R_HEADS.length());

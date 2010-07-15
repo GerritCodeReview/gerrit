@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1H///ho\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T15:00:52Z",
+      "side": 1,
+      "message": "Typically we support multiple values by supplying the variable more than once:\n\n  [download]\n    url \u003d ssh\n    url \u003d http\n    url \u003d anon_http\n\nAt runtime you can get all of the values with config.getStringList().  I guess you will need to add a new variant to ConfigUtil called getEnumList to support the list case.\n\nI\u0027m also not sure I agree with \"url\" as the variable name.  protocol or scheme sounds better to me.\n\nWe should also add support for values \u0027repo_download\u0027 and \u0027anon_git\u0027.  While we are at it, lets get rid of the repo.download variable and merge it into this variable instead.",
+      "revId": "157135c6793771fc7b9e22bef5bae1a7d3b1da35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///hY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T15:00:52Z",
+      "side": 1,
+      "message": "This switch will be a lot cleaner if the GerritConfig actually has a Set\u003cDownloadUrl\u003e.  Then you can just test for allowedSchemes.contains(DownloadUrl.ANON_HTTP) below to determine if that should be enabled.",
+      "revId": "157135c6793771fc7b9e22bef5bae1a7d3b1da35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///hc\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGeneralPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T15:00:52Z",
+      "side": 1,
+      "message": "Please don\u0027t add every permutation to this enum.\n\nInstead lets use a Set\u003cDownloadUrl\u003e where we need to support multiple values.",
+      "revId": "157135c6793771fc7b9e22bef5bae1a7d3b1da35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1H///hQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/DownloadUrlConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T15:00:52Z",
+      "side": 1,
+      "message": "This cannot throw XsrfException.",
+      "revId": "157135c6793771fc7b9e22bef5bae1a7d3b1da35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -106,7 +106,7 @@ public class PatchSetInfoFactory {
     // If only one account has access to this email address, select it
     // as the identity of the user.
     //
-    final Set<Account.Id> a = byEmailCache.get(u.getEmail());
+    final Set<Account.Id> a = byEmailCache.get(u.getEmail()).getIds();
     if (a.size() == 1) {
       u.setAccount(a.iterator().next());
     }

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1X///5c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountGroupCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T23:23:58Z",
+      "side": 1,
+      "message": "Should be final.",
+      "revId": "e7d6d35896ea88f9ae177302f6943109c82129eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X///5g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshKeyCacheEntryIterable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T23:23:58Z",
+      "side": 1,
+      "message": "Should be private final.",
+      "revId": "e7d6d35896ea88f9ae177302f6943109c82129eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X///5o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshKeyCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T23:23:58Z",
+      "side": 1,
+      "message": "Nak.  These two fields *MUST* use different objects.  That\u0027s why none() created a new empty array.",
+      "revId": "e7d6d35896ea88f9ae177302f6943109c82129eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

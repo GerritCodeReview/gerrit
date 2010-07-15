@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1H///kY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T08:19:13Z",
+      "side": 0,
+      "message": "Why are we moving this out of registerKeys?",
+      "revId": "cc5b63ec93bccebdaabf1fc42c9a374142fe7384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

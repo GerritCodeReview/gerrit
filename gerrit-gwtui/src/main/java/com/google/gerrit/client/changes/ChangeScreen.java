@@ -116,7 +116,6 @@ public class ChangeScreen extends Screen {
     super.registerKeys();
     regNavigation = GlobalKey.add(this, keysNavigation);
     regAction = GlobalKey.add(this, keysAction);
-    patchSetsBlock.setRegisterKeys(true);
   }
 
   public void refresh() {
@@ -125,6 +124,11 @@ public class ChangeScreen extends Screen {
           @Override
           protected void preDisplay(final ChangeDetail r) {
             display(r);
+          }
+
+          @Override
+          protected void postDisplay() {
+            patchSetsBlock.setRegisterKeys(true);
           }
         });
   }
@@ -218,7 +222,12 @@ public class ChangeScreen extends Screen {
     setPageTitle(titleBuf.toString());
   }
 
-  void display(final ChangeDetail detail) {
+  void update(final ChangeDetail detail) {
+    display(detail);
+    patchSetsBlock.setRegisterKeys(true);
+  }
+
+  private void display(final ChangeDetail detail) {
     displayTitle(detail.getChange().getKey(), detail.getChange().getSubject());
 
     if (starChange != null) {

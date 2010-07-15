@@ -176,7 +176,7 @@ import javax.net.ssl.SSLSocketFactory;
     final Set<AccountGroup.Id> actual = new HashSet<AccountGroup.Id>();
     for (String dn : groupDNs) {
       for (AccountGroup group : groupCache
-          .get(new AccountGroup.ExternalNameKey(dn))) {
+          .get(new AccountGroup.ExternalNameKey(dn)).getGroups()) {
         if (group.getType() == AccountGroup.Type.LDAP) {
           actual.add(group.getId());
         }

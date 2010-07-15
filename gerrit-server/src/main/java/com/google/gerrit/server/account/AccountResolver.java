@@ -94,7 +94,7 @@ public class AccountResolver {
   }
 
   private Account findByEmail(final String email) {
-    final Set<Account.Id> candidates = byEmail.get(email);
+    final Set<Account.Id> candidates = byEmail.get(email).getIds();
     if (1 == candidates.size()) {
       return byId.get(candidates.iterator().next()).getAccount();
     }

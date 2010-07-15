@@ -28,8 +28,6 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import java.util.Collection;
-
 /** Tracks group objects in memory for efficient access. */
 @Singleton
 public class GroupCacheImpl implements GroupCache {
@@ -49,8 +47,8 @@ public class GroupCacheImpl implements GroupCache {
             new TypeLiteral<Cache<AccountGroup.NameKey, AccountGroup>>() {};
         core(byName, BYNAME_NAME).populateWith(ByNameLoader.class);
 
-        final TypeLiteral<Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>>> byExternalName =
-            new TypeLiteral<Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>>>() {};
+        final TypeLiteral<Cache<AccountGroup.ExternalNameKey, AccountGroupCollection>> byExternalName =
+            new TypeLiteral<Cache<AccountGroup.ExternalNameKey, AccountGroupCollection>>() {};
         core(byExternalName, BYEXT_NAME) //
             .populateWith(ByExternalNameLoader.class);
 
@@ -62,13 +60,13 @@ public class GroupCacheImpl implements GroupCache {
 
   private final Cache<AccountGroup.Id, AccountGroup> byId;
   private final Cache<AccountGroup.NameKey, AccountGroup> byName;
-  private final Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>> byExternalName;
+  private final Cache<AccountGroup.ExternalNameKey, AccountGroupCollection> byExternalName;
 
   @Inject
   GroupCacheImpl(
       @Named(BYID_NAME) Cache<AccountGroup.Id, AccountGroup> byId,
       @Named(BYNAME_NAME) Cache<AccountGroup.NameKey, AccountGroup> byName,
-      @Named(BYEXT_NAME) Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>> byExternalName) {
+      @Named(BYEXT_NAME) Cache<AccountGroup.ExternalNameKey, AccountGroupCollection> byExternalName) {
     this.byId = byId;
     this.byName = byName;
     this.byExternalName = byExternalName;
@@ -92,7 +90,7 @@ public class GroupCacheImpl implements GroupCache {
     return byName.get(name);
   }
 
-  public Collection<AccountGroup> get(
+  public AccountGroupCollection get(
       final AccountGroup.ExternalNameKey externalName) {
     return byExternalName.get(externalName);
   }
@@ -161,7 +159,7 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   static class ByExternalNameLoader extends
-      EntryCreator<AccountGroup.ExternalNameKey, Collection<AccountGroup>> {
+      EntryCreator<AccountGroup.ExternalNameKey, AccountGroupCollection> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -170,11 +168,12 @@ public class GroupCacheImpl implements GroupCache {
     }
 
     @Override
-    public Collection<AccountGroup> createEntry(
+    public AccountGroupCollection createEntry(
         final AccountGroup.ExternalNameKey key) throws Exception {
       final ReviewDb db = schema.open();
       try {
-        return db.accountGroups().byExternalName(key).toList();
+        return new AccountGroupCollection(db.accountGroups()
+            .byExternalName(key).toList());
       } finally {
         db.close();
       }

@@ -39,7 +39,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,15 +49,17 @@ public class SshKeyCacheImpl implements SshKeyCache {
       LoggerFactory.getLogger(SshKeyCacheImpl.class);
   private static final String CACHE_NAME = "sshkeys";
 
-  static final Iterable<SshKeyCacheEntry> NO_SUCH_USER = none();
-  static final Iterable<SshKeyCacheEntry> NO_KEYS = none();
+  static final SshKeyCacheEntryIterable NO_SUCH_USER =
+      new SshKeyCacheEntryIterable();
+  static final SshKeyCacheEntryIterable NO_KEYS =
+      new SshKeyCacheEntryIterable();
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<String, Iterable<SshKeyCacheEntry>>> type =
-            new TypeLiteral<Cache<String, Iterable<SshKeyCacheEntry>>>() {};
+        final TypeLiteral<Cache<String, SshKeyCacheEntryIterable>> type =
+            new TypeLiteral<Cache<String, SshKeyCacheEntryIterable>>() {};
         core(type, CACHE_NAME).populateWith(Loader.class);
         bind(SshKeyCacheImpl.class);
         bind(SshKeyCache.class).to(SshKeyCacheImpl.class);
@@ -66,21 +67,16 @@ public class SshKeyCacheImpl implements SshKeyCache {
     };
   }
 
-  private static Iterable<SshKeyCacheEntry> none() {
-    return Collections.unmodifiableCollection(Arrays
-        .asList(new SshKeyCacheEntry[0]));
-  }
-
-  private final Cache<String, Iterable<SshKeyCacheEntry>> cache;
+  private final Cache<String, SshKeyCacheEntryIterable> cache;
 
   @Inject
   SshKeyCacheImpl(
-      @Named(CACHE_NAME) final Cache<String, Iterable<SshKeyCacheEntry>> cache) {
+      @Named(CACHE_NAME) final Cache<String, SshKeyCacheEntryIterable> cache) {
     this.cache = cache;
   }
 
   public Iterable<SshKeyCacheEntry> get(String username) {
-    return cache.get(username);
+    return cache.get(username).getSshKeyCacheEntries();
   }
 
   public void evict(String username) {
@@ -107,7 +103,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
     }
   }
 
-  static class Loader extends EntryCreator<String, Iterable<SshKeyCacheEntry>> {
+  static class Loader extends EntryCreator<String, SshKeyCacheEntryIterable> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -116,7 +112,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
     }
 
     @Override
-    public Iterable<SshKeyCacheEntry> createEntry(String username)
+    public SshKeyCacheEntryIterable createEntry(String username)
         throws Exception {
       final ReviewDb db = schema.open();
       try {
@@ -137,15 +133,15 @@ public class SshKeyCacheImpl implements SshKeyCache {
         if (kl.isEmpty()) {
           return NO_KEYS;
         }
-        return Collections.unmodifiableList(kl);
+        return new SshKeyCacheEntryIterable(Collections.unmodifiableList(kl));
       } finally {
         db.close();
       }
     }
 
     @Override
-    public Iterable<SshKeyCacheEntry> missing(String username) {
-      return Collections.emptyList();
+    public SshKeyCacheEntryIterable missing(String username) {
+      return SshKeyCacheEntryIterable.EMPTY;
     }
 
     private void add(ReviewDb db, List<SshKeyCacheEntry> kl, AccountSshKey k) {

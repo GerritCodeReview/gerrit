@@ -28,6 +28,7 @@ import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG_ANNOTATED;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG_SIGNED;
 import static com.google.gerrit.reviewdb.ApprovalCategory.READ;
 
+import com.google.gerrit.common.data.ParamertizedString;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.RefRight;
@@ -48,7 +49,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -481,7 +484,7 @@ public class RefControl {
   private List<RefRight> filter(Collection<RefRight> all) {
     List<RefRight> mine = new ArrayList<RefRight>(all.size());
     for (RefRight right : all) {
-      if (matches(getRefName(), right.getRefPattern())) {
+      if (matches(right.getRefPattern())) {
         mine.add(right);
       }
     }
@@ -492,18 +495,50 @@ public class RefControl {
     return projectControl.getProjectState();
   }
 
-  public static boolean matches(String refName, String refPattern) {
-    if (refPattern.startsWith(RefRight.REGEX_PREFIX)) {
-      return Pattern.matches(refPattern, refName);
+  private boolean matches(String refPattern) {
+    if (isTemplate(refPattern)) {
+      ParamertizedString template = new ParamertizedString(refPattern);
+      HashMap<String, String> p = new HashMap<String, String>();
+
+      if (getCurrentUser() instanceof IdentifiedUser) {
+        p.put("username", ((IdentifiedUser) getCurrentUser()).getUserName());
+      } else {
+        // Right now we only template the username. If not available
+        // this rule cannot be matched at all.
+        //
+        return false;
+      }
+
+      if (isRE(refPattern)) {
+        for (Map.Entry<String, String> ent : p.entrySet()) {
+          ent.setValue(escape(ent.getValue()));
+        }
+      }
+
+      refPattern = template.replace(p);
     }
 
-    if (refPattern.endsWith("/*")) {
+    if (isRE(refPattern)) {
+      return Pattern.matches(refPattern, getRefName());
+
+    } else if (refPattern.endsWith("/*")) {
       String prefix = refPattern.substring(0, refPattern.length() - 1);
-      return refName.startsWith(prefix);
+      return getRefName().startsWith(prefix);
 
     } else {
-      return refName.equals(refPattern);
+      return getRefName().equals(refPattern);
     }
+  }
+
+  private static boolean isTemplate(String refPattern) {
+    return 0 <= refPattern.indexOf("${");
+  }
+
+  private static String escape(String value) {
+    // Right now the only special character allowed in a
+    // variable value is a . in the username.
+    //
+    return value.replace(".", "\\.");
   }
 
   private static boolean isRE(String refPattern) {

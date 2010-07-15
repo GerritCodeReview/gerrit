@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1X///6M\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T23:17:07Z",
+      "side": 1,
+      "message": "In hindsight this is a bad idea.  By having it be a global constant in the web UI, its hard to adjust per-project.\n\nI\u0027m starting think that we should be pushing these down at the browser only as they are needed.  That is, on the PublishCommentsScreen we load the data for the labels the user can use.  On the ChangeScreen, we load the data for the labels that are applied to the current patch set, unioned with the data for the labels required to submit this change.\n\nGiven how much we already ship to the browser during either of those RPCs, the extra bytes needed to list out the relevant label data is nothing.",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X///8Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/NewProjectRightsPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T23:17:07Z",
+      "side": 1,
+      "message": "If the submit labels for a ref right are really just a single string (and I think that\u0027s what we should do), we should store it that way in the database too.  It\u0027ll remove the SubmitLabel table, and allow us to use just the natural key for the NewRefRight rather than a synthetic sequence based key.\n\nBy using a label string we can get more complex expressions here in the future, like \"CodeReview+2 -Garbage\" to mean \"must not have Garbage label\".",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X///9U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AddCodeReviewLabelBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T23:17:07Z",
+      "side": 1,
+      "message": "FYI, missing AOSP header.",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X///7g\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccessCategory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T23:17:07Z",
+      "side": 1,
+      "message": "Lets just call it \"Owner\".  I only used \"Own\" before because we had a limit of 4 on the field.  You widened it to 50.",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X///7Y\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccessCategory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T23:17:07Z",
+      "side": 1,
+      "message": "In general I agree with all of these constants, at least for now.  We might want to later rethink PushBranch+3 as ForcePush or something.",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X///8s\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/CodeReviewLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T23:17:07Z",
+      "side": 1,
+      "message": "Why are these per-group?\n\nThe labels displayed in publish comments should be by NewRefRight.  That is, if the user was granted the label, it should be exposed in the publish comments view for them to make easy use of it.",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X////U\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/NewRefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T23:17:07Z",
+      "side": 1,
+      "message": "Normally I avoid synthetic keys, but I think I see why you want one here with the SubmitLabel hanging off this object as a dependency rule.",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X////M\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/NewRefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T23:17:07Z",
+      "side": 1,
+      "message": "The regex pattern support has made sorting RefRights far more complex.  This probably should be dropped from the class.",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X///+E\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/PatchSetLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T23:17:07Z",
+      "side": 1,
+      "message": "We should attach a HUGE warning to this field:\n\n  This field value isn\u0027t necessarily in the AccessCategory table.\n\nBasically I\u0027m thinking we might allow users to add their own labels.  Or at least extensions of, so an admin can say \"Bug-*\" is a valid label and users can add \"Bug-42\" or \"Bug-91821\" to a a patch set.\n\nThere is of course some question about what happens if a user adds a label like \"Important\", and then later the admin defines \"Important\" to mean something, and now the existing change already has this user-added label by a user who couldn\u0027t actually add the label \"Important\".  Thing is, this actually shouldn\u0027t be a huge concern, we auto-update the PatchSetApproval objects at evaluation time based on current access rules.  So the same thing should happen to that random-now-special label.",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X///6s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AccessCategoriesProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T23:17:07Z",
+      "side": 1,
+      "message": "s/approval/access/ ?",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X///6w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AccessCategoriesProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-15T23:17:07Z",
+      "side": 1,
+      "message": "This needs to be an unmodifiableMap to prevent someone from mutating it.",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

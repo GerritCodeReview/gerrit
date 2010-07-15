@@ -27,7 +27,6 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,8 +39,8 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<String, Set<Account.Id>>> type =
-            new TypeLiteral<Cache<String, Set<Account.Id>>>() {};
+        final TypeLiteral<Cache<String, AccountIdSet>> type =
+            new TypeLiteral<Cache<String, AccountIdSet>>() {};
         core(type, CACHE_NAME).populateWith(Loader.class);
         bind(AccountByEmailCacheImpl.class);
         bind(AccountByEmailCache.class).to(AccountByEmailCacheImpl.class);
@@ -49,15 +48,15 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     };
   }
 
-  private final Cache<String, Set<Account.Id>> cache;
+  private final Cache<String, AccountIdSet> cache;
 
   @Inject
   AccountByEmailCacheImpl(
-      @Named(CACHE_NAME) final Cache<String, Set<Account.Id>> cache) {
+      @Named(CACHE_NAME) final Cache<String, AccountIdSet> cache) {
     this.cache = cache;
   }
 
-  public Set<Account.Id> get(final String email) {
+  public AccountIdSet get(final String email) {
     return cache.get(email);
   }
 
@@ -65,7 +64,7 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     cache.remove(email);
   }
 
-  static class Loader extends EntryCreator<String, Set<Account.Id>> {
+  static class Loader extends EntryCreator<String, AccountIdSet> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -74,7 +73,7 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     }
 
     @Override
-    public Set<Account.Id> createEntry(final String email) throws Exception {
+    public AccountIdSet createEntry(final String email) throws Exception {
       final ReviewDb db = schema.open();
       try {
         final HashSet<Account.Id> r = new HashSet<Account.Id>();
@@ -92,23 +91,19 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     }
 
     @Override
-    public Set<Account.Id> missing(final String key) {
-      return Collections.emptySet();
+    public AccountIdSet missing(final String key) {
+      return AccountIdSet.EMPTY_SET;
     }
 
-    private static Set<Account.Id> pack(final Set<Account.Id> c) {
+    private static AccountIdSet pack(final Set<Account.Id> c) {
       switch (c.size()) {
         case 0:
-          return Collections.emptySet();
+          return AccountIdSet.EMPTY_SET;
         case 1:
-          return one(c);
+          return new AccountIdSet(c.iterator().next());
         default:
-          return Collections.unmodifiableSet(new HashSet<Account.Id>(c));
+          return new AccountIdSet(new HashSet<Account.Id>(c));
       }
-    }
-
-    private static <T> Set<T> one(final Set<T> c) {
-      return Collections.singleton(c.iterator().next());
     }
   }
 }

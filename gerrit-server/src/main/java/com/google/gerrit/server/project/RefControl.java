@@ -109,13 +109,12 @@ public class RefControl {
     // calls us to find out if there is ownership of all references in
     // order to determine project level ownership.
     //
-    if (!getRefName().equals(
-        RefRight.ALL.substring(0, RefRight.ALL.length() - 1))
-        && getProjectControl().isOwner()) {
-      return true;
+    if (getRefName().equals(
+        RefRight.ALL.substring(0, RefRight.ALL.length() - 1))) {
+      return getCurrentUser().isAdministrator();
+    } else {
+      return getProjectControl().isOwner();
     }
-
-    return false;
   }
 
   /** Can this user see this reference exists? */

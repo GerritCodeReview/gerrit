@@ -46,7 +46,7 @@ limitations under the License.
   </issueManagement>
 
   <properties>
-    <jgitVersion>0.8.4.43-g3fd4918</jgitVersion>
+    <jgitVersion>0.8.4.84-g6e155d5</jgitVersion>
     <gwtormVersion>1.2-SNAPSHOT</gwtormVersion>
     <gwtjsonrpcVersion>1.2.2</gwtjsonrpcVersion>
     <gwtexpuiVersion>1.2.1</gwtexpuiVersion>
@@ -550,6 +550,12 @@ limitations under the License.
       </dependency>
 
       <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.5</version>
+      </dependency>
+
+      <dependency>
         <groupId>com.google.protobuf</groupId>
         <artifactId>protobuf-java</artifactId>
         <version>2.3.0</version>
@@ -732,6 +738,12 @@ limitations under the License.
         <artifactId>juniversalchardet</artifactId>
         <version>1.0.3</version>
       </dependency>
+
+      <dependency>
+        <groupId>dk.brics.automaton</groupId>
+        <artifactId>automaton</artifactId>
+        <version>1.11.2</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -764,6 +776,11 @@ limitations under the License.
     <repository>
       <id>objectweb-repository</id>
       <url>http://maven.objectweb.org/maven2/</url>
+    </repository>
+
+    <repository>
+      <id>clojars-repo</id>
+      <url>http://clojars.org/repo</url>
     </repository>
   </repositories>
 </project>

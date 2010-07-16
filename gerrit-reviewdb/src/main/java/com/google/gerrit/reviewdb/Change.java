@@ -351,8 +351,12 @@ public final class Change {
   @Column(id = 13)
   protected String subject;
 
+  /** Topic name assigned by the user, if any. */
+  @Column(id = 14, notNull = false)
+  protected String topic;
+
   /** Max 64 bit unsigned value (0xFFFFFFFFFFFFFFFF) minus {@link #sortKey} */
-  @Column(id = 14, length = 16)
+  @Column(id = 15, length = 16)
   protected String sortKeyDesc;
 
   protected Change() {
@@ -464,5 +468,13 @@ public final class Change {
   public void setStatus(final Status newStatus) {
     open = newStatus.isOpen();
     status = newStatus.getCode();
+  }
+
+  public String getTopic() {
+    return topic;
+  }
+
+  public void setTopic(String topic) {
+    this.topic = topic;
   }
 }

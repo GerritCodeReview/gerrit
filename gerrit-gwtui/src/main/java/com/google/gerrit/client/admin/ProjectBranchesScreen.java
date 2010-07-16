@@ -14,11 +14,14 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.ConfirmationCallback;
+import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
-import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.data.GitwebLink;
+import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.reviewdb.Branch;
@@ -37,10 +40,9 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
@@ -49,33 +51,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ProjectBranchesPanel extends Composite {
-  private Project.NameKey projectName;
-
+public class ProjectBranchesScreen extends ProjectScreen {
   private BranchesTable branches;
   private Button delBranch;
   private Button addBranch;
   private NpTextBox nameTxtBox;
   private NpTextBox irevTxtBox;
+  private FlowPanel addPanel;
 
-  private final FlowPanel addPanel = new FlowPanel();
-
-  public ProjectBranchesPanel(final Project.NameKey toShow) {
-    final FlowPanel body = new FlowPanel();
-    initBranches(body);
-    initWidget(body);
-
-    projectName = toShow;
+  public ProjectBranchesScreen(final Project.NameKey toShow) {
+    super(toShow);
   }
 
   @Override
   protected void onLoad() {
-    enableForm(false);
     super.onLoad();
-
-    Util.PROJECT_SVC.listBranches(projectName,
-        new GerritCallback<ListBranchesResult>() {
-          public void onSuccess(final ListBranchesResult result) {
+    Util.PROJECT_SVC.listBranches(getProjectKey(),
+        new ScreenLoadCallback<ListBranchesResult>(this) {
+          public void preDisplay(final ListBranchesResult result) {
             enableForm(true);
             display(result.getBranches());
             addPanel.setVisible(result.getCanAdd());
@@ -95,7 +88,11 @@ public class ProjectBranchesPanel extends Composite {
     irevTxtBox.setEnabled(on);
   }
 
-  private void initBranches(final Panel body) {
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+
+    addPanel = new FlowPanel();
     addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
 
     final Grid addGrid = new Grid(2, 2);
@@ -186,9 +183,9 @@ public class ProjectBranchesPanel extends Composite {
       }
     });
 
-    body.add(branches);
-    body.add(delBranch);
-    body.add(addPanel);
+    add(branches);
+    add(delBranch);
+    add(addPanel);
   }
 
   private void doAddNewBranch() {
@@ -216,7 +213,7 @@ public class ProjectBranchesPanel extends Composite {
     }
 
     addBranch.setEnabled(false);
-    Util.PROJECT_SVC.addBranch(projectName, branchName, rev,
+    Util.PROJECT_SVC.addBranch(getProjectKey(), branchName, rev,
         new GerritCallback<ListBranchesResult>() {
           public void onSuccess(final ListBranchesResult result) {
             addBranch.setEnabled(true);
@@ -264,31 +261,47 @@ public class ProjectBranchesPanel extends Composite {
     }
 
     void deleteChecked() {
+      final StringBuilder message = new StringBuilder();
+      message.append("<b>").append(Gerrit.C.branchDeletionConfirmationMessage()).append("</b>");
+      message.append("<p>");
       final HashSet<Branch.NameKey> ids = new HashSet<Branch.NameKey>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final Branch k = getRowItem(row);
         if (k != null && table.getWidget(row, 1) instanceof CheckBox
             && ((CheckBox) table.getWidget(row, 1)).getValue()) {
+          if (!ids.isEmpty()) {
+            message.append(", <br>");
+          }
+          message.append(k.getName());
           ids.add(k.getNameKey());
         }
       }
+      message.append("</p>");
       if (ids.isEmpty()) {
         return;
       }
 
-      Util.PROJECT_SVC.deleteBranch(projectName, ids,
-          new GerritCallback<Set<Branch.NameKey>>() {
-            public void onSuccess(final Set<Branch.NameKey> deleted) {
-              for (int row = 1; row < table.getRowCount();) {
-                final Branch k = getRowItem(row);
-                if (k != null && deleted.contains(k.getNameKey())) {
-                  table.removeRow(row);
-                } else {
-                  row++;
+      ConfirmationDialog confirmationDialog =
+          new ConfirmationDialog(Gerrit.C.branchDeletionDialogTitle(),
+              new HTML(message.toString()), new ConfirmationCallback() {
+        @Override
+        public void onOk() {
+          Util.PROJECT_SVC.deleteBranch(getProjectKey(), ids,
+              new GerritCallback<Set<Branch.NameKey>>() {
+                public void onSuccess(final Set<Branch.NameKey> deleted) {
+                  for (int row = 1; row < table.getRowCount();) {
+                    final Branch k = getRowItem(row);
+                    if (k != null && deleted.contains(k.getNameKey())) {
+                      table.removeRow(row);
+                    } else {
+                      row++;
+                    }
+                  }
                 }
-              }
-            }
-          });
+              });
+        }
+      });
+      confirmationDialog.center();
     }
 
     void display(final List<Branch> result) {

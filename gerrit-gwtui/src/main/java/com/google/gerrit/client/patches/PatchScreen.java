@@ -18,11 +18,11 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.changes.ChangeScreen;
+import com.google.gerrit.client.changes.CommitMessageBlock;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
@@ -48,15 +48,12 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
-import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 public abstract class PatchScreen extends Screen implements
@@ -65,8 +62,8 @@ public abstract class PatchScreen extends Screen implements
 
   public static class SideBySide extends PatchScreen {
     public SideBySide(final Patch.Key id, final int patchIndex,
-        final PatchTable patchTable) {
-      super(id, patchIndex, patchTable);
+        final PatchSetDetail patchSetDetail, final PatchTable patchTable) {
+      super(id, patchIndex, patchSetDetail, patchTable);
     }
 
     @Override
@@ -82,8 +79,8 @@ public abstract class PatchScreen extends Screen implements
 
   public static class Unified extends PatchScreen {
     public Unified(final Patch.Key id, final int patchIndex,
-        final PatchTable patchTable) {
-      super(id, patchIndex, patchTable);
+        final PatchSetDetail patchSetDetail, final PatchTable patchTable) {
+      super(id, patchIndex, patchSetDetail, patchTable);
       final PatchScriptSettings s = settingsPanel.getValue();
       s.getPrettySettings().setSyntaxHighlighting(false);
       settingsPanel.setValue(s);
@@ -103,6 +100,7 @@ public abstract class PatchScreen extends Screen implements
   // Which patch set id's are being diff'ed
   private static PatchSet.Id diffSideA = null;
   private static PatchSet.Id diffSideB = null;
+
   private static Boolean historyOpen = null;
   private static final OpenHandler<DisclosurePanel> cacheOpenState =
       new OpenHandler<DisclosurePanel>() {
@@ -123,6 +121,7 @@ public abstract class PatchScreen extends Screen implements
   private static Change.Id currentChangeId = null;
 
   protected final Patch.Key patchKey;
+  protected PatchSetDetail patchSetDetail;
   protected PatchTable fileList;
   protected PatchSet.Id idSideA;
   protected PatchSet.Id idSideB;
@@ -133,6 +132,9 @@ public abstract class PatchScreen extends Screen implements
   private FlowPanel contentPanel;
   private Label noDifference;
   private AbstractPatchContentTable contentTable;
+  private CommitMessageBlock commitMessageBlock;
+  private NavLinks topNav;
+  private NavLinks bottomNav;
 
   private int rpcSequence;
   private PatchScript lastScript;
@@ -150,9 +152,6 @@ public abstract class PatchScreen extends Screen implements
   /** Link to the screen for the next file, null if not applicable */
   private InlineHyperlink nextFileLink;
 
-  private static final char SHORTCUT_PREVIOUS_FILE = '[';
-  private static final char SHORTCUT_NEXT_FILE = ']';
-
   /**
    * How this patch should be displayed in the patch screen.
    */
@@ -161,8 +160,9 @@ public abstract class PatchScreen extends Screen implements
   }
 
   protected PatchScreen(final Patch.Key id, final int patchIndex,
-      final PatchTable patchTable) {
+      final PatchSetDetail detail, final PatchTable patchTable) {
     patchKey = id;
+    patchSetDetail = detail;
     fileList = patchTable;
 
     // If we have any diff side stored, make sure they are applicable to the
@@ -270,8 +270,17 @@ public abstract class PatchScreen extends Screen implements
         || (historyOpen != null && historyOpen));
     historyPanel.addOpenHandler(cacheOpenState);
     historyPanel.addCloseHandler(cacheCloseState);
-    add(historyPanel);
-    add(settingsPanel);
+
+
+    VerticalPanel vp = new VerticalPanel();
+    vp.add(historyPanel);
+    vp.add(settingsPanel);
+    commitMessageBlock = new CommitMessageBlock("6em");
+    HorizontalPanel hp = new HorizontalPanel();
+    hp.setWidth("100%");
+    hp.add(vp);
+    hp.add(commitMessageBlock);
+    add(hp);
 
     noDifference = new Label(PatchUtil.C.noDifference());
     noDifference.setStyleName(Gerrit.RESOURCES.css().patchNoDifference());
@@ -280,35 +289,23 @@ public abstract class PatchScreen extends Screen implements
     contentTable = createContentTable();
     contentTable.fileList = fileList;
 
-    add(createNextPrevLinks());
+    topNav =
+        new NavLinks(keysNavigation, patchKey.getParentKey().getParentKey());
+    bottomNav = new NavLinks(null, patchKey.getParentKey().getParentKey());
+
+    add(topNav);
     contentPanel = new FlowPanel();
     contentPanel.setStyleName(Gerrit.RESOURCES.css()
         .sideBySideScreenSideBySideTable());
     contentPanel.add(noDifference);
     contentPanel.add(contentTable);
     add(contentPanel);
-    add(createNextPrevLinks());
+    add(bottomNav);
 
-    // This must be done after calling createNextPrevLinks(), which initializes
-    // these fields
-    if (previousFileLink != null) {
-      installLinkShortCut(previousFileLink, SHORTCUT_PREVIOUS_FILE, PatchUtil.C
-          .previousFileHelp());
+    if (fileList != null) {
+      topNav.display(patchIndex, getPatchScreenType(), fileList);
+      bottomNav.display(patchIndex, getPatchScreenType(), fileList);
     }
-    if (nextFileLink != null) {
-      installLinkShortCut(nextFileLink, SHORTCUT_NEXT_FILE, PatchUtil.C
-          .nextFileHelp());
-    }
-  }
-
-  private void installLinkShortCut(final InlineHyperlink link, char shortcut,
-      String help) {
-    keysNavigation.add(new KeyCommand(0, shortcut, help) {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        link.go();
-      }
-    });
   }
 
   void setReviewedByCurrentUser(boolean reviewed) {
@@ -330,36 +327,28 @@ public abstract class PatchScreen extends Screen implements
         });
   }
 
-  private Widget createNextPrevLinks() {
-    final Grid table = new Grid(1, 3);
-    final CellFormatter fmt = table.getCellFormatter();
-    table.setStyleName(Gerrit.RESOURCES.css().sideBySideScreenLinkTable());
-    fmt.setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_LEFT);
-    fmt.setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_CENTER);
-    fmt.setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
-
-    if (fileList != null) {
-      previousFileLink =
-          fileList.getPreviousPatchLink(patchIndex, getPatchScreenType());
-      table.setWidget(0, 0, previousFileLink);
-
-      nextFileLink =
-          fileList.getNextPatchLink(patchIndex, getPatchScreenType());
-      table.setWidget(0, 2, nextFileLink);
-    }
-
-    final ChangeLink up =
-        new ChangeLink("", patchKey.getParentKey().getParentKey());
-    SafeHtml.set(up, SafeHtml.asis(Util.C.upToChangeIconLink()));
-    table.setWidget(0, 1, up);
-
-    return table;
-  }
-
   @Override
   protected void onLoad() {
     super.onLoad();
-    refresh(true);
+    if (patchSetDetail == null) {
+      Util.DETAIL_SVC.patchSetDetail(idSideB,
+          new GerritCallback<PatchSetDetail>() {
+            @Override
+            public void onSuccess(PatchSetDetail result) {
+              patchSetDetail = result;
+              if (fileList == null) {
+                fileList = new PatchTable();
+                fileList.display(result);
+                patchIndex = fileList.indexOf(patchKey);
+                topNav.display(patchIndex, getPatchScreenType(), fileList);
+                bottomNav.display(patchIndex, getPatchScreenType(), fileList);
+              }
+              refresh(true);
+            }
+          });
+    } else {
+      refresh(true);
+    }
   }
 
   @Override
@@ -416,6 +405,20 @@ public abstract class PatchScreen extends Screen implements
 
     setWindowTitle(PatchUtil.M.patchWindowTitle(cid.abbreviate(), fileName));
     setPageTitle(PatchUtil.M.patchPageTitle(cid.abbreviate(), path));
+
+    if (idSideB.equals(patchSetDetail.getPatchSet().getId())) {
+      commitMessageBlock.setVisible(true);
+      commitMessageBlock.display(patchSetDetail.getInfo().getMessage());
+    } else {
+      commitMessageBlock.setVisible(false);
+      Util.DETAIL_SVC.patchSetDetail(idSideB,
+          new GerritCallback<PatchSetDetail>() {
+            @Override
+            public void onSuccess(PatchSetDetail result) {
+              commitMessageBlock.display(result.getInfo().getMessage());
+            }
+          });
+    }
 
     historyTable.display(script.getHistory());
     historyPanel.setVisible(true);
@@ -500,7 +503,7 @@ public abstract class PatchScreen extends Screen implements
         Util.DETAIL_SVC.patchSetDetail(psid,
             new GerritCallback<PatchSetDetail>() {
               public void onSuccess(final PatchSetDetail result) {
-                fileList.display(psid, result.getPatches());
+                fileList.display(result);
               }
             });
       }

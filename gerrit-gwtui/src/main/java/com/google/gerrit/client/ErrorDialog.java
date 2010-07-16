@@ -17,6 +17,8 @@ package com.google.gerrit.client;
 import com.google.gerrit.client.rpc.RpcConstants;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Button;
@@ -30,6 +32,7 @@ import com.google.gwtjsonrpc.client.RemoteJsonException;
 public class ErrorDialog extends PluginSafePopupPanel {
   private final Label text;
   private final FlowPanel body;
+  private final Button closey;
 
   protected ErrorDialog() {
     super(/* auto hide */false, /* modal */true);
@@ -44,12 +47,22 @@ public class ErrorDialog extends PluginSafePopupPanel {
     final FlowPanel buttons = new FlowPanel();
     buttons.setStyleName(Gerrit.RESOURCES.css().errorDialogButtons());
 
-    final Button closey = new Button();
+    closey = new Button();
     closey.setText(Gerrit.C.errorDialogContinue());
     closey.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         hide();
+      }
+    });
+    closey.addKeyPressHandler(new KeyPressHandler() {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        // if the close button is triggered by a key we need to consume the key
+        // event, otherwise the key event would be propagated to the parent
+        // screen and eventually trigger some unwanted action there after the
+        // error dialog was closed
+        event.stopPropagation();
       }
     });
     buttons.add(closey);
@@ -118,5 +131,6 @@ public class ErrorDialog extends PluginSafePopupPanel {
   @Override
   public void center() {
     show();
+    closey.setFocus(true);
   }
 }

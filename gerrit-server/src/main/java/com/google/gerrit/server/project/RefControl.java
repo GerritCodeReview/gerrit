@@ -28,12 +28,16 @@ import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG_ANNOTATED;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG_SIGNED;
 import static com.google.gerrit.reviewdb.ApprovalCategory.READ;
 
+import com.google.gerrit.common.data.ParamertizedString;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 
+import dk.brics.automaton.RegExp;
+
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -45,10 +49,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 
 
 /** Manages access control for Git references (aka branches, tags). */
@@ -59,9 +66,17 @@ public class RefControl {
   private Boolean canForgeAuthor;
   private Boolean canForgeCommitter;
 
-  RefControl(final ProjectControl projectControl, final String refName) {
+  RefControl(final ProjectControl projectControl, String ref) {
+    if (isRE(ref)) {
+      ref = shortestExample(ref);
+
+    } else if (ref.endsWith("/*")) {
+      ref = ref.substring(0, ref.length() - 1);
+
+    }
+
     this.projectControl = projectControl;
-    this.refName = refName;
+    this.refName = ref;
   }
 
   public String getRefName() {
@@ -94,11 +109,12 @@ public class RefControl {
     // calls us to find out if there is ownership of all references in
     // order to determine project level ownership.
     //
-    if (!RefRight.ALL.equals(getRefName()) && getProjectControl().isOwner()) {
-      return true;
+    if (getRefName().equals(
+        RefRight.ALL.substring(0, RefRight.ALL.length() - 1))) {
+      return getCurrentUser().isAdministrator();
+    } else {
+      return getProjectControl().isOwner();
     }
-
-    return false;
   }
 
   /** Can this user see this reference exists? */
@@ -302,19 +318,95 @@ public class RefControl {
     return val >= level;
   }
 
-  public static final Comparator<String> DESCENDING_SORT =
+  /**
+   * Order the Ref Pattern by the most specific. This sort is done by:
+   * <ul>
+   * <li>1 - The minor value of Levenshtein string distance between the branch
+   * name and the regex string shortest example. A shorter distance is a more
+   * specific match.
+   * <li>2 - Finites first, infinities after.
+   * <li>3 - Number of transitions.
+   * <li>4 - Length of the expression text.
+   * </ul>
+   *
+   * Levenshtein distance is a measure of the similarity between two strings.
+   * The distance is the number of deletions, insertions, or substitutions
+   * required to transform one string into another.
+   *
+   * For example, if given refs/heads/m* and refs/heads/*, the distances are 5
+   * and 6. It means that refs/heads/m* is more specific because it's closer to
+   * refs/heads/master than refs/heads/*.
+   *
+   * Another example could be refs/heads/* and refs/heads/[a-zA-Z]*, the
+   * distances are both 6. Both are infinite, but refs/heads/[a-zA-Z]* has more
+   * transitions, which after all turns it more specific.
+   */
+  private final Comparator<String> BY_MOST_SPECIFIC_SORT =
       new Comparator<String>() {
+        public int compare(final String pattern1, final String pattern2) {
+          int cmp = distance(pattern2) - distance(pattern1);
+          if (cmp == 0) {
+            boolean p1_finite = finite(pattern1);
+            boolean p2_finite = finite(pattern2);
 
-    @Override
-    public int compare(String a, String b) {
-      int aLength = a.length();
-      int bLength = b.length();
-      if (bLength == aLength) {
-        return a.compareTo(b);
-      }
-      return bLength - aLength;
-    }
-  };
+            if (p1_finite && !p2_finite) {
+              cmp = -1;
+            } else if (!p1_finite && p2_finite) {
+              cmp = 1;
+            } else /* if (f1 == f2) */{
+              cmp = 0;
+            }
+          }
+          if (cmp == 0) {
+            cmp = transitions(pattern1) - transitions(pattern2);
+          }
+          if (cmp == 0) {
+            cmp = pattern2.length() - pattern1.length();
+          }
+          return cmp;
+        }
+
+        private int distance(String pattern) {
+          String example;
+          if (isRE(pattern)) {
+            example = shortestExample(pattern);
+
+          } else if (pattern.endsWith("/*")) {
+            example = pattern.substring(0, pattern.length() - 1) + '1';
+
+          } else if (pattern.equals(getRefName())) {
+            return 0;
+
+          } else {
+            return Math.max(pattern.length(), getRefName().length());
+          }
+          return StringUtils.getLevenshteinDistance(example, getRefName());
+        }
+
+        private boolean finite(String pattern) {
+          if (isRE(pattern)) {
+            return toRegExp(pattern).toAutomaton().isFinite();
+
+          } else if (pattern.endsWith("/*")) {
+            return false;
+
+          } else {
+            return true;
+          }
+        }
+
+        private int transitions(String pattern) {
+          if (isRE(pattern)) {
+            return toRegExp(pattern).toAutomaton().getNumberOfTransitions();
+
+          } else if (pattern.endsWith("/*")) {
+            return pattern.length();
+
+          } else {
+            return pattern.length();
+          }
+        }
+      };
 
   /**
    * Sorts all given rights into a map, ordered by descending length of
@@ -338,10 +430,10 @@ public class RefControl {
    * @param actionRights
    * @return A sorted map keyed off the ref pattern of all rights.
    */
-  private static SortedMap<String, RefRightsForPattern> sortedRightsByPattern(
+  private SortedMap<String, RefRightsForPattern> sortedRightsByPattern(
       List<RefRight> actionRights) {
     SortedMap<String, RefRightsForPattern> rights =
-      new TreeMap<String, RefRightsForPattern>(DESCENDING_SORT);
+      new TreeMap<String, RefRightsForPattern>(BY_MOST_SPECIFIC_SORT);
     for (RefRight actionRight : actionRights) {
       RefRightsForPattern patternRights =
         rights.get(actionRight.getRefPattern());
@@ -391,7 +483,7 @@ public class RefControl {
   private List<RefRight> filter(Collection<RefRight> all) {
     List<RefRight> mine = new ArrayList<RefRight>(all.size());
     for (RefRight right : all) {
-      if (matches(getRefName(), right.getRefPattern())) {
+      if (matches(right.getRefPattern())) {
         mine.add(right);
       }
     }
@@ -402,13 +494,70 @@ public class RefControl {
     return projectControl.getProjectState();
   }
 
-  public static boolean matches(String refName, String refPattern) {
-    if (refPattern.endsWith("/*")) {
+  private boolean matches(String refPattern) {
+    if (isTemplate(refPattern)) {
+      ParamertizedString template = new ParamertizedString(refPattern);
+      HashMap<String, String> p = new HashMap<String, String>();
+
+      if (getCurrentUser() instanceof IdentifiedUser) {
+        p.put("username", ((IdentifiedUser) getCurrentUser()).getUserName());
+      } else {
+        // Right now we only template the username. If not available
+        // this rule cannot be matched at all.
+        //
+        return false;
+      }
+
+      if (isRE(refPattern)) {
+        for (Map.Entry<String, String> ent : p.entrySet()) {
+          ent.setValue(escape(ent.getValue()));
+        }
+      }
+
+      refPattern = template.replace(p);
+    }
+
+    if (isRE(refPattern)) {
+      return Pattern.matches(refPattern, getRefName());
+
+    } else if (refPattern.endsWith("/*")) {
       String prefix = refPattern.substring(0, refPattern.length() - 1);
-      return refName.startsWith(prefix);
+      return getRefName().startsWith(prefix);
 
     } else {
-      return refName.equals(refPattern);
+      return getRefName().equals(refPattern);
     }
+  }
+
+  private static boolean isTemplate(String refPattern) {
+    return 0 <= refPattern.indexOf("${");
+  }
+
+  private static String escape(String value) {
+    // Right now the only special character allowed in a
+    // variable value is a . in the username.
+    //
+    return value.replace(".", "\\.");
+  }
+
+  private static boolean isRE(String refPattern) {
+    return refPattern.startsWith(RefRight.REGEX_PREFIX);
+  }
+
+  public static String shortestExample(String pattern) {
+    if (isRE(pattern)) {
+      return toRegExp(pattern).toAutomaton().getShortestExample(true);
+    } else if (pattern.endsWith("/*")) {
+      return pattern.substring(0, pattern.length() - 1) + '1';
+    } else {
+      return pattern;
+    }
+  }
+
+  private static RegExp toRegExp(String refPattern) {
+    if (isRE(refPattern)) {
+      refPattern = refPattern.substring(1);
+    }
+    return new RegExp(refPattern);
   }
 }

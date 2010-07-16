@@ -32,6 +32,12 @@ public interface GerritConstants extends Constants {
   String errorDialogTitle();
   String errorDialogContinue();
 
+  String confirmationDialogOk();
+  String confirmationDialogCancel();
+
+  String branchDeletionDialogTitle();
+  String branchDeletionConfirmationMessage();
+
   String notSignedInTitle();
   String notSignedInBody();
 

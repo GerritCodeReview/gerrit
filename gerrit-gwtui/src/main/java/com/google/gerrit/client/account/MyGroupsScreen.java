@@ -15,34 +15,26 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.admin.GroupTable;
-import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 
 import java.util.List;
 
-class MyGroupsPanel extends Composite {
+public class MyGroupsScreen extends SettingsScreen {
   private GroupTable groups;
 
-  MyGroupsPanel() {
-    final FlowPanel body = new FlowPanel();
-
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
     groups = new GroupTable(false /* do not hyperlink to admin */);
-    body.add(groups);
-
-    initWidget(body);
+    add(groups);
   }
 
   @Override
   protected void onLoad() {
     super.onLoad();
-    refresh();
-  }
-
-  private void refresh() {
-    Util.ACCOUNT_SEC.myGroups(new GerritCallback<List<AccountGroup>>() {
-      public void onSuccess(final List<AccountGroup> result) {
+    Util.ACCOUNT_SEC.myGroups(new ScreenLoadCallback<List<AccountGroup>>(this) {
+      public void preDisplay(final List<AccountGroup> result) {
         groups.display(result);
       }
     });

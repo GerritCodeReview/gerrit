@@ -37,7 +37,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -71,9 +70,10 @@ class SshPanel extends Composite {
 
   private Panel serverKeys;
 
+  private int loadCount;
+
   SshPanel() {
     final FlowPanel body = new FlowPanel();
-    body.add(new UsernamePanel());
 
     showAddKeyBlock = new Button(Util.C.buttonShowAddSshKey());
     showAddKeyBlock.addClickHandler(new ClickHandler() {
@@ -321,6 +321,9 @@ class SshPanel extends Composite {
         if (result.isEmpty() && keys.isVisible()) {
           showAddKeyBlock(true);
         }
+        if (++loadCount == 2) {
+          display();
+        }
       }
     });
 
@@ -330,8 +333,14 @@ class SshPanel extends Composite {
         for (final SshHostKey keyInfo : result) {
           serverKeys.add(new SshHostKeyPanel(keyInfo));
         }
+        if (++loadCount == 2) {
+          display();
+        }
       }
     });
+  }
+
+  void display() {
   }
 
   @Override
@@ -440,7 +449,7 @@ class SshPanel extends Composite {
       }
       table.setText(row, 3, k.getAlgorithm());
 
-      CopyableLabel keyLabel = new CopyableLabel(k.getEncodedKey());
+      CopyableLabel keyLabel = new CopyableLabel(k.getSshPublicKey());
       keyLabel.setPreviewText(elide(k.getEncodedKey(), 40));
       table.setWidget(row, 4, keyLabel);
 

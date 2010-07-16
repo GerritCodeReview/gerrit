@@ -25,6 +25,9 @@ public final class RefRight {
   /** Pattern that matches all references in a project. */
   public static final String ALL = "refs/*";
 
+  /** Prefix that triggers a regular expression pattern. */
+  public static final String REGEX_PREFIX = "^";
+
   public static class RefPattern extends
       StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;

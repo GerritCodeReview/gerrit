@@ -19,8 +19,8 @@ import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
+import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Patch;
-import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Patch.Key;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -42,27 +42,41 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PatchTable extends Composite {
   private final FlowPanel myBody;
-  private PatchSet.Id psid;
+  private PatchSetDetail detail;
   private Command onLoadCommand;
   private MyTable myTable;
   private String savePointerId;
   private List<Patch> patchList;
+
+  private List<ClickHandler> clickHandlers;
+  private boolean active;
+  private boolean registerKeys;
 
   public PatchTable() {
     myBody = new FlowPanel();
     initWidget(myBody);
   }
 
-  public void display(final PatchSet.Id id, final List<Patch> list) {
-    psid = id;
-    myTable = null;
-    patchList = list;
+  public int indexOf(Patch.Key patch) {
+    for (int i = 0; i < patchList.size(); i++) {
+      if (patchList.get(i).getKey().equals(patch)) {
+        return i;
+      }
+    }
+    return -1;
+  }
 
-    final DisplayCommand cmd = new DisplayCommand(list);
+  public void display(PatchSetDetail detail) {
+    this.detail = detail;
+    this.patchList = detail.getPatches();
+    myTable = null;
+
+    final DisplayCommand cmd = new DisplayCommand(patchList);
     if (cmd.execute()) {
       cmd.initMeter();
       DeferredCommand.addCommand(cmd);
@@ -88,12 +102,21 @@ public class PatchTable extends Composite {
   }
 
   public void addClickHandler(final ClickHandler clickHandler) {
-    myTable.addClickHandler(clickHandler);
-
+    if (myTable != null) {
+      myTable.addClickHandler(clickHandler);
+    } else {
+      if (clickHandlers == null) {
+        clickHandlers = new ArrayList<ClickHandler>(2);
+      }
+      clickHandlers.add(clickHandler);
+    }
   }
 
   public void setRegisterKeys(final boolean on) {
-    myTable.setRegisterKeys(on);
+    registerKeys = on;
+    if (myTable != null) {
+      myTable.setRegisterKeys(on);
+    }
   }
 
   public void movePointerTo(final Patch.Key k) {
@@ -101,13 +124,41 @@ public class PatchTable extends Composite {
   }
 
   public void setActive(boolean active) {
-    myTable.setActive(active);
+    this.active = active;
+    if (myTable != null) {
+      myTable.setActive(active);
+    }
   }
 
   public void notifyDraftDelta(final Patch.Key k, final int delta) {
     if (myTable != null) {
       myTable.notifyDraftDelta(k, delta);
     }
+  }
+
+  private void setMyTable(MyTable table) {
+    myBody.clear();
+    myBody.add(table);
+    myTable = table;
+
+    if (clickHandlers != null) {
+      for (ClickHandler ch : clickHandlers) {
+        myTable.addClickHandler(ch);
+      }
+      clickHandlers = null;
+    }
+
+    if (active) {
+      myTable.setActive(true);
+      active = false;
+    }
+
+    if (registerKeys) {
+      myTable.setRegisterKeys(registerKeys);
+      registerKeys = false;
+    }
+
+    myTable.finishDisplay();
   }
 
   /**
@@ -144,9 +195,9 @@ public class PatchTable extends Composite {
     PatchLink link;
     if (patchType == PatchScreen.Type.SIDE_BY_SIDE
         && patch.getPatchType() == Patch.PatchType.UNIFIED) {
-      link = new PatchLink.SideBySide("", thisKey, index, this);
+      link = new PatchLink.SideBySide("", thisKey, index, detail, this);
     } else {
-      link = new PatchLink.Unified("", thisKey, index, this);
+      link = new PatchLink.Unified("", thisKey, index, detail, this);
     }
     SafeHtmlBuilder text = new SafeHtmlBuilder();
     text.append(before);
@@ -274,11 +325,13 @@ public class PatchTable extends Composite {
 
       Widget nameCol;
       if (patch.getPatchType() == Patch.PatchType.UNIFIED) {
-        nameCol = new PatchLink.SideBySide(patch.getFileName(), patch.getKey(), row - 1,
-            PatchTable.this);
+        nameCol =
+            new PatchLink.SideBySide(patch.getFileName(), patch.getKey(),
+                row - 1, detail, PatchTable.this);
       } else {
-        nameCol = new PatchLink.Unified(patch.getFileName(), patch.getKey(), row - 1,
-            PatchTable.this);
+        nameCol =
+            new PatchLink.Unified(patch.getFileName(), patch.getKey(), row - 1,
+                detail, PatchTable.this);
       }
       if (patch.getSourceFileName() != null) {
         final String text;
@@ -300,16 +353,16 @@ public class PatchTable extends Composite {
 
       int C_UNIFIED = C_SIDEBYSIDE + 1;
       if (patch.getPatchType() == Patch.PatchType.UNIFIED) {
-        table.setWidget(row, C_SIDEBYSIDE,
-            new PatchLink.SideBySide(Util.C.patchTableDiffSideBySide(), patch.getKey(), row - 1,
-                PatchTable.this));
+        table.setWidget(row, C_SIDEBYSIDE, new PatchLink.SideBySide(Util.C
+            .patchTableDiffSideBySide(), patch.getKey(), row - 1, detail,
+            PatchTable.this));
 
       } else if (patch.getPatchType() == Patch.PatchType.BINARY) {
         C_UNIFIED = C_SIDEBYSIDE + 2;
       }
-      table.setWidget(row, C_UNIFIED,
-          new PatchLink.Unified(Util.C.patchTableDiffUnified(), patch.getKey(), row - 1,
-              PatchTable.this));
+      table.setWidget(row, C_UNIFIED, new PatchLink.Unified(Util.C
+          .patchTableDiffUnified(), patch.getKey(), row - 1, detail,
+          PatchTable.this));
     }
 
     void appendHeader(final SafeHtmlBuilder m) {
@@ -587,10 +640,8 @@ public class PatchTable extends Composite {
     }
 
     void showTable() {
-      PatchTable.this.myBody.clear();
-      PatchTable.this.myBody.add(table);
-      PatchTable.this.myTable = table;
-      table.finishDisplay();
+      setMyTable(table);
+
       if (PatchTable.this.onLoadCommand != null) {
         PatchTable.this.onLoadCommand.execute();
         PatchTable.this.onLoadCommand = null;
@@ -599,7 +650,7 @@ public class PatchTable extends Composite {
 
     void initMeter() {
       if (meter == null) {
-        meter = new ProgressBar(Util.M.loadingPatchSet(psid.get()));
+        meter = new ProgressBar(Util.M.loadingPatchSet(detail.getPatchSet().getId().get()));
         PatchTable.this.myBody.clear();
         PatchTable.this.myBody.add(meter);
       }

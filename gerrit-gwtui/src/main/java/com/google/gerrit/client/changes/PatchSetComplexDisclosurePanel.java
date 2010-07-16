@@ -147,7 +147,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
 
     patchTable = new PatchTable();
     patchTable.setSavePointerId("PatchTable " + patchSet.getId());
-    patchTable.display(info.getKey(), detail.getPatches());
+    patchTable.display(detail);
 
     body.add(infoTable);
 
@@ -160,6 +160,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         populateActions(detail);
       }
     }
+    populateDiffAllActions(detail);
     body.add(patchTable);
 
     for(ClickHandler clickHandler : registeredClickHandler) {
@@ -409,15 +410,18 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       });
       actionsPanel.add(b);
     }
+  }
 
+  private void populateDiffAllActions(final PatchSetDetail detail) {
     final Button diffAllSideBySide = new Button(Util.C.buttonDiffAllSideBySide());
     diffAllSideBySide.addClickHandler(new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
         for (Patch p : detail.getPatches()) {
-          SideBySide link = new PatchLink.SideBySide(p.getFileName(), p.getKey(), 0, null);
-          Window.open(link.getElement().toString(), p.getFileName(), null);
+          SideBySide link = new PatchLink.SideBySide(p.getFileName(), p.getKey(), 0, null, null);
+          Window.open(Window.Location.getPath() + "#"
+              + link.getTargetHistoryToken(), "_blank", null);
         }
       }
     });
@@ -429,8 +433,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       @Override
       public void onClick(ClickEvent event) {
         for (Patch p : detail.getPatches()) {
-          Unified link = new PatchLink.Unified(p.getFileName(), p.getKey(), 0, null);
-          Window.open(link.getElement().toString(), p.getFileName(), null);
+          Unified link = new PatchLink.Unified(p.getFileName(), p.getKey(), 0, null, null);
+          Window.open(Window.Location.getPath() + "#"
+              + link.getTargetHistoryToken(), "_blank", null);
         }
       }
     });

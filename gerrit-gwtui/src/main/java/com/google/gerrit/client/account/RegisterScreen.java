@@ -20,9 +20,13 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.Account.FieldName;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
 public class RegisterScreen extends AccountScreen {
   private final String nextToken;
@@ -64,6 +68,36 @@ public class RegisterScreen extends AccountScreen {
       }
     });
     formBody.add(contactGroup);
+
+    if (Gerrit.getUserAccount().getUserName() == null
+        && Gerrit.getConfig().canEdit(FieldName.USER_NAME)) {
+      final FlowPanel fp = new FlowPanel();
+      fp.setStyleName(Gerrit.RESOURCES.css().registerScreenSection());
+      fp.add(new SmallHeading(Util.C.welcomeUsernameHeading()));
+
+      final Grid userInfo = new Grid(1, 2);
+      final CellFormatter fmt = userInfo.getCellFormatter();
+      userInfo.setStyleName(Gerrit.RESOURCES.css().infoBlock());
+      userInfo.addStyleName(Gerrit.RESOURCES.css().accountInfoBlock());
+      fp.add(userInfo);
+
+      fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
+      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
+      fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().bottomheader());
+
+      UsernameField field = new UsernameField();
+      if (LocaleInfo.getCurrentLocale().isRTL()) {
+        userInfo.setText(0, 1, Util.C.userName());
+        userInfo.setWidget(0, 0, field);
+        fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().header());
+      } else {
+        userInfo.setText(0, 0, Util.C.userName());
+        userInfo.setWidget(0, 1, field);
+        fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().header());
+      }
+
+      formBody.add(fp);
+    }
 
     if (Gerrit.getConfig().getSshdAddress() != null) {
       final FlowPanel sshKeyGroup = new FlowPanel();

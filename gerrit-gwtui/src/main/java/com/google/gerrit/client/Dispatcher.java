@@ -21,25 +21,42 @@ import static com.google.gerrit.common.PageLinks.MINE_DRAFTS;
 import static com.google.gerrit.common.PageLinks.MINE_STARRED;
 import static com.google.gerrit.common.PageLinks.REGISTER;
 import static com.google.gerrit.common.PageLinks.SETTINGS;
+import static com.google.gerrit.common.PageLinks.SETTINGS_AGREEMENTS;
+import static com.google.gerrit.common.PageLinks.SETTINGS_CONTACT;
+import static com.google.gerrit.common.PageLinks.SETTINGS_HTTP_PASSWORD;
+import static com.google.gerrit.common.PageLinks.SETTINGS_MYGROUPS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_NEW_AGREEMENT;
+import static com.google.gerrit.common.PageLinks.SETTINGS_PREFERENCES;
+import static com.google.gerrit.common.PageLinks.SETTINGS_PROJECTS;
+import static com.google.gerrit.common.PageLinks.SETTINGS_SSHKEYS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_WEBIDENT;
 import static com.google.gerrit.common.PageLinks.TOP;
 
-import com.google.gerrit.client.account.AccountSettings;
+import com.google.gerrit.client.account.MyAgreementsScreen;
+import com.google.gerrit.client.account.MyContactInformationScreen;
+import com.google.gerrit.client.account.MyGroupsScreen;
+import com.google.gerrit.client.account.MyIdentitiesScreen;
+import com.google.gerrit.client.account.MyPasswordScreen;
+import com.google.gerrit.client.account.MyPreferencesScreen;
+import com.google.gerrit.client.account.MyProfileScreen;
+import com.google.gerrit.client.account.MySshKeysScreen;
+import com.google.gerrit.client.account.MyWatchedProjectsScreen;
 import com.google.gerrit.client.account.NewAgreementScreen;
 import com.google.gerrit.client.account.RegisterScreen;
 import com.google.gerrit.client.account.ValidateEmailScreen;
 import com.google.gerrit.client.admin.AccountGroupScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
-import com.google.gerrit.client.admin.ProjectAdminScreen;
+import com.google.gerrit.client.admin.ProjectAccessScreen;
+import com.google.gerrit.client.admin.ProjectBranchesScreen;
+import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
+import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.AllAbandonedChangesScreen;
 import com.google.gerrit.client.changes.AllMergedChangesScreen;
 import com.google.gerrit.client.changes.AllOpenChangesScreen;
-import com.google.gerrit.client.changes.MineWatchedOpenChangesScreen;
 import com.google.gerrit.client.changes.ByProjectAbandonedChangesScreen;
 import com.google.gerrit.client.changes.ByProjectMergedChangesScreen;
 import com.google.gerrit.client.changes.ByProjectOpenChangesScreen;
@@ -47,12 +64,13 @@ import com.google.gerrit.client.changes.ChangeQueryResultsScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.MineDraftsScreen;
 import com.google.gerrit.client.changes.MineStarredScreen;
+import com.google.gerrit.client.changes.MineWatchedOpenChangesScreen;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.SignInMode;
+import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Change;
@@ -107,7 +125,7 @@ public class Dispatcher {
 
   private static void select(final String token) {
     if (token.startsWith("patch,")) {
-      patch(token, null, 0, null);
+      patch(token, null, 0, null, null);
 
     } else if (token.startsWith("change,publish,")) {
       publish(token);
@@ -251,7 +269,8 @@ public class Dispatcher {
   }
 
   public static void patch(String token, final Patch.Key id,
-      final int patchIndex, final PatchTable patchTable) {
+      final int patchIndex, final PatchSetDetail patchSetDetail,
+      final PatchTable patchTable) {
     GWT.runAsync(new AsyncSplit(token) {
       public void onSuccess() {
         Gerrit.display(token, select());
@@ -265,6 +284,7 @@ public class Dispatcher {
           return new PatchScreen.SideBySide( //
               id != null ? id : Patch.Key.parse(skip(p, token)), //
               patchIndex, //
+              patchSetDetail, //
               patchTable //
           );
         }
@@ -274,6 +294,7 @@ public class Dispatcher {
           return new PatchScreen.Unified( //
               id != null ? id : Patch.Key.parse(skip(p, token)), //
               patchIndex, //
+              patchSetDetail, //
               patchTable //
           );
         }
@@ -292,6 +313,43 @@ public class Dispatcher {
       private Screen select() {
         String p;
 
+        if (token.equals(SETTINGS)) {
+          return new MyProfileScreen();
+        }
+
+        if (token.equals(SETTINGS_PREFERENCES)) {
+          return new MyPreferencesScreen();
+        }
+
+        if (token.equals(SETTINGS_PROJECTS)) {
+          return new MyWatchedProjectsScreen();
+        }
+
+        if (token.equals(SETTINGS_CONTACT)) {
+          return new MyContactInformationScreen();
+        }
+
+        if (token.equals(SETTINGS_SSHKEYS)) {
+          return new MySshKeysScreen();
+        }
+
+        if (token.equals(SETTINGS_WEBIDENT)) {
+          return new MyIdentitiesScreen();
+        }
+
+        if (token.equals(SETTINGS_HTTP_PASSWORD)) {
+          return new MyPasswordScreen();
+        }
+
+        if (token.equals(SETTINGS_MYGROUPS)) {
+          return new MyGroupsScreen();
+        }
+
+        if (token.equals(SETTINGS_AGREEMENTS)
+            && Gerrit.getConfig().isUseContributorAgreements()) {
+          return new MyAgreementsScreen();
+        }
+
         p = "register,";
         if (token.startsWith(p)) {
           return new RegisterScreen(skip(p, token));
@@ -308,7 +366,7 @@ public class Dispatcher {
           final String[] args = skip(p, token).split(",");
           final SignInMode mode = SignInMode.valueOf(args[0]);
           final String msg = KeyUtil.decode(args[1]);
-          final String to = PageLinks.MINE;
+          final String to = MINE;
           switch (Gerrit.getConfig().getAuthType()) {
             case OPENID:
               new OpenIdSignInDialog(mode, to, msg).center();
@@ -324,7 +382,7 @@ public class Dispatcher {
             case SIGN_IN:
               return new AllOpenChangesScreen(TOP);
             case LINK_IDENTIY:
-              return new AccountSettings(SETTINGS_WEBIDENT);
+              return new MyIdentitiesScreen();
           }
         }
 
@@ -336,7 +394,7 @@ public class Dispatcher {
           return new NewAgreementScreen(skip(p, token));
         }
 
-        return new AccountSettings(token);
+        return new NotFoundScreen();
       }
     });
   }
@@ -358,8 +416,23 @@ public class Dispatcher {
         if (token.startsWith(p)) {
           p = skip(p, token);
           final int c = p.indexOf(',');
-          final String idstr = p.substring(0, c);
-          return new ProjectAdminScreen(Project.NameKey.parse(idstr), token);
+          final Project.NameKey k = Project.NameKey.parse(p.substring(0, c));
+          final boolean isWild = k.equals(Gerrit.getConfig().getWildProject());
+          p = p.substring(c + 1);
+
+          if (ProjectScreen.INFO.equals(p)) {
+            return new ProjectInfoScreen(k);
+          }
+
+          if (!isWild && ProjectScreen.BRANCH.equals(p)) {
+            return new ProjectBranchesScreen(k);
+          }
+
+          if (ProjectScreen.ACCESS.equals(p)) {
+            return new ProjectAccessScreen(k);
+          }
+
+          return new NotFoundScreen();
         }
 
         if (ADMIN_GROUPS.equals(token)) {

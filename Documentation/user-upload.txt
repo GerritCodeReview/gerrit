@@ -116,6 +116,16 @@ Other users (e.g. project owners) who have configured Gerrit to
 notify them of new changes will be automatically sent an email
 message when the push is completed.
 
+To include a short tag associated with all of the changes in the
+same group, such as the local topic branch name, append it after
+the destination branch name.  In this example the short topic tag
+'driver/i42' will be saved on each change this push creates or
+updates:
+
+====
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental/driver/i42
+====
+
 If you are frequently uploading changes to the same Gerrit server,
 consider adding an SSH host block in `~/.ssh/config` to remember
 your username, hostname and port number.  This permits the use of

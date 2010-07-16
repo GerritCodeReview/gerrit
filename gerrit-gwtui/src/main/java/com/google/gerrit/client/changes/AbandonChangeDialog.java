@@ -21,19 +21,26 @@ import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 
-public class AbandonChangeDialog extends AutoCenterDialogBox {
+public class AbandonChangeDialog extends AutoCenterDialogBox implements CloseHandler<PopupPanel>{
   private final FlowPanel panel;
   private final NpTextArea message;
   private final Button sendButton;
   private final Button cancelButton;
   private final PatchSet.Id psid;
+  private final AsyncCallback<ChangeDetail> callback;
+
+  private boolean buttonClicked = false;
 
   public AbandonChangeDialog(final PatchSet.Id psi,
       final AsyncCallback<ChangeDetail> callback) {
@@ -41,6 +48,7 @@ public class AbandonChangeDialog extends AutoCenterDialogBox {
     setGlassEnabled(true);
 
     psid = psi;
+    this.callback = callback;
     addStyleName(Gerrit.RESOURCES.css().abandonChangeDialog());
     setText(Util.C.abandonChangeTitle());
 
@@ -70,6 +78,7 @@ public class AbandonChangeDialog extends AutoCenterDialogBox {
         Util.MANAGE_SVC.abandonChange(psid, message.getText().trim(),
             new GerritCallback<ChangeDetail>() {
               public void onSuccess(ChangeDetail result) {
+                buttonClicked = true;
                 if (callback != null) {
                   callback.onSuccess(result);
                 }
@@ -87,9 +96,11 @@ public class AbandonChangeDialog extends AutoCenterDialogBox {
     buttonPanel.add(sendButton);
 
     cancelButton = new Button(Util.C.buttonAbandonChangeCancel());
+    DOM.setStyleAttribute(cancelButton.getElement(), "marginLeft", "300px");
     cancelButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
+        buttonClicked = true;
         if (callback != null) {
           callback.onFailure(null);
         }
@@ -97,11 +108,25 @@ public class AbandonChangeDialog extends AutoCenterDialogBox {
       }
     });
     buttonPanel.add(cancelButton);
+
+    addCloseHandler(this);
   }
 
   @Override
-  protected void onLoad() {
-    super.onLoad();
+  public void center() {
+    super.center();
+    GlobalKey.dialog(this);
     message.setFocus(true);
+  }
+
+  @Override
+  public void onClose(CloseEvent<PopupPanel> event) {
+    if (!buttonClicked) {
+      // the dialog was closed without one of the buttons being pressed
+      // e.g. the user pressed ESC to close the dialog
+      if (callback != null) {
+        callback.onFailure(null);
+      }
+    }
   }
 }

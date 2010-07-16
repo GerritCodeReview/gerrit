@@ -47,6 +47,18 @@ public class LinkMenuBar extends Composite {
     body.clear();
   }
 
+  public LinkMenuItem find(String targetToken) {
+    for (Widget w : body) {
+      if (w instanceof LinkMenuItem) {
+        LinkMenuItem m = (LinkMenuItem) w;
+        if (targetToken.equals(m.getTargetHistoryToken())) {
+          return m;
+        }
+      }
+    }
+    return null;
+  }
+
   public void add(final Widget i) {
     if (body.getWidgetCount() > 0) {
       final Widget p = body.getWidget(body.getWidgetCount() - 1);

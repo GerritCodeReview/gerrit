@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1n///7w\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1466,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T18:17:00Z",
+      "side": 0,
+      "message": "Bad rebase?  Why did this section get removed?",
+      "revId": "b8ecec5d2eb19ed4cf8ab4a8b0d6a078e7d13234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n///7Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T18:17:00Z",
+      "side": 0,
+      "message": "I don\u0027t understand why we had to restrict the --owner flag to being a single value as a result of this change.  Can\u0027t we keep the current multiple-value behavior?",
+      "revId": "b8ecec5d2eb19ed4cf8ab4a8b0d6a078e7d13234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

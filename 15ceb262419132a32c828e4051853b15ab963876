@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1X///tI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003817
+      },
+      "writtenOn": "2010-07-16T11:45:55Z",
+      "side": 1,
+      "message": "@Shawn:\nJust to make you aware: the below piece of code (addBlurHandler) weirdly affects the \"Open Changes\" Screen. If i run this patchset, my feature works well, but if you try to open a change in \"Open Change\" screen, it will not work. \nThe really weird part is that if I comment out this code, it stops affecting the \"Open Changes\" screen. In order to test and validate the feature, i have commented out this code, but i\u0027m submitting the patchset with this, in order to see if you could find what is wrong in this specific part. Please, could you check if you have the same problem on running it in your machine? Thanks.",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

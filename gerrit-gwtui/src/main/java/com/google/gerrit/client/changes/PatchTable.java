@@ -42,6 +42,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PatchTable extends Composite {
@@ -51,6 +52,10 @@ public class PatchTable extends Composite {
   private MyTable myTable;
   private String savePointerId;
   private List<Patch> patchList;
+
+  private List<ClickHandler> clickHandlers;
+  private boolean active;
+  private boolean registerKeys;
 
   public PatchTable() {
     myBody = new FlowPanel();
@@ -97,12 +102,21 @@ public class PatchTable extends Composite {
   }
 
   public void addClickHandler(final ClickHandler clickHandler) {
-    myTable.addClickHandler(clickHandler);
-
+    if (myTable != null) {
+      myTable.addClickHandler(clickHandler);
+    } else {
+      if (clickHandlers == null) {
+        clickHandlers = new ArrayList<ClickHandler>(2);
+      }
+      clickHandlers.add(clickHandler);
+    }
   }
 
   public void setRegisterKeys(final boolean on) {
-    myTable.setRegisterKeys(on);
+    registerKeys = on;
+    if (myTable != null) {
+      myTable.setRegisterKeys(on);
+    }
   }
 
   public void movePointerTo(final Patch.Key k) {
@@ -110,13 +124,41 @@ public class PatchTable extends Composite {
   }
 
   public void setActive(boolean active) {
-    myTable.setActive(active);
+    this.active = active;
+    if (myTable != null) {
+      myTable.setActive(active);
+    }
   }
 
   public void notifyDraftDelta(final Patch.Key k, final int delta) {
     if (myTable != null) {
       myTable.notifyDraftDelta(k, delta);
     }
+  }
+
+  private void setMyTable(MyTable table) {
+    myBody.clear();
+    myBody.add(table);
+    myTable = table;
+
+    if (clickHandlers != null) {
+      for (ClickHandler ch : clickHandlers) {
+        myTable.addClickHandler(ch);
+      }
+      clickHandlers = null;
+    }
+
+    if (active) {
+      myTable.setActive(true);
+      active = false;
+    }
+
+    if (registerKeys) {
+      myTable.setRegisterKeys(registerKeys);
+      registerKeys = false;
+    }
+
+    myTable.finishDisplay();
   }
 
   /**
@@ -598,10 +640,8 @@ public class PatchTable extends Composite {
     }
 
     void showTable() {
-      PatchTable.this.myBody.clear();
-      PatchTable.this.myBody.add(table);
-      PatchTable.this.myTable = table;
-      table.finishDisplay();
+      setMyTable(table);
+
       if (PatchTable.this.onLoadCommand != null) {
         PatchTable.this.onLoadCommand.execute();
         PatchTable.this.onLoadCommand = null;

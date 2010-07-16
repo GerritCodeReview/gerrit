@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA1X///zA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountGroupCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T00:52:00Z",
+      "side": 1,
+      "message": "Its a bug this isn\u0027t Collections.unmodifiableList or something.  Please fix it while we are mucking with the code.",
+      "revId": "f5ada51c4b290635fea696820b39799453136caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X///zI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountIdSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T00:52:00Z",
+      "side": 1,
+      "message": "Style-nit: We put static members before instance members.",
+      "revId": "f5ada51c4b290635fea696820b39799453136caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X///y8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshKeyCacheEntryIterable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T00:52:00Z",
+      "side": 1,
+      "message": "Style-nit: Static members before instance members.",
+      "revId": "f5ada51c4b290635fea696820b39799453136caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1X///y4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshKeyCacheEntryIterable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T00:52:00Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary trailing blank lines.",
+      "revId": "f5ada51c4b290635fea696820b39799453136caf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

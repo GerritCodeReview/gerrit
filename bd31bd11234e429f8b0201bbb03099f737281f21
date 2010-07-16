@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA1X///so\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1003817
+      },
+      "writtenOn": "2010-07-16T12:13:52Z",
+      "side": 1,
+      "message": "Hi Shawn. Our idea was to limit for a group users, not for project and group of users. If we keep the current implementation, it would not make sense pushing this logic down in the ProjectControl class.\nWhat do you think?",
+      "parentUuid": "AAAA1H///ic\u003d",
+      "revId": "bd31bd11234e429f8b0201bbb03099f737281f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA1H///iA\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectServlet.java",
         "patchSetId": 1

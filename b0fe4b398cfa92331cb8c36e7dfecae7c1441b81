@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA1n///6g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/NewProjectRightsPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-07-16T20:20:51Z",
+      "side": 1,
+      "message": "Would you mean having a \u0027labels\u0027 column in the NewRefRight table, storing more than one label in a row (separating them by whitespace)?",
+      "parentUuid": "AAAA1X///8Y\u003d",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA1X///9U\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AddCodeReviewLabelBox.java",
         "patchSetId": 1
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA1n///6c\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccessCategory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-07-16T20:20:51Z",
+      "side": 1,
+      "message": "Ok. All these names should be reconsidered.",
+      "parentUuid": "AAAA1X///7g\u003d",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA1X///7Y\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccessCategory.java",
         "patchSetId": 1
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA1n///6Y\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccessCategory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-07-16T20:20:51Z",
+      "side": 1,
+      "message": "I also agree. I have considered this patch as a prototype to validate the idea.\n\nShould we consider the CodeReview to be an AccessCategory Id too, so the labels to be displayed in the publish comments screen are defined by the NewRefRights table?",
+      "parentUuid": "AAAA1X///7Y\u003d",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA1X///8s\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/CodeReviewLabel.java",
         "patchSetId": 1
@@ -98,6 +152,24 @@
       "writtenOn": "2010-07-15T23:17:07Z",
       "side": 1,
       "message": "Why are these per-group?\n\nThe labels displayed in publish comments should be by NewRefRight.  That is, if the user was granted the label, it should be exposed in the publish comments view for them to make easy use of it.",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n///6Q\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/CodeReviewLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-07-16T20:20:51Z",
+      "side": 1,
+      "message": "We thought the labels to be displayed in the publish comments screen would be defined per-group only, that is the reason it was implemented this way. We will fix it.",
+      "parentUuid": "AAAA1X///8s\u003d",
       "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -132,6 +204,24 @@
       "writtenOn": "2010-07-15T23:17:07Z",
       "side": 1,
       "message": "The regex pattern support has made sorting RefRights far more complex.  This probably should be dropped from the class.",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n///6M\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/NewRefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-07-16T20:20:51Z",
+      "side": 1,
+      "message": "I agree with you. When it was implemented the regex pattern support was under review.",
+      "parentUuid": "AAAA1X////M\u003d",
       "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

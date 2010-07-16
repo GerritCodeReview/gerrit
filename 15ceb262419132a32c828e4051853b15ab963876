@@ -16,6 +16,211 @@
       "revId": "15ceb262419132a32c828e4051853b15ab963876",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n///8k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T17:53:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure what is going on with this BlurHandler.  The code pattern looks similar to every other place that we use one.  And I can\u0027t reproduce any problems in the \"All open changes\" screen.",
+      "parentUuid": "AAAA1X///tI\u003d",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n///9Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T17:53:19Z",
+      "side": 1,
+      "message": "Please validate that this is a regex pattern we can compile.   We don\u0027t want to crash during email delivery because a user made a typo here and gave us an invalid regex such as \"^(foo|bar\".",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n////o\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountProjectWatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T17:53:19Z",
+      "side": 1,
+      "message": "This isn\u0027t a legal regular expression.  It is a valid file glob though.  Since you are supporting regular expressions the best default pattern to mean \"match everything\" turns out to be \"^\".  Its very fast to evaluate and matches all strings.",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n////g\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountProjectWatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T17:53:19Z",
+      "side": 1,
+      "message": "We don\u0027t set the value in this constructor.  Use the no-arg constructor here.",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n////s\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountProjectWatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T17:53:19Z",
+      "side": 1,
+      "message": "What is cR?  Maybe call the variable filePattern instead?",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n///9Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T17:53:19Z",
+      "side": 1,
+      "message": "I like this.  We only email the user the comments if the file they watch had a comment in it.  Good idea.",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n///9g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/MergedSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T17:53:19Z",
+      "side": 1,
+      "message": "These can\u0027t change within the loop.  Please hoist them outside of the loop so we don\u0027t have to keep recomputing them.",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T17:53:19Z",
+      "side": 1,
+      "message": "Would patchFileNames be a better name for this variable?  Its what you call it later in canAddRecipient.",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T17:53:19Z",
+      "side": 1,
+      "message": "This needs to be rebased onto current master.  Its behind and won\u0027t merge.",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n///9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T17:53:19Z",
+      "side": 1,
+      "message": "Because checking the file pattern can get expensive when there are multiple matches for the same user (this algorithm is O(number_users * number_of_patterns * number_of_files)) we should add a clause here to avoid the pattern check if the user is already getting this message.  E.g.\n\n  if (!rcptTo.contains(w.getAccountId()) \u0026\u0026 canAddRecipient(w, patchFileNames))\n\nThis way we short-circuit out of the path evaluation if the user is already getting the email due to another file pattern.",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T17:53:19Z",
+      "side": 1,
+      "message": "The regex is part of the primary key, it cannot be null or empty.  Which leaves us with the magical \"all\" value.  If you change that to be ^ like I suggest we don\u0027t need to special case this at all.",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA1n////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-16T17:53:19Z",
+      "side": 1,
+      "message": "Why?  That isn\u0027t a regex anymore.  Now its some half-form.\n\nI\u0027d prefer we make this a real regex if you want regex support.  Just take the user\u0027s input and feed it through Pattern as-is.\n\nIf you want to support both regex and simple glob style patterns, we could do something like:\n\n  import org.eclipse.jgit.fnmatch.FileNameMatcher;\n\n  private static boolean matches(String pattern, String path) {\n    if (pattern.startsWith(\"^\")) {\n      return Pattern.matches(pattern, path);\n    }\n    \n    return new FileNameMatcher(pattern, null).append(path).isMatch();\n  }",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

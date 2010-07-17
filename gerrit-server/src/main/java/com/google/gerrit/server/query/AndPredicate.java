@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query;
 
+import com.google.gwtorm.client.OrmException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -21,64 +23,90 @@ import java.util.Collections;
 import java.util.List;
 
 /** Requires all predicates to be true. */
-public final class AndPredicate extends Predicate {
-  private final Predicate[] children;
+public class AndPredicate<T> extends Predicate<T> {
+  private final List<Predicate<T>> children;
+  private final int cost;
 
-  public AndPredicate(final Predicate... that) {
+  protected AndPredicate(final Predicate<T>... that) {
     this(Arrays.asList(that));
   }
 
-  public AndPredicate(final Collection<Predicate> that) {
-    final ArrayList<Predicate> tmp = new ArrayList<Predicate>(that.size());
-    for (Predicate p : that) {
-      if (p instanceof AndPredicate) {
-        tmp.addAll(p.getChildren());
+  protected AndPredicate(final Collection<? extends Predicate<T>> that) {
+    final ArrayList<Predicate<T>> t = new ArrayList<Predicate<T>>(that.size());
+    int c = 0;
+    for (Predicate<T> p : that) {
+      if (getClass() == p.getClass()) {
+        for (Predicate<T> gp : p.getChildren()) {
+          t.add(gp);
+          c += gp.getCost();
+        }
       } else {
-        tmp.add(p);
+        t.add(p);
+        c += p.getCost();
       }
     }
-    if (tmp.size() < 2) {
+    if (t.size() < 2) {
       throw new IllegalArgumentException("Need at least two predicates");
     }
-    children = new Predicate[tmp.size()];
-    tmp.toArray(children);
+    children = t;
+    cost = c;
   }
 
   @Override
-  public List<Predicate> getChildren() {
-    return Collections.unmodifiableList(Arrays.asList(children));
+  public final List<Predicate<T>> getChildren() {
+    return Collections.unmodifiableList(children);
   }
 
   @Override
-  public int getChildCount() {
-    return children.length;
+  public final int getChildCount() {
+    return children.size();
   }
 
   @Override
-  public Predicate getChild(final int i) {
-    return children[i];
+  public final Predicate<T> getChild(final int i) {
+    return children.get(i);
+  }
+
+  @Override
+  public Predicate<T> copy(final Collection<? extends Predicate<T>> children) {
+    return new AndPredicate<T>(children);
+  }
+
+  @Override
+  public boolean match(final T object) throws OrmException {
+    for (final Predicate<T> c : children) {
+      if (!c.match(object)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  @Override
+  public int getCost() {
+    return cost;
   }
 
   @Override
   public int hashCode() {
-    return children[0].hashCode() * 31 + children[1].hashCode();
+    return getChild(0).hashCode() * 31 + getChild(1).hashCode();
   }
 
   @Override
   public boolean equals(final Object other) {
-    return other instanceof AndPredicate
-        && getChildren().equals(((AndPredicate) other).getChildren());
+    return getClass() == other.getClass()
+        && getChildren().equals(((Predicate<?>) other).getChildren());
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     final StringBuilder r = new StringBuilder();
     r.append("(");
-    for (int i = 0; i < children.length; i++) {
+    for (int i = 0; i < getChildCount(); i++) {
       if (i != 0) {
         r.append(" ");
       }
-      r.append(children[i]);
+      r.append(getChild(i));
     }
     r.append(")");
     return r.toString();

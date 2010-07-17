@@ -14,33 +14,53 @@
 
 package com.google.gerrit.server.query;
 
+import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.Predicate.not;
 
 import junit.framework.TestCase;
 
+import java.util.Collections;
+import java.util.List;
+
 public class NotPredicateTest extends TestCase {
-  private static OperatorPredicate f(final String name, final String value) {
-    return new OperatorPredicate(name, value);
+  private static final class TestPredicate extends OperatorPredicate<String> {
+    private TestPredicate(String name, String value) {
+      super(name, value);
+    }
+
+    @Override
+    public boolean match(String object) {
+      return false;
+    }
+
+    @Override
+    public int getCost() {
+      return 0;
+    }
+  }
+
+  private static TestPredicate f(final String name, final String value) {
+    return new TestPredicate(name, value);
   }
 
   public void testNotNot() {
-    final OperatorPredicate p = f("author", "bob");
-    final Predicate n = p.not();
+    final TestPredicate p = f("author", "bob");
+    final Predicate n = not(p);
     assertTrue(n instanceof NotPredicate);
     assertNotSame(p, n);
-    assertSame(p, n.not());
+    assertSame(p, not(n));
   }
 
   public void testChildren() {
-    final OperatorPredicate p = f("author", "bob");
-    final Predicate n = p.not();
+    final TestPredicate p = f("author", "bob");
+    final Predicate n = not(p);
     assertEquals(1, n.getChildCount());
     assertSame(p, n.getChild(0));
   }
 
   public void testChildrenUnmodifiable() {
-    final OperatorPredicate p = f("author", "bob");
-    final Predicate n = p.not();
+    final TestPredicate p = f("author", "bob");
+    final Predicate n = not(p);
 
     try {
       n.getChildren().clear();
@@ -80,5 +100,31 @@ public class NotPredicateTest extends TestCase {
   public void testHashCode() {
     assertTrue(not(f("a", "b")).hashCode() == not(f("a", "b")).hashCode());
     assertFalse(not(f("a", "b")).hashCode() == not(f("a", "a")).hashCode());
+  }
+
+  public void testCopy() {
+    final TestPredicate a = f("author", "alice");
+    final TestPredicate b = f("author", "bob");
+    final List<TestPredicate> sa = Collections.singletonList(a);
+    final List<TestPredicate> sb = Collections.singletonList(b);
+    final Predicate n = not(a);
+
+    assertNotSame(n, n.copy(sa));
+    assertEquals(sa, n.copy(sa).getChildren());
+
+    assertNotSame(n, n.copy(sb));
+    assertEquals(sb, n.copy(sb).getChildren());
+
+    try {
+      n.copy(Collections.<Predicate> emptyList());
+    } catch (IllegalArgumentException e) {
+      assertEquals("Expected exactly one child", e.getMessage());
+    }
+
+    try {
+      n.copy(and(a, b).getChildren());
+    } catch (IllegalArgumentException e) {
+      assertEquals("Expected exactly one child", e.getMessage());
+    }
   }
 }

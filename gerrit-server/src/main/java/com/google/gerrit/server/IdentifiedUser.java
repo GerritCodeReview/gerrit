@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
-import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Realm;
@@ -32,7 +31,6 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.PersonIdent;
@@ -75,6 +73,11 @@ public class IdentifiedUser extends CurrentUser {
 
     public IdentifiedUser create(final Account.Id id) {
       return create(AccessPath.UNKNOWN, null, id);
+    }
+
+    public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
+      return new IdentifiedUser(AccessPath.UNKNOWN, authConfig, canonicalUrl,
+          realm, accountCache, null, db, id);
     }
 
     public IdentifiedUser create(AccessPath accessPath,

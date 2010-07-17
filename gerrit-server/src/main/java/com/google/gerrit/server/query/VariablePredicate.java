@@ -20,15 +20,22 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-/** Negates the result of another predicate. */
-public class NotPredicate<T> extends Predicate<T> {
+/**
+ * Holds another predicate in a named variable.
+ *
+ * @see QueryRewriter
+ */
+public class VariablePredicate<T> extends Predicate<T> {
+  private final String name;
   private final Predicate<T> that;
 
-  protected NotPredicate(final Predicate<T> that) {
-    if (that instanceof NotPredicate) {
-      throw new IllegalArgumentException("Double negation unsupported");
-    }
+  protected VariablePredicate(final String name, final Predicate<T> that) {
+    this.name = name;
     this.that = that;
+  }
+
+  public String getName() {
+    return name;
   }
 
   @Override
@@ -54,12 +61,12 @@ public class NotPredicate<T> extends Predicate<T> {
     if (children.size() != 1) {
       throw new IllegalArgumentException("Expected exactly one child");
     }
-    return new NotPredicate<T>(children.iterator().next());
+    return new VariablePredicate<T>(getName(), children.iterator().next());
   }
 
   @Override
   public boolean match(final T object) throws OrmException {
-    return !that.match(object);
+    return that.match(object);
   }
 
   @Override
@@ -69,17 +76,21 @@ public class NotPredicate<T> extends Predicate<T> {
 
   @Override
   public int hashCode() {
-    return ~that.hashCode();
+    return getName().hashCode() * 31 + that.hashCode();
   }
 
   @Override
   public boolean equals(final Object other) {
-    return getClass() == other.getClass()
-        && getChildren().equals(((Predicate<?>) other).getChildren());
+    if (getClass() == other.getClass()) {
+      final VariablePredicate<?> v = (VariablePredicate<?>) other;
+      return getName().equals(v.getName())
+          && getChildren().equals(v.getChildren());
+    }
+    return false;
   }
 
   @Override
   public final String toString() {
-    return "-" + that.toString();
+    return getName() + "=(" + that.toString() + ")";
   }
 }

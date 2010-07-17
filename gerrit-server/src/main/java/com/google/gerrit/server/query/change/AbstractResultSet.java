@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,27 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.common.PageLinks;
+import com.google.gwtorm.client.ResultSet;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class MineDraftsScreen extends MineSingleListScreen {
-  public MineDraftsScreen() {
-    super(PageLinks.MINE_DRAFTS);
-  }
-
+abstract class AbstractResultSet<T> implements ResultSet<T> {
   @Override
-  protected void onInitUI() {
-    super.onInitUI();
-    setWindowTitle(Gerrit.C.menuMyDrafts());
-    setPageTitle(Util.C.draftsHeading());
-  }
-
-  @Override
-  protected void onLoad() {
-    super.onLoad();
-    Util.LIST_SVC.myDraftChanges(loadCallback());
+  public List<T> toList() {
+    ArrayList<T> r = new ArrayList<T>();
+    for (T t : this) {
+      r.add(t);
+    }
+    return r;
   }
 }

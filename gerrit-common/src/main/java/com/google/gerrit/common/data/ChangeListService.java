@@ -17,7 +17,6 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.RpcImpl;
@@ -28,52 +27,6 @@ import java.util.Set;
 
 @RpcImpl(version = Version.V2_0)
 public interface ChangeListService extends RemoteJsonService {
-  /** Get all open changes more recent than pos, fetching at most limit rows. */
-  void allOpenPrev(String pos, int limit,
-      AsyncCallback<SingleListChangeInfo> callback);
-
-  /** Get all open changes older than pos, fetching at most limit rows. */
-  void allOpenNext(String pos, int limit,
-      AsyncCallback<SingleListChangeInfo> callback);
-
-  @SignInRequired
-  void myWatchedOpenPrev(String pos, int limit,
-      AsyncCallback<SingleListChangeInfo> callback);
-
-  @SignInRequired
-  void myWatchedOpenNext(String pos, int limit,
-      AsyncCallback<SingleListChangeInfo> callback);
-
-  /** Get all open changes more recent than pos, fetching at most limit rows. */
-  void byProjectOpenPrev(Project.NameKey project, String pos, int limit,
-      AsyncCallback<SingleListChangeInfo> callback);
-
-  /** Get all open changes older than pos, fetching at most limit rows. */
-  void byProjectOpenNext(Project.NameKey project, String pos, int limit,
-      AsyncCallback<SingleListChangeInfo> callback);
-
-  /**
-   * Get all closed changes with same status, more recent than pos, fetching at
-   * most limit rows.
-   */
-  void byProjectClosedPrev(Project.NameKey project, Change.Status status,
-      String pos, int limit, AsyncCallback<SingleListChangeInfo> callback);
-
-  /**
-   * Get all closed changes with same status, older than pos, fetching at most
-   * limit rows.
-   */
-  void byProjectClosedNext(Project.NameKey project, Change.Status status,
-      String pos, int limit, AsyncCallback<SingleListChangeInfo> callback);
-
-  /** Get all closed changes more recent than pos, fetching at most limit rows. */
-  void allClosedPrev(Change.Status status, String pos, int limit,
-      AsyncCallback<SingleListChangeInfo> callback);
-
-  /** Get all closed changes older than pos, fetching at most limit rows. */
-  void allClosedNext(Change.Status status, String pos, int limit,
-      AsyncCallback<SingleListChangeInfo> callback);
-
   /** Get all changes which match an arbitrary query string. */
   void allQueryPrev(String query, String pos, int limit,
       AsyncCallback<SingleListChangeInfo> callback);
@@ -84,14 +37,6 @@ public interface ChangeListService extends RemoteJsonService {
 
   /** Get the data to show AccountDashboardScreen for an account. */
   void forAccount(Account.Id id, AsyncCallback<AccountDashboardInfo> callback);
-
-  /** Get the changes starred by the caller. */
-  @SignInRequired
-  void myStarredChanges(AsyncCallback<SingleListChangeInfo> callback);
-
-  /** Get the changes with unpublished drafts by the caller. */
-  @SignInRequired
-  void myDraftChanges(AsyncCallback<SingleListChangeInfo> callback);
 
   /** Get the ids of all changes starred by the caller. */
   @SignInRequired

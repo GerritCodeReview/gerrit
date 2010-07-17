@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.query;
 
+import java.util.Collection;
+
 
 /** Predicate to filter a field by matching value. */
-public class OperatorPredicate extends Predicate {
+public abstract class OperatorPredicate<T> extends Predicate<T> {
   private final String name;
   private final String value;
 
@@ -34,6 +36,14 @@ public class OperatorPredicate extends Predicate {
   }
 
   @Override
+  public Predicate<T> copy(final Collection<? extends Predicate<T>> children) {
+    if (!children.isEmpty()) {
+      throw new IllegalArgumentException("Expected 0 children");
+    }
+    return this;
+  }
+
+  @Override
   public int hashCode() {
     return getOperator().hashCode() * 31 + getValue().hashCode();
   }
@@ -41,7 +51,7 @@ public class OperatorPredicate extends Predicate {
   @Override
   public boolean equals(final Object other) {
     if (getClass() == other.getClass()) {
-      final OperatorPredicate p = (OperatorPredicate) other;
+      final OperatorPredicate<?> p = (OperatorPredicate<?>) other;
       return getOperator().equals(p.getOperator())
           && getValue().equals(p.getValue());
     }

@@ -15,9 +15,7 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.ByProjectAbandonedChangesScreen;
-import com.google.gerrit.client.changes.ByProjectMergedChangesScreen;
-import com.google.gerrit.client.changes.ByProjectOpenChangesScreen;
+import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
@@ -47,15 +45,18 @@ public class ProjectLink extends InlineHyperlink {
   private Screen createScreen() {
     switch (status) {
       case ABANDONED:
-        return new ByProjectAbandonedChangesScreen(project, "n,z");
+        return QueryScreen.forQuery("status:abandoned "
+            + QueryScreen.op("project", project.get()));
 
       case MERGED:
-        return new ByProjectMergedChangesScreen(project, "n,z");
+        return QueryScreen.forQuery("status:merged "
+            + QueryScreen.op("project", project.get()));
 
       case NEW:
       case SUBMITTED:
       default:
-        return new ByProjectOpenChangesScreen(project, "n,z");
+        return QueryScreen.forQuery("status:open "
+            + QueryScreen.op("project", project.get()));
     }
   }
 }

@@ -16,9 +16,22 @@ package com.google.gerrit.server.query;
 
 import junit.framework.TestCase;
 
+import java.util.Collections;
+
 public class FieldPredicateTest extends TestCase {
-  private static OperatorPredicate f(final String name, final String value) {
-    return new OperatorPredicate(name, value);
+  private static final class TestPredicate extends OperatorPredicate<String> {
+    private TestPredicate(String name, String value) {
+      super(name, value);
+    }
+
+    @Override
+    public boolean match(String object) {
+      return false;
+    }
+  }
+
+  private static TestPredicate f(final String name, final String value) {
+    return new TestPredicate(name, value);
   }
 
   public void testToString() {
@@ -42,9 +55,21 @@ public class FieldPredicateTest extends TestCase {
   public void testNameValue() {
     final String name = "author";
     final String value = "alice";
-    final OperatorPredicate f = f(name, value);
+    final OperatorPredicate<String> f = f(name, value);
     assertSame(name, f.getOperator());
     assertSame(value, f.getValue());
     assertEquals(0, f.getChildren().size());
+  }
+
+  public void testCopy() {
+    final OperatorPredicate<String> f = f("author", "alice");
+    assertSame(f, f.copy(Collections.<Predicate<String>> emptyList()));
+    assertSame(f, f.copy(f.getChildren()));
+
+    try {
+      f.copy(Collections.singleton(f("owner", "bob")));
+    } catch (IllegalArgumentException e) {
+      assertEquals("Expected 0 children", e.getMessage());
+    }
   }
 }

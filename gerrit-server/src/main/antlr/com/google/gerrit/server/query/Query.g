@@ -20,6 +20,7 @@ options {
 
 tokens {
   FIELD_NAME;
+  VARIABLE_ASSIGN;
   DEFAULT_FIELD;
   SINGLE_WORD;
   EXACT_PHRASE;
@@ -63,6 +64,8 @@ package com.google.gerrit.server.query;
       final QueryLexer lexer = new QueryLexer(new ANTLRStringStream(value));
       lexer.mSINGLE_WORD();
       return lexer.nextToken().getType() == QueryParser.EOF;
+    } catch (QueryParseInternalException e) {
+      return false;
     } catch (RecognitionException e) {
       return false;
     }
@@ -81,6 +84,13 @@ package com.google.gerrit.server.query;
 package com.google.gerrit.server.query;
 }
 @lexer::members {
+  @Override
+  public void displayRecognitionError(String[] tokenNames,
+                                      RecognitionException e) {
+      String hdr = getErrorHeader(e);
+      String msg = getErrorMessage(e, tokenNames);
+      throw new QueryParser.QueryParseInternalException(hdr + " " + msg);
+  }
 }
 
 query
@@ -110,6 +120,7 @@ conditionAnd2
 conditionNot
   : '-' conditionBase -> ^(NOT conditionBase)
   | NOT^ conditionBase
+  | VARIABLE_ASSIGN^ conditionOr ')'!
   | conditionBase
   ;
 conditionBase
@@ -133,7 +144,14 @@ WS
   ;
 
 FIELD_NAME
-  : ('a'..'z')+
+  : ('a'..'z' | '_')+
+  ;
+
+VARIABLE_ASSIGN
+  : ('A'..'Z') ('A'..'Z' | 'a'..'Z')* '=' '(' {
+      String s = $text;
+      setText(s.substring(0, s.length() - 2));
+    }
   ;
 
 EXACT_PHRASE

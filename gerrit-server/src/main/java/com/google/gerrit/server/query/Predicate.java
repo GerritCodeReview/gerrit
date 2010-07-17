@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query;
 
+import com.google.gwtorm.client.OrmException;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -21,44 +23,60 @@ import java.util.List;
 /**
  * An abstract predicate tree for any form of query.
  * <p>
- * Implementations should be immutable, and therefore also be thread-safe. They
- * also should ensure their immutable promise by defensively copying any
- * structures which might be modified externally, but were passed into the
- * object's constructor.
+ * Implementations should be immutable, such that the meaning of a predicate
+ * never changes once constructed. They should ensure their immutable promise by
+ * defensively copying any structures which might be modified externally, but
+ * was passed into the object's constructor.
+ * <p>
+ * However, implementations <i>may</i> retain non-thread-safe caches internally,
+ * to speed up evaluation operations within the context of one thread's
+ * evaluation of the predicate. As a result, callers should assume predicates
+ * are not thread-safe, but that two predicate graphs produce the same results
+ * given the same inputs if they are {@link #equals(Object)}.
  * <p>
  * Predicates should support deep inspection whenever possible, so that generic
  * algorithms can be written to operate against them. Predicates which contain
  * other predicates should override {@link #getChildren()} to return the list of
  * children nested within the predicate.
+ *
+ * @type <T> type of object the predicate can evaluate in memory.
  */
-public abstract class Predicate {
+public abstract class Predicate<T> {
   /** Combine the passed predicates into a single AND node. */
-  public static Predicate and(final Predicate... that) {
-    return new AndPredicate(that);
+  public static <T> Predicate<T> and(final Predicate<T>... that) {
+    return new AndPredicate<T>(that);
   }
 
   /** Combine the passed predicates into a single AND node. */
-  public static Predicate and(final Collection<Predicate> that) {
-    return new AndPredicate(that);
+  public static <T> Predicate<T> and(
+      final Collection<? extends Predicate<T>> that) {
+    return new AndPredicate<T>(that);
   }
 
   /** Combine the passed predicates into a single OR node. */
-  public static Predicate or(final Predicate... that) {
-    return new OrPredicate(that);
+  public static <T> Predicate<T> or(final Predicate<T>... that) {
+    return new OrPredicate<T>(that);
   }
 
   /** Combine the passed predicates into a single OR node. */
-  public static Predicate or(final Collection<Predicate> that) {
-    return new OrPredicate(that);
+  public static <T> Predicate<T> or(
+      final Collection<? extends Predicate<T>> that) {
+    return new OrPredicate<T>(that);
   }
 
-  /** Invert the passed node; same as {@code that.not()}. */
-  public static Predicate not(final Predicate that) {
-    return that.not();
+  /** Invert the passed node. */
+  @SuppressWarnings("unchecked")
+  public static <T> Predicate<T> not(final Predicate<T> that) {
+    if (that instanceof NotPredicate) {
+      // Negate of a negate is the original predicate.
+      //
+      return that.getChild(0);
+    }
+    return new NotPredicate<T>(that);
   }
 
   /** Get the children of this predicate, if any. */
-  public List<Predicate> getChildren() {
+  public List<Predicate<T>> getChildren() {
     return Collections.emptyList();
   }
 
@@ -68,14 +86,19 @@ public abstract class Predicate {
   }
 
   /** Same as {@code getChildren().get(i)} */
-  public Predicate getChild(final int i) {
+  public Predicate<T> getChild(final int i) {
     return getChildren().get(i);
   }
 
-  /** Obtain the inverse of this predicate. */
-  public Predicate not() {
-    return new NotPredicate(this);
-  }
+  /** Create a copy of this predicate, with new children. */
+  public abstract Predicate<T> copy(Collection<? extends Predicate<T>> children);
+
+  /**
+   * Does this predicate match this object?
+   *
+   * @throws OrmException
+   */
+  public abstract boolean match(T object) throws OrmException;
 
   @Override
   public abstract int hashCode();

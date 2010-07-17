@@ -39,6 +39,12 @@ import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -92,17 +98,24 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
   private final Project.NameKey wildProject;
 
+  private final ChangeQueryBuilder queryBuilder;
+  private final ChangeQueryRewriter queryRewriter;
+
   @Inject
   ChangeListServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
-      final @WildProjectName Project.NameKey wildProject) {
+      final @WildProjectName Project.NameKey wildProject,
+      final ChangeQueryBuilder queryBuilder,
+      final ChangeQueryRewriter queryRewriter) {
     super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
     this.accountInfoCacheFactory = accountInfoCacheFactory;
     this.wildProject = wildProject;
+    this.queryBuilder = queryBuilder;
+    this.queryRewriter = queryRewriter;
   }
 
   private boolean canRead(final Change c) {
@@ -168,8 +181,10 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   }
 
   private boolean isWatched(Change c) {
-    Set<Project.NameKey> watchedProjects = currentUser.get().getWatchedProjects();
-    return watchedProjects.contains(c.getProject()) || watchedProjects.contains(wildProject);
+    Set<Project.NameKey> watchedProjects =
+        currentUser.get().getWatchedProjects();
+    return watchedProjects.contains(c.getProject())
+        || watchedProjects.contains(wildProject);
   }
 
   public void byProjectOpenPrev(final Project.NameKey project,
@@ -268,7 +283,48 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     });
   }
 
+  @SuppressWarnings("unchecked")
   private ResultSet<Change> searchQuery(final ReviewDb db, String query,
+      final int limit, final String key, final Comparator<Change> cmp)
+      throws OrmException {
+    try {
+      Predicate<ChangeData> q = queryBuilder.parse(query);
+      q = Predicate.and(q, //
+          cmp == QUERY_PREV //
+              ? queryBuilder.sortkey_after(key) //
+              : queryBuilder.sortkey_before(key), //
+          queryBuilder.limit(limit), //
+          queryBuilder.is("visible") //
+          );
+      System.out.println("QUERY " + q);
+      q = queryRewriter.rewrite(q);
+      System.out.println("QUERY " + q);
+      if (q instanceof ChangeDataSource) {
+        ArrayList<Change> r = new ArrayList();
+        HashSet<Change.Id> want = new HashSet<Change.Id>();
+        for (ChangeData d : ((ChangeDataSource) q).read()) {
+          if (d.getChange() != null) {
+            r.add(d.getChange());
+          } else {
+            want.add(d.getId());
+          }
+        }
+        if (!want.isEmpty()) {
+          for (Change c : db.changes().get(want)) {
+            r.add(c);
+          }
+        }
+        Collections.sort(r, cmp);
+        return new ListResultSet<Change>(r);
+      } else {
+        throw new OrmException("Cannot execute " + q);
+      }
+    } catch (QueryParseException e) {
+      throw new OrmException("Invalid query " + query, e);
+    }
+  }
+
+  private ResultSet<Change> searchQueryOld(final ReviewDb db, String query,
       final int limit, final String key, final Comparator<Change> cmp)
       throws OrmException {
     List<Change> result = new ArrayList<Change>();
@@ -573,8 +629,8 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
   /**
    * @return a set of all the changes referencing tracking id. This method find
-   *         all changes with a reference to the given external tracking id.
-   *         The returned changes are unique and sorted by time stamp, newer first.
+   *         all changes with a reference to the given external tracking id. The
+   *         returned changes are unique and sorted by time stamp, newer first.
    */
   private Set<Change.Id> changesReferencingTr(final ReviewDb db,
       final String trackingId) throws OrmException {

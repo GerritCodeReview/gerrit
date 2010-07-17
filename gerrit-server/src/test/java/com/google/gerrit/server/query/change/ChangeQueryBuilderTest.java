@@ -12,40 +12,53 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query;
+package com.google.gerrit.server.query.change;
 
-import static com.google.gerrit.server.query.ChangeQueryBuilder.FIELD_CHANGE;
-import static com.google.gerrit.server.query.ChangeQueryBuilder.FIELD_COMMIT;
-import static com.google.gerrit.server.query.ChangeQueryBuilder.FIELD_OWNER;
-import static com.google.gerrit.server.query.ChangeQueryBuilder.FIELD_REVIEWER;
 import static com.google.gerrit.server.query.Predicate.and;
 import static com.google.gerrit.server.query.Predicate.not;
 import static com.google.gerrit.server.query.Predicate.or;
+import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_CHANGE;
+import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_OWNER;
+import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_REVIEWER;
+
+import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
 
 import junit.framework.TestCase;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 
 public class ChangeQueryBuilderTest extends TestCase {
-  private static OperatorPredicate f(final String name, final String value) {
-    return new OperatorPredicate(name, value);
+  private static OperatorPredicate<ChangeData> f(final String name,
+      final String value) {
+    return new OperatorPredicate<ChangeData>(name, value) {
+      @Override
+      public boolean match(ChangeData object) {
+        return false;
+      }
+    };
   }
 
-  private static Predicate owner(final String who) {
+  private static Predicate<ChangeData> owner(final String who) {
     return f(FIELD_OWNER, who);
   }
 
-  private static Predicate reviewer(final String who) {
+  private static Predicate<ChangeData> reviewer(final String who) {
     return f(FIELD_REVIEWER, who);
   }
 
-  private static Predicate commit(final String idstr) {
-    final AbbreviatedObjectId id = AbbreviatedObjectId.fromString(idstr);
-    return new ObjectIdPredicate(FIELD_COMMIT, id);
+  private static Predicate<ChangeData> commit(final String idstr) {
+    return new CommitPredicate(null, AbbreviatedObjectId.fromString(idstr));
   }
 
-  private static Predicate p(final String str) throws QueryParseException {
-    return new ChangeQueryBuilder().parse(str);
+  private static Predicate<ChangeData> status(final Change.Status status) {
+    return new ChangeStatusPredicate(null, status);
+  }
+
+  private static Predicate<ChangeData> p(final String str) throws QueryParseException {
+    return new ChangeQueryBuilder(null, null).parse(str);
   }
 
   public void testEmptyQuery() {
@@ -108,6 +121,35 @@ public class ChangeQueryBuilderTest extends TestCase {
 
   public void testChangeID() throws QueryParseException {
     assertEquals(f(FIELD_CHANGE, "1234"), p("change:1234"));
+  }
+
+  // status:
+
+  public void testStatus() throws QueryParseException {
+    Predicate s_new = status(Change.Status.NEW);
+    Predicate s_submitted = status(Change.Status.SUBMITTED);
+    Predicate s_merged = status(Change.Status.MERGED);
+    Predicate s_abandoned = status(Change.Status.ABANDONED);
+
+    assertEquals(s_new, p("status:new"));
+    assertEquals(s_submitted, p("status:submitted"));
+    assertEquals(s_merged, p("status:merged"));
+    assertEquals(s_abandoned, p("status:abandoned"));
+
+    // open and closed are aliases for other states
+    assertEquals(or(s_new, s_submitted), p("status:open"));
+    assertEquals(or(s_merged, s_abandoned), p("status:closed"));
+
+    // is:$status is an alias for status:$status
+    assertEquals(s_new, p("is:new"));
+    assertEquals(s_submitted, p("is:submitted"));
+    assertEquals(s_merged, p("is:merged"));
+    assertEquals(s_abandoned, p("is:abandoned"));
+    assertEquals(p("status:open"), p("is:open"));
+    assertEquals(p("status:closed"), p("is:closed"));
+
+    assertEquals("status:new", p("is:new").toString());
+    assertEquals("status:new", p("status:new").toString());
   }
 
   // owner:

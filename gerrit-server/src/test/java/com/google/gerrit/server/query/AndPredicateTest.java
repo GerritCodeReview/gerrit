@@ -32,6 +32,11 @@ public class AndPredicateTest extends TestCase {
     public boolean match(String object) {
       return false;
     }
+
+    @Override
+    public int getCost() {
+      return 0;
+    }
   }
 
   private static TestPredicate f(final String name, final String value) {

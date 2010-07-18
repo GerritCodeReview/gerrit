@@ -17,13 +17,8 @@ package com.google.gerrit.server.query.change;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 
-public interface ChangeDataSource {
-  /** @return an estimate of the number of results from {@link #read()}. */
-  public int getCardinality();
+interface Paginated {
+  int limit();
 
-  /** @return true if all returned ChangeData.hasChange() will be true. */
-  public boolean hasChange();
-
-  /** @return read from the database and return the changes. */
-  public abstract ResultSet<ChangeData> read() throws OrmException;
+  ResultSet<ChangeData> restart(ChangeData last) throws OrmException;
 }

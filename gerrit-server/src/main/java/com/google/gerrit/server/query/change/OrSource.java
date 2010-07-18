@@ -26,6 +26,8 @@ import java.util.Collection;
 import java.util.HashSet;
 
 class OrSource extends OrPredicate<ChangeData> implements ChangeDataSource {
+  private int cardinality = -1;
+
   OrSource(final Collection<? extends Predicate<ChangeData>> that) {
     super(that);
   }
@@ -44,9 +46,33 @@ class OrSource extends OrPredicate<ChangeData> implements ChangeDataSource {
           }
         }
       } else {
-        throw new OrmException("Query operator (" + p + ") not valid in OR");
+        throw new OrmException("No ChangeDataSource: " + p);
       }
     }
     return new ListResultSet<ChangeData>(r);
+  }
+
+  @Override
+  public boolean hasChange() {
+    for (Predicate<ChangeData> p : getChildren()) {
+      if (!(p instanceof ChangeDataSource)
+          || !((ChangeDataSource) p).hasChange()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  @Override
+  public int getCardinality() {
+    if (cardinality < 0) {
+      cardinality = 0;
+      for (Predicate<ChangeData> p : getChildren()) {
+        if (p instanceof ChangeDataSource) {
+          cardinality += ((ChangeDataSource) p).getCardinality();
+        }
+      }
+    }
+    return cardinality;
   }
 }

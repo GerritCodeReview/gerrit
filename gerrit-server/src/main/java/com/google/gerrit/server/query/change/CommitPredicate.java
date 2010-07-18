@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,15 +15,18 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.query.ObjectIdPredicate;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
-class CommitPredicate extends ObjectIdPredicate<ChangeData> {
+class CommitPredicate extends ObjectIdPredicate<ChangeData> implements
+    ChangeDataSource {
   private final Provider<ReviewDb> dbProvider;
 
   CommitPredicate(Provider<ReviewDb> dbProvider, AbbreviatedObjectId id) {
@@ -42,5 +45,33 @@ class CommitPredicate extends ObjectIdPredicate<ChangeData> {
       }
     }
     return false;
+  }
+
+  @Override
+  public ResultSet<ChangeData> read() throws OrmException {
+    final RevId id = new RevId(abbreviated().name());
+    if (id.isComplete()) {
+      return ChangeDataResultSet.patchSet(//
+          dbProvider.get().patchSets().byRevision(id));
+
+    } else {
+      return ChangeDataResultSet.patchSet(//
+          dbProvider.get().patchSets().byRevisionRange(id, id.max()));
+    }
+  }
+
+  @Override
+  public boolean hasChange() {
+    return false;
+  }
+
+  @Override
+  public int getCardinality() {
+    return ChangeCosts.CARD_COMMIT;
+  }
+
+  @Override
+  public int getCost() {
+    return ChangeCosts.cost(ChangeCosts.PATCH_SETS_SCAN, getCardinality());
   }
 }

@@ -100,6 +100,9 @@ public abstract class Predicate<T> {
    */
   public abstract boolean match(T object) throws OrmException;
 
+  /** @return a cost estimate to run this predicate, higher figures cost more. */
+  public abstract int getCost();
+
   @Override
   public abstract int hashCode();
 

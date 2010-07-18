@@ -14,35 +14,56 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Provider;
 
-class OwnerPredicate extends OperatorPredicate<ChangeData> {
+class ChangeIdPredicate extends OperatorPredicate<ChangeData> implements
+    ChangeDataSource {
   private final Provider<ReviewDb> dbProvider;
-  private final Account.Id id;
 
-  OwnerPredicate(Provider<ReviewDb> dbProvider, Account.Id id) {
-    super(ChangeQueryBuilder.FIELD_OWNER, id.toString());
+  ChangeIdPredicate(Provider<ReviewDb> dbProvider, String id) {
+    super(ChangeQueryBuilder.FIELD_CHANGE, id);
     this.dbProvider = dbProvider;
-    this.id = id;
-  }
-
-  Account.Id getAccountId() {
-    return id;
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
-    Change change = object.change(dbProvider);
-    return change != null && id.equals(change.getOwner());
+  public boolean match(final ChangeData cd) throws OrmException {
+    Change change = cd.change(dbProvider);
+    if (change == null) {
+      return false;
+    }
+
+    String key = change.getKey().get();
+    if (key.equals(getValue()) || key.startsWith(getValue())) {
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  public ResultSet<ChangeData> read() throws OrmException {
+    Change.Key a = new Change.Key(getValue());
+    Change.Key b = a.max();
+    return ChangeDataResultSet.change( //
+        dbProvider.get().changes().byKeyRange(a, b));
+  }
+
+  @Override
+  public boolean hasChange() {
+    return true;
   }
 
   @Override
   public int getCost() {
-    return 1;
+    return ChangeCosts.cost(ChangeCosts.CHANGES_SCAN, getCardinality());
+  }
+
+  @Override
+  public int getCardinality() {
+    return ChangeCosts.CARD_KEY;
   }
 }

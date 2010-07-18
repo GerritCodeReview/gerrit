@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.client.OrmException;
@@ -22,47 +24,58 @@ import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.impl.ListResultSet;
 import com.google.inject.Provider;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.HashSet;
 
-class LegacyChangeIdPredicate extends OperatorPredicate<ChangeData> implements
+class HasDraftByPredicate extends OperatorPredicate<ChangeData> implements
     ChangeDataSource {
   private final Provider<ReviewDb> db;
-  private final Change.Id id;
+  private final Account.Id accountId;
 
-  LegacyChangeIdPredicate(Provider<ReviewDb> db, Change.Id id) {
-    super(ChangeQueryBuilder.FIELD_CHANGE, id.toString());
+  HasDraftByPredicate(Provider<ReviewDb> db, Account.Id accountId) {
+    super(ChangeQueryBuilder.FIELD_DRAFTBY, accountId.toString());
     this.db = db;
-    this.id = id;
+    this.accountId = accountId;
   }
 
   @Override
-  public boolean match(final ChangeData object) {
-    return id.equals(object.getId());
+  public boolean match(final ChangeData object) throws OrmException {
+    for (PatchLineComment c : object.comments(db)) {
+      if (c.getStatus() == PatchLineComment.Status.DRAFT
+          && c.getAuthor().equals(accountId)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
-    Change c = db.get().changes().get(id);
-    if (c != null) {
-      return new ListResultSet<ChangeData>( //
-          Collections.singletonList(new ChangeData(c)));
-    } else {
-      return new ListResultSet<ChangeData>(Collections.<ChangeData> emptyList());
+    HashSet<Change.Id> ids = new HashSet<Change.Id>();
+    for (PatchLineComment sc : db.get().patchComments()
+        .draftByAuthor(accountId)) {
+      ids.add(sc.getKey().getParentKey().getParentKey().getParentKey());
     }
+
+    ArrayList<ChangeData> r = new ArrayList<ChangeData>(ids.size());
+    for (Change.Id id : ids) {
+      r.add(new ChangeData(id));
+    }
+    return new ListResultSet<ChangeData>(r);
   }
 
   @Override
   public boolean hasChange() {
-    return true;
+    return false;
   }
 
   @Override
   public int getCardinality() {
-    return 1;
+    return 20;
   }
 
   @Override
   public int getCost() {
-    return ChangeCosts.IDS_MEMORY;
+    return ChangeCosts.cost(ChangeCosts.PATCH_SETS_SCAN, getCardinality());
   }
 }

@@ -2,6 +2,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.client.OrmException;
@@ -15,6 +16,11 @@ abstract class SortKeyPredicate extends OperatorPredicate<ChangeData> {
     this.dbProvider = dbProvider;
   }
 
+  @Override
+  public int getCost() {
+    return 1;
+  }
+
   static class Before extends SortKeyPredicate {
     Before(Provider<ReviewDb> dbProvider, String value) {
       super(dbProvider, "sortkey_before", value);
@@ -22,7 +28,8 @@ abstract class SortKeyPredicate extends OperatorPredicate<ChangeData> {
 
     @Override
     public boolean match(ChangeData cd) throws OrmException {
-      return cd.change(dbProvider).getSortKey().compareTo(getValue()) < 0;
+      Change change = cd.change(dbProvider);
+      return change != null && change.getSortKey().compareTo(getValue()) < 0;
     }
   }
 
@@ -33,7 +40,8 @@ abstract class SortKeyPredicate extends OperatorPredicate<ChangeData> {
 
     @Override
     public boolean match(ChangeData cd) throws OrmException {
-      return cd.change(dbProvider).getSortKey().compareTo(getValue()) > 0;
+      Change change = cd.change(dbProvider);
+      return change != null && change.getSortKey().compareTo(getValue()) > 0;
     }
   }
 }

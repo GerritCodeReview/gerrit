@@ -27,7 +27,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -97,17 +96,27 @@ public abstract class QueryRewriter<T> {
   }
 
   /** Combine the passed predicates into a single AND node. */
-  public Predicate<T> and(final Collection<? extends Predicate<T>> that) {
+  public Predicate<T> and(Collection<? extends Predicate<T>> that) {
     return Predicate.and(that);
   }
 
+  /** Combine the passed predicates into a single AND node. */
+  public Predicate<T> and(Predicate<T>... that) {
+    return and(Arrays.asList(that));
+  }
+
   /** Combine the passed predicates into a single OR node. */
-  public Predicate<T> or(final Collection<? extends Predicate<T>> that) {
+  public Predicate<T> or(Collection<? extends Predicate<T>> that) {
     return Predicate.or(that);
   }
 
+  /** Combine the passed predicates into a single OR node. */
+  public Predicate<T> or(Predicate<T>... that) {
+    return or(Arrays.asList(that));
+  }
+
   /** Invert the passed node. */
-  public Predicate<T> not(final Predicate<T> that) {
+  public Predicate<T> not(Predicate<T> that) {
     return Predicate.not(that);
   }
 
@@ -121,21 +130,14 @@ public abstract class QueryRewriter<T> {
     Predicate<T> old;
     do {
       old = in;
-
-      in = hoistOR(in);
-      System.out.println("R "+in);
       in = rewriteOne(in);
 
       if (in.getChildCount() > 0) {
         List<Predicate<T>> n = new ArrayList<Predicate<T>>(in.getChildCount());
-        Predicate<T> last = null;
         for (Predicate<T> p : in.getChildren()) {
-          p = rewrite(p);
-          if (last == null || !last.equals(p)) {
-            n.add(p);
-            last = p;
-          }
+          n.add(rewrite(p));
         }
+        n = removeDuplicates(n);
         if (n.size() == 1 && (isAND(in) || isOR(in))) {
           in = n.get(0);
         } else {
@@ -171,13 +173,19 @@ public abstract class QueryRewriter<T> {
   }
 
   private Predicate<T> rewriteOne(Predicate<T> input) {
+    Predicate<T> best = null;
     for (RewriteRule<T> r : rewriteRules) {
       Predicate<T> n = r.rewrite(this, input);
-      if (n != null) {
-        return n;
+      if (n == null) {
+        continue;
+      }
+
+      if (best == null || n.getCost() < best.getCost()) {
+        best = n;
+        continue;
       }
     }
-    return input;
+    return best != null ? best : input;
   }
 
   private static class MatchResult<T> {
@@ -334,6 +342,7 @@ public abstract class QueryRewriter<T> {
     private final String[] argNames;
     private final Class<? extends Predicate<T>>[] argTypes;
 
+    @SuppressWarnings("unchecked")
     MethodRewrite(QueryBuilder<T> queryBuilder, String patternText, Method m) {
       method = m;
 
@@ -350,13 +359,7 @@ public abstract class QueryRewriter<T> {
             + m.getDeclaringClass() + " must return " + Predicate.class);
       }
 
-      if (p instanceof VariablePredicate) {
-        p = p.copy(Collections.singleton(hoistOR(p.getChild(0))));
-      } else {
-        p = hoistOR(p);
-      }
       pattern = p;
-
       argNames = new String[method.getParameterTypes().length];
       argTypes = new Class[argNames.length];
       for (int i = 0; i < argNames.length; i++) {
@@ -382,6 +385,7 @@ public abstract class QueryRewriter<T> {
       }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Predicate<T> rewrite(QueryRewriter<T> rewriter,
         final Predicate<T> input) {
@@ -404,9 +408,9 @@ public abstract class QueryRewriter<T> {
         }
       }
 
-      final Predicate<T> replacement;
+      final Predicate<T> rep;
       try {
-        replacement = (Predicate<T>) method.invoke(rewriter, argList);
+        rep = (Predicate<T>) method.invoke(rewriter, (Object[]) argList);
       } catch (IllegalArgumentException e) {
         throw error(e);
       } catch (IllegalAccessException e) {
@@ -415,15 +419,17 @@ public abstract class QueryRewriter<T> {
         throw error(e.getCause());
       }
 
-      if (replacement instanceof RewritePredicate) {
-        ((RewritePredicate) replacement).init(method.getName(), argList);
+      if (rep instanceof RewritePredicate) {
+        ((RewritePredicate) rep).init(method.getName(), argList);
       }
 
       if (res.extra == null) {
-        return replacement;
+        return rep;
       }
-      final Predicate<T>[] rep = new Predicate[] {res.extra, replacement};
-      return input.copy(Arrays.asList(rep));
+
+      Predicate<T> extra = removeDuplicates(res.extra);
+      Predicate<T>[] newArgs = new Predicate[] {extra, rep};
+      return input.copy(Arrays.asList(newArgs));
     }
 
     private IllegalArgumentException error(Throwable e) {
@@ -432,42 +438,26 @@ public abstract class QueryRewriter<T> {
     }
   }
 
-  /**
-   * Expands an {@code and(a or(b c))} node to {@code or(and(a b) and(a c)}.
-   * <p>
-   * Examples of the expansions performed appear below. Note that when there is
-   * more than one or node within an and node, the branches of the or nodes
-   * result in a Cartesian product.
-   *
-   * <pre>
-   * and(A or(C D) B) --&gt;
-   *   or(and(A B C) and(A B D))
-   * and(A or(C D) or(E F)) --&gt;
-   *   or(
-   *     and(A C E)
-   *     and(A C F)
-   *     and(A D E)
-   *     and(A D F)
-   *   )
-   * </pre>
-   *
-   * @param src predicate to hoist any OR nodes out of.
-   * @return rewritten form of {@code src}.
-   */
-  private static <T> Predicate<T> hoistOR(Predicate<T> src) {
-    if (src.getChildCount() == 0) {
-      return src;
+  private static <T> Predicate<T> removeDuplicates(Predicate<T> in) {
+    if (in.getChildCount() > 0) {
+      List<Predicate<T>> n = removeDuplicates(in.getChildren());
+      if (n.size() == 1 && (isAND(in) || isOR(in))) {
+        in = n.get(0);
+      } else {
+        in = in.copy(n);
+      }
     }
+    return in;
+  }
 
-    if (isAND(src) && containsOR(src)) {
-      final List<Predicate<T>> nonOR = nonOR(src);
-      final List<Predicate<T>> allOR = allOR(src);
-      final List<Predicate<T>> r = new ArrayList<Predicate<T>>();
-      expand(r, allOR, new ArrayList<Predicate<T>>(allOR.size()), nonOR);
-      src = r.size() == 1 ? r.get(0) : Predicate.or(r);
+  private static <T> List<Predicate<T>> removeDuplicates(List<Predicate<T>> n) {
+    List<Predicate<T>> r = new ArrayList<Predicate<T>>();
+    for (Predicate<T> p : n) {
+      if (!r.contains(p)) {
+        r.add(p);
+      }
     }
-
-    return src;
+    return r;
   }
 
   private static <T> void expand(final List<Predicate<T>> out,
@@ -490,35 +480,6 @@ public abstract class QueryRewriter<T> {
         }
       }
     }
-  }
-
-  private static <T> boolean containsOR(final Predicate<T> src) {
-    for (final Predicate<T> c : src.getChildren()) {
-      if (isOR(c)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private static <T> List<Predicate<T>> nonOR(final Predicate<T> src) {
-    List<Predicate<T>> r = new ArrayList<Predicate<T>>(src.getChildCount());
-    for (final Predicate<T> c : src.getChildren()) {
-      if (!isOR(c)) {
-        r.add(c);
-      }
-    }
-    return r;
-  }
-
-  private static <T> List<Predicate<T>> allOR(final Predicate<T> src) {
-    List<Predicate<T>> r = new ArrayList<Predicate<T>>(src.getChildCount());
-    for (final Predicate<T> c : src.getChildren()) {
-      if (isOR(c)) {
-        r.add(c);
-      }
-    }
-    return r;
   }
 
   @SuppressWarnings("unchecked")

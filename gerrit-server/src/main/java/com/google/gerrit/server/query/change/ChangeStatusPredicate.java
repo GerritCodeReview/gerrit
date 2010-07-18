@@ -96,7 +96,13 @@ final class ChangeStatusPredicate extends OperatorPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
-    return status.equals(object.change(dbProvider).getStatus());
+    Change change = object.change(dbProvider);
+    return change != null && status.equals(change.getStatus());
+  }
+
+  @Override
+  public int getCost() {
+    return 0;
   }
 
   @Override

@@ -34,6 +34,11 @@ public final class WildPatternPredicate<T> extends OperatorPredicate<T> {
   }
 
   @Override
+  public int getCost() {
+    return 0;
+  }
+
+  @Override
   public int hashCode() {
     return getOperator().hashCode() * 31;
   }

@@ -25,6 +25,7 @@ import java.util.List;
 /** Requires one predicate to be true. */
 public class OrPredicate<T> extends Predicate<T> {
   private final List<Predicate<T>> children;
+  private final int cost;
 
   protected OrPredicate(final Predicate<T>... that) {
     this(Arrays.asList(that));
@@ -32,17 +33,23 @@ public class OrPredicate<T> extends Predicate<T> {
 
   protected OrPredicate(final Collection<? extends Predicate<T>> that) {
     final ArrayList<Predicate<T>> t = new ArrayList<Predicate<T>>(that.size());
+    int c = 0;
     for (Predicate<T> p : that) {
       if (getClass() == p.getClass()) {
-        t.addAll(p.getChildren());
+        for (Predicate<T> gp : p.getChildren()) {
+          t.add(gp);
+          c += gp.getCost();
+        }
       } else {
         t.add(p);
+        c += p.getCost();
       }
     }
     if (t.size() < 2) {
       throw new IllegalArgumentException("Need at least two predicates");
     }
     children = t;
+    cost = c;
   }
 
   @Override
@@ -73,6 +80,11 @@ public class OrPredicate<T> extends Predicate<T> {
       }
     }
     return false;
+  }
+
+  @Override
+  public int getCost() {
+    return cost;
   }
 
   @Override

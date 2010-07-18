@@ -14,31 +14,30 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
-class OwnerPredicate extends OperatorPredicate<ChangeData> {
+class BranchPredicate extends OperatorPredicate<ChangeData> {
   private final Provider<ReviewDb> dbProvider;
-  private final Account.Id id;
+  private final String shortName;
 
-  OwnerPredicate(Provider<ReviewDb> dbProvider, Account.Id id) {
-    super(ChangeQueryBuilder.FIELD_OWNER, id.toString());
+  BranchPredicate(Provider<ReviewDb> dbProvider, String branch) {
+    super(ChangeQueryBuilder.FIELD_BRANCH, branch);
     this.dbProvider = dbProvider;
-    this.id = id;
-  }
-
-  Account.Id getAccountId() {
-    return id;
+    this.shortName = new Branch.NameKey(null, branch).getShortName();
   }
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
     Change change = object.change(dbProvider);
-    return change != null && id.equals(change.getOwner());
+    if (change == null) {
+      return false;
+    }
+    return shortName.equals(change.getDest().getShortName());
   }
 
   @Override

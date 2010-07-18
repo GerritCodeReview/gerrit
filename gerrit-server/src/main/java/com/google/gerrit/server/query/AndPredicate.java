@@ -25,6 +25,7 @@ import java.util.List;
 /** Requires all predicates to be true. */
 public class AndPredicate<T> extends Predicate<T> {
   private final List<Predicate<T>> children;
+  private final int cost;
 
   protected AndPredicate(final Predicate<T>... that) {
     this(Arrays.asList(that));
@@ -32,17 +33,23 @@ public class AndPredicate<T> extends Predicate<T> {
 
   protected AndPredicate(final Collection<? extends Predicate<T>> that) {
     final ArrayList<Predicate<T>> t = new ArrayList<Predicate<T>>(that.size());
+    int c = 0;
     for (Predicate<T> p : that) {
       if (getClass() == p.getClass()) {
-        t.addAll(p.getChildren());
+        for (Predicate<T> gp : p.getChildren()) {
+          t.add(gp);
+          c += gp.getCost();
+        }
       } else {
         t.add(p);
+        c += p.getCost();
       }
     }
     if (t.size() < 2) {
       throw new IllegalArgumentException("Need at least two predicates");
     }
     children = t;
+    cost = c;
   }
 
   @Override
@@ -76,6 +83,11 @@ public class AndPredicate<T> extends Predicate<T> {
   }
 
   @Override
+  public int getCost() {
+    return cost;
+  }
+
+  @Override
   public int hashCode() {
     return getChild(0).hashCode() * 31 + getChild(1).hashCode();
   }
@@ -92,7 +104,7 @@ public class AndPredicate<T> extends Predicate<T> {
     r.append("(");
     for (int i = 0; i < getChildCount(); i++) {
       if (i != 0) {
-        r.append(" AND ");
+        r.append(" ");
       }
       r.append(getChild(i));
     }

@@ -14,55 +14,64 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
+import com.google.gwtorm.client.impl.ListResultSet;
 import com.google.inject.Provider;
 
-class IsStarredByPredicate extends OperatorPredicate<ChangeData> implements
+import java.util.ArrayList;
+import java.util.HashSet;
+
+class TrackingIdPredicate extends OperatorPredicate<ChangeData> implements
     ChangeDataSource {
-  private static String describe(CurrentUser user) {
-    if (user instanceof IdentifiedUser) {
-      return ((IdentifiedUser) user).getAccountId().toString();
-    }
-    return user.toString();
-  }
-
   private final Provider<ReviewDb> db;
-  private final CurrentUser user;
 
-  IsStarredByPredicate(Provider<ReviewDb> db, CurrentUser user) {
-    super(ChangeQueryBuilder.FIELD_STARREDBY, describe(user));
+  TrackingIdPredicate(Provider<ReviewDb> db, String trackingId) {
+    super(ChangeQueryBuilder.FIELD_TR, trackingId);
     this.db = db;
-    this.user = user;
   }
 
   @Override
-  public boolean match(final ChangeData object) {
-    return user.getStarredChanges().contains(object.getId());
+  public boolean match(final ChangeData object) throws OrmException {
+    for (TrackingId c : object.trackingIds(db)) {
+      if (getValue().equals(c.getTrackingId())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override
   public ResultSet<ChangeData> read() throws OrmException {
-    return ChangeDataResultSet.change( //
-        db.get().changes().get(user.getStarredChanges()));
+    HashSet<Change.Id> ids = new HashSet<Change.Id>();
+    for (TrackingId sc : db.get().trackingIds() //
+        .byTrackingId(new TrackingId.Id(getValue()))) {
+      ids.add(sc.getChangeId());
+    }
+
+    ArrayList<ChangeData> r = new ArrayList<ChangeData>(ids.size());
+    for (Change.Id id : ids) {
+      r.add(new ChangeData(id));
+    }
+    return new ListResultSet<ChangeData>(r);
   }
 
   @Override
   public boolean hasChange() {
-    return true;
+    return false;
   }
 
   @Override
   public int getCardinality() {
-    return 10;
+    return ChangeCosts.CARD_TRACKING_IDS;
   }
 
   @Override
   public int getCost() {
-    return ChangeCosts.cost(ChangeCosts.IDS_MEMORY, getCardinality());
+    return ChangeCosts.cost(ChangeCosts.TR_SCAN, getCardinality());
   }
 }

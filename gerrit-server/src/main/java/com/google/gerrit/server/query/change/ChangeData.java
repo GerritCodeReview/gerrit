@@ -15,9 +15,12 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.TrackingId;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
@@ -28,6 +31,9 @@ public class ChangeData {
   private Change change;
   private Collection<PatchSet> patches;
   private Collection<PatchSetApproval> approvals;
+  private Collection<PatchLineComment> comments;
+  private Collection<TrackingId> trackingIds;
+  private CurrentUser visibleTo;
 
   ChangeData(final Change.Id id) {
     legacyId = id;
@@ -44,6 +50,18 @@ public class ChangeData {
 
   public Change getChange() {
     return change;
+  }
+
+  public boolean hasChange() {
+    return change != null;
+  }
+
+  boolean fastIsVisibleTo(CurrentUser user) {
+    return visibleTo == user;
+  }
+
+  void cacheVisibleTo(CurrentUser user) {
+    visibleTo = user;
   }
 
   public Change change(Provider<ReviewDb> db) throws OrmException {
@@ -67,5 +85,21 @@ public class ChangeData {
       approvals = db.get().patchSetApprovals().byChange(legacyId).toList();
     }
     return approvals;
+  }
+
+  public Collection<PatchLineComment> comments(Provider<ReviewDb> db)
+      throws OrmException {
+    if (comments == null) {
+      comments = db.get().patchComments().byChange(legacyId).toList();
+    }
+    return comments;
+  }
+
+  public Collection<TrackingId> trackingIds(Provider<ReviewDb> db)
+      throws OrmException {
+    if (trackingIds == null) {
+      trackingIds = db.get().trackingIds().byChange(legacyId).toList();
+    }
+    return trackingIds;
   }
 }

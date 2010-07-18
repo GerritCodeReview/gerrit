@@ -182,7 +182,9 @@ fragment NON_WORD
      // '/'  permit
      | ':'
      | ';'
-     | '<' | '=' | '>'
+     // '<' permit
+     // '=' permit
+     // '>' permit
      | '?'
      | '[' | ']'
      | '{' | '}'

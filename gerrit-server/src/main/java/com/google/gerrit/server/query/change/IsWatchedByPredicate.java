@@ -15,55 +15,52 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
-class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
+import java.util.Set;
+
+class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
   private static String describe(CurrentUser user) {
     if (user instanceof IdentifiedUser) {
       return ((IdentifiedUser) user).getAccountId().toString();
-    }
-    if (user instanceof SingleGroupUser) {
-      return "group:" + ((SingleGroupUser) user).getEffectiveGroups() //
-          .iterator().next().toString();
     }
     return user.toString();
   }
 
   private final Provider<ReviewDb> db;
-  private final ChangeControl.Factory changeControl;
+  private final Project.NameKey wildProject;
   private final CurrentUser user;
 
-  IsVisibleToPredicate(Provider<ReviewDb> db,
-      ChangeControl.Factory changeControlFactory, CurrentUser user) {
-    super(ChangeQueryBuilder.FIELD_VISIBLETO, describe(user));
+  IsWatchedByPredicate(Provider<ReviewDb> db,
+      @WildProjectName Project.NameKey wildProject, CurrentUser user) {
+    super(ChangeQueryBuilder.FIELD_WATCHEDBY, describe(user));
     this.db = db;
-    this.changeControl = changeControlFactory;
+    this.wildProject = wildProject;
     this.user = user;
   }
 
   @Override
   public boolean match(final ChangeData cd) throws OrmException {
-    if (cd.fastIsVisibleTo(user)) {
+    Set<NameKey> watched = user.getWatchedProjects();
+    if (watched.contains(wildProject)) {
       return true;
     }
-    try {
-      Change c = cd.change(db);
-      if (c != null && changeControl.controlFor(c).forUser(user).isVisible()) {
-        cd.cacheVisibleTo(user);
-        return true;
-      } else {
-        return false;
-      }
-    } catch (NoSuchChangeException e) {
+
+    Change change = cd.change(db);
+    if (change == null) {
       return false;
     }
+
+    Project.NameKey project = change.getDest().getParentKey();
+    return watched.contains(project);
   }
 
   @Override

@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,9 +26,13 @@ class ReviewerPredicate extends OperatorPredicate<ChangeData> {
   private final Account.Id id;
 
   ReviewerPredicate(Provider<ReviewDb> dbProvider, Account.Id id) {
-    super(ChangeQueryBuilder.FIELD_OWNER, id.toString());
+    super(ChangeQueryBuilder.FIELD_REVIEWER, id.toString());
     this.dbProvider = dbProvider;
     this.id = id;
+  }
+
+  Account.Id getAccountId() {
+    return id;
   }
 
   @Override
@@ -39,5 +43,10 @@ class ReviewerPredicate extends OperatorPredicate<ChangeData> {
       }
     }
     return false;
+  }
+
+  @Override
+  public int getCost() {
+    return 2;
   }
 }

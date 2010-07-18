@@ -23,12 +23,25 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 
+public class QueryScreen extends PagedSingleListScreen {
+  public static String op(String name, String value) {
+    if (value.indexOf(' ') >= 0) {
+      return name + ":\"" + value + "\"";
+    }
+    return name + ":" + value;
+  }
 
-public class ChangeQueryResultsScreen extends PagedSingleListScreen {
+  public static QueryScreen forQuery(String query) {
+    return forQuery(query, PageLinks.TOP);
+  }
+
+  public static QueryScreen forQuery(String query, String position) {
+    return new QueryScreen(KeyUtil.encode(query), position);
+  }
+
   private final String query;
 
-  public ChangeQueryResultsScreen(final String encQuery,
-      final String positionToken) {
+  public QueryScreen(final String encQuery, final String positionToken) {
     super("q," + encQuery, positionToken);
     query = KeyUtil.decode(encQuery);
   }
@@ -51,7 +64,7 @@ public class ChangeQueryResultsScreen extends PagedSingleListScreen {
           } else {
             Gerrit.setQueryString(query);
             display(result);
-            ChangeQueryResultsScreen.this.display();
+            QueryScreen.this.display();
           }
         }
       }

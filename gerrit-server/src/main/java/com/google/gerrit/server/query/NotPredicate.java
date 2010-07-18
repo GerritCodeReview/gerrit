@@ -63,6 +63,11 @@ public class NotPredicate<T> extends Predicate<T> {
   }
 
   @Override
+  public int getCost() {
+    return that.getCost();
+  }
+
+  @Override
   public int hashCode() {
     return ~that.hashCode();
   }

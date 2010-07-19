@@ -14,13 +14,8 @@
 
 package com.google.gerrit.server.events;
 
-public class ChangeAttribute {
-    public String project;
-    public String branch;
-    public String id;
-    public String number;
-    public String subject;
-    public AccountAttribute owner;
-    public String url;
-    public String sortKey;
+public class QueryStats {
+  public final String type = "stats";
+  public int rowCount;
+  public long runTimeMilliseconds;
 }

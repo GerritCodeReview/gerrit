@@ -38,8 +38,8 @@ public class CommentSender extends ReplyToChangeSender {
   private List<PatchLineComment> inlineComments = Collections.emptyList();
 
   @Inject
-  public CommentSender(@Assisted Change c) {
-    super(c, "comment");
+  public CommentSender(EmailArguments ea, @Assisted Change c) {
+    super(ea, c, "comment");
   }
 
   public void setPatchLineComments(final List<PatchLineComment> plc) {
@@ -124,7 +124,7 @@ public class CommentSender extends ReplyToChangeSender {
 
   private Repository getRepository() {
     try {
-      return server.openRepository(projectName);
+      return args.server.openRepository(projectName);
     } catch (RepositoryNotFoundException e) {
       return null;
     }

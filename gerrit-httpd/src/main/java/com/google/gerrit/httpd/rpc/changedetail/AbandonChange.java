@@ -127,7 +127,6 @@ class AbandonChange extends Handler<ChangeDetail> {
       // Email the reviewers
       final AbandonedSender cm = abandonedSenderFactory.create(change);
       cm.setFrom(currentUser.getAccountId());
-      cm.setReviewDb(db);
       cm.setChangeMessage(cmsg);
       cm.send();
     }

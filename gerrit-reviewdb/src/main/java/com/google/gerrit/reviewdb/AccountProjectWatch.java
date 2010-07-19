@@ -19,6 +19,8 @@ import com.google.gwtorm.client.CompoundKey;
 
 /** An {@link Account} interested in a {@link Project}. */
 public final class AccountProjectWatch {
+  public static final String FILTER_ALL = "*";
+
   public static class Key extends CompoundKey<Account.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -28,14 +30,19 @@ public final class AccountProjectWatch {
     @Column(id = 2)
     protected Project.NameKey projectName;
 
+    /** Filter to select changes within the project. */
+    @Column(id = 3)
+    protected String filter;
+
     protected Key() {
       accountId = new Account.Id();
       projectName = new Project.NameKey();
     }
 
-    public Key(final Account.Id a, final Project.NameKey g) {
+    public Key(Account.Id a, Project.NameKey g, String f) {
       accountId = a;
       projectName = g;
+      filter = f != null && !f.isEmpty() ? f : FILTER_ALL;
     }
 
     @Override
@@ -81,6 +88,10 @@ public final class AccountProjectWatch {
 
   public Project.NameKey getProjectNameKey() {
     return key.projectName;
+  }
+
+  public String getFilter() {
+    return FILTER_ALL.equals(key.filter) ? null : key.filter;
   }
 
   public boolean isNotifyNewChanges() {

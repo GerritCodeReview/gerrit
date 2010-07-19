@@ -15,12 +15,14 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -73,7 +75,7 @@ public class ReplicationUser extends CurrentUser {
   }
 
   @Override
-  public Set<NameKey> getWatchedProjects() {
+  public Collection<AccountProjectWatch> getNotificationFilters() {
     return Collections.emptySet();
   }
 

@@ -132,7 +132,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(PushAllProjectsOp.Factory.class);
 
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
-    factory(MergeOp.Factory.class);
     factory(ReloadSubmitQueueOp.Factory.class);
 
     bind(FromAddressGenerator.class).toProvider(
@@ -142,12 +141,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
     factory(FunctionState.Factory.class);
-
-    factory(AbandonedSender.Factory.class);
-    factory(CommentSender.Factory.class);
-    factory(MergedSender.Factory.class);
-    factory(MergeFailSender.Factory.class);
-    factory(RegisterNewEmailSender.Factory.class);
     factory(ReplicationUser.Factory.class);
 
     install(new LifecycleModule() {

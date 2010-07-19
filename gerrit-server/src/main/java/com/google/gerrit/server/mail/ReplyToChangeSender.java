@@ -18,8 +18,8 @@ import com.google.gerrit.reviewdb.Change;
 
 /** Alert a user to a reply to a change, usually commentary made during review. */
 public abstract class ReplyToChangeSender extends OutgoingEmail {
-  protected ReplyToChangeSender(Change c, String mc) {
-    super(c, mc);
+  protected ReplyToChangeSender(EmailArguments ea, Change c, String mc) {
+    super(ea, c, mc);
   }
 
   @Override

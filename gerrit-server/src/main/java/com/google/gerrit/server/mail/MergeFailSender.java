@@ -25,8 +25,8 @@ public class MergeFailSender extends ReplyToChangeSender {
   }
 
   @Inject
-  public MergeFailSender(@Assisted Change c) {
-    super(c, "comment");
+  public MergeFailSender(EmailArguments ea, @Assisted Change c) {
+    super(ea, c, "comment");
   }
 
   @Override

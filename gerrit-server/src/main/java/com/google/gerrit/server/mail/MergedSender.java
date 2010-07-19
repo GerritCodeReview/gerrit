@@ -37,15 +37,14 @@ public class MergedSender extends ReplyToChangeSender {
     public MergedSender create(Change change);
   }
 
+  private final ApprovalTypes approvalTypes;
   private Branch.NameKey dest;
 
   @Inject
-  private ApprovalTypes approvalTypes;
-
-  @Inject
-  public MergedSender(@Assisted Change c) {
-    super(c, "merged");
+  public MergedSender(EmailArguments ea, ApprovalTypes at, @Assisted Change c) {
+    super(ea, c, "merged");
     dest = c.getDest();
+    approvalTypes = at;
   }
 
   public void setDest(final Branch.NameKey key) {
@@ -78,7 +77,7 @@ public class MergedSender extends ReplyToChangeSender {
   }
 
   private void formatApprovals() {
-    if (db != null && patchSet != null) {
+    if (patchSet != null) {
       try {
         final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> pos =
             new HashMap<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>>();
@@ -86,8 +85,8 @@ public class MergedSender extends ReplyToChangeSender {
         final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> neg =
             new HashMap<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>>();
 
-        for (PatchSetApproval ca : db.patchSetApprovals().byPatchSet(
-            patchSet.getId())) {
+        for (PatchSetApproval ca : args.db.get().patchSetApprovals()
+            .byPatchSet(patchSet.getId())) {
           if (ca.getValue() > 0) {
             insert(pos, ca);
           } else if (ca.getValue() < 0) {
@@ -157,23 +156,18 @@ public class MergedSender extends ReplyToChangeSender {
   }
 
   private void bccWatchesNotifySubmittedChanges() {
-    if (db != null) {
-      try {
-        // BCC anyone else who has interest in this project's changes
-        //
-        final ProjectState ps = getProjectState();
-        if (ps != null) {
-          for (final AccountProjectWatch w : getProjectWatches()) {
-            if (w.isNotifySubmittedChanges()) {
-              add(RecipientType.BCC, w.getAccountId());
-            }
-          }
+    try {
+      // BCC anyone else who has interest in this project's changes
+      //
+      for (final AccountProjectWatch w : getWatches()) {
+        if (w.isNotifySubmittedChanges()) {
+          add(RecipientType.BCC, w.getAccountId());
         }
-      } catch (OrmException err) {
-        // Just don't CC everyone. Better to send a partial message to those
-        // we already have queued up then to fail deliver entirely to people
-        // who have a lower interest in the change.
       }
+    } catch (OrmException err) {
+      // Just don't CC everyone. Better to send a partial message to those
+      // we already have queued up then to fail deliver entirely to people
+      // who have a lower interest in the change.
     }
   }
 }

@@ -89,7 +89,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
 
-  private final Provider<ChangeQueryBuilder> queryBuilder;
+  private final ChangeQueryBuilder.Factory queryBuilder;
   private final Provider<ChangeQueryRewriter> queryRewriter;
 
   @Inject
@@ -97,7 +97,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final Provider<CurrentUser> currentUser,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
-      final Provider<ChangeQueryBuilder> queryBuilder,
+      final ChangeQueryBuilder.Factory queryBuilder,
       final Provider<ChangeQueryRewriter> queryRewriter) {
     super(schema, currentUser);
     this.currentUser = currentUser;
@@ -144,10 +144,8 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final int limit, final String key, final Comparator<Change> cmp)
       throws OrmException, InvalidQueryException {
     try {
-      final ChangeQueryBuilder builder = queryBuilder.get();
-      final Predicate<ChangeData> visibleToMe =
-          builder.visibleto(currentUser.get());
-
+      final ChangeQueryBuilder builder = queryBuilder.create(currentUser.get());
+      final Predicate<ChangeData> visibleToMe = builder.is_visible();
       Predicate<ChangeData> q = builder.parse(query);
       q = Predicate.and(q, //
           cmp == QUERY_PREV //

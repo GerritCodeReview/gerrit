@@ -35,7 +35,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.servlet.RequestScoped;
+import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 
@@ -46,7 +46,6 @@ import java.util.regex.Pattern;
 /**
  * Parses a query string meant to be applied to change objects.
  */
-@RequestScoped
 public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
   private static final Pattern PAT_CHANGE_ID =
@@ -86,55 +85,67 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       new QueryBuilder.Definition<ChangeData, ChangeQueryBuilder>(
           ChangeQueryBuilder.class);
 
-  private final Provider<ReviewDb> dbProvider;
-  private final Provider<CurrentUser> currentUser;
-  private final IdentifiedUser.GenericFactory userFactory;
-  private final ChangeControl.Factory changeControlFactory;
-  private final AccountResolver accountResolver;
-  private final GroupCache groupCache;
-  private final AuthConfig authConfig;
-  private final ApprovalTypes approvalTypes;
-  private final Project.NameKey wildProjectName;
+  static class Arguments {
+    final Provider<ReviewDb> dbProvider;
+    final Provider<ChangeQueryRewriter> rewriter;
+    final IdentifiedUser.GenericFactory userFactory;
+    final ChangeControl.Factory changeControlFactory;
+    final AccountResolver accountResolver;
+    final GroupCache groupCache;
+    final AuthConfig authConfig;
+    final ApprovalTypes approvalTypes;
+    final Project.NameKey wildProjectName;
 
-  @Inject
-  ChangeQueryBuilder(Provider<ReviewDb> dbProvider,
-      Provider<CurrentUser> currentUser,
-      IdentifiedUser.GenericFactory userFactory,
-      ChangeControl.Factory changeControlFactory,
-      AccountResolver accountResolver, GroupCache groupCache,
-      AuthConfig authConfig, ApprovalTypes approvalTypes,
-      @WildProjectName Project.NameKey wildProjectName) {
-    super(mydef);
-    this.dbProvider = dbProvider;
-    this.currentUser = currentUser;
-    this.userFactory = userFactory;
-    this.changeControlFactory = changeControlFactory;
-    this.accountResolver = accountResolver;
-    this.groupCache = groupCache;
-    this.authConfig = authConfig;
-    this.approvalTypes = approvalTypes;
-    this.wildProjectName = wildProjectName;
+    @Inject
+    Arguments(Provider<ReviewDb> dbProvider,
+        Provider<ChangeQueryRewriter> rewriter,
+        IdentifiedUser.GenericFactory userFactory,
+        ChangeControl.Factory changeControlFactory,
+        AccountResolver accountResolver, GroupCache groupCache,
+        AuthConfig authConfig, ApprovalTypes approvalTypes,
+        @WildProjectName Project.NameKey wildProjectName) {
+      this.dbProvider = dbProvider;
+      this.rewriter = rewriter;
+      this.userFactory = userFactory;
+      this.changeControlFactory = changeControlFactory;
+      this.accountResolver = accountResolver;
+      this.groupCache = groupCache;
+      this.authConfig = authConfig;
+      this.approvalTypes = approvalTypes;
+      this.wildProjectName = wildProjectName;
+    }
   }
 
-  Provider<ReviewDb> getReviewDbProvider() {
-    return dbProvider;
+  public interface Factory {
+    ChangeQueryBuilder create(CurrentUser user);
+  }
+
+  private final Arguments args;
+  private final CurrentUser currentUser;
+
+  @Inject
+  ChangeQueryBuilder(Arguments args, @Assisted CurrentUser currentUser) {
+    super(mydef);
+    this.args = args;
+    this.currentUser = currentUser;
   }
 
   @Operator
   public Predicate<ChangeData> age(String value) {
-    return new AgePredicate(dbProvider, value);
+    return new AgePredicate(args.dbProvider, value);
   }
 
   @Operator
   public Predicate<ChangeData> change(String query) {
     if (PAT_LEGACY_ID.matcher(query).matches()) {
-      return new LegacyChangeIdPredicate(dbProvider, Change.Id.parse(query));
+      return new LegacyChangeIdPredicate(args.dbProvider, Change.Id
+          .parse(query));
 
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
       if (query.charAt(0) == 'i') {
         query = "I" + query.substring(1);
       }
-      return new ChangeIdPredicate(dbProvider, query);
+      return new ChangeIdPredicate(args.dbProvider, query);
     }
 
     throw new IllegalArgumentException();
@@ -146,30 +157,30 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       return status_open();
 
     } else if ("closed".equals(statusName)) {
-      return ChangeStatusPredicate.closed(dbProvider);
+      return ChangeStatusPredicate.closed(args.dbProvider);
 
     } else if ("reviewed".equalsIgnoreCase(statusName)) {
-      return new IsReviewedPredicate(dbProvider);
+      return new IsReviewedPredicate(args.dbProvider);
 
     } else {
-      return new ChangeStatusPredicate(dbProvider, statusName);
+      return new ChangeStatusPredicate(args.dbProvider, statusName);
     }
   }
 
   public Predicate<ChangeData> status_open() {
-    return ChangeStatusPredicate.open(dbProvider);
+    return ChangeStatusPredicate.open(args.dbProvider);
   }
 
   @Operator
   public Predicate<ChangeData> has(String value) {
     if ("star".equalsIgnoreCase(value)) {
-      return new IsStarredByPredicate(dbProvider, currentUser.get());
+      return new IsStarredByPredicate(args.dbProvider, currentUser);
     }
 
     if ("draft".equalsIgnoreCase(value)) {
-      if (currentUser.get() instanceof IdentifiedUser) {
-        return new HasDraftByPredicate(dbProvider,
-            ((IdentifiedUser) currentUser.get()).getAccountId());
+      if (currentUser instanceof IdentifiedUser) {
+        return new HasDraftByPredicate(args.dbProvider,
+            ((IdentifiedUser) currentUser).getAccountId());
       }
     }
 
@@ -179,21 +190,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> is(String value) {
     if ("starred".equalsIgnoreCase(value)) {
-      return new IsStarredByPredicate(dbProvider, currentUser.get());
+      return new IsStarredByPredicate(args.dbProvider, currentUser);
     }
 
     if ("watched".equalsIgnoreCase(value)) {
-      return new IsWatchedByPredicate(dbProvider, wildProjectName, //
-          currentUser.get());
+      return new IsWatchedByPredicate(args, currentUser);
     }
 
     if ("visible".equalsIgnoreCase(value)) {
-      return new IsVisibleToPredicate(dbProvider, changeControlFactory,
-          currentUser.get());
+      return is_visible();
     }
 
     if ("reviewed".equalsIgnoreCase(value)) {
-      return new IsReviewedPredicate(dbProvider);
+      return new IsReviewedPredicate(args.dbProvider);
     }
 
     try {
@@ -207,121 +216,129 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> commit(String id) {
-    return new CommitPredicate(dbProvider, AbbreviatedObjectId.fromString(id));
+    return new CommitPredicate(args.dbProvider, AbbreviatedObjectId
+        .fromString(id));
   }
 
   @Operator
   public Predicate<ChangeData> project(String name) {
-    return new ProjectPredicate(dbProvider, name);
+    return new ProjectPredicate(args.dbProvider, name);
   }
 
   @Operator
   public Predicate<ChangeData> branch(String name) {
-    return new BranchPredicate(dbProvider, name);
+    return new BranchPredicate(args.dbProvider, name);
   }
 
   @Operator
   public Predicate<ChangeData> topic(String name) {
-    return new TopicPredicate(dbProvider, name);
+    return new TopicPredicate(args.dbProvider, name);
   }
 
   @Operator
   public Predicate<ChangeData> ref(String ref) {
-    return new RefPredicate(dbProvider, ref);
+    return new RefPredicate(args.dbProvider, ref);
   }
 
   @Operator
   public Predicate<ChangeData> label(String name) {
-    return new LabelPredicate(dbProvider, approvalTypes, name);
+    return new LabelPredicate(args.dbProvider, args.approvalTypes, name);
   }
 
   @Operator
   public Predicate<ChangeData> starredby(String who)
       throws QueryParseException, OrmException {
-    Account account = accountResolver.find(who);
+    Account account = args.accountResolver.find(who);
     if (account == null) {
       throw error("User " + who + " not found");
     }
-    return new IsStarredByPredicate(dbProvider, //
-        userFactory.create(dbProvider, account.getId()));
+    return new IsStarredByPredicate(args.dbProvider, //
+        args.userFactory.create(args.dbProvider, account.getId()));
   }
 
   @Operator
   public Predicate<ChangeData> watchedby(String who)
       throws QueryParseException, OrmException {
-    Account account = accountResolver.find(who);
+    Account account = args.accountResolver.find(who);
     if (account == null) {
       throw error("User " + who + " not found");
     }
-    return new IsWatchedByPredicate(dbProvider, wildProjectName, //
-        userFactory.create(dbProvider, account.getId()));
+    return new IsWatchedByPredicate(args, args.userFactory.create(
+        args.dbProvider, account.getId()));
   }
 
   @Operator
   public Predicate<ChangeData> draftby(String who) throws QueryParseException,
       OrmException {
-    Account account = accountResolver.find(who);
+    Account account = args.accountResolver.find(who);
     if (account == null) {
       throw error("User " + who + " not found");
     }
-    return new HasDraftByPredicate(dbProvider, account.getId());
+    return new HasDraftByPredicate(args.dbProvider, account.getId());
   }
 
   @Operator
   public Predicate<ChangeData> visibleto(String who)
       throws QueryParseException, OrmException {
-    Account account = accountResolver.find(who);
+    Account account = args.accountResolver.find(who);
     if (account != null) {
-      return visibleto(userFactory.create(dbProvider, account.getId()));
+      return visibleto(args.userFactory
+          .create(args.dbProvider, account.getId()));
     }
 
     // If its not an account, maybe its a group?
     //
-    AccountGroup g = groupCache.get(new AccountGroup.NameKey(who));
+    AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(who));
     if (g != null) {
-      return visibleto(new SingleGroupUser(authConfig, g.getId()));
+      return visibleto(new SingleGroupUser(args.authConfig, g.getId()));
     }
 
     Collection<AccountGroup> matches =
-        groupCache.get(new AccountGroup.ExternalNameKey(who));
+        args.groupCache.get(new AccountGroup.ExternalNameKey(who));
     if (matches != null && !matches.isEmpty()) {
       HashSet<AccountGroup.Id> ids = new HashSet<AccountGroup.Id>();
       for (AccountGroup group : matches) {
         ids.add(group.getId());
       }
-      return visibleto(new SingleGroupUser(authConfig, ids));
+      return visibleto(new SingleGroupUser(args.authConfig, ids));
     }
 
     throw error("No user or group matches \"" + who + "\".");
   }
 
   public Predicate<ChangeData> visibleto(CurrentUser user) {
-    return new IsVisibleToPredicate(dbProvider, changeControlFactory, user);
+    return new IsVisibleToPredicate(args.dbProvider, //
+        args.changeControlFactory, //
+        user);
+  }
+
+  public Predicate<ChangeData> is_visible() {
+    return visibleto(currentUser);
   }
 
   @Operator
   public Predicate<ChangeData> owner(String who) throws QueryParseException,
       OrmException {
-    Account account = accountResolver.find(who);
+    Account account = args.accountResolver.find(who);
     if (account == null) {
       throw error("User " + who + " not found");
     }
-    return new OwnerPredicate(dbProvider, account.getId());
+    return new OwnerPredicate(args.dbProvider, account.getId());
   }
 
   @Operator
   public Predicate<ChangeData> reviewer(String nameOrEmail)
       throws QueryParseException, OrmException {
-    Account account = accountResolver.find(nameOrEmail);
+    Account account = args.accountResolver.find(nameOrEmail);
     if (account == null) {
       throw error("Reviewer " + nameOrEmail + " not found");
     }
-    return new ReviewerPredicate(dbProvider, account.getId());
+    return new ReviewerPredicate(args.dbProvider, account.getId());
   }
 
   @Operator
   public Predicate<ChangeData> tr(String trackingId) {
-    return new TrackingIdPredicate(dbProvider, trackingId);
+    return new TrackingIdPredicate(args.dbProvider, trackingId);
   }
 
   @Operator
@@ -350,12 +367,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> sortkey_after(String sortKey) {
-    return new SortKeyPredicate.After(dbProvider, sortKey);
+    return new SortKeyPredicate.After(args.dbProvider, sortKey);
   }
 
   @Operator
   public Predicate<ChangeData> sortkey_before(String sortKey) {
-    return new SortKeyPredicate.Before(dbProvider, sortKey);
+    return new SortKeyPredicate.Before(args.dbProvider, sortKey);
   }
 
   @Operator

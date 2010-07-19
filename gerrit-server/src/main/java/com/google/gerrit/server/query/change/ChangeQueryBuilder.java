@@ -136,7 +136,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> status(String statusName) {
     if ("open".equals(statusName)) {
-      return ChangeStatusPredicate.open(dbProvider);
+      return status_open();
 
     } else if ("closed".equals(statusName)) {
       return ChangeStatusPredicate.closed(dbProvider);
@@ -147,6 +147,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     } else {
       return new ChangeStatusPredicate(dbProvider, statusName);
     }
+  }
+
+  public Predicate<ChangeData> status_open() {
+    return ChangeStatusPredicate.open(dbProvider);
   }
 
   @Operator

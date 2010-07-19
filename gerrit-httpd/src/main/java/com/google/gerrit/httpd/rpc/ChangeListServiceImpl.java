@@ -156,12 +156,17 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
           builder.limit(limit), //
           visibleToMe //
           );
-      q = queryRewriter.get().rewrite(q);
-      if (q instanceof ChangeDataSource) {
-        ChangeDataSource ds = (ChangeDataSource) q;
+
+      ChangeQueryRewriter rewriter = queryRewriter.get();
+      Predicate<ChangeData> s = rewriter.rewrite(q);
+      if (!(s instanceof ChangeDataSource)) {
+        s = rewriter.rewrite(Predicate.and(builder.status_open(), q));
+      }
+
+      if (s instanceof ChangeDataSource) {
         ArrayList<Change> r = new ArrayList();
         HashSet<Change.Id> want = new HashSet<Change.Id>();
-        for (ChangeData d : ds.read()) {
+        for (ChangeData d : ((ChangeDataSource) s).read()) {
           if (d.hasChange()) {
             // Checking visibleToMe here should be unnecessary, the
             // query should have already performed it.  But we don't
@@ -190,7 +195,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         Collections.sort(r, cmp);
         return new ListResultSet<Change>(r);
       } else {
-        throw new InvalidQueryException("Not Supported", q.toString());
+        throw new InvalidQueryException("Not Supported", s.toString());
       }
     } catch (QueryParseException e) {
       throw new InvalidQueryException(e.getMessage(), query);

@@ -96,6 +96,15 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     return and(new SortKeyPredicate.Before(dbProvider, cut), a);
   }
 
+  @SuppressWarnings("unchecked")
+  @NoCostComputation
+  @Rewrite("A=(limit:*) B=(limit:*)")
+  public Predicate<ChangeData> r00_smallestLimit(
+      @Named("A") IntPredicate<ChangeData> a,
+      @Named("B") IntPredicate<ChangeData> b) {
+    return a.intValue() <= b.intValue() ? a : b;
+  }
+
   @Rewrite("status:open P=(project:*) S=(sortkey_after:*) L=(limit:*)")
   public Predicate<ChangeData> r10_byProjectOpenPrev(
       @Named("P") final ProjectPredicate p,

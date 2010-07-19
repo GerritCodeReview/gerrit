@@ -34,15 +34,14 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     public ReplacePatchSetSender create(Change change);
   }
 
-  @Inject
-  private SshInfo sshInfo;
-
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
+  private final SshInfo sshInfo;
 
   @Inject
-  public ReplacePatchSetSender(@Assisted Change c) {
-    super(c, "newpatchset");
+  public ReplacePatchSetSender(EmailArguments ea, SshInfo si, @Assisted Change c) {
+    super(ea, c, "newpatchset");
+    sshInfo = si;
   }
 
   public void addReviewers(final Collection<Account.Id> cc) {

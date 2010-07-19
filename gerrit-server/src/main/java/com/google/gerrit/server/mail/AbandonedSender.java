@@ -25,8 +25,8 @@ public class AbandonedSender extends ReplyToChangeSender {
   }
 
   @Inject
-  public AbandonedSender(@Assisted Change c) {
-    super(c, "abandon");
+  public AbandonedSender(EmailArguments ea, @Assisted Change c) {
+    super(ea, c, "abandon");
   }
 
   @Override

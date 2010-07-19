@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.CanSubmitResult;
@@ -44,8 +45,8 @@ class SubmitAction extends Handler<ChangeDetail> {
   private final FunctionState.Factory functionState;
   private final IdentifiedUser user;
   private final ChangeDetailFactory.Factory changeDetailFactory;
-  @Inject
-  private ChangeControl.Factory changeControlFactory;
+  private final ChangeControl.Factory changeControlFactory;
+  private final MergeOp.Factory opFactory;
 
   private final PatchSet.Id patchSetId;
 
@@ -53,13 +54,17 @@ class SubmitAction extends Handler<ChangeDetail> {
   SubmitAction(final ReviewDb db, final MergeQueue mq, final ApprovalTypes at,
       final FunctionState.Factory fs, final IdentifiedUser user,
       final ChangeDetailFactory.Factory changeDetailFactory,
+      final ChangeControl.Factory changeControlFactory,
+      final MergeOp.Factory opFactory,
       @Assisted final PatchSet.Id patchSetId) {
     this.db = db;
     this.merger = mq;
     this.approvalTypes = at;
     this.functionState = fs;
     this.user = user;
+    this.changeControlFactory = changeControlFactory;
     this.changeDetailFactory = changeDetailFactory;
+    this.opFactory = opFactory;
 
     this.patchSetId = patchSetId;
   }
@@ -76,7 +81,7 @@ class SubmitAction extends Handler<ChangeDetail> {
     CanSubmitResult err =
         changeControl.canSubmit(patchSetId, db, approvalTypes, functionState);
     if (err == CanSubmitResult.OK) {
-      ChangeUtil.submit(patchSetId, user, db, merger);
+      ChangeUtil.submit(opFactory, patchSetId, user, db, merger);
       return changeDetailFactory.create(changeId).call();
     } else {
       throw new IllegalStateException(err.getMessage());

@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmConcurrencyException;
@@ -135,8 +136,8 @@ public class ChangeUtil {
     db.trackingIds().delete(toDelete);
   }
 
-  public static void submit(PatchSet.Id patchSetId, IdentifiedUser user, ReviewDb db, MergeQueue merger)
-      throws OrmException {
+  public static void submit(MergeOp.Factory opFactory, PatchSet.Id patchSetId,
+      IdentifiedUser user, ReviewDb db, MergeQueue merger) throws OrmException {
     final Change.Id changeId = patchSetId.getParentKey();
     final PatchSetApproval approval = createSubmitApproval(patchSetId, user, db);
 
@@ -154,7 +155,7 @@ public class ChangeUtil {
     });
 
     if (change.getStatus() == Change.Status.SUBMITTED) {
-      merger.merge(change.getDest());
+      merger.merge(opFactory, change.getDest());
     }
   }
 

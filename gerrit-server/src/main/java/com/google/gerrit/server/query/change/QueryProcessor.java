@@ -60,7 +60,6 @@ public class QueryProcessor {
   private final SimpleDateFormat sdf =
       new SimpleDateFormat("yyyy-MM-dd HH:mm:ss zzz");
 
-  private final CurrentUser currentUser;
   private final EventFactory eventFactory;
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryRewriter queryRewriter;
@@ -75,12 +74,11 @@ public class QueryProcessor {
   private PrintWriter out;
 
   @Inject
-  QueryProcessor(CurrentUser currentUser, EventFactory eventFactory,
-      ChangeQueryBuilder queryBuilder, ChangeQueryRewriter queryRewriter,
-      Provider<ReviewDb> db) {
-    this.currentUser = currentUser;
+  QueryProcessor(EventFactory eventFactory,
+      ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
+      ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db) {
     this.eventFactory = eventFactory;
-    this.queryBuilder = queryBuilder;
+    this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
     this.db = db;
   }
@@ -107,9 +105,7 @@ public class QueryProcessor {
         final QueryStats stats = new QueryStats();
         stats.runTimeMilliseconds = System.currentTimeMillis();
 
-        final Predicate<ChangeData> visibleToMe =
-            queryBuilder.visibleto(currentUser);
-
+        final Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
         Predicate<ChangeData> s = compileQuery(queryString, visibleToMe);
         List<ChangeData> results = new ArrayList<ChangeData>();
         HashSet<Change.Id> want = new HashSet<Change.Id>();

@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeAccess;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryRewriter;
@@ -29,18 +28,18 @@ import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
-import com.google.inject.servlet.RequestScoped;
 
 import java.util.Collection;
 
-@RequestScoped
 public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   private static final QueryRewriter.Definition<ChangeData, ChangeQueryRewriter> mydef =
       new QueryRewriter.Definition<ChangeData, ChangeQueryRewriter>(
           ChangeQueryRewriter.class, new ChangeQueryBuilder(
-              new InvalidProvider<ReviewDb>(),
-              new InvalidProvider<CurrentUser>(), //
-              null, null, null, null, null, null, null));
+              new ChangeQueryBuilder.Arguments( //
+                  new InvalidProvider<ReviewDb>(), //
+                  new InvalidProvider<ChangeQueryRewriter>(), //
+                  null, null, null, null, null, null, null),
+              null));
 
   private final Provider<ReviewDb> dbProvider;
 

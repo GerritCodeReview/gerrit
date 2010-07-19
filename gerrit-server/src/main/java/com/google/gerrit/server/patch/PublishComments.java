@@ -284,7 +284,6 @@ public class PublishComments implements Callable<VoidResult> {
       cm.setPatchSet(patchSet, patchSetInfoFactory.get(patchSetId));
       cm.setChangeMessage(message);
       cm.setPatchLineComments(drafts);
-      cm.setReviewDb(db);
       cm.send();
     } catch (EmailException e) {
       log.error("Cannot send comments by email for patch set " + patchSetId, e);

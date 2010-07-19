@@ -16,9 +16,12 @@ package com.google.gerrit.reviewdb;
 
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
+import com.google.gwtorm.client.StringKey;
 
 /** An {@link Account} interested in a {@link Project}. */
 public final class AccountProjectWatch {
+  public static final String FILTER_ALL = "*";
+
   public static class Key extends CompoundKey<Account.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -28,14 +31,19 @@ public final class AccountProjectWatch {
     @Column(id = 2)
     protected Project.NameKey projectName;
 
+    @Column(id = 3)
+    protected Filter filter;
+
     protected Key() {
       accountId = new Account.Id();
       projectName = new Project.NameKey();
+      filter = new Filter();
     }
 
-    public Key(final Account.Id a, final Project.NameKey g) {
+    public Key(Account.Id a, Project.NameKey g, String f) {
       accountId = a;
       projectName = g;
+      filter = new Filter(f);
     }
 
     @Override
@@ -45,7 +53,31 @@ public final class AccountProjectWatch {
 
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
-      return new com.google.gwtorm.client.Key<?>[] {projectName};
+      return new com.google.gwtorm.client.Key<?>[] {projectName, filter};
+    }
+  }
+
+  public static class Filter extends StringKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
+    @Column(id = 1)
+    protected String filter;
+
+    protected Filter() {
+    }
+
+    public Filter(String f) {
+      filter = f != null && !f.isEmpty() ? f : FILTER_ALL;
+    }
+
+    @Override
+    public String get() {
+      return filter;
+    }
+
+    @Override
+    protected void set(String newValue) {
+      filter = newValue;
     }
   }
 
@@ -81,6 +113,10 @@ public final class AccountProjectWatch {
 
   public Project.NameKey getProjectNameKey() {
     return key.projectName;
+  }
+
+  public String getFilter() {
+    return FILTER_ALL.equals(key.filter.get()) ? null : key.filter.get();
   }
 
   public boolean isNotifyNewChanges() {

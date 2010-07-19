@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA2H///+I\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccessCategory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-07-19T11:30:44Z",
+      "side": 1,
+      "message": "I completely agree this class is named wrong, I could not find a better name to it. About your suggestion, my concern is that the labels would only be defined to the CodeReview and Submit values. I thought the Permission name to this class would be better, but I am not sure of it, since this name does not indicate the labels are defined here. What do you think?",
+      "parentUuid": "AAAA2H///+g\u003d",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA1X///8s\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/CodeReviewLabel.java",
         "patchSetId": 1

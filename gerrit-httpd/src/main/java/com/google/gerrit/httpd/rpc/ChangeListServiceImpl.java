@@ -89,16 +89,16 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
 
-  private final ChangeQueryBuilder queryBuilder;
-  private final ChangeQueryRewriter queryRewriter;
+  private final Provider<ChangeQueryBuilder> queryBuilder;
+  private final Provider<ChangeQueryRewriter> queryRewriter;
 
   @Inject
   ChangeListServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
-      final ChangeQueryBuilder queryBuilder,
-      final ChangeQueryRewriter queryRewriter) {
+      final Provider<ChangeQueryBuilder> queryBuilder,
+      final Provider<ChangeQueryRewriter> queryRewriter) {
     super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
@@ -144,18 +144,19 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final int limit, final String key, final Comparator<Change> cmp)
       throws OrmException, InvalidQueryException {
     try {
+      final ChangeQueryBuilder builder = queryBuilder.get();
       final Predicate<ChangeData> visibleToMe =
-          queryBuilder.visibleto(currentUser.get());
+          builder.visibleto(currentUser.get());
 
-      Predicate<ChangeData> q = queryBuilder.parse(query);
+      Predicate<ChangeData> q = builder.parse(query);
       q = Predicate.and(q, //
           cmp == QUERY_PREV //
-              ? queryBuilder.sortkey_after(key) //
-              : queryBuilder.sortkey_before(key), //
-          queryBuilder.limit(limit), //
+              ? builder.sortkey_after(key) //
+              : builder.sortkey_before(key), //
+          builder.limit(limit), //
           visibleToMe //
           );
-      q = queryRewriter.rewrite(q);
+      q = queryRewriter.get().rewrite(q);
       if (q instanceof ChangeDataSource) {
         ChangeDataSource ds = (ChangeDataSource) q;
         ArrayList<Change> r = new ArrayList();

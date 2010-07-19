@@ -28,9 +28,11 @@ import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
+import com.google.inject.servlet.RequestScoped;
 
 import java.util.Collection;
 
+@RequestScoped
 public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   private static final QueryRewriter.Definition<ChangeData, ChangeQueryRewriter> mydef =
       new QueryRewriter.Definition<ChangeData, ChangeQueryRewriter>(

@@ -35,6 +35,7 @@ import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.servlet.RequestScoped;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 
@@ -45,6 +46,7 @@ import java.util.regex.Pattern;
 /**
  * Parses a query string meant to be applied to change objects.
  */
+@RequestScoped
 public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
   private static final Pattern PAT_CHANGE_ID =
@@ -134,7 +136,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> status(String statusName) {
     if ("open".equals(statusName)) {
-      return ChangeStatusPredicate.open(dbProvider);
+      return status_open();
 
     } else if ("closed".equals(statusName)) {
       return ChangeStatusPredicate.closed(dbProvider);
@@ -145,6 +147,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     } else {
       return new ChangeStatusPredicate(dbProvider, statusName);
     }
+  }
+
+  public Predicate<ChangeData> status_open() {
+    return ChangeStatusPredicate.open(dbProvider);
   }
 
   @Operator

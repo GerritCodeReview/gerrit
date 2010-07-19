@@ -1,0 +1,114 @@
+gerrit query
+============
+
+NAME
+----
+gerrit query - Query the change database
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit query' \
+[-n <limit>] \
+[\--sort-key <sortKey>] \
+[\--] \
+<query>
+
+DESCRIPTION
+-----------
+
+Queries the change database and returns results describing
+changes that match the input query.  Each result is output
+as a single line of JSON text, and a final line contains a
+summary of the query execution.
+
+A query may be limited on the number of results it returns,
+in which case the \--sort-key option can be used to resume
+the query at the change that follows.
+
+OPTIONS
+-------
+\--limit, -n::
+	Maximum number of results to return.
+
+\--sort-key::
+	Resume results after this sort key.  Callers should pass the
+	sortKey of the last change of the prior results.
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+EXAMPLES
+--------
+
+-----
+  $ ssh -p 29418 review.example.com gerrit query "'status:open project:tools/gerrit'"
+  {"project":"tools/gerrit", ...}
+  {"project":"tools/gerrit", ...}
+  {"type":"stats","rowCount":2,"runningTimeMilliseconds:15}
+-----
+
+SCHEMA
+------
+The JSON messages consist of nested objects referencing the *change*,
+*patchset*, *account* involved, and other attributes as appropriate.
+
+Note that any field may be missing in the JSON messages, so consumers
+of this JSON stream should deal with that appropriately.
+
+Attributes
+~~~~~~~~~~
+Attributes are part events to give context related to the event.
+
+[[change]]
+change:: The Gerrit change the event is related to
+
+  project;; Project path in Gerrit
+
+  branch;; Branch name within project
+
+  id;; Change identifier
+
+  number;; Change number (deprecated)
+
+  subject;; Description of change
+
+  owner;; Owner in account attribute
+
+  url;; Canonical URL to reach this change
+
+  sortKey;; Key describing this change in the overall ordering of
+  changes.  This key can be supplied on a future query command to pick
+  up results after this change.
+
+[[account]]
+account:: An account that is related to an event or attribute
+
+  name;; Account user's full name
+
+  email;; Account user's preferred email
+
+[[patchset]]
+patchset:: Refers to a specific patchset within a change
+
+  number;; The patchset number
+
+  revision;; Git commit-ish for this patchset
+
+  ref;; Git reference pointing at revision
+
+  uploader;; Uploader of patch set in account attribute
+
+SEE ALSO
+--------
+
+* link:access-control.html[Access Controls]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

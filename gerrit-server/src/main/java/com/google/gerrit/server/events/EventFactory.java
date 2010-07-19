@@ -52,6 +52,7 @@ public class EventFactory {
     a.number = change.getId().toString();
     a.subject = change.getSubject();
     a.url = getChangeUrl(change);
+    a.sortKey = change.getSortKey();
 
     final AccountState owner = accountCache.get(change.getOwner());
     a.owner = asAccountAttribute(owner.getAccount());

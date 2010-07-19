@@ -103,6 +103,8 @@ change:: The Gerrit change the event is related to
 
   branch;; Branch name within project
 
+  topic;; Topic name specified by the uploaded for this change series
+
   id;; Change identifier
 
   number;; Change number (deprecated)
@@ -112,6 +114,11 @@ change:: The Gerrit change the event is related to
   owner;; Owner in account attribute
 
   url;; Canonical URL to reach this change
+
+  lastUpdated;; Time in seconds since the UNIX epoch when this change
+  was last updated.
+
+  sortKey;; Internal key used to sort changes, based on lastUpdated.
 
 [[account]]
 account:: An account that is related to an event or attribute

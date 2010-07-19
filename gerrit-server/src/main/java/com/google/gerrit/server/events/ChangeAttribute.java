@@ -17,9 +17,12 @@ package com.google.gerrit.server.events;
 public class ChangeAttribute {
     public String project;
     public String branch;
+    public String topic;
     public String id;
     public String number;
     public String subject;
     public AccountAttribute owner;
     public String url;
+    public long lastUpdated;
+    public String sortKey;
 }

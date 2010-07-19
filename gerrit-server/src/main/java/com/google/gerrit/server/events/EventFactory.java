@@ -48,10 +48,13 @@ public class EventFactory {
     ChangeAttribute a = new ChangeAttribute();
     a.project = change.getProject().get();
     a.branch = change.getDest().getShortName();
+    a.topic = change.getTopic();
     a.id = change.getKey().get();
     a.number = change.getId().toString();
     a.subject = change.getSubject();
     a.url = getChangeUrl(change);
+    a.lastUpdated = change.getLastUpdatedOn().getTime() / 1000L;
+    a.sortKey = change.getSortKey();
 
     final AccountState owner = accountCache.get(change.getOwner());
     a.owner = asAccountAttribute(owner.getAccount());

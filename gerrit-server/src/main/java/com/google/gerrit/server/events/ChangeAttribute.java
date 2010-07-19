@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.gerrit.reviewdb.Change;
+
+import java.util.List;
+
 public class ChangeAttribute {
     public String project;
     public String branch;
@@ -23,6 +27,13 @@ public class ChangeAttribute {
     public String subject;
     public AccountAttribute owner;
     public String url;
-    public long lastUpdated;
+
+    public Long lastUpdated;
     public String sortKey;
+    public Boolean open;
+    public Change.Status status;
+
+    public List<TrackingIdAttribute> trackingIds;
+    public PatchSetAttribute currentPatchSet;
+    public List<PatchSetAttribute> patchSets;
 }

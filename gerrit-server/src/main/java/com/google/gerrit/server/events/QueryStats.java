@@ -14,13 +14,8 @@
 
 package com.google.gerrit.server.events;
 
-import java.util.List;
-
-public class PatchSetAttribute {
-    public String number;
-    public String revision;
-    public String ref;
-    public AccountAttribute uploader;
-
-    public List<ApprovalAttribute> approvals;
+public class QueryStats {
+  public final String type = "stats";
+  public int rowCount;
+  public long runTimeMilliseconds;
 }

@@ -66,6 +66,9 @@ link:cmd-review.html[gerrit approve]::
 link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 
+link:cmd-review.html[gerrit query]::
+	Query the change database.
+
 link:cmd-review.html[gerrit review]::
 	Verify, approve and/or submit a patch set from the command line.
 

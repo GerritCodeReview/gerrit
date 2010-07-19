@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -22,14 +23,20 @@ import com.google.inject.Singleton;
 @Singleton
 class SshCurrentUserProvider implements Provider<CurrentUser> {
   private final Provider<SshSession> session;
+  private final Provider<IdentifiedUser> identifiedProvider;
 
   @Inject
-  SshCurrentUserProvider(final Provider<SshSession> s) {
+  SshCurrentUserProvider(Provider<SshSession> s, Provider<IdentifiedUser> p) {
     session = s;
+    identifiedProvider = p;
   }
 
   @Override
   public CurrentUser get() {
+    final CurrentUser user = session.get().getCurrentUser();
+    if (user instanceof IdentifiedUser) {
+      return identifiedProvider.get();
+    }
     return session.get().getCurrentUser();
   }
 }

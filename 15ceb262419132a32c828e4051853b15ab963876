@@ -239,6 +239,24 @@
       "revId": "15ceb262419132a32c828e4051853b15ab963876",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA2H///7I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-19T18:22:09Z",
+      "side": 1,
+      "message": "Its called org.eclipse.jgit.fnmatch.FileNameMatcher.  It should be in the classpath, inherited through from JGit somewhere.",
+      "parentUuid": "AAAA2H///8U\u003d",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

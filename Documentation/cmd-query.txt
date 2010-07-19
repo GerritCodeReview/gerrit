@@ -1,0 +1,96 @@
+gerrit query
+============
+
+NAME
+----
+gerrit query - Query the change database
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit query' \
+[-n <limit>] \
+[\--format {TEXT | JSON}] \
+[\--sort-key <sortKey>] \
+[\--current-patch-set] \
+[\--patch-sets] \
+[\--] \
+<query>
+
+DESCRIPTION
+-----------
+
+Queries the change database and returns results describing changes
+that match the input query.
+
+A query may be limited on the number of results it returns, in which
+case the \--sort-key option can be used to resume the query at the
+change that follows.
+
+Non-option arguments to this command are joined with spaces and then
+parsed as a query.  This simplifies calling conventions over SSH
+by permitting operators to appear in different arguments without
+multiple levels of quoting required.
+
+OPTIONS
+-------
+\--format=TYPE::
+	Result format to print results in.  Default is a simple
+	text format that is mostly human readable.  JSON enables
+	a JSON encoding, with all data for a change appearing on
+	a single line.
+
+\--limit=N, -n N::
+	Maximum number of results to return.
+
+\--sort-key=KEY::
+	Resume results after this sort key.  Callers should pass the
+	sortKey of the last change of the prior results.
+
+\--current-patch-set::
+	Include information about the current patch set in the results.
+
+\--patch-sets::
+	Include information about all patch sets.  If combined with
+	the \--current-patch-set flag then the current patch set
+	information will be output twice, once in each field.
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+EXAMPLES
+--------
+
+Find open changes in the tools/gerrit project:
+-----
+  $ ssh -p 29418 review.example.com gerrit query --format=JSON status:open project:tools/gerrit
+  {"project":"tools/gerrit", ...}
+  {"project":"tools/gerrit", ...}
+  {"type":"stats","rowCount":2,"runningTimeMilliseconds:15}
+-----
+
+SCHEMA
+------
+The JSON messages consist of nested objects referencing the
+link:json.html#change[change],
+link:json.html#patchset[patchset],
+link:json.html#[account]
+involved, and other attributes as appropriate.
+
+Note that any field may be missing in the JSON messages, so consumers
+of this JSON stream should deal with that appropriately.
+
+SEE ALSO
+--------
+
+* link:json.html[JSON Data Formats]
+* link:access-control.html[Access Controls]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

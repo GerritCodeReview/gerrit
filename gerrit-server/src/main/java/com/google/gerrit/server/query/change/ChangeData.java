@@ -24,7 +24,10 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class ChangeData {
   private final Change.Id legacyId;
@@ -69,6 +72,39 @@ public class ChangeData {
       change = db.get().changes().get(legacyId);
     }
     return change;
+  }
+
+  public PatchSet currentPatchSet(Provider<ReviewDb> db) throws OrmException {
+    Change c = change(db);
+    if (c == null) {
+      return null;
+    }
+    for (PatchSet p : patches(db)) {
+      if (p.getId().equals(c.currentPatchSetId())) {
+        return p;
+      }
+    }
+    return null;
+  }
+
+  public Collection<PatchSetApproval> currentApprovals(Provider<ReviewDb> db)
+      throws OrmException {
+    Change c = change(db);
+    if (c == null) {
+      return Collections.emptyList();
+    }
+    return approvalsFor(db, c.currentPatchSetId());
+  }
+
+  public Collection<PatchSetApproval> approvalsFor(Provider<ReviewDb> db,
+      PatchSet.Id psId) throws OrmException {
+    List<PatchSetApproval> r = new ArrayList<PatchSetApproval>();
+    for (PatchSetApproval p : approvals(db)) {
+      if (p.getPatchSetId().equals(psId)) {
+        r.add(p);
+      }
+    }
+    return r;
   }
 
   public Collection<PatchSet> patches(Provider<ReviewDb> db)

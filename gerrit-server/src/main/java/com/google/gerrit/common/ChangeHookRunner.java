@@ -24,18 +24,22 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.events.ApprovalAttribute;
+import com.google.gerrit.server.events.ChangeAbandonedEvent;
+import com.google.gerrit.server.events.ChangeEvent;
+import com.google.gerrit.server.events.ChangeMergedEvent;
+import com.google.gerrit.server.events.CommentAddedEvent;
+import com.google.gerrit.server.events.EventFactory;
+import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.google.inject.internal.Nullable;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
@@ -59,68 +63,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ChangeHookRunner {
     /** A logger for this class. */
     private static final Logger log = LoggerFactory.getLogger(ChangeHookRunner.class);
-
-    public static abstract class ChangeEvent {
-    }
-
-    public static class ApprovalAttribute {
-        public String type;
-        public String description;
-        public String value;
-    }
-
-    public static class AuthorAttribute {
-        public String name;
-        public String email;
-    }
-
-    public static class ChangeAttribute {
-        public String project;
-        public String branch;
-        public String id;
-        public String number;
-        public String subject;
-        public AuthorAttribute owner;
-        public String url;
-    }
-
-    public static class PatchSetAttribute {
-        public String number;
-        public String revision;
-        public String ref;
-        public AuthorAttribute uploader;
-    }
-
-    public static class CommentAddedEvent extends ChangeEvent {
-        public final String type = "comment-added";
-        public ChangeAttribute change;
-        public PatchSetAttribute patchSet;
-        public AuthorAttribute author;
-        public ApprovalAttribute[] approvals;
-        public String comment;
-    }
-
-    public static class ChangeMergedEvent extends ChangeEvent {
-        public final String type = "change-merged";
-        public ChangeAttribute change;
-        public PatchSetAttribute patchSet;
-        public AuthorAttribute submitter;
-    }
-
-    public static class ChangeAbandonedEvent extends ChangeEvent {
-        public final String type = "change-abandoned";
-        public ChangeAttribute change;
-        public PatchSetAttribute patchSet;
-        public AuthorAttribute abandoner;
-        public String reason;
-    }
-
-    public static class PatchSetCreatedEvent extends ChangeEvent {
-        public final String type = "patchset-created";
-        public ChangeAttribute change;
-        public PatchSetAttribute patchSet;
-        public AuthorAttribute uploader;
-    }
 
     private static class ChangeListenerHolder {
         final ChangeListener listener;
@@ -160,8 +102,7 @@ public class ChangeHookRunner {
 
     private final ApprovalTypes approvalTypes;
 
-    private final Provider<String> urlProvider;
-
+    private final EventFactory eventFactory;
 
     /**
      * Create a new ChangeHookRunner.
@@ -179,13 +120,13 @@ public class ChangeHookRunner {
       final ProjectCache projectCache,
       final AccountCache accountCache,
       final ApprovalTypes approvalTypes,
-      @CanonicalWebUrl @Nullable final Provider<String> cwu) {
+      final EventFactory eventFactory) {
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
         this.projectCache = projectCache;
         this.accountCache = accountCache;
         this.approvalTypes = approvalTypes;
-        this.urlProvider = cwu;
+        this.eventFactory = eventFactory;
 
         final File hooksPath = sitePath.resolve(getValue(config, "hooks", "path", sitePath.hooks_dir.getAbsolutePath()));
 
@@ -241,9 +182,9 @@ public class ChangeHookRunner {
         final PatchSetCreatedEvent event = new PatchSetCreatedEvent();
         final AccountState uploader = accountCache.get(patchSet.getUploader());
 
-        event.change = getChangeAttribute(change);
-        event.patchSet = getPatchSetAttribute(patchSet);
-        event.uploader = getAccountAttribute(uploader.getAccount());
+        event.change = eventFactory.asChangeAttribute(change);
+        event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+        event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
         fireEvent(change, event);
 
         final List<String> args = new ArrayList<String>();
@@ -279,9 +220,9 @@ public class ChangeHookRunner {
     public void doCommentAddedHook(final Change change, final Account account, final PatchSet patchSet, final String comment, final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> approvals) {
         final CommentAddedEvent event = new CommentAddedEvent();
 
-        event.change = getChangeAttribute(change);
-        event.author =  getAccountAttribute(account);
-        event.patchSet = getPatchSetAttribute(patchSet);
+        event.change = eventFactory.asChangeAttribute(change);
+        event.author =  eventFactory.asAccountAttribute(account);
+        event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
         event.comment = comment;
 
         if (approvals.size() > 0) {
@@ -329,9 +270,9 @@ public class ChangeHookRunner {
     public void doChangeMergedHook(final Change change, final Account account, final PatchSet patchSet) {
         final ChangeMergedEvent event = new ChangeMergedEvent();
 
-        event.change = getChangeAttribute(change);
-        event.submitter =  getAccountAttribute(account);
-        event.patchSet = getPatchSetAttribute(patchSet);
+        event.change = eventFactory.asChangeAttribute(change);
+        event.submitter = eventFactory.asAccountAttribute(account);
+        event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
         fireEvent(change, event);
 
         final List<String> args = new ArrayList<String>();
@@ -363,8 +304,8 @@ public class ChangeHookRunner {
     public void doChangeAbandonedHook(final Change change, final Account account, final String reason) {
         final ChangeAbandonedEvent event = new ChangeAbandonedEvent();
 
-        event.change = getChangeAttribute(change);
-        event.abandoner = getAccountAttribute(account);
+        event.change = eventFactory.asChangeAttribute(change);
+        event.abandoner = eventFactory.asAccountAttribute(account);
         event.reason = reason;
         fireEvent(change, event);
 
@@ -404,22 +345,6 @@ public class ChangeHookRunner {
         return pc.controlFor(change).isVisible();
     }
 
-    /** Get a link to the change; null if the server doesn't know its own address. */
-    private String getChangeUrl(final Change change) {
-        if (change != null && getGerritUrl() != null) {
-            final StringBuilder r = new StringBuilder();
-            r.append(getGerritUrl());
-            r.append(change.getChangeId());
-            return r.toString();
-        }
-        return null;
-    }
-
-    private String getGerritUrl() {
-        return urlProvider.get();
-    }
-
-
     /**
      * Create an ApprovalAttribute for the given approval suitable for serialization to JSON.
      * @param approval
@@ -433,54 +358,6 @@ public class ChangeHookRunner {
         a.description = at.getCategory().getName();
         a.value = Short.toString(approval.getValue().get());
         return a;
-    }
-
-    /**
-     * Create an AuthorAttribute for the given account suitable for serialization to JSON.
-     *
-     * @param account
-     * @return object suitable for serialization to JSON
-     */
-    private AuthorAttribute getAccountAttribute(final Account account) {
-        AuthorAttribute author = new AuthorAttribute();
-        author.name = account.getFullName();
-        author.email = account.getPreferredEmail();
-        return author;
-    }
-
-    /**
-     * Create a ChangeAttribute for the given change suitable for serialization to JSON.
-     *
-     * @param change
-     * @return object suitable for serialization to JSON
-     */
-    private ChangeAttribute getChangeAttribute(final Change change) {
-        ChangeAttribute a = new ChangeAttribute();
-        a.project = change.getProject().get();
-        a.branch = change.getDest().getShortName();
-        a.id = change.getKey().get();
-        a.number = change.getId().toString();
-        a.subject = change.getSubject();
-        final AccountState owner = accountCache.get(change.getOwner());
-        a.owner = getAccountAttribute(owner.getAccount());
-        a.url = getChangeUrl(change);
-        return a;
-    }
-
-    /**
-     * Create an PatchSetAttribute for the given patchset suitable for serialization to JSON.
-     *
-     * @param patchSet
-     * @return object suitable for serialization to JSON
-     */
-    private PatchSetAttribute getPatchSetAttribute(final PatchSet patchSet) {
-        PatchSetAttribute p = new PatchSetAttribute();
-        p.revision = patchSet.getRevision().get();
-        p.number = Integer.toString(patchSet.getPatchSetId());
-        p.ref = patchSet.getRefName();
-        final AccountState uploader = accountCache.get(patchSet.getUploader());
-        p.uploader = getAccountAttribute(uploader.getAccount());
-        return p;
     }
 
     /**

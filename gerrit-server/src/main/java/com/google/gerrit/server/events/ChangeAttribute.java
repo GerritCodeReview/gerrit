@@ -12,11 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common;
+package com.google.gerrit.server.events;
 
-import com.google.gerrit.server.events.ChangeEvent;
-
-
-public interface ChangeListener {
-    public void onChangeEvent(ChangeEvent event);
+public class ChangeAttribute {
+    public String project;
+    public String branch;
+    public String id;
+    public String number;
+    public String subject;
+    public AccountAttribute owner;
+    public String url;
 }

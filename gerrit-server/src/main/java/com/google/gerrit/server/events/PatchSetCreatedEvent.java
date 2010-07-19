@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common;
+package com.google.gerrit.server.events;
 
-import com.google.gerrit.server.events.ChangeEvent;
-
-
-public interface ChangeListener {
-    public void onChangeEvent(ChangeEvent event);
+public class PatchSetCreatedEvent extends ChangeEvent {
+    public final String type = "patchset-created";
+    public ChangeAttribute change;
+    public PatchSetAttribute patchSet;
+    public AccountAttribute uploader;
 }

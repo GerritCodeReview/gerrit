@@ -334,6 +334,13 @@ automatically set to the page size configured in the current user's
 preferences.  Including it in a web query may lead to unpredictable
 results with regards to pagination.
 
+resume\_sortkey:'KEY'::
++
+Positions the low level scan routine to start from 'KEY' and
+continue through changes from this point.  This is most often used
+for paginating result sets.  Including this in a web query may lead
+to unpredictable results.
+
 sortkey\_after:'KEY', sortkey\_before:'KEY'::
 +
 Restart the low level scan routine from 'KEY'.  This is automatically

@@ -1,0 +1,110 @@
+gerrit query
+============
+
+NAME
+----
+gerrit query - Query the change database
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit query' \
+[\--format {TEXT | JSON}] \
+[\--current-patch-set] \
+[\--patch-sets] \
+[\--] \
+<query> \
+[limit:<n>] \
+[resume\_sortkey:<sortKey>]
+
+DESCRIPTION
+-----------
+
+Queries the change database and returns results describing changes
+that match the input query.  More recently updated changes appear
+before older changes, which is the same order presented in the
+web interface.
+
+A query may be limited on the number of results it returns with the
+'limit:' operator.  If no limit is supplied an internal default
+limit is used to prevent explosion of the result set.  To obtain
+results beyond the limit, the 'resume_sortkey:' operator can be used
+to resume the query at the change that follows the last change of
+the prior result set.
+
+Non-option arguments to this command are joined with spaces and then
+parsed as a query.  This simplifies calling conventions over SSH
+by permitting operators to appear in different arguments without
+multiple levels of quoting required.
+
+OPTIONS
+-------
+\--current-patch-set::
+	Include information about the current patch set in the results.
+
+\--patch-sets::
+	Include information about all patch sets.  If combined with
+	the \--current-patch-set flag then the current patch set
+	information will be output twice, once in each field.
+
+limit:<n>::
+	Maximum number of results to return.  This is actually a
+	query operator, and not a command line option.	If more
+	than one limit: operator is provided, the smallest limit
+	will be used to cut the result set.
+
+resume\_sortkey:<sortKey>::
+	Resume results from this sort key.  Callers should pass
+	the sortKey of the last change of the prior result set to
+	resume a prior query.  This is actually a query operator,
+	and not a command line option.
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+EXAMPLES
+--------
+
+Find the 2 most recent open changes in the tools/gerrit project:
+-----
+  $ ssh -p 29418 review.example.com gerrit query --format=JSON status:open project:tools/gerrit limit:2
+  {"project":"tools/gerrit", ...}
+  {"project":"tools/gerrit", ..., sortKey:"000e6aee00003e26", ...}
+  {"type":"stats","rowCount":2,"runningTimeMilliseconds:15}
+-----
+
+Resume the same query and obtain the final results:
+-----
+  $ ssh -p 29418 review.example.com gerrit query --format=JSON status:open project:tools/gerrit limit:2 resume_sortkey:000e6aee00003e26
+  {"project":"tools/gerrit", ...}
+  {"project":"tools/gerrit", ...}
+  {"type":"stats","rowCount":1,"runningTimeMilliseconds:15}
+-----
+
+
+SCHEMA
+------
+The JSON messages consist of nested objects referencing the
+link:json.html#change[change],
+link:json.html#patchset[patchset],
+link:json.html#[account]
+involved, and other attributes as appropriate.
+
+Note that any field may be missing in the JSON messages, so consumers
+of this JSON stream should deal with that appropriately.
+
+SEE ALSO
+--------
+
+* link:user-search.html[Query Operators]
+* link:json.html[JSON Data Formats]
+* link:access-control.html[Access Controls]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

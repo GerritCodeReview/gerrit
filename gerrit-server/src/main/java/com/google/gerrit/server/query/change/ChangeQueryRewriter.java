@@ -105,6 +105,23 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     return a.intValue() <= b.intValue() ? a : b;
   }
 
+  @SuppressWarnings("unchecked")
+  @NoCostComputation
+  @Rewrite("A=(sortkey_before:*) B=(sortkey_before:*)")
+  public Predicate<ChangeData> r00_oldestSortKey(
+      @Named("A") SortKeyPredicate.Before a,
+      @Named("B") SortKeyPredicate.Before b) {
+    return a.getValue().compareTo(b.getValue()) <= 0 ? a : b;
+  }
+
+  @SuppressWarnings("unchecked")
+  @NoCostComputation
+  @Rewrite("A=(sortkey_after:*) B=(sortkey_after:*)")
+  public Predicate<ChangeData> r00_newestSortKey(
+      @Named("A") SortKeyPredicate.After a, @Named("B") SortKeyPredicate.After b) {
+    return a.getValue().compareTo(b.getValue()) >= 0 ? a : b;
+  }
+
   @Rewrite("status:open P=(project:*) S=(sortkey_after:*) L=(limit:*)")
   public Predicate<ChangeData> r10_byProjectOpenPrev(
       @Named("P") final ProjectPredicate p,

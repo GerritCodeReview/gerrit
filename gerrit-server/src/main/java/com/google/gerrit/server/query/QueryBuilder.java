@@ -26,6 +26,8 @@ import static com.google.gerrit.server.query.QueryParser.OR;
 import static com.google.gerrit.server.query.QueryParser.SINGLE_WORD;
 import static com.google.gerrit.server.query.QueryParser.VARIABLE_ASSIGN;
 
+import com.google.gerrit.server.query.change.ChangeData;
+
 import org.antlr.runtime.tree.Tree;
 
 import java.lang.annotation.ElementType;
@@ -235,6 +237,33 @@ public abstract class QueryBuilder<T> {
   protected Predicate<T> defaultField(final String value)
       throws QueryParseException {
     throw error("Unsupported query:" + value);
+  }
+
+  /**
+   * Locate a predicate in the predicate tree.
+   *
+   * @param p the predicate to find.
+   * @param clazz type of the predicate instance.
+   * @param name name of the operator.
+   * @return the predicate, null if not found.
+   */
+  @SuppressWarnings("unchecked")
+  public <P extends OperatorPredicate<T>> P find(Predicate<T> p,
+      Class<P> clazz, String name) {
+    if (p instanceof OperatorPredicate
+        && ((OperatorPredicate) p).getOperator().equals(name)
+        && clazz.isAssignableFrom(p.getClass())) {
+      return (P) p;
+    }
+
+    for (Predicate<T> c : p.getChildren()) {
+      P r = find(c, clazz, name);
+      if (r != null) {
+        return r;
+      }
+    }
+
+    return null;
   }
 
   @SuppressWarnings("unchecked")

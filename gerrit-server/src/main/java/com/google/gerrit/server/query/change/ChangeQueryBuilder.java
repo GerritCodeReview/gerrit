@@ -70,6 +70,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_IS = "is";
   public static final String FIELD_HAS = "has";
   public static final String FIELD_LABEL = "label";
+  public static final String FIELD_LIMIT = "limit";
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_REF = "ref";
@@ -334,7 +335,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   public Predicate<ChangeData> limit(int limit) {
-    return new IntPredicate<ChangeData>("limit", limit) {
+    return new IntPredicate<ChangeData>(FIELD_LIMIT, limit) {
       @Override
       public boolean match(ChangeData object) {
         return true;
@@ -355,6 +356,22 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> sortkey_before(String sortKey) {
     return new SortKeyPredicate.Before(dbProvider, sortKey);
+  }
+
+  @Operator
+  public Predicate<ChangeData> resume_sortkey(String sortKey) {
+    return sortkey_before(sortKey);
+  }
+
+  @SuppressWarnings("unchecked")
+  public boolean hasLimit(Predicate<ChangeData> p) {
+    return find(p, IntPredicate.class, FIELD_LIMIT) != null;
+  }
+
+  @SuppressWarnings("unchecked")
+  public boolean hasSortKey(Predicate<ChangeData> p) {
+    return find(p, SortKeyPredicate.class, "sortkey_after") != null
+        || find(p, SortKeyPredicate.class, "sortkey_before") != null;
   }
 
   @SuppressWarnings("unchecked")

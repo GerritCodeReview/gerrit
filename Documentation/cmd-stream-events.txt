@@ -54,93 +54,48 @@ Patchset Added
 ^^^^^^^^^^^^^^
 type:: "patchset-added"
 
-change:: <<change,change attribute>>
+change:: link:json.html#change[change attribute]
 
-patchset:: <<patchset,patchset attribute>>
+patchset:: link:json.html#patchset[patchset attribute]
 
-uploader:: <<account,account attribute>>
+uploader:: link:json.html#account[account attribute]
 
 Change Abandoned
 ^^^^^^^^^^^^^^^^
 type:: "change-abandoned"
 
-change:: <<change,change attribute>>
+change:: link:json.html#change[change attribute]
 
-patchset:: <<patchset,patchset attribute>>
+patchset:: link:json.html#patchset[patchset attribute]
 
-abandoner:: <<account,account attribute>>
+abandoner:: link:json.html#account[account attribute]
 
 Change Merged
 ^^^^^^^^^^^^^
 type:: "change-merged"
 
-change:: <<change,change attribute>>
+change:: link:json.html#change[change attribute]
 
-patchset:: <<patchset,patchset attribute>>
+patchset:: link:json.html#patchset[patchset attribute]
 
-submitter:: <<account,account attribute>>
+submitter:: link:json.html#account[account attribute]
 
 Comment Added
 ^^^^^^^^^^^^^
 type:: "comment-added"
 
-change:: <<change,change attribute>>
+change:: link:json.html#change[change attribute]
 
-patchset:: <<patchset,patchset attribute>>
+patchset:: link:json.html#patchset[patchset attribute]
 
-author:: <<account,account attribute>>
+author:: link:json.html#account[account attribute]
 
 comment:: Comment text author had written
-
-Attributes
-~~~~~~~~~~
-Attributes are part events to give context related to the event.
-
-[[change]]
-change:: The Gerrit change the event is related to
-
-  project;; Project path in Gerrit
-
-  branch;; Branch name within project
-
-  topic;; Topic name specified by the uploaded for this change series
-
-  id;; Change identifier
-
-  number;; Change number (deprecated)
-
-  subject;; Description of change
-
-  owner;; Owner in account attribute
-
-  url;; Canonical URL to reach this change
-
-  lastUpdated;; Time in seconds since the UNIX epoch when this change
-  was last updated.
-
-  sortKey;; Internal key used to sort changes, based on lastUpdated.
-
-[[account]]
-account:: An account that is related to an event or attribute
-
-  name;; Account user's full name
-
-  email;; Account user's preferred email
-
-[[patchset]]
-patchset:: Refers to a specific patchset within a change
-
-  number;; The patchset number
-
-  revision;; Git commit-ish for this patchset
-
-  ref;; Git reference pointing at revision
-
-  uploader;; Uploader of patch set in account attribute
 
 SEE ALSO
 --------
 
+* link:json.html[JSON Data Formats]
 * link:access-control.html[Access Controls]
 
 GERRIT

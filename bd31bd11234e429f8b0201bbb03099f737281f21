@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA2H///+w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-19T00:57:50Z",
+      "side": 1,
+      "message": "I understand your goals.  We\u0027re still trying to keep all of the access control related code inside of the *Control classes.  Since this is dealing with access to a project via Git, the check should be in the ProjectControl class.  Further, you are doing this check twice, once in the HTTP interface and again in the SSH interface.  We really should only have a single place where that logic is done.\n\nSince we use ProjectControl for the read test to see if you can read the project, we should also just use it to see if you can even execute the clone or receive here.",
+      "parentUuid": "AAAA1X///so\u003d",
+      "revId": "bd31bd11234e429f8b0201bbb03099f737281f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA1H///iA\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectServlet.java",
         "patchSetId": 1

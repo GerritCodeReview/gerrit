@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA2H///+o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/NewProjectRightsPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-19T01:10:53Z",
+      "side": 1,
+      "message": "Yes.  Actually, look at what I just merged to master with the query operators, in particular you might want to read the documentation in user-search.txt.  You can write a query to identify changes that can be submitted:\n\n  is:open CodeReview+2 Verified+1 -Verified-1 -CodeReview-2\n\nIf we put that string (minus the is:open part that would be implied) into your field, it means what you want it to mean... you can submit this only if the above expression is true.\n\nBy making it a single string, all you need to do is feed the string from the table through the ChangeQueryBuilder to get a Predicate\u003cChangeData\u003e, and then run match() on that to see if the submit is possible.  That completely removes the FunctionState mess and starts to move us into this configurable submit logic that we have been discussing for quite a long time.\n\nSo the existence of that ChangeQueryBuilder and its Predicate support classes is why I was trying to steer you into a simple string here.  We have the code already done to handle that as a string, and users can use the same syntax to search for changes as they can for controlling how we manage them.",
+      "parentUuid": "AAAA1n///6g\u003d",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA1X///9U\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AddCodeReviewLabelBox.java",
         "patchSetId": 1
@@ -135,6 +153,24 @@
       "side": 1,
       "message": "I also agree. I have considered this patch as a prototype to validate the idea.\n\nShould we consider the CodeReview to be an AccessCategory Id too, so the labels to be displayed in the publish comments screen are defined by the NewRefRights table?",
       "parentUuid": "AAAA1X///7Y\u003d",
+      "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA2H///+g\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccessCategory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-19T01:10:53Z",
+      "side": 1,
+      "message": "Yea, I think CodeReview is also an AccessCategory.  Its just not magical like PushBranch+1 above is.  Its just a default value for the server to have upon installation so that basic review functionality works out of the box.\n\nGiven that we call these things PatchSetLabels when they are actually attached to the change, maybe this class is named wrong.  Is LabelDefinition a better name for this?  Its a definition of a label configured by the administrators, so that users can more easily use a label.",
+      "parentUuid": "AAAA1n///6Y\u003d",
       "revId": "b0fe4b398cfa92331cb8c36e7dfecae7c1441b81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

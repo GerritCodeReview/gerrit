@@ -177,18 +177,22 @@ public class ChangeUtil {
     return new PatchSetApproval(akey, (short) 1);
   }
 
-
-  public static void computeSortKey(final Change c) {
+  public static String sortKey(long lastUpdated, int id){
     // The encoding uses minutes since Wed Oct 1 00:00:00 2008 UTC.
     // We overrun approximately 4,085 years later, so ~6093.
     //
-    final long lastUpdatedOn =
-        (c.getLastUpdatedOn().getTime() / 1000L) - 1222819200L;
+    final long lastUpdatedOn = (lastUpdated / 1000L) - 1222819200L;
     final StringBuilder r = new StringBuilder(16);
     r.setLength(16);
     formatHexInt(r, 0, (int) (lastUpdatedOn / 60));
-    formatHexInt(r, 8, c.getId().get());
-    c.setSortKey(r.toString());
+    formatHexInt(r, 8, id);
+    return r.toString();
+  }
+
+  public static void computeSortKey(final Change c) {
+    long lastUpdated = c.getLastUpdatedOn().getTime();
+    int id = c.getId().get();
+    c.setSortKey(sortKey(lastUpdated, id));
   }
 
   private static final char[] hexchar =

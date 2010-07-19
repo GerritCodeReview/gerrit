@@ -132,7 +132,7 @@ public abstract class QueryRewriter<T> {
       old = in;
       in = rewriteOne(in);
 
-      if (in.getChildCount() > 0) {
+      if (old.equals(in) && in.getChildCount() > 0) {
         List<Predicate<T>> n = new ArrayList<Predicate<T>>(in.getChildCount());
         for (Predicate<T> p : in.getChildren()) {
           n.add(rewrite(p));
@@ -178,6 +178,10 @@ public abstract class QueryRewriter<T> {
       Predicate<T> n = r.rewrite(this, input);
       if (n == null) {
         continue;
+      }
+
+      if (!r.useBestCost()) {
+        return n;
       }
 
       if (best == null || n.getCost() < best.getCost()) {
@@ -322,6 +326,11 @@ public abstract class QueryRewriter<T> {
     String value();
   }
 
+  @Retention(RetentionPolicy.RUNTIME)
+  @Target(ElementType.METHOD)
+  protected @interface NoCostComputation {
+  }
+
   /** Applies a rewrite rule to a Predicate. */
   protected interface RewriteRule<T> {
     /**
@@ -333,6 +342,9 @@ public abstract class QueryRewriter<T> {
      *         rule does not want this predicate.
      */
     Predicate<T> rewrite(QueryRewriter<T> rewriter, Predicate<T> input);
+
+    /** @return true if the best cost should be selected. */
+    boolean useBestCost();
   }
 
   /** Implements the magic behind {@link Rewrite} annotations. */
@@ -341,10 +353,12 @@ public abstract class QueryRewriter<T> {
     private final Predicate<T> pattern;
     private final String[] argNames;
     private final Class<? extends Predicate<T>>[] argTypes;
+    private final boolean useBestCost;
 
     @SuppressWarnings("unchecked")
     MethodRewrite(QueryBuilder<T> queryBuilder, String patternText, Method m) {
       method = m;
+      useBestCost = m.getAnnotation(NoCostComputation.class) == null;
 
       Predicate<T> p;
       try {
@@ -383,6 +397,11 @@ public abstract class QueryRewriter<T> {
         argNames[i] = name.value();
         argTypes[i] = (Class<Predicate<T>>) method.getParameterTypes()[i];
       }
+    }
+
+    @Override
+    public boolean useBestCost() {
+      return useBestCost;
     }
 
     @SuppressWarnings("unchecked")

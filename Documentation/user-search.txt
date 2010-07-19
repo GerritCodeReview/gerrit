@@ -48,6 +48,21 @@ Operators act as restrictions on the search.  As more operators
 are added to the same query string, they further restrict the
 returned results.
 
+[[age]]
+age:'AGE'::
++
+Amount of time that has expired since the change was last updated
+with a review comment or new patch set.  The age must be specified
+to include a unit suffix, for example `age:2d`:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
+* d, day, days
+* w, week, weeks (`1 week` is treated as `7 days`)
+* mon, month, months (`1 month` is treated as `30 days`)
+* y, year, years (`1 year` is treated as `365 days`)
+
 [[change]]
 change:'ID'::
 +

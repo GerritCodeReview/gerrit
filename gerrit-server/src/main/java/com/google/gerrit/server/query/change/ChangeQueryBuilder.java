@@ -62,6 +62,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   private static final Pattern PAT_LABEL =
       Pattern.compile("^[a-zA-Z][a-zA-Z0-9]*((=|>=|<=)[+-]?|[+-])\\d+$");
 
+  public static final String FIELD_AGE = "age";
   public static final String FIELD_BRANCH = "branch";
   public static final String FIELD_CHANGE = "change";
   public static final String FIELD_COMMIT = "commit";
@@ -116,6 +117,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   Provider<ReviewDb> getReviewDbProvider() {
     return dbProvider;
+  }
+
+  @Operator
+  public Predicate<ChangeData> age(String value) {
+    return new AgePredicate(dbProvider, value);
   }
 
   @Operator

@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeAccess;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
@@ -60,16 +61,19 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   }
 
   @Rewrite("-status:open")
+  @NoCostComputation
   public Predicate<ChangeData> r00_notOpen() {
     return ChangeStatusPredicate.closed(dbProvider);
   }
 
   @Rewrite("-status:closed")
+  @NoCostComputation
   public Predicate<ChangeData> r00_notClosed() {
     return ChangeStatusPredicate.open(dbProvider);
   }
 
   @SuppressWarnings("unchecked")
+  @NoCostComputation
   @Rewrite("-status:merged")
   public Predicate<ChangeData> r00_notMerged() {
     return or(ChangeStatusPredicate.open(dbProvider),
@@ -77,10 +81,19 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   }
 
   @SuppressWarnings("unchecked")
+  @NoCostComputation
   @Rewrite("-status:abandoned")
   public Predicate<ChangeData> r00_notAbandoned() {
     return or(ChangeStatusPredicate.open(dbProvider),
         new ChangeStatusPredicate(dbProvider, Change.Status.MERGED));
+  }
+
+  @SuppressWarnings("unchecked")
+  @NoCostComputation
+  @Rewrite("sortkey_before:z A=(age:*)")
+  public Predicate<ChangeData> r00_ageToSortKey(@Named("A") AgePredicate a) {
+    String cut = ChangeUtil.sortKey(a.getCut(), Integer.MAX_VALUE);
+    return and(new SortKeyPredicate.Before(dbProvider, cut), a);
   }
 
   @Rewrite("status:open P=(project:*) S=(sortkey_after:*) L=(limit:*)")

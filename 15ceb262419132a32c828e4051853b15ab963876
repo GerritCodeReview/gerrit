@@ -221,6 +221,24 @@
       "revId": "15ceb262419132a32c828e4051853b15ab963876",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA2H///8U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1003817
+      },
+      "writtenOn": "2010-07-19T18:16:28Z",
+      "side": 1,
+      "message": "Hi, Shawn. I\u0027ve searched for this class \"FileNameMatcher\" and haven\u0027t found anywhere in the gerrit classpath. Should it be created? Should it contain the logic below?",
+      "parentUuid": "AAAA1n////E\u003d",
+      "revId": "15ceb262419132a32c828e4051853b15ab963876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

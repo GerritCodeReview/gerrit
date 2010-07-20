@@ -15,45 +15,31 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountProjectWatch;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.ChangeMessage;
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gerrit.reviewdb.PatchSetInfo;
-import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.reviewdb.UserIdentity;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.EmailHeader.AddressList;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListEntry;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.query.Predicate;
-import com.google.gerrit.server.query.QueryParseException;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gwtorm.client.OrmException;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.VelocityContext;
 
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+
 
 /** Sends an email to one or more interested parties. */
 public abstract class OutgoingEmail {
@@ -68,6 +54,7 @@ public abstract class OutgoingEmail {
   private final List<Address> smtpRcptTo = new ArrayList<Address>();
   private Address smtpFromAddress;
   private StringBuilder body;
+  protected VelocityContext velocityContext;
 
   protected final EmailArguments args;
   protected Account.Id fromId;
@@ -134,10 +121,12 @@ public abstract class OutgoingEmail {
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */
-  protected abstract void format();
+  protected abstract void format() throws EmailException;
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   protected void init() {
+    setupVelocityContext();
+
     smtpFromAddress = args.fromAddressGenerator.from(fromId);
     setHeader("Date", new Date());
     headers.put("From", new EmailHeader.AddressList(smtpFromAddress));
@@ -207,6 +196,12 @@ public abstract class OutgoingEmail {
 
   protected String getGerritUrl() {
     return args.urlProvider.get();
+  }
+
+  /** Set a header in the outgoing message using a template. */
+  protected void setVHeader(final String name, final String value) throws
+      EmailException {
+    setHeader(name, velocify(value));
   }
 
   /** Set a header in the outgoing message. */
@@ -335,5 +330,42 @@ public abstract class OutgoingEmail {
       return null;
     }
     return new Address(a.getFullName(), e);
+  }
+
+  protected void setupVelocityContext() {
+    velocityContext = new VelocityContext();
+
+    velocityContext.put("email", this);
+    velocityContext.put("messageClass", messageClass);
+    velocityContext.put("StringUtils", StringUtils.class);
+  }
+
+  protected String velocify(String tpl) throws EmailException {
+    try {
+      StringWriter w = new StringWriter();
+      Velocity.evaluate(velocityContext, w, "OutgoingEmail", tpl);
+      return w.toString();
+    } catch(Exception e) {
+      throw new EmailException("Velocity template "+ tpl.toString(), e);
+    }
+  }
+
+  protected String velocifyFile(String name) throws EmailException {
+    try {
+      StringWriter w = new StringWriter();
+      Velocity.mergeTemplate(name, velocityContext, w);
+      return w.toString();
+    } catch(ResourceNotFoundException e) {
+      try {
+        StringWriter w = new StringWriter();
+        String pkg = "com/google/gerrit/server/mail/";
+        Velocity.mergeTemplate(pkg + name, velocityContext, w);
+        return w.toString();
+      } catch(Exception e2) {
+        throw new EmailException("Velocity WAR template" + name + ".\n", e2);
+      }
+    } catch(Exception e) {
+      throw new EmailException("Velocity template " + name + ".\n", e);
+    }
   }
 }

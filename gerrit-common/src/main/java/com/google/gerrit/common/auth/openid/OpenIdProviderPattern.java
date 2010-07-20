@@ -15,6 +15,7 @@
 package com.google.gerrit.common.auth.openid;
 
 import com.google.gerrit.reviewdb.AccountExternalId;
+import com.google.gwtorm.client.Column;
 
 public class OpenIdProviderPattern {
   public static OpenIdProviderPattern create(String pattern) {
@@ -24,7 +25,9 @@ public class OpenIdProviderPattern {
     return r;
   }
 
+  @Column(id = 1)
   protected boolean regex;
+  @Column(id = 2)
   protected String pattern;
 
   protected OpenIdProviderPattern() {

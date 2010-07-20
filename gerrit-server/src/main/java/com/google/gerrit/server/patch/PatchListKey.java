@@ -23,6 +23,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
+import com.google.gwtorm.client.Column;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -37,6 +38,13 @@ import javax.annotation.Nullable;
 public class PatchListKey implements Serializable {
   static final long serialVersionUID = 13L;
 
+  @Column(id = 1)
+  protected transient String oldIdName;
+  @Column(id = 2)
+  protected transient String newIdName;
+  @Column(id = 3)
+  protected transient char whitespaceChar;
+
   private transient ObjectId oldId;
   private transient ObjectId newId;
   private transient Whitespace whitespace;
@@ -48,26 +56,40 @@ public class PatchListKey implements Serializable {
     projectKey = pk;
     oldId = a != null ? a.copy() : null;
     newId = b.copy();
+    oldIdName = oldId != null ? oldId.name() : null;
+    newIdName = newId.name();
     whitespace = ws;
+    whitespaceChar = ws.getCode();
   }
 
   /** Old side commit, or null to assume ancestor or combined merge. */
   @Nullable
   public ObjectId getOldId() {
+    if (oldId == null && oldIdName != null) {
+      oldId = ObjectId.fromString(oldIdName);
+    }
     return oldId;
   }
 
   /** New side commit name. */
   public ObjectId getNewId() {
+    if (newId == null) {
+      newId = ObjectId.fromString(newIdName);
+    }
     return newId;
   }
 
   public Whitespace getWhitespace() {
+    if (whitespace == null) {
+      whitespace = Whitespace.forCode(whitespaceChar);
+    }
     return whitespace;
   }
 
   @Override
   public int hashCode() {
+    refreshObjectIds();
+
     int h = 0;
 
     if (oldId != null) {
@@ -75,7 +97,7 @@ public class PatchListKey implements Serializable {
     }
 
     h = h * 31 + newId.hashCode();
-    h = h * 31 + whitespace.name().hashCode();
+    h = h * 31 + getWhitespace().name().hashCode();
 
     return h;
   }
@@ -84,9 +106,9 @@ public class PatchListKey implements Serializable {
   public boolean equals(final Object o) {
     if (o instanceof PatchListKey) {
       final PatchListKey k = (PatchListKey) o;
-      return eq(oldId, k.oldId) //
-          && eq(newId, k.newId) //
-          && whitespace == k.whitespace;
+      return oldIdName.equals(k.oldIdName) //
+          && newIdName.equals(k.newIdName) //
+          && getWhitespace() == k.getWhitespace();
     }
     return false;
   }
@@ -99,31 +121,37 @@ public class PatchListKey implements Serializable {
       n.append(projectKey.get());
       n.append(" ");
     }
-    n.append(oldId != null ? oldId.name() : "BASE");
+    n.append(oldIdName != null ? oldIdName : "BASE");
     n.append("..");
-    n.append(newId.name());
+    n.append(newIdName);
     n.append(" ");
-    n.append(whitespace.name());
+    n.append(getWhitespace().name());
     n.append("]");
     return n.toString();
   }
 
-  private static boolean eq(final ObjectId a, final ObjectId b) {
-    if (a == null && b == null) {
-      return true;
-    }
-    return a != null && b != null && AnyObjectId.equals(a, b);
-  }
-
   private void writeObject(final ObjectOutputStream out) throws IOException {
+    refreshObjectIds();
     writeCanBeNull(out, oldId);
     writeNotNull(out, newId);
-    writeEnum(out, whitespace);
+    writeEnum(out, getWhitespace());
   }
 
   private void readObject(final ObjectInputStream in) throws IOException {
     oldId = readCanBeNull(in);
     newId = readNotNull(in);
+    oldIdName = (oldId != null ? oldId.name() : null);
+    newIdName = newId.name();
     whitespace = readEnum(in, Whitespace.values());
+    whitespaceChar = whitespace.getCode();
+  }
+
+  private void refreshObjectIds(){
+    if (oldId == null && oldIdName != null) {
+      oldId = ObjectId.fromString(oldIdName);
+    }
+    if (newId == null) {
+      newId = ObjectId.fromString(newIdName);
+    }
   }
 }

@@ -12,34 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.server.patch;
 
-import com.google.gerrit.reviewdb.Account;
 import com.google.gwtorm.client.Column;
 
 import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 
-/** Wrapper around a Set<Account.Id> */
-public class AccountIdSet {
-  public static final AccountIdSet EMPTY_SET = new AccountIdSet();
-
+public class GwtOrmReplaceEdit extends GwtOrmBaseEdit {
   @Column(id = 1)
-  protected Set<Account.Id> ids;
+  protected List<GwtOrmBaseEdit> internalEdits;
 
-  private AccountIdSet() {
-    this.ids = Collections.emptySet();
+  public GwtOrmReplaceEdit(int beginA, int endA, int beginB, int endB,
+      List<GwtOrmBaseEdit> internalEdits) {
+    super(beginA, endA, beginB, endB);
+    this.internalEdits = Collections.unmodifiableList(internalEdits);
   }
 
-  public AccountIdSet(Set<Account.Id> ids) {
-    this.ids = Collections.unmodifiableSet(ids);
+  public GwtOrmReplaceEdit(GwtOrmBaseEdit baseEdit,
+      List<GwtOrmBaseEdit> internalEdits) {
+    super(baseEdit.beginA, baseEdit.endA, baseEdit.beginB, baseEdit.endB);
+    this.internalEdits = Collections.unmodifiableList(internalEdits);
   }
 
-  public AccountIdSet(Account.Id id) {
-    this.ids = Collections.singleton(id);
-  }
-
-  public Set<Account.Id> getIds() {
-    return ids;
+  public List<GwtOrmBaseEdit> getInternalEdits() {
+    return internalEdits;
   }
 }

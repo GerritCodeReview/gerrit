@@ -27,9 +27,9 @@ import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Patch.ChangeType;
 import com.google.gerrit.reviewdb.Patch.PatchType;
+import com.google.gwtorm.client.Column;
 
 import org.eclipse.jgit.diff.Edit;
-import org.eclipse.jgit.diff.ReplaceEdit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.patch.CombinedFileHeader;
@@ -50,19 +50,31 @@ public class PatchListEntry {
 
   static PatchListEntry empty(final String fileName) {
     return new PatchListEntry(ChangeType.MODIFIED, PatchType.UNIFIED, null,
-        fileName, EMPTY_HEADER, Collections.<Edit> emptyList());
+        fileName, EMPTY_HEADER, Collections.<GwtOrmBaseEdit> emptyList());
   }
 
-  private final ChangeType changeType;
-  private final PatchType patchType;
-  private final String oldName;
-  private final String newName;
-  private final byte[] header;
-  private final List<Edit> edits;
+  @Column(id = 1)
+  protected char changeTypeChar;
+  @Column(id = 2)
+  protected char patchTypeChar;
+  @Column(id = 3)
+  protected String oldName;
+  @Column(id = 4)
+  protected String newName;
+  @Column(id = 5)
+  protected byte[] header;
+  @Column(id = 6)
+  protected List<GwtOrmBaseEdit> edits;
+
+  protected ChangeType changeType;
+  protected PatchType patchType;
 
   PatchListEntry(final FileHeader hdr, List<Edit> editList) {
     changeType = toChangeType(hdr);
     patchType = toPatchType(hdr);
+
+    changeTypeChar = changeType.getCode();
+    patchTypeChar = patchType.getCode();
 
     switch (changeType) {
       case DELETED:
@@ -94,15 +106,17 @@ public class PatchListEntry {
         || hdr.getNewMode() == FileMode.GITLINK) {
       edits = Collections.emptyList();
     } else {
-      edits = Collections.unmodifiableList(editList);
+      edits = GwtOrmBaseEdit.fromEditList(editList);
     }
   }
 
   private PatchListEntry(final ChangeType changeType,
       final PatchType patchType, final String oldName, final String newName,
-      final byte[] header, final List<Edit> edits) {
+      final byte[] header, final List<GwtOrmBaseEdit> edits) {
     this.changeType = changeType;
     this.patchType = patchType;
+    changeTypeChar = changeType.getCode();
+    patchTypeChar = patchType.getCode();
     this.oldName = oldName;
     this.newName = newName;
     this.header = header;
@@ -110,10 +124,16 @@ public class PatchListEntry {
   }
 
   public ChangeType getChangeType() {
+    if (changeType == null) {
+      changeType = ChangeType.forCode(changeTypeChar);
+    }
     return changeType;
   }
 
   public PatchType getPatchType() {
+    if (patchType == null) {
+      patchType = PatchType.forCode(patchTypeChar);
+    }
     return patchType;
   }
 
@@ -125,7 +145,7 @@ public class PatchListEntry {
     return newName;
   }
 
-  public List<Edit> getEdits() {
+  public List<GwtOrmBaseEdit> getEdits() {
     return edits;
   }
 
@@ -149,20 +169,21 @@ public class PatchListEntry {
   }
 
   void writeTo(final OutputStream out) throws IOException {
-    writeEnum(out, changeType);
-    writeEnum(out, patchType);
+    writeEnum(out, getChangeType());
+    writeEnum(out, getPatchType());
     writeString(out, oldName);
     writeString(out, newName);
     writeBytes(out, header);
 
     writeVarInt32(out, edits.size());
-    for (final Edit e : edits) {
+    for (final GwtOrmBaseEdit e : edits) {
       write(out, e);
 
-      if (e instanceof ReplaceEdit) {
-        ReplaceEdit r = (ReplaceEdit) e;
-        writeVarInt32(out, r.getInternalEdits().size());
-        for (Edit i : r.getInternalEdits()) {
+      if (e instanceof GwtOrmReplaceEdit) {
+        List<GwtOrmBaseEdit> intlEdits =
+            ((GwtOrmReplaceEdit) e).getInternalEdits();
+        writeVarInt32(out, intlEdits.size());
+        for (GwtOrmBaseEdit i : intlEdits) {
           write(out, i);
         }
       } else {
@@ -171,7 +192,7 @@ public class PatchListEntry {
     }
   }
 
-  private void write(final OutputStream out, final Edit e) throws IOException {
+  private void write(final OutputStream out, final GwtOrmBaseEdit e) throws IOException {
     writeVarInt32(out, e.getBeginA());
     writeVarInt32(out, e.getEndA());
     writeVarInt32(out, e.getBeginB());
@@ -186,17 +207,17 @@ public class PatchListEntry {
     final byte[] hdr = readBytes(in);
 
     final int editCount = readVarInt32(in);
-    final Edit[] editArray = new Edit[editCount];
+    final GwtOrmBaseEdit[] editArray = new GwtOrmBaseEdit[editCount];
     for (int i = 0; i < editCount; i++) {
       editArray[i] = readEdit(in);
 
       int innerCount = readVarInt32(in);
       if (0 < innerCount) {
-        Edit[] inner = new Edit[innerCount];
+        GwtOrmBaseEdit[] inner = new GwtOrmBaseEdit[innerCount];
         for (int innerIdx = 0; innerIdx < innerCount; innerIdx++) {
           inner[innerIdx] = readEdit(in);
         }
-        editArray[i] = new ReplaceEdit(editArray[i], toList(inner));
+        editArray[i] = new GwtOrmReplaceEdit(editArray[i], toList(inner));
       }
     }
 
@@ -204,16 +225,16 @@ public class PatchListEntry {
         toList(editArray));
   }
 
-  private static List<Edit> toList(Edit[] l) {
+  private static List<GwtOrmBaseEdit> toList(GwtOrmBaseEdit[] l) {
     return Collections.unmodifiableList(Arrays.asList(l));
   }
 
-  private static Edit readEdit(final InputStream in) throws IOException {
+  private static GwtOrmBaseEdit readEdit(final InputStream in) throws IOException {
     final int beginA = readVarInt32(in);
     final int endA = readVarInt32(in);
     final int beginB = readVarInt32(in);
     final int endB = readVarInt32(in);
-    return  new Edit(beginA, endA, beginB, endB);
+    return  new GwtOrmBaseEdit(beginA, endA, beginB, endB);
   }
 
   private static byte[] compact(final FileHeader h) {

@@ -16,6 +16,7 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.common.EditList;
+import com.google.gerrit.prettify.common.LineEdit;
 import com.google.gerrit.prettify.common.PrettyFormatter;
 import com.google.gerrit.prettify.common.PrettySettings;
 import com.google.gerrit.prettify.common.SparseFileContent;
@@ -25,8 +26,6 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.Patch.ChangeType;
-
-import org.eclipse.jgit.diff.Edit;
 
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class PatchScript {
   protected PatchScriptSettings settings;
   protected SparseFileContent a;
   protected SparseFileContent b;
-  protected List<Edit> edits;
+  protected List<LineEdit> edits;
   protected DisplayMethod displayMethodA;
   protected DisplayMethod displayMethodB;
   protected CommentDetail comments;
@@ -54,7 +53,7 @@ public class PatchScript {
   public PatchScript(final Change.Key ck, final ChangeType ct, final String on,
       final String nn, final List<String> h, final PatchScriptSettings s,
       final SparseFileContent ca, final SparseFileContent cb,
-      final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb,
+      final List<LineEdit> e, final DisplayMethod ma, final DisplayMethod mb,
       final CommentDetail cd, final List<Patch> hist, final boolean hf,
       final boolean id) {
     changeId = ck;
@@ -171,7 +170,7 @@ public class PatchScript {
     return f;
   }
 
-  public List<Edit> getEdits() {
+  public List<LineEdit> getEdits() {
     return edits;
   }
 

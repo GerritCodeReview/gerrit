@@ -16,6 +16,7 @@ package com.google.gerrit.reviewdb;
 
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
+import com.google.gwtorm.client.StringKey;
 
 import java.sql.Timestamp;
 
@@ -103,6 +104,54 @@ public final class Account {
       final Id r = new Id();
       r.fromString(str);
       return r;
+    }
+  }
+
+  public static class Username extends StringKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
+    @Column(id = 1)
+    protected String name;
+
+    protected Username() {
+    }
+
+    public Username(String name) {
+      this.name = name;
+    }
+
+    @Override
+    public String get() {
+      return name;
+    }
+
+    @Override
+    protected void set(String newName) {
+      name = newName;
+    }
+  }
+
+  public static class Email extends StringKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
+    @Column(id = 1)
+    protected String email;
+
+    protected Email() {
+    }
+
+    public Email(String email) {
+      this.email = email;
+    }
+
+    @Override
+    public String get() {
+      return email;
+    }
+
+    @Override
+    protected void set(String newEmail) {
+      email = newEmail;
     }
   }
 

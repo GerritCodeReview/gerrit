@@ -15,13 +15,18 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gwtorm.client.Column;
 
 import java.util.Collection;
 import java.util.Collections;
 
 /** Wrapper around a Collection<Account.Id> */
 public class AccountGroupCollection {
-  private final Collection<AccountGroup> groups;
+  @Column(id = 1)
+  protected Collection<AccountGroup> groups;
+
+  protected AccountGroupCollection(){
+  }
 
   public AccountGroupCollection(Collection<AccountGroup> groups) {
     this.groups = Collections.unmodifiableCollection(groups);

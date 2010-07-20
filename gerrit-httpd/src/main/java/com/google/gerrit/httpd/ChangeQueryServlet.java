@@ -63,6 +63,11 @@ public class ChangeQueryServlet extends HttpServlet {
         rsp.setCharacterEncoding("UTF-8");
         break;
 
+      case RSS:
+        rsp.setContentType("application/rss+xml");
+        rsp.setCharacterEncoding("UTF-8");
+        break;
+
       default:
         error(rsp, "invalid format");
         return;

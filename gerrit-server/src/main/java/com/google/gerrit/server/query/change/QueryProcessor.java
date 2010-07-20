@@ -14,10 +14,14 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.common.Version;
+import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.events.ChangeAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.QueryStats;
@@ -31,6 +35,8 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -38,6 +44,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,13 +54,22 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TimeZone;
+
+import javax.annotation.Nullable;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
+import javax.xml.transform.stream.StreamResult;
 
 public class QueryProcessor {
   private static final Logger log =
       LoggerFactory.getLogger(QueryProcessor.class);
 
   public static enum OutputFormat {
-    TEXT, JSON;
+    TEXT, JSON, RSS;
   }
 
   private final Gson gson = new Gson();
@@ -64,6 +80,9 @@ public class QueryProcessor {
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryRewriter queryRewriter;
   private final Provider<ReviewDb> db;
+  private final Provider<String> urlProvider;
+  private final AccountCache accountCache;
+  private final SimpleDateFormat gmt;
 
   private int defaultLimit = 500;
   private OutputFormat outputFormat = OutputFormat.TEXT;
@@ -72,15 +91,27 @@ public class QueryProcessor {
 
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
+  private TransformerHandler xml;
 
   @Inject
   QueryProcessor(EventFactory eventFactory,
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
-      ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db) {
+      ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db,
+      @Nullable @CanonicalWebUrl Provider<String> urlProvider,
+      AccountCache accountCache) {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
+    this.urlProvider = urlProvider;
     this.db = db;
+    this.accountCache = accountCache;
+
+    gmt = new SimpleDateFormat("ddd, dd mmm yyyy HH:mm:ss zzz");
+    gmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+  }
+
+  public void setDefaultLimit(int limit) {
+    defaultLimit = limit;
   }
 
   public void setIncludePatchSets(boolean on) {
@@ -100,6 +131,48 @@ public class QueryProcessor {
     out = new PrintWriter( //
         new BufferedWriter( //
             new OutputStreamWriter(outputStream, "UTF-8")));
+
+    switch (outputFormat) {
+      case RSS: {
+        StreamResult streamResult = new StreamResult(out);
+        SAXTransformerFactory tf =
+            (SAXTransformerFactory) SAXTransformerFactory.newInstance();
+        try {
+          xml = tf.newTransformerHandler();
+        } catch (TransformerConfigurationException e) {
+          throw new IOException("Cannot start XML document", e);
+        }
+        Transformer serializer = xml.getTransformer();
+        serializer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        serializer.setOutputProperty(OutputKeys.INDENT, "yes");
+        xml.setResult(streamResult);
+        try {
+          xml.startDocument();
+
+          AttributesImpl atts = new AttributesImpl();
+          atts.addAttribute("", "", "version", "CDATA", "2.0");
+          xml.startElement("", "", "rss", atts);
+
+          atts.clear();
+          xml.startElement("", "", "channel", atts);
+
+          xmlString("title", "Gerrit Code Review");
+          if (urlProvider.get() != null) {
+            xmlString("link", urlProvider.get() + "r/"
+                + URLEncoder.encode(queryString, "UTF-8"));
+          }
+
+          xmlString("description", "Changes matching " + queryString);
+          xmlString("lastBuildDate", gmt.format(new Date()));
+          xmlString("language", "en-us");
+          xmlString("generator", "Gerrit Code Review/" + Version.getVersion());
+        } catch (SAXException e) {
+          throw new IOException("Cannot start XML document", e);
+        }
+        break;
+      }
+    }
+
     try {
       try {
         final QueryStats stats = new QueryStats();
@@ -145,31 +218,44 @@ public class QueryProcessor {
           results = results.subList(0, limit);
         }
 
-        for (ChangeData d : results) {
-          ChangeAttribute c = eventFactory.asChangeAttribute(d.getChange());
-          eventFactory.extend(c, d.getChange());
-          eventFactory.addTrackingIds(c, d.trackingIds(db));
-
-          if (includePatchSets) {
-            eventFactory.addPatchSets(c, d.patches(db));
-          }
-
-          if (includeCurrentPatchSet) {
-            PatchSet current = d.currentPatchSet(db);
-            if (current != null) {
-              c.currentPatchSet = eventFactory.asPatchSetAttribute(current);
-              eventFactory.addApprovals(c.currentPatchSet, //
-                  d.approvalsFor(db, current.getId()));
+        switch (outputFormat) {
+          case RSS:
+            try {
+              for (ChangeData d : results) {
+                asRssItem(d);
+              }
+            } catch (SAXException e) {
+              throw new IOException("Cannot format RSS", e);
             }
-          }
+            break;
 
-          show(c);
+          default:
+            for (ChangeData d : results) {
+              ChangeAttribute c = eventFactory.asChangeAttribute(d.getChange());
+              eventFactory.extend(c, d.getChange());
+              eventFactory.addTrackingIds(c, d.trackingIds(db));
+
+              if (includePatchSets) {
+                eventFactory.addPatchSets(c, d.patches(db));
+              }
+
+              if (includeCurrentPatchSet) {
+                PatchSet current = d.currentPatchSet(db);
+                if (current != null) {
+                  c.currentPatchSet = eventFactory.asPatchSetAttribute(current);
+                  eventFactory.addApprovals(c.currentPatchSet, //
+                      d.approvalsFor(db, current.getId()));
+                }
+              }
+
+              show(c);
+            }
+            stats.rowCount = results.size();
+            stats.runTimeMilliseconds =
+                System.currentTimeMillis() - stats.runTimeMilliseconds;
+            show(stats);
+            break;
         }
-
-        stats.rowCount = results.size();
-        stats.runTimeMilliseconds =
-            System.currentTimeMillis() - stats.runTimeMilliseconds;
-        show(stats);
       } catch (OrmException err) {
         log.error("Cannot execute query: " + queryString, err);
 
@@ -183,11 +269,81 @@ public class QueryProcessor {
         show(m);
       }
     } finally {
-      try {
-        out.flush();
-      } finally {
-        out = null;
+      switch (outputFormat) {
+        case RSS:
+          try {
+            xml.endElement("", "", "channel");
+            xml.endElement("", "", "rss");
+            xml.endDocument();
+          } catch (SAXException e) {
+            throw new IOException("Cannot end RSS feed", e);
+          }
+          break;
+
+        default:
+          try {
+            out.flush();
+          } finally {
+            out = null;
+          }
+          break;
       }
+    }
+  }
+
+  private void asRssItem(ChangeData d) throws SAXException, IOException {
+    Change c = d.getChange();
+    String url = eventFactory.getChangeUrl(c);
+
+    xml.startElement("", "", "item", new AttributesImpl());
+    xmlString("title", c.getSubject());
+    if (url != null) {
+      xmlString("link", url);
+      xmlString("guid", url);
+    }
+    xmlString("pubDate", gmt.format(c.getLastUpdatedOn()));
+
+    Account owner = accountCache.get(c.getOwner()).getAccount();
+    if (owner.getPreferredEmail() != null) {
+      xmlString("author", owner.getPreferredEmail());
+    }
+    xmlString("category", c.getProject().get());
+
+    StringBuilder buf = new StringBuilder();
+    switch (c.getStatus()) {
+      case MERGED:
+        buf.append("Merged Into ");
+        break;
+      case ABANDONED:
+        buf.append("Abandoned (But previously for ");
+        break;
+    }
+    buf.append("Project ");
+    buf.append(c.getProject().get());
+    buf.append(" - Branch ");
+    buf.append(c.getDest().getShortName());
+    if (c.getTopic() != null) {
+      buf.append(" - Topic ");
+      buf.append(c.getTopic());
+    }
+    switch (c.getStatus()) {
+      case ABANDONED:
+        buf.append(")");
+        break;
+    }
+    xmlString("description", buf.toString());
+    xml.endElement("", "", "item");
+  }
+
+  private void xmlString(String elementName, String value) throws IOException {
+    try {
+      char[] ch = value.toCharArray();
+      AttributesImpl atts = new AttributesImpl();
+      xml.startElement("", "", elementName, atts);
+      xml.characters(ch, 0, ch.length);
+      xml.endElement("", "", elementName);
+    } catch (SAXException e) {
+      throw new IOException("Cannot write <" + elementName + ">" + value, e);
     }
   }
 
@@ -238,6 +394,10 @@ public class QueryProcessor {
       case JSON:
         out.print(gson.toJson(data));
         out.print('\n');
+        break;
+
+      case RSS:
+        // We don't format objects in RSS.
         break;
     }
   }

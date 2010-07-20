@@ -182,7 +182,7 @@ public class EventFactory {
   }
 
   /** Get a link to the change; null if the server doesn't know its own address. */
-  private String getChangeUrl(final Change change) {
+  public String getChangeUrl(final Change change) {
     if (change != null && urlProvider.get() != null) {
       final StringBuilder r = new StringBuilder();
       r.append(urlProvider.get());

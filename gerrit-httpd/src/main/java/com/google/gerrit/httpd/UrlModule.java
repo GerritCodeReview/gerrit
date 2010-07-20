@@ -47,6 +47,7 @@ class UrlModule extends ServletModule {
     serve("/cat/*").with(CatServlet.class);
     serve("/logout").with(HttpLogoutServlet.class);
     serve("/query").with(ChangeQueryServlet.class);
+    serve("/rss").with(RssServlet.class);
     serve("/signout").with(HttpLogoutServlet.class);
     serve("/ssh_info").with(SshInfoServlet.class);
     serve("/static/*").with(StaticServlet.class);

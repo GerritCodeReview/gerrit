@@ -172,22 +172,16 @@ public abstract class OutgoingEmail {
     body = new StringBuilder();
 
     if (fromId != null && args.fromAddressGenerator.isGenericAddress(fromId)) {
-      final Account account = args.accountCache.get(fromId).getAccount();
-      final String name = account.getFullName();
-      final String email = account.getPreferredEmail();
-
-      if ((name != null && !name.isEmpty())
-          || (email != null && !email.isEmpty())) {
-        body.append("From");
-        if (name != null && !name.isEmpty()) {
-          body.append(" ").append(name);
-        }
-        if (email != null && !email.isEmpty()) {
-          body.append(" <").append(email).append(">");
-        }
-        body.append(":\n\n");
-      }
+      appendText(getFromLine());
     }
+  }
+
+  private String getFromLine() {
+    velocityContext.put("from", args.accountCache.get(fromId).getAccount());
+    return velocify("#if ($from.fullName || $from.preferredEmail)From"+
+                    "#if ($from.fullName) $from.fullName#endif" +
+                    "#if ($from.preferredEmail) <$from.preferredEmail>#endif" +
+                    ":\n\n#endif");
   }
 
   protected String getGerritHost() {

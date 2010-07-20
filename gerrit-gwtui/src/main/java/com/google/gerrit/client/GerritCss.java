@@ -32,6 +32,7 @@ public interface GerritCss extends CssResource {
   String removeReviewer();
   String removeReviewerCell();
   String addSshKeyPanel();
+  String addWatchPanel();
   String approvalCategoryList();
   String approvalTable();
   String approvalhint();
@@ -180,4 +181,5 @@ public interface GerritCss extends CssResource {
   String useridentity();
   String usernameField();
   String version();
+  String watchedProjectFilter();
 }

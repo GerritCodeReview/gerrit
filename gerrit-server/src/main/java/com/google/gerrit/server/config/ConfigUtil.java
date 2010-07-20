@@ -140,6 +140,27 @@ public class ConfigUtil {
       return defaultValue;
     }
 
+    try {
+      return getTimeUnit(s, defaultValue, wantUnit);
+    } catch (IllegalArgumentException notTime) {
+      throw notTimeUnit(section, subsection, setting, valueString);
+    }
+  }
+
+  /**
+   * Parse a numerical time unit, such as "1 minute", from a string.
+   *
+   * @param s the string to parse.
+   * @param defaultValue default value to return if no value was set in the
+   *        configuration file.
+   * @param wantUnit the units of {@code defaultValue} and the return value, as
+   *        well as the units to assume if the value does not contain an
+   *        indication of the units.
+   * @return the setting, or {@code defaultValue} if not set, expressed in
+   *         {@code units}.
+   */
+  public static long getTimeUnit(String s, long defaultValue, TimeUnit wantUnit) {
+    final String valueString = s;
     final String unitName;
     final int sp = s.indexOf(' ');
     if (sp > 0) {
@@ -198,13 +219,13 @@ public class ConfigUtil {
       inputMul = 365;
 
     } else {
-      throw notTimeUnit(section, subsection, setting, valueString);
+      throw notTimeUnit(valueString);
     }
 
     try {
       return wantUnit.convert(Long.parseLong(s) * inputMul, inputUnit);
     } catch (NumberFormatException nfe) {
-      throw notTimeUnit(section, subsection, setting, valueString);
+      throw notTimeUnit(valueString);
     }
   }
 
@@ -276,6 +297,10 @@ public class ConfigUtil {
     return new IllegalArgumentException("Invalid time unit value: " + section
         + (subsection != null ? "." + subsection : "") + "." + setting + " = "
         + valueString);
+  }
+
+  private static IllegalArgumentException notTimeUnit(final String val) {
+    return new IllegalArgumentException("Invalid time unit value: " + val);
   }
 
   private ConfigUtil() {

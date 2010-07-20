@@ -30,7 +30,6 @@ import static com.google.gerrit.common.PageLinks.SETTINGS_PREFERENCES;
 import static com.google.gerrit.common.PageLinks.SETTINGS_PROJECTS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_SSHKEYS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_WEBIDENT;
-import static com.google.gerrit.common.PageLinks.TOP;
 
 import com.google.gerrit.client.account.MyAgreementsScreen;
 import com.google.gerrit.client.account.MyContactInformationScreen;
@@ -54,19 +53,10 @@ import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
-import com.google.gerrit.client.changes.AllAbandonedChangesScreen;
-import com.google.gerrit.client.changes.AllMergedChangesScreen;
-import com.google.gerrit.client.changes.AllOpenChangesScreen;
-import com.google.gerrit.client.changes.ByProjectAbandonedChangesScreen;
-import com.google.gerrit.client.changes.ByProjectMergedChangesScreen;
-import com.google.gerrit.client.changes.ByProjectOpenChangesScreen;
-import com.google.gerrit.client.changes.ChangeQueryResultsScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
-import com.google.gerrit.client.changes.MineDraftsScreen;
-import com.google.gerrit.client.changes.MineStarredScreen;
-import com.google.gerrit.client.changes.MineWatchedOpenChangesScreen;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
+import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.auth.SignInMode;
@@ -167,15 +157,15 @@ public class Dispatcher {
       }
 
     } else if (MINE_STARRED.equals(token)) {
-      return new MineStarredScreen();
+      return QueryScreen.forQuery("is:starred");
 
     } else if (MINE_DRAFTS.equals(token)) {
-      return new MineDraftsScreen();
+      return QueryScreen.forQuery("has:draft");
 
     } else {
       String p = "mine,watched,";
       if (token.startsWith(p)) {
-        return new MineWatchedOpenChangesScreen(skip(p, token));
+        return QueryScreen.forQuery("is:watched status:open", skip(p, token));
       }
 
       return new NotFoundScreen();
@@ -187,17 +177,17 @@ public class Dispatcher {
 
     p = "all,abandoned,";
     if (token.startsWith(p)) {
-      return new AllAbandonedChangesScreen(skip(p, token));
+      return QueryScreen.forQuery("status:abandoned", skip(p, token));
     }
 
     p = "all,merged,";
     if (token.startsWith(p)) {
-      return new AllMergedChangesScreen(skip(p, token));
+      return QueryScreen.forQuery("status:merged", skip(p, token));
     }
 
     p = "all,open,";
     if (token.startsWith(p)) {
-      return new AllOpenChangesScreen(skip(p, token));
+      return QueryScreen.forQuery("status:open", skip(p, token));
     }
 
     return new NotFoundScreen();
@@ -210,25 +200,32 @@ public class Dispatcher {
     if (token.startsWith(p)) {
       final String s = skip(p, token);
       final int c = s.indexOf(',');
-      return new ByProjectOpenChangesScreen(Project.NameKey.parse(s.substring(
-          0, c)), s.substring(c + 1));
+      Project.NameKey proj = Project.NameKey.parse(s.substring(0, c));
+      return QueryScreen.forQuery( //
+          "status:open " + QueryScreen.op("project", proj.get()), //
+          s.substring(c + 1));
     }
 
     p = "project,merged,";
     if (token.startsWith(p)) {
       final String s = skip(p, token);
       final int c = s.indexOf(',');
-      return new ByProjectMergedChangesScreen(Project.NameKey.parse(s
-          .substring(0, c)), s.substring(c + 1));
+      Project.NameKey proj = Project.NameKey.parse(s.substring(0, c));
+      return QueryScreen.forQuery( //
+          "status:merged " + QueryScreen.op("project", proj.get()), //
+          s.substring(c + 1));
     }
 
     p = "project,abandoned,";
     if (token.startsWith(p)) {
       final String s = skip(p, token);
       final int c = s.indexOf(',');
-      return new ByProjectAbandonedChangesScreen(Project.NameKey.parse(s
-          .substring(0, c)), s.substring(c + 1));
+      Project.NameKey proj = Project.NameKey.parse(s.substring(0, c));
+      return QueryScreen.forQuery( //
+          "status:abandoned " + QueryScreen.op("project", proj.get()), //
+          s.substring(c + 1));
     }
+
     return new NotFoundScreen();
   }
 
@@ -247,7 +244,7 @@ public class Dispatcher {
     if (token.startsWith(p)) {
       final String s = skip(p, token);
       final int c = s.indexOf(',');
-      return new ChangeQueryResultsScreen(s.substring(0, c), s.substring(c + 1));
+      return new QueryScreen(s.substring(0, c), s.substring(c + 1));
     }
 
     return new NotFoundScreen();
@@ -380,7 +377,7 @@ public class Dispatcher {
           }
           switch (mode) {
             case SIGN_IN:
-              return new AllOpenChangesScreen(TOP);
+              return QueryScreen.forQuery("status:open");
             case LINK_IDENTIY:
               return new MyIdentitiesScreen();
           }

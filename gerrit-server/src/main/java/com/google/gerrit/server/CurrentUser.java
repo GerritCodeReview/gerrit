@@ -15,11 +15,12 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.servlet.RequestScoped;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -60,8 +61,8 @@ public abstract class CurrentUser {
   /** Set of changes starred by this user. */
   public abstract Set<Change.Id> getStarredChanges();
 
-  /** Set of project that are watched by this user */
-  public abstract Set<Project.NameKey> getWatchedProjects();
+  /** Filters selecting changes the user wants to monitor. */
+  public abstract Collection<AccountProjectWatch> getNotificationFilters();
 
   /** Is the user a non-interactive user? */
   public boolean isBatchUser() {

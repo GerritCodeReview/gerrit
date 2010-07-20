@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.query;
 
+import com.google.gerrit.server.query.OperatorPredicate;
+
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
 
 /** Predicate for a field of {@link ObjectId}. */
-public final class ObjectIdPredicate extends OperatorPredicate {
+public abstract class ObjectIdPredicate<T> extends OperatorPredicate<T> {
   private final AbbreviatedObjectId id;
 
   public ObjectIdPredicate(final String name, final AbbreviatedObjectId id) {
@@ -47,7 +49,7 @@ public final class ObjectIdPredicate extends OperatorPredicate {
   @Override
   public boolean equals(Object other) {
     if (other instanceof ObjectIdPredicate) {
-      final ObjectIdPredicate p = (ObjectIdPredicate) other;
+      final ObjectIdPredicate<?> p = (ObjectIdPredicate<?>) other;
       return getOperator().equals(p.getOperator()) && id.equals(p.id);
     }
     return false;

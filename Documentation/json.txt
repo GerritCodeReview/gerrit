@@ -1,0 +1,118 @@
+Gerrit Code Review - JSON Data
+==============================
+
+Some commands produce JSON data streams intended for other
+applications to consume.  The structures are documented below.
+Note that any field may be missing in the JSON messages, so consumers
+of this JSON stream should deal with that appropriately.
+
+[[change]]
+change
+------
+The Gerrit change being reviewed, or that was already reviewed.
+
+project:: Project path in Gerrit
+
+branch:: Branch name within project
+
+topic:: Topic name specified by the uploader for this change series
+
+id:: Change identifier, as scraped out of the Change-Id field in
+the commit message, or as assigned by the server if it was missing.
+
+number:: Change number (deprecated)
+
+subject:: Description of change
+
+owner:: Owner in <<account,account attribute>>
+
+url:: Canonical URL to reach this change
+
+lastUpdated:: Time in seconds since the UNIX epoch when this change
+was last updated.
+
+sortKey:: Internal key used to sort changes, based on lastUpdated.
+
+open:: Boolean indicating if the change is still open for review.
+
+status:: Current state of this change.
+
+  NEW;; Change is still being reviewed.
+
+  SUBMITTED;; Change has been submitted and is in the merge queue.
+  It may be waiting for one or more dependencies.
+
+  MERGED;; Change has been merged to its branch.
+
+  ABANDONED;; Change was abandoned by its owner or administrator.
+
+trackingIds:: Issue tracking system links in
+<<trackingid,trackingid attribute>>, scraped out of the commit
+message based on the server's
+link:config-gerrit.html#trackingid[trackingid] sections.
+
+currentPatchSet:: Current <<patchset,patchset attribute>>.
+
+patchSets:: All <<patchset,patchset attribute>> for this change.
+
+[[trackingid]]
+trackingid
+----------
+A link to an issue tracking system.
+
+system:: Name of the system.  This comes straight from the
+gerrit.config file.
+
+id:: Id number as scraped out of the commit message.
+
+[[account]]
+account
+-------
+A user account.
+
+name:: User's full name, if configured.
+
+email:: User's preferred email address.
+
+[[patchset]]
+patchset
+--------
+Refers to a specific patchset within a <<change,change>>.
+
+number:: The patchset number.
+
+revision:: Git commit for this patchset.
+
+ref:: Git reference pointing at the revision.  This reference is
+available through the Gerrit Code Review server's Git interface
+for the containing change.
+
+uploader:: Uploader of the patch set in <<account,account attribute>>.
+
+approvals:: The <<approval,approval attribute>> granted.
+
+[[approval]]
+approval
+--------
+Records the code review approval granted to a patch set.
+
+type:: Internal name of the approval given.
+
+description::  Human readable category of the approval.
+
+value:: Value assigned by the approval, usually a numerical score.
+
+grantedOn:: Time in seconds since the UNIX epoch when this approval
+was added or last updated.
+
+by:: Reviewer of the patch set in <<account,account attribute>>.
+
+SEE ALSO
+--------
+
+* link:cmd-stream-events.html[gerrit stream-events]
+* link:cmd-query.html[gerrit query]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

@@ -249,6 +249,24 @@ public class RefControl {
     return canPerform(FORGE_IDENTITY, FORGE_SERVER);
   }
 
+  public short normalize(ApprovalCategory.Id category, short score) {
+    short minAllowed = 0, maxAllowed = 0;
+    for (RefRight r : getApplicableRights(category)) {
+      if (getCurrentUser().getEffectiveGroups().contains(r.getAccountGroupId())) {
+        minAllowed = (short) Math.min(minAllowed, r.getMinValue());
+        maxAllowed = (short) Math.max(maxAllowed, r.getMaxValue());
+      }
+    }
+
+    if (score < minAllowed) {
+      score = minAllowed;
+    }
+    if (score > maxAllowed) {
+      score = maxAllowed;
+    }
+    return score;
+  }
+
   /**
    * Convenience holder class used to map a ref pattern to the list of
    * {@code RefRight}s that use it in the database.

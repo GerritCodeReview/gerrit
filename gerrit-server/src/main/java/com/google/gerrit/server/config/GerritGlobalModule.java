@@ -36,10 +36,11 @@ import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.ldap.LdapModule;
+import com.google.gerrit.server.cache.CachePool;
+import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
-import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.PushAllProjectsOp;
 import com.google.gerrit.server.git.PushReplication;
@@ -53,9 +54,13 @@ import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
+import com.google.gerrit.server.mail.EmailSender;
+import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCacheImpl;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
@@ -121,12 +126,12 @@ public class GerritGlobalModule extends FactoryModule {
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(WorkQueue.class);
     bind(ToolsCatalog.class);
+    bind(EventFactory.class);
 
     bind(ReplicationQueue.class).to(PushReplication.class).in(SINGLETON);
     factory(PushAllProjectsOp.Factory.class);
 
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
-    factory(MergeOp.Factory.class);
     factory(ReloadSubmitQueueOp.Factory.class);
 
     bind(FromAddressGenerator.class).toProvider(
@@ -134,13 +139,9 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
+    bind(ChangeControl.GenericFactory.class);
+    bind(ProjectControl.GenericFactory.class);
     factory(FunctionState.Factory.class);
-
-    factory(AbandonedSender.Factory.class);
-    factory(CommentSender.Factory.class);
-    factory(MergedSender.Factory.class);
-    factory(MergeFailSender.Factory.class);
-    factory(RegisterNewEmailSender.Factory.class);
     factory(ReplicationUser.Factory.class);
 
     install(new LifecycleModule() {

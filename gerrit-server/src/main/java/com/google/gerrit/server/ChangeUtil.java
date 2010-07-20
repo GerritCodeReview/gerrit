@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmConcurrencyException;
@@ -135,8 +136,8 @@ public class ChangeUtil {
     db.trackingIds().delete(toDelete);
   }
 
-  public static void submit(PatchSet.Id patchSetId, IdentifiedUser user, ReviewDb db, MergeQueue merger)
-      throws OrmException {
+  public static void submit(MergeOp.Factory opFactory, PatchSet.Id patchSetId,
+      IdentifiedUser user, ReviewDb db, MergeQueue merger) throws OrmException {
     final Change.Id changeId = patchSetId.getParentKey();
     final PatchSetApproval approval = createSubmitApproval(patchSetId, user, db);
 
@@ -154,7 +155,7 @@ public class ChangeUtil {
     });
 
     if (change.getStatus() == Change.Status.SUBMITTED) {
-      merger.merge(change.getDest());
+      merger.merge(opFactory, change.getDest());
     }
   }
 
@@ -177,18 +178,22 @@ public class ChangeUtil {
     return new PatchSetApproval(akey, (short) 1);
   }
 
-
-  public static void computeSortKey(final Change c) {
+  public static String sortKey(long lastUpdated, int id){
     // The encoding uses minutes since Wed Oct 1 00:00:00 2008 UTC.
     // We overrun approximately 4,085 years later, so ~6093.
     //
-    final long lastUpdatedOn =
-        (c.getLastUpdatedOn().getTime() / 1000L) - 1222819200L;
+    final long lastUpdatedOn = (lastUpdated / 1000L) - 1222819200L;
     final StringBuilder r = new StringBuilder(16);
     r.setLength(16);
     formatHexInt(r, 0, (int) (lastUpdatedOn / 60));
-    formatHexInt(r, 8, c.getId().get());
-    c.setSortKey(r.toString());
+    formatHexInt(r, 8, id);
+    return r.toString();
+  }
+
+  public static void computeSortKey(final Change c) {
+    long lastUpdated = c.getLastUpdatedOn().getTime();
+    int id = c.getId().get();
+    c.setSortKey(sortKey(lastUpdated, id));
   }
 
   private static final char[] hexchar =

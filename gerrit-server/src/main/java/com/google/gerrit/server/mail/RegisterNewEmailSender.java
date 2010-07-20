@@ -28,14 +28,14 @@ public class RegisterNewEmailSender extends OutgoingEmail {
     public RegisterNewEmailSender create(String address);
   }
 
+  private final AuthConfig authConfig;
   private final String addr;
 
   @Inject
-  private AuthConfig authConfig;
-
-  @Inject
-  public RegisterNewEmailSender(@Assisted final String address) {
-    super("registernewemail");
+  public RegisterNewEmailSender(EmailArguments ea, AuthConfig ac,
+      @Assisted final String address) {
+    super(ea, "registernewemail");
+    authConfig = ac;
     addr = address;
   }
 

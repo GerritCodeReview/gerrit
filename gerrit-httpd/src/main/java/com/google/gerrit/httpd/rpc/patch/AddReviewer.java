@@ -130,7 +130,6 @@ class AddReviewer extends Handler<ReviewerResult> {
     final AddReviewerSender cm;
     cm = addReviewerSenderFactory.create(control.getChange());
     cm.setFrom(currentUser.getAccountId());
-    cm.setReviewDb(db);
     cm.addReviewers(added);
     cm.send();
 

@@ -1029,6 +1029,15 @@ a:hover.downloadLink {
   font-weight: bold;
 }
 
+.addWatchPanel {
+  margin-top: 10px;
+  padding: 5px 5px 5px 5px;
+}
+.watchedProjectFilter {
+  margin-left: 1em;
+  color: grey;
+}
+
 .addSshKeyPanel {
   margin-top: 10px;
   background-color: trimColor;

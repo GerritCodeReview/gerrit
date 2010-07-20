@@ -1179,7 +1179,6 @@ public class MergeOp {
       if (submitter != null) {
         cm.setFrom(submitter.getAccountId());
       }
-      cm.setReviewDb(schema);
       cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()));
       cm.send();
     } catch (OrmException e) {
@@ -1241,7 +1240,6 @@ public class MergeOp {
           cm.setFrom(submitter.getAccountId());
         }
       }
-      cm.setReviewDb(schema);
       cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()));
       cm.setChangeMessage(msg);
       cm.send();

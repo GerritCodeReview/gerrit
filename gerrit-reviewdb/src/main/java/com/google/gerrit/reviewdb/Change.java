@@ -410,6 +410,10 @@ public final class Change {
     return sortKey;
   }
 
+  public String getSortKeyDesc() {
+    return sortKeyDesc;
+  }
+
   public void setSortKey(final String newSortKey) {
     sortKey = newSortKey;
 

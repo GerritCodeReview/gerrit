@@ -22,27 +22,20 @@ import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.WildProjectName;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.EmailHeader.AddressList;
 import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.client.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
@@ -63,8 +56,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.annotation.Nullable;
-
 /** Sends an email to one or more interested parties. */
 public abstract class OutgoingEmail {
   private static final Logger log = LoggerFactory.getLogger(OutgoingEmail.class);
@@ -83,55 +74,25 @@ public abstract class OutgoingEmail {
   private StringBuilder body;
   private boolean inFooter;
 
+  protected final EmailArguments args;
   protected Account.Id fromId;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
   protected ChangeMessage changeMessage;
-  protected ReviewDb db;
-
-  @Inject
-  protected GitRepositoryManager server;
-
-  @Inject
-  private ProjectCache projectCache;
-
-  @Inject
-  private AccountCache accountCache;
-
-  @Inject
-  private PatchListCache patchListCache;
-
-  @Inject
-  private FromAddressGenerator fromAddressGenerator;
-
-  @Inject
-  private EmailSender emailSender;
-
-  @Inject
-  private PatchSetInfoFactory patchSetInfoFactory;
-
-  @Inject
-  private IdentifiedUser.GenericFactory identifiedUserFactory;
-
-  @Inject
-  @CanonicalWebUrl
-  @Nullable
-  private Provider<String> urlProvider;
-
-  @Inject
-  @WildProjectName
-  private Project.NameKey wildProject;
 
   private ProjectState projectState;
+  protected ChangeData changeData;
 
-  protected OutgoingEmail(final Change c, final String mc) {
+  protected OutgoingEmail(EmailArguments ea, final Change c, final String mc) {
+    args = ea;
     change = c;
+    changeData = change != null ? new ChangeData(change) : null;
     messageClass = mc;
     headers = new LinkedHashMap<String, EmailHeader>();
   }
 
-  protected OutgoingEmail(final String mc) {
-    this(null, mc);
+  protected OutgoingEmail(EmailArguments ea, final String mc) {
+    this(ea, null, mc);
   }
 
   public void setFrom(final Account.Id id) {
@@ -151,17 +112,13 @@ public abstract class OutgoingEmail {
     changeMessage = cm;
   }
 
-  public void setReviewDb(final ReviewDb d) {
-    db = d;
-  }
-
   /**
    * Format and enqueue the message for delivery.
    *
    * @throws EmailException
    */
   public void send() throws EmailException {
-    if (!emailSender.isEnabled()) {
+    if (!args.emailSender.isEnabled()) {
       // Server has explicitly disabled email sending.
       //
       return;
@@ -171,7 +128,7 @@ public abstract class OutgoingEmail {
     format();
     if (shouldSendMessage()) {
       if (fromId != null) {
-        final Account fromUser = accountCache.get(fromId).getAccount();
+        final Account fromUser = args.accountCache.get(fromId).getAccount();
 
         if (fromUser.getGeneralPreferences().isCopySelfOnEmails()) {
           // If we are impersonating a user, make sure they receive a CC of
@@ -226,24 +183,22 @@ public abstract class OutgoingEmail {
         appendText("Gerrit-Branch: " + change.getDest().getShortName() + "\n");
         appendText("Gerrit-Owner: " + getNameEmailFor(change.getOwner()) + "\n");
 
-        if (db != null) {
-          try {
-            HashSet<Account.Id> reviewers = new HashSet<Account.Id>();
-            for (PatchSetApproval p : db.patchSetApprovals().byChange(
-                change.getId())) {
-              reviewers.add(p.getAccountId());
-            }
-
-            TreeSet<String> names = new TreeSet<String>();
-            for (Account.Id who : reviewers) {
-              names.add(getNameEmailFor(who));
-            }
-
-            for (String name : names) {
-              appendText("Gerrit-Reviewer: " + name + "\n");
-            }
-          } catch (OrmException e) {
+        try {
+          HashSet<Account.Id> reviewers = new HashSet<Account.Id>();
+          for (PatchSetApproval p : args.db.get().patchSetApprovals().byChange(
+              change.getId())) {
+            reviewers.add(p.getAccountId());
           }
+
+          TreeSet<String> names = new TreeSet<String>();
+          for (Account.Id who : reviewers) {
+            names.add(getNameEmailFor(who));
+          }
+
+          for (String name : names) {
+            appendText("Gerrit-Reviewer: " + name + "\n");
+          }
+        } catch (OrmException e) {
         }
       }
 
@@ -259,7 +214,7 @@ public abstract class OutgoingEmail {
         setHeader("Message-ID", rndid.toString());
       }
 
-      emailSender.send(smtpFromAddress, smtpRcptTo, headers, body.toString());
+      args.emailSender.send(smtpFromAddress, smtpRcptTo, headers, body.toString());
     }
   }
 
@@ -268,8 +223,8 @@ public abstract class OutgoingEmail {
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   protected void init() {
-    if (change != null && projectCache != null) {
-      projectState = projectCache.get(change.getProject());
+    if (change != null && args.projectCache != null) {
+      projectState = args.projectCache.get(change.getProject());
       projectName =
           projectState != null ? projectState.getProject().getName() : null;
     } else {
@@ -277,7 +232,7 @@ public abstract class OutgoingEmail {
       projectName = null;
     }
 
-    smtpFromAddress = fromAddressGenerator.from(fromId);
+    smtpFromAddress = args.fromAddressGenerator.from(fromId);
     if (changeMessage != null && changeMessage.getWrittenOn() != null) {
       setHeader("Date", new Date(changeMessage.getWrittenOn().getTime()));
     } else {
@@ -313,8 +268,8 @@ public abstract class OutgoingEmail {
     body = new StringBuilder();
     inFooter = false;
 
-    if (fromId != null && fromAddressGenerator.isGenericAddress(fromId)) {
-      final Account account = accountCache.get(fromId).getAccount();
+    if (fromId != null && args.fromAddressGenerator.isGenericAddress(fromId)) {
+      final Account account = args.accountCache.get(fromId).getAccount();
       final String name = account.getFullName();
       final String email = account.getPreferredEmail();
 
@@ -331,10 +286,10 @@ public abstract class OutgoingEmail {
       }
     }
 
-    if (change != null && db != null) {
+    if (change != null) {
       if (patchSet == null) {
         try {
-          patchSet = db.patchSets().get(change.currentPatchSetId());
+          patchSet = args.db.get().patchSets().get(change.currentPatchSetId());
         } catch (OrmException err) {
           patchSet = null;
         }
@@ -342,7 +297,7 @@ public abstract class OutgoingEmail {
 
       if (patchSet != null && patchSetInfo == null) {
         try {
-          patchSetInfo = patchSetInfoFactory.get(patchSet.getId());
+          patchSetInfo = args.patchSetInfoFactory.get(patchSet.getId());
         } catch (PatchSetInfoNotAvailableException err) {
           patchSetInfo = null;
         }
@@ -439,7 +394,7 @@ public abstract class OutgoingEmail {
   }
 
   protected String getGerritUrl() {
-    return urlProvider.get();
+    return args.urlProvider.get();
   }
 
   protected String getChangeMessageThreadId() {
@@ -521,7 +476,7 @@ public abstract class OutgoingEmail {
   /** Get the patch list corresponding to this patch set. */
   protected PatchList getPatchList() {
     if (patchSet != null) {
-      return patchListCache.get(change, patchSet);
+      return args.patchListCache.get(change, patchSet);
     }
     return null;
   }
@@ -532,7 +487,7 @@ public abstract class OutgoingEmail {
       return "Anonymous Coward";
     }
 
-    final Account userAccount = accountCache.get(accountId).getAccount();
+    final Account userAccount = args.accountCache.get(accountId).getAccount();
     String name = userAccount.getFullName();
     if (name == null) {
       name = userAccount.getPreferredEmail();
@@ -544,7 +499,7 @@ public abstract class OutgoingEmail {
   }
 
   private String getNameEmailFor(Account.Id accountId) {
-    AccountState who = accountCache.get(accountId);
+    AccountState who = args.accountCache.get(accountId);
     String name = who.getAccount().getFullName();
     String email = who.getAccount().getPreferredEmail();
 
@@ -594,7 +549,7 @@ public abstract class OutgoingEmail {
   protected Set<AccountGroup.Id> getProjectOwners() {
     final ProjectState r;
 
-    r = projectCache.get(change.getProject());
+    r = args.projectCache.get(change.getProject());
     return r != null ? r.getOwners() : Collections.<AccountGroup.Id> emptySet();
   }
 
@@ -625,62 +580,83 @@ public abstract class OutgoingEmail {
 
   /** BCC any user who has starred this change. */
   protected void bccStarredBy() {
-    if (db != null) {
-      try {
-        // BCC anyone who has starred this change.
-        //
-        for (StarredChange w : db.starredChanges().byChange(change.getId())) {
-          add(RecipientType.BCC, w.getAccountId());
-        }
-      } catch (OrmException err) {
-        // Just don't BCC everyone. Better to send a partial message to those
-        // we already have queued up then to fail deliver entirely to people
-        // who have a lower interest in the change.
+    try {
+      // BCC anyone who has starred this change.
+      //
+      for (StarredChange w : args.db.get().starredChanges().byChange(
+          change.getId())) {
+        add(RecipientType.BCC, w.getAccountId());
       }
+    } catch (OrmException err) {
+      // Just don't BCC everyone. Better to send a partial message to those
+      // we already have queued up then to fail deliver entirely to people
+      // who have a lower interest in the change.
     }
   }
 
   /** BCC any user who has set "notify all comments" on this project. */
   protected void bccWatchesNotifyAllComments() {
-    if (db != null) {
-      try {
-        // BCC anyone else who has interest in this project's changes
-        //
-        final ProjectState ps = getProjectState();
-        if (ps != null) {
-          for (final AccountProjectWatch w : getProjectWatches()) {
-            if (w.isNotifyAllComments()) {
-              add(RecipientType.BCC, w.getAccountId());
-            }
-          }
+    try {
+      // BCC anyone else who has interest in this project's changes
+      //
+      for (final AccountProjectWatch w : getWatches()) {
+        if (w.isNotifyAllComments()) {
+          add(RecipientType.BCC, w.getAccountId());
         }
-      } catch (OrmException err) {
-        // Just don't CC everyone. Better to send a partial message to those
-        // we already have queued up then to fail deliver entirely to people
-        // who have a lower interest in the change.
       }
+    } catch (OrmException err) {
+      // Just don't CC everyone. Better to send a partial message to those
+      // we already have queued up then to fail deliver entirely to people
+      // who have a lower interest in the change.
     }
   }
 
-  /** Returns all watches that are relevant for this project */
-  final protected Set<AccountProjectWatch> getProjectWatches() throws OrmException {
-    final Set<AccountProjectWatch> projectWatches = new HashSet<AccountProjectWatch>();
-    final Set<Account.Id> projectWatchers = new HashSet<Account.Id>();
-    final ProjectState ps = getProjectState();
-    if (ps != null) {
-      for (final AccountProjectWatch w : db.accountProjectWatches().byProject(ps.getProject().getNameKey())) {
-        projectWatches.add(w);
-        projectWatchers.add(w.getAccountId());
-      }
+  /** Returns all watches that are relevant */
+  protected final List<AccountProjectWatch> getWatches() throws OrmException {
+    if (changeData == null) {
+      return Collections.emptyList();
     }
-    for (final AccountProjectWatch w : db.accountProjectWatches().byProject(wildProject)) {
+
+    List<AccountProjectWatch> matching = new ArrayList<AccountProjectWatch>();
+    Set<Account.Id> projectWatchers = new HashSet<Account.Id>();
+
+    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
+        .byProject(change.getProject())) {
+      projectWatchers.add(w.getAccountId());
+      add(matching, w);
+    }
+
+    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
+        .byProject(args.wildProject)) {
       if (!projectWatchers.contains(w.getAccountId())) {
-        // the all projects watch settings are only relevant if the user did not configure
-        // any specific rules for the concrete project
-        projectWatches.add(w);
+        add(matching, w);
       }
     }
-    return Collections.unmodifiableSet(projectWatches);
+
+    return Collections.unmodifiableList(matching);
+  }
+
+  @SuppressWarnings("unchecked")
+  private void add(List<AccountProjectWatch> matching, AccountProjectWatch w)
+      throws OrmException {
+    IdentifiedUser user =
+        args.identifiedUserFactory.create(args.db, w.getAccountId());
+    ChangeQueryBuilder qb = args.queryBuilder.create(user);
+    Predicate<ChangeData> p = qb.is_visible();
+    if (w.getFilter() != null) {
+      try {
+        qb.setAllowFile(true);
+        p = Predicate.and(qb.parse(w.getFilter()), p);
+        p = args.queryRewriter.get().rewrite(p);
+        if (p.match(changeData)) {
+          matching.add(w);
+        }
+      } catch (QueryParseException e) {
+        // Ignore broken filter expressions.
+      }
+    } else if (p.match(changeData)) {
+      matching.add(w);
+    }
   }
 
   /** Any user who has published comments on this change. */
@@ -694,19 +670,17 @@ public abstract class OutgoingEmail {
   }
 
   private void ccApprovals(final boolean includeZero) {
-    if (db != null) {
-      try {
-        // CC anyone else who has posted an approval mark on this change
-        //
-        for (PatchSetApproval ap : db.patchSetApprovals().byChange(
-            change.getId())) {
-          if (!includeZero && ap.getValue() == 0) {
-            continue;
-          }
-          add(RecipientType.CC, ap.getAccountId());
+    try {
+      // CC anyone else who has posted an approval mark on this change
+      //
+      for (PatchSetApproval ap : args.db.get().patchSetApprovals().byChange(
+          change.getId())) {
+        if (!includeZero && ap.getValue() == 0) {
+          continue;
         }
-      } catch (OrmException err) {
+        add(RecipientType.CC, ap.getAccountId());
       }
+    } catch (OrmException err) {
     }
   }
 
@@ -721,14 +695,14 @@ public abstract class OutgoingEmail {
   private boolean isVisibleTo(final Account.Id to) {
     return projectState == null
         || change == null
-        || projectState.controlFor(identifiedUserFactory.create(to))
+        || projectState.controlFor(args.identifiedUserFactory.create(to))
             .controlFor(change).isVisible();
   }
 
   /** Schedule delivery of this message to the given account. */
   protected void add(final RecipientType rt, final Address addr) {
     if (addr != null && addr.email != null && addr.email.length() > 0) {
-      if (emailSender.canEmail(addr.email)) {
+      if (args.emailSender.canEmail(addr.email)) {
         smtpRcptTo.add(addr);
         switch (rt) {
           case TO:
@@ -745,7 +719,7 @@ public abstract class OutgoingEmail {
   }
 
   private Address toAddress(final Account.Id id) {
-    final Account a = accountCache.get(id).getAccount();
+    final Account a = args.accountCache.get(id).getAccount();
     final String e = a.getPreferredEmail();
     if (e == null) {
       return null;

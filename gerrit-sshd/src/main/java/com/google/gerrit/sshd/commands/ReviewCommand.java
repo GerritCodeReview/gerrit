@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.CanSubmitResult;
@@ -94,6 +95,9 @@ public class ReviewCommand extends BaseCommand {
 
   @Inject
   private MergeQueue merger;
+
+  @Inject
+  private MergeOp.Factory opFactory;
 
   @Inject
   private ApprovalTypes approvalTypes;
@@ -166,7 +170,7 @@ public class ReviewCommand extends BaseCommand {
           changeControl.canSubmit(patchSetId, db, approvalTypes,
               functionStateFactory);
       if (result == CanSubmitResult.OK) {
-        ChangeUtil.submit(patchSetId, currentUser, db, merger);
+        ChangeUtil.submit(opFactory, patchSetId, currentUser, db, merger);
       } else {
         throw error(result.getMessage());
       }

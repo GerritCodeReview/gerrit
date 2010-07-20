@@ -5,6 +5,7 @@ User Guide
 ----------
 
 * link:http://source.android.com/submit-patches/workflow[Default Workflow]
+* link:user-search.html[Searching Changes]
 * link:cmd-index.html[Command Line Tools]
 * link:pgm-index.html[Server Programs]
 * link:user-upload.html[Uploading Changes]

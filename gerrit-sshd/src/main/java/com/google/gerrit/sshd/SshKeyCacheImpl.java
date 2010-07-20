@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
 
 import com.google.gerrit.common.errors.InvalidSshKeyException;
+import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountSshKey;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -58,8 +59,8 @@ public class SshKeyCacheImpl implements SshKeyCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<String, SshKeyCacheEntryIterable>> type =
-            new TypeLiteral<Cache<String, SshKeyCacheEntryIterable>>() {};
+        final TypeLiteral<Cache<Account.Username, SshKeyCacheEntryIterable>> type =
+            new TypeLiteral<Cache<Account.Username, SshKeyCacheEntryIterable>>() {};
         core(type, CACHE_NAME).populateWith(Loader.class);
         bind(SshKeyCacheImpl.class);
         bind(SshKeyCache.class).to(SshKeyCacheImpl.class);
@@ -67,20 +68,20 @@ public class SshKeyCacheImpl implements SshKeyCache {
     };
   }
 
-  private final Cache<String, SshKeyCacheEntryIterable> cache;
+  private final Cache<Account.Username, SshKeyCacheEntryIterable> cache;
 
   @Inject
   SshKeyCacheImpl(
-      @Named(CACHE_NAME) final Cache<String, SshKeyCacheEntryIterable> cache) {
+      @Named(CACHE_NAME) final Cache<Account.Username, SshKeyCacheEntryIterable> cache) {
     this.cache = cache;
   }
 
   public Iterable<SshKeyCacheEntry> get(String username) {
-    return cache.get(username).getSshKeyCacheEntries();
+    return cache.get(new Account.Username(username)).getSshKeyCacheEntries();
   }
 
   public void evict(String username) {
-    cache.remove(username);
+    cache.remove(new Account.Username(username));
   }
 
   @Override
@@ -103,7 +104,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
     }
   }
 
-  static class Loader extends EntryCreator<String, SshKeyCacheEntryIterable> {
+  static class Loader extends EntryCreator<Account.Username, SshKeyCacheEntryIterable> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -112,12 +113,12 @@ public class SshKeyCacheImpl implements SshKeyCache {
     }
 
     @Override
-    public SshKeyCacheEntryIterable createEntry(String username)
+    public SshKeyCacheEntryIterable createEntry(Account.Username username)
         throws Exception {
       final ReviewDb db = schema.open();
       try {
         final AccountExternalId.Key key =
-            new AccountExternalId.Key(SCHEME_USERNAME, username);
+            new AccountExternalId.Key(SCHEME_USERNAME, username.get());
         final AccountExternalId user = db.accountExternalIds().get(key);
         if (user == null) {
           return NO_SUCH_USER;
@@ -140,7 +141,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
     }
 
     @Override
-    public SshKeyCacheEntryIterable missing(String username) {
+    public SshKeyCacheEntryIterable missing(Account.Username username) {
       return SshKeyCacheEntryIterable.EMPTY;
     }
 

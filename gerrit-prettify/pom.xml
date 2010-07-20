@@ -49,5 +49,10 @@ limitations under the License.
       <artifactId>gwt-user</artifactId>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>gwtorm</groupId>
+      <artifactId>gwtorm</artifactId>
+    </dependency>
   </dependencies>
 </project>

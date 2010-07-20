@@ -20,6 +20,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -47,6 +48,7 @@ class EmailArguments {
   final ChangeQueryBuilder.Factory queryBuilder;
   final Provider<ChangeQueryRewriter> queryRewriter;
   final Provider<ReviewDb> db;
+  final SitePaths site;
 
   @Inject
   EmailArguments(GitRepositoryManager server, ProjectCache projectCache,
@@ -57,7 +59,8 @@ class EmailArguments {
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       @WildProjectName Project.NameKey wildProject,
       ChangeQueryBuilder.Factory queryBuilder,
-      Provider<ChangeQueryRewriter> queryRewriter, Provider<ReviewDb> db) {
+      Provider<ChangeQueryRewriter> queryRewriter, Provider<ReviewDb> db,
+      SitePaths site) {
     this.server = server;
     this.projectCache = projectCache;
     this.accountCache = accountCache;
@@ -71,5 +74,6 @@ class EmailArguments {
     this.queryBuilder = queryBuilder;
     this.queryRewriter = queryRewriter;
     this.db = db;
+    this.site = site;
   }
 }

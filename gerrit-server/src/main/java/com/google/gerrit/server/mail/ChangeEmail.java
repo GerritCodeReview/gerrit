@@ -23,10 +23,7 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.StarredChange;
-import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.mail.EmailHeader.AddressList;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -37,22 +34,11 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.client.OrmException;
 
-import org.eclipse.jgit.util.SystemReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -88,7 +74,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */
-  protected void format() {
+  protected void format() throws EmailException {
     formatChange();
     if (getChangeUrl() != null) {
       openFooter();
@@ -133,11 +119,10 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */
-  protected abstract void formatChange();
+  protected abstract void formatChange() throws EmailException;
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   protected void init() {
-    super.init();
     if (args.projectCache != null) {
       projectState = args.projectCache.get(change.getProject());
       projectName =
@@ -162,6 +147,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
         patchSetInfo = null;
       }
     }
+
+    super.init();
 
     if (changeMessage != null && changeMessage.getWrittenOn() != null) {
       setHeader("Date", new Date(changeMessage.getWrittenOn().getTime()));
@@ -441,5 +428,15 @@ public abstract class ChangeEmail extends OutgoingEmail {
         || change == null
         || projectState.controlFor(args.identifiedUserFactory.create(to))
             .controlFor(change).isVisible();
+  }
+
+  @Override
+  protected void setupVelocityContext() {
+    super.setupVelocityContext();
+    velocityContext.put("change", change);
+    velocityContext.put("branch", change.getDest());
+    velocityContext.put("projectName", projectName);
+    velocityContext.put("patchSet", patchSet);
+    velocityContext.put("patchSetInfo", patchSetInfo);
   }
 }

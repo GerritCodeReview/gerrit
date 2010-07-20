@@ -28,6 +28,7 @@ public final class SitePaths {
   public final File etc_dir;
   public final File lib_dir;
   public final File logs_dir;
+  public final File mail_dir;
   public final File hooks_dir;
   public final File static_dir;
 
@@ -61,6 +62,7 @@ public final class SitePaths {
     etc_dir = new File(site_path, "etc");
     lib_dir = new File(site_path, "lib");
     logs_dir = new File(site_path, "logs");
+    mail_dir = new File(site_path, "etc" + File.separator + "mail");
     hooks_dir = new File(site_path, "hooks");
     static_dir = new File(site_path, "static");
 

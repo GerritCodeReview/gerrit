@@ -52,8 +52,8 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
   protected GsonBuilder createGsonBuilder() {
     final GsonBuilder g = super.createGsonBuilder();
 
-    g.registerTypeAdapter(org.eclipse.jgit.diff.Edit.class,
-        new org.eclipse.jgit.diff.EditDeserializer());
+    g.registerTypeAdapter(com.google.gerrit.prettify.common.BaseEdit.class,
+        new com.google.gerrit.prettify.common.EditDeserializer());
 
     return g;
   }

@@ -112,6 +112,12 @@ public abstract class CacheModule extends AbstractModule {
     return getProvider(key);
   }
 
+  <V> Provider<V> getValueProvider(Class<V> type) {
+    Key<V> key = Key.get(type, UniqueAnnotations.create());
+    bind(key).to(type);
+    return getProvider(key);
+  }
+
   @SuppressWarnings("unchecked")
   private static <K, V> Key<EntryCreator<K, V>> newKey() {
     return (Key<EntryCreator<K, V>>) newKeyImpl();

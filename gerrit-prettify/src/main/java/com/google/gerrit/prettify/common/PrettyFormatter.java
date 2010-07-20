@@ -17,9 +17,6 @@ package com.google.gerrit.prettify.common;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
-import org.eclipse.jgit.diff.Edit;
-import org.eclipse.jgit.diff.ReplaceEdit;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,9 +26,9 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
   public static abstract class EditFilter {
     abstract String getStyleName();
 
-    abstract int getBegin(Edit edit);
+    abstract int getBegin(BaseEdit edit);
 
-    abstract int getEnd(Edit edit);
+    abstract int getEnd(BaseEdit edit);
   }
 
   public static final EditFilter A = new EditFilter() {
@@ -41,12 +38,12 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
     }
 
     @Override
-    int getBegin(Edit edit) {
+    int getBegin(BaseEdit edit) {
       return edit.getBeginA();
     }
 
     @Override
-    int getEnd(Edit edit) {
+    int getEnd(BaseEdit edit) {
       return edit.getEndA();
     }
   };
@@ -58,19 +55,19 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
     }
 
     @Override
-    int getBegin(Edit edit) {
+    int getBegin(BaseEdit edit) {
       return edit.getBeginB();
     }
 
     @Override
-    int getEnd(Edit edit) {
+    int getEnd(BaseEdit edit) {
       return edit.getEndB();
     }
   };
 
   protected SparseFileContent content;
   protected EditFilter side;
-  protected List<Edit> edits;
+  protected List<BaseEdit> edits;
   protected PrettySettings settings;
   protected Set<Integer> trailingEdits;
 
@@ -101,7 +98,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
     side = f;
   }
 
-  public void setEditList(List<Edit> all) {
+  public void setEditList(List<BaseEdit> all) {
     edits = all;
   }
 
@@ -342,17 +339,17 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
     // in the source. That simplifies our loop below because we'll never
     // run off the end of the edit list.
     //
-    List<Edit> edits = new ArrayList<Edit>(this.edits.size() + 1);
+    List<BaseEdit> edits = new ArrayList<BaseEdit>(this.edits.size() + 1);
     edits.addAll(this.edits);
-    edits.add(new Edit(src.size(), src.size()));
+    edits.add(new BaseEdit(src.size(), src.size()));
 
     SafeHtmlBuilder buf = new SafeHtmlBuilder();
 
     int curIdx = 0;
-    Edit curEdit = edits.get(curIdx);
+    BaseEdit curEdit = edits.get(curIdx);
 
-    ReplaceEdit lastReplace = null;
-    List<Edit> charEdits = null;
+    BaseEdit lastReplace = null;
+    List<BaseEdit> charEdits = null;
     int lastPos = 0;
     int lastIdx = 0;
 
@@ -375,10 +372,10 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
 
       // index occurs within the edit. The line is a modification.
       //
-      if (curEdit instanceof ReplaceEdit) {
+      if (curEdit instanceof LineEdit) {
         if (lastReplace != curEdit) {
-          lastReplace = (ReplaceEdit) curEdit;
-          charEdits = lastReplace.getInternalEdits();
+          lastReplace = curEdit;
+          charEdits = ((LineEdit) lastReplace).getEdits();
           lastPos = 0;
           lastIdx = 0;
         }
@@ -390,7 +387,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
             break;
           }
 
-          final Edit edit = charEdits.get(lastIdx);
+          final BaseEdit edit = charEdits.get(lastIdx);
           final int b = side.getBegin(edit) - lastPos;
           final int e = side.getEnd(edit) - lastPos;
 
@@ -462,7 +459,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
     }
   }
 
-  private int compare(int index, Edit edit) {
+  private int compare(int index, BaseEdit edit) {
     if (index < side.getBegin(edit)) {
       return -1; // index occurs before the edit.
 

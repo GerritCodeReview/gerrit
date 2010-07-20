@@ -14,18 +14,16 @@
 
 package com.google.gerrit.prettify.common;
 
-import org.eclipse.jgit.diff.Edit;
-
 import java.util.Iterator;
 import java.util.List;
 
 public class EditList {
-  private final List<Edit> edits;
+  private final List<BaseEdit> edits;
   private final int context;
   private final int aSize;
   private final int bSize;
 
-  public EditList(final List<Edit> edits, final int contextLines,
+  public EditList(final List<BaseEdit> edits, final int contextLines,
       final int aSize, final int bSize) {
     this.edits = edits;
     this.context = contextLines;
@@ -33,7 +31,7 @@ public class EditList {
     this.bSize = bSize;
   }
 
-  public List<Edit> getEdits() {
+  public List<BaseEdit> getEdits() {
     return edits;
   }
 
@@ -70,8 +68,8 @@ public class EditList {
   }
 
   private boolean combineA(final int i) {
-    final Edit s = edits.get(i);
-    final Edit e = edits.get(i - 1);
+    final BaseEdit s = edits.get(i);
+    final BaseEdit e = edits.get(i - 1);
     return s.getBeginA() - e.getEndA() <= 2 * context;
   }
 
@@ -83,9 +81,9 @@ public class EditList {
 
   public class Hunk {
     private int curIdx;
-    private Edit curEdit;
+    private BaseEdit curEdit;
     private final int endIdx;
-    private final Edit endEdit;
+    private final BaseEdit endEdit;
 
     private int aCur;
     private int bCur;
@@ -112,7 +110,7 @@ public class EditList {
       return bCur;
     }
 
-    public Edit getCurEdit() {
+    public BaseEdit getCurEdit() {
       return curEdit;
     }
 
@@ -166,7 +164,7 @@ public class EditList {
       return aCur < aEnd || bCur < bEnd;
     }
 
-    private boolean in(final Edit edit) {
+    private boolean in(final BaseEdit edit) {
       return aCur < edit.getEndA() || bCur < edit.getEndB();
     }
   }

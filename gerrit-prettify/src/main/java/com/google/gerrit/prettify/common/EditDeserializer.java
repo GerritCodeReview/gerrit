@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.eclipse.jgit.diff;
+package com.google.gerrit.prettify.common;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -28,9 +28,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditDeserializer implements JsonDeserializer<Edit>,
-    JsonSerializer<Edit> {
-  public Edit deserialize(final JsonElement json, final Type typeOfT,
+public class EditDeserializer implements JsonDeserializer<BaseEdit>,
+    JsonSerializer<BaseEdit> {
+  public BaseEdit deserialize(final JsonElement json, final Type typeOfT,
       final JsonDeserializationContext context) throws JsonParseException {
     if (json.isJsonNull()) {
       return null;
@@ -46,18 +46,18 @@ public class EditDeserializer implements JsonDeserializer<Edit>,
     }
 
     if (4 == cnt) {
-      return new Edit(get(o, 0), get(o, 1), get(o, 2), get(o, 3));
+      return new BaseEdit(get(o, 0), get(o, 1), get(o, 2), get(o, 3));
     }
 
-    List<Edit> l = new ArrayList<Edit>((cnt / 4) - 1);
+    List<BaseEdit> l = new ArrayList<BaseEdit>((cnt / 4) - 1);
     for (int i = 4; i < cnt;) {
       int as = get(o, i++);
       int ae = get(o, i++);
       int bs = get(o, i++);
       int be = get(o, i++);
-      l.add(new Edit(as, ae, bs, be));
+      l.add(new BaseEdit(as, ae, bs, be));
     }
-    return new ReplaceEdit(get(o, 0), get(o, 1), get(o, 2), get(o, 3), l);
+    return new LineEdit(get(o, 0), get(o, 1), get(o, 2), get(o, 3), l);
   }
 
   private static int get(final JsonArray a, final int idx)
@@ -73,22 +73,22 @@ public class EditDeserializer implements JsonDeserializer<Edit>,
     return p.getAsInt();
   }
 
-  public JsonElement serialize(final Edit src, final Type typeOfSrc,
+  public JsonElement serialize(final BaseEdit src, final Type typeOfSrc,
       final JsonSerializationContext context) {
     if (src == null) {
       return new JsonNull();
     }
     final JsonArray a = new JsonArray();
     add(a, src);
-    if (src instanceof ReplaceEdit) {
-      for (Edit e : ((ReplaceEdit) src).getInternalEdits()) {
+    if (src instanceof LineEdit) {
+      for (BaseEdit e : ((LineEdit) src).getEdits()) {
         add(a, e);
       }
     }
     return a;
   }
 
-  private void add(final JsonArray a, final Edit src) {
+  private void add(final JsonArray a, final BaseEdit src) {
     a.add(new JsonPrimitive(src.getBeginA()));
     a.add(new JsonPrimitive(src.getEndA()));
     a.add(new JsonPrimitive(src.getBeginB()));

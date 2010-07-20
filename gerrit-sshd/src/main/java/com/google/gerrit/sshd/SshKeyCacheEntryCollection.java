@@ -14,23 +14,42 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gwtorm.client.Column;
+
+import java.util.Collection;
 import java.util.Collections;
 
-/** Wrapper around an Iterable<SshKeyCacheEntry> */
-class SshKeyCacheEntryIterable {
-  static final SshKeyCacheEntryIterable EMPTY = new SshKeyCacheEntryIterable();
+/** Wrapper around a Collection<SshKeyCacheEntry> */
+class SshKeyCacheEntryCollection {
+  public enum Type {
+    VALID_HAS_KEYS, INVALID_USER, NO_SUCH_USER, NO_KEYS
+  }
 
-  private final Iterable<SshKeyCacheEntry> sshKeyIter;
+  @Column(id = 1)
+  protected Collection<SshKeyCacheEntry> sshKeyIter;
 
-  SshKeyCacheEntryIterable() {
+  @Column(id = 2)
+  protected Type type;
+
+  SshKeyCacheEntryCollection() {
     sshKeyIter = Collections.emptyList();
   }
 
-  SshKeyCacheEntryIterable(Iterable<SshKeyCacheEntry> sshKeyIter) {
+  SshKeyCacheEntryCollection(Collection<SshKeyCacheEntry> sshKeyIter) {
     this.sshKeyIter = sshKeyIter;
+    this.type = Type.VALID_HAS_KEYS;
+  }
+
+  SshKeyCacheEntryCollection(Type type) {
+    sshKeyIter = Collections.emptyList();
+    this.type = type;
   }
 
   Iterable<SshKeyCacheEntry> getSshKeyCacheEntries() {
     return sshKeyIter;
+  }
+
+  Type getType() {
+    return type;
   }
 }

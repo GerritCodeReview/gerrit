@@ -37,10 +37,16 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.client.OrmException;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.VelocityContext;
+
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -52,6 +58,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -68,6 +75,7 @@ public abstract class OutgoingEmail {
   private final List<Address> smtpRcptTo = new ArrayList<Address>();
   private Address smtpFromAddress;
   private StringBuilder body;
+  protected VelocityContext velocityContext;
 
   protected final EmailArguments args;
   protected Account.Id fromId;
@@ -138,6 +146,8 @@ public abstract class OutgoingEmail {
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   protected void init() {
+    setupVelocityContext();
+
     smtpFromAddress = args.fromAddressGenerator.from(fromId);
     setHeader("Date", new Date());
     headers.put("From", new EmailHeader.AddressList(smtpFromAddress));
@@ -207,6 +217,11 @@ public abstract class OutgoingEmail {
 
   protected String getGerritUrl() {
     return args.urlProvider.get();
+  }
+
+  /** Set a header in the outgoing message using a template. */
+  protected void setVHeader(final String name, final String value) {
+    setHeader(name, velocify(value));
   }
 
   /** Set a header in the outgoing message. */
@@ -335,5 +350,66 @@ public abstract class OutgoingEmail {
       return null;
     }
     return new Address(a.getFullName(), e);
+  }
+
+  protected void setupVelocityContext() {
+    String rl = "resource.loader";
+    String pkg = "org.apache.velocity.runtime.resource.loader";
+    Properties p = new Properties();
+
+    p.setProperty(rl, "file, class");
+    p.setProperty("file." + rl + ".class", pkg + ".FileResourceLoader");
+    p.setProperty("file." + rl + ".path", args.site.mail_dir.getAbsolutePath());
+    p.setProperty("class." + rl + ".class", pkg + ".ClasspathResourceLoader");
+    p.setProperty(org.apache.velocity.runtime.RuntimeConstants.RUNTIME_LOG,
+                  args.site.logs_dir.getAbsolutePath() +
+                  java.io.File.separator + "velocity_log");
+
+    try {
+      Velocity.init(p);
+    }
+    catch(Exception e) {
+    }
+
+    velocityContext = new VelocityContext();
+
+    velocityContext.put("email", this);
+    velocityContext.put("messageClass", messageClass);
+    velocityContext.put("StringUtils", StringUtils.class);
+  }
+
+  protected String velocify(String tpl) {
+    try {
+      StringWriter w = new StringWriter();
+      Velocity.evaluate(velocityContext, w, "OutgoingEmail", tpl);
+      return w.toString();
+    }
+    catch(Exception e) {
+      return tpl.toString();
+    }
+  }
+
+  protected String velocifyFile(String name) {
+    Exception eo;
+    StringWriter w = new StringWriter();
+
+    try {
+      Velocity.mergeTemplate(name, velocityContext, w);
+      return w.toString();
+    }
+    catch(ResourceNotFoundException e) {
+      try {
+        String pkg = "com/google/gerrit/server/mail/";
+        Velocity.mergeTemplate(pkg + name, velocityContext, w);
+        return w.toString();
+      }
+      catch(Exception e2) {
+        eo = e;
+      }
+    }
+    catch(Exception e) {
+      eo = e;
+    }
+    return "Velocity exception in template " + name + ".\n" + eo.toString();
   }
 }

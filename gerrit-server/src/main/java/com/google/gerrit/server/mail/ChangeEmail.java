@@ -442,4 +442,14 @@ public abstract class ChangeEmail extends OutgoingEmail {
         || projectState.controlFor(args.identifiedUserFactory.create(to))
             .controlFor(change).isVisible();
   }
+
+  @Override
+  protected void setupVelocityContext() {
+    super.setupVelocityContext();
+    velocityContext.put("change", change);
+    velocityContext.put("branch", change.getDest());
+    velocityContext.put("projectName", projectName);
+    velocityContext.put("patchSet", patchSet);
+    velocityContext.put("patchSetInfo", patchSetInfo);
+  }
 }

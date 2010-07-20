@@ -14,8 +14,6 @@
 
 package com.google.gerrit.prettify.common;
 
-import org.eclipse.jgit.diff.Edit;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -219,7 +217,7 @@ public class SparseFileContent {
     return b.toString();
   }
 
-  public SparseFileContent apply(SparseFileContent a, List<Edit> edits) {
+  public SparseFileContent apply(SparseFileContent a, List<LineEdit> edits) {
     EditList list = new EditList(edits, size, a.size(), size);
     ArrayList<String> lines = new ArrayList<String>(size);
     for (final EditList.Hunk hunk : list.getHunks()) {

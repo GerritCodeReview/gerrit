@@ -61,6 +61,8 @@
 package com.google.gerrit.server.patch;
 
 
+import com.google.gerrit.prettify.common.BaseEdit;
+import com.google.gerrit.prettify.common.LineEdit;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
@@ -84,7 +86,6 @@ import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextIgnoreAllWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreTrailingWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreWhitespaceChange;
-import org.eclipse.jgit.diff.ReplaceEdit;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -297,18 +298,18 @@ public class PatchListCacheImpl implements PatchListCache {
       final FileMode newMode = fileHeader.getNewMode();
 
       if (oldMode == FileMode.GITLINK || newMode == FileMode.GITLINK) {
-        return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
+        return new PatchListEntry(fileHeader, Collections.<LineEdit> emptyList());
       }
 
       if (aTree == null // want combined diff
           || fileHeader.getPatchType() != PatchType.UNIFIED
           || fileHeader.getHunks().isEmpty()) {
-        return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
+        return new PatchListEntry(fileHeader, Collections.<LineEdit> emptyList());
       }
 
-      List<Edit> edits = fileHeader.toEditList();
+      List<LineEdit> edits = LineEdit.fromEditList(fileHeader.toEditList());
       if (edits.isEmpty()) {
-        return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
+        return new PatchListEntry(fileHeader, Collections.<LineEdit> emptyList());
       }
       if (!computeIntraline) {
         return new PatchListEntry(fileHeader, edits);
@@ -324,11 +325,11 @@ public class PatchListCacheImpl implements PatchListCache {
       Text bContent = null;
 
       for (int i = 0; i < edits.size(); i++) {
-        Edit e = edits.get(i);
+        LineEdit e = edits.get(i);
 
         if (e.getType() == Edit.Type.REPLACE) {
           if (aContent == null) {
-            edits = new ArrayList<Edit>(edits);
+            edits = new ArrayList<LineEdit>(edits);
             aContent = read(repo, fileHeader.getOldName(), aTree);
             bContent = read(repo, fileHeader.getNewName(), bTree);
             combineLineEdits(edits, aContent, bContent);
@@ -339,15 +340,15 @@ public class PatchListCacheImpl implements PatchListCache {
           CharText a = new CharText(aContent, e.getBeginA(), e.getEndA());
           CharText b = new CharText(bContent, e.getBeginB(), e.getEndB());
 
-          List<Edit> wordEdits = new MyersDiff(a, b).getEdits();
+          List<LineEdit> wordEdits = LineEdit.fromEditList(new MyersDiff(a, b).getEdits());
 
           // Combine edits that are really close together. If they are
           // just a few characters apart we tend to get better results
           // by joining them together and taking the whole span.
           //
           for (int j = 0; j < wordEdits.size() - 1;) {
-            Edit c = wordEdits.get(j);
-            Edit n = wordEdits.get(j + 1);
+            BaseEdit c = wordEdits.get(j);
+            BaseEdit n = wordEdits.get(j + 1);
 
             if (n.getBeginA() - c.getEndA() <= 5
                 || n.getBeginB() - c.getEndB() <= 5) {
@@ -359,7 +360,7 @@ public class PatchListCacheImpl implements PatchListCache {
 
               if (canCoalesce(a, c.getEndA(), n.getBeginA())
                   && canCoalesce(b, c.getEndB(), n.getBeginB())) {
-                wordEdits.set(j, new Edit(ab, ae, bb, be));
+                wordEdits.set(j, new LineEdit(ab, ae, bb, be));
                 wordEdits.remove(j + 1);
                 continue;
               }
@@ -373,7 +374,7 @@ public class PatchListCacheImpl implements PatchListCache {
           // to produce some crazy stuff.
           //
           for (int j = 0; j < wordEdits.size(); j++) {
-            Edit c = wordEdits.get(j);
+            BaseEdit c = wordEdits.get(j);
             int ab = c.getBeginA();
             int ae = c.getEndA();
 
@@ -388,7 +389,7 @@ public class PatchListCacheImpl implements PatchListCache {
             // with silly stuff like "es" -> "es = Addresses".
             //
             if (1 < j) {
-              Edit p = wordEdits.get(j - 1);
+              BaseEdit p = wordEdits.get(j - 1);
               if (p.getEndA() == ab || p.getEndB() == bb) {
                 if (p.getEndA() == ab && p.getBeginA() < p.getEndA()) {
                   ab = p.getBeginA();
@@ -505,20 +506,20 @@ public class PatchListCacheImpl implements PatchListCache {
               be++;
             }
 
-            wordEdits.set(j, new Edit(ab, ae, bb, be));
+            wordEdits.set(j, new LineEdit(ab, ae, bb, be));
           }
 
-          edits.set(i, new ReplaceEdit(e, wordEdits));
+          edits.set(i, new LineEdit(e, wordEdits));
         }
       }
 
       return new PatchListEntry(fileHeader, edits);
     }
 
-    private static void combineLineEdits(List<Edit> edits, Text a, Text b) {
+    private static void combineLineEdits(List<LineEdit> edits, Text a, Text b) {
       for (int j = 0; j < edits.size() - 1;) {
-        Edit c = edits.get(j);
-        Edit n = edits.get(j + 1);
+        BaseEdit c = edits.get(j);
+        BaseEdit n = edits.get(j + 1);
 
         // Combine edits that are really close together. Right now our rule
         // is, coalesce two line edits which are only one line apart if that
@@ -537,7 +538,7 @@ public class PatchListCacheImpl implements PatchListCache {
           int bb = c.getBeginB();
           int be = n.getEndB();
 
-          edits.set(j, new Edit(ab, ae, bb, be));
+          edits.set(j, new LineEdit(ab, ae, bb, be));
           edits.remove(j + 1);
           continue;
         }
@@ -569,7 +570,7 @@ public class PatchListCacheImpl implements PatchListCache {
       return true;
     }
 
-    private static int findLF(List<Edit> edits, int j, CharText t, int b) {
+    private static int findLF(List<LineEdit> edits, int j, CharText t, int b) {
       int lf = b;
       int limit = 0 < j ? edits.get(j - 1).getEndB() : 0;
       while (limit < lf && t.charAt(lf) != '\n') {

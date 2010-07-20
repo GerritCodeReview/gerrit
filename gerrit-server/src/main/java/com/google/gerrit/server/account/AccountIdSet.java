@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.Account;
+import com.google.gwtorm.client.Column;
 
 import java.util.Collections;
 import java.util.Set;
@@ -22,9 +23,11 @@ import java.util.Set;
 /** Wrapper around a Set<Account.Id> */
 public class AccountIdSet {
   public static final AccountIdSet EMPTY_SET = new AccountIdSet();
-  private final Set<Account.Id> ids;
 
-  private AccountIdSet() {
+  @Column(id = 1)
+  protected Set<Account.Id> ids;
+
+  protected AccountIdSet() {
     this.ids = Collections.emptySet();
   }
 

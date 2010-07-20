@@ -50,8 +50,8 @@ public class AccountCacheImpl implements AccountCache {
             new TypeLiteral<Cache<Account.Id, AccountState>>() {};
         core(byIdType, BYID_NAME).populateWith(ByIdLoader.class);
 
-        final TypeLiteral<Cache<String, Account.Id>> byUsernameType =
-            new TypeLiteral<Cache<String, Account.Id>>() {};
+        final TypeLiteral<Cache<Account.Username, Account.Id>> byUsernameType =
+            new TypeLiteral<Cache<Account.Username, Account.Id>>() {};
         core(byUsernameType, BYUSER_NAME).populateWith(ByNameLoader.class);
 
         bind(AccountCacheImpl.class);
@@ -61,11 +61,11 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   private final Cache<Account.Id, AccountState> byId;
-  private final Cache<String, Account.Id> byName;
+  private final Cache<Account.Username, Account.Id> byName;
 
   @Inject
   AccountCacheImpl(@Named(BYID_NAME) Cache<Account.Id, AccountState> byId,
-      @Named(BYUSER_NAME) Cache<String, Account.Id> byUsername) {
+      @Named(BYUSER_NAME) Cache<Account.Username, Account.Id> byUsername) {
     this.byId = byId;
     this.byName = byUsername;
   }
@@ -76,7 +76,7 @@ public class AccountCacheImpl implements AccountCache {
 
   @Override
   public AccountState getByUsername(String username) {
-    Account.Id id = byName.get(username);
+    Account.Id id = byName.get(new Account.Username(username));
     return id != null ? byId.get(id) : null;
   }
 
@@ -85,7 +85,7 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   public void evictByUsername(String username) {
-    byName.remove(username);
+    byName.remove(new Account.Username(username));
   }
 
   static class ByIdLoader extends EntryCreator<Account.Id, AccountState> {
@@ -93,12 +93,12 @@ public class AccountCacheImpl implements AccountCache {
     private final Set<AccountGroup.Id> registered;
     private final Set<AccountGroup.Id> anonymous;
     private final GroupCache groupCache;
-    private final Cache<String, Account.Id> byName;
+    private final Cache<Account.Username, Account.Id> byName;
 
     @Inject
     ByIdLoader(SchemaFactory<ReviewDb> sf, AuthConfig auth,
         GroupCache groupCache,
-        @Named(BYUSER_NAME) Cache<String, Account.Id> byUsername) {
+        @Named(BYUSER_NAME) Cache<Account.Username, Account.Id> byUsername) {
       this.schema = sf;
       this.registered = auth.getRegisteredGroups();
       this.anonymous = auth.getAnonymousGroups();
@@ -112,7 +112,8 @@ public class AccountCacheImpl implements AccountCache {
       try {
         final AccountState state = load(db, key);
         if (state.getUserName() != null) {
-          byName.put(state.getUserName(), state.getAccount().getId());
+          byName.put(new Account.Username(state.getUserName()), state.getAccount()
+              .getId());
         }
         return state;
       } finally {
@@ -160,7 +161,7 @@ public class AccountCacheImpl implements AccountCache {
     }
   }
 
-  static class ByNameLoader extends EntryCreator<String, Account.Id> {
+  static class ByNameLoader extends EntryCreator<Account.Username, Account.Id> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -169,12 +170,12 @@ public class AccountCacheImpl implements AccountCache {
     }
 
     @Override
-    public Account.Id createEntry(final String username) throws Exception {
+    public Account.Id createEntry(final Account.Username username) throws Exception {
       final ReviewDb db = schema.open();
       try {
         final AccountExternalId.Key key = new AccountExternalId.Key( //
             AccountExternalId.SCHEME_USERNAME, //
-            username);
+            username.get());
         final AccountExternalId id = db.accountExternalIds().get(key);
         return id != null ? id.getAccountId() : null;
       } finally {

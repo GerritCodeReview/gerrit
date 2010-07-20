@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.Patch.PatchType;
 import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.patch.GwtOrmBaseEdit;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.Text;
 import com.google.inject.Inject;
@@ -57,9 +58,9 @@ class PatchScriptBuilder {
   static final int MAX_CONTEXT = 5000000;
   static final int BIG_FILE = 9000;
 
-  private static final Comparator<Edit> EDIT_SORT = new Comparator<Edit>() {
+  private static final Comparator<GwtOrmBaseEdit> EDIT_SORT = new Comparator<GwtOrmBaseEdit>() {
     @Override
-    public int compare(final Edit o1, final Edit o2) {
+    public int compare(final GwtOrmBaseEdit o1, final GwtOrmBaseEdit o2) {
       return o1.getBeginA() - o2.getBeginA();
     }
   };
@@ -73,7 +74,7 @@ class PatchScriptBuilder {
   private final Side a;
   private final Side b;
 
-  private List<Edit> edits;
+  private List<GwtOrmBaseEdit> edits;
   private final FileTypeRegistry registry;
   private int context;
 
@@ -127,7 +128,7 @@ class PatchScriptBuilder {
     a.resolve(null, aId);
     b.resolve(a, bId);
 
-    edits = new ArrayList<Edit>(content.getEdits());
+    edits = new ArrayList<GwtOrmBaseEdit>(content.getEdits());
     ensureCommentsVisible(comments);
 
     boolean hugeFile = false;
@@ -142,8 +143,8 @@ class PatchScriptBuilder {
       for (int i = 0; i < a.size(); i++) {
         a.addLine(i);
       }
-      edits = new ArrayList<Edit>(1);
-      edits.add(new Edit(a.size(), a.size()));
+      edits = new ArrayList<GwtOrmBaseEdit>(1);
+      edits.add(new GwtOrmBaseEdit(a.size(), a.size()));
 
     } else {
       if (BIG_FILE < Math.max(a.size(), b.size())) {
@@ -167,8 +168,8 @@ class PatchScriptBuilder {
 
     return new PatchScript(change.getKey(), content.getChangeType(), content
         .getOldName(), content.getNewName(), content.getHeaderLines(),
-        settings, a.dst, b.dst, edits, a.displayMethod, b.displayMethod,
-        comments, history, hugeFile, intralineDifference);
+        settings, a.dst, b.dst, GwtOrmBaseEdit.toEditList(edits), a.displayMethod,
+        b.displayMethod, comments, history, hugeFile, intralineDifference);
   }
 
   private static String oldName(final PatchListEntry entry) {
@@ -212,7 +213,7 @@ class PatchScriptBuilder {
     // correct hunks from this, but because the Edit is empty they will not
     // style it specially.
     //
-    final List<Edit> empty = new ArrayList<Edit>();
+    final List<GwtOrmBaseEdit> empty = new ArrayList<GwtOrmBaseEdit>();
     int lastLine;
 
     lastLine = -1;
@@ -221,7 +222,7 @@ class PatchScriptBuilder {
       if (lastLine != a) {
         final int b = mapA2B(a - 1);
         if (0 <= b) {
-          safeAdd(empty, new Edit(a - 1, b));
+          safeAdd(empty, new GwtOrmBaseEdit(a - 1, b));
         }
         lastLine = a;
       }
@@ -233,7 +234,7 @@ class PatchScriptBuilder {
       if (lastLine != b) {
         final int a = mapB2A(b - 1);
         if (0 <= a) {
-          safeAdd(empty, new Edit(a, b - 1));
+          safeAdd(empty, new GwtOrmBaseEdit(a, b - 1));
         }
         lastLine = b;
       }
@@ -246,10 +247,10 @@ class PatchScriptBuilder {
     Collections.sort(edits, EDIT_SORT);
   }
 
-  private void safeAdd(final List<Edit> empty, final Edit toAdd) {
+  private void safeAdd(final List<GwtOrmBaseEdit> empty, final GwtOrmBaseEdit toAdd) {
     final int a = toAdd.getBeginA();
     final int b = toAdd.getBeginB();
-    for (final Edit e : edits) {
+    for (final GwtOrmBaseEdit e : edits) {
       if (e.getBeginA() <= a && a <= e.getEndA()) {
         return;
       }
@@ -268,7 +269,7 @@ class PatchScriptBuilder {
     }
 
     for (int i = 0; i < edits.size(); i++) {
-      final Edit e = edits.get(i);
+      final GwtOrmBaseEdit e = edits.get(i);
       if (a < e.getBeginA()) {
         if (i == 0) {
           // Special case of context at start of file.
@@ -282,7 +283,7 @@ class PatchScriptBuilder {
       }
     }
 
-    final Edit last = edits.get(edits.size() - 1);
+    final GwtOrmBaseEdit last = edits.get(edits.size() - 1);
     return last.getBeginB() + (a - last.getEndA());
   }
 
@@ -294,7 +295,7 @@ class PatchScriptBuilder {
     }
 
     for (int i = 0; i < edits.size(); i++) {
-      final Edit e = edits.get(i);
+      final GwtOrmBaseEdit e = edits.get(i);
       if (b < e.getBeginB()) {
         if (i == 0) {
           // Special case of context at start of file.
@@ -308,12 +309,13 @@ class PatchScriptBuilder {
       }
     }
 
-    final Edit last = edits.get(edits.size() - 1);
+    final GwtOrmBaseEdit last = edits.get(edits.size() - 1);
     return last.getBeginA() + (b - last.getEndB());
   }
 
   private void packContent(boolean ignoredWhitespace) {
-    EditList list = new EditList(edits, context, a.size(), b.size());
+    EditList list =
+        new EditList(GwtOrmBaseEdit.toEditList(edits), context, a.size(), b.size());
     for (final EditList.Hunk hunk : list.getHunks()) {
       while (hunk.next()) {
         if (hunk.isContextLine()) {

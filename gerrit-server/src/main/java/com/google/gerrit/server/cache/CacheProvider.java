@@ -23,6 +23,7 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
@@ -40,6 +41,7 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
   private Provider<EntryCreator<K, V>> entryCreator;
   private Class<K> keyClass;
   private Class<V> valueClass;
+  private Provider<V> valueProvider;
 
   @SuppressWarnings("unchecked")
   CacheProvider(final boolean disk, CacheModule module,
@@ -54,8 +56,14 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     Type[] tmp =
         ((ParameterizedType) typeLiteral.getType()).getActualTypeArguments();
 
-    this.keyClass = (Class<K>) tmp[0];
-    this.valueClass = (Class<V>) tmp[1];
+    keyClass = (Class<K>) tmp[0];
+    valueClass = (Class<V>) tmp[1];
+
+    for (Constructor c : valueClass.getDeclaredConstructors()) {
+      if (c.getAnnotation(Inject.class) != null) {
+        valueProvider = module.getValueProvider(valueClass);
+      }
+    }
 
     if (disk) {
       diskLimit(16384);
@@ -76,6 +84,10 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
 
   public EntryCreator<K, V> getEntryCreator() {
     return entryCreator != null ? entryCreator.get() : null;
+  }
+
+  public Provider<V> getValueProvider() {
+    return valueProvider;
   }
 
   public String getName() {

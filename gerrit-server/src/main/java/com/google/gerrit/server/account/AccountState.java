@@ -19,15 +19,19 @@ import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gwtorm.client.Column;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 public class AccountState {
-  private final Account account;
-  private final Set<AccountGroup.Id> internalGroups;
-  private final Collection<AccountExternalId> externalIds;
+  @Column(id = 1)
+  protected Account account;
+  @Column(id = 2)
+  protected Set<AccountGroup.Id> internalGroups;
+  @Column(id = 3)
+  protected Collection<AccountExternalId> externalIds;
 
   public AccountState(final Account account,
       final Set<AccountGroup.Id> actualGroups,

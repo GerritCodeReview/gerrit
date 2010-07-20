@@ -177,19 +177,15 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   private void setListIdHeader() {
     // Set a reasonable list id so that filters can be used to sort messages
-    //
-    final StringBuilder listid = new StringBuilder();
-    listid.append("gerrit-");
-    listid.append(projectName.replace('/', '-'));
-    listid.append("@");
-    listid.append(getGerritHost());
-
-    final String listidStr = listid.toString();
-    setHeader("Mailing-List", "list " + listidStr);
-    setHeader("List-Id", "<" + listidStr.replace('@', '.') + ">");
+    setVHeader("Mailing-List", "list $email.listId");
+    setVHeader("List-Id", "<$email.listId.replace('@', '.')>");
     if (getSettingsUrl() != null) {
-      setHeader("List-Unsubscribe", "<" + getSettingsUrl() + ">");
+      setVHeader("List-Unsubscribe", "<$email.settingsUrl>");
     }
+  }
+
+  public String getListId() {
+    return velocify("gerrit-$projectName.replace('/', '-')@$email.gerritHost");
   }
 
   private void setChangeUrlHeader() {
@@ -237,18 +233,9 @@ public abstract class ChangeEmail extends OutgoingEmail {
     return null;
   }
 
-  protected String getChangeMessageThreadId() {
-    final StringBuilder r = new StringBuilder();
-    r.append('<');
-    r.append("gerrit");
-    r.append('.');
-    r.append(change.getCreatedOn().getTime());
-    r.append('.');
-    r.append(change.getKey().get());
-    r.append('@');
-    r.append(getGerritHost());
-    r.append('>');
-    return r.toString();
+  public String getChangeMessageThreadId() {
+    return velocify("<gerrit.${change.createdOn.time}.$change.key.get()" +
+                    "@$email.gerritHost>");
   }
 
   private void openFooter() {

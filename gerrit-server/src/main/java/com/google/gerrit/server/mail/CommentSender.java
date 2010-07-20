@@ -65,7 +65,7 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void format() {
+  protected void formatChange() {
     if (!"".equals(getCoverLetter()) || !inlineComments.isEmpty()) {
       appendText("Comments on Patch Set " + patchSet.getPatchSetId() + ":\n");
       appendText("\n");

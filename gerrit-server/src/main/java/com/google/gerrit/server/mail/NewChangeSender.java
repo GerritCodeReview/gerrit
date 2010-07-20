@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 /** Sends an email alerting a user to a new change for them to review. */
-public abstract class NewChangeSender extends OutgoingEmail {
+public abstract class NewChangeSender extends ChangeEmail {
   private final SshInfo sshInfo;
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
@@ -57,7 +57,7 @@ public abstract class NewChangeSender extends OutgoingEmail {
   }
 
   @Override
-  protected void format() {
+  protected void formatChange() {
     formatSalutation();
     formatChangeDetail();
 

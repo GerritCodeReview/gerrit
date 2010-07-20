@@ -34,6 +34,7 @@ public class ChangeData {
   private Change change;
   private Collection<PatchSet> patches;
   private Collection<PatchSetApproval> approvals;
+  private Collection<PatchSetApproval> currentApprovals;
   private Collection<PatchLineComment> comments;
   private Collection<TrackingId> trackingIds;
   private CurrentUser visibleTo;
@@ -89,11 +90,15 @@ public class ChangeData {
 
   public Collection<PatchSetApproval> currentApprovals(Provider<ReviewDb> db)
       throws OrmException {
-    Change c = change(db);
-    if (c == null) {
-      return Collections.emptyList();
+    if (currentApprovals == null) {
+      Change c = change(db);
+      if (c == null) {
+        currentApprovals = Collections.emptyList();
+      } else {
+        currentApprovals = approvalsFor(db, c.currentPatchSetId());
+      }
     }
-    return approvalsFor(db, c.currentPatchSetId());
+    return currentApprovals;
   }
 
   public Collection<PatchSetApproval> approvalsFor(Provider<ReviewDb> db,

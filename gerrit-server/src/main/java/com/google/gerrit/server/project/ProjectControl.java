@@ -33,6 +33,24 @@ public class ProjectControl {
   public static final int VISIBLE = 1 << 0;
   public static final int OWNER = 1 << 1;
 
+  public static class GenericFactory {
+    private final ProjectCache projectCache;
+
+    @Inject
+    GenericFactory(final ProjectCache pc) {
+      projectCache = pc;
+    }
+
+    public ProjectControl controlFor(Project.NameKey nameKey, CurrentUser user)
+        throws NoSuchProjectException {
+      final ProjectState p = projectCache.get(nameKey);
+      if (p == null) {
+        throw new NoSuchProjectException(nameKey);
+      }
+      return p.controlFor(user);
+    }
+  }
+
   public static class Factory {
     private final ProjectCache projectCache;
     private final Provider<CurrentUser> user;

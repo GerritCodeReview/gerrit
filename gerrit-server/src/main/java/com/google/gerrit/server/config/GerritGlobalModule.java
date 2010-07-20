@@ -41,25 +41,21 @@ import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
-import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.PushAllProjectsOp;
 import com.google.gerrit.server.git.PushReplication;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.mail.AbandonedSender;
-import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
-import com.google.gerrit.server.mail.MergeFailSender;
-import com.google.gerrit.server.mail.MergedSender;
-import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCacheImpl;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
@@ -140,6 +136,8 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
+    bind(ChangeControl.GenericFactory.class);
+    bind(ProjectControl.GenericFactory.class);
     factory(FunctionState.Factory.class);
     factory(ReplicationUser.Factory.class);
 

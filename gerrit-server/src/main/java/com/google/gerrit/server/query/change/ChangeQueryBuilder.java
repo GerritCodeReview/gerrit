@@ -90,6 +90,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<ChangeQueryRewriter> rewriter;
     final IdentifiedUser.GenericFactory userFactory;
     final ChangeControl.Factory changeControlFactory;
+    final ChangeControl.GenericFactory changeControlGenericFactory;
     final AccountResolver accountResolver;
     final GroupCache groupCache;
     final AuthConfig authConfig;
@@ -101,6 +102,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<ChangeQueryRewriter> rewriter,
         IdentifiedUser.GenericFactory userFactory,
         ChangeControl.Factory changeControlFactory,
+        ChangeControl.GenericFactory changeControlGenericFactory,
         AccountResolver accountResolver, GroupCache groupCache,
         AuthConfig authConfig, ApprovalTypes approvalTypes,
         @WildProjectName Project.NameKey wildProjectName) {
@@ -108,6 +110,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.rewriter = rewriter;
       this.userFactory = userFactory;
       this.changeControlFactory = changeControlFactory;
+      this.changeControlGenericFactory = changeControlGenericFactory;
       this.accountResolver = accountResolver;
       this.groupCache = groupCache;
       this.authConfig = authConfig;
@@ -242,7 +245,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> label(String name) {
-    return new LabelPredicate(args.dbProvider, args.approvalTypes, name);
+    return new LabelPredicate(args.changeControlGenericFactory,
+        args.userFactory, args.dbProvider, args.approvalTypes, name);
   }
 
   @Operator

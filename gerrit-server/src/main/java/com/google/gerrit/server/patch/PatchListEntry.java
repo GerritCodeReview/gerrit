@@ -23,13 +23,14 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 
+import com.google.gerrit.prettify.common.BaseEdit;
+import com.google.gerrit.prettify.common.LineEdit;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Patch.ChangeType;
 import com.google.gerrit.reviewdb.Patch.PatchType;
+import com.google.gwtorm.client.Column;
 
-import org.eclipse.jgit.diff.Edit;
-import org.eclipse.jgit.diff.ReplaceEdit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.patch.CombinedFileHeader;
@@ -50,19 +51,39 @@ public class PatchListEntry {
 
   static PatchListEntry empty(final String fileName) {
     return new PatchListEntry(ChangeType.MODIFIED, PatchType.UNIFIED, null,
-        fileName, EMPTY_HEADER, Collections.<Edit> emptyList());
+        fileName, EMPTY_HEADER, Collections.<LineEdit> emptyList());
   }
 
-  private final ChangeType changeType;
-  private final PatchType patchType;
-  private final String oldName;
-  private final String newName;
-  private final byte[] header;
-  private final List<Edit> edits;
+  @Column(id = 1)
+  protected char changeTypeCode;
 
-  PatchListEntry(final FileHeader hdr, List<Edit> editList) {
+  @Column(id = 2)
+  protected char patchTypeCode;
+
+  @Column(id = 3)
+  protected String oldName;
+
+  @Column(id = 4)
+  protected String newName;
+
+  @Column(id = 5)
+  protected byte[] header;
+
+  @Column(id = 6)
+  protected List<LineEdit> edits;
+
+  protected ChangeType changeType;
+  protected PatchType patchType;
+
+  protected PatchListEntry(){
+  }
+
+  PatchListEntry(final FileHeader hdr, List<LineEdit> editList) {
     changeType = toChangeType(hdr);
     patchType = toPatchType(hdr);
+
+    changeTypeCode = changeType.getCode();
+    patchTypeCode = patchType.getCode();
 
     switch (changeType) {
       case DELETED:
@@ -94,15 +115,17 @@ public class PatchListEntry {
         || hdr.getNewMode() == FileMode.GITLINK) {
       edits = Collections.emptyList();
     } else {
-      edits = Collections.unmodifiableList(editList);
+      edits = editList;
     }
   }
 
   private PatchListEntry(final ChangeType changeType,
       final PatchType patchType, final String oldName, final String newName,
-      final byte[] header, final List<Edit> edits) {
+      final byte[] header, final List<LineEdit> edits) {
     this.changeType = changeType;
     this.patchType = patchType;
+    changeTypeCode = changeType.getCode();
+    patchTypeCode = patchType.getCode();
     this.oldName = oldName;
     this.newName = newName;
     this.header = header;
@@ -110,10 +133,16 @@ public class PatchListEntry {
   }
 
   public ChangeType getChangeType() {
+    if (changeType == null) {
+      changeType = ChangeType.forCode(changeTypeCode);
+    }
     return changeType;
   }
 
   public PatchType getPatchType() {
+    if (patchType == null) {
+      patchType = PatchType.forCode(patchTypeCode);
+    }
     return patchType;
   }
 
@@ -125,7 +154,7 @@ public class PatchListEntry {
     return newName;
   }
 
-  public List<Edit> getEdits() {
+  public List<LineEdit> getEdits() {
     return edits;
   }
 
@@ -149,20 +178,20 @@ public class PatchListEntry {
   }
 
   void writeTo(final OutputStream out) throws IOException {
-    writeEnum(out, changeType);
-    writeEnum(out, patchType);
+    writeEnum(out, getChangeType());
+    writeEnum(out, getPatchType());
     writeString(out, oldName);
     writeString(out, newName);
     writeBytes(out, header);
 
     writeVarInt32(out, edits.size());
-    for (final Edit e : edits) {
+    for (final LineEdit e : edits) {
       write(out, e);
 
-      if (e instanceof ReplaceEdit) {
-        ReplaceEdit r = (ReplaceEdit) e;
-        writeVarInt32(out, r.getInternalEdits().size());
-        for (Edit i : r.getInternalEdits()) {
+      if (e.getEdits() != null) {
+        List<BaseEdit> intlEdits = e.getEdits();
+        writeVarInt32(out, intlEdits.size());
+        for (BaseEdit i : intlEdits) {
           write(out, i);
         }
       } else {
@@ -171,7 +200,7 @@ public class PatchListEntry {
     }
   }
 
-  private void write(final OutputStream out, final Edit e) throws IOException {
+  private void write(final OutputStream out, final BaseEdit e) throws IOException {
     writeVarInt32(out, e.getBeginA());
     writeVarInt32(out, e.getEndA());
     writeVarInt32(out, e.getBeginB());
@@ -186,17 +215,17 @@ public class PatchListEntry {
     final byte[] hdr = readBytes(in);
 
     final int editCount = readVarInt32(in);
-    final Edit[] editArray = new Edit[editCount];
+    final LineEdit[] editArray = new LineEdit[editCount];
     for (int i = 0; i < editCount; i++) {
       editArray[i] = readEdit(in);
 
       int innerCount = readVarInt32(in);
       if (0 < innerCount) {
-        Edit[] inner = new Edit[innerCount];
+        LineEdit[] inner = new LineEdit[innerCount];
         for (int innerIdx = 0; innerIdx < innerCount; innerIdx++) {
           inner[innerIdx] = readEdit(in);
         }
-        editArray[i] = new ReplaceEdit(editArray[i], toList(inner));
+        editArray[i] = new LineEdit(editArray[i], toList(inner));
       }
     }
 
@@ -204,16 +233,16 @@ public class PatchListEntry {
         toList(editArray));
   }
 
-  private static List<Edit> toList(Edit[] l) {
+  private static List<LineEdit> toList(LineEdit[] l) {
     return Collections.unmodifiableList(Arrays.asList(l));
   }
 
-  private static Edit readEdit(final InputStream in) throws IOException {
+  private static LineEdit readEdit(final InputStream in) throws IOException {
     final int beginA = readVarInt32(in);
     final int endA = readVarInt32(in);
     final int beginB = readVarInt32(in);
     final int endB = readVarInt32(in);
-    return  new Edit(beginA, endA, beginB, endB);
+    return new LineEdit(beginA, endA, beginB, endB);
   }
 
   private static byte[] compact(final FileHeader h) {

@@ -23,6 +23,7 @@ import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
@@ -79,12 +80,12 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   static class Loader extends EntryCreator<Project.NameKey, ProjectState> {
-    private final ProjectState.Factory projectStateFactory;
+    private final Provider<ProjectState> projectStateProvider;
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    Loader(ProjectState.Factory psf, SchemaFactory<ReviewDb> sf) {
-      projectStateFactory = psf;
+    Loader(Provider<ProjectState> psp, SchemaFactory<ReviewDb> sf) {
+      projectStateProvider = psp;
       schema = sf;
     }
 
@@ -101,7 +102,7 @@ public class ProjectCacheImpl implements ProjectCache {
             Collections.unmodifiableCollection(db.refRights().byProject(
                 p.getNameKey()).toList());
 
-        return projectStateFactory.create(p, rights);
+        return projectStateProvider.get().init(p, rights);
       } finally {
         db.close();
       }

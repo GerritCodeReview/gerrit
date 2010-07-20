@@ -16,16 +16,45 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountSshKey;
+import com.google.gwtorm.client.Column;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
 
 class SshKeyCacheEntry {
-  private final AccountSshKey.Id id;
-  private final PublicKey publicKey;
+  private final static PublicKey INVALID_KEY = new PublicKey() {
+    @Override
+    public String getAlgorithm() {
+      throw new UnsupportedOperationException();
+    }
 
-  SshKeyCacheEntry(final AccountSshKey.Id i, final PublicKey k) {
+    @Override
+    public byte[] getEncoded() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String getFormat() {
+      throw new UnsupportedOperationException();
+    }
+  };
+
+  @Column(id = 1)
+  protected AccountSshKey.Id id;
+
+  @Column(id = 2)
+  protected AccountSshKey key;
+
+  private transient volatile PublicKey publicKey;
+
+  SshKeyCacheEntry(final AccountSshKey.Id i, final AccountSshKey k)
+      throws NoSuchAlgorithmException, InvalidKeySpecException,
+      NoSuchProviderException {
     id = i;
-    publicKey = k;
+    key = k;
+    publicKey = SshUtil.parse(k);
   }
 
   Account.Id getAccount() {
@@ -33,6 +62,18 @@ class SshKeyCacheEntry {
   }
 
   boolean match(final PublicKey inkey) {
+    if (publicKey == null) {
+      try {
+        publicKey = SshUtil.parse(key);
+      } catch (OutOfMemoryError e) {
+        // This is the only case where we assume the problem has nothing
+        // to do with the key object, and instead we must abort this load.
+        //
+        throw e;
+      } catch (Throwable e) {
+        publicKey = INVALID_KEY;
+      }
+    }
     return publicKey.equals(inkey);
   }
 }

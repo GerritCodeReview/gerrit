@@ -107,13 +107,13 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       }
     }
 
-    final Iterable<SshKeyCacheEntry> keyList = sshKeyCache.get(username);
-    final SshKeyCacheEntry key = find(keyList, suppliedKey);
+    final SshKeyCacheEntryCollection keyList = sshKeyCache.get(username);
+    final SshKeyCacheEntry key = find(keyList.getSshKeyCacheEntries(), suppliedKey);
     if (key == null) {
       final String err;
-      if (keyList == SshKeyCacheImpl.NO_SUCH_USER) {
+      if (keyList.getType() == SshKeyCacheEntryCollection.Type.NO_SUCH_USER) {
         err = "user-not-found";
-      } else if (keyList == SshKeyCacheImpl.NO_KEYS) {
+      } else if (keyList.getType() == SshKeyCacheEntryCollection.Type.NO_KEYS) {
         err = "key-list-empty";
       } else {
         err = "no-matching-key";
@@ -128,7 +128,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     // security check to ensure there aren't two users sharing the same
     // user name on the server.
     //
-    for (final SshKeyCacheEntry otherKey : keyList) {
+    for (final SshKeyCacheEntry otherKey : keyList.getSshKeyCacheEntries()) {
       if (!key.getAccount().equals(otherKey.getAccount())) {
         sd.authenticationError(username, "keys-cross-accounts");
         return false;

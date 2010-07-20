@@ -140,8 +140,9 @@ public class QueryProcessor {
           }
         });
 
-        if (defaultLimit < results.size()) {
-          results = results.subList(0, defaultLimit);
+        int limit = limit(s);
+        if (limit < results.size()) {
+          results = results.subList(0, limit);
         }
 
         for (ChangeData d : results) {
@@ -188,6 +189,10 @@ public class QueryProcessor {
         out = null;
       }
     }
+  }
+
+  private int limit(Predicate<ChangeData> s) {
+    return queryBuilder.hasLimit(s) ? queryBuilder.getLimit(s) : defaultLimit;
   }
 
   @SuppressWarnings("unchecked")

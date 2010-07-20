@@ -413,6 +413,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @SuppressWarnings("unchecked")
+  public int getLimit(Predicate<ChangeData> p) {
+    return ((IntPredicate) find(p, IntPredicate.class, FIELD_LIMIT)).intValue();
+  }
+
+  @SuppressWarnings("unchecked")
   public boolean hasSortKey(Predicate<ChangeData> p) {
     return find(p, SortKeyPredicate.class, "sortkey_after") != null
         || find(p, SortKeyPredicate.class, "sortkey_before") != null;

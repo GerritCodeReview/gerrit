@@ -21,8 +21,8 @@ import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.WildProjectName;
+import com.google.gwtorm.client.Column;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,30 +33,31 @@ import java.util.Set;
 
 /** Cached information on a project. */
 public class ProjectState {
-  public interface Factory {
-    ProjectState create(Project project, Collection<RefRight> localRights);
-  }
-
   private final AnonymousUser anonymousUser;
   private final Project.NameKey wildProject;
   private final ProjectCache projectCache;
 
-  private final Project project;
-  private final Collection<RefRight> localRights;
-  private final Set<AccountGroup.Id> owners;
+  @Column(id = 1)
+  protected Project project;
+
+  @Column(id = 2)
+  protected Collection<RefRight> localRights;
+
+  @Column(id = 3)
+  protected Set<AccountGroup.Id> owners;
 
   private volatile Collection<RefRight> inheritedRights;
 
   @Inject
   protected ProjectState(final AnonymousUser anonymousUser,
       final ProjectCache projectCache,
-      @WildProjectName final Project.NameKey wildProject,
-      @Assisted final Project project,
-      @Assisted final Collection<RefRight> rights) {
+      @WildProjectName final Project.NameKey wildProject) {
     this.anonymousUser = anonymousUser;
     this.projectCache = projectCache;
     this.wildProject = wildProject;
+  }
 
+  protected ProjectState init(final Project project, final Collection<RefRight> rights) {
     this.project = project;
     this.localRights = rights;
 
@@ -68,6 +69,7 @@ public class ProjectState {
       }
     }
     owners = Collections.unmodifiableSet(groups);
+    return this;
   }
 
   public Project getProject() {

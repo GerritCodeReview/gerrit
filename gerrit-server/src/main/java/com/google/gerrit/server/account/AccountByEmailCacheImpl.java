@@ -39,8 +39,8 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<String, AccountIdSet>> type =
-            new TypeLiteral<Cache<String, AccountIdSet>>() {};
+        final TypeLiteral<Cache<Account.Email, AccountIdSet>> type =
+            new TypeLiteral<Cache<Account.Email, AccountIdSet>>() {};
         core(type, CACHE_NAME).populateWith(Loader.class);
         bind(AccountByEmailCacheImpl.class);
         bind(AccountByEmailCache.class).to(AccountByEmailCacheImpl.class);
@@ -48,23 +48,23 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     };
   }
 
-  private final Cache<String, AccountIdSet> cache;
+  private final Cache<Account.Email, AccountIdSet> cache;
 
   @Inject
   AccountByEmailCacheImpl(
-      @Named(CACHE_NAME) final Cache<String, AccountIdSet> cache) {
+      @Named(CACHE_NAME) final Cache<Account.Email, AccountIdSet> cache) {
     this.cache = cache;
   }
 
   public AccountIdSet get(final String email) {
-    return cache.get(email);
+    return cache.get(new Account.Email(email));
   }
 
   public void evict(final String email) {
-    cache.remove(email);
+    cache.remove(new Account.Email(email));
   }
 
-  static class Loader extends EntryCreator<String, AccountIdSet> {
+  static class Loader extends EntryCreator<Account.Email, AccountIdSet> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -73,15 +73,15 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     }
 
     @Override
-    public AccountIdSet createEntry(final String email) throws Exception {
+    public AccountIdSet createEntry(final Account.Email email) throws Exception {
       final ReviewDb db = schema.open();
       try {
         final HashSet<Account.Id> r = new HashSet<Account.Id>();
-        for (Account a : db.accounts().byPreferredEmail(email)) {
+        for (Account a : db.accounts().byPreferredEmail(email.get())) {
           r.add(a.getId());
         }
         for (AccountExternalId a : db.accountExternalIds()
-            .byEmailAddress(email)) {
+            .byEmailAddress(email.get())) {
           r.add(a.getAccountId());
         }
         return pack(r);
@@ -91,7 +91,7 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     }
 
     @Override
-    public AccountIdSet missing(final String key) {
+    public AccountIdSet missing(final Account.Email key) {
       return AccountIdSet.EMPTY_SET;
     }
 

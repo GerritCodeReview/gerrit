@@ -130,6 +130,15 @@ Matches changes where the approval score 'VALUE' has been set during
 a review.  See <<labels,labels>> below for more detail on the format
 of the argument.
 
+[[file]]
+file:\^'REGEX'::
++
+Matches any change where REGEX matches a file that was affected
+by the change.  The regular expression pattern must start with
+'\^'.  For example, to match all XML files use `file:^.*\.xml$`.
+Currently this operator is only available on a watched project
+and may not be used in the search bar.
+
 [[has]]
 has:draft::
 +

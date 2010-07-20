@@ -27,7 +27,9 @@ import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
 public class CommentSender extends ReplyToChangeSender {
@@ -44,6 +46,13 @@ public class CommentSender extends ReplyToChangeSender {
 
   public void setPatchLineComments(final List<PatchLineComment> plc) {
     inlineComments = plc;
+
+    Set<String> paths = new HashSet<String>();
+    for (PatchLineComment c : plc) {
+      Patch.Key p = c.getKey().getParentKey();
+      paths.add(p.getFileName());
+    }
+    changeData.setCurrentFilePaths(paths);
   }
 
   @Override

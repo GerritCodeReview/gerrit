@@ -21,6 +21,9 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.patch.PatchList;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
@@ -35,6 +38,7 @@ public class ChangeData {
   private Collection<PatchSet> patches;
   private Collection<PatchSetApproval> approvals;
   private Collection<PatchSetApproval> currentApprovals;
+  private Collection<String> currentFiles;
   private Collection<PatchLineComment> comments;
   private Collection<TrackingId> trackingIds;
   private CurrentUser visibleTo;
@@ -46,6 +50,45 @@ public class ChangeData {
   public ChangeData(final Change c) {
     legacyId = c.getId();
     change = c;
+  }
+
+  public void setCurrentFilePaths(Collection<String> filePaths) {
+    currentFiles = filePaths;
+  }
+
+  public Collection<String> currentFilePaths(Provider<ReviewDb> db,
+      PatchListCache cache) throws OrmException {
+    if (currentFiles == null) {
+      Change c = change(db);
+      if (c == null) {
+        return null;
+      }
+      PatchSet ps = currentPatchSet(db);
+      if (ps == null) {
+        return null;
+      }
+
+      PatchList p = cache.get(c, ps);
+      List<String> r = new ArrayList<String>(p.getPatches().size());
+      for (PatchListEntry e : p.getPatches()) {
+        switch (e.getChangeType()) {
+          case ADDED:
+          case MODIFIED:
+          case COPIED:
+            r.add(e.getNewName());
+            break;
+          case DELETED:
+            r.add(e.getOldName());
+            break;
+          case RENAMED:
+            r.add(e.getOldName());
+            r.add(e.getNewName());
+            break;
+        }
+      }
+      currentFiles = r;
+    }
+    return currentFiles;
   }
 
   public Change.Id getId() {

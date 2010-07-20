@@ -81,11 +81,12 @@ public abstract class OutgoingEmail {
   protected ChangeMessage changeMessage;
 
   private ProjectState projectState;
-  private ChangeData changeData;
+  protected ChangeData changeData;
 
   protected OutgoingEmail(EmailArguments ea, final Change c, final String mc) {
     args = ea;
     change = c;
+    changeData = change != null ? new ChangeData(change) : null;
     messageClass = mc;
     headers = new LinkedHashMap<String, EmailHeader>();
   }
@@ -223,12 +224,10 @@ public abstract class OutgoingEmail {
   /** Setup the message headers and envelope (TO, CC, BCC). */
   protected void init() {
     if (change != null && args.projectCache != null) {
-      changeData = new ChangeData(change);
       projectState = args.projectCache.get(change.getProject());
       projectName =
           projectState != null ? projectState.getProject().getName() : null;
     } else {
-      changeData = null;
       projectState = null;
       projectName = null;
     }
@@ -646,6 +645,7 @@ public abstract class OutgoingEmail {
     Predicate<ChangeData> p = qb.is_visible();
     if (w.getFilter() != null) {
       try {
+        qb.setAllowFile(true);
         p = Predicate.and(qb.parse(w.getFilter()), p);
         p = args.queryRewriter.get().rewrite(p);
         if (p.match(changeData)) {

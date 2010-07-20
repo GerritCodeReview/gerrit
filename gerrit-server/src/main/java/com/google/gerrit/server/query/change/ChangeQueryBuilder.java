@@ -27,6 +27,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
@@ -66,6 +67,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_CHANGE = "change";
   public static final String FIELD_COMMIT = "commit";
   public static final String FIELD_DRAFTBY = "draftby";
+  public static final String FIELD_FILE = "file";
   public static final String FIELD_IS = "is";
   public static final String FIELD_HAS = "has";
   public static final String FIELD_LABEL = "label";
@@ -96,6 +98,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final AuthConfig authConfig;
     final ApprovalTypes approvalTypes;
     final Project.NameKey wildProjectName;
+    final PatchListCache patchListCache;
 
     @Inject
     Arguments(Provider<ReviewDb> dbProvider,
@@ -105,7 +108,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeControl.GenericFactory changeControlGenericFactory,
         AccountResolver accountResolver, GroupCache groupCache,
         AuthConfig authConfig, ApprovalTypes approvalTypes,
-        @WildProjectName Project.NameKey wildProjectName) {
+        @WildProjectName Project.NameKey wildProjectName,
+        PatchListCache patchListCache) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
@@ -116,6 +120,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.authConfig = authConfig;
       this.approvalTypes = approvalTypes;
       this.wildProjectName = wildProjectName;
+      this.patchListCache = patchListCache;
     }
   }
 
@@ -125,12 +130,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   private final Arguments args;
   private final CurrentUser currentUser;
+  private boolean allowsFile;
 
   @Inject
   ChangeQueryBuilder(Arguments args, @Assisted CurrentUser currentUser) {
     super(mydef);
     this.args = args;
     this.currentUser = currentUser;
+  }
+
+  public void setAllowFile(boolean on) {
+    allowsFile = on;
   }
 
   @Operator
@@ -241,6 +251,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> ref(String ref) {
     return new RefPredicate(args.dbProvider, ref);
+  }
+
+  @Operator
+  public Predicate<ChangeData> file(String file) throws QueryParseException {
+    if (!allowsFile) {
+      throw error("operator not permitted here: file:" + file);
+    }
+
+    if (file.startsWith("^")) {
+      return new RegexFilePredicate(args.dbProvider, args.patchListCache, file);
+    }
+
+    throw new IllegalArgumentException();
   }
 
   @Operator

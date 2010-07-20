@@ -150,22 +150,28 @@ public abstract class OutgoingEmail {
     body = new StringBuilder();
 
     if (fromId != null && args.fromAddressGenerator.isGenericAddress(fromId)) {
-      final Account account = args.accountCache.get(fromId).getAccount();
-      final String name = account.getFullName();
-      final String email = account.getPreferredEmail();
-
-      if ((name != null && !name.isEmpty())
-          || (email != null && !email.isEmpty())) {
-        body.append("From");
-        if (name != null && !name.isEmpty()) {
-          body.append(" ").append(name);
-        }
-        if (email != null && !email.isEmpty()) {
-          body.append(" <").append(email).append(">");
-        }
-        body.append(":\n\n");
-      }
+      appendText(getFromLine());
     }
+  }
+
+  protected String getFromLine() {
+    final Account account = args.accountCache.get(fromId).getAccount();
+    final String name = account.getFullName();
+    final String email = account.getPreferredEmail();
+    StringBuilder f = new StringBuilder();
+
+    if ((name != null && !name.isEmpty())
+        || (email != null && !email.isEmpty())) {
+      f.append("From");
+      if (name != null && !name.isEmpty()) {
+        f.append(" ").append(name);
+      }
+      if (email != null && !email.isEmpty()) {
+        f.append(" <").append(email).append(">");
+      }
+      f.append(":\n\n");
+    }
+    return f.toString();
   }
 
   public String getGerritHost() {

@@ -137,7 +137,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   protected void init() {
-    super.init();
     if (args.projectCache != null) {
       projectState = args.projectCache.get(change.getProject());
       projectName =
@@ -162,6 +161,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
         patchSetInfo = null;
       }
     }
+
+    super.init();
 
     if (changeMessage != null && changeMessage.getWrittenOn() != null) {
       setHeader("Date", new Date(changeMessage.getWrittenOn().getTime()));
@@ -441,5 +442,15 @@ public abstract class ChangeEmail extends OutgoingEmail {
         || change == null
         || projectState.controlFor(args.identifiedUserFactory.create(to))
             .controlFor(change).isVisible();
+  }
+
+  @Override
+  protected void setupVelocityContext() {
+    super.setupVelocityContext();
+    velocityContext.put("change", change);
+    velocityContext.put("branch", change.getDest());
+    velocityContext.put("projectName", projectName);
+    velocityContext.put("patchSet", patchSet);
+    velocityContext.put("patchSetInfo", patchSetInfo);
   }
 }

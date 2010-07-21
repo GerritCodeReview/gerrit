@@ -39,10 +39,13 @@ public class AbandonedSender extends ReplyToChangeSender {
   }
 
   @Override
+  protected void setupVelocityContext() {
+    super.setupVelocityContext();
+    velocityContext.put("fromName", getNameFor(fromId));
+  }
+
+  @Override
   protected void formatChange() {
-    appendText(getNameFor(fromId));
-    appendText(" has abandoned change " + change.getKey().abbreviate() + ":\n");
-    appendText("\n");
-    formatCoverLetter();
+    appendText(velocifyFile("Abandoned.vm"));
   }
 }

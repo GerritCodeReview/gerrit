@@ -269,7 +269,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Get the text of the "cover letter", from {@link ChangeMessage}. */
-  protected String getCoverLetter() {
+  public String getCoverLetter() {
     if (changeMessage != null) {
       final String txt = changeMessage.getMessage();
       if (txt != null) {

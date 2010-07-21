@@ -1,0 +1,82 @@
+## Copyright (c) 2010, Code Aurora Forum. All rights reserved.
+##
+## Redistribution and use in source and binary forms, with or without
+## modification, are permitted provided that the following conditions are
+## met:
+##     * Redistributions of source code must retain the above copyright
+##       notice, this list of conditions and the following disclaimer.
+##     * Redistributions in binary form must reproduce the above
+##       copyright notice, this list of conditions and the following
+##       disclaimer in the documentation and/or other materials provided
+##       with the distribution.
+##     * Neither the name of Code Aurora Forum, Inc. nor the names of its
+##       contributors may be used to endorse or promote products derived
+##       from this software without specific prior written permission.
+##
+## THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+## WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+## MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+## ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+## BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+## CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+## SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+## BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+## WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+## OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+## IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+##
+##
+## Template Type:
+## -------------
+## This is a velocity template, see: http://velocity.apache.org/
+##
+## Template File Names and extensions:
+## ----------------------------------
+## Gerrit will use templates ending in ".vm" but will ignore templates ending
+## in ".vm.example".  If a .vm template does not exist, the default internal
+## gerrit template which is the same as the .vm.example will be used.  If you
+## want to override the default template, copy the .vm.exmaple file to a .vm
+## file and edit it appropriately.
+##
+## Template Purposes;
+## -----------------
+## The Abandonned.vm template will determine the contents of the email related
+## to a change being abandonned. (see also ChangeSubject.vm and
+## ChangeFooter.vm).
+##
+## Template Resources:
+## ------------------
+## Writting templates for gerrit emails is likely to require some basic
+## knowledge of the class structure to be useful, so browsing the source
+## code might be necessary.  All outgoing emails have the following
+## variables available to them:
+##
+##  $email          a reference to the class constructing the current email.
+##                  With this reference it is possible to call any public
+##                  method on the email class.
+##
+##  $messageClass   a String containing the messageClass
+##
+##  StringUtils     a reference to the apaache StringUtils class.  This can
+##                  be very usefull for formatting strings.
+##
+##
+## All change related emails have the following additional variables available
+## to them:
+##
+##  $change         a reference to the current change object
+##
+##  $branch         a reference to the bracn of this change
+##
+##  $projectName    the name of this change's project
+##
+##  $patchSet       a reference to the current patchSet
+##
+##  $patchSetInfo   a reference to the current patchSetInfo
+##
+$fromName has abandoned change $change.key.abbreviate():
+
+#if ($email.coverLetter)
+$email.coverLetter
+
+#end

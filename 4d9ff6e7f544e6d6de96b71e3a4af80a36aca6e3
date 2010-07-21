@@ -240,6 +240,24 @@
       "revId": "4d9ff6e7f544e6d6de96b71e3a4af80a36aca6e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///zs\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-21T17:43:17Z",
+      "side": 1,
+      "message": "So Ulrik\u0027s only requirement was that permission inheritance was enforced but the name wasn\u0027t relevant?  Odd.  Its not how I would have assumed it.  I think most admins would want the name to be part of the restriction.  If you can create projects that are children of the \"kernel\" project then I think most people would assume that means you can only create projects whose name starts with \"kernel/\".\n\nUnles Ulrik disagrees, I think we should check the project name prefix here too.",
+      "parentUuid": "AAAA3H///z8\u003d",
+      "revId": "4d9ff6e7f544e6d6de96b71e3a4af80a36aca6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -62,6 +62,25 @@ MergeFail.vm
 
 The `MergeFail.vm` template will determine the contents of the email related
 to a failure upon attempting to merge a change to the head.  It is a
+
+NewChange.vm
+~~~~~~~~~~~~
+
+The `NewChange.vm` template will determine the contents of the email related
+to a user submitting a new change for review. It is a `ChangeEmail`: see
+`ChangeSubject.vm` and `ChangeFooter.vm`.
+
+RegisterNewEmail.vm
+~~~~~~~~~~~~~~~~~~~
+
+The `RegisterNewEmail.vm` template will determine the contents of the email
+related to registering new email accounts.
+
+ReplacePatchSet.vm
+~~~~~~~~~~~~~~~~~~
+
+The `ReplacePatchSet.vm` template will determine the contents of the email
+related to a user submitting a new patchset for a change.  It is a
 `ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
 
 

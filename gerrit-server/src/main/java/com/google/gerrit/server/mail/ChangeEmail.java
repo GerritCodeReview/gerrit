@@ -243,6 +243,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
     return detail.toString();
   }
 
+
   /** Get the patch list corresponding to this patch set. */
   protected PatchList getPatchList() {
     if (patchSet != null) {

@@ -91,6 +91,9 @@ public class SitePathInitializer {
     extractMailExample("Comment.vm");
     extractMailExample("Merged.vm");
     extractMailExample("MergeFail.vm");
+    extractMailExample("NewChange.vm");
+    extractMailExample("RegisterNewEmail.vm");
+    extractMailExample("ReplacePatchSet.vm");
 
     if (!ui.isBatch()) {
       System.err.println();

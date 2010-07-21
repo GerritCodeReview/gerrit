@@ -53,38 +53,7 @@ public class RegisterNewEmailSender extends OutgoingEmail {
 
   @Override
   protected void format() throws EmailException {
-    final StringBuilder url = new StringBuilder();
-    url.append(getGerritUrl());
-    url.append("#VE,");
-    url.append(getEmailRegistrationToken());
-
-    appendText("Welcome to Gerrit Code Review at ");
-    appendText(getGerritHost());
-    appendText(".\n");
-
-    appendText("\n");
-    appendText("To add a verified email address to your user account, please\n");
-    appendText("click on the following link:\n");
-    appendText("\n");
-    appendText(url.toString());
-    appendText("\n");
-
-    appendText("\n");
-    appendText("If you have received this mail in error,"
-        + " you do not need to take any\n");
-    appendText("action to cancel the account."
-        + " The account will not be activated, and\n");
-    appendText("you will not receive any further emails.\n");
-
-    appendText("\n");
-    appendText("If clicking the link above does not work,"
-        + " copy and paste the URL in a\n");
-    appendText("new browser window instead.\n");
-
-    appendText("\n");
-    appendText("This is a send-only email address."
-        + "  Replies to this message will not\n");
-    appendText("be read or answered.\n");
+    appendText(velocifyFile("RegisterNewEmail.vm"));
   }
 
   public String getEmailRegistrationToken() {

@@ -112,24 +112,31 @@ public abstract class NewChangeSender extends ChangeEmail {
   }
 
   private String getPullUrl() {
-    final List<HostKey> hostKeys = sshInfo.getHostKeys();
-    if (hostKeys.isEmpty()) {
+    final String host = getSshHost();
+    if (host == null) {
       return "";
     }
 
-    final String host = hostKeys.get(0).getHost();
     final StringBuilder r = new StringBuilder();
     r.append("git pull ssh://");
-    if (host.startsWith("*:")) {
-      r.append(getGerritHost());
-      r.append(host.substring(1));
-    } else {
-      r.append(host);
-    }
+    r.append(host);
     r.append("/");
     r.append(projectName);
     r.append(" ");
     r.append(patchSet.getRefName());
     return r.toString();
+  }
+
+  public String getSshHost() {
+    final List<HostKey> hostKeys = sshInfo.getHostKeys();
+    if (hostKeys.isEmpty()) {
+      return null;
+    }
+
+    final String host = hostKeys.get(0).getHost();
+    if (host.startsWith("*:")) {
+      return getGerritHost() + host.substring(1);
+    }
+    return host;
   }
 }

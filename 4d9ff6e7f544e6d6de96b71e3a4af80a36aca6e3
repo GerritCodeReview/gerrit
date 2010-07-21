@@ -312,6 +312,24 @@
       "revId": "4d9ff6e7f544e6d6de96b71e3a4af80a36aca6e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///xg\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-21T20:42:42Z",
+      "side": 1,
+      "message": "If the parent project name is the wildCardProjectName, then the new child name can be anything.\n\nOtherwise, the new child name must start with parentProjectName + \"/\".",
+      "parentUuid": "AAAA3H///x8\u003d",
+      "revId": "4d9ff6e7f544e6d6de96b71e3a4af80a36aca6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

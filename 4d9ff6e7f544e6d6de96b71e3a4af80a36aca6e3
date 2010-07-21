@@ -204,6 +204,24 @@
       "revId": "4d9ff6e7f544e6d6de96b71e3a4af80a36aca6e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///1E\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-21T16:38:53Z",
+      "side": 1,
+      "message": "Maybe we just are assuming different requirements.  As I understand this code, it lets you create a project with any name, but you are required to inherit particular permissions into that new project.\n\nBut based on the description of the feature, and how we implement branch level ownership, I assumed this would restrict the name you can give projects to be under a particular directory tree.  So that on a single server you can give permission to create \"kernel/*\" to kernel engineers, and platform/external/* to external library maintainers, and platform/services/* to the services folks... and they can\u0027t accidentally create a project outside of that directory.\n\nWhat was the original goal of this code?  To just enforce that permissions are inherited when Bob creates a project?  Or to restrict the area Bob can create a project in?  Or both?",
+      "parentUuid": "AAAA3H///2A\u003d",
+      "revId": "4d9ff6e7f544e6d6de96b71e3a4af80a36aca6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

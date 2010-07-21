@@ -1,0 +1,62 @@
+## Copyright (c) 2010, Code Aurora Forum. All rights reserved.
+##
+## Redistribution and use in source and binary forms, with or without
+## modification, are permitted provided that the following conditions are
+## met:
+##     * Redistributions of source code must retain the above copyright
+##       notice, this list of conditions and the following disclaimer.
+##     * Redistributions in binary form must reproduce the above
+##       copyright notice, this list of conditions and the following
+##       disclaimer in the documentation and/or other materials provided
+##       with the distribution.
+##     * Neither the name of Code Aurora Forum, Inc. nor the names of its
+##       contributors may be used to endorse or promote products derived
+##       from this software without specific prior written permission.
+##
+## THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+## WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+## MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+## ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+## BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+## CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+## SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+## BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+## WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+## OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+## IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+##
+##
+## Template Type:
+## -------------
+## This is a velocity mail template, see: http://velocity.apache.org and the
+## gerrit-docs:config-mail.txt for more info on modifying gerrit mail templates.
+##
+## Template File Names and extensions:
+## ----------------------------------
+## Gerrit will use templates ending in ".vm" but will ignore templates ending
+## in ".vm.example".  If a .vm template does not exist, the default internal
+## gerrit template which is the same as the .vm.example will be used.  If you
+## want to override the default template, copy the .vm.exmaple file to a .vm
+## file and edit it appropriately.
+##
+## This Template:
+## --------------
+## The RegisterNewEmail.vm template will determine the contents of the email
+## related to registering new email accounts.
+##
+Welcome to Gerrit Code Review at ${email.gerritHost}.
+
+To add a verified email address to your user account, please
+click on the following link:
+
+$email.gerritUrl#VE,$email.emailRegistrationToken
+
+If you have received this mail in error, you do not need to take any
+action to cancel the account.  The account will not be activated, and
+you will not receive any further emails.
+
+If clicking the link above does not work, copy and paste the URL in a
+new browser window instead.
+
+This is a send-only email address.  Replies to this message will not
+be read or answered.

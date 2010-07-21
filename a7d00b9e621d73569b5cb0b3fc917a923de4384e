@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA3H///10\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/auth/openid/OpenIdProviderPattern.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-21T16:35:14Z",
+      "side": 1,
+      "message": "Style-nit:  Please put a blank line between fields.  You have this issue in many classes, i\u0027m only going to mention it once.",
+      "revId": "a7d00b9e621d73569b5cb0b3fc917a923de4384e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///1w\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-21T16:35:14Z",
+      "side": 1,
+      "message": "Please add a protected no-arg constructor so that the ProtobufCodec can actually create this instance during decoding.  This is true for any class with @Column tags, so your email class below too, and maybe others.",
+      "revId": "a7d00b9e621d73569b5cb0b3fc917a923de4384e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///1s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-21T16:35:14Z",
+      "side": 1,
+      "message": "Let call this class Account.Username since that is the type of string we are storing in it.",
+      "revId": "a7d00b9e621d73569b5cb0b3fc917a923de4384e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///1o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountGroupCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-21T16:35:14Z",
+      "side": 1,
+      "message": "You also need a protected no-arg Constructor.",
+      "revId": "a7d00b9e621d73569b5cb0b3fc917a923de4384e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///1k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountIdSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-21T16:35:14Z",
+      "side": 1,
+      "message": "You need a protected no-arg constructor for the codec.",
+      "revId": "a7d00b9e621d73569b5cb0b3fc917a923de4384e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///1g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-21T16:35:14Z",
+      "side": 1,
+      "message": "Needs a protected no-arg constructor.",
+      "revId": "a7d00b9e621d73569b5cb0b3fc917a923de4384e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///1M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-21T16:35:14Z",
+      "side": 1,
+      "message": "Since you have all of the caches converted, lets add code to this class to actually create a ProtobufCodec for both the key and value to ensure the types are actually encodable.\n\nWe can test that they work by creating an empty byte array and asking the codec to decode it.  It should work and return a non-null value.  If there is a value provider you can\u0027t do that test here, but you can do that test in the EhcachePoolImpl. during start().\n\nBasically I\u0027d like to make sure the protobuf stuff all works in the open source tree because I want to start using it for the disk based cache even for ehcache stuff.",
+      "revId": "a7d00b9e621d73569b5cb0b3fc917a923de4384e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///2E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/GwtOrmBaseEdit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-21T16:35:14Z",
+      "side": 1,
+      "message": "Please drop the GwtOrm prefix on these classes, it doesn\u0027t make any sense.",
+      "revId": "a7d00b9e621d73569b5cb0b3fc917a923de4384e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///18\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/GwtOrmReplaceEdit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-21T16:35:14Z",
+      "side": 1,
+      "message": "The id must be unique within the entire class hierarchy, so this has to be 5.",
+      "revId": "a7d00b9e621d73569b5cb0b3fc917a923de4384e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

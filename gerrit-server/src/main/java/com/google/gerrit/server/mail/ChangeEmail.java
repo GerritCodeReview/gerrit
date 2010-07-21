@@ -228,7 +228,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Get a link to the change; null if the server doesn't know its own address. */
-  protected String getChangeUrl() {
+  public String getChangeUrl() {
     if (change != null && getGerritUrl() != null) {
       final StringBuilder r = new StringBuilder();
       r.append(getGerritUrl());
@@ -269,7 +269,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Get the text of the "cover letter", from {@link ChangeMessage}. */
-  protected String getCoverLetter() {
+  public String getCoverLetter() {
     if (changeMessage != null) {
       final String txt = changeMessage.getMessage();
       if (txt != null) {
@@ -281,22 +281,29 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** Format the change message and the affected file list. */
   protected void formatChangeDetail() {
+    appendText(getChangeDetail());
+  }
+
+  /** Create the change message and the affected file list. */
+  public String getChangeDetail() {
+    StringBuilder detail = new StringBuilder();
+
     if (patchSetInfo != null) {
-      appendText(patchSetInfo.getMessage().trim());
-      appendText("\n");
+      detail.append(patchSetInfo.getMessage().trim() + "\n");
     } else {
-      appendText(change.getSubject().trim());
-      appendText("\n");
+      detail.append(change.getSubject().trim() + "\n");
     }
 
     if (patchSet != null) {
-      appendText("---\n");
+      detail.append("---\n");
       for (PatchListEntry p : getPatchList().getPatches()) {
-        appendText(p.getChangeType().getCode() + " " + p.getNewName() + "\n");
+        detail.append(p.getChangeType().getCode() + " " + p.getNewName() + "\n");
       }
-      appendText("\n");
+      detail.append("\n");
     }
+    return detail.toString();
   }
+
 
   /** Get the patch list corresponding to this patch set. */
   protected PatchList getPatchList() {

@@ -258,6 +258,24 @@
       "revId": "4d9ff6e7f544e6d6de96b71e3a4af80a36aca6e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///y8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-07-21T18:10:51Z",
+      "side": 1,
+      "message": "I\u0027m assuming the name is not relevant... But I\u0027m not an admin, I don\u0027t know all contexts involved and I\u0027m not sure :-) !\nUlrik has ever seen this feature working locally and he didn\u0027t mention anything about the name..\n\nSo, I don\u0027t know. \nHe is on vacation, but even he disagrees, would you merge it without this name checking ?\nWe can do this check, np!",
+      "parentUuid": "AAAA3H///zs\u003d",
+      "revId": "4d9ff6e7f544e6d6de96b71e3a4af80a36aca6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

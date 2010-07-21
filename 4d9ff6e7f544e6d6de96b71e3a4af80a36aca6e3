@@ -222,6 +222,24 @@
       "revId": "4d9ff6e7f544e6d6de96b71e3a4af80a36aca6e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///z8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-07-21T17:28:47Z",
+      "side": 1,
+      "message": "well, as far as I understood from the requirements I got from Ulrik, we just need to permit for a certain group to create projects only as children of a specific parent, in other words, under a specific subtree of the project inheritance.\n\nSo, the goal is to restrict the area Bob can create a project in. Correct.\nBut also the rights will be automatically inherited for children projects as it is currently.\nAnyway, if Bob can create a project under a specific parent, he will be able to create children of this child project just created. \n\nI don\u0027t think the project name is relevant in this case... \nThis feature was finished before we implement branch level ownership... we were not supposed to consider branches on it.\nI don\u0027t know if there is connection between the project name and the branch it is stored. Is there?",
+      "parentUuid": "AAAA3H///1E\u003d",
+      "revId": "4d9ff6e7f544e6d6de96b71e3a4af80a36aca6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

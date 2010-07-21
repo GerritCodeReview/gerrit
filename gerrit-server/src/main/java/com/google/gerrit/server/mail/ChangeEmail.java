@@ -255,7 +255,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Get the text of the "cover letter", from {@link ChangeMessage}. */
-  protected String getCoverLetter() {
+  public String getCoverLetter() {
     if (changeMessage != null) {
       final String txt = changeMessage.getMessage();
       if (txt != null) {
@@ -434,7 +434,10 @@ public abstract class ChangeEmail extends OutgoingEmail {
   protected void setupVelocityContext() {
     super.setupVelocityContext();
     velocityContext.put("change", change);
+    velocityContext.put("changeId", change.getKey());
+    velocityContext.put("coverLetter", getCoverLetter());
     velocityContext.put("branch", change.getDest());
+    velocityContext.put("fromName", getNameFor(fromId));
     velocityContext.put("projectName", projectName);
     velocityContext.put("patchSet", patchSet);
     velocityContext.put("patchSetInfo", patchSetInfo);

@@ -40,9 +40,6 @@ public class AbandonedSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    appendText(getNameFor(fromId));
-    appendText(" has abandoned change " + change.getKey().abbreviate() + ":\n");
-    appendText("\n");
-    formatCoverLetter();
+    appendText(velocifyFile("Abandoned.vm"));
   }
 }

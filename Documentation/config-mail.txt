@@ -25,6 +25,13 @@ are listed below.  Change emails are influenced by two additional templates,
 one to set the subject line, and one to set the footer which gets appended to
 all the change emails (see `ChangeSubject.vm` and `ChangeFooter.vm` below.)
 
+Abandoned.vm
+~~~~~~~~~~~~
+
+The `Abandoned.vm` template will determine the contents of the email related
+to a change being abandoned.  It is a `ChangeEmail`: see `ChangeSubject.vm` and
+`ChangeFooter.vm`.
+
 ChangeFooter.vm
 ~~~~~~~~~~~~~~~
 
@@ -49,6 +56,13 @@ Merged.vm
 The `Merged.vm` template will determine the contents of the email related to
 a change successfully merged to the head.  It is a `ChangeEmail`: see
 `ChangeSubject.vm` and `ChangeFooter.vm`.
+
+MergeFail.vm
+~~~~~~~~~~~~
+
+The `MergeFail.vm` template will determine the contents of the email related
+to a failure upon attempting to merge a change to the head.  It is a
+`ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
 
 
 Mail Variables and Methods

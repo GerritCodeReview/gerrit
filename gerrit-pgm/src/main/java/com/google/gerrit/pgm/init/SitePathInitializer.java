@@ -85,10 +85,12 @@ public class SitePathInitializer {
     extract(site.gerrit_sh, Init.class, "gerrit.sh");
     chmod(0755, site.gerrit_sh);
 
+    extractMailExample("Abandoned.vm");
     extractMailExample("ChangeFooter.vm");
     extractMailExample("ChangeSubject.vm");
     extractMailExample("Comment.vm");
     extractMailExample("Merged.vm");
+    extractMailExample("MergeFail.vm");
 
     if (!ui.isBatch()) {
       System.err.println();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA3H///08\u003d",
+        "filename": "gerrit-prettify/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-21T16:51:30Z",
+      "side": 1,
+      "message": "Style-nit: Pleas put a blank line between dependency rules.\n\nAlso I would personally prefer to keep the gerrit stuff together, so put this above near the patch-jgit entry.",
+      "revId": "461c0538cdd6790fa65dc55c0ca00fed48b7cf72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

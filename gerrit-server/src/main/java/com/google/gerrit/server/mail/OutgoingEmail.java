@@ -168,7 +168,7 @@ public abstract class OutgoingEmail {
     }
   }
 
-  protected String getGerritHost() {
+  public String getGerritHost() {
     if (getGerritUrl() != null) {
       try {
         return new URL(getGerritUrl()).getHost();
@@ -194,7 +194,7 @@ public abstract class OutgoingEmail {
     return null;
   }
 
-  protected String getGerritUrl() {
+  public String getGerritUrl() {
     return args.urlProvider.get();
   }
 

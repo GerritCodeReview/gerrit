@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2009-2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,14 +56,7 @@ public class RegisterNewEmailSender extends OutgoingEmail {
     final StringBuilder url = new StringBuilder();
     url.append(getGerritUrl());
     url.append("#VE,");
-    try {
-      url.append(authConfig.getEmailRegistrationToken().newToken(
-          Base64.encodeBytes(addr.getBytes("UTF-8"))));
-    } catch (XsrfException e) {
-      throw new IllegalArgumentException(e);
-    } catch (UnsupportedEncodingException e) {
-      throw new IllegalArgumentException(e);
-    }
+    url.append(getEmailRegistrationToken());
 
     appendText("Welcome to Gerrit Code Review at ");
     appendText(getGerritHost());
@@ -92,5 +85,16 @@ public class RegisterNewEmailSender extends OutgoingEmail {
     appendText("This is a send-only email address."
         + "  Replies to this message will not\n");
     appendText("be read or answered.\n");
+  }
+
+  public String getEmailRegistrationToken() {
+    try {
+      return authConfig.getEmailRegistrationToken().newToken(
+          Base64.encodeBytes(addr.getBytes("UTF-8")));
+    } catch (XsrfException e) {
+      throw new IllegalArgumentException(e);
+    } catch (UnsupportedEncodingException e) {
+      throw new IllegalArgumentException(e);
+    }
   }
 }

@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2009-2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -125,24 +125,31 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   }
 
   private String getPullUrl() {
-    final List<HostKey> hostKeys = sshInfo.getHostKeys();
-    if (hostKeys.isEmpty()) {
+    final String host = getSshHost();
+    if (host == null) {
       return "";
     }
 
-    final String host = hostKeys.get(0).getHost();
     final StringBuilder r = new StringBuilder();
     r.append("git pull ssh://");
-    if (host.startsWith("*:")) {
-      r.append(getGerritHost());
-      r.append(host.substring(1));
-    } else {
-      r.append(host);
-    }
+    r.append(host);
     r.append("/");
     r.append(projectName);
     r.append(" ");
     r.append(patchSet.getRefName());
     return r.toString();
+  }
+
+  public String getSshHost() {
+    final List<HostKey> hostKeys = sshInfo.getHostKeys();
+    if (hostKeys.isEmpty()) {
+      return null;
+    }
+
+    final String host = hostKeys.get(0).getHost();
+    if (host.startsWith("*:")) {
+      return getGerritHost() + host.substring(1);
+    }
+    return host;
   }
 }

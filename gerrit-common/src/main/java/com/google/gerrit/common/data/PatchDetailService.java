@@ -16,6 +16,7 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
@@ -34,7 +35,7 @@ import java.util.Set;
 @RpcImpl(version = Version.V2_0)
 public interface PatchDetailService extends RemoteJsonService {
   void patchScript(Patch.Key key, PatchSet.Id a, PatchSet.Id b,
-      PatchScriptSettings settings, AsyncCallback<PatchScript> callback);
+      AccountDiffPreference diffPrefs, AsyncCallback<PatchScript> callback);
 
   @SignInRequired
   void saveDraft(PatchLineComment comment,

@@ -17,7 +17,6 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.PrettyFormatter;
-import com.google.gerrit.prettify.common.PrettySettings;
 import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
@@ -40,7 +39,7 @@ public class PatchScript {
   protected String oldName;
   protected String newName;
   protected List<String> header;
-  protected PatchScriptSettings settings;
+  protected AccountDiffPreference diffPrefs;
   protected SparseFileContent a;
   protected SparseFileContent b;
   protected List<Edit> edits;
@@ -52,7 +51,7 @@ public class PatchScript {
   protected boolean intralineDifference;
 
   public PatchScript(final Change.Key ck, final ChangeType ct, final String on,
-      final String nn, final List<String> h, final PatchScriptSettings s,
+      final String nn, final List<String> h, final AccountDiffPreference dp,
       final SparseFileContent ca, final SparseFileContent cb,
       final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb,
       final CommentDetail cd, final List<Patch> hist, final boolean hf,
@@ -62,7 +61,7 @@ public class PatchScript {
     oldName = on;
     newName = nn;
     header = h;
-    settings = s;
+    diffPrefs = dp;
     a = ca;
     b = cb;
     edits = e;
@@ -113,12 +112,12 @@ public class PatchScript {
     return history;
   }
 
-  public PatchScriptSettings getSettings() {
-    return settings;
+  public AccountDiffPreference getDiffPrefs() {
+    return diffPrefs;
   }
 
-  public void setSettings(PatchScriptSettings s) {
-    settings = s;
+  public void setDiffPrefs(AccountDiffPreference dp) {
+    diffPrefs = dp;
   }
 
   public boolean isHugeFile() {
@@ -126,7 +125,7 @@ public class PatchScript {
   }
 
   public boolean isIgnoreWhitespace() {
-    return settings.getWhitespace() != Whitespace.IGNORE_NONE;
+    return diffPrefs.getIgnoreWhitespace() != Whitespace.IGNORE_NONE;
   }
 
   public boolean hasIntralineDifference() {
@@ -142,12 +141,12 @@ public class PatchScript {
   }
 
   public SparseHtmlFile getSparseHtmlFileA() {
-    PrettySettings s = new PrettySettings(settings.getPrettySettings());
-    s.setFileName(a.getPath());
-    s.setShowWhiteSpaceErrors(false);
+    AccountDiffPreference dp = new AccountDiffPreference(diffPrefs);
+    dp.setShowWhitespaceErrors(false);
 
     PrettyFormatter f = ClientSideFormatter.FACTORY.get();
-    f.setPrettySettings(s);
+    f.setDiffPrefs(dp);
+    f.setFileName(a.getPath());
     f.setEditFilter(PrettyFormatter.A);
     f.setEditList(edits);
     f.format(a);
@@ -155,15 +154,15 @@ public class PatchScript {
   }
 
   public SparseHtmlFile getSparseHtmlFileB() {
-    PrettySettings s = new PrettySettings(settings.getPrettySettings());
-    s.setFileName(b.getPath());
+    AccountDiffPreference dp = new AccountDiffPreference(diffPrefs);
 
     PrettyFormatter f = ClientSideFormatter.FACTORY.get();
-    f.setPrettySettings(s);
+    f.setDiffPrefs(dp);
+    f.setFileName(b.getPath());
     f.setEditFilter(PrettyFormatter.B);
     f.setEditList(edits);
 
-    if (s.isSyntaxHighlighting() && a.isWholeFile() && !b.isWholeFile()) {
+    if (dp.isSyntaxHighlighting() && a.isWholeFile() && !b.isWholeFile()) {
       f.format(b.apply(a, edits));
     } else {
       f.format(b);
@@ -176,7 +175,7 @@ public class PatchScript {
   }
 
   public Iterable<EditList.Hunk> getHunks() {
-    int ctx = settings.getContext();
+    int ctx = diffPrefs.getContext();
     if (ctx == AccountDiffPreference.WHOLE_FILE_CONTEXT) {
       ctx = Math.max(a.size(), b.size());
     }

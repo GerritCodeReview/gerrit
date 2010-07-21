@@ -75,7 +75,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
     final boolean intraline =
-        script.getSettings().getPrettySettings().isIntralineDifference()
+        script.getDiffPrefs().isIntralineDifference()
             && script.hasIntralineDifference();
 
     appendHeader(script, nc);

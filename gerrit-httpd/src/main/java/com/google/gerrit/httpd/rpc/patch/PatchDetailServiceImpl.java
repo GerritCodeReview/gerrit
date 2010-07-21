@@ -20,11 +20,11 @@ import com.google.gerrit.common.data.ApprovalSummarySet;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.PatchDetailService;
 import com.google.gerrit.common.data.PatchScript;
-import com.google.gerrit.common.data.PatchScriptSettings;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountPatchReview;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
@@ -92,13 +92,13 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
-      final PatchSet.Id psb, final PatchScriptSettings s,
+      final PatchSet.Id psb, final AccountDiffPreference dp,
       final AsyncCallback<PatchScript> callback) {
     if (psb == null) {
       callback.onFailure(new NoSuchEntityException());
       return;
     }
-    patchScriptFactoryFactory.create(patchKey, psa, psb, s).to(callback);
+    patchScriptFactoryFactory.create(patchKey, psa, psb, dp).to(callback);
   }
 
   public void saveDraft(final PatchLineComment comment,

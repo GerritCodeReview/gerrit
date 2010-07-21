@@ -276,6 +276,24 @@
       "revId": "4d9ff6e7f544e6d6de96b71e3a4af80a36aca6e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///yM\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-21T18:55:48Z",
+      "side": 1,
+      "message": "I think its wrong to not check the prefix.  I think most admins would assume the prefix is being checked, and would be surprised if we don\u0027t.  So unless you guys can convince us that not checking the prefix is the right thing, I would prefer not to merge this without the prefix check...  :-)",
+      "parentUuid": "AAAA3H///y8\u003d",
+      "revId": "4d9ff6e7f544e6d6de96b71e3a4af80a36aca6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

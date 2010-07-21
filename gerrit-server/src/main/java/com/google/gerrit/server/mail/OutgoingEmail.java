@@ -168,7 +168,7 @@ public abstract class OutgoingEmail {
     }
   }
 
-  protected String getGerritHost() {
+  public String getGerritHost() {
     if (getGerritUrl() != null) {
       try {
         return new URL(getGerritUrl()).getHost();
@@ -194,7 +194,7 @@ public abstract class OutgoingEmail {
     return null;
   }
 
-  protected String getGerritUrl() {
+  public String getGerritUrl() {
     return args.urlProvider.get();
   }
 
@@ -237,7 +237,7 @@ public abstract class OutgoingEmail {
     return name;
   }
 
-  protected String getNameEmailFor(Account.Id accountId) {
+  public String getNameEmailFor(Account.Id accountId) {
     AccountState who = args.accountCache.get(accountId);
     String name = who.getAccount().getFullName();
     String email = who.getAccount().getPreferredEmail();

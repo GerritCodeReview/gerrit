@@ -52,7 +52,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   private ProjectState projectState;
   protected ChangeData changeData;
-  private boolean inFooter;
 
   protected ChangeEmail(EmailArguments ea, final Change c, final String mc) {
     super(ea, mc);
@@ -76,29 +75,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   /** Format the message body by calling {@link #appendText(String)}. */
   protected void format() throws EmailException {
     formatChange();
-    if (getChangeUrl() != null) {
-      openFooter();
-      appendText("To view visit ");
-      appendText(getChangeUrl());
-      appendText("\n");
-    }
-    if (getSettingsUrl() != null) {
-      openFooter();
-      appendText("To unsubscribe, visit ");
-      appendText(getSettingsUrl());
-      appendText("\n");
-    }
-
-    if (inFooter) {
-      appendText("\n");
-    } else {
-      openFooter();
-    }
-    appendText("Gerrit-MessageType: " + messageClass + "\n");
-    appendText("Gerrit-Project: " + projectName + "\n");
-    appendText("Gerrit-Branch: " + change.getDest().getShortName() + "\n");
-    appendText("Gerrit-Owner: " + getNameEmailFor(change.getOwner()) + "\n");
-
+    appendText(velocifyFile("ChangeFooter.vm"));
     try {
       HashSet<Account.Id> reviewers = new HashSet<Account.Id>();
       for (PatchSetApproval p : args.db.get().patchSetApprovals().byChange(
@@ -158,8 +135,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
     setListIdHeader();
     setChangeUrlHeader();
     setCommitIdHeader();
-
-    inFooter = false;
   }
 
   private void setListIdHeader() {
@@ -221,13 +196,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
     r.append(getGerritHost());
     r.append('>');
     return r.toString();
-  }
-
-  private void openFooter() {
-    if (!inFooter) {
-      inFooter = true;
-      appendText("-- \n");
-    }
   }
 
   /** Format the sender's "cover letter", {@link #getCoverLetter()}. */

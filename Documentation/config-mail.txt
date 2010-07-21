@@ -25,6 +25,12 @@ are listed below.  Change emails are influenced by two additional templates,
 one to set the subject line, and one to set the footer which gets appended to
 all the change emails (see `ChangeSubject.vm` and `ChangeFooter.vm` below.)
 
+ChangeFooter.vm
+~~~~~~~~~~~~~~~
+
+The `ChangeFooter.vm` template will determine the contents of the footer
+text that will be appended to emails related to changes (all `ChangeEmails)`.
+
 ChangeSubject.vm
 ~~~~~~~~~~~~~~~~
 

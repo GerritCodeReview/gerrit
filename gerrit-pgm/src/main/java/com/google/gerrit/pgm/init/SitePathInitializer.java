@@ -85,6 +85,7 @@ public class SitePathInitializer {
     extract(site.gerrit_sh, Init.class, "gerrit.sh");
     chmod(0755, site.gerrit_sh);
 
+    extractMailExample("ChangeFooter.vm");
     extractMailExample("ChangeSubject.vm");
     extractMailExample("Merged.vm");
 

@@ -294,6 +294,24 @@
       "revId": "4d9ff6e7f544e6d6de96b71e3a4af80a36aca6e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///x8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-07-21T19:28:03Z",
+      "side": 1,
+      "message": "Ok, just confirming the check rules:\n\n1 - If the children name do not contains slashes, the name can be anything.\n\n2 - Else, validate if the names among the slashes matches the hierarchy structure, if so, accept the name, otherwise, throw a failure.\n\nIs it ok?\nThanks very much for all attention !",
+      "parentUuid": "AAAA3H///yM\u003d",
+      "revId": "4d9ff6e7f544e6d6de96b71e3a4af80a36aca6e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

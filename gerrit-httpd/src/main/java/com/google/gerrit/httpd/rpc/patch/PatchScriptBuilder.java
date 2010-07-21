@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.rpc.patch;
 
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
-import com.google.gerrit.common.data.PatchScriptSettings;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseFileContent;
@@ -66,7 +65,7 @@ class PatchScriptBuilder {
 
   private Repository db;
   private Change change;
-  private PatchScriptSettings settings;
+  private AccountDiffPreference diffPrefs;
   private ObjectId aId;
   private ObjectId bId;
 
@@ -92,10 +91,10 @@ class PatchScriptBuilder {
     this.change = c;
   }
 
-  void setSettings(final PatchScriptSettings s) {
-    settings = s;
+  void setDiffPrefs(final AccountDiffPreference dp) {
+    diffPrefs = dp;
 
-    context = settings.getContext();
+    context = diffPrefs.getContext();
     if (context == AccountDiffPreference.WHOLE_FILE_CONTEXT) {
       context = MAX_CONTEXT;
     } else if (context > MAX_CONTEXT) {
@@ -117,7 +116,7 @@ class PatchScriptBuilder {
       //
       return new PatchScript(change.getKey(), content.getChangeType(), content
           .getOldName(), content.getNewName(), content.getHeaderLines(),
-          settings, a.dst, b.dst, Collections.<Edit> emptyList(),
+          diffPrefs, a.dst, b.dst, Collections.<Edit> emptyList(),
           a.displayMethod, b.displayMethod, comments, history, false, false);
     }
 
@@ -150,24 +149,24 @@ class PatchScriptBuilder {
         // IF the file is really large, we disable things to avoid choking
         // the browser client.
         //
-        settings.setContext(Math.min(25, context));
-        settings.getPrettySettings().setSyntaxHighlighting(false);
-        context = settings.getContext();
+        diffPrefs.setContext((short) Math.min(25, context));
+        diffPrefs.setSyntaxHighlighting(false);
+        context = diffPrefs.getContext();
         hugeFile = true;
 
-      } else if (settings.getPrettySettings().isSyntaxHighlighting()) {
+      } else if (diffPrefs.isSyntaxHighlighting()) {
         // In order to syntax highlight the file properly we need to
         // give the client the complete file contents. So force our
         // context temporarily to the complete file size.
         //
         context = MAX_CONTEXT;
       }
-      packContent(settings.getWhitespace() != Whitespace.IGNORE_NONE);
+      packContent(diffPrefs.getIgnoreWhitespace() != Whitespace.IGNORE_NONE);
     }
 
     return new PatchScript(change.getKey(), content.getChangeType(), content
         .getOldName(), content.getNewName(), content.getHeaderLines(),
-        settings, a.dst, b.dst, edits, a.displayMethod, b.displayMethod,
+        diffPrefs, a.dst, b.dst, edits, a.displayMethod, b.displayMethod,
         comments, history, hugeFile, intralineDifference);
   }
 

@@ -27,7 +27,6 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.PatchScript;
-import com.google.gerrit.common.data.PatchScriptSettings;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.common.PrettyFactory;
@@ -84,9 +83,9 @@ public abstract class PatchScreen extends Screen implements
     public Unified(final Patch.Key id, final int patchIndex,
         final PatchTable patchTable) {
       super(id, patchIndex, patchTable);
-      final PatchScriptSettings s = settingsPanel.getValue();
-      s.getPrettySettings().setSyntaxHighlighting(false);
-      settingsPanel.setValue(s);
+      final AccountDiffPreference dp = settingsPanel.getValue();
+      dp.setSyntaxHighlighting(false);
+      settingsPanel.setValue(dp);
     }
 
     @Override
@@ -181,9 +180,9 @@ public abstract class PatchScreen extends Screen implements
 
     settingsPanel = new PatchScriptSettingsPanel();
     settingsPanel
-        .addValueChangeHandler(new ValueChangeHandler<PatchScriptSettings>() {
+        .addValueChangeHandler(new ValueChangeHandler<AccountDiffPreference>() {
           @Override
-          public void onValueChange(ValueChangeEvent<PatchScriptSettings> event) {
+          public void onValueChange(ValueChangeEvent<AccountDiffPreference> event) {
             update(event.getValue());
           }
         });
@@ -206,9 +205,9 @@ public abstract class PatchScreen extends Screen implements
     lastScript = null;
   }
 
-  private void update(PatchScriptSettings s) {
-    if (lastScript != null && canReuse(s, lastScript)) {
-      lastScript.setSettings(s);
+  private void update(AccountDiffPreference dp) {
+    if (lastScript != null && canReuse(dp, lastScript)) {
+      lastScript.setDiffPrefs(dp);
       RpcStatus.INSTANCE.onRpcStart(null);
       settingsPanel.setEnabled(false);
       DeferredCommand.addCommand(new Command() {
@@ -226,24 +225,24 @@ public abstract class PatchScreen extends Screen implements
     }
   }
 
-  private boolean canReuse(PatchScriptSettings s, PatchScript last) {
-    if (last.getSettings().getWhitespace() != s.getWhitespace()) {
+  private boolean canReuse(AccountDiffPreference dp, PatchScript last) {
+    if (last.getDiffPrefs().getIgnoreWhitespace() != dp.getIgnoreWhitespace()) {
       // Whitespace ignore setting requires server computation.
       return false;
     }
 
-    final int ctx = s.getContext();
+    final int ctx = dp.getContext();
     if (ctx == AccountDiffPreference.WHOLE_FILE_CONTEXT && !last.getA().isWholeFile()) {
       // We don't have the entire file here, so we can't render it.
       return false;
     }
 
-    if (last.getSettings().getContext() < ctx && !last.getA().isWholeFile()) {
+    if (last.getDiffPrefs().getContext() < ctx && !last.getA().isWholeFile()) {
       // We don't have sufficient context.
       return false;
     }
 
-    if (s.getPrettySettings().isSyntaxHighlighting()
+    if (dp.isSyntaxHighlighting()
         && !last.getA().isWholeFile()) {
       // We need the whole file to syntax highlight accurately.
       return false;

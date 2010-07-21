@@ -133,7 +133,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     }
 
     final boolean syntaxHighlighting =
-        script.getSettings().getPrettySettings().isSyntaxHighlighting();
+        script.getDiffPrefs().isSyntaxHighlighting();
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
     for (final EditList.Hunk hunk : script.getHunks()) {
       appendHunkHeader(nc, hunk);

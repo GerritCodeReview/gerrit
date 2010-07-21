@@ -14,6 +14,7 @@
 
 package com.google.gerrit.prettify.common;
 
+import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
@@ -71,7 +72,8 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
   protected SparseFileContent content;
   protected EditFilter side;
   protected List<Edit> edits;
-  protected PrettySettings settings;
+  protected AccountDiffPreference diffPrefs;
+  protected String fileName;
   protected Set<Integer> trailingEdits;
 
   private int col;
@@ -105,8 +107,12 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
     edits = all;
   }
 
-  public void setPrettySettings(PrettySettings how) {
-    settings = how;
+  public void setDiffPrefs(AccountDiffPreference how) {
+    diffPrefs = how;
+  }
+
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
   }
 
   /**
@@ -122,7 +128,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
 
     String html = toHTML(src);
 
-    if (settings.isSyntaxHighlighting() && getFileType() != null
+    if (diffPrefs.isSyntaxHighlighting() && getFileType() != null
         && src.isWholeFile()) {
       // The prettify parsers don't like &#39; as an entity for the
       // single quote character. Replace them all out so we don't
@@ -205,7 +211,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       cleanText(txt, pos, start);
       pos = txt.indexOf(';', start + 1) + 1;
 
-      if (settings.getLineLength() <= col) {
+      if (diffPrefs.getLineLength() <= col) {
         buf.append("<br />");
         col = 0;
       }
@@ -219,14 +225,14 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
 
   private void cleanText(String txt, int pos, int end) {
     while (pos < end) {
-      int free = settings.getLineLength() - col;
+      int free = diffPrefs.getLineLength() - col;
       if (free <= 0) {
         // The current line is full. Throw an explicit line break
         // onto the end, and we'll continue on the next line.
         //
         buf.append("<br />");
         col = 0;
-        free = settings.getLineLength();
+        free = diffPrefs.getLineLength();
       }
 
       int n = Math.min(end - pos, free);
@@ -305,7 +311,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
   private String toHTML(SparseFileContent src) {
     SafeHtml html;
 
-    if (settings.isIntralineDifference()) {
+    if (diffPrefs.isIntralineDifference()) {
       html = colorLineEdits(src);
     } else {
       SafeHtmlBuilder b = new SafeHtmlBuilder();
@@ -321,7 +327,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       html = html.replaceAll("\r([^\n])", r);
     }
 
-    if (settings.isShowWhiteSpaceErrors()) {
+    if (diffPrefs.isShowWhitespaceErrors()) {
       // We need to do whitespace errors before showing tabs, because
       // these patterns rely on \t as a literal, before it expands.
       //
@@ -329,8 +335,8 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       html = showTrailingWhitespace(html);
     }
 
-    if (settings.isShowTabs()) {
-      String t = 1 < settings.getTabSize() ? "\t" : "";
+    if (diffPrefs.isShowTabs()) {
+      String t = 1 < diffPrefs.getTabSize() ? "\t" : "";
       html = html.replaceAll("\t", "<span class=\"vt\">\u00BB</span>" + t);
     }
 
@@ -496,17 +502,17 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
   private String expandTabs(String html) {
     StringBuilder tmp = new StringBuilder();
     int i = 0;
-    if (settings.isShowTabs()) {
+    if (diffPrefs.isShowTabs()) {
       i = 1;
     }
-    for (; i < settings.getTabSize(); i++) {
+    for (; i < diffPrefs.getTabSize(); i++) {
       tmp.append("&nbsp;");
     }
     return html.replaceAll("\t", tmp.toString());
   }
 
   private String getFileType() {
-    String srcType = settings.getFilename();
+    String srcType = fileName;
     if (srcType == null) {
       return null;
     }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA3H///pw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-22T16:41:05Z",
+      "side": 1,
+      "message": "We prefer our copyright to be Android Open Source Project.  Also, a huge amount of this code came from an AOSP header and was written by me/Google.  So we really don\u0027t like having our notice message removed.  :-)",
+      "revId": "21811a961fb787af75547381a78e97d391e04e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///ps\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-22T16:41:05Z",
+      "side": 1,
+      "message": "Style-nit: Only one space between keywords.",
+      "revId": "21811a961fb787af75547381a78e97d391e04e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

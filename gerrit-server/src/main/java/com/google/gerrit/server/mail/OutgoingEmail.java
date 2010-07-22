@@ -64,52 +64,24 @@ public abstract class OutgoingEmail {
   private static final String HDR_CC = "CC";
 
   private static final Random RNG = new Random();
-  private final String messageClass;
-  protected final Change change;
-  protected String projectName;
+  protected String messageClass;
   private final HashSet<Account.Id> rcptTo = new HashSet<Account.Id>();
   private final Map<String, EmailHeader> headers;
   private final List<Address> smtpRcptTo = new ArrayList<Address>();
   private Address smtpFromAddress;
   private StringBuilder body;
-  private boolean inFooter;
 
   protected final EmailArguments args;
   protected Account.Id fromId;
-  protected PatchSet patchSet;
-  protected PatchSetInfo patchSetInfo;
-  protected ChangeMessage changeMessage;
 
-  private ProjectState projectState;
-  protected ChangeData changeData;
-
-  protected OutgoingEmail(EmailArguments ea, final Change c, final String mc) {
+  protected OutgoingEmail(EmailArguments ea, final String mc) {
     args = ea;
-    change = c;
-    changeData = change != null ? new ChangeData(change) : null;
     messageClass = mc;
     headers = new LinkedHashMap<String, EmailHeader>();
   }
 
-  protected OutgoingEmail(EmailArguments ea, final String mc) {
-    this(ea, null, mc);
-  }
-
   public void setFrom(final Account.Id id) {
     fromId = id;
-  }
-
-  public void setPatchSet(final PatchSet ps) {
-    patchSet = ps;
-  }
-
-  public void setPatchSet(final PatchSet ps, final PatchSetInfo psi) {
-    patchSet = ps;
-    patchSetInfo = psi;
-  }
-
-  public void setChangeMessage(final ChangeMessage cm) {
-    changeMessage = cm;
   }
 
   /**
@@ -159,49 +131,6 @@ public abstract class OutgoingEmail {
         }
       }
 
-      if (change != null) {
-        if (getChangeUrl() != null) {
-          openFooter();
-          appendText("To view visit ");
-          appendText(getChangeUrl());
-          appendText("\n");
-        }
-        if (getSettingsUrl() != null) {
-          openFooter();
-          appendText("To unsubscribe, visit ");
-          appendText(getSettingsUrl());
-          appendText("\n");
-        }
-
-        if (inFooter) {
-          appendText("\n");
-        } else {
-          openFooter();
-        }
-        appendText("Gerrit-MessageType: " + messageClass + "\n");
-        appendText("Gerrit-Project: " + projectName + "\n");
-        appendText("Gerrit-Branch: " + change.getDest().getShortName() + "\n");
-        appendText("Gerrit-Owner: " + getNameEmailFor(change.getOwner()) + "\n");
-
-        try {
-          HashSet<Account.Id> reviewers = new HashSet<Account.Id>();
-          for (PatchSetApproval p : args.db.get().patchSetApprovals().byChange(
-              change.getId())) {
-            reviewers.add(p.getAccountId());
-          }
-
-          TreeSet<String> names = new TreeSet<String>();
-          for (Account.Id who : reviewers) {
-            names.add(getNameEmailFor(who));
-          }
-
-          for (String name : names) {
-            appendText("Gerrit-Reviewer: " + name + "\n");
-          }
-        } catch (OrmException e) {
-        }
-      }
-
       if (headers.get("Message-ID").isEmpty()) {
         final StringBuilder rndid = new StringBuilder();
         rndid.append("<");
@@ -223,27 +152,11 @@ public abstract class OutgoingEmail {
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   protected void init() {
-    if (change != null && args.projectCache != null) {
-      projectState = args.projectCache.get(change.getProject());
-      projectName =
-          projectState != null ? projectState.getProject().getName() : null;
-    } else {
-      projectState = null;
-      projectName = null;
-    }
-
     smtpFromAddress = args.fromAddressGenerator.from(fromId);
-    if (changeMessage != null && changeMessage.getWrittenOn() != null) {
-      setHeader("Date", new Date(changeMessage.getWrittenOn().getTime()));
-    } else {
-      setHeader("Date", new Date());
-    }
+    setHeader("Date", new Date());
     headers.put("From", new EmailHeader.AddressList(smtpFromAddress));
     headers.put(HDR_TO, new EmailHeader.AddressList());
     headers.put(HDR_CC, new EmailHeader.AddressList());
-    if (change != null) {
-      setChangeSubjectHeader();
-    }
     setHeader("Message-ID", "");
 
     if (fromId != null) {
@@ -259,14 +172,7 @@ public abstract class OutgoingEmail {
     }
 
     setHeader("X-Gerrit-MessageType", messageClass);
-    if (change != null) {
-      setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
-      setListIdHeader();
-      setChangeUrlHeader();
-      setCommitIdHeader();
-    }
     body = new StringBuilder();
-    inFooter = false;
 
     if (fromId != null && args.fromAddressGenerator.isGenericAddress(fromId)) {
       final Account account = args.accountCache.get(fromId).getAccount();
@@ -285,75 +191,6 @@ public abstract class OutgoingEmail {
         body.append(":\n\n");
       }
     }
-
-    if (change != null) {
-      if (patchSet == null) {
-        try {
-          patchSet = args.db.get().patchSets().get(change.currentPatchSetId());
-        } catch (OrmException err) {
-          patchSet = null;
-        }
-      }
-
-      if (patchSet != null && patchSetInfo == null) {
-        try {
-          patchSetInfo = args.patchSetInfoFactory.get(patchSet.getId());
-        } catch (PatchSetInfoNotAvailableException err) {
-          patchSetInfo = null;
-        }
-      }
-    }
-  }
-
-  private void setListIdHeader() {
-    // Set a reasonable list id so that filters can be used to sort messages
-    //
-    final StringBuilder listid = new StringBuilder();
-    listid.append("gerrit-");
-    listid.append(projectName.replace('/', '-'));
-    listid.append("@");
-    listid.append(getGerritHost());
-
-    final String listidStr = listid.toString();
-    setHeader("Mailing-List", "list " + listidStr);
-    setHeader("List-Id", "<" + listidStr.replace('@', '.') + ">");
-    if (getSettingsUrl() != null) {
-      setHeader("List-Unsubscribe", "<" + getSettingsUrl() + ">");
-    }
-  }
-
-  private void setChangeUrlHeader() {
-    final String u = getChangeUrl();
-    if (u != null) {
-      setHeader("X-Gerrit-ChangeURL", "<" + u + ">");
-    }
-  }
-
-  private void setCommitIdHeader() {
-    if (patchSet != null && patchSet.getRevision() != null
-        && patchSet.getRevision().get() != null
-        && patchSet.getRevision().get().length() > 0) {
-      setHeader("X-Gerrit-Commit", patchSet.getRevision().get());
-    }
-  }
-
-  private void setChangeSubjectHeader() {
-    final StringBuilder subj = new StringBuilder();
-    subj.append("[");
-    subj.append(change.getDest().getShortName());
-    subj.append("] ");
-    subj.append("Change ");
-    subj.append(change.getKey().abbreviate());
-    subj.append(": (");
-    subj.append(projectName);
-    subj.append(") ");
-    if (change.getSubject().length() > 60) {
-      subj.append(change.getSubject().substring(0, 60));
-      subj.append("...");
-    } else {
-      subj.append(change.getSubject());
-    }
-    setHeader("Subject", subj.toString());
   }
 
   protected String getGerritHost() {
@@ -372,17 +209,6 @@ public abstract class OutgoingEmail {
     return SystemReader.getInstance().getHostname();
   }
 
-  /** Get a link to the change; null if the server doesn't know its own address. */
-  protected String getChangeUrl() {
-    if (change != null && getGerritUrl() != null) {
-      final StringBuilder r = new StringBuilder();
-      r.append(getGerritUrl());
-      r.append(change.getChangeId());
-      return r.toString();
-    }
-    return null;
-  }
-
   private String getSettingsUrl() {
     if (getGerritUrl() != null) {
       final StringBuilder r = new StringBuilder();
@@ -395,20 +221,6 @@ public abstract class OutgoingEmail {
 
   protected String getGerritUrl() {
     return args.urlProvider.get();
-  }
-
-  protected String getChangeMessageThreadId() {
-    final StringBuilder r = new StringBuilder();
-    r.append('<');
-    r.append("gerrit");
-    r.append('.');
-    r.append(change.getCreatedOn().getTime());
-    r.append('.');
-    r.append(change.getKey().get());
-    r.append('@');
-    r.append(getGerritHost());
-    r.append('>');
-    return r.toString();
   }
 
   /** Set a header in the outgoing message. */
@@ -425,60 +237,6 @@ public abstract class OutgoingEmail {
     if (text != null) {
       body.append(text);
     }
-  }
-
-  private void openFooter() {
-    if (!inFooter) {
-      inFooter = true;
-      appendText("-- \n");
-    }
-  }
-
-  /** Format the sender's "cover letter", {@link #getCoverLetter()}. */
-  protected void formatCoverLetter() {
-    final String cover = getCoverLetter();
-    if (!"".equals(cover)) {
-      appendText(cover);
-      appendText("\n\n");
-    }
-  }
-
-  /** Get the text of the "cover letter", from {@link ChangeMessage}. */
-  protected String getCoverLetter() {
-    if (changeMessage != null) {
-      final String txt = changeMessage.getMessage();
-      if (txt != null) {
-        return txt.trim();
-      }
-    }
-    return "";
-  }
-
-  /** Format the change message and the affected file list. */
-  protected void formatChangeDetail() {
-    if (patchSetInfo != null) {
-      appendText(patchSetInfo.getMessage().trim());
-      appendText("\n");
-    } else {
-      appendText(change.getSubject().trim());
-      appendText("\n");
-    }
-
-    if (patchSet != null) {
-      appendText("---\n");
-      for (PatchListEntry p : getPatchList().getPatches()) {
-        appendText(p.getChangeType().getCode() + " " + p.getNewName() + "\n");
-      }
-      appendText("\n");
-    }
-  }
-
-  /** Get the patch list corresponding to this patch set. */
-  protected PatchList getPatchList() {
-    if (patchSet != null) {
-      return args.patchListCache.get(change, patchSet);
-    }
-    return null;
   }
 
   /** Lookup a human readable name for an account, usually the "full name". */
@@ -498,7 +256,7 @@ public abstract class OutgoingEmail {
     return name;
   }
 
-  private String getNameEmailFor(Account.Id accountId) {
+  protected String getNameEmailFor(Account.Id accountId) {
     AccountState who = args.accountCache.get(accountId);
     String name = who.getAccount().getFullName();
     String email = who.getAccount().getPreferredEmail();
@@ -540,19 +298,6 @@ public abstract class OutgoingEmail {
     return true;
   }
 
-  /** Get the project entity the change is in; null if its been deleted. */
-  protected ProjectState getProjectState() {
-    return projectState;
-  }
-
-  /** Get the groups which own the project. */
-  protected Set<AccountGroup.Id> getProjectOwners() {
-    final ProjectState r;
-
-    r = args.projectCache.get(change.getProject());
-    return r != null ? r.getOwners() : Collections.<AccountGroup.Id> emptySet();
-  }
-
   /** Schedule this message for delivery to the listed accounts. */
   protected void add(final RecipientType rt, final Collection<Account.Id> list) {
     for (final Account.Id id : list) {
@@ -560,127 +305,9 @@ public abstract class OutgoingEmail {
     }
   }
 
-  /** TO or CC all vested parties (change owner, patch set uploader, author). */
-  protected void rcptToAuthors(final RecipientType rt) {
-    add(rt, change.getOwner());
-    if (patchSet != null) {
-      add(rt, patchSet.getUploader());
-    }
-    if (patchSetInfo != null) {
-      add(rt, patchSetInfo.getAuthor());
-      add(rt, patchSetInfo.getCommitter());
-    }
-  }
-
   private void add(final RecipientType rt, final UserIdentity who) {
     if (who != null && who.getAccount() != null) {
       add(rt, who.getAccount());
-    }
-  }
-
-  /** BCC any user who has starred this change. */
-  protected void bccStarredBy() {
-    try {
-      // BCC anyone who has starred this change.
-      //
-      for (StarredChange w : args.db.get().starredChanges().byChange(
-          change.getId())) {
-        add(RecipientType.BCC, w.getAccountId());
-      }
-    } catch (OrmException err) {
-      // Just don't BCC everyone. Better to send a partial message to those
-      // we already have queued up then to fail deliver entirely to people
-      // who have a lower interest in the change.
-    }
-  }
-
-  /** BCC any user who has set "notify all comments" on this project. */
-  protected void bccWatchesNotifyAllComments() {
-    try {
-      // BCC anyone else who has interest in this project's changes
-      //
-      for (final AccountProjectWatch w : getWatches()) {
-        if (w.isNotifyAllComments()) {
-          add(RecipientType.BCC, w.getAccountId());
-        }
-      }
-    } catch (OrmException err) {
-      // Just don't CC everyone. Better to send a partial message to those
-      // we already have queued up then to fail deliver entirely to people
-      // who have a lower interest in the change.
-    }
-  }
-
-  /** Returns all watches that are relevant */
-  protected final List<AccountProjectWatch> getWatches() throws OrmException {
-    if (changeData == null) {
-      return Collections.emptyList();
-    }
-
-    List<AccountProjectWatch> matching = new ArrayList<AccountProjectWatch>();
-    Set<Account.Id> projectWatchers = new HashSet<Account.Id>();
-
-    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
-        .byProject(change.getProject())) {
-      projectWatchers.add(w.getAccountId());
-      add(matching, w);
-    }
-
-    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
-        .byProject(args.wildProject)) {
-      if (!projectWatchers.contains(w.getAccountId())) {
-        add(matching, w);
-      }
-    }
-
-    return Collections.unmodifiableList(matching);
-  }
-
-  @SuppressWarnings("unchecked")
-  private void add(List<AccountProjectWatch> matching, AccountProjectWatch w)
-      throws OrmException {
-    IdentifiedUser user =
-        args.identifiedUserFactory.create(args.db, w.getAccountId());
-    ChangeQueryBuilder qb = args.queryBuilder.create(user);
-    Predicate<ChangeData> p = qb.is_visible();
-    if (w.getFilter() != null) {
-      try {
-        qb.setAllowFile(true);
-        p = Predicate.and(qb.parse(w.getFilter()), p);
-        p = args.queryRewriter.get().rewrite(p);
-        if (p.match(changeData)) {
-          matching.add(w);
-        }
-      } catch (QueryParseException e) {
-        // Ignore broken filter expressions.
-      }
-    } else if (p.match(changeData)) {
-      matching.add(w);
-    }
-  }
-
-  /** Any user who has published comments on this change. */
-  protected void ccAllApprovals() {
-    ccApprovals(true);
-  }
-
-  /** Users who have non-zero approval codes on the change. */
-  protected void ccExistingReviewers() {
-    ccApprovals(false);
-  }
-
-  private void ccApprovals(final boolean includeZero) {
-    try {
-      // CC anyone else who has posted an approval mark on this change
-      //
-      for (PatchSetApproval ap : args.db.get().patchSetApprovals().byChange(
-          change.getId())) {
-        if (!includeZero && ap.getValue() == 0) {
-          continue;
-        }
-        add(RecipientType.CC, ap.getAccountId());
-      }
-    } catch (OrmException err) {
     }
   }
 
@@ -692,11 +319,8 @@ public abstract class OutgoingEmail {
     }
   }
 
-  private boolean isVisibleTo(final Account.Id to) {
-    return projectState == null
-        || change == null
-        || projectState.controlFor(args.identifiedUserFactory.create(to))
-            .controlFor(change).isVisible();
+  protected boolean isVisibleTo(final Account.Id to) {
+    return true;
   }
 
   /** Schedule delivery of this message to the given account. */

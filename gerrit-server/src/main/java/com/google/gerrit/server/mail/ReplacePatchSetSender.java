@@ -67,7 +67,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void format() {
+  protected void formatChange() {
     formatSalutation();
     formatChangeDetail();
 

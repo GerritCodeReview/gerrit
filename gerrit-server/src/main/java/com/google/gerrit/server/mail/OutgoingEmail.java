@@ -52,7 +52,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -63,7 +62,6 @@ public abstract class OutgoingEmail {
   private static final String HDR_TO = "To";
   private static final String HDR_CC = "CC";
 
-  private static final Random RNG = new Random();
   protected String messageClass;
   private final HashSet<Account.Id> rcptTo = new HashSet<Account.Id>();
   private final Map<String, EmailHeader> headers;
@@ -129,18 +127,6 @@ public abstract class OutgoingEmail {
             return;
           }
         }
-      }
-
-      if (headers.get("Message-ID").isEmpty()) {
-        final StringBuilder rndid = new StringBuilder();
-        rndid.append("<");
-        rndid.append(System.currentTimeMillis());
-        rndid.append("-");
-        rndid.append(Integer.toString(RNG.nextInt(999999), 36));
-        rndid.append("@");
-        rndid.append(SystemReader.getInstance().getHostname());
-        rndid.append(">");
-        setHeader("Message-ID", rndid.toString());
       }
 
       args.emailSender.send(smtpFromAddress, smtpRcptTo, headers, body.toString());

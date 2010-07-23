@@ -168,6 +168,11 @@ public class ProjectControl {
         || getCurrentUser().isAdministrator();
   }
 
+  /** Does this user have permission to create projects under this one? */
+  public boolean canCreateProject() {
+    return canPerformOnAllRefs(ApprovalCategory.CREATE_PROJECT, (short) 1);
+  }
+
   /** @return true if the user can upload to at least one reference */
   public boolean canUploadToAtLeastOneRef() {
     return canPerformOnAnyRef(ApprovalCategory.READ, (short) 2);

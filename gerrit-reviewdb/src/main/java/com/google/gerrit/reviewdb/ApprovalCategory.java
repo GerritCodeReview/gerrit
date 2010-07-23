@@ -51,6 +51,10 @@ public final class ApprovalCategory {
   public static final short FORGE_COMMITTER = 2;
   public static final short FORGE_SERVER = 3;
 
+  /** Id of the special "Create Project" category **/
+  public static final ApprovalCategory.Id CREATE_PROJECT =
+    new ApprovalCategory.Id("CPRJ");
+
   public static class Id extends StringKey<Key<?>> {
     private static final long serialVersionUID = 1L;
 

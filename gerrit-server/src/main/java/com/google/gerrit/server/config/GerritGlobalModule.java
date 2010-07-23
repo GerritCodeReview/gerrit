@@ -94,10 +94,6 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(Project.NameKey.class).annotatedWith(WildProjectName.class)
         .toProvider(WildProjectNameProvider.class).in(SINGLETON);
-    bind(new TypeLiteral<Set<AccountGroup.Id>>(){}).annotatedWith(ProjectCreatorGroups.class)
-        .toProvider(ProjectCreatorGroupsProvider.class).in(SINGLETON);
-    bind(new TypeLiteral<Set<AccountGroup.Id>>(){}).annotatedWith(ProjectOwnerGroups.class)
-        .toProvider(ProjectOwnerGroupsProvider.class).in(SINGLETON);
     bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
         SINGLETON);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(

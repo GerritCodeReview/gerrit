@@ -51,7 +51,7 @@ public class MergedSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() {
+  protected void init() throws EmailException {
     super.init();
 
     ccAllApprovals();
@@ -61,58 +61,47 @@ public class MergedSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void formatChange() {
-    appendText("Change " + change.getKey().abbreviate());
-    if (patchSetInfo != null && patchSetInfo.getAuthor() != null
-        && patchSetInfo.getAuthor().getName() != null) {
-      appendText(" by ");
-      appendText(patchSetInfo.getAuthor().getName());
-    }
-    appendText(" submitted to ");
-    appendText(dest.getShortName());
-    appendText(":\n\n");
-    formatChangeDetail();
-    formatApprovals();
+  protected void formatChange() throws EmailException {
+    appendText(velocifyFile("Merged.vm"));
   }
 
-  private void formatApprovals() {
-    if (patchSet != null) {
-      try {
-        final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> pos =
-            new HashMap<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>>();
+  public String getApprovals() {
+    try {
+      final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> pos =
+          new HashMap<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>>();
 
-        final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> neg =
-            new HashMap<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>>();
+      final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> neg =
+          new HashMap<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>>();
 
-        for (PatchSetApproval ca : args.db.get().patchSetApprovals()
-            .byPatchSet(patchSet.getId())) {
-          if (ca.getValue() > 0) {
-            insert(pos, ca);
-          } else if (ca.getValue() < 0) {
-            insert(neg, ca);
-          }
+      for (PatchSetApproval ca : args.db.get().patchSetApprovals()
+          .byPatchSet(patchSet.getId())) {
+        if (ca.getValue() > 0) {
+          insert(pos, ca);
+        } else if (ca.getValue() < 0) {
+          insert(neg, ca);
         }
-
-        format("Approvals", pos);
-        format("Objections", neg);
-      } catch (OrmException err) {
-        // Don't list the approvals
       }
+
+      return format("Approvals", pos) + format("Objections", neg);
+    } catch (OrmException err) {
+      // Don't list the approvals
     }
+    return "";
   }
 
-  private void format(final String type,
+  private String format(final String type,
       final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> list) {
+    StringBuilder txt = new StringBuilder();
     if (list.isEmpty()) {
-      return;
+      return "";
     }
-    appendText(type + ":\n");
+    txt.append(type + ":\n");
     for (final Map.Entry<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> ent : list
         .entrySet()) {
       final Map<ApprovalCategory.Id, PatchSetApproval> l = ent.getValue();
-      appendText("  ");
-      appendText(getNameFor(ent.getKey()));
-      appendText(": ");
+      txt.append("  ");
+      txt.append(getNameFor(ent.getKey()));
+      txt.append(": ");
       boolean first = true;
       for (ApprovalType at : approvalTypes.getApprovalTypes()) {
         final PatchSetApproval ca = l.get(at.getCategory().getId());
@@ -123,24 +112,25 @@ public class MergedSender extends ReplyToChangeSender {
         if (first) {
           first = false;
         } else {
-          appendText("; ");
+          txt.append("; ");
         }
 
         final ApprovalCategoryValue v = at.getValue(ca);
         if (v != null) {
-          appendText(v.getName());
+          txt.append(v.getName());
         } else {
-          appendText(at.getCategory().getName());
-          appendText("=");
+          txt.append(at.getCategory().getName());
+          txt.append("=");
           if (ca.getValue() > 0) {
-            appendText("+");
+            txt.append("+");
           }
-          appendText("" + ca.getValue());
+          txt.append("" + ca.getValue());
         }
       }
-      appendText("\n");
+      txt.append("\n");
     }
-    appendText("\n");
+    txt.append("\n");
+    return txt.toString();
   }
 
   private void insert(

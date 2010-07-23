@@ -40,7 +40,7 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   }
 
   @Override
-  protected void init() {
+  protected void init() throws EmailException {
     super.init();
     setHeader("Subject", "[Gerrit Code Review] Email Verification");
     add(RecipientType.TO, new Address(addr));
@@ -52,7 +52,7 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   }
 
   @Override
-  protected void format() {
+  protected void format() throws EmailException {
     final StringBuilder url = new StringBuilder();
     url.append(getGerritUrl());
     url.append("#VE,");

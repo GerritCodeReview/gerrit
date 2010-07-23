@@ -25,11 +25,13 @@ import static com.google.gerrit.pgm.init.InitUtil.version;
 import com.google.gerrit.pgm.Init;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.mail.OutgoingEmail;
 import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +68,7 @@ public class SitePathInitializer {
     mkdir(site.etc_dir);
     mkdir(site.lib_dir);
     mkdir(site.logs_dir);
+    mkdir(site.mail_dir);
     mkdir(site.static_dir);
 
     for (InitStep step : steps) {
@@ -82,9 +85,17 @@ public class SitePathInitializer {
     extract(site.gerrit_sh, Init.class, "gerrit.sh");
     chmod(0755, site.gerrit_sh);
 
+    extractMailExample("Merged.vm");
+
     if (!ui.isBatch()) {
       System.err.println();
     }
+  }
+
+  private void extractMailExample(String orig) throws Exception {
+    File ex = new File(site.mail_dir, orig + ".example");
+    extract(ex, OutgoingEmail.class, orig);
+    chmod(0444, ex);
   }
 
   private static List<InitStep> stepsOf(final Injector injector) {

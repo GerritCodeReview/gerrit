@@ -237,16 +237,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
     return null;
   }
 
-  private String getSettingsUrl() {
-    if (getGerritUrl() != null) {
-      final StringBuilder r = new StringBuilder();
-      r.append(getGerritUrl());
-      r.append("settings");
-      return r.toString();
-    }
-    return null;
-  }
-
   protected String getChangeMessageThreadId() {
     final StringBuilder r = new StringBuilder();
     r.append('<');
@@ -328,13 +318,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
     return r != null ? r.getOwners() : Collections.<AccountGroup.Id> emptySet();
   }
 
-  /** Schedule this message for delivery to the listed accounts. */
-  protected void add(final RecipientType rt, final Collection<Account.Id> list) {
-    for (final Account.Id id : list) {
-      add(rt, id);
-    }
-  }
-
   /** TO or CC all vested parties (change owner, patch set uploader, author). */
   protected void rcptToAuthors(final RecipientType rt) {
     add(rt, change.getOwner());
@@ -344,12 +327,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
     if (patchSetInfo != null) {
       add(rt, patchSetInfo.getAuthor());
       add(rt, patchSetInfo.getCommitter());
-    }
-  }
-
-  private void add(final RecipientType rt, final UserIdentity who) {
-    if (who != null && who.getAccount() != null) {
-      add(rt, who.getAccount());
     }
   }
 

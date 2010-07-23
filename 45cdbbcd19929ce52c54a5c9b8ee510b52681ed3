@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA3H///cs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-23T18:25:28Z",
+      "side": 1,
+      "message": "Use instead:\n\n  mail_dir \u003d new File(etc_dir, \"mail\");",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///ck\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-23T18:25:28Z",
+      "side": 1,
+      "message": "I would prefer to do a file path concat with java.io.File:\n\n  new File(args.site.logs_dir, \"velocity_log\").getAbsolutePath()\n\nBut this kind of bites.  We really have to open a new log file every time we format an email?  How do we rotate that file and compress it when it starts to fill up?  Can we instead redirect the velocity log to our standard log4j and thus have it wind up in the error_log?",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///cc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-23T18:25:28Z",
+      "side": 1,
+      "message": "This looks like its a static initializer for Velocity, but this class is running on multiple threads concurrently.  I\u0027m guessing we shouldn\u0027t be initializing velocity on each thread, but instead doing it once for the entire server process.  Which means it probably should be a LifecycleListener registered in a Guice module so we can start Velocity and configure it only once.",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///cg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-23T18:25:28Z",
+      "side": 1,
+      "message": "Please don\u0027t ignore an exception here.  If something fails during init, we\u0027re probably seriously broken and cannot continue;",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///cY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-23T18:25:28Z",
+      "side": 1,
+      "message": "We should be logging errors here.  It might imply a broken template, etc.",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///cU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-23T18:25:28Z",
+      "side": 1,
+      "message": "Please scope this to the try block, and make a new writer in the catch block when you retry.  We don\u0027t want a partial output before failure to then go into the retried output.",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///cM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-23T18:25:28Z",
+      "side": 1,
+      "message": "We shouldn\u0027t return an error string, because we\u0027ll email that to a user.  Instead we should be logging this and throwing an email exception so the caller knows we couldn\u0027t actually format and send the message.",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

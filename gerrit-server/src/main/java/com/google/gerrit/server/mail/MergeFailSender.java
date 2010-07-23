@@ -30,14 +30,14 @@ public class MergeFailSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() {
+  protected void init() throws EmailException {
     super.init();
 
     ccExistingReviewers();
   }
 
   @Override
-  protected void formatChange() {
+  protected void formatChange() throws EmailException {
     appendText("Change " + change.getKey().abbreviate());
     if (patchSetInfo != null && patchSetInfo.getAuthor() != null
         && patchSetInfo.getAuthor().getName() != null) {

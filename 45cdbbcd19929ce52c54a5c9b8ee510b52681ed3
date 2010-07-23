@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA3H///bo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-23T18:48:33Z",
+      "side": 1,
+      "message": "sure, will do",
+      "parentUuid": "AAAA3H///cs\u003d",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3H///ck\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-07-23T18:25:28Z",
       "side": 1,
       "message": "I would prefer to do a file path concat with java.io.File:\n\n  new File(args.site.logs_dir, \"velocity_log\").getAbsolutePath()\n\nBut this kind of bites.  We really have to open a new log file every time we format an email?  How do we rotate that file and compress it when it starts to fill up?  Can we instead redirect the velocity log to our standard log4j and thus have it wind up in the error_log?",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///bg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-23T18:48:33Z",
+      "side": 1,
+      "message": "I will see if I can do that.  I was not sure how this would turn out.  The velocity logging has more than just errors, is that OK?  I think it is using log4j internally, so if I will try simply pointing it to the error_log.",
+      "parentUuid": "AAAA3H///ck\u003d",
       "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA3H///aw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-23T18:48:33Z",
+      "side": 1,
+      "message": "It should be OK if initialized more than once, from the docs:\n\nThe Velocity runtime engine is a singleton instance that provides resource, logging and other services to all Velocity users running in the same JVM. Therefore, the runtime engine is initialized only once. You can attempt to initialize Velocity more than once, but only the first initialization will apply. The rest of the attempts will be ignored.",
+      "parentUuid": "AAAA3H///cc\u003d",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3H///cg\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2010-07-23T18:25:28Z",
       "side": 1,
       "message": "Please don\u0027t ignore an exception here.  If something fails during init, we\u0027re probably seriously broken and cannot continue;",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///bc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-23T18:48:33Z",
+      "side": 1,
+      "message": "OK, so pass up the exception then, or do you have any specific thoughts about what I could do instead?  Sounds like just logging it is not enough.  Log it then die?  If I pass it up, will that happen anyway?",
+      "parentUuid": "AAAA3H///cg\u003d",
       "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA3H///bY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-23T18:48:33Z",
+      "side": 1,
+      "message": "OK. Is it OK to still let the unprocessed template be returned after logging?",
+      "parentUuid": "AAAA3H///cY\u003d",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3H///cU\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA3H///bE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-23T18:48:33Z",
+      "side": 1,
+      "message": "Hadn\u0027t even thought of that possibility since I am just capturing a ResourceNotFoundException. I suppose if the template had an unsatisfied include in it... Will do.",
+      "parentUuid": "AAAA3H///cU\u003d",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3H///cM\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2010-07-23T18:25:28Z",
       "side": 1,
       "message": "We shouldn\u0027t return an error string, because we\u0027ll email that to a user.  Instead we should be logging this and throwing an email exception so the caller knows we couldn\u0027t actually format and send the message.",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///bA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-23T18:48:33Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "AAAA3H///cM\u003d",
       "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

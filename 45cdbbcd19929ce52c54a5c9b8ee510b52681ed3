@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA3H///aI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-23T19:29:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA3H///bo\u003d",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3H///ck\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I will see if I can do that.  I was not sure how this would turn out.  The velocity logging has more than just errors, is that OK?  I think it is using log4j internally, so if I will try simply pointing it to the error_log.",
       "parentUuid": "AAAA3H///ck\u003d",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///aE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-23T19:29:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA3H///bg\u003d",
       "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -177,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA3H///aY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-23T19:29:48Z",
+      "side": 1,
+      "message": "On second thought, I forgot: the velocity engine already logs error here internally (just reconfirmed), seems silly to log it again here explicitly.",
+      "parentUuid": "AAAA3H///bY\u003d",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3H///cU\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 1
@@ -212,6 +266,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA3H///aA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-23T19:29:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA3H///bE\u003d",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3H///cM\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 1
@@ -241,6 +313,24 @@
       "side": 1,
       "message": "OK.",
       "parentUuid": "AAAA3H///cM\u003d",
+      "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///ac\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-23T19:29:48Z",
+      "side": 1,
+      "message": "What should we return instead, nothing?  Unlike above, we don\u0027t have a string with a template in it since the \"string\" is in the file.",
+      "parentUuid": "AAAA3H///bA\u003d",
       "revId": "45cdbbcd19929ce52c54a5c9b8ee510b52681ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

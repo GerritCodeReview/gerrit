@@ -1,0 +1,209 @@
+Release notes for Gerrit 2.1.4
+==============================
+
+Gerrit 2.1.4 is now available in the usual location:
+
+link:http://code.google.com/p/gerrit/downloads/list[http://code.google.com/p/gerrit/downloads/list]
+
+Schema Change
+-------------
+
+*WARNING* This release contains multiple schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+New Features
+------------
+
+Change Management
+~~~~~~~~~~~~~~~~~
+
+* issue 504 Implement full query operators
++
+The search box now implments a wide range of operators and boolean
+expressions, permitting complex queries such as `is:open CodeReview>=1
+(has:draft OR is:starred)` to locate open changes that have been code
+reviewed, but still have unpublished drafts or were starred by the
+current user.  The full range of supported operators is documented
+in the user guide.
+
+* Change lists now use query operators
++
+All current change lists have been reimplemented using query
+operators, so selecting 'All open changes' actually performs the query
+'is:open'.  This is to help end-users learn the different operators
+that are supported, and simplifies the internal implementation
+considerably by removing redundant code.
+
+* issue 51 Tag changes with topic branches
++
+Changes can be tagged with a topic name during upload.  To add the tag
+'query' when pushing to branch 'master', use `git push URL
+HEAD:refs/for/master/query`.  To add a topic name with `repo upload`
+use the `-t` command line flag.  Topic names are displayed next to the
+branch name in the web UI, and can be searched for with the `topic:`
+query operator.
+
+* Filter the list of open changes by watched projects
++
+The query operator `is:watched` matches changes matching the user's
+watched project list, anda  new menu item was added under the My menu
+to select open changes matching these watched projects.
+
+Web UI
+~~~~~~
+
+* issue 579 Remember diff formatting preferences
++
+Formatting options at the top of a side-by-side or unified diff page
+are now remembered by saving the current preferences into the user's
+account whenever 'Update' is clicked.
+
+* issue 680 Show commit message on the per-file review pages
+
+* issue 498 Improved keyboard navigation
++
+More keyboard bindings have been added, reducing the need to switch to
+the mouse while navigating through a change and performing a review.
+
+* issue 395 Open new window/new tab for all files in a change
++
+New buttons permit opening all modified files of a change into
+new windows or tabs.
+
+* issue 440 Add copy to clipboard button for change-id
++
+The Change-Id field in the upper left side of a change now support to
+copy "Change-Id: I...." onto the clipboard, making it easier to paste
+into a commit message.
+
+* issue 559 Allow copying user public ssh key to clipboard
+
+Email Notifications
+~~~~~~~~~~~~~~~~~~~
+
+* issue 311 No longer CC a user by default
++
+The user who causes a notification to be sent is no longer CC'd on the
+email when it is sent.  This reduces the number of messages sent to a
+user, but can be re-enabled through a checkbox in the Settings >
+Preferences panel.
+
+* issue 535 Enable watching of all projects
++
+Adding the magic `\-- All Projects \--` to the watched project list
+permits the user to be notified of any change occurring in any
+project.  Project specific entries override the notification settings
+for all projects.
+
+* issue 492 Allow watching specific branches or any other search query
++
+In addition to watching a project, users can register a query string
+to match specific changes, reducing notifications to be a smaller
+subset of the changes that occur in a project.
+
+* issue 70 Allow file:^regex to match affected files
++
+The file:^path operator can be used in a watch filter to receive
+notifications only when files matching the regular expression are
+modified by the change.
+
+* issue 623 Include Gerrit-Owner, Gerrit-Reviewer in email footers
++
+New fields in the email footer provide additional detail, enabling
+better filtering and classification of messages.
+
+Access Control
+~~~~~~~~~~~~~~
+
+* Support regular expressions for ref access rules
++
+References in an access rule can now be specified by regular
+expression by prefixing the reference name with ^.
+
+* issue 577 Support $\{username\} in access rules
++
+Adding `$\{username\}` into a reference causes the current username to
+be inserted at that position.  When combined with the Push Branch
+permission this creates a per-user branch namespace feature, giving
+each user their own "sandbox" to push changes to.
+
+Authentication
+~~~~~~~~~~~~~~
+
+* Remove password authentication over SSH
++
+Adding password authentication over SSH turned out to be a major
+mistake.  Users primarily use SSH public keys, and the password
+prompt just got in the way or confused them.  Password support has
+been removed from the SSH server.
+
+* Username cannot be changed once assigned
++
+Once a username has been selected for a user account, it
+cannot be modified by the user.
+
+* issue 555 Make LDAP sessions persistent for the session age
++
+Web sessions are now persistent for the cache.web_sessions.maxAge
+setting, rather than expiring when the browser closes.  (Previously
+sessions expired when the browser exited.)
+
+Misc.
+~~~~~
+
+* Add topic, lastUpdated, sortKey to ChangeAttribute
++
+Additional change fields are now exported as part of the
+stream-events output.
+
+* issue 504 gerrit query SSH command
++
+Queries to lookup change information can be executed over SSH through
+the `gerrit query` command, with results output in either human
+readable text or machine readable JSON.  Change cueries can also be
+run over HTTP with the `/query?q=<query>&format=JSON` URL.  Both
+interfaces are intended for automated tools.
+
+* Remove git diff-tree dependency
++
+Gerrit no longer requires `git` in the PATH; differences are now
+constructed in pure Java code.  Remote repository initialization over
+SSH still requires `git` on the remote host's PATH.
+
+* Internal dependencies updated
++
+Updated JGit to 0.8.4.87-g395d236, log4j to 1.2.16, GWT to 2.0.4,
+sfl4j to 1.6.1, easymock to 3.0, JUnit to 4.8.1.
+
+Bug Fixes
+---------
+
+Web UI
+~~~~~~
+
+* issue 352 Confirm branch deletion in web UI
++
+Deleting a branch now presents a confirmation dialog to give the user
+a second chance to abort the destructive operation.
+
+* Fix some JavaScript errors under Chrome
++
+The GWT compiler started to define symbols in the same namespace as
+the prettify syntax highlighting library.  We moved the prettify
+library into its own iframe so it has a different JavaScript namespace
+in the browser.
+
+Misc.
+~~~~~
+
+* issue 614 Fix 503 error when Jetty cancels a request
++
+A bug was introduced in 2.1.3 that caused a server 503 error
+when a fetch/pull/clone or push request timed out.  Fixed.
+
+Version
+-------
+
+df89f998d5c0fa5802a70482d4582b6313a018e4

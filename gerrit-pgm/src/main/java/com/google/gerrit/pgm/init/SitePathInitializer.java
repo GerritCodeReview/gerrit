@@ -86,6 +86,7 @@ public class SitePathInitializer {
     chmod(0755, site.gerrit_sh);
 
     extractMailExample("ChangeSubject.vm");
+    extractMailExample("Merged.vm");
 
     if (!ui.isBatch()) {
       System.err.println();

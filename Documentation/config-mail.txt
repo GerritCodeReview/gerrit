@@ -31,6 +31,13 @@ ChangeSubject.vm
 The `ChangeSubject.vm` template will determine the contents of the email
 subject line for ALL emails related to changes.
 
+Merged.vm
+~~~~~~~~~
+
+The `Merged.vm` template will determine the contents of the email related to
+a change successfully merged to the head.  It is a `ChangeEmail`: see
+`ChangeSubject.vm` and `ChangeFooter.vm`.
+
 
 Mail Variables and Methods
 --------------------------

@@ -195,7 +195,7 @@ public abstract class OutgoingEmail {
     return SystemReader.getInstance().getHostname();
   }
 
-  private String getSettingsUrl() {
+  public String getSettingsUrl() {
     if (getGerritUrl() != null) {
       final StringBuilder r = new StringBuilder();
       r.append(getGerritUrl());
@@ -291,7 +291,7 @@ public abstract class OutgoingEmail {
     }
   }
 
-  private void add(final RecipientType rt, final UserIdentity who) {
+  protected void add(final RecipientType rt, final UserIdentity who) {
     if (who != null && who.getAccount() != null) {
       add(rt, who.getAccount());
     }

@@ -122,7 +122,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   protected abstract void formatChange() throws EmailException;
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
-  protected void init() {
+  protected void init() throws EmailException {
     if (args.projectCache != null) {
       projectState = args.projectCache.get(change.getProject());
       projectName =
@@ -194,23 +194,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
   }
 
-  private void setChangeSubjectHeader() {
-    final StringBuilder subj = new StringBuilder();
-    subj.append("[");
-    subj.append(change.getDest().getShortName());
-    subj.append("] ");
-    subj.append("Change ");
-    subj.append(change.getKey().abbreviate());
-    subj.append(": (");
-    subj.append(projectName);
-    subj.append(") ");
-    if (change.getSubject().length() > 60) {
-      subj.append(change.getSubject().substring(0, 60));
-      subj.append("...");
-    } else {
-      subj.append(change.getSubject());
-    }
-    setHeader("Subject", subj.toString());
+  private void setChangeSubjectHeader() throws EmailException {
+    setHeader("Subject", velocifyFile("ChangeSubject.vm"));
   }
 
   /** Get a link to the change; null if the server doesn't know its own address. */
@@ -434,7 +419,10 @@ public abstract class ChangeEmail extends OutgoingEmail {
   protected void setupVelocityContext() {
     super.setupVelocityContext();
     velocityContext.put("change", change);
+    velocityContext.put("changeId", change.getKey());
+    velocityContext.put("coverLetter", getCoverLetter());
     velocityContext.put("branch", change.getDest());
+    velocityContext.put("fromName", getNameFor(fromId));
     velocityContext.put("projectName", projectName);
     velocityContext.put("patchSet", patchSet);
     velocityContext.put("patchSetInfo", patchSetInfo);

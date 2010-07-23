@@ -22,10 +22,6 @@ import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitReceivePackGroupsProvider;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroupsProvider;
-import com.google.gerrit.server.config.ProjectCreatorGroups;
-import com.google.gerrit.server.config.ProjectCreatorGroupsProvider;
-import com.google.gerrit.server.config.ProjectOwnerGroups;
-import com.google.gerrit.server.config.ProjectOwnerGroupsProvider;
 import com.google.inject.TypeLiteral;
 
 import java.util.Set;
@@ -33,14 +29,6 @@ import java.util.Set;
 public class AccessControlModule extends FactoryModule {
   @Override
   protected void configure() {
-    bind(new TypeLiteral<Set<AccountGroup.Id>>() {}) //
-        .annotatedWith(ProjectCreatorGroups.class) //
-        .toProvider(ProjectCreatorGroupsProvider.class).in(SINGLETON);
-
-    bind(new TypeLiteral<Set<AccountGroup.Id>>() {}) //
-        .annotatedWith(ProjectOwnerGroups.class) //
-        .toProvider(ProjectOwnerGroupsProvider.class).in(SINGLETON);
-
     bind(new TypeLiteral<Set<AccountGroup.Id>>() {}) //
         .annotatedWith(GitUploadPackGroups.class) //
         .toProvider(GitUploadPackGroupsProvider.class).in(SINGLETON);

@@ -93,6 +93,7 @@ public class SchemaCreator {
     initPushUpdateBranchCategory(db);
     initForgeIdentityCategory(db, sConfig);
     initWildCardProject(db);
+    initCreateProjectCategory(db, sConfig);
 
     final SqlDialect d = jdbc.getDialect();
     if (d instanceof DialectH2) {
@@ -354,6 +355,28 @@ public class SchemaCreator {
     right.setMinValue(ApprovalCategory.FORGE_AUTHOR);
     right.setMaxValue(ApprovalCategory.FORGE_AUTHOR);
     c.refRights().insert(Collections.singleton(right));
+  }
+
+  private void initCreateProjectCategory(final ReviewDb c,
+      final SystemConfig sConfig) throws OrmException {
+    final ApprovalCategory cat;
+    final ArrayList<ApprovalCategoryValue> vals;
+
+    cat = new ApprovalCategory(ApprovalCategory.CREATE_PROJECT, "Create Project");
+    cat.setPosition((short) -1);
+    cat.setFunctionName(NoOpFunction.NAME);
+    vals = new ArrayList<ApprovalCategoryValue>();
+    vals.add(value(cat, 1, "Create Projects under this"));
+    c.approvalCategories().insert(Collections.singleton(cat));
+    c.approvalCategoryValues().insert(vals);
+
+    final RefRight.RefPattern pattern = new RefRight.RefPattern(RefRight.ALL);
+    final RefRight approve =
+        new RefRight(new RefRight.Key(DEFAULT_WILD_NAME, pattern, cat.getId(),
+            sConfig.adminGroupId));
+    approve.setMaxValue((short) 1);
+    approve.setMinValue((short) 1);
+    c.refRights().insert(Collections.singleton(approve));
   }
 
   private static ApprovalCategoryValue value(final ApprovalCategory cat,

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA3H///eE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-23T17:21:44Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "AAAA3H///eg\u003d",
+      "revId": "7f9bc24521b38222c80ed3f57fcbf8de032a6203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3H///ek\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ReplacePatchSetSender.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2010-07-23T17:12:06Z",
       "side": 1,
       "message": "Maybe push this and getPullUrl up into ChangeEmail and thus reuse this code with the NewChangeSender?",
+      "revId": "7f9bc24521b38222c80ed3f57fcbf8de032a6203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///d0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ReplacePatchSetSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-23T17:21:44Z",
+      "side": 1,
+      "message": "I would like to do that, but when I tried I had problems because of the sshInfo not being injected in ChangeEmail.  This is certainly on my list and if you can work through the technical problems for this with me, I would like to submit another future patch to do that.  In the meantime, these changes are valuable on their own as preparations for templating.",
+      "parentUuid": "AAAA3H///eo\u003d",
       "revId": "7f9bc24521b38222c80ed3f57fcbf8de032a6203",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

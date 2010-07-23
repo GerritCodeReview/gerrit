@@ -56,7 +56,7 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() {
+  protected void init() throws EmailException {
     super.init();
 
     ccAllApprovals();
@@ -65,7 +65,7 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void formatChange() {
+  protected void formatChange() throws EmailException {
     if (!"".equals(getCoverLetter()) || !inlineComments.isEmpty()) {
       appendText("Comments on Patch Set " + patchSet.getPatchSetId() + ":\n");
       appendText("\n");

@@ -1,0 +1,121 @@
+Gerrit Code Review - Mail Templates
+===================================
+
+Gerrit uses velocity templates for the bulk of the standard mails it sends out.
+There are builtin default templates which are used if they are not overridden.
+These defaults are also provided as examples so that administrators may copy
+them and easily modify them to tweak their contents.
+
+
+Template Locations and Extensions:
+----------------------------------
+
+The default example templates reside under:  `'$site_path'/etc/mail` and are
+terminated with the double extension `.vm.example`. Modifying these example
+files will have no effect on the behavior of Gerrit.  However, copying an
+example template to an equivalently named file without the `.example` extension
+and modifying it will allow an administrator to customize the template.
+
+
+Supported Mail Templates:
+-------------------------
+
+Each mail that Gerrit sends out is controlled by at least one template, these
+are listed below.  Change emails are influenced by two additional templates,
+one to set the subject line, and one to set the footer which gets appended to
+all the change emails (see `ChangeSubject.vm` and `ChangeFooter.vm` below.)
+
+Merged.vm
+~~~~~~~~~
+
+The `Merged.vm` template will determine the contents of the email related to
+a change successfully merged to the head.  It is a `ChangeEmail`: see
+`ChangeSubject.vm` and `ChangeFooter.vm`.
+
+
+Mail Variables and Methods
+--------------------------
+
+Mail templates can access and display objects currently made available to them
+via the velocity context.  While the base objects are documented here, it is
+possible to call public methods on these objects from templates.  Those methods
+are not documented here since they could change with every release.  As these
+templates are meant to be modified only by a qualified sysadmin, it is accepted
+that writing templates for Gerrit emails is likely to require some basic
+knowledge of the class structure to be useful.  Browsing the source code might
+be necessary for anything more than a minor formatting change.
+
+Warning
+~~~~~~~
+
+Be aware that modifying templates can cause them to fail to parse and therefor
+not send out the actual email, or worse, calling methods on the available
+objects could have internal side effects which would adversely affect the
+health of your Gerrit server and/or data.
+
+All OutgoingEmails
+~~~~~~~~~~~~~~~~~~
+
+All outgoing emails have the following variables available to them:
+
+$email::
++
+A reference to the class constructing the current `OutgoingEmail`.  With this
+reference it is possible to call any public method on the OutgoingEmail class
+or the current child class inherited from it.
+
+$messageClass::
++
+A String containing the messageClass
+
+$StringUtils::
++
+A reference to the Apache `StringUtils` class.  This can be very useful for
+formatting strings.
+
+Change Emails
+~~~~~~~~~~~~~
+
+All change related emails have the following additional variables available to them:
+
+$change::
++
+A reference to the current `Change` object
+
+$changeId::
++
+Id of the current change (a `Change.Key`)
+
+$coverLetter::
++
+The text of the `ChangeMessage`
+
+$branch::
++
+A reference to the branch of this change (a `Branch.NameKey`)
+
+$fromName::
++
+The name of the from user
+
+$projectName::
++
+The name of this change's project
+
+$patchSet::
++
+A reference to the current `PatchSet`
+
+$patchSetInfo::
++
+A reference to the current `PatchSetInfo`
+
+
+See Also
+--------
+
+* link:http://velocity.apache.org/[velocity]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

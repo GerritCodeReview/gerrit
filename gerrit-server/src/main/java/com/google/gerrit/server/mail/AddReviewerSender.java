@@ -32,7 +32,7 @@ public class AddReviewerSender extends NewChangeSender {
   }
 
   @Override
-  protected void init() {
+  protected void init() throws EmailException {
     super.init();
 
     ccExistingReviewers();

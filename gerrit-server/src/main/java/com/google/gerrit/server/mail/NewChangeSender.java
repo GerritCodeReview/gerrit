@@ -46,7 +46,7 @@ public abstract class NewChangeSender extends ChangeEmail {
   }
 
   @Override
-  protected void init() {
+  protected void init() throws EmailException {
     super.init();
 
     setHeader("Message-ID", getChangeMessageThreadId());
@@ -57,7 +57,7 @@ public abstract class NewChangeSender extends ChangeEmail {
   }
 
   @Override
-  protected void formatChange() {
+  protected void formatChange() throws EmailException {
     formatSalutation();
     formatChangeDetail();
 

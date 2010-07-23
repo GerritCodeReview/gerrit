@@ -124,7 +124,7 @@ public abstract class OutgoingEmail {
   protected abstract void format() throws EmailException;
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
-  protected void init() {
+  protected void init() throws EmailException {
     setupVelocityContext();
 
     smtpFromAddress = args.fromAddressGenerator.from(fromId);

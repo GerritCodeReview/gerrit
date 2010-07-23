@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA3H///eg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-23T17:12:06Z",
+      "side": 1,
+      "message": "We don\u0027t edit the copyright date.",
+      "revId": "7f9bc24521b38222c80ed3f57fcbf8de032a6203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///ek\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ReplacePatchSetSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-23T17:12:06Z",
+      "side": 1,
+      "message": "We don\u0027t edit the copyright date in Gerrit Code Review.",
+      "revId": "7f9bc24521b38222c80ed3f57fcbf8de032a6203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3H///eo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ReplacePatchSetSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-23T17:12:06Z",
+      "side": 1,
+      "message": "Maybe push this and getPullUrl up into ChangeEmail and thus reuse this code with the NewChangeSender?",
+      "revId": "7f9bc24521b38222c80ed3f57fcbf8de032a6203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

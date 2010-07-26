@@ -19,6 +19,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.SingleListChangeInfo;
+import com.google.gerrit.reviewdb.RevId;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
@@ -51,7 +52,7 @@ public class QueryScreen extends PagedSingleListScreen {
     return new GerritCallback<SingleListChangeInfo>() {
       public final void onSuccess(final SingleListChangeInfo result) {
         if (isAttached()) {
-          if (result.getChanges().size() == 1) {
+          if (result.getChanges().size() == 1 && isSingleQuery(query)) {
             final ChangeInfo c = result.getChanges().get(0);
             Gerrit.display(PageLinks.toChange(c), new ChangeScreen(c));
           } else {
@@ -72,5 +73,27 @@ public class QueryScreen extends PagedSingleListScreen {
   @Override
   protected void loadNext() {
     Util.LIST_SVC.allQueryNext(query, pos, pageSize, loadCallback());
+  }
+
+  private static boolean isSingleQuery(String query) {
+    if (query.matches("^[1-9][0-9]*$")) {
+      // Legacy numeric identifier.
+      //
+      return true;
+    }
+
+    if (query.matches("^[iI][0-9a-f]{4,}$")) {
+      // Newer style Change-Id.
+      //
+      return true;
+    }
+
+    if (query.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
+      // Commit SHA-1 of any change.
+      //
+      return true;
+    }
+
+    return false;
   }
 }

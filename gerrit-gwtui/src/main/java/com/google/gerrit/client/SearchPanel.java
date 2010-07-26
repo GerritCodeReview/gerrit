@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -137,7 +138,7 @@ class SearchPanel extends Composite {
     if (query.matches("^[1-9][0-9]*$")) {
       Gerrit.display(PageLinks.toChange(Change.Id.parse(query)));
     } else {
-      Gerrit.display(PageLinks.toChangeQuery(query));
+      Gerrit.display(PageLinks.toChangeQuery(query), QueryScreen.forQuery(query));
     }
   }
 }

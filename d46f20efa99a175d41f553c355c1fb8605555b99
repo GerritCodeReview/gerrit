@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA3X///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:06:53Z",
+      "side": 1,
+      "message": "We can\u0027t do this, it may conflict with the log4j appender that is already writing to the error log.\n\nSee http://www.java2s.com/Code/Java/Velocity/HowtouseanexistingLog4jCategeoryastheVelocityloggingtarget.htm",
+      "revId": "d46f20efa99a175d41f553c355c1fb8605555b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:06:53Z",
+      "side": 1,
+      "message": "Even though Velocity allows us to initialize it multiple times, that is insane.  We should only do this once through a LifecycleListener.",
+      "revId": "d46f20efa99a175d41f553c355c1fb8605555b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:06:53Z",
+      "side": 1,
+      "message": "An initialization error should cause the server to abort during startup.  If we can\u0027t bring up Velocity its because our code isn\u0027t setting it up right.  If our code is buggy/wrong, we shouldn\u0027t be running.",
+      "revId": "d46f20efa99a175d41f553c355c1fb8605555b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///+c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:06:53Z",
+      "side": 1,
+      "message": "We shouldn\u0027t return the template.  We should wrap the exception into an EmailException and throw that to the caller.  The caller will handle it by skipping delivery of the email but logging the failure for the administrator.",
+      "revId": "d46f20efa99a175d41f553c355c1fb8605555b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///+I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:06:53Z",
+      "side": 1,
+      "message": "Style-nit: We cuddle catch with the closing brace on the prior line.",
+      "revId": "d46f20efa99a175d41f553c355c1fb8605555b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:06:53Z",
+      "side": 1,
+      "message": "Wouldn\u0027t we rather report that the embedded template in the WAR wasn\u0027t found?",
+      "revId": "d46f20efa99a175d41f553c355c1fb8605555b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:06:53Z",
+      "side": 1,
+      "message": "Same as velocify above.  We shouldn\u0027t return an error string, we should be throwing an exception instead.",
+      "revId": "d46f20efa99a175d41f553c355c1fb8605555b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

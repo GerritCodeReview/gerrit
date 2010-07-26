@@ -16,6 +16,24 @@
       "revId": "5fb1356018e6bfb4287ebf7cfc25ce8f584d7797",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///7w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-26T21:39:04Z",
+      "side": 1,
+      "message": "I can remove this and resubmit, no problem.\n\nOne thing to think about is that removing the checks actually makes things a bit simpler because velocity is \"smart\" enough to be able to do a.b() w/o having to check if a is null.  After all, the only thing we care about is whether there is a value or not, why force a distinction between null and blank?  This makes it operate a bit more like a scripting language.  For simple string formatting that is often an advantage and safer in the long run since it means that a missing null check cannot creep in very easily in the future.",
+      "parentUuid": "AAAA3X///8I\u003d",
+      "revId": "5fb1356018e6bfb4287ebf7cfc25ce8f584d7797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -30,6 +30,7 @@ import static com.google.gerrit.common.PageLinks.SETTINGS_PREFERENCES;
 import static com.google.gerrit.common.PageLinks.SETTINGS_PROJECTS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_SSHKEYS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_WEBIDENT;
+import static com.google.gerrit.common.PageLinks.op;
 
 import com.google.gerrit.client.account.MyAgreementsScreen;
 import com.google.gerrit.client.account.MyContactInformationScreen;
@@ -202,7 +203,7 @@ public class Dispatcher {
       final int c = s.indexOf(',');
       Project.NameKey proj = Project.NameKey.parse(s.substring(0, c));
       return QueryScreen.forQuery( //
-          "status:open " + QueryScreen.op("project", proj.get()), //
+          "status:open " + op("project", proj.get()), //
           s.substring(c + 1));
     }
 
@@ -212,7 +213,7 @@ public class Dispatcher {
       final int c = s.indexOf(',');
       Project.NameKey proj = Project.NameKey.parse(s.substring(0, c));
       return QueryScreen.forQuery( //
-          "status:merged " + QueryScreen.op("project", proj.get()), //
+          "status:merged " + op("project", proj.get()), //
           s.substring(c + 1));
     }
 
@@ -222,7 +223,7 @@ public class Dispatcher {
       final int c = s.indexOf(',');
       Project.NameKey proj = Project.NameKey.parse(s.substring(0, c));
       return QueryScreen.forQuery( //
-          "status:abandoned " + QueryScreen.op("project", proj.get()), //
+          "status:abandoned " + op("project", proj.get()), //
           s.substring(c + 1));
     }
 

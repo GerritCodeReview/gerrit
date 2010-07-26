@@ -115,7 +115,8 @@ public class ProjectServlet extends GitServlet {
         StringBuilder r = new StringBuilder();
         r.append(urlProvider.get());
         r.append('#');
-        r.append(PageLinks.toProject(dst, Change.Status.NEW));
+        r.append(PageLinks.toChangeQuery(PageLinks.projectQuery(dst,
+            Change.Status.NEW)));
         rsp.sendRedirect(r.toString());
       }
     });

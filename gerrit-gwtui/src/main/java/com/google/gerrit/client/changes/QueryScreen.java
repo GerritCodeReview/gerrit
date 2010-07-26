@@ -24,13 +24,6 @@ import com.google.gwtorm.client.KeyUtil;
 
 
 public class QueryScreen extends PagedSingleListScreen {
-  public static String op(String name, String value) {
-    if (value.indexOf(' ') >= 0) {
-      return name + ":\"" + value + "\"";
-    }
-    return name + ":" + value;
-  }
-
   public static QueryScreen forQuery(String query) {
     return forQuery(query, PageLinks.TOP);
   }

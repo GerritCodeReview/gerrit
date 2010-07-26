@@ -32,7 +32,7 @@ public class ProjectLink extends InlineHyperlink {
 
   public ProjectLink(final String text, final Project.NameKey proj,
       Change.Status stat) {
-    super(text, PageLinks.toProject(proj, stat));
+    super(text, PageLinks.toChangeQuery(PageLinks.projectQuery(proj, stat)));
     status = stat;
     project = proj;
   }
@@ -43,20 +43,6 @@ public class ProjectLink extends InlineHyperlink {
   }
 
   private Screen createScreen() {
-    switch (status) {
-      case ABANDONED:
-        return QueryScreen.forQuery("status:abandoned "
-            + QueryScreen.op("project", project.get()));
-
-      case MERGED:
-        return QueryScreen.forQuery("status:merged "
-            + QueryScreen.op("project", project.get()));
-
-      case NEW:
-      case SUBMITTED:
-      default:
-        return QueryScreen.forQuery("status:open "
-            + QueryScreen.op("project", project.get()));
-    }
+    return QueryScreen.forQuery(PageLinks.projectQuery(project, status));
   }
 }

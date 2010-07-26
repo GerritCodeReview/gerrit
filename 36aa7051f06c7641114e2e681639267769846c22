@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA3X///7k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-26T21:42:04Z",
+      "side": 1,
+      "message": "Hmm, I thought that there could be more than one reviewer, we are iterating over a variable called reviewers?",
+      "parentUuid": "AAAA3X///8Y\u003d",
+      "revId": "36aa7051f06c7641114e2e681639267769846c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3X///8U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
         "patchSetId": 1

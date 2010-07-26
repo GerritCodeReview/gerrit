@@ -257,6 +257,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA3X///7E\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/MergeFail.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-07-26T21:52:38Z",
+      "side": 1,
+      "message": "Sure, that would be easy.  \n\nIt\u0027s hard to draw the line between what to expose and what not. :)  I could expose everything that we currently use, but I am concerned that the names might be hard to guess for writers.  Naturally, I could document everything we expose, but I fear that while it might help to understand the current templates, it may not help those modifying the templates to do something we haven\u0027t predicted (likely why they are modifying them in the first place).\n\nMy guideline was:  \n\n1) if it is currently a variable that we use, expose it (because instance variable are not available to templates unless explicitly put in the context).\n\n2) If it was deal with by a current format function, or getter, simply make sure that it is available by a public getter.  This does not require putting tons of stuff in the context (public methods are autoamtically accessible via introspection as  $email.method())\n\nBut, of course, I am open to any guidelines (expose everything)?  Or, to simply dealing with each case one by one...",
+      "parentUuid": "AAAA3X///8w\u003d",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3X///80\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/MergeFail.vm",
         "patchSetId": 1

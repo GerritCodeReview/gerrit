@@ -1,0 +1,276 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA3X///8s\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "Style-nit: No space after method name before parameter list.",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///8o\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/SitePathInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "The leading \"/\" isn\u0027t necessary.  The JRE will insert a \"/\" or \"\\\" for you depending on the operating system its running on.",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///8k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/AbandonedSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "Most ChangeEmails have a fromName.  We should just set this up in the higher level ChangeEmail class rather than per-sender.",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///90\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Abandoned.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "We prefer the generic AOSP name in our copyright statements.",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///9o\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Abandoned.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "This is a BSD header.  Is there any reason why we can\u0027t license the templates under Apache License 2.0 like the rest of Gerrit Code Review?",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///9k\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Abandoned.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "s/Abandonned/Abandoned/",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///9g\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Abandoned.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "s/abandonned/abandoned/",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///9c\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Abandoned.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "s/Writting/Writing/",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///9Y\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Abandoned.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "s/apaache/Apache/",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///9U\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Abandoned.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "s/usefull/useful/",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///9Q\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Abandoned.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "s/bracn/branch/",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///9E\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Abandoned.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "Document $fromName above?",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///9A\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/MergeFail.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "Same comments as Abandoned.vm about the copyright header.",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///88\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/MergeFail.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "s/bracn/branch/",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///8w\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/MergeFail.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "Maybe we should expose $changeIdAbbrev as a variable holding change.key.abbreviate() and $changeId holding the full string.  That might help template authors a bit.",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///80\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/MergeFail.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:18:21Z",
+      "side": 1,
+      "message": "Maybe we should just expose coverLetter as a variable?",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

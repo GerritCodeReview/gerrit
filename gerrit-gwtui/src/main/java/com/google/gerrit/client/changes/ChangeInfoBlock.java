@@ -18,6 +18,7 @@ import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.AccountDashboardLink;
+import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.data.AccountInfoCache;
@@ -83,8 +84,10 @@ public class ChangeInfoBlock extends Composite {
 
     table.setWidget(R_OWNER, 1, AccountDashboardLink.link(acc, chg.getOwner()));
     table.setWidget(R_PROJECT, 1, new ProjectLink(chg.getProject(), chg.getStatus()));
-    table.setText(R_BRANCH, 1, dst.getShortName());
-    table.setText(R_TOPIC, 1, chg.getTopic());
+    table.setWidget(R_BRANCH, 1, new BranchLink(dst.getShortName(), chg
+        .getProject(), chg.getStatus(), dst.get(), null));
+    table.setWidget(R_TOPIC, 1, new BranchLink(chg.getTopic(),
+        chg.getProject(), chg.getStatus(), dst.get(), chg.getTopic()));
     table.setText(R_UPLOADED, 1, mediumFormat(chg.getCreatedOn()));
     table.setText(R_UPDATED, 1, mediumFormat(chg.getLastUpdatedOn()));
     table.setText(R_STATUS, 1, Util.toLongString(chg.getStatus()));

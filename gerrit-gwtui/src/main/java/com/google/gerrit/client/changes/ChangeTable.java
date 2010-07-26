@@ -21,6 +21,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
+import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
@@ -226,12 +227,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setWidget(row, C_OWNER, link(c.getOwner()));
     table.setWidget(row, C_PROJECT, new ProjectLink(c.getProject().getKey(), c
         .getStatus()));
-
-    String branchText = c.getBranch();
-    if (c.getTopic() != null) {
-      branchText += " (" + c.getTopic() + ")";
-    }
-    table.setText(row, C_BRANCH, branchText);
+    table.setWidget(row, C_BRANCH, new BranchLink(c.getProject().getKey(), c
+        .getStatus(), c.getBranch(), c.getTopic()));
     table.setText(row, C_LAST_UPDATE, shortFormat(c.getLastUpdatedOn()));
     setRowItem(row, c);
   }

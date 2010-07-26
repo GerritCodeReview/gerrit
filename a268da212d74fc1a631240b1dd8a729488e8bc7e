@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA3X///7A\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/BaseEdit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T22:14:50Z",
+      "side": 1,
+      "message": "You should move the Edit_JsonSerializer and EditDeserializer out of gerrit-patch-jgit and over to this package, along with changing them to use this package\u0027s BaseEdit.",
+      "revId": "a268da212d74fc1a631240b1dd8a729488e8bc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///7o\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/BaseEdit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T22:14:50Z",
+      "side": 1,
+      "message": "We should just remove ReplaceEdit.  Its our own private hacked class.",
+      "revId": "a268da212d74fc1a631240b1dd8a729488e8bc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///7g\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/BaseEdit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T22:14:50Z",
+      "side": 1,
+      "message": "The name \"gwtOrmEdits\" doesn\u0027t mean much here.  Maybe \"res\", \"result\", \"out\", \"r\" would be better?",
+      "revId": "a268da212d74fc1a631240b1dd8a729488e8bc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///7Y\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/BaseEdit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T22:14:50Z",
+      "side": 1,
+      "message": "Do we still need this if we implement getType?",
+      "revId": "a268da212d74fc1a631240b1dd8a729488e8bc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///7U\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/BaseEdit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T22:14:50Z",
+      "side": 1,
+      "message": "Do we still need this if we implement getType?",
+      "revId": "a268da212d74fc1a631240b1dd8a729488e8bc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///7Q\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/BaseEdit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T22:14:50Z",
+      "side": 1,
+      "message": "Do we still need this if we implement getType?",
+      "revId": "a268da212d74fc1a631240b1dd8a729488e8bc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///64\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CacheProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T22:14:50Z",
+      "side": 1,
+      "message": "These shouldn\u0027t ever be returning null here.  They throw an exception if the decode would fail, which is unfortunately just RuntimeException.  So instead:\n\n  try {\n    keyCodec.decode(new byte[0]);\n  } catch (RuntimeException err) {\n    throw new IllegalStateException(\"Cannot support \"\n      + keyClass + \" in protobuf format\", err);\n  }",
+      "revId": "a268da212d74fc1a631240b1dd8a729488e8bc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///60\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T22:14:50Z",
+      "side": 1,
+      "message": "Style-nit: Space between ) and {",
+      "revId": "a268da212d74fc1a631240b1dd8a729488e8bc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///6k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T22:14:50Z",
+      "side": 1,
+      "message": "s/Char/Code/",
+      "revId": "a268da212d74fc1a631240b1dd8a729488e8bc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///6g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T22:14:50Z",
+      "side": 1,
+      "message": "s/Char/Code/",
+      "revId": "a268da212d74fc1a631240b1dd8a729488e8bc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///6s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T22:14:50Z",
+      "side": 1,
+      "message": "IIRC this won\u0027t quite work.  We\u0027ll use a BaseEdit type of ProtobufCodec, which won\u0027t look at the ReplaceEdit subclass\u0027 additional field.  So the data won\u0027t serialize out, nor would it serialize in.  Yikes.\n\nWe probably need to just have one class with 5 fields (the 4 ints and the intraline edits) and determine if its a ReplaceEdit by checking to see if the intraline edit list !\u003d null and !isEmpty().",
+      "revId": "a268da212d74fc1a631240b1dd8a729488e8bc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///6o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T22:14:50Z",
+      "side": 1,
+      "message": "s/Char/Code/",
+      "revId": "a268da212d74fc1a631240b1dd8a729488e8bc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///6c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshKeyCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T22:14:50Z",
+      "side": 1,
+      "message": "These magical values (NO_KEYS, NO_SUCH_USER) are going to be trouble.  We can\u0027t tell them apart the empty list that was stored in the cache because they all serialize out the same way, so they deserialize into an empty list.\n\nYou probably need to add a field to the SshKeyCacheEntryIterable to tell us what type of entry it is, and get rid of the magical constants NO_KEYS, NO_SUCH_USER and use that field to tell us what magical type it is.",
+      "revId": "a268da212d74fc1a631240b1dd8a729488e8bc7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA3X///8Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:24:42Z",
+      "side": 1,
+      "message": "IMHO I would have called this getReviewerNames().  Its the names that are plural here not the reviewers.",
+      "revId": "36aa7051f06c7641114e2e681639267769846c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///8U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:24:42Z",
+      "side": 1,
+      "message": "Style-nit: Space between if and (",
+      "revId": "36aa7051f06c7641114e2e681639267769846c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///8c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:24:42Z",
+      "side": 1,
+      "message": "Since you are completely rewriting this code, lets fix the for loop to be the more simple Java-5 style:\n\n  for (Account.Id id : reviewers)",
+      "revId": "36aa7051f06c7641114e2e681639267769846c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///8Q\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/NewChange.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-26T21:24:42Z",
+      "side": 1,
+      "message": "Same issue as your other change about the copyright header.",
+      "revId": "36aa7051f06c7641114e2e681639267769846c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

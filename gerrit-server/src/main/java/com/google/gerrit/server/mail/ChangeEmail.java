@@ -174,7 +174,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Get a link to the change; null if the server doesn't know its own address. */
-  protected String getChangeUrl() {
+  public String getChangeUrl() {
     if (change != null && getGerritUrl() != null) {
       final StringBuilder r = new StringBuilder();
       r.append(getGerritUrl());
@@ -208,7 +208,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Get the text of the "cover letter", from {@link ChangeMessage}. */
-  protected String getCoverLetter() {
+  public String getCoverLetter() {
     if (changeMessage != null) {
       final String txt = changeMessage.getMessage();
       if (txt != null) {

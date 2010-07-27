@@ -37,6 +37,12 @@ ChangeSubject.vm
 The `ChangeSubject.vm` template will determine the contents of the email
 subject line for ALL emails related to changes.
 
+Comment.vm
+~~~~~~~~~~
+
+The `Comment.vm` template will determine the contents of the email related to
+a user submitting comments on changes.  It is a `ChangeEmail`: see
+
 Merged.vm
 ~~~~~~~~~
 

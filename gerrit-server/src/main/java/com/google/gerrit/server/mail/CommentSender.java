@@ -66,19 +66,12 @@ public class CommentSender extends ReplyToChangeSender {
 
   @Override
   protected void formatChange() throws EmailException {
-    if (!"".equals(getCoverLetter()) || !inlineComments.isEmpty()) {
-      appendText("Comments on Patch Set " + patchSet.getPatchSetId() + ":\n");
-      appendText("\n");
-      formatCoverLetter();
-      formatInlineComments();
-      if (getChangeUrl() != null) {
-        appendText("To respond, visit " + getChangeUrl() + "\n");
-        appendText("\n");
-      }
-    }
+    appendText(velocifyFile("Comment.vm"));
   }
 
-  private void formatInlineComments() {
+  public String getInlineComments() {
+    StringBuilder  cmts = new StringBuilder();
+
     final Repository repo = getRepository();
     try {
       final PatchList patchList = repo != null ? getPatchList() : null;
@@ -91,10 +84,10 @@ public class CommentSender extends ReplyToChangeSender {
         final short side = c.getSide();
 
         if (!pk.equals(currentFileKey)) {
-          appendText("....................................................\n");
-          appendText("File ");
-          appendText(pk.get());
-          appendText("\n");
+          cmts.append("....................................................\n");
+          cmts.append("File ");
+          cmts.append(pk.get());
+          cmts.append("\n");
           currentFileKey = pk;
 
           if (patchList != null) {
@@ -109,26 +102,27 @@ public class CommentSender extends ReplyToChangeSender {
           }
         }
 
-        appendText("Line " + lineNbr);
+        cmts.append("Line " + lineNbr);
         if (currentFileData != null) {
           try {
             final String lineStr = currentFileData.getLine(side, lineNbr);
-            appendText(": ");
-            appendText(lineStr);
+            cmts.append(": ");
+            cmts.append(lineStr);
           } catch (Throwable cce) {
             // Don't quote the line if we can't safely convert it.
           }
         }
-        appendText("\n");
+        cmts.append("\n");
 
-        appendText(c.getMessage().trim());
-        appendText("\n\n");
+        cmts.append(c.getMessage().trim());
+        cmts.append("\n\n");
       }
     } finally {
       if (repo != null) {
         repo.close();
       }
     }
+    return cmts.toString();
   }
 
   private Repository getRepository() {

@@ -87,6 +87,7 @@ public class SitePathInitializer {
 
     extractMailExample("ChangeFooter.vm");
     extractMailExample("ChangeSubject.vm");
+    extractMailExample("Comment.vm");
     extractMailExample("Merged.vm");
 
     if (!ui.isBatch()) {

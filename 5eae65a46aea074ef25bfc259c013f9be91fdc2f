@@ -223,6 +223,23 @@
     },
     {
       "key": {
+        "uuid": "AAAA3X///0s\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/MergeFail.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-27T14:53:51Z",
+      "side": 1,
+      "message": "We probably should document all of this in a Documentation/ page.  It might actually be easier because then you don\u0027t need to repeat yourself in the template headers.  Just link to the documentation from the template.",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3X///88\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/MergeFail.vm",
         "patchSetId": 1
@@ -269,6 +286,24 @@
       "side": 1,
       "message": "Sure, that would be easy.  \n\nIt\u0027s hard to draw the line between what to expose and what not. :)  I could expose everything that we currently use, but I am concerned that the names might be hard to guess for writers.  Naturally, I could document everything we expose, but I fear that while it might help to understand the current templates, it may not help those modifying the templates to do something we haven\u0027t predicted (likely why they are modifying them in the first place).\n\nMy guideline was:  \n\n1) if it is currently a variable that we use, expose it (because instance variable are not available to templates unless explicitly put in the context).\n\n2) If it was deal with by a current format function, or getter, simply make sure that it is available by a public getter.  This does not require putting tons of stuff in the context (public methods are autoamtically accessible via introspection as  $email.method())\n\nBut, of course, I am open to any guidelines (expose everything)?  Or, to simply dealing with each case one by one...",
       "parentUuid": "AAAA3X///8w\u003d",
+      "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///0w\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/MergeFail.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-27T14:53:51Z",
+      "side": 1,
+      "message": "OK, I see your point.  If we expose everything people won\u0027t learn how to dig around the graph.  If we expose very little, it gets hard to dig around the graph and get what you need in a template.\n\nI think my objection to $change.key is the name doesn\u0027t match what an end-user thinks of this value as.  We call it Change-Id to the end-user, but internally I had to use something else because of a past mistake in the API.  Perhaps you can store $change.key as $changeId in the context just to give a better name to the entity.  So templates can say $changeId.abbreviate() to get the abbreviated form, and when we correct the internal code to stop calling it \"getKey\" we won\u0027t break templates everywhere.\n\nBut exporting everything as variables would get complicated fast, so lets not do that.",
+      "parentUuid": "AAAA3X///7E\u003d",
       "revId": "5eae65a46aea074ef25bfc259c013f9be91fdc2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

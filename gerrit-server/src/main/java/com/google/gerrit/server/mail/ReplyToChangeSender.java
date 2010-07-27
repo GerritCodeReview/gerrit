@@ -23,7 +23,7 @@ public abstract class ReplyToChangeSender extends ChangeEmail {
   }
 
   @Override
-  protected void init() {
+  protected void init() throws EmailException {
     super.init();
 
     final String threadId = getChangeMessageThreadId();

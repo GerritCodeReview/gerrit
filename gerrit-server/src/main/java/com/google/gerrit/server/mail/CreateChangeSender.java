@@ -40,7 +40,7 @@ public class CreateChangeSender extends NewChangeSender {
   }
 
   @Override
-  protected void init() {
+  protected void init() throws EmailException {
     super.init();
 
     bccWatchers();

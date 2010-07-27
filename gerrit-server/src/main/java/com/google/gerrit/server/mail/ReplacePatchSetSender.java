@@ -53,7 +53,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() {
+  protected void init() throws EmailException {
     super.init();
 
     if (fromId != null) {
@@ -67,7 +67,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void formatChange() {
+  protected void formatChange() throws EmailException {
     formatSalutation();
     formatChangeDetail();
 

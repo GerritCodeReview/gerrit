@@ -31,6 +31,7 @@ Configuration
 * link:config-sso.html[Single Sign-On Systems]
 * link:config-apache2.html[Apache 2 Reverse Proxy]
 * link:config-hooks.html[Hooks]
+* link:config-mail.html[Mail Templates]
 
 Developer Documentation
 -----------------------

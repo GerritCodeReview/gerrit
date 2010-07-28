@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA3X///m0\u003d",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:26:40Z",
+      "side": 1,
+      "message": "s/pulic/public/",
+      "revId": "c712d7207a979bb988e96ca4ae29261b380c4ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///mw\u003d",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:26:40Z",
+      "side": 1,
+      "message": "We should document the Java type here so its easier for an admin to digging in our sources and figure out what methods are available to them on their version of Gerrit.",
+      "revId": "c712d7207a979bb988e96ca4ae29261b380c4ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///ms\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/Abandoned.vm",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:26:40Z",
+      "side": 1,
+      "message": "s/;/:/",
+      "revId": "c712d7207a979bb988e96ca4ae29261b380c4ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///mo\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/MergeFail.vm",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:26:40Z",
+      "side": 1,
+      "message": "s/;/:/",
+      "revId": "c712d7207a979bb988e96ca4ae29261b380c4ffe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

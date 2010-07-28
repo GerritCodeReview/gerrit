@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA3n////U\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/Edit_JsonSerializer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T22:06:03Z",
+      "side": 1,
+      "message": "Needs to be called LineEdit_JsonSerializer and the type needs to be LineEdit (not BaseEdit).",
+      "revId": "73cc69e1a0a881b6f925742340b6bcc0d63e6251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3n////Q\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/Edit_JsonSerializer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T22:06:03Z",
+      "side": 1,
+      "message": "Should be o.getEdits() !\u003dnull",
+      "revId": "73cc69e1a0a881b6f925742340b6bcc0d63e6251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3n////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T22:06:03Z",
+      "side": 1,
+      "message": "These inner edits should be BaseEdits not LineEdits.",
+      "revId": "73cc69e1a0a881b6f925742340b6bcc0d63e6251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

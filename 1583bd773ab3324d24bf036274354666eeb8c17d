@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA3X///ns\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchScript.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:07:56Z",
+      "side": 1,
+      "message": "Should be LineEdit.",
+      "revId": "1583bd773ab3324d24bf036274354666eeb8c17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///nk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:07:56Z",
+      "side": 1,
+      "message": "Should be LineEdit.",
+      "revId": "1583bd773ab3324d24bf036274354666eeb8c17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///n0\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/BaseEdit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:07:56Z",
+      "side": 1,
+      "message": "Style-nit: The local variable goe is pointless.  Just return the new  BaseEdit.",
+      "revId": "1583bd773ab3324d24bf036274354666eeb8c17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///no\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/EditDeserializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:07:56Z",
+      "side": 1,
+      "message": "Should be LineEdit.",
+      "revId": "1583bd773ab3324d24bf036274354666eeb8c17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///nc\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/EditDeserializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:07:56Z",
+      "side": 1,
+      "message": "Use a new LineEdit(...., null).",
+      "revId": "1583bd773ab3324d24bf036274354666eeb8c17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///nY\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/EditDeserializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:07:56Z",
+      "side": 1,
+      "message": "Should be instead if src.getEdits() !\u003d null",
+      "revId": "1583bd773ab3324d24bf036274354666eeb8c17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///nw\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/Edit_JsonSerializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:07:56Z",
+      "side": 1,
+      "message": "This class has to be called LineEdit_JsonSerializer and take a LineEdit.",
+      "revId": "1583bd773ab3324d24bf036274354666eeb8c17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///nQ\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/Edit_JsonSerializer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:07:56Z",
+      "side": 1,
+      "message": "Same as with the other class, should be o.getEdits() !\u003dnull",
+      "revId": "1583bd773ab3324d24bf036274354666eeb8c17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///ng\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/LineEdit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:07:56Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "1583bd773ab3324d24bf036274354666eeb8c17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///nI\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/PrettyFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:07:56Z",
+      "side": 1,
+      "message": "Should be LineEdit.",
+      "revId": "1583bd773ab3324d24bf036274354666eeb8c17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///nM\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/PrettyFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:07:56Z",
+      "side": 1,
+      "message": "We can\u0027t rely on instanceof here.  We need to instead ask if curEdit.getEdits() !\u003d null.",
+      "revId": "1583bd773ab3324d24bf036274354666eeb8c17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///nE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:07:56Z",
+      "side": 1,
+      "message": "Should be LineEdit here.",
+      "revId": "1583bd773ab3324d24bf036274354666eeb8c17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///nA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:07:56Z",
+      "side": 1,
+      "message": "Should be e.getEdits() !\u003d null",
+      "revId": "1583bd773ab3324d24bf036274354666eeb8c17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3X///m8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshKeyCacheEntryCollection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T01:07:56Z",
+      "side": 1,
+      "message": "Enums aren\u0027t protobuf encodable.",
+      "revId": "1583bd773ab3324d24bf036274354666eeb8c17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

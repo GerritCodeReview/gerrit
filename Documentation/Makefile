@@ -32,6 +32,7 @@ LOCAL_ROOT    := .published
 SCRIPTSDIR    := $(shell pwd)/javascript
 COMMIT        := $(shell git describe HEAD | sed s/^v//)
 PUB_DIR       := $(PUB_ROOT)/$(VERSION)
+PRIOR          = PRIOR
 
 ifeq ($(VERSION),)
   REVISION = $(COMMIT)
@@ -52,9 +53,8 @@ endif
 	@-rm -rf $(LOCAL_ROOT)
 	@echo "Checking out current $(VERSION)"
 	@if ! $(SVN) checkout $(PUB_DIR) $(LOCAL_ROOT) 2>/dev/null ; then \
-		p=$$(git describe HEAD^ | perl -lne 'print $$1 if /^v(\d+\.\d+(?:\.\d+)?)/') && \
-		echo "Copying $$p to $(VERSION) ..." && \
-		$(SVN) cp -m "Create $(VERSION) documentation" $(PUB_ROOT)/$$p $(PUB_DIR) && \
+		echo "Copying $(PRIOR) to $(VERSION) ..." && \
+		$(SVN) cp -m "Create $(VERSION) documentation" $(PUB_ROOT)/$(PRIOR) $(PUB_DIR) && \
 		$(SVN) checkout $(PUB_DIR) $(LOCAL_ROOT) ; \
 	fi
 	@rm -f $(LOCAL_ROOT)/*.html

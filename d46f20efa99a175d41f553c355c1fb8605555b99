@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAA3n////s\u003d",
+        "filename": "gerrit-server/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-28T21:52:45Z",
+      "side": 1,
+      "message": "Please also mention this in Documentation/licenses.txt.",
+      "revId": "d46f20efa99a175d41f553c355c1fb8605555b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3X///+Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
         "patchSetId": 4

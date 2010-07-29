@@ -88,7 +88,6 @@ import org.eclipse.jgit.diff.RawTextIgnoreAllWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreTrailingWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreWhitespaceChange;
 import org.eclipse.jgit.diff.RenameDetector;
-import org.eclipse.jgit.diff.ReplaceEdit;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -233,71 +232,6 @@ public class PatchListCacheImpl implements PatchListCache {
         entries[i] = newEntry(repo, aTree, bTree, fh);
       }
       return new PatchList(a, b, computeIntraline, entries);
-    }
-
-    private void outputDiff(PrintStream out, String path, ObjectId id1,
-        FileMode mode1, ObjectId id2, FileMode mode2, Repository repo,
-        Whitespace ws) throws IOException {
-      DiffFormatter fmt = new DiffFormatter();
-
-      String name1 = "a/" + path;
-      if (needsQuoting(name1)) {
-        name1 = QuotedString.GIT_PATH.quote(name1);
-      }
-      String name2 = "b/" + path;
-      if (needsQuoting(name2)) {
-        name2 = QuotedString.GIT_PATH.quote(name2);
-      }
-
-      out.print("diff --git " + name1 + " " + name2 + "\n");
-
-      boolean isNew = FileMode.MISSING.equals(mode1);
-      boolean isDelete = FileMode.MISSING.equals(mode2);
-
-      if (isNew) {
-        out.print("new file mode " + mode2 + "\n");
-      } else if (isDelete) {
-        out.print("deleted file mode " + mode1 + "\n");
-      } else if (!mode1.equals(mode2)) {
-        out.print("old mode " + mode1 + "\n");
-        out.print("new mode " + mode2 + "\n");
-      }
-      out.print("index " + id1.abbreviate(repo, 7).name() + ".."
-          + id2.abbreviate(repo, 7).name()
-          + (mode1.equals(mode2) ? " " + mode1 : "") + "\n");
-      out.print("--- " + (isNew ? "/dev/null" : name1) + "\n");
-      out.print("+++ " + (isDelete ? "/dev/null" : name2) + "\n");
-      RawText a = getRawText(id1, repo, ws);
-      RawText b = getRawText(id2, repo, ws);
-      MyersDiff diff = new MyersDiff(a, b);
-      fmt.formatEdits(out, a, b, diff.getEdits());
-    }
-
-    private static boolean needsQuoting(String path) {
-      // We should quote the path if the quoted form of the path
-      // differs by more than simply having a leading and trailing
-      // double quote added.
-      //
-      return !QuotedString.GIT_PATH.quote(path).equals('"' + path + '"');
-    }
-
-    private RawText getRawText(ObjectId id, Repository repo, Whitespace ws)
-        throws IOException {
-      if (id.equals(ObjectId.zeroId())) {
-        return new RawText(new byte[] {});
-      }
-      byte[] raw = repo.openBlob(id).getCachedBytes();
-      switch (ws) {
-        case IGNORE_ALL_SPACE:
-          return new RawTextIgnoreAllWhitespace(raw);
-        case IGNORE_SPACE_AT_EOL:
-          return new RawTextIgnoreTrailingWhitespace(raw);
-        case IGNORE_SPACE_CHANGE:
-          return new RawTextIgnoreWhitespaceChange(raw);
-        case IGNORE_NONE:
-        default:
-          return new RawText(raw);
-      }
     }
 
     private static List<LineEdit> editsToLineEdits(List<Edit> edits) {

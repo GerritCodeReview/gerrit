@@ -26,6 +26,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gwtorm.client.Column;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -57,35 +58,52 @@ public class PatchList implements Serializable {
       };
 
   @Nullable
+  @Column(id = 1)
+  protected String oldIdName;
+
+  @Column(id = 2)
+  protected String newIdName;
+
+  @Column(id = 3)
+  protected boolean intralineDifference;
+
+  @Column(id = 4)
+  protected List<PatchListEntry> patches;
+
   private transient ObjectId oldId;
   private transient ObjectId newId;
-  private transient boolean intralineDifference;
-  private transient PatchListEntry[] patches;
+
+  protected PatchList(){
+  }
 
   PatchList(@Nullable final AnyObjectId oldId, final AnyObjectId newId,
       final boolean intralineDifference, final PatchListEntry[] patches) {
     this.oldId = oldId != null ? oldId.copy() : null;
+    oldIdName = oldId != null ? oldId.name() : null;
     this.newId = newId.copy();
+    newIdName = newId.name();
     this.intralineDifference = intralineDifference;
 
     Arrays.sort(patches, PATCH_CMP);
-    this.patches = patches;
+    this.patches = Arrays.asList(patches);
   }
 
   /** Old side tree or commit; null only if this is a combined diff. */
   @Nullable
   public ObjectId getOldId() {
+    refreshObjectIds();
     return oldId;
   }
 
   /** New side commit. */
   public ObjectId getNewId() {
+    refreshObjectIds();
     return newId;
   }
 
   /** Get a sorted, unmodifiable list of all files in this list. */
   public List<PatchListEntry> getPatches() {
-    return Collections.unmodifiableList(Arrays.asList(patches));
+    return Collections.unmodifiableList(patches);
   }
 
   /** @return true if this list was computed with intraline difference enabled. */
@@ -108,7 +126,7 @@ public class PatchList implements Serializable {
    *        how the cache is keyed versus how the database is keyed.
    */
   public List<Patch> toPatchList(final PatchSet.Id setId) {
-    final ArrayList<Patch> r = new ArrayList<Patch>(patches.length);
+    final ArrayList<Patch> r = new ArrayList<Patch>(patches.size());
     for (final PatchListEntry e : patches) {
       r.add(e.toPatch(setId));
     }
@@ -118,15 +136,15 @@ public class PatchList implements Serializable {
   /** Find an entry by name, returning an empty entry if not present. */
   public PatchListEntry get(final String fileName) {
     final int index = search(fileName);
-    return 0 <= index ? patches[index] : PatchListEntry.empty(fileName);
+    return 0 <= index ? patches.get(index) : PatchListEntry.empty(fileName);
   }
 
   private int search(final String fileName) {
-    int high = patches.length;
+    int high = patches.size();
     int low = 0;
     while (low < high) {
       final int mid = (low + high) >>> 1;
-      final int cmp = patches[mid].getNewName().compareTo(fileName);
+      final int cmp = patches.get(mid).getNewName().compareTo(fileName);
       if (cmp < 0)
         low = mid + 1;
       else if (cmp == 0)
@@ -140,11 +158,12 @@ public class PatchList implements Serializable {
   private void writeObject(final ObjectOutputStream output) throws IOException {
     final ByteArrayOutputStream buf = new ByteArrayOutputStream();
     final DeflaterOutputStream out = new DeflaterOutputStream(buf);
+    refreshObjectIds();
     try {
       writeCanBeNull(out, oldId);
       writeNotNull(out, newId);
       writeVarInt32(out, intralineDifference ? 1 : 0);
-      writeVarInt32(out, patches.length);
+      writeVarInt32(out, patches.size());
       for (PatchListEntry p : patches) {
         p.writeTo(out);
       }
@@ -160,15 +179,26 @@ public class PatchList implements Serializable {
     try {
       oldId = readCanBeNull(in);
       newId = readNotNull(in);
+      oldIdName = oldId != null ? oldId.name() : null;
+      newIdName = newId.name();
       intralineDifference = readVarInt32(in) != 0;
       final int cnt = readVarInt32(in);
       final PatchListEntry[] all = new PatchListEntry[cnt];
       for (int i = 0; i < all.length; i++) {
         all[i] = PatchListEntry.readFrom(in);
       }
-      patches = all;
+      patches = Arrays.asList(all);
     } finally {
       in.close();
+    }
+  }
+
+  private void refreshObjectIds() {
+    if (oldId == null && oldIdName != null) {
+      oldId = ObjectId.fromString(oldIdName);
+    }
+    if (newId == null) {
+      newId = ObjectId.fromString(newIdName);
     }
   }
 }

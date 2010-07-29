@@ -115,7 +115,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(ProjectCacheImpl.module());
 
     factory(AccountInfoCacheFactory.Factory.class);
-    factory(ProjectState.Factory.class);
+    bind(ProjectState.class);
 
     bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);

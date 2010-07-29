@@ -61,6 +61,8 @@
 package com.google.gerrit.server.patch;
 
 
+import com.google.gerrit.prettify.common.BaseEdit;
+import com.google.gerrit.prettify.common.LineEdit;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
@@ -233,24 +235,105 @@ public class PatchListCacheImpl implements PatchListCache {
       return new PatchList(a, b, computeIntraline, entries);
     }
 
+    private void outputDiff(PrintStream out, String path, ObjectId id1,
+        FileMode mode1, ObjectId id2, FileMode mode2, Repository repo,
+        Whitespace ws) throws IOException {
+      DiffFormatter fmt = new DiffFormatter();
+
+      String name1 = "a/" + path;
+      if (needsQuoting(name1)) {
+        name1 = QuotedString.GIT_PATH.quote(name1);
+      }
+      String name2 = "b/" + path;
+      if (needsQuoting(name2)) {
+        name2 = QuotedString.GIT_PATH.quote(name2);
+      }
+
+      out.print("diff --git " + name1 + " " + name2 + "\n");
+
+      boolean isNew = FileMode.MISSING.equals(mode1);
+      boolean isDelete = FileMode.MISSING.equals(mode2);
+
+      if (isNew) {
+        out.print("new file mode " + mode2 + "\n");
+      } else if (isDelete) {
+        out.print("deleted file mode " + mode1 + "\n");
+      } else if (!mode1.equals(mode2)) {
+        out.print("old mode " + mode1 + "\n");
+        out.print("new mode " + mode2 + "\n");
+      }
+      out.print("index " + id1.abbreviate(repo, 7).name() + ".."
+          + id2.abbreviate(repo, 7).name()
+          + (mode1.equals(mode2) ? " " + mode1 : "") + "\n");
+      out.print("--- " + (isNew ? "/dev/null" : name1) + "\n");
+      out.print("+++ " + (isDelete ? "/dev/null" : name2) + "\n");
+      RawText a = getRawText(id1, repo, ws);
+      RawText b = getRawText(id2, repo, ws);
+      MyersDiff diff = new MyersDiff(a, b);
+      fmt.formatEdits(out, a, b, diff.getEdits());
+    }
+
+    private static boolean needsQuoting(String path) {
+      // We should quote the path if the quoted form of the path
+      // differs by more than simply having a leading and trailing
+      // double quote added.
+      //
+      return !QuotedString.GIT_PATH.quote(path).equals('"' + path + '"');
+    }
+
+    private RawText getRawText(ObjectId id, Repository repo, Whitespace ws)
+        throws IOException {
+      if (id.equals(ObjectId.zeroId())) {
+        return new RawText(new byte[] {});
+      }
+      byte[] raw = repo.openBlob(id).getCachedBytes();
+      switch (ws) {
+        case IGNORE_ALL_SPACE:
+          return new RawTextIgnoreAllWhitespace(raw);
+        case IGNORE_SPACE_AT_EOL:
+          return new RawTextIgnoreTrailingWhitespace(raw);
+        case IGNORE_SPACE_CHANGE:
+          return new RawTextIgnoreWhitespaceChange(raw);
+        case IGNORE_NONE:
+        default:
+          return new RawText(raw);
+      }
+    }
+
+    private static List<LineEdit> editsToLineEdits(List<Edit> edits) {
+      List<LineEdit> l = new ArrayList<LineEdit>(edits.size());
+      for (Edit e : edits) {
+        l.add(new LineEdit(e));
+      }
+      return l;
+    }
+
+    private static List<BaseEdit> editsToBaseEdits(List<Edit> edits) {
+      List<BaseEdit> l = new ArrayList<BaseEdit>(edits.size());
+      for (Edit e : edits) {
+        l.add(new BaseEdit(e));
+      }
+      return l;
+    }
+
     private PatchListEntry newEntry(Repository repo, RevTree aTree,
         RevTree bTree, FileHeader fileHeader) throws IOException {
       final FileMode oldMode = fileHeader.getOldMode();
       final FileMode newMode = fileHeader.getNewMode();
 
       if (oldMode == FileMode.GITLINK || newMode == FileMode.GITLINK) {
-        return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
+        return new PatchListEntry(fileHeader, Collections.<LineEdit> emptyList());
       }
 
       if (aTree == null // want combined diff
           || fileHeader.getPatchType() != PatchType.UNIFIED
           || fileHeader.getHunks().isEmpty()) {
-        return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
+        return new PatchListEntry(fileHeader, Collections.<LineEdit> emptyList());
       }
 
-      List<Edit> edits = fileHeader.toEditList();
+      List<LineEdit> edits = editsToLineEdits(fileHeader.toEditList());
       if (edits.isEmpty()) {
-        return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
+        return new PatchListEntry(fileHeader, Collections.<LineEdit> emptyList());
       }
       if (!computeIntraline) {
         return new PatchListEntry(fileHeader, edits);
@@ -266,11 +349,11 @@ public class PatchListCacheImpl implements PatchListCache {
       Text bContent = null;
 
       for (int i = 0; i < edits.size(); i++) {
-        Edit e = edits.get(i);
+        LineEdit e = edits.get(i);
 
         if (e.getType() == Edit.Type.REPLACE) {
           if (aContent == null) {
-            edits = new ArrayList<Edit>(edits);
+            edits = new ArrayList<LineEdit>(edits);
             aContent = read(repo, fileHeader.getOldName(), aTree);
             bContent = read(repo, fileHeader.getNewName(), bTree);
             combineLineEdits(edits, aContent, bContent);
@@ -281,15 +364,15 @@ public class PatchListCacheImpl implements PatchListCache {
           CharText a = new CharText(aContent, e.getBeginA(), e.getEndA());
           CharText b = new CharText(bContent, e.getBeginB(), e.getEndB());
 
-          List<Edit> wordEdits = new MyersDiff(a, b).getEdits();
+          List<BaseEdit> wordEdits = editsToBaseEdits(new MyersDiff(a, b).getEdits());
 
           // Combine edits that are really close together. If they are
           // just a few characters apart we tend to get better results
           // by joining them together and taking the whole span.
           //
           for (int j = 0; j < wordEdits.size() - 1;) {
-            Edit c = wordEdits.get(j);
-            Edit n = wordEdits.get(j + 1);
+            BaseEdit c = wordEdits.get(j);
+            BaseEdit n = wordEdits.get(j + 1);
 
             if (n.getBeginA() - c.getEndA() <= 5
                 || n.getBeginB() - c.getEndB() <= 5) {
@@ -301,7 +384,7 @@ public class PatchListCacheImpl implements PatchListCache {
 
               if (canCoalesce(a, c.getEndA(), n.getBeginA())
                   && canCoalesce(b, c.getEndB(), n.getBeginB())) {
-                wordEdits.set(j, new Edit(ab, ae, bb, be));
+                wordEdits.set(j, new LineEdit(ab, ae, bb, be));
                 wordEdits.remove(j + 1);
                 continue;
               }
@@ -315,7 +398,7 @@ public class PatchListCacheImpl implements PatchListCache {
           // to produce some crazy stuff.
           //
           for (int j = 0; j < wordEdits.size(); j++) {
-            Edit c = wordEdits.get(j);
+            BaseEdit c = wordEdits.get(j);
             int ab = c.getBeginA();
             int ae = c.getEndA();
 
@@ -330,7 +413,7 @@ public class PatchListCacheImpl implements PatchListCache {
             // with silly stuff like "es" -> "es = Addresses".
             //
             if (1 < j) {
-              Edit p = wordEdits.get(j - 1);
+              BaseEdit p = wordEdits.get(j - 1);
               if (p.getEndA() == ab || p.getEndB() == bb) {
                 if (p.getEndA() == ab && p.getBeginA() < p.getEndA()) {
                   ab = p.getBeginA();
@@ -447,20 +530,20 @@ public class PatchListCacheImpl implements PatchListCache {
               be++;
             }
 
-            wordEdits.set(j, new Edit(ab, ae, bb, be));
+            wordEdits.set(j, new BaseEdit(ab, ae, bb, be));
           }
 
-          edits.set(i, new ReplaceEdit(e, wordEdits));
+          edits.set(i, new LineEdit(e, wordEdits));
         }
       }
 
       return new PatchListEntry(fileHeader, edits);
     }
 
-    private static void combineLineEdits(List<Edit> edits, Text a, Text b) {
+    private static void combineLineEdits(List<LineEdit> edits, Text a, Text b) {
       for (int j = 0; j < edits.size() - 1;) {
-        Edit c = edits.get(j);
-        Edit n = edits.get(j + 1);
+        BaseEdit c = edits.get(j);
+        BaseEdit n = edits.get(j + 1);
 
         // Combine edits that are really close together. Right now our rule
         // is, coalesce two line edits which are only one line apart if that
@@ -479,7 +562,7 @@ public class PatchListCacheImpl implements PatchListCache {
           int bb = c.getBeginB();
           int be = n.getEndB();
 
-          edits.set(j, new Edit(ab, ae, bb, be));
+          edits.set(j, new LineEdit(ab, ae, bb, be));
           edits.remove(j + 1);
           continue;
         }
@@ -511,7 +594,7 @@ public class PatchListCacheImpl implements PatchListCache {
       return true;
     }
 
-    private static int findLF(List<Edit> edits, int j, CharText t, int b) {
+    private static int findLF(List<BaseEdit> edits, int j, CharText t, int b) {
       int lf = b;
       int limit = 0 < j ? edits.get(j - 1).getEndB() : 0;
       while (limit < lf && t.charAt(lf) != '\n') {

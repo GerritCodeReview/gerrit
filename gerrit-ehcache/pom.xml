@@ -43,5 +43,10 @@ limitations under the License.
       <artifactId>gerrit-server</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.protobuf</groupId>
+      <artifactId>protobuf-java</artifactId>
+    </dependency>
   </dependencies>
 </project>

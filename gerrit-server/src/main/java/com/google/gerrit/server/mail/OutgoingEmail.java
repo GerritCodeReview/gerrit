@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.StarredChangesCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -121,6 +122,9 @@ public abstract class OutgoingEmail {
   @Inject
   @WildProjectName
   private Project.NameKey wildProject;
+
+  @Inject
+  private StarredChangesCache starredChangesCache;
 
   private ProjectState projectState;
 
@@ -625,18 +629,8 @@ public abstract class OutgoingEmail {
 
   /** BCC any user who has starred this change. */
   protected void bccStarredBy() {
-    if (db != null) {
-      try {
-        // BCC anyone who has starred this change.
-        //
-        for (StarredChange w : db.starredChanges().byChange(change.getId())) {
-          add(RecipientType.BCC, w.getAccountId());
-        }
-      } catch (OrmException err) {
-        // Just don't BCC everyone. Better to send a partial message to those
-        // we already have queued up then to fail deliver entirely to people
-        // who have a lower interest in the change.
-      }
+    for (StarredChange w : starredChangesCache.byChange(change.getId())) {
+      add(RecipientType.BCC, w.getAccountId());
     }
   }
 

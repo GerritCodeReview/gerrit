@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA33///7Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminCreateGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-30T14:07:14Z",
+      "side": 1,
+      "message": "Sure, the automated way for me to generate the documentation is to ask the contributor who made the change to update (or create) the documentation.  Often with copy-and-paste.  :-(\n\nEmbedding all of the documentation here within the source code would be a bit difficult to do and not worth the effort.  We\u0027d have to add a new annotation or to hold the longer documentation string, which is often times multiple paragraphs long, and then write an extraction program that loops through and dumps out all of the annotations.  Yuck.  The hours it takes to do that probably won\u0027t be saved until after we have done a lot more of these commands.",
+      "parentUuid": "AAAA33///8U\u003d",
+      "revId": "c63cdfe2684565da7aced37253c656c57813fcf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3n///40\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminCreateGroup.java",
         "patchSetId": 1

@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.cache.CacheProvider;
@@ -113,11 +114,23 @@ public class EhcachePoolImpl implements CachePool {
       for (CacheProvider<?, ?> p : caches.values()) {
         Ehcache eh = manager.getEhcache(p.getName());
         EntryCreator<?, ?> c = p.getEntryCreator();
-        if (c != null) {
-          p.bind(new PopulatingCache(eh, c));
-        } else {
-          p.bind(new SimpleCache(eh));
+
+        if (c != null && p.disk()) {
+          c = new ProtobufEntryCreator(c, p.getKeyClass(), p.getValueClass());
         }
+
+        Cache m;
+        if (c != null) {
+          m = new PopulatingCache(eh, c);
+        } else {
+          m = new SimpleCache(eh);
+        }
+        if (p.disk()) {
+          m = new ProtobufCache(m, p.getKeyClass(), p.getValueClass(), p
+                  .getValueProvider());
+        }
+
+        p.bind(m);
       }
     }
   }

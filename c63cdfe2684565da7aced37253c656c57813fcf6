@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA33///8Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminCreateGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-07-30T13:14:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA3n///44\u003d",
+      "revId": "c63cdfe2684565da7aced37253c656c57813fcf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3n///4k\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminCreateGroup.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-07-29T17:29:44Z",
       "side": 1,
       "message": "Please create a Documentation/cmd-create-group.txt page to document this command and its options, and add it to cmd-index.txt so its listed as one of our supported commands.",
+      "revId": "c63cdfe2684565da7aced37253c656c57813fcf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///8U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminCreateGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-07-30T13:14:47Z",
+      "side": 1,
+      "message": "Just working on this and realizing that it is a lot of repetitive, error prone work. Command syntax, options and their usage text all have to be repeated in the cmd-create-group.txt.\n\nIs there a way to generate a skeleton of a command documentation\nso that it is filled in with all the info available in the command class\nin args4j annotations?",
+      "parentUuid": "AAAA3n///4k\u003d",
       "revId": "c63cdfe2684565da7aced37253c656c57813fcf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA33///8M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminCreateGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-07-30T13:14:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA3n///40\u003d",
+      "revId": "c63cdfe2684565da7aced37253c656c57813fcf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3n///4w\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminCreateGroup.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2010-07-29T17:29:44Z",
       "side": 1,
       "message": "get() can return null if the user doesn\u0027t exist, resulting in a NullPointerException here.  That\u0027s not good.\n\nThe better approach is to use the same trick that Receive uses to process its --re and --cc command line options.  IIRC the command line parser already knows how to translate a string to an Account.Id.  If it doesn\u0027t then there is an AccountResolver or something that knows how to do it and Receive is using that.  Please look at Receive\u0027s handling of the --re and do the same thing here.",
+      "revId": "c63cdfe2684565da7aced37253c656c57813fcf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///7o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminCreateGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-07-30T13:14:47Z",
+      "side": 1,
+      "message": "Did as you said.\nHowever, I had also to enhance the AccountResolver as it wasn\u0027t able\nto resolve account based on the Username which was the option\nI would like to have.",
+      "parentUuid": "AAAA3n///4w\u003d",
       "revId": "c63cdfe2684565da7aced37253c656c57813fcf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

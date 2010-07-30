@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA33///7I\u003d",
+        "filename": "Documentation/cmd-create-group.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-30T14:15:50Z",
+      "side": 1,
+      "message": "s/members/member/",
+      "revId": "f7209d13ec4880711b7da1fedf2ab9f60e7437ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///7A\u003d",
+        "filename": "Documentation/cmd-create-group.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-30T14:15:50Z",
+      "side": 1,
+      "message": "Should be \\--owner, -o::",
+      "revId": "f7209d13ec4880711b7da1fedf2ab9f60e7437ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///68\u003d",
+        "filename": "Documentation/cmd-create-group.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-30T14:15:50Z",
+      "side": 1,
+      "message": "Should be \\---description, -d::",
+      "revId": "f7209d13ec4880711b7da1fedf2ab9f60e7437ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///7E\u003d",
+        "filename": "Documentation/cmd-create-group.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-30T14:15:50Z",
+      "side": 1,
+      "message": "Trailing space",
+      "revId": "f7209d13ec4880711b7da1fedf2ab9f60e7437ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///7Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-30T14:15:50Z",
+      "side": 1,
+      "message": "Style-nit: We always put curly braces around the statement.",
+      "revId": "f7209d13ec4880711b7da1fedf2ab9f60e7437ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///7M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-07-30T14:15:50Z",
+      "side": 1,
+      "message": "We can avoid the database lookup here and use the username cache that is within the byId cache:\n\n  AccountState as \u003d byId.getByUsername(userName);\n  return as !\u003d null ? as.getAccount() : null;",
+      "revId": "f7209d13ec4880711b7da1fedf2ab9f60e7437ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

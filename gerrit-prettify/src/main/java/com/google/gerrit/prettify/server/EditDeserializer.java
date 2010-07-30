@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.prettify.common;
+package com.google.gerrit.prettify.server;
 
+import com.google.gerrit.prettify.common.BaseEdit;
+import com.google.gerrit.prettify.common.LineEdit;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

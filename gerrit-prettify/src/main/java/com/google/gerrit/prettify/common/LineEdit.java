@@ -33,6 +33,9 @@ public class LineEdit extends BaseEdit {
     this.edits = edits;
   }
 
+  protected LineEdit() {
+  }
+
   public LineEdit(Edit edit) {
     this(edit.getBeginA(), edit.getEndA(), edit.getBeginB(), edit.getEndB());
   }

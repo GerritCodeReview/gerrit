@@ -46,8 +46,8 @@ public class AccountResolver {
    *
    * @param nameOrEmail a string of the format
    *        "Full Name &lt;email@example&gt;", just the email address
-   *        ("email@example"), a full name ("Full Name"), or an account id
-   *        ("18419").
+   *        ("email@example"), a full name ("Full Name"), an account id
+   *        ("18419") or an user name ("username").
    * @return the single account that matches; null if no account matches or
    *         there are multiple candidates.
    */
@@ -61,7 +61,16 @@ public class AccountResolver {
       return byId.get(Account.Id.parse(nameOrEmail)).getAccount();
     }
 
-    return findByNameOrEmail(nameOrEmail);
+    Account account = findByNameOrEmail(nameOrEmail);
+    if (account != null) {
+      return account;
+    }
+
+    if (nameOrEmail.matches(Account.USER_NAME_PATTERN)) {
+      return findByUserName(nameOrEmail);
+    }
+
+    return null;
   }
 
   /**
@@ -104,5 +113,10 @@ public class AccountResolver {
   private static Account oneAccount(final ResultSet<Account> rs) {
     final List<Account> r = rs.toList();
     return r.size() == 1 ? r.get(0) : null;
+  }
+
+  private Account findByUserName(final String userName) throws OrmException {
+    AccountState as = byId.getByUsername(userName);
+    return as != null ? as.getAccount() : null;
   }
 }

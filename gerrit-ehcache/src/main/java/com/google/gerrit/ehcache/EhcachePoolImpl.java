@@ -114,9 +114,19 @@ public class EhcachePoolImpl implements CachePool {
         Ehcache eh = manager.getEhcache(p.getName());
         EntryCreator<?, ?> c = p.getEntryCreator();
         if (c != null) {
-          p.bind(new PopulatingCache(eh, c));
+          if (p.disk()) {
+            p.bind(new PopulatingProtobufCache(eh, c, p.getKeyClass(), p
+                .getValueClass(), p.getValueProvider()));
+          } else {
+            p.bind(new PopulatingCache(eh, c));
+          }
         } else {
-          p.bind(new SimpleCache(eh));
+          if (p.disk()) {
+            p.bind(new SimpleProtobufCache(eh, p.getKeyClass(), p
+                .getValueClass(), p.getValueProvider()));
+          } else {
+            p.bind(new SimpleCache(eh));
+          }
         }
       }
     }

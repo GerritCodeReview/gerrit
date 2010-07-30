@@ -53,7 +53,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
     final GsonBuilder g = super.createGsonBuilder();
 
     g.registerTypeAdapter(com.google.gerrit.prettify.common.LineEdit.class,
-        new com.google.gerrit.prettify.common.EditDeserializer());
+        new com.google.gerrit.prettify.server.EditDeserializer());
 
     return g;
   }

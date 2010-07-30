@@ -43,6 +43,10 @@ public class StarredChange {
       return accountId;
     }
 
+    public Change.Id getChangeId() {
+      return changeId;
+    }
+
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
       return new com.google.gwtorm.client.Key<?>[] {changeId};

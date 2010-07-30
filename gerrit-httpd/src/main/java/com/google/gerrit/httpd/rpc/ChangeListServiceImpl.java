@@ -33,9 +33,10 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.reviewdb.TrackingId;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.StarredChangesCache;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.project.ChangeControl;
@@ -92,18 +93,21 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
   private final Project.NameKey wildProject;
+  private final StarredChangesCache starredChangesCache;
 
   @Inject
   ChangeListServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
-      final @WildProjectName Project.NameKey wildProject) {
+      final @WildProjectName Project.NameKey wildProject,
+      final StarredChangesCache starredChangesCache) {
     super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
     this.accountInfoCacheFactory = accountInfoCacheFactory;
     this.wildProject = wildProject;
+    this.starredChangesCache = starredChangesCache;
   }
 
   private boolean canRead(final Change c) {
@@ -455,14 +459,18 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         if (req.getAddSet() != null) {
           for (final Change.Id id : req.getAddSet()) {
             if (!existing.contains(id)) {
-              add.add(new StarredChange(new StarredChange.Key(me, id)));
+              StarredChange.Key key = new StarredChange.Key(me, id);
+              add.add(new StarredChange(key));
+              starredChangesCache.evict(key);
             }
           }
         }
 
         if (req.getRemoveSet() != null) {
           for (final Change.Id id : req.getRemoveSet()) {
-            remove.add(new StarredChange.Key(me, id));
+            StarredChange.Key key = new StarredChange.Key(me, id);
+            remove.add(key);
+            starredChangesCache.evict(key);
           }
         }
 

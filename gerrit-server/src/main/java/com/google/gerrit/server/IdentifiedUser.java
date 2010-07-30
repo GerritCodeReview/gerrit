@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
-import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Realm;
@@ -32,7 +31,6 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.PersonIdent;
@@ -62,15 +60,18 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<String> canonicalUrl;
     private final Realm realm;
     private final AccountCache accountCache;
+    private final StarredChangesCache starredChangesCache;
 
     @Inject
     GenericFactory(final AuthConfig authConfig,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
-        final Realm realm, final AccountCache accountCache) {
+        final Realm realm, final AccountCache accountCache,
+        final StarredChangesCache starredChangesCache) {
       this.authConfig = authConfig;
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
       this.accountCache = accountCache;
+      this.starredChangesCache = starredChangesCache;
     }
 
     public IdentifiedUser create(final Account.Id id) {
@@ -80,7 +81,7 @@ public class IdentifiedUser extends CurrentUser {
     public IdentifiedUser create(AccessPath accessPath,
         Provider<SocketAddress> remotePeerProvider, Account.Id id) {
       return new IdentifiedUser(accessPath, authConfig, canonicalUrl, realm,
-          accountCache, remotePeerProvider, null, id);
+          accountCache, starredChangesCache, remotePeerProvider, null, id);
     }
   }
 
@@ -96,6 +97,7 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<String> canonicalUrl;
     private final Realm realm;
     private final AccountCache accountCache;
+    private final StarredChangesCache starredChangesCache;
 
     private final Provider<SocketAddress> remotePeerProvider;
     private final Provider<ReviewDb> dbProvider;
@@ -106,11 +108,13 @@ public class IdentifiedUser extends CurrentUser {
         final Realm realm, final AccountCache accountCache,
 
         final @RemotePeer Provider<SocketAddress> remotePeerProvider,
-        final Provider<ReviewDb> dbProvider) {
+        final Provider<ReviewDb> dbProvider,
+        final StarredChangesCache starredChangesCache) {
       this.authConfig = authConfig;
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
       this.accountCache = accountCache;
+      this.starredChangesCache = starredChangesCache;
 
       this.remotePeerProvider = remotePeerProvider;
       this.dbProvider = dbProvider;
@@ -119,7 +123,7 @@ public class IdentifiedUser extends CurrentUser {
     public IdentifiedUser create(final AccessPath accessPath,
         final Account.Id id) {
       return new IdentifiedUser(accessPath, authConfig, canonicalUrl, realm,
-          accountCache, remotePeerProvider, dbProvider, id);
+          accountCache, starredChangesCache, remotePeerProvider, dbProvider, id);
     }
   }
 
@@ -129,6 +133,7 @@ public class IdentifiedUser extends CurrentUser {
   private final Provider<String> canonicalUrl;
   private final Realm realm;
   private final AccountCache accountCache;
+  private final StarredChangesCache starredChangesCache;
 
   @Nullable
   private final Provider<SocketAddress> remotePeerProvider;
@@ -147,6 +152,7 @@ public class IdentifiedUser extends CurrentUser {
   private IdentifiedUser(final AccessPath accessPath,
       final AuthConfig authConfig, final Provider<String> canonicalUrl,
       final Realm realm, final AccountCache accountCache,
+      final StarredChangesCache starredChangesCache,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
     super(accessPath, authConfig);
@@ -156,6 +162,7 @@ public class IdentifiedUser extends CurrentUser {
     this.remotePeerProvider = remotePeerProvider;
     this.dbProvider = dbProvider;
     this.accountId = id;
+    this.starredChangesCache = starredChangesCache;
   }
 
   private AccountState state() {
@@ -220,13 +227,9 @@ public class IdentifiedUser extends CurrentUser {
         throw new OutOfScopeException("Not in request scoped user");
       }
       final Set<Change.Id> h = new HashSet<Change.Id>();
-      try {
-        for (final StarredChange sc : dbProvider.get().starredChanges()
-            .byAccount(getAccountId())) {
-          h.add(sc.getChangeId());
-        }
-      } catch (OrmException e) {
-        log.warn("Cannot query starred by user changes", e);
+      for (final StarredChange sc : starredChangesCache
+          .byAccount(getAccountId())) {
+        h.add(sc.getChangeId());
       }
       starredChanges = Collections.unmodifiableSet(h);
     }

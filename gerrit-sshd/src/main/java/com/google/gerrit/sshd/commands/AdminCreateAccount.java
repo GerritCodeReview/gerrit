@@ -152,10 +152,6 @@ final class AdminCreateAccount extends BaseCommand {
     byEmailCache.evict(email);
   }
 
-  private UnloggedFailure die(String msg) {
-    return new UnloggedFailure(1, "fatal: " + msg);
-  }
-
   private AccountExternalId.Key getEmailKey() {
     return new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO, email);
   }

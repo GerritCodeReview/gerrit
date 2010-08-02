@@ -32,6 +32,7 @@ import com.google.gerrit.server.StarredChangesCacheImpl;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.account.AccountProjectWatchCacheImpl;
 import com.google.gerrit.server.account.DefaultRealm;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCacheImpl;
@@ -115,6 +116,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(PatchListCacheImpl.module());
     install(ProjectCacheImpl.module());
     install(StarredChangesCacheImpl.module());
+    install(AccountProjectWatchCacheImpl.module());
 
     factory(AccountInfoCacheFactory.Factory.class);
     bind(ProjectState.class);

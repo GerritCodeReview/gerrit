@@ -158,21 +158,15 @@ public class MergedSender extends ReplyToChangeSender {
 
   private void bccWatchesNotifySubmittedChanges() {
     if (db != null) {
-      try {
-        // BCC anyone else who has interest in this project's changes
-        //
-        final ProjectState ps = getProjectState();
-        if (ps != null) {
-          for (final AccountProjectWatch w : getProjectWatches()) {
-            if (w.isNotifySubmittedChanges()) {
-              add(RecipientType.BCC, w.getAccountId());
-            }
+      // BCC anyone else who has interest in this project's changes
+      //
+      final ProjectState ps = getProjectState();
+      if (ps != null) {
+        for (final AccountProjectWatch w : getProjectWatches()) {
+          if (w.isNotifySubmittedChanges()) {
+            add(RecipientType.BCC, w.getAccountId());
           }
         }
-      } catch (OrmException err) {
-        // Just don't CC everyone. Better to send a partial message to those
-        // we already have queued up then to fail deliver entirely to people
-        // who have a lower interest in the change.
       }
     }
   }

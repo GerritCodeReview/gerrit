@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA33///pU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-08-02T14:47:43Z",
+      "side": 1,
+      "message": "Shawn, I have just seen a bug here, actually this subtraction needs to be opposite: \nint cmp \u003d distance(pattern1) - distance(pattern2)\nOtherwise, if refs/heads/mast[a-z][a-z] and refs/heads/mast[a-z]r, the first would be considered the most specific, which is wrong!\nSince, this is already merged, I\u0027m opening a new issue as well.",
+      "revId": "993ddfb847ada02dd54d3bd02955baec6affb077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

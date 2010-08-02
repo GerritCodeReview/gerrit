@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA33///mM\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/ProtobufEntryCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T18:18:13Z",
+      "side": 1,
+      "message": "Wrong copyright notice.  Should be the AOSP copyright header.",
+      "revId": "31f2fce99eb030ac17bd4d9be75f0ed690301601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///mA\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SerializableProtobuf.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T18:18:13Z",
+      "side": 1,
+      "message": "Please add a serialVersionUid field so the version number stays stable.",
+      "revId": "31f2fce99eb030ac17bd4d9be75f0ed690301601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///mI\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SerializableProtobuf.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T18:18:13Z",
+      "side": 1,
+      "message": "Please don\u0027t store the buffer in the object, it doubles our memory footprint.",
+      "revId": "31f2fce99eb030ac17bd4d9be75f0ed690301601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///mE\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SerializableProtobuf.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T18:18:13Z",
+      "side": 1,
+      "message": "You should pull the buf into a local variable before relying on it.  We clear buf when we set object.  A concurrent thread could clear buf between when we read its length and when we try to write its value.\n\nThat is also (roughly) true for object.  Since its volatile its cleaner to pull it into a local variable and reuse that local within the method for the encoding work.  It wasn\u0027t by accident that I had setup those locals in my suggestion in patch set 1.\n\nOn second thought, it will be cleaner to just put them both into the same field in the object.  That is:\n\n  private transient volatile Object data;\n\n  Object d \u003d data;\n  if (d instanceof byte[]) {\n    byte[] buf \u003d (byte[])d;\n    ... its a byte array, treat it as such ...\n  } else {\n    Object obj \u003d d;\n    ... its the decoded object ...\n  }\n\nThen we can\u0027t ever have a race condition caused by one field being unset while another was set.  And since byte[] isn\u0027t directly passable to a ProtobufCodec, its OK, there can\u0027t be any confusion about it being the POJO vs. being the encoded data.",
+      "revId": "31f2fce99eb030ac17bd4d9be75f0ed690301601",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

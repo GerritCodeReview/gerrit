@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountProjectWatchCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
@@ -61,17 +62,20 @@ public class IdentifiedUser extends CurrentUser {
     private final Realm realm;
     private final AccountCache accountCache;
     private final StarredChangesCache starredChangesCache;
+    private final AccountProjectWatchCache accountProjectWatchCache;
 
     @Inject
     GenericFactory(final AuthConfig authConfig,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
         final Realm realm, final AccountCache accountCache,
-        final StarredChangesCache starredChangesCache) {
+        final StarredChangesCache starredChangesCache,
+        final AccountProjectWatchCache accountProjectWatchCache) {
       this.authConfig = authConfig;
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
       this.accountCache = accountCache;
       this.starredChangesCache = starredChangesCache;
+      this.accountProjectWatchCache = accountProjectWatchCache;
     }
 
     public IdentifiedUser create(final Account.Id id) {
@@ -81,7 +85,8 @@ public class IdentifiedUser extends CurrentUser {
     public IdentifiedUser create(AccessPath accessPath,
         Provider<SocketAddress> remotePeerProvider, Account.Id id) {
       return new IdentifiedUser(accessPath, authConfig, canonicalUrl, realm,
-          accountCache, starredChangesCache, remotePeerProvider, null, id);
+          accountCache, starredChangesCache, accountProjectWatchCache,
+          remotePeerProvider, null, id);
     }
   }
 
@@ -98,6 +103,7 @@ public class IdentifiedUser extends CurrentUser {
     private final Realm realm;
     private final AccountCache accountCache;
     private final StarredChangesCache starredChangesCache;
+    private final AccountProjectWatchCache accountProjectWatchCache;
 
     private final Provider<SocketAddress> remotePeerProvider;
     private final Provider<ReviewDb> dbProvider;
@@ -106,15 +112,16 @@ public class IdentifiedUser extends CurrentUser {
     RequestFactory(final AuthConfig authConfig,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
         final Realm realm, final AccountCache accountCache,
-
+        final StarredChangesCache starredChangesCache,
+        final AccountProjectWatchCache accountProjectWatchCache,
         final @RemotePeer Provider<SocketAddress> remotePeerProvider,
-        final Provider<ReviewDb> dbProvider,
-        final StarredChangesCache starredChangesCache) {
+        final Provider<ReviewDb> dbProvider) {
       this.authConfig = authConfig;
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
       this.accountCache = accountCache;
       this.starredChangesCache = starredChangesCache;
+      this.accountProjectWatchCache = accountProjectWatchCache;
 
       this.remotePeerProvider = remotePeerProvider;
       this.dbProvider = dbProvider;
@@ -123,7 +130,8 @@ public class IdentifiedUser extends CurrentUser {
     public IdentifiedUser create(final AccessPath accessPath,
         final Account.Id id) {
       return new IdentifiedUser(accessPath, authConfig, canonicalUrl, realm,
-          accountCache, starredChangesCache, remotePeerProvider, dbProvider, id);
+          accountCache, starredChangesCache, accountProjectWatchCache,
+          remotePeerProvider, dbProvider, id);
     }
   }
 
@@ -134,6 +142,7 @@ public class IdentifiedUser extends CurrentUser {
   private final Realm realm;
   private final AccountCache accountCache;
   private final StarredChangesCache starredChangesCache;
+  private final AccountProjectWatchCache accountProjectWatchCache;
 
   @Nullable
   private final Provider<SocketAddress> remotePeerProvider;
@@ -153,6 +162,7 @@ public class IdentifiedUser extends CurrentUser {
       final AuthConfig authConfig, final Provider<String> canonicalUrl,
       final Realm realm, final AccountCache accountCache,
       final StarredChangesCache starredChangesCache,
+      final AccountProjectWatchCache accountProjectWatchCache,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
     super(accessPath, authConfig);
@@ -160,6 +170,7 @@ public class IdentifiedUser extends CurrentUser {
     this.realm = realm;
     this.accountCache = accountCache;
     this.starredChangesCache = starredChangesCache;
+    this.accountProjectWatchCache = accountProjectWatchCache;
     this.remotePeerProvider = remotePeerProvider;
     this.dbProvider = dbProvider;
     this.accountId = id;
@@ -243,13 +254,9 @@ public class IdentifiedUser extends CurrentUser {
         throw new OutOfScopeException("Not in request scoped user");
       }
       final Set<Project.NameKey> h = new HashSet<Project.NameKey>();
-      try {
-        for (AccountProjectWatch projectWatch : dbProvider.get()
-            .accountProjectWatches().byAccount(getAccountId())) {
-          h.add(projectWatch.getProjectNameKey());
-        }
-      } catch (OrmException e) {
-        log.warn("Cannot query project watches of a user", e);
+      for (AccountProjectWatch projectWatch : accountProjectWatchCache
+          .byAccount(getAccountId())) {
+        h.add(projectWatch.getProjectNameKey());
       }
       watchedProjects = Collections.unmodifiableSet(h);
     }

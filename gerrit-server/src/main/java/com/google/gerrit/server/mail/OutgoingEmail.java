@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesCache;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountProjectWatchCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.WildProjectName;
@@ -125,6 +126,9 @@ public abstract class OutgoingEmail {
 
   @Inject
   private StarredChangesCache starredChangesCache;
+
+  @Inject
+  private AccountProjectWatchCache accountProjectWatchCache;
 
   private ProjectState projectState;
 
@@ -637,37 +641,33 @@ public abstract class OutgoingEmail {
   /** BCC any user who has set "notify all comments" on this project. */
   protected void bccWatchesNotifyAllComments() {
     if (db != null) {
-      try {
-        // BCC anyone else who has interest in this project's changes
-        //
-        final ProjectState ps = getProjectState();
-        if (ps != null) {
-          for (final AccountProjectWatch w : getProjectWatches()) {
-            if (w.isNotifyAllComments()) {
-              add(RecipientType.BCC, w.getAccountId());
-            }
+      // BCC anyone else who has interest in this project's changes
+      //
+      final ProjectState ps = getProjectState();
+      if (ps != null) {
+        for (final AccountProjectWatch w : getProjectWatches()) {
+          if (w.isNotifyAllComments()) {
+            add(RecipientType.BCC, w.getAccountId());
           }
         }
-      } catch (OrmException err) {
-        // Just don't CC everyone. Better to send a partial message to those
-        // we already have queued up then to fail deliver entirely to people
-        // who have a lower interest in the change.
       }
     }
   }
 
   /** Returns all watches that are relevant for this project */
-  final protected Set<AccountProjectWatch> getProjectWatches() throws OrmException {
+  final protected Set<AccountProjectWatch> getProjectWatches() {
     final Set<AccountProjectWatch> projectWatches = new HashSet<AccountProjectWatch>();
     final Set<Account.Id> projectWatchers = new HashSet<Account.Id>();
     final ProjectState ps = getProjectState();
     if (ps != null) {
-      for (final AccountProjectWatch w : db.accountProjectWatches().byProject(ps.getProject().getNameKey())) {
+      for (final AccountProjectWatch w : accountProjectWatchCache.byProject(ps
+          .getProject().getNameKey())) {
         projectWatches.add(w);
         projectWatchers.add(w.getAccountId());
       }
     }
-    for (final AccountProjectWatch w : db.accountProjectWatches().byProject(wildProject)) {
+    for (final AccountProjectWatch w : accountProjectWatchCache
+        .byProject(wildProject)) {
       if (!projectWatchers.contains(w.getAccountId())) {
         // the all projects watch settings are only relevant if the user did not configure
         // any specific rules for the concrete project

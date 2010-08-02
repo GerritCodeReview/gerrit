@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA33///jE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountAgreementsCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T22:54:26Z",
+      "side": 1,
+      "message": "AOSP copyright header.",
+      "revId": "64845fd88870ba37da83ff539786025b0182d5ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

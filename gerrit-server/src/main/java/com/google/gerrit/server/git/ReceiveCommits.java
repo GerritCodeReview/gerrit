@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountAgreementsCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -140,6 +141,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final String canonicalWebUrl;
   private final PersonIdent gerritIdent;
   private final TrackingFooters trackingFooters;
+  private final AccountAgreementsCache accountAgreementsCache;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -172,6 +174,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
+      final AccountAgreementsCache accountAgreementsCache,
 
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo) {
@@ -188,6 +191,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.canonicalWebUrl = canonicalWebUrl;
     this.gerritIdent = gerritIdent;
     this.trackingFooters = trackingFooters;
+    this.accountAgreementsCache = accountAgreementsCache;
 
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
@@ -317,7 +321,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     if (bestAgreement == null) {
       final List<AccountAgreement> temp =
-          db.accountAgreements().byAccount(currentUser.getAccountId()).toList();
+          accountAgreementsCache.byAccount(currentUser.getAccountId());
 
       Collections.reverse(temp);
 

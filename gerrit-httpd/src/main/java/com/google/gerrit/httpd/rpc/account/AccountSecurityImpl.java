@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountAgreementsCache;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
@@ -73,6 +74,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final SshKeyCache sshKeyCache;
   private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
+  private final AccountAgreementsCache accountAgreementsCache;
   private final AccountManager accountManager;
   private final boolean useContactInfo;
 
@@ -89,7 +91,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final AuthConfig ac, final Realm r, final Provider<IdentifiedUser> u,
       final RegisterNewEmailSender.Factory esf, final SshKeyCache skc,
       final AccountByEmailCache abec, final AccountCache uac,
-      final AccountManager am,
+      final AccountAgreementsCache aac, final AccountManager am,
       final ClearPassword.Factory clearPasswordFactory,
       final GeneratePassword.Factory generatePasswordFactory,
       final ChangeUserName.CurrentUser changeUserNameFactory,
@@ -105,6 +107,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     sshKeyCache = skc;
     byEmailCache = abec;
     accountCache = uac;
+    accountAgreementsCache = aac;
     accountManager = am;
 
     useContactInfo = contactStore != null && contactStore.isEnabled();
@@ -264,6 +267,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           a.review(AccountAgreement.Status.VERIFIED, null);
         }
         db.accountAgreements().insert(Collections.singleton(a));
+        accountAgreementsCache.evict(a.getKey());
         return VoidResult.INSTANCE;
       }
     });

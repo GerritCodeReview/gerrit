@@ -29,6 +29,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.ReplicationUser;
 import com.google.gerrit.server.StarredChangesCacheImpl;
+import com.google.gerrit.server.account.AccountAgreementsCacheImpl;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
@@ -117,6 +118,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(ProjectCacheImpl.module());
     install(StarredChangesCacheImpl.module());
     install(AccountProjectWatchCacheImpl.module());
+    install(AccountAgreementsCacheImpl.module());
 
     factory(AccountInfoCacheFactory.Factory.class);
     bind(ProjectState.class);

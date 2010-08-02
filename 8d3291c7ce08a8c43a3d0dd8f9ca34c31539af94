@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA33///kg\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SerializableProtobuf.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T22:14:23Z",
+      "side": 1,
+      "message": "You need to copy data into a local variable.",
+      "revId": "8d3291c7ce08a8c43a3d0dd8f9ca34c31539af94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///kc\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SerializableProtobuf.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T22:14:23Z",
+      "side": 1,
+      "message": "To be safe you should read the bytes before assigning into data:\n\n  byte[] d \u003d new byte[len];\n  IO.readFully(in, d, 0, len);\n  data \u003d d;",
+      "revId": "8d3291c7ce08a8c43a3d0dd8f9ca34c31539af94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

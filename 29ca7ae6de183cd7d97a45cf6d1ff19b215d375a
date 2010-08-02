@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA33///nM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:25:49Z",
+      "side": 1,
+      "message": "We evict caches only after the database was updated successfully.  That way we know that any concurrent reader that may have loaded the cache record between the eviction ad the database update cannot load stale data.",
+      "revId": "29ca7ae6de183cd7d97a45cf6d1ff19b215d375a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///nQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:25:49Z",
+      "side": 1,
+      "message": "Style-nit:  Put this after the accountCache rather than simply throwing it onto the end.  Also in the constructor parameter list and the this assignment in the constructor body.",
+      "revId": "29ca7ae6de183cd7d97a45cf6d1ff19b215d375a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///nU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:25:49Z",
+      "side": 1,
+      "message": "This cache is probably never going to be used.",
+      "revId": "29ca7ae6de183cd7d97a45cf6d1ff19b215d375a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///nI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:25:49Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "29ca7ae6de183cd7d97a45cf6d1ff19b215d375a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///m8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:25:49Z",
+      "side": 1,
+      "message": "I would prefer shorter cache names:\n\n  starred_user\n  starred_change",
+      "revId": "29ca7ae6de183cd7d97a45cf6d1ff19b215d375a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///nE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/StarredChangesCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:25:49Z",
+      "side": 1,
+      "message": "This cache is pointless.",
+      "revId": "29ca7ae6de183cd7d97a45cf6d1ff19b215d375a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

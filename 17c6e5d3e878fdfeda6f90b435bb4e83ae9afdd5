@@ -1,0 +1,327 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA33///ow\u003d",
+        "filename": "gerrit-ehcache/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///nc\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/EhcachePoolImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "These classes are virtual identical.  It would be cleaner to have just one, ProtobufCache that does the wrapping/unwrapping for us, and takes a Cache\u003cK,V\u003e as its backing store.\n\n  if (c !\u003d null \u0026\u0026 p.disk()) {\n    c \u003d new ProtobufEntryCreator(p.getValueClass(), c);\n  }\n\n  Cache\u003c?,?\u003e m;\n  if (c !\u003d null) {\n    m \u003d new PopulatingCache(eh, c);\n  } else {\n    m \u003d new SimpleCache(eh);\n  }\n\n  if (p.disk()) {\n    m \u003d new ProtobufCache(p.getKeyClass(), p.getValueClass(), p.getValueProvider(), m);\n  }\n\n  p.bind(m);\n\nWhere the ProtobufEntryCreator is working with your SerializableProtobuf as its input key and result value types by wrapping the user\u0027s EntryCreator, and the ProtobufCache is wrapping the keys and values like you have in SimpleProtobufCache.  The effect is the same, ehcache only sees the SerializableProtobuf type, but we have a lot less code duplication.",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///n8\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/PopulatingProtobufCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///n4\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/PopulatingProtobufCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "Doesn\u0027t need to be public",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///n0\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/PopulatingProtobufCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "Doesn\u0027t need to be public since the class is private.",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///nw\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/PopulatingProtobufCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "Can return null.",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///nk\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/PopulatingProtobufCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "key can be passed in null.  When that happens we simply don\u0027t forward it to the underlying cache.",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///ok\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SerializableProtobuf.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "Probably doesn\u0027t need to be public.",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///oA\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SerializableProtobuf.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "Object needs to be tagged volatile because concurrent threads might be setting it during equals or toObject.",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///og\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SerializableProtobuf.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "Make these transient and lets just handle the serialization entirely ourselves.  That way we don\u0027t have to actually hold onto buf when we have the object form already on hand.",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///oc\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SerializableProtobuf.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "Probably doesn\u0027t need to be public.",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///oY\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SerializableProtobuf.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "Don\u0027t encode the value right away.  Instead we should lazily encode the value only when the serialization stream needs it.  Thus the constructor is just:\n\n  this.object \u003d object;\n  this.codec \u003d codec;\n  this.hash \u003d object.hashCode();",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///oU\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SerializableProtobuf.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "Probably doesn\u0027t need to be public.",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///oQ\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SerializableProtobuf.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "Recent gwtorm has a mergeFrom(byte[], T) prototype you can use instead of making the stream yourself.",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///oM\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SerializableProtobuf.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "buf may be null here because we discard it in toObject.  We should be more aggressive about converting from buf to object format.\n\n  T thisObject \u003d toObject(this, this.codec, other.codec);\n  T otherObject \u003d toObject(other, this.codec, other.codec);\n\n  if (thisObject !\u003d null \u0026\u0026 otherObject !\u003d null) {\n    return thisObject.equals(otherObject);\n  } else if (this.buf !\u003d null \u0026\u0026 other.buf !\u003d null) {\n    return Arrays.equals(this.buf, other.buf);\n  } else {\n    return false;\n  }\n\n  private \u003cT\u003e static Object toObject(SerializableProtobuf\u003cT\u003e sp,\n    ProtobufCodec\u003cT\u003e codec1, ProtobufCodec\u003cT\u003e codec2) {\n    if (sp.object !\u003d null) {\n      return sp.object;\n    }\n\n    ProtobufCodec\u003cT\u003e codec \u003d codec1 !\u003d null ? codec1 : codec2;\n    if (codec !\u003d null) {\n      sp.object \u003d codec.decode(sp.buf);\n      sp.buf \u003d null;\n      return sp.object;\n    } else {\n      return null;\n    }\n  }",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///oE\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SerializableProtobuf.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "Instead of defaultWriteObject, just handle it all yourself:\n\n  oos.writeInt(hash);\n\n  T object \u003d this.object;\n  byte[] buf \u003d this.buf;\n\n  if (object \u003d\u003d null) {\n    oos.writeInt(buf.length);\n    oos.write(buf);\n  } else {\n    oos.writeInt(codec.sizeof(object));\n    CodedOutputStream cos \u003d CodedOutputStream.newInstance(out);\n    codec.encode(object, cos);\n    cos.flush();\n  }",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///os\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SimpleProtobufCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "Doesn\u0027t need to be public.",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///oo\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SimpleProtobufCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "This can return null if the element wasn\u0027t found.",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///no\u003d",
+        "filename": "gerrit-ehcache/src/main/java/com/google/gerrit/ehcache/SimpleProtobufCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-02T16:17:42Z",
+      "side": 1,
+      "message": "key can be passed in null.  When that happens we simply don\u0027t forward it to the underlying cache.",
+      "revId": "17c6e5d3e878fdfeda6f90b435bb4e83ae9afdd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

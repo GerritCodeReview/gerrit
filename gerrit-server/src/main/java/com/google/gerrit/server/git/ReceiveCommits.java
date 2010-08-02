@@ -40,6 +40,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountAgreementsCache;
+import com.google.gerrit.server.account.AccountGroupAgreementsCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -142,6 +143,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final PersonIdent gerritIdent;
   private final TrackingFooters trackingFooters;
   private final AccountAgreementsCache accountAgreementsCache;
+  private final AccountGroupAgreementsCache accountGroupAgreementsCache;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -175,6 +177,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
       final AccountAgreementsCache accountAgreementsCache,
+      final AccountGroupAgreementsCache accountGroupAgreementsCache,
 
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo) {
@@ -192,6 +195,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.gerritIdent = gerritIdent;
     this.trackingFooters = trackingFooters;
     this.accountAgreementsCache = accountAgreementsCache;
+    this.accountGroupAgreementsCache = accountGroupAgreementsCache;
 
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
@@ -302,7 +306,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     OUTER: for (AccountGroup.Id groupId : currentUser.getEffectiveGroups()) {
       final List<AccountGroupAgreement> temp =
-          db.accountGroupAgreements().byGroup(groupId).toList();
+          accountGroupAgreementsCache.byGroup(groupId);
 
       Collections.reverse(temp);
 

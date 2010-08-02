@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountAgreementsCache;
+import com.google.gerrit.server.account.AccountGroupAgreementsCache;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
@@ -39,14 +40,17 @@ class AgreementInfoFactory extends Handler<AgreementInfo> {
   private final ReviewDb db;
   private final IdentifiedUser user;
   private final AccountAgreementsCache accountAgreementsCache;
+  private final AccountGroupAgreementsCache accountGroupAgreementsCache;
 
   private AgreementInfo info;
 
   @Inject
-  AgreementInfoFactory(final ReviewDb db, final IdentifiedUser user, final AccountAgreementsCache aac) {
+  AgreementInfoFactory(final ReviewDb db, final IdentifiedUser user,
+      final AccountAgreementsCache aac, final AccountGroupAgreementsCache agac) {
     this.db = db;
     this.user = user;
     this.accountAgreementsCache = aac;
+    this.accountGroupAgreementsCache = agac;
   }
 
   @Override
@@ -60,7 +64,7 @@ class AgreementInfoFactory extends Handler<AgreementInfo> {
         new ArrayList<AccountGroupAgreement>();
     for (final AccountGroup.Id groupId : user.getEffectiveGroups()) {
       final List<AccountGroupAgreement> temp =
-          db.accountGroupAgreements().byGroup(groupId).toList();
+          accountGroupAgreementsCache.byGroup(groupId);
 
       Collections.reverse(temp);
 

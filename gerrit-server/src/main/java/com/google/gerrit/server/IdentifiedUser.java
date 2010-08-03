@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountDiffPreferencesCache;
 import com.google.gerrit.server.account.AccountProjectWatchCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Realm;
@@ -63,19 +64,22 @@ public class IdentifiedUser extends CurrentUser {
     private final AccountCache accountCache;
     private final StarredChangesCache starredChangesCache;
     private final AccountProjectWatchCache accountProjectWatchCache;
+    private final AccountDiffPreferencesCache accountDiffPreferencesCache;
 
     @Inject
     GenericFactory(final AuthConfig authConfig,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
         final Realm realm, final AccountCache accountCache,
         final StarredChangesCache starredChangesCache,
-        final AccountProjectWatchCache accountProjectWatchCache) {
+        final AccountProjectWatchCache accountProjectWatchCache,
+        final AccountDiffPreferencesCache accountDiffPreferencesCache) {
       this.authConfig = authConfig;
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
       this.accountCache = accountCache;
       this.starredChangesCache = starredChangesCache;
       this.accountProjectWatchCache = accountProjectWatchCache;
+      this.accountDiffPreferencesCache = accountDiffPreferencesCache;
     }
 
     public IdentifiedUser create(final Account.Id id) {
@@ -86,7 +90,7 @@ public class IdentifiedUser extends CurrentUser {
         Provider<SocketAddress> remotePeerProvider, Account.Id id) {
       return new IdentifiedUser(accessPath, authConfig, canonicalUrl, realm,
           accountCache, starredChangesCache, accountProjectWatchCache,
-          remotePeerProvider, null, id);
+          accountDiffPreferencesCache, remotePeerProvider, null, id);
     }
   }
 
@@ -104,6 +108,7 @@ public class IdentifiedUser extends CurrentUser {
     private final AccountCache accountCache;
     private final StarredChangesCache starredChangesCache;
     private final AccountProjectWatchCache accountProjectWatchCache;
+    private final AccountDiffPreferencesCache accountDiffPreferencesCache;
 
     private final Provider<SocketAddress> remotePeerProvider;
     private final Provider<ReviewDb> dbProvider;
@@ -114,6 +119,7 @@ public class IdentifiedUser extends CurrentUser {
         final Realm realm, final AccountCache accountCache,
         final StarredChangesCache starredChangesCache,
         final AccountProjectWatchCache accountProjectWatchCache,
+        final AccountDiffPreferencesCache accountDiffPreferencesCache,
         final @RemotePeer Provider<SocketAddress> remotePeerProvider,
         final Provider<ReviewDb> dbProvider) {
       this.authConfig = authConfig;
@@ -122,6 +128,7 @@ public class IdentifiedUser extends CurrentUser {
       this.accountCache = accountCache;
       this.starredChangesCache = starredChangesCache;
       this.accountProjectWatchCache = accountProjectWatchCache;
+      this.accountDiffPreferencesCache = accountDiffPreferencesCache;
 
       this.remotePeerProvider = remotePeerProvider;
       this.dbProvider = dbProvider;
@@ -131,7 +138,7 @@ public class IdentifiedUser extends CurrentUser {
         final Account.Id id) {
       return new IdentifiedUser(accessPath, authConfig, canonicalUrl, realm,
           accountCache, starredChangesCache, accountProjectWatchCache,
-          remotePeerProvider, dbProvider, id);
+          accountDiffPreferencesCache, remotePeerProvider, dbProvider, id);
     }
   }
 
@@ -143,6 +150,7 @@ public class IdentifiedUser extends CurrentUser {
   private final AccountCache accountCache;
   private final StarredChangesCache starredChangesCache;
   private final AccountProjectWatchCache accountProjectWatchCache;
+  private final AccountDiffPreferencesCache accountDiffPreferencesCache;
 
   @Nullable
   private final Provider<SocketAddress> remotePeerProvider;
@@ -163,6 +171,7 @@ public class IdentifiedUser extends CurrentUser {
       final Realm realm, final AccountCache accountCache,
       final StarredChangesCache starredChangesCache,
       final AccountProjectWatchCache accountProjectWatchCache,
+      final AccountDiffPreferencesCache accountDiffPreferencesCache,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
     super(accessPath, authConfig);
@@ -171,6 +180,7 @@ public class IdentifiedUser extends CurrentUser {
     this.accountCache = accountCache;
     this.starredChangesCache = starredChangesCache;
     this.accountProjectWatchCache = accountProjectWatchCache;
+    this.accountDiffPreferencesCache = accountDiffPreferencesCache;
     this.remotePeerProvider = remotePeerProvider;
     this.dbProvider = dbProvider;
     this.accountId = id;
@@ -198,14 +208,9 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   public AccountDiffPreference getAccountDiffPreference() {
-    AccountDiffPreference diffPref;
-    try {
-      diffPref = dbProvider.get().accountDiffPreferences().get(getAccountId());
-      if (diffPref == null) {
-        diffPref = AccountDiffPreference.createDefault(getAccountId());
-      }
-    } catch (OrmException e) {
-      log.warn("Cannot query account diff preferences", e);
+    AccountDiffPreference diffPref =
+        accountDiffPreferencesCache.get(getAccountId());
+    if (diffPref == null) {
       diffPref = AccountDiffPreference.createDefault(getAccountId());
     }
     return diffPref;

@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountDiffPreferencesCache;
 import com.google.gerrit.server.account.AccountProjectWatchCache;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -49,6 +50,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   private final ProjectControl.Factory projectControlFactory;
   private final AgreementInfoFactory.Factory agreementInfoFactory;
   private final AccountProjectWatchCache accountProjectWatchCache;
+  private final AccountDiffPreferencesCache accountDiffPreferencesCache;
 
   @Inject
   AccountServiceImpl(final Provider<ReviewDb> schema,
@@ -56,13 +58,15 @@ class AccountServiceImpl extends BaseServiceImplementation implements
       final AccountCache accountCache,
       final ProjectControl.Factory projectControlFactory,
       final AgreementInfoFactory.Factory agreementInfoFactory,
-      final AccountProjectWatchCache accountProjectWatchCache) {
+      final AccountProjectWatchCache accountProjectWatchCache,
+      final AccountDiffPreferencesCache accountDiffPreferencesCache) {
     super(schema, identifiedUser);
     this.currentUser = identifiedUser;
     this.accountCache = accountCache;
     this.projectControlFactory = projectControlFactory;
     this.agreementInfoFactory = agreementInfoFactory;
     this.accountProjectWatchCache = accountProjectWatchCache;
+    this.accountDiffPreferencesCache = accountDiffPreferencesCache;
   }
 
   public void myAccount(final AsyncCallback<Account> callback) {
@@ -107,6 +111,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
               + " the accountId of the signed in user " + getAccountId());
         }
         db.accountDiffPreferences().upsert(Collections.singleton(diffPref));
+        accountDiffPreferencesCache.evict(diffPref.getAccountId());
         return VoidResult.INSTANCE;
       }
     });

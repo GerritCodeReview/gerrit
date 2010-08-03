@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountSshKey;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.account.AccountExternalIdCache;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
@@ -101,10 +102,12 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
   static class Loader extends EntryCreator<Account.Username, SshKeyCacheEntryCollection> {
     private final SchemaFactory<ReviewDb> schema;
+    private final AccountExternalIdCache accountExternalIdCache;
 
     @Inject
-    Loader(SchemaFactory<ReviewDb> schema) {
+    Loader(SchemaFactory<ReviewDb> schema, AccountExternalIdCache accountExternalIdCache) {
       this.schema = schema;
+      this.accountExternalIdCache = accountExternalIdCache;
     }
 
     @Override
@@ -114,7 +117,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
       try {
         final AccountExternalId.Key key =
             new AccountExternalId.Key(SCHEME_USERNAME, username.get());
-        final AccountExternalId user = db.accountExternalIds().get(key);
+        final AccountExternalId user = accountExternalIdCache.get(key);
         if (user == null) {
           return new SshKeyCacheEntryCollection(
               SshKeyCacheEntryCollection.Type.NO_SUCH_USER);

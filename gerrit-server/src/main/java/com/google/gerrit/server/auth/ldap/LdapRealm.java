@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountExternalIdCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
@@ -299,10 +300,13 @@ class LdapRealm implements Realm {
 
   static class UserLoader extends EntryCreator<String, Account.Id> {
     private final SchemaFactory<ReviewDb> schema;
+    private final AccountExternalIdCache accountExternalIdCache;
 
     @Inject
-    UserLoader(SchemaFactory<ReviewDb> schema) {
+    UserLoader(SchemaFactory<ReviewDb> schema,
+        AccountExternalIdCache accountExternalIdCache) {
       this.schema = schema;
+      this.accountExternalIdCache = accountExternalIdCache;
     }
 
     @Override
@@ -311,8 +315,8 @@ class LdapRealm implements Realm {
         final ReviewDb db = schema.open();
         try {
           final AccountExternalId extId =
-              db.accountExternalIds().get(
-                  new AccountExternalId.Key(SCHEME_GERRIT, username));
+              accountExternalIdCache.get(new AccountExternalId.Key(
+                  SCHEME_GERRIT, username));
           return extId != null ? extId.getAccountId() : null;
         } finally {
           db.close();

@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountExternalIdCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
@@ -58,18 +59,21 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   private final Provider<WebSession> webSession;
   private final Provider<String> urlProvider;
   private final AccountManager accountManager;
+  private final AccountExternalIdCache accountExternalIdCache;
   private final byte[] raw;
 
   @Inject
   BecomeAnyAccountLoginServlet(final Provider<WebSession> ws,
       final SchemaFactory<ReviewDb> sf,
       final @CanonicalWebUrl @Nullable Provider<String> up,
-      final AccountManager am, final ServletContext servletContext)
+      final AccountManager am, final ServletContext servletContext,
+      final AccountExternalIdCache aeidc)
       throws IOException {
     webSession = ws;
     schema = sf;
     urlProvider = up;
     accountManager = am;
+    accountExternalIdCache = aeidc;
 
     final String pageName = "BecomeAnyAccount.html";
     final Document doc = HtmlDomUtil.parseFile(getClass(), pageName);
@@ -192,7 +196,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       try {
         AccountExternalId.Key key =
             new AccountExternalId.Key(SCHEME_USERNAME, userName);
-        return auth(db.accountExternalIds().get(key));
+        return auth(accountExternalIdCache.get(key));
       } finally {
         db.close();
       }

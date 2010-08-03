@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountExternalIdCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -41,6 +42,7 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
   private final ExternalIdDetailFactory detailFactory;
   private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
+  private final AccountExternalIdCache accountExternalIdCache;
 
   private final Set<AccountExternalId.Key> keys;
 
@@ -48,6 +50,7 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
   DeleteExternalIds(final ReviewDb db, final IdentifiedUser user,
       final ExternalIdDetailFactory detailFactory,
       final AccountByEmailCache byEmailCache, final AccountCache accountCache,
+      final AccountExternalIdCache accountExternalIdCache,
 
       @Assisted final Set<AccountExternalId.Key> keys) {
     this.db = db;
@@ -55,6 +58,7 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
     this.detailFactory = detailFactory;
     this.byEmailCache = byEmailCache;
     this.accountCache = accountCache;
+    this.accountExternalIdCache = accountExternalIdCache;
 
     this.keys = keys;
   }
@@ -76,14 +80,14 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
       accountCache.evict(user.getAccountId());
       for (AccountExternalId e : toDelete) {
         byEmailCache.evict(e.getEmailAddress());
+        accountExternalIdCache.evict(e);
       }
     }
 
     return toKeySet(toDelete);
   }
 
-  private Map<AccountExternalId.Key, AccountExternalId> have()
-      throws OrmException {
+  private Map<AccountExternalId.Key, AccountExternalId> have() {
     Map<AccountExternalId.Key, AccountExternalId> r;
 
     r = new HashMap<AccountExternalId.Key, AccountExternalId>();

@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ContactInformation;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.UrlEncoded;
+import com.google.gerrit.server.account.AccountExternalIdCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.ProvisionException;
@@ -70,13 +71,16 @@ class EncryptedContactStore implements ContactStore {
   private final SecureRandom prng;
   private final URL storeUrl;
   private final String storeAPPSEC;
+  private final AccountExternalIdCache accountExternalIdCache;
 
   EncryptedContactStore(final URL storeUrl, final String storeAPPSEC,
-      final File pubKey, final SchemaFactory<ReviewDb> schema) {
+      final File pubKey, final SchemaFactory<ReviewDb> schema,
+      final AccountExternalIdCache accountExternalIdCache) {
     this.storeUrl = storeUrl;
     this.storeAPPSEC = storeAPPSEC;
     this.schema = schema;
     this.dest = selectKey(readPubRing(pubKey));
+    this.accountExternalIdCache = accountExternalIdCache;
 
     final String prngName = "SHA1PRNG";
     try {
@@ -252,7 +256,7 @@ class EncryptedContactStore implements ContactStore {
     try {
       final ReviewDb db = schema.open();
       try {
-        for (final AccountExternalId e : db.accountExternalIds().byAccount(
+        for (final AccountExternalId e : accountExternalIdCache.byAccount(
             account.getId())) {
           final StringBuilder oistr = new StringBuilder();
           if (e.getEmailAddress() != null && e.getEmailAddress().length() > 0) {

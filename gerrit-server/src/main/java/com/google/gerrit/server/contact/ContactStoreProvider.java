@@ -15,6 +15,7 @@
 package com.google.gerrit.server.contact;
 
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.account.AccountExternalIdCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.client.SchemaFactory;
@@ -34,13 +35,16 @@ public class ContactStoreProvider implements Provider<ContactStore> {
   private final Config config;
   private final SitePaths site;
   private final SchemaFactory<ReviewDb> schema;
+  private final AccountExternalIdCache accountExternalIdCache;
 
   @Inject
   ContactStoreProvider(@GerritServerConfig final Config config,
-      final SitePaths site, final SchemaFactory<ReviewDb> schema) {
+      final SitePaths site, final SchemaFactory<ReviewDb> schema,
+      final AccountExternalIdCache accountExternalIdCache) {
     this.config = config;
     this.site = site;
     this.schema = schema;
+    this.accountExternalIdCache = accountExternalIdCache;
   }
 
   @Override
@@ -68,7 +72,8 @@ public class ContactStoreProvider implements Provider<ContactStore> {
       throw new ProvisionException("PGP public key file \""
           + pubkey.getAbsolutePath() + "\" not found");
     }
-    return new EncryptedContactStore(storeUrl, storeAPPSEC, pubkey, schema);
+    return new EncryptedContactStore(storeUrl, storeAPPSEC, pubkey, schema,
+        accountExternalIdCache);
   }
 
   private static boolean havePGP() {

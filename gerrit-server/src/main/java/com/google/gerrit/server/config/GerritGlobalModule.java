@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.AccountAgreementsCacheImpl;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountDiffPreferencesCacheImpl;
+import com.google.gerrit.server.account.AccountExternalIdCacheImpl;
 import com.google.gerrit.server.account.AccountGroupAgreementsCacheImpl;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.AccountProjectWatchCacheImpl;
@@ -123,6 +124,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(AccountAgreementsCacheImpl.module());
     install(AccountGroupAgreementsCacheImpl.module());
     install(AccountDiffPreferencesCacheImpl.module());
+    install(AccountExternalIdCacheImpl.module());
 
     factory(AccountInfoCacheFactory.Factory.class);
     bind(ProjectState.class);

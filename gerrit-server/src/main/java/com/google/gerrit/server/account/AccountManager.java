@@ -47,6 +47,7 @@ public class AccountManager {
   private final SchemaFactory<ReviewDb> schema;
   private final AccountCache byIdCache;
   private final AccountByEmailCache byEmailCache;
+  private final AccountExternalIdCache accountExternalIdCache;
   private final AuthConfig authConfig;
   private final Realm realm;
   private final IdentifiedUser.GenericFactory userFactory;
@@ -56,12 +57,14 @@ public class AccountManager {
   @Inject
   AccountManager(final SchemaFactory<ReviewDb> schema,
       final AccountCache byIdCache, final AccountByEmailCache byEmailCache,
+      final AccountExternalIdCache accountExternalIdCache,
       final AuthConfig authConfig, final Realm accountMapper,
       final IdentifiedUser.GenericFactory userFactory,
       final ChangeUserName.Factory changeUserNameFactory) throws OrmException {
     this.schema = schema;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
+    this.accountExternalIdCache = accountExternalIdCache;
     this.authConfig = authConfig;
     this.realm = accountMapper;
     this.userFactory = userFactory;
@@ -84,7 +87,7 @@ public class AccountManager {
       final ReviewDb db = schema.open();
       try {
         final AccountExternalId ext =
-            db.accountExternalIds().get(new AccountExternalId.Key(externalId));
+            accountExternalIdCache.get(new AccountExternalId.Key(externalId));
         return ext != null ? ext.getAccountId() : null;
       } finally {
         db.close();
@@ -108,7 +111,7 @@ public class AccountManager {
       final ReviewDb db = schema.open();
       try {
         final AccountExternalId.Key key = id(who);
-        final AccountExternalId id = db.accountExternalIds().get(key);
+        final AccountExternalId id = accountExternalIdCache.get(key);
         if (id == null) {
           // New account, automatically create and return.
           //
@@ -148,6 +151,7 @@ public class AccountManager {
 
       extId.setEmailAddress(newEmail);
       db.accountExternalIds().update(Collections.singleton(extId));
+      accountExternalIdCache.evict(extId);
     }
 
     if (!realm.allowsEdit(Account.FieldName.FULL_NAME)
@@ -197,7 +201,7 @@ public class AccountManager {
       final List<AccountExternalId> openId = new ArrayList<AccountExternalId>();
       final List<AccountExternalId> v1 = new ArrayList<AccountExternalId>();
 
-      for (final AccountExternalId extId : db.accountExternalIds()
+      for (final AccountExternalId extId : accountExternalIdCache
           .byEmailAddress(who.getEmailAddress())) {
         if (extId.isScheme(OpenIdUrls.URL_GOOGLE + "?")) {
           openId.add(extId);
@@ -231,8 +235,11 @@ public class AccountManager {
           final AccountExternalId oldId = openId.get(0);
           db.accountExternalIds().upsert(Collections.singleton(newId));
           db.accountExternalIds().delete(Collections.singleton(oldId));
+          accountExternalIdCache.evict(newId);
+          accountExternalIdCache.evict(oldId);
         } else {
           db.accountExternalIds().insert(Collections.singleton(newId));
+          accountExternalIdCache.evict(newId);
         }
         return new AuthResult(accountId, newId.getKey(), false);
 
@@ -247,6 +254,8 @@ public class AccountManager {
 
         db.accountExternalIds().upsert(Collections.singleton(newId));
         db.accountExternalIds().delete(Collections.singleton(oldId));
+        accountExternalIdCache.evict(newId);
+        accountExternalIdCache.evict(oldId);
         return new AuthResult(newId.getAccountId(), newId.getKey(), false);
 
       } else if (v1.size() > 1) {
@@ -264,6 +273,7 @@ public class AccountManager {
 
     db.accounts().insert(Collections.singleton(account));
     db.accountExternalIds().insert(Collections.singleton(extId));
+    accountExternalIdCache.evict(extId);
 
     if (firstAccount.get() && firstAccount.compareAndSet(true, false)) {
       // This is the first user account on our site. Assume this user
@@ -321,7 +331,7 @@ public class AccountManager {
       final ReviewDb db = schema.open();
       try {
         final AccountExternalId.Key key = id(who);
-        AccountExternalId extId = db.accountExternalIds().get(key);
+        AccountExternalId extId = accountExternalIdCache.get(key);
         if (extId != null) {
           if (!extId.getAccountId().equals(to)) {
             throw new AccountException("Identity in use by another account");
@@ -332,6 +342,7 @@ public class AccountManager {
           extId = createId(to, who);
           extId.setEmailAddress(who.getEmailAddress());
           db.accountExternalIds().insert(Collections.singleton(extId));
+          accountExternalIdCache.evict(extId);
 
           if (who.getEmailAddress() != null) {
             final Account a = db.accounts().get(to);

@@ -37,6 +37,7 @@ import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.StarredChangesCache;
+import com.google.gerrit.server.account.AccountExternalIdCache;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.project.ChangeControl;

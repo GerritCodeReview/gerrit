@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountExternalIdCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
@@ -78,6 +79,9 @@ final class AdminCreateAccount extends BaseCommand {
   @Inject
   private AccountByEmailCache byEmailCache;
 
+  @Inject
+  private AccountExternalIdCache accountExternalIdCache;
+
   @Override
   public void start(final Environment env) {
     startThread(new CommandRunnable() {
@@ -103,15 +107,16 @@ final class AdminCreateAccount extends BaseCommand {
         new AccountExternalId(id, new AccountExternalId.Key(
             AccountExternalId.SCHEME_USERNAME, username));
 
-    if (db.accountExternalIds().get(extUser.getKey()) != null) {
+    if (accountExternalIdCache.get(extUser.getKey()) != null) {
       throw die("username '" + username + "' already exists");
     }
-    if (email != null && db.accountExternalIds().get(getEmailKey()) != null) {
+    if (email != null && accountExternalIdCache.get(getEmailKey()) != null) {
       throw die("email '" + email + "' already exists");
     }
 
     try {
       db.accountExternalIds().insert(Collections.singleton(extUser));
+      accountExternalIdCache.evict(extUser);
     } catch (OrmDuplicateKeyException duplicateKey) {
       throw die("username '" + username + "' already exists");
     }
@@ -121,9 +126,11 @@ final class AdminCreateAccount extends BaseCommand {
       extMailto.setEmailAddress(email);
       try {
         db.accountExternalIds().insert(Collections.singleton(extMailto));
+        accountExternalIdCache.evict(extMailto);
       } catch (OrmDuplicateKeyException duplicateKey) {
         try {
           db.accountExternalIds().delete(Collections.singleton(extUser));
+          accountExternalIdCache.evict(extUser);
         } catch (OrmException cleanupError) {
         }
         throw die("email '" + email + "' already exists");

@@ -49,23 +49,26 @@ public class GeneratePassword implements Callable<AccountExternalId> {
   private final AccountCache accountCache;
   private final ReviewDb db;
   private final IdentifiedUser user;
+  private final AccountExternalIdCache accountExternalIdCache;
 
   private final AccountExternalId.Key forUser;
 
   @Inject
   GeneratePassword(final AccountCache accountCache, final ReviewDb db,
       final IdentifiedUser user,
+      final AccountExternalIdCache accountExternalIdCache,
 
       @Assisted AccountExternalId.Key forUser) {
     this.accountCache = accountCache;
     this.db = db;
     this.user = user;
+    this.accountExternalIdCache = accountExternalIdCache;
 
     this.forUser = forUser;
   }
 
   public AccountExternalId call() throws OrmException, NoSuchEntityException {
-    AccountExternalId id = db.accountExternalIds().get(forUser);
+    AccountExternalId id = accountExternalIdCache.get(forUser);
     if (id == null || !user.getAccountId().equals(id.getAccountId())) {
       throw new NoSuchEntityException();
     }
@@ -73,6 +76,7 @@ public class GeneratePassword implements Callable<AccountExternalId> {
     id.setPassword(generate());
     db.accountExternalIds().update(Collections.singleton(id));
     accountCache.evict(user.getAccountId());
+    accountExternalIdCache.evict(id);
     return id;
   }
 

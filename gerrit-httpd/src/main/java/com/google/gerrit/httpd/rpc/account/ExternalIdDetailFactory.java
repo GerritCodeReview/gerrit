@@ -21,6 +21,7 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountExternalIdCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -37,21 +38,24 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
   private final IdentifiedUser user;
   private final AuthConfig authConfig;
   private final WebSession session;
+  private final AccountExternalIdCache accountExternalIdCache;
 
   @Inject
   ExternalIdDetailFactory(final ReviewDb db, final IdentifiedUser user,
-      final AuthConfig authConfig, final WebSession session) {
+      final AuthConfig authConfig, final WebSession session,
+      final AccountExternalIdCache accountExternalIdCache) {
     this.db = db;
     this.user = user;
     this.authConfig = authConfig;
     this.session = session;
+    this.accountExternalIdCache = accountExternalIdCache;
   }
 
   @Override
-  public List<AccountExternalId> call() throws OrmException {
+  public List<AccountExternalId> call() {
     final AccountExternalId.Key last = session.getLastLoginExternalId();
     final List<AccountExternalId> ids =
-        db.accountExternalIds().byAccount(user.getAccountId()).toList();
+      accountExternalIdCache.byAccount(user.getAccountId());
 
     for (final AccountExternalId e : ids) {
       e.setTrusted(authConfig.isIdentityTrustable(Collections.singleton(e)));

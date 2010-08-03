@@ -60,15 +60,15 @@ not send out the actual email, or worse, calling methods on the available
 objects could have internal side effects which would adversely affect the
 health of your Gerrit server and/or data.
 
-All OugoingEmails
-~~~~~~~~~~~~~~~~~
+All OutgoingEmails
+~~~~~~~~~~~~~~~~~~
 
 All outgoing emails have the following variables available to them:
 
 $email::
 +
-A reference to the class constructing the current `OutgoinEmail`.  With this
-reference it is possible to call any public method on the OutgoinEmail class
+A reference to the class constructing the current `OutgoingEmail`.  With this
+reference it is possible to call any public method on the OutgoingEmail class
 or the current child class inherited from it.
 
 $messageClass::
@@ -95,7 +95,7 @@ Id of the current change (a `Change.Key`)
 
 $coverLetter::
 +
-The txt of the `ChangeMessage`
+The text of the `ChangeMessage`
 
 $branch::
 +

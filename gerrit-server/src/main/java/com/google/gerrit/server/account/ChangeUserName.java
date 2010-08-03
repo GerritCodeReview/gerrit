@@ -69,6 +69,7 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   private final AccountCache accountCache;
   private final SshKeyCache sshKeyCache;
+  private final AccountExternalIdCache accountExternalIdCache;
 
   private final ReviewDb db;
   private final IdentifiedUser user;
@@ -77,11 +78,13 @@ public class ChangeUserName implements Callable<VoidResult> {
   @Inject
   ChangeUserName(final AccountCache accountCache,
       final SshKeyCache sshKeyCache,
+      final AccountExternalIdCache accountExternalIdCache,
 
       @Assisted final ReviewDb db, @Assisted final IdentifiedUser user,
       @Nullable @Assisted final String newUsername) {
     this.accountCache = accountCache;
     this.sshKeyCache = sshKeyCache;
+    this.accountExternalIdCache = accountExternalIdCache;
 
     this.db = db;
     this.user = user;
@@ -113,10 +116,11 @@ public class ChangeUserName implements Callable<VoidResult> {
         }
 
         db.accountExternalIds().insert(Collections.singleton(id));
+        accountExternalIdCache.evict(id);
       } catch (OrmDuplicateKeyException dupeErr) {
         // If we are using this identity, don't report the exception.
         //
-        AccountExternalId other = db.accountExternalIds().get(key);
+        AccountExternalId other = accountExternalIdCache.get(key);
         if (other != null && other.getAccountId().equals(user.getAccountId())) {
           return VoidResult.INSTANCE;
         }
@@ -133,6 +137,7 @@ public class ChangeUserName implements Callable<VoidResult> {
     for (AccountExternalId i : old) {
       sshKeyCache.evict(i.getSchemeRest());
       accountCache.evictByUsername(i.getSchemeRest());
+      accountExternalIdCache.evict(i);
     }
 
     accountCache.evict(user.getAccountId());
@@ -141,9 +146,9 @@ public class ChangeUserName implements Callable<VoidResult> {
     return VoidResult.INSTANCE;
   }
 
-  private Collection<AccountExternalId> old() throws OrmException {
+  private Collection<AccountExternalId> old() {
     final Collection<AccountExternalId> r = new ArrayList<AccountExternalId>(1);
-    for (AccountExternalId i : db.accountExternalIds().byAccount(
+    for (AccountExternalId i : accountExternalIdCache.byAccount(
         user.getAccountId())) {
       if (i.isScheme(SCHEME_USERNAME)) {
         r.add(i);

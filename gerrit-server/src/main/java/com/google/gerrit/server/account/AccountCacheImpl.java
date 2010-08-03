@@ -93,17 +93,20 @@ public class AccountCacheImpl implements AccountCache {
     private final Set<AccountGroup.Id> registered;
     private final Set<AccountGroup.Id> anonymous;
     private final GroupCache groupCache;
+    private final AccountExternalIdCache accountExternalIdCache;
     private final Cache<Account.Username, Account.Id> byName;
 
     @Inject
     ByIdLoader(SchemaFactory<ReviewDb> sf, AuthConfig auth,
         GroupCache groupCache,
+        AccountExternalIdCache accountExternalIdCache,
         @Named(BYUSER_NAME) Cache<Account.Username, Account.Id> byUsername) {
       this.schema = sf;
       this.registered = auth.getRegisteredGroups();
       this.anonymous = auth.getAnonymousGroups();
       this.groupCache = groupCache;
       this.byName = byUsername;
+      this.accountExternalIdCache = accountExternalIdCache;
     }
 
     @Override
@@ -131,8 +134,8 @@ public class AccountCacheImpl implements AccountCache {
       }
 
       final Collection<AccountExternalId> externalIds =
-          Collections.unmodifiableCollection(db.accountExternalIds().byAccount(
-              who).toList());
+          Collections.unmodifiableCollection(accountExternalIdCache.byAccount(
+              who));
 
       Set<AccountGroup.Id> internalGroups = new HashSet<AccountGroup.Id>();
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
@@ -163,9 +166,12 @@ public class AccountCacheImpl implements AccountCache {
 
   static class ByNameLoader extends EntryCreator<Account.Username, Account.Id> {
     private final SchemaFactory<ReviewDb> schema;
+    private final AccountExternalIdCache accountExternalIdCache;
 
     @Inject
-    ByNameLoader(final SchemaFactory<ReviewDb> sf) {
+    ByNameLoader(final SchemaFactory<ReviewDb> sf,
+        final AccountExternalIdCache accountExternalIdCache) {
+      this.accountExternalIdCache = accountExternalIdCache;
       this.schema = sf;
     }
 
@@ -176,7 +182,7 @@ public class AccountCacheImpl implements AccountCache {
         final AccountExternalId.Key key = new AccountExternalId.Key( //
             AccountExternalId.SCHEME_USERNAME, //
             username.get());
-        final AccountExternalId id = db.accountExternalIds().get(key);
+        final AccountExternalId id = accountExternalIdCache.get(key);
         return id != null ? id.getAccountId() : null;
       } finally {
         db.close();

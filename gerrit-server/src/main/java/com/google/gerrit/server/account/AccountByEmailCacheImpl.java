@@ -66,10 +66,13 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
 
   static class Loader extends EntryCreator<Account.Email, AccountIdSet> {
     private final SchemaFactory<ReviewDb> schema;
+    private final AccountExternalIdCache accountExternalIdCache;
 
     @Inject
-    Loader(final SchemaFactory<ReviewDb> schema) {
+    Loader(final SchemaFactory<ReviewDb> schema,
+        final AccountExternalIdCache accountExternalIdCache) {
       this.schema = schema;
+      this.accountExternalIdCache = accountExternalIdCache;
     }
 
     @Override
@@ -80,8 +83,8 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
         for (Account a : db.accounts().byPreferredEmail(email.get())) {
           r.add(a.getId());
         }
-        for (AccountExternalId a : db.accountExternalIds()
-            .byEmailAddress(email.get())) {
+        for (AccountExternalId a : accountExternalIdCache.byEmailAddress(email
+            .get())) {
           r.add(a.getAccountId());
         }
         return pack(r);

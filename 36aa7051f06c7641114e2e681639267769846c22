@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA3n///yk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-08-03T16:48:54Z",
+      "side": 1,
+      "message": "Changed...  I would say that reviewers here was meant not as an adjective, but a possessive plural noun  (reviewers\u0027). :)",
+      "parentUuid": "AAAA3X///04\u003d",
+      "revId": "36aa7051f06c7641114e2e681639267769846c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3X///8U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
         "patchSetId": 1
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA3n///yg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-08-03T16:48:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA3X///8U\u003d",
+      "revId": "36aa7051f06c7641114e2e681639267769846c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA3X///8c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
         "patchSetId": 1
@@ -83,6 +119,24 @@
       "writtenOn": "2010-07-26T21:24:42Z",
       "side": 1,
       "message": "Since you are completely rewriting this code, lets fix the for loop to be the more simple Java-5 style:\n\n  for (Account.Id id : reviewers)",
+      "revId": "36aa7051f06c7641114e2e681639267769846c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA3n///yc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-08-03T16:48:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA3X///8c\u003d",
       "revId": "36aa7051f06c7641114e2e681639267769846c22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

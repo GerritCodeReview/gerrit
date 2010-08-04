@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA33///Wg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountExternalIdCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-04T19:21:00Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is worth it either.  We probably can implement it in terms of the byAccount(Account.Id) and looping through.",
+      "revId": "0b7ad4f4f8ef790fa82bee7cf171e68800ecd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///Wk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountExternalIdCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-04T19:21:00Z",
+      "side": 1,
+      "message": "This cache isn\u0027t worth it.  Implement it by using byAccount and looping through the results checking the email field.  On average an account has like 2-5 AccountExternalId values.\n\nHeck, that query probably isn\u0027t worth it.",
+      "revId": "0b7ad4f4f8ef790fa82bee7cf171e68800ecd35b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

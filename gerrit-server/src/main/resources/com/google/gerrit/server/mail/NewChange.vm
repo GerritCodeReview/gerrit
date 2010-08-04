@@ -32,7 +32,6 @@
 ## to a user submitting a new change for review. It is a ChangeEmail: see
 ## ChangeSubject.vm and ChangeFooter.vm.
 ##
-#set ($destination = "Change $changeId.abbreviate() for $branch.shortName in $projectName:")
 #if($email.reviewerNames)
 Hello $StringUtils.join($email.reviewerNames, ' ,'),
 
@@ -40,18 +39,14 @@ I'd like you to do a code review.#if($email.changeUrl)  Please visit
 
     $email.changeUrl
 
-to review the following change:
+to review the following change.
 #end
-
-$destination
 #else
-$destination
-#if($email.changeUrl)
-
-    $email.changeUrl
-
+$fromName has uploaded a new change for review.
 #end
-#end
+
+Change subject: $change.subject
+......................................................................
 
 $email.changeDetail
   git pull ssh://$email.sshHost/$projectName $patchSet.refName

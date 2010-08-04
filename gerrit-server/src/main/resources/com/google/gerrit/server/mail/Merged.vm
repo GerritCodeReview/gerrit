@@ -32,7 +32,13 @@
 ## a change successfully merged to the head.  It is a ChangeEmail: see
 ## ChangeSubject.vm and ChangeFooter.vm.
 ##
-Change $changeId.abbreviate()#if ($patchSetInfo.author.name)
- by $patchSetInfo.author.name#end submitted to $change.dest.shortName:
+#macro(elipses $length $str)
+#if($str.length() > $length)${str.substring(0,$length)}...#else$str#end
+#end
+$fromName has submitted this change and it was merged.
+
+Change subject: $change.subject
+......................................................................
+
 
 $email.changeDetail$email.approvals

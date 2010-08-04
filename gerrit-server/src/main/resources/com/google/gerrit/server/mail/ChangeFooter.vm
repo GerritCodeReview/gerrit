@@ -44,6 +44,8 @@ To unsubscribe, visit $email.settingsUrl
 
 #end
 Gerrit-MessageType: $messageClass
+Gerrit-Change-Id: $changeId
+Gerrit-PatchSet: $patchSet.patchSetId
 Gerrit-Project: $projectName
 Gerrit-Branch: $branch.shortName
 Gerrit-Owner: $email.getNameEmailFor($change.owner)

@@ -34,4 +34,4 @@
 #macro(elipses $length $str)
 #if($str.length() > $length)${str.substring(0,$length)}...#else$str#end
 #end
-[$branch.shortName] Change $changeId.abbreviate(): ($projectName) #elipses(60, $change.subject)
+Change in $projectName.replaceAll('/.*/', '...')[$branch.shortName]: #elipses(60, $change.subject)

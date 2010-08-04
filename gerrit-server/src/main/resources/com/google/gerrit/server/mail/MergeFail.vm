@@ -32,8 +32,11 @@
 ## to a failure upon attempting to merge a change to the head.  It is a
 ## ChangeEmail: see ChangeSubject.vm and ChangeFooter.vm.
 ##
-Change $change.key.abbreviate()#if ($patchSetInfo.author.name)
- by $patchSetInfo.author.name#end FAILED to submit to ${change.dest.shortName}.
+$fromName has submitted this change and it FAILED to merge.
+
+Change subject: $change.subject
+......................................................................
+
 
 #if ($email.coverLetter)
 $email.coverLetter

@@ -362,7 +362,7 @@ public class RefControl {
   private final Comparator<String> BY_MOST_SPECIFIC_SORT =
       new Comparator<String>() {
         public int compare(final String pattern1, final String pattern2) {
-          int cmp = distance(pattern2) - distance(pattern1);
+          int cmp = distance(pattern1) - distance(pattern2);
           if (cmp == 0) {
             boolean p1_finite = finite(pattern1);
             boolean p2_finite = finite(pattern2);

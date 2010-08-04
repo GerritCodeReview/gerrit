@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4H////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-04T22:43:59Z",
+      "side": 1,
+      "message": "We shouldn\u0027t ignore an invalid enum value.",
+      "revId": "b2225c522beae5ed8506ea25d6fec96c45503803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4H////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/DownloadSchemeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-04T22:43:59Z",
+      "side": 1,
+      "message": "This should just be a Set\u003cDownloadScheme\u003e, and be immutable.  I\u0027ll fix it up during cherry-pick.",
+      "revId": "b2225c522beae5ed8506ea25d6fec96c45503803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4H////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/DownloadSchemeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-04T22:43:59Z",
+      "side": 1,
+      "message": "We shouldn\u0027t eat an exception here, if the configuration is bad the administrator should correct it.",
+      "revId": "b2225c522beae5ed8506ea25d6fec96c45503803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4H////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/DownloadSchemeConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-04T22:43:59Z",
+      "side": 1,
+      "message": "Shouldn\u0027t ever occur given how you wrote getEnumList.",
+      "revId": "b2225c522beae5ed8506ea25d6fec96c45503803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

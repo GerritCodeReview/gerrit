@@ -31,6 +31,7 @@ import com.google.gerrit.server.events.ApprovalAttribute;
 import com.google.gerrit.server.events.ChangeAbandonedEvent;
 import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.ChangeMergedEvent;
+import com.google.gerrit.server.events.ChangeRestoreEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
@@ -92,6 +93,9 @@ public class ChangeHookRunner {
     /** Filename of the change abandoned hook. */
     private final File changeAbandonedHook;
 
+    /** Filename of the change abandoned hook. */
+    private final File changeRestoredHook;
+
     /** Repository Manager. */
     private final GitRepositoryManager repoManager;
 
@@ -136,6 +140,7 @@ public class ChangeHookRunner {
         commentAddedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "commentAddedHook", "comment-added")).getPath());
         changeMergedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeMergedHook", "change-merged")).getPath());
         changeAbandonedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeAbandonedHook", "change-abandoned")).getPath());
+        changeRestoredHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeRestoredHook", "change-restored")).getPath());
     }
 
     public void addChangeListener(ChangeListener listener, IdentifiedUser user) {
@@ -302,6 +307,32 @@ public class ChangeHookRunner {
         addArg(args, "--reason", reason == null ? "" : reason);
 
         runHook(openRepository(change), changeAbandonedHook, args);
+    }
+
+    /**
+     * Fire the Change Restored Hook.
+     *
+     * @param change The change itself.
+     * @param account The gerrit user who restored the change.
+     * @param reason Reason for restoring the change.
+     */
+    public void doChangeRestoreHook(final Change change, final Account account, final String reason) {
+        final ChangeRestoreEvent event = new ChangeRestoreEvent();
+
+        event.change = eventFactory.asChangeAttribute(change);
+        event.restorer = eventFactory.asAccountAttribute(account);
+        event.reason = reason;
+        fireEvent(change, event);
+
+        final List<String> args = new ArrayList<String>();
+        addArg(args, "--change", event.change.id);
+        addArg(args, "--change-url", event.change.url);
+        addArg(args, "--project", event.change.project);
+        addArg(args, "--branch", event.change.branch);
+        addArg(args, "--restorer", getDisplayName(account));
+        addArg(args, "--reason", reason == null ? "" : reason);
+
+        runHook(openRepository(change), changeRestoredHook, args);
     }
 
     private void fireEvent(final Change change, final ChangeEvent event) {

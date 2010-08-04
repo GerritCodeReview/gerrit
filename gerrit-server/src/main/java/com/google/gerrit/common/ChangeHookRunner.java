@@ -26,13 +26,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.events.ApprovalAttribute;
-import com.google.gerrit.server.events.ChangeAbandonedEvent;
-import com.google.gerrit.server.events.ChangeEvent;
-import com.google.gerrit.server.events.ChangeMergedEvent;
-import com.google.gerrit.server.events.CommentAddedEvent;
-import com.google.gerrit.server.events.EventFactory;
-import com.google.gerrit.server.events.PatchSetCreatedEvent;
+import com.google.gerrit.server.events.*;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectCache;
@@ -90,6 +84,9 @@ public class ChangeHookRunner {
     /** Filename of the change abandoned hook. */
     private final File changeAbandonedHook;
 
+    /** Filename of the change abandoned hook. */
+    private final File changeRestoredHook;
+
     /** Repository Manager. */
     private final GitRepositoryManager repoManager;
 
@@ -134,6 +131,7 @@ public class ChangeHookRunner {
         commentAddedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "commentAddedHook", "comment-added")).getPath());
         changeMergedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeMergedHook", "change-merged")).getPath());
         changeAbandonedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeAbandonedHook", "change-abandoned")).getPath());
+        changeRestoredHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeRestoredHook", "change-restored")).getPath());
     }
 
     public void addChangeListener(ChangeListener listener, IdentifiedUser user) {
@@ -321,6 +319,40 @@ public class ChangeHookRunner {
         args.add("--branch");
         args.add(event.change.branch);
         args.add("--abandoner");
+        args.add(getDisplayName(account));
+        args.add("--reason");
+        args.add(reason == null ? "" : reason);
+
+        runHook(getRepo(change), args);
+    }
+
+    /**
+     * Fire the Change Restored Hook.
+     *
+     * @param change The change itself.
+     * @param account The gerrit user who restored the change.
+     * @param reason Reason for restoring the change.
+     */
+    public void doChangeRestoreHook(final Change change, final Account account, final String reason) {
+        final ChangeRestoreEvent event = new ChangeRestoreEvent();
+
+        event.change = eventFactory.asChangeAttribute(change);
+        event.restorer = eventFactory.asAccountAttribute(account);
+        event.reason = reason;
+        fireEvent(change, event);
+
+        final List<String> args = new ArrayList<String>();
+        args.add(changeRestoredHook.getAbsolutePath());
+
+        args.add("--change");
+        args.add(event.change.id);
+        args.add("--change-url");
+        args.add(event.change.url);
+        args.add("--project");
+        args.add(event.change.project);
+        args.add("--branch");
+        args.add(event.change.branch);
+        args.add("--restorer");
         args.add(getDisplayName(account));
         args.add("--reason");
         args.add(reason == null ? "" : reason);

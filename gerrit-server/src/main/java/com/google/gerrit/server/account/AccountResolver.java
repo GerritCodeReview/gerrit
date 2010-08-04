@@ -61,13 +61,16 @@ public class AccountResolver {
       return byId.get(Account.Id.parse(nameOrEmail)).getAccount();
     }
 
+    if (nameOrEmail.matches(Account.USER_NAME_PATTERN)) {
+      Account who = findByUserName(nameOrEmail);
+      if (who != null) {
+        return who;
+      }
+    }
+
     Account account = findByNameOrEmail(nameOrEmail);
     if (account != null) {
       return account;
-    }
-
-    if (nameOrEmail.matches(Account.USER_NAME_PATTERN)) {
-      return findByUserName(nameOrEmail);
     }
 
     return null;

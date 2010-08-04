@@ -159,6 +159,11 @@ public class ChangeControl {
     ;
   }
 
+  /** Can this user restore this change? */
+  public boolean canRestore() {
+    return canAbandon(); // Anyone who can abandon the change can restore it back
+  }
+
   public short normalize(ApprovalCategory.Id category, short score) {
     return getRefControl().normalize(category, score);
   }

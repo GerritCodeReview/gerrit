@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA33///WM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/RestoreChangeDialog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-04T19:27:13Z",
+      "side": 1,
+      "message": "OK, there is a lot more code here than I had expected.  Maybe it is worth moving a lot of it into a common base class.  But a fair amount is just boilerplate needed to put the strings on screen, and the strings are different between the two class.  I am half afraid that a common base class would make the individual subclass have almost as most code as they do now, and yet we\u0027d have that common base class too.",
+      "revId": "2072bc2d74565dd29f77108d989ebcf4625c14bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA33///WI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ChangeRestoreEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-04T19:27:13Z",
+      "side": 1,
+      "message": "s/abandoned/restored/\n\nAlso please document this new event in Documentation/cmd-stream-events.txt.",
+      "revId": "2072bc2d74565dd29f77108d989ebcf4625c14bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

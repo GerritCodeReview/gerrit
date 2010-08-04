@@ -166,6 +166,8 @@ public class OpenIdSignInDialog extends SignInDialog implements
   }
 
   private void createIdentBox() {
+    boolean remember = mode == SignInMode.SIGN_IN || mode == SignInMode.REGISTER;
+
     final FlowPanel group = new FlowPanel();
     group.setStyleName(OpenIdResources.I.css().loginLine());
 
@@ -206,10 +208,20 @@ public class OpenIdSignInDialog extends SignInDialog implements
         form.submit();
       }
     });
-    login.setTabIndex(2);
+    login.setTabIndex(remember ? 2 : 1);
     line1.add(login);
 
-    if (mode == SignInMode.SIGN_IN) {
+    Button close = new Button(Gerrit.C.signInDialogClose());
+    close.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        hide();
+      }
+    });
+    close.setTabIndex(remember ? 3 : 2);
+    line1.add(close);
+
+    if (remember) {
       rememberId = new CheckBox(OpenIdUtil.C.rememberMe());
       rememberId.setTabIndex(1);
       group.add(rememberId);

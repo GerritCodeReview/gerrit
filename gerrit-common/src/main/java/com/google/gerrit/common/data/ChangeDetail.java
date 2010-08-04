@@ -30,6 +30,7 @@ public class ChangeDetail {
   protected AccountInfoCache accounts;
   protected boolean allowsAnonymous;
   protected boolean canAbandon;
+  protected boolean canRestore;
   protected Change change;
   protected boolean starred;
   protected List<ChangeInfo> dependsOn;
@@ -67,6 +68,14 @@ public class ChangeDetail {
 
   public void setCanAbandon(final boolean a) {
     canAbandon = a;
+  }
+
+  public boolean canRestore() {
+    return canRestore;
+  }
+
+  public void setCanRestore(final boolean a) {
+    canRestore = a;
   }
 
   public Change getChange() {

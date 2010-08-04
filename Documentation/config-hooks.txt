@@ -57,6 +57,15 @@ Called whenever a change has been abandoned.
   change-abandoned --change <change id> --change-url <change url> --project <project name> --branch <branch> --abandoner <abandoner> --reason <reason>
 ====
 
+change-restored
+~~~~~~~~~~~~~~~~
+
+Called whenever a change has been restored.
+
+====
+  change-restored --change <change id> --change-url <change url> --project <project name> --branch <branch> --restorer <restorer> --reason <reason>
+====
+
 
 Configuration Settings
 ----------------------

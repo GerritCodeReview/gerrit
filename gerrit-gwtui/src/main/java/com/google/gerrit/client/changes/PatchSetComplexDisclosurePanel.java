@@ -418,6 +418,26 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       });
       actionsPanel.add(b);
     }
+
+    if (changeDetail.canRestore()) {
+      final Button b = new Button(Util.C.buttonRestoreChangeBegin());
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          new RestoreChangeDialog(patchSet.getId(),
+              new AsyncCallback<ChangeDetail>() {
+                public void onSuccess(ChangeDetail result) {
+                  changeScreen.display(result);
+                }
+
+                public void onFailure(Throwable caught) {
+                  b.setEnabled(true);
+                }
+              }).center();
+        }
+      });
+      actionsPanel.add(b);
+    }
   }
 
   private void populateDiffAllActions(final PatchSetDetail detail) {

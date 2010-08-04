@@ -40,8 +40,11 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -346,21 +349,37 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> owner(String who) throws QueryParseException,
       OrmException {
-    Account account = args.accountResolver.find(who);
-    if (account == null) {
+    Set<Account.Id> m = args.accountResolver.findAll(who);
+    if (m.isEmpty()) {
       throw error("User " + who + " not found");
+    } else if (m.size() == 1) {
+      Account.Id id = m.iterator().next();
+      return new OwnerPredicate(args.dbProvider, id);
+    } else {
+      List<OwnerPredicate> p = new ArrayList<OwnerPredicate>(m.size());
+      for (Account.Id id : m) {
+        p.add(new OwnerPredicate(args.dbProvider, id));
+      }
+      return Predicate.or(p);
     }
-    return new OwnerPredicate(args.dbProvider, account.getId());
   }
 
   @Operator
-  public Predicate<ChangeData> reviewer(String nameOrEmail)
+  public Predicate<ChangeData> reviewer(String who)
       throws QueryParseException, OrmException {
-    Account account = args.accountResolver.find(nameOrEmail);
-    if (account == null) {
-      throw error("Reviewer " + nameOrEmail + " not found");
+    Set<Account.Id> m = args.accountResolver.findAll(who);
+    if (m.isEmpty()) {
+      throw error("User " + who + " not found");
+    } else if (m.size() == 1) {
+      Account.Id id = m.iterator().next();
+      return new ReviewerPredicate(args.dbProvider, id);
+    } else {
+      List<ReviewerPredicate> p = new ArrayList<ReviewerPredicate>(m.size());
+      for (Account.Id id : m) {
+        p.add(new ReviewerPredicate(args.dbProvider, id));
+      }
+      return Predicate.or(p);
     }
-    return new ReviewerPredicate(args.dbProvider, account.getId());
   }
 
   @Operator

@@ -20,10 +20,12 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class RewritePredicate<T> extends Predicate<T> {
-  private String name = getClass().getName();
+  private boolean init;
+  private String name = getClass().getSimpleName();
   private List<Predicate<T>> children = Collections.emptyList();
 
-  void init(String name, Predicate<T>[] args) {
+  protected void init(String name, Predicate<T>... args) {
+    this.init = true;
     this.name = name;
     this.children = Arrays.asList(args);
   }
@@ -33,10 +35,18 @@ public abstract class RewritePredicate<T> extends Predicate<T> {
     return this;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public boolean equals(Object other) {
-    return getClass() == other.getClass()
-        && children.equals(((RewritePredicate) other).children);
+    if (other instanceof RewritePredicate) {
+      RewritePredicate that = (RewritePredicate<T>) other;
+      if (this.init && that.init) {
+        return this.getClass() == that.getClass()
+            && this.name.equals(that.name)
+            && this.children.equals(that.children);
+      }
+    }
+    return this == other;
   }
 
   @Override

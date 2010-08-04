@@ -38,8 +38,7 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
               new ChangeQueryBuilder.Arguments( //
                   new InvalidProvider<ReviewDb>(), //
                   new InvalidProvider<ChangeQueryRewriter>(), //
-                  null, null, null, null, null, null, null, null, null),
-              null));
+                  null, null, null, null, null, null, null, null, null), null));
 
   private final Provider<ReviewDb> dbProvider;
 
@@ -287,11 +286,16 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     };
   }
 
+  @SuppressWarnings("unchecked")
   @Rewrite("status:merged S=(sortkey_after:*) L=(limit:*)")
   public Predicate<ChangeData> r20_byMergedPrev(
       @Named("S") final SortKeyPredicate.After s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(50000, s.getValue(), l.intValue()) {
+      {
+        init("r20_byMergedPrev", s, l);
+      }
+
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -306,11 +310,16 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     };
   }
 
+  @SuppressWarnings("unchecked")
   @Rewrite("status:merged S=(sortkey_before:*) L=(limit:*)")
   public Predicate<ChangeData> r20_byMergedNext(
       @Named("S") final SortKeyPredicate.Before s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(50000, s.getValue(), l.intValue()) {
+      {
+        init("r20_byMergedNext", s, l);
+      }
+
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -325,11 +334,16 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     };
   }
 
+  @SuppressWarnings("unchecked")
   @Rewrite("status:abandoned S=(sortkey_after:*) L=(limit:*)")
   public Predicate<ChangeData> r20_byAbandonedPrev(
       @Named("S") final SortKeyPredicate.After s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(50000, s.getValue(), l.intValue()) {
+      {
+        init("r20_byAbandonedPrev", s, l);
+      }
+
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -344,11 +358,16 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     };
   }
 
+  @SuppressWarnings("unchecked")
   @Rewrite("status:abandoned S=(sortkey_before:*) L=(limit:*)")
   public Predicate<ChangeData> r20_byAbandonedNext(
       @Named("S") final SortKeyPredicate.Before s,
       @Named("L") final IntPredicate<ChangeData> l) {
     return new PaginatedSource(50000, s.getValue(), l.intValue()) {
+      {
+        init("r20_byAbandonedNext", s, l);
+      }
+
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
           throws OrmException {
@@ -379,10 +398,15 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     return or(r20_byMergedNext(s, l), r20_byAbandonedNext(s, l));
   }
 
+  @SuppressWarnings("unchecked")
   @Rewrite("status:open O=(owner:*)")
   public Predicate<ChangeData> r25_byOwnerOpen(
       @Named("O") final OwnerPredicate o) {
     return new ChangeSource(50) {
+      {
+        init("r25_byOwnerOpen", o);
+      }
+
       @Override
       ResultSet<Change> scan(ChangeAccess a) throws OrmException {
         return a.byOwnerOpen(o.getAccountId());
@@ -395,10 +419,15 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     };
   }
 
+  @SuppressWarnings("unchecked")
   @Rewrite("status:closed O=(owner:*)")
   public Predicate<ChangeData> r25_byOwnerClosed(
       @Named("O") final OwnerPredicate o) {
     return new ChangeSource(5000) {
+      {
+        init("r25_byOwnerClosed", o);
+      }
+
       @Override
       ResultSet<Change> scan(ChangeAccess a) throws OrmException {
         return a.byOwnerClosedAll(o.getAccountId());
@@ -417,10 +446,15 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     return or(r25_byOwnerOpen(o), r25_byOwnerClosed(o));
   }
 
+  @SuppressWarnings("unchecked")
   @Rewrite("status:open R=(reviewer:*)")
   public Predicate<ChangeData> r30_byReviewerOpen(
       @Named("R") final ReviewerPredicate r) {
     return new Source() {
+      {
+        init("r30_byReviewerOpen", r);
+      }
+
       @Override
       public ResultSet<ChangeData> read() throws OrmException {
         return ChangeDataResultSet.patchSetApproval(dbProvider.get()
@@ -445,10 +479,15 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     };
   }
 
+  @SuppressWarnings("unchecked")
   @Rewrite("status:closed R=(reviewer:*)")
   public Predicate<ChangeData> r30_byReviewerClosed(
       @Named("R") final ReviewerPredicate r) {
     return new Source() {
+      {
+        init("r30_byReviewerClosed", r);
+      }
+
       @Override
       public ResultSet<ChangeData> read() throws OrmException {
         return ChangeDataResultSet.patchSetApproval(dbProvider.get()

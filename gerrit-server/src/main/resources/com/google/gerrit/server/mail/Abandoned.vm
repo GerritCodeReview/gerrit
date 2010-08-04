@@ -32,7 +32,11 @@
 ## to a change being abandoned.   It is a ChangeEmail: see ChangeSubject.vm and
 ## ChangeFooter.vm.
 ##
-$fromName has abandoned change $changeId.abbreviate():
+$fromName has abandoned this change.
+
+Change subject: $change.subject
+......................................................................
+
 
 #if ($coverLetter)
 $coverLetter

@@ -32,26 +32,21 @@
 ## related to a user submitting a new patchset for a change.  It is a
 ## ChangeEmail: see ChangeSubject.vm and ChangeFooter.vm.
 ##
-#set ($destination = "Change $changeId.abbreviate() (patch set $patchSet.patchSetId) for $branch.shortName in $projectName:")
 #if($email.reviewerNames)
 Hello $StringUtils.join($email.reviewerNames, ' ,'),
 
-I'd like you to reexamine change ${changeId.abbreviate()}.#if($email.changeUrl)  Please visit
+I'd like you to reexamine a change.#if($email.changeUrl)  Please visit
 
     $email.changeUrl
 
-to look at patch set $patchSet.patchSetId
+to look at the new patch set(#$patchSet.patchSetId).
 #end
-
-$destination
 #else
-$destination
-#if($email.changeUrl)
-
-    $email.changeUrl
-
+$fromName has uploaded a new patch set(#$patchSet.patchSetId) to this change for review.
 #end
-#end
+
+Change subject: $change.subject
+......................................................................
 
 $email.changeDetail
   git pull ssh://$email.sshHost/$projectName $patchSet.refName

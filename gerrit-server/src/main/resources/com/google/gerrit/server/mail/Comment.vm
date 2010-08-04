@@ -33,15 +33,15 @@
 ## ChangeSubject.vm and ChangeFooter.vm.
 ##
 #if ($email.coverLetter || $email.inlineComments)
-Comments on Patch Set $patchSet.patchSetId:
+$fromName has posted comments on this change.
+
+Change subject: $change.subject
+......................................................................
+
 
 #if ($email.coverLetter)
 $email.coverLetter
 
 #end
 #if($email.inlineComments)$email.inlineComments#end
-#if ($email.changeUrl)
-To respond, visit $email.changeUrl
-
-#end
 #end

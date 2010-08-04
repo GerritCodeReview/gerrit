@@ -37,11 +37,11 @@ class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
   }
 
   private final Provider<ReviewDb> db;
-  private final ChangeControl.Factory changeControl;
+  private final ChangeControl.GenericFactory changeControl;
   private final CurrentUser user;
 
   IsVisibleToPredicate(Provider<ReviewDb> db,
-      ChangeControl.Factory changeControlFactory, CurrentUser user) {
+      ChangeControl.GenericFactory changeControlFactory, CurrentUser user) {
     super(ChangeQueryBuilder.FIELD_VISIBLETO, describe(user));
     this.db = db;
     this.changeControl = changeControlFactory;
@@ -55,7 +55,7 @@ class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
     }
     try {
       Change c = cd.change(db);
-      if (c != null && changeControl.controlFor(c).forUser(user).isVisible()) {
+      if (c != null && changeControl.controlFor(c, user).isVisible()) {
         cd.cacheVisibleTo(user);
         return true;
       } else {

@@ -335,7 +335,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   public Predicate<ChangeData> visibleto(CurrentUser user) {
     return new IsVisibleToPredicate(args.dbProvider, //
-        args.changeControlFactory, //
+        args.changeControlGenericFactory, //
         user);
   }
 

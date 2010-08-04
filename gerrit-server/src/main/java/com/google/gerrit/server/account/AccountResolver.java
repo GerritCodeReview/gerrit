@@ -115,7 +115,7 @@ public class AccountResolver {
     return r.size() == 1 ? r.get(0) : null;
   }
 
-  private Account findByUserName(final String userName) throws OrmException {
+  private Account findByUserName(final String userName) {
     AccountState as = byId.getByUsername(userName);
     return as != null ? as.getAccount() : null;
   }

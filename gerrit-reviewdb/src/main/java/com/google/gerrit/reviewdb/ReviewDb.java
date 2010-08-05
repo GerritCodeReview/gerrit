@@ -33,88 +33,88 @@ import com.google.gwtorm.client.Sequence;
 public interface ReviewDb extends Schema {
   /* If you change anything, update SchemaVersion.C to use a new version. */
 
-  @Relation
+  @Relation(id = 1)
   SchemaVersionAccess schemaVersion();
 
-  @Relation
+  @Relation(id = 2)
   SystemConfigAccess systemConfig();
 
-  @Relation
+  @Relation(id = 3)
   ApprovalCategoryAccess approvalCategories();
 
-  @Relation
+  @Relation(id = 4)
   ApprovalCategoryValueAccess approvalCategoryValues();
 
-  @Relation
+  @Relation(id = 5)
   ContributorAgreementAccess contributorAgreements();
 
-  @Relation
+  @Relation(id = 6)
   AccountAccess accounts();
 
-  @Relation
+  @Relation(id = 7)
   AccountExternalIdAccess accountExternalIds();
 
-  @Relation
+  @Relation(id = 8)
   AccountSshKeyAccess accountSshKeys();
 
-  @Relation
+  @Relation(id = 9)
   AccountAgreementAccess accountAgreements();
 
-  @Relation
+  @Relation(id = 10)
   AccountGroupAccess accountGroups();
 
-  @Relation
+  @Relation(id = 11)
   AccountGroupNameAccess accountGroupNames();
 
-  @Relation
+  @Relation(id = 12)
   AccountGroupMemberAccess accountGroupMembers();
 
-  @Relation
+  @Relation(id = 13)
   AccountGroupMemberAuditAccess accountGroupMembersAudit();
 
-  @Relation
+  @Relation(id = 14)
   AccountGroupAgreementAccess accountGroupAgreements();
 
-  @Relation
+  @Relation(id = 15)
   AccountDiffPreferenceAccess accountDiffPreferences();
 
-  @Relation
+  @Relation(id = 16)
   StarredChangeAccess starredChanges();
 
-  @Relation
+  @Relation(id = 17)
   AccountProjectWatchAccess accountProjectWatches();
 
-  @Relation
+  @Relation(id = 18)
   AccountPatchReviewAccess accountPatchReviews();
 
-  @Relation
+  @Relation(id = 19)
   ProjectAccess projects();
 
-  @Relation
+  @Relation(id = 20)
   ChangeAccess changes();
 
-  @Relation
+  @Relation(id = 21)
   PatchSetApprovalAccess patchSetApprovals();
 
-  @Relation
+  @Relation(id = 22)
   ChangeMessageAccess changeMessages();
 
-  @Relation
+  @Relation(id = 23)
   PatchSetAccess patchSets();
 
-  @Relation
+  @Relation(id = 24)
   PatchSetAncestorAccess patchSetAncestors();
 
-  @Relation
+  @Relation(id = 25)
   PatchLineCommentAccess patchComments();
 
-  @Relation
+  @Relation(id = 26)
   RefRightAccess refRights();
 
-  @Relation
+  @Relation(id = 27)
   TrackingIdAccess trackingIds();
 
-  @Relation
+  @Relation(id = 28)
   ActiveSessionAccess activeSessions();
 
   /** Create the next unique id for an {@link Account}. */

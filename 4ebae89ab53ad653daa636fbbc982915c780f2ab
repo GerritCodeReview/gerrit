@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4H///6s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountExternalIdCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-05T19:38:41Z",
+      "side": 1,
+      "message": "Style-nit: Space between if and (\n\nAlso, getEmailAddress() can return null.",
+      "revId": "4ebae89ab53ad653daa636fbbc982915c780f2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4H///6o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountExternalIdCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-05T19:38:41Z",
+      "side": 1,
+      "message": "getEmailAddress can return null.",
+      "revId": "4ebae89ab53ad653daa636fbbc982915c780f2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

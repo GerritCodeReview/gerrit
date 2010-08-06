@@ -80,6 +80,8 @@ into a commit message.
 
 * issue 559 Allow copying user public ssh key to clipboard
 
+* issue 509 Make branch columns link to changes on that branch
+
 Email Notifications
 ~~~~~~~~~~~~~~~~~~~
 
@@ -129,6 +131,11 @@ be inserted at that position.  When combined with the Push Branch
 permission this creates a per-user branch namespace feature, giving
 each user their own "sandbox" to push changes to.
 
+* issue 313 ssh gerrit create-group
++
+Groups can now be created over SSH by administrators using the
+`gerrit create-group` command.
+
 Authentication
 ~~~~~~~~~~~~~~
 
@@ -174,7 +181,7 @@ SSH still requires `git` on the remote host's PATH.
 
 * Internal dependencies updated
 +
-Updated JGit to 0.8.4.87-g395d236, log4j to 1.2.16, GWT to 2.0.4,
+Updated JGit to 0.8.4.89-ge2f5716, log4j to 1.2.16, GWT to 2.0.4,
 sfl4j to 1.6.1, easymock to 3.0, JUnit to 4.8.1.
 
 Bug Fixes
@@ -195,6 +202,15 @@ the prettify syntax highlighting library.  We moved the prettify
 library into its own iframe so it has a different JavaScript namespace
 in the browser.
 
+* Close button on OpenId register / sign-in dialog
++
+There was no obvious way to leave the sign-in dialog. Fixed.
+
+* Links in OpenId sign-in dialog not focusable
++
+Keyboard navigation to standard links like 'Google Accounts'
+wasn't supported.  Fixed.
+
 Misc.
 ~~~~~
 
@@ -206,4 +222,4 @@ when a fetch/pull/clone or push request timed out.  Fixed.
 Version
 -------
 
-df89f998d5c0fa5802a70482d4582b6313a018e4
+ae59d1bf232bba16d4d03ca924884234c68be0f2

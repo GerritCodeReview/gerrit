@@ -38,14 +38,6 @@ public class PageLinks {
   public static final String TOP = "n,z";
 
   public static final String MINE = "mine";
-  public static final String MINE_STARRED = "mine,starred";
-  public static final String MINE_DRAFTS = "mine,drafts";
-  public static final String MINE_WATCHED = "mine,watched," + TOP;
-
-  public static final String ALL_ABANDONED = "all,abandoned," + TOP;
-  public static final String ALL_MERGED = "all,merged," + TOP;
-  public static final String ALL_OPEN = "all,open," + TOP;
-
   public static final String ADMIN_GROUPS = "admin,groups";
   public static final String ADMIN_PROJECTS = "admin,projects";
 

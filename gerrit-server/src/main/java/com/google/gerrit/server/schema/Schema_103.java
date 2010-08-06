@@ -25,11 +25,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Schema_100 extends SchemaVersion {
+public class Schema_103 extends SchemaVersion {
   private static final int MAX_SCAN_SIZE = 50000;
 
   @Inject
-  Schema_100(Provider<Schema_38> prior) {
+  Schema_103(Provider<Schema_40> prior) {
     super(prior);
   }
 

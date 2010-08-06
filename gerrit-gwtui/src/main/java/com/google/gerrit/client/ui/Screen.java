@@ -119,7 +119,7 @@ public abstract class Screen extends View {
   /** Invoked if this screen is the current screen and the user signs out. */
   public void onSignOut() {
     if (isRequiresSignIn()) {
-      History.newItem(PageLinks.ALL_OPEN);
+      History.newItem(PageLinks.toChangeQuery("status:open"));
     }
   }
 

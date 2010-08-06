@@ -356,7 +356,7 @@ public class ChangeScreen extends Screen {
       if (Gerrit.isSignedIn()) {
         Gerrit.display(PageLinks.MINE);
       } else {
-        Gerrit.display(PageLinks.ALL_OPEN);
+        Gerrit.display(PageLinks.toChangeQuery("status:open"));
       }
     }
   }

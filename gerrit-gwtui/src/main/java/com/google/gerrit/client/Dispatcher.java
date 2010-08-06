@@ -17,8 +17,6 @@ package com.google.gerrit.client;
 import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import static com.google.gerrit.common.PageLinks.MINE;
-import static com.google.gerrit.common.PageLinks.MINE_DRAFTS;
-import static com.google.gerrit.common.PageLinks.MINE_STARRED;
 import static com.google.gerrit.common.PageLinks.REGISTER;
 import static com.google.gerrit.common.PageLinks.SETTINGS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_AGREEMENTS;
@@ -157,10 +155,10 @@ public class Dispatcher {
         return r;
       }
 
-    } else if (MINE_STARRED.equals(token)) {
+    } else if ("mine,starred".equals(token)) {
       return QueryScreen.forQuery("is:starred");
 
-    } else if (MINE_DRAFTS.equals(token)) {
+    } else if ("mine,drafts".equals(token)) {
       return QueryScreen.forQuery("has:draft");
 
     } else {

@@ -228,8 +228,11 @@ public class Gerrit implements EntryPoint {
 
     KeyUtil.setEncoderImpl(new KeyUtil.Encoder() {
       @Override
-      public String encode(final String e) {
-        return fixPathImpl(URL.encodeComponent(e));
+      public String encode(String e) {
+        e = URL.encodeComponent(e);
+        e = fixPathImpl(e);
+        e = fixColonImpl(e);
+        return e;
       }
 
       @Override
@@ -239,6 +242,9 @@ public class Gerrit implements EntryPoint {
 
       private native String fixPathImpl(String path)
       /*-{ return path.replace(/%2F/g, "/"); }-*/;
+
+      private native String fixColonImpl(String path)
+      /*-{ return path.replace(/%3A/g, ":"); }-*/;
     });
 
     initHostname();
@@ -406,7 +412,7 @@ public class Gerrit implements EntryPoint {
       if (isSignedIn()) {
         display(PageLinks.MINE);
       } else {
-        display(PageLinks.ALL_OPEN);
+        display(PageLinks.toChangeQuery("status:open"));
       }
     } else {
       display(History.getToken());
@@ -422,17 +428,17 @@ public class Gerrit implements EntryPoint {
     LinkMenuBar m;
 
     m = new LinkMenuBar();
-    addLink(m, C.menuAllOpen(), PageLinks.ALL_OPEN);
-    addLink(m, C.menuAllMerged(), PageLinks.ALL_MERGED);
-    addLink(m, C.menuAllAbandoned(), PageLinks.ALL_ABANDONED);
+    addLink(m, C.menuAllOpen(), PageLinks.toChangeQuery("status:open"));
+    addLink(m, C.menuAllMerged(), PageLinks.toChangeQuery("status:merged"));
+    addLink(m, C.menuAllAbandoned(), PageLinks.toChangeQuery("status:abandoned"));
     menuLeft.add(m, C.menuAll());
 
     if (signedIn) {
       m = new LinkMenuBar();
       addLink(m, C.menuMyChanges(), PageLinks.MINE);
-      addLink(m, C.menuMyDrafts(), PageLinks.MINE_DRAFTS);
-      addLink(m, C.menuMyWatchedChanges(), PageLinks.MINE_WATCHED);
-      addLink(m, C.menuMyStarredChanges(), PageLinks.MINE_STARRED);
+      addLink(m, C.menuMyDrafts(), PageLinks.toChangeQuery("has:draft"));
+      addLink(m, C.menuMyWatchedChanges(), PageLinks.toChangeQuery("is:watched status:open"));
+      addLink(m, C.menuMyStarredChanges(), PageLinks.toChangeQuery("is:starred"));
       menuLeft.add(m, C.menuMine());
       menuLeft.selectTab(1);
     } else {

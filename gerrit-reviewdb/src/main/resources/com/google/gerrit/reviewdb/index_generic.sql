@@ -89,10 +89,14 @@ ON changes (status, dest_project_name, dest_branch_name, last_updated_on);
 --    covers:             allOpenPrev, allOpenNext
 CREATE INDEX changes_allOpen
 ON changes (open, sort_key);
+CREATE INDEX changes_allOpenD
+ON changes (open, sort_key_desc);
 
 --    covers:             byProjectOpenPrev, byProjectOpenNext
 CREATE INDEX changes_byProjectOpen
 ON changes (open, dest_project_name, sort_key);
+CREATE INDEX changes_byProjectOpenD
+ON changes (open, dest_project_name, sort_key_desc);
 
 --    covers:             byProject
 CREATE INDEX changes_byProject
@@ -101,6 +105,8 @@ ON changes (dest_project_name);
 --    covers:             allClosedPrev, allClosedNext
 CREATE INDEX changes_allClosed
 ON changes (open, status, sort_key);
+CREATE INDEX changes_allClosedD
+ON changes (open, status, sort_key_desc);
 
 CREATE INDEX changes_key
 ON changes (change_key);
@@ -116,6 +122,8 @@ ON patch_set_approvals (change_open, account_id);
 --    covers:             closedByUser
 CREATE INDEX patch_set_approvals_closedByUser
 ON patch_set_approvals (change_open, account_id, change_sort_key);
+CREATE INDEX patch_set_approvals_closedByUserD
+ON patch_set_approvals (change_open, account_id, change_sort_key_desc);
 
 
 -- *********************************************************************

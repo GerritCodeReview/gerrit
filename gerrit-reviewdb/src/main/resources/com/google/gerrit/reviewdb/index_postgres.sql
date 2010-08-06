@@ -132,15 +132,24 @@ WHERE status = 's';
 CREATE INDEX changes_allOpen
 ON changes (sort_key)
 WHERE open = 'Y';
+CREATE INDEX changes_allOpenD
+ON changes (sort_key_desc)
+WHERE open = 'Y';
 
 --    covers:             byProjectOpenPrev, byProjectOpenNext
 CREATE INDEX changes_byProjectOpen
 ON changes (dest_project_name, sort_key)
 WHERE open = 'Y';
+CREATE INDEX changes_byProjectOpenD
+ON changes (dest_project_name, sort_key_desc)
+WHERE open = 'Y';
 
 --    covers:             allClosedPrev, allClosedNext
 CREATE INDEX changes_allClosed
 ON changes (status, sort_key)
+WHERE open = 'N';
+CREATE INDEX changes_allClosedD
+ON changes (status, sort_key_desc)
 WHERE open = 'N';
 
 --    covers:             byProject
@@ -162,6 +171,9 @@ WHERE change_open = 'Y';
 --    covers:             closedByUser
 CREATE INDEX patch_set_approvals_closedByUser
 ON patch_set_approvals (account_id, change_sort_key)
+WHERE change_open = 'N';
+CREATE INDEX patch_set_approvals_closedByUserD
+ON patch_set_approvals (account_id, change_sort_key_desc)
 WHERE change_open = 'N';
 
 

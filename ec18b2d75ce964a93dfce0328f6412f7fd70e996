@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4X///50\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/ProtoGen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-06T22:43:28Z",
+      "side": 1,
+      "message": "Use File here, args4j will support it.  Also we tend to prefer an actual option flag, e.g.:\n\n  @Option(name \u003d \"--output\", aliases \u003d {\"-o\"}, required \u003d true, metaVar \u003d \"FILE\", usage \u003d \"File to write .proto into\")",
+      "revId": "ec18b2d75ce964a93dfce0328f6412f7fd70e996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4X///5w\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/ProtoGen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-06T22:43:28Z",
+      "side": 1,
+      "message": "Please ensure the result was true.",
+      "revId": "ec18b2d75ce964a93dfce0328f6412f7fd70e996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

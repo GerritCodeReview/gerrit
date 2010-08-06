@@ -33,14 +33,16 @@ import eu.medsea.mimeutil.MimeType;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.NB;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.MessageDigest;
@@ -162,7 +164,7 @@ public class CatServlet extends HttpServlet {
       return;
     }
 
-    final byte[] blobData;
+    final ObjectLoader blobLoader;
     final RevCommit fromCommit;
     final String suffix;
     final String path = patchKey.getFileName();
@@ -196,7 +198,7 @@ public class CatServlet extends HttpServlet {
       }
 
       if (tw.getFileMode(0).getObjectType() == Constants.OBJ_BLOB) {
-        blobData = repo.openBlob(tw.getObjectId(0)).getCachedBytes();
+        blobLoader = repo.open(tw.getObjectId(0), Constants.OBJ_BLOB);
 
       } else {
         rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -214,14 +216,20 @@ public class CatServlet extends HttpServlet {
       repo.close();
     }
 
+    final byte[] raw =
+        blobLoader.isLarge() ? null : blobLoader.getCachedBytes();
     final long when = fromCommit.getCommitTime() * 1000L;
-    MimeType contentType = registry.getMimeType(path, blobData);
-    final byte[] outData;
 
-    if (registry.isSafeInline(contentType)) {
-      outData = blobData;
+    rsp.setDateHeader("Last-Modified", when);
+    rsp.setDateHeader("Expires", 0L);
+    rsp.setHeader("Pragma", "no-cache");
+    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
 
-    } else {
+    OutputStream out;
+    ZipOutputStream zo;
+
+    final MimeType contentType = registry.getMimeType(path, raw);
+    if (!registry.isSafeInline(contentType)) {
       // The content may not be safe to transmit inline, as a browser might
       // interpret it as HTML or JavaScript hosted by this site. Such code
       // might then run in the site's security domain, and may be able to use
@@ -230,31 +238,51 @@ public class CatServlet extends HttpServlet {
       // Usually, wrapping the content into a ZIP file forces the browser to
       // save the content to the local system instead.
       //
-      final ByteArrayOutputStream zip = new ByteArrayOutputStream();
-      final ZipOutputStream zo = new ZipOutputStream(zip);
-      final ZipEntry e = new ZipEntry(safeFileName(path, rand(req, suffix)));
-      e.setComment(fromCommit.name() + ":" + path);
-      e.setSize(blobData.length);
-      e.setTime(when);
-      zo.putNextEntry(e);
-      zo.write(blobData);
-      zo.closeEntry();
-      zo.close();
 
-      outData = zip.toByteArray();
-      contentType = ZIP;
-
+      rsp.setContentType(ZIP.toString());
       rsp.setHeader("Content-Disposition", "attachment; filename=\""
           + safeFileName(path, suffix) + ".zip" + "\"");
+
+      zo = new ZipOutputStream(rsp.getOutputStream());
+
+      final ZipEntry e = new ZipEntry(safeFileName(path, rand(req, suffix)));
+      e.setComment(fromCommit.name() + ":" + path);
+      e.setSize(blobLoader.getSize());
+      e.setTime(when);
+      zo.putNextEntry(e);
+      out = zo;
+
+    } else {
+      rsp.setContentType(contentType.toString());
+      rsp.setHeader("Content-Length", "" + blobLoader.getSize());
+
+      out = rsp.getOutputStream();
+      zo = null;
     }
 
-    rsp.setContentType(contentType.toString());
-    rsp.setContentLength(outData.length);
-    rsp.setDateHeader("Last-Modified", when);
-    rsp.setDateHeader("Expires", 0L);
-    rsp.setHeader("Pragma", "no-cache");
-    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
-    rsp.getOutputStream().write(outData);
+    if (raw != null) {
+      out.write(raw);
+    } else {
+      InputStream in = blobLoader.openStream();
+      try {
+        byte[] buf = new byte[8192];
+        for (;;) {
+          int n = in.read(buf);
+          if (0 < n) {
+            out.write(buf, 0, n);
+          } else {
+            break;
+          }
+        }
+      } finally {
+        in.close();
+      }
+    }
+
+    if (zo != null) {
+      zo.closeEntry();
+    }
+    out.close();
   }
 
   private static String safeFileName(String fileName, final String suffix) {

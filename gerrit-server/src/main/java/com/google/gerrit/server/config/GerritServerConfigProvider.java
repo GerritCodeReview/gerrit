@@ -20,7 +20,8 @@ import com.google.inject.ProvisionException;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +41,7 @@ class GerritServerConfigProvider implements Provider<Config> {
 
   @Override
   public Config get() {
-    FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config);
+    FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
 
     if (!cfg.getFile().exists()) {
       log.info("No " + site.gerrit_config.getAbsolutePath()
@@ -57,7 +58,7 @@ class GerritServerConfigProvider implements Provider<Config> {
     }
 
     if (site.secure_config.exists()) {
-      cfg = new FileBasedConfig(cfg, site.secure_config);
+      cfg = new FileBasedConfig(cfg, site.secure_config, FS.DETECTED);
       try {
         cfg.load();
       } catch (IOException e) {

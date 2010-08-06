@@ -67,19 +67,19 @@ public class PatchListEntry {
     switch (changeType) {
       case DELETED:
         oldName = null;
-        newName = hdr.getOldName();
+        newName = hdr.getOldPath();
         break;
 
       case ADDED:
       case MODIFIED:
         oldName = null;
-        newName = hdr.getNewName();
+        newName = hdr.getNewPath();
         break;
 
       case COPIED:
       case RENAMED:
-        oldName = hdr.getOldName();
-        newName = hdr.getNewName();
+        oldName = hdr.getOldPath();
+        newName = hdr.getNewPath();
         break;
 
       default:

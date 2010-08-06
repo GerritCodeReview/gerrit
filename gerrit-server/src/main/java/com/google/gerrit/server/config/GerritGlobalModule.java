@@ -46,6 +46,7 @@ import com.google.gerrit.server.git.PushAllProjectsOp;
 import com.google.gerrit.server.git.PushReplication;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.ReplicationQueue;
+import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.FromAddressGenerator;
@@ -123,6 +124,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(WorkQueue.class);
     bind(ToolsCatalog.class);
     bind(EventFactory.class);
+    bind(TransferConfig.class);
 
     bind(ReplicationQueue.class).to(PushReplication.class).in(SINGLETON);
     factory(PushAllProjectsOp.Factory.class);

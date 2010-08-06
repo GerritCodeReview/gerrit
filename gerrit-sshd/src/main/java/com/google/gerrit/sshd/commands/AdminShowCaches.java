@@ -21,7 +21,7 @@ import net.sf.ehcache.Statistics;
 import net.sf.ehcache.config.CacheConfiguration;
 
 import org.apache.sshd.server.Environment;
-import org.eclipse.jgit.lib.WindowCacheStatAccessor;
+import org.eclipse.jgit.storage.file.WindowCacheStatAccessor;
 
 import java.io.PrintWriter;
 

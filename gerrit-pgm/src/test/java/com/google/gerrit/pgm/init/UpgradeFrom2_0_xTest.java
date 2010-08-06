@@ -24,7 +24,8 @@ import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 
 import java.io.File;
@@ -50,7 +51,9 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
       }
     }
 
-    FileBasedConfig old = new FileBasedConfig(new File(p, "gerrit.config"));
+    FileBasedConfig old =
+        new FileBasedConfig(new File(p, "gerrit.config"), FS.DETECTED);
+
     old.setString("ldap", null, "username", "ldap.user");
     old.setString("ldap", null, "password", "ldap.s3kr3t");
 
@@ -84,8 +87,8 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
           new String(IO.readFully(new File(site.etc_dir, n)), "UTF-8"));
     }
 
-    FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config);
-    FileBasedConfig sec = new FileBasedConfig(site.secure_config);
+    FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
+    FileBasedConfig sec = new FileBasedConfig(site.secure_config, FS.DETECTED);
     cfg.load();
     sec.load();
 

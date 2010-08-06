@@ -52,7 +52,7 @@ public class ClientSideFormatter extends PrettyFormatter {
 
   @Override
   protected String prettify(String html, String type) {
-    return go(prettify.getContext(), html, type, settings.getTabSize());
+    return go(prettify.getContext(), html, type, diffPrefs.getTabSize());
   }
 
   private static native String go(JavaScriptObject ctx, String srcText,

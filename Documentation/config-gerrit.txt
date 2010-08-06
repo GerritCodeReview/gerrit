@@ -719,6 +719,52 @@ If a unit suffix is not specified, `milliseconds` is assumed.
 +
 Default is `30 seconds`.
 
+[[download]]Section download
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+----
+[download]
+  scheme = ssh
+  scheme = http
+  scheme = anon_http
+  scheme = anon_git
+  scheme = repo_download
+----
+
+The download section configures the allowed download methods.
+
+[[download.scheme]]download.scheme::
++
+Schemes that should be used to download changes.
++
+Multiple schemes are supported:
++
+* `http`
++
+HTTP download is allowed.
++
+* `ssh`
++
+SSH download is allowed.
++
+* `anon_http`
++
+Anonymous HTTP download is allowed.
++
+* `anon_git`
++
+Anonymous Git download is allowed.
+This is not default, it is also necessary to fill gerrit.canonicalGitUrl variable.
++
+* `repo_download`
++
+Gerrit advertises patch set downloads with the `repo download` command,
+assuming that all projects managed by this instance are generally worked
+on with the repo multi-repository tool.
+This is not default, as not all instances will deploy repo.
+
++
+If download.scheme is not specified, SSH, HTTP and Anonymous HTTP downloads are allowed.
 
 [[gerrit]]Section gerrit
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1273,16 +1319,31 @@ Common examples:
   safe = true
 ----
 
-[[repo]]Section repo
-~~~~~~~~~~~~~~~~~~~~
 
-[[repo.showDownloadCommand]]repo.showDownloadCommand::
+[[pack]]Section pack
+~~~~~~~~~~~~~~~~~~~~
+Global settings controlling how Gerrit Code Review creates pack
+streams for Git clients running clone, fetch, or pull.  Most of these
+variables are per-client request, and thus should be carefully set
+given the expected concurrent request load and available CPU and
+memory resources.
+
+[[pack.deltacompression]]pack.deltacompression::
 +
-If set to true, Gerrit advertises patch set downloads with the
-`repo download` command, assuming that all projects managed by this
-instance are generally worked on with the repo multi-repository tool.
+If true, delta compression between objects is enabled.  This may
+result in a smaller overall transfer for the client, but requires
+more server memory and CPU time.
 +
-By default, false, as not all instances will deploy repo.
+False (off) by default, matching Gerrit Code Review 2.1.4.
+
+[[pack.threads]]pack.threads::
++
+Maximum number of threads to use for delta compression (if enabled).
+This is per-client request.  If set to 0 then the number of CPUs is
+auto-detected and one thread per CPU is used, per client request.
++
+By default, 1.
+
 
 [[repository]]Section repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

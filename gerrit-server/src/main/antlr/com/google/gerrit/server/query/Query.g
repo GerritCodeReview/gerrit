@@ -19,13 +19,10 @@ options {
 }
 
 tokens {
-  FIELD_NAME;
-  DEFAULT_FIELD;
-  SINGLE_WORD;
-  EXACT_PHRASE;
   AND;
   OR;
   NOT;
+  DEFAULT_FIELD;
 }
 
 @header {
@@ -63,6 +60,8 @@ package com.google.gerrit.server.query;
       final QueryLexer lexer = new QueryLexer(new ANTLRStringStream(value));
       lexer.mSINGLE_WORD();
       return lexer.nextToken().getType() == QueryParser.EOF;
+    } catch (QueryParseInternalException e) {
+      return false;
     } catch (RecognitionException e) {
       return false;
     }
@@ -81,6 +80,13 @@ package com.google.gerrit.server.query;
 package com.google.gerrit.server.query;
 }
 @lexer::members {
+  @Override
+  public void displayRecognitionError(String[] tokenNames,
+                                      RecognitionException e) {
+      String hdr = getErrorHeader(e);
+      String msg = getErrorMessage(e, tokenNames);
+      throw new QueryParser.QueryParseInternalException(hdr + " " + msg);
+  }
 }
 
 query
@@ -110,10 +116,12 @@ conditionAnd2
 conditionNot
   : '-' conditionBase -> ^(NOT conditionBase)
   | NOT^ conditionBase
+  | VARIABLE_ASSIGN^ conditionOr ')'!
   | conditionBase
   ;
 conditionBase
-  : (FIELD_NAME ':') => FIELD_NAME^ ':'! fieldValue
+  : '('! conditionOr ')'!
+  | (FIELD_NAME ':') => FIELD_NAME^ ':'! fieldValue
   | fieldValue -> ^(DEFAULT_FIELD fieldValue)
   ;
 
@@ -121,7 +129,6 @@ fieldValue
   : n=FIELD_NAME   -> SINGLE_WORD[n]
   | SINGLE_WORD
   | EXACT_PHRASE
-  | '('! conditionOr ')'!
   ;
 
 AND: 'AND' ;
@@ -133,7 +140,14 @@ WS
   ;
 
 FIELD_NAME
-  : ('a'..'z')+
+  : ('a'..'z' | '_')+
+  ;
+
+VARIABLE_ASSIGN
+  : ('A'..'Z') ('A'..'Z' | 'a'..'Z')* '=' '(' {
+      String s = $text;
+      setText(s.substring(0, s.length() - 2));
+    }
   ;
 
 EXACT_PHRASE
@@ -164,7 +178,9 @@ fragment NON_WORD
      // '/'  permit
      | ':'
      | ';'
-     | '<' | '=' | '>'
+     // '<' permit
+     // '=' permit
+     // '>' permit
      | '?'
      | '[' | ']'
      | '{' | '}'

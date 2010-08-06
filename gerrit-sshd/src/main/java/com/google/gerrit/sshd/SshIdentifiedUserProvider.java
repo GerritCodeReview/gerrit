@@ -25,17 +25,21 @@ import com.google.inject.Singleton;
 @Singleton
 class SshIdentifiedUserProvider implements Provider<IdentifiedUser> {
   private final Provider<SshSession> session;
+  private final IdentifiedUser.RequestFactory factory;
 
   @Inject
-  SshIdentifiedUserProvider(final Provider<SshSession> s) {
+  SshIdentifiedUserProvider(Provider<SshSession> s,
+      IdentifiedUser.RequestFactory f) {
     session = s;
+    factory = f;
   }
 
   @Override
   public IdentifiedUser get() {
     final CurrentUser user = session.get().getCurrentUser();
     if (user instanceof IdentifiedUser) {
-      return (IdentifiedUser) user;
+      return factory.create(user.getAccessPath(), //
+          ((IdentifiedUser) user).getAccountId());
     }
     throw new ProvisionException(NotSignedInException.MESSAGE,
         new NotSignedInException());

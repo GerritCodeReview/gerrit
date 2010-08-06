@@ -25,6 +25,9 @@ public interface PatchLineCommentAccess extends
   @PrimaryKey("key")
   PatchLineComment get(PatchLineComment.Key id) throws OrmException;
 
+  @Query("WHERE key.patchKey.patchSetId.changeId = ?")
+  ResultSet<PatchLineComment> byChange(Change.Id id) throws OrmException;
+
   @Query("WHERE key.patchKey.patchSetId.changeId = ?"
       + " AND key.patchKey.fileName = ? AND status = '"
       + PatchLineComment.STATUS_PUBLISHED + "' ORDER BY lineNbr,writtenOn")

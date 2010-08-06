@@ -24,6 +24,7 @@ import static com.google.gerrit.server.query.QueryParser.FIELD_NAME;
 import static com.google.gerrit.server.query.QueryParser.NOT;
 import static com.google.gerrit.server.query.QueryParser.OR;
 import static com.google.gerrit.server.query.QueryParser.SINGLE_WORD;
+import static com.google.gerrit.server.query.QueryParser.VARIABLE_ASSIGN;
 
 import org.antlr.runtime.tree.Tree;
 
@@ -34,14 +35,13 @@ import java.lang.annotation.Target;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Base class to support writing parsers for query languages.
- * <p>
- * This class is thread-safe, and may be reused across threads to parse queries,
- * so implementations of this class should also strive to be thread-safe.
  * <p>
  * Subclasses may document their supported query operators by declaring public
  * methods that perform the query conversion into a {@link Predicate}. For
@@ -70,31 +70,51 @@ import java.util.Map;
  * <p>
  * Subclasses may also declare a handler for values which appear without
  * operator by overriding {@link #defaultField(String)}.
+ *
+ * @param <T> type of object the predicates can evaluate in memory.
  */
-public abstract class QueryBuilder {
-  private final Map<String, OperatorFactory> opFactories =
-      new HashMap<String, OperatorFactory>();
+public abstract class QueryBuilder<T> {
+  /**
+   * Defines the operators known by a QueryBuilder.
+   *
+   * This class is thread-safe and may be reused or cached.
+   *
+   * @param <T> type of object the predicates can evaluate in memory.
+   * @param <Q> type of the query builder subclass.
+   */
+  public static class Definition<T, Q extends QueryBuilder<T>> {
+    private final Map<String, OperatorFactory<T, Q>> opFactories =
+        new HashMap<String, OperatorFactory<T, Q>>();
 
-  protected QueryBuilder() {
-    // Guess at the supported operators by scanning methods.
-    //
-    Class<?> c = getClass();
-    while (c != QueryBuilder.class) {
-      for (final Method method : c.getDeclaredMethods()) {
-        if (method.getAnnotation(Operator.class) != null
-            && Predicate.class.isAssignableFrom(method.getReturnType())
-            && method.getParameterTypes().length == 1
-            && method.getParameterTypes()[0] == String.class
-            && (method.getModifiers() & Modifier.ABSTRACT) == 0
-            && (method.getModifiers() & Modifier.PUBLIC) == Modifier.PUBLIC) {
-          final String name = method.getName().toLowerCase();
-          if (!opFactories.containsKey(name)) {
-            opFactories.put(name, new ReflectionFactory(name, method));
+    public Definition(Class<Q> clazz) {
+      // Guess at the supported operators by scanning methods.
+      //
+      Class<?> c = clazz;
+      while (c != QueryBuilder.class) {
+        for (final Method method : c.getDeclaredMethods()) {
+          if (method.getAnnotation(Operator.class) != null
+              && Predicate.class.isAssignableFrom(method.getReturnType())
+              && method.getParameterTypes().length == 1
+              && method.getParameterTypes()[0] == String.class
+              && (method.getModifiers() & Modifier.ABSTRACT) == 0
+              && (method.getModifiers() & Modifier.PUBLIC) == Modifier.PUBLIC) {
+            final String name = method.getName().toLowerCase();
+            if (!opFactories.containsKey(name)) {
+              opFactories.put(name, new ReflectionFactory<T, Q>(name, method));
+            }
           }
         }
+        c = c.getSuperclass();
       }
-      c = c.getSuperclass();
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  private final Map<String, OperatorFactory> opFactories;
+
+  @SuppressWarnings("unchecked")
+  protected QueryBuilder(Definition<T, ? extends QueryBuilder<T>> def) {
+    opFactories = (Map) def.opFactories;
   }
 
   /**
@@ -107,11 +127,11 @@ public abstract class QueryBuilder {
    *         due to an operator not being supported, or due to an invalid value
    *         being passed to a recognized operator.
    */
-  public Predicate parse(final String query) throws QueryParseException {
+  public Predicate<T> parse(final String query) throws QueryParseException {
     return toPredicate(QueryParser.parse(query));
   }
 
-  private Predicate toPredicate(final Tree r) throws QueryParseException,
+  private Predicate<T> toPredicate(final Tree r) throws QueryParseException,
       IllegalArgumentException {
     switch (r.getType()) {
       case AND:
@@ -127,12 +147,26 @@ public abstract class QueryBuilder {
       case FIELD_NAME:
         return operator(r.getText(), onlyChildOf(r));
 
+      case VARIABLE_ASSIGN: {
+        final String var = r.getText();
+        final Tree opTree = onlyChildOf(r);
+        if (opTree.getType() == FIELD_NAME) {
+          final Tree val = onlyChildOf(opTree);
+          if (val.getType() == SINGLE_WORD && "*".equals(val.getText())) {
+            final String op = opTree.getText();
+            final WildPatternPredicate<T> pat = new WildPatternPredicate<T>(op);
+            return new VariablePredicate<T>(var, pat);
+          }
+        }
+        return new VariablePredicate<T>(var, toPredicate(opTree));
+      }
+
       default:
         throw error("Unsupported operator: " + r);
     }
   }
 
-  private Predicate operator(final String name, final Tree val)
+  private Predicate<T> operator(final String name, final Tree val)
       throws QueryParseException {
     switch (val.getType()) {
       // Expand multiple values, "foo:(a b c)", as though they were written
@@ -140,13 +174,13 @@ public abstract class QueryBuilder {
       //
       case AND:
       case OR: {
-        final Predicate[] p = new Predicate[val.getChildCount()];
-        for (int i = 0; i < p.length; i++) {
+        List<Predicate<T>> p = new ArrayList<Predicate<T>>(val.getChildCount());
+        for (int i = 0; i < val.getChildCount(); i++) {
           final Tree c = val.getChild(i);
           if (c.getType() != DEFAULT_FIELD) {
             throw error("Nested operator not expected: " + c);
           }
-          p[i] = operator(name, onlyChildOf(c));
+          p.add(operator(name, onlyChildOf(c)));
         }
         return val.getType() == AND ? and(p) : or(p);
       }
@@ -163,16 +197,17 @@ public abstract class QueryBuilder {
     }
   }
 
-  private Predicate operator(final String name, final String value)
+  @SuppressWarnings("unchecked")
+  private Predicate<T> operator(final String name, final String value)
       throws QueryParseException {
     final OperatorFactory f = opFactories.get(name);
     if (f == null) {
       throw error("Unsupported operator " + name + ":" + value);
     }
-    return f.create(value);
+    return f.create(this, value);
   }
 
-  private Predicate defaultField(final Tree r) throws QueryParseException {
+  private Predicate<T> defaultField(final Tree r) throws QueryParseException {
     switch (r.getType()) {
       case SINGLE_WORD:
       case EXACT_PHRASE:
@@ -197,14 +232,65 @@ public abstract class QueryBuilder {
    * @return predicate representing this value.
    * @throws QueryParseException the parser does not recognize this value.
    */
-  protected Predicate defaultField(final String value)
+  protected Predicate<T> defaultField(final String value)
       throws QueryParseException {
     throw error("Unsupported query:" + value);
   }
 
-  private Predicate[] children(final Tree r) throws QueryParseException,
+  /**
+   * Locate a predicate in the predicate tree.
+   *
+   * @param p the predicate to find.
+   * @param clazz type of the predicate instance.
+   * @return the predicate, null if not found.
+   */
+  @SuppressWarnings("unchecked")
+  public <P extends Predicate<T>> P find(Predicate<T> p, Class<P> clazz) {
+    if (clazz.isAssignableFrom(p.getClass())) {
+      return (P) p;
+    }
+
+    for (Predicate<T> c : p.getChildren()) {
+      P r = find(c, clazz);
+      if (r != null) {
+        return r;
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Locate a predicate in the predicate tree.
+   *
+   * @param p the predicate to find.
+   * @param clazz type of the predicate instance.
+   * @param name name of the operator.
+   * @return the predicate, null if not found.
+   */
+  @SuppressWarnings("unchecked")
+  public <P extends OperatorPredicate<T>> P find(Predicate<T> p,
+      Class<P> clazz, String name) {
+    if (p instanceof OperatorPredicate
+        && ((OperatorPredicate) p).getOperator().equals(name)
+        && clazz.isAssignableFrom(p.getClass())) {
+      return (P) p;
+    }
+
+    for (Predicate<T> c : p.getChildren()) {
+      P r = find(c, clazz, name);
+      if (r != null) {
+        return r;
+      }
+    }
+
+    return null;
+  }
+
+  @SuppressWarnings("unchecked")
+  private Predicate<T>[] children(final Tree r) throws QueryParseException,
       IllegalArgumentException {
-    final Predicate[] p = new Predicate[r.getChildCount()];
+    final Predicate<T>[] p = new Predicate[r.getChildCount()];
     for (int i = 0; i < p.length; i++) {
       p[i] = toPredicate(r.getChild(i));
     }
@@ -227,8 +313,8 @@ public abstract class QueryBuilder {
   }
 
   /** Converts a value string passed to an operator into a {@link Predicate}. */
-  protected interface OperatorFactory {
-    Predicate create(String value) throws QueryParseException;
+  protected interface OperatorFactory<T, Q extends QueryBuilder<T>> {
+    Predicate<T> create(Q builder, String value) throws QueryParseException;
   }
 
   /** Denotes a method which is a query operator. */
@@ -237,7 +323,8 @@ public abstract class QueryBuilder {
   protected @interface Operator {
   }
 
-  private class ReflectionFactory implements OperatorFactory {
+  private static class ReflectionFactory<T, Q extends QueryBuilder<T>>
+      implements OperatorFactory<T, Q> {
     private final String name;
     private final Method method;
 
@@ -246,15 +333,20 @@ public abstract class QueryBuilder {
       this.method = method;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Predicate create(final String value) throws QueryParseException {
+    public Predicate<T> create(Q builder, String value)
+        throws QueryParseException {
       try {
-        return (Predicate) method.invoke(QueryBuilder.this, value);
+        return (Predicate<T>) method.invoke(builder, value);
       } catch (RuntimeException e) {
         throw error("Error in operator " + name + ":" + value, e);
       } catch (IllegalAccessException e) {
         throw error("Error in operator " + name + ":" + value, e);
       } catch (InvocationTargetException e) {
+        if (e.getCause() instanceof QueryParseException) {
+          throw (QueryParseException) e.getCause();
+        }
         throw error("Error in operator " + name + ":" + value, e.getCause());
       }
     }

@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc;
 
 import com.google.gerrit.common.errors.CorruptEntityException;
+import com.google.gerrit.common.errors.InvalidQueryException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -64,6 +65,8 @@ public class BaseServiceImplementation {
       if (r != null) {
         callback.onSuccess(r);
       }
+    } catch (InvalidQueryException e) {
+      callback.onFailure(e);
     } catch (NoSuchProjectException e) {
       callback.onFailure(new NoSuchEntityException());
     } catch (NoSuchGroupException e) {
@@ -116,8 +119,9 @@ public class BaseServiceImplementation {
      *         {@link AsyncCallback#onFailure(Throwable)}.
      * @throws NoSuchProjectException
      * @throws NoSuchGroupException
+     * @throws InvalidQueryException
      */
     T run(ReviewDb db) throws OrmException, Failure, NoSuchProjectException,
-        NoSuchGroupException;
+        NoSuchGroupException, InvalidQueryException;
   }
 }

@@ -38,8 +38,11 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -51,7 +54,9 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
   private WatchTable watches;
 
   private Button addNew;
+  private NpTextBox nameBox;
   private SuggestBox nameTxt;
+  private NpTextBox filterTxt;
   private Button delSel;
   private boolean submitOnSelection;
 
@@ -60,32 +65,30 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     super.onInitUI();
 
     {
-      final FlowPanel fp = new FlowPanel();
-
-      final NpTextBox box = new NpTextBox();
-      nameTxt = new SuggestBox(new ProjectNameSuggestOracle(), box);
-      box.setVisibleLength(50);
-      box.setText(Util.C.defaultProjectName());
-      box.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-      box.addFocusHandler(new FocusHandler() {
+      nameBox = new NpTextBox();
+      nameTxt = new SuggestBox(new ProjectNameSuggestOracle(), nameBox);
+      nameBox.setVisibleLength(50);
+      nameBox.setText(Util.C.defaultProjectName());
+      nameBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
+      nameBox.addFocusHandler(new FocusHandler() {
         @Override
         public void onFocus(FocusEvent event) {
-          if (Util.C.defaultProjectName().equals(box.getText())) {
-            box.setText("");
-            box.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
+          if (Util.C.defaultProjectName().equals(nameBox.getText())) {
+            nameBox.setText("");
+            nameBox.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
           }
         }
       });
-      box.addBlurHandler(new BlurHandler() {
+      nameBox.addBlurHandler(new BlurHandler() {
         @Override
         public void onBlur(BlurEvent event) {
-          if ("".equals(box.getText())) {
-            box.setText(Util.C.defaultProjectName());
-            box.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
+          if ("".equals(nameBox.getText())) {
+            nameBox.setText(Util.C.defaultProjectName());
+            nameBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
           }
         }
       });
-      box.addKeyPressHandler(new KeyPressHandler() {
+      nameBox.addKeyPressHandler(new KeyPressHandler() {
         @Override
         public void onKeyPress(KeyPressEvent event) {
           submitOnSelection = false;
@@ -108,7 +111,37 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
           }
         }
       });
-      fp.add(nameTxt);
+
+      filterTxt = new NpTextBox();
+      filterTxt.setVisibleLength(50);
+      filterTxt.setText(Util.C.defaultFilter());
+      filterTxt.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
+      filterTxt.addFocusHandler(new FocusHandler() {
+        @Override
+        public void onFocus(FocusEvent event) {
+          if (Util.C.defaultFilter().equals(filterTxt.getText())) {
+            filterTxt.setText("");
+            filterTxt.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
+          }
+        }
+      });
+      filterTxt.addBlurHandler(new BlurHandler() {
+        @Override
+        public void onBlur(BlurEvent event) {
+          if ("".equals(filterTxt.getText())) {
+            filterTxt.setText(Util.C.defaultFilter());
+            filterTxt.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
+          }
+        }
+      });
+      filterTxt.addKeyPressHandler(new KeyPressHandler() {
+        @Override
+        public void onKeyPress(KeyPressEvent event) {
+          if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+            doAddNew();
+          }
+        }
+      });
 
       addNew = new Button(Util.C.buttonWatchProject());
       addNew.addClickHandler(new ClickHandler() {
@@ -117,24 +150,40 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
           doAddNew();
         }
       });
+
+      final Grid grid = new Grid(2, 2);
+      grid.setStyleName(Gerrit.RESOURCES.css().infoBlock());
+      grid.setText(0, 0, Util.C.watchedProjectName());
+      grid.setWidget(0, 1, nameTxt);
+
+      grid.setText(1, 0, Util.C.watchedProjectFilter());
+      grid.setWidget(1, 1, filterTxt);
+
+      final CellFormatter fmt = grid.getCellFormatter();
+      fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
+      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
+      fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().header());
+      fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().header());
+      fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().bottomheader());
+
+      final FlowPanel fp = new FlowPanel();
+      fp.setStyleName(Gerrit.RESOURCES.css().addWatchPanel());
+      fp.add(grid);
       fp.add(addNew);
       add(fp);
     }
 
     watches = new WatchTable();
     add(watches);
-    {
-      final FlowPanel fp = new FlowPanel();
-      delSel = new Button(Util.C.buttonDeleteSshKey());
-      delSel.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(final ClickEvent event) {
-          watches.deleteChecked();
-        }
-      });
-      fp.add(delSel);
-      add(fp);
-    }
+
+    delSel = new Button(Util.C.buttonDeleteSshKey());
+    delSel.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        watches.deleteChecked();
+      }
+    });
+    add(delSel);
   }
 
   void doAddNew() {
@@ -144,11 +193,23 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
       return;
     }
 
+    String filter = filterTxt.getText();
+    if (filter == null || filter.isEmpty()
+        || filter.equals(Util.C.defaultFilter())) {
+      filter = null;
+    }
+
     addNew.setEnabled(false);
-    Util.ACCOUNT_SVC.addProjectWatch(projectName,
+    nameBox.setEnabled(false);
+    filterTxt.setEnabled(false);
+
+    Util.ACCOUNT_SVC.addProjectWatch(projectName, filter,
         new GerritCallback<AccountProjectWatchInfo>() {
           public void onSuccess(final AccountProjectWatchInfo result) {
             addNew.setEnabled(true);
+            nameBox.setEnabled(true);
+            filterTxt.setEnabled(true);
+
             nameTxt.setText("");
             watches.insertWatch(result);
           }
@@ -156,6 +217,9 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
           @Override
           public void onFailure(final Throwable caught) {
             addNew.setEnabled(true);
+            nameBox.setEnabled(true);
+            filterTxt.setEnabled(true);
+
             super.onFailure(caught);
           }
         });
@@ -177,8 +241,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     WatchTable() {
       table.setWidth("");
       table.insertRow(1);
-      table.setText(0, 2, com.google.gerrit.client.changes.Util.C
-          .changeTableColumnProject());
+      table.setText(0, 2, Util.C.watchedProjectName());
       table.setText(0, 3, Util.C.watchedProjectColumnEmailNotifications());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
@@ -253,8 +316,16 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     }
 
     void populate(final int row, final AccountProjectWatchInfo k) {
+      final FlowPanel fp = new FlowPanel();
+      fp.add(new ProjectLink(k.getProject().getNameKey(), Status.NEW));
+      if (k.getWatch().getFilter() != null) {
+        Label filter = new Label(k.getWatch().getFilter());
+        filter.setStyleName(Gerrit.RESOURCES.css().watchedProjectFilter());
+        fp.add(filter);
+      }
+
       table.setWidget(row, 1, new CheckBox());
-      table.setWidget(row, 2, new ProjectLink(k.getProject().getNameKey(), Status.NEW));
+      table.setWidget(row, 2, fp);
       {
         final CheckBox notifyNewChanges = new CheckBox();
         notifyNewChanges.addClickHandler(new ClickHandler() {

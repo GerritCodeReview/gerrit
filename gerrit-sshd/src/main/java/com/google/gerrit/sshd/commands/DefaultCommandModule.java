@@ -36,6 +36,7 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
     command(gerrit, "flush-caches").to(AdminFlushCaches.class);
     command(gerrit, "ls-projects").to(ListProjects.class);
+    command(gerrit, "query").to(Query.class);
     command(gerrit, "show-caches").to(AdminShowCaches.class);
     command(gerrit, "show-connections").to(AdminShowConnections.class);
     command(gerrit, "show-queue").to(ShowQueue.class);

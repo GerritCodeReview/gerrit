@@ -26,6 +26,7 @@ import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -77,7 +78,6 @@ public class SshModule extends FactoryModule {
 
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
     bind(KeyPairProvider.class).toProvider(HostKeyProvider.class).in(SINGLETON);
-    bind(TransferConfig.class);
 
     install(new DefaultCommandModule());
 

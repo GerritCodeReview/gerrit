@@ -21,6 +21,6 @@ import java.io.IOException;
 
 public abstract class InitTestCase extends LocalDiskRepositoryTestCase {
   protected File newSitePath() throws IOException {
-    return new File(createWorkRepository().getWorkDir(), "test_site");
+    return new File(createWorkRepository().getWorkTree(), "test_site");
   }
 }

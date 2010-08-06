@@ -1,0 +1,362 @@
+Gerrit Code Review - Searching Changes
+======================================
+
+Default Searches 
+----------------
+
+Most basic searches can be viewed by clicking on a link along the top
+menu bar.  The link will prefill the search box with a common search
+query, execute it, and present the results.  If exactly one change
+matches the search, the change will be presented instead of a list.
+
+
+[grid="all"]
+`---------------------------`------------------------------
+Description                 Default Query
+-----------------------------------------------------------
+All > Open                  status:open '(or is:open)'
+All > Merged                status:merged
+All > Abandoned             status:abandoned
+My > Dafts                  has:draft
+My > Watched Changes        status:open is:watched
+My > Starred Changes        is:starred
+Open changes in Foo         status:open project:Foo
+-----------------------------------------------------------
+
+Basic Change Search
+-------------------
+
+Similar to many popular search engines on the web, just enter some
+text and let Gerrit figure out the meaning:
+
+[grid="all"]
+`---------------------------------`------------------------------
+Description                       Examples
+-----------------------------------------------------------------
+Legacy numerical id               15183
+Full or abbreviated Change-Id     Ic0ff33
+Full or abbreviated commit SHA-1  d81b32ef
+Email address                     user@example.com
+Approval requirement              CodeReview>=+2, Verified=1
+-----------------------------------------------------------------
+
+
+Search Operators
+----------------
+
+Operators act as restrictions on the search.  As more operators
+are added to the same query string, they further restrict the
+returned results.
+
+[[age]]
+age:'AGE'::
++
+Amount of time that has expired since the change was last updated
+with a review comment or new patch set.  The age must be specified
+to include a unit suffix, for example `age:2d`:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
+* d, day, days
+* w, week, weeks (`1 week` is treated as `7 days`)
+* mon, month, months (`1 month` is treated as `30 days`)
+* y, year, years (`1 year` is treated as `365 days`)
+
+[[change]]
+change:'ID'::
++
+Either a legacy numerical 'ID' such as 15183, or a newer style
+Change-Id that was scraped out of the commit message.
+
+[[owner]]
+owner:'USER'::
++
+Changes originally submitted by 'USER'.
+
+[[reviewer]]
+reviewer:'USER'::
++
+Changes that have been, or need to be, reviewed by 'USER'.
+
+[[commit]]
+commit:'SHA1'::
++
+Changes where 'SHA1' is one of the patch sets of the change.
+
+[[project]]
+project:'PROJECT'::
++
+Changes occuring in 'PROJECT'.
+
+[[branch]]
+branch:'BRANCH'::
++
+Changes for 'BRANCH'.  The branch name is the short name shown
+in the web interface, without the traditional 'refs/heads/'
+prefix.  This operator is a shorthand for 'refs:'.  Searching for
+'branch:master' really means 'ref:refs/heads/master', and searching
+for 'branch:refs/heads/master' is the same as searching for
+'ref:refs/heads/refs/heads/master'.
+
+[[topic]]
+topic:'TOPIC'::
++
+Changes whose designated topic at upload was 'TOPIC'.  This is
+often combined with 'branch:' and 'project:' operators to select
+all related changes in a series.
+
+[[ref]]
+ref:'REF'::
++
+Changes where the destination branch is exactly the given 'REF'
+name.  Since 'REF' is absolute from the top of the repository it
+must start with 'refs/'.
+
+[[tr]][[bug]]
+tr:'ID', bug:'ID'::
++
+Search for changes whose commit message contains 'ID' and matched
+one or more of the
+link:config-gerrit.html#trackingid[trackingid sections]
+in the server's configuration file.  This is typically used to
+search for changes that fix a bug or defect by the issue tracking
+system's issue identifier.
+
+[[label]]
+label:'VALUE'::
++
+Matches changes where the approval score 'VALUE' has been set during
+a review.  See <<labels,labels>> below for more detail on the format
+of the argument.
+
+[[file]]
+file:\^'REGEX'::
++
+Matches any change where REGEX matches a file that was affected
+by the change.  The regular expression pattern must start with
+'\^'.  For example, to match all XML files use `file:^.*\.xml$`.
+Currently this operator is only available on a watched project
+and may not be used in the search bar.
+
+[[has]]
+has:draft::
++
+True if there is a draft comment saved by the current user.
+
+has:star::
++
+Same as 'is:starred', true if the change has been starred by the
+current user.
+
+[[is]]
+is:starred::
++
+Same as 'has:star', true if the change has been starred by the
+current user.
+
+is:watched::
++
+True if this change matches one of the current user's watch filters,
+and thus is likely to notify the user when it updates.
+
+is:reviewed::
++
+True if there is at least one non-zero score on the change, in any
+approval category, by any user.
+
+is:open::
++
+True if the change is other open or submitted, merge pending.
+
+is:closed::
++
+True if the change is either merged or abandoned.
+
+is:submitted, is:merged, is:abandoned::
++
+Same as <<status,status:'STATE'>>.
+
+[[status]]
+status:open::
++
+True if the change state is other 'review in progress' or 'submitted,
+merge pending'.
+
+status:reviewed::
++
+Same as 'is:reviewed', matches if there is at least one non-zero
+score on the change, in any approval category, by any user.
+
+status:submitted::
++
+Change has been submitted, but is waiting for a dependency.
+
+status:closed::
++
+True if the change is either 'merged' or 'abandoned'.
+
+status:merged::
++
+Change has been merged into the branch.
+
+status:abandoned::
++
+Change has been abandoned by the change owner, or administrator.
+
+
+Boolean Operators
+-----------------
+
+Unless otherwise specified, operators are joined using the `AND`
+boolean operator, thereby restricting the search results.
+
+Parentheses can be used to force a particular precendence on complex
+operator expressions, otherwise OR has higher precendence than AND.
+
+Negation
+~~~~~~~~
+Any operator can be negated by prefixing it with `-`, for example
+`-is:starred` is the exact opposite of `is:starred` and will
+therefore return changes that are *not* starred by the current user.
+
+The operator `NOT` (in all caps) is a synonym.
+
+AND
+~~~
+The boolean operator `AND` (in all caps) can be used to join two
+other operators together.  This results in a restriction of the
+results, returning only changes that match both operators.
+
+OR
+~~
+The boolean operator `OR` (in all caps) can be used to find changes
+that match either operator.  This increases the nubmer of results
+that are returned, as more changes are considered.
+
+
+[[labels]]
+Labels
+------
+Label operators can be used to match approval score given during
+a code review.  The specific set of supported labels depends on
+the server configuration, however `CodeReview` and `Verified`
+are the default labels provided out of the box.
+
+A label name is any of the following:
+
+* The category name.  If the category name contains spaces,
+  it must be wrapped in double quotes.  Example: `label:"Code Review"`.
+
+* The name, without spaces.  This avoids needing to use double quotes
+  for the common category Code Review.  Example: `label:CodeReview`.
+
+* The internal short name.  Example: `label:CRVW`, or `label:VRIF`.
+
+* The one or two character abbreviation shown in the column header
+  of change list pages.  Example: `label:R` or `label:V`.
+
+A label name must be followed by a score, or an operator and a score.
+The easiest way to explain these are by example.
+
+`label:CodeReview=2`::
+`label:CodeReview=+2`::
+`label:CodeReview+2`::
++
+Matches changes where there is at least one \+2 score for Code Review.
+The \+ prefix is optional for positive score values.  If the + is used,
+the = operator is optional.
+
+`label:CodeReview=-2`::
+`label:CodeReview-2`::
++
+Matches changes where there is at least one -2 score for Code Review.
+Because the negative sign is required, the = operator is optional.
+
+`label:CodeReview=1`::
++
+Matches changes where there is at least one +1 score for Code Review.
+Scores of +2 are not matched, even though they are higher.
+
+`label:CodeReview>=1`::
++
+Matches changes with either a +1, +2, or any higher score.
+
+`label:CodeReview<=-1`::
++
+Matches changes with either a -1, -2, or any lower score.
+
+`is:open CodeReview+2 Verified+1 -Verified-1 -CodeReview-2`::
++
+Matches changes that are ready to be submitted.
+
+`is:open (Verified-1 OR CodeReview-2)`::
++
+Changes that are blocked from submission due to a blocking score.
+
+
+Magical Operators
+-----------------
+
+Most of these operators exist to support features of Gerrit Code
+Review, and are not meant to be accessed by the average end-user.
+However, they are recognized by the query parser, and may prove
+useful in limited contexts to administrators or power-users.
+
+visibleto:'USER-or-GROUP'::
++
+Matches changes that are visible to 'USER' or to anyone who is a
+member of 'GROUP'.  Here group names may be specified as either
+an internal group name, or if LDAP is being used, an external LDAP
+group name.  The value may be wrapped in double quotes to include
+spaces or other special characters.  For example, to match an LDAP
+group: `visibleto:"CN=Developers, DC=example, DC=com"`.
++
+This operator may be useful to test access control rules, however a
+change can only be matched if both the current user and the supplied
+user or group can see it.  This is due to the implicit 'is:visible'
+clause that is always added by the server.
+
+is:visible::
++
+Magical internal flag to prove the current user has access to read
+the change.  This flag is always added to any query.
+
+starredby:'USER'::
++
+Matches changes that have been started by 'USER'.
+
+watchedby:'USER'::
++
+Matches changes that 'USER' has configured watch filters for.
+
+draftby:'USER'::
++
+Matches changes that 'USER' has left unpublished drafts on.
+Since the drafts are unpublished, it is not possible to see the
+draft text, or even how many drafts there are.
+
+limit:'CNT'::
++
+Limit the returned results to no more than 'CNT' records.  This is
+automatically set to the page size configured in the current user's
+preferences.  Including it in a web query may lead to unpredictable
+results with regards to pagination.
+
+resume\_sortkey:'KEY'::
++
+Positions the low level scan routine to start from 'KEY' and
+continue through changes from this point.  This is most often used
+for paginating result sets.  Including this in a web query may lead
+to unpredictable results.
+
+sortkey\_after:'KEY', sortkey\_before:'KEY'::
++
+Restart the low level scan routine from 'KEY'.  This is automatically
+set by the pagination system as the user navigates through results
+of a query.  Including either value in a web query may lead to
+unpredictable results.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

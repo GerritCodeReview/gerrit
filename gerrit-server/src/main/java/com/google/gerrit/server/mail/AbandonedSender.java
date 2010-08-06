@@ -25,8 +25,8 @@ public class AbandonedSender extends ReplyToChangeSender {
   }
 
   @Inject
-  public AbandonedSender(@Assisted Change c) {
-    super(c, "abandon");
+  public AbandonedSender(EmailArguments ea, @Assisted Change c) {
+    super(ea, c, "abandon");
   }
 
   @Override
@@ -39,7 +39,7 @@ public class AbandonedSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void format() {
+  protected void formatChange() {
     appendText(getNameFor(fromId));
     appendText(" has abandoned change " + change.getKey().abbreviate() + ":\n");
     appendText("\n");

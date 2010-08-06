@@ -34,15 +34,14 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     public ReplacePatchSetSender create(Change change);
   }
 
-  @Inject
-  private SshInfo sshInfo;
-
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
+  private final SshInfo sshInfo;
 
   @Inject
-  public ReplacePatchSetSender(@Assisted Change c) {
-    super(c, "newpatchset");
+  public ReplacePatchSetSender(EmailArguments ea, SshInfo si, @Assisted Change c) {
+    super(ea, c, "newpatchset");
+    sshInfo = si;
   }
 
   public void addReviewers(final Collection<Account.Id> cc) {
@@ -68,7 +67,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void format() {
+  protected void formatChange() {
     formatSalutation();
     formatChangeDetail();
 
@@ -126,24 +125,31 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   }
 
   private String getPullUrl() {
-    final List<HostKey> hostKeys = sshInfo.getHostKeys();
-    if (hostKeys.isEmpty()) {
+    final String host = getSshHost();
+    if (host == null) {
       return "";
     }
 
-    final String host = hostKeys.get(0).getHost();
     final StringBuilder r = new StringBuilder();
     r.append("git pull ssh://");
-    if (host.startsWith("*:")) {
-      r.append(getGerritHost());
-      r.append(host.substring(1));
-    } else {
-      r.append(host);
-    }
+    r.append(host);
     r.append("/");
     r.append(projectName);
     r.append(" ");
     r.append(patchSet.getRefName());
     return r.toString();
+  }
+
+  public String getSshHost() {
+    final List<HostKey> hostKeys = sshInfo.getHostKeys();
+    if (hostKeys.isEmpty()) {
+      return null;
+    }
+
+    final String host = hostKeys.get(0).getHost();
+    if (host.startsWith("*:")) {
+      return getGerritHost() + host.substring(1);
+    }
+    return host;
   }
 }

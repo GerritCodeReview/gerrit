@@ -939,7 +939,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       cm = createChangeSenderFactory.create(change);
       cm.setFrom(me);
       cm.setPatchSet(ps, info);
-      cm.setReviewDb(db);
       cm.addReviewers(reviewers);
       cm.addExtraCC(cc);
       cm.send();
@@ -1242,7 +1241,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       cm.setFrom(me);
       cm.setPatchSet(ps, result.info);
       cm.setChangeMessage(result.msg);
-      cm.setReviewDb(db);
       cm.addReviewers(reviewers);
       cm.addExtraCC(cc);
       cm.addReviewers(oldReviewers);
@@ -1591,7 +1589,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       try {
         final MergedSender cm = mergedSenderFactory.create(result.change);
         cm.setFrom(currentUser.getAccountId());
-        cm.setReviewDb(db);
         cm.setPatchSet(result.patchSet, result.info);
         cm.setDest(new Branch.NameKey(project.getNameKey(),
             result.mergedIntoRef));

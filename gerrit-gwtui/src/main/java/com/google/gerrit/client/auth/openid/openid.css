@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+@external .gwt-Button;
+
 @url identifierBackground identifierBackground;
 
 .loginForm {
@@ -31,12 +33,14 @@
 .loginLine div {
   white-space: nowrap;
 }
+.loginLine .gwt-Button {
+  margin-left: 2px;
+}
 
 .identifier {
   background: #ffffff identifierBackground no-repeat scroll 5px 50%;
   padding-left: 25px;
   border: 1px solid #999999;
-  margin-right: 5px;
 }
 
 .directLink {

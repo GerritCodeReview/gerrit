@@ -27,7 +27,9 @@ import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
 public class CommentSender extends ReplyToChangeSender {
@@ -38,12 +40,19 @@ public class CommentSender extends ReplyToChangeSender {
   private List<PatchLineComment> inlineComments = Collections.emptyList();
 
   @Inject
-  public CommentSender(@Assisted Change c) {
-    super(c, "comment");
+  public CommentSender(EmailArguments ea, @Assisted Change c) {
+    super(ea, c, "comment");
   }
 
   public void setPatchLineComments(final List<PatchLineComment> plc) {
     inlineComments = plc;
+
+    Set<String> paths = new HashSet<String>();
+    for (PatchLineComment c : plc) {
+      Patch.Key p = c.getKey().getParentKey();
+      paths.add(p.getFileName());
+    }
+    changeData.setCurrentFilePaths(paths);
   }
 
   @Override
@@ -56,7 +65,7 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void format() {
+  protected void formatChange() {
     if (!"".equals(getCoverLetter()) || !inlineComments.isEmpty()) {
       appendText("Comments on Patch Set " + patchSet.getPatchSetId() + ":\n");
       appendText("\n");
@@ -124,7 +133,7 @@ public class CommentSender extends ReplyToChangeSender {
 
   private Repository getRepository() {
     try {
-      return server.openRepository(projectName);
+      return args.server.openRepository(projectName);
     } catch (RepositoryNotFoundException e) {
       return null;
     }

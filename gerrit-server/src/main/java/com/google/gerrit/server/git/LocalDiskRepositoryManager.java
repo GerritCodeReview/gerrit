@@ -23,12 +23,12 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.LockFile;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
-import org.eclipse.jgit.lib.WindowCache;
-import org.eclipse.jgit.lib.WindowCacheConfig;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.storage.file.LockFile;
+import org.eclipse.jgit.storage.file.WindowCache;
+import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -164,7 +164,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       final LockFile f;
 
       e = openRepository(name);
-      f = new LockFile(new File(e.getDirectory(), "description"));
+      f = new LockFile(new File(e.getDirectory(), "description"), FS.DETECTED);
       if (f.lock()) {
         String d = description;
         if (d != null) {

@@ -66,6 +66,9 @@ link:cmd-review.html[gerrit approve]::
 link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 
+link:cmd-query.html[gerrit query]::
+	Query the change database.
+
 link:cmd-review.html[gerrit review]::
 	Verify, approve and/or submit a patch set from the command line.
 
@@ -80,6 +83,9 @@ gerrit receive-pack::
 
 link:cmd-create-account.html[gerrit create-account]::
 	Create a new batch/role account.
+
+link:cmd-create-group.html[gerrit create-group]::
+	Create a new account group.
 
 link:cmd-create-project.html[gerrit create-project]::
 	Create a new project and associated Git repository.

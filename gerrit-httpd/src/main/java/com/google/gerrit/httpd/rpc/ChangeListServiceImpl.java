@@ -14,34 +14,30 @@
 
 package com.google.gerrit.httpd.rpc;
 
-import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
-
 import com.google.gerrit.common.data.AccountDashboardInfo;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.ChangeListService;
 import com.google.gerrit.common.data.SingleListChangeInfo;
 import com.google.gerrit.common.data.ToggleStarRequest;
+import com.google.gerrit.common.errors.InvalidQueryException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeAccess;
-import com.google.gerrit.reviewdb.PatchLineComment;
-import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
-import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.StarredChangesCache;
-import com.google.gerrit.server.account.AccountExternalIdCache;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
-import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -93,22 +89,23 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   private final Provider<CurrentUser> currentUser;
   private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
-  private final Project.NameKey wildProject;
-  private final StarredChangesCache starredChangesCache;
+
+  private final ChangeQueryBuilder.Factory queryBuilder;
+  private final Provider<ChangeQueryRewriter> queryRewriter;
 
   @Inject
   ChangeListServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
-      final @WildProjectName Project.NameKey wildProject,
-      final StarredChangesCache starredChangesCache) {
+      final ChangeQueryBuilder.Factory queryBuilder,
+      final Provider<ChangeQueryRewriter> queryRewriter) {
     super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
     this.accountInfoCacheFactory = accountInfoCacheFactory;
-    this.wildProject = wildProject;
-    this.starredChangesCache = starredChangesCache;
+    this.queryBuilder = queryBuilder;
+    this.queryRewriter = queryRewriter;
   }
 
   private boolean canRead(final Change c) {
@@ -119,144 +116,13 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     }
   }
 
-  public void allOpenPrev(final String pos, final int pageSize,
-      final AsyncCallback<SingleListChangeInfo> callback) {
-    run(callback, new QueryPrev(pageSize, pos) {
-      @Override
-      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
-          throws OrmException {
-        return db.changes().allOpenPrev(sortKey, slim);
-      }
-    });
-  }
-
-  public void allOpenNext(final String pos, final int pageSize,
-      final AsyncCallback<SingleListChangeInfo> callback) {
-    run(callback, new QueryNext(pageSize, pos) {
-      @Override
-      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
-          throws OrmException {
-        return db.changes().allOpenNext(sortKey, slim);
-      }
-    });
-  }
-
-  public void myWatchedOpenPrev(final String pos, final int pageSize,
-      final AsyncCallback<SingleListChangeInfo> callback) {
-    run(callback, new QueryPrev(pageSize, pos) {
-      @Override
-      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
-          throws OrmException {
-        return db.changes().allOpenPrev(sortKey, slim);
-      }
-
-      @Override
-      protected boolean accept(Change c) {
-        return isWatched(c);
-      }
-    });
-  }
-
-  public void myWatchedOpenNext(final String pos, final int pageSize,
-      final AsyncCallback<SingleListChangeInfo> callback) {
-    run(callback, new QueryNext(pageSize, pos) {
-      @Override
-      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
-          throws OrmException {
-        return db.changes().allOpenNext(sortKey, slim);
-      }
-
-      @Override
-      protected boolean accept(Change c) {
-        return isWatched(c);
-      }
-    });
-  }
-
-  private boolean isWatched(Change c) {
-    Set<Project.NameKey> watchedProjects = currentUser.get().getWatchedProjects();
-    return watchedProjects.contains(c.getProject()) || watchedProjects.contains(wildProject);
-  }
-
-  public void byProjectOpenPrev(final Project.NameKey project,
-      final String pos, final int pageSize,
-      final AsyncCallback<SingleListChangeInfo> callback) {
-    run(callback, new QueryPrev(pageSize, pos) {
-      @Override
-      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
-          throws OrmException {
-        return db.changes().byProjectOpenPrev(project, sortKey, slim);
-      }
-    });
-  }
-
-  public void byProjectOpenNext(final Project.NameKey project,
-      final String pos, final int pageSize,
-      final AsyncCallback<SingleListChangeInfo> callback) {
-    run(callback, new QueryNext(pageSize, pos) {
-      @Override
-      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
-          throws OrmException {
-        return db.changes().byProjectOpenNext(project, sortKey, slim);
-      }
-    });
-  }
-
-  public void byProjectClosedPrev(final Project.NameKey project,
-      final Change.Status s, final String pos, final int pageSize,
-      final AsyncCallback<SingleListChangeInfo> callback) {
-    run(callback, new QueryPrev(pageSize, pos) {
-      @Override
-      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
-          throws OrmException {
-        return db.changes().byProjectClosedPrev(s.getCode(), project, sortKey,
-            slim);
-      }
-    });
-  }
-
-  public void byProjectClosedNext(final Project.NameKey project,
-      final Change.Status s, final String pos, final int pageSize,
-      final AsyncCallback<SingleListChangeInfo> callback) {
-    run(callback, new QueryNext(pageSize, pos) {
-      @Override
-      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
-          throws OrmException {
-        return db.changes().byProjectClosedNext(s.getCode(), project, sortKey,
-            slim);
-      }
-    });
-  }
-
-  public void allClosedPrev(final Change.Status s, final String pos,
-      final int pageSize, final AsyncCallback<SingleListChangeInfo> callback) {
-    run(callback, new QueryPrev(pageSize, pos) {
-      @Override
-      ResultSet<Change> query(ReviewDb db, int lim, String key)
-          throws OrmException {
-        return db.changes().allClosedPrev(s.getCode(), key, lim);
-      }
-    });
-  }
-
-  public void allClosedNext(final Change.Status s, final String pos,
-      final int pageSize, final AsyncCallback<SingleListChangeInfo> callback) {
-    run(callback, new QueryNext(pageSize, pos) {
-      @Override
-      ResultSet<Change> query(ReviewDb db, int lim, String key)
-          throws OrmException {
-        return db.changes().allClosedNext(s.getCode(), key, lim);
-      }
-    });
-  }
-
   @Override
   public void allQueryPrev(final String query, final String pos,
       final int pageSize, final AsyncCallback<SingleListChangeInfo> callback) {
     run(callback, new QueryPrev(pageSize, pos) {
       @Override
       ResultSet<Change> query(ReviewDb db, int lim, String key)
-          throws OrmException {
+          throws OrmException, InvalidQueryException {
         return searchQuery(db, query, lim, key, QUERY_PREV);
       }
     });
@@ -268,88 +134,70 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     run(callback, new QueryNext(pageSize, pos) {
       @Override
       ResultSet<Change> query(ReviewDb db, int lim, String key)
-          throws OrmException {
+          throws OrmException, InvalidQueryException {
         return searchQuery(db, query, lim, key, QUERY_NEXT);
       }
     });
   }
 
+  @SuppressWarnings("unchecked")
   private ResultSet<Change> searchQuery(final ReviewDb db, String query,
       final int limit, final String key, final Comparator<Change> cmp)
-      throws OrmException {
-    List<Change> result = new ArrayList<Change>();
-    final HashSet<Change.Id> want = new HashSet<Change.Id>();
-    query = query.trim();
+      throws OrmException, InvalidQueryException {
+    try {
+      final ChangeQueryBuilder builder = queryBuilder.create(currentUser.get());
+      final Predicate<ChangeData> visibleToMe = builder.is_visible();
+      Predicate<ChangeData> q = builder.parse(query);
+      q = Predicate.and(q, //
+          cmp == QUERY_PREV //
+              ? builder.sortkey_after(key) //
+              : builder.sortkey_before(key), //
+          builder.limit(limit), //
+          visibleToMe //
+          );
 
-    if (query.matches("^[1-9][0-9]*$")) {
-      want.add(Change.Id.parse(query));
-
-    } else if (query.matches("^[iI][0-9a-f]{4,}.*$")) {
-      if (query.startsWith("i")) {
-        query = "I" + query.substring(1);
+      ChangeQueryRewriter rewriter = queryRewriter.get();
+      Predicate<ChangeData> s = rewriter.rewrite(q);
+      if (!(s instanceof ChangeDataSource)) {
+        s = rewriter.rewrite(Predicate.and(builder.status_open(), q));
       }
-      final Change.Key a = new Change.Key(query);
-      final Change.Key b = a.max();
-      filterBySortKey(result, db.changes().byKeyRange(a, b), cmp, key);
-      Collections.sort(result, cmp);
-      if (limit < result.size()) {
-        result = result.subList(0, limit);
-      }
 
-    } else if (query.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
-      final RevId id = new RevId(query);
-      final ResultSet<PatchSet> patches;
-      if (id.isComplete()) {
-        patches = db.patchSets().byRevision(id);
+      if (s instanceof ChangeDataSource) {
+        ArrayList<Change> r = new ArrayList();
+        HashSet<Change.Id> want = new HashSet<Change.Id>();
+        for (ChangeData d : ((ChangeDataSource) s).read()) {
+          if (d.hasChange()) {
+            // Checking visibleToMe here should be unnecessary, the
+            // query should have already performed it.  But we don't
+            // want to trust the query rewriter that much yet.
+            //
+            if (visibleToMe.match(d)) {
+              r.add(d.getChange());
+            }
+          } else {
+            want.add(d.getId());
+          }
+        }
+
+        // Here we have to check canRead. Its impossible to
+        // do that test without the change object, and it being
+        // missing above means we have to compute it ourselves.
+        //
+        if (!want.isEmpty()) {
+          for (Change c : db.changes().get(want)) {
+            if (canRead(c)) {
+              r.add(c);
+            }
+          }
+        }
+
+        Collections.sort(r, cmp);
+        return new ListResultSet<Change>(r);
       } else {
-        patches = db.patchSets().byRevisionRange(id, id.max());
+        throw new InvalidQueryException("Not Supported", s.toString());
       }
-      for (PatchSet p : patches) {
-        want.add(p.getId().getParentKey());
-      }
-    } else if (query.contains("owner:")) {
-      String[] parsedQuery = query.split(":");
-      if (parsedQuery.length > 1) {
-        filterBySortKey(result, changesCreatedBy(db, parsedQuery[1]), cmp, key);
-      }
-    } else if (query.contains("reviewer:")) {
-      String[] parsedQuery = query.split(":");
-      if (parsedQuery.length > 1) {
-        want.addAll(changesReviewedBy(db, parsedQuery[1]));
-      }
-    } else if (query.contains("bug:") || query.contains("tr:")) {
-      String[] parsedQuery = query.split(":");
-      if (parsedQuery.length > 1) {
-        want.addAll(changesReferencingTr(db, parsedQuery[1]));
-      }
-    }
-
-    if (result.isEmpty() && want.isEmpty()) {
-      return new ListResultSet<Change>(Collections.<Change> emptyList());
-    }
-
-    filterBySortKey(result, db.changes().get(want), cmp, key);
-    Collections.sort(result, cmp);
-    if (limit < result.size()) {
-      result = result.subList(0, limit);
-    }
-    return new ListResultSet<Change>(result);
-  }
-
-  private static void filterBySortKey(final List<Change> dst,
-      final Iterable<Change> src, final Comparator<Change> cmp, final String key) {
-    if (cmp == QUERY_PREV) {
-      for (Change c : src) {
-        if (c.getSortKey().compareTo(key) > 0) {
-          dst.add(c);
-        }
-      }
-    } else /* cmp == QUERY_NEXT */{
-      for (Change c : src) {
-        if (c.getSortKey().compareTo(key) < 0) {
-          dst.add(c);
-        }
-      }
+    } catch (QueryParseException e) {
+      throw new InvalidQueryException(e.getMessage(), query);
     }
   }
 
@@ -409,45 +257,6 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void myStarredChanges(
-      final AsyncCallback<SingleListChangeInfo> callback) {
-    run(callback, new Action<SingleListChangeInfo>() {
-      public SingleListChangeInfo run(final ReviewDb db) throws OrmException {
-        final AccountInfoCacheFactory ac = accountInfoCacheFactory.create();
-        final SingleListChangeInfo d = new SingleListChangeInfo();
-        final Set<Change.Id> starred = currentUser.get().getStarredChanges();
-        d.setChanges(filter(db.changes().get(starred), starred, ac));
-        Collections.sort(d.getChanges(), new Comparator<ChangeInfo>() {
-          public int compare(final ChangeInfo o1, final ChangeInfo o2) {
-            return o1.getLastUpdatedOn().compareTo(o2.getLastUpdatedOn());
-          }
-        });
-        d.setAccounts(ac.create());
-        return d;
-      }
-    });
-  }
-
-  public void myDraftChanges(final AsyncCallback<SingleListChangeInfo> callback) {
-    run(callback, new Action<SingleListChangeInfo>() {
-      public SingleListChangeInfo run(final ReviewDb db) throws OrmException {
-        final Account.Id me = getAccountId();
-        final AccountInfoCacheFactory ac = accountInfoCacheFactory.create();
-        final SingleListChangeInfo d = new SingleListChangeInfo();
-        final Set<Change.Id> starred = currentUser.get().getStarredChanges();
-        final Set<Change.Id> drafted = draftedBy(db, me);
-        d.setChanges(filter(db.changes().get(drafted), starred, ac));
-        Collections.sort(d.getChanges(), new Comparator<ChangeInfo>() {
-          public int compare(final ChangeInfo o1, final ChangeInfo o2) {
-            return o1.getLastUpdatedOn().compareTo(o2.getLastUpdatedOn());
-          }
-        });
-        d.setAccounts(ac.create());
-        return d;
-      }
-    });
-  }
-
   public void toggleStars(final ToggleStarRequest req,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
@@ -473,15 +282,6 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
         db.starredChanges().insert(add);
         db.starredChanges().deleteKeys(remove);
-
-        for (StarredChange sc : add) {
-          starredChangesCache.evict(sc.getKey());
-        }
-
-        for (StarredChange.Key key : remove) {
-          starredChangesCache.evict(key);
-        }
-
         return VoidResult.INSTANCE;
       }
     });
@@ -505,137 +305,33 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     return r;
   }
 
-  private static Set<Change.Id> draftedBy(final ReviewDb db, final Account.Id me)
-      throws OrmException {
-    final Set<Change.Id> existing = new HashSet<Change.Id>();
-    if (me != null) {
-      for (final PatchLineComment sc : db.patchComments().draftByAuthor(me)) {
-        final Change.Id c =
-            sc.getKey().getParentKey().getParentKey().getParentKey();
-        existing.add(c);
-      }
-    }
-    return existing;
-  }
-
-  /**
-   * @return a set of all the account ID's matching the given user name in
-   *         either of the following columns: ssh name, email address, full name
-   */
-  private static Set<Account.Id> getAccountSources(final ReviewDb db,
-      final String userName) throws OrmException {
-    Set<Account.Id> result = new HashSet<Account.Id>();
-    String a = userName;
-    String b = userName + "\u9fa5";
-    addAll(result, db.accounts().suggestByFullName(a, b, 10));
-    for (AccountExternalId extId : db.accountExternalIds().suggestByKey(
-        new AccountExternalId.Key(SCHEME_USERNAME, a),
-        new AccountExternalId.Key(SCHEME_USERNAME, b), 10)) {
-      result.add(extId.getAccountId());
-    }
-    for (AccountExternalId extId : db.accountExternalIds()
-        .suggestByEmailAddress(a, b, 10)) {
-      result.add(extId.getAccountId());
-    }
-    return result;
-  }
-
-  private static void addAll(Set<Account.Id> result, ResultSet<Account> rs) {
-    for (Account account : rs) {
-      result.add(account.getId());
-    }
-  }
-
-  /**
-   * @return a set of all the changes created by userName. This method tries to
-   *         find userName in 1) the ssh user names, 2) the full names and 3)
-   *         the email addresses. The returned changes are unique and sorted by
-   *         time stamp, newer first.
-   */
-  private List<Change> changesCreatedBy(final ReviewDb db, final String userName)
-      throws OrmException {
-    final List<Change> resultChanges = new ArrayList<Change>();
-    for (Account.Id account : getAccountSources(db, userName)) {
-      for (Change change : db.changes().byOwnerOpen(account)) {
-        resultChanges.add(change);
-      }
-      for (Change change : db.changes().byOwnerClosedAll(account)) {
-        resultChanges.add(change);
-      }
-    }
-    return resultChanges;
-  }
-
-  /**
-   * @return a set of all the changes reviewed by userName. This method tries to
-   *         find userName in 1) the ssh user names, 2) the full names and the
-   *         email addresses. The returned changes are unique and sorted by time
-   *         stamp, newer first.
-   */
-  private Set<Change.Id> changesReviewedBy(final ReviewDb db,
-      final String userName) throws OrmException {
-    final Set<Change.Id> resultChanges = new HashSet<Change.Id>();
-    for (Account.Id account : getAccountSources(db, userName)) {
-      for (PatchSetApproval a : db.patchSetApprovals().openByUser(account)) {
-        resultChanges.add(a.getPatchSetId().getParentKey());
-      }
-      for (PatchSetApproval a : db.patchSetApprovals().closedByUserAll(account)) {
-        resultChanges.add(a.getPatchSetId().getParentKey());
-      }
-    }
-    return resultChanges;
-  }
-
-  /**
-   * @return a set of all the changes referencing tracking id. This method find
-   *         all changes with a reference to the given external tracking id.
-   *         The returned changes are unique and sorted by time stamp, newer first.
-   */
-  private Set<Change.Id> changesReferencingTr(final ReviewDb db,
-      final String trackingId) throws OrmException {
-    final Set<Change.Id> resultChanges = new HashSet<Change.Id>();
-    for (final TrackingId tr : db.trackingIds().byTrackingId(
-        new TrackingId.Id(trackingId))) {
-      resultChanges.add(tr.getChangeId());
-    }
-    return resultChanges;
-  }
-
   private abstract class QueryNext implements Action<SingleListChangeInfo> {
     protected final String pos;
     protected final int limit;
     protected final int slim;
 
     QueryNext(final int pageSize, final String pos) {
-      this.pos = ChangeUtil.invertSortKey(pos);
+      this.pos = pos;
       this.limit = safePageSize(pageSize);
       this.slim = limit + 1;
     }
 
-    public SingleListChangeInfo run(final ReviewDb db) throws OrmException {
+    public SingleListChangeInfo run(final ReviewDb db) throws OrmException,
+        InvalidQueryException {
       final AccountInfoCacheFactory ac = accountInfoCacheFactory.create();
       final SingleListChangeInfo d = new SingleListChangeInfo();
       final Set<Change.Id> starred = currentUser.get().getStarredChanges();
 
-      boolean results = true;
-      String sortKey = pos;
       final ArrayList<ChangeInfo> list = new ArrayList<ChangeInfo>();
-      while (results && list.size() < slim) {
-        results = false;
-        final ResultSet<Change> rs = query(db, slim, sortKey);
-        for (final Change c : rs) {
-          results = true;
-          if (canRead(c) && accept(c)) {
-            final ChangeInfo ci = new ChangeInfo(c);
-            ac.want(ci.getOwner());
-            ci.setStarred(starred.contains(ci.getId()));
-            list.add(ci);
-            if (list.size() == slim) {
-              rs.close();
-              break;
-            }
-          }
-          sortKey = nextSortKey(c);
+      final ResultSet<Change> rs = query(db, slim, pos);
+      for (final Change c : rs) {
+        final ChangeInfo ci = new ChangeInfo(c);
+        ac.want(ci.getOwner());
+        ci.setStarred(starred.contains(ci.getId()));
+        list.add(ci);
+        if (list.size() == slim) {
+          rs.close();
+          break;
         }
       }
 
@@ -643,14 +339,6 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       d.setChanges(list, atEnd);
       d.setAccounts(ac.create());
       return d;
-    }
-
-    protected String nextSortKey(final Change c) {
-      return ChangeUtil.invertSortKey(c.getSortKey());
-    }
-
-    protected boolean accept(final Change c) {
-      return true;
     }
 
     boolean finish(final ArrayList<ChangeInfo> list) {
@@ -662,7 +350,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     }
 
     abstract ResultSet<Change> query(final ReviewDb db, final int slim,
-        String sortKey) throws OrmException;
+        String sortKey) throws OrmException, InvalidQueryException;
   }
 
   private abstract class QueryPrev extends QueryNext {
@@ -675,10 +363,6 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final boolean atEnd = super.finish(list);
       Collections.reverse(list);
       return atEnd;
-    }
-
-    protected String nextSortKey(final Change c) {
-      return c.getSortKey();
     }
   }
 }

@@ -15,11 +15,17 @@
 package com.google.gerrit.server.patch;
 
 import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.errors.LargeObjectException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.mozilla.universalchardet.UniversalDetector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
@@ -27,12 +33,43 @@ import java.nio.charset.UnsupportedCharsetException;
 public class Text extends RawText {
   private static final Logger log = LoggerFactory.getLogger(Text.class);
   private static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
+  private static final int bigFileThreshold = 10 * 1024 * 1024;
 
   public static final byte[] NO_BYTES = {};
   public static final Text EMPTY = new Text(NO_BYTES);
 
   public static String asString(byte[] content, String encoding) {
     return new String(content, charset(content, encoding));
+  }
+
+  public static byte[] asByteArray(ObjectLoader ldr)
+      throws MissingObjectException, LargeObjectException, IOException {
+    if (!ldr.isLarge()) {
+      return ldr.getCachedBytes();
+    }
+
+    long sz = ldr.getSize();
+    if (sz > bigFileThreshold || sz > Integer.MAX_VALUE)
+      throw new LargeObjectException();
+
+    byte[] buf;
+    try {
+      buf = new byte[(int) sz];
+    } catch (OutOfMemoryError noMemory) {
+      LargeObjectException e;
+
+      e = new LargeObjectException();
+      e.initCause(noMemory);
+      throw e;
+    }
+
+    InputStream in = ldr.openStream();
+    try {
+      IO.readFully(in, buf, 0, buf.length);
+    } finally {
+      in.close();
+    }
+    return buf;
   }
 
   private static Charset charset(byte[] content, String encoding) {
@@ -62,6 +99,11 @@ public class Text extends RawText {
 
   public Text(final byte[] r) {
     super(r);
+  }
+
+  public Text(ObjectLoader ldr) throws MissingObjectException,
+      LargeObjectException, IOException {
+    this(asByteArray(ldr));
   }
 
   public byte[] getContent() {

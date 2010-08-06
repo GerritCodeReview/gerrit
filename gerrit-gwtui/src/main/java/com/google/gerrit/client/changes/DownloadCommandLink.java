@@ -62,6 +62,10 @@ abstract class DownloadCommandLink extends Anchor implements ClickHandler {
     }
   }
 
+  public AccountGeneralPreferences.DownloadCommand getCmdType() {
+    return cmdType;
+  }
+
   void select() {
     DownloadCommandPanel parent = (DownloadCommandPanel) getParent();
     for (Widget w : parent) {

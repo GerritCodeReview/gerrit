@@ -23,7 +23,7 @@ import org.eclipse.jgit.lib.Commit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 
@@ -144,7 +144,7 @@ public class CommitMsgHookTest extends HookTestCase {
         "Change-Id: I7fc3876fee63c766a2063df97fbe04a2dddd8d7c\n",//
         call("a\n"));
 
-    final DirCacheBuilder builder = DirCache.lock(repository).builder();
+    final DirCacheBuilder builder = repository.lockDirCache().builder();
     builder.add(file("A"));
     assertTrue(builder.commit());
 
@@ -386,35 +386,41 @@ public class CommitMsgHookTest extends HookTestCase {
   }
 
   private DirCacheEntry file(final String name) throws IOException {
-    final DirCacheEntry e = new DirCacheEntry(name);
-    e.setFileMode(FileMode.REGULAR_FILE);
-    e.setObjectId(writer().writeBlob(Constants.encode(name)));
-    return e;
-  }
-
-  private void setHEAD() throws Exception {
-    final ObjectWriter ow = writer();
-    final Commit commit = new Commit(repository);
-    commit.setTreeId(DirCache.newInCore().writeTree(ow));
-    commit.setAuthor(author);
-    commit.setCommitter(committer);
-    commit.setMessage("test\n");
-    final ObjectId commitId = ow.writeCommit(commit);
-
-    final RefUpdate ref = repository.updateRef(Constants.HEAD);
-    ref.setNewObjectId(commitId);
-    switch (ref.forceUpdate()) {
-      case NEW:
-      case FAST_FORWARD:
-      case FORCED:
-      case NO_CHANGE:
-        break;
-      default:
-        fail(Constants.HEAD + " did not change: " + ref.getResult());
+    final ObjectInserter oi = repository.newObjectInserter();
+    try {
+      final DirCacheEntry e = new DirCacheEntry(name);
+      e.setFileMode(FileMode.REGULAR_FILE);
+      e.setObjectId(oi.insert(Constants.OBJ_BLOB, Constants.encode(name)));
+      oi.flush();
+      return e;
+    } finally {
+      oi.release();
     }
   }
 
-  private ObjectWriter writer() {
-    return new ObjectWriter(repository);
+  private void setHEAD() throws Exception {
+    final ObjectInserter oi = repository.newObjectInserter();
+    try {
+      final Commit commit = new Commit(repository);
+      commit.setTreeId(DirCache.newInCore().writeTree(oi));
+      commit.setAuthor(author);
+      commit.setCommitter(committer);
+      commit.setMessage("test\n");
+      ObjectId commitId = oi.insert(Constants.OBJ_COMMIT, oi.format(commit));
+
+      final RefUpdate ref = repository.updateRef(Constants.HEAD);
+      ref.setNewObjectId(commitId);
+      switch (ref.forceUpdate()) {
+        case NEW:
+        case FAST_FORWARD:
+        case FORCED:
+        case NO_CHANGE:
+          break;
+        default:
+          fail(Constants.HEAD + " did not change: " + ref.getResult());
+      }
+    } finally {
+      oi.release();
+    }
   }
 }

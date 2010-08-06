@@ -50,7 +50,7 @@ Clippy                      <<clippy,MIT License>>
 juniversalchardet           <<mpl1_1,MPL 1.1>>
 AOP Alliance                Public Domain
 JSR 305                     <<jsr305,New-Style BSD>>
-Automaton                   <<automaton,New-Style BSD>>
+dk.brics.automaton          <<automaton,New-Style BSD>>
 -----------------------------------------------------------
 
 Cryptography Notice
@@ -564,8 +564,8 @@ POSSIBILITY OF SUCH DAMAGE.
 ----
 
 [[automaton]]
-dk.brics.automaton - The BSD License
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+dk.brics.automaton - New Style BSD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * link:http://www.brics.dk/automaton/index.html
 

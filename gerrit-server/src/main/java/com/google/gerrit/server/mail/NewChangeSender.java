@@ -17,7 +17,6 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.server.ssh.SshInfo;
-import com.google.inject.Inject;
 
 import com.jcraft.jsch.HostKey;
 
@@ -28,15 +27,14 @@ import java.util.List;
 import java.util.Set;
 
 /** Sends an email alerting a user to a new change for them to review. */
-public abstract class NewChangeSender extends OutgoingEmail {
-  @Inject
-  private SshInfo sshInfo;
-
+public abstract class NewChangeSender extends ChangeEmail {
+  private final SshInfo sshInfo;
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
 
-  protected NewChangeSender(Change c) {
-    super(c, "newchange");
+  protected NewChangeSender(EmailArguments ea, SshInfo sshInfo, Change c) {
+    super(ea, c, "newchange");
+    this.sshInfo = sshInfo;
   }
 
   public void addReviewers(final Collection<Account.Id> cc) {
@@ -59,7 +57,7 @@ public abstract class NewChangeSender extends OutgoingEmail {
   }
 
   @Override
-  protected void format() {
+  protected void formatChange() {
     formatSalutation();
     formatChangeDetail();
 
@@ -114,24 +112,31 @@ public abstract class NewChangeSender extends OutgoingEmail {
   }
 
   private String getPullUrl() {
-    final List<HostKey> hostKeys = sshInfo.getHostKeys();
-    if (hostKeys.isEmpty()) {
+    final String host = getSshHost();
+    if (host == null) {
       return "";
     }
 
-    final String host = hostKeys.get(0).getHost();
     final StringBuilder r = new StringBuilder();
     r.append("git pull ssh://");
-    if (host.startsWith("*:")) {
-      r.append(getGerritHost());
-      r.append(host.substring(1));
-    } else {
-      r.append(host);
-    }
+    r.append(host);
     r.append("/");
     r.append(projectName);
     r.append(" ");
     r.append(patchSet.getRefName());
     return r.toString();
+  }
+
+  public String getSshHost() {
+    final List<HostKey> hostKeys = sshInfo.getHostKeys();
+    if (hostKeys.isEmpty()) {
+      return null;
+    }
+
+    final String host = hostKeys.get(0).getHost();
+    if (host.startsWith("*:")) {
+      return getGerritHost() + host.substring(1);
+    }
+    return host;
   }
 }

@@ -15,12 +15,14 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -46,22 +48,43 @@ public class AccountResolver {
    *
    * @param nameOrEmail a string of the format
    *        "Full Name &lt;email@example&gt;", just the email address
-   *        ("email@example"), a full name ("Full Name"), or an account id
-   *        ("18419").
+   *        ("email@example"), a full name ("Full Name"), an account id
+   *        ("18419") or an user name ("username").
    * @return the single account that matches; null if no account matches or
    *         there are multiple candidates.
    */
   public Account find(final String nameOrEmail) throws OrmException {
+    Set<Account.Id> r = findAll(nameOrEmail);
+    return r.size() == 1 ? byId.get(r.iterator().next()).getAccount() : null;
+  }
+
+  /**
+   * Locate exactly one account matching the name or name/email string.
+   *
+   * @param nameOrEmail a string of the format
+   *        "Full Name &lt;email@example&gt;", just the email address
+   *        ("email@example"), a full name ("Full Name"), an account id
+   *        ("18419") or an user name ("username").
+   * @return the accounts that match, empty collection if none.  Never null.
+   */
+  public Set<Account.Id> findAll(String nameOrEmail) throws OrmException {
     Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
     if (m.matches()) {
-      return byId.get(Account.Id.parse(m.group(1))).getAccount();
+      return Collections.singleton(Account.Id.parse(m.group(1)));
     }
 
     if (nameOrEmail.matches("^[1-9][0-9]*$")) {
-      return byId.get(Account.Id.parse(nameOrEmail)).getAccount();
+      return Collections.singleton(Account.Id.parse(nameOrEmail));
     }
 
-    return findByNameOrEmail(nameOrEmail);
+    if (nameOrEmail.matches(Account.USER_NAME_PATTERN)) {
+      AccountState who = byId.getByUsername(nameOrEmail);
+      if (who != null) {
+        return Collections.singleton(who.getAccount().getId());
+      }
+    }
+
+    return findAllByNameOrEmail(nameOrEmail);
   }
 
   /**
@@ -75,34 +98,61 @@ public class AccountResolver {
    */
   public Account findByNameOrEmail(final String nameOrEmail)
       throws OrmException {
+    Set<Account.Id> r = findAllByNameOrEmail(nameOrEmail);
+    return r.size() == 1 ? byId.get(r.iterator().next()).getAccount() : null;
+  }
+
+  /**
+   * Locate exactly one account matching the name or name/email string.
+   *
+   * @param nameOrEmail a string of the format
+   *        "Full Name &lt;email@example&gt;", just the email address
+   *        ("email@example"), a full name ("Full Name").
+   * @return the accounts that match, empty collection if none. Never null.
+   */
+  public Set<Account.Id> findAllByNameOrEmail(final String nameOrEmail)
+      throws OrmException {
     final int lt = nameOrEmail.indexOf('<');
     final int gt = nameOrEmail.indexOf('>');
     if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {
-      return findByEmail(nameOrEmail.substring(lt + 1, gt));
+      return byEmail.get(nameOrEmail.substring(lt + 1, gt)).getIds();
     }
 
     if (nameOrEmail.contains("@")) {
-      return findByEmail(nameOrEmail);
+      return byEmail.get(nameOrEmail).getIds();
     }
 
     final Account.Id id = realm.lookup(nameOrEmail);
     if (id != null) {
-      return byId.get(id).getAccount();
+      return Collections.singleton(id);
     }
 
-    return oneAccount(schema.get().accounts().byFullName(nameOrEmail));
-  }
-
-  private Account findByEmail(final String email) {
-    final Set<Account.Id> candidates = byEmail.get(email).getIds();
-    if (1 == candidates.size()) {
-      return byId.get(candidates.iterator().next()).getAccount();
+    List<Account> m = schema.get().accounts().byFullName(nameOrEmail).toList();
+    if (m.size() == 1) {
+      return Collections.singleton(m.get(0).getId());
     }
-    return null;
-  }
 
-  private static Account oneAccount(final ResultSet<Account> rs) {
-    final List<Account> r = rs.toList();
-    return r.size() == 1 ? r.get(0) : null;
+    // At this point we have no clue. Just perform a whole bunch of suggestions
+    // and pray we come up with a reasonable result list.
+    //
+    Set<Account.Id> result = new HashSet<Account.Id>();
+    String a = nameOrEmail;
+    String b = nameOrEmail + "\u9fa5";
+    for (Account act : schema.get().accounts().suggestByFullName(a, b, 10)) {
+      result.add(act.getId());
+    }
+    for (AccountExternalId extId : schema
+        .get()
+        .accountExternalIds()
+        .suggestByKey(
+            new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, a),
+            new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, b), 10)) {
+      result.add(extId.getAccountId());
+    }
+    for (AccountExternalId extId : schema.get().accountExternalIds()
+        .suggestByEmailAddress(a, b, 10)) {
+      result.add(extId.getAccountId());
+    }
+    return result;
   }
 }

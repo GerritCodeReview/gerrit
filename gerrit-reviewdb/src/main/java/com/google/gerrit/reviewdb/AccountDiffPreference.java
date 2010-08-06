@@ -103,6 +103,18 @@ public class AccountDiffPreference {
     this.accountId = accountId;
   }
 
+  public AccountDiffPreference(AccountDiffPreference p) {
+    this.accountId = p.accountId;
+    this.ignoreWhitespace = p.ignoreWhitespace;
+    this.tabSize = p.tabSize;
+    this.lineLength = p.lineLength;
+    this.syntaxHighlighting = p.syntaxHighlighting;
+    this.showWhitespaceErrors = p.showWhitespaceErrors;
+    this.intralineDifference = p.intralineDifference;
+    this.showTabs = p.showTabs;
+    this.context = p.context;
+  }
+
   public Account.Id getAccountId() {
     return accountId;
   }
@@ -169,7 +181,8 @@ public class AccountDiffPreference {
   }
 
   /** Set the number of lines of context when viewing a patch. */
-  public void setContext(final short s) {
-    context = s;
+  public void setContext(final short context) {
+    assert 0 <= context || context == WHOLE_FILE_CONTEXT;
+    this.context = context;
   }
 }

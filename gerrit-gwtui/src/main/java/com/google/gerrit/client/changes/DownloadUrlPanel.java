@@ -33,7 +33,7 @@ class DownloadUrlPanel extends FlowPanel {
     return getWidgetCount() == 0;
   }
 
-  void select(AccountGeneralPreferences.DownloadUrl urlType) {
+  void select(AccountGeneralPreferences.DownloadScheme urlType) {
     DownloadUrlLink first = null;
 
     for (Widget w : this) {

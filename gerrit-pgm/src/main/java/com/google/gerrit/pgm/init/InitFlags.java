@@ -19,7 +19,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 
 import java.io.IOException;
 
@@ -40,8 +41,8 @@ public class InitFlags {
 
   @Inject
   InitFlags(final SitePaths site) throws IOException, ConfigInvalidException {
-    cfg = new FileBasedConfig(site.gerrit_config);
-    sec = new FileBasedConfig(site.secure_config);
+    cfg = new FileBasedConfig(site.gerrit_config, FS.DETECTED);
+    sec = new FileBasedConfig(site.secure_config, FS.DETECTED);
 
     cfg.load();
     sec.load();

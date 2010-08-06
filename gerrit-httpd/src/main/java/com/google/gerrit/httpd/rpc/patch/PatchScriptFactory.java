@@ -16,9 +16,9 @@ package com.google.gerrit.httpd.rpc.patch;
 
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
-import com.google.gerrit.common.data.PatchScriptSettings;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
@@ -62,7 +62,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
     PatchScriptFactory create(Patch.Key patchKey,
         @Assisted("patchSetA") PatchSet.Id patchSetA,
         @Assisted("patchSetB") PatchSet.Id patchSetB,
-        PatchScriptSettings settings);
+        AccountDiffPreference diffPrefs);
   }
 
   private static final Logger log =
@@ -79,7 +79,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   @Nullable
   private final PatchSet.Id psa;
   private final PatchSet.Id psb;
-  private final PatchScriptSettings settings;
+  private final AccountDiffPreference diffPrefs;
 
   private final PatchSet.Id patchSetId;
   private final Change.Id changeId;
@@ -102,7 +102,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
       @Assisted final Patch.Key patchKey,
       @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
       @Assisted("patchSetB") final PatchSet.Id patchSetB,
-      @Assisted final PatchScriptSettings settings) {
+      @Assisted final AccountDiffPreference diffPrefs) {
     this.repoManager = grm;
     this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
@@ -113,7 +113,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
     this.patchKey = patchKey;
     this.psa = patchSetA;
     this.psb = patchSetB;
-    this.settings = settings;
+    this.diffPrefs = diffPrefs;
 
     patchSetId = patchKey.getParentKey();
     changeId = patchSetId.getParentKey();
@@ -143,7 +143,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
       throw new NoSuchChangeException(changeId, e);
     }
     try {
-      final PatchList list = listFor(keyFor(settings.getWhitespace()));
+      final PatchList list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));
       final boolean intraline = list.hasIntralineDifference();
       final PatchScriptBuilder b = newBuilder(list, git);
       final PatchListEntry content = list.get(patchKey.getFileName());
@@ -172,11 +172,11 @@ class PatchScriptFactory extends Handler<PatchScript> {
   }
 
   private PatchScriptBuilder newBuilder(final PatchList list, Repository git) {
-    final PatchScriptSettings s = new PatchScriptSettings(settings);
+    final AccountDiffPreference dp = new AccountDiffPreference(diffPrefs);
     final PatchScriptBuilder b = builderFactory.get();
     b.setRepository(git);
     b.setChange(change);
-    b.setSettings(s);
+    b.setDiffPrefs(dp);
     b.setTrees(list.getOldId(), list.getNewId());
     return b;
   }

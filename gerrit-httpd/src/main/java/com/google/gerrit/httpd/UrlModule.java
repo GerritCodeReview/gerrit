@@ -23,7 +23,6 @@ import com.google.gerrit.httpd.raw.LegacyGerritServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.StaticServlet;
 import com.google.gerrit.httpd.raw.ToolServlet;
-import com.google.gerrit.reviewdb.RevId;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -47,6 +46,7 @@ class UrlModule extends ServletModule {
     serve("/Gerrit/*").with(legacyGerritScreen());
     serve("/cat/*").with(CatServlet.class);
     serve("/logout").with(HttpLogoutServlet.class);
+    serve("/query").with(ChangeQueryServlet.class);
     serve("/signout").with(HttpLogoutServlet.class);
     serve("/ssh_info").with(SshInfoServlet.class);
     serve("/static/*").with(StaticServlet.class);
@@ -60,16 +60,16 @@ class UrlModule extends ServletModule {
     serve("/com/google/gerrit/launcher/*").with(notFound());
     serve("/servlet/*").with(notFound());
 
-    serve("/all").with(screen(PageLinks.ALL_MERGED));
+    serve("/all").with(query("status:merged"));
     serve("/mine").with(screen(PageLinks.MINE));
-    serve("/open").with(screen(PageLinks.ALL_OPEN));
+    serve("/open").with(query("status:open"));
     serve("/settings").with(screen(PageLinks.SETTINGS));
-    serve("/watched").with(screen(PageLinks.MINE_WATCHED));
-    serve("/starred").with(screen(PageLinks.MINE_STARRED));
+    serve("/watched").with(query("is:watched status:open"));
+    serve("/starred").with(query("is:starred"));
 
     serveRegex( //
         "^/([1-9][0-9]*)/?$", //
-        "^/r/(I?[0-9a-fA-F]{4," + RevId.LEN + "})/?$" //
+        "^/r/(.+)/?$" //
     ).with(changeQuery());
   }
 
@@ -118,6 +118,18 @@ class UrlModule extends ServletModule {
       protected void doGet(final HttpServletRequest req,
           final HttpServletResponse rsp) throws IOException {
         toGerrit(PageLinks.toChangeQuery(req.getPathInfo()), req, rsp);
+      }
+    });
+  }
+
+  private Key<HttpServlet> query(final String query) {
+    return key(new HttpServlet() {
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      protected void doGet(final HttpServletRequest req,
+          final HttpServletResponse rsp) throws IOException {
+        toGerrit(PageLinks.toChangeQuery(query), req, rsp);
       }
     });
   }

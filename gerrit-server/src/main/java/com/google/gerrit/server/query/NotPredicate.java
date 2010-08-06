@@ -14,25 +14,57 @@
 
 package com.google.gerrit.server.query;
 
+import com.google.gwtorm.client.OrmException;
+
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 /** Negates the result of another predicate. */
-public final class NotPredicate extends Predicate {
-  private final Predicate that;
+public class NotPredicate<T> extends Predicate<T> {
+  private final Predicate<T> that;
 
-  public NotPredicate(final Predicate that) {
+  protected NotPredicate(final Predicate<T> that) {
+    if (that instanceof NotPredicate) {
+      throw new IllegalArgumentException("Double negation unsupported");
+    }
     this.that = that;
   }
 
   @Override
-  public Predicate not() {
+  public final List<Predicate<T>> getChildren() {
+    return Collections.singletonList(that);
+  }
+
+  @Override
+  public final int getChildCount() {
+    return 1;
+  }
+
+  @Override
+  public final Predicate<T> getChild(final int i) {
+    if (i != 0) {
+      throw new ArrayIndexOutOfBoundsException(i);
+    }
     return that;
   }
 
   @Override
-  public List<Predicate> getChildren() {
-    return Collections.singletonList(that);
+  public Predicate<T> copy(final Collection<? extends Predicate<T>> children) {
+    if (children.size() != 1) {
+      throw new IllegalArgumentException("Expected exactly one child");
+    }
+    return new NotPredicate<T>(children.iterator().next());
+  }
+
+  @Override
+  public boolean match(final T object) throws OrmException {
+    return !that.match(object);
+  }
+
+  @Override
+  public int getCost() {
+    return that.getCost();
   }
 
   @Override
@@ -42,12 +74,12 @@ public final class NotPredicate extends Predicate {
 
   @Override
   public boolean equals(final Object other) {
-    return other instanceof NotPredicate
-        && getChildren().equals(((Predicate) other).getChildren());
+    return getClass() == other.getClass()
+        && getChildren().equals(((Predicate<?>) other).getChildren());
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     return "-" + that.toString();
   }
 }

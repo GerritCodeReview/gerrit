@@ -23,6 +23,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommits;
+import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -40,6 +41,7 @@ import org.eclipse.jgit.http.server.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.http.server.resolver.UploadPackFactory;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
 import org.slf4j.Logger;
@@ -115,7 +117,8 @@ public class ProjectServlet extends GitServlet {
         StringBuilder r = new StringBuilder();
         r.append(urlProvider.get());
         r.append('#');
-        r.append(PageLinks.toProject(dst, Change.Status.NEW));
+        r.append(PageLinks.toChangeQuery(PageLinks.projectQuery(dst,
+            Change.Status.NEW)));
         rsp.sendRedirect(r.toString());
       }
     });
@@ -174,10 +177,12 @@ public class ProjectServlet extends GitServlet {
 
   static class Upload implements UploadPackFactory {
     private final Provider<ReviewDb> db;
+    private final PackConfig packConfig;
 
     @Inject
-    Upload(final Provider<ReviewDb> db) {
+    Upload(final Provider<ReviewDb> db, final TransferConfig tc) {
       this.db = db;
+      this.packConfig = tc.getPackConfig();
     }
 
     @Override
@@ -187,6 +192,7 @@ public class ProjectServlet extends GitServlet {
       //
       ProjectControl pc = getProjectControl(req);
       UploadPack up = new UploadPack(repo);
+      up.setPackConfig(packConfig);
       if (!pc.allRefsAreVisible()) {
         up.setRefFilter(new VisibleRefFilter(repo, pc, db.get()));
       }

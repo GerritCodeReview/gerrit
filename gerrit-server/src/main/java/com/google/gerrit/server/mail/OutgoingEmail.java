@@ -15,36 +15,9 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountProjectWatch;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.ChangeMessage;
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gerrit.reviewdb.PatchSetInfo;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.reviewdb.UserIdentity;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.StarredChangesCache;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountProjectWatchCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.WildProjectName;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.EmailHeader.AddressList;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListEntry;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.client.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
@@ -54,18 +27,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.TreeSet;
-
-import javax.annotation.Nullable;
 
 /** Sends an email to one or more interested parties. */
 public abstract class OutgoingEmail {
@@ -74,93 +41,24 @@ public abstract class OutgoingEmail {
   private static final String HDR_TO = "To";
   private static final String HDR_CC = "CC";
 
-  private static final Random RNG = new Random();
-  private final String messageClass;
-  protected final Change change;
-  protected String projectName;
+  protected String messageClass;
   private final HashSet<Account.Id> rcptTo = new HashSet<Account.Id>();
   private final Map<String, EmailHeader> headers;
   private final List<Address> smtpRcptTo = new ArrayList<Address>();
   private Address smtpFromAddress;
   private StringBuilder body;
-  private boolean inFooter;
 
+  protected final EmailArguments args;
   protected Account.Id fromId;
-  protected PatchSet patchSet;
-  protected PatchSetInfo patchSetInfo;
-  protected ChangeMessage changeMessage;
-  protected ReviewDb db;
 
-  @Inject
-  protected GitRepositoryManager server;
-
-  @Inject
-  private ProjectCache projectCache;
-
-  @Inject
-  private AccountCache accountCache;
-
-  @Inject
-  private PatchListCache patchListCache;
-
-  @Inject
-  private FromAddressGenerator fromAddressGenerator;
-
-  @Inject
-  private EmailSender emailSender;
-
-  @Inject
-  private PatchSetInfoFactory patchSetInfoFactory;
-
-  @Inject
-  private IdentifiedUser.GenericFactory identifiedUserFactory;
-
-  @Inject
-  @CanonicalWebUrl
-  @Nullable
-  private Provider<String> urlProvider;
-
-  @Inject
-  @WildProjectName
-  private Project.NameKey wildProject;
-
-  @Inject
-  private StarredChangesCache starredChangesCache;
-
-  @Inject
-  private AccountProjectWatchCache accountProjectWatchCache;
-
-  private ProjectState projectState;
-
-  protected OutgoingEmail(final Change c, final String mc) {
-    change = c;
+  protected OutgoingEmail(EmailArguments ea, final String mc) {
+    args = ea;
     messageClass = mc;
     headers = new LinkedHashMap<String, EmailHeader>();
   }
 
-  protected OutgoingEmail(final String mc) {
-    this(null, mc);
-  }
-
   public void setFrom(final Account.Id id) {
     fromId = id;
-  }
-
-  public void setPatchSet(final PatchSet ps) {
-    patchSet = ps;
-  }
-
-  public void setPatchSet(final PatchSet ps, final PatchSetInfo psi) {
-    patchSet = ps;
-    patchSetInfo = psi;
-  }
-
-  public void setChangeMessage(final ChangeMessage cm) {
-    changeMessage = cm;
-  }
-
-  public void setReviewDb(final ReviewDb d) {
-    db = d;
   }
 
   /**
@@ -169,7 +67,7 @@ public abstract class OutgoingEmail {
    * @throws EmailException
    */
   public void send() throws EmailException {
-    if (!emailSender.isEnabled()) {
+    if (!args.emailSender.isEnabled()) {
       // Server has explicitly disabled email sending.
       //
       return;
@@ -179,7 +77,7 @@ public abstract class OutgoingEmail {
     format();
     if (shouldSendMessage()) {
       if (fromId != null) {
-        final Account fromUser = accountCache.get(fromId).getAccount();
+        final Account fromUser = args.accountCache.get(fromId).getAccount();
 
         if (fromUser.getGeneralPreferences().isCopySelfOnEmails()) {
           // If we are impersonating a user, make sure they receive a CC of
@@ -210,64 +108,7 @@ public abstract class OutgoingEmail {
         }
       }
 
-      if (change != null) {
-        if (getChangeUrl() != null) {
-          openFooter();
-          appendText("To view visit ");
-          appendText(getChangeUrl());
-          appendText("\n");
-        }
-        if (getSettingsUrl() != null) {
-          openFooter();
-          appendText("To unsubscribe, visit ");
-          appendText(getSettingsUrl());
-          appendText("\n");
-        }
-
-        if (inFooter) {
-          appendText("\n");
-        } else {
-          openFooter();
-        }
-        appendText("Gerrit-MessageType: " + messageClass + "\n");
-        appendText("Gerrit-Project: " + projectName + "\n");
-        appendText("Gerrit-Branch: " + change.getDest().getShortName() + "\n");
-        appendText("Gerrit-Owner: " + getNameEmailFor(change.getOwner()) + "\n");
-
-        if (db != null) {
-          try {
-            HashSet<Account.Id> reviewers = new HashSet<Account.Id>();
-            for (PatchSetApproval p : db.patchSetApprovals().byChange(
-                change.getId())) {
-              reviewers.add(p.getAccountId());
-            }
-
-            TreeSet<String> names = new TreeSet<String>();
-            for (Account.Id who : reviewers) {
-              names.add(getNameEmailFor(who));
-            }
-
-            for (String name : names) {
-              appendText("Gerrit-Reviewer: " + name + "\n");
-            }
-          } catch (OrmException e) {
-          }
-        }
-      }
-
-      if (headers.get("Message-ID").isEmpty()) {
-        final StringBuilder rndid = new StringBuilder();
-        rndid.append("<");
-        rndid.append(System.currentTimeMillis());
-        rndid.append("-");
-        rndid.append(Integer.toString(RNG.nextInt(999999), 36));
-        rndid.append("@");
-        rndid.append(SystemReader.getInstance().getHostname());
-        rndid.append(">");
-        setHeader("Message-ID", rndid.toString());
-      }
-
-      emailSender.send(smtpFromAddress, smtpRcptTo, headers, body.toString());
+      args.emailSender.send(smtpFromAddress, smtpRcptTo, headers, body.toString());
     }
   }
 
@@ -276,27 +117,11 @@ public abstract class OutgoingEmail {
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   protected void init() {
-    if (change != null && projectCache != null) {
-      projectState = projectCache.get(change.getProject());
-      projectName =
-          projectState != null ? projectState.getProject().getName() : null;
-    } else {
-      projectState = null;
-      projectName = null;
-    }
-
-    smtpFromAddress = fromAddressGenerator.from(fromId);
-    if (changeMessage != null && changeMessage.getWrittenOn() != null) {
-      setHeader("Date", new Date(changeMessage.getWrittenOn().getTime()));
-    } else {
-      setHeader("Date", new Date());
-    }
+    smtpFromAddress = args.fromAddressGenerator.from(fromId);
+    setHeader("Date", new Date());
     headers.put("From", new EmailHeader.AddressList(smtpFromAddress));
     headers.put(HDR_TO, new EmailHeader.AddressList());
     headers.put(HDR_CC, new EmailHeader.AddressList());
-    if (change != null) {
-      setChangeSubjectHeader();
-    }
     setHeader("Message-ID", "");
 
     if (fromId != null) {
@@ -312,17 +137,10 @@ public abstract class OutgoingEmail {
     }
 
     setHeader("X-Gerrit-MessageType", messageClass);
-    if (change != null) {
-      setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
-      setListIdHeader();
-      setChangeUrlHeader();
-      setCommitIdHeader();
-    }
     body = new StringBuilder();
-    inFooter = false;
 
-    if (fromId != null && fromAddressGenerator.isGenericAddress(fromId)) {
-      final Account account = accountCache.get(fromId).getAccount();
+    if (fromId != null && args.fromAddressGenerator.isGenericAddress(fromId)) {
+      final Account account = args.accountCache.get(fromId).getAccount();
       final String name = account.getFullName();
       final String email = account.getPreferredEmail();
 
@@ -338,75 +156,6 @@ public abstract class OutgoingEmail {
         body.append(":\n\n");
       }
     }
-
-    if (change != null && db != null) {
-      if (patchSet == null) {
-        try {
-          patchSet = db.patchSets().get(change.currentPatchSetId());
-        } catch (OrmException err) {
-          patchSet = null;
-        }
-      }
-
-      if (patchSet != null && patchSetInfo == null) {
-        try {
-          patchSetInfo = patchSetInfoFactory.get(patchSet.getId());
-        } catch (PatchSetInfoNotAvailableException err) {
-          patchSetInfo = null;
-        }
-      }
-    }
-  }
-
-  private void setListIdHeader() {
-    // Set a reasonable list id so that filters can be used to sort messages
-    //
-    final StringBuilder listid = new StringBuilder();
-    listid.append("gerrit-");
-    listid.append(projectName.replace('/', '-'));
-    listid.append("@");
-    listid.append(getGerritHost());
-
-    final String listidStr = listid.toString();
-    setHeader("Mailing-List", "list " + listidStr);
-    setHeader("List-Id", "<" + listidStr.replace('@', '.') + ">");
-    if (getSettingsUrl() != null) {
-      setHeader("List-Unsubscribe", "<" + getSettingsUrl() + ">");
-    }
-  }
-
-  private void setChangeUrlHeader() {
-    final String u = getChangeUrl();
-    if (u != null) {
-      setHeader("X-Gerrit-ChangeURL", "<" + u + ">");
-    }
-  }
-
-  private void setCommitIdHeader() {
-    if (patchSet != null && patchSet.getRevision() != null
-        && patchSet.getRevision().get() != null
-        && patchSet.getRevision().get().length() > 0) {
-      setHeader("X-Gerrit-Commit", patchSet.getRevision().get());
-    }
-  }
-
-  private void setChangeSubjectHeader() {
-    final StringBuilder subj = new StringBuilder();
-    subj.append("[");
-    subj.append(change.getDest().getShortName());
-    subj.append("] ");
-    subj.append("Change ");
-    subj.append(change.getKey().abbreviate());
-    subj.append(": (");
-    subj.append(projectName);
-    subj.append(") ");
-    if (change.getSubject().length() > 60) {
-      subj.append(change.getSubject().substring(0, 60));
-      subj.append("...");
-    } else {
-      subj.append(change.getSubject());
-    }
-    setHeader("Subject", subj.toString());
   }
 
   protected String getGerritHost() {
@@ -425,18 +174,7 @@ public abstract class OutgoingEmail {
     return SystemReader.getInstance().getHostname();
   }
 
-  /** Get a link to the change; null if the server doesn't know its own address. */
-  protected String getChangeUrl() {
-    if (change != null && getGerritUrl() != null) {
-      final StringBuilder r = new StringBuilder();
-      r.append(getGerritUrl());
-      r.append(change.getChangeId());
-      return r.toString();
-    }
-    return null;
-  }
-
-  private String getSettingsUrl() {
+  public String getSettingsUrl() {
     if (getGerritUrl() != null) {
       final StringBuilder r = new StringBuilder();
       r.append(getGerritUrl());
@@ -447,21 +185,7 @@ public abstract class OutgoingEmail {
   }
 
   protected String getGerritUrl() {
-    return urlProvider.get();
-  }
-
-  protected String getChangeMessageThreadId() {
-    final StringBuilder r = new StringBuilder();
-    r.append('<');
-    r.append("gerrit");
-    r.append('.');
-    r.append(change.getCreatedOn().getTime());
-    r.append('.');
-    r.append(change.getKey().get());
-    r.append('@');
-    r.append(getGerritHost());
-    r.append('>');
-    return r.toString();
+    return args.urlProvider.get();
   }
 
   /** Set a header in the outgoing message. */
@@ -480,67 +204,13 @@ public abstract class OutgoingEmail {
     }
   }
 
-  private void openFooter() {
-    if (!inFooter) {
-      inFooter = true;
-      appendText("-- \n");
-    }
-  }
-
-  /** Format the sender's "cover letter", {@link #getCoverLetter()}. */
-  protected void formatCoverLetter() {
-    final String cover = getCoverLetter();
-    if (!"".equals(cover)) {
-      appendText(cover);
-      appendText("\n\n");
-    }
-  }
-
-  /** Get the text of the "cover letter", from {@link ChangeMessage}. */
-  protected String getCoverLetter() {
-    if (changeMessage != null) {
-      final String txt = changeMessage.getMessage();
-      if (txt != null) {
-        return txt.trim();
-      }
-    }
-    return "";
-  }
-
-  /** Format the change message and the affected file list. */
-  protected void formatChangeDetail() {
-    if (patchSetInfo != null) {
-      appendText(patchSetInfo.getMessage().trim());
-      appendText("\n");
-    } else {
-      appendText(change.getSubject().trim());
-      appendText("\n");
-    }
-
-    if (patchSet != null) {
-      appendText("---\n");
-      for (PatchListEntry p : getPatchList().getPatches()) {
-        appendText(p.getChangeType().getCode() + " " + p.getNewName() + "\n");
-      }
-      appendText("\n");
-    }
-  }
-
-  /** Get the patch list corresponding to this patch set. */
-  protected PatchList getPatchList() {
-    if (patchSet != null) {
-      return patchListCache.get(change, patchSet);
-    }
-    return null;
-  }
-
   /** Lookup a human readable name for an account, usually the "full name". */
   protected String getNameFor(final Account.Id accountId) {
     if (accountId == null) {
       return "Anonymous Coward";
     }
 
-    final Account userAccount = accountCache.get(accountId).getAccount();
+    final Account userAccount = args.accountCache.get(accountId).getAccount();
     String name = userAccount.getFullName();
     if (name == null) {
       name = userAccount.getPreferredEmail();
@@ -551,8 +221,8 @@ public abstract class OutgoingEmail {
     return name;
   }
 
-  private String getNameEmailFor(Account.Id accountId) {
-    AccountState who = accountCache.get(accountId);
+  protected String getNameEmailFor(Account.Id accountId) {
+    AccountState who = args.accountCache.get(accountId);
     String name = who.getAccount().getFullName();
     String email = who.getAccount().getPreferredEmail();
 
@@ -593,19 +263,6 @@ public abstract class OutgoingEmail {
     return true;
   }
 
-  /** Get the project entity the change is in; null if its been deleted. */
-  protected ProjectState getProjectState() {
-    return projectState;
-  }
-
-  /** Get the groups which own the project. */
-  protected Set<AccountGroup.Id> getProjectOwners() {
-    final ProjectState r;
-
-    r = projectCache.get(change.getProject());
-    return r != null ? r.getOwners() : Collections.<AccountGroup.Id> emptySet();
-  }
-
   /** Schedule this message for delivery to the listed accounts. */
   protected void add(final RecipientType rt, final Collection<Account.Id> list) {
     for (final Account.Id id : list) {
@@ -613,94 +270,9 @@ public abstract class OutgoingEmail {
     }
   }
 
-  /** TO or CC all vested parties (change owner, patch set uploader, author). */
-  protected void rcptToAuthors(final RecipientType rt) {
-    add(rt, change.getOwner());
-    if (patchSet != null) {
-      add(rt, patchSet.getUploader());
-    }
-    if (patchSetInfo != null) {
-      add(rt, patchSetInfo.getAuthor());
-      add(rt, patchSetInfo.getCommitter());
-    }
-  }
-
-  private void add(final RecipientType rt, final UserIdentity who) {
+  protected void add(final RecipientType rt, final UserIdentity who) {
     if (who != null && who.getAccount() != null) {
       add(rt, who.getAccount());
-    }
-  }
-
-  /** BCC any user who has starred this change. */
-  protected void bccStarredBy() {
-    for (StarredChange w : starredChangesCache.byChange(change.getId())) {
-      add(RecipientType.BCC, w.getAccountId());
-    }
-  }
-
-  /** BCC any user who has set "notify all comments" on this project. */
-  protected void bccWatchesNotifyAllComments() {
-    if (db != null) {
-      // BCC anyone else who has interest in this project's changes
-      //
-      final ProjectState ps = getProjectState();
-      if (ps != null) {
-        for (final AccountProjectWatch w : getProjectWatches()) {
-          if (w.isNotifyAllComments()) {
-            add(RecipientType.BCC, w.getAccountId());
-          }
-        }
-      }
-    }
-  }
-
-  /** Returns all watches that are relevant for this project */
-  final protected Set<AccountProjectWatch> getProjectWatches() {
-    final Set<AccountProjectWatch> projectWatches = new HashSet<AccountProjectWatch>();
-    final Set<Account.Id> projectWatchers = new HashSet<Account.Id>();
-    final ProjectState ps = getProjectState();
-    if (ps != null) {
-      for (final AccountProjectWatch w : accountProjectWatchCache.byProject(ps
-          .getProject().getNameKey())) {
-        projectWatches.add(w);
-        projectWatchers.add(w.getAccountId());
-      }
-    }
-    for (final AccountProjectWatch w : accountProjectWatchCache
-        .byProject(wildProject)) {
-      if (!projectWatchers.contains(w.getAccountId())) {
-        // the all projects watch settings are only relevant if the user did not configure
-        // any specific rules for the concrete project
-        projectWatches.add(w);
-      }
-    }
-    return Collections.unmodifiableSet(projectWatches);
-  }
-
-  /** Any user who has published comments on this change. */
-  protected void ccAllApprovals() {
-    ccApprovals(true);
-  }
-
-  /** Users who have non-zero approval codes on the change. */
-  protected void ccExistingReviewers() {
-    ccApprovals(false);
-  }
-
-  private void ccApprovals(final boolean includeZero) {
-    if (db != null) {
-      try {
-        // CC anyone else who has posted an approval mark on this change
-        //
-        for (PatchSetApproval ap : db.patchSetApprovals().byChange(
-            change.getId())) {
-          if (!includeZero && ap.getValue() == 0) {
-            continue;
-          }
-          add(RecipientType.CC, ap.getAccountId());
-        }
-      } catch (OrmException err) {
-      }
     }
   }
 
@@ -712,17 +284,14 @@ public abstract class OutgoingEmail {
     }
   }
 
-  private boolean isVisibleTo(final Account.Id to) {
-    return projectState == null
-        || change == null
-        || projectState.controlFor(identifiedUserFactory.create(to))
-            .controlFor(change).isVisible();
+  protected boolean isVisibleTo(final Account.Id to) {
+    return true;
   }
 
   /** Schedule delivery of this message to the given account. */
   protected void add(final RecipientType rt, final Address addr) {
     if (addr != null && addr.email != null && addr.email.length() > 0) {
-      if (emailSender.canEmail(addr.email)) {
+      if (args.emailSender.canEmail(addr.email)) {
         smtpRcptTo.add(addr);
         switch (rt) {
           case TO:
@@ -739,7 +308,7 @@ public abstract class OutgoingEmail {
   }
 
   private Address toAddress(final Account.Id id) {
-    final Account a = accountCache.get(id).getAccount();
+    final Account a = args.accountCache.get(id).getAccount();
     final String e = a.getPreferredEmail();
     if (e == null) {
       return null;

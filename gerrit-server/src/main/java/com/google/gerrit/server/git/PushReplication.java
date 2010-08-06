@@ -37,7 +37,7 @@ import com.jcraft.jsch.Session;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.FileBasedConfig;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.OpenSshConfig;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -129,7 +129,8 @@ public class PushReplication implements ReplicationQueue {
 
   private List<ReplicationConfig> allConfigs(final SitePaths site)
       throws ConfigInvalidException, IOException {
-    final FileBasedConfig cfg = new FileBasedConfig(site.replication_config);
+    final FileBasedConfig cfg =
+        new FileBasedConfig(site.replication_config, FS.DETECTED);
 
     if (!cfg.getFile().exists()) {
       log.warn("No " + cfg.getFile() + "; not replicating");

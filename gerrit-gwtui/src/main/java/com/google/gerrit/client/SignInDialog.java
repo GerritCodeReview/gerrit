@@ -15,6 +15,7 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.common.auth.SignInMode;
+import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 
 /** Prompts the user to sign in to their account. */
@@ -46,5 +47,11 @@ public abstract class SignInDialog extends AutoCenterDialogBox {
         setText(Gerrit.C.signInDialogTitle());
         break;
     }
+  }
+
+  @Override
+  public void show() {
+    super.show();
+    GlobalKey.dialog(this);
   }
 }

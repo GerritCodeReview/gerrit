@@ -343,6 +343,10 @@ public abstract class BaseCommand implements Command {
     }
   }
 
+  protected UnloggedFailure die(String msg) {
+    return new UnloggedFailure(1, "fatal: " + msg);
+  }
+
   private final class TaskThunk implements CancelableRunnable, ProjectRunnable {
     private final CommandRunnable thunk;
     private final Context context;

@@ -69,19 +69,26 @@ public class PageLinks {
     return "q," + KeyUtil.encode(query) + "," + TOP;
   }
 
-  public static String toProject(final Project.NameKey proj, Status status) {
+  public static String projectQuery(Project.NameKey proj, Status status) {
     switch (status) {
       case ABANDONED:
-        return "project,abandoned," + proj.toString() + ",n,z";
+        return "status:abandoned " + op("project", proj.get());
 
       case MERGED:
-        return "project,merged," + proj.toString() + ",n,z";
+        return "status:merged " + op("project", proj.get());
 
       case NEW:
       case SUBMITTED:
       default:
-        return "project,open," + proj.toString() + ",n,z";
+        return "status:open " + op("project", proj.get());
     }
+  }
+
+  public static String op(String name, String value) {
+    if (value.indexOf(' ') >= 0) {
+      return name + ":\"" + value + "\"";
+    }
+    return name + ":" + value;
   }
 
   protected PageLinks() {

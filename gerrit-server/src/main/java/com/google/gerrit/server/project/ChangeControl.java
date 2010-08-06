@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -24,7 +25,6 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
@@ -37,6 +37,25 @@ import java.util.List;
 
 /** Access control management for a user accessing a single change. */
 public class ChangeControl {
+  public static class GenericFactory {
+    private final ProjectControl.GenericFactory projectControl;
+
+    @Inject
+    GenericFactory(ProjectControl.GenericFactory p) {
+      projectControl = p;
+    }
+
+    public ChangeControl controlFor(Change change, CurrentUser user)
+        throws NoSuchChangeException {
+      final Project.NameKey projectKey = change.getProject();
+      try {
+        return projectControl.controlFor(projectKey, user).controlFor(change);
+      } catch (NoSuchProjectException e) {
+        throw new NoSuchChangeException(change.getId(), e);
+      }
+    }
+  }
+
   public static class Factory {
     private final ProjectControl.Factory projectControl;
     private final Provider<ReviewDb> db;
@@ -138,6 +157,10 @@ public class ChangeControl {
         || getProjectControl().isOwner() // project owner can abandon
         || getCurrentUser().isAdministrator() // site administers are god
     ;
+  }
+
+  public short normalize(ApprovalCategory.Id category, short score) {
+    return getRefControl().normalize(category, score);
   }
 
   /** Can this user add a patch set to this change? */

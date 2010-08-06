@@ -16,8 +16,8 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.ChangeListener;
-import com.google.gerrit.common.ChangeHookRunner.ChangeEvent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.sshd.BaseCommand;

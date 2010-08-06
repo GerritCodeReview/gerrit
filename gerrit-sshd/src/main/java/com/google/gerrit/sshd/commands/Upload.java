@@ -15,9 +15,9 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.sshd.AbstractGitCommand;
-import com.google.gerrit.sshd.TransferConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -40,6 +40,7 @@ final class Upload extends AbstractGitCommand {
     if (!projectControl.allRefsAreVisible()) {
       up.setRefFilter(new VisibleRefFilter(repo, projectControl, db.get()));
     }
+    up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
     try {
       up.upload(in, out, err);

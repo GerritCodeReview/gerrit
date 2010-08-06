@@ -19,7 +19,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -34,8 +34,9 @@ public class CreateChangeSender extends NewChangeSender {
   }
 
   @Inject
-  public CreateChangeSender(@Assisted Change c) {
-    super(c);
+  public CreateChangeSender(EmailArguments ea, SshInfo sshInfo,
+      @Assisted Change c) {
+    super(ea, sshInfo, c);
   }
 
   @Override
@@ -46,38 +47,32 @@ public class CreateChangeSender extends NewChangeSender {
   }
 
   private void bccWatchers() {
-    if (db != null) {
-      try {
-        // BCC anyone else who has interest in this project's changes
-        //
-        final ProjectState ps = getProjectState();
-        if (ps != null) {
-          // Try to mark interested owners with a TO and not a BCC line.
-          //
-          final Set<Account.Id> owners = new HashSet<Account.Id>();
-          for (AccountGroup.Id g : getProjectOwners()) {
-            for (AccountGroupMember m : db.accountGroupMembers().byGroup(g)) {
-              owners.add(m.getAccountId());
-            }
-          }
+    try {
+      // Try to mark interested owners with a TO and not a BCC line.
+      //
+      final Set<Account.Id> owners = new HashSet<Account.Id>();
+      for (AccountGroup.Id g : getProjectOwners()) {
+        for (AccountGroupMember m : args.db.get().accountGroupMembers()
+            .byGroup(g)) {
+          owners.add(m.getAccountId());
+        }
+      }
 
-          // BCC anyone who has interest in this project's changes
-          //
-          for (final AccountProjectWatch w : getProjectWatches()) {
-            if (w.isNotifyNewChanges()) {
-              if (owners.contains(w.getAccountId())) {
-                add(RecipientType.TO, w.getAccountId());
-              } else {
-                add(RecipientType.BCC, w.getAccountId());
-              }
-            }
+      // BCC anyone who has interest in this project's changes
+      //
+      for (final AccountProjectWatch w : getWatches()) {
+        if (w.isNotifyNewChanges()) {
+          if (owners.contains(w.getAccountId())) {
+            add(RecipientType.TO, w.getAccountId());
+          } else {
+            add(RecipientType.BCC, w.getAccountId());
           }
         }
-      } catch (OrmException err) {
-        // Just don't CC everyone. Better to send a partial message to those
-        // we already have queued up then to fail deliver entirely to people
-        // who have a lower interest in the change.
       }
+    } catch (OrmException err) {
+      // Just don't CC everyone. Better to send a partial message to those
+      // we already have queued up then to fail deliver entirely to people
+      // who have a lower interest in the change.
     }
   }
 }

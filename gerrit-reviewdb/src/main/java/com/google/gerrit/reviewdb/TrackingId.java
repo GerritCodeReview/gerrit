@@ -127,6 +127,14 @@ public final class TrackingId {
     return key.changeId;
   }
 
+  public String getTrackingId() {
+    return key.trackingId.get();
+  }
+
+  public String getSystem() {
+    return key.trackingSystem.get();
+  }
+
   @Override
   public int hashCode() {
     return key.hashCode();

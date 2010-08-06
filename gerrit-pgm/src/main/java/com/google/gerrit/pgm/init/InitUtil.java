@@ -17,15 +17,16 @@ package com.google.gerrit.pgm.init;
 import com.google.gerrit.pgm.util.Die;
 
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.FileBasedConfig;
-import org.eclipse.jgit.lib.LockFile;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.file.LockFile;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
 
-import java.io.OutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -48,7 +49,7 @@ class InitUtil {
   static void saveSecure(final FileBasedConfig sec) throws IOException {
     final byte[] out = Constants.encode(sec.toText());
     final File path = sec.getFile();
-    final LockFile lf = new LockFile(path);
+    final LockFile lf = new LockFile(path, FS.DETECTED);
     if (!lf.lock()) {
       throw new IOException("Cannot lock " + path);
     }
@@ -169,7 +170,7 @@ class InitUtil {
       throws FileNotFoundException, IOException {
     try {
       dst.getParentFile().mkdirs();
-      LockFile lf = new LockFile(dst);
+      LockFile lf = new LockFile(dst, FS.DETECTED);
       if (!lf.lock()) {
         throw new IOException("Cannot lock " + dst);
       }

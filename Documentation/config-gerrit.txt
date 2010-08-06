@@ -1313,6 +1313,32 @@ Common examples:
   safe = true
 ----
 
+
+[[pack]]Section pack
+~~~~~~~~~~~~~~~~~~~~
+Global settings controlling how Gerrit Code Review creates pack
+streams for Git clients running clone, fetch, or pull.  Most of these
+variables are per-client request, and thus should be carefully set
+given the expected concurrent request load and available CPU and
+memory resources.
+
+[[pack.deltacompression]]pack.deltacompression::
++
+If true, delta compression between objects is enabled.  This may
+result in a smaller overall transfer for the client, but requires
+more server memory and CPU time.
++
+False (off) by default, matching Gerrit Code Review 2.1.4.
+
+[[pack.threads]]pack.threads::
++
+Maximum number of threads to use for delta compression (if enabled).
+This is per-client request.  If set to 0 then the number of CPUs is
+auto-detected and one thread per CPU is used, per client request.
++
+By default, 1.
+
+
 [[repository]]Section repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Repositories in this sense are the same as projects.

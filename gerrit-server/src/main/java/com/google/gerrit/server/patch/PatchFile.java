@@ -23,7 +23,6 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -105,11 +104,6 @@ public class PatchFile {
     if (tw.getFileMode(0).getObjectType() != Constants.OBJ_BLOB) {
       return Text.EMPTY;
     }
-    final ObjectId id = tw.getObjectId(0);
-    final ObjectLoader ldr = repo.openObject(id);
-    if (ldr == null) {
-      throw new MissingObjectException(id, Constants.TYPE_BLOB);
-    }
-    return new Text(ldr.getCachedBytes());
+    return new Text(repo.open(tw.getObjectId(0), Constants.OBJ_BLOB));
   }
 }

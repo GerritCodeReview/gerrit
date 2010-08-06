@@ -40,7 +40,6 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -377,14 +376,7 @@ class PatchScriptBuilder {
           srcContent = other.srcContent;
 
         } else if (mode.getObjectType() == Constants.OBJ_BLOB) {
-          final ObjectLoader ldr = db.openObject(id);
-          if (ldr == null) {
-            throw new MissingObjectException(id, Constants.TYPE_BLOB);
-          }
-          srcContent = ldr.getCachedBytes();
-          if (ldr.getType() != Constants.OBJ_BLOB) {
-            throw new IncorrectObjectTypeException(id, Constants.TYPE_BLOB);
-          }
+          srcContent = Text.asByteArray(db.open(id, Constants.OBJ_BLOB));
 
         } else {
           srcContent = Text.NO_BYTES;

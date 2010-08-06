@@ -59,6 +59,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Commit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -76,6 +77,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -267,7 +269,7 @@ public class MergeOp {
         branchTip = null;
       }
 
-      for (final Ref r : rw.getRepository().getAllRefs().values()) {
+      for (final Ref r : db.getAllRefs().values()) {
         if (r.getName().startsWith(Constants.R_HEADS)
             || r.getName().startsWith(Constants.R_TAGS)) {
           try {
@@ -554,8 +556,7 @@ public class MergeOp {
     mergeCommit.setCommitter(myIdent);
     mergeCommit.setMessage(msgbuf.toString());
 
-    final ObjectId id = m.getObjectWriter().writeCommit(mergeCommit);
-    mergeTip = (CodeReviewCommit) rw.parseCommit(id);
+    mergeTip = (CodeReviewCommit) rw.parseCommit(commit(m, mergeCommit));
   }
 
   private void markCleanMerges() throws MergeException {
@@ -796,7 +797,7 @@ public class MergeOp {
     mergeCommit.setCommitter(toCommitterIdent(submitAudit));
     mergeCommit.setMessage(msgbuf.toString());
 
-    final ObjectId id = m.getObjectWriter().writeCommit(mergeCommit);
+    final ObjectId id = commit(m, mergeCommit);
     final CodeReviewCommit newCommit = (CodeReviewCommit) rw.parseCommit(id);
     newCommit.copyFrom(n);
     newCommit.statusCode = CommitMergeStatus.CLEAN_PICK;
@@ -804,6 +805,18 @@ public class MergeOp {
 
     mergeTip = newCommit;
     setRefLogIdent(submitAudit);
+  }
+
+  private ObjectId commit(final Merger m, final Commit mergeCommit)
+      throws IOException, UnsupportedEncodingException {
+    ObjectInserter oi = m.getObjectInserter();
+    try {
+      ObjectId id = oi.insert(Constants.OBJ_COMMIT, oi.format(mergeCommit));
+      oi.flush();
+      return id;
+    } finally {
+      oi.release();
+    }
   }
 
   private boolean contains(List<FooterLine> footers, FooterKey key, String val) {

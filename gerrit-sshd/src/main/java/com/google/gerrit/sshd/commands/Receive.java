@@ -17,8 +17,8 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.ReceiveCommits;
+import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.sshd.AbstractGitCommand;
-import com.google.gerrit.sshd.TransferConfig;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.transport.ReceivePack;

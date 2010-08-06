@@ -29,19 +29,19 @@ class JumpKeys {
     jumps.add(new KeyCommand(0, 'o', Gerrit.C.jumpAllOpen()) {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
-        Gerrit.display(PageLinks.ALL_OPEN);
+        Gerrit.display(PageLinks.toChangeQuery("status:open"));
       }
     });
     jumps.add(new KeyCommand(0, 'm', Gerrit.C.jumpAllMerged()) {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
-        Gerrit.display(PageLinks.ALL_MERGED);
+        Gerrit.display(PageLinks.toChangeQuery("status:merged"));
       }
     });
     jumps.add(new KeyCommand(0, 'a', Gerrit.C.jumpAllAbandoned()) {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
-        Gerrit.display(PageLinks.ALL_ABANDONED);
+        Gerrit.display(PageLinks.toChangeQuery("status:abandoned"));
       }
     });
 
@@ -55,19 +55,19 @@ class JumpKeys {
       jumps.add(new KeyCommand(0, 'd', Gerrit.C.jumpMineDrafts()) {
         @Override
         public void onKeyPress(final KeyPressEvent event) {
-          Gerrit.display(PageLinks.MINE_DRAFTS);
+          Gerrit.display(PageLinks.toChangeQuery("has:draft"));
         }
       });
       jumps.add(new KeyCommand(0, 'w', Gerrit.C.jumpMineWatched()) {
         @Override
         public void onKeyPress(final KeyPressEvent event) {
-          Gerrit.display(PageLinks.MINE_WATCHED);
+          Gerrit.display(PageLinks.toChangeQuery("is:watched status:open"));
         }
       });
       jumps.add(new KeyCommand(0, 's', Gerrit.C.jumpMineStarred()) {
         @Override
         public void onKeyPress(final KeyPressEvent event) {
-          Gerrit.display(PageLinks.MINE_STARRED);
+          Gerrit.display(PageLinks.toChangeQuery("is:starred"));
         }
       });
     }

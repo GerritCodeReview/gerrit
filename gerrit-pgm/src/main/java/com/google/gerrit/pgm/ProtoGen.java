@@ -47,6 +47,9 @@ public class ProtoGen extends AbstractProgram {
             + com.google.gerrit.common.Version.getVersion() + ")");
         out.println();
 
+        out.println("package gerritcodereview;\n");
+        out.println();
+
         jsm.generateProto(out);
         out.flush();
       } finally {

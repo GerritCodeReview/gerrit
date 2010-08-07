@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.backup;
+package com.google.gerrit.server.schema.backup;
 
 import com.google.gwtorm.client.Schema;
 import com.google.gwtorm.nosql.NoSqlSchema;

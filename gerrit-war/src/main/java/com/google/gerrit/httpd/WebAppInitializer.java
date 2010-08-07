@@ -28,6 +28,7 @@ import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePathFromSystemConfigProvider;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.SchemaVersion;
@@ -177,6 +178,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new SmtpEmailSender.Module());
     modules.add(new EhcachePoolImpl.Module());
+    modules.add(new LocalDiskRepositoryManager.Module());
     modules.add(new CanonicalWebUrlModule() {
       @Override
       protected Class<? extends Provider<String>> provider() {

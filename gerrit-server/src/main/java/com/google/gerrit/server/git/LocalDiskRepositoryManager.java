@@ -15,9 +15,11 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -53,6 +55,20 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   private static final String UNNAMED =
       "Unnamed repository; edit this file to name it for gitweb.";
+
+  public static class Module extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
+
+      install(new LifecycleModule() {
+        @Override
+        protected void configure() {
+          listener().to(LocalDiskRepositoryManager.Lifecycle.class);
+        }
+      });
+    }
+  }
 
   public static class Lifecycle implements LifecycleListener {
     private final Config cfg;

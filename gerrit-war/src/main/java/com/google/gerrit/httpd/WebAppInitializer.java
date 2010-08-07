@@ -25,6 +25,7 @@ import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DatabaseModule;
@@ -170,6 +171,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
       modules.add(new GerritServerConfigModule());
     }
     modules.add(new SchemaModule());
+    modules.add(new LocalDiskRepositoryManager.Module());
     modules.add(SchemaVersionCheck.module());
     modules.add(new AuthConfigModule());
     return dbInjector.createChildInjector(modules);

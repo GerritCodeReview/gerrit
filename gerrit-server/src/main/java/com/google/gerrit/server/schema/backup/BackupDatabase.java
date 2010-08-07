@@ -12,28 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.backup;
+package com.google.gerrit.server.schema.backup;
 
-import com.google.gwtorm.client.Column;
-import com.google.gwtorm.protobuf.CodecFactory;
-import com.google.gwtorm.protobuf.ProtobufCodec;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.Schema;
+import com.google.gwtorm.nosql.NoSqlDatabase;
 
-public class Counters {
-  public static final ProtobufCodec<Counters> CODEC =
-      CodecFactory.encoder(Counters.class);
-
-  @Column(id = 1)
-  public int accountGroupId;
-
-  @Column(id = 2)
-  public int accountId;
-
-  @Column(id = 3)
-  public int changeId;
-
-  @Column(id = 4)
-  public int changeMessageId;
-
-  @Column(id = 5)
-  public int contributorAgreementId;
+@SuppressWarnings("unchecked")
+public class BackupDatabase<T extends Schema> extends
+    NoSqlDatabase<T, BackupSchema, BackupAccess> {
+  public BackupDatabase(Class<T> schema) throws OrmException {
+    super(BackupSchema.class, BackupAccess.class, schema);
+  }
 }

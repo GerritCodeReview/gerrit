@@ -17,11 +17,11 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
 
 import com.google.gerrit.lifecycle.LifecycleManager;
-import com.google.gerrit.pgm.backup.BackupAccess;
-import com.google.gerrit.pgm.backup.BackupDatabase;
-import com.google.gerrit.pgm.backup.Counters;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.schema.backup.BackupAccess;
+import com.google.gerrit.server.schema.backup.BackupDatabase;
+import com.google.gerrit.server.schema.backup.Counters;
 import com.google.gwtorm.client.Access;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;

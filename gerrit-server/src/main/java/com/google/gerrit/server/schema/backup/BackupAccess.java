@@ -33,13 +33,14 @@ public abstract class BackupAccess<T, K extends Key<?>> extends
   @SuppressWarnings("unchecked")
   @Override
   protected ResultSet scanIndex(IndexFunction index, byte[] fromKey,
-      byte[] toKey, int limit) {
+      byte[] toKey, int limit, boolean order) {
     throw new UnsupportedOperationException();
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  protected ResultSet scanPrimaryKey(byte[] fromKey, byte[] toKey, int limit) {
+  protected ResultSet scanPrimaryKey(byte[] fromKey, byte[] toKey, int limit,
+      boolean order) {
     throw new UnsupportedOperationException();
   }
 

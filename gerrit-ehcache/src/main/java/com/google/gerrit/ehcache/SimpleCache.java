@@ -25,6 +25,8 @@ import net.sf.ehcache.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -62,6 +64,20 @@ final class SimpleCache<K, V> implements Cache<K, V> {
       return null;
     }
     return m != null ? (V) m.getObjectValue() : null;
+  }
+
+  @Override
+  public Map<K, V> getAll(Iterable<K> keys) {
+    HashMap<K, V> map = new HashMap<K, V>();
+    for (K k : keys) {
+      if (!map.containsKey(k)) {
+        V v = get(k);
+        if (v != null) {
+          map.put(k, v);
+        }
+      }
+    }
+    return map;
   }
 
   public void put(final K key, final V value) {

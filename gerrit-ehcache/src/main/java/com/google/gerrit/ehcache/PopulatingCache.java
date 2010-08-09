@@ -27,6 +27,8 @@ import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -94,6 +96,20 @@ class PopulatingCache<K, V> implements Cache<K, V> {
       return creator.missing(key);
     }
     return m != null ? (V) m.getObjectValue() : creator.missing(key);
+  }
+
+  @Override
+  public Map<K, V> getAll(Iterable<K> keys) {
+    HashMap<K, V> map = new HashMap<K, V>();
+    for (K k : keys) {
+      if (!map.containsKey(k)) {
+        V v = get(k);
+        if (v != null) {
+          map.put(k, v);
+        }
+      }
+    }
+    return map;
   }
 
   public void remove(final K key) {

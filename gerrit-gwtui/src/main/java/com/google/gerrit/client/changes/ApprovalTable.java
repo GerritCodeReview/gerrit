@@ -188,6 +188,10 @@ public class ApprovalTable extends Composite {
                     r.append(Util.M.accountNotFound(e.getName()));
                     break;
 
+                  case ACCOUNT_INACTIVE:
+                    r.append(Util.M.accountInactive(e.getName()));
+                    break;
+
                   case CHANGE_NOT_VISIBLE:
                     r.append(Util.M.changeNotVisibleTo(e.getName()));
                     break;

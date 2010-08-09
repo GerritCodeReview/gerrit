@@ -331,7 +331,7 @@ public abstract class OutgoingEmail {
   private Address toAddress(final Account.Id id) {
     final Account a = args.accountCache.get(id).getAccount();
     final String e = a.getPreferredEmail();
-    if (e == null) {
+    if (!a.isActive() || e == null) {
       return null;
     }
     return new Address(a.getFullName(), e);

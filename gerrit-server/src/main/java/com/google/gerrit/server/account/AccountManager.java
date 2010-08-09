@@ -100,7 +100,7 @@ public class AccountManager {
    * @param who identity of the user, with any details we received about them.
    * @return the result of authenticating the user.
    * @throws AccountException the account does not exist, and cannot be created,
-   *         or exists, but cannot be located.
+   *         or exists, but cannot be located, or is inactive.
    */
   public AuthResult authenticate(AuthRequest who) throws AccountException {
     who = realm.authenticate(who);
@@ -114,9 +114,14 @@ public class AccountManager {
           //
           return create(db, who);
 
-        } else {
-          // Account exists, return the identity to the caller.
-          //
+        } else { // Account exists
+
+          Account act = db.accounts().get(id.getAccountId());
+          if (act == null || !act.isActive()) {
+            throw new AccountException("Authentication error, account inactive");
+          }
+
+          // return the identity to the caller.
           update(db, who, id);
           return new AuthResult(id.getAccountId(), key, false);
         }

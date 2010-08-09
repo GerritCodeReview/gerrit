@@ -46,6 +46,8 @@ public interface GerritConstants extends Constants {
   String nameAlreadyUsedBody();
   String noSuchAccountTitle();
 
+  String inactiveAccountBody();
+
   String menuAll();
   String menuAllOpen();
   String menuAllMerged();

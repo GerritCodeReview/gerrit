@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc.account;
 
 import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.GroupDetail;
+import com.google.gerrit.common.errors.InactiveAccountException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
@@ -221,6 +222,9 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         }
 
         final Account a = findAccount(nameOrEmail);
+        if (!a.isActive()) {
+          throw new Failure(new InactiveAccountException(a.getFullName()));
+        }
         if (!control.canAdd(a.getId())) {
           throw new Failure(new NoSuchEntityException());
         }

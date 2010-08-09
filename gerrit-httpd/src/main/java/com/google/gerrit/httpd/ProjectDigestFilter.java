@@ -133,7 +133,7 @@ class ProjectDigestFilter implements Filter {
     }
 
     final AccountState who = accountCache.getByUsername(username);
-    if (who == null) {
+    if (who == null || ! who.getAccount().isActive()) {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }

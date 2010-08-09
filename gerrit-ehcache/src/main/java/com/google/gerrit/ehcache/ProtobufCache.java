@@ -19,6 +19,8 @@ import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.inject.Provider;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 class ProtobufCache<K, V> implements Cache<K, V> {
@@ -42,6 +44,20 @@ class ProtobufCache<K, V> implements Cache<K, V> {
         cache.get(new SerializableProtobuf<K>(key, keyCodec));
 
     return val != null ? val.toObject(valueCodec, valueProvider) : null;
+  }
+
+  @Override
+  public Map<K, V> getAll(Iterable<? extends K> keys) {
+    HashMap<K, V> map = new HashMap<K, V>();
+    for (K k : keys) {
+      if (!map.containsKey(k)) {
+        V v = get(k);
+        if (v != null) {
+          map.put(k, v);
+        }
+      }
+    }
+    return map;
   }
 
   @Override

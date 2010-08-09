@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.cache;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -26,6 +28,14 @@ import java.util.concurrent.TimeUnit;
 public interface Cache<K, V> {
   /** Get the element from the cache, or null if not stored in the cache. */
   public V get(K key);
+
+  /**
+   * Get a map containing entries for elements with the specified keys; no entry
+   * will be returned for a key if there is no element in the cache with that
+   * key. An empty map will be returned if none of the keys have elements in the
+   * cache. Duplicate keys will be ignored.
+   */
+  public Map<K, V> getAll(Iterable<? extends K> keys);
 
   /** Put one element into the cache, replacing any existing value. */
   public void put(K key, V value);

@@ -33,6 +33,7 @@ import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {
@@ -74,8 +75,8 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void suggestAccount(final String query, final int limit,
-      final AsyncCallback<List<AccountInfo>> callback) {
+  public void suggestAccount(final String query, final Boolean active,
+      final int limit, final AsyncCallback<List<AccountInfo>> callback) {
     run(callback, new Action<List<AccountInfo>>() {
       public List<AccountInfo> run(final ReviewDb db) throws OrmException {
         final String a = query;
@@ -86,12 +87,12 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         final LinkedHashMap<Account.Id, AccountInfo> r =
             new LinkedHashMap<Account.Id, AccountInfo>();
         for (final Account p : db.accounts().suggestByFullName(a, b, n)) {
-          r.put(p.getId(), new AccountInfo(p));
+          addSuggestion(r, p, new AccountInfo(p), active);
         }
         if (r.size() < n) {
           for (final Account p : db.accounts().suggestByPreferredEmail(a, b,
               n - r.size())) {
-            r.put(p.getId(), new AccountInfo(p));
+            addSuggestion(r, p, new AccountInfo(p), active);
           }
         }
         if (r.size() < n) {
@@ -101,13 +102,23 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
               final Account p = accountCache.get(e.getAccountId()).getAccount();
               final AccountInfo info = new AccountInfo(p);
               info.setPreferredEmail(e.getEmailAddress());
-              r.put(e.getAccountId(), info);
+              addSuggestion(r, p, info, active);
             }
           }
         }
         return new ArrayList<AccountInfo>(r.values());
       }
     });
+  }
+
+  private void addSuggestion(Map map, Account account, AccountInfo info,
+      Boolean active) {
+    if(active != null) {
+      if(active.booleanValue() != account.isActive()) {
+        return;
+      }
+    }
+    map.put(account.getId(), info);
   }
 
   public void suggestAccountGroup(final String query, final int limit,

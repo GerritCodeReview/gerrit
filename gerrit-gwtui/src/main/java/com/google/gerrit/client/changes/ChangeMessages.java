@@ -47,6 +47,7 @@ public interface ChangeMessages extends Messages {
   String changeQueryPageTitle(String query);
 
   String accountNotFound(String who);
+  String accountInactive(String who);
   String changeNotVisibleTo(String who);
 
   String anonymousDownload(String protocol);

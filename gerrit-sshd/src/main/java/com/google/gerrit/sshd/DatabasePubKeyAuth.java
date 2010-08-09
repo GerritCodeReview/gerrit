@@ -135,6 +135,11 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       }
     }
 
+    if(!createUser(sd, key).getAccount().isActive()) {
+      sd.authenticationError(username, "inactive-account");
+      return false;
+    }
+
     return success(username, session, sd, createUser(sd, key));
   }
 

@@ -50,6 +50,9 @@ public class ReviewerResult {
       /** Name supplied does not match to a registered account. */
       ACCOUNT_NOT_FOUND,
 
+      /** The account is inactive. */
+      ACCOUNT_INACTIVE,
+
       /** The account is not permitted to see the change. */
       CHANGE_NOT_VISIBLE,
 

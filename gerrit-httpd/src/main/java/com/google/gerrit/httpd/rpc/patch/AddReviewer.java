@@ -94,6 +94,11 @@ class AddReviewer extends Handler<ReviewerResult> {
             ReviewerResult.Error.Type.ACCOUNT_NOT_FOUND, nameOrEmail));
         continue;
       }
+      if (!account.isActive()) {
+        result.addError(new ReviewerResult.Error(
+            ReviewerResult.Error.Type.ACCOUNT_INACTIVE, nameOrEmail));
+        continue;
+      }
 
       final IdentifiedUser user = identifiedUserFactory.create(account.getId());
       if (!control.forUser(user).isVisible()) {

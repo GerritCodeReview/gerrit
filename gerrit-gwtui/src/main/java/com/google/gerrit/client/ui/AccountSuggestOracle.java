@@ -30,7 +30,8 @@ public class AccountSuggestOracle extends HighlightSuggestOracle {
   public void onRequestSuggestions(final Request req, final Callback callback) {
     RpcStatus.hide(new Runnable() {
       public void run() {
-        SuggestUtil.SVC.suggestAccount(req.getQuery(), req.getLimit(),
+        SuggestUtil.SVC.suggestAccount(req.getQuery(), new Boolean(true),
+            req.getLimit(),
             new GerritCallback<List<AccountInfo>>() {
               public void onSuccess(final List<AccountInfo> result) {
                 final ArrayList<AccountSuggestion> r =

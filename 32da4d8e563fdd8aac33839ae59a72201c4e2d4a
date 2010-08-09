@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4n///98\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/Cache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-09T19:56:25Z",
+      "side": 1,
+      "message": "Iterable\u003cK\u003e is probably fine.  It doesn\u0027t make much sense to pass a subclass of the key type into the lookup.\n\nThis comment also applies to everyone that implements the new method.",
+      "revId": "32da4d8e563fdd8aac33839ae59a72201c4e2d4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

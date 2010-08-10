@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4n///0k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/FetchOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-10T19:45:26Z",
+      "side": 1,
+      "message": "Yup, this logic is correct.  Fetch is a lot more simple.",
+      "revId": "827748e2a7c6cc89ca58967dd0617ff3f6421f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///0g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/FetchOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-10T19:45:26Z",
+      "side": 1,
+      "message": "Unused method.",
+      "revId": "827748e2a7c6cc89ca58967dd0617ff3f6421f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///0o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-10T19:45:26Z",
+      "side": 1,
+      "message": "Style-nit: Blank line after method.",
+      "revId": "827748e2a7c6cc89ca58967dd0617ff3f6421f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///0s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplicationQueueImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-10T19:45:26Z",
+      "side": 1,
+      "message": "These are both the same collection.  I think you meant to test push and fetch here, not both push.",
+      "revId": "827748e2a7c6cc89ca58967dd0617ff3f6421f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

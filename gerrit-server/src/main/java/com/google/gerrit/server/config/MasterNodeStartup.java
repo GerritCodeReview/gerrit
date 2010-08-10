@@ -16,7 +16,7 @@ package com.google.gerrit.server.config;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.git.PushAllProjectsOp;
+import com.google.gerrit.server.git.ReplicateAllProjectsOp;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.inject.Inject;
 
@@ -32,15 +32,15 @@ public class MasterNodeStartup extends LifecycleModule {
   }
 
   static class OnStart implements LifecycleListener {
-    private final PushAllProjectsOp.Factory pushAll;
+    private final ReplicateAllProjectsOp.Factory replicateAll;
     private final ReloadSubmitQueueOp.Factory submit;
     private final boolean replicateOnStartup;
 
     @Inject
-    OnStart(final PushAllProjectsOp.Factory pushAll,
+    OnStart(final ReplicateAllProjectsOp.Factory replicateAll,
         final ReloadSubmitQueueOp.Factory submit,
         final @GerritServerConfig Config cfg) {
-      this.pushAll = pushAll;
+      this.replicateAll = replicateAll;
       this.submit = submit;
 
       replicateOnStartup = cfg.getBoolean("gerrit", "replicateOnStartup", true);
@@ -49,9 +49,8 @@ public class MasterNodeStartup extends LifecycleModule {
     @Override
     public void start() {
       if (replicateOnStartup) {
-        pushAll.create(null).start(30, TimeUnit.SECONDS);
+        replicateAll.create(null).start(30, TimeUnit.SECONDS);
       }
-
       submit.create().start(15, TimeUnit.SECONDS);
     }
 

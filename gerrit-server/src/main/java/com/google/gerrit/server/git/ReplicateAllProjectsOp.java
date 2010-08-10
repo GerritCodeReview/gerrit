@@ -29,13 +29,13 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
 
-public class PushAllProjectsOp extends DefaultQueueOp {
+public class ReplicateAllProjectsOp extends DefaultQueueOp {
   public interface Factory {
-    PushAllProjectsOp create(String urlMatch);
+    ReplicateAllProjectsOp create(String urlMatch);
   }
 
   private static final Logger log =
-      LoggerFactory.getLogger(PushAllProjectsOp.class);
+      LoggerFactory.getLogger(ReplicateAllProjectsOp.class);
 
   private final SchemaFactory<ReviewDb> schema;
   private final ReplicationQueue replication;
@@ -43,7 +43,7 @@ public class PushAllProjectsOp extends DefaultQueueOp {
   private final String urlMatch;
 
   @Inject
-  public PushAllProjectsOp(final WorkQueue wq,
+  public ReplicateAllProjectsOp(final WorkQueue wq,
       final SchemaFactory<ReviewDb> sf, final ReplicationQueue rq,
       @WildProjectName final Project.NameKey wp,
       @Assisted @Nullable final String urlMatch) {

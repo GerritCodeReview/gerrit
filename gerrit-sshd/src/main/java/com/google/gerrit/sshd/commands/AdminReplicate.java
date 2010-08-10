@@ -15,7 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.server.git.PushAllProjectsOp;
+import com.google.gerrit.server.git.ReplicateAllProjectsOp;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.sshd.AdminCommand;
@@ -43,7 +43,7 @@ final class AdminReplicate extends BaseCommand {
   private List<String> projectNames = new ArrayList<String>(2);
 
   @Inject
-  private PushAllProjectsOp.Factory pushAllOpFactory;
+  private ReplicateAllProjectsOp.Factory replicateAllOpFactory;
 
   @Inject
   private ReplicationQueue replication;
@@ -72,7 +72,7 @@ final class AdminReplicate extends BaseCommand {
     }
 
     if (all) {
-      pushAllOpFactory.create(urlMatch).start(0, TimeUnit.SECONDS);
+      replicateAllOpFactory.create(urlMatch).start(0, TimeUnit.SECONDS);
 
     } else {
       for (final String name : projectNames) {

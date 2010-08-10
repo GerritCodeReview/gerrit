@@ -16,7 +16,6 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmException;
@@ -24,16 +23,11 @@ import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import com.jcraft.jsch.JSchException;
-
-import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.FetchConnection;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
@@ -41,7 +35,6 @@ import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
-import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,43 +48,24 @@ import java.util.Set;
 /**
  * A push to remote operation started by {@link ReplicationQueue}.
  * <p>
- * Instance members are protected by the lock within PushQueue. Callers must
+ * Instance members are protected by the lock within {@link ReplicationQueueImpl}. Callers must
  * take that lock to ensure they are working with a current view of the object.
  */
-class PushOp implements ProjectRunnable {
-  interface Factory {
+class PushOp extends ReplicateOp {
+  interface Factory extends ReplicateOp.Factory {
     PushOp create(Project.NameKey d, URIish u);
   }
-
-  private static final Logger log = PushReplication.log;
   static final String MIRROR_ALL = "..all..";
 
-  private final GitRepositoryManager repoManager;
-  private final SchemaFactory<ReviewDb> schema;
-  private final PushReplication.ReplicationConfig pool;
-  private final RemoteConfig config;
-
   private final Set<String> delta = new HashSet<String>();
-  private final Project.NameKey projectName;
-  private final URIish uri;
   private boolean mirror;
 
-  private Repository db;
-
   @Inject
-  PushOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> s,
-      final PushReplication.ReplicationConfig p, final RemoteConfig c,
-      @Assisted final Project.NameKey d, @Assisted final URIish u) {
-    repoManager = grm;
-    schema = s;
-    pool = p;
-    config = c;
-    projectName = d;
-    uri = u;
-  }
-
-  URIish getURI() {
-    return uri;
+  PushOp(final GitRepositoryManager repositoryManager,
+      final SchemaFactory<ReviewDb> schema,
+      final ReplicationQueueImpl.ReplicationConfig pool, final RemoteConfig config,
+      @Assisted final Project.NameKey projectName, @Assisted final URIish uri) {
+    super(repositoryManager, projectName, pool, uri, schema, config);
   }
 
   void addRef(final String ref) {
@@ -103,55 +77,12 @@ class PushOp implements ProjectRunnable {
     }
   }
 
-  public void run() {
-    try {
-      // Lock the queue, and remove ourselves, so we can't be modified once
-      // we start replication (instead a new instance, with the same URI, is
-      // created and scheduled for a future point in time.)
-      //
-      pool.notifyStarting(this);
-      db = repoManager.openRepository(projectName.get());
-      runImpl();
-    } catch (RepositoryNotFoundException e) {
-      log.error("Cannot replicate " + projectName + "; " + e.getMessage());
-
-    } catch (NoRemoteRepositoryException e) {
-      log.error("Cannot replicate to " + uri + "; repository not found");
-
-    } catch (NotSupportedException e) {
-      log.error("Cannot replicate to " + uri, e);
-
-    } catch (TransportException e) {
-      final Throwable cause = e.getCause();
-      if (cause instanceof JSchException
-          && cause.getMessage().startsWith("UnknownHostKey:")) {
-        log.error("Cannot replicate to " + uri + ": " + cause.getMessage());
-      } else {
-        log.error("Cannot replicate to " + uri, e);
-      }
-
-    } catch (IOException e) {
-      log.error("Cannot replicate to " + uri, e);
-
-    } catch (RuntimeException e) {
-      log.error("Unexpected error during replication to " + uri, e);
-
-    } catch (Error e) {
-      log.error("Unexpected error during replication to " + uri, e);
-
-    } finally {
-      if (db != null) {
-        db.close();
-      }
-    }
-  }
-
   @Override
   public String toString() {
     return (mirror ? "mirror " : "push ") + uri;
   }
 
-  private void runImpl() throws IOException {
+  protected void runImpl() throws IOException {
     final Transport tn = Transport.open(db, uri);
     final PushResult res;
     try {
@@ -195,8 +126,11 @@ class PushOp implements ProjectRunnable {
     }
   }
 
-  private PushResult pushVia(final Transport tn) throws IOException,
-      NotSupportedException, TransportException {
+  @Override
+  protected String direction() {
+    return "to";
+  }
+  private PushResult pushVia(final Transport tn) throws IOException {
     tn.applyConfig(config);
 
     final List<RemoteRefUpdate> todo = generateUpdates(tn);
@@ -337,20 +271,5 @@ class PushOp implements ProjectRunnable {
     final String dst = spec.getDestination();
     final boolean force = spec.isForceUpdate();
     cmds.add(new RemoteRefUpdate(db, null, dst, force, null, null));
-  }
-
-  @Override
-  public NameKey getProjectNameKey() {
-    return projectName;
-  }
-
-  @Override
-  public String getRemoteName() {
-    return config.getName();
-  }
-
-  @Override
-  public boolean hasCustomizedPrint() {
-    return true;
   }
 }

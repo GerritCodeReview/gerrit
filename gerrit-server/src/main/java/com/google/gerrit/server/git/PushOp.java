@@ -327,7 +327,10 @@ class PushOp implements ProjectRunnable {
   private void send(final List<RemoteRefUpdate> cmds, final RefSpec spec)
       throws IOException {
     final String src = spec.getSource();
-    final String dst = spec.getDestination();
+    String dst = spec.getDestination();
+    if (dst == null) {
+      dst = src;
+    }
     final boolean force = spec.isForceUpdate();
     cmds.add(new RemoteRefUpdate(db, src, dst, force, null, null));
   }

@@ -38,7 +38,8 @@ public class ComplexDisclosurePanel extends Composite implements
     // other modification of its header. We're stuck with injecting
     // into the DOM directly.
     //
-    main = new DisclosurePanel(text, isOpen);
+    main = new DisclosurePanel(text);
+    main.setOpen(isOpen);
     final Element headerParent;
     {
       final Element table = main.getElement();

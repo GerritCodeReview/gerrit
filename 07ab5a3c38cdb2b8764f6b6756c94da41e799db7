@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4n///4I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-10T13:59:05Z",
+      "side": 1,
+      "message": "Here\u0027s another spot where destination is null and we should use src.",
+      "revId": "07ab5a3c38cdb2b8764f6b6756c94da41e799db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///4E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-10T13:59:05Z",
+      "side": 1,
+      "message": "This also would have to use src.\n\nLooking at the code more, maybe the better approach is to ensure the RefSpec always has destination populated when we construct it inside of the PushReplication class while we parse replication.config?",
+      "revId": "07ab5a3c38cdb2b8764f6b6756c94da41e799db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///4M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-10T13:59:05Z",
+      "side": 1,
+      "message": "Yes you are right, we also need to test dst here and use src if its null.",
+      "revId": "07ab5a3c38cdb2b8764f6b6756c94da41e799db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

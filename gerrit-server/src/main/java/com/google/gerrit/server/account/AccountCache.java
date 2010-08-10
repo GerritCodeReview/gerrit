@@ -16,9 +16,13 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.Account;
 
+import java.util.Map;
+
 /** Caches important (but small) account state to avoid database hits. */
 public interface AccountCache {
   public AccountState get(Account.Id accountId);
+
+  public Map<Account.Id, AccountState> getAll(Iterable<Account.Id> accountIds);
 
   public AccountState getByUsername(String username);
 

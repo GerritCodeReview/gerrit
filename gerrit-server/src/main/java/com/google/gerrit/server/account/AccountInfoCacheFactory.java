@@ -20,9 +20,13 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 /** Efficiently builds an {@link AccountInfoCache}. */
 public class AccountInfoCacheFactory {
@@ -32,11 +36,13 @@ public class AccountInfoCacheFactory {
 
   private final AccountCache accountCache;
   private final Map<Account.Id, Account> out;
+  private final Set<Account.Id> wants;
 
   @Inject
   AccountInfoCacheFactory(final AccountCache accountCache) {
     this.accountCache = accountCache;
     this.out = new HashMap<Account.Id, Account>();
+    this.wants = new HashSet<Account.Id>();
   }
 
   /**
@@ -45,20 +51,31 @@ public class AccountInfoCacheFactory {
    * @param id identity that will be needed in the future; may be null.
    */
   public void want(final Account.Id id) {
-    if (id != null && !out.containsKey(id)) {
-      out.put(id, accountCache.get(id).getAccount());
+    if (id != null) {
+      wants.add(id);
     }
   }
 
   /** Indicate one or more accounts will be needed later on. */
-  public void want(final Iterable<Account.Id> ids) {
-    for (final Account.Id id : ids) {
-      want(id);
+  public void want(final Collection<Account.Id> ids) {
+    wants.addAll(ids);
+  }
+
+  private void fetchWants() {
+    Set<Account.Id> missing = new HashSet<Account.Id>(wants);
+    missing.removeAll(out.keySet());
+
+    for (Entry<Account.Id, AccountState> e : accountCache.getAll(missing)
+        .entrySet()) {
+      out.put(e.getKey(), e.getValue().getAccount());
     }
   }
 
   public Account get(final Account.Id id) {
-    want(id);
+    if (!out.containsKey(id)) {
+      wants.add(id);
+      fetchWants();
+    }
     return out.get(id);
   }
 
@@ -66,6 +83,7 @@ public class AccountInfoCacheFactory {
    * Create an AccountInfoCache with the currently loaded Account entities.
    * */
   public AccountInfoCache create() {
+    fetchWants();
     final List<AccountInfo> r = new ArrayList<AccountInfo>(out.size());
     for (final Account a : out.values()) {
       r.add(new AccountInfo(a));

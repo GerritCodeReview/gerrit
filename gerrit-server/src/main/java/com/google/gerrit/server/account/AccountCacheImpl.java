@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Account.Id;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
@@ -34,6 +35,7 @@ import com.google.inject.name.Named;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /** Caches important (but small) account state to avoid database hits. */
@@ -72,6 +74,11 @@ public class AccountCacheImpl implements AccountCache {
 
   public AccountState get(final Account.Id accountId) {
     return byId.get(accountId);
+  }
+
+  @Override
+  public Map<Id, AccountState> getAll(Iterable<Id> accountIds) {
+    return byId.getAll(accountIds);
   }
 
   @Override

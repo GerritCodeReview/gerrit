@@ -44,8 +44,8 @@ import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.MergeQueue;
-import com.google.gerrit.server.git.PushAllProjectsOp;
-import com.google.gerrit.server.git.PushReplication;
+import com.google.gerrit.server.git.ReplicateAllProjectsOp;
+import com.google.gerrit.server.git.ReplicationQueueImpl;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.git.TransferConfig;
@@ -165,8 +165,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(EventFactory.class);
     bind(TransferConfig.class);
 
-    bind(ReplicationQueue.class).to(PushReplication.class).in(SINGLETON);
-    factory(PushAllProjectsOp.Factory.class);
+    bind(ReplicationQueue.class).to(ReplicationQueueImpl.class).in(SINGLETON);
+    factory(ReplicateAllProjectsOp.Factory.class);
 
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
     factory(ReloadSubmitQueueOp.Factory.class);

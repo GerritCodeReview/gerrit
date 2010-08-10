@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.Project;
 
-/** Manages replication to other nodes. */
+/** Manages replication to/from other nodes. */
 public interface ReplicationQueue {
   /** Is replication to one or more other destinations configured? */
   boolean isEnabled();

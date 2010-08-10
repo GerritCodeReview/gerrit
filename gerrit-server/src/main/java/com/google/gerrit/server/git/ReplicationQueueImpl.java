@@ -55,16 +55,15 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-/** Manages automatic replication to remote repositories. */
+/** Manages automatic replication to/from remote repositories. */
 @Singleton
-public class PushReplication implements ReplicationQueue {
-  static final Logger log = LoggerFactory.getLogger(PushReplication.class);
+public class ReplicationQueueImpl implements ReplicationQueue {
+  static final Logger log = LoggerFactory.getLogger(ReplicationQueueImpl.class);
 
   static {
     // Install our own factory which always runs in batch mode, as we
@@ -85,7 +84,7 @@ public class PushReplication implements ReplicationQueue {
   private final ReplicationUser.Factory replicationUserFactory;
 
   @Inject
-  PushReplication(final Injector i, final WorkQueue wq, final SitePaths site,
+  ReplicationQueueImpl(final Injector i, final WorkQueue wq, final SitePaths site,
       final ReplicationUser.Factory ruf, final SchemaFactory<ReviewDb> db)
       throws ConfigInvalidException, IOException {
     injector = i;
@@ -113,7 +112,7 @@ public class PushReplication implements ReplicationQueue {
   @Override
   public void scheduleUpdate(final Project.NameKey project, final String ref) {
     for (final ReplicationConfig cfg : configs) {
-      if (cfg.wouldPushRef(ref)) {
+      if (cfg.wouldUpdateRef(ref)) {
         for (final URIish uri : cfg.getURIs(project, null)) {
           cfg.schedule(project, ref, uri);
         }
@@ -171,12 +170,22 @@ public class PushReplication implements ReplicationQueue {
         }
       }
 
+      if (!c.getPushRefSpecs().isEmpty() && !c.getFetchRefSpecs().isEmpty()) {
+        throw new ConfigInvalidException("remote." + c.getName()
+            + " has both push and fetch refspecs in " + cfg.getFile());
+      }
 
-      if (c.getPushRefSpecs().isEmpty()) {
+      if (c.getPushRefSpecs().isEmpty() && c.getFetchRefSpecs().isEmpty()) {
         RefSpec spec = new RefSpec();
         spec = spec.setSourceDestination("refs/*", "refs/*");
         spec = spec.setForceUpdate(true);
+        // If neither push nor fetch refs are configured then assume that we push to the remote server
         c.addPushRefSpec(spec);
+      }
+
+      if (!c.getFetchRefSpecs().isEmpty() && c.getURIs().size() > 1) {
+        throw new ConfigInvalidException("remote." + c.getName() + ".fetch"
+            + " has more than one source url in " + cfg.getFile());
       }
 
       r.add(new ReplicationConfig(injector, workQueue, c, cfg, database,
@@ -308,8 +317,8 @@ public class PushReplication implements ReplicationQueue {
     private final RemoteConfig remote;
     private final int delay;
     private final WorkQueue.Executor pool;
-    private final Map<URIish, PushOp> pending = new HashMap<URIish, PushOp>();
-    private final PushOp.Factory opFactory;
+    private final Map<URIish, ReplicateOp> pending = new HashMap<URIish, ReplicateOp>();
+    private final ReplicateOp.Factory opFactory;
     private final ProjectControl.Factory projectControlFactory;
 
     ReplicationConfig(final Injector injector, final WorkQueue workQueue,
@@ -344,16 +353,22 @@ public class PushReplication implements ReplicationQueue {
             }
           }).getInstance(ProjectControl.Factory.class);
 
-      opFactory = injector.createChildInjector(new AbstractModule() {
+      Injector childInjector = injector.createChildInjector(new AbstractModule() {
         @Override
         protected void configure() {
-          bind(PushReplication.ReplicationConfig.class).toInstance(
+          bind(ReplicationConfig.class).toInstance(
               ReplicationConfig.this);
           bind(RemoteConfig.class).toInstance(remote);
           bind(PushOp.Factory.class).toProvider(
               FactoryProvider.newFactory(PushOp.Factory.class, PushOp.class));
         }
-      }).getInstance(PushOp.Factory.class);
+      });
+
+      /** Whether this configuration for 'push' replication */
+      boolean pushReplication = rc.getFetchRefSpecs().isEmpty();
+      opFactory = pushReplication
+          ? childInjector.getInstance(PushOp.Factory.class)
+          : childInjector.getInstance(FetchOp.Factory.class);
     }
 
     private int getInt(final RemoteConfig rc, final Config cfg,
@@ -373,7 +388,7 @@ public class PushReplication implements ReplicationQueue {
         return;
       }
       synchronized (pending) {
-        PushOp e = pending.get(uri);
+        ReplicateOp e = pending.get(uri);
         if (e == null) {
           e = opFactory.create(project, uri);
           pool.schedule(e, delay, TimeUnit.SECONDS);
@@ -388,15 +403,20 @@ public class PushReplication implements ReplicationQueue {
       return projectControlFactory.controlFor(project);
     }
 
-    void notifyStarting(final PushOp op) {
+    void notifyStarting(final ReplicateOp op) {
       synchronized (pending) {
         pending.remove(op.getURI());
       }
     }
 
-    boolean wouldPushRef(final String ref) {
+    boolean wouldUpdateRef(final String ref) {
       for (final RefSpec s : remote.getPushRefSpecs()) {
         if (s.matchSource(ref)) {
+          return true;
+        }
+      }
+      for (final RefSpec s : remote.getFetchRefSpecs()) {
+        if (s.matchDestination(ref)) {
           return true;
         }
       }

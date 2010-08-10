@@ -16,6 +16,41 @@
       "revId": "85630a07f0adea3b18d770adaa60ccd092e7461b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///4w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-08-10T09:28:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA4n///5M\u003d",
+      "revId": "85630a07f0adea3b18d770adaa60ccd092e7461b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///4s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-08-10T09:28:17Z",
+      "side": 1,
+      "message": "Do we need to check \"dst\" here also?\n\nThe project contains only 2 uses of \"new RemoteRefUpdate\" (the one that throws exception). Line 340 is the second usage.",
+      "revId": "85630a07f0adea3b18d770adaa60ccd092e7461b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

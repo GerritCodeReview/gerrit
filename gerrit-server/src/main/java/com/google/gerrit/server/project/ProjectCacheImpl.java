@@ -30,6 +30,7 @@ import com.google.inject.name.Named;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 
 /** Cache of project information, including access rights. */
 @Singleton
@@ -65,6 +66,17 @@ public class ProjectCacheImpl implements ProjectCache {
    */
   public ProjectState get(final Project.NameKey projectName) {
     return byName.get(projectName);
+  }
+
+  /**
+   * Get the cached data for a list of projects by a list of project names.
+   *
+   * @param projectNames name of the project.
+   * @return the cached data; an empty map if no such projects exist.
+   */
+  @Override
+  public Map<Project.NameKey, ProjectState> getAll(final Iterable<Project.NameKey> projectNames) {
+    return byName.getAll(projectNames);
   }
 
   /** Invalidate the cached information about the given project. */

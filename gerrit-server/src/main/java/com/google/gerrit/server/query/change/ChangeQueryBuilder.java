@@ -29,6 +29,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
@@ -102,6 +103,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ApprovalTypes approvalTypes;
     final Project.NameKey wildProjectName;
     final PatchListCache patchListCache;
+    final ProjectCache projectCache;
 
     @Inject
     Arguments(Provider<ReviewDb> dbProvider,
@@ -112,7 +114,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AccountResolver accountResolver, GroupCache groupCache,
         AuthConfig authConfig, ApprovalTypes approvalTypes,
         @WildProjectName Project.NameKey wildProjectName,
-        PatchListCache patchListCache) {
+        PatchListCache patchListCache, ProjectCache projectCache) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
@@ -124,6 +126,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.approvalTypes = approvalTypes;
       this.wildProjectName = wildProjectName;
       this.patchListCache = patchListCache;
+      this.projectCache = projectCache;
     }
   }
 
@@ -337,9 +340,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   public Predicate<ChangeData> visibleto(CurrentUser user) {
-    return new IsVisibleToPredicate(args.dbProvider, //
-        args.changeControlGenericFactory, //
-        user);
+    return new IsVisibleToPredicate(args.dbProvider, args.projectCache, user);
   }
 
   public Predicate<ChangeData> is_visible() {

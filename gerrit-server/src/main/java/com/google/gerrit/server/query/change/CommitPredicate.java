@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.query.ObjectIdPredicate;
+import com.google.gerrit.server.query.change.ChangeData.NeededData;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Provider;
@@ -25,8 +26,10 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
+import java.util.EnumSet;
+
 class CommitPredicate extends ObjectIdPredicate<ChangeData> implements
-    ChangeDataSource {
+    ChangeDataSource, Prefetchable {
   private final Provider<ReviewDb> dbProvider;
 
   CommitPredicate(Provider<ReviewDb> dbProvider, AbbreviatedObjectId id) {
@@ -73,5 +76,10 @@ class CommitPredicate extends ObjectIdPredicate<ChangeData> implements
   @Override
   public int getCost() {
     return ChangeCosts.cost(ChangeCosts.PATCH_SETS_SCAN, getCardinality());
+  }
+
+  @Override
+  public EnumSet<NeededData> getNeededData() {
+    return EnumSet.of(NeededData.PATCHES);
   }
 }

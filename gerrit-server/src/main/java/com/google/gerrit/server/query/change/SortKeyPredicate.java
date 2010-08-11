@@ -6,10 +6,14 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.change.ChangeData.NeededData;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
-abstract class SortKeyPredicate extends OperatorPredicate<ChangeData> {
+import java.util.EnumSet;
+
+abstract class SortKeyPredicate extends OperatorPredicate<ChangeData> implements
+    Prefetchable {
   protected final Provider<ReviewDb> dbProvider;
 
   SortKeyPredicate(Provider<ReviewDb> dbProvider, String name, String value) {
@@ -23,6 +27,10 @@ abstract class SortKeyPredicate extends OperatorPredicate<ChangeData> {
   }
 
   abstract String nextKey(Change last);
+
+  public EnumSet<NeededData> getNeededData() {
+    return EnumSet.of(NeededData.CHANGE);
+  }
 
   static class Before extends SortKeyPredicate {
     Before(Provider<ReviewDb> dbProvider, String value) {

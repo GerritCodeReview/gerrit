@@ -23,13 +23,16 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.change.ChangeData.NeededData;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
+import java.util.EnumSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class LabelPredicate extends OperatorPredicate<ChangeData> {
+class LabelPredicate extends OperatorPredicate<ChangeData> implements
+    Prefetchable {
   private static enum Test {
     EQ {
       @Override
@@ -168,5 +171,10 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
   @Override
   public int getCost() {
     return 2;
+  }
+
+  @Override
+  public EnumSet<NeededData> getNeededData() {
+    return EnumSet.of(NeededData.APPROVALS, NeededData.CHANGE);
   }
 }

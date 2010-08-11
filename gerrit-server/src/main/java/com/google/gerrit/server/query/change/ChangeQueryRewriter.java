@@ -38,24 +38,31 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
               new ChangeQueryBuilder.Arguments( //
                   new InvalidProvider<ReviewDb>(), //
                   new InvalidProvider<ChangeQueryRewriter>(), //
-                  null, null, null, null, null, null, null, null, null), null));
+                  null, null, null, null, null, null, null, null, null, null), null));
 
   private final Provider<ReviewDb> dbProvider;
+  private final AndSource.Factory andSourceFactory;
 
   @Inject
-  ChangeQueryRewriter(Provider<ReviewDb> dbProvider) {
+  ChangeQueryRewriter(Provider<ReviewDb> dbProvider, AndSource.Factory andSourceFactory) {
     super(mydef);
     this.dbProvider = dbProvider;
+    this.andSourceFactory = andSourceFactory;
   }
 
   @Override
   public Predicate<ChangeData> and(Collection<? extends Predicate<ChangeData>> l) {
-    return hasSource(l) ? new AndSource(l) : super.and(l);
+    return hasSource(l) ? andSourceFactory.create(l) : new PrefetchableAndPredicate(l);
   }
 
   @Override
   public Predicate<ChangeData> or(Collection<? extends Predicate<ChangeData>> l) {
-    return hasSource(l) ? new OrSource(l) : super.or(l);
+    return hasSource(l) ? new OrSource(l) : new PrefetchableOrPredicate(l);
+  }
+
+  @Override
+  public Predicate<ChangeData> not(Predicate<ChangeData> that) {
+    return new PrefetchableNotPredicate(that);
   }
 
   @Rewrite("-status:open")

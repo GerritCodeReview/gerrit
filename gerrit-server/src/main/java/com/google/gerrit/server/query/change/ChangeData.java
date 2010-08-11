@@ -24,6 +24,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
@@ -33,6 +35,15 @@ import java.util.Collections;
 import java.util.List;
 
 public class ChangeData {
+  public enum NeededData {
+    CHANGE,
+    PATCHES,
+    APPROVALS,
+    COMMENTS,
+    TRACKING_IDS,
+    PROJECT_STATE
+  }
+
   private final Change.Id legacyId;
   private Change change;
   private Collection<PatchSet> patches;
@@ -42,6 +53,7 @@ public class ChangeData {
   private Collection<PatchLineComment> comments;
   private Collection<TrackingId> trackingIds;
   private CurrentUser visibleTo;
+  private ProjectState projectState;
 
   public ChangeData(final Change.Id id) {
     legacyId = id;
@@ -185,5 +197,38 @@ public class ChangeData {
       trackingIds = db.get().trackingIds().byChange(legacyId).toList();
     }
     return trackingIds;
+  }
+
+  public ProjectState projectState(Provider<ReviewDb> db,
+      ProjectCache projectCache) throws OrmException {
+    if (projectState == null) {
+      Change c = change(db);
+      projectState = projectCache.get(c.getProject());
+    }
+    return projectState;
+  }
+
+  void setProjectState(ProjectState projectState) {
+    this.projectState = projectState;
+  }
+
+  void setChange(Change change) {
+    this.change = change;
+  }
+
+  void setPatches(Collection<PatchSet> patches) {
+    this.patches = patches;
+  }
+
+  void setApprovals(Collection<PatchSetApproval> approvals) {
+    this.approvals = approvals;
+  }
+
+  void setComments(Collection<PatchLineComment> comments) {
+    this.comments = comments;
+  }
+
+  void setTrackingIds(Collection<TrackingId> trackingIds) {
+    this.trackingIds = trackingIds;
   }
 }

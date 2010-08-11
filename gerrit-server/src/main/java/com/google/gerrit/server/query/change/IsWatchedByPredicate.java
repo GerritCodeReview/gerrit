@@ -17,19 +17,23 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.change.ChangeData.NeededData;
 import com.google.gwtorm.client.OrmException;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
+class IsWatchedByPredicate extends OperatorPredicate<ChangeData> implements
+    Prefetchable {
   private static String describe(CurrentUser user) {
     if (user instanceof IdentifiedUser) {
       return ((IdentifiedUser) user).getAccountId().toString();
@@ -50,22 +54,7 @@ class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData cd) throws OrmException {
-    if (rules == null) {
-      ChangeQueryBuilder builder = new ChangeQueryBuilder(args, user);
-      rules = new HashMap<Project.NameKey, List<Predicate<ChangeData>>>();
-      for (AccountProjectWatch w : user.getNotificationFilters()) {
-        List<Predicate<ChangeData>> list = rules.get(w.getProjectNameKey());
-        if (list == null) {
-          list = new ArrayList<Predicate<ChangeData>>(4);
-          rules.put(w.getProjectNameKey(), list);
-        }
-
-        Predicate<ChangeData> p = compile(builder, w);
-        if (p != null) {
-          list.add(p);
-        }
-      }
-    }
+    Map<Project.NameKey, List<Predicate<ChangeData>>> rules = getRules();
 
     if (rules.isEmpty()) {
       return false;
@@ -89,6 +78,26 @@ class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
       }
     }
     return false;
+  }
+
+  private Map<Project.NameKey, List<Predicate<ChangeData>>> getRules() {
+    if (rules == null) {
+      rules = new HashMap<Project.NameKey, List<Predicate<ChangeData>>>();
+      ChangeQueryBuilder builder = new ChangeQueryBuilder(args, user);
+      for (AccountProjectWatch w : user.getNotificationFilters()) {
+        List<Predicate<ChangeData>> list = rules.get(w.getProjectNameKey());
+        if (list == null) {
+          list = new ArrayList<Predicate<ChangeData>>(4);
+          rules.put(w.getProjectNameKey(), list);
+        }
+
+        Predicate<ChangeData> p = compile(builder, w);
+        if (p != null) {
+          list.add(p);
+        }
+      }
+    }
+    return rules;
   }
 
   @SuppressWarnings("unchecked")
@@ -117,5 +126,23 @@ class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
   @Override
   public int getCost() {
     return 1;
+  }
+
+  @Override
+  public EnumSet<NeededData> getNeededData() {
+    Map<NameKey, List<Predicate<ChangeData>>> rules = getRules();
+    if (rules.isEmpty()) {
+      return EnumSet.noneOf(NeededData.class);
+    }
+
+    EnumSet<NeededData> needed = EnumSet.of(NeededData.CHANGE);
+    for (List<Predicate<ChangeData>> list : rules.values()) {
+      for (Predicate<ChangeData> p : list) {
+        if (p instanceof Prefetchable) {
+          needed.addAll(((Prefetchable) p).getNeededData());
+        }
+      }
+    }
+    return needed;
   }
 }

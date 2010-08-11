@@ -17,19 +17,23 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.ApprovalCategory;
+import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.change.ChangeData.NeededData;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
+import java.util.EnumSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class LabelPredicate extends OperatorPredicate<ChangeData> {
+class LabelPredicate extends OperatorPredicate<ChangeData> implements
+    Prefetchable {
   private static enum Test {
     EQ {
       @Override
@@ -102,17 +106,19 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
   private final ChangeControl.GenericFactory ccFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<ReviewDb> dbProvider;
+  private final ProjectCache projectCache;
   private final Test test;
   private final ApprovalCategory.Id category;
   private final short expVal;
 
   LabelPredicate(ChangeControl.GenericFactory ccFactory,
       IdentifiedUser.GenericFactory userFactory, Provider<ReviewDb> dbProvider,
-      ApprovalTypes types, String value) {
+      ApprovalTypes types, ProjectCache projectCache, String value) {
     super(ChangeQueryBuilder.FIELD_LABEL, value);
     this.ccFactory = ccFactory;
     this.userFactory = userFactory;
     this.dbProvider = dbProvider;
+    this.projectCache = projectCache;
 
     Matcher m1 = Pattern.compile("(=|>=|<=)([+-]?\\d+)$").matcher(value);
     Matcher m2 = Pattern.compile("([+-]\\d+)$").matcher(value);
@@ -141,20 +147,18 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
         if (test.match(psVal, expVal)) {
           // Double check the value is still permitted for the user.
           //
-          try {
-            ChangeControl cc = ccFactory.controlFor(object.change(dbProvider), //
-                userFactory.create(dbProvider, p.getAccountId()));
-            if (!cc.isVisible()) {
-              // The user can't see the change anymore.
-              //
-              continue;
-            }
-            psVal = cc.normalize(category, psVal);
-          } catch (NoSuchChangeException e) {
-            // The project has disappeared.
+          Change c = object.change(dbProvider);
+          IdentifiedUser user =
+              userFactory.create(dbProvider, p.getAccountId());
+          ChangeControl cc =
+              object.projectState(dbProvider, projectCache).controlFor(user)
+                  .controlFor(c);
+          if (!cc.isVisible()) {
+            // The user can't see the change anymore.
             //
             continue;
           }
+          psVal = cc.normalize(category, psVal);
 
           if (test.match(psVal, expVal)) {
             return true;
@@ -168,5 +172,11 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
   @Override
   public int getCost() {
     return 2;
+  }
+
+  @Override
+  public EnumSet<NeededData> getNeededData() {
+    return EnumSet.of(NeededData.APPROVALS, NeededData.CHANGE,
+        NeededData.PROJECT_STATE);
   }
 }

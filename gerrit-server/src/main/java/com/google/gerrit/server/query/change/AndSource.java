@@ -14,19 +14,32 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.server.query.AndPredicate;
+import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.change.ChangeData.NeededData;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.impl.ListResultSet;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 
-class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
+class AndSource extends PrefetchableAndPredicate implements ChangeDataSource {
+  interface Factory {
+    AndSource create(Collection<? extends Predicate<ChangeData>> that);
+  }
+
   private static final Comparator<Predicate<ChangeData>> CMP =
       new Comparator<Predicate<ChangeData>>() {
         @Override
@@ -68,9 +81,15 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
   }
 
   private int cardinality = -1;
+  private final Provider<ReviewDb> dbProvider;
+  private final ProjectCache projectCache;
 
-  AndSource(final Collection<? extends Predicate<ChangeData>> that) {
+  @Inject
+  AndSource(Provider<ReviewDb> dbProvider, ProjectCache projectCache,
+      @Assisted final Collection<? extends Predicate<ChangeData>> that) {
     super(sort(that));
+    this.dbProvider = dbProvider;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -91,17 +110,17 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
     ArrayList<ChangeData> r = new ArrayList<ChangeData>();
     ChangeData last = null;
     boolean skipped = false;
-    for (ChangeData data : source.read()) {
-      if (match(data)) {
-        r.add(data);
+    for (ChangeData cd : prefetchData(source)) {
+      if (match(cd)) {
+        r.add(cd);
       } else {
         skipped = true;
       }
-      last = data;
+      last = cd;
     }
 
     if (skipped && last != null && source instanceof Paginated) {
-      // If we our source is a paginated source and we skipped at
+      // If our source is a paginated source and we skipped at
       // least one of its results, we may not have filled the full
       // limit the caller wants.  Restart the source and continue.
       //
@@ -110,13 +129,13 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
         ChangeData lastBeforeRestart = last;
         skipped = false;
         last = null;
-        for (ChangeData data : p.restart(lastBeforeRestart)) {
-          if (match(data)) {
-            r.add(data);
+        for (ChangeData cd : p.restart(lastBeforeRestart)) {
+          if (match(cd)) {
+            r.add(cd);
           } else {
             skipped = true;
           }
-          last = data;
+          last = cd;
         }
       }
     }
@@ -133,6 +152,51 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
     return null;
   }
 
+  private Collection<ChangeData> prefetchData(ChangeDataSource source) throws OrmException {
+    final ReviewDb db = dbProvider.get();
+    final ArrayList<ChangeData> data = new ArrayList<ChangeData>();
+    final EnumSet<NeededData> needed = getNeededData();
+
+    for (ChangeData cd : source.read()) {
+      data.add(cd);
+    }
+
+    for (ChangeData cd : data) {
+      if (needed.contains(NeededData.APPROVALS)) {
+        cd.setApprovals(db.patchSetApprovals().byChange(cd.getId()).toList());
+      }
+      if (needed.contains(NeededData.CHANGE)) {
+        cd.setChange(db.changes().get(cd.getId()));
+      }
+      if (needed.contains(NeededData.PATCHES)) {
+        cd.setPatches(db.patchSets().byChange(cd.getId()).toList());
+      }
+      if (needed.contains(NeededData.COMMENTS)) {
+        cd.setComments(db.patchComments().byChange(cd.getId()).toList());
+      }
+      if (needed.contains(NeededData.TRACKING_IDS)) {
+        cd.setTrackingIds(db.trackingIds().byChange(cd.getId()).toList());
+      }
+    }
+
+    if (needed.contains(NeededData.PROJECT_STATE)) {
+      ArrayList<Project.NameKey> projectNames = new ArrayList<Project.NameKey>();
+      for (ChangeData cd : data) {
+        projectNames.add(cd.getChange().getProject());
+      }
+
+      Map<Project.NameKey, ProjectState> projectMap =
+          projectCache.getAll(projectNames);
+
+      for (ChangeData cd : data) {
+        cd.setProjectState(projectMap.get(cd.getChange().getProject()));
+      }
+    }
+
+    db.close();
+    return data;
+  }
+
   @Override
   public int getCardinality() {
     if (cardinality < 0) {
@@ -146,4 +210,6 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
     }
     return cardinality;
   }
+
+
 }

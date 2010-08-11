@@ -18,11 +18,13 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.Predicate;
+import com.google.gerrit.server.query.change.ChangeData.NeededData;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +37,8 @@ import java.util.Map;
  * status:} but may also be {@code is:} to help do-what-i-meanery for end-users
  * searching for changes. Either operator name has the same meaning.
  */
-final class ChangeStatusPredicate extends OperatorPredicate<ChangeData> {
+final class ChangeStatusPredicate extends OperatorPredicate<ChangeData>
+    implements Prefetchable {
   private static final Map<String, Change.Status> byName;
   private static final EnumMap<Change.Status, String> byEnum;
 
@@ -103,6 +106,11 @@ final class ChangeStatusPredicate extends OperatorPredicate<ChangeData> {
   @Override
   public int getCost() {
     return 0;
+  }
+
+  @Override
+  public EnumSet<NeededData> getNeededData() {
+    return EnumSet.of(NeededData.CHANGE);
   }
 
   @Override

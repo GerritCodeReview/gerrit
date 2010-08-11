@@ -14,40 +14,32 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.OrPredicate;
+import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeData.NeededData;
-import com.google.gwtorm.client.OrmException;
-import com.google.inject.Provider;
 
+import java.util.Collection;
 import java.util.EnumSet;
 
-class RefPredicate extends OperatorPredicate<ChangeData> implements
+public class PrefetchableOrPredicate extends OrPredicate<ChangeData> implements
     Prefetchable {
-  private final Provider<ReviewDb> dbProvider;
-
-  RefPredicate(Provider<ReviewDb> dbProvider, String ref) {
-    super(ChangeQueryBuilder.FIELD_REF, ref);
-    this.dbProvider = dbProvider;
+  public PrefetchableOrPredicate(Predicate<ChangeData>... that) {
+    super(that);
   }
 
-  @Override
-  public boolean match(final ChangeData object) throws OrmException {
-    Change change = object.change(dbProvider);
-    if (change == null) {
-      return false;
-    }
-    return getValue().equals(change.getDest().get());
-  }
-
-  @Override
-  public int getCost() {
-    return 1;
+  public PrefetchableOrPredicate(
+      Collection<? extends Predicate<ChangeData>> that) {
+    super(that);
   }
 
   @Override
   public EnumSet<NeededData> getNeededData() {
-    return EnumSet.of(NeededData.CHANGE);
+    EnumSet<NeededData> needed = EnumSet.noneOf(NeededData.class);
+    for (Predicate<ChangeData> p : getChildren()) {
+      if (p instanceof Prefetchable) {
+        needed.addAll(((Prefetchable) p).getNeededData());
+      }
+    }
+    return needed;
   }
 }

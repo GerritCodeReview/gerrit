@@ -19,16 +19,18 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.change.ChangeData.NeededData;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.impl.ListResultSet;
 import com.google.inject.Provider;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 
 class HasDraftByPredicate extends OperatorPredicate<ChangeData> implements
-    ChangeDataSource {
+    ChangeDataSource, Prefetchable {
   private final Provider<ReviewDb> db;
   private final Account.Id accountId;
 
@@ -77,5 +79,10 @@ class HasDraftByPredicate extends OperatorPredicate<ChangeData> implements
   @Override
   public int getCost() {
     return ChangeCosts.cost(ChangeCosts.PATCH_SETS_SCAN, getCardinality());
+  }
+
+  @Override
+  public EnumSet<NeededData> getNeededData() {
+    return EnumSet.of(NeededData.COMMENTS);
   }
 }

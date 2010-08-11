@@ -21,10 +21,14 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.change.ChangeData.NeededData;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
-class AgePredicate extends OperatorPredicate<ChangeData> {
+import java.util.EnumSet;
+
+class AgePredicate extends OperatorPredicate<ChangeData> implements
+    Prefetchable {
   private final Provider<ReviewDb> dbProvider;
   private final long cut;
 
@@ -50,5 +54,10 @@ class AgePredicate extends OperatorPredicate<ChangeData> {
   @Override
   public int getCost() {
     return 1;
+  }
+
+  @Override
+  public EnumSet<NeededData> getNeededData() {
+    return EnumSet.of(NeededData.CHANGE);
   }
 }

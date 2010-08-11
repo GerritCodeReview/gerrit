@@ -17,12 +17,15 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.change.ChangeData.NeededData;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Provider;
 
+import java.util.EnumSet;
+
 class ChangeIdPredicate extends OperatorPredicate<ChangeData> implements
-    ChangeDataSource {
+    ChangeDataSource, Prefetchable {
   private final Provider<ReviewDb> dbProvider;
 
   ChangeIdPredicate(Provider<ReviewDb> dbProvider, String id) {
@@ -65,5 +68,10 @@ class ChangeIdPredicate extends OperatorPredicate<ChangeData> implements
   @Override
   public int getCardinality() {
     return ChangeCosts.CARD_KEY;
+  }
+
+  @Override
+  public EnumSet<NeededData> getNeededData() {
+    return EnumSet.of(NeededData.CHANGE);
   }
 }

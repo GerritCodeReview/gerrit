@@ -18,13 +18,16 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.OperatorPredicate;
+import com.google.gerrit.server.query.change.ChangeData.NeededData;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
-class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
+import java.util.EnumSet;
+
+class IsVisibleToPredicate extends OperatorPredicate<ChangeData> implements
+    Prefetchable {
   private static String describe(CurrentUser user) {
     if (user instanceof IdentifiedUser) {
       return ((IdentifiedUser) user).getAccountId().toString();
@@ -37,14 +40,14 @@ class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
   }
 
   private final Provider<ReviewDb> db;
-  private final ChangeControl.GenericFactory changeControl;
   private final CurrentUser user;
+  private final ProjectCache projectCache;
 
-  IsVisibleToPredicate(Provider<ReviewDb> db,
-      ChangeControl.GenericFactory changeControlFactory, CurrentUser user) {
+  IsVisibleToPredicate(Provider<ReviewDb> db, ProjectCache projectCache,
+      CurrentUser user) {
     super(ChangeQueryBuilder.FIELD_VISIBLETO, describe(user));
     this.db = db;
-    this.changeControl = changeControlFactory;
+    this.projectCache = projectCache;
     this.user = user;
   }
 
@@ -53,15 +56,12 @@ class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
     if (cd.fastIsVisibleTo(user)) {
       return true;
     }
-    try {
-      Change c = cd.change(db);
-      if (c != null && changeControl.controlFor(c, user).isVisible()) {
-        cd.cacheVisibleTo(user);
-        return true;
-      } else {
-        return false;
-      }
-    } catch (NoSuchChangeException e) {
+    Change c = cd.change(db);
+    if (c != null
+        && cd.projectState(db, projectCache).controlFor(user).controlFor(c).isVisible()) {
+      cd.cacheVisibleTo(user);
+      return true;
+    } else {
       return false;
     }
   }
@@ -69,5 +69,10 @@ class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
   @Override
   public int getCost() {
     return 1;
+  }
+
+  @Override
+  public EnumSet<NeededData> getNeededData() {
+    return EnumSet.of(NeededData.PROJECT_STATE, NeededData.CHANGE);
   }
 }

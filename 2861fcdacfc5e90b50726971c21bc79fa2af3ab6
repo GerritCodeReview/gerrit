@@ -1,0 +1,344 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4n///oM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritRequestModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Lets call this ChangeQueryModule instead.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///oI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritRequestModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Move this into the ChangeQueryModule.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///oE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritRequestModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Move this into the ChangeQueryModule.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///oQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Style-nit: Please use Project.NameKey here.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///nU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AndSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "This also should be doing the prefetch.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///mY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AndSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Don\u0027t get the connection unless we know we have to have it below.  That is, try to lazy-fetch, so that if we don\u0027t actually need to use it, Guice didn\u0027t have to allocate it if it wasn\u0027t already allocated.  So just say dbProvider.get() below when you need the connection.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///mw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AndSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Since PROJECT_STATE below implies CHANGE, you should add that into the needed set before you roll through the loading.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///nM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AndSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Doesn\u0027t source.read().toList() work?",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///mg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AndSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "This can be done a lot more efficiently.  Right now the only thing we can efficiently bulk load is the change data.  So lets just do that:\n\n  if (needed.contains(NeededData.CHANGE)) {\n    HashMap\u003cChange.Id, ChangeData\u003e need \u003d new HashMap\u003cChange.Id, ChangeData\u003e();\n    for (ChangeData cd : data) {\n      if (!cd.hasChange()) {\n        need.put(cd.getId(), cd);\n      }\n    }\n    if (!need.isEmpty()) {\n      for (Change c : dbProvider.get().get(need.keySet())) {\n        need.get(c.getId()).setChange(c);\n      }\n    }\n  }",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///nA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AndSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Use a HashSet here so we don\u0027t try to load duplicate project names.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///mQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/AndSource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank lines.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///no\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "We also need to override the not method so we can have a PrefetchableNotPredicate.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///nk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "This is way harder.  We need more than just the change.  The user\u0027s notification filters might include \"reviewer:foo\" and thus require the approvals.  So you\u0027ll need to loop through all of the filters, compile them, and get their own NeededData values and union that with your own need for the change here.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///nc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Actually we need ProjectState here.  :-)",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///n0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PrefetchableAndPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Doesn\u0027t need to be public.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///nw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PrefetchableAndPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Doesn\u0027t need to be public.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///ns\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PrefetchableAndPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Doesn\u0027t need to be public.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///oA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PrefetchableOrPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Doesn\u0027t need to be public.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///n8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PrefetchableOrPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Doesn\u0027t need to be public.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///n4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/PrefetchableOrPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-11T21:51:33Z",
+      "side": 1,
+      "message": "Doesn\u0027t need to be public.",
+      "revId": "2861fcdacfc5e90b50726971c21bc79fa2af3ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

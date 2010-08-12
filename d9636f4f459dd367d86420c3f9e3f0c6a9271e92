@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4n///fg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AccountSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-12T14:48:45Z",
+      "side": 1,
+      "message": "Just \"true\" or Boolean.TRUE would be better here.",
+      "revId": "d9636f4f459dd367d86420c3f9e3f0c6a9271e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///fk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SuggestServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-12T14:48:45Z",
+      "side": 1,
+      "message": "Style-nit: Space after if.  But I think you can write the code more cleanly:\n\n  if (active \u003d\u003d null || active \u003d\u003d account.isActive()) {\n    map.put(account.getId(), info);\n  }",
+      "revId": "d9636f4f459dd367d86420c3f9e3f0c6a9271e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///fc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-12T14:48:45Z",
+      "side": 1,
+      "message": "Style-nit: Space after if",
+      "revId": "d9636f4f459dd367d86420c3f9e3f0c6a9271e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///f0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_41.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-12T14:48:45Z",
+      "side": 1,
+      "message": "You don\u0027t need a migrateData method.  The addition of the column will take place automatically.",
+      "revId": "d9636f4f459dd367d86420c3f9e3f0c6a9271e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///fw\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-12T14:48:45Z",
+      "side": 1,
+      "message": "Style-nit: Space after if before (",
+      "revId": "d9636f4f459dd367d86420c3f9e3f0c6a9271e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///fs\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-12T14:48:45Z",
+      "side": 1,
+      "message": "Please also apply this sort of logic in ProjectDigestFilter.  Its what handles authentication by username/password for access to the /p/ URLs.",
+      "revId": "d9636f4f459dd367d86420c3f9e3f0c6a9271e92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

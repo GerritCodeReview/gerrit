@@ -16,7 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.config.WildProject;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -50,8 +50,8 @@ final class AdminSetParent extends BaseCommand {
   private ProjectCache projectCache;
 
   @Inject
-  @WildProjectName
-  private Project.NameKey wildProject;
+  @WildProject
+  private Project wildProject;
 
   @Override
   public void start(final Environment env) {
@@ -69,7 +69,7 @@ final class AdminSetParent extends BaseCommand {
     final Set<Project.NameKey> grandParents = new HashSet<Project.NameKey>();
     Project.NameKey newParentKey;
 
-    grandParents.add(wildProject);
+    grandParents.add(wildProject.getNameKey());
 
     if (newParent != null) {
       newParentKey = newParent.getProject().getNameKey();
@@ -107,12 +107,12 @@ final class AdminSetParent extends BaseCommand {
         // Try to avoid creating a cycle in the parent pointers.
         //
         err.append("error: Cycle exists between '" + name + "' and '"
-            + (newParentKey != null ? newParentKey.get() : wildProject.get())
+            + (newParentKey != null ? newParentKey.get() : wildProject.getName())
             + "'\n");
         continue;
       }
 
-      final Project child = db.projects().get(key);
+      final Project child = db.projects().get(pc.getProject().getId());
       if (child == null) {
         // Race condition? Its in the cache, but not the database.
         //

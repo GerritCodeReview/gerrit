@@ -23,7 +23,7 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.DownloadSchemeConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.config.WildProject;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -50,7 +50,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final AuthConfig authConfig;
   private final DownloadSchemeConfig schemeConfig;
   private final GitWebConfig gitWebConfig;
-  private final Project.NameKey wildProject;
+  private final Project wildProject;
   private final SshInfo sshInfo;
   private final ApprovalTypes approvalTypes;
 
@@ -61,7 +61,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   @Inject
   GerritConfigProvider(final Realm r, @GerritServerConfig final Config gsc,
       final AuthConfig ac, final GitWebConfig gwc,
-      @WildProjectName final Project.NameKey wp, final SshInfo si,
+      @WildProject final Project wp, final SshInfo si,
       final ApprovalTypes at, final ContactStore cs, final ServletContext sc,
       final DownloadSchemeConfig dc) {
     realm = r;

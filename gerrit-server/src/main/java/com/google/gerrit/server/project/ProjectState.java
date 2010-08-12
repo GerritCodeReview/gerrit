@@ -20,7 +20,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.config.WildProject;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -38,7 +38,7 @@ public class ProjectState {
   }
 
   private final AnonymousUser anonymousUser;
-  private final Project.NameKey wildProject;
+  private final Project wildProject;
   private final ProjectCache projectCache;
 
   private final Project project;
@@ -50,7 +50,7 @@ public class ProjectState {
   @Inject
   protected ProjectState(final AnonymousUser anonymousUser,
       final ProjectCache projectCache,
-      @WildProjectName final Project.NameKey wildProject,
+      @WildProject final Project wildProject,
       @Assisted final Project project,
       @Assisted final Collection<RefRight> rights) {
     this.anonymousUser = anonymousUser;
@@ -129,7 +129,7 @@ public class ProjectState {
   }
 
   private Collection<RefRight> getWildProjectRights() {
-    final ProjectState s = projectCache.get(wildProject);
+    final ProjectState s = projectCache.get(wildProject.getNameKey());
     return s != null ? s.getLocalRights() : Collections.<RefRight> emptyList();
   }
 

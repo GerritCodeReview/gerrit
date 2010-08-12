@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.ProjectName;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.SubmitType;
@@ -147,12 +148,12 @@ final class CreateProject extends BaseCommand {
   }
 
   private void createProject() throws OrmException {
-    final Project.NameKey newProjectNameKey = new Project.NameKey(projectName);
+    final Project.Id newProjectId = new Project.Id(db.nextProjectId());
 
     List<RefRight> access = new ArrayList<RefRight>();
     for (AccountGroup.Id ownerId : ownerIds) {
       final RefRight.Key prk =
-          new RefRight.Key(newProjectNameKey, new RefRight.RefPattern(
+          new RefRight.Key(newProjectId, new RefRight.RefPattern(
               RefRight.ALL), ApprovalCategory.OWN, ownerId);
       final RefRight pr = new RefRight(prk);
       pr.setMaxValue((short) 1);
@@ -161,7 +162,8 @@ final class CreateProject extends BaseCommand {
     }
     db.refRights().insert(access);
 
-    final Project newProject = new Project(newProjectNameKey);
+    final Project newProject =
+        new Project(new Project.NameKey(projectName), newProjectId);
     newProject.setDescription(projectDescription);
     newProject.setSubmitType(submitType);
     newProject.setUseContributorAgreements(contributorAgreements);
@@ -171,6 +173,9 @@ final class CreateProject extends BaseCommand {
     }
 
     db.projects().insert(Collections.singleton(newProject));
+
+    final ProjectName pn = new ProjectName(newProject);
+    db.projectNames().insert(Collections.singleton(pn));
   }
 
   private void validateParameters() throws Failure {

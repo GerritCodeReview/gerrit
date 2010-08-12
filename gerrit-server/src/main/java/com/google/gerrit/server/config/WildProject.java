@@ -12,14 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.schema;
+package com.google.gerrit.server.config;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-public class Schema_32 extends SchemaVersion {
-  @Inject
-  Schema_32(Provider<Schema_31> prior) {
-    super(prior);
-  }
+import com.google.gerrit.reviewdb.Project;
+import com.google.inject.BindingAnnotation;
+
+import java.lang.annotation.Retention;
+
+/**
+ * Marker on a {@link Project} for the current wildcard project.
+ * <p>
+ * This is the name of the project whose rights inherit into every other project
+ * in the system.
+ */
+@Retention(RUNTIME)
+@BindingAnnotation
+public @interface WildProject {
 }

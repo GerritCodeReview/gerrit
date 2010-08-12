@@ -26,7 +26,6 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.Patch;
@@ -108,8 +107,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     getHeader().add(revtxt);
     if (gw != null) {
       final Anchor revlink =
-          new Anchor("(gitweb)", false, gw.toRevision(detail.getChange()
-              .getProject(), ps));
+          new Anchor("(gitweb)", false, gw.toRevision(detail.getChangeInfo()
+              .getProject().getKey(), ps));
       revlink.addStyleName(Gerrit.RESOURCES.css().patchSetLink());
       getHeader().add(revlink);
     }
@@ -167,8 +166,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
   }
 
   private void displayDownload() {
-    final Branch.NameKey branchKey = changeDetail.getChange().getDest();
-    final Project.NameKey projectKey = changeDetail.getChange().getProject();
+    final Project.NameKey projectKey = changeDetail.getChangeInfo().getProject().getKey();
     final String projectName = projectKey.get();
     final CopyableLabel copyLabel = new CopyableLabel("");
     final DownloadCommandPanel commands = new DownloadCommandPanel();

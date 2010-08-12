@@ -36,7 +36,7 @@ public class GerritConfig implements Cloneable {
   protected Set<DownloadScheme> downloadSchemes;
   protected String gitDaemonUrl;
   protected String sshdAddress;
-  protected Project.NameKey wildProject;
+  protected Project wildProject;
   protected ApprovalTypes approvalTypes;
   protected Set<Account.FieldName> editableAccountFields;
   protected List<RegexFindReplace> commentLinks;
@@ -123,11 +123,11 @@ public class GerritConfig implements Cloneable {
     sshdAddress = addr;
   }
 
-  public Project.NameKey getWildProject() {
+  public Project getWildProject() {
     return wildProject;
   }
 
-  public void setWildProject(final Project.NameKey wp) {
+  public void setWildProject(final Project wp) {
     wildProject = wp;
   }
 

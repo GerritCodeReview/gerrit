@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.rpc;
 import com.google.gerrit.common.data.AccountDashboardInfo;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.ChangeListService;
+import com.google.gerrit.common.data.ProjectInfo;
 import com.google.gerrit.common.data.SingleListChangeInfo;
 import com.google.gerrit.common.data.ToggleStarRequest;
 import com.google.gerrit.common.errors.InvalidQueryException;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -91,6 +93,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
   private final ChangeQueryBuilder.Factory queryBuilder;
   private final Provider<ChangeQueryRewriter> queryRewriter;
+  private final ProjectCache projectCache;
 
   @Inject
   ChangeListServiceImpl(final Provider<ReviewDb> schema,
@@ -98,13 +101,15 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final ChangeQueryBuilder.Factory queryBuilder,
-      final Provider<ChangeQueryRewriter> queryRewriter) {
+      final Provider<ChangeQueryRewriter> queryRewriter,
+      final ProjectCache projectCache) {
     super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
     this.accountInfoCacheFactory = accountInfoCacheFactory;
     this.queryBuilder = queryBuilder;
     this.queryRewriter = queryRewriter;
+    this.projectCache = projectCache;
   }
 
   private boolean canRead(final Change c) {
@@ -295,7 +300,8 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     final ArrayList<ChangeInfo> r = new ArrayList<ChangeInfo>();
     for (final Change c : rs) {
       if (canRead(c)) {
-        final ChangeInfo ci = new ChangeInfo(c);
+        final ProjectInfo pi = new ProjectInfo(projectCache.get(c.getProject()).getProject().getNameKey());
+        final ChangeInfo ci = new ChangeInfo(c, pi);
         accts.want(ci.getOwner());
         ci.setStarred(starred.contains(ci.getId()));
         r.add(ci);
@@ -324,7 +330,8 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final ArrayList<ChangeInfo> list = new ArrayList<ChangeInfo>();
       final ResultSet<Change> rs = query(db, slim, pos);
       for (final Change c : rs) {
-        final ChangeInfo ci = new ChangeInfo(c);
+        final ProjectInfo pi = new ProjectInfo(projectCache.get(c.getProject()).getProject().getNameKey());
+        final ChangeInfo ci = new ChangeInfo(c, pi);
         ac.want(ci.getOwner());
         ci.setStarred(starred.contains(ci.getId()));
         list.add(ci);

@@ -144,6 +144,7 @@ public class RefControlTest extends TestCase {
   // -----------------------------------------------------------------------
 
   private final Project.NameKey projectNameKey = new Project.NameKey("test");
+  private final Project.Id projectId = new Project.Id(10);
   private final AccountGroup.Id admin = new AccountGroup.Id(1);
   private final AccountGroup.Id anonymous = new AccountGroup.Id(2);
   private final AccountGroup.Id registered = new AccountGroup.Id(3);
@@ -209,7 +210,7 @@ public class RefControlTest extends TestCase {
   private RefRight grant(ApprovalCategory.Id categoryId, AccountGroup.Id group,
       String ref, int minValue, int maxValue) {
     RefRight right =
-        new RefRight(new RefRight.Key(projectNameKey, new RefPattern(ref),
+        new RefRight(new RefRight.Key(projectId, new RefPattern(ref),
             categoryId, group));
     right.setMinValue((short) minValue);
     right.setMaxValue((short) maxValue);
@@ -222,10 +223,10 @@ public class RefControlTest extends TestCase {
 
   private ProjectState newProjectState() {
     ProjectCache projectCache = null;
-    Project.NameKey wildProject = null;
+    Project wildProject = null;
     ProjectState ps =
         new ProjectState(anonymousUser, projectCache, wildProject, new Project(
-            projectNameKey), local);
+            projectNameKey, projectId), local);
     ps.setInheritedRights(inherited);
     return ps;
   }

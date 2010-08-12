@@ -39,15 +39,18 @@ import java.util.List;
 public class ChangeControl {
   public static class GenericFactory {
     private final ProjectControl.GenericFactory projectControl;
+    private final ProjectCache projectCache;
 
     @Inject
-    GenericFactory(ProjectControl.GenericFactory p) {
+    GenericFactory(final ProjectControl.GenericFactory p,
+        final ProjectCache projectCache) {
       projectControl = p;
+      this.projectCache = projectCache;
     }
 
     public ChangeControl controlFor(Change change, CurrentUser user)
         throws NoSuchChangeException {
-      final Project.NameKey projectKey = change.getProject();
+      final Project.NameKey projectKey = projectCache.get(change.getProject()).getProject().getNameKey();
       try {
         return projectControl.controlFor(projectKey, user).controlFor(change);
       } catch (NoSuchProjectException e) {
@@ -59,11 +62,14 @@ public class ChangeControl {
   public static class Factory {
     private final ProjectControl.Factory projectControl;
     private final Provider<ReviewDb> db;
+    private final ProjectCache projectCache;
 
     @Inject
-    Factory(final ProjectControl.Factory p, final Provider<ReviewDb> d) {
+    Factory(final ProjectControl.Factory p, final Provider<ReviewDb> d,
+        final ProjectCache projectCache) {
       projectControl = p;
       db = d;
+      this.projectCache = projectCache;
     }
 
     public ChangeControl controlFor(final Change.Id id)
@@ -83,7 +89,7 @@ public class ChangeControl {
     public ChangeControl controlFor(final Change change)
         throws NoSuchChangeException {
       try {
-        final Project.NameKey projectKey = change.getProject();
+        final Project.NameKey projectKey = projectCache.get(change.getProject()).getProject().getNameKey();
         return projectControl.validateFor(projectKey).controlFor(change);
       } catch (NoSuchProjectException e) {
         throw new NoSuchChangeException(change.getId(), e);

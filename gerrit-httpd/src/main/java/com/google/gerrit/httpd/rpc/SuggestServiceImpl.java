@@ -84,8 +84,8 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void suggestAccount(final String query, final int limit,
-      final AsyncCallback<List<AccountInfo>> callback) {
+  public void suggestAccount(final String query, final Boolean active,
+      final int limit, final AsyncCallback<List<AccountInfo>> callback) {
     run(callback, new Action<List<AccountInfo>>() {
       public List<AccountInfo> run(final ReviewDb db) throws OrmException {
         final String a = query;
@@ -95,12 +95,16 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
         LinkedHashMap<Account.Id, AccountInfo> res = Maps.newLinkedHashMap();
         for (Account p : db.accounts().suggestByFullName(a, b, n)) {
-          res.put(p.getId(), new AccountInfo(p));
+          if (active == null || active == p.isActive()) {
+            res.put(p.getId(), new AccountInfo(p));
+          }
         }
         if (res.size() < n) {
           for (Account p : db.accounts().suggestByPreferredEmail(a, b,
               n - res.size())) {
-            res.put(p.getId(), new AccountInfo(p));
+            if (active == null || active == p.isActive()) {
+              res.put(p.getId(), new AccountInfo(p));
+            }
           }
         }
         if (res.size() < n) {
@@ -115,9 +119,11 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
           for (Map.Entry<String, Future<Account>> ent : want.entrySet()) {
             Account p = FutureUtil.get(ent.getValue());
-            AccountInfo info = new AccountInfo(p);
-            info.setPreferredEmail(ent.getKey());
-            res.put(p.getId(), info);
+            if (active == null || active == p.isActive()) {
+              AccountInfo info = new AccountInfo(p);
+              info.setPreferredEmail(ent.getKey());
+              res.put(p.getId(), info);
+            }
           }
         }
         return new ArrayList<AccountInfo>(res.values());

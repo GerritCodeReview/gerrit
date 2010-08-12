@@ -30,7 +30,7 @@ public class AbandonedSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() {
+  protected void init() throws EmailException {
     super.init();
 
     ccAllApprovals();
@@ -39,10 +39,7 @@ public class AbandonedSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void formatChange() {
-    appendText(getNameFor(fromId));
-    appendText(" has abandoned change " + change.getKey().abbreviate() + ":\n");
-    appendText("\n");
-    formatCoverLetter();
+  protected void formatChange() throws EmailException {
+    appendText(velocifyFile("Abandoned.vm"));
   }
 }

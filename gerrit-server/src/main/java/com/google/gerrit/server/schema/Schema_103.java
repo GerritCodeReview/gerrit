@@ -33,7 +33,7 @@ public class Schema_103 extends SchemaVersion {
   private static final int MAX_SCAN_SIZE = 1000;
 
   @Inject
-  Schema_103(Provider<Schema_40> prior) {
+  Schema_103(Provider<Schema_41> prior) {
     super(prior);
   }
 

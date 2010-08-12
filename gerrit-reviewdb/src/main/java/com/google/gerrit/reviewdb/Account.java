@@ -130,6 +130,10 @@ public final class Account {
   @Column(id = 6, name = Column.NONE)
   protected AccountGeneralPreferences generalPreferences;
 
+  /** Is this user active */
+  @Column(id = 7)
+  protected boolean inactive;
+
   /** <i>computed</i> the username selected from the identities. */
   protected String userName;
 
@@ -197,6 +201,14 @@ public final class Account {
 
   public void setContactFiled() {
     contactFiledOn = new Timestamp(System.currentTimeMillis());
+  }
+
+  public boolean isActive() {
+    return ! inactive;
+  }
+
+  public void setActive(boolean active) {
+    inactive = ! active;
   }
 
   /** @return the computed user name for this account */

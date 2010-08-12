@@ -31,6 +31,7 @@ Apache Log4J                <<apache2,Apache License 2.0>>
 Apache MINA                 <<apache2,Apache License 2.0>>
 Apache Tomact Servlet API   <<apache2,Apache License 2.0>>
 Apache SSHD                 <<apache2,Apache License 2.0>>, see also <<sshd,NOTICE>>
+Apache Velocity             <<apache2,Apache License 2.0>>
 Apache Xerces               <<apache2,Apache License 2.0>>
 OpenID4Java                 <<apache2,Apache License 2.0>>
 Neko HTML                   <<apache2,Apache License 2.0>>

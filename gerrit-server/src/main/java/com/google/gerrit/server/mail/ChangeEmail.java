@@ -53,7 +53,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   private ProjectState projectState;
   protected ChangeData changeData;
-  private boolean inFooter;
 
   protected ChangeEmail(EmailArguments ea, final Change c, final String mc) {
     super(ea, mc);
@@ -75,31 +74,9 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */
-  protected void format() {
+  protected void format() throws EmailException {
     formatChange();
-    if (getChangeUrl() != null) {
-      openFooter();
-      appendText("To view visit ");
-      appendText(getChangeUrl());
-      appendText("\n");
-    }
-    if (getSettingsUrl() != null) {
-      openFooter();
-      appendText("To unsubscribe, visit ");
-      appendText(getSettingsUrl());
-      appendText("\n");
-    }
-
-    if (inFooter) {
-      appendText("\n");
-    } else {
-      openFooter();
-    }
-    appendText("Gerrit-MessageType: " + messageClass + "\n");
-    appendText("Gerrit-Project: " + projectName + "\n");
-    appendText("Gerrit-Branch: " + change.getDest().getShortName() + "\n");
-    appendText("Gerrit-Owner: " + getNameEmailFor(change.getOwner()) + "\n");
-
+    appendText(velocifyFile("ChangeFooter.vm"));
     try {
       HashSet<Account.Id> reviewers = new HashSet<Account.Id>();
       for (PatchSetApproval p : args.db.get().patchSetApprovals().byChange(
@@ -120,13 +97,11 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */
-  protected abstract void formatChange();
+  protected abstract void formatChange() throws EmailException;
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   @Override
-  protected void init() {
-    super.init();
-
+  protected void init() throws EmailException {
     projectState = FutureUtil.get(args.projectCache.get(change.getProject()));
     projectName = projectState != null //
         ? projectState.getProject().getName() //
@@ -148,6 +123,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
       }
     }
 
+    super.init();
+
     if (changeMessage != null && changeMessage.getWrittenOn() != null) {
       setHeader("Date", new Date(changeMessage.getWrittenOn().getTime()));
     }
@@ -156,25 +133,19 @@ public abstract class ChangeEmail extends OutgoingEmail {
     setListIdHeader();
     setChangeUrlHeader();
     setCommitIdHeader();
-
-    inFooter = false;
   }
 
-  private void setListIdHeader() {
+  private void setListIdHeader() throws EmailException {
     // Set a reasonable list id so that filters can be used to sort messages
-    //
-    final StringBuilder listid = new StringBuilder();
-    listid.append("gerrit-");
-    listid.append(projectName.replace('/', '-'));
-    listid.append("@");
-    listid.append(getGerritHost());
-
-    final String listidStr = listid.toString();
-    setHeader("Mailing-List", "list " + listidStr);
-    setHeader("List-Id", "<" + listidStr.replace('@', '.') + ">");
+    setVHeader("Mailing-List", "list $email.listId");
+    setVHeader("List-Id", "<$email.listId.replace('@', '.')>");
     if (getSettingsUrl() != null) {
-      setHeader("List-Unsubscribe", "<" + getSettingsUrl() + ">");
+      setVHeader("List-Unsubscribe", "<$email.settingsUrl>");
     }
+  }
+
+  public String getListId() throws EmailException {
+    return velocify("gerrit-$projectName.replace('/', '-')@$email.gerritHost");
   }
 
   private void setChangeUrlHeader() {
@@ -192,27 +163,12 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
   }
 
-  private void setChangeSubjectHeader() {
-    final StringBuilder subj = new StringBuilder();
-    subj.append("[");
-    subj.append(change.getDest().getShortName());
-    subj.append("] ");
-    subj.append("Change ");
-    subj.append(change.getKey().abbreviate());
-    subj.append(": (");
-    subj.append(projectName);
-    subj.append(") ");
-    if (change.getSubject().length() > 60) {
-      subj.append(change.getSubject().substring(0, 60));
-      subj.append("...");
-    } else {
-      subj.append(change.getSubject());
-    }
-    setHeader("Subject", subj.toString());
+  private void setChangeSubjectHeader() throws EmailException {
+    setHeader("Subject", velocifyFile("ChangeSubject.vm"));
   }
 
   /** Get a link to the change; null if the server doesn't know its own address. */
-  protected String getChangeUrl() {
+  public String getChangeUrl() {
     if (change != null && getGerritUrl() != null) {
       final StringBuilder r = new StringBuilder();
       r.append(getGerritUrl());
@@ -222,25 +178,9 @@ public abstract class ChangeEmail extends OutgoingEmail {
     return null;
   }
 
-  protected String getChangeMessageThreadId() {
-    final StringBuilder r = new StringBuilder();
-    r.append('<');
-    r.append("gerrit");
-    r.append('.');
-    r.append(change.getCreatedOn().getTime());
-    r.append('.');
-    r.append(change.getKey().get());
-    r.append('@');
-    r.append(getGerritHost());
-    r.append('>');
-    return r.toString();
-  }
-
-  private void openFooter() {
-    if (!inFooter) {
-      inFooter = true;
-      appendText("-- \n");
-    }
+  public String getChangeMessageThreadId() throws EmailException {
+    return velocify("<gerrit.${change.createdOn.time}.$change.key.get()" +
+                    "@$email.gerritHost>");
   }
 
   /** Format the sender's "cover letter", {@link #getCoverLetter()}. */
@@ -253,7 +193,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Get the text of the "cover letter", from {@link ChangeMessage}. */
-  protected String getCoverLetter() {
+  public String getCoverLetter() {
     if (changeMessage != null) {
       final String txt = changeMessage.getMessage();
       if (txt != null) {
@@ -265,22 +205,29 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** Format the change message and the affected file list. */
   protected void formatChangeDetail() {
+    appendText(getChangeDetail());
+  }
+
+  /** Create the change message and the affected file list. */
+  public String getChangeDetail() {
+    StringBuilder detail = new StringBuilder();
+
     if (patchSetInfo != null) {
-      appendText(patchSetInfo.getMessage().trim());
-      appendText("\n");
+      detail.append(patchSetInfo.getMessage().trim() + "\n");
     } else {
-      appendText(change.getSubject().trim());
-      appendText("\n");
+      detail.append(change.getSubject().trim() + "\n");
     }
 
     if (patchSet != null) {
-      appendText("---\n");
+      detail.append("---\n");
       for (PatchListEntry p : getPatchList().getPatches()) {
-        appendText(p.getChangeType().getCode() + " " + p.getNewName() + "\n");
+        detail.append(p.getChangeType().getCode() + " " + p.getNewName() + "\n");
       }
-      appendText("\n");
+      detail.append("\n");
     }
+    return detail.toString();
   }
+
 
   /** Get the patch list corresponding to this patch set. */
   protected PatchList getPatchList() {
@@ -422,5 +369,18 @@ public abstract class ChangeEmail extends OutgoingEmail {
         || change == null
         || projectState.controlFor(args.identifiedUserFactory.create(to))
             .controlFor(change).isVisible();
+  }
+
+  @Override
+  protected void setupVelocityContext() {
+    super.setupVelocityContext();
+    velocityContext.put("change", change);
+    velocityContext.put("changeId", change.getKey());
+    velocityContext.put("coverLetter", getCoverLetter());
+    velocityContext.put("branch", change.getDest());
+    velocityContext.put("fromName", getNameFor(fromId));
+    velocityContext.put("projectName", projectName);
+    velocityContext.put("patchSet", patchSet);
+    velocityContext.put("patchSetInfo", patchSetInfo);
   }
 }

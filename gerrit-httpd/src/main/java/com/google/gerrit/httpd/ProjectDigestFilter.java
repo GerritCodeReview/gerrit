@@ -146,6 +146,11 @@ class ProjectDigestFilter implements Filter {
       return false;
     }
 
+    if (!FutureUtil.get(accountCache.getAccount(who.getAccountId())).isActive()) {
+      rsp.sendError(SC_UNAUTHORIZED);
+      return false;
+    }
+
     final String A1 = username + ":" + realm + ":" + passwd;
     final String A2 = method + ":" + uri;
 

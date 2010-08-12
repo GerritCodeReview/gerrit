@@ -30,23 +30,14 @@ public class MergeFailSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() {
+  protected void init() throws EmailException {
     super.init();
 
     ccExistingReviewers();
   }
 
   @Override
-  protected void formatChange() {
-    appendText("Change " + change.getKey().abbreviate());
-    if (patchSetInfo != null && patchSetInfo.getAuthor() != null
-        && patchSetInfo.getAuthor().getName() != null) {
-      appendText(" by ");
-      appendText(patchSetInfo.getAuthor().getName());
-    }
-    appendText(" FAILED to submit to ");
-    appendText(change.getDest().getShortName());
-    appendText(".\n\n");
-    formatCoverLetter();
+  protected void formatChange() throws EmailException {
+    appendText(velocifyFile("MergeFail.vm"));
   }
 }

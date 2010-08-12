@@ -14,16 +14,22 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.Account.Id;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.util.FutureUtil;
+import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -35,14 +41,15 @@ import com.google.inject.name.Named;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 /** Caches important (but small) account state to avoid database hits. */
 @Singleton
 public class AccountCacheImpl implements AccountCache {
   private static final String BYID_NAME = "accounts";
-  private static final String BYUSER_NAME = "accounts_byname";
+  private static final String BYEXT_NAME = "accounts_byext";
+  private static final String BYEMAIL_NAME = "accounts_byemail";
 
   public static Module module() {
     return new CacheModule() {
@@ -50,11 +57,15 @@ public class AccountCacheImpl implements AccountCache {
       protected void configure() {
         final TypeLiteral<Cache<Account.Id, AccountState>> byIdType =
             new TypeLiteral<Cache<Account.Id, AccountState>>() {};
-        core(byIdType, BYID_NAME).populateWith(ByIdLoader.class);
+        core(byIdType, BYID_NAME).populateWith(StateLoader.class);
 
-        final TypeLiteral<Cache<Account.Username, Account.Id>> byUsernameType =
-            new TypeLiteral<Cache<Account.Username, Account.Id>>() {};
-        core(byUsernameType, BYUSER_NAME).populateWith(ByNameLoader.class);
+        final TypeLiteral<Cache<AccountExternalId.Key, AccountExternalId>> byKeyType =
+            new TypeLiteral<Cache<AccountExternalId.Key, AccountExternalId>>() {};
+        core(byKeyType, BYEXT_NAME).populateWith(ExtLoader.class);
+
+        final TypeLiteral<Cache<Email, AccountIdSet>> type =
+            new TypeLiteral<Cache<Email, AccountIdSet>>() {};
+        core(type, BYEMAIL_NAME).populateWith(EmailLoader.class);
 
         bind(AccountCacheImpl.class);
         bind(AccountCache.class).to(AccountCacheImpl.class);
@@ -63,69 +74,76 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   private final Cache<Account.Id, AccountState> byId;
-  private final Cache<Account.Username, Account.Id> byName;
+  private final Cache<AccountExternalId.Key, AccountExternalId> byExt;
+  private final Cache<Email, AccountIdSet> byEmail;
 
   @Inject
   AccountCacheImpl(@Named(BYID_NAME) Cache<Account.Id, AccountState> byId,
-      @Named(BYUSER_NAME) Cache<Account.Username, Account.Id> byUsername) {
+      @Named(BYEXT_NAME) Cache<AccountExternalId.Key, AccountExternalId> byExt,
+      @Named(BYEMAIL_NAME) final Cache<Email, AccountIdSet> byEmail) {
     this.byId = byId;
-    this.byName = byUsername;
+    this.byExt = byExt;
+    this.byEmail = byEmail;
   }
 
-  public AccountState get(final Account.Id accountId) {
+  public ListenableFuture<AccountState> get(Account.Id accountId) {
     return byId.get(accountId);
   }
 
-  @Override
-  public Map<Id, AccountState> getAll(Iterable<Id> accountIds) {
-    return byId.getAll(accountIds);
+  public ListenableFuture<Account> getAccount(Account.Id accountId) {
+    return Futures.compose(get(accountId), AccountState.GET_ACCOUNT);
+  }
+
+  public ListenableFuture<Void> evictAsync(Account.Id accountId) {
+    return byId.removeAsync(accountId);
   }
 
   @Override
-  public AccountState getByUsername(String username) {
-    Account.Id id = byName.get(new Account.Username(username));
-    return id != null ? byId.get(id) : null;
+  public ListenableFuture<AccountExternalId> get(AccountExternalId.Key key) {
+    return byExt.get(key);
   }
 
-  public void evict(final Account.Id accountId) {
-    byId.remove(accountId);
+  @Override
+  public ListenableFuture<Void> evictAsync(AccountExternalId.Key key) {
+    return byExt.removeAsync(key);
   }
 
-  public void evictByUsername(String username) {
-    byName.remove(new Account.Username(username));
+  @Override
+  public ListenableFuture<Set<Account.Id>> byEmail(String email) {
+    if (email == null) {
+      return Futures.immediateFuture(Collections.<Account.Id> emptySet());
+    }
+    return Futures.compose(byEmail.get(new Email(email)), AccountIdSet.unpack);
   }
 
-  static class ByIdLoader extends EntryCreator<Account.Id, AccountState> {
+  @Override
+  public ListenableFuture<Void> evictEmailAsync(String email) {
+    if (email == null) {
+      return Futures.immediateFuture(null);
+    }
+    return byEmail.removeAsync(new Email(email));
+  }
+
+  static class StateLoader extends EntryCreator<Account.Id, AccountState> {
     private final SchemaFactory<ReviewDb> schema;
     private final Set<AccountGroup.Id> registered;
     private final Set<AccountGroup.Id> anonymous;
     private final GroupCache groupCache;
-    private final AccountExternalIdCache accountExternalIdCache;
-    private final Cache<Account.Username, Account.Id> byName;
 
     @Inject
-    ByIdLoader(SchemaFactory<ReviewDb> sf, AuthConfig auth,
-        GroupCache groupCache,
-        AccountExternalIdCache accountExternalIdCache,
-        @Named(BYUSER_NAME) Cache<Account.Username, Account.Id> byUsername) {
+    StateLoader(SchemaFactory<ReviewDb> sf, AuthConfig auth,
+        GroupCache groupCache) {
       this.schema = sf;
       this.registered = auth.getRegisteredGroups();
       this.anonymous = auth.getAnonymousGroups();
       this.groupCache = groupCache;
-      this.byName = byUsername;
-      this.accountExternalIdCache = accountExternalIdCache;
     }
 
     @Override
     public AccountState createEntry(final Account.Id key) throws Exception {
       final ReviewDb db = schema.open();
       try {
-        final AccountState state = load(db, key);
-        if (state.getUserName() != null) {
-          byName.put(new Account.Username(state.getUserName()), state.getAccount()
-              .getId());
-        }
-        return state;
+        return load(db, key);
       } finally {
         db.close();
       }
@@ -140,16 +158,16 @@ public class AccountCacheImpl implements AccountCache {
         return missing(who);
       }
 
-      final Collection<AccountExternalId> externalIds =
-          Collections.unmodifiableCollection(accountExternalIdCache.byAccount(
-              who));
+      List<ListenableFuture<AccountGroup>> myGroups = Lists.newArrayList();
+      for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
+        myGroups.add(groupCache.get(g.getAccountGroupId()));
+      }
 
       Set<AccountGroup.Id> internalGroups = new HashSet<AccountGroup.Id>();
-      for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
-        final AccountGroup.Id groupId = g.getAccountGroupId();
-        final AccountGroup group = groupCache.get(groupId);
-        if (group != null && group.getType() == AccountGroup.Type.INTERNAL) {
-          internalGroups.add(groupId);
+      for (ListenableFuture<AccountGroup> f : myGroups) {
+        AccountGroup group = FutureUtil.get(f);
+        if (group.getType() == AccountGroup.Type.INTERNAL) {
+          internalGroups.add(group.getId());
         }
       }
 
@@ -160,6 +178,9 @@ public class AccountCacheImpl implements AccountCache {
         internalGroups = Collections.unmodifiableSet(internalGroups);
       }
 
+      final Collection<AccountExternalId> externalIds =
+          Collections.unmodifiableCollection(db.accountExternalIds() //
+              .byAccount(who).toList());
       return new AccountState(account, internalGroups, externalIds);
     }
 
@@ -171,29 +192,86 @@ public class AccountCacheImpl implements AccountCache {
     }
   }
 
-  static class ByNameLoader extends EntryCreator<Account.Username, Account.Id> {
+  static class ExtLoader extends
+      EntryCreator<AccountExternalId.Key, AccountExternalId> {
     private final SchemaFactory<ReviewDb> schema;
-    private final AccountExternalIdCache accountExternalIdCache;
 
     @Inject
-    ByNameLoader(final SchemaFactory<ReviewDb> sf,
-        final AccountExternalIdCache accountExternalIdCache) {
-      this.accountExternalIdCache = accountExternalIdCache;
-      this.schema = sf;
+    ExtLoader(SchemaFactory<ReviewDb> schema) {
+      this.schema = schema;
     }
 
     @Override
-    public Account.Id createEntry(final Account.Username username) throws Exception {
+    public AccountExternalId createEntry(AccountExternalId.Key key)
+        throws Exception {
       final ReviewDb db = schema.open();
       try {
-        final AccountExternalId.Key key = new AccountExternalId.Key( //
-            AccountExternalId.SCHEME_USERNAME, //
-            username.get());
-        final AccountExternalId id = accountExternalIdCache.get(key);
-        return id != null ? id.getAccountId() : null;
+        return db.accountExternalIds().get(key);
       } finally {
         db.close();
       }
+    }
+  }
+
+  static class Email {
+    @Column(id = 1)
+    String email;
+
+    Email() {
+    }
+
+    Email(String email) {
+      this.email = email;
+    }
+  }
+
+  static class AccountIdSet {
+    static final Function<AccountIdSet, Set<Account.Id>> unpack =
+        new Function<AccountIdSet, Set<Account.Id>>() {
+          @Override
+          public Set<Account.Id> apply(AccountIdSet from) {
+            return from.ids;
+          }
+        };
+
+    @Column(id = 1)
+    Set<Account.Id> ids;
+
+    AccountIdSet() {
+    }
+
+    AccountIdSet(Set<Account.Id> ids) {
+      this.ids = ids;
+    }
+  }
+
+  static class EmailLoader extends EntryCreator<Email, AccountIdSet> {
+    private final SchemaFactory<ReviewDb> schema;
+
+    @Inject
+    EmailLoader(final SchemaFactory<ReviewDb> schema) {
+      this.schema = schema;
+    }
+
+    @Override
+    public AccountIdSet createEntry(Email key) throws Exception {
+      final ReviewDb db = schema.open();
+      try {
+        Set<Account.Id> res = Sets.newHashSet();
+        for (AccountExternalId extId : db.accountExternalIds().byEmailAddress(
+            key.email)) {
+          res.add(extId.getAccountId());
+        }
+        return new AccountIdSet(Collections.unmodifiableSet(res));
+      } finally {
+        db.close();
+      }
+    }
+
+    @Override
+    public AccountIdSet missing(Email key) {
+      Set<Account.Id> res = Collections.emptySet();
+      return new AccountIdSet(res);
     }
   }
 }

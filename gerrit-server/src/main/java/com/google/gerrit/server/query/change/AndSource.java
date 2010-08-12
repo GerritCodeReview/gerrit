@@ -14,11 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeData.NeededData;
 import com.google.gwtorm.client.OrmException;
@@ -33,8 +32,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -164,7 +161,7 @@ class AndSource extends PrefetchableAndPredicate implements ChangeDataSource {
     }
 
     if (needed.contains(NeededData.CHANGE)) {
-      HashMap<Change.Id, ChangeData> need = new HashMap<Change.Id, ChangeData>();
+      Map<Change.Id, ChangeData> need = Maps.newHashMap();
       for (ChangeData cd : data) {
         if (!cd.hasChange()) {
           need.put(cd.getId(), cd);
@@ -178,16 +175,8 @@ class AndSource extends PrefetchableAndPredicate implements ChangeDataSource {
     }
 
     if (needed.contains(NeededData.PROJECT_STATE)) {
-      HashSet<Project.NameKey> projectNames = new HashSet<Project.NameKey>();
       for (ChangeData cd : data) {
-        projectNames.add(cd.getChange().getProject());
-      }
-
-      Map<Project.NameKey, ProjectState> projectMap =
-          projectCache.getAll(projectNames);
-
-      for (ChangeData cd : data) {
-        cd.setProjectState(projectMap.get(cd.getChange().getProject()));
+        cd.initProjectState(dbProvider, projectCache);
       }
     }
 

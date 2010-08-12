@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Project;
@@ -21,9 +22,9 @@ import com.google.gerrit.reviewdb.Project;
 import java.util.List;
 
 public interface AccountProjectWatchCache {
-  public List<AccountProjectWatch> byAccount(Account.Id id);
+  public ListenableFuture<List<AccountProjectWatch>> byAccount(Account.Id id);
 
-  public List<AccountProjectWatch> byProject(Project.NameKey name);
+  public ListenableFuture<List<AccountProjectWatch>> byProject(Project.NameKey name);
 
-  public void evict(AccountProjectWatch.Key key);
+  public ListenableFuture<Void> evictAsync(AccountProjectWatch.Key key);
 }

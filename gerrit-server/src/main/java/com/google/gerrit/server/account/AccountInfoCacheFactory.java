@@ -14,19 +14,18 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.inject.Inject;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
+import java.util.concurrent.Future;
 
 /** Efficiently builds an {@link AccountInfoCache}. */
 public class AccountInfoCacheFactory {
@@ -35,14 +34,12 @@ public class AccountInfoCacheFactory {
   }
 
   private final AccountCache accountCache;
-  private final Map<Account.Id, Account> out;
-  private final Set<Account.Id> wants;
+  private final Map<Account.Id, Future<Account>> want;
 
   @Inject
   AccountInfoCacheFactory(final AccountCache accountCache) {
     this.accountCache = accountCache;
-    this.out = new HashMap<Account.Id, Account>();
-    this.wants = new HashSet<Account.Id>();
+    this.want = Maps.newHashMap();
   }
 
   /**
@@ -50,44 +47,34 @@ public class AccountInfoCacheFactory {
    *
    * @param id identity that will be needed in the future; may be null.
    */
-  public void want(final Account.Id id) {
-    if (id != null) {
-      wants.add(id);
+  public void want(Account.Id id) {
+    if (id != null && !want.containsKey(id)) {
+      want.put(id, accountCache.getAccount(id));
     }
   }
 
   /** Indicate one or more accounts will be needed later on. */
   public void want(final Collection<Account.Id> ids) {
-    wants.addAll(ids);
-  }
-
-  private void fetchWants() {
-    Set<Account.Id> missing = new HashSet<Account.Id>(wants);
-    missing.removeAll(out.keySet());
-
-    for (Entry<Account.Id, AccountState> e : accountCache.getAll(missing)
-        .entrySet()) {
-      out.put(e.getKey(), e.getValue().getAccount());
+    for (Account.Id id : ids) {
+      want(id);
     }
   }
 
   public Account get(final Account.Id id) {
-    if (!out.containsKey(id)) {
-      wants.add(id);
-      fetchWants();
+    if (id != null) {
+      want(id);
+      return FutureUtil.get(want.get(id));
+    } else {
+      return null;
     }
-    return out.get(id);
   }
 
-  /**
-   * Create an AccountInfoCache with the currently loaded Account entities.
-   * */
+  /** Create an AccountInfoCache with the currently loaded Account entities. */
   public AccountInfoCache create() {
-    fetchWants();
-    final List<AccountInfo> r = new ArrayList<AccountInfo>(out.size());
-    for (final Account a : out.values()) {
-      r.add(new AccountInfo(a));
+    List<AccountInfo> res = Lists.newArrayListWithCapacity(want.size());
+    for (Future<Account> f : want.values()) {
+      res.add(new AccountInfo(FutureUtil.get(f)));
     }
-    return new AccountInfoCache(r);
+    return new AccountInfoCache(res);
   }
 }

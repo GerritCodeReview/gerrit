@@ -14,9 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Project;
-
-import java.util.Map;
 
 /** Cache of project information, including access rights. */
 public interface ProjectCache {
@@ -26,20 +25,11 @@ public interface ProjectCache {
    * @param projectName name of the project.
    * @return the cached data; null if no such project exists.
    */
-  public ProjectState get(Project.NameKey projectName);
-
-  /**
-   * Get the cached data for a list of projects by a list of project names.
-   *
-   * @param projectNames name of the project.
-   * @return the cached data; an empty map if no such projects exist.
-   */
-  public Map<Project.NameKey, ProjectState> getAll(
-      Iterable<Project.NameKey> projectNames);
+  public ListenableFuture<ProjectState> get(Project.NameKey projectName);
 
   /** Invalidate the cached information about the given project. */
-  public void evict(Project p);
+  public ListenableFuture<Void> evictAsync(Project p);
 
   /** Invalidate the cached information about all projects. */
-  public void evictAll();
+  public ListenableFuture<Void> evictAllAsync();
 }

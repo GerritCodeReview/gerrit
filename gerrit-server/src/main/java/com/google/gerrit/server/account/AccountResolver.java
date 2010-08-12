@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -30,16 +31,14 @@ import java.util.regex.Pattern;
 
 public class AccountResolver {
   private final Realm realm;
-  private final AccountByEmailCache byEmail;
-  private final AccountCache byId;
+  private final AccountCache accountCache;
   private final Provider<ReviewDb> schema;
 
   @Inject
-  AccountResolver(final Realm realm, final AccountByEmailCache byEmail,
-      final AccountCache byId, final Provider<ReviewDb> schema) {
+  AccountResolver(final Realm realm, final AccountCache accountCache,
+      final Provider<ReviewDb> schema) {
     this.realm = realm;
-    this.byEmail = byEmail;
-    this.byId = byId;
+    this.accountCache = accountCache;
     this.schema = schema;
   }
 
@@ -55,7 +54,10 @@ public class AccountResolver {
    */
   public Account find(final String nameOrEmail) throws OrmException {
     Set<Account.Id> r = findAll(nameOrEmail);
-    return r.size() == 1 ? byId.get(r.iterator().next()).getAccount() : null;
+    if (r.size() == 1) {
+      return FutureUtil.get(accountCache.getAccount(r.iterator().next()));
+    }
+    return null;
   }
 
   /**
@@ -65,10 +67,11 @@ public class AccountResolver {
    *        "Full Name &lt;email@example&gt;", just the email address
    *        ("email@example"), a full name ("Full Name"), an account id
    *        ("18419") or an user name ("username").
-   * @return the accounts that match, empty collection if none.  Never null.
+   * @return the accounts that match, empty collection if none. Never null.
    */
   public Set<Account.Id> findAll(String nameOrEmail) throws OrmException {
-    Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
+    Matcher m =
+        Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
     if (m.matches()) {
       return Collections.singleton(Account.Id.parse(m.group(1)));
     }
@@ -78,9 +81,10 @@ public class AccountResolver {
     }
 
     if (nameOrEmail.matches(Account.USER_NAME_PATTERN)) {
-      AccountState who = byId.getByUsername(nameOrEmail);
+      AccountExternalId.Key key = AccountExternalId.forUsername(nameOrEmail);
+      AccountExternalId who = FutureUtil.get(accountCache.get(key));
       if (who != null) {
-        return Collections.singleton(who.getAccount().getId());
+        return Collections.singleton(who.getAccountId());
       }
     }
 
@@ -99,7 +103,10 @@ public class AccountResolver {
   public Account findByNameOrEmail(final String nameOrEmail)
       throws OrmException {
     Set<Account.Id> r = findAllByNameOrEmail(nameOrEmail);
-    return r.size() == 1 ? byId.get(r.iterator().next()).getAccount() : null;
+    if (r.size() == 1) {
+      return FutureUtil.get(accountCache.getAccount(r.iterator().next()));
+    }
+    return null;
   }
 
   /**
@@ -115,11 +122,12 @@ public class AccountResolver {
     final int lt = nameOrEmail.indexOf('<');
     final int gt = nameOrEmail.indexOf('>');
     if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {
-      return byEmail.get(nameOrEmail.substring(lt + 1, gt)).getIds();
+      String email = nameOrEmail.substring(lt + 1, gt);
+      return FutureUtil.get(accountCache.byEmail(email));
     }
 
     if (nameOrEmail.contains("@")) {
-      return byEmail.get(nameOrEmail).getIds();
+      return FutureUtil.get(accountCache.byEmail(nameOrEmail));
     }
 
     final Account.Id id = realm.lookup(nameOrEmail);

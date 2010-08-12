@@ -14,50 +14,60 @@
 
 package com.google.gerrit.ehcache;
 
+import com.google.common.base.Function;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.inject.Provider;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 class ProtobufCache<K, V> implements Cache<K, V> {
-
   private final Cache<SerializableProtobuf<K>, SerializableProtobuf<V>> cache;
   private final ProtobufCodec<K> keyCodec;
   private final ProtobufCodec<V> valueCodec;
   private final Provider<V> valueProvider;
+  private final Function<SerializableProtobuf<V>, V> unpack;
 
-  ProtobufCache(Cache self, Class<K> keyClass, Class<V> valueClass,
-      Provider<V> valueProvider) {
+  ProtobufCache(Cache<SerializableProtobuf<K>, SerializableProtobuf<V>> self,
+      Class<K> keyClass, Class<V> valueClass, Provider<V> valProvider) {
     keyCodec = CodecFactory.encoder(keyClass);
     valueCodec = CodecFactory.encoder(valueClass);
-    this.valueProvider = valueProvider;
+    valueProvider = valProvider;
     cache = self;
-  }
 
-  @Override
-  public V get(K key) {
-    SerializableProtobuf<V> val =
-        cache.get(new SerializableProtobuf<K>(key, keyCodec));
-
-    return val != null ? val.toObject(valueCodec, valueProvider) : null;
-  }
-
-  @Override
-  public Map<K, V> getAll(Iterable<K> keys) {
-    HashMap<K, V> map = new HashMap<K, V>();
-    for (K k : keys) {
-      if (!map.containsKey(k)) {
-        V v = get(k);
-        if (v != null) {
-          map.put(k, v);
-        }
+    unpack = new Function<SerializableProtobuf<V>, V>() {
+      @Override
+      public V apply(SerializableProtobuf<V> val) {
+        return val != null ? val.toObject(valueCodec, valueProvider) : null;
       }
+    };
+  }
+
+  @Override
+  public ListenableFuture<V> get(K key) {
+    return Futures.compose(cache.get(wrapKey(key)), unpack);
+  }
+
+  @Override
+  public ListenableFuture<Void> putAsync(final K key, final V value) {
+    return cache.putAsync(wrapKey(key), wrapValue(value));
+  }
+
+  @Override
+  public ListenableFuture<Void> removeAsync(final K key) {
+    if (key != null) {
+      return cache.removeAsync(wrapKey(key));
+    } else {
+      return Futures.immediateFuture(null);
     }
-    return map;
+  }
+
+  @Override
+  public ListenableFuture<Void> removeAllAsync() {
+    return cache.removeAllAsync();
   }
 
   @Override
@@ -66,25 +76,15 @@ class ProtobufCache<K, V> implements Cache<K, V> {
   }
 
   @Override
-  public void put(K key, V value) {
-    cache.put(new SerializableProtobuf<K>(key, keyCodec),
-        new SerializableProtobuf<V>(value, valueCodec));
-  }
-
-  @Override
-  public void remove(K key) {
-    if (key != null) {
-      cache.remove(new SerializableProtobuf<K>(key, keyCodec));
-    }
-  }
-
-  @Override
-  public void removeAll() {
-    cache.removeAll();
-  }
-
-  @Override
   public String toString() {
     return cache.toString();
+  }
+
+  private SerializableProtobuf<K> wrapKey(K key) {
+    return new SerializableProtobuf<K>(key, keyCodec);
+  }
+
+  private SerializableProtobuf<V> wrapValue(final V value) {
+    return new SerializableProtobuf<V>(value, valueCodec);
   }
 }

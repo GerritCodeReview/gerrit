@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Function;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Project;
@@ -21,6 +24,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
+import com.google.gerrit.server.util.CompoundFuture;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -69,6 +73,14 @@ public class AccountProjectWatchCacheImpl implements AccountProjectWatchCache {
     };
   }
 
+  private static final Function<AccountProjectWatchList, List<AccountProjectWatch>> unpack =
+      new Function<AccountProjectWatchList, List<AccountProjectWatch>>() {
+        @Override
+        public List<AccountProjectWatch> apply(AccountProjectWatchList in) {
+          return in.list;
+        }
+      };
+
   private final Cache<Account.Id, AccountProjectWatchList> byAccountId;
   private final Cache<Project.NameKey, AccountProjectWatchList> byProjectName;
 
@@ -81,19 +93,20 @@ public class AccountProjectWatchCacheImpl implements AccountProjectWatchCache {
   }
 
   @Override
-  public List<AccountProjectWatch> byAccount(Account.Id id) {
-    return byAccountId.get(id).list;
+  public ListenableFuture<List<AccountProjectWatch>> byAccount(Account.Id id) {
+    return Futures.compose(byAccountId.get(id), unpack);
   }
 
   @Override
-  public List<AccountProjectWatch> byProject(Project.NameKey name) {
-    return byProjectName.get(name).list;
+  public ListenableFuture<List<AccountProjectWatch>> byProject(
+      Project.NameKey name) {
+    return Futures.compose(byProjectName.get(name), unpack);
   }
 
   @Override
-  public void evict(AccountProjectWatch.Key key) {
-    byAccountId.remove(key.getParentKey());
-    byProjectName.remove(key.getProjectName());
+  public ListenableFuture<Void> evictAsync(AccountProjectWatch.Key key) {
+    return CompoundFuture.wrap(byAccountId.removeAsync(key.getParentKey()),
+        byProjectName.removeAsync(key.getProjectName()));
   }
 
   static class ByAccountIdLoader extends

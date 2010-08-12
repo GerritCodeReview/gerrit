@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.errors.ContactInformationStoreException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
@@ -32,7 +33,6 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountAgreementsCache;
-import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
@@ -46,6 +46,7 @@ import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtjsonrpc.server.ValidToken;
@@ -53,6 +54,7 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.internal.Lists;
 
 import org.eclipse.jgit.util.Base64;
 import org.slf4j.Logger;
@@ -72,7 +74,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final Provider<IdentifiedUser> user;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final SshKeyCache sshKeyCache;
-  private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
   private final AccountAgreementsCache accountAgreementsCache;
   private final AccountManager accountManager;
@@ -90,8 +91,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final Provider<CurrentUser> currentUser, final ContactStore cs,
       final AuthConfig ac, final Realm r, final Provider<IdentifiedUser> u,
       final RegisterNewEmailSender.Factory esf, final SshKeyCache skc,
-      final AccountByEmailCache abec, final AccountCache uac,
-      final AccountAgreementsCache aac, final AccountManager am,
+      final AccountCache uac, final AccountAgreementsCache aac,
+      final AccountManager am,
       final ClearPassword.Factory clearPasswordFactory,
       final GeneratePassword.Factory generatePasswordFactory,
       final ChangeUserName.CurrentUser changeUserNameFactory,
@@ -105,7 +106,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     user = u;
     registerNewEmailFactory = esf;
     sshKeyCache = skc;
-    byEmailCache = abec;
     accountCache = uac;
     accountAgreementsCache = aac;
     accountManager = am;
@@ -146,7 +146,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           throw new Failure(e);
         }
         db.accountSshKeys().insert(Collections.singleton(key));
-        uncacheSshKeys();
+        FutureUtil.waitFor(sshKeyCache.evictAsync(user.get().getUserName()));
         return key;
       }
     });
@@ -163,15 +163,10 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         }
 
         db.accountSshKeys().deleteKeys(ids);
-        uncacheSshKeys();
-
+        FutureUtil.waitFor(sshKeyCache.evictAsync(user.get().getUserName()));
         return VoidResult.INSTANCE;
       }
     });
-  }
-
-  private void uncacheSshKeys() {
-    sshKeyCache.evict(user.get().getUserName());
   }
 
   @Override
@@ -214,6 +209,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final ContactInformation info, final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
       public Account run(ReviewDb db) throws OrmException, Failure {
+        List<ListenableFuture<Void>> evictions = Lists.newArrayList();
+
         final Account me = db.accounts().get(user.get().getAccountId());
         final String oldEmail = me.getPreferredEmail();
         if (realm.allowsEdit(Account.FieldName.FULL_NAME)) {
@@ -235,10 +232,11 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         }
         db.accounts().update(Collections.singleton(me));
         if (!eq(oldEmail, me.getPreferredEmail())) {
-          byEmailCache.evict(oldEmail);
-          byEmailCache.evict(me.getPreferredEmail());
+          evictions.add(accountCache.evictEmailAsync(oldEmail));
+          evictions.add(accountCache.evictEmailAsync(me.getPreferredEmail()));
         }
-        accountCache.evict(me.getId());
+        evictions.add(accountCache.evictAsync(me.getId()));
+        FutureUtil.waitFor(evictions);
         return me;
       }
     });
@@ -267,7 +265,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           a.review(AccountAgreement.Status.VERIFIED, null);
         }
         db.accountAgreements().insert(Collections.singleton(a));
-        accountAgreementsCache.evict(a.getKey());
+        FutureUtil.waitFor(accountAgreementsCache.evictAsync(a.getKey()));
         return VoidResult.INSTANCE;
       }
     });

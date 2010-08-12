@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.InheritedRefRight;
@@ -26,16 +28,15 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.Future;
 
 class ProjectDetailFactory extends Handler<ProjectDetail> {
   interface Factory {
@@ -47,7 +48,7 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
   private final ProjectControl.Factory projectControlFactory;
 
   private final Project.NameKey projectName;
-  private Map<AccountGroup.Id, AccountGroup> groups;
+  private Map<AccountGroup.Id, Future<AccountGroup>> groups;
 
   @Inject
   ProjectDetailFactory(final ApprovalTypes approvalTypes,
@@ -71,25 +72,24 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     final ProjectDetail detail = new ProjectDetail();
     detail.setProject(projectState.getProject());
 
-    groups = new HashMap<AccountGroup.Id, AccountGroup>();
-    final List<InheritedRefRight> refRights = new ArrayList<InheritedRefRight>();
+    groups = Maps.newHashMap();
 
+    final List<InheritedRefRight> refRights = Lists.newArrayList();
     for (final RefRight r : projectState.getInheritedRights()) {
-      InheritedRefRight refRight = new InheritedRefRight(
-          r, true, pc.controlForRef(r.getRefPattern()).isOwner());
+      InheritedRefRight refRight =
+          new InheritedRefRight(r, true, pc.controlForRef(r.getRefPattern())
+              .isOwner());
       if (!refRights.contains(refRight)) {
         refRights.add(refRight);
-        wantGroup(r.getAccountGroupId());
+        want(r.getAccountGroupId());
       }
     }
 
     for (final RefRight r : projectState.getLocalRights()) {
-      refRights.add(new InheritedRefRight(
-          r, false, pc.controlForRef(r.getRefPattern()).isOwner()));
-      wantGroup(r.getAccountGroupId());
+      refRights.add(new InheritedRefRight(r, false, pc.controlForRef(
+          r.getRefPattern()).isOwner()));
+      want(r.getAccountGroupId());
     }
-
-    loadGroups();
 
     Collections.sort(refRights, new Comparator<InheritedRefRight>() {
       @Override
@@ -115,8 +115,8 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
         return type.getCategory().getName();
       }
 
-      private String groupOf(final RefRight r) {
-        return groups.get(r.getAccountGroupId()).getName();
+      private String groupOf(RefRight r) {
+        return FutureUtil.get(want(r.getAccountGroupId())).getName();
       }
     });
 
@@ -124,7 +124,7 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     final boolean userIsOwnerAnyRef = pc.isOwnerAnyRef();
 
     detail.setRights(refRights);
-    detail.setGroups(groups);
+    detail.setGroups(FutureUtil.getMap(groups));
     detail.setCanModifyAccess(userIsOwnerAnyRef);
     detail.setCanModifyAgreements(userIsOwner);
     detail.setCanModifyDescription(userIsOwner);
@@ -132,15 +132,12 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     return detail;
   }
 
-  private void wantGroup(final AccountGroup.Id id) {
-    groups.put(id, null);
-  }
-
-  private void loadGroups() {
-    final Set<AccountGroup.Id> toGet = groups.keySet();
-    groups = new HashMap<AccountGroup.Id, AccountGroup>();
-    for (AccountGroup.Id groupId : toGet) {
-      groups.put(groupId, groupCache.get(groupId));
+  private Future<AccountGroup> want(AccountGroup.Id id) {
+    Future<AccountGroup> f = groups.get(id);
+    if (f == null) {
+      f = groupCache.get(id);
+      groups.put(id, f);
     }
+    return f;
   }
 }

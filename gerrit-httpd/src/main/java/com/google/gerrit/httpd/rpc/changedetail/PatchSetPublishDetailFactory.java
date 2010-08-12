@@ -36,7 +36,6 @@ import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.client.OrmException;
@@ -54,7 +53,6 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     PatchSetPublishDetailFactory create(PatchSet.Id patchSetId);
   }
 
-  private final ProjectCache projectCache;
   private final PatchSetInfoFactory infoFactory;
   private final ApprovalTypes approvalTypes;
   private final ReviewDb db;
@@ -70,15 +68,14 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   private List<PatchLineComment> drafts;
   private Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> allowed;
   private Map<ApprovalCategory.Id, PatchSetApproval> given;
+  private ChangeControl control;
 
   @Inject
   PatchSetPublishDetailFactory(final PatchSetInfoFactory infoFactory,
-      final ProjectCache projectCache, final ApprovalTypes approvalTypes,
-      final ReviewDb db,
+      final ApprovalTypes approvalTypes, final ReviewDb db,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final ChangeControl.Factory changeControlFactory,
       final IdentifiedUser user, @Assisted final PatchSet.Id patchSetId) {
-    this.projectCache = projectCache;
     this.infoFactory = infoFactory;
     this.approvalTypes = approvalTypes;
     this.db = db;
@@ -93,7 +90,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   public PatchSetPublishDetail call() throws OrmException,
       PatchSetInfoNotAvailableException, NoSuchChangeException {
     final Change.Id changeId = patchSetId.getParentKey();
-    final ChangeControl control = changeControlFactory.validateFor(changeId);
+    control = changeControlFactory.validateFor(changeId);
     change = control.getChange();
     patchSetInfo = infoFactory.get(patchSetId);
     drafts = db.patchComments().draftByPatchSet(patchSetId, user.getAccountId()).toList();
@@ -128,7 +125,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
 
   private void computeAllowed() {
     final Set<AccountGroup.Id> am = user.getEffectiveGroups();
-    final ProjectState pe = projectCache.get(change.getProject());
+    final ProjectState pe = control.getProjectControl().getProjectState();
     for (ApprovalCategory.Id category : approvalTypes.getApprovalCategories()) {
       RefControl rc = pe.controlFor(user).controlForRef(change.getDest());
       List<RefRight> categoryRights = rc.getApplicableRights(category);

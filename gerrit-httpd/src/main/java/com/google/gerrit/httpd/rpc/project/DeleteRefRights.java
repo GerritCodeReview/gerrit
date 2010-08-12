@@ -23,7 +23,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -82,7 +82,7 @@ class DeleteRefRights extends Handler<ProjectDetail> {
         db.refRights().delete(Collections.singleton(m));
       }
     }
-    projectCache.evictAll();
+    FutureUtil.waitFor(projectCache.evictAllAsync());
     return projectDetailFactory.create(projectName).call();
   }
 }

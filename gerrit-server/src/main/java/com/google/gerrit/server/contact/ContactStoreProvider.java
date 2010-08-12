@@ -14,11 +14,9 @@
 
 package com.google.gerrit.server.contact;
 
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.account.AccountExternalIdCache;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -34,17 +32,14 @@ import java.net.URL;
 public class ContactStoreProvider implements Provider<ContactStore> {
   private final Config config;
   private final SitePaths site;
-  private final SchemaFactory<ReviewDb> schema;
-  private final AccountExternalIdCache accountExternalIdCache;
+  private final AccountCache accounts;
 
   @Inject
   ContactStoreProvider(@GerritServerConfig final Config config,
-      final SitePaths site, final SchemaFactory<ReviewDb> schema,
-      final AccountExternalIdCache accountExternalIdCache) {
+      final SitePaths site, final AccountCache accountCache) {
     this.config = config;
     this.site = site;
-    this.schema = schema;
-    this.accountExternalIdCache = accountExternalIdCache;
+    this.accounts = accountCache;
   }
 
   @Override
@@ -72,8 +67,7 @@ public class ContactStoreProvider implements Provider<ContactStore> {
       throw new ProvisionException("PGP public key file \""
           + pubkey.getAbsolutePath() + "\" not found");
     }
-    return new EncryptedContactStore(storeUrl, storeAPPSEC, pubkey, schema,
-        accountExternalIdCache);
+    return new EncryptedContactStore(storeUrl, storeAPPSEC, pubkey, accounts);
   }
 
   private static boolean havePGP() {

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Function;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupAgreement;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -63,6 +66,13 @@ public class AccountGroupAgreementsCacheImpl implements
     };
   }
 
+  private static final Function<AccountGroupAgreementList, List<AccountGroupAgreement>> unpack =
+      new Function<AccountGroupAgreementList, List<AccountGroupAgreement>>() {
+        public List<AccountGroupAgreement> apply(AccountGroupAgreementList in) {
+          return in.list;
+        }
+      };
+
   private final Cache<AccountGroup.Id, AccountGroupAgreementList> byGroupId;
 
   @Inject
@@ -72,13 +82,14 @@ public class AccountGroupAgreementsCacheImpl implements
   }
 
   @Override
-  public List<AccountGroupAgreement> byGroup(AccountGroup.Id id) {
-    return byGroupId.get(id).list;
+  public ListenableFuture<List<AccountGroupAgreement>> byGroup(
+      AccountGroup.Id id) {
+    return Futures.compose(byGroupId.get(id), unpack);
   }
 
   @Override
-  public void evict(Key key) {
-    byGroupId.remove(key.getParentKey());
+  public ListenableFuture<Void> evictAsync(Key key) {
+    return byGroupId.removeAsync(key.getParentKey());
   }
 
   static class ByGroupIdLoader extends

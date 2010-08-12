@@ -20,6 +20,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
+import com.google.common.util.concurrent.Futures;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -262,24 +263,22 @@ public class FromAddressGeneratorProviderTest extends TestCase {
   }
 
   private Account.Id user(final String name, final String email) {
-    final AccountState s = makeUser(name, email);
-    expect(accountCache.get(eq(s.getAccount().getId()))).andReturn(s);
-    return s.getAccount().getId();
+    final Account s = makeUser(name, email);
+    expect(accountCache.getAccount(eq(s.getId()))) //
+        .andReturn(Futures.immediateFuture(s));
+    return s.getId();
   }
 
   private Account.Id userNoLookup(final String name, final String email) {
-    final AccountState s = makeUser(name, email);
-    return s.getAccount().getId();
+    final Account s = makeUser(name, email);
+    return s.getId();
   }
 
-  private AccountState makeUser(final String name, final String email) {
+  private Account makeUser(final String name, final String email) {
     final Account.Id userId = new Account.Id(42);
     final Account account = new Account(userId);
     account.setFullName(name);
     account.setPreferredEmail(email);
-    final AccountState s =
-        new AccountState(account, Collections.<AccountGroup.Id> emptySet(),
-            Collections.<AccountExternalId> emptySet());
-    return s;
+    return account;
   }
 }

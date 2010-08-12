@@ -14,19 +14,24 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.AccountGroup.ExternalNameKey;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.util.CompoundFuture;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+
+import java.util.Collections;
 
 /** Tracks group objects in memory for efficient access. */
 @Singleton
@@ -72,26 +77,26 @@ public class GroupCacheImpl implements GroupCache {
     this.byExternalName = byExternalName;
   }
 
-  public AccountGroup get(final AccountGroup.Id groupId) {
+  public ListenableFuture<AccountGroup> get(final AccountGroup.Id groupId) {
     return byId.get(groupId);
   }
 
-  public void evict(final AccountGroup group) {
-    byId.remove(group.getId());
-    byName.remove(group.getNameKey());
-    byExternalName.remove(group.getExternalNameKey());
+  public ListenableFuture<Void> evictAsync(AccountGroup group) {
+    return CompoundFuture.wrap(byId.removeAsync(group.getId()), //
+        byName.removeAsync(group.getNameKey()),//
+        byExternalName.removeAsync(group.getExternalNameKey()));
   }
 
-  public void evictAfterRename(final AccountGroup.NameKey oldName) {
-    byName.remove(oldName);
+  public ListenableFuture<Void> evictAfterRenameAsync(AccountGroup.NameKey name) {
+    return byName.removeAsync(name);
   }
 
-  public AccountGroup get(final AccountGroup.NameKey name) {
+  public ListenableFuture<AccountGroup> get(AccountGroup.NameKey name) {
     return byName.get(name);
   }
 
-  public AccountGroupCollection get(
-      final AccountGroup.ExternalNameKey externalName) {
+  public ListenableFuture<AccountGroupCollection> get(
+      AccountGroup.ExternalNameKey externalName) {
     return byExternalName.get(externalName);
   }
 
@@ -177,6 +182,11 @@ public class GroupCacheImpl implements GroupCache {
       } finally {
         db.close();
       }
+    }
+
+    @Override
+    public AccountGroupCollection missing(ExternalNameKey key) {
+      return new AccountGroupCollection(Collections.<AccountGroup> emptyList());
     }
   }
 }

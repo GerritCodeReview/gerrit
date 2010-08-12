@@ -24,7 +24,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ActiveSession;
-import com.google.gerrit.reviewdb.ActiveSessionAccess;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
@@ -34,6 +33,7 @@ import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EvictionPolicy;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -325,11 +325,9 @@ public final class WebSession {
   }
 
   private ActiveSession get(final ActiveSession.Key key) throws OrmException {
-    ActiveSession as = cache.get(key);
-    final ActiveSessionAccess activeSessions = schema.activeSessions();
-
+    ActiveSession as = FutureUtil.get(cache.get(key));
     if (as == null) {
-      as = activeSessions.get(key);
+      as = schema.activeSessions().get(key);
 
       if (as == null) {
         return null;
@@ -377,11 +375,11 @@ public final class WebSession {
 
   private void destroy(final ActiveSession.Key key) throws OrmException {
     schema.activeSessions().deleteKeys(Arrays.asList(key));
-    cache.remove(key);
+    FutureUtil.waitFor(cache.removeAsync(key));
   }
 
   private void put(final ActiveSession as) throws OrmException {
     schema.activeSessions().upsert(Arrays.asList(as));
-    cache.put(schema.activeSessions().primaryKey(as), as);
+    FutureUtil.waitFor(cache.putAsync(as.getKey(), as));
   }
 }

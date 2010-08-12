@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.git.PushAllProjectsOp;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
@@ -75,9 +76,9 @@ final class AdminReplicate extends BaseCommand {
       pushAllOpFactory.create(urlMatch).start(0, TimeUnit.SECONDS);
 
     } else {
-      for (final String name : projectNames) {
-        final Project.NameKey key = new Project.NameKey(name);
-        if (projectCache.get(key) != null) {
+      for (String name : projectNames) {
+        Project.NameKey key = new Project.NameKey(name);
+        if (FutureUtil.getOrNull(projectCache.get(key)) != null) {
           replication.scheduleFullSync(key, urlMatch);
         } else {
           throw new Failure(1, "error: '" + name + "': not a Gerrit project");

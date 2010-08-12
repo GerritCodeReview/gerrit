@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.errors.InvalidUserNameException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.Account;
@@ -23,6 +24,7 @@ import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
@@ -30,10 +32,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
@@ -69,91 +71,57 @@ public class ChangeUserName implements Callable<VoidResult> {
 
   private final AccountCache accountCache;
   private final SshKeyCache sshKeyCache;
-  private final AccountExternalIdCache accountExternalIdCache;
 
   private final ReviewDb db;
   private final IdentifiedUser user;
-  private final String newUsername;
+  private final String newName;
 
   @Inject
   ChangeUserName(final AccountCache accountCache,
       final SshKeyCache sshKeyCache,
-      final AccountExternalIdCache accountExternalIdCache,
 
       @Assisted final ReviewDb db, @Assisted final IdentifiedUser user,
       @Nullable @Assisted final String newUsername) {
     this.accountCache = accountCache;
     this.sshKeyCache = sshKeyCache;
-    this.accountExternalIdCache = accountExternalIdCache;
 
     this.db = db;
     this.user = user;
-    this.newUsername = newUsername;
+    this.newName = newUsername;
   }
 
   public VoidResult call() throws OrmException, NameAlreadyUsedException,
       InvalidUserNameException {
-    final Collection<AccountExternalId> old = old();
-    if (!old.isEmpty()) {
+    if (hasUsername()) {
       throw new IllegalStateException("Username cannot be changed.");
     }
-
-    if (newUsername != null && !newUsername.isEmpty()) {
-      if (!USER_NAME_PATTERN.matcher(newUsername).matches()) {
-        throw new InvalidUserNameException();
-      }
-
-      final AccountExternalId.Key key =
-          new AccountExternalId.Key(SCHEME_USERNAME, newUsername);
-      try {
-        final AccountExternalId id =
-            new AccountExternalId(user.getAccountId(), key);
-
-        for (AccountExternalId i : old) {
-          if (i.getPassword() != null) {
-            id.setPassword(i.getPassword());
-          }
-        }
-
-        db.accountExternalIds().insert(Collections.singleton(id));
-        accountExternalIdCache.evict(id);
-      } catch (OrmDuplicateKeyException dupeErr) {
-        // If we are using this identity, don't report the exception.
-        //
-        AccountExternalId other = accountExternalIdCache.get(key);
-        if (other != null && other.getAccountId().equals(user.getAccountId())) {
-          return VoidResult.INSTANCE;
-        }
-
-        // Otherwise, someone else has this identity.
-        //
-        throw new NameAlreadyUsedException();
-      }
+    if (newName == null || !USER_NAME_PATTERN.matcher(newName).matches()) {
+      throw new InvalidUserNameException();
     }
 
-    // If we have any older user names, remove them.
-    //
-    db.accountExternalIds().delete(old);
-    for (AccountExternalId i : old) {
-      sshKeyCache.evict(i.getSchemeRest());
-      accountCache.evictByUsername(i.getSchemeRest());
-      accountExternalIdCache.evict(i);
+    AccountExternalId.Key key = AccountExternalId.forUsername(newName);
+    List<Future<Void>> evictions = Lists.newArrayList();
+    try {
+      AccountExternalId id = new AccountExternalId(user.getAccountId(), key);
+      db.accountExternalIds().insert(Collections.singleton(id));
+      evictions.add(accountCache.evictAsync(key));
+    } catch (OrmDuplicateKeyException dupeErr) {
+      throw new NameAlreadyUsedException();
     }
 
-    accountCache.evict(user.getAccountId());
-    accountCache.evictByUsername(newUsername);
-    sshKeyCache.evict(newUsername);
+    evictions.add(accountCache.evictAsync(user.getAccountId()));
+    evictions.add(accountCache.evictAsync(key));
+    evictions.add(sshKeyCache.evictAsync(newName));
+    FutureUtil.waitFor(evictions);
     return VoidResult.INSTANCE;
   }
 
-  private Collection<AccountExternalId> old() {
-    final Collection<AccountExternalId> r = new ArrayList<AccountExternalId>(1);
-    for (AccountExternalId i : accountExternalIdCache.byAccount(
-        user.getAccountId())) {
+  private boolean hasUsername() {
+    for (AccountExternalId i : user.getAccountState().getExternalIds()) {
       if (i.isScheme(SCHEME_USERNAME)) {
-        r.add(i);
+        return true;
       }
     }
-    return r;
+    return false;
   }
 }

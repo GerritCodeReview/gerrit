@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
@@ -32,6 +32,7 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 
 import java.util.ArrayList;
@@ -122,16 +123,14 @@ public abstract class ChangeEmail extends OutgoingEmail {
   protected abstract void formatChange();
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
+  @Override
   protected void init() {
     super.init();
-    if (args.projectCache != null) {
-      projectState = args.projectCache.get(change.getProject());
-      projectName =
-          projectState != null ? projectState.getProject().getName() : null;
-    } else {
-      projectState = null;
-      projectName = null;
-    }
+
+    projectState = FutureUtil.get(args.projectCache.get(change.getProject()));
+    projectName = projectState != null //
+        ? projectState.getProject().getName() //
+        : null;
 
     if (patchSet == null) {
       try {
@@ -286,7 +285,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   /** Get the patch list corresponding to this patch set. */
   protected PatchList getPatchList() {
     if (patchSet != null) {
-      return args.patchListCache.get(change, patchSet);
+      return FutureUtil.getOrNull(args.patchListCache.get(change, patchSet));
     }
     return null;
   }
@@ -294,14 +293,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
   /** Get the project entity the change is in; null if its been deleted. */
   protected ProjectState getProjectState() {
     return projectState;
-  }
-
-  /** Get the groups which own the project. */
-  protected Set<AccountGroup.Id> getProjectOwners() {
-    final ProjectState r;
-
-    r = args.projectCache.get(change.getProject());
-    return r != null ? r.getOwners() : Collections.<AccountGroup.Id> emptySet();
   }
 
   /** TO or CC all vested parties (change owner, patch set uploader, author). */
@@ -358,14 +349,18 @@ public abstract class ChangeEmail extends OutgoingEmail {
     List<AccountProjectWatch> matching = new ArrayList<AccountProjectWatch>();
     Set<Account.Id> projectWatchers = new HashSet<Account.Id>();
 
-    for (AccountProjectWatch w : args.accountProjectWatchCache.byProject(change
-        .getProject())) {
+    ListenableFuture<List<AccountProjectWatch>> thisProject =
+        args.accountProjectWatchCache.byProject(change.getProject());
+
+    ListenableFuture<List<AccountProjectWatch>> allProjects =
+        args.accountProjectWatchCache.byProject(args.wildProject);
+
+    for (AccountProjectWatch w : FutureUtil.get(thisProject)) {
       projectWatchers.add(w.getAccountId());
       add(matching, w);
     }
 
-    for (AccountProjectWatch w : args.accountProjectWatchCache.byProject(change
-        .getProject())) {
+    for (AccountProjectWatch w : FutureUtil.get(allProjects)) {
       if (!projectWatchers.contains(w.getAccountId())) {
         add(matching, w);
       }

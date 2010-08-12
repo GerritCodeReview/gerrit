@@ -20,9 +20,10 @@ import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
@@ -132,13 +133,14 @@ class ProjectDigestFilter implements Filter {
       return false;
     }
 
-    final AccountState who = accountCache.getByUsername(username);
+    final AccountExternalId who = FutureUtil.get( //
+        accountCache.get(AccountExternalId.forUsername(username)));
     if (who == null) {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
 
-    final String passwd = who.getPassword(username);
+    final String passwd = who.getPassword();
     if (passwd == null) {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
@@ -158,7 +160,7 @@ class ProjectDigestFilter implements Filter {
     if (expect.equals(response)) {
       try {
         if (tokens.checkToken(nonce, "") != null) {
-          session.get().setUserAccountId(who.getAccount().getId());
+          session.get().setUserAccountId(who.getAccountId());
           return true;
 
         } else {

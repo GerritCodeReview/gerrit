@@ -14,20 +14,19 @@
 
 package com.google.gerrit.httpd.auth.become;
 
-import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
-
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.account.AccountExternalIdCache;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -59,7 +58,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   private final Provider<WebSession> webSession;
   private final Provider<String> urlProvider;
   private final AccountManager accountManager;
-  private final AccountExternalIdCache accountExternalIdCache;
+  private final AccountCache accountCache;
   private final byte[] raw;
 
   @Inject
@@ -67,13 +66,12 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       final SchemaFactory<ReviewDb> sf,
       final @CanonicalWebUrl @Nullable Provider<String> up,
       final AccountManager am, final ServletContext servletContext,
-      final AccountExternalIdCache aeidc)
-      throws IOException {
+      final AccountCache ac) throws IOException {
     webSession = ws;
     schema = sf;
     urlProvider = up;
     accountManager = am;
-    accountExternalIdCache = aeidc;
+    accountCache = ac;
 
     final String pageName = "BecomeAnyAccount.html";
     final Document doc = HtmlDomUtil.parseFile(getClass(), pageName);
@@ -191,19 +189,8 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
 
   private AuthResult byUserName(final HttpServletResponse rsp,
       final String userName) {
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        AccountExternalId.Key key =
-            new AccountExternalId.Key(SCHEME_USERNAME, userName);
-        return auth(accountExternalIdCache.get(key));
-      } finally {
-        db.close();
-      }
-    } catch (OrmException e) {
-      getServletContext().log("cannot query database", e);
-      return null;
-    }
+    AccountExternalId.Key key = AccountExternalId.forUsername(userName);
+    return auth(FutureUtil.get(accountCache.get(key)));
   }
 
   private AuthResult byPreferredEmail(final HttpServletResponse rsp,

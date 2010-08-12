@@ -16,6 +16,8 @@ package com.google.gerrit.ehcache;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.server.cache.Cache;
 
 import net.sf.ehcache.CacheException;
@@ -25,8 +27,6 @@ import net.sf.ehcache.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,10 +49,11 @@ final class SimpleCache<K, V> implements Cache<K, V> {
   }
 
   @SuppressWarnings("unchecked")
-  public V get(final K key) {
+  public ListenableFuture<V> get(final K key) {
     if (key == null) {
-      return null;
+      return Futures.immediateFuture(null);
     }
+
     final Element m;
     try {
       m = self.get(key);
@@ -63,35 +64,27 @@ final class SimpleCache<K, V> implements Cache<K, V> {
       log.error("Cannot lookup " + key + " in \"" + self.getName() + "\"", err);
       return null;
     }
-    return m != null ? (V) m.getObjectValue() : null;
-  }
-
-  @Override
-  public Map<K, V> getAll(Iterable<K> keys) {
-    HashMap<K, V> map = new HashMap<K, V>();
-    for (K k : keys) {
-      if (!map.containsKey(k)) {
-        V v = get(k);
-        if (v != null) {
-          map.put(k, v);
-        }
-      }
+    if (m != null) {
+      return Futures.immediateFuture((V) m.getObjectValue());
     }
-    return map;
+    return Futures.immediateFuture(null);
   }
 
-  public void put(final K key, final V value) {
+  public ListenableFuture<Void> putAsync(final K key, final V value) {
     self.put(new Element(key, value));
+    return Futures.immediateFuture(null);
   }
 
-  public void remove(final K key) {
+  public ListenableFuture<Void> removeAsync(final K key) {
     if (key != null) {
       self.remove(key);
     }
+    return Futures.immediateFuture(null);
   }
 
-  public void removeAll() {
+  public ListenableFuture<Void> removeAllAsync() {
     self.removeAll();
+    return Futures.immediateFuture(null);
   }
 
   @Override

@@ -14,17 +14,18 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.inject.Inject;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
 class MyGroupsFactory extends Handler<List<AccountGroup>> {
   interface Factory {
@@ -42,18 +43,18 @@ class MyGroupsFactory extends Handler<List<AccountGroup>> {
 
   @Override
   public List<AccountGroup> call() throws Exception {
-    final Set<AccountGroup.Id> effective = user.getEffectiveGroups();
-    final int cnt = effective.size();
-    final List<AccountGroup> groupList = new ArrayList<AccountGroup>(cnt);
-    for (final AccountGroup.Id groupId : effective) {
-      groupList.add(groupCache.get(groupId));
+    List<ListenableFuture<AccountGroup>> want = Lists.newArrayList();
+    for (AccountGroup.Id id : user.getEffectiveGroups()) {
+      want.add(groupCache.get(id));
     }
-    Collections.sort(groupList, new Comparator<AccountGroup>() {
+
+    List<AccountGroup> all = FutureUtil.get(FutureUtil.concatSingletons(want));
+    Collections.sort(all, new Comparator<AccountGroup>() {
       @Override
       public int compare(AccountGroup a, AccountGroup b) {
         return a.getName().compareTo(b.getName());
       }
     });
-    return groupList;
+    return all;
   }
 }

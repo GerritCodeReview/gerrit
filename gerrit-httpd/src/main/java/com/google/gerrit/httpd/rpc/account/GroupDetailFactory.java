@@ -24,6 +24,7 @@ import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.NoSuchGroupException;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -65,12 +66,13 @@ class GroupDetailFactory extends Handler<GroupDetail> {
     final AccountGroup group = control.getAccountGroup();
     final GroupDetail detail = new GroupDetail();
     detail.setGroup(group);
-    detail.setOwnerGroup(groupCache.get(group.getOwnerGroupId()));
     switch (group.getType()) {
       case INTERNAL:
         detail.setMembers(loadMembers());
         break;
     }
+    detail.setOwnerGroup(FutureUtil.get( //
+        groupCache.get(group.getOwnerGroupId())));
     detail.setAccounts(aic.create());
     return detail;
   }

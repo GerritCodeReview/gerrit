@@ -37,6 +37,7 @@ import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -168,7 +169,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   }
 
   private PatchList listFor(final PatchListKey key) {
-    return patchListCache.get(key);
+    return FutureUtil.get(patchListCache.get(key));
   }
 
   private PatchScriptBuilder newBuilder(final PatchList list, Repository git) {

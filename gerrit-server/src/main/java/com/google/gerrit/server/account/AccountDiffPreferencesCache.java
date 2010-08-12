@@ -14,11 +14,12 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 
 public interface AccountDiffPreferencesCache {
-  public AccountDiffPreference get(Account.Id key);
+  public ListenableFuture<AccountDiffPreference> get(Account.Id key);
 
-  public void evict(Account.Id key);
+  public ListenableFuture<Void> evictAsync(Account.Id key);
 }

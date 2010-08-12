@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -22,13 +23,16 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.NoSuchGroupException;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.internal.Lists;
 
 import java.util.Collections;
+import java.util.List;
 
 class RenameGroup extends Handler<VoidResult> {
   interface Factory {
@@ -91,9 +95,10 @@ class RenameGroup extends Handler<VoidResult> {
       db.accountGroupNames().delete(Collections.singleton(priorName));
     }
 
-    groupCache.evict(group);
-    groupCache.evictAfterRename(old);
-
+    List<ListenableFuture<Void>> evictions = Lists.newArrayList();
+    evictions.add(groupCache.evictAsync(group));
+    evictions.add(groupCache.evictAfterRenameAsync(old));
+    FutureUtil.waitFor(evictions);
     return VoidResult.INSTANCE;
   }
 }

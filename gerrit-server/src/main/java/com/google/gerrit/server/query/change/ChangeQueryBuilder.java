@@ -34,6 +34,7 @@ import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -322,13 +323,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     // If its not an account, maybe its a group?
     //
-    AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(who));
+    AccountGroup g =
+        FutureUtil.get(args.groupCache.get(new AccountGroup.NameKey(who)));
     if (g != null) {
       return visibleto(new SingleGroupUser(args.authConfig, g.getId()));
     }
 
-    Collection<AccountGroup> matches =
-        args.groupCache.get(new AccountGroup.ExternalNameKey(who)).getGroups();
+    Collection<AccountGroup> matches = FutureUtil.get( //
+        args.groupCache.get(new AccountGroup.ExternalNameKey(who))).getGroups();
     if (matches != null && !matches.isEmpty()) {
       HashSet<AccountGroup.Id> ids = new HashSet<AccountGroup.Id>();
       for (AccountGroup group : matches) {

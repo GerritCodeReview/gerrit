@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.cache;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.concurrent.TimeUnit;
 
 /** Proxy around a cache which has not yet been created. */
@@ -27,41 +27,27 @@ public final class ProxyCache<K, V> implements Cache<K, V> {
   }
 
   @Override
-  public V get(K key) {
+  public ListenableFuture<V> get(K key) {
     return self.get(key);
   }
 
   @Override
-  public Map<K, V> getAll(Iterable<K> keys) {
-    HashMap<K, V> map = new HashMap<K, V>();
-    for (K k : keys) {
-      if (!map.containsKey(k)) {
-        V v = get(k);
-        if (v != null) {
-          map.put(k, v);
-        }
-      }
-    }
-    return map;
+  public ListenableFuture<Void> putAsync(K key, V value) {
+    return self.putAsync(key, value);
+  }
+
+  @Override
+  public ListenableFuture<Void> removeAsync(K key) {
+    return self.removeAsync(key);
+  }
+
+  @Override
+  public ListenableFuture<Void> removeAllAsync() {
+    return self.removeAllAsync();
   }
 
   @Override
   public long getTimeToLive(TimeUnit unit) {
     return self.getTimeToLive(unit);
-  }
-
-  @Override
-  public void put(K key, V value) {
-    self.put(key, value);
-  }
-
-  @Override
-  public void remove(K key) {
-    self.remove(key);
-  }
-
-  @Override
-  public void removeAll() {
-    self.removeAll();
   }
 }

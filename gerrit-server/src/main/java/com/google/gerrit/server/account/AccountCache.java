@@ -14,19 +14,33 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountExternalId;
 
-import java.util.Map;
+import java.util.Set;
 
 /** Caches important (but small) account state to avoid database hits. */
 public interface AccountCache {
-  public AccountState get(Account.Id accountId);
+  // Accounts indexed by unique internal identity.
 
-  public Map<Account.Id, AccountState> getAll(Iterable<Account.Id> accountIds);
+  public ListenableFuture<AccountState> get(Account.Id accountId);
 
-  public AccountState getByUsername(String username);
+  public ListenableFuture<Account> getAccount(Account.Id accountId);
 
-  public void evict(Account.Id accountId);
+  public ListenableFuture<Void> evictAsync(Account.Id accountId);
 
-  public void evictByUsername(String username);
+
+  // Accounts indexed by external identity (OpenID, HTTP/LDAP/SSH username).
+
+  public ListenableFuture<AccountExternalId> get(AccountExternalId.Key key);
+
+  public ListenableFuture<Void> evictAsync(AccountExternalId.Key id);
+
+
+  // Accounts indexed by email address.
+
+  public ListenableFuture<Set<Account.Id>> byEmail(String email);
+
+  public ListenableFuture<Void> evictEmailAsync(String email);
 }

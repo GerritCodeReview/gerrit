@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.Column;
 import com.google.inject.Inject;
 
@@ -109,7 +110,7 @@ public class ProjectState {
     Project.NameKey parent = project.getParent();
 
     while (parent != null && seen.add(parent)) {
-      ProjectState s = projectCache.get(parent);
+      ProjectState s = FutureUtil.get(projectCache.get(parent));
       if (s != null) {
         inherited.addAll(s.getLocalRights());
         parent = s.getProject().getParent();
@@ -127,7 +128,7 @@ public class ProjectState {
   }
 
   private Collection<RefRight> getWildProjectRights() {
-    final ProjectState s = projectCache.get(wildProject);
+    ProjectState s = FutureUtil.get(projectCache.get(wildProject));
     return s != null ? s.getLocalRights() : Collections.<RefRight> emptyList();
   }
 

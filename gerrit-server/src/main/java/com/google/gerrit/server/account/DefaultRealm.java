@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.inject.Inject;
 
 import java.util.Collections;
@@ -23,13 +24,13 @@ import java.util.Set;
 
 public final class DefaultRealm implements Realm {
   private final EmailExpander emailExpander;
-  private final AccountByEmailCache byEmail;
+  private final AccountCache accountCache;
 
   @Inject
   DefaultRealm(final EmailExpander emailExpander,
-      final AccountByEmailCache byEmail) {
+      final AccountCache accountCache) {
     this.emailExpander = emailExpander;
-    this.byEmail = byEmail;
+    this.accountCache = accountCache;
   }
 
   @Override
@@ -58,8 +59,8 @@ public final class DefaultRealm implements Realm {
   @Override
   public Account.Id lookup(final String accountName) {
     if (emailExpander.canExpand(accountName)) {
-      final Set<Account.Id> c =
-          byEmail.get(emailExpander.expand(accountName)).getIds();
+      Set<Account.Id> c = FutureUtil.getOrEmptySet( //
+          accountCache.byEmail(emailExpander.expand(accountName)));
       if (1 == c.size()) {
         return c.iterator().next();
       }

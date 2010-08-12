@@ -15,9 +15,18 @@
 package com.google.gerrit.reviewdb;
 
 import java.sql.Timestamp;
+import java.util.Comparator;
 
 /** Base for {@link AccountAgreement} or {@link AccountGroupAgreement}. */
 public interface AbstractAgreement {
+  public static final Comparator<AbstractAgreement> SORT =
+      new Comparator<AbstractAgreement>() {
+        @Override
+        public int compare(AbstractAgreement a, AbstractAgreement b) {
+          return b.getAcceptedOn().compareTo(a.getAcceptedOn());
+        }
+      };
+
   public static enum Status {
     NEW('n'),
 

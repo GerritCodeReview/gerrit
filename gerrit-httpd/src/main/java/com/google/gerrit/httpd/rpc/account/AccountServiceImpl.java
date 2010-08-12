@@ -34,6 +34,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmDuplicateKeyException;
@@ -100,7 +101,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
         }
         a.setGeneralPreferences(pref);
         db.accounts().update(Collections.singleton(a));
-        accountCache.evict(a.getId());
+        FutureUtil.waitFor(accountCache.evictAsync(a.getId()));
         return VoidResult.INSTANCE;
       }
     });
@@ -118,7 +119,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
               + " the accountId of the signed in user " + getAccountId());
         }
         db.accountDiffPreferences().upsert(Collections.singleton(diffPref));
-        accountDiffPreferencesCache.evict(diffPref.getAccountId());
+        FutureUtil.waitFor(accountDiffPreferencesCache.evictAsync(accountId));
         return VoidResult.INSTANCE;
       }
     });
@@ -131,14 +132,14 @@ class AccountServiceImpl extends BaseServiceImplementation implements
         final List<AccountProjectWatchInfo> r =
             new ArrayList<AccountProjectWatchInfo>();
 
-        for (final AccountProjectWatch w : accountProjectWatchCache
-            .byAccount(getAccountId())) {
+        for (AccountProjectWatch w : FutureUtil.get(accountProjectWatchCache
+            .byAccount(getAccountId()))) {
           final ProjectControl ctl;
           try {
             ctl = projectControlFactory.validateFor(w.getProjectNameKey());
           } catch (NoSuchProjectException e) {
             db.accountProjectWatches().delete(Collections.singleton(w));
-            accountProjectWatchCache.evict(w.getKey());
+            accountProjectWatchCache.evictAsync(w.getKey());
             continue;
           }
           r.add(new AccountProjectWatchInfo(w, ctl.getProject()));
@@ -181,7 +182,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
         } catch (OrmDuplicateKeyException alreadyHave) {
           watch = db.accountProjectWatches().get(watch.getKey());
         }
-        accountProjectWatchCache.evict(watch.getKey());
+        FutureUtil.waitFor(accountProjectWatchCache.evictAsync(watch.getKey()));
         return new AccountProjectWatchInfo(watch, ctl.getProject());
       }
     });
@@ -197,7 +198,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<VoidResult>() {
       public VoidResult run(ReviewDb db) throws OrmException {
         db.accountProjectWatches().update(Collections.singleton(watch));
-        accountProjectWatchCache.evict(watch.getKey());
+        FutureUtil.waitFor(accountProjectWatchCache.evictAsync(watch.getKey()));
         return VoidResult.INSTANCE;
       }
     });

@@ -14,18 +14,21 @@
 
 package com.google.gerrit.sshd;
 
-import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
-
+import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountSshKey;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.account.AccountExternalIdCache;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.server.util.FutureUtil;
+import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -40,7 +43,7 @@ import org.slf4j.LoggerFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -55,8 +58,8 @@ public class SshKeyCacheImpl implements SshKeyCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<Account.Username, SshKeyCacheEntryCollection>> type =
-            new TypeLiteral<Cache<Account.Username, SshKeyCacheEntryCollection>>() {};
+        final TypeLiteral<Cache<Username, EntryList>> type =
+            new TypeLiteral<Cache<Username, EntryList>>() {};
         core(type, CACHE_NAME).populateWith(Loader.class);
         bind(SshKeyCacheImpl.class);
         bind(SshKeyCache.class).to(SshKeyCacheImpl.class);
@@ -64,28 +67,31 @@ public class SshKeyCacheImpl implements SshKeyCache {
     };
   }
 
-  private final Cache<Account.Username, SshKeyCacheEntryCollection> cache;
+  private final Cache<Username, EntryList> cache;
 
   @Inject
-  SshKeyCacheImpl(
-      @Named(CACHE_NAME) final Cache<Account.Username, SshKeyCacheEntryCollection> cache) {
+  SshKeyCacheImpl(@Named(CACHE_NAME) final Cache<Username, EntryList> cache) {
     this.cache = cache;
   }
 
-  public SshKeyCacheEntryCollection get(String username) {
-    return cache.get(new Account.Username(username));
+  EntryList get(String username) {
+    return FutureUtil.get(cache.get(new Username(username)));
   }
 
-  public void evict(String username) {
-    cache.remove(new Account.Username(username));
+  public ListenableFuture<Void> evictAsync(String username) {
+    if (username != null) {
+      return cache.removeAsync(new Username(username));
+    } else {
+      return Futures.immediateFuture(null);
+    }
   }
 
   @Override
   public AccountSshKey create(AccountSshKey.Id id, String encoded)
       throws InvalidSshKeyException {
     try {
-      final AccountSshKey key =
-          new AccountSshKey(id, SshUtil.toOpenSshPublicKey(encoded));
+      encoded = SshUtil.toOpenSshPublicKey(encoded);
+      AccountSshKey key = new AccountSshKey(id, encoded);
       SshUtil.parse(key);
       return key;
     } catch (NoSuchAlgorithmException e) {
@@ -100,50 +106,92 @@ public class SshKeyCacheImpl implements SshKeyCache {
     }
   }
 
-  static class Loader extends EntryCreator<Account.Username, SshKeyCacheEntryCollection> {
+  static class Username {
+    @Column(id = 1)
+    String name;
+
+    Username() {
+    }
+
+    Username(String name) {
+      this.name = name;
+    }
+  }
+
+  static class EntryList {
+    static enum Type {
+      VALID_HAS_KEYS, INVALID_USER, NO_SUCH_USER, NO_KEYS
+    }
+
+    @Column(id = 1)
+    Type type;
+
+    @Column(id = 2)
+    Collection<SshKeyCacheEntry> keys;
+
+    EntryList() {
+      type = Type.NO_KEYS;
+      keys = Collections.emptyList();
+    }
+
+    EntryList(Type t, Collection<SshKeyCacheEntry> k) {
+      this.type = t;
+      this.keys = k;
+    }
+
+    Collection<SshKeyCacheEntry> getKeys() {
+      return keys;
+    }
+
+    Type getType() {
+      return type;
+    }
+  }
+
+  static class Loader extends EntryCreator<Username, EntryList> {
     private final SchemaFactory<ReviewDb> schema;
-    private final AccountExternalIdCache accountExternalIdCache;
+    private final AccountCache accountCache;
 
     @Inject
-    Loader(SchemaFactory<ReviewDb> schema, AccountExternalIdCache accountExternalIdCache) {
+    Loader(SchemaFactory<ReviewDb> schema, AccountCache accountCache) {
       this.schema = schema;
-      this.accountExternalIdCache = accountExternalIdCache;
+      this.accountCache = accountCache;
     }
 
     @Override
-    public SshKeyCacheEntryCollection createEntry(Account.Username username)
-        throws Exception {
+    public EntryList createEntry(Username username) throws Exception {
+      AccountExternalId user = FutureUtil.get(accountCache.get( //
+          AccountExternalId.forUsername(username.name)));
+      if (user == null) {
+        Collection<SshKeyCacheEntry> none = Collections.emptyList();
+        return new EntryList(EntryList.Type.NO_SUCH_USER, none);
+      }
+
+      final Account.Id accountId = user.getAccountId();
       final ReviewDb db = schema.open();
       try {
-        final AccountExternalId.Key key =
-            new AccountExternalId.Key(SCHEME_USERNAME, username.get());
-        final AccountExternalId user = accountExternalIdCache.get(key);
-        if (user == null) {
-          return new SshKeyCacheEntryCollection(
-              SshKeyCacheEntryCollection.Type.NO_SUCH_USER);
-        }
-
-        final List<SshKeyCacheEntry> kl = new ArrayList<SshKeyCacheEntry>(4);
-        for (AccountSshKey k : db.accountSshKeys().byAccount(
-            user.getAccountId())) {
+        List<SshKeyCacheEntry> kl = Lists.newArrayListWithExpectedSize(4);
+        for (AccountSshKey k : db.accountSshKeys().byAccount(accountId)) {
           if (k.isValid()) {
             add(db, kl, k);
           }
         }
         if (kl.isEmpty()) {
-          return new SshKeyCacheEntryCollection(
-              SshKeyCacheEntryCollection.Type.NO_KEYS);
+          Collection<SshKeyCacheEntry> none = Collections.emptyList();
+          return new EntryList(EntryList.Type.NO_KEYS, none);
+        } else {
+          kl = Collections.unmodifiableList(kl);
+          return new EntryList(EntryList.Type.VALID_HAS_KEYS, kl);
         }
-        return new SshKeyCacheEntryCollection(Collections.unmodifiableList(kl));
       } finally {
         db.close();
       }
     }
 
     @Override
-    public SshKeyCacheEntryCollection missing(Account.Username username) {
-      return new SshKeyCacheEntryCollection(
-          SshKeyCacheEntryCollection.Type.INVALID_USER);
+    public EntryList missing(Username username) {
+      Collection<SshKeyCacheEntry> none = Collections.emptyList();
+      return new EntryList(EntryList.Type.INVALID_USER, none);
     }
 
     private void add(ReviewDb db, List<SshKeyCacheEntry> kl, AccountSshKey k) {

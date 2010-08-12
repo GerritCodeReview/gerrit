@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -83,7 +84,7 @@ class CreateGroup extends Handler<AccountGroup.Id> {
         Collections.singleton(new AccountGroupMemberAudit(member, me)));
     db.accountGroupMembers().insert(Collections.singleton(member));
 
-    accountCache.evict(me);
+    FutureUtil.waitFor(accountCache.evictAsync(me));
     return id;
   }
 }

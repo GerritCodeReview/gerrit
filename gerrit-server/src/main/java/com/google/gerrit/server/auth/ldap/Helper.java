@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -41,7 +42,8 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.net.ssl.SSLSocketFactory;
 
-@Singleton class Helper {
+@Singleton
+class Helper {
   private final GroupCache groupCache;
   private final Config config;
   private final String server;
@@ -132,8 +134,8 @@ import javax.net.ssl.SSLSocketFactory;
   }
 
   Set<AccountGroup.Id> queryForGroups(final DirContext ctx,
-      final String username, LdapQuery.Result account)
-      throws NamingException, AccountException {
+      final String username, LdapQuery.Result account) throws NamingException,
+      AccountException {
     final LdapSchema schema = getSchema(ctx);
     final Set<String> groupDNs = new HashSet<String>();
 
@@ -175,8 +177,8 @@ import javax.net.ssl.SSLSocketFactory;
 
     final Set<AccountGroup.Id> actual = new HashSet<AccountGroup.Id>();
     for (String dn : groupDNs) {
-      for (AccountGroup group : groupCache
-          .get(new AccountGroup.ExternalNameKey(dn)).getGroups()) {
+      for (AccountGroup group : FutureUtil.get(
+          groupCache.get(new AccountGroup.ExternalNameKey(dn))).getGroups()) {
         if (group.getType() == AccountGroup.Type.LDAP) {
           actual.add(group.getId());
         }
@@ -238,9 +240,11 @@ import javax.net.ssl.SSLSocketFactory;
 
       groupBases = LdapRealm.optionalList(config, "groupBase");
       groupScope = LdapRealm.scope(config, "groupScope");
-      groupPattern = LdapRealm.paramString(config, "groupPattern", type.groupPattern());
+      groupPattern =
+          LdapRealm.paramString(config, "groupPattern", type.groupPattern());
       final String groupMemberPattern =
-          LdapRealm.optdef(config, "groupMemberPattern", type.groupMemberPattern());
+          LdapRealm.optdef(config, "groupMemberPattern", type
+              .groupMemberPattern());
 
       for (String groupBase : groupBases) {
         if (groupMemberPattern != null) {
@@ -266,7 +270,8 @@ import javax.net.ssl.SSLSocketFactory;
       // Account query
       //
       accountFullName =
-          LdapRealm.paramString(config, "accountFullName", type.accountFullName());
+          LdapRealm.paramString(config, "accountFullName", type
+              .accountFullName());
       if (accountFullName != null) {
         accountAtts.addAll(accountFullName.getParameterNames());
       }
@@ -277,12 +282,14 @@ import javax.net.ssl.SSLSocketFactory;
         accountAtts.addAll(accountEmailAddress.getParameterNames());
       }
       accountSshUserName =
-          LdapRealm.paramString(config, "accountSshUserName", type.accountSshUserName());
+          LdapRealm.paramString(config, "accountSshUserName", type
+              .accountSshUserName());
       if (accountSshUserName != null) {
         accountAtts.addAll(accountSshUserName.getParameterNames());
       }
       accountMemberField =
-          LdapRealm.optdef(config, "accountMemberField", type.accountMemberField());
+          LdapRealm.optdef(config, "accountMemberField", type
+              .accountMemberField());
       if (accountMemberField != null) {
         accountAtts.add(accountMemberField);
       }

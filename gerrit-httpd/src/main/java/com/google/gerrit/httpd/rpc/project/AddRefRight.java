@@ -31,6 +31,7 @@ import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -183,7 +184,7 @@ class AddRefRight extends Handler<ProjectDetail> {
       throw new NoSuchRefException(refPattern);
     }
 
-    final AccountGroup group = groupCache.get(groupName);
+    final AccountGroup group = FutureUtil.get(groupCache.get(groupName));
     if (group == null) {
       throw new NoSuchGroupException(groupName);
     }
@@ -201,7 +202,7 @@ class AddRefRight extends Handler<ProjectDetail> {
       rr.setMaxValue(max);
       db.refRights().update(Collections.singleton(rr));
     }
-    projectCache.evictAll();
+    FutureUtil.waitFor(projectCache.evictAllAsync());
     return projectDetailFactory.create(projectName).call();
   }
 }

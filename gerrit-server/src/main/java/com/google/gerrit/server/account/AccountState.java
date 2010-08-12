@@ -16,6 +16,8 @@ package com.google.gerrit.server.account;
 
 import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -23,9 +25,19 @@ import com.google.gwtorm.client.Column;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class AccountState {
+  /** Convert from an AccountState to an Account. */
+  public static final Function<AccountState, Account> GET_ACCOUNT =
+      new Function<AccountState, Account>() {
+        @Override
+        public Account apply(AccountState in) {
+          return in.getAccount();
+        }
+      };
+
   @Column(id = 1)
   protected Account account;
 
@@ -62,17 +74,6 @@ public class AccountState {
     return account.getUserName();
   }
 
-  /** @return the password matching the requested username; or null. */
-  public String getPassword(String username) {
-    for (AccountExternalId id : getExternalIds()) {
-      if (id.isScheme(AccountExternalId.SCHEME_USERNAME)
-          && username.equals(id.getSchemeRest())) {
-        return id.getPassword();
-      }
-    }
-    return null;
-  }
-
   /**
    * All email addresses registered to this account.
    * <p>
@@ -95,6 +96,18 @@ public class AccountState {
   /** The external identities that identify the account holder. */
   public Collection<AccountExternalId> getExternalIds() {
     return externalIds;
+  }
+
+  /** The external identities that match a particular email address. */
+  public Collection<AccountExternalId> getExternalIds(String emailAddress) {
+    List<AccountExternalId> r = Lists.newArrayListWithCapacity(externalIds.size());
+    for (AccountExternalId extId : externalIds) {
+      String accEmail = extId.getEmailAddress();
+      if (accEmail != null && accEmail.equals(emailAddress)) {
+        r.add(extId);
+      }
+    }
+    return r;
   }
 
   /** The set of groups maintained directly within the Gerrit database. */

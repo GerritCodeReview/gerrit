@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.base.Function;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -21,8 +24,9 @@ import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.UserIdentity;
-import com.google.gerrit.server.account.AccountByEmailCache;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -37,6 +41,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Set;
+import java.util.concurrent.Future;
 
 
 /**
@@ -46,72 +51,80 @@ import java.util.Set;
 public class PatchSetInfoFactory {
   private final GitRepositoryManager repoManager;
   private final SchemaFactory<ReviewDb> schemaFactory;
-  private final AccountByEmailCache byEmailCache;
+  private final AccountCache accountCache;
 
   @Inject
   public PatchSetInfoFactory(final GitRepositoryManager grm,
       final SchemaFactory<ReviewDb> schemaFactory,
-      final AccountByEmailCache byEmailCache) {
+      final AccountCache accountCache) {
     this.repoManager = grm;
     this.schemaFactory = schemaFactory;
-    this.byEmailCache = byEmailCache;
+    this.accountCache = accountCache;
   }
 
   public PatchSetInfo get(RevCommit src, PatchSet.Id psi) {
+    Future<UserIdentity> author = toUserIdentity(src.getAuthorIdent());
+    Future<UserIdentity> committer = toUserIdentity(src.getCommitterIdent());
+
     PatchSetInfo info = new PatchSetInfo(psi);
     info.setSubject(src.getShortMessage());
     info.setMessage(src.getFullMessage());
-    info.setAuthor(toUserIdentity(src.getAuthorIdent()));
-    info.setCommitter(toUserIdentity(src.getCommitterIdent()));
-
+    info.setAuthor(FutureUtil.get(author));
+    info.setCommitter(FutureUtil.get(committer));
     return info;
   }
 
   public PatchSetInfo get(PatchSet.Id patchSetId)
       throws PatchSetInfoNotAvailableException {
-    ReviewDb db = null;
-    Repository repo = null;
+    final RevCommit src;
+
     try {
-      db = schemaFactory.open();
-      final PatchSet patchSet = db.patchSets().get(patchSetId);
-      final Change change = db.changes().get(patchSet.getId().getParentKey());
-      final Project.NameKey projectKey = change.getProject();
-      final String projectName = projectKey.get();
-      repo = repoManager.openRepository(projectName);
-      final RevWalk rw = new RevWalk(repo);
-      final RevCommit src =
-          rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
-      return get(src, patchSetId);
-    } catch (OrmException e) {
-      throw new PatchSetInfoNotAvailableException(e);
-    } catch (IOException e) {
-      throw new PatchSetInfoNotAvailableException(e);
-    } finally {
-      if (db != null) {
+      final ReviewDb db = schemaFactory.open();
+      try {
+        final PatchSet patchSet = db.patchSets().get(patchSetId);
+        final String revId = patchSet.getRevision().get();
+        final Change change = db.changes().get(patchSet.getId().getParentKey());
+        final Project.NameKey projectKey = change.getProject();
+        try {
+          final Repository repo = repoManager.openRepository(projectKey.get());
+          try {
+            final RevWalk rw = new RevWalk(repo);
+            src = rw.parseCommit(ObjectId.fromString(revId));
+          } finally {
+            repo.close();
+          }
+        } catch (IOException e) {
+          throw new PatchSetInfoNotAvailableException(e);
+        }
+      } finally {
         db.close();
       }
-      if (repo != null) {
-        repo.close();
-      }
-    }
-  }
-
-  private UserIdentity toUserIdentity(final PersonIdent who) {
-    final UserIdentity u = new UserIdentity();
-    u.setName(who.getName());
-    u.setEmail(who.getEmailAddress());
-    u.setDate(new Timestamp(who.getWhen().getTime()));
-    u.setTimeZone(who.getTimeZoneOffset());
-
-    // If only one account has access to this email address, select it
-    // as the identity of the user.
-    //
-    final Set<Account.Id> a = byEmailCache.get(u.getEmail()).getIds();
-    if (a.size() == 1) {
-      u.setAccount(a.iterator().next());
+    } catch (OrmException e) {
+      throw new PatchSetInfoNotAvailableException(e);
     }
 
-    return u;
+    return get(src, patchSetId);
   }
 
+  private ListenableFuture<UserIdentity> toUserIdentity(final PersonIdent who) {
+    return Futures.compose(accountCache.byEmail(who.getEmailAddress()),
+        new Function<Set<Account.Id>, UserIdentity>() {
+          @Override
+          public UserIdentity apply(Set<Account.Id> from) {
+            final UserIdentity u = new UserIdentity();
+            u.setName(who.getName());
+            u.setEmail(who.getEmailAddress());
+            u.setDate(new Timestamp(who.getWhen().getTime()));
+            u.setTimeZone(who.getTimeZoneOffset());
+
+            if (from != null && from.size() == 1) {
+              // If only one account has access to this email address, select it
+              // as the identity of the user.
+              //
+              u.setAccount(from.iterator().next());
+            }
+            return u;
+          }
+        });
+  }
 }

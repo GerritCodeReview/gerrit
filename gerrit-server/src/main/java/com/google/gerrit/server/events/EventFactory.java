@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -143,7 +144,7 @@ public class EventFactory {
    * @return object suitable for serialization to JSON
    */
   public AccountAttribute asAccountAttribute(Account.Id id) {
-    return asAccountAttribute(accountCache.get(id).getAccount());
+    return asAccountAttribute(FutureUtil.get(accountCache.getAccount(id)));
   }
 
   /**

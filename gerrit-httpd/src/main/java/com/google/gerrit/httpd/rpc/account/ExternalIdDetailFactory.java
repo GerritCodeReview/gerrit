@@ -16,46 +16,43 @@ package com.google.gerrit.httpd.rpc.account;
 
 import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountExternalId;
-import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountExternalIdCache;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.protobuf.CodecFactory;
+import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.inject.Inject;
 
 import java.util.Collections;
 import java.util.List;
 
 class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
+  private static final ProtobufCodec<AccountExternalId> codec =
+      CodecFactory.encoder(AccountExternalId.class);
+
   interface Factory {
     ExternalIdDetailFactory create();
   }
 
-  private final ReviewDb db;
   private final IdentifiedUser user;
   private final AuthConfig authConfig;
   private final WebSession session;
-  private final AccountExternalIdCache accountExternalIdCache;
 
   @Inject
-  ExternalIdDetailFactory(final ReviewDb db, final IdentifiedUser user,
-      final AuthConfig authConfig, final WebSession session,
-      final AccountExternalIdCache accountExternalIdCache) {
-    this.db = db;
+  ExternalIdDetailFactory(final IdentifiedUser user,
+      final AuthConfig authConfig, final WebSession session) {
     this.user = user;
     this.authConfig = authConfig;
     this.session = session;
-    this.accountExternalIdCache = accountExternalIdCache;
   }
 
   @Override
   public List<AccountExternalId> call() {
-    final AccountExternalId.Key last = session.getLastLoginExternalId();
-    final List<AccountExternalId> ids =
-      accountExternalIdCache.byAccount(user.getAccountId());
+    AccountExternalId.Key last = session.getLastLoginExternalId();
+    List<AccountExternalId> ids = load();
 
     for (final AccountExternalId e : ids) {
       e.setTrusted(authConfig.isIdentityTrustable(Collections.singleton(e)));
@@ -70,6 +67,19 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
         e.setCanDelete(last != null && !last.equals(e.getKey()));
       }
     }
+
     return ids;
+  }
+
+  private List<AccountExternalId> load() {
+    List<AccountExternalId> res = Lists.newArrayList();
+    for (AccountExternalId id : user.getAccountState().getExternalIds()) {
+      res.add(clone(id));
+    }
+    return res;
+  }
+
+  private static AccountExternalId clone(AccountExternalId id) {
+    return codec.decode(codec.encodeToByteArray(id));
   }
 }

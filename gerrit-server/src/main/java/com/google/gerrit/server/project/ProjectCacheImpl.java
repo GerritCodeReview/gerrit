@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -30,7 +32,6 @@ import com.google.inject.name.Named;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Map;
 
 /** Cache of project information, including access rights. */
 @Singleton
@@ -64,31 +65,21 @@ public class ProjectCacheImpl implements ProjectCache {
    * @param projectName name of the project.
    * @return the cached data; null if no such project exists.
    */
-  public ProjectState get(final Project.NameKey projectName) {
+  public ListenableFuture<ProjectState> get(Project.NameKey projectName) {
     return byName.get(projectName);
   }
 
-  /**
-   * Get the cached data for a list of projects by a list of project names.
-   *
-   * @param projectNames name of the project.
-   * @return the cached data; an empty map if no such projects exist.
-   */
-  @Override
-  public Map<Project.NameKey, ProjectState> getAll(final Iterable<Project.NameKey> projectNames) {
-    return byName.getAll(projectNames);
-  }
-
   /** Invalidate the cached information about the given project. */
-  public void evict(final Project p) {
+  public ListenableFuture<Void> evictAsync(final Project p) {
     if (p != null) {
-      byName.remove(p.getNameKey());
+      return byName.removeAsync(p.getNameKey());
     }
+    return Futures.immediateFuture(null);
   }
 
   /** Invalidate the cached information about all projects. */
-  public void evictAll() {
-    byName.removeAll();
+  public ListenableFuture<Void> evictAllAsync() {
+    return byName.removeAllAsync();
   }
 
   static class Loader extends EntryCreator<Project.NameKey, ProjectState> {

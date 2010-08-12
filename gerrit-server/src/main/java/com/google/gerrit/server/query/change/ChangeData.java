@@ -26,6 +26,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
@@ -33,15 +34,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Future;
 
 public class ChangeData {
   public enum NeededData {
-    CHANGE,
-    PATCHES,
-    APPROVALS,
-    COMMENTS,
-    TRACKING_IDS,
-    PROJECT_STATE
+    CHANGE, PATCHES, APPROVALS, COMMENTS, TRACKING_IDS, PROJECT_STATE
   }
 
   private final Change.Id legacyId;
@@ -53,7 +50,7 @@ public class ChangeData {
   private Collection<PatchLineComment> comments;
   private Collection<TrackingId> trackingIds;
   private CurrentUser visibleTo;
-  private ProjectState projectState;
+  private Future<ProjectState> projectState;
 
   public ChangeData(final Change.Id id) {
     legacyId = id;
@@ -80,7 +77,7 @@ public class ChangeData {
         return null;
       }
 
-      PatchList p = cache.get(c, ps);
+      PatchList p = FutureUtil.get(cache.get(c, ps));
       List<String> r = new ArrayList<String>(p.getPatches().size());
       for (PatchListEntry e : p.getPatches()) {
         switch (e.getChangeType()) {
@@ -201,15 +198,15 @@ public class ChangeData {
 
   public ProjectState projectState(Provider<ReviewDb> db,
       ProjectCache projectCache) throws OrmException {
-    if (projectState == null) {
-      Change c = change(db);
-      projectState = projectCache.get(c.getProject());
-    }
-    return projectState;
+    initProjectState(db, projectCache);
+    return FutureUtil.get(projectState);
   }
 
-  void setProjectState(ProjectState projectState) {
-    this.projectState = projectState;
+  void initProjectState(Provider<ReviewDb> db, ProjectCache projectCache)
+      throws OrmException {
+    if (projectState == null) {
+      projectState = projectCache.get(change(db).getProject());
+    }
   }
 
   void setChange(Change change) {

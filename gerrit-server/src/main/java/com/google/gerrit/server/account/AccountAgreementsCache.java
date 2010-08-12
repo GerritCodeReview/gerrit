@@ -14,13 +14,14 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountAgreement;
 
 import java.util.List;
 
 public interface AccountAgreementsCache {
-  public List<AccountAgreement> byAccount(Account.Id id);
+  public ListenableFuture<List<AccountAgreement>> byAccount(Account.Id id);
 
-  public void evict(AccountAgreement.Key key);
+  public ListenableFuture<Void> evictAsync(AccountAgreement.Key key);
 }

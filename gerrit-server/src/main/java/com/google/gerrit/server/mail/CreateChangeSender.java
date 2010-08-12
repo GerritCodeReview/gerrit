@@ -19,11 +19,14 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -74,5 +77,13 @@ public class CreateChangeSender extends NewChangeSender {
       // we already have queued up then to fail deliver entirely to people
       // who have a lower interest in the change.
     }
+  }
+
+  /** Get the groups which own the project. */
+  private Set<AccountGroup.Id> getProjectOwners() {
+    final ProjectState r;
+
+    r = FutureUtil.getOrNull(args.projectCache.get(change.getProject()));
+    return r != null ? r.getOwners() : Collections.<AccountGroup.Id> emptySet();
   }
 }

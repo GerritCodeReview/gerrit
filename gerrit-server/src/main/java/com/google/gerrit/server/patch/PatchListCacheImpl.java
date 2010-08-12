@@ -61,6 +61,7 @@
 package com.google.gerrit.server.patch;
 
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.prettify.common.BaseEdit;
 import com.google.gerrit.prettify.common.LineEdit;
 import com.google.gerrit.reviewdb.Change;
@@ -145,16 +146,17 @@ public class PatchListCacheImpl implements PatchListCache {
     cache = thecache;
   }
 
-  public PatchList get(final PatchListKey key) {
+  public ListenableFuture<PatchList> get(final PatchListKey key) {
     return cache.get(key);
   }
 
-  public PatchList get(final Change change, final PatchSet patchSet) {
+  public ListenableFuture<PatchList> get(final Change change,
+      final PatchSet patchSet) {
     return get(change, patchSet, Whitespace.IGNORE_NONE);
   }
 
-  public PatchList get(final Change change, final PatchSet patchSet,
-      final Whitespace whitespace) {
+  public ListenableFuture<PatchList> get(final Change change,
+      final PatchSet patchSet, final Whitespace whitespace) {
     final Project.NameKey projectKey = change.getProject();
     final ObjectId a = null;
     final ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
@@ -255,18 +257,21 @@ public class PatchListCacheImpl implements PatchListCache {
       final FileMode newMode = fileHeader.getNewMode();
 
       if (oldMode == FileMode.GITLINK || newMode == FileMode.GITLINK) {
-        return new PatchListEntry(fileHeader, Collections.<LineEdit> emptyList());
+        return new PatchListEntry(fileHeader, Collections
+            .<LineEdit> emptyList());
       }
 
       if (aTree == null // want combined diff
           || fileHeader.getPatchType() != PatchType.UNIFIED
           || fileHeader.getHunks().isEmpty()) {
-        return new PatchListEntry(fileHeader, Collections.<LineEdit> emptyList());
+        return new PatchListEntry(fileHeader, Collections
+            .<LineEdit> emptyList());
       }
 
       List<LineEdit> edits = editsToLineEdits(fileHeader.toEditList());
       if (edits.isEmpty()) {
-        return new PatchListEntry(fileHeader, Collections.<LineEdit> emptyList());
+        return new PatchListEntry(fileHeader, Collections
+            .<LineEdit> emptyList());
       }
       if (!computeIntraline) {
         return new PatchListEntry(fileHeader, edits);
@@ -297,7 +302,8 @@ public class PatchListCacheImpl implements PatchListCache {
           CharText a = new CharText(aContent, e.getBeginA(), e.getEndA());
           CharText b = new CharText(bContent, e.getBeginB(), e.getEndB());
 
-          List<BaseEdit> wordEdits = editsToBaseEdits(new MyersDiff(a, b).getEdits());
+          List<BaseEdit> wordEdits =
+              editsToBaseEdits(new MyersDiff(a, b).getEdits());
 
           // Combine edits that are really close together. If they are
           // just a few characters apart we tend to get better results

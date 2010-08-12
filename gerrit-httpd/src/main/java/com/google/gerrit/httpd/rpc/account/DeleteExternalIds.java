@@ -14,16 +14,17 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountExternalIdCache;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.internal.Lists;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,25 +41,20 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
   private final ReviewDb db;
   private final IdentifiedUser user;
   private final ExternalIdDetailFactory detailFactory;
-  private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
-  private final AccountExternalIdCache accountExternalIdCache;
 
   private final Set<AccountExternalId.Key> keys;
 
   @Inject
   DeleteExternalIds(final ReviewDb db, final IdentifiedUser user,
       final ExternalIdDetailFactory detailFactory,
-      final AccountByEmailCache byEmailCache, final AccountCache accountCache,
-      final AccountExternalIdCache accountExternalIdCache,
+      final AccountCache accountCache,
 
       @Assisted final Set<AccountExternalId.Key> keys) {
     this.db = db;
     this.user = user;
     this.detailFactory = detailFactory;
-    this.byEmailCache = byEmailCache;
     this.accountCache = accountCache;
-    this.accountExternalIdCache = accountExternalIdCache;
 
     this.keys = keys;
   }
@@ -75,15 +71,16 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
       }
     }
 
+    List<ListenableFuture<Void>> evictions = Lists.newArrayList();
     if (!toDelete.isEmpty()) {
       db.accountExternalIds().delete(toDelete);
-      accountCache.evict(user.getAccountId());
+      evictions.add(accountCache.evictAsync(user.getAccountId()));
       for (AccountExternalId e : toDelete) {
-        byEmailCache.evict(e.getEmailAddress());
-        accountExternalIdCache.evict(e);
+        evictions.add(accountCache.evictEmailAsync(e.getEmailAddress()));
+        evictions.add(accountCache.evictAsync(e.getKey()));
       }
     }
-
+    FutureUtil.waitFor(evictions);
     return toKeySet(toDelete);
   }
 

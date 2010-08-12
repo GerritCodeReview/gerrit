@@ -21,9 +21,8 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AuthType;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.account.AccountExternalIdCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
@@ -34,8 +33,7 @@ import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -111,14 +109,12 @@ class LdapRealm implements Realm {
     return v;
   }
 
-  static List<String> optionalList(final Config config,
-      final String name) {
+  static List<String> optionalList(final Config config, final String name) {
     String s[] = config.getStringList("ldap", null, name);
     return Arrays.asList(s);
   }
 
-  static List<String> requiredList(final Config config,
-      final String name) {
+  static List<String> requiredList(final Config config, final String name) {
     List<String> vlist = optionalList(config, name);
 
     if (vlist.isEmpty()) {
@@ -221,7 +217,8 @@ class LdapRealm implements Realm {
         // in the middle of authenticating the user, its likely we will
         // need to know what access rights they have soon.
         //
-        membershipCache.put(username, helper.queryForGroups(ctx, username, m));
+        FutureUtil.waitFor(membershipCache.putAsync(username, //
+            helper.queryForGroups(ctx, username, m)));
         return who;
       } finally {
         try {
@@ -238,13 +235,14 @@ class LdapRealm implements Realm {
 
   @Override
   public void onCreateAccount(final AuthRequest who, final Account account) {
-    usernameCache.put(who.getLocalUser(), account.getId());
+    String name = who.getLocalUser();
+    FutureUtil.waitFor(usernameCache.putAsync(name, account.getId()));
   }
 
   @Override
   public Set<AccountGroup.Id> groups(final AccountState who) {
     final HashSet<AccountGroup.Id> r = new HashSet<AccountGroup.Id>();
-    r.addAll(membershipCache.get(findId(who.getExternalIds())));
+    r.addAll(FutureUtil.get(membershipCache.get(findId(who.getExternalIds()))));
     r.addAll(who.getInternalGroups());
     return r;
   }
@@ -261,7 +259,7 @@ class LdapRealm implements Realm {
 
   @Override
   public Account.Id lookup(final String accountName) {
-    return usernameCache.get(accountName);
+    return FutureUtil.get(usernameCache.get(accountName));
   }
 
   @Override
@@ -299,32 +297,18 @@ class LdapRealm implements Realm {
   }
 
   static class UserLoader extends EntryCreator<String, Account.Id> {
-    private final SchemaFactory<ReviewDb> schema;
-    private final AccountExternalIdCache accountExternalIdCache;
+    private final AccountCache accountCache;
 
     @Inject
-    UserLoader(SchemaFactory<ReviewDb> schema,
-        AccountExternalIdCache accountExternalIdCache) {
-      this.schema = schema;
-      this.accountExternalIdCache = accountExternalIdCache;
+    UserLoader(AccountCache accountCache) {
+      this.accountCache = accountCache;
     }
 
     @Override
     public Account.Id createEntry(final String username) throws Exception {
-      try {
-        final ReviewDb db = schema.open();
-        try {
-          final AccountExternalId extId =
-              accountExternalIdCache.get(new AccountExternalId.Key(
-                  SCHEME_GERRIT, username));
-          return extId != null ? extId.getAccountId() : null;
-        } finally {
-          db.close();
-        }
-      } catch (OrmException e) {
-        log.warn("Cannot query for username in database", e);
-        return null;
-      }
+      AccountExternalId extId = FutureUtil.get( //
+          accountCache.get(new AccountExternalId.Key(SCHEME_GERRIT, username)));
+      return extId != null ? extId.getAccountId() : null;
     }
   }
 

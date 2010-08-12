@@ -16,6 +16,8 @@ package com.google.gerrit.ehcache;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.EntryCreator;
 
@@ -27,8 +29,6 @@ import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -64,7 +64,8 @@ class PopulatingCache<K, V> implements Cache<K, V> {
   }
 
   /**
-   * Get the element from the cache, or {@link EntryCreator#missing(Object)} if not found.
+   * Get the element from the cache, or {@link EntryCreator#missing(Object)} if
+   * not found.
    * <p>
    * The {@link EntryCreator#missing(Object)} method is only invoked if:
    * <ul>
@@ -80,9 +81,9 @@ class PopulatingCache<K, V> implements Cache<K, V> {
    * @return either the cached entry, or {@code missing(key)} if not found.
    */
   @SuppressWarnings("unchecked")
-  public V get(final K key) {
+  public ListenableFuture<V> get(final K key) {
     if (key == null) {
-      return creator.missing(key);
+      return Futures.immediateFuture(creator.missing(key));
     }
 
     final Element m;
@@ -90,41 +91,32 @@ class PopulatingCache<K, V> implements Cache<K, V> {
       m = self.get(key);
     } catch (IllegalStateException err) {
       log.error("Cannot lookup " + key + " in \"" + self.getName() + "\"", err);
-      return creator.missing(key);
+      return Futures.immediateFuture(creator.missing(key));
     } catch (CacheException err) {
       log.error("Cannot lookup " + key + " in \"" + self.getName() + "\"", err);
-      return creator.missing(key);
+      return Futures.immediateFuture(creator.missing(key));
     }
-    return m != null ? (V) m.getObjectValue() : creator.missing(key);
+    if (m != null) {
+      return Futures.immediateFuture((V) m.getObjectValue());
+    }
+    return Futures.immediateFuture(creator.missing(key));
   }
 
-  @Override
-  public Map<K, V> getAll(Iterable<K> keys) {
-    HashMap<K, V> map = new HashMap<K, V>();
-    for (K k : keys) {
-      if (!map.containsKey(k)) {
-        V v = get(k);
-        if (v != null) {
-          map.put(k, v);
-        }
-      }
-    }
-    return map;
+  public ListenableFuture<Void> putAsync(final K key, final V value) {
+    self.put(new Element(key, value));
+    return Futures.immediateFuture(null);
   }
 
-  public void remove(final K key) {
+  public ListenableFuture<Void> removeAsync(final K key) {
     if (key != null) {
       self.remove(key);
     }
+    return Futures.immediateFuture(null);
   }
 
-  /** Remove all cached items, forcing them to be created again on demand. */
-  public void removeAll() {
+  public ListenableFuture<Void> removeAllAsync() {
     self.removeAll();
-  }
-
-  public void put(K key, V value) {
-    self.put(new Element(key, value));
+    return Futures.immediateFuture(null);
   }
 
   @Override

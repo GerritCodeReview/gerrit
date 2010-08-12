@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -87,7 +88,7 @@ public class FromAddressGeneratorProvider implements
     @Override
     public Address from(final Account.Id fromId) {
       if (fromId != null) {
-        final Account a = accountCache.get(fromId).getAccount();
+        Account a = FutureUtil.get(accountCache.getAccount(fromId));
         if (a.getPreferredEmail() != null) {
           return new Address(a.getFullName(), a.getPreferredEmail());
         }
@@ -138,7 +139,7 @@ public class FromAddressGeneratorProvider implements
       final String senderName;
 
       if (fromId != null) {
-        final Account account = accountCache.get(fromId).getAccount();
+        Account account = FutureUtil.get(accountCache.getAccount(fromId));
         String fullName = account.getFullName();
         if (fullName == null || "".equals(fullName)) {
           fullName = "Anonymous Coward";

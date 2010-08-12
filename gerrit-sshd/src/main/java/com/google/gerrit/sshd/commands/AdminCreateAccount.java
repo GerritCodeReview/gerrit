@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
@@ -23,15 +24,15 @@ import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.AccountSshKey;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountExternalIdCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.internal.Lists;
 
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
@@ -76,12 +77,6 @@ final class AdminCreateAccount extends BaseCommand {
   @Inject
   private AccountCache accountCache;
 
-  @Inject
-  private AccountByEmailCache byEmailCache;
-
-  @Inject
-  private AccountExternalIdCache accountExternalIdCache;
-
   @Override
   public void start(final Environment env) {
     startThread(new CommandRunnable() {
@@ -104,35 +99,39 @@ final class AdminCreateAccount extends BaseCommand {
     final AccountSshKey key = readSshKey(id);
 
     AccountExternalId extUser =
-        new AccountExternalId(id, new AccountExternalId.Key(
-            AccountExternalId.SCHEME_USERNAME, username));
+        new AccountExternalId(id, AccountExternalId.forUsername(username));
 
-    if (accountExternalIdCache.get(extUser.getKey()) != null) {
+    if (FutureUtil.get(accountCache.get(extUser.getKey())) != null) {
       throw die("username '" + username + "' already exists");
     }
-    if (email != null && accountExternalIdCache.get(getEmailKey()) != null) {
+    if (email != null && FutureUtil.get(accountCache.byEmail(email)) != null) {
       throw die("email '" + email + "' already exists");
     }
 
+    List<ListenableFuture<Void>> evictions = Lists.newArrayList();
     try {
       db.accountExternalIds().insert(Collections.singleton(extUser));
-      accountExternalIdCache.evict(extUser);
+      evictions.add(accountCache.evictAsync(extUser.getKey()));
     } catch (OrmDuplicateKeyException duplicateKey) {
+      FutureUtil.waitFor(evictions);
       throw die("username '" + username + "' already exists");
     }
 
     if (email != null) {
-      AccountExternalId extMailto = new AccountExternalId(id, getEmailKey());
+      AccountExternalId extMailto =
+          new AccountExternalId(id, new AccountExternalId.Key(
+              AccountExternalId.SCHEME_MAILTO, email));
       extMailto.setEmailAddress(email);
       try {
         db.accountExternalIds().insert(Collections.singleton(extMailto));
-        accountExternalIdCache.evict(extMailto);
+        evictions.add(accountCache.evictAsync(extMailto.getKey()));
       } catch (OrmDuplicateKeyException duplicateKey) {
         try {
           db.accountExternalIds().delete(Collections.singleton(extUser));
-          accountExternalIdCache.evict(extUser);
+          evictions.add(accountCache.evictAsync(extUser.getKey()));
         } catch (OrmException cleanupError) {
         }
+        FutureUtil.waitFor(evictions);
         throw die("email '" + email + "' already exists");
       }
     }
@@ -154,13 +153,10 @@ final class AdminCreateAccount extends BaseCommand {
       db.accountGroupMembers().insert(Collections.singleton(m));
     }
 
-    sshKeyCache.evict(username);
-    accountCache.evictByUsername(username);
-    byEmailCache.evict(email);
-  }
-
-  private AccountExternalId.Key getEmailKey() {
-    return new AccountExternalId.Key(AccountExternalId.SCHEME_MAILTO, email);
+    evictions.add(sshKeyCache.evictAsync(username));
+    evictions.add(accountCache.evictAsync(extUser.getKey()));
+    evictions.add(accountCache.evictEmailAsync(email));
+    FutureUtil.waitFor(evictions);
   }
 
   private AccountSshKey readSshKey(final Account.Id id)

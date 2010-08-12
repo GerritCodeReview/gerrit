@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.ApprovalAttribute;
@@ -39,8 +38,10 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -184,11 +185,12 @@ public class ChangeHookRunner {
      */
     public void doPatchsetCreatedHook(final Change change, final PatchSet patchSet) {
         final PatchSetCreatedEvent event = new PatchSetCreatedEvent();
-        final AccountState uploader = accountCache.get(patchSet.getUploader());
+        final Account uploader =
+          FutureUtil.get(accountCache.getAccount(patchSet.getUploader()));
 
         event.change = eventFactory.asChangeAttribute(change);
         event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
-        event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
+        event.uploader = eventFactory.asAccountAttribute(uploader);
         fireEvent(change, event);
 
         final List<String> args = new ArrayList<String>();
@@ -203,7 +205,7 @@ public class ChangeHookRunner {
         args.add("--branch");
         args.add(event.change.branch);
         args.add("--uploader");
-        args.add(getDisplayName(uploader.getAccount()));
+        args.add(getDisplayName(uploader));
         args.add("--commit");
         args.add(event.patchSet.revision);
         args.add("--patchset");
@@ -375,7 +377,7 @@ public class ChangeHookRunner {
     }
 
     private boolean isVisibleTo(Change change, IdentifiedUser user) {
-        final ProjectState pe = projectCache.get(change.getProject());
+        ProjectState pe = FutureUtil.getOrNull(projectCache.get(change.getProject()));
         if (pe == null) {
           return false;
         }

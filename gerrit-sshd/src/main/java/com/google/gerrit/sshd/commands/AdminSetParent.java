@@ -20,6 +20,7 @@ import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmException;
@@ -79,7 +80,7 @@ final class AdminSetParent extends BaseCommand {
       //
       Project.NameKey gp = newParent.getProject().getParent();
       while (gp != null && grandParents.add(gp)) {
-        final ProjectState s = projectCache.get(gp);
+        ProjectState s = FutureUtil.get(projectCache.get(gp));
         if (s != null) {
           gp = s.getProject().getParent();
         } else {
@@ -126,7 +127,7 @@ final class AdminSetParent extends BaseCommand {
 
     // Invalidate all projects in cache since inherited rights were changed.
     //
-    projectCache.evictAll();
+    FutureUtil.waitFor(projectCache.evictAllAsync());
 
     if (err.length() > 0) {
       while (err.charAt(err.length() - 1) == '\n') {

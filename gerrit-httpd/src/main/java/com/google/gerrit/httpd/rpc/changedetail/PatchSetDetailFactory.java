@@ -31,6 +31,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -80,7 +81,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       }
     }
 
-    final PatchList list = patchListCache.get(control.getChange(), patchSet);
+    PatchList list = FutureUtil.get(patchListCache.get(control.getChange(), patchSet));
     if (list == null) {
       throw new NoSuchEntityException();
     }

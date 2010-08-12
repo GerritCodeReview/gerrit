@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.rpc;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.SuggestService;
 import com.google.gerrit.reviewdb.Account;
@@ -25,6 +27,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -33,6 +36,8 @@ import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Future;
 
 class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {
@@ -61,15 +66,20 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         final int max = 10;
         final int n = limit <= 0 ? max : Math.min(limit, max);
 
-        final CurrentUser user = currentUser.get();
-        final List<Project.NameKey> r = new ArrayList<Project.NameKey>();
-        for (final Project p : db.projects().suggestByName(a, b, n)) {
-          final ProjectState e = projectCache.get(p.getNameKey());
+        List<Future<ProjectState>> want = Lists.newArrayList();
+        for (Project p : db.projects().suggestByName(a, b, n)) {
+          want.add(projectCache.get(p.getNameKey()));
+        }
+
+        CurrentUser user = currentUser.get();
+        List<Project.NameKey> res = Lists.newArrayList();
+        for (Future<ProjectState> f : want) {
+          ProjectState e = FutureUtil.getOrNull(f);
           if (e != null && e.controlFor(user).isVisible()) {
-            r.add(p.getNameKey());
+            res.add(e.getProject().getNameKey());
           }
         }
-        return r;
+        return res;
       }
     });
   }
@@ -83,29 +93,34 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         final int max = 10;
         final int n = limit <= 0 ? max : Math.min(limit, max);
 
-        final LinkedHashMap<Account.Id, AccountInfo> r =
-            new LinkedHashMap<Account.Id, AccountInfo>();
-        for (final Account p : db.accounts().suggestByFullName(a, b, n)) {
-          r.put(p.getId(), new AccountInfo(p));
+        LinkedHashMap<Account.Id, AccountInfo> res = Maps.newLinkedHashMap();
+        for (Account p : db.accounts().suggestByFullName(a, b, n)) {
+          res.put(p.getId(), new AccountInfo(p));
         }
-        if (r.size() < n) {
-          for (final Account p : db.accounts().suggestByPreferredEmail(a, b,
-              n - r.size())) {
-            r.put(p.getId(), new AccountInfo(p));
+        if (res.size() < n) {
+          for (Account p : db.accounts().suggestByPreferredEmail(a, b,
+              n - res.size())) {
+            res.put(p.getId(), new AccountInfo(p));
           }
         }
-        if (r.size() < n) {
-          for (final AccountExternalId e : db.accountExternalIds()
-              .suggestByEmailAddress(a, b, n - r.size())) {
-            if (!r.containsKey(e.getAccountId())) {
-              final Account p = accountCache.get(e.getAccountId()).getAccount();
-              final AccountInfo info = new AccountInfo(p);
-              info.setPreferredEmail(e.getEmailAddress());
-              r.put(e.getAccountId(), info);
+        if (res.size() < n) {
+          Map<String, Future<Account>> want = Maps.newHashMap();
+          for (AccountExternalId e : db.accountExternalIds()
+              .suggestByEmailAddress(a, b, n - res.size())) {
+            if (!res.containsKey(e.getAccountId())) {
+              want.put(e.getEmailAddress(), //
+                  accountCache.getAccount(e.getAccountId()));
             }
           }
+
+          for (Map.Entry<String, Future<Account>> ent : want.entrySet()) {
+            Account p = FutureUtil.get(ent.getValue());
+            AccountInfo info = new AccountInfo(p);
+            info.setPreferredEmail(ent.getKey());
+            res.put(p.getId(), info);
+          }
         }
-        return new ArrayList<AccountInfo>(r.values());
+        return new ArrayList<AccountInfo>(res.values());
       }
     });
   }

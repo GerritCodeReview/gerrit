@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalType;
@@ -21,9 +23,7 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.reviewdb.AbstractAgreement;
 import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountAgreement;
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountGroupAgreement;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
@@ -52,6 +52,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -304,40 +305,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     AbstractAgreement bestAgreement = null;
     ContributorAgreement bestCla = null;
 
-    OUTER: for (AccountGroup.Id groupId : currentUser.getEffectiveGroups()) {
-      final List<AccountGroupAgreement> temp =
-          accountGroupAgreementsCache.byGroup(groupId);
-
-      Collections.reverse(temp);
-
-      for (final AccountGroupAgreement a : temp) {
-        final ContributorAgreement cla =
-            db.contributorAgreements().get(a.getAgreementId());
-        if (cla == null) {
-          continue;
-        }
-
+    List<AbstractAgreement> accepted = getAgreements();
+    Collections.sort(accepted, AbstractAgreement.SORT);
+    for (AbstractAgreement a : accepted) {
+      bestCla = db.contributorAgreements().get(a.getAgreementId());
+      if (bestCla != null) {
         bestAgreement = a;
-        bestCla = cla;
-        break OUTER;
-      }
-    }
-
-    if (bestAgreement == null) {
-      final List<AccountAgreement> temp =
-          accountAgreementsCache.byAccount(currentUser.getAccountId());
-
-      Collections.reverse(temp);
-
-      for (final AccountAgreement a : temp) {
-        final ContributorAgreement cla =
-            db.contributorAgreements().get(a.getAgreementId());
-        if (cla == null) {
-          continue;
-        }
-
-        bestAgreement = a;
-        bestCla = cla;
         break;
       }
     }
@@ -410,6 +383,23 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
     msg.append("\n");
     return new Capable(msg.toString());
+  }
+
+  @SuppressWarnings("unchecked")
+  private List<AbstractAgreement> getAgreements() {
+    ListenableFuture f;
+
+    List<ListenableFuture<List<AbstractAgreement>>> agreements =
+        Lists.newArrayList();
+
+    f = accountAgreementsCache.byAccount(currentUser.getAccountId());
+    agreements.add(f);
+
+    for (AccountGroup.Id groupId : currentUser.getEffectiveGroups()) {
+      f = accountGroupAgreementsCache.byGroup(groupId);
+      agreements.add(f);
+    }
+    return FutureUtil.getOrEmptyList(FutureUtil.concat(agreements));
   }
 
   private static boolean missing(final String value) {

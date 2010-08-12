@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -34,7 +35,7 @@ public class GroupControl {
 
     public GroupControl controlFor(final AccountGroup.Id groupId)
         throws NoSuchGroupException {
-      final AccountGroup group = groupCache.get(groupId);
+      AccountGroup group = FutureUtil.getOrNull(groupCache.get(groupId));
       if (group == null) {
         throw new NoSuchGroupException(groupId);
       }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.StarredChange;
@@ -21,9 +22,9 @@ import com.google.gerrit.reviewdb.StarredChange;
 import java.util.List;
 
 public interface StarredChangesCache {
-  public List<StarredChange> byAccount(Account.Id id);
+  public ListenableFuture<List<StarredChange>> byAccount(Account.Id id);
 
-  public List<StarredChange> byChange(Change.Id id);
+  public ListenableFuture<List<StarredChange>> byChange(Change.Id id);
 
-  public void evict(StarredChange.Key key);
+  public ListenableFuture<Void> evictAsync(StarredChange.Key key);
 }

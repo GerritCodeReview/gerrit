@@ -14,8 +14,12 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.data.AgreementInfo;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.reviewdb.AbstractAgreement;
 import com.google.gerrit.reviewdb.AccountAgreement;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupAgreement;
@@ -24,13 +28,15 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountAgreementsCache;
 import com.google.gerrit.server.account.AccountGroupAgreementsCache;
+import com.google.gerrit.server.util.FutureUtil;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
 class AgreementInfoFactory extends Handler<AgreementInfo> {
   interface Factory {
@@ -55,41 +61,45 @@ class AgreementInfoFactory extends Handler<AgreementInfo> {
 
   @Override
   public AgreementInfo call() throws Exception {
-    final List<AccountAgreement> userAccepted =
+    Future<List<AccountAgreement>> wantUser =
         accountAgreementsCache.byAccount(user.getAccountId());
 
-    Collections.reverse(userAccepted);
-
-    final List<AccountGroupAgreement> groupAccepted =
-        new ArrayList<AccountGroupAgreement>();
-    for (final AccountGroup.Id groupId : user.getEffectiveGroups()) {
-      final List<AccountGroupAgreement> temp =
-          accountGroupAgreementsCache.byGroup(groupId);
-
-      Collections.reverse(temp);
-
-      groupAccepted.addAll(temp);
+    List<ListenableFuture<List<AccountGroupAgreement>>> wantGroup =
+        Lists.newArrayList();
+    for (AccountGroup.Id groupId : user.getEffectiveGroups()) {
+      wantGroup.add(accountGroupAgreementsCache.byGroup(groupId));
     }
 
-    final Map<ContributorAgreement.Id, ContributorAgreement> agreements =
-        new HashMap<ContributorAgreement.Id, ContributorAgreement>();
-    for (final AccountAgreement a : userAccepted) {
-      final ContributorAgreement.Id id = a.getAgreementId();
-      if (!agreements.containsKey(id)) {
-        agreements.put(id, db.contributorAgreements().get(id));
-      }
-    }
-    for (final AccountGroupAgreement a : groupAccepted) {
-      final ContributorAgreement.Id id = a.getAgreementId();
-      if (!agreements.containsKey(id)) {
-        agreements.put(id, db.contributorAgreements().get(id));
-      }
-    }
+    List<AccountAgreement> userAccepted = FutureUtil.getOrEmptyList(wantUser);
+    List<AccountGroupAgreement> groupAccepted =
+        FutureUtil.getOrEmptyList(FutureUtil.concat(wantGroup));
+
+    Collections.sort(userAccepted, AbstractAgreement.SORT);
+    Collections.sort(groupAccepted, AbstractAgreement.SORT);
 
     info = new AgreementInfo();
     info.setUserAccepted(userAccepted);
     info.setGroupAccepted(groupAccepted);
-    info.setAgreements(agreements);
+    info.setAgreements(agreements(userAccepted, groupAccepted));
     return info;
+  }
+
+  private Map<ContributorAgreement.Id, ContributorAgreement> agreements(
+      List<AccountAgreement> userAccepted,
+      List<AccountGroupAgreement> groupAccepted) throws OrmException {
+    Map<ContributorAgreement.Id, ContributorAgreement> all = Maps.newHashMap();
+    for (AccountAgreement a : userAccepted) {
+      ContributorAgreement.Id id = a.getAgreementId();
+      if (!all.containsKey(id)) {
+        all.put(id, db.contributorAgreements().get(id));
+      }
+    }
+    for (AccountGroupAgreement a : groupAccepted) {
+      ContributorAgreement.Id id = a.getAgreementId();
+      if (!all.containsKey(id)) {
+        all.put(id, db.contributorAgreements().get(id));
+      }
+    }
+    return all;
   }
 }

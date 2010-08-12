@@ -31,6 +31,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -68,7 +69,7 @@ public class FunctionState {
     this.userFactory = userFactory;
 
     change = c;
-    project = projectCache.get(change.getProject());
+    project = FutureUtil.get(projectCache.get(change.getProject()));
 
     for (final PatchSetApproval ca : all) {
       if (psId.equals(ca.getPatchSetId())) {

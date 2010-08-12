@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.ssh;
 
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.AccountSshKey;
 
 class NoSshKeyCache implements SshKeyCache {
   @Override
-  public void evict(String username) {
+  public ListenableFuture<Void> evictAsync(String username) {
+    return Futures.immediateFuture(null);
   }
 
   @Override

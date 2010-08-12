@@ -39,6 +39,10 @@ public final class AccountExternalId {
   /** Very old scheme from Gerrit Code Review 1.x imports. */
   public static final String LEGACY_GAE = "Google Account ";
 
+  public static AccountExternalId.Key forUsername(String username) {
+    return new Key(SCHEME_USERNAME, username);
+  }
+
   public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 

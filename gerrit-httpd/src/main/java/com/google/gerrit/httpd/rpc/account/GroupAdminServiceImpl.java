@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
@@ -32,11 +33,13 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.NoSuchGroupException;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.internal.Lists;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -134,7 +137,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         assertAmGroupOwner(db, group);
         group.setDescription(description);
         db.accountGroups().update(Collections.singleton(group));
-        groupCache.evict(group);
+        FutureUtil.waitFor(groupCache.evictAsync(group));
         return VoidResult.INSTANCE;
       }
     });
@@ -148,14 +151,15 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         assertAmGroupOwner(db, group);
 
         final AccountGroup owner =
-            groupCache.get(new AccountGroup.NameKey(newOwnerName));
+            FutureUtil.get(groupCache
+                .get(new AccountGroup.NameKey(newOwnerName)));
         if (owner == null) {
           throw new Failure(new NoSuchEntityException());
         }
 
         group.setOwnerGroupId(owner.getId());
         db.accountGroups().update(Collections.singleton(group));
-        groupCache.evict(group);
+        FutureUtil.waitFor(groupCache.evictAsync(group));
         return VoidResult.INSTANCE;
       }
     });
@@ -174,7 +178,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         assertAmGroupOwner(db, group);
         group.setType(newType);
         db.accountGroups().update(Collections.singleton(group));
-        groupCache.evict(group);
+        FutureUtil.waitFor(groupCache.evictAsync(group));
         return VoidResult.INSTANCE;
       }
     });
@@ -189,7 +193,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         assertAmGroupOwner(db, group);
         group.setExternalNameKey(bindTo);
         db.accountGroups().update(Collections.singleton(group));
-        groupCache.evict(group);
+        FutureUtil.waitFor(groupCache.evictAsync(group));
         return VoidResult.INSTANCE;
       }
     });
@@ -234,7 +238,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
               Collections.singleton(new AccountGroupMemberAudit(m,
                   getAccountId())));
           db.accountGroupMembers().insert(Collections.singleton(m));
-          accountCache.evict(m.getAccountId());
+          FutureUtil.waitFor(accountCache.evictAsync(m.getAccountId()));
         }
 
         return groupDetailFactory.create(groupId).call();
@@ -259,6 +263,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
           }
         }
 
+        List<ListenableFuture<Void>> evictions = Lists.newArrayList();
         final Account.Id me = getAccountId();
         for (final AccountGroupMember.Key k : keys) {
           final AccountGroupMember m = db.accountGroupMembers().get(k);
@@ -288,9 +293,10 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
             }
 
             db.accountGroupMembers().delete(Collections.singleton(m));
-            accountCache.evict(m.getAccountId());
+            evictions.add(accountCache.evictAsync(m.getAccountId()));
           }
         }
+        FutureUtil.waitFor(evictions);
         return VoidResult.INSTANCE;
       }
     });

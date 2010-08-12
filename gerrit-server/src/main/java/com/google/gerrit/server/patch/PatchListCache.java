@@ -14,15 +14,17 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
 
 /** Provides a cached list of {@link PatchListEntry}. */
 public interface PatchListCache {
-  public PatchList get(PatchListKey key);
+  public ListenableFuture<PatchList> get(PatchListKey key);
 
-  public PatchList get(Change change, PatchSet patchSet);
+  public ListenableFuture<PatchList> get(Change change, PatchSet patchSet);
 
-  public PatchList get(Change change, PatchSet patchSet, Whitespace whitespace);
+  public ListenableFuture<PatchList> get(Change change, PatchSet patchSet,
+      Whitespace whitespace);
 }

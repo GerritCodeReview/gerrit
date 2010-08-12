@@ -28,6 +28,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
@@ -186,9 +187,10 @@ public class IdentifiedUser extends CurrentUser {
     this.accountId = id;
   }
 
-  private AccountState state() {
+  /** The account state of this user, caching most of their information. */
+  public AccountState getAccountState() {
     if (state == null) {
-      state = accountCache.get(getAccountId());
+      state = FutureUtil.get(accountCache.get(getAccountId()));
     }
     return state;
   }
@@ -200,25 +202,20 @@ public class IdentifiedUser extends CurrentUser {
 
   /** @return the user's user name; null if one has not been selected/assigned. */
   public String getUserName() {
-    return state().getUserName();
+    return getAccountState().getUserName();
   }
 
   public Account getAccount() {
-    return state().getAccount();
+    return getAccountState().getAccount();
   }
 
   public AccountDiffPreference getAccountDiffPreference() {
-    AccountDiffPreference diffPref =
-        accountDiffPreferencesCache.get(getAccountId());
-    if (diffPref == null) {
-      diffPref = AccountDiffPreference.createDefault(getAccountId());
-    }
-    return diffPref;
+    return FutureUtil.get(accountDiffPreferencesCache.get(getAccountId()));
   }
 
   public Set<String> getEmailAddresses() {
     if (emailAddresses == null) {
-      emailAddresses = state().getEmailAddresses();
+      emailAddresses = getAccountState().getEmailAddresses();
     }
     return emailAddresses;
   }
@@ -226,8 +223,8 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public Set<AccountGroup.Id> getEffectiveGroups() {
     if (effectiveGroups == null) {
-      if (authConfig.isIdentityTrustable(state().getExternalIds())) {
-        effectiveGroups = realm.groups(state());
+      if (authConfig.isIdentityTrustable(getAccountState().getExternalIds())) {
+        effectiveGroups = realm.groups(getAccountState());
 
       } else {
         effectiveGroups = authConfig.getRegisteredGroups();
@@ -243,8 +240,8 @@ public class IdentifiedUser extends CurrentUser {
         throw new OutOfScopeException("Not in request scoped user");
       }
       final Set<Change.Id> h = new HashSet<Change.Id>();
-      for (final StarredChange sc : starredChangesCache
-          .byAccount(getAccountId())) {
+      for (StarredChange sc : FutureUtil.get(starredChangesCache
+          .byAccount(getAccountId()))) {
         h.add(sc.getChangeId());
       }
       starredChanges = Collections.unmodifiableSet(h);
@@ -255,7 +252,8 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public Collection<AccountProjectWatch> getNotificationFilters() {
     if (notificationFilters == null) {
-      notificationFilters = accountProjectWatchCache.byAccount(getAccountId());
+      notificationFilters =
+          FutureUtil.get(accountProjectWatchCache.byAccount(getAccountId()));
     }
     return notificationFilters;
   }

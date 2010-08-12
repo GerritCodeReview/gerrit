@@ -14,17 +14,20 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.AccountGroup;
 
 /** Tracks group objects in memory for efficient access. */
 public interface GroupCache {
-  public AccountGroup get(AccountGroup.Id groupId);
+  public ListenableFuture<AccountGroup> get(AccountGroup.Id groupId);
 
-  public AccountGroup get(AccountGroup.NameKey name);
+  public ListenableFuture<AccountGroup> get(AccountGroup.NameKey name);
 
-  public AccountGroupCollection get(AccountGroup.ExternalNameKey externalName);
+  public ListenableFuture<AccountGroupCollection> get(
+      AccountGroup.ExternalNameKey externalName);
 
-  public void evict(AccountGroup group);
+  public ListenableFuture<Void> evictAsync(AccountGroup group);
 
-  public void evictAfterRename(AccountGroup.NameKey oldName);
+  public ListenableFuture<Void> evictAfterRenameAsync(
+      AccountGroup.NameKey oldName);
 }

@@ -81,6 +81,10 @@ public final class ActiveSession {
     this.lastSeen = now();
   }
 
+  public Key getKey() {
+    return key;
+  }
+
   public Timestamp getLastSeen() {
     return lastSeen;
   }

@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.args4j;
 
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -42,12 +43,16 @@ public class AccountGroupIdHandler extends OptionHandler<AccountGroup.Id> {
   public final int parseArguments(final Parameters params)
       throws CmdLineException {
     final String n = params.getParameter(0);
-    final AccountGroup group = groupCache.get(new AccountGroup.NameKey(n));
+    final AccountGroup group = get(n);
     if (group == null) {
       throw new CmdLineException(owner, "Group \"" + n + "\" does not exist");
     }
     setter.addValue(group.getId());
     return 1;
+  }
+
+  private AccountGroup get(String name) {
+    return FutureUtil.getOrNull(groupCache.get(new AccountGroup.NameKey(name)));
   }
 
   @Override

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
@@ -22,6 +23,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -36,6 +38,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
+import java.util.concurrent.Future;
 
 final class ListProjects extends BaseCommand {
   private static final String NODE_PREFIX = "|-- ";
@@ -93,24 +96,27 @@ final class ListProjects extends BaseCommand {
     }
 
     try {
-      for (final Project p : db.projects().all()) {
+      List<Future<ProjectState>> want = Lists.newArrayList();
+      for (Project p : db.projects().all()) {
         if (p.getNameKey().equals(wildProject)) {
           // This project "doesn't exist". At least not as a repository.
           //
-          continue;
+        } else {
+          want.add(projectCache.get(p.getNameKey()));
         }
+      }
 
-        final ProjectState e = projectCache.get(p.getNameKey());
+      for (Future<ProjectState> fEnt : want) {
+        final ProjectState e = FutureUtil.getOrNull(fEnt);
         if (e == null) {
           // If we can't get it from the cache, pretend its not present.
           //
           continue;
         }
 
+        final Project p = e.getProject();
         final ProjectControl pctl = e.controlFor(currentUser);
-
         if (!showTree) {
-
           if (!pctl.isVisible()) {
             // Require the project itself to be visible to the user.
             //

@@ -16,8 +16,8 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.UserIdentity;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.EmailHeader.AddressList;
+import com.google.gerrit.server.util.FutureUtil;
 
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
@@ -77,7 +77,8 @@ public abstract class OutgoingEmail {
     format();
     if (shouldSendMessage()) {
       if (fromId != null) {
-        final Account fromUser = args.accountCache.get(fromId).getAccount();
+        final Account fromUser =
+            FutureUtil.get(args.accountCache.getAccount(fromId));
 
         if (fromUser.getGeneralPreferences().isCopySelfOnEmails()) {
           // If we are impersonating a user, make sure they receive a CC of
@@ -140,7 +141,8 @@ public abstract class OutgoingEmail {
     body = new StringBuilder();
 
     if (fromId != null && args.fromAddressGenerator.isGenericAddress(fromId)) {
-      final Account account = args.accountCache.get(fromId).getAccount();
+      final Account account =
+          FutureUtil.get(args.accountCache.getAccount(fromId));
       final String name = account.getFullName();
       final String email = account.getPreferredEmail();
 
@@ -210,7 +212,8 @@ public abstract class OutgoingEmail {
       return "Anonymous Coward";
     }
 
-    final Account userAccount = args.accountCache.get(accountId).getAccount();
+    Account userAccount =
+        FutureUtil.get(args.accountCache.getAccount(accountId));
     String name = userAccount.getFullName();
     if (name == null) {
       name = userAccount.getPreferredEmail();
@@ -222,9 +225,9 @@ public abstract class OutgoingEmail {
   }
 
   protected String getNameEmailFor(Account.Id accountId) {
-    AccountState who = args.accountCache.get(accountId);
-    String name = who.getAccount().getFullName();
-    String email = who.getAccount().getPreferredEmail();
+    Account who = FutureUtil.get(args.accountCache.getAccount(accountId));
+    String name = who.getFullName();
+    String email = who.getPreferredEmail();
 
     if (name != null && email != null) {
       return name + " <" + email + ">";
@@ -308,7 +311,7 @@ public abstract class OutgoingEmail {
   }
 
   private Address toAddress(final Account.Id id) {
-    final Account a = args.accountCache.get(id).getAccount();
+    final Account a = FutureUtil.get(args.accountCache.getAccount(id));
     final String e = a.getPreferredEmail();
     if (e == null) {
       return null;

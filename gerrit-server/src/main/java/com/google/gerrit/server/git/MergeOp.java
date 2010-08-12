@@ -42,6 +42,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.AtomicUpdate;
@@ -190,7 +191,8 @@ public class MergeOp {
   }
 
   public void merge() throws MergeException {
-    final ProjectState pe = projectCache.get(destBranch.getParentKey());
+    ProjectState pe =
+        FutureUtil.get(projectCache.get(destBranch.getParentKey()));
     if (pe == null) {
       throw new MergeException("No such project: " + destBranch.getParentKey());
     }
@@ -1202,7 +1204,7 @@ public class MergeOp {
 
     try {
       hooks.doChangeMergedHook(c, //
-          accountCache.get(submitter.getAccountId()).getAccount(), //
+          FutureUtil.get(accountCache.getAccount(submitter.getAccountId())), //
           schema.patchSets().get(c.currentPatchSetId()));
     } catch (OrmException ex) {
       log.error("Cannot run hook for submitted patch set " + c.getId(), ex);

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.base.Function;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -21,6 +24,7 @@ import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
+import com.google.gerrit.server.util.CompoundFuture;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -67,6 +71,14 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
     };
   }
 
+  private static final Function<StarredChangeList, List<StarredChange>> unpack =
+      new Function<StarredChangeList, List<StarredChange>>() {
+        @Override
+        public List<StarredChange> apply(StarredChangeList in) {
+          return in.list;
+        }
+      };
+
   private final Cache<Account.Id, StarredChangeList> byAccountId;
   private final Cache<Change.Id, StarredChangeList> byChangeId;
 
@@ -79,19 +91,19 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
   }
 
   @Override
-  public List<StarredChange> byAccount(Account.Id id) {
-    return byAccountId.get(id).list;
+  public ListenableFuture<List<StarredChange>> byAccount(Account.Id id) {
+    return Futures.compose(byAccountId.get(id), unpack);
   }
 
   @Override
-  public List<StarredChange> byChange(Change.Id id) {
-    return byChangeId.get(id).list;
+  public ListenableFuture<List<StarredChange>> byChange(Change.Id id) {
+    return Futures.compose(byChangeId.get(id), unpack);
   }
 
   @Override
-  public void evict(StarredChange.Key key) {
-    byAccountId.remove(key.getParentKey());
-    byChangeId.remove(key.getChangeId());
+  public ListenableFuture<Void> evictAsync(StarredChange.Key key) {
+    return CompoundFuture.wrap(byAccountId.removeAsync(key.getParentKey()),
+        byChangeId.removeAsync(key.getChangeId()));
   }
 
   static class ByAccountIdLoader extends

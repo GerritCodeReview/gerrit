@@ -21,6 +21,7 @@ import com.google.gerrit.server.git.WorkQueue.ProjectTask;
 import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.BaseCommand;
@@ -146,7 +147,7 @@ final class ShowQueue extends BaseCommand {
 
         ProjectState e = null;
         if (projectName != null) {
-          e = projectCache.get(projectName);
+          e = FutureUtil.getOrNull(projectCache.get(projectName));
         }
 
         regularUserCanSee = e != null && e.controlFor(userProvider).isVisible();

@@ -18,11 +18,10 @@ import com.google.gerrit.common.errors.ContactInformationStoreException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ContactInformation;
-import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.UrlEncoded;
-import com.google.gerrit.server.account.AccountExternalIdCache;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.util.FutureException;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
@@ -66,21 +65,18 @@ class EncryptedContactStore implements ContactStore {
       LoggerFactory.getLogger(EncryptedContactStore.class);
   private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 
-  private final SchemaFactory<ReviewDb> schema;
   private final PGPPublicKey dest;
   private final SecureRandom prng;
   private final URL storeUrl;
   private final String storeAPPSEC;
-  private final AccountExternalIdCache accountExternalIdCache;
+  private final AccountCache accountCache;
 
   EncryptedContactStore(final URL storeUrl, final String storeAPPSEC,
-      final File pubKey, final SchemaFactory<ReviewDb> schema,
-      final AccountExternalIdCache accountExternalIdCache) {
+      final File pubKey, final AccountCache accountCache) {
     this.storeUrl = storeUrl;
     this.storeAPPSEC = storeAPPSEC;
-    this.schema = schema;
     this.dest = selectKey(readPubRing(pubKey));
-    this.accountExternalIdCache = accountExternalIdCache;
+    this.accountCache = accountCache;
 
     final String prngName = "SHA1PRNG";
     try {
@@ -254,31 +250,26 @@ class EncryptedContactStore implements ContactStore {
     field(b, "Preferred-Email", account.getPreferredEmail());
 
     try {
-      final ReviewDb db = schema.open();
-      try {
-        for (final AccountExternalId e : accountExternalIdCache.byAccount(
-            account.getId())) {
-          final StringBuilder oistr = new StringBuilder();
-          if (e.getEmailAddress() != null && e.getEmailAddress().length() > 0) {
-            if (oistr.length() > 0) {
-              oistr.append(' ');
-            }
-            oistr.append(e.getEmailAddress());
+      for (AccountExternalId e : FutureUtil.get(
+          accountCache.get(account.getId())).getExternalIds()) {
+        final StringBuilder oistr = new StringBuilder();
+        if (e.getEmailAddress() != null && e.getEmailAddress().length() > 0) {
+          if (oistr.length() > 0) {
+            oistr.append(' ');
           }
-          if (e.isScheme(AccountExternalId.SCHEME_MAILTO)) {
-            if (oistr.length() > 0) {
-              oistr.append(' ');
-            }
-            oistr.append('<');
-            oistr.append(e.getExternalId());
-            oistr.append('>');
-          }
-          field(b, "Identity", oistr.toString());
+          oistr.append(e.getEmailAddress());
         }
-      } finally {
-        db.close();
+        if (e.isScheme(AccountExternalId.SCHEME_MAILTO)) {
+          if (oistr.length() > 0) {
+            oistr.append(' ');
+          }
+          oistr.append('<');
+          oistr.append(e.getExternalId());
+          oistr.append('>');
+        }
+        field(b, "Identity", oistr.toString());
       }
-    } catch (OrmException e) {
+    } catch (FutureException e) {
       throw new ContactInformationStoreException(e);
     }
 

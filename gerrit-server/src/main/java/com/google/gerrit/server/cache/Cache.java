@@ -14,39 +14,36 @@
 
 package com.google.gerrit.server.cache;
 
-import java.util.Map;
+import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.concurrent.TimeUnit;
 
-
 /**
- * A fast in-memory and/or on-disk based cache.
+ * An in-memory and/or on-disk based cache.
+ *
+ * The cache may need to perform operations over the network, in which case the
+ * returned Future can be used to wait for operation completion. Opening
+ * multiple concurrent Futures on such a cache may permit the cache to batch the
+ * operations together (but that is implementation specific).
  *
  * @type <K> type of key used to lookup entries in the cache.
  * @type <V> type of value stored within each cache entry.
  */
 public interface Cache<K, V> {
   /** Get the element from the cache, or null if not stored in the cache. */
-  public V get(K key);
-
-  /**
-   * Get a map containing entries for elements with the specified keys; no entry
-   * will be returned for a key if there is no element in the cache with that
-   * key. An empty map will be returned if none of the keys have elements in the
-   * cache. Duplicate keys will be ignored.
-   */
-  public Map<K, V> getAll(Iterable<K> keys);
+  public ListenableFuture<V> get(K key);
 
   /** Put one element into the cache, replacing any existing value. */
-  public void put(K key, V value);
+  public ListenableFuture<Void> putAsync(K key, V value);
 
   /** Remove any existing value from the cache, no-op if not present. */
-  public void remove(K key);
+  public ListenableFuture<Void> removeAsync(K key);
 
   /** Remove all cached items. */
-  public void removeAll();
+  public ListenableFuture<Void> removeAllAsync();
 
   /**
-   * Get the time an element will survive in the cache.
+   * Get the configured time an element will survive in the cache.
    *
    * @param unit desired units of the return value.
    * @return time an item can live before being purged.

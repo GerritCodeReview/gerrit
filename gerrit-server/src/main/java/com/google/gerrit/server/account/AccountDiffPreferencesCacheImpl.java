@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -58,13 +59,13 @@ public class AccountDiffPreferencesCacheImpl implements
   }
 
   @Override
-  public AccountDiffPreference get(Account.Id key) {
+  public ListenableFuture<AccountDiffPreference> get(Account.Id key) {
     return byAccountId.get(key);
   }
 
   @Override
-  public void evict(Id key) {
-    byAccountId.remove(key);
+  public ListenableFuture<Void> evictAsync(Account.Id key) {
+    return byAccountId.removeAsync(key);
   }
 
   static class ByAccountIdLoader extends
@@ -85,5 +86,11 @@ public class AccountDiffPreferencesCacheImpl implements
         db.close();
       }
     }
+
+    @Override
+    public AccountDiffPreference missing(Account.Id key) {
+      return AccountDiffPreference.createDefault(key);
+    }
+
   }
 }

@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReplicationUser;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -43,7 +44,7 @@ public class ProjectControl {
 
     public ProjectControl controlFor(Project.NameKey nameKey, CurrentUser user)
         throws NoSuchProjectException {
-      final ProjectState p = projectCache.get(nameKey);
+      final ProjectState p = FutureUtil.getOrNull(projectCache.get(nameKey));
       if (p == null) {
         throw new NoSuchProjectException(nameKey);
       }
@@ -63,7 +64,7 @@ public class ProjectControl {
 
     public ProjectControl controlFor(final Project.NameKey nameKey)
         throws NoSuchProjectException {
-      final ProjectState p = projectCache.get(nameKey);
+      final ProjectState p = FutureUtil.getOrNull(projectCache.get(nameKey));
       if (p == null) {
         throw new NoSuchProjectException(nameKey);
       }

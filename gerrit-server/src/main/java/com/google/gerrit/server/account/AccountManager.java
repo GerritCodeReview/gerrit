@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.common.errors.InvalidUserNameException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
@@ -25,6 +26,8 @@ import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.util.FutureException;
+import com.google.gerrit.server.util.FutureUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -36,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Tracks authentication related details for user accounts. */
@@ -45,9 +49,7 @@ public class AccountManager {
       LoggerFactory.getLogger(AccountManager.class);
 
   private final SchemaFactory<ReviewDb> schema;
-  private final AccountCache byIdCache;
-  private final AccountByEmailCache byEmailCache;
-  private final AccountExternalIdCache accountExternalIdCache;
+  private final AccountCache accountCache;
   private final AuthConfig authConfig;
   private final Realm realm;
   private final IdentifiedUser.GenericFactory userFactory;
@@ -56,15 +58,12 @@ public class AccountManager {
 
   @Inject
   AccountManager(final SchemaFactory<ReviewDb> schema,
-      final AccountCache byIdCache, final AccountByEmailCache byEmailCache,
-      final AccountExternalIdCache accountExternalIdCache,
-      final AuthConfig authConfig, final Realm accountMapper,
+      final AccountCache accountCache, final AuthConfig authConfig,
+      final Realm accountMapper,
       final IdentifiedUser.GenericFactory userFactory,
       final ChangeUserName.Factory changeUserNameFactory) throws OrmException {
     this.schema = schema;
-    this.byIdCache = byIdCache;
-    this.byEmailCache = byEmailCache;
-    this.accountExternalIdCache = accountExternalIdCache;
+    this.accountCache = accountCache;
     this.authConfig = authConfig;
     this.realm = accountMapper;
     this.userFactory = userFactory;
@@ -82,18 +81,13 @@ public class AccountManager {
   /**
    * @return user identified by this external identity string, or null.
    */
-  public Account.Id lookup(final String externalId) throws AccountException {
+  public Account.Id lookup(String externalId) throws AccountException {
     try {
-      final ReviewDb db = schema.open();
-      try {
-        final AccountExternalId ext =
-            accountExternalIdCache.get(new AccountExternalId.Key(externalId));
-        return ext != null ? ext.getAccountId() : null;
-      } finally {
-        db.close();
-      }
-    } catch (OrmException e) {
-      throw new AccountException("Cannot lookup account " + externalId, e);
+      AccountExternalId.Key key = new AccountExternalId.Key(externalId);
+      AccountExternalId ext = FutureUtil.get(accountCache.get(key));
+      return ext != null ? ext.getAccountId() : null;
+    } catch (FutureException err) {
+      throw new AccountException("Cannot lookup account " + externalId, err);
     }
   }
 
@@ -110,8 +104,8 @@ public class AccountManager {
     try {
       final ReviewDb db = schema.open();
       try {
-        final AccountExternalId.Key key = id(who);
-        final AccountExternalId id = accountExternalIdCache.get(key);
+        AccountExternalId.Key key = id(who);
+        AccountExternalId id = FutureUtil.get(accountCache.get(key));
         if (id == null) {
           // New account, automatically create and return.
           //
@@ -127,13 +121,16 @@ public class AccountManager {
       } finally {
         db.close();
       }
+    } catch (FutureException e) {
+      throw new AccountException("Authentication error", e);
     } catch (OrmException e) {
       throw new AccountException("Authentication error", e);
     }
   }
 
   private void update(final ReviewDb db, final AuthRequest who,
-      final AccountExternalId extId) throws OrmException {
+      AccountExternalId extId) throws OrmException {
+    final List<Future<Void>> evictions = Lists.newArrayList();
     final IdentifiedUser user = userFactory.create(extId.getAccountId());
     Account toUpdate = null;
 
@@ -149,9 +146,14 @@ public class AccountManager {
         toUpdate.setPreferredEmail(newEmail);
       }
 
+      AccountExternalId.Key extKey = extId.getKey();
+      extId = db.accountExternalIds().get(extKey);
+      if (extId == null) {
+        extId = new AccountExternalId(user.getAccountId(), extKey);
+      }
       extId.setEmailAddress(newEmail);
       db.accountExternalIds().update(Collections.singleton(extId));
-      accountExternalIdCache.evict(extId);
+      evictions.add(accountCache.evictAsync(extKey));
     }
 
     if (!realm.allowsEdit(Account.FieldName.FULL_NAME)
@@ -170,12 +172,13 @@ public class AccountManager {
     }
 
     if (newEmail != null && !newEmail.equals(oldEmail)) {
-      byEmailCache.evict(oldEmail);
-      byEmailCache.evict(newEmail);
+      evictions.add(accountCache.evictEmailAsync(oldEmail));
+      evictions.add(accountCache.evictEmailAsync(newEmail));
     }
     if (toUpdate != null) {
-      byIdCache.evict(toUpdate.getId());
+      evictions.add(accountCache.evictAsync(toUpdate.getId()));
     }
+    FutureUtil.waitFor(evictions);
   }
 
   private Account load(Account toUpdate, Account.Id accountId, ReviewDb db)
@@ -195,14 +198,16 @@ public class AccountManager {
 
   private AuthResult create(final ReviewDb db, final AuthRequest who)
       throws OrmException, AccountException {
+    final List<Future<Void>> evictions = Lists.newArrayList();
+
     if (authConfig.isAllowGoogleAccountUpgrade()
         && who.isScheme(OpenIdUrls.URL_GOOGLE + "?")
         && who.getEmailAddress() != null) {
       final List<AccountExternalId> openId = new ArrayList<AccountExternalId>();
       final List<AccountExternalId> v1 = new ArrayList<AccountExternalId>();
 
-      for (final AccountExternalId extId : accountExternalIdCache
-          .byEmailAddress(who.getEmailAddress())) {
+      for (AccountExternalId extId : db.accountExternalIds().byEmailAddress(
+          who.getEmailAddress())) {
         if (extId.isScheme(OpenIdUrls.URL_GOOGLE + "?")) {
           openId.add(extId);
         } else if (extId.isScheme(AccountExternalId.LEGACY_GAE)) {
@@ -235,12 +240,13 @@ public class AccountManager {
           final AccountExternalId oldId = openId.get(0);
           db.accountExternalIds().upsert(Collections.singleton(newId));
           db.accountExternalIds().delete(Collections.singleton(oldId));
-          accountExternalIdCache.evict(newId);
-          accountExternalIdCache.evict(oldId);
+          evictions.add(accountCache.evictAsync(newId.getKey()));
+          evictions.add(accountCache.evictAsync(oldId.getKey()));
         } else {
           db.accountExternalIds().insert(Collections.singleton(newId));
-          accountExternalIdCache.evict(newId);
+          evictions.add(accountCache.evictAsync(newId.getKey()));
         }
+        FutureUtil.waitFor(evictions);
         return new AuthResult(accountId, newId.getKey(), false);
 
       } else if (v1.size() == 1) {
@@ -254,8 +260,9 @@ public class AccountManager {
 
         db.accountExternalIds().upsert(Collections.singleton(newId));
         db.accountExternalIds().delete(Collections.singleton(oldId));
-        accountExternalIdCache.evict(newId);
-        accountExternalIdCache.evict(oldId);
+        evictions.add(accountCache.evictAsync(newId.getKey()));
+        evictions.add(accountCache.evictAsync(oldId.getKey()));
+        FutureUtil.waitFor(evictions);
         return new AuthResult(newId.getAccountId(), newId.getKey(), false);
 
       } else if (v1.size() > 1) {
@@ -273,7 +280,7 @@ public class AccountManager {
 
     db.accounts().insert(Collections.singleton(account));
     db.accountExternalIds().insert(Collections.singleton(extId));
-    accountExternalIdCache.evict(extId);
+    evictions.add(accountCache.evictAsync(extId.getKey()));
 
     if (firstAccount.get() && firstAccount.compareAndSet(true, false)) {
       // This is the first user account on our site. Assume this user
@@ -305,7 +312,9 @@ public class AccountManager {
       }
     }
 
-    byEmailCache.evict(account.getPreferredEmail());
+    evictions.add(accountCache.evictEmailAsync(account.getPreferredEmail()));
+    FutureUtil.waitFor(evictions);
+
     realm.onCreateAccount(who, account);
     return new AuthResult(newId, extId.getKey(), true);
   }
@@ -330,8 +339,9 @@ public class AccountManager {
     try {
       final ReviewDb db = schema.open();
       try {
-        final AccountExternalId.Key key = id(who);
-        AccountExternalId extId = accountExternalIdCache.get(key);
+        List<Future<Void>> evictions = Lists.newArrayList();
+        AccountExternalId.Key key = id(who);
+        AccountExternalId extId = FutureUtil.get(accountCache.get(key));
         if (extId != null) {
           if (!extId.getAccountId().equals(to)) {
             throw new AccountException("Identity in use by another account");
@@ -342,7 +352,7 @@ public class AccountManager {
           extId = createId(to, who);
           extId.setEmailAddress(who.getEmailAddress());
           db.accountExternalIds().insert(Collections.singleton(extId));
-          accountExternalIdCache.evict(extId);
+          evictions.add(accountCache.evictAsync(extId.getKey()));
 
           if (who.getEmailAddress() != null) {
             final Account a = db.accounts().get(to);
@@ -353,16 +363,19 @@ public class AccountManager {
           }
 
           if (who.getEmailAddress() != null) {
-            byEmailCache.evict(who.getEmailAddress());
-            byIdCache.evict(to);
+            evictions.add(accountCache.evictEmailAsync(who.getEmailAddress()));
+            evictions.add(accountCache.evictAsync(to));
           }
         }
 
+        FutureUtil.waitFor(evictions);
         return new AuthResult(to, key, false);
 
       } finally {
         db.close();
       }
+    } catch (FutureException e) {
+      throw new AccountException("Cannot link identity", e);
     } catch (OrmException e) {
       throw new AccountException("Cannot link identity", e);
     }

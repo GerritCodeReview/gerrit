@@ -158,7 +158,7 @@ public class SchemaCreatorTest extends TestCase {
       final Project all;
 
       cfg = c.systemConfig().get(new SystemConfig.Key());
-      all = c.projects().get(cfg.wildProjectName);
+      all = c.projects().get(cfg.wildProjectId);
       assertNotNull(all);
       assertEquals("-- All Projects --", all.getName());
       assertFalse(all.isUseContributorAgreements());
@@ -350,14 +350,14 @@ public class SchemaCreatorTest extends TestCase {
       final RefRight right;
 
       cfg = c.systemConfig().get(new SystemConfig.Key());
-      all = c.projects().get(cfg.wildProjectName);
+      all = c.projects().get(cfg.wildProjectId);
       right =
           c.refRights().get(
-              new RefRight.Key(all.getNameKey(), new RefRight.RefPattern(
+              new RefRight.Key(all.getId(), new RefRight.RefPattern(
                   pattern), category, group));
 
       assertNotNull(right);
-      assertEquals(all.getNameKey(), right.getProjectNameKey());
+      assertEquals(all.getId(), right.getProjectId());
       assertEquals(group, right.getAccountGroupId());
       assertEquals(category, right.getApprovalCategoryId());
       assertEquals(min, right.getMinValue());

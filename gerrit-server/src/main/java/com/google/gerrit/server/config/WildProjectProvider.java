@@ -12,14 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.schema;
+package com.google.gerrit.server.config;
 
+import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.SystemConfig;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-class Schema_24 extends SchemaVersion {
+public class WildProjectProvider implements Provider<Project> {
+  private final Project wildProject;
+
   @Inject
-  Schema_24(Provider<Schema_23> prior) {
-    super(prior);
+  WildProjectProvider(final SystemConfig config, final SchemaFactory<ReviewDb> schemaFactory) throws OrmException {
+    ReviewDb db = schemaFactory.open();
+    try {
+      wildProject = db.projects().get(config.wildProjectId);
+    } finally {
+      db.close();
+    }
+  }
+
+  public Project get() {
+    return wildProject;
   }
 }

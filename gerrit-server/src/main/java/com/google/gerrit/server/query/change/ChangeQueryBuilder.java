@@ -26,10 +26,12 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.config.WildProject;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
@@ -102,9 +104,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final GroupCache groupCache;
     final AuthConfig authConfig;
     final ApprovalTypes approvalTypes;
-    final Project.NameKey wildProjectName;
+    final Project wildProject;
     final PatchListCache patchListCache;
     final GitRepositoryManager repoManager;
+    final ProjectCache projectCache;
 
     @Inject
     Arguments(Provider<ReviewDb> dbProvider,
@@ -114,9 +117,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeControl.GenericFactory changeControlGenericFactory,
         AccountResolver accountResolver, GroupCache groupCache,
         AuthConfig authConfig, ApprovalTypes approvalTypes,
-        @WildProjectName Project.NameKey wildProjectName,
+        @WildProject Project wildProject,
         PatchListCache patchListCache,
-        GitRepositoryManager repoManager) {
+        GitRepositoryManager repoManager,
+        ProjectCache projectCache) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
@@ -126,9 +130,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.groupCache = groupCache;
       this.authConfig = authConfig;
       this.approvalTypes = approvalTypes;
-      this.wildProjectName = wildProjectName;
+      this.wildProject = wildProject;
       this.patchListCache = patchListCache;
       this.repoManager = repoManager;
+      this.projectCache = projectCache;
     }
   }
 
@@ -244,8 +249,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> project(String name) {
     if (name.startsWith("^"))
-      return new RegexProjectPredicate(args.dbProvider, name);
-    return new ProjectPredicate(args.dbProvider, name);
+      return new RegexProjectPredicate(args.dbProvider, args.projectCache, name);
+    final ProjectState projectState = args.projectCache.get(new Project.NameKey(name));
+    if (projectState == null) {
+      // a project with the given name does not exist
+      // -> return a Predicate that will never match
+      return new NotMatchingPredicate<ChangeData>(FIELD_PROJECT, name);
+    }
+    final Project project = projectState.getProject();
+    return new ProjectPredicate(args.dbProvider, project.getId(), name);
   }
 
   @Operator
@@ -290,7 +302,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> message(String text) {
-    return new MessagePredicate(args.dbProvider, args.repoManager, text);
+    return new MessagePredicate(args.dbProvider, args.repoManager, args.projectCache, text);
   }
 
   @Operator

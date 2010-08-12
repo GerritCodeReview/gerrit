@@ -17,7 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.config.WildProject;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -56,8 +56,8 @@ final class ListProjects extends BaseCommand {
   private GitRepositoryManager repoManager;
 
   @Inject
-  @WildProjectName
-  private Project.NameKey wildProject;
+  @WildProject
+  private Project wildProject;
 
   @Option(name = "--show-branch", aliases = {"-b"}, usage = "displays the sha of each project in the specified branch")
   private String showBranch;
@@ -94,13 +94,13 @@ final class ListProjects extends BaseCommand {
 
     try {
       for (final Project p : db.projects().all()) {
-        if (p.getNameKey().equals(wildProject)) {
+        if (p.getId().equals(wildProject.getId())) {
           // This project "doesn't exist". At least not as a repository.
           //
           continue;
         }
 
-        final ProjectState e = projectCache.get(p.getNameKey());
+        final ProjectState e = projectCache.get(p.getId());
         if (e == null) {
           // If we can't get it from the cache, pretend its not present.
           //

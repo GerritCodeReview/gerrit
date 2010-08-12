@@ -17,6 +17,8 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
@@ -26,9 +28,10 @@ import dk.brics.automaton.RunAutomaton;
 
 class RegexProjectPredicate extends OperatorPredicate<ChangeData> {
   private final Provider<ReviewDb> dbProvider;
+  private final ProjectCache projectCache;
   private final RunAutomaton pattern;
 
-  RegexProjectPredicate(Provider<ReviewDb> dbProvider, String re) {
+  RegexProjectPredicate(Provider<ReviewDb> dbProvider, ProjectCache projectCache, String re) {
     super(ChangeQueryBuilder.FIELD_PROJECT, re);
 
     if (re.startsWith("^")) {
@@ -40,6 +43,7 @@ class RegexProjectPredicate extends OperatorPredicate<ChangeData> {
     }
 
     this.dbProvider = dbProvider;
+    this.projectCache = projectCache;
     this.pattern = new RunAutomaton(new RegExp(re).toAutomaton());
   }
 
@@ -50,7 +54,8 @@ class RegexProjectPredicate extends OperatorPredicate<ChangeData> {
       return false;
     }
 
-    Project.NameKey p = change.getDest().getParentKey();
+    ProjectState projectState = projectCache.get(change.getDest().getParentKey());
+    Project.NameKey p = projectState.getProject().getNameKey();
     return pattern.run(p.get());
   }
 

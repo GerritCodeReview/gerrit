@@ -31,12 +31,12 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   ResultSet<Change> byKeyRange(Change.Key reva, Change.Key revb)
       throws OrmException;
 
-  @Query("WHERE dest.projectName = ? AND changeKey = ?")
-  ResultSet<Change> byProjectKey(Project.NameKey p, Change.Key key)
+  @Query("WHERE dest.projectId = ? AND changeKey = ?")
+  ResultSet<Change> byProjectKey(Project.Id p, Change.Key key)
       throws OrmException;
 
-  @Query("WHERE dest.projectName = ?")
-  ResultSet<Change> byProject(Project.NameKey p) throws OrmException;
+  @Query("WHERE dest.projectId = ?")
+  ResultSet<Change> byProject(Project.Id p) throws OrmException;
 
   @Query("WHERE owner = ? AND open = true ORDER BY createdOn, changeId")
   ResultSet<Change> byOwnerOpen(Account.Id id) throws OrmException;
@@ -60,27 +60,27 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE open = true AND sortKey < ? ORDER BY sortKey DESC LIMIT ?")
   ResultSet<Change> allOpenNext(String sortKey, int limit) throws OrmException;
 
-  @Query("WHERE open = true AND dest.projectName = ?")
-  ResultSet<Change> byProjectOpenAll(Project.NameKey p) throws OrmException;
+  @Query("WHERE open = true AND dest.projectId = ?")
+  ResultSet<Change> byProjectOpenAll(Project.Id p) throws OrmException;
 
-  @Query("WHERE open = true AND dest.projectName = ? AND sortKey > ?"
+  @Query("WHERE open = true AND dest.projectId = ? AND sortKey > ?"
       + " ORDER BY sortKey LIMIT ?")
-  ResultSet<Change> byProjectOpenPrev(Project.NameKey p, String sortKey,
+  ResultSet<Change> byProjectOpenPrev(Project.Id p, String sortKey,
       int limit) throws OrmException;
 
-  @Query("WHERE open = true AND dest.projectName = ? AND sortKey < ?"
+  @Query("WHERE open = true AND dest.projectId = ? AND sortKey < ?"
       + " ORDER BY sortKey DESC LIMIT ?")
-  ResultSet<Change> byProjectOpenNext(Project.NameKey p, String sortKey,
+  ResultSet<Change> byProjectOpenNext(Project.Id p, String sortKey,
       int limit) throws OrmException;
 
-  @Query("WHERE open = false AND status = ? AND dest.projectName = ? AND sortKey > ?"
+  @Query("WHERE open = false AND status = ? AND dest.projectId = ? AND sortKey > ?"
       + " ORDER BY sortKey LIMIT ?")
-  ResultSet<Change> byProjectClosedPrev(char status, Project.NameKey p,
+  ResultSet<Change> byProjectClosedPrev(char status, Project.Id p,
       String sortKey, int limit) throws OrmException;
 
-  @Query("WHERE open = false AND status = ? AND dest.projectName = ? AND sortKey < ?"
+  @Query("WHERE open = false AND status = ? AND dest.projectId = ? AND sortKey < ?"
       + " ORDER BY sortKey DESC LIMIT ?")
-  ResultSet<Change> byProjectClosedNext(char status, Project.NameKey p,
+  ResultSet<Change> byProjectClosedNext(char status, Project.Id p,
       String sortKey, int limit) throws OrmException;
 
   @Query("WHERE open = false AND status = ? AND sortKey > ? ORDER BY sortKey LIMIT ?")

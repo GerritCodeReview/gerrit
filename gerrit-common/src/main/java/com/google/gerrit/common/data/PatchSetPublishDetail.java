@@ -28,7 +28,7 @@ import java.util.Set;
 public class PatchSetPublishDetail {
   protected AccountInfoCache accounts;
   protected PatchSetInfo patchSetInfo;
-  protected Change change;
+  protected ChangeInfo changeInfo;
   protected List<PatchLineComment> drafts;
   protected Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> allowed;
   protected Map<ApprovalCategory.Id, PatchSetApproval> given;
@@ -59,8 +59,8 @@ public class PatchSetPublishDetail {
     this.patchSetInfo = patchSetInfo;
   }
 
-  public void setChange(Change change) {
-    this.change = change;
+  public void setChangeInfo(ChangeInfo changeInfo) {
+    this.changeInfo = changeInfo;
   }
 
   public void setDrafts(List<PatchLineComment> drafts) {
@@ -76,7 +76,11 @@ public class PatchSetPublishDetail {
   }
 
   public Change getChange() {
-    return change;
+    return changeInfo.getChange();
+  }
+
+  public ChangeInfo getChangeInfo() {
+    return changeInfo;
   }
 
   public PatchSetInfo getPatchSetInfo() {

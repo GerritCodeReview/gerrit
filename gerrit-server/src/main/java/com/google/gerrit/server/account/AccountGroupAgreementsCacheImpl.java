@@ -37,7 +37,7 @@ import java.util.List;
 @Singleton
 public class AccountGroupAgreementsCacheImpl implements
     AccountGroupAgreementsCache {
-  private static final String BY_GROUP_ID = "account_group_agreements";
+  private static final String BY_GROUP_ID = "group_agreements";
 
   protected static class AccountGroupAgreementList {
     @Column(id = 1)

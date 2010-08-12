@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4n///eU\u003d",
+        "filename": "gerrit-server/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-12T17:41:18Z",
+      "side": 1,
+      "message": "We always put the version in the top-level pom.",
+      "revId": "8056488954ea8bdb2dc8e63697c84ad59dbdb985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

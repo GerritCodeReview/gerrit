@@ -17,6 +17,7 @@ gwtexpui                    <<apache2,Apache License 2.0>>
 gwtjsonrpc                  <<apache2,Apache License 2.0>>
 gwtorm                      <<apache2,Apache License 2.0>>
 Google Gson                 <<apache2,Apache License 2.0>>
+Google Guava Libraries      <<apache2,Apache License 2.0>>
 Google Web Toolkit          <<apache2,Apache License 2.0>>
 Guice                       <<apache2,Apache License 2.0>>
 Apache Commons Codec        <<apache2,Apache License 2.0>>

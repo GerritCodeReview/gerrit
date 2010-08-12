@@ -164,6 +164,14 @@ public class PushReplication implements ReplicationQueue {
         }
       }
 
+      // In case if refspec destination for push is not set then we assume it is equal to source
+      for (RefSpec ref : c.getPushRefSpecs()) {
+        if (ref.getDestination() == null) {
+          ref.setDestination(ref.getSource());
+        }
+      }
+
+
       if (c.getPushRefSpecs().isEmpty()) {
         RefSpec spec = new RefSpec();
         spec = spec.setSourceDestination("refs/*", "refs/*");
@@ -194,21 +202,17 @@ public class PushReplication implements ReplicationQueue {
     return result;
   }
 
+  @Override
   public void replicateNewProject(Project.NameKey projectName, String head) {
     if (!isEnabled()) {
       return;
     }
 
-    Iterator<ReplicationConfig> configIter = configs.iterator();
+    for (ReplicationConfig config : configs) {
+      List<URIish> uriList = config.getURIs(projectName, "*");
 
-    while (configIter.hasNext()) {
-      ReplicationConfig rp = configIter.next();
-      List<URIish> uriList = rp.getURIs(projectName, "*");
-
-      Iterator<URIish> uriIter = uriList.iterator();
-
-      while (uriIter.hasNext()) {
-        replicateProject(uriIter.next(), head);
+      for (URIish uri : uriList) {
+        replicateProject(uri, head);
       }
     }
   }
@@ -267,6 +271,7 @@ public class PushReplication implements ReplicationQueue {
       private StringBuilder all = new StringBuilder();
       private StringBuilder sb = new StringBuilder();
 
+      @Override
       public String toString() {
         String r = all.toString();
         while (r.endsWith("\n"))

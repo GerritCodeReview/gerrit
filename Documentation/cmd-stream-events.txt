@@ -70,6 +70,16 @@ patchset:: link:json.html#patchset[patchset attribute]
 
 abandoner:: link:json.html#account[account attribute]
 
+Change Restored
+^^^^^^^^^^^^^^^^
+type:: "change-restored"
+
+change:: link:json.html#change[change attribute]
+
+patchset:: link:json.html#patchset[patchset attribute]
+
+restorer:: link:json.html#account[account attribute]
+
 Change Merged
 ^^^^^^^^^^^^^
 type:: "change-merged"

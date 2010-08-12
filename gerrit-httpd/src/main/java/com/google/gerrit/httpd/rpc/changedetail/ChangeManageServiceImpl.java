@@ -23,12 +23,15 @@ import com.google.inject.Inject;
 class ChangeManageServiceImpl implements ChangeManageService {
   private final SubmitAction.Factory submitAction;
   private final AbandonChange.Factory abandonChangeFactory;
+  private final RestoreChange.Factory restoreChangeFactory;
 
   @Inject
   ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction,
-      final AbandonChange.Factory abandonChangeFactory) {
+      final AbandonChange.Factory abandonChangeFactory,
+      final RestoreChange.Factory restoreChangeFactory) {
     this.submitAction = patchSetAction;
     this.abandonChangeFactory = abandonChangeFactory;
+    this.restoreChangeFactory = restoreChangeFactory;
   }
 
   public void submit(final PatchSet.Id patchSetId,
@@ -39,5 +42,10 @@ class ChangeManageServiceImpl implements ChangeManageService {
   public void abandonChange(final PatchSet.Id patchSetId, final String message,
       final AsyncCallback<ChangeDetail> callback) {
     abandonChangeFactory.create(patchSetId, message).to(callback);
+  }
+
+  public void restoreChange(final PatchSet.Id patchSetId, final String message,
+      final AsyncCallback<ChangeDetail> callback) {
+    restoreChangeFactory.create(patchSetId, message).to(callback);
   }
 }

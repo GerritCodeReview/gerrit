@@ -111,6 +111,12 @@ public interface ChangeConstants extends Constants {
   String headingCoverMessage();
   String headingPatchComments();
 
+  String buttonRestoreChangeBegin();
+  String restoreChangeTitle();
+  String buttonRestoreChangeCancel();
+  String headingRestoreMessage();
+  String buttonRestoreChangeSend();
+
   String pagedChangeListPrev();
   String pagedChangeListNext();
 

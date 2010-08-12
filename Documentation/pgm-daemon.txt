@@ -49,7 +49,7 @@ OPTIONS
 	Run in slave mode, permitting only read operations
     by clients.  Commands which modify state such as
     link:cmd-receive-pack.html[recieve-pack] (creates new changes
-    or updates existing ones) or link:cmd-approve.html[approve]
+    or updates existing ones) or link:cmd-review.html[review]
     (sets approve marks) are disabled.
 +
 This option automatically implies '\--disable-httpd \--enable-sshd'.

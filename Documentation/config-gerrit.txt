@@ -720,7 +720,7 @@ If a unit suffix is not specified, `milliseconds` is assumed.
 Default is `30 seconds`.
 
 [[download]]Section download
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ----
 [download]

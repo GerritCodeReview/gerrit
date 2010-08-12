@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4n///eI\u003d",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-12T17:45:52Z",
+      "side": 1,
+      "message": "Please fix your commits to be one long series rather than having all of these individual ones based on the same commit.  They are all going to conflict when I try to submit them because they edit (or add) this same file, SitePathInitializer, etc.",
+      "revId": "6e070ddded48dd8b25ab6e18a1178c0ab02df9eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

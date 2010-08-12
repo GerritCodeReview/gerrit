@@ -46,15 +46,15 @@ public class GroupCacheImpl implements GroupCache {
       protected void configure() {
         final TypeLiteral<Cache<AccountGroup.Id, AccountGroup>> byId =
             new TypeLiteral<Cache<AccountGroup.Id, AccountGroup>>() {};
-        core(byId, BYID_NAME).populateWith(ByIdLoader.class);
+        cache(byId, BYID_NAME).populateWith(ByIdLoader.class);
 
         final TypeLiteral<Cache<AccountGroup.NameKey, AccountGroup>> byName =
             new TypeLiteral<Cache<AccountGroup.NameKey, AccountGroup>>() {};
-        core(byName, BYNAME_NAME).populateWith(ByNameLoader.class);
+        cache(byName, BYNAME_NAME).populateWith(ByNameLoader.class);
 
         final TypeLiteral<Cache<AccountGroup.ExternalNameKey, AccountGroupCollection>> byExternalName =
             new TypeLiteral<Cache<AccountGroup.ExternalNameKey, AccountGroupCollection>>() {};
-        core(byExternalName, BYEXT_NAME) //
+        cache(byExternalName, BYEXT_NAME) //
             .populateWith(ByExternalNameLoader.class);
 
         bind(GroupCacheImpl.class);

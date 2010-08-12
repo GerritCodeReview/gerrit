@@ -58,12 +58,12 @@ public class StarredChangesCacheImpl implements StarredChangesCache {
       protected void configure() {
         final TypeLiteral<Cache<Account.Id, StarredChangeList>> byAccountIdType =
             new TypeLiteral<Cache<Account.Id, StarredChangeList>>() {};
-        core(byAccountIdType, BY_ACCOUNT_ID).populateWith(
+        cache(byAccountIdType, BY_ACCOUNT_ID).populateWith(
             ByAccountIdLoader.class);
 
         final TypeLiteral<Cache<Change.Id, StarredChangeList>> byChangeIdType =
             new TypeLiteral<Cache<Change.Id, StarredChangeList>>() {};
-        core(byChangeIdType, BY_CHANGE_ID).populateWith(ByChangeIdLoader.class);
+        cache(byChangeIdType, BY_CHANGE_ID).populateWith(ByChangeIdLoader.class);
 
         bind(StarredChangesCacheImpl.class);
         bind(StarredChangesCache.class).to(StarredChangesCacheImpl.class);

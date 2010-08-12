@@ -22,8 +22,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.name.Names;
 
-import java.io.Serializable;
-
 /**
  * Miniature DSL to support binding {@link Cache} instances in Guice.
  */
@@ -38,9 +36,9 @@ public abstract class CacheModule extends AbstractModule {
    * @return binding to describe the cache. Caller must set at least the name on
    *         the returned binding.
    */
-  protected <K, V> UnnamedCacheBinding<K, V> core(
+  protected <K, V> UnnamedCacheBinding<K, V> cache(
       final TypeLiteral<Cache<K, V>> type) {
-    return core(Key.get(type), type);
+    return cache(Key.get(type), type);
   }
 
   /**
@@ -53,54 +51,15 @@ public abstract class CacheModule extends AbstractModule {
    *        and with {@code @Named} annotations.
    * @return binding to describe the cache.
    */
-  protected <K, V> NamedCacheBinding<K, V> core(
+  protected <K, V> NamedCacheBinding<K, V> cache(
       final TypeLiteral<Cache<K, V>> type, final String name) {
-    return core(Key.get(type, Names.named(name)), type).name(name);
+    return cache(Key.get(type, Names.named(name)), type).name(name);
   }
 
-  private <K, V> UnnamedCacheBinding<K, V> core(final Key<Cache<K, V>> key,
+  private <K, V> UnnamedCacheBinding<K, V> cache(final Key<Cache<K, V>> key,
       final TypeLiteral<Cache<K, V>> type) {
     final boolean disk = false;
-    final CacheProvider<K, V> b = new CacheProvider<K, V>(disk, this, type);
-    bind(key).toProvider(b).in(Scopes.SINGLETON);
-    return b;
-  }
-
-  /**
-   * Declare an unnamed in-memory/on-disk cache.
-   *
-   * @param <K> type of key used to find entries, must be {@link Serializable}.
-   * @param <V> type of value stored by the cache, must be {@link Serializable}.
-   * @param type type literal for the cache, this literal will be used to match
-   *        injection sites. Injection sites are matched by this type literal
-   *        and with {@code @Named} annotations.
-   * @return binding to describe the cache. Caller must set at least the name on
-   *         the returned binding.
-   */
-  protected <K extends Serializable, V extends Serializable> UnnamedCacheBinding<K, V> disk(
-      final TypeLiteral<Cache<K, V>> type) {
-    return disk(Key.get(type), type);
-  }
-
-  /**
-   * Declare a named in-memory/on-disk cache.
-   *
-   * @param <K> type of key used to find entries, must be {@link Serializable}.
-   * @param <V> type of value stored by the cache, must be {@link Serializable}.
-   * @param type type literal for the cache, this literal will be used to match
-   *        injection sites. Injection sites are matched by this type literal
-   *        and with {@code @Named} annotations.
-   * @return binding to describe the cache.
-   */
-  protected <K extends Serializable, V extends Serializable> NamedCacheBinding<K, V> disk(
-      final TypeLiteral<Cache<K, V>> type, final String name) {
-    return disk(Key.get(type, Names.named(name)), type).name(name);
-  }
-
-  private <K, V> UnnamedCacheBinding<K, V> disk(final Key<Cache<K, V>> key,
-      final TypeLiteral<Cache<K, V>> type) {
-    final boolean disk = true;
-    final CacheProvider<K, V> b = new CacheProvider<K, V>(disk, this, type);
+    final CacheProvider<K, V> b = new CacheProvider<K, V>(this, type);
     bind(key).toProvider(b).in(Scopes.SINGLETON);
     return b;
   }

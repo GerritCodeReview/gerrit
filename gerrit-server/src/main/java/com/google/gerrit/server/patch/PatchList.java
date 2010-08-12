@@ -15,15 +15,6 @@
 package com.google.gerrit.server.patch;
 
 
-import static com.google.gerrit.server.ioutil.BasicSerialization.readBytes;
-import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
-import static com.google.gerrit.server.ioutil.BasicSerialization.writeBytes;
-import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.readCanBeNull;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.writeCanBeNull;
-import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
-
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwtorm.client.Column;
@@ -31,24 +22,15 @@ import com.google.gwtorm.client.Column;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.zip.DeflaterOutputStream;
-import java.util.zip.InflaterInputStream;
 
 import javax.annotation.Nullable;
 
-public class PatchList implements Serializable {
-  private static final long serialVersionUID = PatchListKey.serialVersionUID;
+public class PatchList {
   private static final Comparator<PatchListEntry> PATCH_CMP =
       new Comparator<PatchListEntry>() {
         @Override
@@ -70,10 +52,10 @@ public class PatchList implements Serializable {
   @Column(id = 4)
   protected List<PatchListEntry> patches;
 
-  private transient ObjectId oldId;
-  private transient ObjectId newId;
+  private volatile ObjectId oldId;
+  private volatile ObjectId newId;
 
-  protected PatchList(){
+  protected PatchList() {
   }
 
   PatchList(@Nullable final AnyObjectId oldId, final AnyObjectId newId,
@@ -91,13 +73,17 @@ public class PatchList implements Serializable {
   /** Old side tree or commit; null only if this is a combined diff. */
   @Nullable
   public ObjectId getOldId() {
-    refreshObjectIds();
+    if (oldId == null && oldIdName != null) {
+      oldId = ObjectId.fromString(oldIdName);
+    }
     return oldId;
   }
 
   /** New side commit. */
   public ObjectId getNewId() {
-    refreshObjectIds();
+    if (newId == null) {
+      newId = ObjectId.fromString(newIdName);
+    }
     return newId;
   }
 
@@ -153,52 +139,5 @@ public class PatchList implements Serializable {
         high = mid;
     }
     return -(low + 1);
-  }
-
-  private void writeObject(final ObjectOutputStream output) throws IOException {
-    final ByteArrayOutputStream buf = new ByteArrayOutputStream();
-    final DeflaterOutputStream out = new DeflaterOutputStream(buf);
-    refreshObjectIds();
-    try {
-      writeCanBeNull(out, oldId);
-      writeNotNull(out, newId);
-      writeVarInt32(out, intralineDifference ? 1 : 0);
-      writeVarInt32(out, patches.size());
-      for (PatchListEntry p : patches) {
-        p.writeTo(out);
-      }
-    } finally {
-      out.close();
-    }
-    writeBytes(output, buf.toByteArray());
-  }
-
-  private void readObject(final ObjectInputStream input) throws IOException {
-    final ByteArrayInputStream buf = new ByteArrayInputStream(readBytes(input));
-    final InflaterInputStream in = new InflaterInputStream(buf);
-    try {
-      oldId = readCanBeNull(in);
-      newId = readNotNull(in);
-      oldIdName = oldId != null ? oldId.name() : null;
-      newIdName = newId.name();
-      intralineDifference = readVarInt32(in) != 0;
-      final int cnt = readVarInt32(in);
-      final PatchListEntry[] all = new PatchListEntry[cnt];
-      for (int i = 0; i < all.length; i++) {
-        all[i] = PatchListEntry.readFrom(in);
-      }
-      patches = Arrays.asList(all);
-    } finally {
-      in.close();
-    }
-  }
-
-  private void refreshObjectIds() {
-    if (oldId == null && oldIdName != null) {
-      oldId = ObjectId.fromString(oldIdName);
-    }
-    if (newId == null) {
-      newId = ObjectId.fromString(newIdName);
-    }
   }
 }

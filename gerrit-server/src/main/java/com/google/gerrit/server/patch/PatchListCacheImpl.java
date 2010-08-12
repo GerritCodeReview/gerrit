@@ -127,8 +127,9 @@ public class PatchListCacheImpl implements PatchListCache {
       protected void configure() {
         final TypeLiteral<Cache<PatchListKey, PatchList>> type =
             new TypeLiteral<Cache<PatchListKey, PatchList>>() {};
-        disk(type, CACHE_NAME) //
+        cache(type, CACHE_NAME) //
             .memoryLimit(128) // very large items, cache only a few
+            .diskLimit(16384) // cache a lot on disk, they are hard to make
             .evictionPolicy(EvictionPolicy.LRU) // prefer most recent
             .populateWith(Loader.class) //
         ;

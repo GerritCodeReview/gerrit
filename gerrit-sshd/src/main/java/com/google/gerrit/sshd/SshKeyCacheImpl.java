@@ -60,7 +60,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
       protected void configure() {
         final TypeLiteral<Cache<Username, EntryList>> type =
             new TypeLiteral<Cache<Username, EntryList>>() {};
-        core(type, CACHE_NAME).populateWith(Loader.class);
+        cache(type, CACHE_NAME).populateWith(Loader.class);
         bind(SshKeyCacheImpl.class);
         bind(SshKeyCache.class).to(SshKeyCacheImpl.class);
       }

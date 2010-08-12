@@ -58,12 +58,12 @@ public class AccountProjectWatchCacheImpl implements AccountProjectWatchCache {
       protected void configure() {
         final TypeLiteral<Cache<Account.Id, AccountProjectWatchList>> byAccountIdType =
             new TypeLiteral<Cache<Account.Id, AccountProjectWatchList>>() {};
-        core(byAccountIdType, BY_ACCOUNT_ID).populateWith(
+        cache(byAccountIdType, BY_ACCOUNT_ID).populateWith(
             ByAccountIdLoader.class);
 
         final TypeLiteral<Cache<Project.NameKey, AccountProjectWatchList>> byProjectNameType =
             new TypeLiteral<Cache<Project.NameKey, AccountProjectWatchList>>() {};
-        core(byProjectNameType, BY_PROJECT_NAME).populateWith(
+        cache(byProjectNameType, BY_PROJECT_NAME).populateWith(
             ByProjectNameLoader.class);
 
         bind(AccountProjectWatchCacheImpl.class);

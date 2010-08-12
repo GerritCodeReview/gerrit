@@ -55,7 +55,7 @@ public class AccountAgreementsCacheImpl implements AccountAgreementsCache {
       protected void configure() {
         final TypeLiteral<Cache<Account.Id, AccountAgreementsList>> byAccountIdType =
             new TypeLiteral<Cache<Account.Id, AccountAgreementsList>>() {};
-        core(byAccountIdType, BY_ACCOUNT_ID).populateWith(
+        cache(byAccountIdType, BY_ACCOUNT_ID).populateWith(
             ByAccountIdLoader.class);
 
         bind(AccountAgreementsCacheImpl.class);

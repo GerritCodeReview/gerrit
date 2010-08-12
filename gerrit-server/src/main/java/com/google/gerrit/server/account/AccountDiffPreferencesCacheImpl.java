@@ -18,7 +18,6 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.Account.Id;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
@@ -40,7 +39,7 @@ public class AccountDiffPreferencesCacheImpl implements
       protected void configure() {
         final TypeLiteral<Cache<Account.Id, AccountDiffPreference>> byAccountIdType =
             new TypeLiteral<Cache<Account.Id, AccountDiffPreference>>() {};
-        core(byAccountIdType, BY_ACCOUNT_ID).populateWith(
+        cache(byAccountIdType, BY_ACCOUNT_ID).populateWith(
             ByAccountIdLoader.class);
 
         bind(AccountDiffPreferencesCacheImpl.class);

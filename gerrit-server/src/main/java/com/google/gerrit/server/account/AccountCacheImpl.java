@@ -57,15 +57,15 @@ public class AccountCacheImpl implements AccountCache {
       protected void configure() {
         final TypeLiteral<Cache<Account.Id, AccountState>> byIdType =
             new TypeLiteral<Cache<Account.Id, AccountState>>() {};
-        core(byIdType, BYID_NAME).populateWith(StateLoader.class);
+        cache(byIdType, BYID_NAME).populateWith(StateLoader.class);
 
         final TypeLiteral<Cache<AccountExternalId.Key, AccountExternalId>> byKeyType =
             new TypeLiteral<Cache<AccountExternalId.Key, AccountExternalId>>() {};
-        core(byKeyType, BYEXT_NAME).populateWith(ExtLoader.class);
+        cache(byKeyType, BYEXT_NAME).populateWith(ExtLoader.class);
 
         final TypeLiteral<Cache<Email, AccountIdSet>> type =
             new TypeLiteral<Cache<Email, AccountIdSet>>() {};
-        core(type, BYEMAIL_NAME).populateWith(EmailLoader.class);
+        cache(type, BYEMAIL_NAME).populateWith(EmailLoader.class);
 
         bind(AccountCacheImpl.class);
         bind(AccountCache.class).to(AccountCacheImpl.class);

@@ -44,7 +44,7 @@ public class ProjectCacheImpl implements ProjectCache {
       protected void configure() {
         final TypeLiteral<Cache<Project.NameKey, ProjectState>> type =
             new TypeLiteral<Cache<Project.NameKey, ProjectState>>() {};
-        core(type, CACHE_NAME).populateWith(Loader.class);
+        cache(type, CACHE_NAME).populateWith(Loader.class);
         bind(ProjectCacheImpl.class);
         bind(ProjectCache.class).to(ProjectCacheImpl.class);
       }

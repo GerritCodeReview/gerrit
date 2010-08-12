@@ -33,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     NamedCacheBinding<K, V>, UnnamedCacheBinding<K, V> {
   private final CacheModule module;
-  private final boolean disk;
   private int memoryLimit;
   private int diskLimit;
   private long maxAge;
@@ -46,9 +45,7 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
   private Provider<V> valueProvider;
 
   @SuppressWarnings("unchecked")
-  CacheProvider(final boolean disk, CacheModule module,
-      TypeLiteral<Cache<K, V>> typeLiteral) {
-    this.disk = disk;
+  CacheProvider(CacheModule module, TypeLiteral<Cache<K, V>> typeLiteral) {
     this.module = module;
 
     memoryLimit(1024);
@@ -83,10 +80,6 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
             + " in protobuf format", err);
       }
     }
-
-    if (disk) {
-      diskLimit(16384);
-    }
   }
 
   @Inject
@@ -117,7 +110,7 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
   }
 
   public boolean disk() {
-    return disk;
+    return diskLimit() > 0;
   }
 
   public int memoryLimit() {
@@ -158,13 +151,6 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
   }
 
   public NamedCacheBinding<K, V> diskLimit(final int objects) {
-    if (!disk) {
-      // TODO This should really be a compile time type error, but I'm
-      // too lazy to create the mess of permutations required to setup
-      // type safe returns for bindings in our little DSL.
-      //
-      throw new IllegalStateException("Cache is not disk based");
-    }
     diskLimit = objects;
     return this;
   }

@@ -57,7 +57,7 @@ public class AccountGroupAgreementsCacheImpl implements
       protected void configure() {
         final TypeLiteral<Cache<AccountGroup.Id, AccountGroupAgreementList>> byGroupIdType =
             new TypeLiteral<Cache<AccountGroup.Id, AccountGroupAgreementList>>() {};
-        core(byGroupIdType, BY_GROUP_ID).populateWith(ByGroupIdLoader.class);
+        cache(byGroupIdType, BY_GROUP_ID).populateWith(ByGroupIdLoader.class);
 
         bind(AccountGroupAgreementsCacheImpl.class);
         bind(AccountGroupAgreementsCache.class).to(

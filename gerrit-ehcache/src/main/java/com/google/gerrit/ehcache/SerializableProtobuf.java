@@ -27,7 +27,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 class SerializableProtobuf<T> implements Serializable {
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 100L;
 
   private transient volatile Object data;
   private transient ProtobufCodec<T> codec;
@@ -113,8 +113,7 @@ class SerializableProtobuf<T> implements Serializable {
     }
   }
 
-  private void readObject(ObjectInputStream in) throws IOException,
-      ClassNotFoundException {
+  private void readObject(ObjectInputStream in) throws IOException {
     hash = in.readInt();
     int len = in.readInt();
     byte[] d = new byte[len];

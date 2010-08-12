@@ -34,12 +34,12 @@ public class LdapModule extends CacheModule {
   protected void configure() {
     final TypeLiteral<Cache<String, Set<AccountGroup.Id>>> groups =
         new TypeLiteral<Cache<String, Set<AccountGroup.Id>>>() {};
-    core(groups, GROUP_CACHE).maxAge(1, HOURS) //
+    cache(groups, GROUP_CACHE).maxAge(1, HOURS) //
         .populateWith(LdapRealm.MemberLoader.class);
 
     final TypeLiteral<Cache<String, Account.Id>> usernames =
         new TypeLiteral<Cache<String, Account.Id>>() {};
-    core(usernames, USERNAME_CACHE) //
+    cache(usernames, USERNAME_CACHE) //
         .populateWith(LdapRealm.UserLoader.class);
 
     bind(Realm.class).to(LdapRealm.class).in(Scopes.SINGLETON);

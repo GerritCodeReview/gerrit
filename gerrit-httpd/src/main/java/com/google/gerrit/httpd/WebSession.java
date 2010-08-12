@@ -70,7 +70,7 @@ public final class WebSession {
       protected void configure() {
         final TypeLiteral<Cache<ActiveSession.Key, ActiveSession>> type =
             new TypeLiteral<Cache<ActiveSession.Key, ActiveSession>>() {};
-        core(type, CACHE_NAME) //
+        cache(type, CACHE_NAME) //
             .memoryLimit(1024) // reasonable default for many sites
             .maxAge(12, HOURS) // expire sessions if they are inactive
             .evictionPolicy(EvictionPolicy.LRU) // keep most recently used

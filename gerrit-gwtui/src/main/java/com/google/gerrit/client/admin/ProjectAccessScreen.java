@@ -119,7 +119,7 @@ public class ProjectAccessScreen extends ProjectScreen {
   void display(final ProjectDetail result) {
     final Project project = result.project;
 
-    final Project.NameKey wildKey = Gerrit.getConfig().getWildProject();
+    final Project.NameKey wildKey = Gerrit.getConfig().getWildProject().getNameKey();
     final boolean isWild = wildKey.equals(project.getNameKey());
     Project.NameKey parent = project.getParent();
     if (parent == null) {

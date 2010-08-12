@@ -15,6 +15,7 @@
 package com.google.gerrit.reviewdb;
 
 import com.google.gwtorm.client.Column;
+import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.StringKey;
 
 /** Projects match a source code repository managed by Gerrit */
@@ -49,6 +50,31 @@ public final class Project {
       final NameKey r = new NameKey();
       r.fromString(str);
       return r;
+    }
+  }
+
+  /** Synthetic key to link to within the database */
+  public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
+    @Column(id = 1)
+    protected int id;
+
+    protected Id() {
+    }
+
+    public Id(final int id) {
+      this.id = id;
+    }
+
+    @Override
+    public int get() {
+      return id;
+    }
+
+    @Override
+    protected void set(int newValue) {
+      id = newValue;
     }
   }
 
@@ -105,13 +131,21 @@ public final class Project {
   @Column(id = 8)
   protected boolean useContentMerge;
 
+  @Column(id = 9)
+  protected Id projectId;
+
   protected Project() {
   }
 
-  public Project(final Project.NameKey newName) {
+  public Project(final Project.NameKey newName, final Project.Id newId) {
     name = newName;
+    projectId = newId;
     useContributorAgreements = true;
     setSubmitType(SubmitType.MERGE_IF_NECESSARY);
+  }
+
+  public Project.Id getId() {
+    return projectId;
   }
 
   public Project.NameKey getNameKey() {

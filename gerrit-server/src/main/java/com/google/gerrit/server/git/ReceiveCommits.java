@@ -302,7 +302,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           // Change refs are scheduled when they are created.
           //
           replication.scheduleUpdate(project.getNameKey(), c.getRefName());
-          Branch.NameKey destBranch = new Branch.NameKey(project.getNameKey(), c.getRefName());
+          Branch.NameKey destBranch = new Branch.NameKey(project.getId(), c.getRefName());
           hooks.doRefUpdatedHook(destBranch, c.getOldId(), c.getNewId(), currentUser.getAccount());
         }
       }
@@ -651,7 +651,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     } else {
       destTopicName = null;
     }
-    destBranch = new Branch.NameKey(project.getNameKey(), //
+    destBranch = new Branch.NameKey(project.getId(), //
         destBranchName.substring(0, split));
     destBranchCtl = projectControl.controlForRef(destBranch);
     if (!destBranchCtl.canUpload()) {
@@ -812,7 +812,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           final String idStr = idList.get(idList.size() - 1).trim();
           final Change.Key key = new Change.Key(idStr);
           final List<Change> changes =
-              db.changes().byProjectKey(project.getNameKey(), key).toList();
+              db.changes().byProjectKey(project.getId(), key).toList();
           if (changes.size() > 1) {
             // WTF, multiple changes in this project have the same key?
             // Since the commit is new, the user should recreate it with
@@ -1607,7 +1607,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private Map<Change.Key, Change.Id> openChangesByKey() throws OrmException {
     final Map<Change.Key, Change.Id> r = new HashMap<Change.Key, Change.Id>();
-    for (Change c : db.changes().byProjectOpenAll(project.getNameKey())) {
+    for (Change c : db.changes().byProjectOpenAll(project.getId())) {
       r.put(c.getKey(), c.getId());
     }
     return r;
@@ -1667,7 +1667,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         final MergedSender cm = mergedSenderFactory.create(result.change);
         cm.setFrom(currentUser.getAccountId());
         cm.setPatchSet(result.patchSet, result.info);
-        cm.setDest(new Branch.NameKey(project.getNameKey(),
+        cm.setDest(new Branch.NameKey(project.getId(),
             result.mergedIntoRef));
         cm.send();
       } catch (EmailException e) {

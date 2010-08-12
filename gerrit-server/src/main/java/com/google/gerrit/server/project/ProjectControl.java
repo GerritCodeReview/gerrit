@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.gerrit.common.CollectionsUtil.*;
+import static com.google.gerrit.common.CollectionsUtil.isAnyIncludedIn;
+
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
@@ -53,6 +54,15 @@ public class ProjectControl {
       }
       return p.controlFor(user);
     }
+
+    public ProjectControl controlFor(Project.Id projectId, CurrentUser user)
+        throws NoSuchProjectException {
+      final ProjectState p = projectCache.get(projectId);
+      if (p == null) {
+        throw new NoSuchProjectException(projectId);
+      }
+      return p.controlFor(user);
+    }
   }
 
   public static class Factory {
@@ -74,9 +84,23 @@ public class ProjectControl {
       return p.controlFor(user.get());
     }
 
+    public ProjectControl controlFor(final Project.Id projectId)
+        throws NoSuchProjectException {
+      final ProjectState p = projectCache.get(projectId);
+      if (p == null) {
+        throw new NoSuchProjectException(projectId);
+      }
+      return p.controlFor(user.get());
+    }
+
     public ProjectControl validateFor(final Project.NameKey nameKey)
         throws NoSuchProjectException {
       return validateFor(nameKey, VISIBLE);
+    }
+
+    public ProjectControl validateFor(final Project.Id projectId)
+        throws NoSuchProjectException {
+      return validateFor(projectId, VISIBLE);
     }
 
     public ProjectControl ownerFor(final Project.NameKey nameKey)
@@ -84,16 +108,30 @@ public class ProjectControl {
       return validateFor(nameKey, OWNER);
     }
 
+    public ProjectControl ownerFor(final Project.Id projectId)
+        throws NoSuchProjectException {
+      return validateFor(projectId, OWNER);
+    }
+
     public ProjectControl validateFor(final Project.NameKey nameKey,
         final int need) throws NoSuchProjectException {
-      final ProjectControl c = controlFor(nameKey);
+      return validateFor(controlFor(nameKey), need);
+    }
+
+    public ProjectControl validateFor(final Project.Id projectId,
+        final int need) throws NoSuchProjectException {
+      return validateFor(controlFor(projectId), need);
+    }
+
+    private ProjectControl validateFor(final ProjectControl c,
+        final int need) throws NoSuchProjectException {
       if ((need & VISIBLE) == VISIBLE && c.isVisible()) {
         return c;
       }
       if ((need & OWNER) == OWNER && c.isOwner()) {
         return c;
       }
-      throw new NoSuchProjectException(nameKey);
+      throw new NoSuchProjectException(c.getProject().getNameKey());
     }
   }
 

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.ProjectName;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gwtorm.client.OrmException;
@@ -96,7 +97,8 @@ public class GitProjectImporter {
         }
 
         final Project.NameKey nameKey = new Project.NameKey(name);
-        final Project p = new Project(nameKey);
+        final Project.Id idKey = new Project.Id(db.nextProjectId());
+        final Project p = new Project(nameKey, idKey);
 
         p.setDescription(repositoryManager.getProjectDescription(name));
         p.setSubmitType(SubmitType.MERGE_IF_NECESSARY);
@@ -106,6 +108,8 @@ public class GitProjectImporter {
         p.setRequireChangeID(false);
         db.projects().insert(Collections.singleton(p));
 
+        final ProjectName pn = new ProjectName(p);
+        db.projectNames().insert(Collections.singleton(pn));
       } else if (f.isDirectory()) {
         importProjects(f, prefix + f.getName() + "/", db, have);
       }

@@ -107,8 +107,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     getHeader().add(revtxt);
     if (gw != null) {
       final Anchor revlink =
-          new Anchor("(gitweb)", false, gw.toRevision(detail.getChange()
-              .getProject(), ps));
+          new Anchor("(gitweb)", false, gw.toRevision(detail.getChangeInfo()
+              .getProject().getKey(), ps));
       revlink.addStyleName(Gerrit.RESOURCES.css().patchSetLink());
       getHeader().add(revlink);
     }
@@ -166,7 +166,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
   }
 
   private void displayDownload() {
-    final Project.NameKey projectKey = changeDetail.getChange().getProject();
+    final Project.NameKey projectKey = changeDetail.getChangeInfo().getProject().getKey();
     final String projectName = projectKey.get();
     final CopyableLabel copyLabel = new CopyableLabel("");
     final DownloadCommandPanel commands = new DownloadCommandPanel();

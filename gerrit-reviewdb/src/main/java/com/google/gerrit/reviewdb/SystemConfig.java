@@ -74,10 +74,6 @@ public final class SystemConfig {
   @Column(id = 6)
   public AccountGroup.Id registeredGroupId;
 
-  /** Identity of the project  */
-  @Column(id = 7)
-  public Project.NameKey wildProjectName;
-
   /** Identity of the batch users group */
   @Column(id = 8)
   public AccountGroup.Id batchUsersGroupId;
@@ -85,6 +81,10 @@ public final class SystemConfig {
   /** Identity of the owner group, which permits any project owner. */
   @Column(id = 9)
   public AccountGroup.Id ownerGroupId;
+
+  /** Identity of the project  */
+  @Column(id = 10)
+  public Project.Id wildProjectId;
 
   protected SystemConfig() {
   }

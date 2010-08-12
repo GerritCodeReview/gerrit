@@ -24,9 +24,12 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -67,6 +70,9 @@ public class ScanTrackingIds extends SiteProgram {
   @Inject
   private SchemaFactory<ReviewDb> database;
 
+  @Inject
+  private ProjectCache projectCache;
+
   @Override
   public int run() throws Exception {
     if (threads <= 0) {
@@ -79,6 +85,8 @@ public class ScanTrackingIds extends SiteProgram {
       protected void configure() {
         bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
         listener().to(LocalDiskRepositoryManager.Lifecycle.class);
+        bind(CachePool.class);
+        install(ProjectCacheImpl.module());
       }
     });
 
@@ -113,7 +121,7 @@ public class ScanTrackingIds extends SiteProgram {
   }
 
   private void scan(ReviewDb db, Change change) {
-    final Project.NameKey project = change.getDest().getParentKey();
+    final Project.NameKey project = projectCache.get(change.getDest().getParentKey()).getProject().getNameKey();
     final Repository git;
     try {
       git = gitManager.openRepository(project.get());

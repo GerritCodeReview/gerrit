@@ -240,7 +240,7 @@ public class MergeOp {
   }
 
   private void openRepository() throws MergeException {
-    final String name = destBranch.getParentKey().get();
+    final String name = projectCache.get(destBranch.getParentKey()).getProject().getName();
     try {
       db = repoManager.openRepository(name);
     } catch (RepositoryNotFoundException notGit) {
@@ -879,7 +879,9 @@ public class MergeOp {
         switch (branchUpdate.update(rw)) {
           case NEW:
           case FAST_FORWARD:
-            replication.scheduleUpdate(destBranch.getParentKey(), branchUpdate
+            final ProjectState ps = projectCache.get(destBranch.getParentKey());
+            final Project.NameKey projectName = ps.getProject().getNameKey();
+            replication.scheduleUpdate(projectName, branchUpdate
                 .getName());
 
             Account account = null;

@@ -20,6 +20,8 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
@@ -49,13 +51,15 @@ public class MessagePredicate extends OperatorPredicate<ChangeData> {
 
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
+  private final ProjectCache projectCache;
   private final RevFilter rFilter;
 
   public MessagePredicate(Provider<ReviewDb> db,
-      GitRepositoryManager repoManager, String text) {
+      GitRepositoryManager repoManager, ProjectCache projectCache, String text) {
     super(ChangeQueryBuilder.FIELD_MESSAGE, text);
     this.db = db;
     this.repoManager = repoManager;
+    this.projectCache = projectCache;
     this.rFilter = MessageRevFilter.create(text);
   }
 
@@ -85,7 +89,8 @@ public class MessagePredicate extends OperatorPredicate<ChangeData> {
       return false;
     }
 
-    final Project.NameKey projectName = change.getProject();
+    ProjectState projectState = projectCache.get(change.getDest().getParentKey());
+    Project.NameKey projectName = projectState.getProject().getNameKey();
 
     if (projectName == null) {
       return false;

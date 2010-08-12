@@ -77,9 +77,10 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
       RepositoryNotFoundException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
+    final Project.Id projectId = projectControl.getProject().getId();
 
     for (Branch.NameKey k : toRemove) {
-      if (!projectName.equals(k.getParentKey())) {
+      if (!projectId.equals(k.getParentKey())) {
         throw new IllegalArgumentException("All keys must be from same project");
       }
       if (!projectControl.controlForRef(k).canDelete()) {

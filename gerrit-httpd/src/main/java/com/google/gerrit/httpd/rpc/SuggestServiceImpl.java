@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.ProjectName;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -64,10 +65,10 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
         final CurrentUser user = currentUser.get();
         final List<Project.NameKey> r = new ArrayList<Project.NameKey>();
-        for (final Project p : db.projects().suggestByName(a, b, n)) {
-          final ProjectState e = projectCache.get(p.getNameKey());
+        for (final ProjectName pn : db.projectNames().suggestByName(a, b, n)) {
+          final ProjectState e = projectCache.get(pn.getNameKey());
           if (e != null && e.controlFor(user).isVisible()) {
-            r.add(p.getNameKey());
+            r.add(pn.getNameKey());
           }
         }
         return r;

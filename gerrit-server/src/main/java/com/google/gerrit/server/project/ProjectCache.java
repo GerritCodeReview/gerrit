@@ -19,6 +19,14 @@ import com.google.gerrit.reviewdb.Project;
 /** Cache of project information, including access rights. */
 public interface ProjectCache {
   /**
+   * Get the cached data for a project by its unique id.
+   *
+   * @param projectId id of the project.
+   * @return the cached data; null if no such project exists.
+   */
+  public ProjectState get(Project.Id projectId);
+
+  /**
    * Get the cached data for a project by its unique name.
    *
    * @param projectName name of the project.

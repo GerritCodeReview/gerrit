@@ -23,14 +23,16 @@ import com.google.inject.Provider;
 
 class ProjectPredicate extends OperatorPredicate<ChangeData> {
   private final Provider<ReviewDb> dbProvider;
+  private final Project.Id projectId;
 
-  ProjectPredicate(Provider<ReviewDb> dbProvider, String id) {
-    super(ChangeQueryBuilder.FIELD_PROJECT, id);
+  ProjectPredicate(Provider<ReviewDb> dbProvider, Project.Id projectId, String projectName) {
+    super(ChangeQueryBuilder.FIELD_PROJECT, projectName);
     this.dbProvider = dbProvider;
+    this.projectId = projectId;
   }
 
-  Project.NameKey getValueKey() {
-    return new Project.NameKey(getValue());
+  Project.Id getValueKey() {
+    return projectId;
   }
 
   @Override
@@ -40,7 +42,7 @@ class ProjectPredicate extends OperatorPredicate<ChangeData> {
       return false;
     }
 
-    Project.NameKey p = change.getDest().getParentKey();
+    Project.Id p = change.getDest().getParentKey();
     return p.equals(getValueKey());
   }
 

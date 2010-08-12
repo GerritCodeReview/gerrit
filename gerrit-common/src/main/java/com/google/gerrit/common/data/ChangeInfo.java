@@ -17,55 +17,41 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 
-import java.sql.Timestamp;
-
 public class ChangeInfo {
-  protected Change.Id id;
-  protected Change.Key key;
-  protected Account.Id owner;
-  protected String subject;
-  protected Change.Status status;
+  protected Change change;
   protected ProjectInfo project;
-  protected String branch;
-  protected String topic;
   protected boolean starred;
-  protected Timestamp lastUpdatedOn;
-  protected String sortKey;
 
   protected ChangeInfo() {
   }
 
-  public ChangeInfo(final Change c) {
-    id = c.getId();
-    key = c.getKey();
-    owner = c.getOwner();
-    subject = c.getSubject();
-    status = c.getStatus();
-    project = new ProjectInfo(c.getProject());
-    branch = c.getDest().getShortName();
-    topic = c.getTopic();
-    lastUpdatedOn = c.getLastUpdatedOn();
-    sortKey = c.getSortKey();
+  public ChangeInfo(final Change c, final ProjectInfo projectInfo) {
+    change = c;
+    project = projectInfo;
+  }
+
+  public Change getChange() {
+    return change;
   }
 
   public Change.Id getId() {
-    return id;
+    return change.getId();
   }
 
   public Change.Key getKey() {
-    return key;
+    return change.getKey();
   }
 
   public Account.Id getOwner() {
-    return owner;
+    return change.getOwner();
   }
 
   public String getSubject() {
-    return subject;
+    return change.getSubject();
   }
 
   public Change.Status getStatus() {
-    return status;
+    return change.getStatus();
   }
 
   public ProjectInfo getProject() {
@@ -73,11 +59,11 @@ public class ChangeInfo {
   }
 
   public String getBranch() {
-    return branch;
+    return change.getDest().getShortName();
   }
 
   public String getTopic() {
-    return topic;
+    return change.getTopic();
   }
 
   public boolean isStarred() {
@@ -89,10 +75,10 @@ public class ChangeInfo {
   }
 
   public java.sql.Timestamp getLastUpdatedOn() {
-    return lastUpdatedOn;
+    return change.getLastUpdatedOn();
   }
 
   public String getSortKey() {
-    return sortKey;
+    return change.getSortKey();
   }
 }

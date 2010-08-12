@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.ProjectName;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
@@ -47,6 +48,7 @@ public class SchemaCreator {
   private static final Project.NameKey DEFAULT_WILD_NAME =
       new Project.NameKey("-- All Projects --");
 
+  private Project wildProject;
   private final @SitePath
   File site_path;
 
@@ -83,6 +85,7 @@ public class SchemaCreator {
     sVer.versionNbr = versionNbr;
     db.schemaVersion().insert(Collections.singleton(sVer));
 
+    initWildCardProject(db);
     final SystemConfig sConfig = initSystemConfig(db);
     initOwnerCategory(db);
     initReadCategory(db, sConfig);
@@ -92,7 +95,6 @@ public class SchemaCreator {
     initPushTagCategory(db);
     initPushUpdateBranchCategory(db);
     initForgeIdentityCategory(db, sConfig);
-    initWildCardProject(db);
 
     final SqlDialect d = jdbc.getDialect();
     if (d instanceof DialectH2) {
@@ -167,7 +169,7 @@ public class SchemaCreator {
     s.registeredGroupId = registered.getId();
     s.batchUsersGroupId = batchUsers.getId();
     s.ownerGroupId = owners.getId();
-    s.wildProjectName = DEFAULT_WILD_NAME;
+    s.wildProjectId = wildProject.getId();
     try {
       s.sitePath = site_path.getCanonicalPath();
     } catch (IOException e) {
@@ -178,12 +180,13 @@ public class SchemaCreator {
   }
 
   private void initWildCardProject(final ReviewDb c) throws OrmException {
-    final Project p;
+    wildProject = new Project(DEFAULT_WILD_NAME, new Project.Id(c.nextProjectId()));
+    wildProject.setDescription("Rights inherited by all other projects");
+    wildProject.setUseContributorAgreements(false);
+    c.projects().insert(Collections.singleton(wildProject));
 
-    p = new Project(DEFAULT_WILD_NAME);
-    p.setDescription("Rights inherited by all other projects");
-    p.setUseContributorAgreements(false);
-    c.projects().insert(Collections.singleton(p));
+    ProjectName pn = new ProjectName(wildProject);
+    c.projectNames().insert(Collections.singleton(pn));
   }
 
   private void initVerifiedCategory(final ReviewDb c) throws OrmException {
@@ -220,7 +223,7 @@ public class SchemaCreator {
     c.approvalCategoryValues().insert(vals);
 
     final RefRight approve =
-        new RefRight(new RefRight.Key(DEFAULT_WILD_NAME,
+        new RefRight(new RefRight.Key(wildProject.getId(),
             new RefRight.RefPattern("refs/heads/*"), cat.getId(),
             sConfig.registeredGroupId));
     approve.setMaxValue((short) 1);
@@ -259,7 +262,7 @@ public class SchemaCreator {
     final RefRight.RefPattern pattern = new RefRight.RefPattern(RefRight.ALL);
     {
       final RefRight read =
-          new RefRight(new RefRight.Key(DEFAULT_WILD_NAME, pattern,
+          new RefRight(new RefRight.Key(wildProject.getId(), pattern,
               cat.getId(), sConfig.anonymousGroupId));
       read.setMaxValue((short) 1);
       read.setMinValue((short) 1);
@@ -267,7 +270,7 @@ public class SchemaCreator {
     }
     {
       final RefRight read =
-          new RefRight(new RefRight.Key(DEFAULT_WILD_NAME, pattern,
+          new RefRight(new RefRight.Key(wildProject.getId(), pattern,
               cat.getId(), sConfig.registeredGroupId));
       read.setMaxValue((short) 2);
       read.setMinValue((short) 1);
@@ -275,7 +278,7 @@ public class SchemaCreator {
     }
     {
       final RefRight read =
-          new RefRight(new RefRight.Key(DEFAULT_WILD_NAME, pattern,
+          new RefRight(new RefRight.Key(wildProject.getId(), pattern,
               cat.getId(), sConfig.adminGroupId));
       read.setMaxValue((short) 1);
       read.setMinValue((short) 1);
@@ -348,7 +351,7 @@ public class SchemaCreator {
     c.approvalCategoryValues().insert(values);
 
     RefRight right =
-        new RefRight(new RefRight.Key(sConfig.wildProjectName,
+        new RefRight(new RefRight.Key(wildProject.getId(),
             new RefRight.RefPattern(RefRight.ALL),
             ApprovalCategory.FORGE_IDENTITY, sConfig.registeredGroupId));
     right.setMinValue(ApprovalCategory.FORGE_AUTHOR);

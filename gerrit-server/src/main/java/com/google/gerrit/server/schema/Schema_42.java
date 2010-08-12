@@ -18,6 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 public class Schema_42 extends SchemaVersion {
+
   @Inject
   Schema_42(Provider<Schema_41> prior) {
     super(prior);

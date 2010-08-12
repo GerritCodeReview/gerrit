@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -38,14 +39,17 @@ import java.util.Map;
 @Singleton
 public class EventFactory {
   private final AccountCache accountCache;
+  private final ProjectCache projectCache;
   private final Provider<String> urlProvider;
   private final ApprovalTypes approvalTypes;
 
   @Inject
-  EventFactory(AccountCache accountCache,
+  EventFactory(final AccountCache accountCache,
+      final ProjectCache projectCache,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       ApprovalTypes approvalTypes) {
     this.accountCache = accountCache;
+    this.projectCache = projectCache;
     this.urlProvider = urlProvider;
     this.approvalTypes = approvalTypes;
   }
@@ -59,7 +63,7 @@ public class EventFactory {
    */
   public ChangeAttribute asChangeAttribute(final Change change) {
     ChangeAttribute a = new ChangeAttribute();
-    a.project = change.getProject().get();
+    a.project = projectCache.get(change.getProject()).getProject().getName();
     a.branch = change.getDest().getShortName();
     a.topic = change.getTopic();
     a.id = change.getKey().get();
@@ -82,7 +86,7 @@ public class EventFactory {
     RefUpdateAttribute ru = new RefUpdateAttribute();
     ru.newRev = newId != null ? newId.getName() : ObjectId.zeroId().getName();
     ru.oldRev = oldId != null ? oldId.getName() : ObjectId.zeroId().getName();
-    ru.project = refName.getParentKey().get();
+    ru.project = projectCache.get(refName.getParentKey()).getProject().getName();
     ru.refName = refName.getShortName();
     return ru;
   }

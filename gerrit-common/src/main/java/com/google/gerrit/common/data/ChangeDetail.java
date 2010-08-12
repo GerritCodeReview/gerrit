@@ -31,7 +31,7 @@ public class ChangeDetail {
   protected boolean allowsAnonymous;
   protected boolean canAbandon;
   protected boolean canRestore;
-  protected Change change;
+  protected ChangeInfo changeInfo;
   protected boolean starred;
   protected List<ChangeInfo> dependsOn;
   protected List<ChangeInfo> neededBy;
@@ -79,12 +79,16 @@ public class ChangeDetail {
   }
 
   public Change getChange() {
-    return change;
+    return changeInfo.getChange();
   }
 
-  public void setChange(final Change change) {
-    this.change = change;
-    this.currentPatchSetId = change.currentPatchSetId();
+  public ChangeInfo getChangeInfo() {
+    return changeInfo;
+  }
+
+  public void setChangeInfo(final ChangeInfo changeInfo) {
+    this.changeInfo = changeInfo;
+    this.currentPatchSetId = changeInfo.getChange().currentPatchSetId();
   }
 
   public boolean isStarred() {

@@ -189,11 +189,12 @@ public class ChangeHookRunner {
      * @param name Project to get repo for,
      * @return Repository or null.
      */
-    private Repository openRepository(final Project.NameKey name) {
+    private Repository openRepository(final Project.Id projectId) {
+        final String name = projectCache.get(projectId).getProject().getName();
         try {
-            return repoManager.openRepository(name.get());
+          return repoManager.openRepository(name);
         } catch (RepositoryNotFoundException err) {
-            log.warn("Cannot open repository " + name.get(), err);
+            log.warn("Cannot open repository " + name, err);
             return null;
         }
     }

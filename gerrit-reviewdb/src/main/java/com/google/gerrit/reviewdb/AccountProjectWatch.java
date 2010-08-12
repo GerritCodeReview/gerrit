@@ -34,20 +34,20 @@ public final class AccountProjectWatch {
     protected Account.Id accountId;
 
     @Column(id = 2)
-    protected Project.NameKey projectName;
+    protected Project.Id projectId;
 
     @Column(id = 3)
     protected Filter filter;
 
     protected Key() {
       accountId = new Account.Id();
-      projectName = new Project.NameKey();
+      projectId = new Project.Id();
       filter = new Filter();
     }
 
-    public Key(Account.Id a, Project.NameKey g, String f) {
+    public Key(Account.Id a, Project.Id g, String f) {
       accountId = a;
-      projectName = g;
+      projectId = g;
       filter = new Filter(f);
     }
 
@@ -58,7 +58,7 @@ public final class AccountProjectWatch {
 
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
-      return new com.google.gwtorm.client.Key<?>[] {projectName, filter};
+      return new com.google.gwtorm.client.Key<?>[] {projectId, filter};
     }
   }
 
@@ -116,8 +116,8 @@ public final class AccountProjectWatch {
     return key.accountId;
   }
 
-  public Project.NameKey getProjectNameKey() {
-    return key.projectName;
+  public Project.Id getProjectId() {
+    return key.projectId;
   }
 
   public String getFilter() {

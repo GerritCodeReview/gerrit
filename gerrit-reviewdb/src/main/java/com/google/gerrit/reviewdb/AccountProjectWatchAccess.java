@@ -28,6 +28,6 @@ public interface AccountProjectWatchAccess extends
   @Query("WHERE key.accountId = ?")
   ResultSet<AccountProjectWatch> byAccount(Account.Id id) throws OrmException;
 
-  @Query("WHERE key.projectName = ?")
-  ResultSet<AccountProjectWatch> byProject(Project.NameKey name) throws OrmException;
+  @Query("WHERE key.projectId = ?")
+  ResultSet<AccountProjectWatch> byProject(Project.Id id) throws OrmException;
 }

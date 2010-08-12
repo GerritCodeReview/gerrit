@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Schema_103 extends SchemaVersion {
-  private static final int MAX_SCAN_SIZE = 50000;
+  private static final int MAX_SCAN_SIZE = 1000;
 
   @Inject
   Schema_103(Provider<Schema_40> prior) {

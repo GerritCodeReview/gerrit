@@ -25,23 +25,23 @@ public final class ActiveSession {
     private static final long serialVersionUID = 1L;
 
     @Column(id = 1, length = 60)
-    protected String token;
+    protected String sessionCookie;
 
     protected Key() {
     }
 
     public Key(final String token) {
-      this.token = token;
+      this.sessionCookie = token;
     }
 
     @Override
     public String get() {
-      return token;
+      return sessionCookie;
     }
 
     @Override
     protected void set(String newValue) {
-      token = newValue;
+      sessionCookie = newValue;
     }
   }
 
@@ -57,7 +57,7 @@ public final class ActiveSession {
   @Column(id = 4)
   protected boolean persistentCookie;
 
-  @Column(id = 5)
+  @Column(id = 5, notNull = false)
   protected AccountExternalId.Key externalId;
 
   @Column(id = 6)

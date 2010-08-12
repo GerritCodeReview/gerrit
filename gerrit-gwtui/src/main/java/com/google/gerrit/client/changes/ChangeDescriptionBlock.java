@@ -15,7 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.common.data.AccountInfoCache;
-import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -34,9 +34,9 @@ public class ChangeDescriptionBlock extends Composite {
     initWidget(hp);
   }
 
-  public void display(final Change chg, final PatchSetInfo info,
+  public void display(final ChangeInfo changeInfo, final PatchSetInfo info,
       final AccountInfoCache acc) {
-    infoBlock.display(chg, acc);
+    infoBlock.display(changeInfo, acc);
     messageBlock.display(info.getMessage());
   }
 }

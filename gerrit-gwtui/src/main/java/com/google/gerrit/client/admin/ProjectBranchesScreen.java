@@ -21,6 +21,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.HintTextBox;
+import com.google.gerrit.common.data.BranchInfo;
 import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.errors.InvalidNameException;
@@ -85,7 +86,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
         });
   }
 
-  private void display(final List<Branch> listBranches) {
+  private void display(final List<BranchInfo> listBranches) {
     branches.display(listBranches);
     delBranch.setVisible(branches.hasBranchCanDelete());
   }
@@ -275,13 +276,13 @@ public class ProjectBranchesScreen extends ProjectScreen {
       confirmationDialog.center();
     }
 
-    void display(final List<Branch> result) {
+    void display(final List<BranchInfo> result) {
       canDelete = false;
 
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
-      for (final Branch k : result) {
+      for (final BranchInfo k : result) {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
@@ -289,7 +290,8 @@ public class ProjectBranchesScreen extends ProjectScreen {
       }
     }
 
-    void populate(final int row, final Branch k) {
+    void populate(final int row, final BranchInfo branchInfo) {
+      final Branch k = branchInfo.getBranch();
       final GitwebLink c = Gerrit.getConfig().getGitwebLink();
 
       if (k.getCanDelete()) {
@@ -308,8 +310,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
       }
 
       if (c != null) {
-        table.setWidget(row, 4, new Anchor("(gitweb)", false, c.toBranch(k
-            .getNameKey())));
+        table.setWidget(row, 4, new Anchor("(gitweb)", false, c.toBranch(branchInfo)));
       }
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();

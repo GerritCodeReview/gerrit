@@ -22,6 +22,7 @@ import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.data.AccountInfoCache;
+import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gwt.user.client.ui.Composite;
@@ -74,7 +75,8 @@ public class ChangeInfoBlock extends Composite {
     table.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
   }
 
-  public void display(final Change chg, final AccountInfoCache acc) {
+  public void display(final ChangeInfo changeInfo, final AccountInfoCache acc) {
+    final Change chg = changeInfo.getChange();
     final Branch.NameKey dst = chg.getDest();
 
     CopyableLabel changeIdLabel =
@@ -83,11 +85,12 @@ public class ChangeInfoBlock extends Composite {
     table.setWidget(R_CHANGE_ID, 1, changeIdLabel);
 
     table.setWidget(R_OWNER, 1, AccountDashboardLink.link(acc, chg.getOwner()));
-    table.setWidget(R_PROJECT, 1, new ProjectLink(chg.getProject(), chg.getStatus()));
-    table.setWidget(R_BRANCH, 1, new BranchLink(dst.getShortName(), chg
-        .getProject(), chg.getStatus(), dst.get(), null));
-    table.setWidget(R_TOPIC, 1, new BranchLink(chg.getTopic(),
-        chg.getProject(), chg.getStatus(), dst.get(), chg.getTopic()));
+    table.setWidget(R_PROJECT, 1, new ProjectLink(changeInfo.getProject()
+        .getKey(), chg.getStatus()));
+    table.setWidget(R_BRANCH, 1, new BranchLink(dst.getShortName(), changeInfo
+        .getProject().getKey(), chg.getStatus(), dst.get(), null));
+    table.setWidget(R_TOPIC, 1, new BranchLink(chg.getTopic(), changeInfo
+        .getProject().getKey(), chg.getStatus(), dst.get(), chg.getTopic()));
     table.setText(R_UPLOADED, 1, mediumFormat(chg.getCreatedOn()));
     table.setText(R_UPDATED, 1, mediumFormat(chg.getLastUpdatedOn()));
     table.setText(R_STATUS, 1, Util.toLongString(chg.getStatus()));

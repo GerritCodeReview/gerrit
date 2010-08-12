@@ -14,8 +14,6 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.Branch;
-
 import java.util.List;
 
 /**
@@ -25,12 +23,12 @@ import java.util.List;
 public final class ListBranchesResult {
   protected boolean noRepository;
   protected boolean canAdd;
-  protected List<Branch> branches;
+  protected List<BranchInfo> branches;
 
   protected ListBranchesResult() {
   }
 
-  public ListBranchesResult(List<Branch> branches, boolean canAdd,
+  public ListBranchesResult(final List<BranchInfo> branches, boolean canAdd,
       boolean noRepository) {
     this.branches = branches;
     this.canAdd = canAdd;
@@ -45,7 +43,7 @@ public final class ListBranchesResult {
     return canAdd;
   }
 
-  public List<Branch> getBranches() {
+  public List<BranchInfo> getBranches() {
     return branches;
   }
 }

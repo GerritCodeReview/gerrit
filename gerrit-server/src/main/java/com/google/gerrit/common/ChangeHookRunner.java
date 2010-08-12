@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -172,11 +171,11 @@ public class ChangeHookRunner {
      * @return Repository or null.
      */
     private Repository openRepository(final Change change) {
-        Project.NameKey name = change.getProject();
+        final String name = projectCache.get(change.getProject()).getProject().getName();
         try {
-            return repoManager.openRepository(name.get());
+          return repoManager.openRepository(name);
         } catch (RepositoryNotFoundException err) {
-            log.warn("Cannot open repository " + name.get(), err);
+            log.warn("Cannot open repository " + name, err);
             return null;
         }
     }

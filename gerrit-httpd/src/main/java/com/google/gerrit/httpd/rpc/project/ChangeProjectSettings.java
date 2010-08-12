@@ -62,8 +62,9 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
     final Project.NameKey projectName = update.getNameKey();
     final ProjectControl projectControl =
         projectControlFactory.ownerFor(projectName);
+    final Project.Id projectId = projectControl.getProject().getId();
 
-    final Project proj = db.projects().get(projectName);
+    final Project proj = db.projects().get(projectId);
     if (proj == null) {
       throw new NoSuchProjectException(projectName);
     }

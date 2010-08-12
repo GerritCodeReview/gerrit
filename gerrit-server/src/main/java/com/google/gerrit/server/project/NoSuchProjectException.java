@@ -27,4 +27,8 @@ public class NoSuchProjectException extends Exception {
   public NoSuchProjectException(final Project.NameKey key, final Throwable why) {
     super(key.toString(), why);
   }
+
+  public NoSuchProjectException(final Project.Id id) {
+    super(id.toString());
+  }
 }

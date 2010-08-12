@@ -18,11 +18,11 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetInfo;
-import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -47,14 +47,17 @@ public class PatchSetInfoFactory {
   private final GitRepositoryManager repoManager;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final AccountByEmailCache byEmailCache;
+  private final ProjectCache projectCache;
 
   @Inject
   public PatchSetInfoFactory(final GitRepositoryManager grm,
       final SchemaFactory<ReviewDb> schemaFactory,
-      final AccountByEmailCache byEmailCache) {
+      final AccountByEmailCache byEmailCache,
+      final ProjectCache projectCache) {
     this.repoManager = grm;
     this.schemaFactory = schemaFactory;
     this.byEmailCache = byEmailCache;
+    this.projectCache = projectCache;
   }
 
   public PatchSetInfo get(RevCommit src, PatchSet.Id psi) {
@@ -75,8 +78,7 @@ public class PatchSetInfoFactory {
       db = schemaFactory.open();
       final PatchSet patchSet = db.patchSets().get(patchSetId);
       final Change change = db.changes().get(patchSet.getId().getParentKey());
-      final Project.NameKey projectKey = change.getProject();
-      final String projectName = projectKey.get();
+      final String projectName = projectCache.get(change.getProject()).getProject().getName();
       repo = repoManager.openRepository(projectName);
       final RevWalk rw = new RevWalk(repo);
       try {

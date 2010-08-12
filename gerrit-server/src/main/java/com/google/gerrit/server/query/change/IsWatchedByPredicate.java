@@ -40,7 +40,7 @@ class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
   private final ChangeQueryBuilder.Arguments args;
   private final CurrentUser user;
 
-  private Map<Project.NameKey, List<Predicate<ChangeData>>> rules;
+  private Map<Project.Id, List<Predicate<ChangeData>>> rules;
 
   IsWatchedByPredicate(ChangeQueryBuilder.Arguments args, CurrentUser user) {
     super(ChangeQueryBuilder.FIELD_WATCHEDBY, describe(user));
@@ -52,12 +52,12 @@ class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
   public boolean match(final ChangeData cd) throws OrmException {
     if (rules == null) {
       ChangeQueryBuilder builder = new ChangeQueryBuilder(args, user);
-      rules = new HashMap<Project.NameKey, List<Predicate<ChangeData>>>();
+      rules = new HashMap<Project.Id, List<Predicate<ChangeData>>>();
       for (AccountProjectWatch w : user.getNotificationFilters()) {
-        List<Predicate<ChangeData>> list = rules.get(w.getProjectNameKey());
+        List<Predicate<ChangeData>> list = rules.get(w.getProjectId());
         if (list == null) {
           list = new ArrayList<Predicate<ChangeData>>(4);
-          rules.put(w.getProjectNameKey(), list);
+          rules.put(w.getProjectId(), list);
         }
 
         Predicate<ChangeData> p = compile(builder, w);
@@ -76,10 +76,10 @@ class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
       return false;
     }
 
-    Project.NameKey project = change.getDest().getParentKey();
-    List<Predicate<ChangeData>> list = rules.get(project);
+    Project.Id projectId = change.getDest().getParentKey();
+    List<Predicate<ChangeData>> list = rules.get(projectId);
     if (list == null) {
-      list = rules.get(args.wildProjectName);
+      list = rules.get(args.wildProject.getId());
     }
     if (list != null) {
       for (Predicate<ChangeData> p : list) {

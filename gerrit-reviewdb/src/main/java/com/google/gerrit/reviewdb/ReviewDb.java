@@ -91,6 +91,9 @@ public interface ReviewDb extends Schema {
   ProjectAccess projects();
 
   @Relation
+  ProjectNameAccess projectNames();
+
+  @Relation
   ChangeAccess changes();
 
   @Relation
@@ -125,6 +128,10 @@ public interface ReviewDb extends Schema {
   /** Next unique id for a {@link AccountGroup}. */
   @Sequence
   int nextAccountGroupId() throws OrmException;
+
+  /** Next unique id for a {@link Project}. */
+  @Sequence
+  int nextProjectId() throws OrmException;
 
   /** Next unique id for a {@link Change}. */
   @Sequence

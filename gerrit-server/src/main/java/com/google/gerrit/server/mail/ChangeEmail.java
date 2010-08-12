@@ -313,7 +313,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
 
     for (AccountProjectWatch w : args.db.get().accountProjectWatches()
-        .byProject(args.wildProject)) {
+        .byProject(args.wildProject.getId())) {
       if (!projectWatchers.contains(w.getAccountId())) {
         add(matching, w);
       }

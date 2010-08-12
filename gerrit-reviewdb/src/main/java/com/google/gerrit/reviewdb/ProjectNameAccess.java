@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,10 +20,14 @@ import com.google.gwtorm.client.PrimaryKey;
 import com.google.gwtorm.client.Query;
 import com.google.gwtorm.client.ResultSet;
 
-public interface ProjectAccess extends Access<Project, Project.Id> {
-  @PrimaryKey("projectId")
-  Project get(Project.Id id) throws OrmException;
+public interface ProjectNameAccess extends Access<ProjectName, Project.NameKey> {
+  @PrimaryKey("name")
+  ProjectName get(Project.NameKey name) throws OrmException;
 
   @Query("ORDER BY name")
-  ResultSet<Project> all() throws OrmException;
+  ResultSet<ProjectName> all();
+
+  @Query("WHERE name.name >= ? AND name.name <= ? ORDER BY name LIMIT ?")
+  ResultSet<ProjectName> suggestByName(String nameA, String nameB,
+      int limit) throws OrmException;
 }

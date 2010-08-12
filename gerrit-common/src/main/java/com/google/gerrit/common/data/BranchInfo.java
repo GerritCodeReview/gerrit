@@ -12,14 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.schema;
+package com.google.gerrit.common.data;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import com.google.gerrit.reviewdb.Branch;
 
-class Schema_29 extends SchemaVersion {
-  @Inject
-  Schema_29(Provider<Schema_28> prior) {
-    super(prior);
+public class BranchInfo {
+
+  protected Branch branch;
+  protected ProjectInfo projectInfo;
+
+  protected BranchInfo() {
+  }
+
+  public BranchInfo(final Branch branch, final ProjectInfo projectInfo) {
+    this.branch = branch;
+    this.projectInfo = projectInfo;
+  }
+
+  public Branch getBranch() {
+    return branch;
+  }
+
+  public ProjectInfo getProjectInfo() {
+    return projectInfo;
   }
 }

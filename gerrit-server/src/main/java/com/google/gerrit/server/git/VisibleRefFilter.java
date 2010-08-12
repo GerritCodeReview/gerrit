@@ -102,7 +102,7 @@ public class VisibleRefFilter implements RefFilter {
     final Project project = projectCtl.getProject();
     try {
       final Set<Change.Id> visibleChanges = new HashSet<Change.Id>();
-      for (Change change : reviewDb.changes().byProject(project.getNameKey())) {
+      for (Change change : reviewDb.changes().byProject(project.getId())) {
         if (projectCtl.controlFor(change).isVisible()) {
           visibleChanges.add(change.getId());
         }

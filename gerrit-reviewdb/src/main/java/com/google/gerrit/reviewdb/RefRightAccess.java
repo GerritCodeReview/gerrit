@@ -24,8 +24,8 @@ public interface RefRightAccess extends Access<RefRight, RefRight.Key> {
   @PrimaryKey("key")
   RefRight get(RefRight.Key refRight) throws OrmException;
 
-  @Query("WHERE key.projectName = ?")
-  ResultSet<RefRight> byProject(Project.NameKey project) throws OrmException;
+  @Query("WHERE key.projectId = ?")
+  ResultSet<RefRight> byProject(Project.Id project) throws OrmException;
 
   @Query("WHERE key.categoryId = ? AND key.groupId = ?")
   ResultSet<RefRight> byCategoryGroup(ApprovalCategory.Id cat,

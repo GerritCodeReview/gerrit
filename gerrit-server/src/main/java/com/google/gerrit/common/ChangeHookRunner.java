@@ -170,7 +170,8 @@ public class ChangeHookRunner {
      */
     private Repository getRepo(final Change change) {
         try {
-            return repoManager.openRepository(change.getProject().get());
+            final String name = projectCache.get(change.getProject()).getProject().getName();
+            return repoManager.openRepository(name);
         } catch (Exception ex) {
             return null;
         }

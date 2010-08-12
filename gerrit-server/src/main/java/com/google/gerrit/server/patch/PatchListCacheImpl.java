@@ -71,6 +71,7 @@ import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gerrit.server.cache.EvictionPolicy;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -139,11 +140,14 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   private final Cache<PatchListKey, PatchList> cache;
+  private final ProjectCache projectCache;
 
   @Inject
   PatchListCacheImpl(
-      @Named(CACHE_NAME) final Cache<PatchListKey, PatchList> thecache) {
+      @Named(CACHE_NAME) final Cache<PatchListKey, PatchList> thecache,
+      final ProjectCache projectCache) {
     cache = thecache;
+    this.projectCache = projectCache;
   }
 
   public PatchList get(final PatchListKey key) {
@@ -156,7 +160,7 @@ public class PatchListCacheImpl implements PatchListCache {
 
   public PatchList get(final Change change, final PatchSet patchSet,
       final Whitespace whitespace) {
-    final Project.NameKey projectKey = change.getProject();
+    final Project.NameKey projectKey = projectCache.get(change.getProject()).getProject().getNameKey();
     final ObjectId a = null;
     final ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
     return get(new PatchListKey(projectKey, a, b, whitespace));

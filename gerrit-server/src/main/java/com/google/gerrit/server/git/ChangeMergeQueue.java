@@ -24,6 +24,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -57,10 +58,12 @@ public class ChangeMergeQueue implements MergeQueue {
 
   private final WorkQueue workQueue;
   private final Provider<MergeOp.Factory> bgFactory;
+  private final ProjectCache projectCache;
 
   @Inject
-  ChangeMergeQueue(final WorkQueue wq, Injector parent) {
+  ChangeMergeQueue(final WorkQueue wq, final Injector parent, final ProjectCache projectCache) {
     workQueue = wq;
+    this.projectCache = projectCache;
 
     Injector child = parent.createChildInjector(new AbstractModule() {
       @Override
@@ -237,8 +240,9 @@ public class ChangeMergeQueue implements MergeQueue {
 
     @Override
     public String toString() {
-      final Project.NameKey project = dest.getParentKey();
-      return "submit " + project.get() + " " + dest.getShortName();
+      final Project.Id projectId = dest.getParentKey();
+      final Project project = projectCache.get(projectId).getProject();
+      return "submit " + project.getName() + " " + dest.getShortName();
     }
   }
 
@@ -257,8 +261,9 @@ public class ChangeMergeQueue implements MergeQueue {
 
     @Override
     public String toString() {
-      final Project.NameKey project = dest.getParentKey();
-      return "recheck " + project.get() + " " + dest.getShortName();
+      final Project.Id projectId = dest.getParentKey();
+      final Project project = projectCache.get(projectId).getProject();
+      return "recheck " + project.getName() + " " + dest.getShortName();
     }
   }
 

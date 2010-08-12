@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.common.data.ProjectInfo;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
@@ -35,6 +36,8 @@ import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
@@ -61,6 +64,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   private final FunctionState.Factory functionState;
   private final PatchSetDetailFactory.Factory patchSetDetail;
   private final AccountInfoCacheFactory aic;
+  private final ProjectCache projectCache;
   private final ReviewDb db;
 
   private final Change.Id changeId;
@@ -74,6 +78,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       final PatchSetDetailFactory.Factory patchSetDetail, final ReviewDb db,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
+      final ProjectCache projectCache,
       @Assisted final Change.Id id) {
     this.approvalTypes = approvalTypes;
     this.functionState = functionState;
@@ -81,6 +86,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     this.db = db;
     this.changeControlFactory = changeControlFactory;
     this.aic = accountInfoCacheFactory.create();
+    this.projectCache = projectCache;
 
     this.changeId = id;
   }
@@ -98,7 +104,10 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     aic.want(change.getOwner());
 
     detail = new ChangeDetail();
-    detail.setChange(change);
+    final ProjectState project = projectCache.get(change.getProject());
+    final ProjectInfo projectInfo = new ProjectInfo(project.getProject().getNameKey());
+    final ChangeInfo changeInfo = new ChangeInfo(change, projectInfo);
+    detail.setChangeInfo(changeInfo);
     detail.setAllowsAnonymous(control.forAnonymousUser().isVisible());
     detail.setCanAbandon(change.getStatus().isOpen() && control.canAbandon());
     detail.setCanRestore(change.getStatus() == Change.Status.ABANDONED && control.canRestore());
@@ -224,7 +233,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       final Change ac = m.get(a);
       if (ac != null) {
         aic.want(ac.getOwner());
-        dependsOn.add(new ChangeInfo(ac));
+        final ProjectInfo pi = new ProjectInfo(projectCache.get(ac.getProject()).getProject().getNameKey());
+        dependsOn.add(new ChangeInfo(ac, pi));
       }
     }
 
@@ -233,7 +243,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       final Change ac = m.get(a);
       if (ac != null) {
         aic.want(ac.getOwner());
-        neededBy.add(new ChangeInfo(ac));
+        final ProjectInfo pi = new ProjectInfo(projectCache.get(ac.getProject()).getProject().getNameKey());
+        neededBy.add(new ChangeInfo(ac, pi));
       }
     }
 

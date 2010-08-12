@@ -101,7 +101,7 @@ class AddBranch extends Handler<ListBranchesResult> {
       throw new InvalidNameException();
     }
 
-    final Branch.NameKey name = new Branch.NameKey(projectName, refname);
+    final Branch.NameKey name = new Branch.NameKey(projectControl.getProject().getId(), refname);
     final RefControl refControl = projectControl.controlForRef(name);
     final Repository repo = repoManager.openRepository(projectName.get());
     try {
@@ -135,7 +135,7 @@ class AddBranch extends Handler<ListBranchesResult> {
           case FAST_FORWARD:
           case NEW:
           case NO_CHANGE:
-            replication.scheduleUpdate(name.getParentKey(), refname);
+            replication.scheduleUpdate(projectName, refname);
             break;
           default: {
             final String msg =

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.http.client.URL;
@@ -53,12 +52,12 @@ public class GitwebLink {
     return baseUrl + pattern.replace(p);
   }
 
-  public String toBranch(final Branch.NameKey branch) {
+  public String toBranch(final BranchInfo branchInfo) {
     ParamertizedString pattern = new ParamertizedString(type.getBranch());
 
     final Map<String, String> p = new HashMap<String, String>();
-    p.put("project", URL.encodeComponent(branch.getParentKey().get()));
-    p.put("branch", URL.encodeComponent(branch.get()));
+    p.put("project", URL.encodeComponent(branchInfo.getProjectInfo().getName()));
+    p.put("branch", URL.encodeComponent(branchInfo.getBranch().getName()));
     return baseUrl + pattern.replace(p);
   }
 }

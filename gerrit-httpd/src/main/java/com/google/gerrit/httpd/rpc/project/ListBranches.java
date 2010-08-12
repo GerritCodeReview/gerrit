@@ -14,7 +14,9 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.data.BranchInfo;
 import com.google.gerrit.common.data.ListBranchesResult;
+import com.google.gerrit.common.data.ProjectInfo;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
@@ -65,8 +67,9 @@ class ListBranches extends Handler<ListBranchesResult> {
     final ProjectControl pctl = projectControlFactory.validateFor( //
         projectName, //
         ProjectControl.OWNER | ProjectControl.VISIBLE);
+    final ProjectInfo projectInfo = new ProjectInfo(pctl.getProject().getNameKey());
 
-    final List<Branch> branches = new ArrayList<Branch>();
+    final List<BranchInfo> branches = new ArrayList<BranchInfo>();
     Branch headBranch = null;
     final Repository db = repoManager.openRepository(projectName.get());
     try {
@@ -101,14 +104,14 @@ class ListBranches extends Handler<ListBranchesResult> {
             target = target.substring(Constants.R_HEADS.length());
           }
 
-          Branch b = createBranch(Constants.HEAD);
+          Branch b = createBranch(Constants.HEAD, pctl.getProject().getId());
           b.setRevision(new RevId(target));
           b.setCanDelete(targetRefControl.canDelete());
 
           if (Constants.HEAD.equals(ref.getName())) {
             headBranch = b;
           } else {
-            branches.add(b);
+            branches.add(new BranchInfo(b, projectInfo));
           }
           continue;
         }
@@ -117,32 +120,32 @@ class ListBranches extends Handler<ListBranchesResult> {
 
         if (ref.getName().startsWith(Constants.R_HEADS)
             && refControl.isVisible()) {
-          final Branch b = createBranch(ref.getName());
+          final Branch b = createBranch(ref.getName(), pctl.getProject().getId());
           if (ref.getObjectId() != null) {
             b.setRevision(new RevId(ref.getObjectId().name()));
           }
 
           b.setCanDelete(refControl.canDelete());
 
-          branches.add(b);
+          branches.add(new BranchInfo(b, projectInfo));
         }
       }
     } finally {
       db.close();
     }
-    Collections.sort(branches, new Comparator<Branch>() {
+    Collections.sort(branches, new Comparator<BranchInfo>() {
       @Override
-      public int compare(final Branch a, final Branch b) {
-        return a.getName().compareTo(b.getName());
+      public int compare(final BranchInfo a, final BranchInfo b) {
+        return a.getBranch().getName().compareTo(b.getBranch().getName());
       }
     });
     if (headBranch != null) {
-      branches.add(0, headBranch);
+      branches.add(0, new BranchInfo(headBranch, projectInfo));
     }
     return new ListBranchesResult(branches, pctl.canAddRefs());
   }
 
-  private Branch createBranch(final String name) {
-    return new Branch(new Branch.NameKey(projectName, name));
+  private Branch createBranch(final String name, final Project.Id projectId) throws NoSuchProjectException {
+    return new Branch(new Branch.NameKey(projectId, name));
   }
 }

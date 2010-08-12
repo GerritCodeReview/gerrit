@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.config.WildProject;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -39,13 +39,13 @@ public class PushAllProjectsOp extends DefaultQueueOp {
 
   private final SchemaFactory<ReviewDb> schema;
   private final ReplicationQueue replication;
-  private final Project.NameKey wildProject;
+  private final Project wildProject;
   private final String urlMatch;
 
   @Inject
   public PushAllProjectsOp(final WorkQueue wq,
       final SchemaFactory<ReviewDb> sf, final ReplicationQueue rq,
-      @WildProjectName final Project.NameKey wp,
+      @WildProject final Project wp,
       @Assisted @Nullable final String urlMatch) {
     super(wq);
     this.schema = sf;
@@ -66,7 +66,7 @@ public class PushAllProjectsOp extends DefaultQueueOp {
       final ReviewDb db = schema.open();
       try {
         for (final Project project : db.projects().all()) {
-          if (!project.getNameKey().equals(wildProject)) {
+          if (!project.getNameKey().equals(wildProject.getNameKey())) {
             replication.scheduleFullSync(project.getNameKey(), urlMatch);
           }
         }

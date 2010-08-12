@@ -188,7 +188,7 @@ class AddRefRight extends Handler<ProjectDetail> {
       throw new NoSuchGroupException(groupName);
     }
     final RefRight.Key key =
-        new RefRight.Key(projectName, new RefRight.RefPattern(refPattern),
+        new RefRight.Key(projectControl.getProject().getId(), new RefRight.RefPattern(refPattern),
             categoryId, group.getId());
     RefRight rr = db.refRights().get(key);
     if (rr == null) {

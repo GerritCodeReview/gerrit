@@ -53,11 +53,8 @@ public final class RefRight {
     }
   }
 
-  public static class Key extends CompoundKey<Project.NameKey> {
+  public static class Key extends CompoundKey<Project.Id> {
     private static final long serialVersionUID = 1L;
-
-    @Column(id = 1)
-    protected Project.NameKey projectName;
 
     @Column(id = 2)
     protected RefPattern refPattern;
@@ -68,28 +65,31 @@ public final class RefRight {
     @Column(id = 4)
     protected AccountGroup.Id groupId;
 
+    @Column(id = 5)
+    protected Project.Id projectId;
+
     protected Key() {
-      projectName = new Project.NameKey();
+      projectId = new Project.Id();
       refPattern = new RefPattern();
       categoryId = new ApprovalCategory.Id();
       groupId = new AccountGroup.Id();
     }
 
-    public Key(final Project.NameKey projectName, final RefPattern refPattern,
+    public Key(final Project.Id projectId, final RefPattern refPattern,
         final ApprovalCategory.Id categoryId, final AccountGroup.Id groupId) {
-      this.projectName = projectName;
+      this.projectId = projectId;
       this.refPattern = refPattern;
       this.categoryId = categoryId;
       this.groupId = groupId;
     }
 
     @Override
-    public Project.NameKey getParentKey() {
-      return projectName;
+    public Project.Id getParentKey() {
+      return projectId;
     }
 
-    public Project.NameKey getProjectNameKey() {
-      return projectName;
+    public Project.Id getProjectId() {
+      return projectId;
     }
 
     public String getRefPattern() {
@@ -134,8 +134,8 @@ public final class RefRight {
     return key.refPattern.get();
   }
 
-  public Project.NameKey getProjectNameKey() {
-    return getKey().getProjectNameKey();
+  public Project.Id getProjectId() {
+    return key.projectId;
   }
 
   public boolean isExclusive() {
@@ -172,7 +172,7 @@ public final class RefRight {
     s.append("{group :");
     s.append(getAccountGroupId().get());
     s.append(", proj :");
-    s.append(getProjectNameKey().get());
+    s.append(getProjectId().get());
     s.append(", cat :");
     s.append(getApprovalCategoryId().get());
     s.append(", pattern :");

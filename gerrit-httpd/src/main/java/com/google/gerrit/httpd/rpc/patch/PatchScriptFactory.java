@@ -37,6 +37,7 @@ import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -74,6 +75,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private final ReviewDb db;
   private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory.Factory aicFactory;
+  private ProjectCache projectCache;
 
   private final Patch.Key patchKey;
   @Nullable
@@ -93,12 +95,14 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private List<Patch> history;
   private CommentDetail comments;
 
+
   @Inject
   PatchScriptFactory(final GitRepositoryManager grm,
       Provider<PatchScriptBuilder> builderFactory,
       final PatchListCache patchListCache, final ReviewDb db,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory aicFactory,
+      final ProjectCache projectCache,
       @Assisted final Patch.Key patchKey,
       @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
       @Assisted("patchSetB") final PatchSet.Id patchSetB,
@@ -109,6 +113,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
     this.db = db;
     this.changeControlFactory = changeControlFactory;
     this.aicFactory = aicFactory;
+    this.projectCache = projectCache;
 
     this.patchKey = patchKey;
     this.psa = patchSetA;
@@ -126,7 +131,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
     control = changeControlFactory.validateFor(changeId);
     change = control.getChange();
-    projectKey = change.getProject();
+    projectKey = projectCache.get(change.getProject()).getProject().getNameKey();
     patchSet = db.patchSets().get(patchSetId);
     if (patchSet == null) {
       throw new NoSuchChangeException(changeId);

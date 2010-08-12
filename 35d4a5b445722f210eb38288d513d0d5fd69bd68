@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA4n///jc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-12T00:03:28Z",
+      "side": 1,
+      "message": "Should be Project.NameKey in the Iterable too.",
+      "revId": "35d4a5b445722f210eb38288d513d0d5fd69bd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///jY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-12T00:03:28Z",
+      "side": 1,
+      "message": "Still need a not.",
+      "revId": "35d4a5b445722f210eb38288d513d0d5fd69bd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4n///jU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsWatchedByPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-12T00:03:28Z",
+      "side": 1,
+      "message": "You need CHANGE at least because we filter on the project name.",
+      "revId": "35d4a5b445722f210eb38288d513d0d5fd69bd68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

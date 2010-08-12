@@ -65,9 +65,10 @@ class DeleteRefRights extends Handler<ProjectDetail> {
       NoSuchRefException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
+    final Project.Id projectId = projectControl.getProject().getId();
 
     for (final RefRight.Key k : toRemove) {
-      if (!projectName.equals(k.getProjectNameKey())) {
+      if (!projectId.equals(k.getProjectId())) {
         throw new IllegalArgumentException("All keys must be from same project");
       }
       String refPattern = k.getRefPattern();

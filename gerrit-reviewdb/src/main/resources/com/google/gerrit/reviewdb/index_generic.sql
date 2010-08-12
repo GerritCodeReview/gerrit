@@ -49,7 +49,7 @@ ON account_group_members (group_id);
 --    @PrimaryKey covers: byAccount
 --    covers:             byProject
 CREATE INDEX account_project_watches_byProject
-ON account_project_watches (project_name);
+ON account_project_watches (project_id);
 
 
 -- *********************************************************************
@@ -84,7 +84,7 @@ ON changes (open, owner_account_id, last_updated_on);
 
 --    covers:             submitted, allSubmitted
 CREATE INDEX changes_submitted
-ON changes (status, dest_project_name, dest_branch_name, last_updated_on);
+ON changes (status, dest_project_id, dest_branch_name, last_updated_on);
 
 --    covers:             allOpenPrev, allOpenNext
 CREATE INDEX changes_allOpen
@@ -92,11 +92,11 @@ ON changes (open, sort_key);
 
 --    covers:             byProjectOpenPrev, byProjectOpenNext
 CREATE INDEX changes_byProjectOpen
-ON changes (open, dest_project_name, sort_key);
+ON changes (open, dest_project_id, sort_key);
 
 --    covers:             byProject
 CREATE INDEX changes_byProject
-ON changes (dest_project_name);
+ON changes (dest_project_id);
 
 --    covers:             allClosedPrev, allClosedNext
 CREATE INDEX changes_allClosed

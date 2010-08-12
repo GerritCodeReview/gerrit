@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -52,6 +53,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   private final ProjectControl.Factory projectControlFactory;
   private final AgreementInfoFactory.Factory agreementInfoFactory;
   private final ChangeQueryBuilder.Factory queryBuilder;
+  private final ProjectCache projectCache;
 
   @Inject
   AccountServiceImpl(final Provider<ReviewDb> schema,
@@ -59,13 +61,15 @@ class AccountServiceImpl extends BaseServiceImplementation implements
       final AccountCache accountCache,
       final ProjectControl.Factory projectControlFactory,
       final AgreementInfoFactory.Factory agreementInfoFactory,
-      final ChangeQueryBuilder.Factory queryBuilder) {
+      final ChangeQueryBuilder.Factory queryBuilder,
+      final ProjectCache projectCache) {
     super(schema, identifiedUser);
     this.currentUser = identifiedUser;
     this.accountCache = accountCache;
     this.projectControlFactory = projectControlFactory;
     this.agreementInfoFactory = agreementInfoFactory;
     this.queryBuilder = queryBuilder;
+    this.projectCache = projectCache;
   }
 
   public void myAccount(final AsyncCallback<Account> callback) {
@@ -126,7 +130,8 @@ class AccountServiceImpl extends BaseServiceImplementation implements
             .byAccount(getAccountId()).toList()) {
           final ProjectControl ctl;
           try {
-            ctl = projectControlFactory.validateFor(w.getProjectNameKey());
+            final Project watchedProject = projectCache.get(w.getProjectId()).getProject();
+            ctl = projectControlFactory.validateFor(watchedProject.getNameKey());
           } catch (NoSuchProjectException e) {
             db.accountProjectWatches().delete(Collections.singleton(w));
             continue;
@@ -165,7 +170,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
         AccountProjectWatch watch =
             new AccountProjectWatch(new AccountProjectWatch.Key(
                 ((IdentifiedUser) ctl.getCurrentUser()).getAccountId(),
-                nameKey, filter));
+                projectCache.get(nameKey).getProject().getId(), filter));
         try {
           db.accountProjectWatches().insert(Collections.singleton(watch));
         } catch (OrmDuplicateKeyException alreadyHave) {

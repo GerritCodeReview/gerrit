@@ -15,8 +15,10 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.ProjectName;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Project.Id;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
@@ -33,27 +35,40 @@ import java.util.Collections;
 /** Cache of project information, including access rights. */
 @Singleton
 public class ProjectCacheImpl implements ProjectCache {
-  private static final String CACHE_NAME = "projects";
+  private static final String CACHE_ID = "projects";
+  private static final String CACHE_NAME = "projects_byname";
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<Project.NameKey, ProjectState>> type =
+        final TypeLiteral<Cache<Project.Id, ProjectState>> byId =
+            new TypeLiteral<Cache<Project.Id, ProjectState>>() {};
+        core(byId, CACHE_ID).populateWith(ByIdLoader.class);
+
+        final TypeLiteral<Cache<Project.NameKey, ProjectState>> byName =
             new TypeLiteral<Cache<Project.NameKey, ProjectState>>() {};
-        core(type, CACHE_NAME).populateWith(Loader.class);
+        core(byName, CACHE_NAME).populateWith(ByNameLoader.class);
+
         bind(ProjectCacheImpl.class);
         bind(ProjectCache.class).to(ProjectCacheImpl.class);
       }
     };
   }
 
+  private final Cache<Project.Id, ProjectState> byId;
   private final Cache<Project.NameKey, ProjectState> byName;
 
   @Inject
   ProjectCacheImpl(
+      @Named(CACHE_ID) final Cache<Project.Id, ProjectState> byId,
       @Named(CACHE_NAME) final Cache<Project.NameKey, ProjectState> byName) {
+    this.byId = byId;
     this.byName = byName;
+  }
+
+  public ProjectState get(final Id projectId) {
+    return byId.get(projectId);
   }
 
   /**
@@ -69,27 +84,29 @@ public class ProjectCacheImpl implements ProjectCache {
   /** Invalidate the cached information about the given project. */
   public void evict(final Project p) {
     if (p != null) {
+      byId.remove(p.getId());
       byName.remove(p.getNameKey());
     }
   }
 
   /** Invalidate the cached information about all projects. */
   public void evictAll() {
+    byId.removeAll();
     byName.removeAll();
   }
 
-  static class Loader extends EntryCreator<Project.NameKey, ProjectState> {
+  static class ByIdLoader extends EntryCreator<Project.Id, ProjectState> {
     private final ProjectState.Factory projectStateFactory;
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    Loader(ProjectState.Factory psf, SchemaFactory<ReviewDb> sf) {
+    ByIdLoader(ProjectState.Factory psf, SchemaFactory<ReviewDb> sf) {
       projectStateFactory = psf;
       schema = sf;
     }
 
     @Override
-    public ProjectState createEntry(Project.NameKey key) throws Exception {
+    public ProjectState createEntry(Id key) throws Exception {
       final ReviewDb db = schema.open();
       try {
         final Project p = db.projects().get(key);
@@ -99,9 +116,33 @@ public class ProjectCacheImpl implements ProjectCache {
 
         final Collection<RefRight> rights =
             Collections.unmodifiableCollection(db.refRights().byProject(
-                p.getNameKey()).toList());
+                p.getId()).toList());
 
         return projectStateFactory.create(p, rights);
+      } finally {
+        db.close();
+      }
+    }
+  }
+
+  class ByNameLoader extends EntryCreator<Project.NameKey, ProjectState> {
+    private final SchemaFactory<ReviewDb> schema;
+
+    @Inject
+    ByNameLoader(SchemaFactory<ReviewDb> sf) {
+      schema = sf;
+    }
+
+    @Override
+    public ProjectState createEntry(Project.NameKey key) throws Exception {
+      final ReviewDb db = schema.open();
+      try {
+        final ProjectName pn = db.projectNames().get(key);
+        if (pn == null) {
+          return null;
+        }
+
+        return byId.get(pn.getId());
       } finally {
         db.close();
       }

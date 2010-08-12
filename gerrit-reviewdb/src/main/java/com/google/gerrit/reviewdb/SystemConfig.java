@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb;
 
-import com.google.gerrit.reviewdb.AccountGroup.Id;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
@@ -75,13 +74,13 @@ public final class SystemConfig {
   @Column(id = 6)
   public AccountGroup.Id registeredGroupId;
 
-  /** Identity of the project  */
-  @Column(id = 7)
-  public Project.NameKey wildProjectName;
-
   /** Identity of the batch users group */
   @Column(id = 8)
   public AccountGroup.Id batchUsersGroupId;
+
+  /** Identity of the project  */
+  @Column(id = 9)
+  public Project.Id wildProjectId;
 
   protected SystemConfig() {
   }

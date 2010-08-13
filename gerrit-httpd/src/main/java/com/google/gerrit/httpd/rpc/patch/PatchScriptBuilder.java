@@ -419,7 +419,7 @@ class PatchScriptBuilder {
 
     private TreeWalk find(final ObjectId within) throws MissingObjectException,
         IncorrectObjectTypeException, CorruptObjectException, IOException {
-      if (path == null) {
+      if (path == null || within == null) {
         return null;
       }
       final RevWalk rw = new RevWalk(db);

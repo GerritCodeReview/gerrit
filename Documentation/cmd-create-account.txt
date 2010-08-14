@@ -62,7 +62,7 @@ EXAMPLES
 Create a new user account called `watcher`:
 
 ====
-	$ cat ~/.ssh/id_watcher.pub | ssh -p 29418 review.example.com gerrit create-user --ssh-key - watcher
+	$ cat ~/.ssh/id_watcher.pub | ssh -p 29418 review.example.com gerrit create-account --ssh-key - watcher
 ====
 
 GERRIT

@@ -17,10 +17,12 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Patch;
+import com.google.gerrit.reviewdb.Patch.ChangeType;
 import com.google.gerrit.reviewdb.Patch.Key;
 import com.google.gerrit.reviewdb.Patch.PatchType;
 import com.google.gwt.core.client.GWT;
@@ -53,14 +55,20 @@ public class PatchTable extends Composite {
   private MyTable myTable;
   private String savePointerId;
   private List<Patch> patchList;
+  private ListenableAccountDiffPreference listenablePrefs;
 
   private List<ClickHandler> clickHandlers;
   private boolean active;
   private boolean registerKeys;
 
-  public PatchTable() {
+  public PatchTable(ListenableAccountDiffPreference prefs) {
+    listenablePrefs = prefs;
     myBody = new FlowPanel();
     initWidget(myBody);
+  }
+
+  public PatchTable() {
+    this(new ListenableAccountDiffPreference());
   }
 
   public int indexOf(Patch.Key patch) {
@@ -166,9 +174,13 @@ public class PatchTable extends Composite {
    * @return a link to the previous file in this patch set, or null.
    */
   public InlineHyperlink getPreviousPatchLink(int index, PatchScreen.Type patchType) {
-    if (0 < index)
-      return createLink(index - 1, patchType, SafeHtml.asis(Util.C
+    for(index--; index > -1; index--) {
+      InlineHyperlink link = createLink(index, patchType, SafeHtml.asis(Util.C
           .prevPatchLinkIcon()), null);
+      if(link != null) {
+        return link;
+      }
+    }
     return null;
   }
 
@@ -176,9 +188,13 @@ public class PatchTable extends Composite {
    * @return a link to the next file in this patch set, or null.
    */
   public InlineHyperlink getNextPatchLink(int index, PatchScreen.Type patchType) {
-    if (index < patchList.size() - 1)
-      return createLink(index + 1, patchType, null, SafeHtml.asis(Util.C
+    for(index++; index < patchList.size(); index++) {
+      InlineHyperlink link = createLink(index, patchType, null, SafeHtml.asis(Util.C
           .nextPatchLinkIcon()));
+      if(link != null) {
+        return link;
+      }
+    }
     return null;
   }
 
@@ -192,6 +208,14 @@ public class PatchTable extends Composite {
   private PatchLink createLink(int index, PatchScreen.Type patchType,
       SafeHtml before, SafeHtml after) {
     Patch patch = patchList.get(index);
+    if (( listenablePrefs.get().isSkipDeleted() &&
+          patch.getChangeType().equals(ChangeType.DELETED) )
+        ||
+        ( listenablePrefs.get().isSkipUncommented() &&
+          patch.getCommentCount() == 0 ) ) {
+      return null;
+    }
+
     Key thisKey = patch.getKey();
     PatchLink link;
     if (patchType == PatchScreen.Type.SIDE_BY_SIDE
@@ -238,6 +262,14 @@ public class PatchTable extends Composite {
     if (myTable != null) {
       myTable.updateReviewedStatus(patchKey, reviewed);
     }
+  }
+
+  public ListenableAccountDiffPreference getPreferences() {
+    return listenablePrefs;
+  }
+
+  public void setPreferences(ListenableAccountDiffPreference prefs) {
+    listenablePrefs = prefs;
   }
 
   private class MyTable extends NavigationTable<Patch> {
@@ -756,5 +788,4 @@ public class PatchTable extends Composite {
       return System.currentTimeMillis() - start > 200;
     }
   }
-
 }

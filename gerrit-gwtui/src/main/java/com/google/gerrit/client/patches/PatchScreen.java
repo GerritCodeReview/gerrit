@@ -135,6 +135,7 @@ public abstract class PatchScreen extends Screen implements
 
   /** The index of the file we are currently looking at among the fileList */
   private int patchIndex;
+  private ListenableAccountDiffPreference prefs;
 
   /** Keys that cause an action on this screen */
   private KeyCommandSet keysNavigation;
@@ -167,8 +168,7 @@ public abstract class PatchScreen extends Screen implements
     idSideB = diffSideB != null ? diffSideB : id.getParentKey();
     this.patchIndex = patchIndex;
 
-    ListenableAccountDiffPreference prefs =
-      new ListenableAccountDiffPreference();
+    prefs = fileList.getPreferences();
     prefs.addValueChangeHandler(new ValueChangeHandler<AccountDiffPreference>() {
           @Override
           public void onValueChange(ValueChangeEvent<AccountDiffPreference> event) {
@@ -328,11 +328,9 @@ public abstract class PatchScreen extends Screen implements
             public void onSuccess(PatchSetDetail result) {
               patchSetDetail = result;
               if (fileList == null) {
-                fileList = new PatchTable();
+                fileList = new PatchTable(prefs);
                 fileList.display(result);
                 patchIndex = fileList.indexOf(patchKey);
-                topNav.display(patchIndex, getPatchScreenType(), fileList);
-                bottomNav.display(patchIndex, getPatchScreenType(), fileList);
               }
               refresh(true);
             }
@@ -386,6 +384,7 @@ public abstract class PatchScreen extends Screen implements
   }
 
   private void onResult(final PatchScript script, final boolean isFirst) {
+
     final Change.Key cid = script.getChangeId();
     final String path = PatchTable.getDisplayFileName(patchKey);
     String fileName = path;
@@ -445,6 +444,9 @@ public abstract class PatchScreen extends Screen implements
     settingsPanel.setEnabled(true);
     lastScript = script;
 
+    topNav.display(patchIndex, getPatchScreenType(), fileList);
+    bottomNav.display(patchIndex, getPatchScreenType(), fileList);
+
     // Mark this file reviewed as soon we display the diff screen
     if (Gerrit.isSignedIn() && isFirst) {
       settingsPanel.getReviewedCheckBox().setValue(true);
@@ -477,7 +479,7 @@ public abstract class PatchScreen extends Screen implements
     public void onKeyPress(final KeyPressEvent event) {
       if (fileList == null || fileList.isAttached()) {
         final PatchSet.Id psid = patchKey.getParentKey();
-        fileList = new PatchTable();
+        fileList = new PatchTable(prefs);
         fileList.setSavePointerId("PatchTable " + psid);
         Util.DETAIL_SVC.patchSetDetail(psid,
             new GerritCallback<PatchSetDetail>() {

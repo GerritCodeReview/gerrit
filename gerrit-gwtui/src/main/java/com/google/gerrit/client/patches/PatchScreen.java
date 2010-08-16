@@ -254,7 +254,6 @@ public abstract class PatchScreen extends Screen implements
   @Override
   protected void onInitUI() {
     super.onInitUI();
-
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysNavigation.add(new UpToChangeCommand(0, 'u', PatchUtil.C.upToChange()));
     keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));
@@ -302,6 +301,8 @@ public abstract class PatchScreen extends Screen implements
     add(bottomNav);
 
     if (fileList != null) {
+      fileList.setSkipDeleted(settingsPanel.skipDeleted.getValue());
+      fileList.setSkipUncommented(settingsPanel.skipUncommented.getValue());
       topNav.display(patchIndex, getPatchScreenType(), fileList);
       bottomNav.display(patchIndex, getPatchScreenType(), fileList);
     }
@@ -337,10 +338,11 @@ public abstract class PatchScreen extends Screen implements
               patchSetDetail = result;
               if (fileList == null) {
                 fileList = new PatchTable();
+                fileList.setSkipDeleted(settingsPanel.skipDeleted.getValue());
+                fileList.setSkipUncommented(
+                    settingsPanel.skipUncommented.getValue());
                 fileList.display(result);
                 patchIndex = fileList.indexOf(patchKey);
-                topNav.display(patchIndex, getPatchScreenType(), fileList);
-                bottomNav.display(patchIndex, getPatchScreenType(), fileList);
               }
               refresh(true);
             }
@@ -393,7 +395,10 @@ public abstract class PatchScreen extends Screen implements
         });
   }
 
+  private int mtn = 0;
+
   private void onResult(final PatchScript script, final boolean isFirst) {
+
     final Change.Key cid = script.getChangeId();
     final String path = patchKey.get();
     String fileName = path;
@@ -403,7 +408,7 @@ public abstract class PatchScreen extends Screen implements
     }
 
     setWindowTitle(PatchUtil.M.patchWindowTitle(cid.abbreviate(), fileName));
-    setPageTitle(PatchUtil.M.patchPageTitle(cid.abbreviate(), path));
+    setPageTitle(PatchUtil.M.patchPageTitle(cid.abbreviate(), path + "("+ ++mtn +")"));
 
     if (idSideB.equals(patchSetDetail.getPatchSet().getId())) {
       commitMessageBlock.setVisible(true);
@@ -453,6 +458,11 @@ public abstract class PatchScreen extends Screen implements
     settingsPanel.setEnabled(true);
     lastScript = script;
 
+    fileList.setSkipDeleted(settingsPanel.skipDeleted.getValue());
+    fileList.setSkipUncommented(settingsPanel.skipUncommented.getValue());
+    topNav.display(patchIndex, getPatchScreenType(), fileList);
+    bottomNav.display(patchIndex, getPatchScreenType(), fileList);
+
     // Mark this file reviewed as soon we display the diff screen
     if (Gerrit.isSignedIn() && isFirst) {
       settingsPanel.getReviewedCheckBox().setValue(true);
@@ -498,6 +508,8 @@ public abstract class PatchScreen extends Screen implements
       if (fileList == null || fileList.isAttached()) {
         final PatchSet.Id psid = patchKey.getParentKey();
         fileList = new PatchTable();
+        fileList.setSkipDeleted(settingsPanel.skipDeleted.getValue());
+        fileList.setSkipUncommented(settingsPanel.skipUncommented.getValue());
         fileList.setSavePointerId("PatchTable " + psid);
         Util.DETAIL_SVC.patchSetDetail(psid,
             new GerritCallback<PatchSetDetail>() {

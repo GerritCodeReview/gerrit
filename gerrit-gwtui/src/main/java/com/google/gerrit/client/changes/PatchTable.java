@@ -21,6 +21,7 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Patch;
+import com.google.gerrit.reviewdb.Patch.ChangeType;
 import com.google.gerrit.reviewdb.Patch.Key;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -56,6 +57,8 @@ public class PatchTable extends Composite {
   private List<ClickHandler> clickHandlers;
   private boolean active;
   private boolean registerKeys;
+  private boolean skipDeleted;
+  private boolean skipUncommented;
 
   public PatchTable() {
     myBody = new FlowPanel();
@@ -165,9 +168,13 @@ public class PatchTable extends Composite {
    * @return a link to the previous file in this patch set, or null.
    */
   public InlineHyperlink getPreviousPatchLink(int index, PatchScreen.Type patchType) {
-    if (0 < index)
-      return createLink(index - 1, patchType, SafeHtml.asis(Util.C
-          .prevPatchLinkIcon()), null);
+    for(index--; index > -1; index--) {
+      InlineHyperlink link = createLink(index, patchType, null, SafeHtml.asis(Util.C
+          .nextPatchLinkIcon()));
+      if(link != null) {
+        return link;
+      }
+    }
     return null;
   }
 
@@ -175,9 +182,13 @@ public class PatchTable extends Composite {
    * @return a link to the next file in this patch set, or null.
    */
   public InlineHyperlink getNextPatchLink(int index, PatchScreen.Type patchType) {
-    if (index < patchList.size() - 1)
-      return createLink(index + 1, patchType, null, SafeHtml.asis(Util.C
+    for(index++; index < patchList.size(); index++) {
+      InlineHyperlink link = createLink(index, patchType, null, SafeHtml.asis(Util.C
           .nextPatchLinkIcon()));
+      if(link != null) {
+        return link;
+      }
+    }
     return null;
   }
 
@@ -191,6 +202,14 @@ public class PatchTable extends Composite {
   private PatchLink createLink(int index, PatchScreen.Type patchType,
       SafeHtml before, SafeHtml after) {
     Patch patch = patchList.get(index);
+    if (( isSkipDeleted() &&
+          patch.getChangeType().equals(ChangeType.DELETED) )
+        ||
+        ( isSkipUncommented() &&
+          patch.getCommentCount() == 0 ) ) {
+      return null;
+    }
+
     Key thisKey = patch.getKey();
     PatchLink link;
     if (patchType == PatchScreen.Type.SIDE_BY_SIDE
@@ -669,4 +688,19 @@ public class PatchTable extends Composite {
     }
   }
 
+  public boolean isSkipDeleted() {
+    return skipDeleted;
+  }
+
+  public void setSkipDeleted(boolean skip) {
+    skipDeleted = skip;
+  }
+
+  public boolean isSkipUncommented() {
+    return skipUncommented;
+  }
+
+  public void setSkipUncommented(boolean skip) {
+    skipUncommented = skip;
+  }
 }

@@ -96,6 +96,12 @@ public class AccountDiffPreference {
   @Column(id = 9)
   protected short context;
 
+  @Column(id = 10)
+  protected boolean skipDeleted;
+
+  @Column(id = 11)
+  protected boolean skipUncommented;
+
   protected AccountDiffPreference() {
   }
 
@@ -112,6 +118,8 @@ public class AccountDiffPreference {
     this.showWhitespaceErrors = p.showWhitespaceErrors;
     this.intralineDifference = p.intralineDifference;
     this.showTabs = p.showTabs;
+    this.skipDeleted = p.skipDeleted;
+    this.skipUncommented = p.skipUncommented;
     this.context = p.context;
   }
 
@@ -184,5 +192,21 @@ public class AccountDiffPreference {
   public void setContext(final short context) {
     assert 0 <= context || context == WHOLE_FILE_CONTEXT;
     this.context = context;
+  }
+
+  public boolean isSkipDeleted() {
+    return skipDeleted;
+  }
+
+  public void setSkipDeleted(boolean skip) {
+    skipDeleted = skip;
+  }
+
+  public boolean isSkipUncommented() {
+    return skipUncommented;
+  }
+
+  public void setSkipUncommented(boolean skip) {
+    skipUncommented = skip;
   }
 }

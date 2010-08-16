@@ -81,6 +81,13 @@ public class PatchScriptSettingsPanel extends Composite implements
   CheckBox reviewed;
 
   @UiField
+  CheckBox skipDeleted;
+
+  @UiField
+  CheckBox skipUncommented;
+
+
+  @UiField
   Button update;
 
   /**
@@ -199,6 +206,8 @@ public class PatchScriptSettingsPanel extends Composite implements
     intralineDifference.setValue(dp.isIntralineDifference());
     whitespaceErrors.setValue(dp.isShowWhitespaceErrors());
     showTabs.setValue(dp.isShowTabs());
+    skipDeleted.setValue(dp.isSkipDeleted());
+    skipUncommented.setValue(dp.isSkipUncommented());
   }
 
   @UiHandler("update")
@@ -216,6 +225,8 @@ public class PatchScriptSettingsPanel extends Composite implements
     dp.setIntralineDifference(intralineDifference.getValue());
     dp.setShowWhitespaceErrors(whitespaceErrors.getValue());
     dp.setShowTabs(showTabs.getValue());
+    dp.setSkipDeleted(skipDeleted.getValue());
+    dp.setSkipUncommented(skipUncommented.getValue());
 
     listenablePrefs.set(dp);
 

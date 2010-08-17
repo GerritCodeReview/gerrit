@@ -40,6 +40,9 @@ public interface ReviewDb extends Schema {
   SystemConfigAccess systemConfig();
 
   @Relation
+  AccessCategoryAccess accessCategories();
+
+  @Relation
   ApprovalCategoryAccess approvalCategories();
 
   @Relation
@@ -113,6 +116,9 @@ public interface ReviewDb extends Schema {
 
   @Relation
   TrackingIdAccess trackingIds();
+
+  @Relation
+  NewRefRightAccess newRefRights();
 
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)

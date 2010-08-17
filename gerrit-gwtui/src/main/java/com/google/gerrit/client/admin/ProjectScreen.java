@@ -12,6 +12,7 @@ public abstract class ProjectScreen extends MenuScreen {
   public static final String INFO = "info";
   public static final String BRANCH = "branches";
   public static final String ACCESS = "access";
+  public static final String NEW_ACCESS_TAB = "new access";
 
   private final Project.NameKey name;
 
@@ -25,6 +26,7 @@ public abstract class ProjectScreen extends MenuScreen {
       link(Util.C.projectAdminTabBranches(), toProjectAdmin(name, BRANCH));
     }
     link(Util.C.projectAdminTabAccess(), toProjectAdmin(name, ACCESS));
+    link(Util.C.projectAdminNewTabAccess(), toProjectAdmin(name, NEW_ACCESS_TAB));
   }
 
   protected Project.NameKey getProjectKey() {

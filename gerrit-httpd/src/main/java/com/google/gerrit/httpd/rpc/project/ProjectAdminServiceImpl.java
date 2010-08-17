@@ -21,7 +21,9 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
+import com.google.gerrit.reviewdb.RefMergeStrategy;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.inject.Inject;
 
 import java.util.List;
@@ -35,7 +37,9 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final VisibleProjects.Factory visibleProjectsFactory;
   private final ProjectDetailFactory.Factory projectDetailFactory;
   private final AddRefRight.Factory addRefRightFactory;
+  private final AddRefMergeStrategy.Factory addRefMergeStrategyFactory;
   private final DeleteRefRights.Factory deleteRefRightsFactory;
+  private final DeleteRefMergeStrategies.Factory deleteRefMergeStrategiesFactory;
 
   @Inject
   ProjectAdminServiceImpl(final AddBranch.Factory addBranchFactory,
@@ -45,7 +49,9 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final VisibleProjects.Factory visibleProjectsFactory,
       final ProjectDetailFactory.Factory projectDetailFactory,
       final AddRefRight.Factory addRefRightFactory,
-      final DeleteRefRights.Factory deleteRefRightsFactory) {
+      final AddRefMergeStrategy.Factory addRefMergeStrategyFactory,
+      final DeleteRefRights.Factory deleteRefRightsFactory,
+      final DeleteRefMergeStrategies.Factory deleteRefMergeStrategiesFactory) {
     this.addBranchFactory = addBranchFactory;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
     this.deleteBranchesFactory = deleteBranchesFactory;
@@ -53,7 +59,9 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
     this.visibleProjectsFactory = visibleProjectsFactory;
     this.projectDetailFactory = projectDetailFactory;
     this.addRefRightFactory = addRefRightFactory;
+    this.addRefMergeStrategyFactory = addRefMergeStrategyFactory;
     this.deleteRefRightsFactory = deleteRefRightsFactory;
+    this.deleteRefMergeStrategiesFactory = deleteRefMergeStrategiesFactory;
   }
 
   @Override
@@ -80,12 +88,26 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   }
 
   @Override
+  public void deleteRefMergeStrategy(final Project.NameKey projectName,
+      final Set<RefMergeStrategy.Key> toRemove, final AsyncCallback<VoidResult> callback) {
+     deleteRefMergeStrategiesFactory.create(projectName, toRemove).to(callback);
+  }
+
+  @Override
   public void addRight(final Project.NameKey projectName,
       final ApprovalCategory.Id categoryId, final String groupName,
       final String refPattern, final short min, final short max,
       final AsyncCallback<ProjectDetail> callback) {
     addRefRightFactory.create(projectName, categoryId, groupName, refPattern,
         min, max).to(callback);
+  }
+
+  @Override
+  public void addRefMergeStrategy(final Project.NameKey projectName,
+      final String refPattern, final RefMergeStrategy.SubmitType submitType,
+      final AsyncCallback<ProjectDetail> callback) {
+    addRefMergeStrategyFactory.create(projectName, refPattern,
+        submitType).to(callback);
   }
 
   @Override

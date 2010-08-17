@@ -111,7 +111,7 @@ public class ProjectAccessScreen extends ProjectScreen {
 
   private void initParent() {
     parentPanel = new VerticalPanel();
-    parentPanel.add(new SmallHeading(Util.C.headingParentProjectName()));
+    parentPanel.add(new SmallHeading(Util.C.headingRightsParentProjectName()));
 
     parentName = new Hyperlink("", "");
     parentPanel.add(parentName);
@@ -252,9 +252,6 @@ public class ProjectAccessScreen extends ProjectScreen {
     parentName.setText(parent.get());
 
     rights.display(result.groups, result.rights);
-
-    addPanel.setVisible(result.canModifyAccess);
-    delRight.setVisible(rights.getCanDelete());
   }
 
   private void doDeleteRefRights(final HashSet<RefRight.Key> refRightIds) {
@@ -407,8 +404,6 @@ public class ProjectAccessScreen extends ProjectScreen {
   }
 
   private class RightsTable extends FancyFlexTable<RefRight> {
-    boolean canDelete;
-
     RightsTable() {
       table.setWidth("");
       table.setText(0, 2, Util.C.columnApprovalCategory());
@@ -438,8 +433,6 @@ public class ProjectAccessScreen extends ProjectScreen {
 
     void display(final Map<AccountGroup.Id, AccountGroup> groups,
         final List<InheritedRefRight> refRights) {
-      canDelete = false;
-
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
@@ -464,7 +457,6 @@ public class ProjectAccessScreen extends ProjectScreen {
         table.setText(row, 1, "");
       } else {
         table.setWidget(row, 1, new CheckBox());
-        canDelete = true;
       }
 
       if (ar != null) {
@@ -525,10 +517,6 @@ public class ProjectAccessScreen extends ProjectScreen {
         m.append(": ");
         m.append(e.getName());
       }
-    }
-
-    private boolean getCanDelete() {
-      return canDelete;
     }
   }
 }

@@ -15,8 +15,8 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.RefMergeStrategy;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -99,10 +99,17 @@ public class GitProjectImporter {
         final Project p = new Project(nameKey);
 
         p.setDescription(repositoryManager.getProjectDescription(name));
-        p.setSubmitType(SubmitType.MERGE_IF_NECESSARY);
         p.setUseContributorAgreements(false);
         p.setUseSignedOffBy(false);
         db.projects().insert(Collections.singleton(p));
+
+        //It associates a default merge strategy to the project.
+
+        final RefMergeStrategy.RefPattern rp = new RefMergeStrategy.RefPattern("*");
+        final RefMergeStrategy rms = new RefMergeStrategy(new RefMergeStrategy.Key(nameKey, rp));
+        rms.setSubmitType(RefMergeStrategy.SubmitType.MERGE_IF_NECESSARY);
+
+        db.refMergeStrategies().insert(Collections.singleton(rms));
 
       } else if (f.isDirectory()) {
         importProjects(f, prefix + f.getName() + "/", db, have);

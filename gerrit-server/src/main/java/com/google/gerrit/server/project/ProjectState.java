@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.RefMergeStrategy;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -34,7 +35,8 @@ import java.util.Set;
 /** Cached information on a project. */
 public class ProjectState {
   public interface Factory {
-    ProjectState create(Project project, Collection<RefRight> localRights);
+    ProjectState create(Project project, Collection<RefRight> localRights,
+        Collection<RefMergeStrategy> refMergeStrategies);
   }
 
   private final AnonymousUser anonymousUser;
@@ -43,22 +45,26 @@ public class ProjectState {
 
   private final Project project;
   private final Collection<RefRight> localRights;
+  private final Collection<RefMergeStrategy> localRefMergeStrategies;
   private final Set<AccountGroup.Id> owners;
 
   private volatile Collection<RefRight> inheritedRights;
+  private volatile Collection<RefMergeStrategy> inheritedRefMergeStrategies;
 
   @Inject
   protected ProjectState(final AnonymousUser anonymousUser,
       final ProjectCache projectCache,
       @WildProjectName final Project.NameKey wildProject,
       @Assisted final Project project,
-      @Assisted final Collection<RefRight> rights) {
+      @Assisted final Collection<RefRight> rights,
+      @Assisted final Collection<RefMergeStrategy> refMergeStrategies) {
     this.anonymousUser = anonymousUser;
     this.projectCache = projectCache;
     this.wildProject = wildProject;
 
     this.project = project;
     this.localRights = rights;
+    this.localRefMergeStrategies = refMergeStrategies;
 
     final HashSet<AccountGroup.Id> groups = new HashSet<AccountGroup.Id>();
     for (final RefRight right : rights) {
@@ -140,6 +146,53 @@ public class ProjectState {
       return filter(getInheritedRights(), action);
     }
     return Collections.emptyList();
+  }
+
+  /** Get the refs merge strategies that pertain only to this project. */
+  public Collection<RefMergeStrategy> getLocalRefMergeStrategies() {
+    return localRefMergeStrategies;
+  }
+
+  /** Get the refs strategies this project inherits from the wild project. */
+  public Collection<RefMergeStrategy> getInheritedRefMergeStrategies() {
+    if (inheritedRefMergeStrategies == null) {
+      inheritedRefMergeStrategies = computeInheritedRefMergeStrategies();
+    }
+    return inheritedRefMergeStrategies;
+  }
+
+  private Collection<RefMergeStrategy> computeInheritedRefMergeStrategies() {
+    if (isSpecialWildProject()) {
+      return Collections.emptyList();
+    }
+
+    List<RefMergeStrategy> inherited = new ArrayList<RefMergeStrategy>();
+    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
+    Project.NameKey parent = project.getParent();
+
+    while (parent != null && seen.add(parent)) {
+      ProjectState s = projectCache.get(parent);
+      if (s != null) {
+        inherited.addAll(s.getLocalRefMergeStrategies());
+        parent = s.getProject().getParent();
+      } else {
+        break;
+      }
+    }
+
+    // Wild project is the parent, or the root of the tree
+    if (parent == null) {
+      inherited.addAll(getWildProjectRefMergeStrategies());
+    }
+
+    return Collections.unmodifiableCollection(inherited);
+  }
+
+  private Collection<RefMergeStrategy> getWildProjectRefMergeStrategies() {
+    final ProjectState s = projectCache.get(wildProject);
+    return s != null ?
+        s.getLocalRefMergeStrategies() :
+          Collections.<RefMergeStrategy> emptyList();
   }
 
   /** Is this the special wild project which manages inherited rights? */

@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.RefMergeStrategy;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -42,6 +43,8 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.util.RegexRefsComparator;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.AtomicUpdate;
@@ -189,7 +192,7 @@ public class MergeOp {
     commits = new HashMap<Change.Id, CodeReviewCommit>();
   }
 
-  public void merge() throws MergeException {
+  public void merge() throws MergeException, OrmException {
     final ProjectState pe = projectCache.get(destBranch.getParentKey());
     if (pe == null) {
       throw new MergeException("No such project: " + destBranch.getParentKey());
@@ -212,28 +215,67 @@ public class MergeOp {
     }
   }
 
-  private void mergeImpl() throws MergeException {
+  private void mergeImpl() throws MergeException, OrmException {
     openRepository();
     openBranch();
     listPendingSubmits();
     validateChangeList();
     mergeTip = branchTip;
-    switch (destProject.getSubmitType()) {
-      case CHERRY_PICK:
-        cherryPickChanges();
-        break;
 
-      case FAST_FORWARD_ONLY:
-      case MERGE_ALWAYS:
-      case MERGE_IF_NECESSARY:
-      default:
-        reduceToMinimalMerge();
-        mergeTopics();
-        markCleanMerges();
-        break;
+    final List<RefMergeStrategy> refStrategies =
+      schema.refMergeStrategies().byProject(destProject.getNameKey()).toList();
+    refStrategies.addAll(
+        projectCache.get(destProject.getNameKey()).getInheritedRefMergeStrategies());
+
+    final List<RefMergeStrategy> refStrategiesMatchers =
+      extractNonMatchersRefStrategies(refStrategies, destBranch.get());
+
+    if (refStrategiesMatchers.size()==0)
+      throw new MergeException("No Reference Pattern matches : " + destBranch.get());
+    else {
+      Collections.sort(refStrategies, new Comparator<RefMergeStrategy>() {
+        @Override
+        public int compare(RefMergeStrategy a, RefMergeStrategy b) {
+          RegexRefsComparator regexComparator =
+              new RegexRefsComparator(destBranch.get());
+          return regexComparator.compare(a.getRefPattern(), b.getRefPattern());
+        }
+      });
+
+      final RefMergeStrategy mostSpecific = refStrategies.get(0);
+
+      RefMergeStrategy.SubmitType submitType = mostSpecific.getSubmitType();
+      switch (submitType) {
+        case CHERRY_PICK:
+          cherryPickChanges();
+          break;
+
+        case FAST_FORWARD_ONLY:
+        case MERGE_ALWAYS:
+        case MERGE_IF_NECESSARY:
+        default:
+          reduceToMinimalMerge();
+          mergeTopics(submitType);
+          markCleanMerges();
+          break;
+      }
+      updateBranch();
+      updateChangeStatus();
     }
-    updateBranch();
-    updateChangeStatus();
+  }
+
+  private List<RefMergeStrategy> extractNonMatchersRefStrategies(
+      final List<RefMergeStrategy> refStrategies, final String destBranch){
+
+    List<RefMergeStrategy> matchers = new ArrayList<RefMergeStrategy>();
+
+    for (RefMergeStrategy refMerge : refStrategies){
+      String regex = refMerge.getRefPattern().replace("*", "(.*)");
+      if (RefControl.refMatch(regex, destBranch)) {
+        matchers.add(refMerge);
+      }
+    }
+    return matchers;
   }
 
   private void openRepository() throws MergeException {
@@ -397,10 +439,10 @@ public class MergeOp {
     });
   }
 
-  private void mergeTopics() throws MergeException {
+  private void mergeTopics(RefMergeStrategy.SubmitType submitType) throws MergeException {
     // Take the first fast-forward available, if any is available in the set.
-    //
-    if (destProject.getSubmitType() != Project.SubmitType.MERGE_ALWAYS) {
+
+    if (submitType != RefMergeStrategy.SubmitType.MERGE_ALWAYS) {
       for (final Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext();) {
         try {
           final CodeReviewCommit n = i.next();
@@ -415,7 +457,7 @@ public class MergeOp {
       }
     }
 
-    if (destProject.getSubmitType() == Project.SubmitType.FAST_FORWARD_ONLY) {
+    if (submitType == RefMergeStrategy.SubmitType.FAST_FORWARD_ONLY) {
       // If this project only permits fast-forwards, abort everything else.
       //
       while (!toMerge.isEmpty()) {

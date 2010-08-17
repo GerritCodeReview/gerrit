@@ -50,7 +50,7 @@ public class SchemaUpdater {
       final CurrentSchemaVersion version = getSchemaVersion(db);
       if (version == null) {
         creator.create(db);
-
+        u.initData(db);
       } else {
         try {
           u.check(ui, version, db, true);

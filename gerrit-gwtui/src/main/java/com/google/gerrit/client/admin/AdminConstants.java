@@ -64,6 +64,8 @@ public interface AdminConstants extends Constants {
   String columnApprovalCategory();
   String columnRightRange();
   String columnRefName();
+  String columnLabels();
+  String columnPermission();
 
   String columnBranchName();
   String columnBranchRevision();
@@ -84,6 +86,7 @@ public interface AdminConstants extends Constants {
   String projectAdminTabGeneral();
   String projectAdminTabBranches();
   String projectAdminTabAccess();
+  String projectAdminNewTabAccess();
 
   String noGroupSelected();
   String errorNoMatchingGroups();

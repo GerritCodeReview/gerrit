@@ -16,10 +16,12 @@ package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.InheritedNewRefRight;
 import com.google.gerrit.common.data.InheritedRefRight;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.NewRefRight;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.account.GroupCache;
@@ -72,7 +74,8 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     detail.setProject(projectState.getProject());
 
     groups = new HashMap<AccountGroup.Id, AccountGroup>();
-    final List<InheritedRefRight> refRights = new ArrayList<InheritedRefRight>();
+    final List<InheritedRefRight> refRights =
+        new ArrayList<InheritedRefRight>();
 
     for (final RefRight r : projectState.getInheritedRights()) {
       InheritedRefRight refRight = new InheritedRefRight(
@@ -120,10 +123,57 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
       }
     });
 
+    // It gets the list of newRefRights.
+
+    final List<InheritedNewRefRight> newRefRights =
+        new ArrayList<InheritedNewRefRight>();
+
+    for (final NewRefRight r : projectState.getInheritedNewRights()) {
+      InheritedNewRefRight newRefRight =
+          new InheritedNewRefRight(r, true, pc.controlForRef(r.getRefPattern())
+              .isOwner());
+      if (!newRefRights.contains(newRefRight)) {
+        newRefRights.add(newRefRight);
+        wantGroup(r.getAccountGroupId());
+      }
+    }
+
+    for (final NewRefRight nr : projectState.getLocalNewRights()) {
+      newRefRights.add(new InheritedNewRefRight(nr, false, pc.controlForRef(
+          nr.getRefPattern()).isOwner()));
+      wantGroup(nr.getAccountGroupId());
+    }
+
+    loadGroups();
+
+    Collections.sort(newRefRights, new Comparator<InheritedNewRefRight>() {
+      @Override
+      public int compare(final InheritedNewRefRight a,
+          final InheritedNewRefRight b) {
+        final NewRefRight right1 = a.getRight();
+        final NewRefRight right2 = b.getRight();
+        int rc =
+            right1.getAccessCategoryId().get().compareTo(
+                right2.getAccessCategoryId().get());
+        if (rc == 0) {
+          rc = right1.getRefPattern().compareTo(right2.getRefPattern());
+        }
+        if (rc == 0) {
+          rc = groupOf(right1).compareTo(groupOf(right2));
+        }
+        return rc;
+      }
+
+      private String groupOf(final NewRefRight r) {
+        return groups.get(r.getAccountGroupId()).getName();
+      }
+    });
+
     final boolean userIsOwner = pc.isOwner();
     final boolean userIsOwnerAnyRef = pc.isOwnerAnyRef();
 
     detail.setRights(refRights);
+    detail.setNewRights(newRefRights);
     detail.setGroups(groups);
     detail.setCanModifyAccess(userIsOwnerAnyRef);
     detail.setCanModifyAgreements(userIsOwner);

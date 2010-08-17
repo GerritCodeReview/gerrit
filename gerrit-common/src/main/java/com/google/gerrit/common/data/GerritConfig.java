@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
+import com.google.gerrit.reviewdb.AccessCategory;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.Project;
@@ -22,6 +23,7 @@ import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwtexpui.safehtml.client.RegexFindReplace;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class GerritConfig implements Cloneable {
@@ -38,6 +40,7 @@ public class GerritConfig implements Cloneable {
   protected String sshdAddress;
   protected Project.NameKey wildProject;
   protected ApprovalTypes approvalTypes;
+  protected Map<AccessCategory.Id, AccessCategory> accessCategories;
   protected Set<Account.FieldName> editableAccountFields;
   protected List<RegexFindReplace> commentLinks;
   protected boolean documentationAvailable;
@@ -137,6 +140,14 @@ public class GerritConfig implements Cloneable {
 
   public void setApprovalTypes(final ApprovalTypes at) {
     approvalTypes = at;
+  }
+
+  public Map<AccessCategory.Id, AccessCategory> getAccessCategories() {
+    return accessCategories;
+  }
+
+  public void setAccessCategories(final Map<AccessCategory.Id, AccessCategory> ac) {
+    accessCategories = ac;
   }
 
   public boolean canEdit(final Account.FieldName f) {

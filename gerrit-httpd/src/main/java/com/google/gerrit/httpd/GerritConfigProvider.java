@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebLink;
+import com.google.gerrit.reviewdb.AccessCategory;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.account.Realm;
@@ -38,6 +39,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -53,6 +55,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final Project.NameKey wildProject;
   private final SshInfo sshInfo;
   private final ApprovalTypes approvalTypes;
+  private final Map<AccessCategory.Id, AccessCategory> accessCategories;
 
   private EmailSender emailSender;
   private final ContactStore contactStore;
@@ -63,7 +66,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       final AuthConfig ac, final GitWebConfig gwc,
       @WildProjectName final Project.NameKey wp, final SshInfo si,
       final ApprovalTypes at, final ContactStore cs, final ServletContext sc,
-      final DownloadSchemeConfig dc) {
+      final Map<AccessCategory.Id, AccessCategory> cat, final DownloadSchemeConfig dc) {
     realm = r;
     cfg = gsc;
     authConfig = ac;
@@ -72,6 +75,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     sshInfo = si;
     wildProject = wp;
     approvalTypes = at;
+    accessCategories = cat;
     contactStore = cs;
     servletContext = sc;
   }
@@ -101,6 +105,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setAuthType(authConfig.getAuthType());
     config.setWildProject(wildProject);
     config.setApprovalTypes(approvalTypes);
+    config.setAccessCategories(accessCategories);
     config.setDocumentationAvailable(servletContext
         .getResource("/Documentation/index.html") != null);
 

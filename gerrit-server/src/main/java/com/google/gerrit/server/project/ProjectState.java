@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.reviewdb.AccessCategory;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
+import com.google.gerrit.reviewdb.NewRefRight;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.AnonymousUser;
@@ -34,7 +36,8 @@ import java.util.Set;
 /** Cached information on a project. */
 public class ProjectState {
   public interface Factory {
-    ProjectState create(Project project, Collection<RefRight> localRights);
+    ProjectState create(Project project, Collection<RefRight> localRights,
+        Collection<NewRefRight> localNewRights);
   }
 
   private final AnonymousUser anonymousUser;
@@ -43,22 +46,26 @@ public class ProjectState {
 
   private final Project project;
   private final Collection<RefRight> localRights;
+  private final Collection<NewRefRight> localNewRights;
   private final Set<AccountGroup.Id> owners;
 
   private volatile Collection<RefRight> inheritedRights;
+  private volatile Collection<NewRefRight> inheritedNewRights;
 
   @Inject
   protected ProjectState(final AnonymousUser anonymousUser,
       final ProjectCache projectCache,
       @WildProjectName final Project.NameKey wildProject,
       @Assisted final Project project,
-      @Assisted final Collection<RefRight> rights) {
+      @Assisted final Collection<RefRight> rights,
+      @Assisted final Collection<NewRefRight> newRights) {
     this.anonymousUser = anonymousUser;
     this.projectCache = projectCache;
     this.wildProject = wildProject;
 
     this.project = project;
     this.localRights = rights;
+    this.localNewRights = newRights;
 
     final HashSet<AccountGroup.Id> groups = new HashSet<AccountGroup.Id>();
     for (final RefRight right : rights) {
@@ -167,6 +174,73 @@ public class ProjectState {
     final Collection<RefRight> mine = new ArrayList<RefRight>(all.size());
     for (final RefRight right : all) {
       if (right.getApprovalCategoryId().equals(actionId)) {
+        mine.add(right);
+      }
+    }
+    if (mine.isEmpty()) {
+      return Collections.emptyList();
+    }
+    return Collections.unmodifiableCollection(mine);
+  }
+
+  public Collection<NewRefRight> getLocalNewRights() {
+    return localNewRights;
+  }
+
+  public Collection<NewRefRight> getLocalNewRights(
+      AccessCategory.Id accessCategory) {
+    return filter(getLocalNewRights(), accessCategory);
+  }
+
+  public Collection<NewRefRight> getInheritedNewRights() {
+    if (inheritedNewRights == null) {
+      computeInheritedNewRights();
+    }
+    return inheritedNewRights;
+  }
+
+  private void computeInheritedNewRights() {
+    if (isSpecialWildProject()) {
+      inheritedNewRights = Collections.emptyList();
+    } else {
+      final List<NewRefRight> ir = new ArrayList<NewRefRight>();
+
+      Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
+      Project.NameKey parent = project.getParent();
+
+      while (parent != null && seen.add(parent)) {
+        ProjectState s = projectCache.get(parent);
+        if (s != null) {
+          ir.addAll(s.getLocalNewRights());
+          parent = s.getProject().getParent();
+        } else {
+          break;
+        }
+      }
+
+      // Wild project is the parent, or the root of the tree
+      if (parent == null) {
+        ir.addAll(getWildProjectNewRights());
+      }
+
+      inheritedNewRights = Collections.unmodifiableCollection(ir);
+    }
+  }
+
+  private Collection<NewRefRight> getWildProjectNewRights() {
+    final ProjectState s = projectCache.get(wildProject);
+    return s != null ? s.getLocalNewRights() : Collections
+        .<NewRefRight> emptyList();
+  }
+
+  private static Collection<NewRefRight> filter(Collection<NewRefRight> all,
+      AccessCategory.Id acccessCategoryId) {
+    if (all.isEmpty()) {
+      return Collections.emptyList();
+    }
+    final Collection<NewRefRight> mine = new ArrayList<NewRefRight>(all.size());
+    for (final NewRefRight right : all) {
+      if (right.getAccessCategoryId().equals(acccessCategoryId)) {
         mine.add(right);
       }
     }

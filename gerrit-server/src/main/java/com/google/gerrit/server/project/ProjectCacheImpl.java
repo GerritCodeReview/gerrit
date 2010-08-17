@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.reviewdb.NewRefRight;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -101,7 +102,11 @@ public class ProjectCacheImpl implements ProjectCache {
             Collections.unmodifiableCollection(db.refRights().byProject(
                 p.getNameKey()).toList());
 
-        return projectStateFactory.create(p, rights);
+        final Collection<NewRefRight> newRights =
+            Collections.unmodifiableCollection(db.newRefRights().byProject(
+                p.getNameKey()).toList());
+
+        return projectStateFactory.create(p, rights, newRights);
       } finally {
         db.close();
       }

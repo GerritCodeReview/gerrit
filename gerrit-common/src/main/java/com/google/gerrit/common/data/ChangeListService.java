@@ -35,6 +35,14 @@ public interface ChangeListService extends RemoteJsonService {
   void allQueryNext(String query, String pos, int limit,
       AsyncCallback<SingleListChangeInfo> callback);
 
+  /** Get changes which match an arbitrary string in commit messages. */
+  void loadNextSearchChanges(final String text, final String project, final String pos,
+      final int pageSize, final AsyncCallback<SingleListChangeInfo> callback);
+
+  /** Get changes which match an arbitrary string in commit messages. */
+  void loadPrevSearchChanges(final String text, final String pos,
+      final int pageSize, final AsyncCallback<SingleListChangeInfo> callback);
+
   /** Get the data to show AccountDashboardScreen for an account. */
   void forAccount(Account.Id id, AsyncCallback<AccountDashboardInfo> callback);
 

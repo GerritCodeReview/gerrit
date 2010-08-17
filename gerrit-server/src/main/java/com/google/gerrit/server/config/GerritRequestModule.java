@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.common.data.SearchChangesInfo;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
@@ -36,6 +37,8 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
+import com.google.gerrit.server.query.change.GitFilter;
+import com.google.gerrit.server.query.change.ChangesProvider;
 import com.google.inject.servlet.RequestScoped;
 
 /** Bindings for {@link RequestScoped} entities. */
@@ -48,6 +51,7 @@ public class GerritRequestModule extends FactoryModule {
     bind(IdentifiedUser.RequestFactory.class).in(SINGLETON);
     bind(AccountResolver.class);
     bind(ChangeQueryRewriter.class);
+    bind(SearchChangesInfo.class).toProvider(ChangesProvider.class);
 
     bind(ChangeControl.Factory.class).in(SINGLETON);
     bind(GroupControl.Factory.class).in(SINGLETON);
@@ -56,6 +60,7 @@ public class GerritRequestModule extends FactoryModule {
     factory(ChangeQueryBuilder.Factory.class);
     factory(ReceiveCommits.Factory.class);
     factory(MergeOp.Factory.class);
+    factory(GitFilter.Factory.class);
 
     // Not really per-request, but dammit, I don't know where else to
     // easily park this stuff.

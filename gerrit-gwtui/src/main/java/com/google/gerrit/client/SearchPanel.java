@@ -137,6 +137,10 @@ class SearchPanel extends Composite {
 
     if (query.matches("^[1-9][0-9]*$")) {
       Gerrit.display(PageLinks.toChange(Change.Id.parse(query)));
+    } else if (query.contains("commitmessages:")) {
+      // if query contains "commitMessages:" string search by commit messages
+      // among all repositories or specific project.
+      Gerrit.display(PageLinks.toChangeSearch(query));
     } else {
       Gerrit.display(PageLinks.toChangeQuery(query), QueryScreen.forQuery(query));
     }

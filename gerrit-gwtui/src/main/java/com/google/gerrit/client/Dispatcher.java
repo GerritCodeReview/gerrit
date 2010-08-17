@@ -56,6 +56,7 @@ import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
+import com.google.gerrit.client.changes.SearchResultScreen;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.auth.SignInMode;
@@ -244,6 +245,13 @@ public class Dispatcher {
       final String s = skip(p, token);
       final int c = s.indexOf(',');
       return new QueryScreen(s.substring(0, c), s.substring(c + 1));
+    }
+
+    p = "commitmessages,";
+    if (token.startsWith(p)) {
+      final String s = skip(p, token);
+      final int c = s.indexOf(',');
+      return new SearchResultScreen(s.substring(0, c), s.substring(c + 1));
     }
 
     return new NotFoundScreen();

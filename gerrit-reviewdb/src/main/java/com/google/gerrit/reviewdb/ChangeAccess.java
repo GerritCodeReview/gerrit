@@ -91,6 +91,9 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   ResultSet<Change> allClosedNext(char status, String sortKey, int limit)
       throws OrmException;
 
+  @Query("WHERE dest.projectName = ? ORDER BY sortKey DESC LIMIT 1")
+  ResultSet<Change> byProjectLastCommit(Project.NameKey p) throws OrmException;
+
   @Query
   ResultSet<Change> all() throws OrmException;
 }

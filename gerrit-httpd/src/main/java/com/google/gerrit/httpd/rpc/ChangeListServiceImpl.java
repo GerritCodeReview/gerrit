@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc;
 
 import com.google.gerrit.common.data.AccountDashboardInfo;
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.common.data.SearchChangesInfo;
 import com.google.gerrit.common.data.ChangeListService;
 import com.google.gerrit.common.data.SingleListChangeInfo;
 import com.google.gerrit.common.data.ToggleStarRequest;
@@ -25,6 +26,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeAccess;
 import com.google.gerrit.reviewdb.PatchSetApproval;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.server.CurrentUser;
@@ -37,6 +39,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
+import com.google.gerrit.server.query.change.GitFilter;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -51,6 +54,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class ChangeListServiceImpl extends BaseServiceImplementation implements
     ChangeListService {
@@ -80,6 +84,12 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       };
 
   private static final int MAX_PER_PAGE = 100;
+  private static final String firstSearch = "z";
+
+  private final Provider<SearchChangesInfo> changeList;
+  private static List<Change> filteredChanges;
+  private static List<String> sortKeysList;
+  private SearchChangesInfo searchChangesInfo;
 
   private static int safePageSize(final int pageSize) {
     return 0 < pageSize && pageSize <= MAX_PER_PAGE ? pageSize : MAX_PER_PAGE;
@@ -91,6 +101,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
   private final ChangeQueryBuilder.Factory queryBuilder;
   private final Provider<ChangeQueryRewriter> queryRewriter;
+  private final GitFilter.Factory gitFilter;
 
   @Inject
   ChangeListServiceImpl(final Provider<ReviewDb> schema,
@@ -98,13 +109,17 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final ChangeQueryBuilder.Factory queryBuilder,
-      final Provider<ChangeQueryRewriter> queryRewriter) {
+      final Provider<ChangeQueryRewriter> queryRewriter,
+      final GitFilter.Factory changeSearch,
+      final Provider<SearchChangesInfo> changeList) {
     super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
     this.accountInfoCacheFactory = accountInfoCacheFactory;
     this.queryBuilder = queryBuilder;
     this.queryRewriter = queryRewriter;
+    this.gitFilter = changeSearch;
+    this.changeList = changeList;
   }
 
   private boolean canRead(final Change c) {
@@ -167,7 +182,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         for (ChangeData d : ((ChangeDataSource) s).read()) {
           if (d.hasChange()) {
             // Checking visibleToMe here should be unnecessary, the
-            // query should have already performed it.  But we don't
+            // query should have already performed it. But we don't
             // want to trust the query rewriter that much yet.
             //
             if (visibleToMe.match(d)) {
@@ -198,6 +213,134 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     } catch (QueryParseException e) {
       throw new InvalidQueryException(e.getMessage(), query);
     }
+  }
+
+  public void loadPrevSearchChanges(final String text, final String pos,
+      final int pageSize, final AsyncCallback<SingleListChangeInfo> callback) {
+    final int pageLimit = safePageSize(pageSize);
+
+    if (sortKeysList != null) {
+      final int lastChangeIndex = sortKeysList.indexOf(pos);
+      final int lastIndex = lastChangeIndex - 1;
+      int firstIndex = lastChangeIndex - pageLimit;
+
+      boolean atEnd = false;
+      if (firstIndex == 0) {
+        atEnd = true;
+      }
+
+      callback.onSuccess(getChangesToLoad(firstIndex, lastIndex, atEnd));
+    }
+  }
+
+  public void loadNextSearchChanges(final String text, final String project,
+      final String pos, final int pageSize,
+      final AsyncCallback<SingleListChangeInfo> callback) {
+    final int pageLimit = safePageSize(pageSize);
+
+    if (pos.equals(firstSearch)) {
+      searchChangesInfo = changeList.get();
+
+      filteredChanges = new ArrayList<Change>();
+      sortKeysList = new ArrayList<String>();
+
+      filterChanges(pageLimit, text, project);
+
+      int lastIndex = pageLimit - 1;
+
+      boolean atEnd = false;
+      if (sortKeysList.size() <= pageLimit) {
+        lastIndex = sortKeysList.size() - 1;
+        atEnd = true;
+      }
+
+      callback.onSuccess(getChangesToLoad(0, lastIndex, atEnd));
+    } else {
+      final int lastChangeIndex = sortKeysList.indexOf(pos);
+      final int firstIndex = lastChangeIndex + 1;
+      int lastIndex = lastChangeIndex + pageLimit;
+
+      boolean atEnd = false;
+      int sortKeysLastIndex = sortKeysList.size() - 1;
+
+      if (lastIndex >= sortKeysLastIndex) {
+
+        if (project == null) {
+          filterChanges(lastIndex, text, project);
+          sortKeysLastIndex = sortKeysList.size() - 1;
+
+          if (lastIndex >= sortKeysLastIndex) {
+            lastIndex = sortKeysLastIndex;
+            atEnd = true;
+          }
+        } else {
+          lastIndex = sortKeysLastIndex;
+          atEnd = true;
+        }
+      }
+
+      callback.onSuccess(getChangesToLoad(firstIndex, lastIndex, atEnd));
+    }
+  }
+
+  public void filterChanges(int limit, String text, String project) {
+    final GitFilter filter = gitFilter.create(text);
+
+    do {
+      final int reposCount = searchChangesInfo.getReposCount();
+
+      final Project.NameKey repoName;
+
+      if (project != null) {
+        repoName = new Project.NameKey(project);
+      } else {
+        if (reposCount > 0) {
+          repoName = searchChangesInfo.getNextRepo();
+        } else {
+          break;
+        }
+      }
+
+      final List<String> filterResult = filter.filterByRepository(repoName);
+
+      if (filterResult != null) {
+        final TreeMap<String, Change> changesMap =
+            searchChangesInfo.getFilteredChanges(filterResult);
+        filteredChanges.addAll(changesMap.values());
+
+        sortKeysList.addAll(changesMap.keySet());
+      }
+
+      if (project != null) {
+        break;
+      } else {
+        searchChangesInfo.removeCurrentRepo();
+      }
+    } while (filteredChanges.size() <= limit);
+  }
+
+  private SingleListChangeInfo getChangesToLoad(final int fromIndex,
+      final int toIndex, final boolean atEnd) {
+
+    final List<Change> sortedChanges =
+        filteredChanges.subList(fromIndex, toIndex + 1);
+
+    final AccountInfoCacheFactory ac = accountInfoCacheFactory.create();
+    final SingleListChangeInfo d = new SingleListChangeInfo();
+    final Set<Change.Id> starred = currentUser.get().getStarredChanges();
+    final ArrayList<ChangeInfo> list = new ArrayList<ChangeInfo>();
+
+    for (Change ch : sortedChanges) {
+      final ChangeInfo ci = new ChangeInfo(ch);
+      ac.want(ci.getOwner());
+      ci.setStarred(starred.contains(ci.getId()));
+      list.add(ci);
+    }
+
+    d.setChanges(list, atEnd);
+    d.setAccounts(ac.create());
+
+    return d;
   }
 
   public void forAccount(final Account.Id id,

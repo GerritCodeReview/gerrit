@@ -61,6 +61,10 @@ public class PageLinks {
     return "q," + KeyUtil.encode(query) + "," + TOP;
   }
 
+  public static String toChangeSearch(final String text) {
+    return "commitmessages," + KeyUtil.encode(text) + "," + TOP;
+  }
+
   public static String projectQuery(Project.NameKey proj, Status status) {
     switch (status) {
       case ABANDONED:

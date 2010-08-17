@@ -45,6 +45,7 @@ public interface ChangeMessages extends Messages {
 
   String changeQueryWindowTitle(String query);
   String changeQueryPageTitle(String query);
+  String changeSearchByProjectPageTitle(String text, String project);
 
   String accountNotFound(String who);
   String accountInactive(String who);

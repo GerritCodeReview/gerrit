@@ -18,11 +18,14 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountProjectWatchInfo;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change.Status;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -37,6 +40,7 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
@@ -44,11 +48,15 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
 
 public class MyWatchedProjectsScreen extends SettingsScreen {
   private WatchTable watches;
@@ -59,6 +67,9 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
   private NpTextBox filterTxt;
   private Button delSel;
   private boolean submitOnSelection;
+  private ProjectTable projects;
+  private List<Project> allProjects;
+  private List<AccountProjectWatchInfo> watchedProjects;
 
   @Override
   protected void onInitUI() {
@@ -143,6 +154,8 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
         }
       });
 
+      projects = new ProjectTable();
+
       addNew = new Button(Util.C.buttonWatchProject());
       addNew.addClickHandler(new ClickHandler() {
         @Override
@@ -166,10 +179,23 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
       fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().header());
       fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().bottomheader());
 
+      DisclosurePanel unwatched = new DisclosurePanel(Util.C.unwatchedProjects());
+      unwatched.setContent(projects);
+
+      final Grid grid2 = new Grid(1, 2);
+      final FlowPanel fp2 = new FlowPanel();
+      fp2.add(addNew);
+      grid2.setWidget(0, 0, fp2);
+      grid2.setWidget(0, 1, unwatched);
+
+      final CellFormatter fmt2 = grid2.getCellFormatter();
+      fmt2.setAlignment(0, 0, HasHorizontalAlignment.ALIGN_LEFT,
+        HasVerticalAlignment.ALIGN_TOP);
+
       final FlowPanel fp = new FlowPanel();
       fp.setStyleName(Gerrit.RESOURCES.css().addWatchPanel());
       fp.add(grid);
-      fp.add(addNew);
+      fp.add(grid2);
       add(fp);
     }
 
@@ -232,9 +258,36 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
         .myProjectWatch(new ScreenLoadCallback<List<AccountProjectWatchInfo>>(
             this) {
           public void preDisplay(final List<AccountProjectWatchInfo> result) {
+            watchedProjects = result;
             watches.display(result);
+            displayUnwatchedProjects();
           }
         });
+    Util.PROJECT_SVC.visibleProjects(new ScreenLoadCallback<List<Project>>(this) {
+          @Override
+          protected void preDisplay(final List<Project> result) {
+            allProjects = new ArrayList(result);
+            allProjects.remove(0); // unneeded fake "--all projects--" entry
+            displayUnwatchedProjects();
+          }
+        });
+  }
+
+  protected void displayUnwatchedProjects() {
+    if (watchedProjects != null && allProjects != null) {
+      List<Project> unwatched = new ArrayList(allProjects);
+      for (final AccountProjectWatchInfo w : watchedProjects) {
+        int i = 0;
+        for (final Project p : unwatched) {
+          if (p.getName().equals(w.getProject().getName())) {
+            unwatched.remove(i);
+            break;
+          }
+          i++;
+        }
+      }
+      projects.display(unwatched);
+    }
   }
 
   private class WatchTable extends FancyFlexTable<AccountProjectWatchInfo> {
@@ -279,6 +332,8 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
                   final AccountProjectWatchInfo k = getRowItem(row);
                   if (k != null && ids.contains(k.getWatch().getKey())) {
                     table.removeRow(row);
+                    watchedProjects.remove(row - 2);
+                    displayUnwatchedProjects();
                   } else {
                     row++;
                   }
@@ -301,6 +356,8 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
       table.insertRow(row);
       applyDataRowStyle(row);
       populate(row, k);
+      watchedProjects.add(row - 2, k);
+      displayUnwatchedProjects();
     }
 
     void display(final List<AccountProjectWatchInfo> result) {
@@ -407,6 +464,75 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
       fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 5, Gerrit.RESOURCES.css().dataCell());
+
+      setRowItem(row, k);
+    }
+  }
+
+  private class ProjectTable extends NavigationTable<Project> {
+    ProjectTable() {
+      setSavePointerId(PageLinks.SETTINGS_PROJECTS);
+      keysNavigation.add(new PrevKeyCommand(0, 'k',
+        Util.C.unwatchedProjectListPrev()));
+      keysNavigation.add(new NextKeyCommand(0, 'j',
+        Util.C.unwatchedProjectListNext()));
+      keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
+        Util.C.unwatchedProjectListOpen()));
+
+      table.setText(0, 1, Util.C.unwatchedProjectName());
+      table.setText(0, 2, Util.C.unwatchedProjectDescription());
+
+      final FlexCellFormatter fmt = table.getFlexCellFormatter();
+      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
+
+      table.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          onOpenRow(table.getCellForEvent(event).getRowIndex());
+        }
+      });
+    }
+
+    @Override
+    protected Object getRowItemKey(final Project item) {
+      return item.getNameKey();
+    }
+
+    @Override
+    protected void onOpenRow(final int row) {
+      if (row > 0) {
+        movePointerTo(row);
+        nameBox.setText(getRowItem(row).getName());
+      }
+    }
+
+    void display(final List<Project> projects) {
+      while (1 < table.getRowCount())
+        table.removeRow(table.getRowCount() - 1);
+
+      for (final Project k : projects)
+        insert(table.getRowCount(), k);
+
+      finishDisplay();
+    }
+
+    void insert(final int row, final Project k) {
+      table.insertRow(row);
+
+      applyDataRowStyle(row);
+
+      final FlexCellFormatter fmt = table.getFlexCellFormatter();
+      fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().cPROJECT());
+      fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
+
+      populate(row, k);
+    }
+
+    void populate(final int row, final Project k) {
+      table.setText(row, 1, k.getName());
+      table.setText(row, 2, k.getDescription());
 
       setRowItem(row, k);
     }

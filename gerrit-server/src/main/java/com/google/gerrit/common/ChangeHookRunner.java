@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -164,10 +166,12 @@ public class ChangeHookRunner {
      * @param change Change to get repo for,
      * @return Repository or null.
      */
-    private Repository getRepo(final Change change) {
+    private Repository openRepository(final Change change) {
+        Project.NameKey name = change.getProject();
         try {
-            return repoManager.openRepository(change.getProject().get());
-        } catch (Exception ex) {
+            return repoManager.openRepository(name.get());
+        } catch (RepositoryNotFoundException err) {
+            log.warn("Cannot open repository " + name.get(), err);
             return null;
         }
     }
@@ -195,8 +199,6 @@ public class ChangeHookRunner {
         fireEvent(change, event);
 
         final List<String> args = new ArrayList<String>();
-        args.add(patchsetCreatedHook.getAbsolutePath());
-
         addArg(args, "--change", event.change.id);
         addArg(args, "--change-url", event.change.url);
         addArg(args, "--project", event.change.project);
@@ -205,7 +207,7 @@ public class ChangeHookRunner {
         addArg(args, "--commit", event.patchSet.revision);
         addArg(args, "--patchset", event.patchSet.number);
 
-        runHook(getRepo(change), args);
+        runHook(openRepository(change), patchsetCreatedHook, args);
     }
 
     /**
@@ -236,8 +238,6 @@ public class ChangeHookRunner {
         fireEvent(change, event);
 
         final List<String> args = new ArrayList<String>();
-        args.add(commentAddedHook.getAbsolutePath());
-
         addArg(args, "--change", event.change.id);
         addArg(args, "--change-url", event.change.url);
         addArg(args, "--project", event.change.project);
@@ -249,7 +249,7 @@ public class ChangeHookRunner {
             addArg(args, "--" + approval.getKey().get(), Short.toString(approval.getValue().get()));
         }
 
-        runHook(getRepo(change), args);
+        runHook(openRepository(change), commentAddedHook, args);
     }
 
     /**
@@ -268,8 +268,6 @@ public class ChangeHookRunner {
         fireEvent(change, event);
 
         final List<String> args = new ArrayList<String>();
-        args.add(changeMergedHook.getAbsolutePath());
-
         addArg(args, "--change", event.change.id);
         addArg(args, "--change-url", event.change.url);
         addArg(args, "--project", event.change.project);
@@ -277,7 +275,7 @@ public class ChangeHookRunner {
         addArg(args, "--submitter", getDisplayName(account));
         addArg(args, "--commit", event.patchSet.revision);
 
-        runHook(getRepo(change), args);
+        runHook(openRepository(change), changeMergedHook, args);
     }
 
     /**
@@ -296,8 +294,6 @@ public class ChangeHookRunner {
         fireEvent(change, event);
 
         final List<String> args = new ArrayList<String>();
-        args.add(changeAbandonedHook.getAbsolutePath());
-
         addArg(args, "--change", event.change.id);
         addArg(args, "--change-url", event.change.url);
         addArg(args, "--project", event.change.project);
@@ -305,7 +301,7 @@ public class ChangeHookRunner {
         addArg(args, "--abandoner", getDisplayName(account));
         addArg(args, "--reason", reason == null ? "" : reason);
 
-        runHook(getRepo(change), args);
+        runHook(openRepository(change), changeAbandonedHook, args);
     }
 
     private void fireEvent(final Change change, final ChangeEvent event) {
@@ -358,53 +354,76 @@ public class ChangeHookRunner {
         return "Anonymous Coward";
     }
 
-    /**
-     * Run a hook.
-     *
-     * @param repo Repo to run the hook for.
-     * @param args Arguments to use to run the hook.
-     */
-    private synchronized void runHook(final Repository repo, final List<String> args) {
-        if (repo == null) {
-            log.error("No repo found for hook.");
-            return;
-        }
-
-        hookQueue.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (new File(args.get(0)).exists()) {
-                        final ProcessBuilder pb = new ProcessBuilder(args);
-                        pb.redirectErrorStream(true);
-                        pb.directory(repo.getDirectory());
-                        final Map<String, String> env = pb.environment();
-                        env.put("GIT_DIR", repo.getDirectory().getAbsolutePath());
-
-                        Process ps = pb.start();
-                        ps.getOutputStream().close();
-
-                        BufferedReader br = new BufferedReader(new InputStreamReader(ps.getInputStream()));
-                        try {
-                            String line;
-                            while ((line = br.readLine()) != null) {
-                                log.info("hook output: " + line);
-                            }
-                        } finally {
-                            try {
-                                br.close();
-                            } catch (IOException e2) {
-                            }
-
-                            ps.waitFor();
-                        }
-                    }
-                } catch (Throwable e) {
-                    log.error("Unexpected error during hook execution", e);
-                } finally {
-                    repo.close();
-                }
-            }
-        });
+  /**
+   * Run a hook.
+   *
+   * @param repo repository to run the hook for.
+   * @param hook the hook to execute.
+   * @param args Arguments to use to run the hook.
+   */
+  private synchronized void runHook(Repository repo, File hook,
+      List<String> args) {
+    if (repo != null) {
+      if (hook.exists()) {
+        hookQueue.execute(new HookTask(repo, hook, args));
+      } else {
+        repo.close();
+      }
     }
+  }
+
+  private final class HookTask implements Runnable {
+    private final Repository repo;
+    private final File hook;
+    private final List<String> args;
+
+    private HookTask(Repository repo, File hook, List<String> args) {
+      this.repo = repo;
+      this.hook = hook;
+      this.args = args;
+    }
+
+    @Override
+    public void run() {
+      try {
+        final List<String> argv = new ArrayList<String>(1 + args.size());
+        argv.add(hook.getAbsolutePath());
+        argv.addAll(args);
+
+        final ProcessBuilder pb = new ProcessBuilder(argv);
+        pb.redirectErrorStream(true);
+        pb.directory(repo.getDirectory());
+
+        final Map<String, String> env = pb.environment();
+        env.put("GIT_DIR", repo.getDirectory().getAbsolutePath());
+
+        Process ps = pb.start();
+        ps.getOutputStream().close();
+
+        BufferedReader br =
+            new BufferedReader(new InputStreamReader(ps.getInputStream()));
+        try {
+          String line;
+          while ((line = br.readLine()) != null) {
+            log.info("hook[" + hook.getName() + "] output: " + line);
+          }
+        } finally {
+          try {
+            br.close();
+          } catch (IOException closeErr) {
+          }
+          ps.waitFor();
+        }
+      } catch (Throwable err) {
+        log.error("Error running hook " + hook.getAbsolutePath(), err);
+      } finally {
+        repo.close();
+      }
+    }
+
+    @Override
+    public String toString() {
+      return "hook " + hook.getName();
+    }
+  }
 }

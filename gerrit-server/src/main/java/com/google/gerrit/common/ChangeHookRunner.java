@@ -172,6 +172,13 @@ public class ChangeHookRunner {
         }
     }
 
+    private void addArg(List<String> args, String name, String value) {
+        if (value != null) {
+            args.add(name);
+            args.add(value);
+        }
+    }
+
     /**
      * Fire the Patchset Created Hook.
      *
@@ -190,20 +197,13 @@ public class ChangeHookRunner {
         final List<String> args = new ArrayList<String>();
         args.add(patchsetCreatedHook.getAbsolutePath());
 
-        args.add("--change");
-        args.add(event.change.id);
-        args.add("--change-url");
-        args.add(event.change.url);
-        args.add("--project");
-        args.add(event.change.project);
-        args.add("--branch");
-        args.add(event.change.branch);
-        args.add("--uploader");
-        args.add(getDisplayName(uploader.getAccount()));
-        args.add("--commit");
-        args.add(event.patchSet.revision);
-        args.add("--patchset");
-        args.add(event.patchSet.number);
+        addArg(args, "--change", event.change.id);
+        addArg(args, "--change-url", event.change.url);
+        addArg(args, "--project", event.change.project);
+        addArg(args, "--branch", event.change.branch);
+        addArg(args, "--uploader", getDisplayName(uploader.getAccount()));
+        addArg(args, "--commit", event.patchSet.revision);
+        addArg(args, "--patchset", event.patchSet.number);
 
         runHook(getRepo(change), args);
     }
@@ -238,23 +238,15 @@ public class ChangeHookRunner {
         final List<String> args = new ArrayList<String>();
         args.add(commentAddedHook.getAbsolutePath());
 
-        args.add("--change");
-        args.add(event.change.id);
-        args.add("--change-url");
-        args.add(event.change.url);
-        args.add("--project");
-        args.add(event.change.project);
-        args.add("--branch");
-        args.add(event.change.branch);
-        args.add("--author");
-        args.add(getDisplayName(account));
-        args.add("--commit");
-        args.add(event.patchSet.revision);
-        args.add("--comment");
-        args.add(comment == null ? "" : comment);
+        addArg(args, "--change", event.change.id);
+        addArg(args, "--change-url", event.change.url);
+        addArg(args, "--project", event.change.project);
+        addArg(args, "--branch", event.change.branch);
+        addArg(args, "--author", getDisplayName(account));
+        addArg(args, "--commit", event.patchSet.revision);
+        addArg(args, "--comment", comment == null ? "" : comment);
         for (Map.Entry<ApprovalCategory.Id, ApprovalCategoryValue.Id> approval : approvals.entrySet()) {
-            args.add("--" + approval.getKey().get());
-            args.add(Short.toString(approval.getValue().get()));
+            addArg(args, "--" + approval.getKey().get(), Short.toString(approval.getValue().get()));
         }
 
         runHook(getRepo(change), args);
@@ -278,18 +270,12 @@ public class ChangeHookRunner {
         final List<String> args = new ArrayList<String>();
         args.add(changeMergedHook.getAbsolutePath());
 
-        args.add("--change");
-        args.add(event.change.id);
-        args.add("--change-url");
-        args.add(event.change.url);
-        args.add("--project");
-        args.add(event.change.project);
-        args.add("--branch");
-        args.add(event.change.branch);
-        args.add("--submitter");
-        args.add(getDisplayName(account));
-        args.add("--commit");
-        args.add(event.patchSet.revision);
+        addArg(args, "--change", event.change.id);
+        addArg(args, "--change-url", event.change.url);
+        addArg(args, "--project", event.change.project);
+        addArg(args, "--branch", event.change.branch);
+        addArg(args, "--submitter", getDisplayName(account));
+        addArg(args, "--commit", event.patchSet.revision);
 
         runHook(getRepo(change), args);
     }
@@ -312,18 +298,12 @@ public class ChangeHookRunner {
         final List<String> args = new ArrayList<String>();
         args.add(changeAbandonedHook.getAbsolutePath());
 
-        args.add("--change");
-        args.add(event.change.id);
-        args.add("--change-url");
-        args.add(event.change.url);
-        args.add("--project");
-        args.add(event.change.project);
-        args.add("--branch");
-        args.add(event.change.branch);
-        args.add("--abandoner");
-        args.add(getDisplayName(account));
-        args.add("--reason");
-        args.add(reason == null ? "" : reason);
+        addArg(args, "--change", event.change.id);
+        addArg(args, "--change-url", event.change.url);
+        addArg(args, "--project", event.change.project);
+        addArg(args, "--branch", event.change.branch);
+        addArg(args, "--abandoner", getDisplayName(account));
+        addArg(args, "--reason", reason == null ? "" : reason);
 
         runHook(getRepo(change), args);
     }

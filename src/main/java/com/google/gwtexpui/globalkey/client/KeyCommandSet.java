@@ -112,6 +112,7 @@ public class KeyCommandSet implements KeyPressHandler {
   public void onKeyPress(final KeyPressEvent event) {
     final KeyCommand k = map.get(toMask(event));
     if (k != null) {
+      event.preventDefault();
       event.stopPropagation();
       k.onKeyPress(event);
     }

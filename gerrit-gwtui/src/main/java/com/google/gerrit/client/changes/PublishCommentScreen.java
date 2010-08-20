@@ -201,7 +201,7 @@ public class PublishCommentScreen extends AccountScreen implements
     message = new NpTextArea();
     message.setCharacterWidth(60);
     message.setVisibleLines(10);
-    DOM.setElementPropertyBoolean(message.getElement(), "spellcheck", true);
+    message.setSpellCheck(true);
     mwrap.add(message);
   }
 

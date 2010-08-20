@@ -23,9 +23,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.user.client.DOM;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -79,13 +78,14 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     text.setText(comment.getMessage());
     text.setCharacterWidth(INITIAL_COLS);
     text.setVisibleLines(INITIAL_LINES);
-    DOM.setElementPropertyBoolean(text.getElement(), "spellcheck", true);
-    text.addKeyPressHandler(new KeyPressHandler() {
+    text.setSpellCheck(true);
+    text.addKeyDownHandler(new KeyDownHandler() {
       @Override
-      public void onKeyPress(final KeyPressEvent event) {
-        if (event.getCharCode() == KeyCodes.KEY_ESCAPE
+      public void onKeyDown(final KeyDownEvent event) {
+        if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE
             && !event.isAnyModifierKeyDown()) {
           event.preventDefault();
+
           if (isNew()) {
             onDiscard();
           } else {
@@ -96,13 +96,15 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
 
         if ((event.isControlKeyDown() || event.isMetaKeyDown())
             && !event.isAltKeyDown() && !event.isShiftKeyDown()) {
-          switch (event.getCharCode()) {
+          switch (event.getNativeKeyCode()) {
             case 's':
+            case 'S':
               event.preventDefault();
               onSave(NULL_CALLBACK);
               return;
 
             case 'd':
+            case 'D':
               event.preventDefault();
               if (isNew()) {
                 onDiscard();
@@ -182,7 +184,13 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     setMessageTextVisible(!inEdit);
     edit.setVisible(!inEdit);
 
-    text.setVisible(inEdit);
+    if (inEdit) {
+      text.setVisible(true);
+    } else {
+      text.setFocus(false);
+      text.setVisible(false);
+    }
+
     save.setVisible(inEdit);
     cancel.setVisible(inEdit && !isNew());
     discard.setVisible(inEdit);
@@ -241,6 +249,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     }
 
     comment.setMessage(txt);
+    text.setFocus(false);
     text.setReadOnly(true);
     save.setEnabled(false);
     cancel.setEnabled(false);
@@ -262,6 +271,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
           @Override
           public void onFailure(final Throwable caught) {
             text.setReadOnly(false);
+            text.setFocus(true);
             save.setEnabled(true);
             cancel.setEnabled(true);
             discard.setEnabled(true);
@@ -281,10 +291,12 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
   private void onDiscard() {
     expandTimer.cancel();
     if (isNew()) {
+      text.setFocus(false);
       removeUI();
       return;
     }
 
+    text.setFocus(false);
     text.setReadOnly(true);
     save.setEnabled(false);
     cancel.setEnabled(false);
@@ -300,6 +312,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
           @Override
           public void onFailure(final Throwable caught) {
             text.setReadOnly(false);
+            text.setFocus(true);
             save.setEnabled(true);
             cancel.setEnabled(true);
             discard.setEnabled(true);

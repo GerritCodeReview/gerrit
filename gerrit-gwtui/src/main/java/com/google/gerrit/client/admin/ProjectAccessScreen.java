@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.ui.HintTextBox;
+
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -69,7 +71,7 @@ public class ProjectAccessScreen extends ProjectScreen {
   private ListBox catBox;
   private ListBox rangeMinBox;
   private ListBox rangeMaxBox;
-  private NpTextBox nameTxtBox;
+  private HintTextBox nameTxtBox;
   private SuggestBox nameTxt;
   private NpTextBox referenceTxt;
   private FlowPanel addPanel;
@@ -157,34 +159,16 @@ public class ProjectAccessScreen extends ProjectScreen {
     addGrid.setText(0, 0, Util.C.columnApprovalCategory() + ":");
     addGrid.setWidget(0, 1, catBox);
 
-    nameTxtBox = new NpTextBox();
+    nameTxtBox = new HintTextBox();
     nameTxt = new SuggestBox(new AccountGroupSuggestOracle(), nameTxtBox);
     nameTxtBox.setVisibleLength(50);
-    nameTxtBox.setText(Util.C.defaultAccountGroupName());
-    nameTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-    nameTxtBox.addFocusHandler(new FocusHandler() {
-      @Override
-      public void onFocus(FocusEvent event) {
-        if (Util.C.defaultAccountGroupName().equals(nameTxtBox.getText())) {
-          nameTxtBox.setText("");
-          nameTxtBox.removeStyleName(Gerrit.RESOURCES.css()
-              .inputFieldTypeHint());
-        }
-      }
-    });
-    nameTxtBox.addBlurHandler(new BlurHandler() {
-      @Override
-      public void onBlur(BlurEvent event) {
-        if ("".equals(nameTxtBox.getText())) {
-          nameTxtBox.setText(Util.C.defaultAccountGroupName());
-          nameTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-        }
-      }
-    });
+    nameTxtBox.setHintText(Util.C.defaultAccountGroupName());
+    nameTxtBox.setHintStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
+
     addGrid.setText(1, 0, Util.C.columnGroupName() + ":");
     addGrid.setWidget(1, 1, nameTxt);
 
-    referenceTxt = new NpTextBox();
+    referenceTxt = new HintTextBox();
     referenceTxt.setVisibleLength(50);
     referenceTxt.setText("");
     referenceTxt.addKeyPressHandler(new KeyPressHandler() {
@@ -317,8 +301,7 @@ public class ProjectAccessScreen extends ProjectScreen {
     }
 
     final String groupName = nameTxt.getText();
-    if ("".equals(groupName)
-        || Util.C.defaultAccountGroupName().equals(groupName)) {
+    if ("".equals(groupName)) {
       return;
     }
 

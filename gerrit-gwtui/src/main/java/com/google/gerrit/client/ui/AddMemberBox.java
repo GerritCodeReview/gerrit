@@ -16,6 +16,7 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.admin.Util;
+import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -32,42 +33,23 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class AddMemberBox extends Composite {
   private final FlowPanel addPanel;
   private final Button addMember;
-  private final NpTextBox nameTxtBox;
+  private final HintTextBox nameTxtBox;
   private final SuggestBox nameTxt;
   private boolean submitOnSelection;
 
   public AddMemberBox() {
     addPanel = new FlowPanel();
     addMember = new Button(Util.C.buttonAddGroupMember());
-    nameTxtBox = new NpTextBox();
+    nameTxtBox = new HintTextBox();
     nameTxt = new SuggestBox(new AccountSuggestOracle(), nameTxtBox);
 
     nameTxtBox.setVisibleLength(50);
-    nameTxtBox.setText(Util.C.defaultAccountName());
-    nameTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-    nameTxtBox.addFocusHandler(new FocusHandler() {
-      @Override
-      public void onFocus(final FocusEvent event) {
-        if (Util.C.defaultAccountName().equals(nameTxtBox.getText())) {
-          nameTxtBox.setText("");
-          nameTxtBox.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-        }
-      }
-    });
-    nameTxtBox.addBlurHandler(new BlurHandler() {
-      @Override
-      public void onBlur(final BlurEvent event) {
-        if ("".equals(nameTxtBox.getText())) {
-          nameTxtBox.setText(Util.C.defaultAccountName());
-          nameTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-        }
-      }
-    });
+    nameTxtBox.setHintText(Util.C.defaultAccountName());
+    nameTxtBox.setHintStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
     nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
@@ -108,10 +90,7 @@ public class AddMemberBox extends Composite {
 
   public String getText() {
     String s = nameTxtBox.getText();
-    if (s == null || s.equals(Util.C.defaultAccountName())) {
-      s = "";
-    }
-    return s;
+    return s == null ? "" : s;
   }
 
   public void setEnabled(boolean enabled) {

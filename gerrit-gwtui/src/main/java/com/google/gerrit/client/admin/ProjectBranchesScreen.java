@@ -20,6 +20,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.errors.InvalidNameException;
@@ -44,7 +45,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 import java.util.HashSet;
@@ -55,8 +55,8 @@ public class ProjectBranchesScreen extends ProjectScreen {
   private BranchesTable branches;
   private Button delBranch;
   private Button addBranch;
-  private NpTextBox nameTxtBox;
-  private NpTextBox irevTxtBox;
+  private HintTextBox nameTxtBox;
+  private HintTextBox irevTxtBox;
   private FlowPanel addPanel;
 
   public ProjectBranchesScreen(final Project.NameKey toShow) {
@@ -97,28 +97,10 @@ public class ProjectBranchesScreen extends ProjectScreen {
 
     final Grid addGrid = new Grid(2, 2);
 
-    nameTxtBox = new NpTextBox();
+    nameTxtBox = new HintTextBox();
     nameTxtBox.setVisibleLength(50);
-    nameTxtBox.setText(Util.C.defaultBranchName());
-    nameTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-    nameTxtBox.addFocusHandler(new FocusHandler() {
-      @Override
-      public void onFocus(FocusEvent event) {
-        if (Util.C.defaultBranchName().equals(nameTxtBox.getText())) {
-          nameTxtBox.setText("");
-          nameTxtBox.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-        }
-      }
-    });
-    nameTxtBox.addBlurHandler(new BlurHandler() {
-      @Override
-      public void onBlur(BlurEvent event) {
-        if ("".equals(nameTxtBox.getText())) {
-          nameTxtBox.setText(Util.C.defaultBranchName());
-          nameTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-        }
-      }
-    });
+    nameTxtBox.setHintText(Util.C.defaultBranchName());
+    nameTxtBox.setHintStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
     nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
@@ -130,28 +112,10 @@ public class ProjectBranchesScreen extends ProjectScreen {
     addGrid.setText(0, 0, Util.C.columnBranchName() + ":");
     addGrid.setWidget(0, 1, nameTxtBox);
 
-    irevTxtBox = new NpTextBox();
+    irevTxtBox = new HintTextBox();
     irevTxtBox.setVisibleLength(50);
-    irevTxtBox.setText(Util.C.defaultRevisionSpec());
-    irevTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-    irevTxtBox.addFocusHandler(new FocusHandler() {
-      @Override
-      public void onFocus(FocusEvent event) {
-        if (Util.C.defaultRevisionSpec().equals(irevTxtBox.getText())) {
-          irevTxtBox.setText("");
-          irevTxtBox.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-        }
-      }
-    });
-    irevTxtBox.addBlurHandler(new BlurHandler() {
-      @Override
-      public void onBlur(BlurEvent event) {
-        if ("".equals(irevTxtBox.getText())) {
-          irevTxtBox.setText(Util.C.defaultRevisionSpec());
-          irevTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-        }
-      }
-    });
+    irevTxtBox.setHintText(Util.C.defaultRevisionSpec());
+    irevTxtBox.setHintStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
     irevTxtBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
@@ -190,13 +154,13 @@ public class ProjectBranchesScreen extends ProjectScreen {
 
   private void doAddNewBranch() {
     String branchName = nameTxtBox.getText();
-    if ("".equals(branchName) || Util.C.defaultBranchName().equals(branchName)) {
+    if ("".equals(branchName)) {
       nameTxtBox.setFocus(true);
       return;
     }
 
     String rev = irevTxtBox.getText();
-    if ("".equals(rev) || Util.C.defaultRevisionSpec().equals(rev)) {
+    if ("".equals(rev)) {
       irevTxtBox.setText("HEAD");
       DeferredCommand.addCommand(new Command() {
         @Override

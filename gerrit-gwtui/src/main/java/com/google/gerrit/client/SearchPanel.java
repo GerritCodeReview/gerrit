@@ -15,14 +15,11 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.changes.QueryScreen;
+import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
@@ -35,7 +32,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 class SearchPanel extends Composite {
-  private final NpTextBox searchBox;
+  private final HintTextBox searchBox;
   private HandlerRegistration regFocus;
 
   SearchPanel() {
@@ -43,28 +40,10 @@ class SearchPanel extends Composite {
     initWidget(body);
     setStyleName(Gerrit.RESOURCES.css().searchPanel());
 
-    searchBox = new NpTextBox();
+    searchBox = new HintTextBox();
     searchBox.setVisibleLength(70);
-    searchBox.setText(Gerrit.C.searchHint());
-    searchBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-    searchBox.addFocusHandler(new FocusHandler() {
-      @Override
-      public void onFocus(FocusEvent event) {
-        if (Gerrit.C.searchHint().equals(searchBox.getText())) {
-          searchBox.setText("");
-          searchBox.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-        }
-      }
-    });
-    searchBox.addBlurHandler(new BlurHandler() {
-      @Override
-      public void onBlur(BlurEvent event) {
-        if ("".equals(searchBox.getText())) {
-          searchBox.setText(Gerrit.C.searchHint());
-          searchBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-        }
-      }
-    });
+    searchBox.setHintText(Gerrit.C.searchHint());
+    searchBox.setHintStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
     searchBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
@@ -93,13 +72,7 @@ class SearchPanel extends Composite {
   }
 
   void setText(final String query) {
-    if (query == null || query.equals("")) {
-      searchBox.setText(Gerrit.C.searchHint());
-      searchBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-    } else {
-      searchBox.setText(query);
-      searchBox.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-    }
+    searchBox.setText(query);
   }
 
   @Override
@@ -129,7 +102,7 @@ class SearchPanel extends Composite {
 
   private void doSearch() {
     final String query = searchBox.getText().trim();
-    if (query.length() == 0 || Gerrit.C.searchHint().equals(query)) {
+    if ("".equals(query)) {
       return;
     }
 

@@ -31,6 +31,7 @@ public interface AdminConstants extends Constants {
   String buttonChangeGroupType();
   String buttonSelectGroup();
   String buttonAddProjectRight();
+  String buttonClearProjectRight();
   String buttonSaveChanges();
   String useContributorAgreements();
   String useSignedOffBy();

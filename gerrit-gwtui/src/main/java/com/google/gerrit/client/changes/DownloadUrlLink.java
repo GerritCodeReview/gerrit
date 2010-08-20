@@ -25,10 +25,10 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 class DownloadUrlLink extends Anchor implements ClickHandler {
-  final AccountGeneralPreferences.DownloadUrl urlType;
+  final AccountGeneralPreferences.DownloadScheme urlType;
   final String urlData;
 
-  DownloadUrlLink(AccountGeneralPreferences.DownloadUrl urlType, String text,
+  DownloadUrlLink(AccountGeneralPreferences.DownloadScheme urlType, String text,
       String urlData) {
     super(text);
     this.urlType = urlType;

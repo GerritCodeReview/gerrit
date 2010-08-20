@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadCommand;
 import com.google.gwt.user.client.ui.Accessibility;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -69,6 +70,9 @@ class DownloadCommandPanel extends FlowPanel {
   private void update() {
     if (currentCommand != null && currentUrl != null) {
       currentCommand.setCurrentUrl(currentUrl);
+    } else if (currentCommand != null &&
+        currentCommand.getCmdType().equals(DownloadCommand.REPO_DOWNLOAD)) {
+      currentCommand.setCurrentUrl(null);
     }
   }
 }

@@ -35,7 +35,7 @@ import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadUrl;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -173,34 +173,40 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     final CopyableLabel copyLabel = new CopyableLabel("");
     final DownloadCommandPanel commands = new DownloadCommandPanel();
     final DownloadUrlPanel urls = new DownloadUrlPanel(commands);
+    final Set<DownloadScheme> allowedSchemes = Gerrit.getConfig().getDownloadSchemes();
 
     copyLabel.setStyleName(Gerrit.RESOURCES.css().downloadLinkCopyLabel());
 
     if (changeDetail.isAllowsAnonymous()
-        && Gerrit.getConfig().getGitDaemonUrl() != null) {
+        && Gerrit.getConfig().getGitDaemonUrl() != null
+        && allowedSchemes.contains(DownloadScheme.ANON_GIT)) {
       StringBuilder r = new StringBuilder();
       r.append(Gerrit.getConfig().getGitDaemonUrl());
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
-      urls.add(new DownloadUrlLink(DownloadUrl.ANON_GIT, Util.M
+      urls.add(new DownloadUrlLink(DownloadScheme.ANON_GIT, Util.M
           .anonymousDownload("Git"), r.toString()));
     }
 
-    if (changeDetail.isAllowsAnonymous()) {
+    if (changeDetail.isAllowsAnonymous()
+        && (allowedSchemes.contains(DownloadScheme.ANON_HTTP) ||
+            allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
       StringBuilder r = new StringBuilder();
       r.append(GWT.getHostPageBaseURL());
       r.append("p/");
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
-      urls.add(new DownloadUrlLink(DownloadUrl.ANON_HTTP, Util.M
+      urls.add(new DownloadUrlLink(DownloadScheme.ANON_HTTP, Util.M
           .anonymousDownload("HTTP"), r.toString()));
     }
 
     if (Gerrit.getConfig().getSshdAddress() != null && Gerrit.isSignedIn()
         && Gerrit.getUserAccount().getUserName() != null
-        && Gerrit.getUserAccount().getUserName().length() > 0) {
+        && Gerrit.getUserAccount().getUserName().length() > 0
+        && (allowedSchemes.contains(DownloadScheme.SSH) ||
+            allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
       String sshAddr = Gerrit.getConfig().getSshdAddress();
       final StringBuilder r = new StringBuilder();
       r.append("ssh://");
@@ -217,11 +223,13 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
-      urls.add(new DownloadUrlLink(DownloadUrl.SSH, "SSH", r.toString()));
+      urls.add(new DownloadUrlLink(DownloadScheme.SSH, "SSH", r.toString()));
     }
 
     if (Gerrit.isSignedIn() && Gerrit.getUserAccount().getUserName() != null
-        && Gerrit.getUserAccount().getUserName().length() > 0) {
+        && Gerrit.getUserAccount().getUserName().length() > 0
+        && (allowedSchemes.contains(DownloadScheme.HTTP) ||
+            allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
       String base = GWT.getHostPageBaseURL();
       int p = base.indexOf("://");
       int s = base.indexOf('/', p + 3);
@@ -243,10 +251,10 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
-      urls.add(new DownloadUrlLink(DownloadUrl.HTTP, "HTTP", r.toString()));
+      urls.add(new DownloadUrlLink(DownloadScheme.HTTP, "HTTP", r.toString()));
     }
 
-    if (Gerrit.getConfig().isUseRepoDownload()) {
+    if (allowedSchemes.contains(DownloadScheme.REPO_DOWNLOAD)) {
       // This site prefers usage of the 'repo' tool, so suggest
       // that for easy fetch.
       //

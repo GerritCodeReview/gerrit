@@ -62,6 +62,7 @@ package com.google.gerrit.server.patch;
 
 
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
@@ -80,6 +81,7 @@ import com.google.inject.name.Named;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.MyersDiff;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextIgnoreAllWhitespace;
@@ -87,7 +89,6 @@ import org.eclipse.jgit.diff.RawTextIgnoreTrailingWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreWhitespaceChange;
 import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.diff.ReplaceEdit;
-import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -98,6 +99,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.FileHeader.PatchType;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -185,15 +187,50 @@ public class PatchListCacheImpl implements PatchListCache {
         final Repository repo) throws IOException {
       // TODO(jeffschu) correctly handle merge commits
 
-      final RevWalk rw = new RevWalk(repo);
-      final RevCommit b = rw.parseCommit(key.getNewId());
-      final AnyObjectId a = aFor(key, repo, b);
-
-      if (a == null) {
-        return new PatchList(a, b, computeIntraline, new PatchListEntry[0]);
+      RawText.Factory rawTextFactory;
+      switch (key.getWhitespace()) {
+        case IGNORE_ALL_SPACE:
+          rawTextFactory = RawTextIgnoreAllWhitespace.FACTORY;
+          break;
+        case IGNORE_SPACE_AT_EOL:
+          rawTextFactory = RawTextIgnoreTrailingWhitespace.FACTORY;
+          break;
+        case IGNORE_SPACE_CHANGE:
+          rawTextFactory = RawTextIgnoreWhitespaceChange.FACTORY;
+          break;
+        case IGNORE_NONE:
+        default:
+          rawTextFactory = RawText.FACTORY;
+          break;
       }
 
-      RevTree aTree = rw.parseTree(a);
+      final RevWalk rw = new RevWalk(repo);
+      final RevCommit b = rw.parseCommit(key.getNewId());
+      final RevObject a = aFor(key, repo, rw, b);
+
+      if (a == null) {
+        // This is a merge commit, compared to its ancestor.
+        //
+        final PatchListEntry[] entries = new PatchListEntry[1];
+        entries[0] = newCommitMessage(rawTextFactory, repo, null, b);
+        return new PatchList(a, b, computeIntraline, true, entries);
+      }
+
+      final boolean againstParent =
+          b.getParentCount() > 0 && b.getParent(0) == a;
+
+      RevCommit aCommit;
+      RevTree aTree;
+      if (a instanceof RevCommit) {
+        aCommit = (RevCommit) a;
+        aTree = aCommit.getTree();
+      } else if (a instanceof RevTree) {
+        aCommit = null;
+        aTree = (RevTree) a;
+      } else {
+        throw new IOException("Unexpected type: " + a.getClass());
+      }
+
       RevTree bTree = b.getTree();
 
       final TreeWalk walk = new TreeWalk(repo);
@@ -205,32 +242,53 @@ public class PatchListCacheImpl implements PatchListCache {
 
       DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
       df.setRepository(repo);
-      switch (key.getWhitespace()) {
-        case IGNORE_ALL_SPACE:
-          df.setRawTextFactory(RawTextIgnoreAllWhitespace.FACTORY);
-          break;
-        case IGNORE_NONE:
-          df.setRawTextFactory(RawText.FACTORY);
-          break;
-        case IGNORE_SPACE_AT_EOL:
-          df.setRawTextFactory(RawTextIgnoreTrailingWhitespace.FACTORY);
-          break;
-        case IGNORE_SPACE_CHANGE:
-          df.setRawTextFactory(RawTextIgnoreWhitespaceChange.FACTORY);
-          break;
-      }
+      df.setRawTextFactory(rawTextFactory);
 
       RenameDetector rd = new RenameDetector(repo);
       rd.addAll(DiffEntry.scan(walk));
       List<DiffEntry> diffEntries = rd.compute();
 
       final int cnt = diffEntries.size();
-      final PatchListEntry[] entries = new PatchListEntry[cnt];
+      final PatchListEntry[] entries = new PatchListEntry[1 + cnt];
+      entries[0] = newCommitMessage(rawTextFactory, repo, //
+          againstParent ? null : aCommit, b);
       for (int i = 0; i < cnt; i++) {
         FileHeader fh = df.createFileHeader(diffEntries.get(i));
-        entries[i] = newEntry(repo, aTree, bTree, fh);
+        entries[1 + i] = newEntry(repo, aTree, bTree, fh);
       }
-      return new PatchList(a, b, computeIntraline, entries);
+      return new PatchList(a, b, computeIntraline, againstParent, entries);
+    }
+
+    private PatchListEntry newCommitMessage(
+        final RawText.Factory rawTextFactory, final Repository repo,
+        final RevCommit aCommit, final RevCommit bCommit) throws IOException {
+      StringBuilder hdr = new StringBuilder();
+
+      hdr.append("diff --git");
+      if (aCommit != null) {
+        hdr.append(" a/" + Patch.COMMIT_MSG);
+      } else {
+        hdr.append(" " + FileHeader.DEV_NULL);
+      }
+      hdr.append(" b/" + Patch.COMMIT_MSG);
+      hdr.append("\n");
+
+      if (aCommit != null) {
+        hdr.append("--- a/" + Patch.COMMIT_MSG + "\n");
+      } else {
+        hdr.append("--- " + FileHeader.DEV_NULL + "\n");
+      }
+      hdr.append("+++ b/" + Patch.COMMIT_MSG + "\n");
+
+      Text aText = aCommit != null ? Text.forCommit(repo, aCommit) : Text.EMPTY;
+      Text bText = Text.forCommit(repo, bCommit);
+
+      byte[] rawHdr = hdr.toString().getBytes("UTF-8");
+      RawText aRawText = rawTextFactory.create(aText.getContent());
+      RawText bRawText = rawTextFactory.create(bText.getContent());
+      EditList edits = new MyersDiff(aRawText, bRawText).getEdits();
+      FileHeader fh = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
+      return newEntry(repo, aText, bText, edits, null, null, fh);
     }
 
     private PatchListEntry newEntry(Repository repo, RevTree aTree,
@@ -262,9 +320,12 @@ public class PatchListCacheImpl implements PatchListCache {
           return new PatchListEntry(fileHeader, edits);
       }
 
-      Text aContent = null;
-      Text bContent = null;
+      return newEntry(repo, null, null, edits, aTree, bTree, fileHeader);
+    }
 
+    private PatchListEntry newEntry(Repository repo, Text aContent,
+        Text bContent, List<Edit> edits, RevTree aTree, RevTree bTree,
+        FileHeader fileHeader) throws IOException {
       for (int i = 0; i < edits.size(); i++) {
         Edit e = edits.get(i);
 
@@ -542,17 +603,21 @@ public class PatchListCacheImpl implements PatchListCache {
       return new Text(ldr.getCachedBytes());
     }
 
-    private static AnyObjectId aFor(final PatchListKey key,
-        final Repository repo, final RevCommit b) throws IOException {
+    private static RevObject aFor(final PatchListKey key,
+        final Repository repo, final RevWalk rw, final RevCommit b)
+        throws IOException {
       if (key.getOldId() != null) {
-        return key.getOldId();
+        return rw.parseAny(key.getOldId());
       }
 
       switch (b.getParentCount()) {
         case 0:
-          return emptyTree(repo);
-        case 1:
-          return b.getParent(0);
+          return rw.parseAny(emptyTree(repo));
+        case 1:{
+          RevCommit r = b.getParent(0);
+          rw.parseBody(r);
+          return r;
+        }
         default:
           // merge commit, return null to force combined diff behavior
           return null;

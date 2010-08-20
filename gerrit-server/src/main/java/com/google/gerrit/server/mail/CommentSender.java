@@ -92,9 +92,13 @@ public class CommentSender extends ReplyToChangeSender {
 
         if (!pk.equals(currentFileKey)) {
           appendText("....................................................\n");
-          appendText("File ");
-          appendText(pk.get());
-          appendText("\n");
+          if (Patch.COMMIT_MSG.equals(pk.get())) {
+            appendText("Commit Message\n");
+          } else {
+            appendText("File ");
+            appendText(pk.get());
+            appendText("\n");
+          }
           currentFileKey = pk;
 
           if (patchList != null) {

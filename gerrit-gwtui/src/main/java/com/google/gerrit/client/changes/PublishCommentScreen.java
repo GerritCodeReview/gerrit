@@ -36,7 +36,6 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -281,7 +280,8 @@ public class PublishCommentScreen extends AccountScreen implements
           draftsPanel.add(panel);
           // Parent table can be null here since we are not showing any
           // next/previous links
-          panel.add(new PatchLink.SideBySide(fn, patchKey, 0, null, null));
+          panel.add(new PatchLink.SideBySide(PatchTable
+              .getDisplayFileName(patchKey), patchKey, 0, null, null));
           priorFile = fn;
         }
 

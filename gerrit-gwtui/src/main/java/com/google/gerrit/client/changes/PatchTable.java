@@ -211,12 +211,23 @@ public class PatchTable extends Composite {
     // Note: use '/' here and not File.pathSeparator since git paths
     // are always separated by /
     //
-    String fileName = patch.getFileName();
+    String fileName = getDisplayFileName(patch);
     int s = fileName.lastIndexOf('/');
     if (s >= 0) {
       fileName = fileName.substring(s + 1);
     }
     return fileName;
+  }
+
+  public static String getDisplayFileName(Patch patch) {
+    return getDisplayFileName(patch.getKey());
+  }
+
+  public static String getDisplayFileName(Patch.Key patchKey) {
+    if (Patch.COMMIT_MSG.equals(patchKey.get())) {
+      return Util.C.commitMessage();
+    }
+    return patchKey.get();
   }
 
   /**
@@ -326,12 +337,12 @@ public class PatchTable extends Composite {
       Widget nameCol;
       if (patch.getPatchType() == Patch.PatchType.UNIFIED) {
         nameCol =
-            new PatchLink.SideBySide(patch.getFileName(), patch.getKey(),
+            new PatchLink.SideBySide(getDisplayFileName(patch), patch.getKey(),
                 row - 1, detail, PatchTable.this);
       } else {
         nameCol =
-            new PatchLink.Unified(patch.getFileName(), patch.getKey(), row - 1,
-                detail, PatchTable.this);
+            new PatchLink.Unified(getDisplayFileName(patch), patch.getKey(),
+                row - 1, detail, PatchTable.this);
       }
       if (patch.getSourceFileName() != null) {
         final String text;
@@ -423,7 +434,11 @@ public class PatchTable extends Composite {
 
       m.openTd();
       m.setStyleName(Gerrit.RESOURCES.css().changeTypeCell());
-      m.append(p.getChangeType().getCode());
+      if (Patch.COMMIT_MSG.equals(p.getFileName())) {
+        m.nbsp();
+      } else {
+        m.append(p.getChangeType().getCode());
+      }
       m.closeTd();
 
       m.openTd();

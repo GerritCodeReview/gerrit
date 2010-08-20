@@ -60,15 +60,22 @@ public class PatchList implements Serializable {
   private transient ObjectId oldId;
   private transient ObjectId newId;
   private transient boolean intralineDifference;
+  private transient boolean againstParent;
   private transient PatchListEntry[] patches;
 
   PatchList(@Nullable final AnyObjectId oldId, final AnyObjectId newId,
-      final boolean intralineDifference, final PatchListEntry[] patches) {
+      final boolean intralineDifference, final boolean againstParent,
+      final PatchListEntry[] patches) {
     this.oldId = oldId != null ? oldId.copy() : null;
     this.newId = newId.copy();
     this.intralineDifference = intralineDifference;
+    this.againstParent = againstParent;
 
-    Arrays.sort(patches, PATCH_CMP);
+    // We assume index 0 contains the magic commit message entry.
+    if (patches.length > 1) {
+      Arrays.sort(patches, 1, patches.length, PATCH_CMP);
+    }
+
     this.patches = patches;
   }
 
@@ -91,6 +98,11 @@ public class PatchList implements Serializable {
   /** @return true if this list was computed with intraline difference enabled. */
   public boolean hasIntralineDifference() {
     return intralineDifference;
+  }
+
+  /** @return true if {@link #getOldId} is {@link #getNewId}'s ancestor. */
+  public boolean isAgainstParent() {
+    return againstParent;
   }
 
   /**
@@ -144,6 +156,7 @@ public class PatchList implements Serializable {
       writeCanBeNull(out, oldId);
       writeNotNull(out, newId);
       writeVarInt32(out, intralineDifference ? 1 : 0);
+      writeVarInt32(out, againstParent ? 1 : 0);
       writeVarInt32(out, patches.length);
       for (PatchListEntry p : patches) {
         p.writeTo(out);
@@ -161,6 +174,7 @@ public class PatchList implements Serializable {
       oldId = readCanBeNull(in);
       newId = readNotNull(in);
       intralineDifference = readVarInt32(in) != 0;
+      againstParent = readVarInt32(in) != 0;
       final int cnt = readVarInt32(in);
       final PatchListEntry[] all = new PatchListEntry[cnt];
       for (int i = 0; i < all.length; i++) {

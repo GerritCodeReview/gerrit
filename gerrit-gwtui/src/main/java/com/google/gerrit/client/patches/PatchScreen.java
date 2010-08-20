@@ -395,7 +395,7 @@ public abstract class PatchScreen extends Screen implements
 
   private void onResult(final PatchScript script, final boolean isFirst) {
     final Change.Key cid = script.getChangeId();
-    final String path = patchKey.get();
+    final String path = PatchTable.getDisplayFileName(patchKey);
     String fileName = path;
     final int last = fileName.lastIndexOf('/');
     if (last >= 0) {

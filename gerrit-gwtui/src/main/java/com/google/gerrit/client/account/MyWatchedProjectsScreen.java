@@ -18,17 +18,14 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
 import com.google.gerrit.common.data.AccountProjectWatchInfo;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change.Status;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
@@ -44,7 +41,6 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
@@ -54,9 +50,9 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
   private WatchTable watches;
 
   private Button addNew;
-  private NpTextBox nameBox;
+  private HintTextBox nameBox;
   private SuggestBox nameTxt;
-  private NpTextBox filterTxt;
+  private HintTextBox filterTxt;
   private Button delSel;
   private boolean submitOnSelection;
 
@@ -65,29 +61,10 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     super.onInitUI();
 
     {
-      nameBox = new NpTextBox();
+      nameBox = new HintTextBox();
       nameTxt = new SuggestBox(new ProjectNameSuggestOracle(), nameBox);
       nameBox.setVisibleLength(50);
-      nameBox.setText(Util.C.defaultProjectName());
-      nameBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-      nameBox.addFocusHandler(new FocusHandler() {
-        @Override
-        public void onFocus(FocusEvent event) {
-          if (Util.C.defaultProjectName().equals(nameBox.getText())) {
-            nameBox.setText("");
-            nameBox.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-          }
-        }
-      });
-      nameBox.addBlurHandler(new BlurHandler() {
-        @Override
-        public void onBlur(BlurEvent event) {
-          if ("".equals(nameBox.getText())) {
-            nameBox.setText(Util.C.defaultProjectName());
-            nameBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-          }
-        }
-      });
+      nameBox.setHintText(Util.C.defaultProjectName());
       nameBox.addKeyPressHandler(new KeyPressHandler() {
         @Override
         public void onKeyPress(KeyPressEvent event) {
@@ -112,28 +89,9 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
         }
       });
 
-      filterTxt = new NpTextBox();
+      filterTxt = new HintTextBox();
       filterTxt.setVisibleLength(50);
-      filterTxt.setText(Util.C.defaultFilter());
-      filterTxt.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-      filterTxt.addFocusHandler(new FocusHandler() {
-        @Override
-        public void onFocus(FocusEvent event) {
-          if (Util.C.defaultFilter().equals(filterTxt.getText())) {
-            filterTxt.setText("");
-            filterTxt.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-          }
-        }
-      });
-      filterTxt.addBlurHandler(new BlurHandler() {
-        @Override
-        public void onBlur(BlurEvent event) {
-          if ("".equals(filterTxt.getText())) {
-            filterTxt.setText(Util.C.defaultFilter());
-            filterTxt.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-          }
-        }
-      });
+      filterTxt.setHintText(Util.C.defaultFilter());
       filterTxt.addKeyPressHandler(new KeyPressHandler() {
         @Override
         public void onKeyPress(KeyPressEvent event) {
@@ -188,8 +146,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
 
   void doAddNew() {
     final String projectName = nameTxt.getText();
-    if (projectName == null || projectName.length() == 0
-        || Util.C.defaultProjectName().equals(projectName)) {
+    if ("".equals(projectName)) {
       return;
     }
 

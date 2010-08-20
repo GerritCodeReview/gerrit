@@ -17,6 +17,7 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
+import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.ApprovalCategory;
@@ -45,15 +46,14 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class AccessRightEditor extends Composite
     implements HasValueChangeHandlers<ProjectDetail> {
   private Project.NameKey projectKey;
   private ListBox catBox;
-  private NpTextBox nameTxt;
+  private HintTextBox nameTxt;
   private SuggestBox nameSug;
-  private NpTextBox referenceTxt;
+  private HintTextBox referenceTxt;
   private ListBox topBox;
   private ListBox botBox;
   private Button addBut;
@@ -99,32 +99,13 @@ public class AccessRightEditor extends Composite
       }
     });
 
-    nameTxt = new NpTextBox();
+    nameTxt = new HintTextBox();
     nameSug = new SuggestBox(new AccountGroupSuggestOracle(), nameTxt);
     nameTxt.setVisibleLength(50);
-    nameTxt.setText(Util.C.defaultAccountGroupName());
-    nameTxt.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-    nameTxt.addFocusHandler(new FocusHandler() {
-      @Override
-      public void onFocus(FocusEvent event) {
-        if (Util.C.defaultAccountGroupName().equals(nameTxt.getText())) {
-          nameTxt.setText("");
-          nameTxt.removeStyleName(Gerrit.RESOURCES.css()
-              .inputFieldTypeHint());
-        }
-      }
-    });
-    nameTxt.addBlurHandler(new BlurHandler() {
-      @Override
-      public void onBlur(BlurEvent event) {
-        if ("".equals(nameTxt.getText())) {
-          nameTxt.setText(Util.C.defaultAccountGroupName());
-          nameTxt.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-        }
-      }
-    });
+    nameTxt.setHintText(Util.C.defaultAccountGroupName());
+    nameTxt.setHintStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
 
-    referenceTxt = new NpTextBox();
+    referenceTxt = new HintTextBox();
     referenceTxt.setVisibleLength(50);
     referenceTxt.setText("");
     referenceTxt.addKeyPressHandler(new KeyPressHandler() {
@@ -196,7 +177,7 @@ public class AccessRightEditor extends Composite
 
   public void clear() {
     setCat(null);
-    setName(Util.C.defaultAccountGroupName());
+    setName("");
     setReference("");
   }
 
@@ -319,11 +300,6 @@ public class AccessRightEditor extends Composite
   }
 
   protected void setName(final String name) {
-    if (Util.C.defaultAccountGroupName().equals(name)) {
-      nameTxt.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-    } else {
-      nameTxt.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
-    }
     nameTxt.setText(name);
   }
 

@@ -25,7 +25,7 @@ import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.Account;
 
 
-public class AccountDashboardScreen extends Screen {
+public class AccountDashboardScreen extends Screen implements ChangeListScreen {
   private final Account.Id ownerId;
   private ChangeTable table;
   private ChangeTable.Section byOwner;

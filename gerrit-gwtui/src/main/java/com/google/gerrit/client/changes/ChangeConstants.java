@@ -46,7 +46,7 @@ public interface ChangeConstants extends Constants {
   String changeTableStar();
   String changeTablePagePrev();
   String changeTablePageNext();
-  String upToDashboard();
+  String upToChangeList();
   String expandCollapseDependencies();
   String previousPatchSet();
   String nextPatchSet();

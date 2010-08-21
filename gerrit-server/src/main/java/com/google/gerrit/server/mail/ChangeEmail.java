@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
+import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
@@ -291,6 +292,9 @@ public abstract class ChangeEmail extends OutgoingEmail {
     if (patchSet != null) {
       appendText("---\n");
       for (PatchListEntry p : getPatchList().getPatches()) {
+        if (Patch.COMMIT_MSG.equals(p.getNewName())) {
+          continue;
+        }
         appendText(p.getChangeType().getCode() + " " + p.getNewName() + "\n");
       }
       appendText("\n");

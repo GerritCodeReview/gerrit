@@ -223,8 +223,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     for (final Change.Id a : ancestorOrder) {
       final Change ac = m.get(a);
       if (ac != null) {
-        aic.want(ac.getOwner());
-        dependsOn.add(new ChangeInfo(ac));
+        dependsOn.add(newChangeInfo(ac));
       }
     }
 
@@ -232,8 +231,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     for (final Change.Id a : descendants) {
       final Change ac = m.get(a);
       if (ac != null) {
-        aic.want(ac.getOwner());
-        neededBy.add(new ChangeInfo(ac));
+        neededBy.add(newChangeInfo(ac));
       }
     }
 
@@ -245,5 +243,16 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     detail.setDependsOn(dependsOn);
     detail.setNeededBy(neededBy);
+  }
+
+  private ChangeInfo newChangeInfo(final Change ac) {
+    aic.want(ac.getOwner());
+    ChangeInfo ci = new ChangeInfo(ac);
+    ci.setStarred(isStarred(ac));
+    return ci;
+  }
+
+  private boolean isStarred(final Change ac) {
+    return control.getCurrentUser().getStarredChanges().contains(ac.getId());
   }
 }

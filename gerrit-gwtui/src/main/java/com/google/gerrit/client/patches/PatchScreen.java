@@ -80,9 +80,6 @@ public abstract class PatchScreen extends Screen implements
     public Unified(final Patch.Key id, final int patchIndex,
         final PatchSetDetail patchSetDetail, final PatchTable patchTable) {
       super(id, patchIndex, patchSetDetail, patchTable);
-      final AccountDiffPreference dp = settingsPanel.getValue();
-      dp.setSyntaxHighlighting(false);
-      settingsPanel.setValue(dp);
     }
 
     @Override

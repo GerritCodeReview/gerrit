@@ -834,7 +834,7 @@ public class MergeOp {
   }
 
   private void updateBranch() throws MergeException {
-    if (branchTip == null || branchTip != mergeTip) {
+    if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
       branchUpdate.setForceUpdate(false);
       branchUpdate.setNewObjectId(mergeTip);
       branchUpdate.setRefLogMessage("merged", true);

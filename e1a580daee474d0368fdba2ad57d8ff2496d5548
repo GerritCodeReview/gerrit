@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA43///1A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/ChangeListServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-21T22:54:10Z",
+      "side": 1,
+      "message": "These look like they are per-request state information.  The ChangeListServiceImpl is a singleton that is shared across all concurrent requests, so this is unsafe.",
+      "revId": "e1a580daee474d0368fdba2ad57d8ff2496d5548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA43///08\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/ChangeListServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-21T22:54:10Z",
+      "side": 1,
+      "message": "These should be integrated into the existing query system, rather than bolted on the site.\n\nUsers should be able to do \"has:draft is:starred message:blah\" and have us produce only the changes they have starred which contain an active draft and whose commit message has \u0027blah\u0027 in it.\n\nTo do that you\u0027ll need to add a new \"message\" predicate type to the ChangeQueryBuilder class.  Its match method would need to get a RevCommit from ChangeData, by supplying in a Provider\u003cReviewDbb\u003e and a GitRepositoryManager, parse the current patch set into a RevCommit, and then you can just apply the MessageRevFilter directly to that by invoking messageRevFilter.include(theCommit).",
+      "revId": "e1a580daee474d0368fdba2ad57d8ff2496d5548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA43///1E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/GitFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-21T22:54:10Z",
+      "side": 1,
+      "message": "For what its worth, database ResultSets are never null.",
+      "revId": "e1a580daee474d0368fdba2ad57d8ff2496d5548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

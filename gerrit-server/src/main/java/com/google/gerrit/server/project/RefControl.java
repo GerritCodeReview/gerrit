@@ -576,6 +576,6 @@ public class RefControl {
     if (isRE(refPattern)) {
       refPattern = refPattern.substring(1);
     }
-    return new RegExp(refPattern);
+    return new RegExp(refPattern, RegExp.NONE);
   }
 }

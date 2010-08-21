@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -71,6 +72,9 @@ public class ChangeData {
       PatchList p = cache.get(c, ps);
       List<String> r = new ArrayList<String>(p.getPatches().size());
       for (PatchListEntry e : p.getPatches()) {
+        if (Patch.COMMIT_MSG.equals(e.getNewName())) {
+          continue;
+        }
         switch (e.getChangeType()) {
           case ADDED:
           case MODIFIED:

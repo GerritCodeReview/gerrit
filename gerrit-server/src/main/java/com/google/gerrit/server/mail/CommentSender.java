@@ -26,6 +26,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -54,7 +55,9 @@ public class CommentSender extends ReplyToChangeSender {
         paths.add(p.getFileName());
       }
     }
-    changeData.setCurrentFilePaths(paths);
+    String[] names = paths.toArray(new String[paths.size()]);
+    Arrays.sort(names);
+    changeData.setCurrentFilePaths(names);
   }
 
   @Override

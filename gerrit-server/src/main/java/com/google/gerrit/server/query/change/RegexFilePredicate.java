@@ -20,35 +20,75 @@ import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
-import java.util.Collection;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import dk.brics.automaton.Automaton;
+import dk.brics.automaton.RegExp;
+import dk.brics.automaton.RunAutomaton;
+
+import java.util.Arrays;
 
 class RegexFilePredicate extends OperatorPredicate<ChangeData> {
   private final Provider<ReviewDb> db;
   private final PatchListCache cache;
-  private final Pattern pattern;
+  private final RunAutomaton pattern;
+
+  private final String prefixBegin;
+  private final String prefixEnd;
+  private final int prefixLen;
+  private final boolean prefixOnly;
 
   RegexFilePredicate(Provider<ReviewDb> db, PatchListCache plc, String re) {
     super(ChangeQueryBuilder.FIELD_FILE, re);
     this.db = db;
     this.cache = plc;
-    try {
-      this.pattern = Pattern.compile(re);
-    } catch (PatternSyntaxException e) {
-      throw new IllegalArgumentException(e.getMessage());
+
+    if (re.startsWith("^")) {
+      re = re.substring(1);
     }
+
+    if (re.endsWith("$") && !re.endsWith("\\$")) {
+      re = re.substring(0, re.length() - 1);
+    }
+
+    Automaton automaton = new RegExp(re).toAutomaton();
+    prefixBegin = automaton.getCommonPrefix();
+    prefixLen = prefixBegin.length();
+
+    if (0 < prefixLen) {
+      char max = (char) (prefixBegin.charAt(prefixLen - 1) + 1);
+      prefixEnd = prefixBegin.substring(0, prefixLen - 1) + max;
+      prefixOnly = re.equals(prefixBegin + ".*");
+    } else {
+      prefixEnd = "";
+      prefixOnly = false;
+    }
+
+    pattern = prefixOnly ? null : new RunAutomaton(automaton);
   }
 
   @Override
   public boolean match(ChangeData object) throws OrmException {
-    Collection<String> files = object.currentFilePaths(db, cache);
+    String[] files = object.currentFilePaths(db, cache);
     if (files != null) {
-      for (String path : files) {
-        if (pattern.matcher(path).find()) {
+      int begin, end;
+
+      if (0 < prefixLen) {
+        begin = find(files, prefixBegin);
+        end = find(files, prefixEnd);
+      } else {
+        begin = 0;
+        end = files.length;
+      }
+
+      if (prefixOnly) {
+        return begin < end;
+      }
+
+      while (begin < end) {
+        if (pattern.run(files[begin++])) {
           return true;
         }
       }
+
       return false;
 
     } else {
@@ -58,6 +98,11 @@ class RegexFilePredicate extends OperatorPredicate<ChangeData> {
       //
       return true;
     }
+  }
+
+  private static int find(String[] files, String p) {
+    int r = Arrays.binarySearch(files, p);
+    return r < 0 ? -(r + 1) : r;
   }
 
   @Override

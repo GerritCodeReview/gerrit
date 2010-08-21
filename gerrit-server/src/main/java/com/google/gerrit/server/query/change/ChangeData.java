@@ -29,6 +29,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -39,7 +40,7 @@ public class ChangeData {
   private Collection<PatchSet> patches;
   private Collection<PatchSetApproval> approvals;
   private Collection<PatchSetApproval> currentApprovals;
-  private Collection<String> currentFiles;
+  private String[] currentFiles;
   private Collection<PatchLineComment> comments;
   private Collection<TrackingId> trackingIds;
   private CurrentUser visibleTo;
@@ -53,11 +54,11 @@ public class ChangeData {
     change = c;
   }
 
-  public void setCurrentFilePaths(Collection<String> filePaths) {
+  public void setCurrentFilePaths(String[] filePaths) {
     currentFiles = filePaths;
   }
 
-  public Collection<String> currentFilePaths(Provider<ReviewDb> db,
+  public String[] currentFilePaths(Provider<ReviewDb> db,
       PatchListCache cache) throws OrmException {
     if (currentFiles == null) {
       Change c = change(db);
@@ -88,7 +89,8 @@ public class ChangeData {
             break;
         }
       }
-      currentFiles = r;
+      currentFiles = r.toArray(new String[r.size()]);
+      Arrays.sort(currentFiles);
     }
     return currentFiles;
   }

@@ -74,11 +74,9 @@ public class ChangeData {
         switch (e.getChangeType()) {
           case ADDED:
           case MODIFIED:
+          case DELETED:
           case COPIED:
             r.add(e.getNewName());
-            break;
-          case DELETED:
-            r.add(e.getOldName());
             break;
           case RENAMED:
             r.add(e.getOldName());

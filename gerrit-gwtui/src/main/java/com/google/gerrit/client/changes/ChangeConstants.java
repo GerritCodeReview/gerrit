@@ -54,6 +54,7 @@ public interface ChangeConstants extends Constants {
 
   String patchTableColumnName();
   String patchTableColumnComments();
+  String patchTableColumnSize();
   String patchTableColumnDiff();
   String patchTableDiffSideBySide();
   String patchTableDiffUnified();

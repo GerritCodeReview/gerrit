@@ -50,7 +50,7 @@ public class PatchListEntry {
 
   static PatchListEntry empty(final String fileName) {
     return new PatchListEntry(ChangeType.MODIFIED, PatchType.UNIFIED, null,
-        fileName, EMPTY_HEADER, Collections.<Edit> emptyList());
+        fileName, EMPTY_HEADER, Collections.<Edit> emptyList(), 0, 0);
   }
 
   private final ChangeType changeType;
@@ -59,6 +59,8 @@ public class PatchListEntry {
   private final String newName;
   private final byte[] header;
   private final List<Edit> edits;
+  private final int insertions;
+  private final int deletions;
 
   PatchListEntry(final FileHeader hdr, List<Edit> editList) {
     changeType = toChangeType(hdr);
@@ -96,17 +98,29 @@ public class PatchListEntry {
     } else {
       edits = Collections.unmodifiableList(editList);
     }
+
+    int ins = 0;
+    int del = 0;
+    for (Edit e : editList) {
+      del += e.getEndA() - e.getBeginA();
+      ins += e.getEndB() - e.getBeginB();
+    }
+    insertions = ins;
+    deletions = del;
   }
 
   private PatchListEntry(final ChangeType changeType,
       final PatchType patchType, final String oldName, final String newName,
-      final byte[] header, final List<Edit> edits) {
+      final byte[] header, final List<Edit> edits, final int insertions,
+      final int deletions) {
     this.changeType = changeType;
     this.patchType = patchType;
     this.oldName = oldName;
     this.newName = newName;
     this.header = header;
     this.edits = edits;
+    this.insertions = insertions;
+    this.deletions = deletions;
   }
 
   public ChangeType getChangeType() {
@@ -129,6 +143,14 @@ public class PatchListEntry {
     return edits;
   }
 
+  public int getInsertions() {
+    return insertions;
+  }
+
+  public int getDeletions() {
+    return deletions;
+  }
+
   public List<String> getHeaderLines() {
     final IntList m = RawParseUtils.lineMap(header, 0, header.length);
     final List<String> headerLines = new ArrayList<String>(m.size() - 1);
@@ -145,6 +167,8 @@ public class PatchListEntry {
     p.setChangeType(getChangeType());
     p.setPatchType(getPatchType());
     p.setSourceFileName(getOldName());
+    p.setInsertions(insertions);
+    p.setDeletions(deletions);
     return p;
   }
 
@@ -154,6 +178,8 @@ public class PatchListEntry {
     writeString(out, oldName);
     writeString(out, newName);
     writeBytes(out, header);
+    writeVarInt32(out, insertions);
+    writeVarInt32(out, deletions);
 
     writeVarInt32(out, edits.size());
     for (final Edit e : edits) {
@@ -184,6 +210,8 @@ public class PatchListEntry {
     final String oldName = readString(in);
     final String newName = readString(in);
     final byte[] hdr = readBytes(in);
+    final int ins = readVarInt32(in);
+    final int del = readVarInt32(in);
 
     final int editCount = readVarInt32(in);
     final Edit[] editArray = new Edit[editCount];
@@ -201,7 +229,7 @@ public class PatchListEntry {
     }
 
     return new PatchListEntry(changeType, patchType, oldName, newName, hdr,
-        toList(editArray));
+        toList(editArray), ins, del);
   }
 
   private static List<Edit> toList(Edit[] l) {
@@ -213,7 +241,7 @@ public class PatchListEntry {
     final int endA = readVarInt32(in);
     final int beginB = readVarInt32(in);
     final int endB = readVarInt32(in);
-    return  new Edit(beginA, endA, beginB, endB);
+    return new Edit(beginA, endA, beginB, endB);
   }
 
   private static byte[] compact(final FileHeader h) {

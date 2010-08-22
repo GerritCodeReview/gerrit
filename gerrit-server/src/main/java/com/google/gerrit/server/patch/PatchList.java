@@ -61,6 +61,8 @@ public class PatchList implements Serializable {
   private transient ObjectId newId;
   private transient boolean intralineDifference;
   private transient boolean againstParent;
+  private transient int insertions;
+  private transient int deletions;
   private transient PatchListEntry[] patches;
 
   PatchList(@Nullable final AnyObjectId oldId, final AnyObjectId newId,
@@ -74,6 +76,10 @@ public class PatchList implements Serializable {
     // We assume index 0 contains the magic commit message entry.
     if (patches.length > 1) {
       Arrays.sort(patches, 1, patches.length, PATCH_CMP);
+    }
+    for (int i = 1; i < patches.length; i++) {
+      insertions += patches[i].getInsertions();
+      deletions += patches[i].getDeletions();
     }
 
     this.patches = patches;
@@ -103,6 +109,16 @@ public class PatchList implements Serializable {
   /** @return true if {@link #getOldId} is {@link #getNewId}'s ancestor. */
   public boolean isAgainstParent() {
     return againstParent;
+  }
+
+  /** @return total number of new lines added. */
+  public int getInsertions() {
+    return insertions;
+  }
+
+  /** @return total number of lines removed. */
+  public int getDeletions() {
+    return deletions;
   }
 
   /**
@@ -157,6 +173,8 @@ public class PatchList implements Serializable {
       writeNotNull(out, newId);
       writeVarInt32(out, intralineDifference ? 1 : 0);
       writeVarInt32(out, againstParent ? 1 : 0);
+      writeVarInt32(out, insertions);
+      writeVarInt32(out, deletions);
       writeVarInt32(out, patches.length);
       for (PatchListEntry p : patches) {
         p.writeTo(out);
@@ -175,6 +193,8 @@ public class PatchList implements Serializable {
       newId = readNotNull(in);
       intralineDifference = readVarInt32(in) != 0;
       againstParent = readVarInt32(in) != 0;
+      insertions = readVarInt32(in);
+      deletions = readVarInt32(in);
       final int cnt = readVarInt32(in);
       final PatchListEntry[] all = new PatchListEntry[cnt];
       for (int i = 0; i < all.length; i++) {

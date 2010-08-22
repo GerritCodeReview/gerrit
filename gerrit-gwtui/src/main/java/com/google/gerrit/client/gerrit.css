@@ -415,6 +415,14 @@
   color: #ff5555;
 }
 
+.changeTable .patchSizeCell {
+  text-align: right;
+  white-space: nowrap;
+}
+.changeTable td.noborder {
+  border: none;
+}
+
 .changeTable .filePathCell {
   white-space: nowrap;
 }

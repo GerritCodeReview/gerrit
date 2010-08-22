@@ -22,6 +22,7 @@ import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.Patch.Key;
+import com.google.gerrit.reviewdb.Patch.PatchType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -242,7 +243,8 @@ public class PatchTable extends Composite {
   private class MyTable extends NavigationTable<Patch> {
     private static final int C_PATH = 2;
     private static final int C_DRAFT = 3;
-    private static final int C_SIDEBYSIDE = 4;
+    private static final int C_SIZE = 4;
+    private static final int C_SIDEBYSIDE = 5;
     private int activeRow = -1;
 
     MyTable() {
@@ -404,6 +406,12 @@ public class PatchTable extends Composite {
       m.append(Util.C.patchTableColumnComments());
       m.closeTd();
 
+      // "Size"
+      m.openTd();
+      m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
+      m.append(Util.C.patchTableColumnSize());
+      m.closeTd();
+
       // "Diff"
       m.openTd();
       m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
@@ -450,6 +458,12 @@ public class PatchTable extends Composite {
       m.addStyleName(Gerrit.RESOURCES.css().dataCell());
       m.addStyleName(Gerrit.RESOURCES.css().commentCell());
       appendCommentCount(m, p);
+      m.closeTd();
+
+      m.openTd();
+      m.addStyleName(Gerrit.RESOURCES.css().dataCell());
+      m.addStyleName(Gerrit.RESOURCES.css().patchSizeCell());
+      appendSize(m, p);
       m.closeTd();
 
       switch (p.getPatchType()) {
@@ -513,6 +527,29 @@ public class PatchTable extends Composite {
       m.closeTr();
     }
 
+    void appendTotals(final SafeHtmlBuilder m, int ins, int dels) {
+      m.openTr();
+
+      m.openTd();
+      m.addStyleName(Gerrit.RESOURCES.css().iconCell());
+      m.addStyleName(Gerrit.RESOURCES.css().noborder());
+      m.nbsp();
+      m.closeTd();
+
+      m.openTd();
+      m.setAttribute("colspan", C_SIZE - 1);
+      m.closeTd();
+
+      m.openTd();
+      m.addStyleName(Gerrit.RESOURCES.css().dataCell());
+      m.addStyleName(Gerrit.RESOURCES.css().patchSizeCell());
+      m.addStyleName(Gerrit.RESOURCES.css().leftMostCell());
+      m.append(Util.M.patchTableSize_Modify(ins, dels));
+      m.closeTd();
+
+      m.closeTr();
+    }
+
     void appendCommentCount(final SafeHtmlBuilder m, final Patch p) {
       if (p.getCommentCount() > 0) {
         m.append(Util.M.patchTableComments(p.getCommentCount()));
@@ -525,6 +562,34 @@ public class PatchTable extends Composite {
         m.setStyleName(Gerrit.RESOURCES.css().drafts());
         m.append(Util.M.patchTableDrafts(p.getDraftCount()));
         m.closeSpan();
+      }
+    }
+
+    void appendSize(final SafeHtmlBuilder m, final Patch p) {
+      if (Patch.COMMIT_MSG.equals(p.getFileName())) {
+        m.nbsp();
+        return;
+      }
+
+      if (p.getPatchType() == PatchType.UNIFIED) {
+        int ins = p.getInsertions();
+        int dels = p.getDeletions();
+
+        switch (p.getChangeType()) {
+          case ADDED:
+            m.append(Util.M.patchTableSize_Lines(ins));
+            break;
+          case DELETED:
+            m.nbsp();
+            break;
+          case MODIFIED:
+          case COPIED:
+          case RENAMED:
+            m.append(Util.M.patchTableSize_Modify(ins, dels));
+            break;
+        }
+      } else {
+        m.nbsp();
       }
     }
 
@@ -599,6 +664,9 @@ public class PatchTable extends Composite {
     private double start;
     private ProgressBar meter;
 
+    private int insertions;
+    private int deletions;
+
     private DisplayCommand(final List<Patch> list) {
       this.table = new MyTable();
       this.list = list;
@@ -627,14 +695,19 @@ public class PatchTable extends Composite {
         case 0:
           if (row == 0) {
             table.appendHeader(nc);
+            table.appendRow(nc, list.get(row++));
           }
           while (row < list.size()) {
-            table.appendRow(nc, list.get(row));
+            Patch p = list.get(row);
+            insertions += p.getInsertions();
+            deletions += p.getDeletions();
+            table.appendRow(nc, p);
             if ((++row % 10) == 0 && longRunning()) {
               updateMeter();
               return true;
             }
           }
+          table.appendTotals(nc, insertions, deletions);
           table.resetHtml(nc);
           nc = null;
           stage = 1;

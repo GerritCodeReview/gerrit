@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.gerrit.reviewdb.ApprovalCategory.OWN;
+import static com.google.gerrit.reviewdb.ApprovalCategory.READ;
 
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
@@ -99,6 +100,44 @@ public class RefControlTest extends TestCase {
     assertNotOwner("refs/heads/x/y", uFix);
     assertNotOwner("refs/*", uFix);
     assertNotOwner("refs/heads/master", uFix);
+  }
+
+  public void testInheritRead_SingleBranchDeniesUpload() {
+    inherited.add(grant(READ, registered, "refs/*", 1, 2));
+    local.add(grant(READ, registered, "-refs/heads/foobar", 1, 1));
+
+    ProjectControl u = user();
+    assertTrue("can upload", u.canUploadToAtLeastOneRef());
+
+    assertTrue("can upload refs/heads/master", //
+        u.controlForRef("refs/heads/master").canUpload());
+
+    assertFalse("deny refs/heads/foobar", //
+        u.controlForRef("refs/heads/foobar").canUpload());
+  }
+
+  public void testInheritRead_SingleBranchDoesNotOverrideInherited() {
+    inherited.add(grant(READ, registered, "refs/*", 1, 2));
+    local.add(grant(READ, registered, "refs/heads/foobar", 1, 1));
+
+    ProjectControl u = user();
+    assertTrue("can upload", u.canUploadToAtLeastOneRef());
+
+    assertTrue("can upload refs/heads/master", //
+        u.controlForRef("refs/heads/master").canUpload());
+
+    assertTrue("can upload refs/heads/foobar", //
+        u.controlForRef("refs/heads/foobar").canUpload());
+  }
+
+  public void testCannotUploadToAnyRef() {
+    inherited.add(grant(READ, registered, "refs/*", 1, 1));
+    local.add(grant(READ, devs, "refs/heads/*",1,2));
+
+    ProjectControl u = user();
+    assertFalse("cannot upload", u.canUploadToAtLeastOneRef());
+    assertFalse("cannot upload refs/heads/master", //
+        u.controlForRef("refs/heads/master").canUpload());
   }
 
 

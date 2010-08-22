@@ -35,6 +35,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.client.OrmException;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -277,12 +278,20 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
     if (patchSet != null) {
       appendText("---\n");
-      for (PatchListEntry p : getPatchList().getPatches()) {
+      PatchList patchList = getPatchList();
+      for (PatchListEntry p : patchList.getPatches()) {
         if (Patch.COMMIT_MSG.equals(p.getNewName())) {
           continue;
         }
         appendText(p.getChangeType().getCode() + " " + p.getNewName() + "\n");
       }
+      appendText(MessageFormat.format("" //
+          + "{0,choice,0#0 files|1#1 file|1<{0} files} changed, " //
+          + "{1,choice,0#0 insertions|1#1 insertion|1<{1} insertions}(+), " //
+          + "{2,choice,0#0 deletions|1#1 deletion|1<{2} deletions}(-)" //
+          + "\n", patchList.getPatches().size() - 1, //
+          patchList.getInsertions(), //
+          patchList.getDeletions()));
       appendText("\n");
     }
   }

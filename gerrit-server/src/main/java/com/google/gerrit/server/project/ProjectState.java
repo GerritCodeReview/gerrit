@@ -97,6 +97,10 @@ public class ProjectState {
     return inheritedRights;
   }
 
+  void setInheritedRights(Collection<RefRight> all) {
+    inheritedRights = all;
+  }
+
   private Collection<RefRight> computeInheritedRights() {
     if (isSpecialWildProject()) {
       return Collections.emptyList();

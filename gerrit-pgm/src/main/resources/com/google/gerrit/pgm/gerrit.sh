@@ -373,7 +373,7 @@ case "$ACTION" in
     printf '%s' "Starting Gerrit Code Review: "
 
     if test 1 = "$NO_START" ; then 
-      echo "Not starting gerrit - NO_START=1 in /etc/default/gerrit"
+      echo "Not starting gerrit - NO_START=1 in /etc/default/gerritcodereview"
       exit 0
     fi
 

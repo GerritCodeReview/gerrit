@@ -19,6 +19,9 @@ import com.google.gwtorm.client.StringKey;
 
 /** A single modified file in a {@link PatchSet}. */
 public final class Patch {
+  /** Magical file name which represents the commit message. */
+  public static final String COMMIT_MSG = "/COMMIT_MSG";
+
   public static class Key extends StringKey<PatchSet.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -191,6 +194,12 @@ public final class Patch {
   /** Number of drafts by the current user; not persisted in the datastore. */
   protected int nbrDrafts;
 
+  /** Number of lines added to the file. */
+  protected int insertions;
+
+  /** Number of lines deleted from the file. */
+  protected int deletions;
+
   /**
    * Original if {@link #changeType} is {@link ChangeType#COPIED} or
    * {@link ChangeType#RENAMED}.
@@ -227,6 +236,22 @@ public final class Patch {
 
   public void setDraftCount(final int n) {
     nbrDrafts = n;
+  }
+
+  public int getInsertions() {
+    return insertions;
+  }
+
+  public void setInsertions(int n) {
+    insertions = n;
+  }
+
+  public int getDeletions() {
+    return deletions;
+  }
+
+  public void setDeletions(int n) {
+    deletions = n;
   }
 
   public ChangeType getChangeType() {

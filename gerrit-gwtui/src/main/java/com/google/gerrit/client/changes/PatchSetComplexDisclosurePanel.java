@@ -14,14 +14,12 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
-import com.google.gerrit.client.ui.PatchLink;
-import com.google.gerrit.client.ui.PatchLink.SideBySide;
-import com.google.gerrit.client.ui.PatchLink.Unified;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.PatchSetDetail;
@@ -447,9 +445,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       @Override
       public void onClick(ClickEvent event) {
         for (Patch p : detail.getPatches()) {
-          SideBySide link = new PatchLink.SideBySide(p.getFileName(), p.getKey(), 0, null, null);
           Window.open(Window.Location.getPath() + "#"
-              + link.getTargetHistoryToken(), "_blank", null);
+              + Dispatcher.toPatchSideBySide(p.getKey()), "_blank", null);
         }
       }
     });
@@ -461,9 +458,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       @Override
       public void onClick(ClickEvent event) {
         for (Patch p : detail.getPatches()) {
-          Unified link = new PatchLink.Unified(p.getFileName(), p.getKey(), 0, null, null);
           Window.open(Window.Location.getPath() + "#"
-              + link.getTargetHistoryToken(), "_blank", null);
+              + Dispatcher.toPatchUnified(p.getKey()), "_blank", null);
         }
       }
     });

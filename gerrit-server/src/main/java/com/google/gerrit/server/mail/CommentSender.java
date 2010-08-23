@@ -26,6 +26,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -50,9 +51,13 @@ public class CommentSender extends ReplyToChangeSender {
     Set<String> paths = new HashSet<String>();
     for (PatchLineComment c : plc) {
       Patch.Key p = c.getKey().getParentKey();
-      paths.add(p.getFileName());
+      if (!Patch.COMMIT_MSG.equals(p.getFileName())) {
+        paths.add(p.getFileName());
+      }
     }
-    changeData.setCurrentFilePaths(paths);
+    String[] names = paths.toArray(new String[paths.size()]);
+    Arrays.sort(names);
+    changeData.setCurrentFilePaths(names);
   }
 
   @Override
@@ -65,7 +70,7 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void formatChange() throws EmailException {
+  public void formatChange() throws EmailException {
     appendText(velocifyFile("Comment.vm"));
   }
 
@@ -85,9 +90,13 @@ public class CommentSender extends ReplyToChangeSender {
 
         if (!pk.equals(currentFileKey)) {
           cmts.append("....................................................\n");
-          cmts.append("File ");
-          cmts.append(pk.get());
-          cmts.append("\n");
+          if (Patch.COMMIT_MSG.equals(pk.get())) {
+            cmts.append("Commit Message\n");
+          } else {
+            cmts.append("File ");
+            cmts.append(pk.get());
+            cmts.append("\n");
+          }
           currentFileKey = pk;
 
           if (patchList != null) {

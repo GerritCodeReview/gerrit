@@ -65,6 +65,7 @@ class PatchScriptBuilder {
   private Repository db;
   private Change change;
   private AccountDiffPreference diffPrefs;
+  private boolean againstParent;
   private ObjectId aId;
   private ObjectId bId;
 
@@ -101,7 +102,8 @@ class PatchScriptBuilder {
     }
   }
 
-  void setTrees(final ObjectId a, final ObjectId b) {
+  void setTrees(final boolean ap, final ObjectId a, final ObjectId b) {
+    againstParent = ap;
     aId = a;
     bId = b;
   }
@@ -364,34 +366,55 @@ class PatchScriptBuilder {
 
     void resolve(final Side other, final ObjectId within) throws IOException {
       try {
-        final TreeWalk tw = find(within);
-
-        id = tw != null ? tw.getObjectId(0) : ObjectId.zeroId();
-        mode = tw != null ? tw.getFileMode(0) : FileMode.MISSING;
-
-        final boolean reuse =
-            other != null && other.id.equals(id) && other.mode == mode;
-
-        if (reuse) {
-          srcContent = other.srcContent;
-
-        } else if (mode.getObjectType() == Constants.OBJ_BLOB) {
-          srcContent = Text.asByteArray(db.open(id, Constants.OBJ_BLOB));
+        final boolean reuse;
+        if (Patch.COMMIT_MSG.equals(path)) {
+          if (againstParent && (aId == within || within.equals(aId))) {
+            id = ObjectId.zeroId();
+            src = Text.EMPTY;
+            srcContent = Text.NO_BYTES;
+            mode = FileMode.MISSING;
+            displayMethod = DisplayMethod.NONE;
+          } else {
+            id = within;
+            src = Text.forCommit(db, within);
+            srcContent = src.getContent();
+            if (src == Text.EMPTY) {
+              mode = FileMode.MISSING;
+              displayMethod = DisplayMethod.NONE;
+            } else {
+              mode = FileMode.REGULAR_FILE;
+            }
+          }
+          reuse = false;
 
         } else {
-          srcContent = Text.NO_BYTES;
-        }
+          final TreeWalk tw = find(within);
 
-        if (reuse) {
-          mimeType = other.mimeType;
-          displayMethod = other.displayMethod;
-          src = other.src;
+          id = tw != null ? tw.getObjectId(0) : ObjectId.zeroId();
+          mode = tw != null ? tw.getFileMode(0) : FileMode.MISSING;
+          reuse = other != null && other.id.equals(id) && other.mode == mode;
 
-        } else if (srcContent.length > 0 && FileMode.SYMLINK != mode) {
-          mimeType = registry.getMimeType(path, srcContent);
-          if ("image".equals(mimeType.getMediaType())
-              && registry.isSafeInline(mimeType)) {
-            displayMethod = DisplayMethod.IMG;
+          if (reuse) {
+            srcContent = other.srcContent;
+
+          } else if (mode.getObjectType() == Constants.OBJ_BLOB) {
+            srcContent = Text.asByteArray(db.open(id, Constants.OBJ_BLOB));
+
+          } else {
+            srcContent = Text.NO_BYTES;
+          }
+
+          if (reuse) {
+            mimeType = other.mimeType;
+            displayMethod = other.displayMethod;
+            src = other.src;
+
+          } else if (srcContent.length > 0 && FileMode.SYMLINK != mode) {
+            mimeType = registry.getMimeType(path, srcContent);
+            if ("image".equals(mimeType.getMediaType())
+                && registry.isSafeInline(mimeType)) {
+              displayMethod = DisplayMethod.IMG;
+            }
           }
         }
 

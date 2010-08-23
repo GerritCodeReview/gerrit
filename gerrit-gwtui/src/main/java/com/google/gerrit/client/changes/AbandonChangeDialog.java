@@ -64,7 +64,7 @@ public class AbandonChangeDialog extends AutoCenterDialogBox implements CloseHan
     message = new NpTextArea();
     message.setCharacterWidth(60);
     message.setVisibleLines(10);
-    DOM.setElementPropertyBoolean(message.getElement(), "spellcheck", true);
+    message.setSpellCheck(true);
     mwrap.add(message);
 
     final FlowPanel buttonPanel = new FlowPanel();

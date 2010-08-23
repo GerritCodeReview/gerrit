@@ -50,14 +50,28 @@ public class PatchFile {
 
     final RevWalk rw = new RevWalk(repo);
     final RevCommit bCommit = rw.parseCommit(patchList.getNewId());
-    if (patchList.getOldId() != null) {
-      aTree = rw.parseTree(patchList.getOldId());
+
+    if (Patch.COMMIT_MSG.equals(fileName)) {
+      if (patchList.isAgainstParent()) {
+        a = Text.EMPTY;
+      } else {
+        a = Text.forCommit(repo, patchList.getOldId());
+      }
+      b = Text.forCommit(repo, bCommit);
+
+      aTree = null;
+      bTree = null;
+
     } else {
-      final RevCommit p = bCommit.getParent(0);
-      rw.parseHeaders(p);
-      aTree = p.getTree();
+      if (patchList.getOldId() != null) {
+        aTree = rw.parseTree(patchList.getOldId());
+      } else {
+        final RevCommit p = bCommit.getParent(0);
+        rw.parseHeaders(p);
+        aTree = p.getTree();
+      }
+      bTree = bCommit.getTree();
     }
-    bTree = bCommit.getTree();
   }
 
   /**

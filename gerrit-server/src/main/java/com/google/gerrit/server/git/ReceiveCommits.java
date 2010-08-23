@@ -620,12 +620,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     if (split < destBranchName.length()) {
       destTopicName = destBranchName.substring(split + 1);
+      if (destTopicName.isEmpty()) {
+        destTopicName = null;
+      }
     } else {
-      // We use empty string here to denote the topic wasn't
-      // supplied, but the caller used the syntax that allows
-      // for a topic to be given.
-      //
-      destTopicName = "";
+      destTopicName = null;
     }
     destBranch = new Branch.NameKey(project.getNameKey(), //
         destBranchName.substring(0, split));
@@ -876,7 +875,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     final Change change =
         new Change(changeKey, new Change.Id(db.nextChangeId()), me, destBranch);
-    change.setTopic(destTopicName.isEmpty() ? null : destTopicName);
+    change.setTopic(destTopicName);
     change.nextPatchSetId();
 
     final PatchSet ps = new PatchSet(change.currPatchSetId());
@@ -1177,9 +1176,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
             public Change update(Change change) {
               if (change.getStatus().isOpen()) {
                 if (destTopicName != null) {
-                  change.setTopic(destTopicName.isEmpty() //
-                      ? null //
-                      : destTopicName);
+                  change.setTopic(destTopicName);
                 }
                 change.setStatus(Change.Status.NEW);
                 change.setCurrentPatchSet(result.info);

@@ -17,7 +17,12 @@ package com.google.gerrit.server.patch;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.mozilla.universalchardet.UniversalDetector;
@@ -29,6 +34,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
+import java.text.SimpleDateFormat;
 
 public class Text extends RawText {
   private static final Logger log = LoggerFactory.getLogger(Text.class);
@@ -37,6 +43,75 @@ public class Text extends RawText {
 
   public static final byte[] NO_BYTES = {};
   public static final Text EMPTY = new Text(NO_BYTES);
+
+  public static Text forCommit(Repository db, AnyObjectId commitId)
+      throws IOException {
+    RevWalk rw = new RevWalk(db);
+    try {
+      RevCommit c;
+      if (commitId instanceof RevCommit) {
+        c = (RevCommit) commitId;
+      } else {
+        c = rw.parseCommit(commitId);
+      }
+
+      StringBuilder b = new StringBuilder();
+      switch (c.getParentCount()) {
+        case 0:
+          break;
+        case 1: {
+          RevCommit p = c.getParent(0);
+          rw.parseBody(p);
+          b.append("Parent:     ");
+          b.append(p.abbreviate(db, 8).name());
+          b.append(" (");
+          b.append(p.getShortMessage());
+          b.append(")\n");
+          break;
+        }
+        default:
+          for (int i = 0; i < c.getParentCount(); i++) {
+            RevCommit p = c.getParent(i);
+            rw.parseBody(p);
+            b.append(i == 0 ? "Merge Of:   " : "            ");
+            b.append(p.abbreviate(db, 8).name());
+            b.append(" (");
+            b.append(p.getShortMessage());
+            b.append(")\n");
+          }
+      }
+      appendPersonIdent(b, "Author", c.getAuthorIdent());
+      appendPersonIdent(b, "Commit", c.getCommitterIdent());
+      b.append("\n");
+      b.append(c.getFullMessage());
+      return new Text(b.toString().getBytes("UTF-8"));
+    } finally {
+      rw.release();
+    }
+  }
+
+  private static void appendPersonIdent(StringBuilder b, String field,
+      PersonIdent person) {
+    if (person != null) {
+      b.append(field + ":    ");
+      if (person.getName() != null) {
+        b.append(" ");
+        b.append(person.getName());
+      }
+      if (person.getEmailAddress() != null) {
+        b.append(" <");
+        b.append(person.getEmailAddress());
+        b.append(">");
+      }
+      b.append("\n");
+
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZZ");
+      sdf.setTimeZone(person.getTimeZone());
+      b.append(field + "Date: ");
+      b.append(sdf.format(person.getWhen()));
+      b.append("\n");
+    }
+  }
 
   public static String asString(byte[] content, String encoding) {
     return new String(content, charset(content, encoding));

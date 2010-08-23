@@ -1,0 +1,173 @@
+Release notes for Gerrit 2.1.5
+==============================
+
+Gerrit 2.1.5 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.5.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.5.war]
+
+This is primarly a bug fix release to 2.1.4, but some additional
+new features were included so its named 2.1.5 rather than 2.1.4.1.
+
+Upgrade Instructions
+--------------------
+
+If upgrading from version 2.1.4, simply replace the WAR file in
+`'site_path'/bin/gerrit.war` and restart Gerrit.
+
+If upgrading from version 2.1.3 or earlier, stop Gerrit, use
+`java -jar gerrit.war init -d 'site_path'` to upgrade the schema,
+and restart Gerrit.
+
+New Features
+------------
+
+Web UI
+~~~~~~
+* issue 361 Enable commenting on commit messages
++
+The commit message of a change can now be commented on inline, and
+even compared between patch sets, just like any other file contents.
+The message is presented as a magical file called 'Commit Message',
+in the first row of every change.
+
+* issue 312 Implement 'Restore Change' to undo 'Abandon Change'
++
+Any user who can abandon a change (the change owner, project owner,
+or any site administrator) can now restore the change from Abandoned
+status back to Review in Progress.
+
+* issue 583 Enable/disable download protocols
++
+The new download section in `gerrit.config` controls how the patch
+set download links are presented in the web UI.  Administrators
+can use this section to enable `repo download`, `git://`, or to
+disable `http://` style URLs.  This section replaces the older
+repo.showDownloadCommand.
+
+* issue 499 Display the size of a patch (lines added/removed)
++
+A 'diffstat' is shown for each file, summarizing the size of the
+change on that file in terms of number of lines added or deleted.
+
+Email Notifications
+~~~~~~~~~~~~~~~~~~~
+* issue 452 Include a quick summary of the size of a change in email
++
+After the file listing, a summary totaling the number of files
+changed, lines added, and lines removed is displayed.  This may
+help reviewers to get a quick estimation on the time required for
+them to review the change.
+
+Bug Fixes
+---------
+
+Web UI
+~~~~~~
+* issue 639 Fix keyboard shortcuts under Chrome/Safari
++
+Keyboard shortcuts didn't work properly on modern WebKit browsers
+like Chrome and Safari.  We kept trying to blame this on the browser,
+but it was Gerrit Code Review at fault.  The UI was using the wrong
+listener type to receive keyboard events in comment editors.  Fixed.
+
+* Make 'u' go up to the last change listing
++
+Previously the 'u' key on a change page was hardcoded to take
+the user to their own dashboard.  However, if they arrived at the
+change through a query such as `is:starred status:open`, this was
+quite annoying, as the query had to be started over again to move
+to the next matching change.  Now the 'u' key goes back to the
+query results.
+
+* issue 671 Honor user's syntax coloring preference in unified view
++
+The user's syntax coloring preference was always ignored in the
+unified view, even though the side-by-side view honored it.  Fixed.
+
+* issue 651 Display stars in dependency tables
++
+The 'Depends On' and 'Needed By' tables on a change page did not
+show the current user's star settings, even though the star icon
+is present and will toggle the user's starred flag for that change.
+Fixed.
+
+Access Control
+~~~~~~~~~~~~~~
+* issue 672 Fix branch owner adding exclusive ACL
++
+Branch owners could not add exclusive ACLs within their branch
+namespace.  This was caused by the server trying to match the leading
+`-` entered by the branch administrator against patterns that did
+not contain `-`, and therefore always failed.  Fixed by removing
+the magical `-` from the proposed new specification before testing
+the access rights.
+
+* '@' in ref specs shouldn't be magical.
++
+The dk.brics.automaton package that is used to handle regular
+expressions on branch access patterns supports '@' to mean
+"any string".  We don't want that behavior.  Fixed by disabling
+the optional features of dk.brics.automaton, thereby making '@'
+mean a literal '@' sign as expected.
+
+* issue 668 Fix inherited Read Access +2 not inheriting
++
+Upload access (aka Read +2) did not inherit properly from the parent
+project (e.g. '\-- All Projects \--') if there was any branch level
+Read access control within the local project.  This was a coding
+bug which failed to consider the project inheritance if any branch
+(not just the one being uploaded to) denied upload access.
+
+Misc.
+~~~~~
+* issue 641 Don't pass null arguments to hooks
++
+Some hooks crashed inside of the server during invocation because the
+`gerrit.canonicalWebUrl` variable wasn't configured, and the hook
+was started out of an SSH or background thread context, so the URL
+couldn't be assumed from the current request.  The bug was worked
+around by not passing the `\--change-url` flag in these cases.
+Administrators whose hooks always need the flag should configure
+`gerrit.canonicalWebUrl`.
+
+* issue 652 Fix NPE during merge failure on new branch
++
+Submitting a change with a missing dependency to a new branch
+resulted in a NullPointerException in the server, because the server
+tried to create the branch anyway, even though there was no commit
+ready because one or more dependencies were missing.  Fixed.
+
+* Fix NPE while matching `file:^` pattern on deleted files
++
+Sending email notifications crashed with NullPointerException if the
+change contained a deleted file and one or more users had a project
+watch on that project using a `file:^` pattern in their filter.
+Fixed.
+
+* issue 658 Allow to use refspec shortcuts for push replication
++
+A push refspec of `refs/heads/\*` in replication.config is now
+supported as a shorthand notation for `refs/heads/\*:refs/heads/\*`.
+
+* issue 676 Fix clearing of topic during replace
++
+The topic was cleared if a replacement patch set was uploaded without
+the topic name.  The topic is now left as-is during replacement
+if no new topic was supplied.  If a new topic is supplied, it is
+changed to match the new topic given.
+
+* Allow ; and & to seperate parameters in gitweb
++
+gitweb.cgi accepts either ';' or '&' between parameters, but
+Gerrit Code Review was only accepting the ';' syntax.  Fixed
+to support both.
+
+Documentation
+~~~~~~~~~~~~~
+* Fixed example for gerrit create-account.
+* gerrit.sh: Correct /etc/default path in error message
+
+Version
+-------
+
+2765ff9e5f821100e9ca671f4d502b5c938457a5

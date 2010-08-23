@@ -175,12 +175,12 @@ class AddRefRight extends Handler<ProjectDetail> {
       }
     }
 
-    if (exclusive) {
-      refPattern = "-" + refPattern;
-    }
-
     if (!projectControl.controlForRef(refPattern).isOwner()) {
       throw new NoSuchRefException(refPattern);
+    }
+
+    if (exclusive) {
+      refPattern = "-" + refPattern;
     }
 
     final AccountGroup group = groupCache.get(groupName);

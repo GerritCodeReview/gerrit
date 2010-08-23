@@ -177,7 +177,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
     b.setRepository(git);
     b.setChange(change);
     b.setDiffPrefs(dp);
-    b.setTrees(list.getOldId(), list.getNewId());
+    b.setTrees(list.isAgainstParent(), list.getOldId(), list.getNewId());
     return b;
   }
 

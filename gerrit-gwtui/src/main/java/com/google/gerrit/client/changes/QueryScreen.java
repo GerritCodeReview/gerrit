@@ -24,7 +24,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 
-public class QueryScreen extends PagedSingleListScreen {
+public class QueryScreen extends PagedSingleListScreen implements
+    ChangeListScreen {
   public static QueryScreen forQuery(String query) {
     return forQuery(query, PageLinks.TOP);
   }

@@ -354,7 +354,7 @@ class GitWebServlet extends HttpServlet {
   private static Map<String, String> getParameters(final HttpServletRequest req)
       throws UnsupportedEncodingException {
     final Map<String, String> params = new HashMap<String, String>();
-    for (final String pair : req.getQueryString().split(";")) {
+    for (final String pair : req.getQueryString().split("[&;]")) {
       final int eq = pair.indexOf('=');
       if (0 < eq) {
         String name = pair.substring(0, eq);

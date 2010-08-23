@@ -16,6 +16,7 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
+import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
@@ -81,6 +82,8 @@ public class Gerrit implements EntryPoint {
   private static final Dispatcher dispatcher = new Dispatcher();
   private static ViewSite<Screen> body;
 
+  private static String lastChangeListToken;
+
   static {
     SYSTEM_SVC = GWT.create(SystemInfoService.class);
     JsonUtil.bind(SYSTEM_SVC, "rpc/SystemInfoService");
@@ -89,6 +92,16 @@ public class Gerrit implements EntryPoint {
   static void upgradeUI(String token) {
     History.newItem(Dispatcher.RELOAD_UI + token, false);
     Window.Location.reload();
+  }
+
+  public static void displayLastChangeList() {
+    if (lastChangeListToken != null) {
+      display(lastChangeListToken);
+    } else if (isSignedIn()) {
+      display(PageLinks.MINE);
+    } else {
+      display(PageLinks.toChangeQuery("status:open"));
+    }
   }
 
   /**
@@ -365,6 +378,11 @@ public class Gerrit implements EntryPoint {
             dispatchHistoryHooks(token);
           }
         }
+
+        if (view instanceof ChangeListScreen) {
+          lastChangeListToken = token;
+        }
+
         super.onShowView(view);
         view.onShowView();
       }

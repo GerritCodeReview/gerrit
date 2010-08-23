@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -28,6 +29,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +40,7 @@ public class ChangeData {
   private Collection<PatchSet> patches;
   private Collection<PatchSetApproval> approvals;
   private Collection<PatchSetApproval> currentApprovals;
-  private Collection<String> currentFiles;
+  private String[] currentFiles;
   private Collection<PatchLineComment> comments;
   private Collection<TrackingId> trackingIds;
   private CurrentUser visibleTo;
@@ -52,11 +54,11 @@ public class ChangeData {
     change = c;
   }
 
-  public void setCurrentFilePaths(Collection<String> filePaths) {
+  public void setCurrentFilePaths(String[] filePaths) {
     currentFiles = filePaths;
   }
 
-  public Collection<String> currentFilePaths(Provider<ReviewDb> db,
+  public String[] currentFilePaths(Provider<ReviewDb> db,
       PatchListCache cache) throws OrmException {
     if (currentFiles == null) {
       Change c = change(db);
@@ -71,14 +73,15 @@ public class ChangeData {
       PatchList p = cache.get(c, ps);
       List<String> r = new ArrayList<String>(p.getPatches().size());
       for (PatchListEntry e : p.getPatches()) {
+        if (Patch.COMMIT_MSG.equals(e.getNewName())) {
+          continue;
+        }
         switch (e.getChangeType()) {
           case ADDED:
           case MODIFIED:
+          case DELETED:
           case COPIED:
             r.add(e.getNewName());
-            break;
-          case DELETED:
-            r.add(e.getOldName());
             break;
           case RENAMED:
             r.add(e.getOldName());
@@ -86,7 +89,8 @@ public class ChangeData {
             break;
         }
       }
-      currentFiles = r;
+      currentFiles = r.toArray(new String[r.size()]);
+      Arrays.sort(currentFiles);
     }
     return currentFiles;
   }

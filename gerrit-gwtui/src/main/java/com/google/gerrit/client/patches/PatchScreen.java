@@ -80,9 +80,6 @@ public abstract class PatchScreen extends Screen implements
     public Unified(final Patch.Key id, final int patchIndex,
         final PatchSetDetail patchSetDetail, final PatchTable patchTable) {
       super(id, patchIndex, patchSetDetail, patchTable);
-      final AccountDiffPreference dp = settingsPanel.getValue();
-      dp.setSyntaxHighlighting(false);
-      settingsPanel.setValue(dp);
     }
 
     @Override
@@ -395,7 +392,7 @@ public abstract class PatchScreen extends Screen implements
 
   private void onResult(final PatchScript script, final boolean isFirst) {
     final Change.Key cid = script.getChangeId();
-    final String path = patchKey.get();
+    final String path = PatchTable.getDisplayFileName(patchKey);
     String fileName = path;
     final int last = fileName.lastIndexOf('/');
     if (last >= 0) {

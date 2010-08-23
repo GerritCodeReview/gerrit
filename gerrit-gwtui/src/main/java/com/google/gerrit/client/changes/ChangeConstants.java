@@ -46,7 +46,7 @@ public interface ChangeConstants extends Constants {
   String changeTableStar();
   String changeTablePagePrev();
   String changeTablePageNext();
-  String upToDashboard();
+  String upToChangeList();
   String expandCollapseDependencies();
   String previousPatchSet();
   String nextPatchSet();
@@ -54,11 +54,13 @@ public interface ChangeConstants extends Constants {
 
   String patchTableColumnName();
   String patchTableColumnComments();
+  String patchTableColumnSize();
   String patchTableColumnDiff();
   String patchTableDiffSideBySide();
   String patchTableDiffUnified();
   String patchTableDownloadPreImage();
   String patchTableDownloadPostImage();
+  String commitMessage();
 
   String patchTablePrev();
   String patchTableNext();

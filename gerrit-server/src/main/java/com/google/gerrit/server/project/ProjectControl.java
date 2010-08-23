@@ -177,16 +177,17 @@ public class ProjectControl {
       short requireValue) {
     final Set<AccountGroup.Id> groups = user.getEffectiveGroups();
     int val = Integer.MIN_VALUE;
-    boolean local = false;
 
     for (final RefRight pr : state.getLocalRights(actionId)) {
       if (groups.contains(pr.getAccountGroupId())) {
         val = Math.max(pr.getMaxValue(), val);
-        local = true;
       }
     }
+    if (val >= requireValue) {
+      return true;
+    }
 
-    if (!local && actionId.canInheritFromWildProject()) {
+    if (actionId.canInheritFromWildProject()) {
       for (final RefRight pr : state.getInheritedRights(actionId)) {
         if (groups.contains(pr.getAccountGroupId())) {
           val = Math.max(pr.getMaxValue(), val);

@@ -109,7 +109,7 @@ class SshPanel extends Composite {
     addTxt = new NpTextArea();
     addTxt.setVisibleLines(12);
     addTxt.setCharacterWidth(80);
-    DOM.setElementPropertyBoolean(addTxt.getElement(), "spellcheck", false);
+    addTxt.setSpellCheck(false);
     addKeyBlock.add(addTxt);
 
     final HorizontalPanel buttons = new HorizontalPanel();

@@ -22,7 +22,6 @@ import com.google.gerrit.client.ui.ExpandAllCommand;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ChangeDetail;
@@ -145,7 +144,7 @@ public class ChangeScreen extends Screen {
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
-    keysNavigation.add(new DashboardKeyCommand(0, 'u', Util.C.upToDashboard()));
+    keysNavigation.add(new UpToListKeyCommand(0, 'u', Util.C.upToChangeList()));
     keysNavigation.add(new ExpandCollapseDependencySectionKeyCommand(0, 'd', Util.C.expandCollapseDependencies()));
 
     if (Gerrit.isSignedIn()) {
@@ -346,18 +345,14 @@ public class ChangeScreen extends Screen {
     });
   }
 
-  public class DashboardKeyCommand extends KeyCommand {
-    public DashboardKeyCommand(int mask, char key, String help) {
+  public class UpToListKeyCommand extends KeyCommand {
+    public UpToListKeyCommand(int mask, char key, String help) {
       super(mask, key, help);
     }
 
     @Override
     public void onKeyPress(final KeyPressEvent event) {
-      if (Gerrit.isSignedIn()) {
-        Gerrit.display(PageLinks.MINE);
-      } else {
-        Gerrit.display(PageLinks.toChangeQuery("status:open"));
-      }
+      Gerrit.displayLastChangeList();
     }
   }
 

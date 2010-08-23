@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
+import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
@@ -34,6 +35,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.client.OrmException;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -222,9 +224,20 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
     if (patchSet != null) {
       detail.append("---\n");
-      for (PatchListEntry p : getPatchList().getPatches()) {
+      PatchList patchList = getPatchList();
+      for (PatchListEntry p : patchList.getPatches()) {
+        if (Patch.COMMIT_MSG.equals(p.getNewName())) {
+          continue;
+        }
         detail.append(p.getChangeType().getCode() + " " + p.getNewName() + "\n");
       }
+      detail.append(MessageFormat.format("" //
+          + "{0,choice,0#0 files|1#1 file|1<{0} files} changed, " //
+          + "{1,choice,0#0 insertions|1#1 insertion|1<{1} insertions}(+), " //
+          + "{2,choice,0#0 deletions|1#1 deletion|1<{2} deletions}(-)" //
+          + "\n", patchList.getPatches().size() - 1, //
+          patchList.getInsertions(), //
+          patchList.getDeletions()));
       detail.append("\n");
     }
     return detail.toString();

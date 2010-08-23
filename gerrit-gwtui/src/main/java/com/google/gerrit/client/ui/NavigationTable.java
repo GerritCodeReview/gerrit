@@ -118,7 +118,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
         row++;
       } else if (sEnd < cTop) {
         row--;
-      } else if (getRowItem(row) != null) {
+      } else {
         break;
       }
     }

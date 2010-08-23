@@ -714,7 +714,7 @@ If a unit suffix is not specified, `milliseconds` is assumed.
 Default is `30 seconds`.
 
 [[download]]Section download
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ----
 [download]
@@ -735,11 +735,11 @@ Multiple schemes are supported:
 +
 * `http`
 +
-HTTP download is allowed.
+Authenticated HTTP download is allowed.
 +
 * `ssh`
 +
-SSH download is allowed.
+Authenticated SSH download is allowed.
 +
 * `anon_http`
 +
@@ -747,18 +747,20 @@ Anonymous HTTP download is allowed.
 +
 * `anon_git`
 +
-Anonymous Git download is allowed.
-This is not default, it is also necessary to fill gerrit.canonicalGitUrl variable.
+Anonymous Git download is allowed.  This is not default, it is also
+necessary to set <<gerrit.canonicalGitUrl,gerrit.canonicalGitUrl>>
+variable.
 +
 * `repo_download`
 +
-Gerrit advertises patch set downloads with the `repo download` command,
-assuming that all projects managed by this instance are generally worked
-on with the repo multi-repository tool.
-This is not default, as not all instances will deploy repo.
+Gerrit advertises patch set downloads with the `repo download`
+command, assuming that all projects managed by this instance are
+generally worked on with the repo multi-repository tool.  This is
+not default, as not all instances will deploy repo.
 
 +
-If download.scheme is not specified, SSH, HTTP and Anonymous HTTP downloads are allowed.
+If download.scheme is not specified, SSH, HTTP and Anonymous HTTP
+downloads are allowed.
 
 [[gerrit]]Section gerrit
 ~~~~~~~~~~~~~~~~~~~~~~~~

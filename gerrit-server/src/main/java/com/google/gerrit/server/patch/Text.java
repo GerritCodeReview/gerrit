@@ -19,6 +19,7 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -44,50 +45,46 @@ public class Text extends RawText {
   public static final byte[] NO_BYTES = {};
   public static final Text EMPTY = new Text(NO_BYTES);
 
-  public static Text forCommit(Repository db, AnyObjectId commitId)
-      throws IOException {
-    RevWalk rw = new RevWalk(db);
-    try {
-      RevCommit c;
-      if (commitId instanceof RevCommit) {
-        c = (RevCommit) commitId;
-      } else {
-        c = rw.parseCommit(commitId);
-      }
+  public static Text forCommit(Repository db, ObjectReader reader,
+      AnyObjectId commitId) throws IOException {
+    RevWalk rw = new RevWalk(reader);
+    RevCommit c;
+    if (commitId instanceof RevCommit) {
+      c = (RevCommit) commitId;
+    } else {
+      c = rw.parseCommit(commitId);
+    }
 
-      StringBuilder b = new StringBuilder();
-      switch (c.getParentCount()) {
-        case 0:
-          break;
-        case 1: {
-          RevCommit p = c.getParent(0);
+    StringBuilder b = new StringBuilder();
+    switch (c.getParentCount()) {
+      case 0:
+        break;
+      case 1: {
+        RevCommit p = c.getParent(0);
+        rw.parseBody(p);
+        b.append("Parent:     ");
+        b.append(p.abbreviate(db, 8).name());
+        b.append(" (");
+        b.append(p.getShortMessage());
+        b.append(")\n");
+        break;
+      }
+      default:
+        for (int i = 0; i < c.getParentCount(); i++) {
+          RevCommit p = c.getParent(i);
           rw.parseBody(p);
-          b.append("Parent:     ");
+          b.append(i == 0 ? "Merge Of:   " : "            ");
           b.append(p.abbreviate(db, 8).name());
           b.append(" (");
           b.append(p.getShortMessage());
           b.append(")\n");
-          break;
         }
-        default:
-          for (int i = 0; i < c.getParentCount(); i++) {
-            RevCommit p = c.getParent(i);
-            rw.parseBody(p);
-            b.append(i == 0 ? "Merge Of:   " : "            ");
-            b.append(p.abbreviate(db, 8).name());
-            b.append(" (");
-            b.append(p.getShortMessage());
-            b.append(")\n");
-          }
-      }
-      appendPersonIdent(b, "Author", c.getAuthorIdent());
-      appendPersonIdent(b, "Commit", c.getCommitterIdent());
-      b.append("\n");
-      b.append(c.getFullMessage());
-      return new Text(b.toString().getBytes("UTF-8"));
-    } finally {
-      rw.release();
     }
+    appendPersonIdent(b, "Author", c.getAuthorIdent());
+    appendPersonIdent(b, "Commit", c.getCommitterIdent());
+    b.append("\n");
+    b.append(c.getFullMessage());
+    return new Text(b.toString().getBytes("UTF-8"));
   }
 
   private static void appendPersonIdent(StringBuilder b, String field,

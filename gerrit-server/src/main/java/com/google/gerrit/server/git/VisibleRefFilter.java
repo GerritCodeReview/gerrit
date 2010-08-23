@@ -118,16 +118,20 @@ public class VisibleRefFilter implements RefFilter {
   private void addVisibleTags(final Map<String, Ref> result,
       final List<Ref> tags) {
     final RevWalk rw = new RevWalk(db);
-    final RevFlag VISIBLE = rw.newFlag("VISIBLE");
-    final List<RevCommit> starts;
+    try {
+      final RevFlag VISIBLE = rw.newFlag("VISIBLE");
+      final List<RevCommit> starts;
 
-    rw.carry(VISIBLE);
-    starts = lookupVisibleCommits(result, rw, VISIBLE);
+      rw.carry(VISIBLE);
+      starts = lookupVisibleCommits(result, rw, VISIBLE);
 
-    for (Ref tag : tags) {
-      if (isTagVisible(rw, VISIBLE, starts, tag)) {
-        result.put(tag.getName(), tag);
+      for (Ref tag : tags) {
+        if (isTagVisible(rw, VISIBLE, starts, tag)) {
+          result.put(tag.getName(), tag);
+        }
       }
+    } finally {
+      rw.release();
     }
   }
 

@@ -204,6 +204,9 @@ public class MergeOp {
     try {
       mergeImpl();
     } finally {
+      if (rw != null) {
+        rw.release();
+      }
       if (db != null) {
         db.close();
       }

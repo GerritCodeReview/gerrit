@@ -23,6 +23,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -48,29 +49,34 @@ public class PatchFile {
     this.repo = repo;
     this.entry = patchList.get(fileName);
 
-    final RevWalk rw = new RevWalk(repo);
-    final RevCommit bCommit = rw.parseCommit(patchList.getNewId());
+    final ObjectReader reader = repo.newObjectReader();
+    try {
+      final RevWalk rw = new RevWalk(reader);
+      final RevCommit bCommit = rw.parseCommit(patchList.getNewId());
 
-    if (Patch.COMMIT_MSG.equals(fileName)) {
-      if (patchList.isAgainstParent()) {
-        a = Text.EMPTY;
+      if (Patch.COMMIT_MSG.equals(fileName)) {
+        if (patchList.isAgainstParent()) {
+          a = Text.EMPTY;
+        } else {
+          a = Text.forCommit(repo, reader, patchList.getOldId());
+        }
+        b = Text.forCommit(repo, reader, bCommit);
+
+        aTree = null;
+        bTree = null;
+
       } else {
-        a = Text.forCommit(repo, patchList.getOldId());
+        if (patchList.getOldId() != null) {
+          aTree = rw.parseTree(patchList.getOldId());
+        } else {
+          final RevCommit p = bCommit.getParent(0);
+          rw.parseHeaders(p);
+          aTree = p.getTree();
+        }
+        bTree = bCommit.getTree();
       }
-      b = Text.forCommit(repo, bCommit);
-
-      aTree = null;
-      bTree = null;
-
-    } else {
-      if (patchList.getOldId() != null) {
-        aTree = rw.parseTree(patchList.getOldId());
-      } else {
-        final RevCommit p = bCommit.getParent(0);
-        rw.parseHeaders(p);
-        aTree = p.getTree();
-      }
-      bTree = bCommit.getTree();
+    } finally {
+      reader.release();
     }
   }
 

@@ -79,9 +79,13 @@ public class PatchSetInfoFactory {
       final String projectName = projectKey.get();
       repo = repoManager.openRepository(projectName);
       final RevWalk rw = new RevWalk(repo);
-      final RevCommit src =
-          rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
-      return get(src, patchSetId);
+      try {
+        final RevCommit src =
+            rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
+        return get(src, patchSetId);
+      } finally {
+        rw.release();
+      }
     } catch (OrmException e) {
       throw new PatchSetInfoNotAvailableException(e);
     } catch (IOException e) {

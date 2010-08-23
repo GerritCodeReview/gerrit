@@ -96,6 +96,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.FileHeader.PatchType;
@@ -205,64 +206,70 @@ public class PatchListCacheImpl implements PatchListCache {
           break;
       }
 
-      final RevWalk rw = new RevWalk(repo);
-      final RevCommit b = rw.parseCommit(key.getNewId());
-      final RevObject a = aFor(key, repo, rw, b);
+      final ObjectReader reader = repo.newObjectReader();
+      try {
+        final RevWalk rw = new RevWalk(reader);
+        final RevCommit b = rw.parseCommit(key.getNewId());
+        final RevObject a = aFor(key, repo, rw, b);
 
-      if (a == null) {
-        // This is a merge commit, compared to its ancestor.
-        //
-        final PatchListEntry[] entries = new PatchListEntry[1];
-        entries[0] = newCommitMessage(rawTextFactory, repo, null, b);
-        return new PatchList(a, b, computeIntraline, true, entries);
+        if (a == null) {
+          // This is a merge commit, compared to its ancestor.
+          //
+          final PatchListEntry[] entries = new PatchListEntry[1];
+          entries[0] = newCommitMessage(rawTextFactory, repo, reader, null, b);
+          return new PatchList(a, b, computeIntraline, true, entries);
+        }
+
+        final boolean againstParent =
+            b.getParentCount() > 0 && b.getParent(0) == a;
+
+        RevCommit aCommit;
+        RevTree aTree;
+        if (a instanceof RevCommit) {
+          aCommit = (RevCommit) a;
+          aTree = aCommit.getTree();
+        } else if (a instanceof RevTree) {
+          aCommit = null;
+          aTree = (RevTree) a;
+        } else {
+          throw new IOException("Unexpected type: " + a.getClass());
+        }
+
+        RevTree bTree = b.getTree();
+
+        final TreeWalk walk = new TreeWalk(reader);
+        walk.reset();
+        walk.setRecursive(true);
+        walk.addTree(aTree);
+        walk.addTree(bTree);
+        walk.setFilter(TreeFilter.ANY_DIFF);
+
+        DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
+        df.setRepository(repo);
+        df.setRawTextFactory(rawTextFactory);
+
+        RenameDetector rd = new RenameDetector(repo);
+        rd.addAll(DiffEntry.scan(walk));
+        List<DiffEntry> diffEntries = rd.compute();
+
+        final int cnt = diffEntries.size();
+        final PatchListEntry[] entries = new PatchListEntry[1 + cnt];
+        entries[0] = newCommitMessage(rawTextFactory, repo, reader, //
+            againstParent ? null : aCommit, b);
+        for (int i = 0; i < cnt; i++) {
+          FileHeader fh = df.createFileHeader(diffEntries.get(i));
+          entries[1 + i] = newEntry(reader, aTree, bTree, fh);
+        }
+        return new PatchList(a, b, computeIntraline, againstParent, entries);
+      } finally {
+        reader.release();
       }
-
-      final boolean againstParent =
-          b.getParentCount() > 0 && b.getParent(0) == a;
-
-      RevCommit aCommit;
-      RevTree aTree;
-      if (a instanceof RevCommit) {
-        aCommit = (RevCommit) a;
-        aTree = aCommit.getTree();
-      } else if (a instanceof RevTree) {
-        aCommit = null;
-        aTree = (RevTree) a;
-      } else {
-        throw new IOException("Unexpected type: " + a.getClass());
-      }
-
-      RevTree bTree = b.getTree();
-
-      final TreeWalk walk = new TreeWalk(repo);
-      walk.reset();
-      walk.setRecursive(true);
-      walk.addTree(aTree);
-      walk.addTree(bTree);
-      walk.setFilter(TreeFilter.ANY_DIFF);
-
-      DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
-      df.setRepository(repo);
-      df.setRawTextFactory(rawTextFactory);
-
-      RenameDetector rd = new RenameDetector(repo);
-      rd.addAll(DiffEntry.scan(walk));
-      List<DiffEntry> diffEntries = rd.compute();
-
-      final int cnt = diffEntries.size();
-      final PatchListEntry[] entries = new PatchListEntry[1 + cnt];
-      entries[0] = newCommitMessage(rawTextFactory, repo, //
-          againstParent ? null : aCommit, b);
-      for (int i = 0; i < cnt; i++) {
-        FileHeader fh = df.createFileHeader(diffEntries.get(i));
-        entries[1 + i] = newEntry(repo, aTree, bTree, fh);
-      }
-      return new PatchList(a, b, computeIntraline, againstParent, entries);
     }
 
     private PatchListEntry newCommitMessage(
-        final RawText.Factory rawTextFactory, final Repository repo,
-        final RevCommit aCommit, final RevCommit bCommit) throws IOException {
+        final RawText.Factory rawTextFactory, final Repository db,
+        final ObjectReader reader, final RevCommit aCommit,
+        final RevCommit bCommit) throws IOException {
       StringBuilder hdr = new StringBuilder();
 
       hdr.append("diff --git");
@@ -281,18 +288,18 @@ public class PatchListCacheImpl implements PatchListCache {
       }
       hdr.append("+++ b/" + Patch.COMMIT_MSG + "\n");
 
-      Text aText = aCommit != null ? Text.forCommit(repo, aCommit) : Text.EMPTY;
-      Text bText = Text.forCommit(repo, bCommit);
+      Text aText = aCommit != null ? Text.forCommit(db, reader, aCommit) : Text.EMPTY;
+      Text bText = Text.forCommit(db, reader, bCommit);
 
       byte[] rawHdr = hdr.toString().getBytes("UTF-8");
       RawText aRawText = rawTextFactory.create(aText.getContent());
       RawText bRawText = rawTextFactory.create(bText.getContent());
       EditList edits = new MyersDiff(aRawText, bRawText).getEdits();
       FileHeader fh = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
-      return newEntry(repo, aText, bText, edits, null, null, fh);
+      return newEntry(reader, aText, bText, edits, null, null, fh);
     }
 
-    private PatchListEntry newEntry(Repository repo, RevTree aTree,
+    private PatchListEntry newEntry(ObjectReader reader, RevTree aTree,
         RevTree bTree, FileHeader fileHeader) throws IOException {
       final FileMode oldMode = fileHeader.getOldMode();
       final FileMode newMode = fileHeader.getNewMode();
@@ -321,10 +328,10 @@ public class PatchListCacheImpl implements PatchListCache {
           return new PatchListEntry(fileHeader, edits);
       }
 
-      return newEntry(repo, null, null, edits, aTree, bTree, fileHeader);
+      return newEntry(reader, null, null, edits, aTree, bTree, fileHeader);
     }
 
-    private PatchListEntry newEntry(Repository repo, Text aContent,
+    private PatchListEntry newEntry(ObjectReader reader, Text aContent,
         Text bContent, List<Edit> edits, RevTree aTree, RevTree bTree,
         FileHeader fileHeader) throws IOException {
       for (int i = 0; i < edits.size(); i++) {
@@ -333,8 +340,8 @@ public class PatchListCacheImpl implements PatchListCache {
         if (e.getType() == Edit.Type.REPLACE) {
           if (aContent == null) {
             edits = new ArrayList<Edit>(edits);
-            aContent = read(repo, fileHeader.getOldPath(), aTree);
-            bContent = read(repo, fileHeader.getNewPath(), bTree);
+            aContent = read(reader, fileHeader.getOldPath(), aTree);
+            bContent = read(reader, fileHeader.getNewPath(), bTree);
             combineLineEdits(edits, aContent, bContent);
             i = -1; // restart the entire scan after combining lines.
             continue;
@@ -591,15 +598,15 @@ public class PatchListCacheImpl implements PatchListCache {
       return b < e;
     }
 
-    private static Text read(Repository repo, String path, RevTree tree)
+    private static Text read(ObjectReader reader, String path, RevTree tree)
         throws IOException {
-      TreeWalk tw = TreeWalk.forPath(repo, path, tree);
+      TreeWalk tw = TreeWalk.forPath(reader, path, tree);
       if (tw == null || tw.getFileMode(0).getObjectType() != Constants.OBJ_BLOB) {
         return Text.EMPTY;
       }
       ObjectLoader ldr;
       try {
-        ldr = repo.open(tw.getObjectId(0), Constants.OBJ_BLOB);
+        ldr = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
       } catch (MissingObjectException notFound) {
         return Text.EMPTY;
       }

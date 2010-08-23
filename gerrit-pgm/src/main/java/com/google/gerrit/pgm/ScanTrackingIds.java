@@ -140,8 +140,12 @@ public class ScanTrackingIds extends SiteProgram {
 
   private RevCommit parse(final Repository git, PatchSet ps)
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
-    return new RevWalk(git).parseCommit(ObjectId.fromString(ps.getRevision()
-        .get()));
+    RevWalk rw = new RevWalk(git);
+    try {
+      return rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
+    } finally {
+      rw.release();
+    }
   }
 
   private Change next() {

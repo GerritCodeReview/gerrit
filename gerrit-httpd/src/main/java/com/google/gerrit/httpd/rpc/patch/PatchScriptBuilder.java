@@ -40,6 +40,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -63,6 +64,7 @@ class PatchScriptBuilder {
   };
 
   private Repository db;
+  private ObjectReader reader;
   private Change change;
   private AccountDiffPreference diffPrefs;
   private boolean againstParent;
@@ -109,6 +111,17 @@ class PatchScriptBuilder {
   }
 
   PatchScript toPatchScript(final PatchListEntry content,
+      final boolean intralineDifference, final CommentDetail comments,
+      final List<Patch> history) throws IOException {
+    reader = db.newObjectReader();
+    try {
+      return build(content, intralineDifference, comments, history);
+    } finally {
+      reader.release();
+    }
+  }
+
+  private PatchScript build(final PatchListEntry content,
       final boolean intralineDifference, final CommentDetail comments,
       final List<Patch> history) throws IOException {
     if (content.getPatchType() == PatchType.N_WAY) {
@@ -376,7 +389,7 @@ class PatchScriptBuilder {
             displayMethod = DisplayMethod.NONE;
           } else {
             id = within;
-            src = Text.forCommit(db, within);
+            src = Text.forCommit(db, reader, within);
             srcContent = src.getContent();
             if (src == Text.EMPTY) {
               mode = FileMode.MISSING;
@@ -445,9 +458,9 @@ class PatchScriptBuilder {
       if (path == null) {
         return null;
       }
-      final RevWalk rw = new RevWalk(db);
+      final RevWalk rw = new RevWalk(reader);
       final RevTree tree = rw.parseTree(within);
-      return TreeWalk.forPath(db, path, tree);
+      return TreeWalk.forPath(reader, path, tree);
     }
   }
 }

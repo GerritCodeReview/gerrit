@@ -34,6 +34,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -169,40 +170,45 @@ public class CatServlet extends HttpServlet {
     final String suffix;
     final String path = patchKey.getFileName();
     try {
-      final RevWalk rw = new RevWalk(repo);
-      final RevCommit c;
-      final TreeWalk tw;
+      final ObjectReader reader = repo.newObjectReader();
+      try {
+        final RevWalk rw = new RevWalk(reader);
+        final RevCommit c;
+        final TreeWalk tw;
 
-      c = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
-      if (side == 0) {
-        fromCommit = c;
-        suffix = "new";
+        c = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
+        if (side == 0) {
+          fromCommit = c;
+          suffix = "new";
 
-      } else if (1 <= side && side - 1 < c.getParentCount()) {
-        fromCommit = rw.parseCommit(c.getParent(side - 1));
-        if (c.getParentCount() == 1) {
-          suffix = "old";
+        } else if (1 <= side && side - 1 < c.getParentCount()) {
+          fromCommit = rw.parseCommit(c.getParent(side - 1));
+          if (c.getParentCount() == 1) {
+            suffix = "old";
+          } else {
+            suffix = "old" + side;
+          }
+
         } else {
-          suffix = "old" + side;
+          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+          return;
         }
 
-      } else {
-        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-        return;
-      }
+        tw = TreeWalk.forPath(reader, path, fromCommit.getTree());
+        if (tw == null) {
+          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+          return;
+        }
 
-      tw = TreeWalk.forPath(repo, path, fromCommit.getTree());
-      if (tw == null) {
-        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-        return;
-      }
+        if (tw.getFileMode(0).getObjectType() == Constants.OBJ_BLOB) {
+          blobLoader = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
 
-      if (tw.getFileMode(0).getObjectType() == Constants.OBJ_BLOB) {
-        blobLoader = repo.open(tw.getObjectId(0), Constants.OBJ_BLOB);
-
-      } else {
-        rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        return;
+        } else {
+          rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+          return;
+        }
+      } finally {
+        reader.release();
       }
     } catch (IOException e) {
       getServletContext().log("Cannot read repository", e);

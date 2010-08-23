@@ -80,22 +80,26 @@ class IncludedInDetailFactory extends Handler<IncludedInDetail> {
         repoManager.openRepository(control.getProject().getName());
     try {
       final RevWalk rw = new RevWalk(repo);
-      rw.setRetainBody(false);
-
-      final RevCommit rev;
       try {
-        rev = rw.parseCommit(ObjectId.fromString(patch.getRevision().get()));
-      } catch (IncorrectObjectTypeException err) {
-        throw new InvalidRevisionException();
-      } catch (MissingObjectException err) {
-        throw new InvalidRevisionException();
+        rw.setRetainBody(false);
+
+        final RevCommit rev;
+        try {
+          rev = rw.parseCommit(ObjectId.fromString(patch.getRevision().get()));
+        } catch (IncorrectObjectTypeException err) {
+          throw new InvalidRevisionException();
+        } catch (MissingObjectException err) {
+          throw new InvalidRevisionException();
+        }
+
+        detail = new IncludedInDetail();
+        detail.setBranches(includedIn(repo, rw, rev, Constants.R_HEADS));
+        detail.setTags(includedIn(repo, rw, rev, Constants.R_TAGS));
+
+        return detail;
+      } finally {
+        rw.release();
       }
-
-      detail = new IncludedInDetail();
-      detail.setBranches(includedIn(repo, rw, rev, Constants.R_HEADS));
-      detail.setTags(includedIn(repo, rw, rev, Constants.R_TAGS));
-
-      return detail;
     } finally {
       repo.close();
     }

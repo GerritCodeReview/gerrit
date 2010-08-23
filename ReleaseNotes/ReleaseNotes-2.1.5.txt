@@ -8,11 +8,15 @@ link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.5.war[http
 This is primarly a bug fix release to 2.1.4, but some additional
 new features were included so its named 2.1.5 rather than 2.1.4.1.
 
-Schema Change
--------------
+Upgrade Instructions
+--------------------
 
-There is no change since 2.1.4 (however there is a change since
-2.1.3 and earlier).
+If upgrading from version 2.1.4, simply replace the WAR file in
+`'site_path'/bin/gerrit.war` and restart Gerrit.
+
+If upgrading from version 2.1.3 or earlier, stop Gerrit, use
+`java -jar gerrit.war init -d 'site_path'` to upgrade the schema,
+and restart Gerrit.
 
 New Features
 ------------

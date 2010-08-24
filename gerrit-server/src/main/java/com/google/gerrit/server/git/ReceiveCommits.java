@@ -55,6 +55,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -537,18 +538,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   }
 
   private void parseRewind(final ReceiveCommand cmd) {
-    final RevObject oldObject, newObject;
+    RevCommit newObject;
     try {
-      oldObject = rp.getRevWalk().parseAny(cmd.getOldId());
-    } catch (IOException err) {
-      log.error("Invalid object " + cmd.getOldId().name() + " for "
-          + cmd.getRefName() + " forced update", err);
-      reject(cmd, "invalid object");
-      return;
-    }
-
-    try {
-      newObject = rp.getRevWalk().parseAny(cmd.getNewId());
+      newObject = rp.getRevWalk().parseCommit(cmd.getNewId());
+    } catch (IncorrectObjectTypeException notCommit) {
+      newObject = null;
     } catch (IOException err) {
       log.error("Invalid object " + cmd.getNewId().name() + " for "
           + cmd.getRefName() + " forced update", err);
@@ -557,9 +551,14 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    if (oldObject instanceof RevCommit && newObject instanceof RevCommit
-        && ctl.canForceUpdate()) {
+    if (newObject != null) {
       validateNewCommits(ctl, cmd);
+      if (cmd.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED) {
+        return;
+      }
+    }
+
+    if (ctl.canForceUpdate()) {
       // Let the core receive process handle it
     } else {
       cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD);

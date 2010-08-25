@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA6X///tg\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T21:08:59Z",
+      "side": 1,
+      "message": "The uploadGroup reference should be inside of ProjectControl, not the servlet code.",
+      "revId": "7d99ad262feddeae586e6f53dce8afc67301aac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///tc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T21:08:59Z",
+      "side": 1,
+      "message": "The receiveGroup reference should be inside of ProjectControl, not the servlet.",
+      "revId": "7d99ad262feddeae586e6f53dce8afc67301aac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///tY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GitReceivePackGroupsProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T21:08:59Z",
+      "side": 1,
+      "message": "Don\u0027t add anonymous here.  We refuse to take packs from anonymous users, because we can\u0027t properly authorize them.",
+      "revId": "7d99ad262feddeae586e6f53dce8afc67301aac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///tU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GroupSetProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T21:08:59Z",
+      "side": 1,
+      "message": "Use AccountGroup.Id here",
+      "revId": "7d99ad262feddeae586e6f53dce8afc67301aac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4X///1c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T21:08:59Z",
+      "side": 1,
+      "message": "Unrelated reformatting change.",
+      "revId": "7d99ad262feddeae586e6f53dce8afc67301aac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4X///1Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T21:08:59Z",
+      "side": 1,
+      "message": "Unrelated reformatting change.",
+      "revId": "7d99ad262feddeae586e6f53dce8afc67301aac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA4X///1U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T21:08:59Z",
+      "side": 1,
+      "message": "Instead of taking the group list this should be two methods, one for each action, and have the group lists be provided via injection to the ProjectControl rather than the caller.\n\nThe whole idea of moving the decision logic here is to permit us to later modify how we decide what you can do.  Maybe it won\u0027t be group based in the future, maybe it will simply be based on the project name and the name of this server.  (\"Projects named india/* can only be cloned within india office.\")",
+      "revId": "7d99ad262feddeae586e6f53dce8afc67301aac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///tQ\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T21:08:59Z",
+      "side": 1,
+      "message": "The groups should be inside ProjectControl.",
+      "revId": "7d99ad262feddeae586e6f53dce8afc67301aac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///tM\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T21:08:59Z",
+      "side": 1,
+      "message": "The groups should be inside ProjectControl.",
+      "revId": "7d99ad262feddeae586e6f53dce8afc67301aac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

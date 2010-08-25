@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA6X///w4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T19:12:29Z",
+      "side": 1,
+      "message": "It might be wise to defer this until the DisclosurePanel is actually expanded by the user.  That way if they don\u0027t need the panel to track down the project name we aren\u0027t tieing up an RPC slot in their user agent to load a bunch of data they don\u0027t need.",
+      "revId": "25fce6e53b7307fbee694e7041efce00495ba6be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///xE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T19:12:29Z",
+      "side": 1,
+      "message": "Please don\u0027t assume this.  It isn\u0027t always true.\n\nDuring displayUnwatchedProjects() test to see if the p.getNameKey().equals(Gerrit.getConfig().getWildProject()).  If so, that\u0027s the \"fake -- all projects --\" you want to skip.",
+      "revId": "25fce6e53b7307fbee694e7041efce00495ba6be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///xA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T19:12:29Z",
+      "side": 1,
+      "message": "This isn\u0027t efficient in JavaScript.  The faster thing to do is:\n\n  HashSet\u003cProject.NameKey\u003e watched \u003d new HashSet\u003cProject.NameKey());\n  for (AccountProjectWatchInfo w : watchedProjects) {\n    watched.add(w.getProject().getNameKey());\n  }\n\n  List\u003cProject\u003e unwatched \u003d new ArrayList\u003cProject\u003e(allProjects.size());\n  for (Project p : allProjects) {\n    if (!watched.contains(p.getNameKey()) {\n      unwatched.add(p);\n    }\n  }",
+      "revId": "25fce6e53b7307fbee694e7041efce00495ba6be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///w0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T19:12:29Z",
+      "side": 1,
+      "message": "Since multiple deletes can occur at once, maybe we should do this after the for loop is over, but only if we actually performed a remove?",
+      "revId": "25fce6e53b7307fbee694e7041efce00495ba6be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

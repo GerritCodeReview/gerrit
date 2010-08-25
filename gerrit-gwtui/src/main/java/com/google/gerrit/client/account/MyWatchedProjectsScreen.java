@@ -45,6 +45,7 @@ import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MyWatchedProjectsScreen extends SettingsScreen {
   private WatchTable watches;
@@ -144,6 +145,12 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     add(delSel);
   }
 
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+    populateWatches();
+  }
+
   void doAddNew() {
     final String projectName = nameTxt.getText();
     if ("".equals(projectName)) {
@@ -182,16 +189,14 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
         });
   }
 
-  @Override
-  protected void onLoad() {
-    super.onLoad();
-    Util.ACCOUNT_SVC
-        .myProjectWatch(new ScreenLoadCallback<List<AccountProjectWatchInfo>>(
-            this) {
-          public void preDisplay(final List<AccountProjectWatchInfo> result) {
-            watches.display(result);
-          }
-        });
+  protected void populateWatches() {
+    Util.ACCOUNT_SVC.myProjectWatch(
+        new ScreenLoadCallback<List<AccountProjectWatchInfo>>(this) {
+      @Override
+      public void preDisplay(final List<AccountProjectWatchInfo> result) {
+        watches.display(result);
+      }
+    });
   }
 
   private class WatchTable extends FancyFlexTable<AccountProjectWatchInfo> {
@@ -220,7 +225,30 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     }
 
     void deleteChecked() {
-      final HashSet<AccountProjectWatch.Key> ids =
+      final Set<AccountProjectWatch.Key> ids = getCheckedIds();
+      if (!ids.isEmpty()) {
+        Util.ACCOUNT_SVC.deleteProjectWatches(ids,
+            new GerritCallback<VoidResult>() {
+              public void onSuccess(final VoidResult result) {
+                remove(ids);
+              }
+            });
+      }
+    }
+
+    void remove(Set<AccountProjectWatch.Key> ids) {
+      for (int row = 1; row < table.getRowCount();) {
+        final AccountProjectWatchInfo k = getRowItem(row);
+        if (k != null && ids.contains(k.getWatch().getKey())) {
+          table.removeRow(row);
+        } else {
+          row++;
+        }
+      }
+    }
+
+    Set<AccountProjectWatch.Key> getCheckedIds() {
+      final Set<AccountProjectWatch.Key> ids =
           new HashSet<AccountProjectWatch.Key>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final AccountProjectWatchInfo k = getRowItem(row);
@@ -228,21 +256,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
           ids.add(k.getWatch().getKey());
         }
       }
-      if (!ids.isEmpty()) {
-        Util.ACCOUNT_SVC.deleteProjectWatches(ids,
-            new GerritCallback<VoidResult>() {
-              public void onSuccess(final VoidResult result) {
-                for (int row = 1; row < table.getRowCount();) {
-                  final AccountProjectWatchInfo k = getRowItem(row);
-                  if (k != null && ids.contains(k.getWatch().getKey())) {
-                    table.removeRow(row);
-                  } else {
-                    row++;
-                  }
-                }
-              }
-            });
-      }
+      return ids;
     }
 
     void insertWatch(final AccountProjectWatchInfo k) {

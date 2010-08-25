@@ -20,6 +20,11 @@ import com.google.gwtorm.client.StringKey;
 
 /** An {@link Account} interested in a {@link Project}. */
 public final class AccountProjectWatch {
+
+  public enum Type {
+    NEW_CHANGES, SUBMITS, COMMENTS
+  }
+
   public static final String FILTER_ALL = "*";
 
   public static class Key extends CompoundKey<Account.Id> {
@@ -141,5 +146,25 @@ public final class AccountProjectWatch {
 
   public void setNotifySubmittedChanges(final boolean a) {
     notifySubmittedChanges = a;
+  }
+
+  public boolean isNotify(final Type type) {
+    switch(type) {
+      case NEW_CHANGES: return notifySubmittedChanges;
+      case SUBMITS:     return notifyNewChanges;
+      case COMMENTS:    return notifyAllComments;
+    }
+    return false;
+  }
+
+  public void setNotify(final Type type, final boolean v) {
+    switch(type) {
+      case NEW_CHANGES: notifySubmittedChanges = v;
+        break;
+      case SUBMITS:     notifyNewChanges = v;
+        break;
+      case COMMENTS:    notifyAllComments = v;
+        break;
+    }
   }
 }

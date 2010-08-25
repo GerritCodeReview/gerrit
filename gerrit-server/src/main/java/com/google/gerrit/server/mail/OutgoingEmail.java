@@ -344,32 +344,26 @@ public abstract class OutgoingEmail {
     velocityContext.put("StringUtils", StringUtils.class);
   }
 
-  protected String velocify(String tpl) throws EmailException {
+  protected String velocify(String template) throws EmailException {
     try {
       StringWriter w = new StringWriter();
-      Velocity.evaluate(velocityContext, w, "OutgoingEmail", tpl);
+      Velocity.evaluate(velocityContext, w, "OutgoingEmail", template);
       return w.toString();
     } catch(Exception e) {
-      throw new EmailException("Velocity template "+ tpl.toString(), e);
+      throw new EmailException("Velocity template " + template, e);
     }
   }
 
   protected String velocifyFile(String name) throws EmailException {
+    if (!Velocity.resourceExists(name)) {
+      name = "com/google/gerrit/server/mail/" + name;
+    }
     try {
       StringWriter w = new StringWriter();
-      Velocity.mergeTemplate(name, velocityContext, w);
+      Velocity.mergeTemplate(name, "UTF-8", velocityContext, w);
       return w.toString();
-    } catch(ResourceNotFoundException e) {
-      try {
-        StringWriter w = new StringWriter();
-        String pkg = "com/google/gerrit/server/mail/";
-        Velocity.mergeTemplate(pkg + name, velocityContext, w);
-        return w.toString();
-      } catch(Exception e2) {
-        throw new EmailException("Velocity WAR template" + name + ".\n", e2);
-      }
     } catch(Exception e) {
-      throw new EmailException("Velocity template " + name + ".\n", e);
+      throw new EmailException("Velocity WAR template " + name + ".\n", e);
     }
   }
 }

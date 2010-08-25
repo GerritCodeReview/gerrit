@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA6X///w8\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooter.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-08-25T19:20:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA6X///xg\u003d",
+      "revId": "4d25b9afcc8dc2cc0c382d03225a0256b6833d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA6X///xk\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooter.vm",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-08-25T18:56:40Z",
       "side": 1,
       "message": "Space after : ?  Also, I wouldn\u0027t call this Id.  I\u0027d write:\n\n  Gerrit-PatchSet: $patchSet.patchSetId",
+      "revId": "4d25b9afcc8dc2cc0c382d03225a0256b6833d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///ww\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeFooter.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-08-25T19:20:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA6X///xk\u003d",
       "revId": "4d25b9afcc8dc2cc0c382d03225a0256b6833d15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA6X///ws\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ReplacePatchSet.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-08-25T19:20:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA6X///xY\u003d",
+      "revId": "4d25b9afcc8dc2cc0c382d03225a0256b6833d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA6X///xU\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ReplacePatchSet.vm",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2010-08-25T18:56:40Z",
       "side": 1,
       "message": "Space between \"set(\" ?.\n\nAlso I\u0027m not sure we really need \"to this change for review\" here.  Maybe we should just drop that part.",
+      "revId": "4d25b9afcc8dc2cc0c382d03225a0256b6833d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///wo\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ReplacePatchSet.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-08-25T19:20:26Z",
+      "side": 1,
+      "message": "Done. One reason I was a bit wordy there was to attempt to make sure that this message does not get confused with the original change upload message.",
+      "parentUuid": "AAAA6X///xU\u003d",
       "revId": "4d25b9afcc8dc2cc0c382d03225a0256b6833d15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

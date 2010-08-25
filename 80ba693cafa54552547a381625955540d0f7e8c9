@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA6X///yo\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T18:39:33Z",
+      "side": 1,
+      "message": "Maybe we should assume this in the HintTextBox class?",
+      "revId": "80ba693cafa54552547a381625955540d0f7e8c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///yk\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T18:39:33Z",
+      "side": 1,
+      "message": "Assume it?",
+      "revId": "80ba693cafa54552547a381625955540d0f7e8c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///yg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T18:39:33Z",
+      "side": 1,
+      "message": "Assume it?",
+      "revId": "80ba693cafa54552547a381625955540d0f7e8c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///ys\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T18:39:33Z",
+      "side": 1,
+      "message": "Please rebase this since I just submitted your edit access right change.  :-)",
+      "revId": "80ba693cafa54552547a381625955540d0f7e8c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///yc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T18:39:33Z",
+      "side": 1,
+      "message": "Assume it?",
+      "revId": "80ba693cafa54552547a381625955540d0f7e8c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///yY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T18:39:33Z",
+      "side": 1,
+      "message": "Assume it?",
+      "revId": "80ba693cafa54552547a381625955540d0f7e8c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///yU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AddMemberBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T18:39:33Z",
+      "side": 1,
+      "message": "Assume it?",
+      "revId": "80ba693cafa54552547a381625955540d0f7e8c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///yM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/HintTextBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T18:39:33Z",
+      "side": 1,
+      "message": "I like the implementation approach.  Very clean.",
+      "revId": "80ba693cafa54552547a381625955540d0f7e8c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA6X///wQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T19:57:11Z",
+      "side": 1,
+      "message": "s/radio/checkbox/",
+      "revId": "ed77297882f630551c2c1c54e7e12fcda0bbbe11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///vY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T19:57:11Z",
+      "side": 1,
+      "message": "Please put these above the inner table class.  I try to keep instance members of the top level class above the inner classes that support it.",
+      "revId": "ed77297882f630551c2c1c54e7e12fcda0bbbe11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///vU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T19:57:11Z",
+      "side": 1,
+      "message": "I can\u0027t help but wonder if it would be better to just pass the whole AccountDiffPreferences object into the fileList, and register a ValueChangedListener on the settingsPanel to forward an updated diff preferences to the fileList.  Then we\u0027re not reaching into private UI state of one panel in order to pull out configuration for another.",
+      "revId": "ed77297882f630551c2c1c54e7e12fcda0bbbe11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///v4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T19:57:11Z",
+      "side": 1,
+      "message": "What is this for?",
+      "revId": "ed77297882f630551c2c1c54e7e12fcda0bbbe11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6X///wI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T19:57:11Z",
+      "side": 1,
+      "message": "You also need to set the value of skipDeleted and skipUncommented to match the input preference from the user.",
+      "revId": "ed77297882f630551c2c1c54e7e12fcda0bbbe11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

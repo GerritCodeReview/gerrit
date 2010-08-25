@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA6X///wA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-25T19:57:11Z",
+      "side": 0,
+      "message": "Please keep this line.",
+      "revId": "f855f399f8ce740e08ddc48c0694c1c076fa69dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

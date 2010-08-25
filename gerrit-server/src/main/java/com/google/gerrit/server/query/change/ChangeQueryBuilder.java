@@ -27,6 +27,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.query.IntPredicate;
@@ -75,6 +76,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_HAS = "has";
   public static final String FIELD_LABEL = "label";
   public static final String FIELD_LIMIT = "limit";
+  public static final String FIELD_MESSAGE = "message";
   public static final String FIELD_OWNER = "owner";
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_REF = "ref";
@@ -102,6 +104,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ApprovalTypes approvalTypes;
     final Project.NameKey wildProjectName;
     final PatchListCache patchListCache;
+    final GitRepositoryManager repoManager;
 
     @Inject
     Arguments(Provider<ReviewDb> dbProvider,
@@ -112,7 +115,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AccountResolver accountResolver, GroupCache groupCache,
         AuthConfig authConfig, ApprovalTypes approvalTypes,
         @WildProjectName Project.NameKey wildProjectName,
-        PatchListCache patchListCache) {
+        PatchListCache patchListCache,
+        GitRepositoryManager repoManager) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
@@ -124,6 +128,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.approvalTypes = approvalTypes;
       this.wildProjectName = wildProjectName;
       this.patchListCache = patchListCache;
+      this.repoManager = repoManager;
     }
   }
 
@@ -281,6 +286,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public Predicate<ChangeData> label(String name) {
     return new LabelPredicate(args.changeControlGenericFactory,
         args.userFactory, args.dbProvider, args.approvalTypes, name);
+  }
+
+  @Operator
+  public Predicate<ChangeData> message(String text) {
+    return new MessagePredicate(args.dbProvider, args.repoManager, text);
   }
 
   @Operator

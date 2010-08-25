@@ -130,6 +130,11 @@ Matches changes where the approval score 'VALUE' has been set during
 a review.  See <<labels,labels>> below for more detail on the format
 of the argument.
 
+[[message]]
+message:'MESSAGE'::
++
+Changes that matches 'MESSAGE' arbitrary string in body commit messages.
+
 [[file]]
 file:\^'REGEX'::
 +

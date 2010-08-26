@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA6X///o0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-08-26T12:29:42Z",
+      "side": 1,
+      "message": "I don\u0027t think that the wild project (\u0027-- All Projects  --\u0027) is unneeded. \nAt least with issue 535 [1] we explicitly allowed watching the wild project in order to enable e-mail notification for all projects.\nThis is why I think that the wild project should appear in the unwatched project list if it is not being watched yet.\n\n[1] http://code.google.com/p/gerrit/issues/detail?id\u003d535",
+      "parentUuid": "AAAA6X///xE\u003d",
+      "revId": "25fce6e53b7307fbee694e7041efce00495ba6be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA6X///xA\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
         "patchSetId": 1

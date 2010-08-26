@@ -350,7 +350,7 @@ class GitWebServlet extends HttpServlet {
       rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
       exec(req, rsp, project, repo);
     } finally {
-      repo.close();
+      repoManager.closeRepository(repo);
     }
   }
 

@@ -164,7 +164,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
         throw new NoSuchChangeException(changeId, e);
       }
     } finally {
-      git.close();
+      repoManager.closeRepository(git);
     }
   }
 

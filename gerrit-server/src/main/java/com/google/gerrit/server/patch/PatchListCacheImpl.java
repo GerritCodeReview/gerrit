@@ -184,7 +184,7 @@ public class PatchListCacheImpl implements PatchListCache {
       try {
         return readPatchList(key, repo);
       } finally {
-        repo.close();
+        repoManager.closeRepository(repo);
       }
     }
 

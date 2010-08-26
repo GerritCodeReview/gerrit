@@ -141,7 +141,7 @@ class PushOp implements ProjectRunnable {
 
     } finally {
       if (db != null) {
-        db.close();
+        repoManager.closeRepository(db);
       }
     }
   }

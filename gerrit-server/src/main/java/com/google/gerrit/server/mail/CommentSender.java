@@ -128,7 +128,7 @@ public class CommentSender extends ReplyToChangeSender {
       }
     } finally {
       if (repo != null) {
-        repo.close();
+        args.server.closeRepository(repo);
       }
     }
     return cmts.toString();

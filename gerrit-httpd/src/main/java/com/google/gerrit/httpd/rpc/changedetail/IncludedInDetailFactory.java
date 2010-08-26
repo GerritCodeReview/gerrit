@@ -101,7 +101,7 @@ class IncludedInDetailFactory extends Handler<IncludedInDetail> {
         rw.release();
       }
     } finally {
-      repo.close();
+      repoManager.closeRepository(repo);
     }
   }
 

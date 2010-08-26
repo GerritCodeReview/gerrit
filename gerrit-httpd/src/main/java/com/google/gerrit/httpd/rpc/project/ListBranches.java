@@ -136,7 +136,7 @@ class ListBranches extends Handler<ListBranchesResult> {
         }
       }
     } finally {
-      db.close();
+      repoManager.closeRepository(db);
     }
     Collections.sort(branches, new Comparator<BranchInfo>() {
       @Override

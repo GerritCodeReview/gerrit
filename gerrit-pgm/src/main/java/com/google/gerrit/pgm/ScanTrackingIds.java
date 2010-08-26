@@ -142,7 +142,7 @@ public class ScanTrackingIds extends SiteProgram {
       System.err.println("ERR Cannot scan " + change.getId() + ": "
           + error.getMessage());
     } finally {
-      git.close();
+      gitManager.closeRepository(git);
     }
   }
 

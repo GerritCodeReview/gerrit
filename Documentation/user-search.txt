@@ -145,7 +145,19 @@ file:\^'REGEX'::
 +
 Matches any change where REGEX matches a file that was affected
 by the change.  The regular expression pattern must start with
-'\^'.  For example, to match all XML files use `file:^.*\.xml$`.
+`\^`.  For example, to match all XML files use `file:^.*\.xml$`.
++
+The `\^` required at the beginning of the regular expression not only
+denotes a regular expression, but it also has the usual meaning of
+anchoring the match to the start of the string.  To match all Java
+files, use `file:^.*\.java`.
++
+The entire regular expression pattern, including the `\^` character,
+should be double quoted when using more complex construction (like
+ones using a bracket expression). For example, to match all XML
+files named like 'name1.xml', 'name2.xml', and 'name3.xml' use
+`\file:"\^name[1-3].xml"`.
++
 Currently this operator is only available on a watched project
 and may not be used in the search bar.
 

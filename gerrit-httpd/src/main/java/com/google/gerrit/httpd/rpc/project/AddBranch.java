@@ -151,7 +151,7 @@ class AddBranch extends Handler<ListBranchesResult> {
         throw err;
       }
     } finally {
-      repo.close();
+      repoManager.closeRepository(repo);
     }
 
     return listBranchesFactory.create(projectName).call();

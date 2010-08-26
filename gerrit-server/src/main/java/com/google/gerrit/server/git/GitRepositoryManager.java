@@ -34,7 +34,7 @@ public interface GitRepositoryManager {
    * Get (or open) a repository by name.
    *
    * @param name the repository name, relative to the base directory.
-   * @return the cached Repository instance. Caller must call {@code close()}
+   * @return the cached Repository instance. Caller must call {@code #closeRepository(Repository)}
    *         when done to decrement the resource handle.
    * @throws RepositoryNotFoundException the name does not denote an existing
    *         repository, or the name cannot be read as a repository.
@@ -46,13 +46,32 @@ public interface GitRepositoryManager {
    * Create (and open) a repository by name.
    *
    * @param name the repository name, relative to the base directory.
-   * @return the cached Repository instance. Caller must call {@code close()}
+   * @return the cached Repository instance. Caller must call {@code #closeRepository(Repository)}
    *         when done to decrement the resource handle.
    * @throws RepositoryNotFoundException the name does not denote an existing
    *         repository, or the name cannot be read as a repository.
    */
   public abstract Repository createRepository(String name)
       throws RepositoryNotFoundException;
+
+  /**
+   * Closes the given repository.
+   *
+   * @param repository the repository that should be closed
+   */
+  public abstract void closeRepository(Repository repo);
+
+  /**
+   * Renames the specified repository.
+   *
+   * @param name the name of the repository that should be renamed
+   * @param newName the new name for the repository
+   * @throws RepositoryNotFoundException the name does not denote an existing
+   *         repository, or the name or the new name cannot be read as a repository
+   * @throws RepositoryRenameException the renaming of the repository failed
+   */
+  public abstract void renameRepository(String name, String newName)
+      throws RepositoryNotFoundException, RepositoryRenameException;
 
   /**
    * Read the {@code GIT_DIR/description} file for gitweb.

@@ -124,7 +124,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
         }
       }
     } finally {
-      r.close();
+      repoManager.closeRepository(r);
     }
     return deleted;
   }

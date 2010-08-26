@@ -97,7 +97,7 @@ public class PatchSetInfoFactory {
         db.close();
       }
       if (repo != null) {
-        repo.close();
+        repoManager.closeRepository(repo);
       }
     }
   }

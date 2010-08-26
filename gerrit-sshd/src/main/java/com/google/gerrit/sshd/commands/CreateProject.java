@@ -151,7 +151,7 @@ final class CreateProject extends BaseCommand {
                 createEmptyCommit(repo, project, branch);
               }
             } finally {
-              repo.close();
+              repoManager.closeRepository(repo);
             }
           }
 

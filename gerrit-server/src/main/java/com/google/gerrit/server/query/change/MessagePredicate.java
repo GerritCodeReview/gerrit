@@ -106,7 +106,7 @@ public class MessagePredicate extends OperatorPredicate<ChangeData> {
           rw.release();
         }
       } finally {
-        repo.close();
+        repoManager.closeRepository(repo);
       }
     } catch (RepositoryNotFoundException e) {
       log.error("Repository \"" + projectName.get() + "\" unknown.", e);

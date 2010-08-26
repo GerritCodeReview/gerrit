@@ -208,7 +208,7 @@ public class MergeOp {
         rw.release();
       }
       if (db != null) {
-        db.close();
+        repoManager.closeRepository(db);
       }
       schema.close();
       schema = null;

@@ -103,7 +103,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
     try {
       runImpl();
     } finally {
-      repo.close();
+      repoManager.closeRepository(repo);
     }
   }
 

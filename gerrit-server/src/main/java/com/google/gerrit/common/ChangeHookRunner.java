@@ -471,7 +471,7 @@ public class ChangeHookRunner {
       if (hook.exists()) {
         hookQueue.execute(new HookTask(repo, hook, args));
       } else {
-        repo.close();
+        repoManager.closeRepository(repo);
       }
     }
   }
@@ -521,7 +521,7 @@ public class ChangeHookRunner {
       } catch (Throwable err) {
         log.error("Error running hook " + hook.getAbsolutePath(), err);
       } finally {
-        repo.close();
+        repoManager.closeRepository(repo);
       }
     }
 

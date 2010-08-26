@@ -56,7 +56,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.Commit;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -552,9 +552,9 @@ public class MergeOp {
       authorIdent = myIdent;
     }
 
-    final Commit mergeCommit = new Commit(db);
+    final CommitBuilder mergeCommit = new CommitBuilder();
     mergeCommit.setTreeId(m.getResultTreeId());
-    mergeCommit.setParentIds(new ObjectId[] {mergeTip, n});
+    mergeCommit.setParentIds(mergeTip, n);
     mergeCommit.setAuthor(authorIdent);
     mergeCommit.setCommitter(myIdent);
     mergeCommit.setMessage(msgbuf.toString());
@@ -793,9 +793,9 @@ public class MergeOp {
       log.error("Can't read approval records for " + n.patchsetId, e);
     }
 
-    final Commit mergeCommit = new Commit(db);
+    final CommitBuilder mergeCommit = new CommitBuilder();
     mergeCommit.setTreeId(m.getResultTreeId());
-    mergeCommit.setParentIds(new ObjectId[] {mergeTip});
+    mergeCommit.setParentId(mergeTip);
     mergeCommit.setAuthor(n.getAuthorIdent());
     mergeCommit.setCommitter(toCommitterIdent(submitAudit));
     mergeCommit.setMessage(msgbuf.toString());
@@ -810,11 +810,11 @@ public class MergeOp {
     setRefLogIdent(submitAudit);
   }
 
-  private ObjectId commit(final Merger m, final Commit mergeCommit)
+  private ObjectId commit(final Merger m, final CommitBuilder mergeCommit)
       throws IOException, UnsupportedEncodingException {
     ObjectInserter oi = m.getObjectInserter();
     try {
-      ObjectId id = oi.insert(Constants.OBJ_COMMIT, oi.format(mergeCommit));
+      ObjectId id = oi.insert(mergeCommit);
       oi.flush();
       return id;
     } finally {

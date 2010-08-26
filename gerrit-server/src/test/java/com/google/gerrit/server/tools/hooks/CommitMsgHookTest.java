@@ -19,7 +19,7 @@ import com.google.gerrit.server.util.HostPlatform;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
-import org.eclipse.jgit.lib.Commit;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -401,12 +401,12 @@ public class CommitMsgHookTest extends HookTestCase {
   private void setHEAD() throws Exception {
     final ObjectInserter oi = repository.newObjectInserter();
     try {
-      final Commit commit = new Commit(repository);
-      commit.setTreeId(DirCache.newInCore().writeTree(oi));
+      final CommitBuilder commit = new CommitBuilder();
+      commit.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
       commit.setAuthor(author);
       commit.setCommitter(committer);
       commit.setMessage("test\n");
-      ObjectId commitId = oi.insert(Constants.OBJ_COMMIT, oi.format(commit));
+      ObjectId commitId = oi.insert(commit);
 
       final RefUpdate ref = repository.updateRef(Constants.HEAD);
       ref.setNewObjectId(commitId);

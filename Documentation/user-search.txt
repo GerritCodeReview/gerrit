@@ -136,6 +136,18 @@ file:\^'REGEX'::
 Matches any change where REGEX matches a file that was affected
 by the change.  The regular expression pattern must start with
 '\^'.  For example, to match all XML files use `file:^.*\.xml$`.
+
+The entire regular expression pattern, including the '\^' character,
+should be double quoted when using more complex construction (like
+ones using a bracket expression). For example, to match all XML
+files named like 'file1.xml', 'file2.xml', and
+'file3.xml' use 'file:"^file[1-3].xml"'.
+
+The '\^' is required in the beginning of regular expression
+also as part of regular expression pattern, not only to indicate
+it. For example, to match all XML files with name not ending
+with a number character use 'file:"^.*[^0-9].xml"'.
+
 Currently this operator is only available on a watched project
 and may not be used in the search bar.
 

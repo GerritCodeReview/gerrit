@@ -243,6 +243,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
       popingUp = false;
     }
   }
+
   protected void closePopup() {
     popup.hide();
   }

@@ -32,6 +32,7 @@ public class ProjectsTable extends NavigationTable<Project> {
     setSavePointerId(PageLinks.SETTINGS_PROJECTS);
     keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.projectListPrev()));
     keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.projectListNext()));
+    keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.projectListOpen()));
     keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
                                                   Util.C.projectListOpen()));
 

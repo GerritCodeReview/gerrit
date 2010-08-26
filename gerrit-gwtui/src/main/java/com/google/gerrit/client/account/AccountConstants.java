@@ -81,6 +81,12 @@ public interface AccountConstants extends Constants {
   String buttonWatchProject();
   String defaultProjectName();
   String defaultFilter();
+  String unwatchedProjects();
+  String unwatchedProjectName();
+  String unwatchedProjectDescription();
+  String unwatchedProjectListOpen();
+  String unwatchedProjectListPrev();
+  String unwatchedProjectListNext();
   String watchedProjectName();
   String watchedProjectFilter();
   String watchedProjectColumnEmailNotifications();

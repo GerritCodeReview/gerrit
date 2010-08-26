@@ -57,8 +57,10 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -1067,7 +1069,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
             reject(request.cmd, "no changes made");
             return null;
           } else {
-            rp.sendMessage("(W) " + c.abbreviate(repo, 6).name() + ":" //
+            ObjectReader reader = rp.getRevWalk().getObjectReader();
+            rp.sendMessage("(W) " + reader.abbreviate(c).name() + ":" //
                 + " no files changed, but" //
                 + (!messageEq ? " message updated" : "") //
                 + (!messageEq && !parentsEq ? " and" : "") //
@@ -1405,8 +1408,15 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   }
 
   private void warnMalformedMessage(RevCommit c) {
+    ObjectReader reader = rp.getRevWalk().getObjectReader();
     if (65 < c.getShortMessage().length()) {
-      rp.sendMessage("(W) " + c.abbreviate(repo, 6).name()
+      AbbreviatedObjectId id;
+      try {
+        id = reader.abbreviate(c);
+      } catch (IOException err) {
+        id = c.abbreviate(6);
+      }
+      rp.sendMessage("(W) " + id.name() //
           + ": commit subject >65 characters; use shorter first paragraph");
     }
 
@@ -1421,7 +1431,13 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     if (0 < longLineCnt && 33 < longLineCnt * 100 / nonEmptyCnt) {
-      rp.sendMessage("(W) " + c.abbreviate(repo, 6).name()
+      AbbreviatedObjectId id;
+      try {
+        id = reader.abbreviate(c);
+      } catch (IOException err) {
+        id = c.abbreviate(6);
+      }
+      rp.sendMessage("(W) " + id.name() //
           + ": commit message lines >70 characters; manually wrap lines");
     }
   }

@@ -63,7 +63,7 @@ public class Text extends RawText {
         RevCommit p = c.getParent(0);
         rw.parseBody(p);
         b.append("Parent:     ");
-        b.append(p.abbreviate(db, 8).name());
+        b.append(reader.abbreviate(p, 8).name());
         b.append(" (");
         b.append(p.getShortMessage());
         b.append(")\n");
@@ -74,7 +74,7 @@ public class Text extends RawText {
           RevCommit p = c.getParent(i);
           rw.parseBody(p);
           b.append(i == 0 ? "Merge Of:   " : "            ");
-          b.append(p.abbreviate(db, 8).name());
+          b.append(reader.abbreviate(p, 8).name());
           b.append(" (");
           b.append(p.getShortMessage());
           b.append(")\n");

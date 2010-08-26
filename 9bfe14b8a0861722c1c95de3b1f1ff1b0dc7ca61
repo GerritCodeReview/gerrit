@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA6X///rY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-26T00:27:47Z",
+      "side": 1,
+      "message": "This isn\u0027t necessary, git knows what you changed.",
+      "revId": "9bfe14b8a0861722c1c95de3b1f1ff1b0dc7ca61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

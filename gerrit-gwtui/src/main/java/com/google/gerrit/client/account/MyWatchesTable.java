@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwtjsonrpc.client.VoidResult;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -72,15 +73,21 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
     }
   }
 
-  protected void remove(Set<AccountProjectWatch.Key> ids) {
+  protected List<AccountProjectWatchInfo> remove(
+      Set<AccountProjectWatch.Key> ids) {
+    List<AccountProjectWatchInfo> removed =
+      new ArrayList<AccountProjectWatchInfo>(ids.size());
+
     for (int row = 1; row < table.getRowCount();) {
       final AccountProjectWatchInfo k = getRowItem(row);
       if (k != null && ids.contains(k.getWatch().getKey())) {
         table.removeRow(row);
+        removed.add(k);
       } else {
         row++;
       }
     }
+    return removed;
   }
 
   protected Set<AccountProjectWatch.Key> getCheckedIds() {

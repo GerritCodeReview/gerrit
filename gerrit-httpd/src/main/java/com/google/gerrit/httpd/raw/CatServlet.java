@@ -218,7 +218,7 @@ public class CatServlet extends HttpServlet {
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;
     } finally {
-      repo.close();
+      repoManager.closeRepository(repo);
     }
 
     final byte[] raw =

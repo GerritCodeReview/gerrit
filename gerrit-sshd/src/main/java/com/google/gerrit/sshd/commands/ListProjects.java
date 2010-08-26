@@ -174,7 +174,7 @@ final class ListProjects extends BaseCommand {
       try {
         return r.getRef(showBranch);
       } finally {
-        r.close();
+        repoManager.closeRepository(r);
       }
     } catch (IOException ioe) {
       return null;

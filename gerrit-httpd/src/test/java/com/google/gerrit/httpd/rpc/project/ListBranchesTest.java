@@ -145,7 +145,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
       assumeVisible(ref, true);
     }
 
-    mockDb.close();
+    grm.closeRepository(mockDb);
 
     expect(pc.canAddRefs()).andReturn(true);
 
@@ -278,7 +278,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
       assumeVisible(ref, true);
     }
     expect(pc.canAddRefs()).andReturn(true);
-    mockDb.close();
+    grm.closeRepository(mockDb);
     expectLastCall();
 
     doReplay();
@@ -306,7 +306,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     assumeVisible(bar, false);
     assumeVisible(bar, false);
     expect(pc.canAddRefs()).andReturn(true);
-    mockDb.close();
+    grm.closeRepository(mockDb);
     expectLastCall();
 
     doReplay();
@@ -335,7 +335,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     assumeVisible(bar, true);
     assumeVisible(foo, false);
     expect(pc.canAddRefs()).andReturn(true);
-    mockDb.close();
+    grm.closeRepository(mockDb);
     expectLastCall();
 
     doReplay();

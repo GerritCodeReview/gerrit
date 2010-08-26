@@ -122,7 +122,7 @@ final class CreateProject extends BaseCommand {
 
               rq.replicateNewProject(new Project.NameKey(projectName), branch);
             } finally {
-              repo.close();
+              repoManager.closeRepository(repo);
             }
           }
 

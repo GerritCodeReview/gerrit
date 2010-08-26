@@ -49,12 +49,11 @@ import java.util.List;
 import java.util.Set;
 
 public class MyWatchedProjectsScreen extends SettingsScreen {
-  private WatchTable watches;
-
   private Button addNew;
   private HintTextBox nameBox;
   private SuggestBox nameTxt;
   private HintTextBox filterTxt;
+  private WatchTable watchesTab;
   private Button delSel;
   private boolean submitOnSelection;
 
@@ -62,89 +61,91 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
   protected void onInitUI() {
     super.onInitUI();
 
-    {
-      nameBox = new HintTextBox();
-      nameTxt = new SuggestBox(new RPCSuggestOracle(
-          new ProjectNameSuggestOracle()), nameBox);
-      nameBox.setVisibleLength(50);
-      nameBox.setHintText(Util.C.defaultProjectName());
-      nameBox.addKeyPressHandler(new KeyPressHandler() {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
+    createWidgets();
+
+    final Grid grid = new Grid(2, 2);
+    grid.setStyleName(Gerrit.RESOURCES.css().infoBlock());
+    grid.setText(0, 0, Util.C.watchedProjectName());
+    grid.setWidget(0, 1, nameTxt);
+
+    grid.setText(1, 0, Util.C.watchedProjectFilter());
+    grid.setWidget(1, 1, filterTxt);
+
+    final CellFormatter fmt = grid.getCellFormatter();
+    fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
+    fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
+    fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().header());
+    fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().header());
+    fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().bottomheader());
+
+    final FlowPanel fp = new FlowPanel();
+    fp.setStyleName(Gerrit.RESOURCES.css().addWatchPanel());
+    fp.add(grid);
+    fp.add(addNew);
+    add(fp);
+
+    add(watchesTab);
+    add(delSel);
+  }
+
+  protected void createWidgets() {
+    nameBox = new HintTextBox();
+    nameTxt = new SuggestBox(new ProjectNameSuggestOracle(), nameBox);
+    nameBox.setVisibleLength(50);
+    nameBox.setHintText(Util.C.defaultProjectName());
+    nameBox.addKeyPressHandler(new KeyPressHandler() {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        submitOnSelection = false;
+
+        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+          if (nameTxt.isSuggestionListShowing()) {
+            submitOnSelection = true;
+          } else {
+            doAddNew();
+          }
+        }
+      }
+    });
+    nameTxt.addSelectionHandler(new SelectionHandler<Suggestion>() {
+      @Override
+      public void onSelection(SelectionEvent<Suggestion> event) {
+        if (submitOnSelection) {
           submitOnSelection = false;
-
-          if (event.getCharCode() == KeyCodes.KEY_ENTER) {
-            if (nameTxt.isSuggestionListShowing()) {
-              submitOnSelection = true;
-            } else {
-              doAddNew();
-            }
-          }
-        }
-      });
-      nameTxt.addSelectionHandler(new SelectionHandler<Suggestion>() {
-        @Override
-        public void onSelection(SelectionEvent<Suggestion> event) {
-          if (submitOnSelection) {
-            submitOnSelection = false;
-            doAddNew();
-          }
-        }
-      });
-
-      filterTxt = new HintTextBox();
-      filterTxt.setVisibleLength(50);
-      filterTxt.setHintText(Util.C.defaultFilter());
-      filterTxt.addKeyPressHandler(new KeyPressHandler() {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
-          if (event.getCharCode() == KeyCodes.KEY_ENTER) {
-            doAddNew();
-          }
-        }
-      });
-
-      addNew = new Button(Util.C.buttonWatchProject());
-      addNew.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(final ClickEvent event) {
           doAddNew();
         }
-      });
+      }
+    });
 
-      final Grid grid = new Grid(2, 2);
-      grid.setStyleName(Gerrit.RESOURCES.css().infoBlock());
-      grid.setText(0, 0, Util.C.watchedProjectName());
-      grid.setWidget(0, 1, nameTxt);
+    filterTxt = new HintTextBox();
+    filterTxt.setVisibleLength(50);
+    filterTxt.setHintText(Util.C.defaultFilter());
+    filterTxt.addKeyPressHandler(new KeyPressHandler() {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+          doAddNew();
+        }
+      }
+    });
 
-      grid.setText(1, 0, Util.C.watchedProjectFilter());
-      grid.setWidget(1, 1, filterTxt);
+    addNew = new Button(Util.C.buttonWatchProject());
+    addNew.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        doAddNew();
+      }
+    });
 
-      final CellFormatter fmt = grid.getCellFormatter();
-      fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
-      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
-      fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().header());
-      fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().header());
-      fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().bottomheader());
-
-      final FlowPanel fp = new FlowPanel();
-      fp.setStyleName(Gerrit.RESOURCES.css().addWatchPanel());
-      fp.add(grid);
-      fp.add(addNew);
-      add(fp);
-    }
-
-    watches = new WatchTable();
-    add(watches);
+    watchesTab = new WatchTable();
 
     delSel = new Button(Util.C.buttonDeleteSshKey());
     delSel.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
-        watches.deleteChecked();
+        watchesTab.deleteChecked();
       }
     });
-    add(delSel);
   }
 
   @Override
@@ -177,7 +178,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
             filterTxt.setEnabled(true);
 
             nameTxt.setText("");
-            watches.insertWatch(result);
+            watchesTab.insertWatch(result);
           }
 
           @Override
@@ -196,7 +197,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
         new ScreenLoadCallback<List<AccountProjectWatchInfo>>(this) {
       @Override
       public void preDisplay(final List<AccountProjectWatchInfo> result) {
-        watches.display(result);
+        watchesTab.display(result);
       }
     });
   }

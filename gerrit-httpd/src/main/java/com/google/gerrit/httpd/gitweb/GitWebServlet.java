@@ -344,11 +344,14 @@ class GitWebServlet extends HttpServlet {
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;
     }
-
-    rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
-    rsp.setHeader("Pragma", "no-cache");
-    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
-    exec(req, rsp, project, repo);
+    try {
+      rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
+      rsp.setHeader("Pragma", "no-cache");
+      rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
+      exec(req, rsp, project, repo);
+    } finally {
+      repo.close();
+    }
   }
 
   private static Map<String, String> getParameters(final HttpServletRequest req)

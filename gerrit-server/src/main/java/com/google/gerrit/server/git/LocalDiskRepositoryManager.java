@@ -135,25 +135,29 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   public String getProjectDescription(final String name)
       throws RepositoryNotFoundException, IOException {
     final Repository e = openRepository(name);
-    final File d = new File(e.getDirectory(), "description");
-
-    String description;
     try {
-      description = RawParseUtils.decode(IO.readFully(d));
-    } catch (FileNotFoundException err) {
-      return null;
-    }
+      final File d = new File(e.getDirectory(), "description");
 
-    if (description != null) {
-      description = description.trim();
-      if (description.isEmpty()) {
-        description = null;
+      String description;
+      try {
+        description = RawParseUtils.decode(IO.readFully(d));
+      } catch (FileNotFoundException err) {
+        return null;
       }
-      if (UNNAMED.equals(description)) {
-        description = null;
+
+      if (description != null) {
+        description = description.trim();
+        if (description.isEmpty()) {
+          description = null;
+        }
+        if (UNNAMED.equals(description)) {
+          description = null;
+        }
       }
+      return description;
+    } finally {
+      e.close();
     }
-    return description;
   }
 
   public void setProjectDescription(final String name, final String description) {
@@ -164,21 +168,24 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       final LockFile f;
 
       e = openRepository(name);
-      f = new LockFile(new File(e.getDirectory(), "description"), FS.DETECTED);
-      if (f.lock()) {
-        String d = description;
-        if (d != null) {
-          d = d.trim();
-          if (d.length() > 0) {
-            d += "\n";
+      try {
+        f = new LockFile(new File(e.getDirectory(), "description"), FS.DETECTED);
+        if (f.lock()) {
+          String d = description;
+          if (d != null) {
+            d = d.trim();
+            if (d.length() > 0) {
+              d += "\n";
+            }
+          } else {
+            d = "";
           }
-        } else {
-          d = "";
+          f.write(Constants.encode(d));
+          f.commit();
         }
-        f.write(Constants.encode(d));
-        f.commit();
+      } finally {
+        e.close();
       }
-      e.close();
     } catch (RepositoryNotFoundException e) {
       log.error("Cannot update description for " + name, e);
     } catch (IOException e) {

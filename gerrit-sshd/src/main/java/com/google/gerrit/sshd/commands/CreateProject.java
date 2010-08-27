@@ -105,17 +105,21 @@ final class CreateProject extends BaseCommand {
           validateParameters();
 
           Repository repo = repoManager.createRepository(projectName);
-          repo.create(true);
+          try {
+            repo.create(true);
 
-          RefUpdate u = repo.updateRef(Constants.HEAD);
-          u.disableRefLog();
-          u.link(branch);
+            RefUpdate u = repo.updateRef(Constants.HEAD);
+            u.disableRefLog();
+            u.link(branch);
 
-          repoManager.setProjectDescription(projectName, projectDescription);
+            repoManager.setProjectDescription(projectName, projectDescription);
 
-          createProject();
+            createProject();
 
-          rq.replicateNewProject(new Project.NameKey(projectName), branch);
+            rq.replicateNewProject(new Project.NameKey(projectName), branch);
+          } finally {
+            repo.close();
+          }
         } catch (Exception e) {
           p.print("Error when trying to create project: " + e.getMessage()
               + "\n");

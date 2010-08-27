@@ -87,8 +87,9 @@ Changes where 'SHA1' is one of the patch sets of the change.
 [[project]]
 project:'PROJECT'::
 +
-Changes occuring in 'PROJECT'.  If 'PROJECT' starts with `^` it
-matches project names by regular expression.
+Changes occuring in 'PROJECT'.
+If no project matches 'PROJECT' exactly, search for changes
+whose project name contains 'PROJECT' as substring.
 
 [[branch]]
 branch:'BRANCH'::

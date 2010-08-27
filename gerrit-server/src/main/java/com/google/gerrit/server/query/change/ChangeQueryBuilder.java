@@ -30,6 +30,8 @@ import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
@@ -105,6 +107,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Project.NameKey wildProjectName;
     final PatchListCache patchListCache;
     final GitRepositoryManager repoManager;
+    final ProjectControl.Factory projectControlFactory;
 
     @Inject
     Arguments(Provider<ReviewDb> dbProvider,
@@ -116,7 +119,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AuthConfig authConfig, ApprovalTypes approvalTypes,
         @WildProjectName Project.NameKey wildProjectName,
         PatchListCache patchListCache,
-        GitRepositoryManager repoManager) {
+        GitRepositoryManager repoManager,
+        ProjectControl.Factory projectControlFactory) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
@@ -129,6 +133,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.wildProjectName = wildProjectName;
       this.patchListCache = patchListCache;
       this.repoManager = repoManager;
+      this.projectControlFactory = projectControlFactory;
     }
   }
 
@@ -242,9 +247,29 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> project(String name) {
-    if (name.startsWith("^"))
-      return new RegexProjectPredicate(args.dbProvider, name);
+  public Predicate<ChangeData> project(String name) throws OrmException {
+    // Verifies if "name" project exists.
+    // If so, try to match, otherwise search for projects that contain string
+    // "name" as substring.
+    try {
+      final ProjectControl projectControl =
+          args.projectControlFactory.controlFor(new Project.NameKey(name));
+    } catch (NoSuchProjectException e) {
+      final List<ProjectPredicate> predicate = new ArrayList<ProjectPredicate>();
+      for (final Project p : args.dbProvider.get().projects().all()) {
+        if (p.getName().toLowerCase().contains(name.toLowerCase())) {
+          predicate.add(new ProjectPredicate(args.dbProvider, p.getName()));
+        }
+      }
+      // If two or more projects contains "name" as substring create an
+      // OrPredicate holding predicates for all these projects, otherwise if
+      // only one contains that, return only that one predicate by itself.
+      if (predicate.size() == 1) {
+        return predicate.get(0);
+      } else if (predicate.size() > 1) {
+        return Predicate.or(predicate);
+      }
+    }
     return new ProjectPredicate(args.dbProvider, name);
   }
 

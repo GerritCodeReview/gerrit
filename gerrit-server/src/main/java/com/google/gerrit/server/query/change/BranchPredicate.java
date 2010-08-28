@@ -28,7 +28,7 @@ class BranchPredicate extends OperatorPredicate<ChangeData> {
   BranchPredicate(Provider<ReviewDb> dbProvider, String branch) {
     super(ChangeQueryBuilder.FIELD_BRANCH, branch);
     this.dbProvider = dbProvider;
-    this.shortName = new Branch.NameKey(null, branch).getShortName();
+    this.shortName = branch;
   }
 
   @Override
@@ -37,7 +37,8 @@ class BranchPredicate extends OperatorPredicate<ChangeData> {
     if (change == null) {
       return false;
     }
-    return shortName.equals(change.getDest().getShortName());
+    return change.getDest().get().startsWith(Branch.R_HEADS)
+        && shortName.equals(change.getDest().getShortName());
   }
 
   @Override

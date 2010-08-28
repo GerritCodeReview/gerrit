@@ -55,6 +55,9 @@ final class CreateProject extends BaseCommand {
   @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "parent project")
   private ProjectControl newParent;
 
+  @Option(name = "--permissions-only", usage = "create project for use only as parent")
+  private boolean permissionsOnly;
+
   @Option(name = "--description", aliases = {"-d"}, metaVar = "DESC", usage = "description of project")
   private String projectDescription = "";
 
@@ -104,21 +107,28 @@ final class CreateProject extends BaseCommand {
         try {
           validateParameters();
 
-          Repository repo = repoManager.createRepository(projectName);
-          try {
-            repo.create(true);
+          if (!permissionsOnly) {
+            Repository repo = repoManager.createRepository(projectName);
+            try {
+              repo.create(true);
 
-            RefUpdate u = repo.updateRef(Constants.HEAD);
-            u.disableRefLog();
-            u.link(branch);
+              RefUpdate u = repo.updateRef(Constants.HEAD);
+              u.disableRefLog();
+              u.link(branch);
 
-            repoManager.setProjectDescription(projectName, projectDescription);
+              repoManager
+                  .setProjectDescription(projectName, projectDescription);
 
-            createProject();
+              rq.replicateNewProject(new Project.NameKey(projectName), branch);
+            } finally {
+              repo.close();
+            }
+          }
 
+          createProject();
+
+          if (!permissionsOnly) {
             rq.replicateNewProject(new Project.NameKey(projectName), branch);
-          } finally {
-            repo.close();
           }
         } catch (Exception e) {
           p.print("Error when trying to create project: " + e.getMessage()

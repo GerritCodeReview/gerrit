@@ -17,7 +17,6 @@ package com.google.gerrit.server;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -47,13 +46,7 @@ public class ReplicationUser extends CurrentUser {
       effectiveGroups = EVERYTHING_VISIBLE;
 
     } else if (authGroups.isEmpty()) {
-      // Only include the registered groups if no specific groups
-      // were provided. This allows an administrator to configure
-      // a replication user with a narrower view of the system than
-      // all other users, such as when replicating from an internal
-      // company server to a public open source distribution site.
-      //
-      effectiveGroups = authConfig.getRegisteredGroups();
+      effectiveGroups = Collections.emptySet();
 
     } else {
       effectiveGroups = copy(authGroups);

@@ -30,6 +30,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 class NavLinks extends Composite {
+  private final Change.Id changeId;
   private final KeyCommandSet keys;
   private final Grid table;
 
@@ -40,6 +41,7 @@ class NavLinks extends Composite {
   private KeyCommand nextKey;
 
   NavLinks(KeyCommandSet kcs, Change.Id forChange) {
+    changeId = forChange;
     keys = kcs;
     table = new Grid(1, 3);
     initWidget(table);
@@ -50,12 +52,22 @@ class NavLinks extends Composite {
     fmt.setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_CENTER);
     fmt.setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 
-    final ChangeLink up = new ChangeLink("", forChange);
+    final ChangeLink up = new ChangeLink("", changeId);
     SafeHtml.set(up, SafeHtml.asis(Util.C.upToChangeIconLink()));
     table.setWidget(0, 1, up);
   }
 
   void display(int patchIndex, PatchScreen.Type type, PatchTable fileList) {
+    if (keys != null && prevKey != null) {
+      keys.remove(prevKey);
+      prevKey = null;
+    }
+
+    if (keys != null && nextKey != null) {
+      keys.remove(nextKey);
+      nextKey = null;
+    }
+
     if (fileList != null) {
       prev = fileList.getPreviousPatchLink(patchIndex, type);
       next = fileList.getNextPatchLink(patchIndex, type);
@@ -65,7 +77,7 @@ class NavLinks extends Composite {
     }
 
     if (prev != null) {
-      if (keys != null && prevKey == null) {
+      if (keys != null) {
         prevKey = new KeyCommand(0, '[', PatchUtil.C.previousFileHelp()) {
           @Override
           public void onKeyPress(KeyPressEvent event) {
@@ -76,15 +88,15 @@ class NavLinks extends Composite {
       }
       table.setWidget(0, 0, prev);
     } else {
-      if (keys != null && prevKey != null) {
-        keys.remove(prevKey);
-        prevKey = null;
+      if (keys != null) {
+        prevKey = new UpToChangeCommand(changeId, 0, '[');
+        keys.add(prevKey);
       }
       table.clearCell(0, 0);
     }
 
     if (next != null) {
-      if (keys != null && nextKey == null) {
+      if (keys != null) {
         nextKey = new KeyCommand(0, ']', PatchUtil.C.nextFileHelp()) {
           @Override
           public void onKeyPress(KeyPressEvent event) {
@@ -95,9 +107,9 @@ class NavLinks extends Composite {
       }
       table.setWidget(0, 2, next);
     } else {
-      if (keys != null && nextKey != null) {
-        keys.remove(nextKey);
-        nextKey = null;
+      if (keys != null) {
+        nextKey = new UpToChangeCommand(changeId, 0, ']');
+        keys.add(nextKey);
       }
       table.clearCell(0, 2);
     }

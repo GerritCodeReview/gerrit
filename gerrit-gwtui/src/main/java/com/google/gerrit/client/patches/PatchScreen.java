@@ -17,15 +17,12 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.RpcStatus;
-import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CommitMessageBlock;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
@@ -246,8 +243,9 @@ public abstract class PatchScreen extends Screen implements
   protected void onInitUI() {
     super.onInitUI();
 
+    final Change.Id ck = patchKey.getParentKey().getParentKey();
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    keysNavigation.add(new UpToChangeCommand(0, 'u', PatchUtil.C.upToChange()));
+    keysNavigation.add(new UpToChangeCommand(ck, 0, 'u'));
     keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));
 
     historyTable = new HistoryTable(this);
@@ -465,18 +463,6 @@ public abstract class PatchScreen extends Screen implements
   public void setSideB(PatchSet.Id patchSetId) {
     idSideB = patchSetId;
     diffSideB = patchSetId;
-  }
-
-  public class UpToChangeCommand extends KeyCommand {
-    public UpToChangeCommand(int mask, int key, String help) {
-      super(mask, key, help);
-    }
-
-    @Override
-    public void onKeyPress(final KeyPressEvent event) {
-      final Change.Id ck = patchKey.getParentKey().getParentKey();
-      Gerrit.display(PageLinks.toChange(ck), new ChangeScreen(ck));
-    }
   }
 
   public class FileListCmd extends KeyCommand {

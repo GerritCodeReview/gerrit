@@ -142,12 +142,6 @@ public abstract class PatchScreen extends Screen implements
   private KeyCommandSet keysNavigation;
   private HandlerRegistration regNavigation;
 
-  /** Link to the screen for the previous file, null if not applicable */
-  private InlineHyperlink previousFileLink;
-
-  /** Link to the screen for the next file, null if not applicable */
-  private InlineHyperlink nextFileLink;
-
   /**
    * How this patch should be displayed in the patch screen.
    */

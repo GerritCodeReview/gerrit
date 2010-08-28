@@ -107,7 +107,7 @@ public class RefControlTest extends TestCase {
     local.add(grant(READ, registered, "-refs/heads/foobar", 1, 1));
 
     ProjectControl u = user();
-    assertTrue("can upload", u.canUploadToAtLeastOneRef());
+    assertTrue("can upload", u.canPushToAtLeastOneRef());
 
     assertTrue("can upload refs/heads/master", //
         u.controlForRef("refs/heads/master").canUpload());
@@ -121,7 +121,7 @@ public class RefControlTest extends TestCase {
     local.add(grant(READ, registered, "refs/heads/foobar", 1, 1));
 
     ProjectControl u = user();
-    assertTrue("can upload", u.canUploadToAtLeastOneRef());
+    assertTrue("can upload", u.canPushToAtLeastOneRef());
 
     assertTrue("can upload refs/heads/master", //
         u.controlForRef("refs/heads/master").canUpload());
@@ -135,7 +135,7 @@ public class RefControlTest extends TestCase {
     local.add(grant(READ, devs, "refs/heads/*",1,2));
 
     ProjectControl u = user();
-    assertFalse("cannot upload", u.canUploadToAtLeastOneRef());
+    assertFalse("cannot upload", u.canPushToAtLeastOneRef());
     assertFalse("cannot upload refs/heads/master", //
         u.controlForRef("refs/heads/master").canUpload());
   }

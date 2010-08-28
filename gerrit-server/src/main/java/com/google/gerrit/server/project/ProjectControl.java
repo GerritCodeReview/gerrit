@@ -185,8 +185,10 @@ public class ProjectControl {
   }
 
   /** @return true if the user can upload to at least one reference */
-  public boolean canUploadToAtLeastOneRef() {
-    return canPerformOnAnyRef(ApprovalCategory.READ, (short) 2);
+  public boolean canPushToAtLeastOneRef() {
+    return canPerformOnAnyRef(ApprovalCategory.READ, (short) 2)
+        || canPerformOnAnyRef(ApprovalCategory.PUSH_HEAD, (short) 1)
+        || canPerformOnAnyRef(ApprovalCategory.PUSH_TAG, (short) 1);
   }
 
   private boolean canPerformOnAnyRef(ApprovalCategory.Id actionId,

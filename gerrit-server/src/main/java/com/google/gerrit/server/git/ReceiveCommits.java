@@ -228,7 +228,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   /** Determine if the user can upload commits. */
   public Capable canUpload() {
-    if (!projectControl.canUploadToAtLeastOneRef()) {
+    if (!projectControl.canPushToAtLeastOneRef()) {
       String reqName = project.getName();
       return new Capable("Upload denied for project '" + reqName + "'");
     }

@@ -23,7 +23,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -71,8 +70,12 @@ class DeleteRefRights extends Handler<ProjectDetail> {
       if (!projectName.equals(k.getProjectNameKey())) {
         throw new IllegalArgumentException("All keys must be from same project");
       }
-      if (!projectControl.controlForRef(k.getRefPattern()).isOwner()) {
-        throw new NoSuchRefException(k.getRefPattern());
+      String refPattern = k.getRefPattern();
+      if (refPattern.startsWith("-")) {
+        refPattern = refPattern.substring(1);
+      }
+      if (!projectControl.controlForRef(refPattern).isOwner()) {
+        throw new NoSuchRefException(refPattern);
       }
     }
 

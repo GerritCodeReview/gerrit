@@ -19,35 +19,33 @@ import com.google.gerrit.reviewdb.Branch;
 import java.util.List;
 
 /**
- * It holds list of branches and boolean to indicate
- * if it is allowed to add new branches.
+ * It holds list of branches and boolean to indicate if it is allowed to add new
+ * branches.
  */
 public final class ListBranchesResult {
+  protected boolean noRepository;
   protected boolean canAdd;
-
   protected List<Branch> branches;
 
   protected ListBranchesResult() {
   }
 
-  public ListBranchesResult(final List<Branch> branches, boolean canAdd) {
+  public ListBranchesResult(List<Branch> branches, boolean canAdd,
+      boolean noRepository) {
     this.branches = branches;
     this.canAdd = canAdd;
+    this.noRepository = noRepository;
+  }
+
+  public boolean getNoRepository() {
+    return noRepository;
   }
 
   public boolean getCanAdd() {
     return canAdd;
   }
 
-  public void setCanAdd(boolean canAdd) {
-    this.canAdd = canAdd;
-  }
-
   public List<Branch> getBranches() {
     return branches;
-  }
-
-  public void setBranches(List<Branch> branches) {
-    this.branches = branches;
   }
 }

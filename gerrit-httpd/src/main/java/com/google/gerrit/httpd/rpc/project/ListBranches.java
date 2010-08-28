@@ -60,15 +60,20 @@ class ListBranches extends Handler<ListBranchesResult> {
   }
 
   @Override
-  public ListBranchesResult call() throws NoSuchProjectException,
-      RepositoryNotFoundException {
+  public ListBranchesResult call() throws NoSuchProjectException {
     final ProjectControl pctl = projectControlFactory.validateFor( //
         projectName, //
         ProjectControl.OWNER | ProjectControl.VISIBLE);
 
     final List<Branch> branches = new ArrayList<Branch>();
     Branch headBranch = null;
-    final Repository db = repoManager.openRepository(projectName.get());
+
+    final Repository db;
+    try {
+      db = repoManager.openRepository(projectName.get());
+    } catch (RepositoryNotFoundException noGitRepository) {
+      return new ListBranchesResult(branches, false, true);
+    }
     try {
       final Map<String, Ref> all = db.getAllRefs();
 
@@ -139,7 +144,7 @@ class ListBranches extends Handler<ListBranchesResult> {
     if (headBranch != null) {
       branches.add(0, headBranch);
     }
-    return new ListBranchesResult(branches, pctl.canAddRefs());
+    return new ListBranchesResult(branches, pctl.canAddRefs(), false);
   }
 
   private Branch createBranch(final String name) {

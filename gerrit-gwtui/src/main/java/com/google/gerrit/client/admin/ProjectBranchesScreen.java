@@ -40,6 +40,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
@@ -64,10 +65,22 @@ public class ProjectBranchesScreen extends ProjectScreen {
     super.onLoad();
     Util.PROJECT_SVC.listBranches(getProjectKey(),
         new ScreenLoadCallback<ListBranchesResult>(this) {
+          @Override
           public void preDisplay(final ListBranchesResult result) {
-            enableForm(true);
-            display(result.getBranches());
-            addPanel.setVisible(result.getCanAdd());
+            if (result.getNoRepository()) {
+              branches.setVisible(false);
+              addPanel.setVisible(false);
+              delBranch.setVisible(false);
+
+              Label no = new Label(Util.C.errorNoGitRepository());
+              no.setStyleName(Gerrit.RESOURCES.css().smallHeading());
+              add(no);
+
+            } else {
+              enableForm(true);
+              display(result.getBranches());
+              addPanel.setVisible(result.getCanAdd());
+            }
           }
         });
   }

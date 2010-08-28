@@ -88,4 +88,5 @@ public interface AdminConstants extends Constants {
 
   String noGroupSelected();
   String errorNoMatchingGroups();
+  String errorNoGitRepository();
 }

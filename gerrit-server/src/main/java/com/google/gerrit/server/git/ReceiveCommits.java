@@ -233,6 +233,28 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       return new Capable("Upload denied for project '" + reqName + "'");
     }
 
+    // Don't permit receive-pack to be executed if a refs/for/branch_name
+    // reference exists in the destination repository. These block the
+    // client from being able to even send us a pack file, as it is very
+    // unlikely the user passed the --force flag and the new commit is
+    // probably not going to fast-forward the branch.
+    //
+    Map<String, Ref> blockingFors;
+    try {
+      blockingFors = repo.getRefDatabase().getRefs("refs/for/");
+    } catch (IOException err) {
+      String projName = project.getName();
+      log.warn("Cannot scan refs in '" + projName + "'", err);
+      return new Capable("Server process cannot read '" + projName + "'");
+    }
+    if (!blockingFors.isEmpty()) {
+      String projName = project.getName();
+      log.error("Repository '" + projName
+          + "' needs the following refs removed to receive changes: "
+          + blockingFors.keySet());
+      return new Capable("One or more refs/for/ names blocks change upload");
+    }
+
     if (project.isUseContributorAgreements()) {
       try {
         return verifyActiveContributorAgreement();

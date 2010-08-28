@@ -86,9 +86,9 @@ public class RefControlTest extends TestCase {
 
     assertOwner("refs/heads/x/*", uDev);
     assertOwner("refs/heads/x/y", uDev);
+    assertOwner("refs/heads/x/y/*", uDev);
     assertNotOwner("refs/*", uDev);
     assertNotOwner("refs/heads/master", uDev);
-    assertNotOwner("refs/heads/x/y/*", uDev);
 
     ProjectControl uFix = user(fixers);
     assertFalse("not owner", uFix.isOwner());

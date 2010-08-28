@@ -329,8 +329,11 @@ public class RefControl {
 
     for (RefRightsForPattern right : perPatternRights.values()) {
       val = Math.max(val, right.allowedValueForRef(groups));
-      if (val >= level || right.containsExclusive()) {
-        return val >= level;
+      if (val >= level) {
+        break;
+      }
+      if (right.containsExclusive() && !actionId.equals(OWN)) {
+        break;
       }
     }
     return val >= level;

@@ -286,21 +286,17 @@ public class PatchListEntry {
   private static PatchType toPatchType(final FileHeader hdr) {
     PatchType pt;
 
-    if (hdr instanceof CombinedFileHeader) {
-      pt = Patch.PatchType.N_WAY;
-    } else {
-      switch (hdr.getPatchType()) {
-        case UNIFIED:
-          pt = Patch.PatchType.UNIFIED;
-          break;
-        case GIT_BINARY:
-        case BINARY:
-          pt = Patch.PatchType.BINARY;
-          break;
-        default:
-          throw new IllegalArgumentException("Unsupported type "
-              + hdr.getPatchType());
-      }
+    switch (hdr.getPatchType()) {
+      case UNIFIED:
+        pt = Patch.PatchType.UNIFIED;
+        break;
+      case GIT_BINARY:
+      case BINARY:
+        pt = Patch.PatchType.BINARY;
+        break;
+      default:
+        throw new IllegalArgumentException("Unsupported type "
+            + hdr.getPatchType());
     }
 
     if (pt != PatchType.BINARY) {

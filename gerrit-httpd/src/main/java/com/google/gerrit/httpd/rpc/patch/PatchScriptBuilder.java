@@ -124,16 +124,6 @@ class PatchScriptBuilder {
   private PatchScript build(final PatchListEntry content,
       final boolean intralineDifference, final CommentDetail comments,
       final List<Patch> history) throws IOException {
-    if (content.getPatchType() == PatchType.N_WAY) {
-      // For a diff --cc format we don't support converting it into
-      // a patch script. Instead treat everything as a file header.
-      //
-      return new PatchScript(change.getKey(), content.getChangeType(), content
-          .getOldName(), content.getNewName(), content.getHeaderLines(),
-          diffPrefs, a.dst, b.dst, Collections.<Edit> emptyList(),
-          a.displayMethod, b.displayMethod, comments, history, false, false);
-    }
-
     a.path = oldName(content);
     b.path = newName(content);
 

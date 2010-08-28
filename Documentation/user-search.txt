@@ -87,7 +87,8 @@ Changes where 'SHA1' is one of the patch sets of the change.
 [[project]]
 project:'PROJECT'::
 +
-Changes occuring in 'PROJECT'.
+Changes occuring in 'PROJECT'.  If 'PROJECT' starts with `^` it
+matches project names by regular expression.
 
 [[branch]]
 branch:'BRANCH'::
@@ -98,6 +99,9 @@ prefix.  This operator is a shorthand for 'refs:'.  Searching for
 'branch:master' really means 'ref:refs/heads/master', and searching
 for 'branch:refs/heads/master' is the same as searching for
 'ref:refs/heads/refs/heads/master'.
++
+If 'BRANCH' starts with `^` it matches branch names by regular
+expression patterns.
 
 [[topic]]
 topic:'TOPIC'::
@@ -105,6 +109,9 @@ topic:'TOPIC'::
 Changes whose designated topic at upload was 'TOPIC'.  This is
 often combined with 'branch:' and 'project:' operators to select
 all related changes in a series.
++
+If 'TOPIC' starts with `^` it matches topic names by regular
+expression patterns.
 
 [[ref]]
 ref:'REF'::
@@ -112,6 +119,9 @@ ref:'REF'::
 Changes where the destination branch is exactly the given 'REF'
 name.  Since 'REF' is absolute from the top of the repository it
 must start with 'refs/'.
++
+If 'REF' starts with `^` it matches reference names by regular
+expression patterns.
 
 [[tr]][[bug]]
 tr:'ID', bug:'ID'::

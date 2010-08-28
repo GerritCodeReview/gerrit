@@ -238,21 +238,29 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> project(String name) {
+    if (name.startsWith("^"))
+      return new RegexProjectPredicate(args.dbProvider, name);
     return new ProjectPredicate(args.dbProvider, name);
   }
 
   @Operator
   public Predicate<ChangeData> branch(String name) {
+    if (name.startsWith("^"))
+      return new RegexBranchPredicate(args.dbProvider, name);
     return new BranchPredicate(args.dbProvider, name);
   }
 
   @Operator
   public Predicate<ChangeData> topic(String name) {
+    if (name.startsWith("^"))
+      return new RegexTopicPredicate(args.dbProvider, name);
     return new TopicPredicate(args.dbProvider, name);
   }
 
   @Operator
   public Predicate<ChangeData> ref(String ref) {
+    if (ref.startsWith("^"))
+      return new RegexRefPredicate(args.dbProvider, ref);
     return new RefPredicate(args.dbProvider, ref);
   }
 

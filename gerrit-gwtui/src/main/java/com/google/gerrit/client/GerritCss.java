@@ -105,6 +105,7 @@ public interface GerritCss extends CssResource {
   String fileLineCONTEXT();
   String fileLineDELETE();
   String fileLineINSERT();
+  String fileLineMode();
   String fileLineNone();
   String filePathCell();
   String gerritTopMenu();

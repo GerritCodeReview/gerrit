@@ -674,6 +674,9 @@
   background: #eeeeee;
   border-bottom: 1px solid #eeeeee;
 }
+.fileLineMode {
+  font-weight: bold;
+}
 .fileLineDELETE,
 .fileLineDELETE .wdc {
   background: #ffeeee;

@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
-import com.google.gerrit.reviewdb.Patch.PatchType;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.Text;
@@ -169,9 +168,9 @@ class PatchScriptBuilder {
     }
 
     return new PatchScript(change.getKey(), content.getChangeType(), content
-        .getOldName(), content.getNewName(), content.getHeaderLines(),
-        diffPrefs, a.dst, b.dst, edits, a.displayMethod, b.displayMethod,
-        comments, history, hugeFile, intralineDifference);
+        .getOldName(), content.getNewName(), a.fileMode, b.fileMode, content
+        .getHeaderLines(), diffPrefs, a.dst, b.dst, edits, a.displayMethod,
+        b.displayMethod, comments, history, hugeFile, intralineDifference);
   }
 
   private static String oldName(final PatchListEntry entry) {
@@ -357,6 +356,7 @@ class PatchScriptBuilder {
     Text src;
     MimeType mimeType = MimeUtil2.UNKNOWN_MIME_TYPE;
     DisplayMethod displayMethod = DisplayMethod.DIFF;
+    PatchScript.FileMode fileMode = PatchScript.FileMode.FILE;
     final SparseFileContent dst = new SparseFileContent();
 
     int size() {
@@ -438,6 +438,12 @@ class PatchScriptBuilder {
         }
         dst.setSize(size());
         dst.setPath(path);
+
+        if (mode == FileMode.SYMLINK) {
+          fileMode = PatchScript.FileMode.SYMLINK;
+        } else if (mode == FileMode.GITLINK) {
+          fileMode = PatchScript.FileMode.GITLINK;
+        }
       } catch (IOException err) {
         throw new IOException("Cannot read " + within.name() + ":" + path, err);
       }

@@ -34,10 +34,16 @@ public class PatchScript {
     NONE, DIFF, IMG
   }
 
+  public static enum FileMode {
+    FILE, SYMLINK, GITLINK
+  }
+
   protected Change.Key changeId;
   protected ChangeType changeType;
   protected String oldName;
   protected String newName;
+  protected FileMode oldMode;
+  protected FileMode newMode;
   protected List<String> header;
   protected AccountDiffPreference diffPrefs;
   protected SparseFileContent a;
@@ -51,7 +57,8 @@ public class PatchScript {
   protected boolean intralineDifference;
 
   public PatchScript(final Change.Key ck, final ChangeType ct, final String on,
-      final String nn, final List<String> h, final AccountDiffPreference dp,
+      final String nn, final FileMode om, final FileMode nm,
+      final List<String> h, final AccountDiffPreference dp,
       final SparseFileContent ca, final SparseFileContent cb,
       final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb,
       final CommentDetail cd, final List<Patch> hist, final boolean hf,
@@ -60,6 +67,8 @@ public class PatchScript {
     changeType = ct;
     oldName = on;
     newName = nn;
+    oldMode = om;
+    newMode = nm;
     header = h;
     diffPrefs = dp;
     a = ca;
@@ -86,6 +95,14 @@ public class PatchScript {
 
   public DisplayMethod getDisplayMethodB() {
     return displayMethodB;
+  }
+
+  public FileMode getFileModeA() {
+    return oldMode;
+  }
+
+  public FileMode getFileModeB() {
+    return newMode;
   }
 
   public List<String> getPatchHeader() {

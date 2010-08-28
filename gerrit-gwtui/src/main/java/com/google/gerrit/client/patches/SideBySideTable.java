@@ -22,6 +22,7 @@ import static com.google.gerrit.client.patches.PatchLine.Type.REPLACE;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
+import com.google.gerrit.common.data.PatchScript.FileMode;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.Patch;
@@ -80,6 +81,14 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
     appendHeader(script, nc);
     lines.add(null);
+
+    if(script.getFileModeA()!=FileMode.FILE||script.getFileModeB()!=FileMode.FILE){
+      openLine(nc);
+      appendModeLine(nc, script.getFileModeA());
+      appendModeLine(nc, script.getFileModeB());
+      closeLine(nc);
+      lines.add(null);
+    }
 
     int lastB = 0;
     final boolean ignoreWS = script.isIgnoreWhitespace();
@@ -151,6 +160,29 @@ public class SideBySideTable extends AbstractPatchContentTable {
     for (int row = 0; row < lines.size(); row++) {
       setRowItem(row, lines.get(row));
     }
+  }
+
+  private void appendModeLine(final SafeHtmlBuilder nc, final FileMode mode) {
+    nc.openTd();
+    nc.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    nc.nbsp();
+    nc.closeTd();
+
+    nc.openTd();
+    nc.addStyleName(Gerrit.RESOURCES.css().fileLine());
+    nc.addStyleName(Gerrit.RESOURCES.css().fileLineMode());
+    switch(mode){
+      case FILE:
+        nc.nbsp();
+        break;
+      case SYMLINK:
+        nc.append(PatchUtil.C.fileTypeSymlink());
+        break;
+      case GITLINK:
+        nc.append(PatchUtil.C.fileTypeGitlink());
+        break;
+    }
+    nc.closeTd();
   }
 
   @Override

@@ -62,4 +62,7 @@ public interface PatchConstants extends Constants {
 
   String buttonReplyDone();
   String cannedReplyDone();
+
+  String fileTypeSymlink();
+  String fileTypeGitlink();
 }

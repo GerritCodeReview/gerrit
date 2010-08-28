@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
+
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 
@@ -31,6 +32,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ConfigUtil {
   /**
@@ -226,7 +229,7 @@ public class ConfigUtil {
   /**
    * Parse a numerical time unit, such as "1 minute", from a string.
    *
-   * @param s the string to parse.
+   * @param valueString the string to parse.
    * @param defaultValue default value to return if no value was set in the
    *        configuration file.
    * @param wantUnit the units of {@code defaultValue} and the return value, as
@@ -235,25 +238,15 @@ public class ConfigUtil {
    * @return the setting, or {@code defaultValue} if not set, expressed in
    *         {@code units}.
    */
-  public static long getTimeUnit(String s, long defaultValue, TimeUnit wantUnit) {
-    final String valueString = s;
-    final String unitName;
-    final int sp = s.indexOf(' ');
-    if (sp > 0) {
-      unitName = s.substring(sp + 1).trim();
-      s = s.substring(0, sp);
-    } else {
-      final char last = s.charAt(s.length() - 1);
-      if ('0' <= last && last <= '9') {
-        unitName = "";
-      } else {
-        unitName = String.valueOf(last);
-        s = s.substring(0, s.length() - 1).trim();
-      }
-    }
-    if (s.length() == 0) {
+  public static long getTimeUnit(final String valueString, long defaultValue,
+      TimeUnit wantUnit) {
+    Matcher m = Pattern.compile("^([1-9][0-9]*)\\s*(.*)$").matcher(valueString);
+    if (!m.matches()) {
       return defaultValue;
     }
+
+    String digits = m.group(1);
+    String unitName = m.group(2).trim();
 
     TimeUnit inputUnit;
     int inputMul;
@@ -299,7 +292,7 @@ public class ConfigUtil {
     }
 
     try {
-      return wantUnit.convert(Long.parseLong(s) * inputMul, inputUnit);
+      return wantUnit.convert(Long.parseLong(digits) * inputMul, inputUnit);
     } catch (NumberFormatException nfe) {
       throw notTimeUnit(valueString);
     }

@@ -405,7 +405,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
           new AbandonChangeDialog(patchSet.getId(),
               new AsyncCallback<ChangeDetail>() {
                 public void onSuccess(ChangeDetail result) {
-                  changeScreen.display(result);
+                  changeScreen.update(result);
                 }
 
                 public void onFailure(Throwable caught) {
@@ -425,7 +425,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
           new RestoreChangeDialog(patchSet.getId(),
               new AsyncCallback<ChangeDetail>() {
                 public void onSuccess(ChangeDetail result) {
-                  changeScreen.display(result);
+                  changeScreen.update(result);
                 }
 
                 public void onFailure(Throwable caught) {
@@ -516,7 +516,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         new SubmitFailureDialog(result, msg).center();
       }
     }
-    changeScreen.display(result);
+    changeScreen.update(result);
   }
 
   public PatchSet getPatchSet() {

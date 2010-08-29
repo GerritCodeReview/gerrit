@@ -20,6 +20,8 @@ import com.google.gerrit.server.git.PushAllProjectsOp;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.Config;
+
 import java.util.concurrent.TimeUnit;
 
 /** Configuration for a master node in a cluster of servers. */
@@ -32,17 +34,24 @@ public class MasterNodeStartup extends LifecycleModule {
   static class OnStart implements LifecycleListener {
     private final PushAllProjectsOp.Factory pushAll;
     private final ReloadSubmitQueueOp.Factory submit;
+    private final boolean replicateOnStartup;
 
     @Inject
     OnStart(final PushAllProjectsOp.Factory pushAll,
-        final ReloadSubmitQueueOp.Factory submit) {
+        final ReloadSubmitQueueOp.Factory submit,
+        final @GerritServerConfig Config cfg) {
       this.pushAll = pushAll;
       this.submit = submit;
+
+      replicateOnStartup = cfg.getBoolean("gerrit", "replicateOnStartup", true);
     }
 
     @Override
     public void start() {
-      pushAll.create(null).start(30, TimeUnit.SECONDS);
+      if (replicateOnStartup) {
+        pushAll.create(null).start(30, TimeUnit.SECONDS);
+      }
+
       submit.create().start(15, TimeUnit.SECONDS);
     }
 

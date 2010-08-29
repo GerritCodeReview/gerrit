@@ -52,7 +52,6 @@ import com.google.inject.spi.Message;
 
 import org.kohsuke.args4j.Option;
 
-import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

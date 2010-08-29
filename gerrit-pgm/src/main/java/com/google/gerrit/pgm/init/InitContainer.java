@@ -14,7 +14,6 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.pgm.init.InitUtil.copy;
 import static com.google.gerrit.pgm.init.InitUtil.die;
 import static com.google.gerrit.pgm.init.InitUtil.username;
 
@@ -24,10 +23,14 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.storage.file.LockFile;
+import org.eclipse.jgit.util.FS;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 
 /** Initialize the {@code container} configuration section. */
 @Singleton
@@ -84,7 +87,39 @@ class InitContainer implements InitStep {
           System.err.format("Copying gerrit.war to %s", siteWar.getPath());
           System.err.println();
         }
-        copy(siteWar, new FileInputStream(myWar));
+
+        FileInputStream in = new FileInputStream(myWar);
+        try {
+          siteWar.getParentFile().mkdirs();
+
+          LockFile lf = new LockFile(siteWar, FS.DETECTED);
+          if (!lf.lock()) {
+            throw new IOException("Cannot lock " + siteWar);
+          }
+
+          try {
+            final OutputStream out = lf.getOutputStream();
+            try {
+              final byte[] tmp = new byte[4096];
+              for (;;) {
+                int n = in.read(tmp);
+                if (n < 0) {
+                  break;
+                }
+                out.write(tmp, 0, n);
+              }
+            } finally {
+              out.close();
+            }
+            if (!lf.commit()) {
+              throw new IOException("Cannot commit " + siteWar);
+            }
+          } finally {
+            lf.unlock();
+          }
+        } finally {
+          in.close();
+        }
       }
     }
   }

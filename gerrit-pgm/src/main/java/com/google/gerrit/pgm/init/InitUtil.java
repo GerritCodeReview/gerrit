@@ -20,6 +20,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.storage.file.LockFile;
 import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.SystemReader;
 
 import java.io.File;
@@ -31,6 +32,8 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 /** Utility functions to help initialize a site. */
 class InitUtil {
@@ -43,25 +46,41 @@ class InitUtil {
   }
 
   static void savePublic(final FileBasedConfig sec) throws IOException {
-    sec.save();
+    if (modified(sec)) {
+      sec.save();
+    }
   }
 
   static void saveSecure(final FileBasedConfig sec) throws IOException {
-    final byte[] out = Constants.encode(sec.toText());
-    final File path = sec.getFile();
-    final LockFile lf = new LockFile(path, FS.DETECTED);
-    if (!lf.lock()) {
-      throw new IOException("Cannot lock " + path);
-    }
-    try {
-      chmod(0600, new File(path.getParentFile(), path.getName() + ".lock"));
-      lf.write(out);
-      if (!lf.commit()) {
-        throw new IOException("Cannot commit write to " + path);
+    if (modified(sec)) {
+      final byte[] out = Constants.encode(sec.toText());
+      final File path = sec.getFile();
+      final LockFile lf = new LockFile(path, FS.DETECTED);
+      if (!lf.lock()) {
+        throw new IOException("Cannot lock " + path);
       }
-    } finally {
-      lf.unlock();
+      try {
+        chmod(0600, new File(path.getParentFile(), path.getName() + ".lock"));
+        lf.write(out);
+        if (!lf.commit()) {
+          throw new IOException("Cannot commit write to " + path);
+        }
+      } finally {
+        lf.unlock();
+      }
     }
+  }
+
+  private static boolean modified(FileBasedConfig cfg) throws IOException {
+    byte[] curVers;
+    try {
+      curVers = IO.readFully(cfg.getFile());
+    } catch (FileNotFoundException notFound) {
+      return true;
+    }
+
+    byte[] newVers = Constants.encode(cfg.toText());
+    return !Arrays.equals(curVers, newVers);
   }
 
   static void mkdir(final File path) {
@@ -145,7 +164,8 @@ class InitUtil {
       final String name) throws IOException {
     final InputStream in = open(sibling, name);
     if (in != null) {
-      copy(dst, in);
+      ByteBuffer buf = IO.readWholeStream(in, 8192);
+      copy(dst, buf);
     }
   }
 
@@ -166,34 +186,41 @@ class InitUtil {
     return in;
   }
 
-  static void copy(final File dst, final InputStream in)
+  static void copy(final File dst, final ByteBuffer buf)
       throws FileNotFoundException, IOException {
+    // If the file already has the content we want to put there,
+    // don't attempt to overwrite the file.
+    //
     try {
-      dst.getParentFile().mkdirs();
-      LockFile lf = new LockFile(dst, FS.DETECTED);
-      if (!lf.lock()) {
-        throw new IOException("Cannot lock " + dst);
+      if (buf.equals(ByteBuffer.wrap(IO.readFully(dst)))) {
+        return;
       }
-      try {
+    } catch (FileNotFoundException notFound) {
+      // Fall through and write the file.
+    }
 
-        final OutputStream out = lf.getOutputStream();
-        try {
-          final byte[] buf = new byte[4096];
-          int n;
-          while (0 < (n = in.read(buf))) {
-            out.write(buf, 0, n);
-          }
-        } finally {
-          out.close();
-        }
-        if (!lf.commit()) {
-          throw new IOException("Cannot commit " + dst);
+    dst.getParentFile().mkdirs();
+    LockFile lf = new LockFile(dst, FS.DETECTED);
+    if (!lf.lock()) {
+      throw new IOException("Cannot lock " + dst);
+    }
+    try {
+      final OutputStream out = lf.getOutputStream();
+      try {
+        final byte[] tmp = new byte[4096];
+        while (0 < buf.remaining()) {
+          int n = Math.min(buf.remaining(), tmp.length);
+          buf.get(tmp, 0, n);
+          out.write(tmp, 0, n);
         }
       } finally {
-        lf.unlock();
+        out.close();
+      }
+      if (!lf.commit()) {
+        throw new IOException("Cannot commit " + dst);
       }
     } finally {
-      in.close();
+      lf.unlock();
     }
   }
 

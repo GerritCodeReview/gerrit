@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA63///8I\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 0,
+      "message": "Nak.  These booleans should still exist.",
+      "revId": "f855f399f8ce740e08ddc48c0694c1c076fa69dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///8g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 0,
+      "message": "Nak.  This shouldn\u0027t be deleted.",
+      "revId": "f855f399f8ce740e08ddc48c0694c1c076fa69dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///8c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 0,
+      "message": "Nak.  This shouldn\u0027t be deleted.",
+      "revId": "f855f399f8ce740e08ddc48c0694c1c076fa69dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///8Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 0,
+      "message": "Nak.  This shouldn\u0027t be deleted.",
+      "revId": "f855f399f8ce740e08ddc48c0694c1c076fa69dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///8U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 0,
+      "message": "Nak.  This shouldn\u0027t be deleted.",
+      "revId": "f855f399f8ce740e08ddc48c0694c1c076fa69dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///8Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 0,
+      "message": "Nak.  This shouldn\u0027t be deleted.",
+      "revId": "f855f399f8ce740e08ddc48c0694c1c076fa69dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///70\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 0,
+      "message": "Nak.  These need to exist.",
+      "revId": "f855f399f8ce740e08ddc48c0694c1c076fa69dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

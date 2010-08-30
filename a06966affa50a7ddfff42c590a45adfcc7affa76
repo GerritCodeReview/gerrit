@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA63///8o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "Nak.  We need to use the existing enableForm to ensure canModifyAgreements and canModifyDescription are still honored.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///8s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "Do not include spaces in anchor tokens.  Use an underscore instead.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///8A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefMergeStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "You need to validate that the caller is an owner of the branch being affected by this change.  See the relevant code in AddRefRight.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///78\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteRefMergeStrategies.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "We no longer need to do this.  You can safely say:\n\n  projectControl.controlForRef(refPattern).isOwner()\n\nwithout this utility function to clip the trailing \"/*\".",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///9c\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "Please leave parent as id \u003d 6.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///80\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitProjectImporter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "Use \"refs/*\" as the pattern.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///7w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "Can\u0027t we get these from the ProjectState rather than from the database directly?  That way we use the cached project data.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///7k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "I\u0027ve had this discussion before with folks from SE.  We should only activate regex rules if the pattern starts with ^.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///9Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "This should be coming from the StringsUtil class in the Apache package we imported from, not our own private implementation.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///9I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_42.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "Please use a PreparedStatement and setString(1, wildProjectName) to bind the project name into the WHERE clause.  This prevents problems if the wildProjectName happens to contain a \u0027.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///9E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_42.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "Use \"refs/*\" as the pattern.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///9A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_42.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "Typically we do \"SELECT name,submit_type\" and then getString(1) and getString(2) in the loop.  That way we only fetch the data we have to have from the server and can avoid larger columns like the description field.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///88\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_42.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "This drop will be executed for you by gwtorm.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///9U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RegexRefsComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "Missing AOSP copyright header.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///9M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T22:06:08Z",
+      "side": 1,
+      "message": "Should be \"refs/*\" here for the pattern.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

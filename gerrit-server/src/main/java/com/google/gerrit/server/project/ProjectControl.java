@@ -191,29 +191,19 @@ public class ProjectControl {
         || canPerformOnAnyRef(ApprovalCategory.PUSH_TAG, (short) 1);
   }
 
+  // TODO (anatol.pomazau): Try to merge this method with similar RefRightsForPattern#canPerform
   private boolean canPerformOnAnyRef(ApprovalCategory.Id actionId,
       short requireValue) {
     final Set<AccountGroup.Id> groups = user.getEffectiveGroups();
-    int val = Integer.MIN_VALUE;
 
-    for (final RefRight pr : state.getLocalRights(actionId)) {
-      if (groups.contains(pr.getAccountGroupId())) {
-        val = Math.max(pr.getMaxValue(), val);
-      }
-    }
-    if (val >= requireValue) {
-      return true;
-    }
-
-    if (actionId.canInheritFromWildProject()) {
-      for (final RefRight pr : state.getInheritedRights(actionId)) {
-        if (groups.contains(pr.getAccountGroupId())) {
-          val = Math.max(pr.getMaxValue(), val);
-        }
+    for (final RefRight pr : state.getAllRights(actionId, true)) {
+      if (groups.contains(pr.getAccountGroupId())
+          && pr.getMaxValue() >= requireValue) {
+        return true;
       }
     }
 
-    return val >= requireValue;
+    return false;
   }
 
   private boolean canPerformOnAllRefs(ApprovalCategory.Id actionId,
@@ -238,13 +228,8 @@ public class ProjectControl {
 
   private Set<String> allRefPatterns(ApprovalCategory.Id actionId) {
     final Set<String> all = new HashSet<String>();
-    for (final RefRight pr : state.getLocalRights(actionId)) {
+    for (final RefRight pr : state.getAllRights(actionId, true)) {
       all.add(pr.getRefPattern());
-    }
-    if (actionId.canInheritFromWildProject()) {
-      for (final RefRight pr : state.getInheritedRights(actionId)) {
-        all.add(pr.getRefPattern());
-      }
     }
     return all;
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7H////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplicationQueueImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T23:46:01Z",
+      "side": 1,
+      "message": "You also need to bind the FetchOp.Factory.",
+      "revId": "69928c832b50352ba4a282345362e4fa7537f564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

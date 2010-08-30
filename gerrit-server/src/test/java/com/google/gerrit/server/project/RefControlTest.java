@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.reviewdb.ApprovalCategory.OWN;
 import static com.google.gerrit.reviewdb.ApprovalCategory.READ;
+import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
 
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
@@ -50,7 +51,7 @@ import java.util.Set;
 
 public class RefControlTest extends TestCase {
   public void testOwnerProject() {
-    local.add(grant(OWN, admin, "refs/*", 1));
+    grant(true, OWN, admin, "refs/*", 1);
 
     ProjectControl uBlah = user(devs);
     ProjectControl uAdmin = user(devs, admin);
@@ -60,8 +61,8 @@ public class RefControlTest extends TestCase {
   }
 
   public void testBranchDelegation1() {
-    local.add(grant(OWN, admin, "refs/*", 1));
-    local.add(grant(OWN, devs, "refs/heads/x/*", 1));
+    grant(true, OWN, admin, "refs/*", 1);
+    grant(true, OWN, devs, "refs/heads/x/*", 1);
 
     ProjectControl uDev = user(devs);
     assertFalse("not owner", uDev.isOwner());
@@ -76,9 +77,9 @@ public class RefControlTest extends TestCase {
   }
 
   public void testBranchDelegation2() {
-    local.add(grant(OWN, admin, "refs/*", 1));
-    local.add(grant(OWN, devs, "refs/heads/x/*", 1));
-    local.add(grant(OWN, fixers, "-refs/heads/x/y/*", 1));
+    grant(true, OWN, admin, "refs/*", 1);
+    grant(true, OWN, devs, "refs/heads/x/*", 1);
+    grant(true, OWN, fixers, "-refs/heads/x/y/*", 1);
 
     ProjectControl uDev = user(devs);
     assertFalse("not owner", uDev.isOwner());
@@ -103,8 +104,8 @@ public class RefControlTest extends TestCase {
   }
 
   public void testInheritRead_SingleBranchDeniesUpload() {
-    inherited.add(grant(READ, registered, "refs/*", 1, 2));
-    local.add(grant(READ, registered, "-refs/heads/foobar", 1, 1));
+    grant(false, READ, registered, "refs/*", 1, 2);
+    grant(true, READ, registered, "-refs/heads/foobar", 1);
 
     ProjectControl u = user();
     assertTrue("can upload", u.canPushToAtLeastOneRef());
@@ -117,8 +118,8 @@ public class RefControlTest extends TestCase {
   }
 
   public void testInheritRead_SingleBranchDoesNotOverrideInherited() {
-    inherited.add(grant(READ, registered, "refs/*", 1, 2));
-    local.add(grant(READ, registered, "refs/heads/foobar", 1, 1));
+    grant(false, READ, registered, "refs/*", 1, 2);
+    grant(true, READ, registered, "refs/heads/foobar", 1);
 
     ProjectControl u = user();
     assertTrue("can upload", u.canPushToAtLeastOneRef());
@@ -130,9 +131,51 @@ public class RefControlTest extends TestCase {
         u.controlForRef("refs/heads/foobar").canUpload());
   }
 
+  public void testInheritRead_OverrideWithDeny() {
+    grant(false, READ, registered, "refs/*", 1);
+    grant(true, READ, registered, "refs/*", 0);
+
+    ProjectControl u = user();
+    assertFalse("can't read", u.isVisible());
+  }
+
+  public void testInheritRead_AppendWithDenyOfRef() {
+    grant(false, READ, registered, "refs/*", 1);
+    grant(true, READ, registered, "refs/heads/*", 0);
+
+    ProjectControl u = user();
+    assertTrue("can read", u.isVisible());
+    assertTrue("can read", u.controlForRef("refs/master").isVisible());
+    assertTrue("can read", u.controlForRef("refs/tags/foobar").isVisible());
+    assertTrue("no master", u.controlForRef("refs/heads/master").isVisible());
+  }
+
+  public void testInheritRead_OverridesAndDeniesOfRef() {
+    grant(false, READ, registered, "refs/*", 1);
+    grant(true, READ, registered, "refs/*", 0);
+    grant(true, READ, registered, "refs/heads/*", -1, 1);
+
+    ProjectControl u = user();
+    assertTrue("can read", u.isVisible());
+    assertFalse("can't read", u.controlForRef("refs/foobar").isVisible());
+    assertFalse("can't read", u.controlForRef("refs/tags/foobar").isVisible());
+    assertTrue("can read", u.controlForRef("refs/heads/foobar").isVisible());
+  }
+
+  public void testInheritSubmit_OverridesAndDeniesOfRef() {
+    grant(false, SUBMIT, registered, "refs/*", 1);
+    grant(true, SUBMIT, registered, "refs/*", 0);
+    grant(true, SUBMIT, registered, "refs/heads/*", -1, 1);
+
+    ProjectControl u = user();
+    assertFalse("can't submit", u.controlForRef("refs/foobar").canSubmit());
+    assertFalse("can't submit", u.controlForRef("refs/tags/foobar").canSubmit());
+    assertTrue("can submit", u.controlForRef("refs/heads/foobar").canSubmit());
+  }
+
   public void testCannotUploadToAnyRef() {
-    inherited.add(grant(READ, registered, "refs/*", 1, 1));
-    local.add(grant(READ, devs, "refs/heads/*",1,2));
+    grant(false, READ, registered, "refs/*", 1);
+    grant(true, READ, devs, "refs/heads/*", 1, 2);
 
     ProjectControl u = user();
     assertFalse("cannot upload", u.canPushToAtLeastOneRef());
@@ -144,6 +187,7 @@ public class RefControlTest extends TestCase {
   // -----------------------------------------------------------------------
 
   private final Project.NameKey projectNameKey = new Project.NameKey("test");
+  private final Project.NameKey parentProjectNameKey = new Project.NameKey("parent");
   private final AccountGroup.Id admin = new AccountGroup.Id(1);
   private final AccountGroup.Id anonymous = new AccountGroup.Id(2);
   private final AccountGroup.Id registered = new AccountGroup.Id(3);
@@ -201,19 +245,25 @@ public class RefControlTest extends TestCase {
     assertFalse("NOT OWN " + ref, u.controlForRef(ref).isOwner());
   }
 
-  private RefRight grant(ApprovalCategory.Id categoryId, AccountGroup.Id group,
-      String ref, int maxValue) {
-    return grant(categoryId, group, ref, maxValue, maxValue);
+  private void grant(boolean addToLocal, ApprovalCategory.Id categoryId, 
+      AccountGroup.Id group, String ref, int maxValue) {
+    grant(addToLocal, categoryId, group, ref, maxValue, maxValue);
   }
 
-  private RefRight grant(ApprovalCategory.Id categoryId, AccountGroup.Id group,
+  private void grant(boolean addToLocal, ApprovalCategory.Id categoryId, AccountGroup.Id group,
       String ref, int minValue, int maxValue) {
+    Project.NameKey project = addToLocal ? projectNameKey : parentProjectNameKey;
     RefRight right =
-        new RefRight(new RefRight.Key(projectNameKey, new RefPattern(ref),
+        new RefRight(new RefRight.Key(project, new RefPattern(ref),
             categoryId, group));
     right.setMinValue((short) minValue);
     right.setMaxValue((short) maxValue);
-    return right;
+    
+    if (addToLocal) {
+      local.add(right);
+    } else {
+      inherited.add(right);
+    }
   }
 
   private ProjectControl user(AccountGroup.Id... memberOf) {

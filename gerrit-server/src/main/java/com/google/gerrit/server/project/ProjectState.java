@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -137,16 +139,63 @@ public class ProjectState {
   }
 
   /**
-   * Get the rights this project inherits from the wild project.
+   * Utility class that is needed to filter overridden refrights
+   */
+  private static class Grant {
+    final AccountGroup.Id group;
+    final String pattern;
+
+    private Grant(AccountGroup.Id group, String pattern) {
+      this.group = group;
+      this.pattern = pattern;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      Grant grant = (Grant) o;
+
+      if (!group.equals(grant.group)) return false;
+      if (!pattern.equals(grant.pattern)) return false;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int result = group.hashCode();
+      result = 31 * result + pattern.hashCode();
+      return result;
+    }
+  }
+
+  /**
+   * Get the rights this project has and inherits from the wild project.
    *
    * @param action the category requested.
+   * @param dropOverridden whether to remove inherited permissions in case if we have a
+   *     local one that matches (action,group,ref)
    * @return immutable collection of rights for the requested category.
    */
-  public Collection<RefRight> getInheritedRights(ApprovalCategory.Id action) {
+  public Collection<RefRight> getAllRights(ApprovalCategory.Id action, boolean dropOverridden) {
+    Collection<RefRight> rights = new LinkedList<RefRight>(getLocalRights(action));
     if (action.canInheritFromWildProject()) {
-      return filter(getInheritedRights(), action);
+      rights.addAll(filter(getInheritedRights(), action));
     }
-    return Collections.emptyList();
+    if (dropOverridden) {
+      Set<Grant> grants = new HashSet<Grant>();
+      Iterator<RefRight> iter = rights.iterator();
+      while (iter.hasNext()) {
+        RefRight right = iter.next();
+
+        Grant grant = new Grant(right.getAccountGroupId(), right.getRefPattern());
+        if (grants.contains(grant)) {
+          iter.remove();
+        } else {
+          grants.add(grant);
+        }
+      }
+    }
+    return Collections.unmodifiableCollection(rights);
   }
 
   /** Is this the special wild project which manages inherited rights? */

@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -137,16 +139,34 @@ public class ProjectState {
   }
 
   /**
-   * Get the rights this project inherits from the wild project.
+   * Get the rights this project has and inherits from the wild project.
    *
    * @param action the category requested.
    * @return immutable collection of rights for the requested category.
    */
-  public Collection<RefRight> getInheritedRights(ApprovalCategory.Id action) {
+  public Collection<RefRight> getAllRights(ApprovalCategory.Id action, boolean dropOverriden) {
+    Collection<RefRight> rights = new LinkedList<RefRight>(getLocalRights(action));
     if (action.canInheritFromWildProject()) {
-      return filter(getInheritedRights(), action);
+      rights.addAll(filter(getInheritedRights(), action));
     }
-    return Collections.emptyList();
+    if (dropOverriden) {
+      Set<String> exist = new HashSet<String>();
+      Iterator<RefRight> iter = rights.iterator();
+      while (iter.hasNext()) {
+        RefRight right = iter.next();
+
+        String key = right.getProjectNameKey().get() + "#"
+            + right.getApprovalCategoryId().get() + "#"
+            + right.getAccountGroupId().get() + "#"
+            + right.getRefPattern();
+        if (exist.contains(key)) {
+          iter.remove();
+        } else {
+          exist.add(key);
+        }
+      }
+    }
+    return Collections.unmodifiableCollection(rights);
   }
 
   /** Is this the special wild project which manages inherited rights? */

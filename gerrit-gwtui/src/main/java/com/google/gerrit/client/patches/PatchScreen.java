@@ -22,6 +22,7 @@ import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchSetDetail;
@@ -166,14 +167,16 @@ public abstract class PatchScreen extends Screen implements
     idSideB = diffSideB != null ? diffSideB : id.getParentKey();
     this.patchIndex = patchIndex;
 
-    settingsPanel = new PatchScriptSettingsPanel();
-    settingsPanel
-        .addValueChangeHandler(new ValueChangeHandler<AccountDiffPreference>() {
+    ListenableAccountDiffPreference prefs =
+      new ListenableAccountDiffPreference();
+    prefs.addValueChangeHandler(new ValueChangeHandler<AccountDiffPreference>() {
           @Override
           public void onValueChange(ValueChangeEvent<AccountDiffPreference> event) {
             update(event.getValue());
           }
         });
+
+    settingsPanel = new PatchScriptSettingsPanel(prefs);
     settingsPanel.getReviewedCheckBox().addValueChangeHandler(
         new ValueChangeHandler<Boolean>() {
           @Override

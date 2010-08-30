@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA6n///+E\u003d",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T14:39:38Z",
+      "side": 1,
+      "message": "This turned out to be tricky to do in AsciiDoc.  Without the leading \\ file:foo[...] was becoming a hyperlink to a file on the user\u0027s local filesystem named foo.",
+      "revId": "aa5bca762455af4afb1ad9cefd1f49fec5f568c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

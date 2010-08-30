@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA63////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T20:02:50Z",
+      "side": 1,
+      "message": "Must be object.change(db).  The Change can be lazily loaded, and we may have the PatchSet but not the Change yet.  So you need to pass the db through just in case, so the ChangeData can load the Change on demand if necessary.",
+      "revId": "51dd7ef9f66e428f284576e9277d2e594bae1c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T20:02:50Z",
+      "side": 1,
+      "message": "Style-nit: The parens in the second half of the conditional are unnecessary.",
+      "revId": "51dd7ef9f66e428f284576e9277d2e594bae1c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T20:02:50Z",
+      "side": 1,
+      "message": "The repository has to be closed after its opened.  For that matter, the RevWalk also has to be closed:\n\n  Repository repo  repoManager.openRepository(projectName.get());\n  try {\n    RevWalk rw \u003d new RevWalk(repo);\n    try {\n      return rFilter.include(rw, rw.parseCommit(objectId));\n    } finally {\n      rw.release();\n    }\n  } finally {\n    repo.close();\n  }\n\nGiven how nested we are at this level, I wonder if you can\u0027t rethink the if tests above and say instead:\n\n  if (patchSet \u003d\u003d null) {\n    return false;\n  }\n\n  if (revision \u003d\u003d null) {\n    return false;\n  }\n\n   ...\n\nThat way we can drop some levels of nesting, without introducing new methods and needing to carry a lot of arguments into them.",
+      "revId": "51dd7ef9f66e428f284576e9277d2e594bae1c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T20:02:50Z",
+      "side": 1,
+      "message": "Drop the word \"Id\" here, but add the projectName.get().  Its hard to know where this corruption of a missing object occurs is given 300+ projects on a gerrit server.",
+      "revId": "51dd7ef9f66e428f284576e9277d2e594bae1c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T20:02:50Z",
+      "side": 1,
+      "message": "Like above add the project name here.",
+      "revId": "51dd7ef9f66e428f284576e9277d2e594bae1c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T20:02:50Z",
+      "side": 1,
+      "message": "We shouldn\u0027t ever catch NPE.  If someone is throwing it, it implies we have a missing !\u003d null check that should be added to the code at the proper location.",
+      "revId": "51dd7ef9f66e428f284576e9277d2e594bae1c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

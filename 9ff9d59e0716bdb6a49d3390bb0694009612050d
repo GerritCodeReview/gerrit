@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA63////g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-30T19:50:18Z",
+      "side": 1,
+      "message": "I hate the disclosure panel for this.  The table is simply huge for a server that is managing Android.\n\nWhat about instead adding a button to the right of the nameBox called \"Browse ...\" that opens up a popup containing the project list.  Then the user can browse in the popup, make a selection, and have the popup dismiss, filling in the name?\n\nSimilar to the \u0027f\u0027 shortcut when reviewing files, but actually fill the screen rather than only the lower half.",
+      "revId": "9ff9d59e0716bdb6a49d3390bb0694009612050d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

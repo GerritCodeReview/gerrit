@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA63///6E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/FetchOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-08-30T23:14:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA4n///0k\u003d",
+      "revId": "827748e2a7c6cc89ca58967dd0617ff3f6421f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA4n///0g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/FetchOp.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-08-10T19:45:26Z",
       "side": 1,
       "message": "Unused method.",
+      "revId": "827748e2a7c6cc89ca58967dd0617ff3f6421f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///58\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/FetchOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-08-30T23:14:22Z",
+      "side": 1,
+      "message": "This method should be implemented as it is defined in the interface ReplicateOp.\n\nThe method is used in ReplicationConfig#schedule",
+      "parentUuid": "AAAA4n///0g\u003d",
       "revId": "827748e2a7c6cc89ca58967dd0617ff3f6421f8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA63///5w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-08-30T23:14:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA4n///0o\u003d",
+      "revId": "827748e2a7c6cc89ca58967dd0617ff3f6421f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA4n///0s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplicationQueueImpl.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2010-08-10T19:45:26Z",
       "side": 1,
       "message": "These are both the same collection.  I think you meant to test push and fetch here, not both push.",
+      "revId": "827748e2a7c6cc89ca58967dd0617ff3f6421f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///5g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplicationQueueImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-08-30T23:14:22Z",
+      "side": 1,
+      "message": "Oops, yes you are right.",
+      "parentUuid": "AAAA4n///0s\u003d",
       "revId": "827748e2a7c6cc89ca58967dd0617ff3f6421f8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -17,6 +17,7 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
@@ -48,7 +49,7 @@ public class PatchScriptSettingsPanel extends Composite implements
   interface MyUiBinder extends UiBinder<Widget, PatchScriptSettingsPanel> {
   }
 
-  private AccountDiffPreference value;
+  private ListenableAccountDiffPreference listenablePrefs;
   private boolean enableIntralineDifference = true;
   private boolean enableSmallFileFeatures = true;
 
@@ -96,7 +97,8 @@ public class PatchScriptSettingsPanel extends Composite implements
    */
   private int setEnabledCounter;
 
-  public PatchScriptSettingsPanel() {
+  public PatchScriptSettingsPanel(ListenableAccountDiffPreference prefs) {
+    listenablePrefs = prefs;
     initWidget(uiBinder.createAndBindUi(this));
     initIgnoreWhitespace(ignoreWhitespace);
     initContext(context);
@@ -115,11 +117,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     tabWidth.addKeyPressHandler(onEnter);
     colWidth.addKeyPressHandler(onEnter);
 
-    if (Gerrit.isSignedIn() && Gerrit.getAccountDiffPreference() != null) {
-      setValue(Gerrit.getAccountDiffPreference());
-    } else {
-      setValue(AccountDiffPreference.createDefault(null));
-    }
+    display();
   }
 
   @Override
@@ -147,7 +145,7 @@ public class PatchScriptSettingsPanel extends Composite implements
   public void setEnableSmallFileFeatures(final boolean on) {
     enableSmallFileFeatures = on;
     if (enableSmallFileFeatures) {
-      syntaxHighlighting.setValue(value.isSyntaxHighlighting());
+      syntaxHighlighting.setValue(getValue().isSyntaxHighlighting());
     } else {
       syntaxHighlighting.setValue(false);
     }
@@ -157,7 +155,7 @@ public class PatchScriptSettingsPanel extends Composite implements
   public void setEnableIntralineDifference(final boolean on) {
     enableIntralineDifference = on;
     if (enableIntralineDifference) {
-      intralineDifference.setValue(value.isIntralineDifference());
+      intralineDifference.setValue(getValue().isIntralineDifference());
     } else {
       intralineDifference.setValue(false);
     }
@@ -178,10 +176,16 @@ public class PatchScriptSettingsPanel extends Composite implements
   }
 
   public AccountDiffPreference getValue() {
-    return value;
+    return listenablePrefs.get();
   }
 
   public void setValue(final AccountDiffPreference dp) {
+    listenablePrefs.set(dp);
+    display();
+  }
+
+  protected void display() {
+    final AccountDiffPreference dp = getValue();
     setIgnoreWhitespace(dp.getIgnoreWhitespace());
     if (enableSmallFileFeatures) {
       syntaxHighlighting.setValue(dp.isSyntaxHighlighting());
@@ -195,8 +199,6 @@ public class PatchScriptSettingsPanel extends Composite implements
     intralineDifference.setValue(dp.isIntralineDifference());
     whitespaceErrors.setValue(dp.isShowWhitespaceErrors());
     showTabs.setValue(dp.isShowTabs());
-
-    value = dp;
   }
 
   @UiHandler("update")
@@ -205,7 +207,7 @@ public class PatchScriptSettingsPanel extends Composite implements
   }
 
   private void update() {
-    AccountDiffPreference dp = new AccountDiffPreference(value);
+    AccountDiffPreference dp = new AccountDiffPreference(getValue());
     dp.setIgnoreWhitespace(getIgnoreWhitespace());
     dp.setContext(getContext());
     dp.setTabSize(tabWidth.getIntValue());
@@ -215,8 +217,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     dp.setShowWhitespaceErrors(whitespaceErrors.getValue());
     dp.setShowTabs(showTabs.getValue());
 
-    value = dp;
-    fireEvent(new ValueChangeEvent<AccountDiffPreference>(dp) {});
+    listenablePrefs.set(dp);
 
     if (Gerrit.isSignedIn()) {
       persistDiffPreferences();
@@ -225,10 +226,11 @@ public class PatchScriptSettingsPanel extends Composite implements
 
   private void persistDiffPreferences() {
     setEnabled(false);
-    Util.ACCOUNT_SVC.changeDiffPreferences(value, new GerritCallback<VoidResult>() {
+    Util.ACCOUNT_SVC.changeDiffPreferences(getValue(),
+        new GerritCallback<VoidResult>() {
       @Override
       public void onSuccess(VoidResult result) {
-        Gerrit.setAccountDiffPreference(value);
+        Gerrit.setAccountDiffPreference(getValue());
         setEnabled(true);
       }
 
@@ -267,7 +269,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     if (0 <= sel) {
       return Whitespace.valueOf(ignoreWhitespace.getValue(sel));
     }
-    return value.getIgnoreWhitespace();
+    return getValue().getIgnoreWhitespace();
   }
 
   private void setIgnoreWhitespace(Whitespace s) {
@@ -285,7 +287,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     if (0 <= sel) {
       return Short.parseShort(context.getValue(sel));
     }
-    return (short) value.getContext();
+    return (short) getValue().getContext();
   }
 
   private void setContext(int ctx) {

@@ -302,41 +302,35 @@ public class RefControl {
      * @param groups The groups of the user
      * @return The allowed value for this ref for all the specified groups
      */
-    public int allowedValueForRef(Set<AccountGroup.Id> groups) {
-      int val = Integer.MIN_VALUE;
+    private boolean allowedValueForRef(Set<AccountGroup.Id> groups, short level) {
       for (RefRight right : rights) {
-        if (groups.contains(right.getAccountGroupId())) {
-          val = Math.max(right.getMaxValue(), val);
+        if (groups.contains(right.getAccountGroupId())
+            && right.getMaxValue() >= level) {
+          return true;
         }
       }
-      return val;
+      return false;
     }
   }
 
   boolean canPerform(ApprovalCategory.Id actionId, short level) {
     final Set<AccountGroup.Id> groups = getCurrentUser().getEffectiveGroups();
-    int val = Integer.MIN_VALUE;
 
     List<RefRight> allRights = new ArrayList<RefRight>();
-    allRights.addAll(getLocalRights(actionId));
-
-    if (actionId.canInheritFromWildProject()) {
-      allRights.addAll(getInheritedRights(actionId));
-    }
+    allRights.addAll(getAllRights(actionId));
 
     SortedMap<String, RefRightsForPattern> perPatternRights =
       sortedRightsByPattern(allRights);
 
     for (RefRightsForPattern right : perPatternRights.values()) {
-      val = Math.max(val, right.allowedValueForRef(groups));
-      if (val >= level) {
-        break;
+      if (right.allowedValueForRef(groups, level)) {
+        return true;
       }
       if (right.containsExclusive() && !actionId.equals(OWN)) {
         break;
       }
     }
-    return val >= level;
+    return false;
   }
 
   /**
@@ -467,12 +461,8 @@ public class RefControl {
     return rights;
   }
 
-  private List<RefRight> getLocalRights(ApprovalCategory.Id actionId) {
-    return filter(getProjectState().getLocalRights(actionId));
-  }
-
-  private List<RefRight> getInheritedRights(ApprovalCategory.Id actionId) {
-    return filter(getProjectState().getInheritedRights(actionId));
+  private List<RefRight> getAllRights(ApprovalCategory.Id actionId) {
+    return filter(getProjectState().getAllRights(actionId, true));
   }
 
   /**
@@ -487,8 +477,7 @@ public class RefControl {
    */
   public List<RefRight> getApplicableRights(final ApprovalCategory.Id id) {
     List<RefRight> l = new ArrayList<RefRight>();
-    l.addAll(getLocalRights(id));
-    l.addAll(getInheritedRights(id));
+    l.addAll(getAllRights(id));
     SortedMap<String, RefRightsForPattern> perPatternRights =
       sortedRightsByPattern(l);
     List<RefRight> applicable = new ArrayList<RefRight>();

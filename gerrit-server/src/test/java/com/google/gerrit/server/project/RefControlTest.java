@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.gerrit.reviewdb.ApprovalCategory.OWN;
 import static com.google.gerrit.reviewdb.ApprovalCategory.READ;
+import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
 
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
@@ -128,6 +129,45 @@ public class RefControlTest extends TestCase {
 
     assertTrue("can upload refs/heads/foobar", //
         u.controlForRef("refs/heads/foobar").canUpload());
+  }
+
+  public void testInheritRead_OverrideWithDeny() {
+    inherited.add(grant(READ, registered, "refs/*", 1, 1));
+    local.add(grant(READ, registered, "refs/*", -1, -1));
+
+    ProjectControl u = user();
+    assertFalse("can't read", u.isVisible());
+  }
+
+  public void testInheritRead_AppendsWithDenyOfRef() {
+    inherited.add(grant(READ, registered, "refs/*", 1, 1));
+    local.add(grant(READ, registered, "refs/heads/*", -1, -1));
+
+    ProjectControl u = user();
+    assertTrue("can read", u.isVisible());
+    assertTrue("can read", u.controlForRef("refs/master").isVisible());
+    assertTrue("can read", u.controlForRef("refs/tags/foobar").isVisible());
+  }
+
+  public void testInheritRead_OverridesAndDeniesOfRef() {
+    inherited.add(grant(READ, registered, "refs/*", 1, 1));
+    local.add(grant(READ, registered, "refs/*", -1, -1));
+    local.add(grant(READ, registered, "refs/heads/*", -1, 1));
+
+    ProjectControl u = user();
+    assertTrue("can read", u.isVisible());
+    assertFalse("can't read", u.controlForRef("refs/foobar").isVisible());
+    assertTrue("can read", u.controlForRef("refs/heads/foobar").isVisible());
+  }
+
+  public void testInheritSubmit_OverridesAndDeniesOfRef() {
+    inherited.add(grant(SUBMIT, registered, "refs/*", 1, 1));
+    local.add(grant(SUBMIT, registered, "refs/*", -1, -1));
+    local.add(grant(SUBMIT, registered, "refs/heads/*", -1, 1));
+
+    ProjectControl u = user();
+    assertFalse("can't submit", u.controlForRef("refs/foobar").canSubmit());
+    assertTrue("can submit", u.controlForRef("refs/heads/foobar").canSubmit());
   }
 
   public void testCannotUploadToAnyRef() {

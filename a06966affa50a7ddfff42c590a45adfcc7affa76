@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7H///9A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-08-31T15:05:11Z",
+      "side": 1,
+      "message": "Please, ignore this question.",
+      "parentUuid": "AAAA7H///98\u003d",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA63///8A\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefMergeStrategy.java",
         "patchSetId": 1
@@ -325,6 +343,24 @@
       "side": 1,
       "message": "Do you mean automatically done? Or should I call any method in order to get it performed?",
       "parentUuid": "AAAA63///88\u003d",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///9E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_42.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-08-31T15:05:11Z",
+      "side": 1,
+      "message": "Oh, yes, I could finally understand why I insisted on dropping the table by myself. Because the user installing gerrit is asked about removing the column submit_type and I did not want to ask it. Anyway, I have modified it to not call drop column here.",
+      "parentUuid": "AAAA7H///+E\u003d",
       "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

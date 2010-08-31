@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7H///+U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-08-31T06:45:41Z",
+      "side": 1,
+      "message": "I completely agree.",
+      "parentUuid": "AAAA63///8o\u003d",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA63///8s\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectScreen.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-08-30T22:06:08Z",
       "side": 1,
       "message": "Do not include spaces in anchor tokens.  Use an underscore instead.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///98\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-08-31T06:45:41Z",
+      "side": 1,
+      "message": "Since it will be the string shown in UI, do you think it would be better if changed to \"mergeStrategies\"? Or do you prefer the underscore use? I tried to imagine a description string with only one word, but I could not figure out one :-(",
+      "parentUuid": "AAAA63///8s\u003d",
       "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7H///+Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-08-31T06:45:41Z",
+      "side": 1,
+      "message": "It would be really better.",
+      "parentUuid": "AAAA63///7w\u003d",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA63///7k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -138,6 +192,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7H///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-08-31T06:45:41Z",
+      "side": 1,
+      "message": "I should fix it too. This feature was actually implemented before we uploaded the regex rules and I missed it needed to update here.",
+      "parentUuid": "AAAA63///7k\u003d",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA63///9Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 1
@@ -149,6 +221,24 @@
       "writtenOn": "2010-08-30T22:06:08Z",
       "side": 1,
       "message": "This should be coming from the StringsUtil class in the Apache package we imported from, not our own private implementation.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-08-31T06:45:41Z",
+      "side": 1,
+      "message": "Yes. It should not exist here at all, it seems it is even not been called.",
+      "parentUuid": "AAAA63///9Y\u003d",
       "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -217,6 +307,24 @@
       "writtenOn": "2010-08-30T22:06:08Z",
       "side": 1,
       "message": "This drop will be executed for you by gwtorm.",
+      "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_42.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-08-31T06:45:41Z",
+      "side": 1,
+      "message": "Do you mean automatically done? Or should I call any method in order to get it performed?",
+      "parentUuid": "AAAA63///88\u003d",
       "revId": "a06966affa50a7ddfff42c590a45adfcc7affa76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA63///6c\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/ScanTrackingIds.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-31T00:07:05Z",
+      "side": 1,
+      "message": "We also need to bind the project cache:\n\n  install(ProjectCache.module());\n\nThis unfortunately will then require you to bind the cache manager:\n\n  bind(CachePool.class);",
+      "revId": "eb8f4b211c4db52fffefa47836bee26373553b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///60\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-31T00:07:05Z",
+      "side": 1,
+      "message": "Style-nit: Use Project.Id here.",
+      "revId": "eb8f4b211c4db52fffefa47836bee26373553b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-31T00:07:05Z",
+      "side": 1,
+      "message": "Style-nit: This line is over 100 characters.  We tend to target closer to 80.",
+      "revId": "eb8f4b211c4db52fffefa47836bee26373553b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushAllProjectsOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-31T00:07:05Z",
+      "side": 1,
+      "message": "Why not compare Project.Ids?",
+      "revId": "eb8f4b211c4db52fffefa47836bee26373553b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-31T00:07:05Z",
+      "side": 1,
+      "message": "This is dumb.  Add a Project.Id form to ProjectControl.GenericFactory and ProjectControl.Factory.  That way we only have to perform 1 cache lookup, not 2.",
+      "revId": "eb8f4b211c4db52fffefa47836bee26373553b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-31T00:07:05Z",
+      "side": 1,
+      "message": "Same comment as above about using Project.Id here.",
+      "revId": "eb8f4b211c4db52fffefa47836bee26373553b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-31T00:07:05Z",
+      "side": 1,
+      "message": "Maybe instead of loading from the database using duplicated code, we do byId.get(pn.getId()) ?  Its a recursive load through the byId cache, but then we share the same ProjectState in memory and don\u0027t duplicate it.  And we\u0027re not duplicating the logic of how to construct a ProjectState from the database.",
+      "revId": "eb8f4b211c4db52fffefa47836bee26373553b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-31T00:07:05Z",
+      "side": 1,
+      "message": "Use getId() instead?",
+      "revId": "eb8f4b211c4db52fffefa47836bee26373553b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-31T00:07:05Z",
+      "side": 1,
+      "message": "This can NPE if the name we were given doesn\u0027t exist.\n\nWe should instead either throw IllegalArgumentException(\"No such project \"+name), or construct a ProjectPredicate which will never match the input project name.",
+      "revId": "eb8f4b211c4db52fffefa47836bee26373553b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-31T00:07:05Z",
+      "side": 1,
+      "message": "I\u0027d like to still keep the name the caller gave us as the \"value\" of the predicate, so its toString() says \"project:name\" rather than \"project:id\".  So add the name argument back in as a 3rd arg.",
+      "revId": "eb8f4b211c4db52fffefa47836bee26373553b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ProjectPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-31T00:07:05Z",
+      "side": 1,
+      "message": "Instead of toString and parsing, store the Project.Id passed in the constructor into a field that this method returns.",
+      "revId": "eb8f4b211c4db52fffefa47836bee26373553b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///7E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_34.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-31T00:07:05Z",
+      "side": 1,
+      "message": "This isn\u0027t entirely true.  They need to run an earlier version of gerrit to init forward to this schema version.",
+      "revId": "eb8f4b211c4db52fffefa47836bee26373553b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA63///64\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-08-31T00:07:05Z",
+      "side": 1,
+      "message": "Why compare names still?  Why not compare Project.Id?",
+      "revId": "eb8f4b211c4db52fffefa47836bee26373553b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

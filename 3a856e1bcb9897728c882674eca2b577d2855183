@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7H///2A\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-01T01:14:00Z",
+      "side": 1,
+      "message": "Formatting here is really bad since its way over 100 chars/line.  Can you find a way to make this use shorter lines?",
+      "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///1U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-01T01:14:00Z",
+      "side": 1,
+      "message": "Document the dropOverriden parameter?",
+      "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///1Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-01T01:14:00Z",
+      "side": 1,
+      "message": "Doesn\u0027t work with the inherited rights.  :-(\n\nThe project name of the inherited right is say \"-- All Projects --\", so this key will form a different key than the local right, and thus still wind up in the result set.\n\nYou know what, I think I introduced the bug you are trying to fix in change I4ff6c02918990b36447186c569ec95f0db21e3ac.  We used to stop searching as soon as a local right was matched for the user.\n\nAnyway, we should implement this correctly.  The project name can\u0027t be used as part of the set key (due to it changing over inheritance).  The ApprovalCategory.Id is already identical across all RefRight (due to the filter and getLocalRights above).  So we\u0027re down to only needing to track AccountGroup.Id and RefPattern.\n\n  private static class Grant {\n    final AccountGroup.Id group;\n    final RefRight.RefPattern pattern;\n\n    Group(...) {...}\n\n    public int hashCode() {...}\n    public boolean equals(Object ...) {...}\n  }\n\n  if (dropOverridden) {\n    HashSet\u003cGrant\u003e grants \u003d new HashSet\u003cGrant\u003e();\n    Iterator\u003cRefRight\u003e itr \u003d rights.iterator();\n    while (itr.hasNext()) {\n      if (!grants.add(new Grant(itr.next()))) {\n        itr.remove();\n      }\n    }\n  }",
+      "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///1A\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-01T01:14:00Z",
+      "side": 1,
+      "message": "Please add below this:\n\n  assertFalse(\"no master\", u.controlForRef(\"refs/heads/master\").isVisible());",
+      "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///04\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-01T01:14:00Z",
+      "side": 1,
+      "message": "Use just 1 here (The single value form of grant).",
+      "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///08\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-01T01:14:00Z",
+      "side": 1,
+      "message": "Should be just 0 here.  (The single value form of grant.)",
+      "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///00\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-01T01:14:00Z",
+      "side": 1,
+      "message": "Should be just 1 here.  (The single value form of grant.)",
+      "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

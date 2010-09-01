@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.account;
+package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.NavigationTable;
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
@@ -29,9 +28,9 @@ import java.util.List;
 public class ProjectsTable extends NavigationTable<Project> {
 
   public ProjectsTable() {
-    setSavePointerId(PageLinks.SETTINGS_PROJECTS);
     keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.projectListPrev()));
     keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.projectListNext()));
+    keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.projectListOpen()));
     keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
                                                   Util.C.projectListOpen()));
 
@@ -91,7 +90,7 @@ public class ProjectsTable extends NavigationTable<Project> {
     }
   }
 
-  protected void display(final List<Project> projects) {
+  public void display(final List<Project> projects) {
     while (1 < table.getRowCount())
       table.removeRow(table.getRowCount() - 1);
 

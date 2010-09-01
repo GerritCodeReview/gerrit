@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7H///uU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-09-01T17:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA7H///2A\u003d",
+      "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7H///1U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2010-09-01T01:14:00Z",
       "side": 1,
       "message": "Document the dropOverriden parameter?",
+      "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///uc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-09-01T17:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA7H///1U\u003d",
       "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7H///uk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-09-01T17:00:03Z",
+      "side": 1,
+      "message": "Oh, yeah. We already have a project. I also fixed tests so inherited rights have project !\u003d local rights.",
+      "parentUuid": "AAAA7H///1Q\u003d",
+      "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7H///1A\u003d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2010-09-01T01:14:00Z",
       "side": 1,
       "message": "Please add below this:\n\n  assertFalse(\"no master\", u.controlForRef(\"refs/heads/master\").isVisible());",
+      "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///u4\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-09-01T17:00:03Z",
+      "side": 1,
+      "message": "here should be assertTrue, as we *append* permission, not override it (refs are different)",
+      "parentUuid": "AAAA7H///1A\u003d",
       "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7H///u0\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-09-01T17:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA7H///04\u003d",
+      "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7H///08\u003d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
         "patchSetId": 2
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7H///uw\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-09-01T17:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA7H///08\u003d",
+      "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7H///00\u003d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
         "patchSetId": 2
@@ -115,6 +223,24 @@
       "writtenOn": "2010-09-01T01:14:00Z",
       "side": 1,
       "message": "Should be just 1 here.  (The single value form of grant.)",
+      "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///us\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-09-01T17:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA7H///00\u003d",
       "revId": "3a856e1bcb9897728c882674eca2b577d2855183",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

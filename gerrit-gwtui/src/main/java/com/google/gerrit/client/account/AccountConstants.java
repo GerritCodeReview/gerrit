@@ -85,11 +85,7 @@ public interface AccountConstants extends Constants {
   String buttonBrowseProjects();
   String projects();
   String projectsClose();
-  String projectName();
-  String projectDescription();
   String projectListOpen();
-  String projectListPrev();
-  String projectListNext();
   String watchedProjectName();
   String watchedProjectFilter();
   String watchedProjectColumnEmailNotifications();

@@ -19,6 +19,8 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
+import com.google.gerrit.client.ui.ProjectsTable;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountProjectWatchInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -176,6 +178,12 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     });
 
     projectsTab = new ProjectsTable() {
+      {
+        keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.projectListOpen()));
+        keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
+                                                      Util.C.projectListOpen()));
+      }
+
       @Override
       protected void movePointerTo(final int row, final boolean scroll) {
         super.movePointerTo(row, scroll);
@@ -192,6 +200,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
         doAddNew();
       }
     };
+    projectsTab.setSavePointerId(PageLinks.SETTINGS_PROJECTS);
 
     close = new Button(Util.C.projectsClose());
     close.addClickHandler(new ClickHandler() {

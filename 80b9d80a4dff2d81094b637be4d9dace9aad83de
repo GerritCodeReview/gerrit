@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7H///ms\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-09-02T00:50:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA7H///p8\u003d",
+      "revId": "80b9d80a4dff2d81094b637be4d9dace9aad83de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7H///qA\u003d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2010-09-01T23:15:52Z",
       "side": 1,
       "message": "I have to say, using true for local and false for inherited is obtuse.  Too obtuse for a unit test.\n\nMaybe rename \"local\" and \"inherited\" to be localRights and inheritedRights, then rename the project name keys to be \"local\" and \"parent\".  Then you can do grant(local, ..) or grant(parent, ...) here to pass in the name key, and then in grant you can use the name key to decide which collection it goes into.",
+      "revId": "80b9d80a4dff2d81094b637be4d9dace9aad83de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///mk\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-09-02T00:50:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA7H///qA\u003d",
       "revId": "80b9d80a4dff2d81094b637be4d9dace9aad83de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

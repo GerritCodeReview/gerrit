@@ -578,6 +578,27 @@ repository data manipulation.
 +
 Default on JGit is 128 file descriptors on all platforms.
 
+[[core.streamFileThreshold]]core.streamFileThreshold::
++
+Largest object size, in bytes, that JGit will allocate as a
+contiguous byte array.  Any file revision larger than this threshold
+will have to be streamed, typically requiring the use of temporary
+files under '$GIT_DIR/objects' to implement psuedo-random access
+during delta decompression.
++
+Servers with very high traffic should set this to be larger than
+the size of their common big files.  For example a server managing
+the Android platform typically has to deal with ~10-12 MiB XML
+files, so `15 m` would be a reasonable setting in that environment.
+Setting this too high may cause the JVM to run out of heap space
+when handling very big binary files, such as device firmware or
+CD-ROM ISO images.
++
+Default is 5 MiB on all platforms.  Prior to Gerrit 2.1.6,
+this value was effectively 2047 MiB.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
+
 [[core.packedGitMmap]]core.packedGitMmap::
 +
 When true, JGit will use `mmap()` rather than `malloc()+read()`

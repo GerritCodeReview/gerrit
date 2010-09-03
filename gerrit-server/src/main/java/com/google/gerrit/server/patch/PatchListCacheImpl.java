@@ -87,7 +87,6 @@ import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextIgnoreAllWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreTrailingWhitespace;
 import org.eclipse.jgit.diff.RawTextIgnoreWhitespaceChange;
-import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.diff.ReplaceEdit;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Config;
@@ -247,17 +246,15 @@ public class PatchListCacheImpl implements PatchListCache {
         DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
         df.setRepository(repo);
         df.setRawTextFactory(rawTextFactory);
-
-        RenameDetector rd = new RenameDetector(repo);
-        rd.addAll(DiffEntry.scan(walk));
-        List<DiffEntry> diffEntries = rd.compute();
+        df.setDetectRenames(true);
+        List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
         final int cnt = diffEntries.size();
         final PatchListEntry[] entries = new PatchListEntry[1 + cnt];
         entries[0] = newCommitMessage(rawTextFactory, repo, reader, //
             againstParent ? null : aCommit, b);
         for (int i = 0; i < cnt; i++) {
-          FileHeader fh = df.createFileHeader(diffEntries.get(i));
+          FileHeader fh = df.toFileHeader(diffEntries.get(i));
           entries[1 + i] = newEntry(reader, aTree, bTree, fh);
         }
         return new PatchList(a, b, computeIntraline, againstParent, entries);

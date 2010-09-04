@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7H///T4\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubscriptionAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "This column needs an index added to it in index_generic.sql and index_postgres.sql.  You also have to manually add the index during your schema upgrade class, otherwise the server may be forced to do a table scan.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///Q4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "This seems to implicitly assume we only want to match ourselves using the unqualified part of our hostname?\n\nWhat happens if our server is called \"git.example.com\" and it has a manifest that pulls from both \"git.example.com\" and also \"git.kernel.org\"?  It seems we would think the latter repositories match here too, which may cause us to update things we didn\u0027t expect.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///QE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "We need to also process this during branch creation, and during ReceiveCommits in the case of a direct push.  So this should be abstracted out of MergeOp into some new class that we can invoke from multiple places within Gerrit.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///Qg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "I don\u0027t understand the purpose of this block.  If the path in the submodule doesn\u0027t contain a \"/\" we seem to be assuming its relative to the manifest project\u0027s name.  But the way we do that doesn\u0027t make sense either.  What if your manifest was called \"android/stable/platform/manifest\"?  The prefix would be \"android/\" and that is quite likely *not* to match.\n\nWorse, this isn\u0027t actually relevant.  The submodule.NAME.path field tells us what GITLINK in the tree to update.  Not the Gerrit project that triggers the updating.\n\nIts the URL that tells us the Gerrit project.  You need to take the url field and decide not only \"is it this server\", but also use that to determine the project name on this server.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///QY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "The Project.NameKey should be derived from url, not path.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///QU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "Should be removeAll(newSubscriptions).",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///QQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "We should be able to delete old subscriptions even if there are no new subscriptions.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///QM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1090,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "I would prefer this to just be constructed in the field declaration.  That way we know its built and don\u0027t have to worry about a possible recursion failing to pass !\u003d null for msg.  If a recursive call passed msg \u003d\u003d null we\u0027d recreate this map, lose our state, and possibly enter a loop.  That\u0027s bad.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///QI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we add this before we make the updateGitlinks call?  That way it can\u0027t recurse on itself.  I\u0027m worried about what happens if you subscribe a project or branch to itself for example.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///Tw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "Author should be the submitter of the change that triggered this update.  Committer should be myIdent, which is the server\u0027s user.name and user.email from gerrit.config.\n\nIf we can\u0027t find the submitter, or its ambiguous (as there was more than one submitter submitting in the same batch step) then author should also be myIdent.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///T0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "This will always NPE.  You can\u0027t get the message from a RevCommit (which CodeReviewCommit extends) until after its been parsed by the RevWalk that allocated it.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///RY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "c.patchSetId isn\u0027t automatically populated.  You need to ensure its filled in yourself, unless you use the one that is already parsed and computed during validateChangeList() and stored inside of the commits map.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///Tk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "The whole rest of the block needs to be wrapped in a try/finally to ensure pdb is closed:\n\n  final Repository pdb \u003d ...;\n  try {\n    ... everything else ...\n  } finally {\n    pdb.close();\n  }",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///Tc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "Aborting out is fine, but given that this is a stale subscription we probably should update the database to remove it (so we don\u0027t get here again), and we should log what the subscription is that we are removing, so an admin knows we killed a particular record.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///TY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "We shouldn\u0027t be using a Branch.NameKey type for something that is the path of the repository within the manifest project.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///S4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1203,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "FYI, JGit renamed this CommitBuilder recently.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///S0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1209,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-04T00:14:38Z",
+      "side": 1,
+      "message": "You\u0027ll need to do oi.insert(commit) here instead (again due to a JGit API change).",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

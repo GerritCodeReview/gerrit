@@ -35,6 +35,51 @@ public final class AccountGeneralPreferences {
     REPO_DOWNLOAD, PULL, CHECKOUT, CHERRY_PICK, FORMAT_PATCH;
   }
 
+  public static enum DateFormat {
+    /** US style dates: Apr 27, Feb 14, 2010 */
+    STD("MMM d", "MMM d, yyyy"),
+
+    /** US style dates: 04/27, 02/14/10 */
+    US("MM/dd", "MM/dd/yy"),
+
+    /** ISO style dates: 2010-02-14 */
+    ISO("MM-dd", "yyyy-MM-dd");
+
+    private final String shortFormat;
+    private final String longFormat;
+
+    DateFormat(String shortFormat, String longFormat) {
+      this.shortFormat = shortFormat;
+      this.longFormat = longFormat;
+    }
+
+    public String getShortFormat() {
+      return shortFormat;
+    }
+
+    public String getLongFormat() {
+      return longFormat;
+    }
+  }
+
+  public static enum TimeFormat {
+    /** 12-hour clock: 1:15 am, 2:13 pm */
+    HHMM_12("h:mm a"),
+
+    /** 24-hour clock: 01:15, 14:13 */
+    HHMM_24("HH:mm");
+
+    private final String format;
+
+    TimeFormat(String format) {
+      this.format = format;
+    }
+
+    public String getFormat() {
+      return format;
+    }
+  }
+
   /** Number of changes to show in a screen. */
   @Column(id = 2)
   protected short maximumPageSize;
@@ -58,6 +103,12 @@ public final class AccountGeneralPreferences {
   /** If true we CC the user on their own changes. */
   @Column(id = 7)
   protected boolean copySelfOnEmail;
+
+  @Column(id = 8, length = 10, notNull = false)
+  protected String dateFormat;
+
+  @Column(id = 9, length = 10, notNull = false)
+  protected String timeFormat;
 
   public AccountGeneralPreferences() {
   }
@@ -124,6 +175,28 @@ public final class AccountGeneralPreferences {
     copySelfOnEmail = includeSelfOnEmail;
   }
 
+  public DateFormat getDateFormat() {
+    if (dateFormat == null) {
+      return DateFormat.STD;
+    }
+    return DateFormat.valueOf(dateFormat);
+  }
+
+  public void setDateFormat(DateFormat fmt) {
+    dateFormat = fmt.name();
+  }
+
+  public TimeFormat getTimeFormat() {
+    if (timeFormat == null) {
+      return TimeFormat.HHMM_12;
+    }
+    return TimeFormat.valueOf(timeFormat);
+  }
+
+  public void setTimeFormat(TimeFormat fmt) {
+    timeFormat = fmt.name();
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -131,5 +204,7 @@ public final class AccountGeneralPreferences {
     copySelfOnEmail = false;
     downloadUrl = null;
     downloadCommand = null;
+    dateFormat = null;
+    timeFormat = null;
   }
 }

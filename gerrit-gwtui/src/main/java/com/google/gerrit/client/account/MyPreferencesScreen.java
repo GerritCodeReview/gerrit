@@ -26,18 +26,24 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwtjsonrpc.client.VoidResult;
+
+import java.util.Date;
 
 public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox showSiteHeader;
   private CheckBox useFlashClipboard;
   private CheckBox copySelfOnEmails;
   private ListBox maximumPageSize;
+  private ListBox dateFormat;
+  private ListBox timeFormat;
   private Button save;
 
   @Override
@@ -72,15 +78,42 @@ public class MyPreferencesScreen extends SettingsScreen {
     }
     maximumPageSize.addChangeHandler(onChangeSave);
 
+    Date now = new Date();
+    dateFormat = new ListBox();
+    for (AccountGeneralPreferences.DateFormat fmt : AccountGeneralPreferences.DateFormat
+        .values()) {
+      StringBuilder r = new StringBuilder();
+      r.append(DateTimeFormat.getFormat(fmt.getShortFormat()).format(now));
+      r.append(" ; ");
+      r.append(DateTimeFormat.getFormat(fmt.getLongFormat()).format(now));
+      dateFormat.addItem(r.toString(), fmt.name());
+    }
+    dateFormat.addChangeHandler(onChangeSave);
+
+    timeFormat = new ListBox();
+    for (AccountGeneralPreferences.TimeFormat fmt : AccountGeneralPreferences.TimeFormat
+        .values()) {
+      StringBuilder r = new StringBuilder();
+      r.append(DateTimeFormat.getFormat(fmt.getFormat()).format(now));
+      timeFormat.addItem(r.toString(), fmt.name());
+    }
+    timeFormat.addChangeHandler(onChangeSave);
+
+    FlowPanel dateTimePanel = new FlowPanel();
+
     final int labelIdx, fieldIdx;
     if (LocaleInfo.getCurrentLocale().isRTL()) {
       labelIdx = 1;
       fieldIdx = 0;
+      dateTimePanel.add(timeFormat);
+      dateTimePanel.add(dateFormat);
     } else {
       labelIdx = 0;
       fieldIdx = 1;
+      dateTimePanel.add(dateFormat);
+      dateTimePanel.add(timeFormat);
     }
-    final Grid formGrid = new Grid(4, 2);
+    final Grid formGrid = new Grid(5, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -97,6 +130,10 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     formGrid.setText(row, labelIdx, Util.C.maximumPageSizeFieldLabel());
     formGrid.setWidget(row, fieldIdx, maximumPageSize);
+    row++;
+
+    formGrid.setText(row, labelIdx, Util.C.dateFormatLabel());
+    formGrid.setWidget(row, fieldIdx, dateTimePanel);
     row++;
 
     add(formGrid);
@@ -127,6 +164,8 @@ public class MyPreferencesScreen extends SettingsScreen {
     useFlashClipboard.setEnabled(on);
     copySelfOnEmails.setEnabled(on);
     maximumPageSize.setEnabled(on);
+    dateFormat.setEnabled(on);
+    timeFormat.setEnabled(on);
   }
 
   private void display(final AccountGeneralPreferences p) {
@@ -134,13 +173,28 @@ public class MyPreferencesScreen extends SettingsScreen {
     useFlashClipboard.setValue(p.isUseFlashClipboard());
     copySelfOnEmails.setValue(p.isCopySelfOnEmails());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.getMaximumPageSize());
+    setListBox(dateFormat, AccountGeneralPreferences.DateFormat.STD, //
+        p.getDateFormat());
+    setListBox(timeFormat, AccountGeneralPreferences.TimeFormat.HHMM_12, //
+        p.getTimeFormat());
   }
 
   private void setListBox(final ListBox f, final short defaultValue,
       final short currentValue) {
+    setListBox(f, String.valueOf(defaultValue), String.valueOf(currentValue));
+  }
+
+  private <T extends Enum<?>> void setListBox(final ListBox f,
+      final T defaultValue, final T currentValue) {
+    setListBox(f, defaultValue.name(), //
+        currentValue != null ? currentValue.name() : "");
+  }
+
+  private void setListBox(final ListBox f, final String defaultValue,
+      final String currentValue) {
     final int n = f.getItemCount();
     for (int i = 0; i < n; i++) {
-      if (Short.parseShort(f.getValue(i)) == currentValue) {
+      if (f.getValue(i).equals(currentValue)) {
         f.setSelectedIndex(i);
         return;
       }
@@ -158,12 +212,32 @@ public class MyPreferencesScreen extends SettingsScreen {
     return defaultValue;
   }
 
+  private <T extends Enum<?>> T getListBox(final ListBox f,
+      final T defaultValue, T[] all) {
+    final int idx = f.getSelectedIndex();
+    if (0 <= idx) {
+      String v = f.getValue(idx);
+      for (T t : all) {
+        if (t.name().equals(v)) {
+          return t;
+        }
+      }
+    }
+    return defaultValue;
+  }
+
   private void doSave() {
     final AccountGeneralPreferences p = new AccountGeneralPreferences();
     p.setShowSiteHeader(showSiteHeader.getValue());
     p.setUseFlashClipboard(useFlashClipboard.getValue());
     p.setCopySelfOnEmails(copySelfOnEmails.getValue());
     p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
+    p.setDateFormat(getListBox(dateFormat,
+        AccountGeneralPreferences.DateFormat.STD,
+        AccountGeneralPreferences.DateFormat.values()));
+    p.setTimeFormat(getListBox(timeFormat,
+        AccountGeneralPreferences.TimeFormat.HHMM_12,
+        AccountGeneralPreferences.TimeFormat.values()));
 
     enable(false);
     save.setEnabled(false);

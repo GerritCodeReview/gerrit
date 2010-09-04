@@ -16,6 +16,7 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gwt.i18n.client.DateTimeFormat;
 
 import java.util.Date;
@@ -24,13 +25,29 @@ import java.util.Date;
 public class FormatUtil {
   private static final long ONE_YEAR = 182L * 24 * 60 * 60 * 1000;
 
-  private static final DateTimeFormat sTime =
-      DateTimeFormat.getShortTimeFormat();
-  private static final DateTimeFormat sDate = DateTimeFormat.getFormat("MMM d");
-  private static final DateTimeFormat mDate =
-      DateTimeFormat.getMediumDateFormat();
-  private static final DateTimeFormat dtfmt =
-      DateTimeFormat.getFormat(mDate.getPattern() + " " + sTime.getPattern());
+  private static DateTimeFormat sTime = DateTimeFormat.getShortTimeFormat();
+  private static DateTimeFormat sDate = DateTimeFormat.getFormat("MMM d");
+  private static DateTimeFormat mDate = DateTimeFormat.getMediumDateFormat();
+  private static DateTimeFormat dtfmt;
+
+  public static void setPreferences(AccountGeneralPreferences pref) {
+    if (pref == null) {
+      if (Gerrit.isSignedIn()) {
+        pref = Gerrit.getUserAccount().getGeneralPreferences();
+      } else {
+        pref = new AccountGeneralPreferences();
+        pref.resetToDefaults();
+      }
+    }
+
+    String fmt_sTime = pref.getTimeFormat().getFormat();
+    String fmt_mDate = pref.getDateFormat().getLongFormat();
+
+    sTime = DateTimeFormat.getFormat(fmt_sTime);
+    sDate = DateTimeFormat.getFormat(pref.getDateFormat().getShortFormat());
+    mDate = DateTimeFormat.getFormat(fmt_mDate);
+    dtfmt = DateTimeFormat.getFormat(fmt_mDate + " " + fmt_sTime);
+  }
 
   /** Format a date using a really short format. */
   public static String shortFormat(Date dt) {
@@ -38,6 +55,7 @@ public class FormatUtil {
       return "";
     }
 
+    ensureInited();
     final Date now = new Date();
     dt = new Date(dt.getTime());
     if (mDate.format(now).equals(mDate.format(dt))) {
@@ -62,7 +80,14 @@ public class FormatUtil {
     if (dt == null) {
       return "";
     }
+    ensureInited();
     return dtfmt.format(new Date(dt.getTime()));
+  }
+
+  private static void ensureInited() {
+    if (dtfmt == null) {
+      setPreferences(null);
+    }
   }
 
   /** Format an account as a name and email address. */

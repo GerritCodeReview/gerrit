@@ -526,6 +526,7 @@ public class Gerrit implements EntryPoint {
       if (siteFooter != null) {
         siteFooter.setVisible(p.isShowSiteHeader());
       }
+      FormatUtil.setPreferences(myAccount.getGeneralPreferences());
     }
   }
 

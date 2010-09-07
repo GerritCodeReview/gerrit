@@ -229,7 +229,8 @@ public class ProjectAccessScreen extends ProjectScreen {
                                        : right.getApprovalCategoryId().get() );
 
       if (group != null) {
-        table.setText(row, 3, group.getName());
+        table.setWidget(row, 3, new Hyperlink(group.getName(), Dispatcher
+            .toAccountGroup(group.getId())));
       } else {
         table.setText(row, 3, Util.M.deletedGroup(right.getAccountGroupId()
             .get()));

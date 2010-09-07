@@ -55,7 +55,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -307,6 +306,7 @@ public class PushReplication implements ReplicationQueue {
   static class ReplicationConfig {
     private final RemoteConfig remote;
     private final int delay;
+    private final int retryDelay;
     private final WorkQueue.Executor pool;
     private final Map<URIish, PushOp> pending = new HashMap<URIish, PushOp>();
     private final PushOp.Factory opFactory;
@@ -318,6 +318,8 @@ public class PushReplication implements ReplicationQueue {
 
       remote = rc;
       delay = Math.max(0, getInt(rc, cfg, "replicationdelay", 15));
+      retryDelay = Math.max(5, Math.min(
+          getInt(rc, cfg, "replicationretry", 10), 120));
 
       final int poolSize = Math.max(0, getInt(rc, cfg, "threads", 1));
       final String poolName = "ReplicateTo-" + rc.getName();
@@ -383,6 +385,96 @@ public class PushReplication implements ReplicationQueue {
       }
     }
 
+    /**
+     * It schedules again a PushOp instance.
+     * <p>
+     * It is assumed to be previously scheduled and found a
+     * transport exception. It will schedule it as a push
+     * operation to be retried after the minutes count
+     * determined by class attribute retryDelay.
+     * <p>
+     * In case the PushOp instance to be scheduled has same
+     * URI than one also pending for retry, it adds to the one
+     * pending the refs list of the parameter instance.
+     * <p>
+     * In case the PushOp instance to be scheduled has same
+     * URI than one pending, but not pending for retry, it
+     * indicates the one pending should be canceled when it
+     * starts executing, removes it from pending list, and
+     * adds its refs to the parameter instance. The parameter
+     * instance is scheduled for retry.
+     * <p>
+     * Notice all operations to indicate a PushOp should be
+     * canceled, or it is retrying, or remove/add it from/to
+     * pending Map should be protected by the lock on pending
+     * Map class instance attribute.
+     *
+     * @param pushOp The PushOp instance to be scheduled.
+     */
+    void reschedule(final PushOp pushOp) {
+      try {
+        if (!controlFor(pushOp.getProjectNameKey()).isVisible()) {
+          return;
+        }
+      } catch (NoSuchProjectException e1) {
+        log.error("Internal error: project " + pushOp.getProjectNameKey()
+            + " not found during replication");
+        return;
+      }
+
+      // It locks access to pending variable.
+      synchronized (pending) {
+        PushOp pendingPushOp = pending.get(pushOp.getURI());
+
+        if (pendingPushOp != null) {
+          // There is one PushOp instance already pending to same URI.
+
+          if (pendingPushOp.isRetrying()) {
+            // The one pending is one already retrying, so it should
+            // maintain it and add to it the refs of the one passed
+            // as parameter to the method.
+
+            // This scenario would happen if a PushOp has started running
+            // and then before it failed due transport exception, another
+            // one to same URI started. The first one would fail and would
+            // be rescheduled, being present in pending list. When the
+            // second one fails, it will also be rescheduled and then,
+            // here, find out replication to its URI is already pending
+            // for retry (blocking).
+            pendingPushOp.addRefs(pushOp.getRefs());
+
+          } else {
+            // The one pending is one that is NOT retrying, it was just
+            // scheduled believing no problem would happen. The one pending
+            // should be canceled, and this is done by setting its canceled
+            // flag, removing it from pending list, and adding its refs to
+            // the pushOp instance that should then, later, in this method,
+            // be scheduled for retry.
+
+            // Notice that the PushOp found pending will start running and,
+            // when notifying it is starting (with pending lock protection),
+            // it will see it was canceled and then it will do nothing with
+            // pending list and it will not execute its run implementation.
+
+            pendingPushOp.cancel();
+            pending.remove(pendingPushOp);
+
+            pushOp.addRefs(pendingPushOp.getRefs());
+          }
+        }
+
+        if (pendingPushOp == null || !pendingPushOp.isRetrying()) {
+          // The PushOp method param instance should be scheduled for retry.
+          // Remember when retrying it should be used different delay.
+
+          pushOp.setToRetry();
+
+          pending.put(pushOp.getURI(), pushOp);
+          pool.schedule(pushOp, retryDelay, TimeUnit.MINUTES);
+        }
+      }
+    }
+
     ProjectControl controlFor(final Project.NameKey project)
         throws NoSuchProjectException {
       return projectControlFactory.controlFor(project);
@@ -390,7 +482,9 @@ public class PushReplication implements ReplicationQueue {
 
     void notifyStarting(final PushOp op) {
       synchronized (pending) {
-        pending.remove(op.getURI());
+        if (!op.wasCanceled()) {
+          pending.remove(op.getURI());
+        }
       }
     }
 

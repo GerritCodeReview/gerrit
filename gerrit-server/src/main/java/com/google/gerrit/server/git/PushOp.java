@@ -78,6 +78,13 @@ class PushOp implements ProjectRunnable {
 
   private Repository db;
 
+  /**
+   * It indicates if the current instance is in fact retrying to push.
+   */
+  private boolean retrying;
+
+  private boolean canceled;
+
   @Inject
   PushOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> s,
       final PushReplication.ReplicationConfig p, final RemoteConfig c,
@@ -88,6 +95,22 @@ class PushOp implements ProjectRunnable {
     config = c;
     projectName = d;
     uri = u;
+  }
+
+  public boolean isRetrying() {
+    return retrying;
+  }
+
+  public void setToRetry() {
+    retrying = true;
+  }
+
+  public void cancel() {
+    canceled = true;
+  }
+
+  public boolean wasCanceled() {
+    return canceled;
   }
 
   URIish getURI() {
@@ -103,45 +126,73 @@ class PushOp implements ProjectRunnable {
     }
   }
 
-  public void run() {
-    try {
-      // Lock the queue, and remove ourselves, so we can't be modified once
-      // we start replication (instead a new instance, with the same URI, is
-      // created and scheduled for a future point in time.)
-      //
-      pool.notifyStarting(this);
-      db = repoManager.openRepository(projectName.get());
-      runImpl();
-    } catch (RepositoryNotFoundException e) {
-      log.error("Cannot replicate " + projectName + "; " + e.getMessage());
+  public Set<String> getRefs() {
+    final Set<String> refs;
 
-    } catch (NoRemoteRepositoryException e) {
-      log.error("Cannot replicate to " + uri + "; repository not found");
+    if (mirror) {
+      refs = new HashSet<String>(1);
+      refs.add(MIRROR_ALL);
+    } else {
+      refs = delta;
+    }
 
-    } catch (NotSupportedException e) {
-      log.error("Cannot replicate to " + uri, e);
+    return refs;
+  }
 
-    } catch (TransportException e) {
-      final Throwable cause = e.getCause();
-      if (cause instanceof JSchException
-          && cause.getMessage().startsWith("UnknownHostKey:")) {
-        log.error("Cannot replicate to " + uri + ": " + cause.getMessage());
-      } else {
-        log.error("Cannot replicate to " + uri, e);
+  public void addRefs(Set<String> refs) {
+    if (!mirror) {
+      for (String ref : refs) {
+        addRef(ref);
       }
+    }
+  }
 
-    } catch (IOException e) {
-      log.error("Cannot replicate to " + uri, e);
+  public void run() {
+    // Lock the queue, and remove ourselves, so we can't be modified once
+    // we start replication (instead a new instance, with the same URI, is
+    // created and scheduled for a future point in time.)
+    //
+    pool.notifyStarting(this);
 
-    } catch (RuntimeException e) {
-      log.error("Unexpected error during replication to " + uri, e);
+    // It should only verify if it was canceled after calling notifyStarting,
+    // since the canceled flag would be set locking the queue.
+    if (!canceled) {
+      try {
+        db = repoManager.openRepository(projectName.get());
+        runImpl();
+      } catch (RepositoryNotFoundException e) {
+        log.error("Cannot replicate " + projectName + "; " + e.getMessage());
 
-    } catch (Error e) {
-      log.error("Unexpected error during replication to " + uri, e);
+      } catch (NoRemoteRepositoryException e) {
+        log.error("Cannot replicate to " + uri + "; repository not found");
 
-    } finally {
-      if (db != null) {
-        db.close();
+      } catch (NotSupportedException e) {
+        log.error("Cannot replicate to " + uri, e);
+
+      } catch (TransportException e) {
+        final Throwable cause = e.getCause();
+        if (cause instanceof JSchException
+            && cause.getMessage().startsWith("UnknownHostKey:")) {
+          log.error("Cannot replicate to " + uri + ": " + cause.getMessage());
+        } else {
+          log.error("Cannot replicate to " + uri, e);
+        }
+
+        // The remote push operation should be retried.
+        pool.reschedule(this);
+      } catch (IOException e) {
+        log.error("Cannot replicate to " + uri, e);
+
+      } catch (RuntimeException e) {
+        log.error("Unexpected error during replication to " + uri, e);
+
+      } catch (Error e) {
+        log.error("Unexpected error during replication to " + uri, e);
+
+      } finally {
+        if (db != null) {
+          db.close();
+        }
       }
     }
   }

@@ -1499,10 +1499,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         final PatchSet.Id psi = doReplace(req);
         if (psi != null) {
           closeChange(req.cmd, psi, req.newCommit);
-        } else {
-          log.warn("Replacement of Change-Id " + req.ontoChange
-              + " with commit " + req.newCommit.name()
-              + " did not import the new patch set.");
         }
       }
     } catch (IOException e) {

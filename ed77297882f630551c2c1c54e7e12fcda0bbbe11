@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA6n///8g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-09-07T17:36:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA6X///wQ\u003d",
+      "revId": "ed77297882f630551c2c1c54e7e12fcda0bbbe11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA6X///ok\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-08-26T14:06:01Z",
       "side": 1,
       "message": "I guess the icon was changed by mistake?\nShould be: Util.C.prevPatchLinkIcon()",
+      "revId": "ed77297882f630551c2c1c54e7e12fcda0bbbe11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6n///8c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-09-07T17:36:06Z",
+      "side": 1,
+      "message": "Good catch ... done.",
+      "parentUuid": "AAAA6X///ok\u003d",
       "revId": "ed77297882f630551c2c1c54e7e12fcda0bbbe11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA6n///8Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-09-07T17:36:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA6X///vY\u003d",
+      "revId": "ed77297882f630551c2c1c54e7e12fcda0bbbe11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA6X///vU\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2010-08-25T19:57:11Z",
       "side": 1,
       "message": "I can\u0027t help but wonder if it would be better to just pass the whole AccountDiffPreferences object into the fileList, and register a ValueChangedListener on the settingsPanel to forward an updated diff preferences to the fileList.  Then we\u0027re not reaching into private UI state of one panel in order to pull out configuration for another.",
+      "revId": "ed77297882f630551c2c1c54e7e12fcda0bbbe11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7H///8w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-09-07T17:36:06Z",
+      "side": 1,
+      "message": "Created ListenableAccountDiffPreference instead.",
+      "parentUuid": "AAAA6X///vU\u003d",
       "revId": "ed77297882f630551c2c1c54e7e12fcda0bbbe11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA6n///8Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-09-07T17:36:06Z",
+      "side": 1,
+      "message": "Doh!  Random debugging junk.  This patchset really was meant as more of a proof of concept. :)  (Excuses, excuses, tsk tsk...)",
+      "parentUuid": "AAAA6X///v4\u003d",
+      "revId": "ed77297882f630551c2c1c54e7e12fcda0bbbe11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA6X///wI\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2010-08-25T19:57:11Z",
       "side": 1,
       "message": "You also need to set the value of skipDeleted and skipUncommented to match the input preference from the user.",
+      "revId": "ed77297882f630551c2c1c54e7e12fcda0bbbe11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA6n///78\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-09-07T17:36:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA6X///wI\u003d",
       "revId": "ed77297882f630551c2c1c54e7e12fcda0bbbe11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -142,6 +142,19 @@ This is a Gerrit specific extension to the Git remote block.
 +
 By default, 15 seconds.
 
+[[remote.name.replicationRetry]]remote.<name>.replicationRetry::
++
+Number of minutes to wait before scheduling a remote push operation
+previously failed due offline remote server.
++
+If a remote push operation fails because a remote server was
+offline, all push operations to the same destination URL are
+blocked, and the remote push is continuously retried.
++
+This is a Gerrit specific extension to the Git remote block.
++
+By default, 1 minute.
+
 [[remote.name.threads]]remote.<name>.threads::
 +
 Number of worker threads to dedicate to pushing to the repositories

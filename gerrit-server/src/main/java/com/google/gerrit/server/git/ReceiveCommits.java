@@ -1084,20 +1084,30 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         if (priorPatchSet.equals(ps.getId()) && c.getTree() == prior.getTree()) {
           rp.getRevWalk().parseBody(prior);
           final boolean messageEq =
-              c.getFullMessage().equals(prior.getFullMessage());
+              eq(c.getFullMessage(), prior.getFullMessage());
           final boolean parentsEq = parentsEqual(c, prior);
+          final boolean authorEq = authorEqual(c, prior);
 
-          if (messageEq && parentsEq) {
+          if (messageEq && parentsEq && authorEq) {
             reject(request.cmd, "no changes made");
             return null;
           } else {
             ObjectReader reader = rp.getRevWalk().getObjectReader();
-            rp.sendMessage("(W) " + reader.abbreviate(c).name() + ":" //
-                + " no files changed, but" //
-                + (!messageEq ? " message updated" : "") //
-                + (!messageEq && !parentsEq ? " and" : "") //
-                + (!parentsEq ? " was rebased" : "") //
-            );
+            StringBuilder msg = new StringBuilder();
+            msg.append("(W) ");
+            msg.append(reader.abbreviate(c).name());
+            msg.append(":");
+            msg.append(" no files changed");
+            if (!authorEq) {
+              msg.append(", author changed");
+            }
+            if (!messageEq) {
+              msg.append(", message updated");
+            }
+            if (!parentsEq) {
+              msg.append(", was rebased");
+            }
+            rp.sendMessage(msg.toString());
           }
         }
       } catch (IOException e) {
@@ -1278,6 +1288,30 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       }
     }
     return true;
+  }
+
+  static boolean authorEqual(RevCommit a, RevCommit b) {
+    PersonIdent aAuthor = a.getAuthorIdent();
+    PersonIdent bAuthor = b.getAuthorIdent();
+
+    if (aAuthor == null && bAuthor == null) {
+      return true;
+    } else if (aAuthor == null || bAuthor == null) {
+      return false;
+    }
+
+    return eq(aAuthor.getName(), bAuthor.getName())
+        && eq(aAuthor.getEmailAddress(), bAuthor.getEmailAddress());
+  }
+
+  static boolean eq(String a, String b) {
+    if (a == null && b == null) {
+      return true;
+    } else if (a == null || b == null) {
+      return false;
+    } else {
+      return a.equals(b);
+    }
   }
 
   private void insertDummyApproval(final ReplaceResult result,

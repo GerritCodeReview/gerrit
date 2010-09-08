@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7X///yM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-08T12:01:13Z",
+      "side": 1,
+      "message": "Actually I was a bit surprised that double clicking in the popup immediately adds the project to the watch list at the screen in the background.\n\nWhat I was expecting is that the projects in the popup would have some kind of check box which allows me selecting several projects that I want to watch and then to confirm my selection by clicking on some \u0027Watch\u0027 button at the end of the popup, on the other side being able to cancel my selection by clicking on a \u0027cancel\u0027 button.\n\nWell, I guess I could also get used to the concept implemented here.",
+      "revId": "115fc0591e39697ab5bb48c06bdb016af1461ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7X///yU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-08T12:01:13Z",
+      "side": 1,
+      "message": "Maybe it makes sense to create a FlowPanel as body for the popup that contains a ScrollPane and then to add the project table to this ScrollPane (similar as it\u0027s done in the constructor of PatchBrowserPopup)?\n\nCurrently the popup height grows over the screen size if you have a long list of projects. I would prefer if the popup does not grow over the screen size, but to be able to scroll the project list within the popup if there are more projects than can be displayed within the screen (just like it\u0027s done in the PatchBrowserPopup if there is a long list of changed files).",
+      "revId": "115fc0591e39697ab5bb48c06bdb016af1461ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7X///yY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-08T12:01:13Z",
+      "side": 1,
+      "message": "Since I\u0027m able to open the popup with the mouse by clicking on the \u0027Browse\u0027 button I would say it should also be possible to close the popup by mouse. Currently this seems not to be possible.\n\nIt might be that for this actually some support in the PopupPanel class from gwt is missing. However looking at the popup that appears when pressing \u0027f\u0027 while reviewing files I noticed that there the popup at least closes when you are clicking with the mouse somewhere outside of the popup. I think we should make the same here, so that I\u0027m able to close the popup by clicking with the mouse outside of the popup, if not to introduce \u0027watch\u0027 and \u0027cancel\u0027 buttons as proposed above.",
+      "revId": "115fc0591e39697ab5bb48c06bdb016af1461ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7X///yc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-08T12:01:13Z",
+      "side": 1,
+      "message": "I\u0027m getting at this place an exception when I click on the \u0027Browse\u0027 button. The popup still opens but as a result the key navigation inside of the projects table in the popup is not working.\n\njava.lang.AssertionError: null\n \tat com.google.gwtexpui.globalkey.client.KeyCommandSet.add(KeyCommandSet.java:56)\n \tat com.google.gwtexpui.globalkey.client.GlobalKey$State.add(GlobalKey.java:162)\n \tat com.google.gwtexpui.globalkey.client.GlobalKey.addApplication(GlobalKey.java:101)\n \tat com.google.gerrit.client.account.MyWatchedProjectsScreen.displayPopup(MyWatchedProjectsScreen.java:217)\n \tat com.google.gerrit.client.account.MyWatchedProjectsScreen$11.preDisplay(MyWatchedProjectsScreen.java:280)\n \tat com.google.gerrit.client.account.MyWatchedProjectsScreen$11.preDisplay(MyWatchedProjectsScreen.java:1)\n \tat com.google.gerrit.client.rpc.ScreenLoadCallback.onSuccess(ScreenLoadCallback.java:32)\n \tat com.google.gwtjsonrpc.client.JsonUtil.invoke(JsonUtil.java:136)\n\t...",
+      "revId": "115fc0591e39697ab5bb48c06bdb016af1461ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7X///yI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-08T12:01:13Z",
+      "side": 1,
+      "message": "Would it make sense to filter out those projects that I\u0027m already watching?\n\nThis might depend on how the project list will we realised in the end. If check boxes for the project selection would be introduced (see comment above) it would maybe be better to initially mark their checkbox as checked to show that these projects are already being watched. This would then allow the user to also deselect watched projects to unwatch them.",
+      "revId": "115fc0591e39697ab5bb48c06bdb016af1461ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7X///yQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectsTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-08T12:01:13Z",
+      "side": 1,
+      "message": "ClickEvent and ClickHandler are not used -\u003e imports can be removed",
+      "revId": "115fc0591e39697ab5bb48c06bdb016af1461ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

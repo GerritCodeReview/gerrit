@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7X///Ts\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-09-13T19:37:34Z",
+      "side": 1,
+      "message": "Ok, I agree! But I will postpone this change to after all others. I prefer  prioritize code correction for now and after take care of all architecture stuff.",
+      "parentUuid": "AAAA7H///QE\u003d",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7H///Qg\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 4
@@ -64,6 +82,24 @@
       "writtenOn": "2010-09-04T00:14:38Z",
       "side": 1,
       "message": "I don\u0027t understand the purpose of this block.  If the path in the submodule doesn\u0027t contain a \"/\" we seem to be assuming its relative to the manifest project\u0027s name.  But the way we do that doesn\u0027t make sense either.  What if your manifest was called \"android/stable/platform/manifest\"?  The prefix would be \"android/\" and that is quite likely *not* to match.\n\nWorse, this isn\u0027t actually relevant.  The submodule.NAME.path field tells us what GITLINK in the tree to update.  Not the Gerrit project that triggers the updating.\n\nIts the URL that tells us the Gerrit project.  You need to take the url field and decide not only \"is it this server\", but also use that to determine the project name on this server.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7X///S8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-09-13T19:37:34Z",
+      "side": 1,
+      "message": "Ok, as far as I understood, the change need is so that:\n\nif destProject is platform/Project and url is android/stable/platform/manifest, platform/manisfest is the result for the subscription.\n\nif destProject is Project and url is android/stable/platform/manifest, manisfest is the result for the subscription.               \n\nif destProject is platform/Project and url is android/stable/tools/manifest, manisfest is the result for the subscription.\n\nIs that correct?",
+      "parentUuid": "AAAA7H///Qg\u003d",
       "revId": "5cced865689934207cc2dc5171e6815273635ac9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +225,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7X///Sg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-09-13T19:37:34Z",
+      "side": 1,
+      "message": "Ok. \nI intend to create a new CodeReviewCommit through rw.parseCommit(me.getValue()) just after line 1140 so that I can getshortMessage from that.",
+      "parentUuid": "AAAA7H///T0\u003d",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7H///RY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 4
@@ -251,6 +305,24 @@
       "writtenOn": "2010-09-04T00:14:38Z",
       "side": 1,
       "message": "We shouldn\u0027t be using a Branch.NameKey type for something that is the path of the repository within the manifest project.",
+      "revId": "5cced865689934207cc2dc5171e6815273635ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7X///Sc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-09-13T19:37:34Z",
+      "side": 1,
+      "message": "Should I get the path like at updateSubscription method using BlobBasedConfig class?",
+      "parentUuid": "AAAA7H///TY\u003d",
       "revId": "5cced865689934207cc2dc5171e6815273635ac9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

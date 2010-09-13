@@ -85,8 +85,11 @@ public interface AdminConstants extends Constants {
   String projectAdminTabGeneral();
   String projectAdminTabBranches();
   String projectAdminTabAccess();
+  String projectAdminTabAdmin();
 
   String noGroupSelected();
   String errorNoMatchingGroups();
   String errorNoGitRepository();
+
+  String buttonRenameProject();
 }

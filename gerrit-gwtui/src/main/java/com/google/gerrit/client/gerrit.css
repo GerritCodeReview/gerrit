@@ -1229,3 +1229,11 @@ a:hover.downloadLink {
   margin: 4px;
   opacity: 0.90;
 }
+
+
+/** Project Admin **/
+.renameProjectPanel {
+  margin-top: 10px;
+  background-color: trimColor;
+  padding: 5px 5px 5px 5px;
+}

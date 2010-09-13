@@ -22,4 +22,6 @@ public interface GerritMessages extends Messages {
   String poweredBy(String version);
 
   String noSuchAccountMessage(String who);
+
+  String projectRenameConfirmationMessage(String oldProjectName, String newProjectName);
 }

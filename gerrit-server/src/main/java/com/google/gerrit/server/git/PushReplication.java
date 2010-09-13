@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReplicationUser;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -55,7 +56,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -218,8 +218,6 @@ public class PushReplication implements ReplicationQueue {
   }
 
   private void replicateProject(final URIish replicateURI, final String head) {
-    SshSessionFactory sshFactory = SshSessionFactory.getInstance();
-    Session sshSession;
     String projectPath = QuotedString.BOURNE.quote(replicateURI.getPath());
 
     if (!usingSSH(replicateURI)) {
@@ -228,12 +226,17 @@ public class PushReplication implements ReplicationQueue {
       return;
     }
 
-    OutputStream errStream = createErrStream();
-    String cmd =
-        "mkdir -p " + projectPath + "&& cd " + projectPath
-            + "&& git init --bare" + "&& git symbolic-ref HEAD "
-            + QuotedString.BOURNE.quote(head);
+    final String cmd =
+      "mkdir -p " + projectPath + "&& cd " + projectPath
+      + "&& git init --bare" + "&& git symbolic-ref HEAD "
+      + QuotedString.BOURNE.quote(head);
+    sendSshCommand(cmd, replicateURI);
+  }
 
+  private void sendSshCommand(final String cmd, final URIish replicateURI) {
+    final SshSessionFactory sshFactory = SshSessionFactory.getInstance();
+    final Session sshSession;
+    final OutputStream errStream = createErrStream();
     try {
       sshSession =
           sshFactory.getSession(replicateURI.getUser(), replicateURI.getPass(),
@@ -258,11 +261,18 @@ public class PushReplication implements ReplicationQueue {
       }
       channel.disconnect();
       sshSession.disconnect();
+
+      if (errStream.toString().length() > 0) {
+        log.error("Error when trying to replicate to: "
+            + replicateURI.toString() + "\n" + "Command: "
+            + cmd + "\n" + "Error reported: "
+            + errStream.toString());
+      }
     } catch (JSchException e) {
       log.error("Communication error when trying to replicate to: "
-          + replicateURI.toString() + "\n" + "Error reported: "
-          + e.getMessage() + "\n" + "Error in communication: "
-          + errStream.toString());
+          + replicateURI.toString() + "\n" + "Command: " + cmd + "\n"
+          + "Error reported: " + e.getMessage() + "\n"
+          + "Error in communication: " + errStream.toString());
     }
   }
 
@@ -405,9 +415,17 @@ public class PushReplication implements ReplicationQueue {
 
     List<URIish> getURIs(final Project.NameKey project, final String urlMatch) {
       final List<URIish> r = new ArrayList<URIish>(remote.getURIs().size());
+      for (URIish uri : getURIs(urlMatch)) {
+        uri = uri.setPath(replace(uri.getPath(), "name", project.get()));
+        r.add(uri);
+      }
+      return r;
+    }
+
+    List<URIish> getURIs(final String urlMatch) {
+      final List<URIish> r = new ArrayList<URIish>(remote.getURIs().size());
       for (URIish uri : remote.getURIs()) {
         if (matches(uri, urlMatch)) {
-          uri = uri.setPath(replace(uri.getPath(), "name", project.get()));
           r.add(uri);
         }
       }
@@ -420,5 +438,43 @@ public class PushReplication implements ReplicationQueue {
       }
       return uri.toString().contains(urlMatch);
     }
+  }
+
+  @Override
+  public void replicateProjectRename(final NameKey oldProjectName,
+      final NameKey newProjectName) {
+    if (!isEnabled()) {
+      return;
+    }
+
+    for (ReplicationConfig config : configs) {
+      List<URIish> uriList = config.getURIs("*");
+
+      for (URIish uri : uriList) {
+        replicateProjectRename(uri, oldProjectName, newProjectName);
+      }
+    }
+  }
+
+  private void replicateProjectRename(final URIish replicateURI,
+      final NameKey oldProjectName, final NameKey newProjectName) {
+    final String oldProjectPath =
+        QuotedString.BOURNE.quote(replace(replicateURI.getPath(), "name",
+            oldProjectName.get()));
+    final URIish newReplicateURI =
+        replicateURI.setPath(replace(replicateURI.getPath(), "name",
+            newProjectName.get()));
+    final String newProjectPath =
+        QuotedString.BOURNE.quote(newReplicateURI.getPath());
+
+    if (!usingSSH(newReplicateURI)) {
+      log.warn("Cannot rename project " + oldProjectName.get() + " to "
+          + newProjectName.get() + " on remote site since the connection "
+          + "method is not SSH: " + replicateURI.toString());
+      return;
+    }
+
+    final String cmd = "mv " + oldProjectPath + " " + newProjectPath;
+    sendSshCommand(cmd, newReplicateURI);
   }
 }

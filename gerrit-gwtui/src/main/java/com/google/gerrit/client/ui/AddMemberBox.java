@@ -17,6 +17,7 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.admin.Util;
 import com.google.gerrit.client.ui.HintTextBox;
+import com.google.gerrit.client.ui.RPCSuggestOracle;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -41,7 +42,8 @@ public class AddMemberBox extends Composite {
     addPanel = new FlowPanel();
     addMember = new Button(Util.C.buttonAddGroupMember());
     nameTxtBox = new HintTextBox();
-    nameTxt = new SuggestBox(new AccountSuggestOracle(), nameTxtBox);
+    nameTxt = new SuggestBox(new RPCSuggestOracle(
+        new AccountSuggestOracle()), nameTxtBox);
 
     nameTxtBox.setVisibleLength(50);
     nameTxtBox.setHintText(Util.C.defaultAccountName());

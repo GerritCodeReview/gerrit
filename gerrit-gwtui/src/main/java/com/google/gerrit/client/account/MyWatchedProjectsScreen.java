@@ -21,6 +21,7 @@ import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
+import com.google.gerrit.client.ui.RPCSuggestOracle;
 import com.google.gerrit.common.data.AccountProjectWatchInfo;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change.Status;
@@ -62,7 +63,8 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
 
     {
       nameBox = new HintTextBox();
-      nameTxt = new SuggestBox(new ProjectNameSuggestOracle(), nameBox);
+      nameTxt = new SuggestBox(new RPCSuggestOracle(
+          new ProjectNameSuggestOracle()), nameBox);
       nameBox.setVisibleLength(50);
       nameBox.setHintText(Util.C.defaultProjectName());
       nameBox.addKeyPressHandler(new KeyPressHandler() {

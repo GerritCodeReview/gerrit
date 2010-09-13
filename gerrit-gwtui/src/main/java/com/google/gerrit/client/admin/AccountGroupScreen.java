@@ -22,6 +22,7 @@ import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.RPCSuggestOracle;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gerrit.common.data.AccountInfoCache;
@@ -143,7 +144,8 @@ public class AccountGroupScreen extends AccountScreen {
 
     ownerTxtBox = new NpTextBox();
     ownerTxtBox.setVisibleLength(60);
-    ownerTxt = new SuggestBox(new AccountGroupSuggestOracle(), ownerTxtBox);
+    ownerTxt = new SuggestBox(new RPCSuggestOracle(
+        new AccountGroupSuggestOracle()), ownerTxtBox);
     ownerPanel.add(ownerTxt);
 
     saveOwner = new Button(Util.C.buttonChangeGroupOwner());

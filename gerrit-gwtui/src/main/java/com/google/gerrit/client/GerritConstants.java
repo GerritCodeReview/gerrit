@@ -38,6 +38,8 @@ public interface GerritConstants extends Constants {
   String branchDeletionDialogTitle();
   String branchDeletionConfirmationMessage();
 
+  String projectRenameDialogTitle();
+
   String notSignedInTitle();
   String notSignedInBody();
 

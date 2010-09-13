@@ -39,6 +39,10 @@ public interface ProjectAdminService extends RemoteJsonService {
       AsyncCallback<ProjectDetail> callback);
 
   @SignInRequired
+  void renameProject(Project.NameKey projectNameKey, String newProjectName,
+      AsyncCallback<ProjectDetail> callback);
+
+  @SignInRequired
   void deleteRight(Project.NameKey projectName, Set<RefRight.Key> ids,
       AsyncCallback<ProjectDetail> callback);
 

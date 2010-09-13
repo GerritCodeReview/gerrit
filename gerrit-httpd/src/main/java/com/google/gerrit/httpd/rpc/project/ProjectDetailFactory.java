@@ -129,6 +129,7 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     detail.setCanModifyAgreements(userIsOwner);
     detail.setCanModifyDescription(userIsOwner);
     detail.setCanModifyMergeType(userIsOwner);
+    detail.setCanRename(userIsOwner);
     return detail;
   }
 

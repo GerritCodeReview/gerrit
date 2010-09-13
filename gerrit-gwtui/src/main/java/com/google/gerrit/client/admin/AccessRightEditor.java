@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.HintTextBox;
+import com.google.gerrit.client.ui.RPCSuggestOracle;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.ApprovalCategory;
@@ -100,7 +101,8 @@ public class AccessRightEditor extends Composite
     });
 
     nameTxt = new HintTextBox();
-    nameSug = new SuggestBox(new AccountGroupSuggestOracle(), nameTxt);
+    nameSug = new SuggestBox(new RPCSuggestOracle(
+        new AccountGroupSuggestOracle()), nameTxt);
     nameTxt.setVisibleLength(50);
     nameTxt.setHintText(Util.C.defaultAccountGroupName());
 

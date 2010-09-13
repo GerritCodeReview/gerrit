@@ -56,4 +56,13 @@ public interface ReplicationQueue {
    * @param head name HEAD should point at (must be {@code refs/heads/...}).
    */
   void replicateNewProject(Project.NameKey project, String head);
+
+  /**
+   * Renames a project at the remote sites.
+   * <p>
+   * @param oldProjectName the name of the project that should be renamed
+   * @param newProjectName the new project name
+   */
+  void replicateProjectRename(Project.NameKey oldProjectName,
+      Project.NameKey newProjectName);
 }

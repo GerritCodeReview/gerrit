@@ -156,6 +156,10 @@ public final class Project {
     return name.get();
   }
 
+  public void setName(final String name) {
+    this.name = new Project.NameKey(name);
+  }
+
   public String getDescription() {
     return description;
   }

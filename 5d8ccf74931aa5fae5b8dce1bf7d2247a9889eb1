@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7X///No\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-14T13:34:35Z",
+      "side": 1,
+      "message": "Does anybody have a good idea how to name the tab under the project administration where the rename functionality is offered? Currently it\u0027s named \u0027Admin\u0027 which is not such a good name considering that we are already in the project administration.\n\nMaybe \u0027Lifecycle Operations\u0027 could be used, if to think that later also the archiving of the project and project deletion could be offered on the same screen. But also this name does not convince me completely.\n\nAny other proposals?",
+      "revId": "5d8ccf74931aa5fae5b8dce1bf7d2247a9889eb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

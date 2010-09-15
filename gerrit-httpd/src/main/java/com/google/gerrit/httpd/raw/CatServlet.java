@@ -42,7 +42,6 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.NB;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -269,20 +268,7 @@ public class CatServlet extends HttpServlet {
     if (raw != null) {
       out.write(raw);
     } else {
-      InputStream in = blobLoader.openStream();
-      try {
-        byte[] buf = new byte[8192];
-        for (;;) {
-          int n = in.read(buf);
-          if (0 < n) {
-            out.write(buf, 0, n);
-          } else {
-            break;
-          }
-        }
-      } finally {
-        in.close();
-      }
+      blobLoader.copyTo(out);
     }
 
     if (zo != null) {

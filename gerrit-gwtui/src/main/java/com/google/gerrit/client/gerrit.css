@@ -69,7 +69,6 @@
   font-size: 11pt;
   padding-left: 5px;
   padding-right: 5px;
-  width: 98%;
 }
 
 .version,
@@ -198,6 +197,9 @@
   font-size: small;
   padding-left: 0.5em;
   padding-right: 0.5em;
+}
+.commentPanelMenuBar {
+  float: right;
 }
 .commentPanelMessage p {
   margin-top: 0px;
@@ -767,8 +769,7 @@
 }
 
 .changeComments {
-  margin-left: 0.5em;
-  margin-right: 0.5em;
+  padding-top: 1em;
   width: 60em;
 }
 

@@ -23,11 +23,29 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class HintTextBox extends NpTextBox {
-  private String hintText;
-  private String hintStyleName = Gerrit.RESOURCES.css().inputFieldTypeHint();
-  private boolean hintOn;
   private HandlerRegistration hintFocusHandler;
   private HandlerRegistration hintBlurHandler;
+
+  private String hintText;
+  private String hintStyleName = Gerrit.RESOURCES.css().inputFieldTypeHint();
+
+  private boolean hintOn;
+  private boolean isFocused;
+
+  /*
+   * There seems to be a strange bug (at least on firefox 3.5.9 ubuntu) with
+   * the textbox under the following circumstances:
+   *  1) The field is not focused with BText in it.
+   *  2) The field receives focus and a focus listener changes the text to FText
+   *  3) The ESC key is pressed and the value of the field has not changed
+   *     (ever) from FText
+   *  4) BUG: The text value gets reset to BText!
+   *
+   *  To counter this bug, force all focus events to first force a blur event.
+   *  For some reason, this seems to prevent the bug.
+   */
+
+  private boolean bugStopping = false;
 
   public String getText() {
     if (hintOn) {
@@ -38,8 +56,12 @@ public class HintTextBox extends NpTextBox {
 
   public void setText(String text) {
     focusHint();
+
     super.setText(text);
-    blurHint();
+
+    if (! isFocused) {
+      blurHint();
+    }
   }
 
   public String getHintText() {
@@ -48,17 +70,18 @@ public class HintTextBox extends NpTextBox {
 
   public void setHintText(String text) {
     if (text == null) {
-
-      // Clearing Hints
-
-      if (hintText != null) { // was set
-        hintFocusHandler.removeHandler();
-        hintFocusHandler = null;
-        hintBlurHandler.removeHandler();
-        hintBlurHandler = null;
-        hintText = null;
-        focusHint();
+      if (hintText == null) { // was not set, still not set, no change.
+        return;
       }
+
+      // Clearing a previously set Hint
+      hintFocusHandler.removeHandler();
+      hintFocusHandler = null;
+      hintBlurHandler.removeHandler();
+      hintBlurHandler = null;
+      hintText = null;
+      focusHint();
+
       return;
     }
 
@@ -70,26 +93,25 @@ public class HintTextBox extends NpTextBox {
       hintFocusHandler = addFocusHandler(new FocusHandler() {
           @Override
           public void onFocus(FocusEvent event) {
-            focusHint();
+            setFocus(true);
           }
         });
 
       hintBlurHandler = addBlurHandler(new BlurHandler() {
           @Override
           public void onBlur(BlurEvent event) {
-            blurHint();
+            setFocus(false);
           }
         });
 
-      blurHint();
-      return;
+    } else { // Changing an already set Hint
+
+      focusHint();
+      hintText = text;
     }
 
-    // Changing Hint
-
-    hintText = text;
-    if (hintOn) {
-      super.setText(text);
+    if (! isFocused) {
+      blurHint();
     }
   }
 
@@ -111,8 +133,8 @@ public class HintTextBox extends NpTextBox {
 
   protected void blurHint() {
     if (! hintOn && getHintText() != null && "".equals(super.getText())) {
-      super.setText(getHintText());
       hintOn = true;
+      super.setText(getHintText());
       if (getHintStyleName() != null) {
         addStyleName(getHintStyleName());
       }
@@ -122,10 +144,28 @@ public class HintTextBox extends NpTextBox {
   protected void focusHint() {
     if (hintOn) {
       super.setText("");
-      hintOn = false;
       if (getHintStyleName() != null) {
         removeStyleName(getHintStyleName());
       }
+      hintOn = false;
     }
+  }
+
+  public void setFocus(boolean focus) {
+    if (focus) {
+      bugStopping = true;
+      super.setFocus(!focus);
+      bugStopping = false;
+    }
+
+    super.setFocus(focus);
+
+    if (focus) {
+      focusHint();
+    } else if (!bugStopping) {
+      blurHint();
+    }
+
+    isFocused = focus;
   }
 }

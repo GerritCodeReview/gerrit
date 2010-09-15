@@ -25,8 +25,9 @@ import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadCommand;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.Patch;
@@ -34,8 +35,6 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.UserIdentity;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -48,9 +47,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
 import java.util.Collections;
@@ -167,7 +166,6 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
   }
 
   private void displayDownload() {
-    final Branch.NameKey branchKey = changeDetail.getChange().getDest();
     final Project.NameKey projectKey = changeDetail.getChange().getProject();
     final String projectName = projectKey.get();
     final CopyableLabel copyLabel = new CopyableLabel("");

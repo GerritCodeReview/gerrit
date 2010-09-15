@@ -29,9 +29,9 @@ import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.ToggleStarRequest;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Change.Status;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.Change.Status;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -39,6 +39,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -182,7 +183,7 @@ public class ChangeScreen extends Screen {
 
     dependencies = new ChangeTable() {
       {
-        table.setWidth("98%");
+        table.setWidth("auto");
       }
     };
     dependsOn = new ChangeTable.Section(Util.C.changeScreenDependsOn());
@@ -192,7 +193,6 @@ public class ChangeScreen extends Screen {
 
     dependenciesPanel = new DisclosurePanel(Util.C.changeScreenDependencies());
     dependenciesPanel.setContent(dependencies);
-    dependenciesPanel.setWidth("95%");
     add(dependenciesPanel);
 
     patchSetsBlock = new PatchSetsBlock(this);
@@ -272,15 +272,17 @@ public class ChangeScreen extends Screen {
   private void addComments(final ChangeDetail detail) {
     comments.clear();
 
-    final Label hdr = new Label(Util.C.changeScreenComments());
-    hdr.setStyleName(Gerrit.RESOURCES.css().blockHeader());
-    comments.add(hdr);
-
     final AccountInfoCache accts = detail.getAccounts();
     final List<ChangeMessage> msgList = detail.getMessages();
+
+    HorizontalPanel title = new HorizontalPanel();
+    title.setWidth("100%");
+    title.add(new Label(Util.C.changeScreenComments()));
     if (msgList.size() > 1) {
-      comments.add(messagesMenuBar());
+      title.add(messagesMenuBar());
     }
+    title.setStyleName(Gerrit.RESOURCES.css().blockHeader());
+    comments.add(title);
 
     final long AGE = 7 * 24 * 60 * 60 * 1000L;
     final Timestamp aged = new Timestamp(System.currentTimeMillis() - AGE);
@@ -316,24 +318,22 @@ public class ChangeScreen extends Screen {
       comments.add(cp);
     }
 
-    if (msgList.size() > 1) {
-      comments.add(messagesMenuBar());
-    }
     comments.setVisible(msgList.size() > 0);
   }
 
   private LinkMenuBar messagesMenuBar() {
     final Panel c = comments;
-    final LinkMenuBar m = new LinkMenuBar();
-    m.addItem(Util.C.messageExpandRecent(), new ExpandAllCommand(c, true) {
+    final LinkMenuBar menuBar = new LinkMenuBar();
+    menuBar.addItem(Util.C.messageExpandRecent(), new ExpandAllCommand(c, true) {
       @Override
       protected void expand(final CommentPanel w) {
         w.setOpen(w.isRecent());
       }
     });
-    m.addItem(Util.C.messageExpandAll(), new ExpandAllCommand(c, true));
-    m.addItem(Util.C.messageCollapseAll(), new ExpandAllCommand(c, false));
-    return m;
+    menuBar.addItem(Util.C.messageExpandAll(), new ExpandAllCommand(c, true));
+    menuBar.addItem(Util.C.messageCollapseAll(), new ExpandAllCommand(c, false));
+    menuBar.addStyleName(Gerrit.RESOURCES.css().commentPanelMenuBar());
+    return menuBar;
   }
 
   private void toggleStar() {

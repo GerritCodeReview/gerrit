@@ -67,6 +67,7 @@ public interface GerritCss extends CssResource {
   String commentPanelHeader();
   String commentPanelLast();
   String commentPanelMessage();
+  String commentPanelMenuBar();
   String commentPanelSummary();
   String commentPanelSummaryCell();
   String complexHeader();

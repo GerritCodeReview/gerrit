@@ -24,6 +24,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.mozilla.universalchardet.UniversalDetector;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ import java.text.SimpleDateFormat;
 public class Text extends RawText {
   private static final Logger log = LoggerFactory.getLogger(Text.class);
   private static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
-  private static final int bigFileThreshold = 10 * 1024 * 1024;
+  private static final int bigFileThreshold = PackConfig.DEFAULT_BIG_FILE_THRESHOLD;
 
   public static final byte[] NO_BYTES = {};
   public static final Text EMPTY = new Text(NO_BYTES);

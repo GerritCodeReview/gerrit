@@ -38,7 +38,7 @@ class HistoryTable extends FancyFlexTable<Patch> {
   HistoryTable(final PatchScreen parent) {
     setStyleName(Gerrit.RESOURCES.css().patchHistoryTable());
     screen = parent;
-    table.setWidth("98%");
+    table.setWidth("auto");
     table.addStyleName(Gerrit.RESOURCES.css().changeTable());
   }
 

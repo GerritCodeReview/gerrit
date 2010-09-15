@@ -32,6 +32,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Composite that displays the patch sets of a change. This composite ensures
@@ -39,7 +40,7 @@ import java.util.List;
  */
 public class PatchSetsBlock extends Composite {
 
-  private final HashMap<PatchSet.Id, PatchSetComplexDisclosurePanel> patchSetPanels =
+  private final Map<PatchSet.Id, PatchSetComplexDisclosurePanel> patchSetPanels =
       new HashMap<PatchSet.Id, PatchSetComplexDisclosurePanel>();
 
   private final ChangeScreen parent;

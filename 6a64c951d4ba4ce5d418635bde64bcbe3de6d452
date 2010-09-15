@@ -16,6 +16,24 @@
       "revId": "6a64c951d4ba4ce5d418635bde64bcbe3de6d452",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7n///+E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-09-15T19:08:27Z",
+      "side": 1,
+      "message": "I think you need to add an @external .content tag in the header of the file.  That prevents GWT from replacing content here with a random token name.",
+      "parentUuid": "AAAA7n///+M\u003d",
+      "revId": "6a64c951d4ba4ce5d418635bde64bcbe3de6d452",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -23,7 +23,7 @@
 @external .gwt-TextBox;
 @external .gwt-Hyperlink;
 @external .gwt-CheckBox;
-@external .gwt-DisclosurePanel, .header;
+@external .gwt-DisclosurePanel, .header, .content;
 @external .gwt-InlineLabel;
 @external .gwt-InlineHyperlink;
 @external .gwt-RadioButton;
@@ -756,6 +756,10 @@
 
 .changeScreen .gwt-DisclosurePanel .content {
   margin-bottom: 10px;
+}
+
+.gwt-DisclosurePanel .content {
+  margin-left: 10px;
 }
 
 .changeScreenDescription {

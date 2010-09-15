@@ -24,14 +24,12 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.mozilla.universalchardet.UniversalDetector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
@@ -112,32 +110,7 @@ public class Text extends RawText {
 
   public static byte[] asByteArray(ObjectLoader ldr)
       throws MissingObjectException, LargeObjectException, IOException {
-    if (!ldr.isLarge()) {
-      return ldr.getCachedBytes();
-    }
-
-    long sz = ldr.getSize();
-    if (sz > bigFileThreshold || sz > Integer.MAX_VALUE)
-      throw new LargeObjectException();
-
-    byte[] buf;
-    try {
-      buf = new byte[(int) sz];
-    } catch (OutOfMemoryError noMemory) {
-      LargeObjectException e;
-
-      e = new LargeObjectException();
-      e.initCause(noMemory);
-      throw e;
-    }
-
-    InputStream in = ldr.openStream();
-    try {
-      IO.readFully(in, buf, 0, buf.length);
-    } finally {
-      in.close();
-    }
-    return buf;
+    return ldr.getCachedBytes(bigFileThreshold);
   }
 
   private static Charset charset(byte[] content, String encoding) {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7X///vo\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-09-15T21:44:34Z",
+      "side": 1,
+      "message": "Good catch.  Done.",
+      "parentUuid": "AAAA7X///zI\u003d",
+      "revId": "9429698f8944e4904938a2c4600543e6e5064087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7X///zE\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7X///vk\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-09-15T21:44:34Z",
+      "side": 1,
+      "message": "No idea, I can\u0027t reproduce this either.",
+      "parentUuid": "AAAA7X///zE\u003d",
+      "revId": "9429698f8944e4904938a2c4600543e6e5064087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7X///zA\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2010-09-08T09:19:45Z",
       "side": 1,
       "message": "When calling the NavLinks#display(...) method we register key commands to navigate to the next / previous diff (keys \u0027[\u0027 and \u0027]\u0027).\nLet\u0027s say there is a previous diff to which I could navigate pressing \u0027[\u0027, but now I change the account diff preferences so that uncommented diffs are skipped. Now it might be that there is no previous diff anymore to which I can navigate (if all previous diffs have no comments). Pressing now \u0027[\u0027 fails with a NPE. I guess we need to ensure that the key command is unregistered in this case.\n\nLooks all a bit tricky.\n\nHere is the stacktrace for the NPE:\n\njava.lang.NullPointerException: while trying to invoke the method com.google.gerrit.client.ui.InlineHyperlink.go() of an object returned from com.google.gerrit.client.patches.NavLinks.access$0(com.google.gerrit.client.patches.NavLinks)\n \tat com.google.gerrit.client.patches.NavLinks$1.onKeyPress(NavLinks.java:84)\n \tat com.google.gwtexpui.globalkey.client.KeyCommandSet.onKeyPress(KeyCommandSet.java:117)\n \tat com.google.gwtexpui.globalkey.client.GlobalKey$2.onKeyPress(GlobalKey.java:55)\n \tat com.google.gwt.event.dom.client.KeyPressEvent.dispatch(KeyPressEvent.java:70)\n \tat com.google.gwt.event.dom.client.KeyPressEvent.dispatch(KeyPressEvent.java:1)\n \tat com.google.gwt.event.shared.HandlerManager$HandlerRegistry.fireEvent(HandlerManager.java:65)\n \tat com.google.gwt.event.shared.HandlerManager$HandlerRegistry.access$1(HandlerManager.java:53)\n \tat com.google.gwt.event.shared.HandlerManager.fireEvent(HandlerManager.java:178)\n \tat com.google.gwt.user.client.ui.Widget.fireEvent(Widget.java:52)\n \tat com.google.gwt.event.dom.client.DomEvent.fireNativeEvent(DomEvent.java:116)\n \tat com.google.gwt.user.client.ui.Widget.onBrowserEvent(Widget.java:100)\n \tat com.google.gwt.user.client.DOM.dispatchEventImpl(DOM.java:1307)\n \tat com.google.gwt.user.client.DOM.dispatchEvent(DOM.java:1263)\n \tat sun.reflect.GeneratedMethodAccessor47.invoke(Unknown Source)\n \tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)\n \tat java.lang.reflect.Method.invoke(Method.java:597)\n \tat com.google.gwt.dev.shell.MethodAdaptor.invoke(MethodAdaptor.java:103)\n \tat com.google.gwt.dev.shell.MethodDispatch.invoke(MethodDispatch.java:71)\n \tat com.google.gwt.dev.shell.OophmSessionHandler.invoke(OophmSessionHandler.java:157)\n \tat com.google.gwt.dev.shell.BrowserChannel.reactToMessagesWhileWaitingForReturn(BrowserChannel.java:1714)\n \tat com.google.gwt.dev.shell.BrowserChannelServer.invokeJavascript(BrowserChannelServer.java:165)\n \tat com.google.gwt.dev.shell.ModuleSpaceOOPHM.doInvoke(ModuleSpaceOOPHM.java:120)\n \tat com.google.gwt.dev.shell.ModuleSpace.invokeNative(ModuleSpace.java:507)\n \tat com.google.gwt.dev.shell.ModuleSpace.invokeNativeObject(ModuleSpace.java:264)\n \tat com.google.gwt.dev.shell.JavaScriptHost.invokeNativeObject(JavaScriptHost.java:91)\n \tat com.google.gwt.core.client.impl.Impl.apply(Impl.java)\n \tat com.google.gwt.core.client.impl.Impl.entry0(Impl.java:188)\n \tat sun.reflect.GeneratedMethodAccessor45.invoke(Unknown Source)\n \tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)\n \tat java.lang.reflect.Method.invoke(Method.java:597)\n \tat com.google.gwt.dev.shell.MethodAdaptor.invoke(MethodAdaptor.java:103)\n \tat com.google.gwt.dev.shell.MethodDispatch.invoke(MethodDispatch.java:71)\n \tat com.google.gwt.dev.shell.OophmSessionHandler.invoke(OophmSessionHandler.java:157)\n \tat com.google.gwt.dev.shell.BrowserChannel.reactToMessages(BrowserChannel.java:1669)\n \tat com.google.gwt.dev.shell.BrowserChannelServer.processConnection(BrowserChannelServer.java:401)\n \tat com.google.gwt.dev.shell.BrowserChannelServer.run(BrowserChannelServer.java:222)\n \tat java.lang.Thread.run(Thread.java:679)",
+      "revId": "9429698f8944e4904938a2c4600543e6e5064087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7X///vg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-09-15T21:44:34Z",
+      "side": 1,
+      "message": "Good catch, I simply need to be sure unregister the old keys and register the new ones whenever the screen is updated.  Done.",
+      "parentUuid": "AAAA7X///zA\u003d",
       "revId": "9429698f8944e4904938a2c4600543e6e5064087",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

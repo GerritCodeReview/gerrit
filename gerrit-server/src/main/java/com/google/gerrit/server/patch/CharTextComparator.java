@@ -14,34 +14,16 @@
 
 package com.google.gerrit.server.patch;
 
-import org.eclipse.jgit.diff.Sequence;
+import org.eclipse.jgit.diff.SequenceComparator;
 
-class CharText extends Sequence {
-  private final String content;
-
-  CharText(Text text, int s, int e) {
-    content = text.getLines(s, e, false /* keep LF */);
-  }
-
-  char charAt(int idx) {
-    return content.charAt(idx);
-  }
-
-  boolean isLineStart(int b) {
-    return b == 0 || charAt(b - 1) == '\n';
-  }
-
-  boolean contains(int b, int e, char c) {
-    for (; b < e; b++) {
-      if (charAt(b) == c) {
-        return true;
-      }
-    }
-    return false;
+class CharTextComparator extends SequenceComparator<CharText> {
+  @Override
+  public boolean equals(CharText a, int ai, CharText b, int bi) {
+    return a.charAt(ai) == b.charAt(bi);
   }
 
   @Override
-  public int size() {
-    return content.length();
+  public int hash(CharText seq, int ptr) {
+    return seq.charAt(ptr);
   }
 }

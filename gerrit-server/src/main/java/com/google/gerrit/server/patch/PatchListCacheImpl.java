@@ -84,9 +84,7 @@ import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.MyersDiff;
 import org.eclipse.jgit.diff.RawText;
-import org.eclipse.jgit.diff.RawTextIgnoreAllWhitespace;
-import org.eclipse.jgit.diff.RawTextIgnoreTrailingWhitespace;
-import org.eclipse.jgit.diff.RawTextIgnoreWhitespaceChange;
+import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.ReplaceEdit;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Config;
@@ -188,20 +186,20 @@ public class PatchListCacheImpl implements PatchListCache {
         final Repository repo) throws IOException {
       // TODO(jeffschu) correctly handle merge commits
 
-      RawText.Factory rawTextFactory;
+      RawTextComparator cmp;
       switch (key.getWhitespace()) {
         case IGNORE_ALL_SPACE:
-          rawTextFactory = RawTextIgnoreAllWhitespace.FACTORY;
+          cmp = RawTextComparator.WS_IGNORE_ALL;
           break;
         case IGNORE_SPACE_AT_EOL:
-          rawTextFactory = RawTextIgnoreTrailingWhitespace.FACTORY;
+          cmp = RawTextComparator.WS_IGNORE_TRAILING;
           break;
         case IGNORE_SPACE_CHANGE:
-          rawTextFactory = RawTextIgnoreWhitespaceChange.FACTORY;
+          cmp = RawTextComparator.WS_IGNORE_CHANGE;
           break;
         case IGNORE_NONE:
         default:
-          rawTextFactory = RawText.FACTORY;
+          cmp = RawTextComparator.DEFAULT;
           break;
       }
 
@@ -215,7 +213,7 @@ public class PatchListCacheImpl implements PatchListCache {
           // This is a merge commit, compared to its ancestor.
           //
           final PatchListEntry[] entries = new PatchListEntry[1];
-          entries[0] = newCommitMessage(rawTextFactory, repo, reader, null, b);
+          entries[0] = newCommitMessage(cmp, repo, reader, null, b);
           return new PatchList(a, b, computeIntraline, true, entries);
         }
 
@@ -245,13 +243,13 @@ public class PatchListCacheImpl implements PatchListCache {
 
         DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
         df.setRepository(repo);
-        df.setRawTextFactory(rawTextFactory);
+        df.setDiffComparator(cmp);
         df.setDetectRenames(true);
         List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
         final int cnt = diffEntries.size();
         final PatchListEntry[] entries = new PatchListEntry[1 + cnt];
-        entries[0] = newCommitMessage(rawTextFactory, repo, reader, //
+        entries[0] = newCommitMessage(cmp, repo, reader, //
             againstParent ? null : aCommit, b);
         for (int i = 0; i < cnt; i++) {
           FileHeader fh = df.toFileHeader(diffEntries.get(i));
@@ -264,7 +262,7 @@ public class PatchListCacheImpl implements PatchListCache {
     }
 
     private PatchListEntry newCommitMessage(
-        final RawText.Factory rawTextFactory, final Repository db,
+        final RawTextComparator cmp, final Repository db,
         final ObjectReader reader, final RevCommit aCommit,
         final RevCommit bCommit) throws IOException {
       StringBuilder hdr = new StringBuilder();
@@ -289,9 +287,9 @@ public class PatchListCacheImpl implements PatchListCache {
       Text bText = Text.forCommit(db, reader, bCommit);
 
       byte[] rawHdr = hdr.toString().getBytes("UTF-8");
-      RawText aRawText = rawTextFactory.create(aText.getContent());
-      RawText bRawText = rawTextFactory.create(bText.getContent());
-      EditList edits = new MyersDiff(aRawText, bRawText).getEdits();
+      RawText aRawText = new RawText(cmp, aText.getContent());
+      RawText bRawText = new RawText(cmp, bText.getContent());
+      EditList edits = new MyersDiff(cmp, aRawText, bRawText).getEdits();
       FileHeader fh = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
       return newEntry(reader, aText, bText, edits, null, null, fh);
     }
@@ -346,8 +344,9 @@ public class PatchListCacheImpl implements PatchListCache {
 
           CharText a = new CharText(aContent, e.getBeginA(), e.getEndA());
           CharText b = new CharText(bContent, e.getBeginB(), e.getEndB());
+          CharTextComparator cmp = new CharTextComparator();
 
-          List<Edit> wordEdits = new MyersDiff(a, b).getEdits();
+          List<Edit> wordEdits = new MyersDiff(cmp, a, b).getEdits();
 
           // Combine edits that are really close together. If they are
           // just a few characters apart we tend to get better results
@@ -412,11 +411,11 @@ public class PatchListCacheImpl implements PatchListCache {
             // such that the edges of each text is identical. Fix by
             // by dropping out that incorrectly replaced region.
             //
-            while (ab < ae && bb < be && a.equals(ab, b, bb)) {
+            while (ab < ae && bb < be && cmp.equals(a, ab, b, bb)) {
               ab++;
               bb++;
             }
-            while (ab < ae && bb < be && a.equals(ae - 1, b, be - 1)) {
+            while (ab < ae && bb < be && cmp.equals(a, ae - 1, b, be - 1)) {
               ae--;
               be--;
             }
@@ -434,7 +433,7 @@ public class PatchListCacheImpl implements PatchListCache {
                 int nb = lf + 1;
                 int p = 0;
                 while (p < ae - ab) {
-                  if (a.equals(ab + p, a, ab + p))
+                  if (cmp.equals(a, ab + p, a, ab + p))
                     p++;
                   else
                     break;
@@ -448,12 +447,12 @@ public class PatchListCacheImpl implements PatchListCache {
             }
             if (aShift) {
               while (0 < ab && ab < ae && a.charAt(ab - 1) != '\n'
-                  && a.equals(ab - 1, a, ae - 1)) {
+                  && cmp.equals(a, ab - 1, a, ae - 1)) {
                 ab--;
                 ae--;
               }
               if (!a.isLineStart(ab) || !a.contains(ab, ae, '\n')) {
-                while (ab < ae && ae < a.size() && a.equals(ab, a, ae)) {
+                while (ab < ae && ae < a.size() && cmp.equals(a, ab, a, ae)) {
                   ab++;
                   ae++;
                   if (a.charAt(ae - 1) == '\n') {
@@ -470,7 +469,7 @@ public class PatchListCacheImpl implements PatchListCache {
                 int nb = lf + 1;
                 int p = 0;
                 while (p < be - bb) {
-                  if (b.equals(bb + p, b, bb + p))
+                  if (cmp.equals(b, bb + p, b, bb + p))
                     p++;
                   else
                     break;
@@ -484,12 +483,12 @@ public class PatchListCacheImpl implements PatchListCache {
             }
             if (bShift) {
               while (0 < bb && bb < be && b.charAt(bb - 1) != '\n'
-                  && b.equals(bb - 1, b, be - 1)) {
+                  && cmp.equals(b, bb - 1, b, be - 1)) {
                 bb--;
                 be--;
               }
               if (!b.isLineStart(bb) || !b.contains(bb, be, '\n')) {
-                while (bb < be && be < b.size() && b.equals(bb, b, be)) {
+                while (bb < be && be < b.size() && cmp.equals(b, bb, b, be)) {
                   bb++;
                   be++;
                   if (b.charAt(be - 1) == '\n') {

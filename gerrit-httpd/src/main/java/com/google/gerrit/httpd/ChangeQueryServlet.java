@@ -70,6 +70,7 @@ public class ChangeQueryServlet extends HttpServlet {
 
     p.setIncludeCurrentPatchSet(get(req, "current-patch-set", false));
     p.setIncludePatchSets(get(req, "patch-sets", false));
+    p.setIncludeApprovals(get(req, "all-approvals", false));
     p.setOutput(rsp.getOutputStream(), format);
     p.query(get(req, "q", "status:open"));
   }

@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.events.ChangeAttribute;
 import com.google.gerrit.server.events.EventFactory;
+import com.google.gerrit.server.events.PatchSetAttribute;
 import com.google.gerrit.server.events.QueryStats;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -69,6 +70,7 @@ public class QueryProcessor {
   private OutputFormat outputFormat = OutputFormat.TEXT;
   private boolean includePatchSets;
   private boolean includeCurrentPatchSet;
+  private boolean includeApprovals;
 
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
@@ -89,6 +91,10 @@ public class QueryProcessor {
 
   public void setIncludeCurrentPatchSet(boolean on) {
     includeCurrentPatchSet = on;
+  }
+
+  public void setIncludeApprovals(boolean on) {
+    includeApprovals = on;
   }
 
   public void setOutput(OutputStream out, OutputFormat fmt) {
@@ -151,7 +157,8 @@ public class QueryProcessor {
           eventFactory.addTrackingIds(c, d.trackingIds(db));
 
           if (includePatchSets) {
-            eventFactory.addPatchSets(c, d.patches(db));
+            eventFactory.addPatchSets(c, d.patches(db),
+              includeApprovals ? d.approvalsMap(db) : null);
           }
 
           if (includeCurrentPatchSet) {

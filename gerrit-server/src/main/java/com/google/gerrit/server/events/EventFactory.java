@@ -30,6 +30,7 @@ import com.google.inject.internal.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 @Singleton
 public class EventFactory {
@@ -89,10 +90,19 @@ public class EventFactory {
   }
 
   public void addPatchSets(ChangeAttribute a, Collection<PatchSet> ps) {
+    addPatchSets(a, ps, null);
+  }
+
+  public void addPatchSets(ChangeAttribute ca, Collection<PatchSet> ps,
+      Map<PatchSet.Id,Collection<PatchSetApproval>> approvals) {
     if (!ps.isEmpty()) {
-      a.patchSets = new ArrayList<PatchSetAttribute>(ps.size());
+      ca.patchSets = new ArrayList<PatchSetAttribute>(ps.size());
       for (PatchSet p : ps) {
-        a.patchSets.add(asPatchSetAttribute(p));
+        PatchSetAttribute psa = asPatchSetAttribute(p);
+        if (approvals != null) {
+          addApprovals(psa, p.getId(), approvals);
+        }
+        ca.patchSets.add(psa);
       }
     }
   }
@@ -118,6 +128,14 @@ public class EventFactory {
     p.ref = patchSet.getRefName();
     p.uploader = asAccountAttribute(patchSet.getUploader());
     return p;
+  }
+
+  public void addApprovals(PatchSetAttribute p, PatchSet.Id id,
+      Map<PatchSet.Id,Collection<PatchSetApproval>> all) {
+    Collection<PatchSetApproval> list = all.get(id);
+    if (list != null) {
+      addApprovals(p, list);
+    }
   }
 
   public void addApprovals(PatchSetAttribute p,

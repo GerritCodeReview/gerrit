@@ -32,13 +32,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChangeData {
   private final Change.Id legacyId;
   private Change change;
   private Collection<PatchSet> patches;
   private Collection<PatchSetApproval> approvals;
+  private Map<PatchSet.Id,Collection<PatchSetApproval>> approvalsMap;
   private Collection<PatchSetApproval> currentApprovals;
   private String[] currentFiles;
   private Collection<PatchLineComment> comments;
@@ -173,6 +176,23 @@ public class ChangeData {
       approvals = db.get().patchSetApprovals().byChange(legacyId).toList();
     }
     return approvals;
+  }
+
+  public Map<PatchSet.Id,Collection<PatchSetApproval>> approvalsMap(Provider<ReviewDb> db)
+      throws OrmException {
+    if (approvalsMap == null) {
+      Collection<PatchSetApproval> all = approvals(db);
+      approvalsMap = new HashMap<PatchSet.Id,Collection<PatchSetApproval>>(all.size());
+      for (PatchSetApproval psa : all) {
+        Collection<PatchSetApproval> c = approvalsMap.get(psa.getPatchSetId());
+        if (c == null) {
+          c = new ArrayList<PatchSetApproval>();
+          approvalsMap.put(psa.getPatchSetId(), c);
+        }
+        c.add(psa);
+      }
+    }
+    return approvalsMap;
   }
 
   public Collection<PatchLineComment> comments(Provider<ReviewDb> db)

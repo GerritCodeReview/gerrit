@@ -11,7 +11,7 @@ SYNOPSIS
 'ssh' -p <port> <host> 'gerrit query' \
 [\--format {TEXT | JSON}] \
 [\--current-patch-set] \
-[\--patch-sets] \
+[\--patch-sets|--all-approvals] \
 [\--] \
 <query> \
 [limit:<n>] \
@@ -44,6 +44,12 @@ OPTIONS
 
 \--patch-sets::
 	Include information about all patch sets.  If combined with
+	the \--current-patch-set flag then the current patch set
+	information will be output twice, once in each field.
+
+\--all-approvals::
+	Include information about all patch sets along with the
+	approval information for each patch set.  If combined with
 	the \--current-patch-set flag then the current patch set
 	information will be output twice, once in each field.
 

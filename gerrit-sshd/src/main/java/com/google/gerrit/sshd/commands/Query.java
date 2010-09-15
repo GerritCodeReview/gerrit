@@ -43,6 +43,14 @@ class Query extends BaseCommand {
     processor.setIncludePatchSets(on);
   }
 
+  @Option(name = "--all-approvals", usage = "Include information about all patch sets and approvals")
+  void setApprovals(boolean on) {
+    if (on) {
+      processor.setIncludePatchSets(on);
+    }
+    processor.setIncludeApprovals(on);
+  }
+
   @Argument(index = 0, required = true, multiValued = true, metaVar = "QUERY", usage = "Query to execute")
   private List<String> query;
 

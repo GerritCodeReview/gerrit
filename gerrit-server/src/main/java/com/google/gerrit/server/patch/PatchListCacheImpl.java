@@ -607,7 +607,7 @@ public class PatchListCacheImpl implements PatchListCache {
       } catch (MissingObjectException notFound) {
         return Text.EMPTY;
       }
-      return new Text(ldr.getCachedBytes());
+      return new Text(ldr);
     }
 
     private static RevObject aFor(final PatchListKey key,

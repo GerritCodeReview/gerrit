@@ -110,10 +110,6 @@ public class Text extends RawText {
     }
   }
 
-  public static String asString(byte[] content, String encoding) {
-    return new String(content, charset(content, encoding));
-  }
-
   public static byte[] asByteArray(ObjectLoader ldr)
       throws MissingObjectException, LargeObjectException, IOException {
     if (!ldr.isLarge()) {

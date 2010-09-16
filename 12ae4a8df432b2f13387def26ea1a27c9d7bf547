@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7n///2M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-16T12:45:49Z",
+      "side": 1,
+      "message": "Before moving the repository in the filesystem we have to unregister the repository from the repository cache. Only this ensures that all resources held by the repository are freed. In particular it is important that the object database of the repository is closed so that all open file handles for this repository are released.\n\nI will upload a new patch set that fixes this issue.",
+      "revId": "12ae4a8df432b2f13387def26ea1a27c9d7bf547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

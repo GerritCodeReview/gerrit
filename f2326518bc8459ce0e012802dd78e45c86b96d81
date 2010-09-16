@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7n///3g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-16T09:17:30Z",
+      "side": 1,
+      "message": "I think you have to explicitly set a height for the scroll pane, otherwise with a long list of projects the vertical scroll bar will not appear and the popup will still go out of the screen.\n\nLooking at PatchBrowserPopup I can see that a height for the scroll pane is set there. In PatchBrowserPopup also the onResize(ResizeEvent) method is implemented to adapt the popup size on resize. Maybe we also need to do it here?",
+      "revId": "f2326518bc8459ce0e012802dd78e45c86b96d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

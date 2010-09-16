@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7n///4Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-16T09:07:33Z",
+      "side": 1,
+      "message": "I see your points and they do convince me. The checkboxes would really slow down things unnecessarily. Also I agree that being able to add filters is important.\n\nSo I recall my comment above and say it should stay as it is :-)",
+      "parentUuid": "AAAA7X///wo\u003d",
+      "revId": "115fc0591e39697ab5bb48c06bdb016af1461ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7X///yU\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
         "patchSetId": 5
@@ -107,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7n///4g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-16T09:07:33Z",
+      "side": 1,
+      "message": "I like the close button, this is what I was missing.",
+      "parentUuid": "AAAA7X///ww\u003d",
+      "revId": "115fc0591e39697ab5bb48c06bdb016af1461ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7X///yc\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
         "patchSetId": 5
@@ -142,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7n///4U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-16T09:07:33Z",
+      "side": 1,
+      "message": "Sorry for the confusion.\n\nI now understood that I\u0027m getting this exception only when running Gerrit in GWT Development Mode. When I\u0027m starting the daemon it is not occuring and everything works as expected.\n\nSo I guess nothing needs to be done here :-)",
+      "parentUuid": "AAAA7X///xE\u003d",
+      "revId": "115fc0591e39697ab5bb48c06bdb016af1461ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7X///yI\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
         "patchSetId": 5
@@ -171,6 +225,24 @@
       "side": 1,
       "message": "This was done previously, but I decided against this (and Shawn seemed to agree) and removed it; mainly because you can add multiple watches with different filters to any project.",
       "parentUuid": "AAAA7X///yI\u003d",
+      "revId": "115fc0591e39697ab5bb48c06bdb016af1461ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7n///4I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-16T09:07:33Z",
+      "side": 1,
+      "message": "Ok, I agree, let\u0027s forget about the filtering then.",
+      "parentUuid": "AAAA7X///ws\u003d",
       "revId": "115fc0591e39697ab5bb48c06bdb016af1461ed1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

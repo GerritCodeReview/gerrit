@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7n///2g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-16T11:26:47Z",
+      "side": 1,
+      "message": "Looks like this exception also occurs only if Gerrit is running in GWT Development Mode...\n\nWhen I\u0027m running the Gerrit daemon all is fine, so my comment can be ignored.",
+      "parentUuid": "AAAA7X///vk\u003d",
+      "revId": "9429698f8944e4904938a2c4600543e6e5064087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7X///zA\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
         "patchSetId": 2

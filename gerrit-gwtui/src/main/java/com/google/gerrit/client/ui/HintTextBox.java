@@ -19,33 +19,22 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class HintTextBox extends NpTextBox {
   private HandlerRegistration hintFocusHandler;
   private HandlerRegistration hintBlurHandler;
+  private HandlerRegistration keyPressHandler;
 
   private String hintText;
   private String hintStyleName = Gerrit.RESOURCES.css().inputFieldTypeHint();
 
   private boolean hintOn;
   private boolean isFocused;
-
-  /*
-   * There seems to be a strange bug (at least on firefox 3.5.9 ubuntu) with
-   * the textbox under the following circumstances:
-   *  1) The field is not focused with BText in it.
-   *  2) The field receives focus and a focus listener changes the text to FText
-   *  3) The ESC key is pressed and the value of the field has not changed
-   *     (ever) from FText
-   *  4) BUG: The text value gets reset to BText!
-   *
-   *  To counter this bug, force all focus events to first force a blur event.
-   *  For some reason, this seems to prevent the bug.
-   */
-
-  private boolean bugStopping = false;
 
   public String getText() {
     if (hintOn) {
@@ -79,6 +68,8 @@ public class HintTextBox extends NpTextBox {
       hintFocusHandler = null;
       hintBlurHandler.removeHandler();
       hintBlurHandler = null;
+      keyPressHandler.removeHandler();
+      keyPressHandler = null;
       hintText = null;
       focusHint();
 
@@ -93,14 +84,37 @@ public class HintTextBox extends NpTextBox {
       hintFocusHandler = addFocusHandler(new FocusHandler() {
           @Override
           public void onFocus(FocusEvent event) {
-            setFocus(true);
+            focusHint();
+            isFocused = true;
           }
         });
 
       hintBlurHandler = addBlurHandler(new BlurHandler() {
           @Override
           public void onBlur(BlurEvent event) {
-            setFocus(false);
+            blurHint();
+            isFocused = false;
+          }
+        });
+
+      /*
+      * There seems to be a strange bug (at least on firefox 3.5.9 ubuntu) with
+      * the textbox under the following circumstances:
+      *  1) The field is not focused with BText in it.
+      *  2) The field receives focus and a focus listener changes the text to FText
+      *  3) The ESC key is pressed and the value of the field has not changed
+      *     (ever) from FText
+      *  4) BUG: The text value gets reset to BText!
+      *
+      *  A counter to this bug seems to be to force setFocus(false) on ESC.
+      */
+
+      keyPressHandler = addKeyPressHandler(new KeyPressHandler() {
+          @Override
+          public void onKeyPress(final KeyPressEvent event) {
+            if (event.getCharCode() == KeyCodes.KEY_ESCAPE) {
+              setFocus(false);
+            }
           }
         });
 
@@ -152,20 +166,7 @@ public class HintTextBox extends NpTextBox {
   }
 
   public void setFocus(boolean focus) {
-    if (focus) {
-      bugStopping = true;
-      super.setFocus(!focus);
-      bugStopping = false;
-    }
-
     super.setFocus(focus);
-
-    if (focus) {
-      focusHint();
-    } else if (!bugStopping) {
-      blurHint();
-    }
-
     isFocused = focus;
   }
 }

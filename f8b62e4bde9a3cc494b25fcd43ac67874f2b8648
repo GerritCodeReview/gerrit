@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7n///qY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/RPCSuggestOracle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2010-09-17T18:09:20Z",
+      "side": 1,
+      "message": "repsonse -\u003e response",
+      "revId": "f8b62e4bde9a3cc494b25fcd43ac67874f2b8648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

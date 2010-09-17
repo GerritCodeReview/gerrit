@@ -46,14 +46,8 @@ class SearchPanel extends Composite {
     searchBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
-        switch (event.getCharCode()) {
-          case KeyCodes.KEY_ENTER:
-            doSearch();
-            break;
-          case KeyCodes.KEY_ESCAPE:
-            searchBox.setText("");
-            searchBox.setFocus(false);
-            break;
+        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+          doSearch();
         }
       }
     });

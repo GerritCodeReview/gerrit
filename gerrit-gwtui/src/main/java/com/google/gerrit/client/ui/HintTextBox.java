@@ -15,37 +15,33 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
+
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
+import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.Widget;
+
 
 public class HintTextBox extends NpTextBox {
   private HandlerRegistration hintFocusHandler;
   private HandlerRegistration hintBlurHandler;
+  private HandlerRegistration keyDownHandler;
 
   private String hintText;
   private String hintStyleName = Gerrit.RESOURCES.css().inputFieldTypeHint();
 
+  private String prevText;
+
   private boolean hintOn;
   private boolean isFocused;
 
-  /*
-   * There seems to be a strange bug (at least on firefox 3.5.9 ubuntu) with
-   * the textbox under the following circumstances:
-   *  1) The field is not focused with BText in it.
-   *  2) The field receives focus and a focus listener changes the text to FText
-   *  3) The ESC key is pressed and the value of the field has not changed
-   *     (ever) from FText
-   *  4) BUG: The text value gets reset to BText!
-   *
-   *  To counter this bug, force all focus events to first force a blur event.
-   *  For some reason, this seems to prevent the bug.
-   */
-
-  private boolean bugStopping = false;
 
   public String getText() {
     if (hintOn) {
@@ -58,6 +54,7 @@ public class HintTextBox extends NpTextBox {
     focusHint();
 
     super.setText(text);
+    prevText = text;
 
     if (! isFocused) {
       blurHint();
@@ -79,6 +76,8 @@ public class HintTextBox extends NpTextBox {
       hintFocusHandler = null;
       hintBlurHandler.removeHandler();
       hintBlurHandler = null;
+      keyDownHandler.removeHandler();
+      keyDownHandler = null;
       hintText = null;
       focusHint();
 
@@ -93,14 +92,37 @@ public class HintTextBox extends NpTextBox {
       hintFocusHandler = addFocusHandler(new FocusHandler() {
           @Override
           public void onFocus(FocusEvent event) {
-            setFocus(true);
+            focusHint();
+            prevText = getText();
+            isFocused = true;
           }
         });
 
       hintBlurHandler = addBlurHandler(new BlurHandler() {
           @Override
           public void onBlur(BlurEvent event) {
-            setFocus(false);
+            blurHint();
+            isFocused = false;
+          }
+        });
+
+      /*
+      * There seems to be a strange bug (at least on firefox 3.5.9 ubuntu) with
+      * the textbox under the following circumstances:
+      *  1) The field is not focused with BText in it.
+      *  2) The field receives focus and a focus listener changes the text to FText
+      *  3) The ESC key is pressed and the value of the field has not changed
+      *     (ever) from FText
+      *  4) BUG: The text value gets reset to BText!
+      *
+      *  A counter to this bug seems to be to force setFocus(false) on ESC.
+      */
+
+      /* Chrome does not create a KeyPressEvent on ESC, so use KeyDownEvents */
+      keyDownHandler = addKeyDownHandler(new KeyDownHandler() {
+          @Override
+          public void onKeyDown(final KeyDownEvent event) {
+            onKey(event.getNativeKeyCode());
           }
         });
 
@@ -112,6 +134,28 @@ public class HintTextBox extends NpTextBox {
 
     if (! isFocused) {
       blurHint();
+    }
+  }
+
+  private void onKey(int key) {
+    if (key == KeyCodes.KEY_ESCAPE) {
+      setText(prevText);
+
+      Widget p = getParent();
+      if (p instanceof SuggestBox) {
+        // Since the text was changed, ensure that the SuggestBox is
+        // aware of this change so that it will refresh properly on
+        // the next keystroke.  Without this, if the first keystroke
+        // recreates the same string as before ESC was pressed, the
+        // SuggestBox will think that the string has not changed, and
+        // it will not yet provide any Suggestions.
+        ((SuggestBox)p).showSuggestionList();
+
+        // The suggestion list lingers if we don't hide it.
+        ((SuggestBox)p).hideSuggestionList();
+      }
+
+      setFocus(false);
     }
   }
 
@@ -152,18 +196,14 @@ public class HintTextBox extends NpTextBox {
   }
 
   public void setFocus(boolean focus) {
-    if (focus) {
-      bugStopping = true;
-      super.setFocus(!focus);
-      bugStopping = false;
-    }
-
     super.setFocus(focus);
 
-    if (focus) {
-      focusHint();
-    } else if (!bugStopping) {
-      blurHint();
+    if (focus != isFocused) {
+      if (focus) {
+        focusHint();
+      } else {
+        blurHint();
+      }
     }
 
     isFocused = focus;

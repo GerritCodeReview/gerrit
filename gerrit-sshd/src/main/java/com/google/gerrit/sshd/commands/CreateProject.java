@@ -71,6 +71,9 @@ final class CreateProject extends BaseCommand {
   @Option(name = "--use-signed-off-by", aliases = {"--so"}, usage = "if signed-off-by is required")
   private boolean signedOffBy;
 
+  @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
+  private boolean requireChangeID;
+
   @Option(name = "--branch", aliases = {"-b"}, metaVar = "BRANCH", usage = "initial branch name\n"
       + "(default: master)")
   private String branch = Constants.MASTER;
@@ -160,6 +163,7 @@ final class CreateProject extends BaseCommand {
     newProject.setSubmitType(submitType);
     newProject.setUseContributorAgreements(contributorAgreements);
     newProject.setUseSignedOffBy(signedOffBy);
+    newProject.setRequireChangeID(requireChangeID);
     if (newParent != null) {
       newProject.setParent(newParent.getProject().getNameKey());
     }

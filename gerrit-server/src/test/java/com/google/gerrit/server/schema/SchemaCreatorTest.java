@@ -163,6 +163,7 @@ public class SchemaCreatorTest extends TestCase {
       assertEquals("-- All Projects --", all.getName());
       assertFalse(all.isUseContributorAgreements());
       assertFalse(all.isUseSignedOffBy());
+      assertFalse(all.isRequireChangeID());
     } finally {
       c.close();
     }

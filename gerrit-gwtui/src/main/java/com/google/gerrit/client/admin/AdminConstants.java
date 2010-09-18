@@ -35,11 +35,13 @@ public interface AdminConstants extends Constants {
   String buttonSaveChanges();
   String useContributorAgreements();
   String useSignedOffBy();
+  String requireChangeID();
 
   String headingOwner();
   String headingParentProjectName();
   String headingDescription();
   String headingSubmitType();
+  String headingProjectOptions();
   String headingGroupType();
   String headingMembers();
   String headingExternalGroup();

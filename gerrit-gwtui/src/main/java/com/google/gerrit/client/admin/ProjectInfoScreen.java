@@ -40,6 +40,9 @@ public class ProjectInfoScreen extends ProjectScreen {
   private Panel submitTypePanel;
   private ListBox submitType;
 
+  private Panel projectOptionsPanel;
+  private CheckBox requireChangeID;
+
   private Panel agreementsPanel;
   private CheckBox useContributorAgreements;
   private CheckBox useSignedOffBy;
@@ -64,7 +67,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     });
 
     initDescription();
-    initSubmitType();
+    initProjectOptions();
     initAgreements();
     add(saveProject);
   }
@@ -93,6 +96,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     descTxt.setEnabled(canModifyDescription);
     useContributorAgreements.setEnabled(canModifyAgreements);
     useSignedOffBy.setEnabled(canModifyAgreements);
+    requireChangeID.setEnabled(canModifyMergeType);
     saveProject.setEnabled(
         canModifyAgreements || canModifyDescription || canModifyMergeType);
   }
@@ -110,7 +114,15 @@ public class ProjectInfoScreen extends ProjectScreen {
     new TextSaveButtonListener(descTxt, saveProject);
   }
 
-  private void initSubmitType() {
+  private void initProjectOptions() {
+    final ValueChangeHandler<Boolean> onChangeSave =
+      new ValueChangeHandler<Boolean>() {
+        @Override
+        public void onValueChange(ValueChangeEvent<Boolean> event) {
+          saveProject.setEnabled(true);
+        }
+      };
+
     submitTypePanel = new VerticalPanel();
     submitTypePanel.add(new SmallHeading(Util.C.headingSubmitType()));
 
@@ -125,7 +137,17 @@ public class ProjectInfoScreen extends ProjectScreen {
       }
     });
     submitTypePanel.add(submitType);
+
     add(submitTypePanel);
+
+    projectOptionsPanel = new VerticalPanel();
+    projectOptionsPanel.add(new SmallHeading(Util.C.headingProjectOptions()));
+
+    requireChangeID = new CheckBox(Util.C.requireChangeID(), true);
+    requireChangeID.addValueChangeHandler(onChangeSave);
+    projectOptionsPanel.add(requireChangeID);
+
+    add(projectOptionsPanel);
   }
 
   private void initAgreements() {
@@ -168,7 +190,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
     final boolean isall =
         Gerrit.getConfig().getWildProject().equals(project.getNameKey());
-    submitTypePanel.setVisible(!isall);
+    projectOptionsPanel.setVisible(!isall);
     agreementsPanel.setVisible(!isall);
     useContributorAgreements.setVisible(Gerrit.getConfig()
         .isUseContributorAgreements());
@@ -176,6 +198,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     descTxt.setText(project.getDescription());
     useContributorAgreements.setValue(project.isUseContributorAgreements());
     useSignedOffBy.setValue(project.isUseSignedOffBy());
+    requireChangeID.setValue(project.isRequireChangeID());
     setSubmitType(project.getSubmitType());
   }
 
@@ -183,6 +206,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     project.setDescription(descTxt.getText().trim());
     project.setUseContributorAgreements(useContributorAgreements.getValue());
     project.setUseSignedOffBy(useSignedOffBy.getValue());
+    project.setRequireChangeID(requireChangeID.getValue());
     if (submitType.getSelectedIndex() >= 0) {
       project.setSubmitType(Project.SubmitType.valueOf(submitType
           .getValue(submitType.getSelectedIndex())));

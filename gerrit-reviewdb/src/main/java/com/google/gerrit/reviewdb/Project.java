@@ -99,6 +99,9 @@ public final class Project {
   @Column(id = 6, notNull = false, name = "parent_name")
   protected NameKey parent;
 
+  @Column(id = 7)
+  protected boolean requireChangeID;
+
   protected Project() {
   }
 
@@ -136,8 +139,16 @@ public final class Project {
     return useSignedOffBy;
   }
 
+  public boolean isRequireChangeID() {
+    return requireChangeID;
+  }
+
   public void setUseSignedOffBy(final boolean sbo) {
     useSignedOffBy = sbo;
+  }
+
+  public void setRequireChangeID(final boolean cid) {
+    requireChangeID = cid;
   }
 
   public SubmitType getSubmitType() {
@@ -152,6 +163,7 @@ public final class Project {
     description = update.description;
     useContributorAgreements = update.useContributorAgreements;
     useSignedOffBy = update.useSignedOffBy;
+    requireChangeID = update.requireChangeID;
     submitType = update.submitType;
   }
 

@@ -43,6 +43,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private Panel agreementsPanel;
   private CheckBox useContributorAgreements;
   private CheckBox useSignedOffBy;
+  private CheckBox requireChangeID;
 
   private NpTextArea descTxt;
   private Button saveProject;
@@ -93,6 +94,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     descTxt.setEnabled(canModifyDescription);
     useContributorAgreements.setEnabled(canModifyAgreements);
     useSignedOffBy.setEnabled(canModifyAgreements);
+    requireChangeID.setEnabled(canModifyMergeType);
     saveProject.setEnabled(
         canModifyAgreements || canModifyDescription || canModifyMergeType);
   }
@@ -148,6 +150,10 @@ public class ProjectInfoScreen extends ProjectScreen {
     useSignedOffBy.addValueChangeHandler(onChangeSave);
     agreementsPanel.add(useSignedOffBy);
 
+    requireChangeID = new CheckBox(Util.C.requireChangeID(), true);
+    requireChangeID.addValueChangeHandler(onChangeSave);
+    agreementsPanel.add(requireChangeID);
+
     add(agreementsPanel);
   }
 
@@ -176,6 +182,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     descTxt.setText(project.getDescription());
     useContributorAgreements.setValue(project.isUseContributorAgreements());
     useSignedOffBy.setValue(project.isUseSignedOffBy());
+    requireChangeID.setValue(project.isRequireChangeID());
     setSubmitType(project.getSubmitType());
   }
 
@@ -183,6 +190,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     project.setDescription(descTxt.getText().trim());
     project.setUseContributorAgreements(useContributorAgreements.getValue());
     project.setUseSignedOffBy(useSignedOffBy.getValue());
+    project.setRequireChangeID(requireChangeID.getValue());
     if (submitType.getSelectedIndex() >= 0) {
       project.setSubmitType(Project.SubmitType.valueOf(submitType
           .getValue(submitType.getSelectedIndex())));

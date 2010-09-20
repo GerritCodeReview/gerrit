@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7n///mY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-20T09:21:32Z",
+      "side": 1,
+      "message": "well, it does not really make a difference, but since \u0027requireChangeID\u0027 is added to the \u0027agreementsPanel\u0027, I was expecting here \u0027requireChangeID.setEnabled(canModifyAgreements);\u0027",
+      "revId": "1b3e21532fadec9edea5c46b9fb3a72b642f9828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

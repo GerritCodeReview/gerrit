@@ -14,6 +14,9 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.ActionButton;
+import com.google.gerrit.client.ActionEvent;
+import com.google.gerrit.client.ActionHandler;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
@@ -30,8 +33,6 @@ import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -694,26 +695,26 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   }
 
   private class PublishedCommentPanel extends CommentPanel implements
-      ClickHandler {
+      ActionHandler {
     final PatchLineComment comment;
-    final Button reply;
-    final Button replyDone;
+    final ActionButton reply;
+    final ActionButton replyDone;
 
     PublishedCommentPanel(final AccountInfo author, final PatchLineComment c) {
       super(author, c.getWrittenOn(), c.getMessage());
       this.comment = c;
 
-      reply = new Button(PatchUtil.C.buttonReply());
-      reply.addClickHandler(this);
+      reply = new ActionButton(PatchUtil.C.buttonReply());
+      reply.addActionHandler(this);
       getButtonPanel().add(reply);
 
-      replyDone = new Button(PatchUtil.C.buttonReplyDone());
-      replyDone.addClickHandler(this);
+      replyDone = new ActionButton(PatchUtil.C.buttonReplyDone());
+      replyDone.addActionHandler(this);
       getButtonPanel().add(replyDone);
     }
 
     @Override
-    public void onClick(final ClickEvent event) {
+    public void onAction(final ActionEvent event) {
       if (Gerrit.isSignedIn()) {
         if (reply == event.getSource()) {
           createReplyEditor();

@@ -14,12 +14,13 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.ActionButton;
+import com.google.gerrit.client.ActionEvent;
+import com.google.gerrit.client.ActionHandler;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.reviewdb.PatchLineComment;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -28,14 +29,13 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.sql.Timestamp;
 
-public class CommentEditorPanel extends CommentPanel implements ClickHandler,
+public class CommentEditorPanel extends CommentPanel implements ActionHandler,
     DoubleClickHandler {
   private static final int INITIAL_COLS = 60;
   private static final int INITIAL_LINES = 5;
@@ -54,10 +54,10 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
   private PatchLineComment comment;
 
   private final NpTextArea text;
-  private final Button edit;
-  private final Button save;
-  private final Button cancel;
-  private final Button discard;
+  private final ActionButton edit;
+  private final ActionButton save;
+  private final ActionButton cancel;
+  private final ActionButton discard;
   private final Timer expandTimer;
 
   public CommentEditorPanel(final PatchLineComment plc) {
@@ -122,24 +122,24 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     });
     addContent(text);
 
-    edit = new Button();
+    edit = new ActionButton();
     edit.setText(PatchUtil.C.buttonEdit());
-    edit.addClickHandler(this);
+    edit.addActionHandler(this);
     getButtonPanel().add(edit);
 
-    save = new Button();
+    save = new ActionButton();
     save.setText(PatchUtil.C.buttonSave());
-    save.addClickHandler(this);
+    save.addActionHandler(this);
     getButtonPanel().add(save);
 
-    cancel = new Button();
+    cancel = new ActionButton();
     cancel.setText(PatchUtil.C.buttonCancel());
-    cancel.addClickHandler(this);
+    cancel.addActionHandler(this);
     getButtonPanel().add(cancel);
 
-    discard = new Button();
+    discard = new ActionButton();
     discard.setText(PatchUtil.C.buttonDiscard());
-    discard.addClickHandler(this);
+    discard.addActionHandler(this);
     getButtonPanel().add(discard);
 
     setOpen(true);
@@ -217,7 +217,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
   }
 
   @Override
-  public void onClick(final ClickEvent event) {
+  public void onAction(final ActionEvent event) {
     final Widget sender = (Widget) event.getSource();
     if (sender == edit) {
       edit();

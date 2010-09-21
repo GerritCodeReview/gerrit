@@ -17,7 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.TextSaveButtonListener;
+import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.common.errors.InvalidUserNameException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -73,7 +73,7 @@ class UsernameField extends Composite {
           doSetUserName();
         }
       });
-      new TextSaveButtonListener(userNameTxt, setUserName);
+      new OnEditEnabler(setUserName, userNameTxt);
 
       userNameLbl.setVisible(false);
       body.add(userNameLbl);

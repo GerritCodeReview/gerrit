@@ -17,16 +17,12 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
-import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ListBox;
@@ -46,6 +42,8 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private NpTextArea descTxt;
   private Button saveProject;
+
+  private OnEditEnabler saveEnabler;
 
   public ProjectInfoScreen(final Project.NameKey toShow) {
     super(toShow);
@@ -81,7 +79,6 @@ public class ProjectInfoScreen extends ProjectScreen {
                 result.canModifyAgreements ||
                 result.canModifyDescription ||
                 result.canModifyMergeType);
-            saveProject.setEnabled(false);
             display(result);
           }
         });
@@ -107,7 +104,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     vp.add(descTxt);
 
     add(vp);
-    new TextSaveButtonListener(descTxt, saveProject);
+    saveEnabler = new OnEditEnabler(saveProject, descTxt);
   }
 
   private void initSubmitType() {
@@ -118,34 +115,21 @@ public class ProjectInfoScreen extends ProjectScreen {
     for (final Project.SubmitType type : Project.SubmitType.values()) {
       submitType.addItem(Util.toLongString(type), type.name());
     }
-    submitType.addChangeHandler(new ChangeHandler() {
-      @Override
-      public void onChange(final ChangeEvent event) {
-        saveProject.setEnabled(true);
-      }
-    });
+    saveEnabler.listenTo(submitType);
     submitTypePanel.add(submitType);
     add(submitTypePanel);
   }
 
   private void initAgreements() {
-    final ValueChangeHandler<Boolean> onChangeSave =
-        new ValueChangeHandler<Boolean>() {
-          @Override
-          public void onValueChange(ValueChangeEvent<Boolean> event) {
-            saveProject.setEnabled(true);
-          }
-        };
-
     agreementsPanel = new VerticalPanel();
     agreementsPanel.add(new SmallHeading(Util.C.headingAgreements()));
 
     useContributorAgreements = new CheckBox(Util.C.useContributorAgreements());
-    useContributorAgreements.addValueChangeHandler(onChangeSave);
+    saveEnabler.listenTo(useContributorAgreements);
     agreementsPanel.add(useContributorAgreements);
 
     useSignedOffBy = new CheckBox(Util.C.useSignedOffBy(), true);
-    useSignedOffBy.addValueChangeHandler(onChangeSave);
+    saveEnabler.listenTo(useSignedOffBy);
     agreementsPanel.add(useSignedOffBy);
 
     add(agreementsPanel);
@@ -177,6 +161,8 @@ public class ProjectInfoScreen extends ProjectScreen {
     useContributorAgreements.setValue(project.isUseContributorAgreements());
     useSignedOffBy.setValue(project.isUseSignedOffBy());
     setSubmitType(project.getSubmitType());
+
+    saveProject.setEnabled(false);
   }
 
   private void doSave() {
@@ -189,7 +175,6 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
 
     enableForm(false, false, false);
-    saveProject.setEnabled(false);
 
     Util.PROJECT_SVC.changeProjectSettings(project,
         new GerritCallback<ProjectDetail>() {

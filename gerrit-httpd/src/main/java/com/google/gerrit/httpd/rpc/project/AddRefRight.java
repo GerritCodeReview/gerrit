@@ -36,7 +36,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Repository;
 
 import java.util.Collections;
 
@@ -141,39 +140,7 @@ class AddRefRight extends Handler<ProjectDetail> {
       refPattern = refPattern.substring(1);
     }
 
-    while (refPattern.startsWith("/")) {
-      refPattern = refPattern.substring(1);
-    }
-
-    if (refPattern.startsWith(RefRight.REGEX_PREFIX)) {
-      String example = RefControl.shortestExample(refPattern);
-
-      if (!example.startsWith(Constants.R_REFS)) {
-        refPattern = RefRight.REGEX_PREFIX + Constants.R_HEADS
-                + refPattern.substring(RefRight.REGEX_PREFIX.length());
-        example = RefControl.shortestExample(refPattern);
-      }
-
-      if (!Repository.isValidRefName(example)) {
-        throw new InvalidNameException();
-      }
-
-    } else {
-      if (!refPattern.startsWith(Constants.R_REFS)) {
-        refPattern = Constants.R_HEADS + refPattern;
-      }
-
-      if (refPattern.endsWith("/*")) {
-        final String prefix = refPattern.substring(0, refPattern.length() - 2);
-        if (!"refs".equals(prefix) && !Repository.isValidRefName(prefix)) {
-          throw new InvalidNameException();
-        }
-      } else {
-        if (!Repository.isValidRefName(refPattern)) {
-          throw new InvalidNameException();
-        }
-      }
-    }
+    refPattern = RefControl.validateParseRefPattern(refPattern);
 
     if (!projectControl.controlForRef(refPattern).isOwner()) {
       throw new NoSuchRefException(refPattern);

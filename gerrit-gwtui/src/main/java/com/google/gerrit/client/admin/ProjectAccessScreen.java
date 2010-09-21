@@ -83,7 +83,7 @@ public class ProjectAccessScreen extends ProjectScreen {
 
   private void initParent() {
     parentPanel = new VerticalPanel();
-    parentPanel.add(new SmallHeading(Util.C.headingParentProjectName()));
+    parentPanel.add(new SmallHeading(Util.C.headingRightsParentProjectName()));
 
     parentName = new Hyperlink("", "");
     parentPanel.add(parentName);

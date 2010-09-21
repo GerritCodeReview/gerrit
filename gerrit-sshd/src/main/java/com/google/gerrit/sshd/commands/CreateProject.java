@@ -18,12 +18,13 @@ import com.google.gerrit.common.CollectionsUtil;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.RefMergeStrategy;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ProjectCreatorGroups;
 import com.google.gerrit.server.config.ProjectOwnerGroups;
+import com.google.gerrit.reviewdb.RefMergeStrategy.SubmitType;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.ProjectControl;
@@ -157,7 +158,6 @@ final class CreateProject extends BaseCommand {
 
     final Project newProject = new Project(newProjectNameKey);
     newProject.setDescription(projectDescription);
-    newProject.setSubmitType(submitType);
     newProject.setUseContributorAgreements(contributorAgreements);
     newProject.setUseSignedOffBy(signedOffBy);
     if (newParent != null) {
@@ -165,6 +165,16 @@ final class CreateProject extends BaseCommand {
     }
 
     db.projects().insert(Collections.singleton(newProject));
+
+    //It associates a default merge strategy to the project.
+
+    final RefMergeStrategy.RefPattern rp = new RefMergeStrategy.RefPattern(RefRight.ALL);
+    final RefMergeStrategy.Key newRmsKey =
+      new RefMergeStrategy.Key(newProject.getNameKey(), rp);
+    final RefMergeStrategy rms = new RefMergeStrategy(newRmsKey);
+    rms.setSubmitType(submitType);
+
+    db.refMergeStrategies().insert(Collections.singleton(rms));
   }
 
   private void validateParameters() throws Failure {

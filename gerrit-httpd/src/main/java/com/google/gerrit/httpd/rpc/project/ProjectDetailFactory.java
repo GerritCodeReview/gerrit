@@ -16,12 +16,14 @@ package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.InheritedRefMergeStrategy;
 import com.google.gerrit.common.data.InheritedRefRight;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
+import com.google.gerrit.reviewdb.RefMergeStrategy;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -120,15 +122,46 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
       }
     });
 
+    final List<InheritedRefMergeStrategy> refMergeStrategies =
+      new ArrayList<InheritedRefMergeStrategy>();
+
+    for (final RefMergeStrategy rms : projectState.getInheritedRefMergeStrategies()) {
+      InheritedRefMergeStrategy irms = new InheritedRefMergeStrategy(rms, true);
+      if (!refMergeStrategies.contains(rms)) {
+        refMergeStrategies.add(irms);
+      }
+    }
+
+    for (final RefMergeStrategy rms : projectState.getLocalRefMergeStrategies()) {
+      refMergeStrategies.add(new InheritedRefMergeStrategy(rms, false));
+    }
+
+    Collections.sort(refMergeStrategies, new Comparator<InheritedRefMergeStrategy>() {
+      @Override
+      public int compare(final InheritedRefMergeStrategy a, final InheritedRefMergeStrategy b) {
+        final RefMergeStrategy rms1 = a.getRefMergeStrategy();
+        final RefMergeStrategy rms2 = b.getRefMergeStrategy();
+        int rc = rms1.getRefPattern().length() - rms2.getRefPattern().length();
+        if (rc == 0) {
+          rc = rms1.getRefPattern().compareTo(rms2.getRefPattern());
+          if (rc == 0) {
+            rc = (a.isInherited() && !b.isInherited()) ? -1 :
+              ((!a.isInherited() && b.isInherited()) ? 1 : 0);
+          }
+        }
+        return rc;
+      }
+    });
+
     final boolean userIsOwner = pc.isOwner();
     final boolean userIsOwnerAnyRef = pc.isOwnerAnyRef();
-
     detail.setRights(refRights);
     detail.setGroups(groups);
     detail.setCanModifyAccess(userIsOwnerAnyRef);
     detail.setCanModifyAgreements(userIsOwner);
     detail.setCanModifyDescription(userIsOwner);
-    detail.setCanModifyMergeType(userIsOwner);
+    detail.setRefMergeStrategies(refMergeStrategies);
+
     return detail;
   }
 

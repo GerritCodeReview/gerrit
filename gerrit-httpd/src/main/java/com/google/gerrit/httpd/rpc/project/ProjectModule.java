@@ -30,9 +30,11 @@ public class ProjectModule extends RpcServletModule {
       protected void configure() {
         factory(AddBranch.Factory.class);
         factory(AddRefRight.Factory.class);
+        factory(AddRefMergeStrategy.Factory.class);
         factory(ChangeProjectSettings.Factory.class);
         factory(DeleteBranches.Factory.class);
         factory(DeleteRefRights.Factory.class);
+        factory(DeleteRefMergeStrategies.Factory.class);
         factory(ListBranches.Factory.class);
         factory(VisibleProjects.Factory.class);
         factory(ProjectDetailFactory.Factory.class);

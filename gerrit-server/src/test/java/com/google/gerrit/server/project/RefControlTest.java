@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.RefMergeStrategy;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.reviewdb.RefRight.RefPattern;
@@ -230,6 +231,9 @@ public class RefControlTest extends TestCase {
   private List<RefRight> localRights;
   private List<RefRight> inheritedRights;
 
+  private List<RefMergeStrategy> localRefMergeStrategies;
+  private List<RefMergeStrategy> inheritedMergeStrategies;
+
   @Override
   protected void setUp() throws Exception {
     super.setUp();
@@ -245,7 +249,7 @@ public class RefControlTest extends TestCase {
     assertFalse("NOT OWN " + ref, u.controlForRef(ref).isOwner());
   }
 
-  private void grant(Project.NameKey project, ApprovalCategory.Id categoryId, 
+  private void grant(Project.NameKey project, ApprovalCategory.Id categoryId,
       AccountGroup.Id group, String ref, int maxValue) {
     grant(project, categoryId, group, ref, maxValue, maxValue);
   }
@@ -279,8 +283,10 @@ public class RefControlTest extends TestCase {
     ProjectControl.AssistedFactory projectControlFactory = null;
     ProjectState ps =
         new ProjectState(anonymousUser, projectCache, wildProject,
-            projectControlFactory, new Project(parent), localRights);
+            projectControlFactory, new Project(parent), localRights,
+            localRefMergeStrategies);
     ps.setInheritedRights(inheritedRights);
+    ps.setInheritedRefMergeStrategies(inheritedMergeStrategies);
     return ps;
   }
 

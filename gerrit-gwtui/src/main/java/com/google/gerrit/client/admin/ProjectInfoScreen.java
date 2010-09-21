@@ -21,24 +21,18 @@ import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 
 public class ProjectInfoScreen extends ProjectScreen {
   private Project project;
-
-  private Panel submitTypePanel;
-  private ListBox submitType;
 
   private Panel agreementsPanel;
   private CheckBox useContributorAgreements;
@@ -64,7 +58,6 @@ public class ProjectInfoScreen extends ProjectScreen {
     });
 
     initDescription();
-    initSubmitType();
     initAgreements();
     add(saveProject);
   }
@@ -76,11 +69,10 @@ public class ProjectInfoScreen extends ProjectScreen {
         new ScreenLoadCallback<ProjectDetail>(this) {
           public void preDisplay(final ProjectDetail result) {
             enableForm(result.canModifyAgreements,
-                result.canModifyDescription, result.canModifyMergeType);
+                result.canModifyDescription);
             saveProject.setVisible(
                 result.canModifyAgreements ||
-                result.canModifyDescription ||
-                result.canModifyMergeType);
+                result.canModifyDescription);
             saveProject.setEnabled(false);
             display(result);
           }
@@ -88,13 +80,12 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private void enableForm(final boolean canModifyAgreements,
-      final boolean canModifyDescription, final boolean canModifyMergeType) {
-    submitType.setEnabled(canModifyMergeType);
+      final boolean canModifyDescription) {
     descTxt.setEnabled(canModifyDescription);
     useContributorAgreements.setEnabled(canModifyAgreements);
     useSignedOffBy.setEnabled(canModifyAgreements);
     saveProject.setEnabled(
-        canModifyAgreements || canModifyDescription || canModifyMergeType);
+        canModifyAgreements || canModifyDescription);
   }
 
   private void initDescription() {
@@ -108,24 +99,6 @@ public class ProjectInfoScreen extends ProjectScreen {
 
     add(vp);
     new TextSaveButtonListener(descTxt, saveProject);
-  }
-
-  private void initSubmitType() {
-    submitTypePanel = new VerticalPanel();
-    submitTypePanel.add(new SmallHeading(Util.C.headingSubmitType()));
-
-    submitType = new ListBox();
-    for (final Project.SubmitType type : Project.SubmitType.values()) {
-      submitType.addItem(Util.toLongString(type), type.name());
-    }
-    submitType.addChangeHandler(new ChangeHandler() {
-      @Override
-      public void onChange(final ChangeEvent event) {
-        saveProject.setEnabled(true);
-      }
-    });
-    submitTypePanel.add(submitType);
-    add(submitTypePanel);
   }
 
   private void initAgreements() {
@@ -151,24 +124,11 @@ public class ProjectInfoScreen extends ProjectScreen {
     add(agreementsPanel);
   }
 
-  private void setSubmitType(final Project.SubmitType newSubmitType) {
-    if (submitType != null) {
-      for (int i = 0; i < submitType.getItemCount(); i++) {
-        if (newSubmitType.name().equals(submitType.getValue(i))) {
-          submitType.setSelectedIndex(i);
-          return;
-        }
-      }
-      submitType.setSelectedIndex(-1);
-    }
-  }
-
   void display(final ProjectDetail result) {
     project = result.project;
 
     final boolean isall =
         Gerrit.getConfig().getWildProject().equals(project.getNameKey());
-    submitTypePanel.setVisible(!isall);
     agreementsPanel.setVisible(!isall);
     useContributorAgreements.setVisible(Gerrit.getConfig()
         .isUseContributorAgreements());
@@ -176,26 +136,21 @@ public class ProjectInfoScreen extends ProjectScreen {
     descTxt.setText(project.getDescription());
     useContributorAgreements.setValue(project.isUseContributorAgreements());
     useSignedOffBy.setValue(project.isUseSignedOffBy());
-    setSubmitType(project.getSubmitType());
   }
 
   private void doSave() {
     project.setDescription(descTxt.getText().trim());
     project.setUseContributorAgreements(useContributorAgreements.getValue());
     project.setUseSignedOffBy(useSignedOffBy.getValue());
-    if (submitType.getSelectedIndex() >= 0) {
-      project.setSubmitType(Project.SubmitType.valueOf(submitType
-          .getValue(submitType.getSelectedIndex())));
-    }
 
-    enableForm(false, false, false);
+    enableForm(false, false);
     saveProject.setEnabled(false);
 
     Util.PROJECT_SVC.changeProjectSettings(project,
         new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
             enableForm(result.canModifyAgreements,
-                result.canModifyDescription, result.canModifyMergeType);
+                result.canModifyDescription);
             display(result);
           }
         });

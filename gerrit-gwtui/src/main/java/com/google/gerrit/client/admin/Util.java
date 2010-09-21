@@ -16,7 +16,7 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.ProjectAdminService;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.RefMergeStrategy;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
@@ -34,7 +34,7 @@ public class Util {
     JsonUtil.bind(PROJECT_SVC, "rpc/ProjectAdminService");
   }
 
-  public static String toLongString(final Project.SubmitType type) {
+  public static String toLongString(final RefMergeStrategy.SubmitType type) {
     if (type == null) {
       return "";
     }

@@ -25,9 +25,9 @@ public class ProjectDetail {
   public Map<AccountGroup.Id, AccountGroup> groups;
   public List<InheritedRefRight> rights;
   public boolean canModifyDescription;
-  public boolean canModifyMergeType;
   public boolean canModifyAgreements;
   public boolean canModifyAccess;
+  public List<InheritedRefMergeStrategy> refMergeStrategies;
 
   public ProjectDetail() {
   }
@@ -48,15 +48,15 @@ public class ProjectDetail {
     canModifyDescription = cmd;
   }
 
-  public void setCanModifyMergeType(final boolean cmmt) {
-    canModifyMergeType = cmmt;
-  }
-
   public void setCanModifyAgreements(final boolean cma) {
     canModifyAgreements = cma;
   }
 
   public void setCanModifyAccess(final boolean cma) {
     canModifyAccess = cma;
+  }
+
+  public void setRefMergeStrategies(final List<InheritedRefMergeStrategy> rms) {
+    refMergeStrategies = rms;
   }
 }

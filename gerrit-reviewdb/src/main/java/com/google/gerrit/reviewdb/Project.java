@@ -52,35 +52,6 @@ public final class Project {
     }
   }
 
-  public static enum SubmitType {
-    FAST_FORWARD_ONLY('F'),
-
-    MERGE_IF_NECESSARY('M'),
-
-    MERGE_ALWAYS('A'),
-
-    CHERRY_PICK('C');
-
-    private final char code;
-
-    private SubmitType(final char c) {
-      code = c;
-    }
-
-    public char getCode() {
-      return code;
-    }
-
-    public static SubmitType forCode(final char c) {
-      for (final SubmitType s : SubmitType.values()) {
-        if (s.code == c) {
-          return s;
-        }
-      }
-      return null;
-    }
-  }
-
   @Column(id = 1)
   protected NameKey name;
 
@@ -93,9 +64,6 @@ public final class Project {
   @Column(id = 4)
   protected boolean useSignedOffBy;
 
-  @Column(id = 5)
-  protected char submitType;
-
   @Column(id = 6, notNull = false, name = "parent_name")
   protected NameKey parent;
 
@@ -105,7 +73,6 @@ public final class Project {
   public Project(final Project.NameKey newName) {
     name = newName;
     useContributorAgreements = true;
-    setSubmitType(SubmitType.MERGE_IF_NECESSARY);
   }
 
   public Project.NameKey getNameKey() {
@@ -140,19 +107,10 @@ public final class Project {
     useSignedOffBy = sbo;
   }
 
-  public SubmitType getSubmitType() {
-    return SubmitType.forCode(submitType);
-  }
-
-  public void setSubmitType(final SubmitType type) {
-    submitType = type.getCode();
-  }
-
   public void copySettingsFrom(final Project update) {
     description = update.description;
     useContributorAgreements = update.useContributorAgreements;
     useSignedOffBy = update.useSignedOffBy;
-    submitType = update.submitType;
   }
 
   public Project.NameKey getParent() {

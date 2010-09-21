@@ -29,16 +29,19 @@ import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG_SIGNED;
 import static com.google.gerrit.reviewdb.ApprovalCategory.READ;
 
 import com.google.gerrit.common.data.ParamertizedString;
+import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.util.RegexRefsComparator;
 
 import dk.brics.automaton.RegExp;
 
-import org.apache.commons.lang.StringUtils;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -48,7 +51,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -334,96 +336,6 @@ public class RefControl {
   }
 
   /**
-   * Order the Ref Pattern by the most specific. This sort is done by:
-   * <ul>
-   * <li>1 - The minor value of Levenshtein string distance between the branch
-   * name and the regex string shortest example. A shorter distance is a more
-   * specific match.
-   * <li>2 - Finites first, infinities after.
-   * <li>3 - Number of transitions.
-   * <li>4 - Length of the expression text.
-   * </ul>
-   *
-   * Levenshtein distance is a measure of the similarity between two strings.
-   * The distance is the number of deletions, insertions, or substitutions
-   * required to transform one string into another.
-   *
-   * For example, if given refs/heads/m* and refs/heads/*, the distances are 5
-   * and 6. It means that refs/heads/m* is more specific because it's closer to
-   * refs/heads/master than refs/heads/*.
-   *
-   * Another example could be refs/heads/* and refs/heads/[a-zA-Z]*, the
-   * distances are both 6. Both are infinite, but refs/heads/[a-zA-Z]* has more
-   * transitions, which after all turns it more specific.
-   */
-  private final Comparator<String> BY_MOST_SPECIFIC_SORT =
-      new Comparator<String>() {
-        public int compare(final String pattern1, final String pattern2) {
-          int cmp = distance(pattern1) - distance(pattern2);
-          if (cmp == 0) {
-            boolean p1_finite = finite(pattern1);
-            boolean p2_finite = finite(pattern2);
-
-            if (p1_finite && !p2_finite) {
-              cmp = -1;
-            } else if (!p1_finite && p2_finite) {
-              cmp = 1;
-            } else /* if (f1 == f2) */{
-              cmp = 0;
-            }
-          }
-          if (cmp == 0) {
-            cmp = transitions(pattern1) - transitions(pattern2);
-          }
-          if (cmp == 0) {
-            cmp = pattern2.length() - pattern1.length();
-          }
-          return cmp;
-        }
-
-        private int distance(String pattern) {
-          String example;
-          if (isRE(pattern)) {
-            example = shortestExample(pattern);
-
-          } else if (pattern.endsWith("/*")) {
-            example = pattern.substring(0, pattern.length() - 1) + '1';
-
-          } else if (pattern.equals(getRefName())) {
-            return 0;
-
-          } else {
-            return Math.max(pattern.length(), getRefName().length());
-          }
-          return StringUtils.getLevenshteinDistance(example, getRefName());
-        }
-
-        private boolean finite(String pattern) {
-          if (isRE(pattern)) {
-            return toRegExp(pattern).toAutomaton().isFinite();
-
-          } else if (pattern.endsWith("/*")) {
-            return false;
-
-          } else {
-            return true;
-          }
-        }
-
-        private int transitions(String pattern) {
-          if (isRE(pattern)) {
-            return toRegExp(pattern).toAutomaton().getNumberOfTransitions();
-
-          } else if (pattern.endsWith("/*")) {
-            return pattern.length();
-
-          } else {
-            return pattern.length();
-          }
-        }
-      };
-
-  /**
    * Sorts all given rights into a map, ordered by descending length of
    * ref pattern.
    *
@@ -447,8 +359,10 @@ public class RefControl {
    */
   private SortedMap<String, RefRightsForPattern> sortedRightsByPattern(
       List<RefRight> actionRights) {
+    final RegexRefsComparator byMostSpecificSort =
+      new RegexRefsComparator(getRefName());
     SortedMap<String, RefRightsForPattern> rights =
-      new TreeMap<String, RefRightsForPattern>(BY_MOST_SPECIFIC_SORT);
+      new TreeMap<String, RefRightsForPattern>(byMostSpecificSort);
     for (RefRight actionRight : actionRights) {
       RefRightsForPattern patternRights =
         rights.get(actionRight.getRefPattern());
@@ -527,15 +441,20 @@ public class RefControl {
       refPattern = template.replace(p);
     }
 
+    return refMatch(refPattern, getRefName());
+  }
+
+  public static boolean refMatch(final String refPattern,
+      final String refName) {
     if (isRE(refPattern)) {
-      return Pattern.matches(refPattern, getRefName());
+      return Pattern.matches(refPattern, refName);
 
     } else if (refPattern.endsWith("/*")) {
       String prefix = refPattern.substring(0, refPattern.length() - 1);
-      return getRefName().startsWith(prefix);
+      return refName.startsWith(prefix);
 
     } else {
-      return getRefName().equals(refPattern);
+      return refName.equals(refPattern);
     }
   }
 
@@ -550,7 +469,7 @@ public class RefControl {
     return value.replace(".", "\\.");
   }
 
-  private static boolean isRE(String refPattern) {
+  public static boolean isRE(String refPattern) {
     return refPattern.startsWith(RefRight.REGEX_PREFIX);
   }
 
@@ -564,10 +483,50 @@ public class RefControl {
     }
   }
 
-  private static RegExp toRegExp(String refPattern) {
+  public static RegExp toRegExp(String refPattern) {
     if (isRE(refPattern)) {
       refPattern = refPattern.substring(1);
     }
     return new RegExp(refPattern, RegExp.NONE);
+  }
+
+  public static String validateParseRefPattern(String refPattern)
+      throws InvalidNameException {
+    while (refPattern.startsWith("/")) {
+      refPattern = refPattern.substring(1);
+    }
+
+    if (refPattern.startsWith(RefRight.REGEX_PREFIX)) {
+      String example = RefControl.shortestExample(refPattern);
+
+      if (!example.startsWith(Constants.R_REFS)) {
+        refPattern =
+            RefRight.REGEX_PREFIX + Constants.R_HEADS
+                + refPattern.substring(RefRight.REGEX_PREFIX.length());
+        example = RefControl.shortestExample(refPattern);
+      }
+
+      if (!Repository.isValidRefName(example)) {
+        throw new InvalidNameException();
+      }
+
+    } else {
+      if (!refPattern.startsWith(Constants.R_REFS)) {
+        refPattern = Constants.R_HEADS + refPattern;
+      }
+
+      if (refPattern.endsWith("/*")) {
+        final String prefix = refPattern.substring(0, refPattern.length() - 2);
+        if (!"refs".equals(prefix) && !Repository.isValidRefName(prefix)) {
+          throw new InvalidNameException();
+        }
+      } else {
+        if (!Repository.isValidRefName(refPattern)) {
+          throw new InvalidNameException();
+        }
+      }
+    }
+
+    return refPattern;
   }
 }

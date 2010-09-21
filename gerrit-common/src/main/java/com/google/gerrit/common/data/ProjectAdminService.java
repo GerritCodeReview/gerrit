@@ -19,9 +19,11 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
+import com.google.gerrit.reviewdb.RefMergeStrategy;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.RpcImpl;
+import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
 import java.util.List;
@@ -43,10 +45,19 @@ public interface ProjectAdminService extends RemoteJsonService {
       AsyncCallback<ProjectDetail> callback);
 
   @SignInRequired
+  void deleteRefMergeStrategy(Project.NameKey projectName, Set<RefMergeStrategy.Key> ids,
+      AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
   void addRight(Project.NameKey projectName, ApprovalCategory.Id categoryId,
       String groupName, String refName, short min, short max,
       AsyncCallback<ProjectDetail> callback);
 
+  @SignInRequired
+  void addRefMergeStrategy(Project.NameKey projectName, String refName,
+      RefMergeStrategy.SubmitType submitType, AsyncCallback<ProjectDetail> callback);
+
+  @SignInRequired
   void listBranches(Project.NameKey projectName,
       AsyncCallback<ListBranchesResult> callback);
 

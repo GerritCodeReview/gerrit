@@ -26,7 +26,7 @@ public class MyGroupsScreen extends SettingsScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    groups = new GroupTable(false /* do not hyperlink to admin */);
+    groups = new GroupTable(true /* hyperlink to admin */);
     add(groups);
   }
 

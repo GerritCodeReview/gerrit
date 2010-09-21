@@ -16,25 +16,48 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
+import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
+import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.List;
 
 public class ProjectListScreen extends Screen {
+  private final static String NO_PARENT_SELECTED = "--";
+
   private ProjectTable projects;
+  private NpTextBox createProjectTxt;
+  private Button createProjectNew;
+  private NpTextBox parentNameBox;
+  private SuggestBox parentTxt;
+  private CheckBox showParentCandidates;
+  private ListBox suggestedParents;
 
   @Override
   protected void onLoad() {
@@ -53,12 +76,13 @@ public class ProjectListScreen extends Screen {
     super.onInitUI();
     setPageTitle(Util.C.projectListTitle());
 
+    final VerticalPanel fp = new VerticalPanel();
+    add(fp);
+
+    addCreateProjectPanel(fp);
+
     projects = new ProjectTable();
     add(projects);
-
-    final VerticalPanel fp = new VerticalPanel();
-    fp.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
-    fp.add(new SmallHeading(Util.C.headingCreateGroup()));
   }
 
   @Override
@@ -131,5 +155,135 @@ public class ProjectListScreen extends Screen {
 
       setRowItem(row, k);
     }
+  }
+
+  private void addCreateProjectPanel(final VerticalPanel fp) {
+    Util.PROJECT_SVC.canCreateProject(new GerritCallback<Boolean>() {
+      public void onSuccess(Boolean result) {
+        if (result) {
+          fp.setStyleName(Gerrit.RESOURCES.css().createProjectPanel());
+          fp.add(new SmallHeading(Util.C.headingCreateProject()));
+
+          createProjectTxt = new NpTextBox();
+          createProjectTxt.setVisibleLength(50);
+          createProjectTxt.addKeyPressHandler(new KeyPressHandler() {
+            @Override
+            public void onKeyPress(KeyPressEvent event) {
+              if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+                doCreateProject();
+              }
+            }
+          });
+
+          // Controls if the "Create Project" should be enabled
+          createProjectTxt.addKeyUpHandler(new KeyUpHandler() {
+            @Override
+            public void onKeyUp(KeyUpEvent event) {
+              createProjectNew.setEnabled(!createProjectTxt.getText().trim()
+                  .isEmpty());
+            }
+          });
+
+          createProjectNew = new Button(Util.C.buttonCreateProject());
+          createProjectNew.setEnabled(false);
+          createProjectNew.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(final ClickEvent event) {
+              doCreateProject();
+            }
+          });
+
+          parentNameBox = new NpTextBox();
+          parentTxt =
+              new SuggestBox(new ProjectNameSuggestOracle(), parentNameBox);
+          parentNameBox.setVisibleLength(50);
+          parentNameBox.addStyleName(Gerrit.RESOURCES.css()
+              .inputFieldTypeHint());
+
+          showParentCandidates = new CheckBox(Util.C.parentSuggestions());
+          showParentCandidates.setVisible(false);
+
+          suggestedParents = new ListBox();
+          suggestedParents.addItem(NO_PARENT_SELECTED);
+          suggestedParents.setEnabled(false);
+          suggestedParents.setVisible(false);
+
+          Util.PROJECT_SVC.suggestParentCandidates(new AsyncCallback<List<NameKey>>() {
+                @Override
+                public void onSuccess(List<NameKey> result) {
+                  if (result != null && !result.isEmpty()) {
+                    showParentCandidates.setVisible(true);
+                    showParentCandidates.addClickHandler(new ClickHandler() {
+                      @Override
+                      public void onClick(ClickEvent event) {
+                        parentTxt.setText("");
+                        suggestedParents.setEnabled(!suggestedParents.isEnabled());
+                        parentNameBox.setEnabled(!parentNameBox.isEnabled());
+                      }
+                    });
+
+                    suggestedParents.setVisible(true);
+
+                    for (NameKey projectName : result) {
+                      suggestedParents.addItem(projectName.get());
+                    }
+                  }
+                }
+
+                @Override
+                public void onFailure(Throwable caught) {
+                }
+              });
+
+          final Grid grid = new Grid(3, 2);
+          grid.setStyleName(Gerrit.RESOURCES.css().infoBlock());
+          grid.setText(0, 0, Util.C.columnProjectName() + ":");
+          grid.setWidget(0, 1, createProjectTxt);
+          grid.setText(1, 0, Util.C.headingParentProjectName() + ":");
+          grid.setWidget(1, 1, parentTxt);
+
+          grid.setWidget(2, 0, showParentCandidates);
+          grid.setWidget(2, 1, suggestedParents);
+
+
+          fp.add(grid);
+          fp.add(createProjectNew);
+        }
+      }
+    });
+  }
+
+  private void doCreateProject() {
+    // return if project or parent name was not provided
+    //
+    final String projectName = createProjectTxt.getText().trim();
+    if (projectName.contains(" ")) {
+      return;
+    }
+
+    String parentName = null;
+    if (showParentCandidates.getValue()) {
+      parentName = suggestedParents.getItemText(suggestedParents.getSelectedIndex());
+
+      if (parentName.equals(NO_PARENT_SELECTED)) {
+        parentName = "";
+      }
+    } else {
+      parentName =  parentTxt.getText();
+    }
+
+    Util.PROJECT_SVC.createNewProject(projectName, parentName,
+        new GerritCallback<VoidResult>() {
+          @Override
+          public void onSuccess(VoidResult result) {
+            History.newItem(Dispatcher.toProjectAdmin(new Project.NameKey(projectName),
+                ProjectScreen.INFO));
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            super.onFailure(caught);
+          }
+        });
   }
 }

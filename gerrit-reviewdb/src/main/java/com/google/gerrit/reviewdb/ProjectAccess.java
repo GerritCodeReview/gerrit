@@ -30,4 +30,7 @@ public interface ProjectAccess extends Access<Project, Project.NameKey> {
   @Query("WHERE name.name >= ? AND name.name <= ? ORDER BY name LIMIT ?")
   ResultSet<Project> suggestByName(String nameA, String nameB, int limit)
       throws OrmException;
+
+  @Query("ORDER BY parent.name")
+  ResultSet<Project> getAllOrderedByParent() throws OrmException;
 }

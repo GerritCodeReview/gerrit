@@ -15,10 +15,14 @@
 package com.google.gerrit.httpd.rpc.project;
 
 
+import com.google.gerrit.common.CollectionsUtil;
+import com.google.gerrit.common.data.VisibleProjectsInfo;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.ProjectCreatorGroups;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmException;
@@ -28,8 +32,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
-class VisibleProjects extends Handler<List<Project>> {
+class VisibleProjects extends Handler<VisibleProjectsInfo> {
   interface Factory {
     VisibleProjects create();
   }
@@ -37,6 +42,10 @@ class VisibleProjects extends Handler<List<Project>> {
   private final ProjectControl.Factory projectControlFactory;
   private final CurrentUser user;
   private final ReviewDb db;
+
+  @Inject
+  @ProjectCreatorGroups
+  private Set<AccountGroup.Id> projectCreatorGroups;
 
   @Inject
   VisibleProjects(final ProjectControl.Factory projectControlFactory,
@@ -47,8 +56,13 @@ class VisibleProjects extends Handler<List<Project>> {
   }
 
   @Override
-  public List<Project> call() throws OrmException {
+  public VisibleProjectsInfo call() throws OrmException {
+    final VisibleProjectsInfo visibleProjectsInfo = new VisibleProjectsInfo();
     final List<Project> result;
+
+    visibleProjectsInfo.setCanCreateProject(CollectionsUtil.isAnyIncludedIn(
+        user.getEffectiveGroups(), projectCreatorGroups));
+
     if (user.isAdministrator()) {
       result = db.projects().all().toList();
     } else {
@@ -69,6 +83,8 @@ class VisibleProjects extends Handler<List<Project>> {
         return a.getName().compareTo(b.getName());
       }
     });
-    return result;
+
+    visibleProjectsInfo.setVisibleProjectsList(result);
+    return visibleProjectsInfo;
   }
 }

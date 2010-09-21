@@ -25,6 +25,9 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -36,7 +39,7 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import java.sql.Timestamp;
 
 public class CommentEditorPanel extends CommentPanel implements ClickHandler,
-    DoubleClickHandler {
+    DoubleClickHandler, KeyPressHandler {
   private static final int INITIAL_COLS = 60;
   private static final int INITIAL_LINES = 5;
   private static final int MAX_LINES = 30;
@@ -125,21 +128,25 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     edit = new Button();
     edit.setText(PatchUtil.C.buttonEdit());
     edit.addClickHandler(this);
+    edit.addKeyPressHandler(this);
     getButtonPanel().add(edit);
 
     save = new Button();
     save.setText(PatchUtil.C.buttonSave());
     save.addClickHandler(this);
+    save.addKeyPressHandler(this);
     getButtonPanel().add(save);
 
     cancel = new Button();
     cancel.setText(PatchUtil.C.buttonCancel());
     cancel.addClickHandler(this);
+    cancel.addKeyPressHandler(this);
     getButtonPanel().add(cancel);
 
     discard = new Button();
     discard.setText(PatchUtil.C.buttonDiscard());
     discard.addClickHandler(this);
+    discard.addKeyPressHandler(this);
     getButtonPanel().add(discard);
 
     setOpen(true);
@@ -218,6 +225,17 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
 
   @Override
   public void onClick(final ClickEvent event) {
+    onButtonTriggered(event);
+  }
+
+  @Override
+  public void onKeyPress(KeyPressEvent event) {
+    if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+      onButtonTriggered(event);
+    }
+  }
+
+  private void onButtonTriggered(final GwtEvent<?> event) {
     final Widget sender = (Widget) event.getSource();
     if (sender == edit) {
       edit();

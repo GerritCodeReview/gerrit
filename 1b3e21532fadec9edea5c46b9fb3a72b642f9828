@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAA7n///jE\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-21T11:32:41Z",
+      "side": 1,
+      "message": "This change seems to address issue 557:\nhttp://code.google.com/p/gerrit/issues/detail?id\u003d557\n\nIn this case \u0027Bug: issue 557\u0027 should be included into the commit message.",
+      "revId": "1b3e21532fadec9edea5c46b9fb3a72b642f9828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7n///mY\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
         "patchSetId": 1

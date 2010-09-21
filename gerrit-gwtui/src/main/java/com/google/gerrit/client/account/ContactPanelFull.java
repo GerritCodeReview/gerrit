@@ -15,7 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.ui.TextSaveButtonListener;
+import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ContactInformation;
 import com.google.gwt.user.client.ui.Grid;
@@ -80,11 +80,11 @@ class ContactPanelFull extends ContactPanelShort {
     infoSecure.getCellFormatter().addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
     infoSecure.getCellFormatter().addStyleName(3, 0, Gerrit.RESOURCES.css().bottomheader());
 
-    final TextSaveButtonListener sbl = new TextSaveButtonListener(save);
-    addressTxt.addKeyPressHandler(sbl);
-    countryTxt.addKeyPressHandler(sbl);
-    phoneTxt.addKeyPressHandler(sbl);
-    faxTxt.addKeyPressHandler(sbl);
+    final OnEditEnabler sbl = new OnEditEnabler(save);
+    sbl.listenTo(addressTxt);
+    sbl.listenTo(countryTxt);
+    sbl.listenTo(phoneTxt);
+    sbl.listenTo(faxTxt);
   }
 
   @Override

@@ -16,7 +16,7 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.TextSaveButtonListener;
+import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ContactInformation;
@@ -120,9 +120,8 @@ class ContactPanelShort extends Composite {
         doSave();
       }
     });
+    new OnEditEnabler(save, nameTxt);
 
-    final TextSaveButtonListener sbl = new TextSaveButtonListener(save);
-    nameTxt.addKeyPressHandler(sbl);
     emailPick.addChangeHandler(new ChangeHandler() {
       @Override
       public void onChange(final ChangeEvent event) {

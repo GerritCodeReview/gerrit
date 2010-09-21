@@ -18,8 +18,8 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
-import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AgreementInfo;
 import com.google.gerrit.reviewdb.AccountAgreement;
@@ -144,7 +144,7 @@ public class NewAgreementScreen extends AccountScreen {
     });
     finalGroup.add(submit);
     formBody.add(finalGroup);
-    new TextSaveButtonListener(yesIAgreeBox, submit);
+    new OnEditEnabler(submit, yesIAgreeBox);
 
     final FormPanel form = new FormPanel();
     form.add(formBody);

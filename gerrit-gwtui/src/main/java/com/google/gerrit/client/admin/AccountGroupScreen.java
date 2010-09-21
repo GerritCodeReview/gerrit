@@ -22,9 +22,9 @@ import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.RPCSuggestOracle;
 import com.google.gerrit.client.ui.SmallHeading;
-import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.reviewdb.Account;
@@ -135,7 +135,7 @@ public class AccountGroupScreen extends AccountScreen {
     groupNamePanel.add(saveName);
     add(groupNamePanel);
 
-    new TextSaveButtonListener(groupNameTxt, saveName);
+    new OnEditEnabler(saveName, groupNameTxt);
   }
 
   private void initOwner() {
@@ -167,7 +167,7 @@ public class AccountGroupScreen extends AccountScreen {
     ownerPanel.add(saveOwner);
     add(ownerPanel);
 
-    new TextSaveButtonListener(ownerTxtBox, saveOwner);
+    new OnEditEnabler(saveOwner, ownerTxtBox);
   }
 
   private void initDescription() {
@@ -196,7 +196,7 @@ public class AccountGroupScreen extends AccountScreen {
     vp.add(saveDesc);
     add(vp);
 
-    new TextSaveButtonListener(descTxt, saveDesc);
+    new OnEditEnabler(saveDesc, descTxt);
   }
 
   private void initGroupType() {

@@ -23,6 +23,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.ReceiveCommits;
+import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
@@ -55,6 +56,7 @@ public class GerritRequestModule extends FactoryModule {
 
     factory(ChangeQueryBuilder.Factory.class);
     factory(ReceiveCommits.Factory.class);
+    factory(SubmoduleOp.Factory.class);
     factory(MergeOp.Factory.class);
 
     // Not really per-request, but dammit, I don't know where else to

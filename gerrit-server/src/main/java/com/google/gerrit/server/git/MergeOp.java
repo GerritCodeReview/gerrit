@@ -156,6 +156,7 @@ public class MergeOp {
 
   private final ChangeHookRunner hooks;
   private final AccountCache accountCache;
+  private final SubmoduleOp.Factory subOpFactory;
 
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
@@ -167,7 +168,8 @@ public class MergeOp {
       final IdentifiedUser.GenericFactory iuf,
       @GerritPersonIdent final PersonIdent myIdent,
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
-      final ChangeHookRunner hooks, final AccountCache accountCache) {
+      final ChangeHookRunner hooks, final AccountCache accountCache,
+      final SubmoduleOp.Factory subOpFactory) {
     repoManager = grm;
     schemaFactory = sf;
     functionState = fs;
@@ -182,6 +184,7 @@ public class MergeOp {
     this.mergeQueue = mergeQueue;
     this.hooks = hooks;
     this.accountCache = accountCache;
+    this.subOpFactory = subOpFactory;
 
     this.myIdent = myIdent;
     destBranch = branch;
@@ -237,6 +240,12 @@ public class MergeOp {
     }
     updateBranch();
     updateChangeStatus();
+    SubmoduleOp subOp = subOpFactory.create(destBranch, mergeTip, rw, db, destProject, submitted, commits);
+    try {
+      subOp.update();
+    } catch (SubmoduleException e) {
+      log.error("The gitLinks were not updated according to the subscriptions " + e.getMessage());
+    }
   }
 
   private void openRepository() throws MergeException {
@@ -1256,6 +1265,7 @@ public class MergeOp {
           cm.setFrom(submitter.getAccountId());
         }
       }
+
       cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()));
       cm.setChangeMessage(msg);
       cm.send();

@@ -163,6 +163,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private String destTopicName;
 
+  private final SubmoduleOp.Factory subOpFactory;
+
   @Inject
   ReceiveCommits(final ReviewDb db, final ApprovalTypes approvalTypes,
       final AccountResolver accountResolver,
@@ -177,7 +179,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final TrackingFooters trackingFooters,
 
       @Assisted final ProjectControl projectControl,
-      @Assisted final Repository repo) {
+      @Assisted final Repository repo,
+      final SubmoduleOp.Factory subOpFactory) {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.approvalTypes = approvalTypes;
@@ -196,6 +199,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.project = projectControl.getProject();
     this.repo = repo;
     this.rp = new ReceivePack(repo);
+
+    this.subOpFactory = subOpFactory;
 
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
@@ -1535,10 +1540,25 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           closeChange(req.cmd, psi, req.newCommit);
         }
       }
+
+      // It handles gitlinks if required.
+
+      rw.reset();
+      final RevCommit codeReviewCommit = rw.parseCommit(cmd.getNewId());
+
+      final SubmoduleOp subOp =
+          subOpFactory.create(
+              new Branch.NameKey(project.getNameKey(), cmd.getRefName()),
+              codeReviewCommit, rw, repo, project, new ArrayList<Change>(),
+              new HashMap<Change.Id, CodeReviewCommit>());
+      subOp.update();
+
     } catch (IOException e) {
       log.error("Can't scan for changes to close", e);
     } catch (OrmException e) {
       log.error("Can't scan for changes to close", e);
+    } catch (SubmoduleException e) {
+      log.error("Can't complete git links check", e);
     }
   }
 

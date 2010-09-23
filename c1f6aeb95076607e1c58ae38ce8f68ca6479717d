@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7n///W4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2010-09-23T23:27:16Z",
+      "side": 1,
+      "message": "Why isn\u0027t it under general? Seems a bit redundant with both general and admin?\nAs you asked for an alternative:\nName\nRename\nProject name\nReplace\nProject path",
+      "revId": "c1f6aeb95076607e1c58ae38ce8f68ca6479717d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

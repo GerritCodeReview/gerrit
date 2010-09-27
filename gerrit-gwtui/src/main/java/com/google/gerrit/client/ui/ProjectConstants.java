@@ -22,4 +22,5 @@ public interface ProjectConstants extends Constants {
   String projectListOpen();
   String projectListPrev();
   String projectListNext();
+  String checkBoxSelectAll();
 }

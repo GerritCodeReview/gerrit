@@ -385,6 +385,13 @@
   overflow: hidden;
 }
 
+/** Projects Screen**/
+
+.selectAllRow {
+  font-size: 11px;
+  color: #ad9a89;
+  background-color: #f1fcda;
+}
 
 /** ChangeTable **/
 .changeTable {

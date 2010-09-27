@@ -106,6 +106,60 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
+  /**
+   * Delete a repository by name.
+   * @throws IOException
+   */
+  public void deleteRepository(String repoName)
+    throws SecurityException, IOException {
+    File dir = FileKey.resolve(new File(basePath, repoName), FS.DETECTED);
+    boolean deleted = false;
+    if (dir != null) {
+      // To make sure that repository is removed from the cache.
+      final FileKey loc = FileKey.exact(dir, FS.DETECTED);
+      final Repository db = RepositoryCache.open(loc);
+      RepositoryCache.close(db);
+      db.close();
+
+      // Delete an empty repository.
+      deleted = dir.delete();
+      if (!deleted) {
+        // Repository is not empty.
+        // Delete all files and subdirectories under this.
+        deleted = recursiveDelete(dir);
+      }
+    }
+
+    if (!deleted) {
+      throw new IOException("Cannot delete " + repoName + " repository.");
+    }
+  }
+
+  /**
+   * Deletes all repository files and subdirectories.
+   *
+   * @return true if it has deleted all, false if a deletion fails.
+   */
+  private boolean recursiveDelete(final File dir)
+    throws SecurityException {
+    if (dir.isDirectory()) {
+      final File[] children = dir.listFiles();
+      if (children == null) {
+        return false;
+      }
+
+      for (int i = 0; i < children.length; i++) {
+        final boolean deleted = recursiveDelete(children[i]);
+        if (!deleted) {
+          return false;
+        }
+      }
+    }
+
+    // The repository is empty.
+    return dir.delete();
+  }
+
   public Repository createRepository(final Project.NameKey name)
       throws RepositoryNotFoundException {
     if (isUnreasonableName(name)) {

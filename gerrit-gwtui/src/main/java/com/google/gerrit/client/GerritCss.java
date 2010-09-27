@@ -164,6 +164,7 @@ public interface GerritCss extends CssResource {
   String screenHeader();
   String searchPanel();
   String sectionHeader();
+  String selectAllRow();
   String sideBySideScreenLinkTable();
   String sideBySideScreenSideBySideTable();
   String skipLine();

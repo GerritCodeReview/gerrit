@@ -75,6 +75,8 @@ public interface AdminConstants extends Constants {
   String buttonAddBranch();
   String buttonDeleteBranch();
 
+  String buttonDeleteProject();
+
   String projectListPrev();
   String projectListNext();
   String projectListOpen();
@@ -85,9 +87,13 @@ public interface AdminConstants extends Constants {
 
   String groupListTitle();
   String projectListTitle();
+  String projectDeletionTitle();
   String projectAdminTabGeneral();
   String projectAdminTabBranches();
   String projectAdminTabAccess();
+
+  String projectAdminTabView();
+  String projectAdminTabDeleteEmpty();
 
   String noGroupSelected();
   String errorNoMatchingGroups();

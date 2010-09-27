@@ -56,4 +56,13 @@ public interface ReplicationQueue {
    * @param head name HEAD should point at (must be {@code refs/heads/...}).
    */
   void replicateNewProject(Project.NameKey project, String head);
+
+  /**
+   * Delete an empty project at the remote sites. When a project which contains
+   * no changes has been deleted locally call this method to make sure that the
+   * project will be deleted from the remote sites as well.
+   *
+   * @param projectName of the project to be deleted.
+   */
+  void replicateProjectDeletion(Project.NameKey projectName);
 }

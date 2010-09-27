@@ -196,7 +196,10 @@ ON patch_set_ancestors (ancestor_revision);
 -- *********************************************************************
 -- ProjectAccess
 --    @PrimaryKey covers: all, suggestByName
---    covers:             ownedByGroup
+--    covers:             ownedByGroup, getChildren
+
+CREATE INDEX projects_byParent
+ON projects (parent_name);
 
 
 -- *********************************************************************

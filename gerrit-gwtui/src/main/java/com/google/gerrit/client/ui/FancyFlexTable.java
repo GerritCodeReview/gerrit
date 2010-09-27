@@ -20,7 +20,6 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
@@ -151,9 +150,6 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
     }
     final Element tr = DOM.getParent(td);
     return DOM.getChildIndex(tr, td);
-  }
-
-  protected static class MyFlexTable extends FlexTable {
   }
 
   private static final native <ItemType> void setRowItem(Element td, ItemType c)

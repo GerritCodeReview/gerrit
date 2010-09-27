@@ -15,28 +15,25 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Dispatcher;
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.ProjectsTable;
-import com.google.gerrit.client.ui.Screen;
-import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.common.data.ProjectData;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 import java.util.List;
 
-public class ProjectListScreen extends Screen {
+public class ProjectListScreen extends ProjectOptionsScreen {
   private ProjectsTable projects;
 
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.PROJECT_SVC.visibleProjects(new ScreenLoadCallback<List<Project>>(this) {
+    Util.PROJECT_SVC.visibleProjects(new ScreenLoadCallback<List<ProjectData>>(
+        this) {
       @Override
-      protected void preDisplay(final List<Project> result) {
+      protected void preDisplay(final List<ProjectData> result) {
         projects.display(result);
         projects.finishDisplay();
       }
@@ -54,12 +51,12 @@ public class ProjectListScreen extends Screen {
         History.newItem(link(getRowItem(row)));
       }
 
-      private String link(final Project item) {
+      private String link(final ProjectData item) {
         return Dispatcher.toProjectAdmin(item.getNameKey(), ProjectScreen.INFO);
       }
 
       @Override
-      protected void populate(final int row, final Project k) {
+      protected void populate(final int row, final ProjectData k) {
         table.setWidget(row, 1, new Hyperlink(k.getName(), link(k)));
         table.setText(row, 2, k.getDescription());
 
@@ -70,9 +67,7 @@ public class ProjectListScreen extends Screen {
 
     add(projects);
 
-    final VerticalPanel fp = new VerticalPanel();
-    fp.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
-    fp.add(new SmallHeading(Util.C.headingCreateGroup()));
+    add(projects);
   }
 
   @Override

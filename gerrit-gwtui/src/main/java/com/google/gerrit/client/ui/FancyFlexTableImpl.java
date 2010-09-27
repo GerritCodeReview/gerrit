@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.ui.FancyFlexTable.MyFlexTable;
+import com.google.gerrit.client.ui.MyFlexTable;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwtexpui.safehtml.client.SafeHtml;

@@ -40,6 +40,8 @@ public class PageLinks {
   public static final String MINE = "mine";
   public static final String ADMIN_GROUPS = "admin,groups";
   public static final String ADMIN_PROJECTS = "admin,projects";
+  public static final String ADMIN_DELETE_EMPTY_PROJECT =
+      "admin,delete-project";
 
   public static String toChange(final ChangeInfo c) {
     return toChange(c.getId());

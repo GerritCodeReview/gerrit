@@ -52,8 +52,18 @@ public interface ReplicationQueue {
    * When a new project has been created locally call this method to make sure
    * that the project will be created at the remote sites as well.
    *
-   * @param project of the project to be created.
+   * @param projectName of the project to be created.
    * @param head name HEAD should point at (must be {@code refs/heads/...}).
    */
-  void replicateNewProject(Project.NameKey project, String head);
+  void replicateNewProject(Project.NameKey projectName, String head);
+
+  /**
+   * Delete an empty project at the remote sites.
+   * <p>
+   * When a project which contains no changes has been deleted locally call this method to make sure
+   * that the project will be deleted from the remote sites as well.
+   *
+   * @param projectName of the project to be deleted.
+   */
+  void replicateProjectDeletion(Project.NameKey projectName);
 }

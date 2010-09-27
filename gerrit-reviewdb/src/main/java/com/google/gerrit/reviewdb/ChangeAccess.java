@@ -38,6 +38,9 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE dest.projectName = ?")
   ResultSet<Change> byProject(Project.NameKey p) throws OrmException;
 
+  @Query("WHERE dest.projectName = ? LIMIT 1")
+  ResultSet<Change> byProjectHaschange(Project.NameKey p) throws OrmException;
+
   @Query("WHERE owner = ? AND open = true ORDER BY createdOn, changeId")
   ResultSet<Change> byOwnerOpen(Account.Id id) throws OrmException;
 

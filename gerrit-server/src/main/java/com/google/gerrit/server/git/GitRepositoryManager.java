@@ -55,6 +55,16 @@ public interface GitRepositoryManager {
       throws RepositoryNotFoundException;
 
   /**
+   * Delete a repository by name.
+   *
+   * @param repoName name of the repository to delete, relative to the base directory.
+   * @return true if repository was successfully deleted, false otherwise.
+   * @throws SecurityException if deleting specified repository is not allowed.
+   */
+  public abstract boolean deleteRepository(String repoName)
+      throws SecurityException;
+
+  /**
    * Read the {@code GIT_DIR/description} file for gitweb.
    * <p>
    * NB: This code should really be in JGit, as a member of the Repository

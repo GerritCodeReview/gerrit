@@ -19,11 +19,10 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
-import com.google.gerrit.client.ui.RPCSuggestOracle;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountProjectWatchInfo;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.common.data.ProjectData;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -361,9 +360,9 @@ public class MyWatchedProjectsScreen extends SettingsScreen implements
 
   protected void populateProjects() {
     Util.PROJECT_SVC.visibleProjects(
-        new GerritCallback<List<Project>>() {
+        new GerritCallback<List<ProjectData>>() {
       @Override
-      public void onSuccess(final List<Project> result) {
+      public void onSuccess(final List<ProjectData> result) {
         projectsTab.display(result);
         if (firstPopupLoad) { // Display was delayed until table was loaded
           firstPopupLoad = false;

@@ -54,6 +54,8 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   private boolean computedScrollType;
   private ScrollPanel parentScrollPanel;
 
+  private NavigateListener navigateListener;
+
   protected NavigationTable() {
     pointer = new Image(Gerrit.RESOURCES.arrowRight());
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
@@ -68,9 +70,16 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     for (int row = currentRow - 1; row >= 0; row--) {
       if (getRowItem(row) != null) {
         movePointerTo(row);
+        if (navigateListener != null) {
+          navigateListener.onNavigate(row);
+        }
         break;
       }
     }
+  }
+
+  public void setNavigateListener(NavigateListener navigateListener) {
+    this.navigateListener = navigateListener;
   }
 
   private void onDown() {
@@ -78,6 +87,9 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     for (int row = currentRow + 1; row < max; row++) {
       if (getRowItem(row) != null) {
         movePointerTo(row);
+        if (navigateListener != null) {
+          navigateListener.onNavigate(row);
+        }
         break;
       }
     }
@@ -293,5 +305,10 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
       ensurePointerVisible();
       onOpen();
     }
+  }
+
+  /** Listener to checkBox onValueChange event. */
+  public static interface NavigateListener {
+    public void onNavigate(int row);
   }
 }

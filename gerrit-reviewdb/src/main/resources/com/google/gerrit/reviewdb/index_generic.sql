@@ -149,6 +149,8 @@ ON patch_set_ancestors (ancestor_revision);
 -- ProjectAccess
 --    @PrimaryKey covers: all, suggestByName
 
+CREATE INDEX projects_byParent
+ON projects (parent_name);
 
 -- *********************************************************************
 -- RefRightAccess

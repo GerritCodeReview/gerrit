@@ -14,29 +14,41 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.ConfirmationCallback;
+import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.client.ui.Hyperlink;
-import com.google.gerrit.client.ui.ProjectsTable;
+import com.google.gerrit.client.ui.ProjectsSelectionTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gerrit.client.ui.NavigationTable.NavigateListener;
+import com.google.gerrit.client.ui.ProjectsSelectionTable.ValueChangeListener;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gwt.user.client.History;
+import com.google.gerrit.common.data.ProjectData;
+import com.google.gerrit.common.errors.OperationNotExecutedException;
+import com.google.gerrit.reviewdb.Project.NameKey;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectListScreen extends Screen {
-  private ProjectsTable projects;
+  private ProjectsSelectionTable projects;
+  private Button deleteButton;
+  private List<NameKey> projectsToDelete;
 
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.PROJECT_SVC.visibleProjects(new ScreenLoadCallback<List<Project>>(this) {
+    Util.PROJECT_SVC.visibleProjects(new ScreenLoadCallback<List<ProjectData>>(this) {
       @Override
-      protected void preDisplay(final List<Project> result) {
+      protected void preDisplay(final List<ProjectData> result) {
         projects.display(result);
         projects.finishDisplay();
       }
@@ -48,27 +60,92 @@ public class ProjectListScreen extends Screen {
     super.onInitUI();
     setPageTitle(Util.C.projectListTitle());
 
-    projects = new ProjectsTable() {
-      @Override
-      protected void onOpenRow(final int row) {
-        History.newItem(link(getRowItem(row)));
-      }
+    projectsToDelete = new ArrayList<NameKey>();
 
-      private String link(final Project item) {
-        return Dispatcher.toProjectAdmin(item.getNameKey(), ProjectScreen.INFO);
-      }
+    projects = new ProjectsSelectionTable();
+
+    projects.setNavigateListener(new NavigateListener() {
 
       @Override
-      protected void populate(final int row, final Project k) {
-        table.setWidget(row, 1, new Hyperlink(k.getName(), link(k)));
-        table.setText(row, 2, k.getDescription());
+      public void onNavigate(int row) {
+        projects.setCheckBoxFocus(row);
+      }});
 
-        setRowItem(row, k);
+    projects.setValueChangeListener(new ValueChangeListener() {
+      @Override
+      public void onValueChange(boolean value, NameKey selectedProject) {
+        if (value) {
+          projectsToDelete.add(selectedProject);
+        } else {
+          final int index = projectsToDelete.indexOf(selectedProject);
+          projectsToDelete.remove(index);
+        }
+        // Controls if the "Delete" button should be enabled or not
+        if (projectsToDelete.size() > 0) {
+          deleteButton.setEnabled(true);
+        } else {
+          deleteButton.setEnabled(false);
+        }
       }
-    };
+    });
+
     projects.setSavePointerId(PageLinks.ADMIN_PROJECTS);
 
     add(projects);
+
+    /* Add delete button */
+    deleteButton = new Button(Util.C.buttonDeleteProject());
+
+    deleteButton.setEnabled(false);
+    deleteButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        final String message = buildDeleteMessage();
+        final ConfirmationDialog confirmationDialog =
+            new ConfirmationDialog(Gerrit.C.projectDeletionDialogTitle(),
+                new HTML(message), new ConfirmationCallback() {
+                  @Override
+                  public void onOk() {
+                    Util.PROJECT_SVC.deleteProject(projectsToDelete,
+                        new GerritCallback<List<NameKey>>() {
+                          @Override
+                          public void onSuccess(List<NameKey> notDeletedProjects) {
+
+                            for (NameKey p: projectsToDelete) {
+                              if (!notDeletedProjects.contains(p)) {
+                                projects.removeProject(p);
+                              }
+                            }
+                            deleteButton.setEnabled(false);
+                            projectsToDelete.clear();
+
+                            if (!notDeletedProjects.isEmpty()) {
+                              final StringBuilder errorMessage = new StringBuilder();
+                              errorMessage.append("The following project(s) could not be deleted: ");
+                              boolean addSeparator = false;
+                              for (NameKey r: notDeletedProjects) {
+                                if (addSeparator) {
+                                  errorMessage.append(", ");
+                                }
+
+                                if (!addSeparator)
+                                  addSeparator = true;
+
+                                errorMessage.append(r);
+                              }
+
+                              OperationNotExecutedException exception = new OperationNotExecutedException(errorMessage.toString());
+                              super.onFailure(exception);
+                            }
+                          }
+                        });
+                  }
+                });
+        confirmationDialog.center();
+      }
+    });
+
+    add(deleteButton);
 
     final VerticalPanel fp = new VerticalPanel();
     fp.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
@@ -79,5 +156,28 @@ public class ProjectListScreen extends Screen {
   public void registerKeys() {
     super.registerKeys();
     projects.setRegisterKeys(true);
+  }
+
+  private String buildDeleteMessage() {
+    final SafeHtmlBuilder message = new SafeHtmlBuilder();
+
+    message.openElement("b").append(Gerrit.C.projectDeletionConfirmationMessage()).closeElement("b");
+    message.openElement("p");
+
+    boolean addSeparator = false;
+    if (projectsToDelete != null && !projectsToDelete.isEmpty()) {
+      for (NameKey p : projectsToDelete) {
+        if (addSeparator) {
+          message.append(", ");
+        }
+        if (!addSeparator)
+          addSeparator = true;
+
+        message.append(p);
+      }
+    }
+    message.closeElement("p");
+
+    return message.asString();
   }
 }

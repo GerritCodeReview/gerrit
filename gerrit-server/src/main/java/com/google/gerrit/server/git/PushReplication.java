@@ -77,6 +77,10 @@ public class PushReplication implements ReplicationQueue {
     });
   }
 
+  static enum AdminOp {
+    CREATE, DELETE;
+  }
+
   private final Injector injector;
   private final WorkQueue workQueue;
   private final List<ReplicationConfig> configs;
@@ -201,8 +205,8 @@ public class PushReplication implements ReplicationQueue {
     return result;
   }
 
-  @Override
-  public void replicateNewProject(Project.NameKey projectName, String head) {
+  private void replicate(Project.NameKey projectName, String head,
+      final AdminOp operation) {
     if (!isEnabled()) {
       return;
     }
@@ -211,12 +215,23 @@ public class PushReplication implements ReplicationQueue {
       List<URIish> uriList = config.getURIs(projectName, "*");
 
       for (URIish uri : uriList) {
-        replicateProject(uri, head);
+        replicateProject(uri, head, operation);
       }
     }
   }
 
-  private void replicateProject(final URIish replicateURI, final String head) {
+  @Override
+  public void replicateNewProject(Project.NameKey projectName, String head) {
+    replicate(projectName, head, AdminOp.CREATE);
+  }
+
+  @Override
+  public void replicateProjectDeletion(Project.NameKey projectName) {
+    replicate(projectName, null, AdminOp.DELETE);
+  }
+
+  private void replicateProject(final URIish replicateURI, final String head,
+      final AdminOp operation) {
     SshSessionFactory sshFactory = SshSessionFactory.getInstance();
     Session sshSession;
     String projectPath = QuotedString.BOURNE.quote(replicateURI.getPath());
@@ -228,10 +243,16 @@ public class PushReplication implements ReplicationQueue {
     }
 
     OutputStream errStream = createErrStream();
-    String cmd =
-        "mkdir -p " + projectPath + "&& cd " + projectPath
-            + "&& git init --bare" + "&& git symbolic-ref HEAD "
-            + QuotedString.BOURNE.quote(head);
+    String cmd;
+
+    if (operation.equals(AdminOp.DELETE)) {
+      cmd = "rm -rf " + projectPath;
+    } else {
+      cmd =
+          "mkdir -p " + projectPath + "&& cd " + projectPath
+              + "&& git init --bare" + "&& git symbolic-ref HEAD "
+              + QuotedString.BOURNE.quote(head);
+    }
 
     try {
       sshSession =

@@ -15,7 +15,9 @@
 package com.google.gerrit.httpd.rpc.project;
 
 
+import com.google.gerrit.common.data.ProjectData;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -29,7 +31,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-class VisibleProjects extends Handler<List<Project>> {
+class VisibleProjects extends Handler<List<ProjectData>> {
   interface Factory {
     VisibleProjects create();
   }
@@ -47,25 +49,31 @@ class VisibleProjects extends Handler<List<Project>> {
   }
 
   @Override
-  public List<Project> call() throws OrmException {
-    final List<Project> result;
-    if (user.isAdministrator()) {
-      result = db.projects().all().toList();
-    } else {
-      result = new ArrayList<Project>();
-      for (Project p : db.projects().all().toList()) {
-        try {
-          ProjectControl c = projectControlFactory.controlFor(p.getNameKey());
-          if (c.isVisible() || c.isOwner()) {
-            result.add(p);
+  public List<ProjectData> call() throws OrmException {
+    final List<ProjectData> result = new ArrayList<ProjectData>();
+
+    for(final Project p : db.projects().all().toList()) {
+      boolean canBeDeleted = false;
+
+      final List<Change> changes = db.changes().byProjectHaschange(p.getNameKey()).toList();
+
+      try {
+        final ProjectControl c = projectControlFactory.controlFor(p.getNameKey());
+        //Administrators users are also considered in method "isOwner".
+        if (c.isVisible() || c.isOwner()) {
+          if (c.isOwner() && changes.size() == 0) {
+            canBeDeleted = true;
           }
-        } catch (NoSuchProjectException e) {
-          continue;
+
+          final ProjectData projectData = new ProjectData(p.getNameKey(), p.getDescription(), canBeDeleted);
+          result.add(projectData);
         }
+      } catch (NoSuchProjectException e) {
+        continue;
       }
     }
-    Collections.sort(result, new Comparator<Project>() {
-      public int compare(final Project a, final Project b) {
+    Collections.sort(result, new Comparator<ProjectData>() {
+      public int compare(final ProjectData a, final ProjectData b) {
         return a.getName().compareTo(b.getName());
       }
     });

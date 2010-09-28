@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7n//+9k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/VisibleProjectsInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-28T09:50:26Z",
+      "side": 1,
+      "message": "I can\u0027t help but somehow by just looking at this class it feels a bit strange to me that a class that provides a list of visible projects also knows whether a user is allowed to create projects. For me both things have not much to do with each other which is why I was suprised to find this method here.",
+      "revId": "ba979c112045f1be7deb3018260d1ee652d0d89d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7n//+94\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-28T09:50:26Z",
+      "side": 1,
+      "message": "It should also be possible to activate the button by pressing ENTER if the key focus is on the button.\n\nCurrently putting the key focus on the button and pressing ENTER does not create a new project, but opens the existing project which is selected in the project table above.",
+      "revId": "ba979c112045f1be7deb3018260d1ee652d0d89d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7n//+90\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-28T09:50:26Z",
+      "side": 1,
+      "message": "Maybe you could add the root project \u0027-- All Projects --\u0027 as first item to the suggestedParents list instead of NO_PARENT_SELECTED?\nAnyway the \u0027-- All Projects --\u0027 gets by default the parent project if no parent project was set.",
+      "revId": "ba979c112045f1be7deb3018260d1ee652d0d89d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7n//+9w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-28T09:50:26Z",
+      "side": 1,
+      "message": "if I try to create a new project by just giving a new project name and not specifying a parent project name it succeeds if the \u0027Parent Candidates\u0027 checkbox is not checked (the \u0027-- All Project --\u0027 will be taken by default as parent project), but it fails if the \u0027Parent Candidates\u0027 checkbox is checked and no parent is selected. This seems a little inconsistent to me, I would expect the same behaviour if I do not specify a parent project no matter if I\u0027m using \u0027Parent Candidates\u0027 or not. Maybe this could be solved by adding \u0027-- All Projects --\u0027 instead of NO_PARENT_SELECTED to the suggested parents list as proposed above.",
+      "revId": "ba979c112045f1be7deb3018260d1ee652d0d89d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7n//+9s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-28T09:50:26Z",
+      "side": 1,
+      "message": "if the new project cannot be created because data is missing it would be nice to show an error message to the user, maybe even better would be if the \u0027Create Project\u0027 button gets disabled if e.g. no project name was entered",
+      "revId": "ba979c112045f1be7deb3018260d1ee652d0d89d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7n//+9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-28T09:50:26Z",
+      "side": 1,
+      "message": "Is there a special reason why this method in case of a failure can either throw an exception or return an error message as StringBuilder? Why not to throw always an exception if something fails?",
+      "revId": "ba979c112045f1be7deb3018260d1ee652d0d89d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

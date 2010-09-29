@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7n//+2c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-29T06:53:15Z",
+      "side": 1,
+      "message": "Strange. For me this is not working with pressing ENTER. As I said when I enter a new project name, put the key focus with TAB on the \u0027Create Project\u0027 button and press ENTER it does not create a new project but opens the (already existing) project which is selected in the project table above. When I click with the mouse on the \u0027Create Project\u0027 button all works as expected and the new project is created. Maybe it depends on the browser, I tried with Firefox 3.6.10 and IE 6.0 on Windows XP. But actually I wonder how it can work without registering a key handler for the button.",
+      "parentUuid": "AAAA7n//+8s\u003d",
+      "revId": "ba979c112045f1be7deb3018260d1ee652d0d89d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7n//+90\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
         "patchSetId": 1
@@ -106,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7n//+2Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-29T06:53:15Z",
+      "side": 1,
+      "message": "That\u0027s fine with me.",
+      "parentUuid": "AAAA7n//+8o\u003d",
+      "revId": "ba979c112045f1be7deb3018260d1ee652d0d89d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7n//+9s\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
         "patchSetId": 1
@@ -152,6 +188,24 @@
       "side": 1,
       "message": "This returns a StringBuilder becaused is called inside \"Create-project\" SSH command as well, so we can just print the error message, the same error message will be displayed in the UI as well, in the case of error.",
       "parentUuid": "AAAA7n//+9o\u003d",
+      "revId": "ba979c112045f1be7deb3018260d1ee652d0d89d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7n//+2U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-29T06:53:15Z",
+      "side": 1,
+      "message": "Not sure if this convinces me. You can also catch the exception, fetch the message from it and then print/display the error message.",
+      "parentUuid": "AAAA7n//+8k\u003d",
       "revId": "ba979c112045f1be7deb3018260d1ee652d0d89d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

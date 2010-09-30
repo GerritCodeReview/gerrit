@@ -149,6 +149,7 @@ public class UserPassSignInDialog extends SignInDialog {
     buttons.add(login);
 
     close = new Button();
+    DOM.setStyleAttribute(close.getElement(), "marginLeft", "45px");
     close.setText(Gerrit.C.signInDialogClose());
     close.addClickHandler(new ClickHandler() {
       @Override

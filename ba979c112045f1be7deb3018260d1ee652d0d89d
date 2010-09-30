@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA7n//+qU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-30T12:57:23Z",
+      "side": 1,
+      "message": "I\u0027ve created an issue for this problem: \n\nhttp://code.google.com/p/gerrit/issues/detail?id\u003d741",
+      "parentUuid": "AAAA7n//+0w\u003d",
+      "revId": "ba979c112045f1be7deb3018260d1ee652d0d89d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7n//+90\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
         "patchSetId": 1

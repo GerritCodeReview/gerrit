@@ -97,9 +97,12 @@ public final class Project {
   protected boolean requireChangeID;
 
   @Column(id = 6)
+  protected boolean useContentMerge;
+
+  @Column(id = 7)
   protected char submitType;
 
-  @Column(id = 7, notNull = false, name = "parent_name")
+  @Column(id = 8, notNull = false, name = "parent_name")
   protected NameKey parent;
 
   protected Project() {
@@ -139,12 +142,20 @@ public final class Project {
     return useSignedOffBy;
   }
 
+  public boolean isUseContentMerge() {
+    return useContentMerge;
+  }
+
   public boolean isRequireChangeID() {
     return requireChangeID;
   }
 
   public void setUseSignedOffBy(final boolean sbo) {
     useSignedOffBy = sbo;
+  }
+
+  public void setUseContentMerge(final boolean cm) {
+    useContentMerge = cm;
   }
 
   public void setRequireChangeID(final boolean cid) {
@@ -163,6 +174,7 @@ public final class Project {
     description = update.description;
     useContributorAgreements = update.useContributorAgreements;
     useSignedOffBy = update.useSignedOffBy;
+    useContentMerge = update.useContentMerge;
     requireChangeID = update.requireChangeID;
     submitType = update.submitType;
   }

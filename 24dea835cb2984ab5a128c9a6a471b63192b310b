@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7n//+qA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-30T14:03:35Z",
+      "side": 1,
+      "message": "It would be nice to allow the user to select the radio button of the current row by key (e.g. by pressing SPACE).",
+      "revId": "24dea835cb2984ab5a128c9a6a471b63192b310b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7n//+p8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-30T14:03:35Z",
+      "side": 1,
+      "message": "Maybe we can add an evict(Project.NameKey) method to the project cache and then use this method to only remove the deleted project from the cache rather than invalidating the complete project cache?",
+      "revId": "24dea835cb2984ab5a128c9a6a471b63192b310b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7n//+p4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-30T14:03:35Z",
+      "side": 1,
+      "message": "Personally I would prefer an exception being thrown if the repository deletion failed, rather than returning false.",
+      "revId": "24dea835cb2984ab5a128c9a6a471b63192b310b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7n//+p0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-30T14:03:35Z",
+      "side": 1,
+      "message": "the parameter is actually named \u0027projectName\u0027",
+      "revId": "24dea835cb2984ab5a128c9a6a471b63192b310b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7n//+pw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-30T14:03:35Z",
+      "side": 1,
+      "message": "this parameter does not exist",
+      "revId": "24dea835cb2984ab5a128c9a6a471b63192b310b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA7n//+ps\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-30T14:03:35Z",
+      "side": 1,
+      "message": "the parameter is actually named \u0027projectName\u0027",
+      "revId": "24dea835cb2984ab5a128c9a6a471b63192b310b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

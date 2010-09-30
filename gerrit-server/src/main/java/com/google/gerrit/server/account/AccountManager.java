@@ -290,19 +290,67 @@ public class AccountManager {
       try {
         changeUserNameFactory.create(db, user, who.getUserName()).call();
       } catch (NameAlreadyUsedException e) {
-        log.error("Cannot assign user name \"" + who.getUserName()
-            + "\" to account " + newId + "; name already in use.");
+        final String message =
+            "Cannot assign user name \"" + who.getUserName() + "\" to account "
+                + newId + "; name already in use.";
+        handleSettingUserNameFailure(db, account, extId, message, e, false);
       } catch (InvalidUserNameException e) {
-        log.error("Cannot assign user name \"" + who.getUserName()
-            + "\" to account " + newId + "; name does not conform.");
+        final String message =
+            "Cannot assign user name \"" + who.getUserName() + "\" to account "
+                + newId + "; name does not conform.";
+        handleSettingUserNameFailure(db, account, extId, message, e, false);
       } catch (OrmException e) {
-        log.error("Cannot assign user name", e);
+        final String message = "Cannot assign user name";
+        handleSettingUserNameFailure(db, account, extId, message, e, true);
       }
     }
 
     byEmailCache.evict(account.getPreferredEmail());
     realm.onCreateAccount(who, account);
     return new AuthResult(newId, extId.getKey(), true);
+  }
+
+  /**
+   * This method handles an exception that occurred during the setting of the
+   * user name for a newly created account. If the realm does not allow the user
+   * to set a user name manually this method deletes the newly created account
+   * and throws an {@link AccountUserNameException}. In any case the error
+   * message is logged.
+   *
+   * @param db the database
+   * @param account the newly created account
+   * @param extId the newly created external id
+   * @param errorMessage the error message
+   * @param e the exception that occurred during the setting of the user name
+   *        for the new account
+   * @param logException flag that decides whether the exception should be
+   *        included into the log
+   * @throws AccountUserNameException thrown if the realm does not allow the
+   *         user to manually set the user name
+   * @throws OrmException thrown if cleaning the database failed
+   */
+  private void handleSettingUserNameFailure(final ReviewDb db,
+      final Account account, final AccountExternalId extId,
+      final String errorMessage, final Exception e, final boolean logException)
+      throws AccountUserNameException, OrmException {
+    if (logException) {
+      log.error(errorMessage, e);
+    } else {
+      log.error(errorMessage);
+    }
+    if (!realm.allowsEdit(Account.FieldName.USER_NAME)) {
+      // setting the given user name has failed, but the realm does not
+      // allow the user to manually set a user name,
+      // this means we would end with an account without user name
+      // (without 'username:<USERNAME>' entry in
+      // account_external_ids table),
+      // such an account cannot be used for uploading changes,
+      // this is why the best we can do here is to fail early and cleanup
+      // the database
+      db.accounts().delete(Collections.singleton(account));
+      db.accountExternalIds().delete(Collections.singleton(extId));
+      throw new AccountUserNameException(errorMessage, e);
+    }
   }
 
   private static AccountExternalId createId(final Account.Id newId,

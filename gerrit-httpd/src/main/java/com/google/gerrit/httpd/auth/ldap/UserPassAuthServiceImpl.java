@@ -19,6 +19,7 @@ import com.google.gerrit.common.auth.userpass.UserPassAuthService;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AccountUserNameException;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -55,6 +56,12 @@ class UserPassAuthServiceImpl implements UserPassAuthService {
     final AuthResult res;
     try {
       res = accountManager.authenticate(req);
+    } catch (AccountUserNameException e) {
+      // entered user name and password were correct, but user name could not be
+      // set for the newly created account and this is why the login fails,
+      // error screen with error message should be shown to the user
+      callback.onFailure(e);
+      return;
     } catch (AccountException e) {
       result.success = false;
       callback.onSuccess(result);

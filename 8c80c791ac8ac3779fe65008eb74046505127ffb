@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA7n//+qM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-30T13:13:43Z",
+      "side": 1,
+      "message": "Is this check needed? If yes I would expect it to be in a lower level so that this check is also executed if a project is created via command over SSH, e.g. this check could be in PerformCreateProjectImpl#validateParameters() or even in LocalDiskRepositoryManager#isUnreasonableName(String)\n\nIf this check stays here, at least an error message should be displayed to the user, saying that the project name that was entered is invalid and this is why the project creation has failed.",
+      "revId": "8c80c791ac8ac3779fe65008eb74046505127ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

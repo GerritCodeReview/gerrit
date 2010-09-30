@@ -16,6 +16,7 @@ SYNOPSIS
 [\--permissions-only] \
 [\--description <DESC>] \
 [\--submit-type <TYPE>] \
+[\--use-content-merge] \
 [\--use-contributor-agreements] \
 [\--use-signed-off-by]
 
@@ -94,6 +95,13 @@ Description values containing spaces should be quoted in single quotes
 +
 Defaults to MERGE_IF_NECESSARY.  For more details see
 link:project-setup.html#submit_type[Change Submit Actions].
+
+\--use-content-merge::
+	If enabled, Gerrit will try to perform a 3-way merge of text
+	file content when a file has been modified by both the
+	destination branch and the change being submitted.  This
+	option only takes effect if submit type is not
+	FAST_FORWARD_ONLY.  Disabled by default.
 
 \--use-contributor-agreements::
 	If enabled, authors must complete a contributor agreement

@@ -71,6 +71,9 @@ final class CreateProject extends BaseCommand {
   @Option(name = "--use-signed-off-by", aliases = {"--so"}, usage = "if signed-off-by is required")
   private boolean signedOffBy;
 
+  @Option(name = "--use-content-merge", usage = "allow automatic conflict resolving within files")
+  private boolean contentMerge;
+
   @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
   private boolean requireChangeID;
 
@@ -159,6 +162,7 @@ final class CreateProject extends BaseCommand {
     newProject.setSubmitType(submitType);
     newProject.setUseContributorAgreements(contributorAgreements);
     newProject.setUseSignedOffBy(signedOffBy);
+    newProject.setUseContentMerge(contentMerge);
     newProject.setRequireChangeID(requireChangeID);
     if (newParent != null) {
       newProject.setParent(newParent.getProject().getNameKey());

@@ -35,6 +35,7 @@ public interface AdminConstants extends Constants {
   String buttonSaveChanges();
   String useContributorAgreements();
   String useSignedOffBy();
+  String useContentMerge();
   String requireChangeID();
 
   String headingOwner();

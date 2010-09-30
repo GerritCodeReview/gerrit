@@ -102,6 +102,7 @@ public class GitProjectImporter {
         p.setSubmitType(SubmitType.MERGE_IF_NECESSARY);
         p.setUseContributorAgreements(false);
         p.setUseSignedOffBy(false);
+        p.setUseContentMerge(false);
         p.setRequireChangeID(false);
         db.projects().insert(Collections.singleton(p));
 

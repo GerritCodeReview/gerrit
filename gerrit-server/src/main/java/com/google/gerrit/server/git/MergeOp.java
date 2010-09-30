@@ -436,7 +436,18 @@ public class MergeOp {
   }
 
   private void mergeOneCommit(final CodeReviewCommit n) throws MergeException {
-    final Merger m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+    final ThreeWayMerger m;
+    if (destProject.isUseContentMerge()) {
+      // Settings for this project allow us to try and
+      // automatically resolve conflicts within files if needed.
+      // Use ResolveMerge and instruct to operate in core.
+      m = MergeStrategy.RESOLVE.newMerger(db, true);
+    } else {
+      // No auto conflict resolving allowed. If any of the
+      // affected files was modified, merge will fail.
+      m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+    }
+
     try {
       if (m.merge(new AnyObjectId[] {mergeTip, n})) {
         writeMergeCommit(m, n);
@@ -606,7 +617,17 @@ public class MergeOp {
       final CodeReviewCommit n = toMerge.remove(0);
       final ThreeWayMerger m;
 
-      m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+      if (destProject.isUseContentMerge()) {
+        // Settings for this project allow us to try and
+        // automatically resolve conflicts within files if needed.
+        // Use ResolveMerge and instruct to operate in core.
+        m = MergeStrategy.RESOLVE.newMerger(db, true);
+      } else {
+        // No auto conflict resolving allowed. If any of the
+        // affected files was modified, merge will fail.
+        m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+      }
+
       try {
         if (mergeTip == null) {
           // The branch is unborn. Take a fast-forward resolution to

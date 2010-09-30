@@ -227,7 +227,7 @@ public class UserPassSignInDialog extends SignInDialog {
       @Override
       public void onFailure(final Throwable caught) {
         super.onFailure(caught);
-        enable(false);
+        enable(true);
       }
     });
   }

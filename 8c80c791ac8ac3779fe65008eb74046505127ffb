@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAA7n//+pc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-09-30T14:15:09Z",
+      "side": 1,
+      "message": "Just for my curiosity. I noticed that in the first patch-set the Change-ID was different (compare patch set 1 and 2). How is it actually possible that two patch-sets have different Change-IDs but still belong to the same change?",
+      "revId": "8c80c791ac8ac3779fe65008eb74046505127ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7n//+qM\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
         "patchSetId": 2

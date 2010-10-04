@@ -19,6 +19,92 @@
     },
     {
       "key": {
+        "uuid": "AAAA73///4k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-04T18:27:06Z",
+      "side": 1,
+      "message": "http://gerrit.googlecode.com/svn/documentation/2.0/user-upload.html\n\nrefs/changes/\u003cchange#\u003e",
+      "parentUuid": "AAAA7n//+pc\u003d",
+      "revId": "8c80c791ac8ac3779fe65008eb74046505127ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73///44\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/VisibleProjectsInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-04T18:27:06Z",
+      "side": 1,
+      "message": "Combining these to very different data sources  into a single object type seems like an unneeded and confusing abstraction.  One is data about projects, and the other is data about a user.  Was this done to only create one RPC call instead of two?  Is that even a valuable optimisation since they might be able to run in parallel if they were separate?",
+      "revId": "8c80c791ac8ac3779fe65008eb74046505127ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73///6M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-04T18:27:06Z",
+      "side": 1,
+      "message": "As a potential user, the use of a checkbox to populate a dropdown seems strange.  Maybe Shawn would disagree, but I personally would suggest just taking the hit and populating this dropdown on load (and removing the checkbox).  Additionally, I would suggest hiding the dropdown if it would be empty.\n\nSince this would change the way that you currently disable the parentNameBox, I would think that simply populating the parentNameBox with any dropdown selections, and then returning the dropdown to blank might work?  My ideas might be clunky too, so take them with a grain of salt, but the current setup just doesn\u0027t feel right to me.",
+      "revId": "8c80c791ac8ac3779fe65008eb74046505127ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73///6g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-04T18:27:06Z",
+      "side": 1,
+      "message": "This parent candidate thing is very confusing to me.  I don\u0027t create a lot of projects, so I don\u0027t know if this particular feature is very helpful, it seems like on the surface sort of a strange feature, but if it is helpful, I would suggest naming it something better, something which indicates what it is.  ParentCandidates sounds like any project which is a candidate to be a parent, (which I believe would be every project)?  But, it seems like what this list really is, is: \"Parent projects for other projects\"? Yes, that sounds odd too, which is why I don\u0027t quite understand the need for this, but I suspect that this makes more sense to you, and you find a need for this, since you implemented it.\n\nMaybe call it \"Parent Suggestions\"?   Even though that is not quite accurate, it might make more sense to a user as to why there is this small list for them to chose from.",
+      "revId": "8c80c791ac8ac3779fe65008eb74046505127ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73///6o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-04T18:27:06Z",
+      "side": 1,
+      "message": "I am not sure what the right thing to do is, but it feels a bit strange to have all this GUI setup code in the callback.  I realise it is because displaying the panel depends on the results, but it feels like most of this code belongs in onInitUI() with some way to simply enable it here instead.\n\nAdditionally, it might be nice to have this form/panel be above the project list since on some sites, the project list is several pages long.  With the form after the project list, it might go entirely unseen.  My suggestion would be to either move the form above the project list, or to have a link to separate page or popup to add a project (I personally would prefer above the form).  This additionally points to moving the GUI creation code out of the callback since from the callback it might be hard to place the panel before the projectList.",
+      "revId": "8c80c791ac8ac3779fe65008eb74046505127ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA7n//+qM\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
         "patchSetId": 2
@@ -30,6 +116,23 @@
       "writtenOn": "2010-09-30T13:13:43Z",
       "side": 1,
       "message": "Is this check needed? If yes I would expect it to be in a lower level so that this check is also executed if a project is created via command over SSH, e.g. this check could be in PerformCreateProjectImpl#validateParameters() or even in LocalDiskRepositoryManager#isUnreasonableName(String)\n\nIf this check stays here, at least an error message should be displayed to the user, saying that the project name that was entered is invalid and this is why the project creation has failed.",
+      "revId": "8c80c791ac8ac3779fe65008eb74046505127ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73///6I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-04T18:27:06Z",
+      "side": 1,
+      "message": "Push this inside if statement above?",
       "revId": "8c80c791ac8ac3779fe65008eb74046505127ffb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

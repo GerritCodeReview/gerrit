@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountLoginServlet;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
+import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
@@ -99,6 +100,10 @@ public class WebModule extends FactoryModule {
       case HTTP:
       case HTTP_LDAP:
         install(new HttpAuthModule());
+        break;
+
+      case CLIENT_SSL_CERT_LDAP:
+        install(new HttpsClientSslCertModule());
         break;
 
       case LDAP:

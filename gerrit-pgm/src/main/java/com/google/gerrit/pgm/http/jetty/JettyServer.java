@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -151,7 +152,13 @@ public class JettyServer {
         reverseProxy = false;
         defaultPort = 80;
         c = new SelectChannelConnector();
-
+        String authType = cfg.getString("auth", null, "type");
+        if (AuthType.CLIENT_SSL_CERT_LDAP.name().equals(authType)) {
+          throw new IllegalArgumentException("Protocol '" + u.getScheme()
+              + "' " + " not supported in httpd.listenurl '" + u
+              + "' when auth.type = '" + AuthType.CLIENT_SSL_CERT_LDAP.name()
+              + "'; only 'https' is supported");
+        }
       } else if ("https".equals(u.getScheme())) {
         final SslSelectChannelConnector ssl = new SslSelectChannelConnector();
         final File keystore = getFile(cfg, "sslkeystore", "etc/keystore");
@@ -163,6 +170,11 @@ public class JettyServer {
         ssl.setTruststore(keystore.getAbsolutePath());
         ssl.setKeyPassword(password);
         ssl.setTrustPassword(password);
+
+        String authType = cfg.getString("auth", null, "type");
+        if (AuthType.CLIENT_SSL_CERT_LDAP.name().equals(authType)) {
+          ssl.setNeedClientAuth(true);
+        }
 
         reverseProxy = false;
         defaultPort = 443;

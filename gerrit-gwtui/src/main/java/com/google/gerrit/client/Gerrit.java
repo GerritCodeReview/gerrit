@@ -481,6 +481,7 @@ public class Gerrit implements EntryPoint {
       switch (cfg.getAuthType()) {
         case HTTP:
         case HTTP_LDAP:
+        case CLIENT_SSL_CERT_LDAP:
           break;
 
         case OPENID:

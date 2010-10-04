@@ -56,6 +56,19 @@ from the user's account object in LDAP.  The user's group membership
 is also pulled from LDAP, making any LDAP groups that a user is a
 member of available as groups in Gerrit.
 +
+* `CLIENT_SSL_CERT_LDAP`
++
+This authentication type is actually kind of SSO. Gerrit will configure
+Jetty's SSL channel to request client's SSL certificate. For this
+authentication to work a Gerrit administrator has to import the root
+certificate of the trust chain used to issue the client's certificate
+into the <review-site>/etc/keystore.
+After the authentication is done Gerrit will obtain basic user
+registration (name and email) from LDAP, and some group memberships.
+Therefore, the "_LDAP" suffix in the name of this authentication type.
+This authentication type can only be used under hosted daemon mode, and
+the httpd.listenUrl must use https:// as the protocol.
++
 * `LDAP`
 +
 Gerrit prompts the user to enter a username and a password, which
@@ -1105,8 +1118,9 @@ By default, 5 minutes.
 ~~~~~~~~~~~~~~~~~~~~
 
 LDAP integration is only enabled if `auth.type` was set to
-`HTTP_LDAP` or `LDAP`.  See above for a detailed description of
-the auth.type settings and their implications.
+`HTTP_LDAP`, `LDAP` or `CLIENT_SSL_CERT_LDAP`.  See above for a
+detailed description of the auth.type settings and their
+implications.
 
 An example LDAP configuration follows, and then discussion of
 the parameters introduced here.  Suitable defaults for most

@@ -40,6 +40,21 @@ public enum AuthType {
   HTTP_LDAP,
 
   /**
+   * Login via client SSL certificate.
+   * <p>
+   * This authentication type is actually kind of SSO. Gerrit will configure
+   * Jetty's SSL channel to request client's SSL certificate. For this
+   * authentication to work a Gerrit administrator has to import the root
+   * certificate of the trust chain used to issue the client's certificate
+   * into the <review-site>/etc/keystore.
+   * <p>
+   * After the authentication is done Gerrit will obtain basic user
+   * registration (name and email) from LDAP, and some group memberships.
+   * Therefore, the "_LDAP" suffix in the name of this authentication type.
+   */
+  CLIENT_SSL_CERT_LDAP,
+
+  /**
    * Login collects username and password through a web form, and binds to LDAP.
    * <p>
    * Unlike {@link #HTTP_LDAP}, Gerrit presents a sign-in dialog to the user and

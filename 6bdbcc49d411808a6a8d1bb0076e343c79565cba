@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA73///3o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-04T19:49:56Z",
+      "side": 1,
+      "message": "Hmm, since you renamed the section to ProjectOptions, perhaps this should get added to the projectOptionsPanel below instead of having two panels? (Not sure how that would interact with setVisible() below though)",
+      "revId": "6bdbcc49d411808a6a8d1bb0076e343c79565cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73///3g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1465,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-04T19:49:56Z",
+      "side": 1,
+      "message": "Repeating what you are doing (and what is easily viewable by your well written error messages) tends to simply add noise to the code.",
+      "revId": "6bdbcc49d411808a6a8d1bb0076e343c79565cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73///3Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-04T19:49:56Z",
+      "side": 1,
+      "message": "extra space?",
+      "revId": "6bdbcc49d411808a6a8d1bb0076e343c79565cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -145,14 +145,17 @@ public class ChangeUtil {
     db.trackingIds().delete(toDelete);
   }
 
-  public static void submit(MergeOp.Factory opFactory, PatchSet.Id patchSetId,
-      IdentifiedUser user, ReviewDb db, MergeQueue merger) throws OrmException {
+  public static void submit(final PatchSet.Id patchSetId,
+      final IdentifiedUser user, final ReviewDb db,
+      final MergeOp.Factory opFactory, final MergeQueue merger)
+      throws OrmException {
     final Change.Id changeId = patchSetId.getParentKey();
     final PatchSetApproval approval = createSubmitApproval(patchSetId, user, db);
 
     db.patchSetApprovals().upsert(Collections.singleton(approval));
 
-    final Change change = db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
+    final Change updatedChange = db.changes().atomicUpdate(changeId,
+        new AtomicUpdate<Change>() {
       @Override
       public Change update(Change change) {
         if (change.getStatus() == Change.Status.NEW) {
@@ -163,13 +166,14 @@ public class ChangeUtil {
       }
     });
 
-    if (change.getStatus() == Change.Status.SUBMITTED) {
-      merger.merge(opFactory, change.getDest());
+    if (updatedChange.getStatus() == Change.Status.SUBMITTED) {
+      merger.merge(opFactory, updatedChange.getDest());
     }
   }
 
-  public static PatchSetApproval createSubmitApproval(PatchSet.Id patchSetId, IdentifiedUser user, ReviewDb db)
-      throws OrmException {
+  public static PatchSetApproval createSubmitApproval(
+      final PatchSet.Id patchSetId, final IdentifiedUser user, final ReviewDb db
+      ) throws OrmException {
     final List<PatchSetApproval> allApprovals =
         new ArrayList<PatchSetApproval>(db.patchSetApprovals().byPatchSet(
             patchSetId).toList());
@@ -208,7 +212,7 @@ public class ChangeUtil {
     }
     cmsg.setMessage(msgBuf.toString());
 
-    final Change change = db.changes().atomicUpdate(changeId,
+    final Change updatedChange = db.changes().atomicUpdate(changeId,
         new AtomicUpdate<Change>() {
       @Override
       public Change update(Change change) {
@@ -223,24 +227,24 @@ public class ChangeUtil {
       }
     });
 
-    if (change != null) {
+    if (updatedChange != null) {
       db.changeMessages().insert(Collections.singleton(cmsg));
 
       final List<PatchSetApproval> approvals =
           db.patchSetApprovals().byChange(changeId).toList();
       for (PatchSetApproval a : approvals) {
-        a.cache(change);
+        a.cache(updatedChange);
       }
       db.patchSetApprovals().update(approvals);
 
       // Email the reviewers
-      final AbandonedSender cm = abandonedSenderFactory.create(change);
+      final AbandonedSender cm = abandonedSenderFactory.create(updatedChange);
       cm.setFrom(user.getAccountId());
       cm.setChangeMessage(cmsg);
       cm.send();
     }
 
-    hooks.doChangeAbandonedHook(change, user.getAccount(), message);
+    hooks.doChangeAbandonedHook(updatedChange, user.getAccount(), message);
   }
 
   public static String sortKey(long lastUpdated, int id){

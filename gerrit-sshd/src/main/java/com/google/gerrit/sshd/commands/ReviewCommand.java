@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.ApprovalCategory;
@@ -27,6 +28,8 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
+import com.google.gerrit.server.mail.AbandonedSender;
+import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
@@ -87,6 +90,9 @@ public class ReviewCommand extends BaseCommand {
   @Option(name = "--submit", aliases = "-s", usage = "submit the patch set")
   private boolean submitChange;
 
+  @Option(name = "--abandon", aliases = "-a", usage = "abandon the patch set")
+  private boolean abandonChange;
+
   @Inject
   private ReviewDb db;
 
@@ -106,12 +112,18 @@ public class ReviewCommand extends BaseCommand {
   private ChangeControl.Factory changeControlFactory;
 
   @Inject
+  private AbandonedSender.Factory abandonedSenderFactory;
+
+  @Inject
   private FunctionState.Factory functionStateFactory;
 
   private List<ApproveOption> optionList;
 
   @Inject
   private PublishComments.Factory publishCommentsFactory;
+
+  @Inject
+  private ChangeHookRunner hooks;
 
   @Override
   public final void start(final Environment env) {
@@ -144,7 +156,8 @@ public class ReviewCommand extends BaseCommand {
   }
 
   private void approveOne(final PatchSet.Id patchSetId)
-      throws NoSuchChangeException, UnloggedFailure, OrmException {
+      throws NoSuchChangeException, UnloggedFailure, OrmException,
+             EmailException {
 
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl changeControl =
@@ -173,6 +186,15 @@ public class ReviewCommand extends BaseCommand {
         ChangeUtil.submit(opFactory, patchSetId, currentUser, db, merger);
       } else {
         throw error(result.getMessage());
+      }
+    }
+
+    if (abandonChange) {
+      if (changeControl.canAbandon()) {
+        ChangeUtil.abandon(patchSetId, changeId, currentUser, changeComment, db,
+          abandonedSenderFactory, hooks);
+      } else {
+        throw error("User does not have the privileges to abandon this change");
       }
     }
   }

@@ -16,18 +16,27 @@ package com.google.gerrit.server;
 
 import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
 
+import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.TrackingId;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.mail.AbandonedSender;
+import com.google.gerrit.server.mail.EmailException;
 import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmConcurrencyException;
 import com.google.gwtorm.client.OrmException;
+
 
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.util.Base64;
@@ -176,6 +185,119 @@ public class ChangeUtil {
       }
     }
     return new PatchSetApproval(akey, (short) 1);
+  }
+
+  public static void abandon(final PatchSet.Id patchSetId,
+      final IdentifiedUser user, final String message, final ReviewDb db,
+      final AbandonedSender.Factory abandonedSenderFactory,
+      final ChangeHookRunner hooks) throws NoSuchChangeException,
+      EmailException, OrmException {
+    final Change.Id changeId = patchSetId.getParentKey();
+    final PatchSet patch = db.patchSets().get(patchSetId);
+    if (patch == null) {
+      throw new NoSuchChangeException(changeId);
+    }
+
+    final ChangeMessage cmsg =
+        new ChangeMessage(new ChangeMessage.Key(changeId, ChangeUtil
+            .messageUUID(db)), user.getAccountId());
+    final StringBuilder msgBuf =
+        new StringBuilder("Patch Set " + patchSetId.get() + ": Abandoned");
+    if (message != null && message.length() > 0) {
+      msgBuf.append("\n\n");
+      msgBuf.append(message);
+    }
+    cmsg.setMessage(msgBuf.toString());
+
+    final Change change = db.changes().atomicUpdate(changeId,
+        new AtomicUpdate<Change>() {
+      @Override
+      public Change update(Change change) {
+        if (change.getStatus().isOpen()
+            && change.currentPatchSetId().equals(patchSetId)) {
+          change.setStatus(Change.Status.ABANDONED);
+          ChangeUtil.updated(change);
+          return change;
+        } else {
+          return null;
+        }
+      }
+    });
+
+    if (change != null) {
+      db.changeMessages().insert(Collections.singleton(cmsg));
+
+      final List<PatchSetApproval> approvals =
+          db.patchSetApprovals().byChange(changeId).toList();
+      for (PatchSetApproval a : approvals) {
+        a.cache(change);
+      }
+      db.patchSetApprovals().update(approvals);
+
+      // Email the reviewers
+      final AbandonedSender cm = abandonedSenderFactory.create(change);
+      cm.setFrom(user.getAccountId());
+      cm.setChangeMessage(cmsg);
+      cm.send();
+    }
+
+    hooks.doChangeAbandonedHook(change, user.getAccount(), message);
+  }
+
+  public static void restore(final PatchSet.Id patchSetId,
+      final IdentifiedUser user, final String message, final ReviewDb db,
+      final AbandonedSender.Factory abandonedSenderFactory,
+      final ChangeHookRunner hooks) throws NoSuchChangeException,
+      EmailException, OrmException {
+    final Change.Id changeId = patchSetId.getParentKey();
+    final PatchSet patch = db.patchSets().get(patchSetId);
+    if (patch == null) {
+      throw new NoSuchChangeException(changeId);
+    }
+
+    final ChangeMessage cmsg =
+        new ChangeMessage(new ChangeMessage.Key(changeId, ChangeUtil
+            .messageUUID(db)), user.getAccountId());
+    final StringBuilder msgBuf =
+        new StringBuilder("Patch Set " + patchSetId.get() + ": Restored");
+    if (message != null && message.length() > 0) {
+      msgBuf.append("\n\n");
+      msgBuf.append(message);
+    }
+    cmsg.setMessage(msgBuf.toString());
+
+    Change change = db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
+      @Override
+      public Change update(Change change) {
+        if (change.getStatus() == Change.Status.ABANDONED
+            && change.currentPatchSetId().equals(patchSetId)) {
+          change.setStatus(Change.Status.NEW);
+          ChangeUtil.updated(change);
+          return change;
+        } else {
+          return null;
+        }
+      }
+    });
+
+    if (change != null) {
+      db.changeMessages().insert(Collections.singleton(cmsg));
+
+      final List<PatchSetApproval> approvals =
+          db.patchSetApprovals().byChange(changeId).toList();
+      for (PatchSetApproval a : approvals) {
+        a.cache(change);
+      }
+      db.patchSetApprovals().update(approvals);
+
+      // Email the reviewers
+      final AbandonedSender cm = abandonedSenderFactory.create(change);
+      cm.setFrom(user.getAccountId());
+      cm.setChangeMessage(cmsg);
+      cm.send();
+    }
+
+    hooks.doChangeRestoreHook(change, user.getAccount(), message);
   }
 
   public static String sortKey(long lastUpdated, int id){

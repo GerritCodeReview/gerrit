@@ -8,8 +8,8 @@ gerrit review - Verify, approve and/or submit one or more patch sets
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit approve' [\--project <PROJECT>] [\--message <MESSAGE>] [\--verified <N>] [\--code-review <N>] [\--submit] {COMMIT | CHANGEID,PATCHSET}...
-'ssh' -p <port> <host> 'gerrit review' [\--project <PROJECT>] [\--message <MESSAGE>] [\--verified <N>] [\--code-review <N>] [\--submit] {COMMIT | CHANGEID,PATCHSET}...
+'ssh' -p <port> <host> 'gerrit approve' [\--project <PROJECT>] [\--message <MESSAGE>] [\--verified <N>] [\--code-review <N>] [\--abandon] [\--restore] [\--submit]  {COMMIT | CHANGEID,PATCHSET}...
+'ssh' -p <port> <host> 'gerrit review' [\--project <PROJECT>] [\--message <MESSAGE>] [\--verified <N>] [\--code-review <N>] [\--abandon] [\--restore] [\--submit]  {COMMIT | CHANGEID,PATCHSET}...
 
 DESCRIPTION
 -----------
@@ -54,9 +54,18 @@ OPTIONS
 	differs per site, check the output of \--help, or contact
 	your site administrator for further details.
 
+\--abandon::
+	Abandon the specified patch set(s).
+	(option is mutually exclusive with --submit and --restore)
+
+\--restore::
+	Restore the specified abandonned patch set(s).
+	(option is mutually exclusive with --abandon)
+
 \--submit::
 -s::
 	Submit the specified patch set(s) for merging.
+	(option is mutually exclusive with --abandon)
 
 ACCESS
 ------

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.ApprovalCategory;
@@ -30,6 +31,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeOp.Factory;
 import com.google.gerrit.server.git.MergeQueue;
+import com.google.gerrit.server.mail.AbandonedSender;
+import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
@@ -88,6 +91,12 @@ public class ReviewCommand extends BaseCommand {
   @Option(name = "--message", aliases = "-m", usage = "cover message to publish on change", metaVar = "MESSAGE")
   private String changeComment;
 
+  @Option(name = "--abandon", usage = "abandon the patch set")
+  private boolean abandonChange;
+
+  @Option(name = "--restore", usage = "restore an abandoned the patch set")
+  private boolean restoreChange;
+
   @Option(name = "--submit", aliases = "-s", usage = "submit the patch set")
   private boolean submitChange;
 
@@ -110,12 +119,18 @@ public class ReviewCommand extends BaseCommand {
   private ChangeControl.Factory changeControlFactory;
 
   @Inject
-  private FunctionState.Factory functionStateFactory;
+  private AbandonedSender.Factory abandonedSenderFactory;
 
-  private List<ApproveOption> optionList;
+  @Inject
+  private FunctionState.Factory functionStateFactory;
 
   @Inject
   private PublishComments.Factory publishCommentsFactory;
+
+  @Inject
+  private ChangeHookRunner hooks;
+
+  private List<ApproveOption> optionList;
 
   private Set<PatchSet.Id> toSubmit = new HashSet<PatchSet.Id>();
 
@@ -126,6 +141,14 @@ public class ReviewCommand extends BaseCommand {
       public void run() throws Failure {
         initOptionList();
         parseCommandLine();
+        if (abandonChange) {
+          if (restoreChange) {
+            throw error("abandon and restore actions are mutually exclusive");
+          }
+          if (submitChange) {
+            throw error("abandon and submit actions are mutually exclusive");
+          }
+        }
 
         boolean ok = true;
         for (final PatchSet.Id patchSetId : patchSetIds) {
@@ -182,11 +205,11 @@ public class ReviewCommand extends BaseCommand {
   }
 
   private void approveOne(final PatchSet.Id patchSetId)
-      throws NoSuchChangeException, UnloggedFailure, OrmException {
+      throws NoSuchChangeException, UnloggedFailure, OrmException,
+             EmailException {
 
     final Change.Id changeId = patchSetId.getParentKey();
-    final ChangeControl changeControl =
-        changeControlFactory.validateFor(changeId);
+    ChangeControl changeControl = changeControlFactory.validateFor(changeId);
 
     if (changeComment == null) {
       changeComment = "";
@@ -202,6 +225,27 @@ public class ReviewCommand extends BaseCommand {
     }
 
     publishCommentsFactory.create(patchSetId, changeComment, aps).call();
+
+    if (abandonChange) {
+      if (changeControl.canAbandon()) {
+        ChangeUtil.abandon(patchSetId, currentUser, changeComment, db,
+          abandonedSenderFactory, hooks);
+      } else {
+        throw error("Not permitted to abandon change");
+      }
+    }
+
+    if (restoreChange) {
+      if (changeControl.canRestore()) {
+        ChangeUtil.restore(patchSetId, currentUser, changeComment, db,
+          abandonedSenderFactory, hooks);
+      } else {
+        throw error("Not permitted to restore change");
+      }
+      if (submitChange) {
+        changeControl = changeControlFactory.validateFor(changeId);
+      }
+    }
 
     if (submitChange) {
       CanSubmitResult result =

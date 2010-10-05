@@ -73,59 +73,15 @@ class RestoreChange extends Handler<ChangeDetail> {
   @Override
   public ChangeDetail call() throws NoSuchChangeException, OrmException,
       EmailException, NoSuchEntityException, PatchSetInfoNotAvailableException {
+
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl control = changeControlFactory.validateFor(changeId);
     if (!control.canRestore()) {
       throw new NoSuchChangeException(changeId);
     }
-    final PatchSet patch = db.patchSets().get(patchSetId);
-    if (patch == null) {
-      throw new NoSuchChangeException(changeId);
-    }
 
-    final ChangeMessage cmsg =
-        new ChangeMessage(new ChangeMessage.Key(changeId, ChangeUtil
-            .messageUUID(db)), currentUser.getAccountId());
-    final StringBuilder msgBuf =
-        new StringBuilder("Patch Set " + patchSetId.get() + ": Restored");
-    if (message != null && message.length() > 0) {
-      msgBuf.append("\n\n");
-      msgBuf.append(message);
-    }
-    cmsg.setMessage(msgBuf.toString());
-
-    Change change = db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
-      @Override
-      public Change update(Change change) {
-        if (change.getStatus() == Change.Status.ABANDONED
-            && change.currentPatchSetId().equals(patchSetId)) {
-          change.setStatus(Change.Status.NEW);
-          ChangeUtil.updated(change);
-          return change;
-        } else {
-          return null;
-        }
-      }
-    });
-
-    if (change != null) {
-      db.changeMessages().insert(Collections.singleton(cmsg));
-
-      final List<PatchSetApproval> approvals =
-          db.patchSetApprovals().byChange(changeId).toList();
-      for (PatchSetApproval a : approvals) {
-        a.cache(change);
-      }
-      db.patchSetApprovals().update(approvals);
-
-      // Email the reviewers
-      final AbandonedSender cm = abandonedSenderFactory.create(change);
-      cm.setFrom(currentUser.getAccountId());
-      cm.setChangeMessage(cmsg);
-      cm.send();
-    }
-
-    hooks.doChangeRestoreHook(change, currentUser.getAccount(), message);
+    ChangeUtil.restore(patchSetId, currentUser, message, db,
+       abandonedSenderFactory, hooks);
 
     return changeDetailFactory.create(changeId).call();
   }

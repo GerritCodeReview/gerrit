@@ -81,7 +81,7 @@ class SubmitAction extends Handler<ChangeDetail> {
     CanSubmitResult err =
         changeControl.canSubmit(patchSetId, db, approvalTypes, functionState);
     if (err == CanSubmitResult.OK) {
-      ChangeUtil.submit(opFactory, patchSetId, user, db, merger);
+      ChangeUtil.submit(patchSetId, user, db, opFactory, merger);
       return changeDetailFactory.create(changeId).call();
     } else {
       throw new IllegalStateException(err.getMessage());

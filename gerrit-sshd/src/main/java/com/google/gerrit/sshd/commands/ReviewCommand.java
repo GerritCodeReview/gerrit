@@ -214,7 +214,7 @@ public class ReviewCommand extends BaseCommand {
           changeControl.canSubmit(patchSetId, db, approvalTypes,
               functionStateFactory);
       if (result == CanSubmitResult.OK) {
-        ChangeUtil.submit(opFactory, patchSetId, currentUser, db, merger);
+        ChangeUtil.submit(patchSetId, currentUser, db, opFactory, merger);
       } else {
         throw error(result.getMessage());
       }

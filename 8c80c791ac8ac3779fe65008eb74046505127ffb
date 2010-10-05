@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA73///xk\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-05T05:56:58Z",
+      "side": 1,
+      "message": "Thanks :-)",
+      "parentUuid": "AAAA73///4k\u003d",
+      "revId": "8c80c791ac8ac3779fe65008eb74046505127ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73///44\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/VisibleProjectsInfo.java",
         "patchSetId": 2

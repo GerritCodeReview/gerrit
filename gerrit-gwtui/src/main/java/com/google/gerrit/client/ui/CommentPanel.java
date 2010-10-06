@@ -17,12 +17,20 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.AccountInfo;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.HasBlurHandlers;
 import com.google.gwt.event.dom.client.HasDoubleClickHandlers;
+import com.google.gwt.event.dom.client.HasFocusHandlers;
+import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -37,8 +45,10 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.Date;
 
-public class CommentPanel extends Composite implements HasDoubleClickHandlers {
+public class CommentPanel extends Composite implements HasDoubleClickHandlers,
+    HasFocusHandlers, FocusHandler, HasBlurHandlers, BlurHandler {
   private static final int SUMMARY_LENGTH = 75;
+  private final HandlerManager handlerManager = new HandlerManager(this);
   private final FlexTable header;
   private final InlineLabel messageSummary;
   private final FlowPanel content;
@@ -132,13 +142,65 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers {
     }
   }
 
-  protected Panel getButtonPanel() {
+  /**
+   * Registers a {@link FocusHandler} for this comment panel.
+   * The comment panel is considered as being focused whenever any button in the
+   * comment panel gets focused.
+   *
+   * @param handler the focus handler to be registered
+   */
+  @Override
+  public HandlerRegistration addFocusHandler(final FocusHandler handler) {
+    return handlerManager.addHandler(FocusEvent.getType(), handler);
+  }
+
+  /**
+   * Registers a {@link BlurHandler} for this comment panel.
+   * The comment panel is considered as being blurred whenever any button in the
+   * comment panel gets blurred.
+   *
+   * @param handler the blur handler to be registered
+   */
+  @Override
+  public HandlerRegistration addBlurHandler(final BlurHandler handler) {
+    return handlerManager.addHandler(BlurEvent.getType(), handler);
+  }
+
+  protected void addButton(final Button button) {
+    // register focus and blur handler for each button, so that we can fire
+    // focus and blur events for the comment panel
+    button.addFocusHandler(this);
+    button.addBlurHandler(this);
+    getButtonPanel().add(button);
+  }
+
+  private Panel getButtonPanel() {
     if (buttons == null) {
       buttons = new FlowPanel();
       buttons.setStyleName(Gerrit.RESOURCES.css().commentPanelButtons());
       content.add(buttons);
     }
     return buttons;
+  }
+
+  @Override
+  public void onFocus(final FocusEvent event) {
+    // a button was focused -> fire focus event for the comment panel
+    handlerManager.fireEvent(event);
+  }
+
+  @Override
+  public void onBlur(final BlurEvent event) {
+    // a button was blurred -> fire blur event for the comment panel
+    handlerManager.fireEvent(event);
+  }
+
+  protected void enableButtons(final boolean on) {
+    for (Widget w : getButtonPanel()) {
+      if (w instanceof Button) {
+        ((Button) w).setEnabled(on);
+      }
+    }
   }
 
   private static String summarize(final String message) {

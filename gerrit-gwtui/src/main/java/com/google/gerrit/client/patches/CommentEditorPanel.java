@@ -113,22 +113,22 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     edit = new Button();
     edit.setText(PatchUtil.C.buttonEdit());
     edit.addClickHandler(this);
-    getButtonPanel().add(edit);
+    addButton(edit);
 
     save = new Button();
     save.setText(PatchUtil.C.buttonSave());
     save.addClickHandler(this);
-    getButtonPanel().add(save);
+    addButton(save);
 
     cancel = new Button();
     cancel.setText(PatchUtil.C.buttonCancel());
     cancel.addClickHandler(this);
-    getButtonPanel().add(cancel);
+    addButton(cancel);
 
     discard = new Button();
     discard.setText(PatchUtil.C.buttonDiscard());
     discard.addClickHandler(this);
-    getButtonPanel().add(discard);
+    addButton(discard);
 
     setOpen(true);
     if (isNew()) {

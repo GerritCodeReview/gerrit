@@ -30,8 +30,12 @@ import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -52,7 +56,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractPatchContentTable extends NavigationTable<Object>
-    implements CommentEditorContainer {
+    implements CommentEditorContainer, FocusHandler, BlurHandler {
   protected PatchTable fileList;
   protected AccountInfoCache accountCache = AccountInfoCache.empty();
   protected Patch.Key patchKey;
@@ -62,6 +66,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
 
   private final KeyCommandSet keysComment;
   private HandlerRegistration regComment;
+  private final KeyCommandSet keysOpenByEnter;
+  private HandlerRegistration regOpenByEnter;
 
   protected AbstractPatchContentTable() {
     keysNavigation.add(new PrevKeyCommand(0, 'k', PatchUtil.C.linePrev()));
@@ -72,8 +78,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     keysNavigation.add(new NextCommentCmd(0, 'N', PatchUtil.C.commentNext()));
 
     keysAction.add(new OpenKeyCommand(0, 'o', PatchUtil.C.expandComment()));
-    keysAction.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, PatchUtil.C
-        .expandComment()));
+    keysOpenByEnter = new KeyCommandSet(Gerrit.C.sectionNavigation());
+    keysOpenByEnter.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, PatchUtil.C.expandComment()));
 
     if (Gerrit.isSignedIn()) {
       keysAction.add(new InsertCommentCommand(0, 'c', PatchUtil.C
@@ -146,6 +152,13 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     } else if (!on && regComment != null) {
       regComment.removeHandler();
       regComment = null;
+    }
+
+    if (on && keysOpenByEnter != null && regOpenByEnter == null) {
+      regOpenByEnter = GlobalKey.add(this, keysOpenByEnter);
+    } else if (!on && regOpenByEnter != null) {
+      regOpenByEnter.removeHandler();
+      regOpenByEnter = null;
     }
   }
 
@@ -403,6 +416,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     }
 
     final CommentEditorPanel ed = new CommentEditorPanel(newComment);
+    ed.addFocusHandler(this);
+    ed.addBlurHandler(this);
     boolean isCommentRow = false;
     boolean needInsert = false;
     if (row < table.getRowCount()) {
@@ -517,6 +532,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       final PatchLineComment line, final boolean isLast) {
     if (line.getStatus() == PatchLineComment.Status.DRAFT) {
       final CommentEditorPanel plc = new CommentEditorPanel(line);
+      plc.addFocusHandler(this);
+      plc.addBlurHandler(this);
       table.setWidget(row, col, plc);
       styleLastCommentCell(row, col);
 
@@ -524,6 +541,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       final AccountInfo author = accountCache.get(line.getAuthor());
       final PublishedCommentPanel panel =
           new PublishedCommentPanel(author, line);
+      panel.addFocusHandler(this);
+      panel.addBlurHandler(this);
       table.setWidget(row, col, panel);
       styleLastCommentCell(row, col);
 
@@ -537,6 +556,29 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     }
 
     styleCommentRow(row);
+  }
+
+  @Override
+  public void onFocus(FocusEvent event) {
+    // when the comment panel gets focused (actually when a button inside the
+    // comment panel gets focused) we have to unregister the key binding for
+    // ENTER that expands/collapses the comment panel, if we don't do this the
+    // focused button in the comment panel cannot be triggered by pressing ENTER
+    // since ENTER would then be already consumed by this key binding
+    if (regOpenByEnter != null) {
+      regOpenByEnter.removeHandler();
+      regOpenByEnter = null;
+    }
+  }
+
+  @Override
+  public void onBlur(BlurEvent event) {
+    // when the comment panel gets blurred (actually when a button inside the
+    // comment panel gets blurred) we have to re-register the key binding for
+    // ENTER that expands/collapses the comment panel
+    if (keysOpenByEnter != null && regOpenByEnter == null) {
+      regOpenByEnter = GlobalKey.add(this, keysOpenByEnter);
+    }
   }
 
   private void styleCommentRow(final int row) {
@@ -700,11 +742,11 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
 
       reply = new Button(PatchUtil.C.buttonReply());
       reply.addClickHandler(this);
-      getButtonPanel().add(reply);
+      addButton(reply);
 
       replyDone = new Button(PatchUtil.C.buttonReplyDone());
       replyDone.addClickHandler(this);
-      getButtonPanel().add(replyDone);
+      addButton(replyDone);
     }
 
     @Override
@@ -733,18 +775,18 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         final PatchLineComment newComment = newComment();
         newComment.setMessage(message);
 
-        enable(false);
+        enableButtons(false);
         PatchUtil.DETAIL_SVC.saveDraft(newComment,
             new GerritCallback<PatchLineComment>() {
               public void onSuccess(final PatchLineComment result) {
-                enable(true);
+                enableButtons(true);
                 notifyDraftDelta(1);
                 createEditor(result).setOpen(false);
               }
 
               @Override
               public void onFailure(Throwable caught) {
-                enable(true);
+                enableButtons(true);
                 super.onFailure(caught);
               }
             });
@@ -769,14 +811,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
               .getUserAccount().getId(), comment.getKey().get());
       newComment.setSide(comment.getSide());
       return newComment;
-    }
-
-    private void enable(boolean on) {
-      for (Widget w : getButtonPanel()) {
-        if (w instanceof Button) {
-          ((Button) w).setEnabled(on);
-        }
-      }
     }
   }
 }

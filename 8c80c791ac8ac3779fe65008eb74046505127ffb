@@ -106,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA73///rg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-06T17:41:53Z",
+      "side": 1,
+      "message": "If this is intended as sort of a suggestion list, I would think that it should additionally have any \"permission only\" projects in it, regardless of whether these projects have been used yet as parents for other projects.",
+      "parentUuid": "AAAA73///6g\u003d",
+      "revId": "8c80c791ac8ac3779fe65008eb74046505127ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73///6o\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
         "patchSetId": 2

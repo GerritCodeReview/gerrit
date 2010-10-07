@@ -55,7 +55,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -124,7 +123,12 @@ public class PushReplication implements ReplicationQueue {
   private static String replace(final String pat, final String key,
       final String val) {
     final int n = pat.indexOf("${" + key + "}");
-    return pat.substring(0, n) + val + pat.substring(n + 3 + key.length());
+
+    if (n != -1) {
+      return pat.substring(0, n) + val + pat.substring(n + 3 + key.length());
+    } else {
+      return null;
+    }
   }
 
   private List<ReplicationConfig> allConfigs(final SitePaths site)
@@ -210,9 +214,33 @@ public class PushReplication implements ReplicationQueue {
 
     for (ReplicationConfig config : configs) {
       List<URIish> uriList = config.getURIs(projectName, "*");
+      String adminUrl = config.getAdminUrl();
+      URIish adminURI = null;
+      try {
+        if (adminUrl != null && !adminUrl.isEmpty()) {
+           adminURI = new URIish(adminUrl);
+        }
+      } catch (URISyntaxException e) {
+        // syntax error
+        //
+      }
 
-      for (URIish uri : uriList) {
-        replicateProject(uri, head);
+      boolean adminURLUsed = false;
+      if (adminURI != null) {
+        final String replacedPath = replace(adminURI.getPath(), "name", projectName.get());
+        if (replacedPath != null) {
+          adminURI = adminURI.setPath(replacedPath);
+          if (usingSSH(adminURI)) {
+            replicateProject(adminURI, head);
+            adminURLUsed = true;
+          }
+        }
+      }
+
+      if (!adminURLUsed) {
+        for (URIish uri : uriList) {
+          replicateProject(uri, head);
+        }
       }
     }
   }
@@ -306,6 +334,7 @@ public class PushReplication implements ReplicationQueue {
 
   static class ReplicationConfig {
     private final RemoteConfig remote;
+    private final String adminUrlRemote;
     private final int delay;
     private final WorkQueue.Executor pool;
     private final Map<URIish, PushOp> pending = new HashMap<URIish, PushOp>();
@@ -332,6 +361,8 @@ public class PushReplication implements ReplicationQueue {
       } else {
         authGroups = ReplicationUser.EVERYTHING_VISIBLE;
       }
+
+      adminUrlRemote = cfg.getString("remote", rc.getName(), "adminUrl");
 
       final ReplicationUser remoteUser =
           replicationUserFactory.create(authGroups);
@@ -407,11 +438,18 @@ public class PushReplication implements ReplicationQueue {
       final List<URIish> r = new ArrayList<URIish>(remote.getURIs().size());
       for (URIish uri : remote.getURIs()) {
         if (matches(uri, urlMatch)) {
-          uri = uri.setPath(replace(uri.getPath(), "name", project.get()));
-          r.add(uri);
+          final String replacedPath = replace(uri.getPath(), "name", project.get());
+          if (replacedPath != null) {
+            uri = uri.setPath(replacedPath);
+            r.add(uri);
+          }
         }
       }
       return r;
+    }
+
+    String getAdminUrl() {
+      return this.adminUrlRemote;
     }
 
     private boolean matches(URIish uri, final String urlMatch) {

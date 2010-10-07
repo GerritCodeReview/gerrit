@@ -102,6 +102,15 @@ author:: link:json.html#account[account attribute]
 
 comment:: Comment text author had written
 
+Ref Updated
+^^^^^^^^^^^
+type:: "ref-updated"
+
+submitter:: link:json.html#account[account attribute]
+
+refUpdate:: link:json.html#refupdate[refupdate attribute]
+
+
 SEE ALSO
 --------
 

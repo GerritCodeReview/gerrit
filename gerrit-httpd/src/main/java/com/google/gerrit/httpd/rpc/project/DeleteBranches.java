@@ -14,9 +14,11 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -46,6 +48,8 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
   private final ProjectControl.Factory projectControlFactory;
   private final GitRepositoryManager repoManager;
   private final ReplicationQueue replication;
+  private final IdentifiedUser identifiedUser;
+  private final ChangeHookRunner hooks;
 
   private final Project.NameKey projectName;
   private final Set<Branch.NameKey> toRemove;
@@ -54,11 +58,15 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
   DeleteBranches(final ProjectControl.Factory projectControlFactory,
       final GitRepositoryManager repoManager,
       final ReplicationQueue replication,
+      final IdentifiedUser identifiedUser,
+      final ChangeHookRunner hooks,
 
       @Assisted Project.NameKey name, @Assisted Set<Branch.NameKey> toRemove) {
     this.projectControlFactory = projectControlFactory;
     this.repoManager = repoManager;
     this.replication = replication;
+    this.identifiedUser = identifiedUser;
+    this.hooks = hooks;
 
     this.projectName = name;
     this.toRemove = toRemove;
@@ -85,8 +93,9 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
       for (final Branch.NameKey branchKey : toRemove) {
         final String refname = branchKey.get();
         final RefUpdate.Result result;
+        final RefUpdate u;
         try {
-          final RefUpdate u = r.updateRef(refname);
+          u = r.updateRef(refname);
           u.setForceUpdate(true);
           result = u.delete();
         } catch (IOException e) {
@@ -101,6 +110,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
           case FORCED:
             deleted.add(branchKey);
             replication.scheduleUpdate(projectName, refname);
+            hooks.doRefUpdatedHook(branchKey, u, identifiedUser.getAccount());
             break;
 
           case REJECTED_CURRENT_BRANCH:

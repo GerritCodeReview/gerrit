@@ -107,6 +107,19 @@ was added or last updated.
 
 by:: Reviewer of the patch set in <<account,account attribute>>.
 
+[[refupdate]]
+refupdate
+--------
+Information about a ref that was updated.
+
+oldRev:: The old value of the ref, prior to the update.
+
+newRev:: The new value the ref was updated to.
+
+project:: Project path in Gerrit
+
+refName:: Ref name within project.
+
 SEE ALSO
 --------
 

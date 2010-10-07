@@ -302,6 +302,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           // Change refs are scheduled when they are created.
           //
           replication.scheduleUpdate(project.getNameKey(), c.getRefName());
+          Branch.NameKey destBranch = new Branch.NameKey(project.getNameKey(), c.getRefName());
+          hooks.doRefChangedHook(destBranch, c.getNewId(), this.currentUser.getAccount());
         }
       }
     }

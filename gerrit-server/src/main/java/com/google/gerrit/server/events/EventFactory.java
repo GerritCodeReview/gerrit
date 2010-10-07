@@ -17,6 +17,7 @@ package com.google.gerrit.server.events;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -27,6 +28,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.internal.Nullable;
+
+import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -64,6 +67,21 @@ public class EventFactory {
     a.subject = change.getSubject();
     a.url = getChangeUrl(change);
     a.owner = asAccountAttribute(change.getOwner());
+    return a;
+  }
+
+  /**
+   * Create a ChangeAttribute for the given ref and object id suitable for
+   * serialization to JSON.
+   *
+   * @return refName The ref that is changing
+   * @return newId The new commit the ref is pointing to
+   * @return object suitable for serialization to JSON
+   */
+  public ChangeAttribute asChangeAttribute(final Branch.NameKey refName, ObjectId newId) {
+    ChangeAttribute a = new ChangeAttribute();
+    a.branch = refName.getShortName();
+    a.project = refName.getParentKey().get();
     return a;
   }
 

@@ -14,9 +14,11 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -25,6 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -46,6 +49,8 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
   private final ProjectControl.Factory projectControlFactory;
   private final GitRepositoryManager repoManager;
   private final ReplicationQueue replication;
+  private final IdentifiedUser identifiedUser;
+  private final ChangeHookRunner hooks;
 
   private final Project.NameKey projectName;
   private final Set<Branch.NameKey> toRemove;
@@ -54,11 +59,15 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
   DeleteBranches(final ProjectControl.Factory projectControlFactory,
       final GitRepositoryManager repoManager,
       final ReplicationQueue replication,
+      final IdentifiedUser identifiedUser,
+      final ChangeHookRunner hooks,
 
       @Assisted Project.NameKey name, @Assisted Set<Branch.NameKey> toRemove) {
     this.projectControlFactory = projectControlFactory;
     this.repoManager = repoManager;
     this.replication = replication;
+    this.identifiedUser = identifiedUser;
+    this.hooks = hooks;
 
     this.projectName = name;
     this.toRemove = toRemove;
@@ -101,6 +110,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
           case FORCED:
             deleted.add(branchKey);
             replication.scheduleUpdate(projectName, refname);
+            hooks.doRefChangedHook(branchKey, ObjectId.zeroId(), identifiedUser.getAccount());
             break;
 
           case REJECTED_CURRENT_BRANCH:

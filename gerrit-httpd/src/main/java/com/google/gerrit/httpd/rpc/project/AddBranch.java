@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.InvalidRevisionException;
@@ -58,6 +59,7 @@ class AddBranch extends Handler<ListBranchesResult> {
   private final IdentifiedUser identifiedUser;
   private final GitRepositoryManager repoManager;
   private final ReplicationQueue replication;
+  private final ChangeHookRunner hooks;
 
   private final Project.NameKey projectName;
   private final String branchName;
@@ -69,6 +71,7 @@ class AddBranch extends Handler<ListBranchesResult> {
       final IdentifiedUser identifiedUser,
       final GitRepositoryManager repoManager,
       final ReplicationQueue replication,
+      final ChangeHookRunner hooks,
 
       @Assisted Project.NameKey projectName,
       @Assisted("branchName") String branchName,
@@ -78,6 +81,7 @@ class AddBranch extends Handler<ListBranchesResult> {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.replication = replication;
+    this.hooks = hooks;
 
     this.projectName = projectName;
     this.branchName = branchName;
@@ -136,6 +140,7 @@ class AddBranch extends Handler<ListBranchesResult> {
           case NEW:
           case NO_CHANGE:
             replication.scheduleUpdate(name.getParentKey(), refname);
+            hooks.doRefChangedHook(name, object, identifiedUser.getAccount());
             break;
           default: {
             final String msg =

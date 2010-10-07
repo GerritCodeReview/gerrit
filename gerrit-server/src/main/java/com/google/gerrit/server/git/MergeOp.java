@@ -881,6 +881,13 @@ public class MergeOp {
           case FAST_FORWARD:
             replication.scheduleUpdate(destBranch.getParentKey(), branchUpdate
                 .getName());
+
+            Account account = null;
+            final PatchSetApproval submitter = getSubmitter(mergeTip.patchsetId);
+            if (submitter != null) {
+              account = accountCache.get(submitter.getAccountId()).getAccount();
+            }
+            hooks.doRefUpdatedHook(destBranch, branchUpdate, account);
             break;
 
           default:

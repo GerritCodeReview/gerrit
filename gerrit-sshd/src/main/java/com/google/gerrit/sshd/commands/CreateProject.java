@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.SubmitType;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ProjectCreatorGroups;
 import com.google.gerrit.server.config.ProjectOwnerGroups;
@@ -32,7 +33,11 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
@@ -78,6 +83,9 @@ final class CreateProject extends BaseCommand {
       + "(default: master)")
   private String branch = Constants.MASTER;
 
+  @Option(name = "--empty-commits", aliases = {"--ec"}, usage = "include initial commmit in the repository")
+  private boolean emptyCommits;
+
   @Inject
   private ReviewDb db;
 
@@ -97,6 +105,10 @@ final class CreateProject extends BaseCommand {
 
   @Inject
   private ReplicationQueue rq;
+
+  @Inject
+  @GerritPersonIdent
+  private PersonIdent serverIdent;
 
   @Override
   public void start(final Environment env) {
@@ -121,10 +133,37 @@ final class CreateProject extends BaseCommand {
 
               repoManager
                   .setProjectDescription(projectName, projectDescription);
-
-              rq.replicateNewProject(new Project.NameKey(projectName), branch);
             } finally {
               repo.close();
+            }
+
+            if (emptyCommits) {
+              ObjectInserter oi = repo.newObjectInserter();
+              try {
+                CommitBuilder cb = new CommitBuilder();
+                cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
+                cb.setAuthor(serverIdent);
+                cb.setCommitter(cb.getAuthor());
+                cb.setMessage("Initial empty repository");
+
+                ObjectId id = oi.insert(cb);
+                oi.flush();
+
+                RefUpdate ru = repo.updateRef(Constants.HEAD);
+                ru.setNewObjectId(id);
+                final RefUpdate.Result result = ru.update();
+
+                if (result != RefUpdate.Result.NEW &&
+                    result != RefUpdate.Result.NO_CHANGE &&
+                    result != RefUpdate.Result.FAST_FORWARD) {
+                  p.println("It was not possible to create the empty commit into the repository "
+                          + projectName);
+                  p.flush();
+                }
+
+              } finally {
+                oi.release();
+              }
             }
           }
 
@@ -132,6 +171,10 @@ final class CreateProject extends BaseCommand {
 
           if (!permissionsOnly) {
             rq.replicateNewProject(new Project.NameKey(projectName), branch);
+
+            if (emptyCommits) {
+              rq.scheduleUpdate(new Project.NameKey(projectName), branch);
+            }
           }
         } catch (Exception e) {
           p.print("Error when trying to create project: " + e.getMessage()

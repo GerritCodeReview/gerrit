@@ -860,6 +860,10 @@ public class MergeOp {
           case FAST_FORWARD:
             replication.scheduleUpdate(destBranch.getParentKey(), branchUpdate
                 .getName());
+            hooks.doRefUpdatedHook(
+                destBranch,
+                branchUpdate,
+                accountCache.get(getSubmitter(mergeTip.patchsetId).getAccountId()).getAccount());
             break;
 
           default:

@@ -17,6 +17,7 @@ package com.google.gerrit.server.events;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -27,6 +28,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.internal.Nullable;
+
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -65,6 +69,23 @@ public class EventFactory {
     a.url = getChangeUrl(change);
     a.owner = asAccountAttribute(change.getOwner());
     return a;
+  }
+
+  /**
+   * Create a RefUpdateAttribute for the given RefUpdate suitable for
+   * serialization to JSON.
+   *
+   * @param refUpdate
+   * @param refName
+   * @return object suitable for serialization to JSON
+   */
+  public RefUpdateAttribute asRefUpdateAttribute(final ObjectId oldId, final ObjectId newId, final Branch.NameKey refName) {
+    RefUpdateAttribute ru = new RefUpdateAttribute();
+    ru.newRev = newId != null ? newId.getName() : ObjectId.zeroId().getName();
+    ru.oldRev = oldId != null ? oldId.getName() : ObjectId.zeroId().getName();
+    ru.project = refName.getParentKey().get();
+    ru.refName = refName.getShortName();
+    return ru;
   }
 
   /**

@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
@@ -35,6 +36,7 @@ import com.google.gerrit.server.events.ChangeRestoreEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
+import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectCache;
@@ -45,6 +47,8 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,6 +100,9 @@ public class ChangeHookRunner {
     /** Filename of the change abandoned hook. */
     private final File changeRestoredHook;
 
+    /** Filename of the change abandoned hook. */
+    private final File refUpdatedHook;
+
     /** Repository Manager. */
     private final GitRepositoryManager repoManager;
 
@@ -141,6 +148,7 @@ public class ChangeHookRunner {
         changeMergedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeMergedHook", "change-merged")).getPath());
         changeAbandonedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeAbandonedHook", "change-abandoned")).getPath());
         changeRestoredHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeRestoredHook", "change-restored")).getPath());
+        refUpdatedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdatedHook", "ref-updated")).getPath());
     }
 
     public void addChangeListener(ChangeListener listener, IdentifiedUser user) {
@@ -172,7 +180,16 @@ public class ChangeHookRunner {
      * @return Repository or null.
      */
     private Repository openRepository(final Change change) {
-        Project.NameKey name = change.getProject();
+        return openRepository(change.getProject());
+    }
+
+    /**
+     * Get the Repository for the given project name, or null on error.
+     *
+     * @param name Project to get repo for,
+     * @return Repository or null.
+     */
+    private Repository openRepository(final Project.NameKey name) {
         try {
             return repoManager.openRepository(name.get());
         } catch (RepositoryNotFoundException err) {
@@ -335,9 +352,51 @@ public class ChangeHookRunner {
         runHook(openRepository(change), changeRestoredHook, args);
     }
 
+    /**
+     * Fire the Ref Updated Hook
+     * @param project The project the ref update occured on
+     * @param refUpdate An actual RefUpdate object
+     * @param account The gerrit user who moved the ref
+     */
+    public void doRefUpdatedHook(final Branch.NameKey refName, final RefUpdate refUpdate, final Account account) {
+      doRefUpdatedHook(refName, refUpdate.getOldObjectId(), refUpdate.getNewObjectId(), account);
+    }
+
+    /**
+     * Fire the Ref Updated Hook
+     * @param refName The Branch.NameKey of the ref that was updated
+     * @param oldId The ref's old id
+     * @param newId The ref's new id
+     * @param account The gerrit user who moved the ref
+     */
+    public void doRefUpdatedHook(final Branch.NameKey refName, final ObjectId oldId, final ObjectId newId, final Account account) {
+      final RefUpdatedEvent event = new RefUpdatedEvent();
+
+      event.submitter = eventFactory.asAccountAttribute(account);
+      event.refUpdate = eventFactory.asRefUpdateAttribute(oldId, newId, refName);
+      fireEvent(refName, event);
+
+      final List<String> args = new ArrayList<String>();
+      addArg(args, "--oldrev", event.refUpdate.oldRev);
+      addArg(args, "--newrev", event.refUpdate.newRev);
+      addArg(args, "--refname", event.refUpdate.refName);
+      addArg(args, "--project", event.refUpdate.project);
+      addArg(args, "--submitter", getDisplayName(account));
+
+      runHook(openRepository(refName.getParentKey()), refUpdatedHook, args);
+    }
+
     private void fireEvent(final Change change, final ChangeEvent event) {
       for (ChangeListenerHolder holder : listeners.values()) {
           if (isVisibleTo(change, holder.user)) {
+              holder.listener.onChangeEvent(event);
+          }
+      }
+    }
+
+    private void fireEvent(Branch.NameKey branchName, final ChangeEvent event) {
+      for (ChangeListenerHolder holder : listeners.values()) {
+          if (isVisibleTo(branchName, holder.user)) {
               holder.listener.onChangeEvent(event);
           }
       }
@@ -350,6 +409,15 @@ public class ChangeHookRunner {
         }
         final ProjectControl pc = pe.controlFor(user);
         return pc.controlFor(change).isVisible();
+    }
+
+    private boolean isVisibleTo(Branch.NameKey branchName, IdentifiedUser user) {
+        final ProjectState pe = projectCache.get(branchName.getParentKey());
+        if (pe == null) {
+          return false;
+        }
+        final ProjectControl pc = pe.controlFor(user);
+        return pc.controlForRef(branchName).isVisible();
     }
 
     /**

@@ -66,6 +66,15 @@ Called whenever a change has been restored.
   change-restored --change <change id> --change-url <change url> --project <project name> --branch <branch> --restorer <restorer> --reason <reason>
 ====
 
+ref-updated
+~~~~~~~~~~~
+
+Called whenever a ref has been updated.
+
+====
+  ref-updated --oldrev <old rev> --newrev <new rev> --refname <ref name> --project <project name> --submitter <submitter>
+====
+
 
 Configuration Settings
 ----------------------

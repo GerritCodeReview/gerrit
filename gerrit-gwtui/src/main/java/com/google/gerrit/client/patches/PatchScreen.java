@@ -403,6 +403,7 @@ public abstract class PatchScreen extends Screen implements
           new GerritCallback<PatchSetDetail>() {
             @Override
             public void onSuccess(PatchSetDetail result) {
+              commitMessageBlock.setVisible(true);
               commitMessageBlock.display(result.getInfo().getMessage());
             }
           });

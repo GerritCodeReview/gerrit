@@ -104,15 +104,18 @@ public class ProjectControl {
   private final Set<AccountGroup.Id> uploadGroups;
   private final Set<AccountGroup.Id> receiveGroups;
 
+  private final RefControl.Factory refControlFactory;
   private final CurrentUser user;
   private final ProjectState state;
 
   @Inject
   ProjectControl(@GitUploadPackGroups Set<AccountGroup.Id> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.Id> receiveGroups,
+      final RefControl.Factory refControlFactory,
       @Assisted CurrentUser who, @Assisted ProjectState ps) {
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
+    this.refControlFactory = refControlFactory;
     user = who;
     state = ps;
   }
@@ -134,7 +137,7 @@ public class ProjectControl {
   }
 
   public RefControl controlForRef(String refName) {
-    return new RefControl(this, refName);
+    return refControlFactory.create(this, refName);
   }
 
   public CurrentUser getCurrentUser() {

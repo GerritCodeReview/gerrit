@@ -14,7 +14,6 @@
 
 package com.google.gerrit.reviewdb;
 
-import com.google.gerrit.reviewdb.AccountGroup.Id;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
@@ -82,6 +81,10 @@ public final class SystemConfig {
   /** Identity of the batch users group */
   @Column(id = 8)
   public AccountGroup.Id batchUsersGroupId;
+
+  /** Identity of the owner group, which permits any project owner. */
+  @Column(id = 9)
+  public AccountGroup.Id ownerGroupId;
 
   protected SystemConfig() {
   }

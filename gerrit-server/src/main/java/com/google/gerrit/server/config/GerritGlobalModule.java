@@ -61,6 +61,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.workflow.FunctionState;
@@ -158,6 +159,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     factory(AccountInfoCacheFactory.Factory.class);
     factory(ProjectState.Factory.class);
+    factory(RefControl.Factory.class);
 
     bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);

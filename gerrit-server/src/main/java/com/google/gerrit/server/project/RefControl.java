@@ -32,8 +32,11 @@ import com.google.gerrit.common.data.ParamertizedString;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.RefRight;
+import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import dk.brics.automaton.RegExp;
 
@@ -50,6 +53,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -60,13 +64,22 @@ import java.util.regex.Pattern;
 
 /** Manages access control for Git references (aka branches, tags). */
 public class RefControl {
+  public interface Factory {
+    RefControl create(ProjectControl projectControl, String ref);
+  }
+
+  private final SystemConfig systemConfig;
   private final ProjectControl projectControl;
   private final String refName;
 
   private Boolean canForgeAuthor;
   private Boolean canForgeCommitter;
 
-  RefControl(final ProjectControl projectControl, String ref) {
+  @Inject
+  protected RefControl(final SystemConfig systemConfig,
+      @Assisted final ProjectControl projectControl,
+      @Assisted String ref) {
+    this.systemConfig = systemConfig;
     if (isRE(ref)) {
       ref = shortestExample(ref);
 
@@ -462,7 +475,8 @@ public class RefControl {
   }
 
   private List<RefRight> getAllRights(ApprovalCategory.Id actionId) {
-    return filter(getProjectState().getAllRights(actionId, true));
+    final List<RefRight> allRefRights = filter(getProjectState().getAllRights(actionId, true));
+    return resolveOwnerGroups(allRefRights);
   }
 
   /**
@@ -488,6 +502,47 @@ public class RefControl {
       }
     }
     return Collections.unmodifiableList(applicable);
+  }
+
+  /**
+   * Resolves all refRights which assign privileges to the 'Project Owners'
+   * group. All other refRights stay unchanged.
+   *
+   * @param refRights refRights to be resolved
+   * @return the resolved refRights
+   */
+  private List<RefRight> resolveOwnerGroups(final List<RefRight> refRights) {
+    final List<RefRight> resolvedRefRights =
+        new ArrayList<RefRight>(refRights.size());
+    for (final RefRight refRight : refRights) {
+      resolvedRefRights.addAll(resolveOwnerGroups(refRight));
+    }
+    return resolvedRefRights;
+  }
+
+  /**
+   * Checks if the given refRight assigns privileges to the 'Project Owners'
+   * group.
+   * If yes, resolves the 'Project Owners' group to the concrete groups that
+   * own the project and creates new refRights for the concrete owner groups
+   * which are returned.
+   * If no, the given refRight is returned unchanged.
+   *
+   * @param refRight refRight
+   * @return the resolved refRights
+   */
+  private Set<RefRight> resolveOwnerGroups(final RefRight refRight) {
+    final Set<RefRight> resolvedRefRights = new HashSet<RefRight>();
+    if (refRight.getAccountGroupId().equals(systemConfig.ownerGroupId)) {
+      for (final AccountGroup.Id ownerGroup : getProjectState().getOwners()) {
+        if (!ownerGroup.equals(systemConfig.ownerGroupId)) {
+          resolvedRefRights.add(new RefRight(refRight, ownerGroup));
+        }
+      }
+    } else {
+      resolvedRefRights.add(refRight);
+    }
+    return resolvedRefRights;
   }
 
   private List<RefRight> filter(Collection<RefRight> all) {

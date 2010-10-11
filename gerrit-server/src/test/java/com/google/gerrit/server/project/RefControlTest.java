@@ -191,18 +191,21 @@ public class RefControlTest extends TestCase {
   private final AccountGroup.Id admin = new AccountGroup.Id(1);
   private final AccountGroup.Id anonymous = new AccountGroup.Id(2);
   private final AccountGroup.Id registered = new AccountGroup.Id(3);
+  private final AccountGroup.Id owners = new AccountGroup.Id(4);
 
-  private final AccountGroup.Id devs = new AccountGroup.Id(4);
-  private final AccountGroup.Id fixers = new AccountGroup.Id(5);
+  private final AccountGroup.Id devs = new AccountGroup.Id(5);
+  private final AccountGroup.Id fixers = new AccountGroup.Id(6);
 
+  private final SystemConfig systemConfig;
   private final AuthConfig authConfig;
   private final AnonymousUser anonymousUser;
 
   public RefControlTest() {
-    final SystemConfig systemConfig = SystemConfig.create();
+    systemConfig = SystemConfig.create();
     systemConfig.adminGroupId = admin;
     systemConfig.anonymousGroupId = anonymous;
     systemConfig.registeredGroupId = registered;
+    systemConfig.ownerGroupId = owners;
     systemConfig.batchUsersGroupId = anonymous;
     try {
       byte[] bin = "abcdefghijklmnopqrstuvwxyz".getBytes("UTF-8");
@@ -268,9 +271,15 @@ public class RefControlTest extends TestCase {
   }
 
   private ProjectControl user(AccountGroup.Id... memberOf) {
+    RefControl.Factory refControlFactory = new RefControl.Factory() {
+      @Override
+      public RefControl create(final ProjectControl projectControl, final String ref) {
+        return new RefControl(systemConfig, projectControl, ref);
+      }
+    };
     return new ProjectControl(Collections.<AccountGroup.Id> emptySet(),
-        Collections.<AccountGroup.Id> emptySet(), new MockUser(memberOf),
-        newProjectState());
+        Collections.<AccountGroup.Id> emptySet(), refControlFactory,
+        new MockUser(memberOf), newProjectState());
   }
 
   private ProjectState newProjectState() {

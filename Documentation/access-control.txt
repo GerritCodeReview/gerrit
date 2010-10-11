@@ -10,7 +10,7 @@ be granted to individual users.
 System Groups
 -------------
 
-Gerrit comes with 3 system groups, with special access privileges
+Gerrit comes with 4 system groups, with special access privileges
 and membership management.  The identity of these groups is set
 in the `system_config` table within the database, so the groups
 can be renamed after installation if desired.
@@ -64,6 +64,21 @@ cause it to become approved or rejected.
 
 Registered users are always permitted to make and publish comments
 on any change in any project they have `Read Access` to.
+
+Project Owners
+~~~~~~~~~~~~~~
+
+Access rights assigned to this group are always evaluated within the
+context of a project and are resolved to access rights for all users
+which own the project.
+
+By assigning access rights to this group on a parent project Gerrit 
+administrators can define a set of default access rights for project 
+owners. Child projects inherit these access rights where they are
+resolved to the users that own the child project. 
+Having default access rights for projects owners assigned on a parent
+project may avoid the need to initially configure access rights for
+newly created child projects.  
 
 
 Account Groups

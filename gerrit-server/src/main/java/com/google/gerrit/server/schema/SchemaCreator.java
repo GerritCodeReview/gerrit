@@ -150,12 +150,23 @@ public class SchemaCreator {
     c.accountGroupNames().insert(
         Collections.singleton(new AccountGroupName(batchUsers)));
 
+    final AccountGroup owners =
+        new AccountGroup(new AccountGroup.NameKey("Project Owners"),
+            new AccountGroup.Id(c.nextAccountGroupId()));
+    owners.setDescription("Any owner of the project");
+    owners.setOwnerGroupId(admin.getId());
+    owners.setType(AccountGroup.Type.SYSTEM);
+    c.accountGroups().insert(Collections.singleton(owners));
+    c.accountGroupNames().insert(
+        Collections.singleton(new AccountGroupName(owners)));
+
     final SystemConfig s = SystemConfig.create();
     s.registerEmailPrivateKey = SignedToken.generateRandomKey();
     s.adminGroupId = admin.getId();
     s.anonymousGroupId = anonymous.getId();
     s.registeredGroupId = registered.getId();
     s.batchUsersGroupId = batchUsers.getId();
+    s.ownerGroupId = owners.getId();
     s.wildProjectName = DEFAULT_WILD_NAME;
     try {
       s.sitePath = site_path.getCanonicalPath();

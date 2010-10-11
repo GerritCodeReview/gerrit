@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -43,6 +44,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -61,6 +63,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory aic;
   private final IdentifiedUser user;
+  private final SystemConfig systemConfig;
 
   private final PatchSet.Id patchSetId;
 
@@ -77,7 +80,8 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       final ReviewDb db,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final ChangeControl.Factory changeControlFactory,
-      final IdentifiedUser user, @Assisted final PatchSet.Id patchSetId) {
+      final IdentifiedUser user, final SystemConfig systemConfig,
+      @Assisted final PatchSet.Id patchSetId) {
     this.projectCache = projectCache;
     this.infoFactory = infoFactory;
     this.approvalTypes = approvalTypes;
@@ -85,6 +89,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     this.changeControlFactory = changeControlFactory;
     this.aic = accountInfoCacheFactory.create();
     this.user = user;
+    this.systemConfig = systemConfig;
 
     this.patchSetId = patchSetId;
   }
@@ -129,11 +134,72 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   private void computeAllowed() {
     final Set<AccountGroup.Id> am = user.getEffectiveGroups();
     final ProjectState pe = projectCache.get(change.getProject());
+    final RefControl rc = pe.controlFor(user).controlForRef(change.getDest());
+    final Set<AccountGroup.Id> ownerGroups = getOwnerGroups(rc);
     for (ApprovalCategory.Id category : approvalTypes.getApprovalCategories()) {
-      RefControl rc = pe.controlFor(user).controlForRef(change.getDest());
-      List<RefRight> categoryRights = rc.getApplicableRights(category);
-      computeAllowed(am, categoryRights, category);
+      final List<RefRight> categoryRights = rc.getApplicableRights(category);
+      computeAllowed(am, resolveOwnerGroups(categoryRights, ownerGroups), category);
     }
+  }
+
+  /**
+   * Returns the ID's of all groups that are owner of the project.
+   * @param rc refControl
+   * @return ID's of all groups that are owner of the project
+   */
+  private Set<AccountGroup.Id> getOwnerGroups(final RefControl rc) {
+    final Set<AccountGroup.Id> ownerGroups = new HashSet<AccountGroup.Id>();
+    final List<RefRight> applicableRights =
+        rc.getApplicableRights(ApprovalCategory.OWN);
+    for (final RefRight r : applicableRights) {
+      ownerGroups.add(r.getAccountGroupId());
+    }
+    return ownerGroups;
+  }
+
+  /**
+   * Resolves all refRights which assign privileges to the 'Project Owners'
+   * group. All other refRights stay unchanged.
+   *
+   * @param refRights refRights to be resolved
+   * @param ownerGroups the ID's of the groups that own the project
+   * @return the resolved refRights
+   */
+  private List<RefRight> resolveOwnerGroups(final List<RefRight> refRights,
+      final Set<AccountGroup.Id> ownerGroups) {
+    final List<RefRight> resolvedRefRights =
+        new ArrayList<RefRight>(refRights.size());
+    for (final RefRight refRight : refRights) {
+      resolvedRefRights.addAll(resolveOwnerGroups(refRight, ownerGroups));
+    }
+    return resolvedRefRights;
+  }
+
+  /**
+   * Checks if the given refRight assigns privileges to the 'Project Owners'
+   * group.
+   * If yes, resolves the 'Project Owners' group to the concrete groups that
+   * own the project and creates new refRights for the concrete owner groups
+   * which are returned.
+   * If no, the given refRight is returned unchanged.
+   *
+   * @param refRight refRight
+   * @param ownerGroups the ID's of the groups that own the project
+   * @return the resolved refRights
+   */
+  private Set<RefRight> resolveOwnerGroups(final RefRight refRight,
+      final Set<AccountGroup.Id> ownerGroups) {
+    final Set<RefRight> resolvedRefRights = new HashSet<RefRight>();
+    if (refRight.getAccountGroupId().equals(systemConfig.ownerGroupId)) {
+      for (final AccountGroup.Id ownerGroup : ownerGroups) {
+        final RefRight r = new RefRight(refRight);
+        r.getKey().setGroupId(ownerGroup);
+        resolvedRefRights.add(r);
+      }
+    } else {
+      resolvedRefRights.add(refRight);
+    }
+    return resolvedRefRights;
   }
 
   private void computeAllowed(final Set<AccountGroup.Id> am,

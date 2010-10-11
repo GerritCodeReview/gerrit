@@ -96,6 +96,10 @@ public final class RefRight {
       return refPattern.get();
     }
 
+    public void setGroupId(AccountGroup.Id groupId) {
+      this.groupId = groupId;
+    }
+
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
       return new com.google.gwtorm.client.Key<?>[] {refPattern, categoryId,
@@ -117,6 +121,14 @@ public final class RefRight {
 
   public RefRight(RefRight.Key key) {
     this.key = key;
+  }
+
+  public RefRight(final RefRight refRight) {
+    this(new RefRight.Key(refRight.getKey().projectName,
+        refRight.getKey().refPattern, refRight.getKey().categoryId, refRight
+            .getKey().groupId));
+    setMinValue(refRight.getMinValue());
+    setMaxValue(refRight.getMaxValue());
   }
 
   public RefRight.Key getKey() {

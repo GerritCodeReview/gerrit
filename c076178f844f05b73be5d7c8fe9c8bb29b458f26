@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA73//+0c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-10-12T11:45:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+1M\u003d",
+      "revId": "c076178f844f05b73be5d7c8fe9c8bb29b458f26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+1E\u003d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-10-12T11:28:18Z",
       "side": 1,
       "message": ":s/\u003ctest-site\u003e/\u003creview-site\u003e",
+      "revId": "c076178f844f05b73be5d7c8fe9c8bb29b458f26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+0s\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-10-12T11:45:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+1E\u003d",
       "revId": "c076178f844f05b73be5d7c8fe9c8bb29b458f26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA73//+0o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-10-12T11:45:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+08\u003d",
+      "revId": "c076178f844f05b73be5d7c8fe9c8bb29b458f26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+04\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertModule.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA73//+0k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-10-12T11:45:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+04\u003d",
+      "revId": "c076178f844f05b73be5d7c8fe9c8bb29b458f26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+00\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AuthType.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2010-10-12T11:28:18Z",
       "side": 1,
       "message": ":s/\u003ctest-site\u003e/\u003creview-site\u003e",
+      "revId": "c076178f844f05b73be5d7c8fe9c8bb29b458f26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+0g\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AuthType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-10-12T11:45:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+00\u003d",
       "revId": "c076178f844f05b73be5d7c8fe9c8bb29b458f26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

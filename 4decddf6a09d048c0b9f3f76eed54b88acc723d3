@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA73//+xY\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-12T18:54:20Z",
+      "side": 1,
+      "message": "Class doesn\u0027t need to be public.",
+      "revId": "4decddf6a09d048c0b9f3f76eed54b88acc723d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+xg\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-12T18:54:20Z",
+      "side": 1,
+      "message": "Rather than NPE, lets record an exception if certs \u003d\u003d null or certs.length \u003d\u003d 0.  That way the administrator knows their container isn\u0027t working properly.  It shouldn\u0027t happen, but most of the error reports I get on repo-discuss are things that I think shouldn\u0027t happen.  :-(",
+      "revId": "4decddf6a09d048c0b9f3f76eed54b88acc723d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+xc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-12T18:54:20Z",
+      "side": 1,
+      "message": "Don\u0027t assign null here.  Let the compiler require us to assign a value in the m.matches() case, or abort the method with the throw in the else.",
+      "revId": "4decddf6a09d048c0b9f3f76eed54b88acc723d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+xo\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-12T18:54:20Z",
+      "side": 1,
+      "message": "Please pull this only once at the top of the method, and use the standard way to read an enum from the config:\n\n  AuthType authType \u003d ConfigUtil.getEnum(cfg, \"auth\", null, \"type\", AuthType.OPENID);",
+      "revId": "4decddf6a09d048c0b9f3f76eed54b88acc723d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+xk\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-12T18:54:20Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we also fail if authType is CLIENT_SSL_CERT_LDAP and we are in proxy mode?",
+      "revId": "4decddf6a09d048c0b9f3f76eed54b88acc723d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

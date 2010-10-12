@@ -19,6 +19,7 @@ SYNOPSIS
 [\--use-content-merge] \
 [\--use-contributor-agreements] \
 [\--use-signed-off-by]
+[\--empty-commit]
 
 DESCRIPTION
 -----------
@@ -112,6 +113,10 @@ link:project-setup.html#submit_type[Change Submit Actions].
 	If enabled, each change must contain a Signed-off-by line
 	from either the author or the uploader in the commit message.
 	Disabled by default.
+
+\--empty-commit:
+	Creates an initial empty commit for the Git repository of the
+	project that is newly created.
 
 
 EXAMPLES

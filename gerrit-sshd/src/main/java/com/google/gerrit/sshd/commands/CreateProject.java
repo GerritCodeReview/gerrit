@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.SubmitType;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ProjectCreatorGroups;
 import com.google.gerrit.server.config.ProjectOwnerGroups;
@@ -32,11 +33,19 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,6 +55,8 @@ import java.util.Set;
 
 /** Create a new project. **/
 final class CreateProject extends BaseCommand {
+  private static final Logger log = LoggerFactory.getLogger(CreateProject.class);
+
   @Option(name = "--name", required = true, aliases = {"-n"}, metaVar = "NAME", usage = "name of project to be created")
   private String projectName;
 
@@ -81,6 +92,9 @@ final class CreateProject extends BaseCommand {
       + "(default: master)")
   private String branch = Constants.MASTER;
 
+  @Option(name = "--empty-commit", usage = "to create initial empty commit")
+  private boolean createEmptyCommit;
+
   @Inject
   private ReviewDb db;
 
@@ -101,6 +115,10 @@ final class CreateProject extends BaseCommand {
   @Inject
   private ReplicationQueue rq;
 
+  @Inject
+  @GerritPersonIdent
+  private PersonIdent serverIdent;
+
   @Override
   public void start(final Environment env) {
     startThread(new CommandRunnable() {
@@ -114,7 +132,7 @@ final class CreateProject extends BaseCommand {
           validateParameters();
 
           if (!permissionsOnly) {
-            Repository repo = repoManager.createRepository(projectName);
+            final Repository repo = repoManager.createRepository(projectName);
             try {
               repo.create(true);
 
@@ -125,7 +143,12 @@ final class CreateProject extends BaseCommand {
               repoManager
                   .setProjectDescription(projectName, projectDescription);
 
-              rq.replicateNewProject(new Project.NameKey(projectName), branch);
+              final Project.NameKey project = new Project.NameKey(projectName);
+              rq.replicateNewProject(project, branch);
+
+              if (createEmptyCommit) {
+                createEmptyCommit(repo, project, branch);
+              }
             } finally {
               repo.close();
             }
@@ -140,6 +163,38 @@ final class CreateProject extends BaseCommand {
 
       }
     });
+  }
+
+  private void createEmptyCommit(final Repository repo,
+      final Project.NameKey project, final String ref) throws IOException {
+    ObjectInserter oi = repo.newObjectInserter();
+    try {
+      CommitBuilder cb = new CommitBuilder();
+      cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
+      cb.setCommitter(serverIdent);
+      cb.setAuthor(cb.getCommitter());
+      cb.setMessage("Initial empty repository");
+
+      ObjectId id = oi.insert(cb);
+      oi.flush();
+
+      RefUpdate ru = repo.updateRef(Constants.HEAD);
+      ru.setNewObjectId(id);
+      final Result result = ru.update();
+      switch (result) {
+        case NEW:
+          rq.scheduleUpdate(project, ref);
+          break;
+        default: {
+          throw new IOException(result.name());
+        }
+      }
+    } catch (IOException e) {
+      log.error("Cannot create empty commit for " + projectName, e);
+      throw e;
+    } finally {
+      oi.release();
+    }
   }
 
   private void createProject() throws OrmException {

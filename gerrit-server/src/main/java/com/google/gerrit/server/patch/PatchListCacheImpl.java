@@ -289,7 +289,7 @@ public class PatchListCacheImpl implements PatchListCache {
       byte[] rawHdr = hdr.toString().getBytes("UTF-8");
       RawText aRawText = new RawText(cmp, aText.getContent());
       RawText bRawText = new RawText(cmp, bText.getContent());
-      EditList edits = new MyersDiff(cmp, aRawText, bRawText).getEdits();
+      EditList edits = MyersDiff.INSTANCE.diff(cmp, aRawText, bRawText);
       FileHeader fh = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
       return newEntry(reader, aText, bText, edits, null, null, fh);
     }
@@ -346,7 +346,7 @@ public class PatchListCacheImpl implements PatchListCache {
           CharText b = new CharText(bContent, e.getBeginB(), e.getEndB());
           CharTextComparator cmp = new CharTextComparator();
 
-          List<Edit> wordEdits = new MyersDiff(cmp, a, b).getEdits();
+          List<Edit> wordEdits = MyersDiff.INSTANCE.diff(cmp, a, b);
 
           // Combine edits that are really close together. If they are
           // just a few characters apart we tend to get better results

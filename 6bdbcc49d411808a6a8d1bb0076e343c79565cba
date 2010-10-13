@@ -19,6 +19,57 @@
     },
     {
       "key": {
+        "uuid": "AAAA73//+mI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T03:15:29Z",
+      "side": 1,
+      "message": "I think Martin is right, this new flag should be part of the existing submitType panel... and maybe you need to rename submitTypePanel to be projectOptionsPanel?\n\nSince the setting is per-project, it doesn\u0027t make sense to show it in the magical --All Projects-- context.",
+      "revId": "6bdbcc49d411808a6a8d1bb0076e343c79565cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+mA\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T03:15:29Z",
+      "side": 1,
+      "message": "Since this is a schema change, you need to edit CurrentSchema.java to set the version number to a new version, and add an empty Schema_NN class that performs the \"migration\".  Since the migration is mostly automatic, you don\u0027t really need to do anything, just provide an empty class.",
+      "revId": "6bdbcc49d411808a6a8d1bb0076e343c79565cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+mE\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T03:15:29Z",
+      "side": 1,
+      "message": "Please don\u0027t renumber fields.  The new requireChangeId field should be id 7.",
+      "revId": "6bdbcc49d411808a6a8d1bb0076e343c79565cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73///3g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2
@@ -30,6 +81,40 @@
       "writtenOn": "2010-10-04T19:49:56Z",
       "side": 1,
       "message": "Repeating what you are doing (and what is easily viewable by your well written error messages) tends to simply add noise to the code.",
+      "revId": "6bdbcc49d411808a6a8d1bb0076e343c79565cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+l8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1465,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T03:15:29Z",
+      "side": 1,
+      "message": "I agree, please drop the comment, it doesn\u0027t help enough to be worth the lines used.",
+      "revId": "6bdbcc49d411808a6a8d1bb0076e343c79565cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+l4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1472,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T03:15:29Z",
+      "side": 1,
+      "message": "This isn\u0027t really an error... gerrit reads the last one.  But I can see how that might be confusing to a user so maybe this check is a good idea?",
       "revId": "6bdbcc49d411808a6a8d1bb0076e343c79565cba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

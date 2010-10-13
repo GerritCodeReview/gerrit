@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA73//+lM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T04:12:35Z",
+      "side": 1,
+      "message": "Should be written as:\n\n  Bug: issue 482\n  Change-Id: I....",
+      "revId": "f68ab827dbb36421002ae7475ad8bb4260dbde14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+lQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T04:12:35Z",
+      "side": 1,
+      "message": "Typo in the message?",
+      "revId": "f68ab827dbb36421002ae7475ad8bb4260dbde14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+lI\u003d",
+        "filename": "Documentation/config-replication.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T04:12:35Z",
+      "side": 1,
+      "message": "Why do we ignore a delay under 10 minutes?  If the target server is physically in the same rack and attached to the same network switch, and boots in under 3 minutes (I have such a slave server), why can\u0027t I set my retry delay to 3 minutes?",
+      "revId": "f68ab827dbb36421002ae7475ad8bb4260dbde14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+lE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T04:12:35Z",
+      "side": 1,
+      "message": "Why do we have an upper limit of 120 minutes?  Why can\u0027t we have a retry of 8 hours if we wanted it?",
+      "revId": "f68ab827dbb36421002ae7475ad8bb4260dbde14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+lA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T04:12:35Z",
+      "side": 1,
+      "message": "This is pretty complicated, but I can\u0027t really find a better solution either.\n\nWe could try to simplify the implementation by remembering the task handle the pool gave us when we scheduled the PushOp.  With that handle we can atomically cancel the task if we find another PushOp is already scheduled for this URI and it isn\u0027t retrying.  But that isn\u0027t really that much cleaner than the cancel flag you have now.\n\nSo I guess this is a reasonable solution to the problem.",
+      "revId": "f68ab827dbb36421002ae7475ad8bb4260dbde14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

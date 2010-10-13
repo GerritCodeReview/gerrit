@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA73//+ao\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2010-10-13T23:14:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+ng\u003d",
+      "revId": "6283590ef4254652a274bf6442f2a4ed5bedcac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+nc\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2010-10-13T02:47:46Z",
       "side": 1,
       "message": "What if this is a tag?  Should we still call it branch?",
+      "revId": "6283590ef4254652a274bf6442f2a4ed5bedcac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+ak\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2010-10-13T23:14:08Z",
+      "side": 1,
+      "message": "Done.  Changed to --refname",
+      "parentUuid": "AAAA73//+nc\u003d",
       "revId": "6283590ef4254652a274bf6442f2a4ed5bedcac3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA73//+ag\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2010-10-13T23:14:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+nU\u003d",
+      "revId": "6283590ef4254652a274bf6442f2a4ed5bedcac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+nY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2010-10-13T02:47:46Z",
       "side": 1,
       "message": "I don\u0027t think this is the proper type.  We aren\u0027t describing a change in the review system, but instead an update of a ref.  That\u0027s different enough in terms of the data you can supply that we should use a different object type.",
+      "revId": "6283590ef4254652a274bf6442f2a4ed5bedcac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+ac\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2010-10-13T23:14:08Z",
+      "side": 1,
+      "message": "Done.  I created a RefUpdateAttribute to capture these values.",
+      "parentUuid": "AAAA73//+nY\u003d",
       "revId": "6283590ef4254652a274bf6442f2a4ed5bedcac3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA73//+aY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/RefChangedEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2010-10-13T23:14:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+nM\u003d",
+      "revId": "6283590ef4254652a274bf6442f2a4ed5bedcac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+nQ\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2010-10-13T02:47:46Z",
       "side": 1,
       "message": "Style-nit: this before currentUser shouldn\u0027t be necessary.",
+      "revId": "6283590ef4254652a274bf6442f2a4ed5bedcac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+aU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2010-10-13T23:14:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+nQ\u003d",
       "revId": "6283590ef4254652a274bf6442f2a4ed5bedcac3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

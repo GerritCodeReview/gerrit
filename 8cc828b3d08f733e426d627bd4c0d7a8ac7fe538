@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA73//+eA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2010-10-13T17:19:20Z",
+      "side": 1,
+      "message": "Hi Edwin, here we remove all rows except \"All Projects\" row, that\u0027s why -1 is used. \nThe ArrayIndexOutOfBounds exception is caused by line 185 because probably an error occured when trying to delete the local git repository so the project was deleted from database but not from navigation table. And it is not catching the exception correctly. I am solving this issue now. Thanks.",
+      "parentUuid": "AAAA73//+iY\u003d",
+      "revId": "8cc828b3d08f733e426d627bd4c0d7a8ac7fe538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+iU\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
         "patchSetId": 2

@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA73//+kI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T04:33:55Z",
+      "side": 1,
+      "message": "Style-nit: Space between if and (",
+      "revId": "555560c30ab467f6c650c0cc0c2042c5f8dfdbf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+kE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T04:33:55Z",
+      "side": 1,
+      "message": "Style-nit: Space between if and (",
+      "revId": "555560c30ab467f6c650c0cc0c2042c5f8dfdbf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+kc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T04:33:55Z",
+      "side": 1,
+      "message": "Should be 9.",
+      "revId": "555560c30ab467f6c650c0cc0c2042c5f8dfdbf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+kY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T04:33:55Z",
+      "side": 1,
+      "message": "Should be 10.",
+      "revId": "555560c30ab467f6c650c0cc0c2042c5f8dfdbf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+kU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T04:33:55Z",
+      "side": 1,
+      "message": "Shoudl be 11.",
+      "revId": "555560c30ab467f6c650c0cc0c2042c5f8dfdbf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+kM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T04:33:55Z",
+      "side": 1,
+      "message": "Why did we move this to be bottom alignment?  I\u0027ve always liked it being top alignment so its above the Update button.",
+      "revId": "555560c30ab467f6c650c0cc0c2042c5f8dfdbf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+kQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T04:33:55Z",
+      "side": 1,
+      "message": "Should be 12.",
+      "revId": "555560c30ab467f6c650c0cc0c2042c5f8dfdbf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

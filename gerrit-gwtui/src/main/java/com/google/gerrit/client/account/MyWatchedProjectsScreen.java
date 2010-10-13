@@ -274,91 +274,21 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
       }
     }
 
-    void populate(final int row, final AccountProjectWatchInfo k) {
+    void populate(final int row, final AccountProjectWatchInfo info) {
       final FlowPanel fp = new FlowPanel();
-      fp.add(new ProjectLink(k.getProject().getNameKey(), Status.NEW));
-      if (k.getWatch().getFilter() != null) {
-        Label filter = new Label(k.getWatch().getFilter());
+      fp.add(new ProjectLink(info.getProject().getNameKey(), Status.NEW));
+      if (info.getWatch().getFilter() != null) {
+        Label filter = new Label(info.getWatch().getFilter());
         filter.setStyleName(Gerrit.RESOURCES.css().watchedProjectFilter());
         fp.add(filter);
       }
 
       table.setWidget(row, 1, new CheckBox());
       table.setWidget(row, 2, fp);
-      {
-        final CheckBox notifyNewChanges = new CheckBox();
-        notifyNewChanges.addClickHandler(new ClickHandler() {
-          @Override
-          public void onClick(final ClickEvent event) {
-            final boolean oldVal = k.getWatch().isNotifyNewChanges();
-            k.getWatch().setNotifyNewChanges(notifyNewChanges.getValue());
-            Util.ACCOUNT_SVC.updateProjectWatch(k.getWatch(),
-                new GerritCallback<VoidResult>() {
-                  public void onSuccess(final VoidResult result) {
-                  }
 
-                  @Override
-                  public void onFailure(final Throwable caught) {
-                    k.getWatch().setNotifyNewChanges(oldVal);
-                    notifyNewChanges.setValue(oldVal);
-                    super.onFailure(caught);
-                  }
-                });
-          }
-        });
-        notifyNewChanges.setValue(k.getWatch().isNotifyNewChanges());
-        table.setWidget(row, 3, notifyNewChanges);
-      }
-      {
-        final CheckBox notifyAllComments = new CheckBox();
-        notifyAllComments.addClickHandler(new ClickHandler() {
-          @Override
-          public void onClick(final ClickEvent event) {
-            final boolean oldVal = k.getWatch().isNotifyAllComments();
-            k.getWatch().setNotifyAllComments(notifyAllComments.getValue());
-            Util.ACCOUNT_SVC.updateProjectWatch(k.getWatch(),
-                new GerritCallback<VoidResult>() {
-                  public void onSuccess(final VoidResult result) {
-                  }
-
-                  @Override
-                  public void onFailure(final Throwable caught) {
-                    k.getWatch().setNotifyAllComments(oldVal);
-                    notifyAllComments.setValue(oldVal);
-                    super.onFailure(caught);
-                  }
-                });
-          }
-        });
-        notifyAllComments.setValue(k.getWatch().isNotifyAllComments());
-        table.setWidget(row, 4, notifyAllComments);
-      }
-      {
-        final CheckBox notifySubmittedChanges = new CheckBox();
-        notifySubmittedChanges.addClickHandler(new ClickHandler() {
-          @Override
-          public void onClick(final ClickEvent event) {
-            final boolean oldVal = k.getWatch().isNotifySubmittedChanges();
-            k.getWatch().setNotifySubmittedChanges(
-                notifySubmittedChanges.getValue());
-            Util.ACCOUNT_SVC.updateProjectWatch(k.getWatch(),
-                new GerritCallback<VoidResult>() {
-                  public void onSuccess(final VoidResult result) {
-                  }
-
-                  @Override
-                  public void onFailure(final Throwable caught) {
-                    k.getWatch().setNotifySubmittedChanges(oldVal);
-                    notifySubmittedChanges.setValue(oldVal);
-                    super.onFailure(caught);
-                  }
-                });
-          }
-        });
-        notifySubmittedChanges
-            .setValue(k.getWatch().isNotifySubmittedChanges());
-        table.setWidget(row, 5, notifySubmittedChanges);
-      }
+      addNotifyButton(AccountProjectWatch.Type.NEW_CHANGES, info, row, 3);
+      addNotifyButton(AccountProjectWatch.Type.COMMENTS, info, row, 4);
+      addNotifyButton(AccountProjectWatch.Type.SUBMITS, info, row, 5);
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
@@ -367,7 +297,35 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
       fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 5, Gerrit.RESOURCES.css().dataCell());
 
-      setRowItem(row, k);
+      setRowItem(row, info);
+    }
+
+    protected void addNotifyButton(final AccountProjectWatch.Type type,
+        final AccountProjectWatchInfo info, final int row, final int col) {
+      final CheckBox cbox = new CheckBox();
+
+      cbox.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          final boolean oldVal = info.getWatch().isNotify(type);
+          info.getWatch().setNotify(type, cbox.getValue());
+          Util.ACCOUNT_SVC.updateProjectWatch(info.getWatch(),
+              new GerritCallback<VoidResult>() {
+                public void onSuccess(final VoidResult result) {
+                }
+
+                @Override
+                public void onFailure(final Throwable caught) {
+                  info.getWatch().setNotify(type, oldVal);
+                  cbox.setValue(oldVal);
+                  super.onFailure(caught);
+                }
+              });
+        }
+      });
+
+      cbox.setValue(info.getWatch().isNotify(type));
+      table.setWidget(row, col, cbox);
     }
   }
 }

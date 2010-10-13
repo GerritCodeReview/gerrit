@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA73//+ds\u003d",
+        "filename": "Documentation/config-replication.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-10-13T17:32:08Z",
+      "side": 1,
+      "message": "You are absolutely right, Shawn. My question: should I consider a minimum value?",
+      "parentUuid": "AAAA73//+lI\u003d",
+      "revId": "f68ab827dbb36421002ae7475ad8bb4260dbde14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+lE\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
         "patchSetId": 1
@@ -64,6 +82,24 @@
       "writtenOn": "2010-10-13T04:12:35Z",
       "side": 1,
       "message": "Why do we have an upper limit of 120 minutes?  Why can\u0027t we have a retry of 8 hours if we wanted it?",
+      "revId": "f68ab827dbb36421002ae7475ad8bb4260dbde14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+d4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-10-13T17:32:08Z",
+      "side": 1,
+      "message": "I see your point, Shawn. Would you agree sho if we have a bottom limit of 5 minutes and no upper limit?",
+      "parentUuid": "AAAA73//+lE\u003d",
       "revId": "f68ab827dbb36421002ae7475ad8bb4260dbde14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

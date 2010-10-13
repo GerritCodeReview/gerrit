@@ -30,15 +30,28 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 class NavLinks extends Composite {
+  public enum Nav {
+    PREV (0, '[', PatchUtil.C.previousFileHelp(), 0),
+    NEXT (2, ']', PatchUtil.C.nextFileHelp(), 1);
+
+    public int col;      // Table Cell column to display link in
+    public int key;      // key code shortcut to activate link
+    public String help;  // help string for '?' popup
+    public int cmd;      // index into cmds array
+
+    Nav(int c, int k, String h, int i) {
+      this.col = c;
+      this.key = k;
+      this.help = h;
+      this.cmd = i;
+    }
+  }
+
   private final Change.Id changeId;
   private final KeyCommandSet keys;
   private final Grid table;
 
-  private InlineHyperlink prev;
-  private InlineHyperlink next;
-
-  private KeyCommand prevKey;
-  private KeyCommand nextKey;
+  private KeyCommand cmds[] = new KeyCommand[2];
 
   NavLinks(KeyCommandSet kcs, Change.Id forChange) {
     changeId = forChange;
@@ -58,60 +71,43 @@ class NavLinks extends Composite {
   }
 
   void display(int patchIndex, PatchScreen.Type type, PatchTable fileList) {
-    if (keys != null && prevKey != null) {
-      keys.remove(prevKey);
-      prevKey = null;
-    }
-
-    if (keys != null && nextKey != null) {
-      keys.remove(nextKey);
-      nextKey = null;
-    }
-
     if (fileList != null) {
-      prev = fileList.getPreviousPatchLink(patchIndex, type);
-      next = fileList.getNextPatchLink(patchIndex, type);
+      setupNav(Nav.PREV, fileList.getPreviousPatchLink(patchIndex, type));
+      setupNav(Nav.NEXT, fileList.getNextPatchLink(patchIndex, type));
     } else {
-      prev = null;
-      next = null;
+      setupNav(Nav.PREV, null);
+      setupNav(Nav.NEXT, null);
+    }
+  }
+
+  protected void setupNav(final Nav nav, final InlineHyperlink link) {
+
+    /* setup the cells */
+    if (link != null) {
+      table.setWidget(0, nav.col, link);
+    } else {
+      table.clearCell(0, nav.col);
     }
 
-    if (prev != null) {
-      if (keys != null) {
-        prevKey = new KeyCommand(0, '[', PatchUtil.C.previousFileHelp()) {
-          @Override
-          public void onKeyPress(KeyPressEvent event) {
-            prev.go();
-          }
-        };
-        keys.add(prevKey);
-      }
-      table.setWidget(0, 0, prev);
-    } else {
-      if (keys != null) {
-        prevKey = new UpToChangeCommand(changeId, 0, '[');
-        keys.add(prevKey);
-      }
-      table.clearCell(0, 0);
-    }
+    /* setup the keys */
+    if (keys != null) {
 
-    if (next != null) {
-      if (keys != null) {
-        nextKey = new KeyCommand(0, ']', PatchUtil.C.nextFileHelp()) {
+      if (cmds[nav.cmd] != null) {
+        keys.remove(cmds[nav.cmd]);
+      }
+
+      if (link != null) {
+        cmds[nav.cmd] = new KeyCommand(0, nav.key, nav.help) {
           @Override
           public void onKeyPress(KeyPressEvent event) {
-            next.go();
+            link.go();
           }
         };
-        keys.add(nextKey);
+      } else {
+        cmds[nav.cmd] = new UpToChangeCommand(changeId, 0, nav.key);
       }
-      table.setWidget(0, 2, next);
-    } else {
-      if (keys != null) {
-        nextKey = new UpToChangeCommand(changeId, 0, ']');
-        keys.add(nextKey);
-      }
-      table.clearCell(0, 2);
+
+      keys.add(cmds[nav.cmd]);
     }
   }
 }

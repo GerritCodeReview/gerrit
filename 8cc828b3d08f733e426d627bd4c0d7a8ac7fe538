@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA73//+iY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-13T07:42:40Z",
+      "side": 1,
+      "message": "Is it intended that all rows of the table are removed here? If yes, I guess it should be: 1 \u003c\u003d table.getRowCount()\n\nOtherwise the last row will stay in the table, which causes an ArrayIndexOutOfBoundsException later (see my comment below).",
+      "revId": "8cc828b3d08f733e426d627bd4c0d7a8ac7fe538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+iU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-13T07:42:40Z",
+      "side": 1,
+      "message": "Here I\u0027m getting an ArrayIndexOutOfBoundsException. I guess it happens because when the loop is started the table still has 1 row (see my other comment above).\n\njava.lang.ArrayIndexOutOfBoundsException: 18\n \tat com.google.gerrit.client.admin.ProjectListScreen$ProjectTable.display(ProjectListScreen.java:185)\n \tat com.google.gerrit.client.admin.ProjectListScreen$1.preDisplay(ProjectListScreen.java:63)\n \tat com.google.gerrit.client.admin.ProjectListScreen$1.preDisplay(ProjectListScreen.java:1)\n \tat com.google.gerrit.client.rpc.ScreenLoadCallback.onSuccess(ScreenLoadCallback.java:32)\n \tat com.google.gwtjsonrpc.client.JsonUtil.invoke(JsonUtil.java:136)\n...",
+      "revId": "8cc828b3d08f733e426d627bd4c0d7a8ac7fe538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+iQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-13T07:42:40Z",
+      "side": 1,
+      "message": "For me the selection of the radio button in the current row by pressing space works fine, unless the key focus is set on another radio button. This leads to a quite strange behaviour. If I once select a radio button by clicking on it with the mouse this radio button gets the focus. If I now navigate by keys to another row and press space, the radio button of this row gets shortly selected, but right after the previously selected radio button which has the focus gets selected again which of course causes a deselection of the radio button I intended to select. \n\nThis problem can be solved by explicitly setting the focus on the radio button that is being selected:\n\n((RadioButton) radioButton).setFocus(true);",
+      "revId": "8cc828b3d08f733e426d627bd4c0d7a8ac7fe538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

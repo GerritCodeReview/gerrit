@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA73//+nE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/auth/userpass/UserPassSignInDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T02:49:03Z",
+      "side": 1,
+      "message": "Usually we do this by CSS, but OK.",
+      "revId": "da864632b84ec91fdbe14a707c7a950f8f2dbdcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

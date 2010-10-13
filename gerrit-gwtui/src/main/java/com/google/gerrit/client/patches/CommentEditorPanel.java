@@ -102,18 +102,6 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
               event.preventDefault();
               onSave(NULL_CALLBACK);
               return;
-
-            case 'd':
-            case 'D':
-              event.preventDefault();
-              if (isNew()) {
-                onDiscard();
-              } else if (Window.confirm(PatchUtil.C.confirmDiscard())) {
-                onDiscard();
-              } else {
-                text.setFocus(true);
-              }
-              return;
           }
         }
 

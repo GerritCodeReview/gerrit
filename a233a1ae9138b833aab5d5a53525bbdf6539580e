@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA73//+pY\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetPublishDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T01:37:40Z",
+      "side": 1,
+      "message": "This probably should be part of RefControl.",
+      "revId": "a233a1ae9138b833aab5d5a53525bbdf6539580e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+pQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetPublishDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T01:37:40Z",
+      "side": 1,
+      "message": "This should all be part of RefControl.",
+      "revId": "a233a1ae9138b833aab5d5a53525bbdf6539580e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+pM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetPublishDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T01:37:40Z",
+      "side": 1,
+      "message": "I would prefer to put this in the copy constructor.  E.g.:\n\n  RefRight r \u003d new RefRight(refRight, ownerGroup);\n\nThat way its harder to alter an existing RefRight instance that might be cached in some common HashMap somewhere.  (Which they mostly are, given that they come out of the ProjectCache.)",
+      "revId": "a233a1ae9138b833aab5d5a53525bbdf6539580e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

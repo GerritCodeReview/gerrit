@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA73//+mc\u003d",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T03:02:46Z",
+      "side": 1,
+      "message": "I\u0027m not sure -a is a good shorthand here.  Do we really want to make it that easy to abandon a change?  I don\u0027t think so.\n\nWhat about doing the reverse, undoing an abandon?",
+      "revId": "99ccc3b64d52b097353775114d6b8b847a13cccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+mQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T03:02:46Z",
+      "side": 1,
+      "message": "This is better put into an object that we create via Guice injection.  That way a number of the arguments like ChangeHookRunner, ReviewDb, AbandonedSender.Factory and IdentifiedUser can be assumed to be supplied by Guice and don\u0027t need to be curried into the object by application code.",
+      "revId": "99ccc3b64d52b097353775114d6b8b847a13cccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+mY\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T03:02:46Z",
+      "side": 1,
+      "message": "abandonChange and submitChange should be mutually exclusive.  Its nonsensical to call `gerrit review --submit --abandon`.  We should check for this after parseCommandLine() before we continue further.",
+      "revId": "99ccc3b64d52b097353775114d6b8b847a13cccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+mU\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T03:02:46Z",
+      "side": 1,
+      "message": "Maybe a shorter error like:\n\n  throw error(\"Not permitted to abandon change\")\n\nBecause don\u0027t we include information about the change as a prefix on the line when we display this error to the user?",
+      "revId": "99ccc3b64d52b097353775114d6b8b847a13cccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

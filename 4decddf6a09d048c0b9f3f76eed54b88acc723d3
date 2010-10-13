@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA73//+h4\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-10-13T14:06:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+xQ\u003d",
+      "revId": "4decddf6a09d048c0b9f3f76eed54b88acc723d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+xY\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2010-10-12T18:54:20Z",
       "side": 1,
       "message": "Class doesn\u0027t need to be public.",
+      "revId": "4decddf6a09d048c0b9f3f76eed54b88acc723d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+h0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-10-13T14:06:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+xY\u003d",
       "revId": "4decddf6a09d048c0b9f3f76eed54b88acc723d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA73//+hw\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-10-13T14:06:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+xg\u003d",
+      "revId": "4decddf6a09d048c0b9f3f76eed54b88acc723d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+xc\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2010-10-12T18:54:20Z",
       "side": 1,
       "message": "Don\u0027t assign null here.  Let the compiler require us to assign a value in the m.matches() case, or abort the method with the throw in the else.",
+      "revId": "4decddf6a09d048c0b9f3f76eed54b88acc723d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+hs\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpsClientSslCertAuthFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-10-13T14:06:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+xc\u003d",
       "revId": "4decddf6a09d048c0b9f3f76eed54b88acc723d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA73//+hk\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-10-13T14:06:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+xo\u003d",
+      "revId": "4decddf6a09d048c0b9f3f76eed54b88acc723d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+xk\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2010-10-12T18:54:20Z",
       "side": 1,
       "message": "Shouldn\u0027t we also fail if authType is CLIENT_SSL_CERT_LDAP and we are in proxy mode?",
+      "revId": "4decddf6a09d048c0b9f3f76eed54b88acc723d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+ho\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-10-13T14:06:17Z",
+      "side": 1,
+      "message": "OK, moving the check at the beginning of the for-loop\u0027s body.",
+      "parentUuid": "AAAA73//+xk\u003d",
       "revId": "4decddf6a09d048c0b9f3f76eed54b88acc723d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA73//+jE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T04:55:27Z",
+      "side": 1,
+      "message": "Style-nit: Blank line between methods, even in anonymous inner classes.",
+      "revId": "f01e5fbdfac1878d4a4baea87a8aea2dc211133c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA73//+jQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-13T04:55:27Z",
+      "side": 1,
+      "message": "Use a GerritCallback rather than a ScreenLoadCallback.  We don\u0027t need to trigger displaying this screen to display again when the project list comes back, we just need to capture the result via onSuccess and continue with the popup display.",
+      "revId": "f01e5fbdfac1878d4a4baea87a8aea2dc211133c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -33,7 +33,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.naming.CompositeName;
 import javax.naming.Context;
+import javax.naming.Name;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
@@ -196,8 +198,9 @@ import javax.net.ssl.SSLSocketFactory;
       // Recursively identify the groups it is a member of.
       //
       try {
+        final Name compositeGroupName = new CompositeName().add(groupDN);
         final Attribute in =
-            ctx.getAttributes(groupDN).get(schema.accountMemberField);
+            ctx.getAttributes(compositeGroupName).get(schema.accountMemberField);
         if (in != null) {
           final NamingEnumeration<?> groups = in.getAll();
           while (groups.hasMore()) {

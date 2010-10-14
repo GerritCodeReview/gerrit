@@ -86,8 +86,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       keysComment = new KeyCommandSet(PatchUtil.C.commentEditorSet());
       keysComment.add(new NoOpKeyCommand(KeyCommand.M_CTRL, 's', PatchUtil.C
           .commentSaveDraft()));
-      keysComment.add(new NoOpKeyCommand(KeyCommand.M_CTRL, 'd', PatchUtil.C
-          .commentDiscard()));
       keysComment.add(new NoOpKeyCommand(0, KeyCodes.KEY_ESCAPE, PatchUtil.C
           .commentCancelEdit()));
     } else {

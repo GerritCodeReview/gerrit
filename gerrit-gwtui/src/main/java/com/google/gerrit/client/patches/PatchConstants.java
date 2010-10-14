@@ -24,7 +24,6 @@ public interface PatchConstants extends Constants {
   String buttonSave();
   String buttonCancel();
   String buttonDiscard();
-  String confirmDiscard();
 
   String noDifference();
   String patchHeaderOld();
@@ -46,7 +45,6 @@ public interface PatchConstants extends Constants {
   String commentEditorSet();
   String commentInsert();
   String commentSaveDraft();
-  String commentDiscard();
   String commentCancelEdit();
 
   String whitespaceIGNORE_NONE();

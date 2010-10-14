@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -30,6 +31,7 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +74,14 @@ public class PatchSetsBlock extends Composite {
     final PatchSet currps = detail.getCurrentPatchSet();
     currentPatchSetId = currps.getId();
     patchSets = detail.getPatchSets();
+
+    if (Gerrit.isSignedIn()) {
+      final AccountGeneralPreferences p =
+          Gerrit.getUserAccount().getGeneralPreferences();
+      if (p.isDisplayPatchSetsInReverseOrder()) {
+        Collections.reverse(patchSets);
+      }
+    }
 
     for (final PatchSet ps : patchSets) {
       if (ps == currps) {

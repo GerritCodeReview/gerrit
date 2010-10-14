@@ -16,6 +16,24 @@
       "revId": "fab94f26561937f32da027f9040d8cc8c9090440",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///80\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/OnEditEnabler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-14T19:57:58Z",
+      "side": 1,
+      "message": "Yeah, this was ugly, but I was happy to find something that worked.  I tried some more stuff and found that keydown works (instead of keypress), so I used that instead.  I prefer to not have to change the widgets if I don\u0027t have to.",
+      "parentUuid": "AAAA73//+lY\u003d",
+      "revId": "fab94f26561937f32da027f9040d8cc8c9090440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

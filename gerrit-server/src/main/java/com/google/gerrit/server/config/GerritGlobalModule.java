@@ -127,6 +127,7 @@ public class GerritGlobalModule extends FactoryModule {
       case HTTP_LDAP:
       case LDAP:
       case LDAP_BIND:
+      case CLIENT_SSL_CERT_LDAP:
         install(new LdapModule());
         break;
 

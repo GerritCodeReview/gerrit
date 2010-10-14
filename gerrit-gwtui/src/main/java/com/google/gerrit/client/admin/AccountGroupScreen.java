@@ -225,6 +225,7 @@ public class AccountGroupScreen extends AccountScreen {
       case HTTP_LDAP:
       case LDAP:
       case LDAP_BIND:
+      case CLIENT_SSL_CERT_LDAP:
         break;
       default:
         return;

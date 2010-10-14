@@ -110,6 +110,13 @@ public final class AccountGeneralPreferences {
   @Column(id = 9, length = 10, notNull = false)
   protected String timeFormat;
 
+  /**
+   * If true display the patch sets in the ChangeScreen in reverse order
+   * (show latest patch set on top).
+   */
+  @Column(id = 10)
+  protected boolean displayPatchSetsInReverseOrder;
+
   public AccountGeneralPreferences() {
   }
 
@@ -175,6 +182,14 @@ public final class AccountGeneralPreferences {
     copySelfOnEmail = includeSelfOnEmail;
   }
 
+  public boolean isDisplayPatchSetsInReverseOrder() {
+    return displayPatchSetsInReverseOrder;
+  }
+
+  public void setDisplayPatchSetsInReverseOrder(final boolean displayPatchSetsInReverseOrder) {
+    this.displayPatchSetsInReverseOrder = displayPatchSetsInReverseOrder;
+  }
+
   public DateFormat getDateFormat() {
     if (dateFormat == null) {
       return DateFormat.STD;
@@ -202,6 +217,7 @@ public final class AccountGeneralPreferences {
     showSiteHeader = true;
     useFlashClipboard = true;
     copySelfOnEmail = false;
+    displayPatchSetsInReverseOrder = false;
     downloadUrl = null;
     downloadCommand = null;
     dateFormat = null;

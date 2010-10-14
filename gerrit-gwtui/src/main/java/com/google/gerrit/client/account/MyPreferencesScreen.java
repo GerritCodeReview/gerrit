@@ -41,6 +41,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox showSiteHeader;
   private CheckBox useFlashClipboard;
   private CheckBox copySelfOnEmails;
+  private CheckBox displayPatchSetsInReverseOrder;
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
@@ -71,6 +72,9 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     copySelfOnEmails = new CheckBox(Util.C.copySelfOnEmails());
     copySelfOnEmails.addClickHandler(onClickSave);
+
+    displayPatchSetsInReverseOrder = new CheckBox(Util.C.displayPatchSetsInReverseOrder());
+    displayPatchSetsInReverseOrder.addClickHandler(onClickSave);
 
     maximumPageSize = new ListBox();
     for (final short v : PAGESIZE_CHOICES) {
@@ -113,7 +117,7 @@ public class MyPreferencesScreen extends SettingsScreen {
       dateTimePanel.add(dateFormat);
       dateTimePanel.add(timeFormat);
     }
-    final Grid formGrid = new Grid(5, 2);
+    final Grid formGrid = new Grid(6, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -126,6 +130,10 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     formGrid.setText(row, labelIdx, "");
     formGrid.setWidget(row, fieldIdx, copySelfOnEmails);
+    row++;
+
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, displayPatchSetsInReverseOrder);
     row++;
 
     formGrid.setText(row, labelIdx, Util.C.maximumPageSizeFieldLabel());
@@ -163,6 +171,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     showSiteHeader.setEnabled(on);
     useFlashClipboard.setEnabled(on);
     copySelfOnEmails.setEnabled(on);
+    displayPatchSetsInReverseOrder.setEnabled(on);
     maximumPageSize.setEnabled(on);
     dateFormat.setEnabled(on);
     timeFormat.setEnabled(on);
@@ -172,6 +181,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     showSiteHeader.setValue(p.isShowSiteHeader());
     useFlashClipboard.setValue(p.isUseFlashClipboard());
     copySelfOnEmails.setValue(p.isCopySelfOnEmails());
+    displayPatchSetsInReverseOrder.setValue(p.isDisplayPatchSetsInReverseOrder());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.getMaximumPageSize());
     setListBox(dateFormat, AccountGeneralPreferences.DateFormat.STD, //
         p.getDateFormat());
@@ -231,6 +241,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setShowSiteHeader(showSiteHeader.getValue());
     p.setUseFlashClipboard(useFlashClipboard.getValue());
     p.setCopySelfOnEmails(copySelfOnEmails.getValue());
+    p.setDisplayPatchSetsInReverseOrder(displayPatchSetsInReverseOrder.getValue());
     p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
     p.setDateFormat(getListBox(dateFormat,
         AccountGeneralPreferences.DateFormat.STD,

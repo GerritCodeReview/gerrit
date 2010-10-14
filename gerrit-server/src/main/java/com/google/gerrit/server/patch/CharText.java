@@ -20,7 +20,7 @@ class CharText extends Sequence {
   private final String content;
 
   CharText(Text text, int s, int e) {
-    content = text.getLines(s, e, false /* keep LF */);
+    content = text.getString(s, e, false /* keep LF */);
   }
 
   char charAt(int idx) {

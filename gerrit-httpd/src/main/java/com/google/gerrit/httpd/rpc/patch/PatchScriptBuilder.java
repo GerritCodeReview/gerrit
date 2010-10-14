@@ -319,14 +319,14 @@ class PatchScriptBuilder {
     for (final EditList.Hunk hunk : list.getHunks()) {
       while (hunk.next()) {
         if (hunk.isContextLine()) {
-          final String lineA = a.src.getLine(hunk.getCurA());
+          final String lineA = a.src.getString(hunk.getCurA());
           a.dst.addLine(hunk.getCurA(), lineA);
 
           if (ignoredWhitespace) {
             // If we ignored whitespace in some form, also get the line
             // from b when it does not exactly match the line from a.
             //
-            final String lineB = b.src.getLine(hunk.getCurB());
+            final String lineB = b.src.getString(hunk.getCurB());
             if (!lineA.equals(lineB)) {
               b.dst.addLine(hunk.getCurB(), lineB);
             }
@@ -364,7 +364,7 @@ class PatchScriptBuilder {
     }
 
     void addLine(int line) {
-      dst.addLine(line, src.getLine(line));
+      dst.addLine(line, src.getString(line));
     }
 
     void resolve(final Side other, final ObjectId within) throws IOException {

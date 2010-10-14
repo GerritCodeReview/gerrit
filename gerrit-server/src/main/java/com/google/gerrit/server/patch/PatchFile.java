@@ -98,13 +98,13 @@ public class PatchFile {
         if (a == null) {
           a = load(aTree, entry.getOldName());
         }
-        return a.getLine(line - 1);
+        return a.getString(line - 1);
 
       case 1:
         if (b == null) {
           b = load(bTree, entry.getNewName());
         }
-        return b.getLine(line - 1);
+        return b.getString(line - 1);
 
       default:
         throw new NoSuchEntityException();

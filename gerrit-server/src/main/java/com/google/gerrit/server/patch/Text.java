@@ -152,35 +152,11 @@ public class Text extends RawText {
     return content;
   }
 
-  public String getLine(final int i) {
-    return getLines(i, i + 1, true);
-  }
-
-  public String getLines(final int begin, final int end, boolean dropLF) {
-    if (begin == end) {
-      return "";
-    }
-
-    final int s = getLineStart(begin);
-    int e = getLineEnd(end - 1);
-    if (dropLF && content[e - 1] == '\n') {
-      e--;
-    }
-    return decode(s, e);
-  }
-
-  private String decode(final int s, int e) {
+  @Override
+  protected String decode(final int s, int e) {
     if (charset == null) {
       charset = charset(content, null);
     }
     return RawParseUtils.decode(charset, content, s, e);
-  }
-
-  private int getLineStart(final int i) {
-    return lines.get(i + 1);
-  }
-
-  private int getLineEnd(final int i) {
-    return lines.get(i + 2);
   }
 }

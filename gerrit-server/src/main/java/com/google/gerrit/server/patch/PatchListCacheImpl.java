@@ -287,8 +287,8 @@ public class PatchListCacheImpl implements PatchListCache {
       Text bText = Text.forCommit(db, reader, bCommit);
 
       byte[] rawHdr = hdr.toString().getBytes("UTF-8");
-      RawText aRawText = new RawText(cmp, aText.getContent());
-      RawText bRawText = new RawText(cmp, bText.getContent());
+      RawText aRawText = new RawText(aText.getContent());
+      RawText bRawText = new RawText(bText.getContent());
       EditList edits = MyersDiff.INSTANCE.diff(cmp, aRawText, bRawText);
       FileHeader fh = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
       return newEntry(reader, aText, bText, edits, null, null, fh);
@@ -555,7 +555,7 @@ public class PatchListCacheImpl implements PatchListCache {
 
     private static boolean isBlankLineGap(Text a, int b, int e) {
       for (; b < e; b++) {
-        if (!BLANK_LINE_RE.matcher(a.getLine(b)).matches()) {
+        if (!BLANK_LINE_RE.matcher(a.getString(b)).matches()) {
           return false;
         }
       }
@@ -563,7 +563,7 @@ public class PatchListCacheImpl implements PatchListCache {
     }
 
     private static boolean isControlBlockStart(Text a, int idx) {
-      final String l = a.getLine(idx);
+      final String l = a.getString(idx);
       return CONTROL_BLOCK_START_RE.matcher(l).find();
     }
 

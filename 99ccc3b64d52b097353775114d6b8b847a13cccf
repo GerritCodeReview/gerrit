@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAA73//+V8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-14T11:00:40Z",
+      "side": 1,
+      "message": "There is an issue that requests this feature:\nhttp://code.google.com/p/gerrit/issues/detail?id\u003d674\n\nSo you might add: \"Bug: issue 674\"",
+      "revId": "99ccc3b64d52b097353775114d6b8b847a13cccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+mc\u003d",
         "filename": "Documentation/cmd-review.txt",
         "patchSetId": 1

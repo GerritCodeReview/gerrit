@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H///8Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelFull.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-14T20:37:11Z",
+      "side": 1,
+      "message": "Given we are doing multiple things at once I would prefer:\n\n  final OnEditEnabler sbl \u003d new OnEditEnabler(save);\n  sbl.listenTo(addressTxt);",
+      "revId": "cfb2ad87d113270507438844904ae99620228518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///8M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-14T20:37:11Z",
+      "side": 1,
+      "message": "Because we use this OnEditEnabler for many widgets, I would prefer to use the listenTo approach:\n\n saveEnabler \u003d new OnEditEnabler(saveProject);\n saveEnabler.listenTo(destTxt);",
+      "revId": "cfb2ad87d113270507438844904ae99620228518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///8U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/OnEditEnabler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-14T20:37:11Z",
+      "side": 1,
+      "message": "This is easier to read:\n\n  if (orig \u003d\u003d null)\n    orig \u003d \"\";",
+      "revId": "cfb2ad87d113270507438844904ae99620228518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

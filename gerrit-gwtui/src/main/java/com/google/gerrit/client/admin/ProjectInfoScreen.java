@@ -21,6 +21,9 @@ import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.SubmitType;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -118,6 +121,12 @@ public class ProjectInfoScreen extends ProjectScreen {
     for (final Project.SubmitType type : Project.SubmitType.values()) {
       submitType.addItem(Util.toLongString(type), type.name());
     }
+    submitType.addChangeHandler(new ChangeHandler() {
+      @Override
+      public void onChange(ChangeEvent event) {
+        setEnabledForUseContentMerge();
+      }
+    });
     saveEnabler.listenTo(submitType);
     projectOptionsPanel.add(submitType);
 
@@ -130,6 +139,22 @@ public class ProjectInfoScreen extends ProjectScreen {
     projectOptionsPanel.add(requireChangeID);
 
     add(projectOptionsPanel);
+  }
+
+  /**
+   * Enables the {@link #useContentMerge} checkbox if the selected submit type
+   * allows the usage of content merge.
+   * If the submit type (currently only 'Fast Forward Only') does not allow
+   * content merge the useContentMerge checkbox gets disabled.
+   */
+  private void setEnabledForUseContentMerge() {
+    if (SubmitType.FAST_FORWARD_ONLY.equals(Project.SubmitType
+        .valueOf(submitType.getValue(submitType.getSelectedIndex())))) {
+      useContentMerge.setEnabled(false);
+      useContentMerge.setValue(false);
+    } else {
+      useContentMerge.setEnabled(true);
+    }
   }
 
   private void initAgreements() {
@@ -148,14 +173,16 @@ public class ProjectInfoScreen extends ProjectScreen {
   }
 
   private void setSubmitType(final Project.SubmitType newSubmitType) {
+    int index = -1;
     if (submitType != null) {
       for (int i = 0; i < submitType.getItemCount(); i++) {
         if (newSubmitType.name().equals(submitType.getValue(i))) {
-          submitType.setSelectedIndex(i);
-          return;
+          index = i;
+          break;
         }
       }
-      submitType.setSelectedIndex(-1);
+      submitType.setSelectedIndex(index);
+      setEnabledForUseContentMerge();
     }
   }
 

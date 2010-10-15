@@ -145,7 +145,7 @@ By default, 15 seconds.
 [[remote.name.replicationRetry]]remote.<name>.replicationRetry::
 +
 Number of minutes to wait before scheduling a remote push operation
-previously failed due offline remote server.
+previously failed due to an offline remote server.
 +
 If a remote push operation fails because a remote server was
 offline, all push operations to the same destination URL are

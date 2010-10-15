@@ -129,10 +129,6 @@ final class CreateProject extends BaseCommand {
           }
 
           createProject();
-
-          if (!permissionsOnly) {
-            rq.replicateNewProject(new Project.NameKey(projectName), branch);
-          }
         } catch (Exception e) {
           p.print("Error when trying to create project: " + e.getMessage()
               + "\n");

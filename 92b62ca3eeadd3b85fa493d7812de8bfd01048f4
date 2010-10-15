@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAA8H///1c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T03:55:07Z",
+      "side": 1,
+      "message": "The short summary should mention adminUrl somehow.  Maybe say:\n\n  Add adminUrl to replication for repository creation",
+      "revId": "92b62ca3eeadd3b85fa493d7812de8bfd01048f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///1Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T03:55:07Z",
+      "side": 1,
+      "message": "This justification is still a bit weak.  Its great that we are adding it, but what is the rationale?  Its because the normal push URL doesn\u0027t support repository creation, but is more efficient for the common push replication operations (e.g. its git:// or http://).",
+      "revId": "92b62ca3eeadd3b85fa493d7812de8bfd01048f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA8H///2M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
         "patchSetId": 1

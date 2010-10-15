@@ -1,0 +1,395 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H///zg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritConstants.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Style-nit: insert a blank line before this new \"group\" of messages.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///zc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Maybe we should have a constant for buttonDeleteProject ?",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///zY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Do not do this.  The project name might contain special HTML characters, and now we are evaluating those in the browser.  EVIL.\n\nUse a SafeHtmlBuilder to clean up the text instead of a StringBuilder.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///zU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "I think you need to rebase this onto master again, there has been some refactoring which pulled this into its own class.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///zQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Style-nit: We prefer \u0027 \u0027 for the space constant, rather than 32.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///zM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Please don\u0027t do this.  The row item was changed to be a ProjectData, which has the canBeDeleted() member on it.  If we need to know if a row can be deleted we should do:\n\n  getRowItem(row).canBeDeleted()\n\nrather than copying this to a new array.  This way the copied array doesn\u0027t get out-of-sync with the table when you later remove a row in removeProject() below.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///zE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Maybe also add\n\n  \u0026\u0026 k.canBeDeleted()\n\nThere is no point in putting the selection widget on the row if the user can\u0027t perform the delete of that row.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///zI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Why a RadioButton?  Usually we use a CheckBox and let the user pick multiple items for removal at once.  Though with a project its more dangerous, so I guess I can see the rationale for only doing one at a time...\n\nI\u0027m a little worried about the browser semantics of this.  Ideally all of these are in the same radio button group, so only one can be enabled at a time.  But once you enable one, you can\u0027t disable it without enabling a different one.  Which is weird.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///ys\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "If this isn\u0027t true, we should fail with an exception, rather than be silent.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///zA\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "We need to double check that the project is in fact empty.\n\nOtherwise you might delete a project after someone uploaded something to it.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///y4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Don\u0027t loop here, just do a batch deletion:\n\n  db.refRights().delete(db.refRights().byProject(projectName));",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///y0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Same as above, batch delete.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///yw\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Instead of clearing the parent, set them to the parent of this project.  That way the inheritance is still the same.\n\nAlso, I would do this before clearing the refRights of the deleted project.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///y8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Is this a sufficient test to say its empty?\n\nWhat if a project has commits in one or more branches that were pushed directly into the project and bypassed code review?  Not every project on a gerrit server has to use the review feature.\n\nI wonder if we shouldn\u0027t require the project to be truely empty.  That is:\n\n* no changes\n* zero refs in the repository\n* OR\n* single ref has single commit which has no parents and has empty tree as its tree (so has no files)",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///zo\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Style-nit: Use changes.isEmpty() instead.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///zk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Style-nit: It might not be worth the temporary variable here.  The line would be shorter if you just did:\n\n  result.add(new ProjectData(....));",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///zs\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Style-nit: Call this byProjectHasChange.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///zw\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ProjectAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "I don\u0027t think we have parent indexed.  So you\u0027ll need to add it to the index_*.sql files, and also do a schema change to add an index on this column.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///0M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Before we delete it, we need to make sure its removed from the cache, otherwise the delete might fail on Windows if a file is open.  We probably need to do this:\n\n  FileKey loc \u003d FileKey.exact(dir);\n  Repository db \u003d RepositoryCache.open(loc);\n  RepositoryCache.close(db);\n  db.close();\n\nIts annoying that we need to open it to close it, but that is caused by RepositoryCache not having a proper form of close that takes the FileKey.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///z8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "I think recursiveDelete is a better name for this method.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///0E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "children can be null if we aren\u0027t permitted to read the directory contents.  We should handle that by returning false rather than throwing NullPointerException.",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///0A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Since we need the File object, why not use dir.listFiles() above and get a File[] rather than a String[]?",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///z0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T05:44:41Z",
+      "side": 1,
+      "message": "Lets use an enum for this instead:\n\n  static enum AdminOp {\n    CREATE, DELETE;\n  }",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

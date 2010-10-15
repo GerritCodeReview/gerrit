@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H///xo\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T06:09:58Z",
+      "side": 1,
+      "message": "This is 3 RPCs to display the screen now, assuming the user can create a project.  (List projects, canCreate, suggestParentCandidates).\n\nMaybe we should change the return type of the list project RPC to be a ProjectList object which is like:\n\n  class ProjectList {\n    List\u003cProjectData\u003e projects;\n    boolean canCreate;\n  }\n\nIf canCreate is true, maybe instead show a link to go to a CreateProjectScreen, whose RPC would then be to load the suggested parent projects.",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///xs\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T06:09:58Z",
+      "side": 1,
+      "message": "Style-nit: This is too much code that is too deeply nested.  Pull it out into a method in the outer ProjectListScreen class.",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///x0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/CanCreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T06:09:58Z",
+      "side": 1,
+      "message": "This variable isn\u0027t very useful.  Just return the result of isAnyIncludedIn.",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///xw\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/CreateNewProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T06:09:58Z",
+      "side": 1,
+      "message": "Please don\u0027t use field injection.",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///x8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T06:09:58Z",
+      "side": 1,
+      "message": "Please don\u0027t use field injection.  Take these as arguments in the constructor and assign them to the fields. That way we can mark them final and be assured they are non-null when the real work method starts.",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///x4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T06:09:58Z",
+      "side": 1,
+      "message": "Given the size of this constructor list, and how most of these are optional or have reasonable defaults we can assume, maybe a lot of these arguments should just be setter methods that the caller can invoke to modify the default.",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///yE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidatesImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T06:09:58Z",
+      "side": 1,
+      "message": "Please don\u0027t use field injection.  Add this to the constructor and assign it like any other member.",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///yA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidatesImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T06:09:58Z",
+      "side": 1,
+      "message": "A better name is wildProject, its more clear.",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///yI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidatesImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T06:09:58Z",
+      "side": 1,
+      "message": "Doesn\u0027t c.isOwner imply user.isAdministrator ?",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///yc\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T06:09:58Z",
+      "side": 1,
+      "message": "If its worth having an alias for this, it should be really short (-S) and not half-short (--sp).",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///yY\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T06:09:58Z",
+      "side": 1,
+      "message": "We know we asked for parent suggestions, so why do we need this header line?",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///yU\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T06:09:58Z",
+      "side": 1,
+      "message": "println() on Windows servers can output CRLF, which might confuse a UNIX client.  Consequently we try to use:\n\n  p.print(parent.get() + \"\\n\");\n\nin the server side SSH command code.",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///yM\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T06:09:58Z",
+      "side": 1,
+      "message": "This is a huge number of args.  Maybe it would be cleaner if these are all setters on a CreateProjectBuilder object?",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///yQ\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T06:09:58Z",
+      "side": 1,
+      "message": "Its odd to return a StringBuilder in an API.  Lets return an error object of some sort instead.  Or just have the API throw an exception that we can catch here and handle by converting into our Failure type.",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -27,6 +27,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -75,9 +77,16 @@ public class GroupListScreen extends AccountScreen {
         }
       }
     });
+    addTxt.addKeyUpHandler(new KeyUpHandler() {
+      @Override
+      public void onKeyUp(KeyUpEvent event) {
+        addNew.setEnabled(!addTxt.getText().trim().isEmpty());
+      }
+    });
     fp.add(addTxt);
 
     addNew = new Button(Util.C.buttonCreateGroup());
+    addNew.setEnabled(false);
     addNew.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
@@ -100,9 +109,16 @@ public class GroupListScreen extends AccountScreen {
       return;
     }
 
+    addNew.setEnabled(false);
     Util.GROUP_SVC.createGroup(newName, new GerritCallback<AccountGroup.Id>() {
       public void onSuccess(final AccountGroup.Id result) {
         History.newItem(Dispatcher.toAccountGroup(result));
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+        super.onFailure(caught);
+        addNew.setEnabled(true);
       }
     });
   }

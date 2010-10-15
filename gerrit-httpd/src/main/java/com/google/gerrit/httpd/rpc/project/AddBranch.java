@@ -143,9 +143,6 @@ class AddBranch extends Handler<ListBranchesResult> {
             hooks.doRefUpdatedHook(name, u, identifiedUser.getAccount());
             break;
           default: {
-            final String msg =
-                "Cannot create branch " + name + ": " + result.name();
-            log.error(msg);
             throw new IOException(result.name());
           }
         }

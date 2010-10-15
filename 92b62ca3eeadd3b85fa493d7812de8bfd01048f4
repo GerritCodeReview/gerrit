@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H///2M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T03:22:54Z",
+      "side": 1,
+      "message": "If adminUrl !\u003d null and !adminUrl.isEmpty(), the admin gave us a URL.  If we caught a URISyntaxException, that URL is invalid and cannot be honored.  Rather than eating the exception we should report that in the server log and abort this config.  We shouldn\u0027t be trying with the non-admin URL.",
+      "revId": "92b62ca3eeadd3b85fa493d7812de8bfd01048f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///2I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T03:22:54Z",
+      "side": 1,
+      "message": "Why would we ignore a non-SSH admin URL?  OK, I admit that no other URL type would support project creation right now.  But if we are given a non-SSH admin URL by the admin, that\u0027s a configuration error.  We should log a message about it.",
+      "revId": "92b62ca3eeadd3b85fa493d7812de8bfd01048f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///2Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T03:22:54Z",
+      "side": 1,
+      "message": "I would just call this adminUrl.  Adding the Remote suffix doesn\u0027t seem to provide any value to the reader.\n\nAlso, since remote can have multiple URLs, we may need to support multiple adminUrls too.  E.g. I use a single remote to replicate to 4 different machines by just having 4 different URLs listed.  If I need a different adminUrl, I would prefer to just 4 different adminUrls in the same remote, rather than needing to go create 4 different remotes with 1 URL each.",
+      "revId": "92b62ca3eeadd3b85fa493d7812de8bfd01048f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///2Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T03:22:54Z",
+      "side": 1,
+      "message": "Please document this in config-replication.txt.",
+      "revId": "92b62ca3eeadd3b85fa493d7812de8bfd01048f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///2U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T03:22:54Z",
+      "side": 1,
+      "message": "Why do we need this change?  Your commit message doesn\u0027t explain why it is necessary to now permit a url to not contain the ${name} placeholder.",
+      "revId": "92b62ca3eeadd3b85fa493d7812de8bfd01048f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

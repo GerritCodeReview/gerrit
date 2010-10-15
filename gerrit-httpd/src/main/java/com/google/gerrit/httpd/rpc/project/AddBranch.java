@@ -138,9 +138,6 @@ class AddBranch extends Handler<ListBranchesResult> {
             replication.scheduleUpdate(name.getParentKey(), refname);
             break;
           default: {
-            final String msg =
-                "Cannot create branch " + name + ": " + result.name();
-            log.error(msg);
             throw new IOException(result.name());
           }
         }

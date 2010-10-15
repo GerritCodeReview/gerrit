@@ -92,8 +92,6 @@ public class ProjectInfoScreen extends ProjectScreen {
     useContributorAgreements.setEnabled(canModifyAgreements);
     useSignedOffBy.setEnabled(canModifyAgreements);
     requireChangeID.setEnabled(canModifyMergeType);
-    saveProject.setEnabled(
-        canModifyAgreements || canModifyDescription || canModifyMergeType);
   }
 
   private void initDescription() {

@@ -22,8 +22,12 @@ import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
@@ -82,6 +86,25 @@ public class GroupListScreen extends AccountScreen {
       @Override
       public void onClick(final ClickEvent event) {
         doCreateGroup();
+      }
+    });
+    addNew.addFocusHandler(new FocusHandler() {
+      @Override
+      public void onFocus(FocusEvent event) {
+        // unregister the keys for the 'groups' table so that pressing ENTER
+        // when the 'addNew' button has the focus triggers the button (if the
+        // keys for the 'groups' table would not be unregistered the 'addNew'
+        // button would not be triggered on ENTER but the group which is
+        // selected in the 'groups' table would be opened)
+        groups.setRegisterKeys(false);
+      }
+    });
+    addNew.addBlurHandler(new BlurHandler() {
+      @Override
+      public void onBlur(BlurEvent event) {
+        // re-register the keys for the 'groups' table when the 'addNew' button
+        // gets blurred
+        groups.setRegisterKeys(true);
       }
     });
     fp.add(addNew);

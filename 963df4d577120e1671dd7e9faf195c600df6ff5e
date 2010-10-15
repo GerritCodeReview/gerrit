@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H///sk\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T20:14:30Z",
+      "side": 1,
+      "message": "This isn\u0027t called when the value is set programmatically.  Which means the useContentMerge button is enabled when the page loads and the submit type is FAST_FORWARD_ONLY.\n\nSo the solution only works partially.  But it is a really good idea.",
+      "revId": "963df4d577120e1671dd7e9faf195c600df6ff5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

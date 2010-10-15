@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA8H///uc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-15T15:55:07Z",
+      "side": 1,
+      "message": "Sorry I gave you the exact opposite advise earlier when you did this. :(",
+      "parentUuid": "AAAA8H///xo\u003d",
+      "revId": "355bc74848d4e3e37ddb9077ee932abb311d119b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA8H///xs\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
         "patchSetId": 3

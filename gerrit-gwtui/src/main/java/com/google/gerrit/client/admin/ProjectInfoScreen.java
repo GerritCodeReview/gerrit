@@ -21,6 +21,9 @@ import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.SubmitType;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -118,6 +121,18 @@ public class ProjectInfoScreen extends ProjectScreen {
     for (final Project.SubmitType type : Project.SubmitType.values()) {
       submitType.addItem(Util.toLongString(type), type.name());
     }
+    submitType.addChangeHandler(new ChangeHandler() {
+      @Override
+      public void onChange(ChangeEvent event) {
+        if (SubmitType.FAST_FORWARD_ONLY.equals(Project.SubmitType
+            .valueOf(submitType.getValue(submitType.getSelectedIndex())))) {
+          useContentMerge.setEnabled(false);
+          useContentMerge.setValue(false);
+        } else {
+          useContentMerge.setEnabled(true);
+        }
+      }
+    });
     saveEnabler.listenTo(submitType);
     projectOptionsPanel.add(submitType);
 

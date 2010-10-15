@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA8H///3E\u003d",
+        "filename": "Documentation/config-replication.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T01:38:08Z",
+      "side": 1,
+      "message": "No.  We shouldn\u0027t have a min (or a max).  Whatever the admin configures is what we should try to honor.",
+      "parentUuid": "AAAA73//+ds\u003d",
+      "revId": "f68ab827dbb36421002ae7475ad8bb4260dbde14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+lE\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
         "patchSetId": 1
@@ -118,6 +136,23 @@
       "side": 1,
       "message": "Is there a technical reason we have the limit? I would be interested in knowing about any limitations that you see of course.\n\nIf not, perhaps we should consider giving the Gerrit administrators the choice of setting their own retry values freely. The situations may differ greatly for different setups, it\u0027s hard for us to foresee the needs of a particular scenario.",
       "parentUuid": "AAAA73//+d4\u003d",
+      "revId": "f68ab827dbb36421002ae7475ad8bb4260dbde14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///3A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T01:38:08Z",
+      "side": 1,
+      "message": "Right, I agree with Fredrik.  We shouldn\u0027t have any upper or lower limits.",
       "revId": "f68ab827dbb36421002ae7475ad8bb4260dbde14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

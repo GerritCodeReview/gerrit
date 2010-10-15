@@ -155,9 +155,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     idSideA = a;
     idSideB = b;
 
-    final String pathName = patchKey.get();
-    int ext = pathName.lastIndexOf('.');
-
     render(s);
   }
 

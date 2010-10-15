@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H///24\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-15T01:46:32Z",
+      "side": 1,
+      "message": "I\u0027m afraid this might NPE.\n\nIts possible for getSubmitter to return null when its ambiguous or not available.  That leads to a null input to get, which will NPE.",
+      "revId": "a79f997803568eaa6ff266631f8bd9a5bec202b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

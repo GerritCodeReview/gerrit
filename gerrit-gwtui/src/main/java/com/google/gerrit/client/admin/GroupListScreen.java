@@ -19,6 +19,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -78,6 +79,7 @@ public class GroupListScreen extends AccountScreen {
     fp.add(addTxt);
 
     addNew = new Button(Util.C.buttonCreateGroup());
+    addNew.setEnabled(false);
     addNew.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
@@ -86,6 +88,8 @@ public class GroupListScreen extends AccountScreen {
     });
     fp.add(addNew);
     add(fp);
+
+    new OnEditEnabler(addNew, addTxt);
   }
 
   @Override
@@ -100,9 +104,16 @@ public class GroupListScreen extends AccountScreen {
       return;
     }
 
+    addNew.setEnabled(false);
     Util.GROUP_SVC.createGroup(newName, new GerritCallback<AccountGroup.Id>() {
       public void onSuccess(final AccountGroup.Id result) {
         History.newItem(Dispatcher.toAccountGroup(result));
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+        super.onFailure(caught);
+        addNew.setEnabled(true);
       }
     });
   }

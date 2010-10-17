@@ -42,7 +42,7 @@ SCHEMA
 ------
 The JSON messages consist of nested objects referencing the *change*,
 *patchset*, *account* involved, and other attributes as appropriate.
-The currently supported message types are *patchset-added*,
+The currently supported message types are *patchset-created*,
 *comment-added*, *change-merged*, and *change-abandoned*.
 
 Note that any field may be missing in the JSON messages, so consumers of
@@ -50,9 +50,9 @@ this JSON stream should deal with that appropriately.
 
 Events
 ~~~~~~
-Patchset Added
-^^^^^^^^^^^^^^
-type:: "patchset-added"
+Patchset Created
+^^^^^^^^^^^^^^^^
+type:: "patchset-created"
 
 change:: link:json.html#change[change attribute]
 

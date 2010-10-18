@@ -138,6 +138,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA8H///cg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2010-10-18T22:42:02Z",
+      "side": 1,
+      "message": "I agree with Shawn here, even though it can be considered dangerous, it should be checkboxes. We have checkboxes for deletion in other places, for access rules and so on. If we consider it dangerous, why not implement an extra verification popup (or similar) which lists all the projects we\u0027ve selected?",
+      "parentUuid": "AAAA8H///zI\u003d",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA8H///ys\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteProject.java",
         "patchSetId": 3

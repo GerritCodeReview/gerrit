@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA8H///+4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-19T22:05:20Z",
+      "side": 1,
+      "message": "Ah, thanks.",
+      "parentUuid": "AAAA73//+V8\u003d",
+      "revId": "99ccc3b64d52b097353775114d6b8b847a13cccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+mc\u003d",
         "filename": "Documentation/cmd-review.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-10-13T03:02:46Z",
       "side": 1,
       "message": "I\u0027m not sure -a is a good shorthand here.  Do we really want to make it that easy to abandon a change?  I don\u0027t think so.\n\nWhat about doing the reverse, undoing an abandon?",
+      "revId": "99ccc3b64d52b097353775114d6b8b847a13cccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///+c\u003d",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-19T22:05:20Z",
+      "side": 1,
+      "message": "Yeah, I wasn\u0027t sure about that shortcut either, but it felt weird leaving it out.  I can remove it.  I added restore now...",
+      "parentUuid": "AAAA73//+mc\u003d",
       "revId": "99ccc3b64d52b097353775114d6b8b847a13cccf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA8H///+Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-19T22:05:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+mY\u003d",
+      "revId": "99ccc3b64d52b097353775114d6b8b847a13cccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+mU\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 1
@@ -81,6 +135,24 @@
       "writtenOn": "2010-10-13T03:02:46Z",
       "side": 1,
       "message": "Maybe a shorter error like:\n\n  throw error(\"Not permitted to abandon change\")\n\nBecause don\u0027t we include information about the change as a prefix on the line when we display this error to the user?",
+      "revId": "99ccc3b64d52b097353775114d6b8b847a13cccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///+U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-10-19T22:05:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA73//+mU\u003d",
       "revId": "99ccc3b64d52b097353775114d6b8b847a13cccf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -30,6 +30,10 @@ public interface AdminConstants extends Constants {
   String buttonChangeGroupOwner();
   String buttonChangeGroupType();
   String buttonSelectGroup();
+  String buttonChangeParent();
+  String changeParentDialogTitle();
+  String changeParentDialogReparentButton();
+  String changeParentDialogCancelButton();
   String buttonAddProjectRight();
   String buttonClearProjectRight();
   String buttonSaveChanges();

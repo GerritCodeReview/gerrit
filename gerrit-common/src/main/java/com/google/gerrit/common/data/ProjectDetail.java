@@ -28,6 +28,7 @@ public class ProjectDetail {
   public boolean canModifyMergeType;
   public boolean canModifyAgreements;
   public boolean canModifyAccess;
+  public boolean canChangeParent;
 
   public ProjectDetail() {
   }
@@ -58,5 +59,9 @@ public class ProjectDetail {
 
   public void setCanModifyAccess(final boolean cma) {
     canModifyAccess = cma;
+  }
+
+  public void setCanChangeParent(final boolean ccp) {
+    canChangeParent = ccp;
   }
 }

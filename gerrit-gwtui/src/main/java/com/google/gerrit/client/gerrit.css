@@ -1147,6 +1147,12 @@ a:hover.downloadLink {
   font-size: small;
 }
 
+.updateParentPanel {
+  margin-top: 10px;
+  background-color: trimColor;
+  padding: 5px 5px 5px 5px;
+}
+
 
 /** PublishCommentsScreen **/
 

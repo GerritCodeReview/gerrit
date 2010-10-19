@@ -135,10 +135,12 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
 
     final boolean userIsOwner = pc.isOwner();
     final boolean userIsOwnerAnyRef = pc.isOwnerAnyRef();
+    final boolean userIsAdmin = pc.getCurrentUser().isAdministrator();
 
     detail.setRights(refRights);
     detail.setGroups(groups);
     detail.setCanModifyAccess(userIsOwnerAnyRef);
+    detail.setCanChangeParent(userIsAdmin);
     detail.setCanModifyAgreements(userIsOwner);
     detail.setCanModifyDescription(userIsOwner);
     detail.setCanModifyMergeType(userIsOwner);

@@ -36,6 +36,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ProjectDetailFactory.Factory projectDetailFactory;
   private final AddRefRight.Factory addRefRightFactory;
   private final DeleteRefRights.Factory deleteRefRightsFactory;
+  private final UpdateParent.Factory updateParentFactory;
 
   @Inject
   ProjectAdminServiceImpl(final AddBranch.Factory addBranchFactory,
@@ -45,7 +46,8 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final VisibleProjects.Factory visibleProjectsFactory,
       final ProjectDetailFactory.Factory projectDetailFactory,
       final AddRefRight.Factory addRefRightFactory,
-      final DeleteRefRights.Factory deleteRefRightsFactory) {
+      final DeleteRefRights.Factory deleteRefRightsFactory,
+      final UpdateParent.Factory updateParentFactory) {
     this.addBranchFactory = addBranchFactory;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
     this.deleteBranchesFactory = deleteBranchesFactory;
@@ -54,6 +56,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
     this.projectDetailFactory = projectDetailFactory;
     this.addRefRightFactory = addRefRightFactory;
     this.deleteRefRightsFactory = deleteRefRightsFactory;
+    this.updateParentFactory = updateParentFactory;
   }
 
   @Override
@@ -106,6 +109,14 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final String branchName, final String startingRevision,
       final AsyncCallback<ListBranchesResult> callback) {
     addBranchFactory.create(projectName, branchName, startingRevision).to(
+        callback);
+  }
+
+  @Override
+  public void updateParent(final Project.NameKey childProjectName,
+      final Project.NameKey newParentProjectName,
+      final AsyncCallback<ProjectDetail> callback) {
+    updateParentFactory.create(childProjectName, newParentProjectName).to(
         callback);
   }
 }

@@ -34,6 +34,7 @@ import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.PerformUpdateParents;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
@@ -71,5 +72,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(MergeFailSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
     factory(PerformCreateGroup.Factory.class);
+    factory(PerformUpdateParents.Factory.class);
   }
 }

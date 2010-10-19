@@ -33,6 +33,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
@@ -49,6 +50,7 @@ import java.util.Map;
 public class ProjectAccessScreen extends ProjectScreen {
   private Panel parentPanel;
   private Hyperlink parentName;
+  private Button changeParentButton;
 
   private RightsTable rights;
   private Button delRight;
@@ -80,6 +82,7 @@ public class ProjectAccessScreen extends ProjectScreen {
   private void enableForm(final boolean on) {
     delRight.setEnabled(on);
     rightEditor.enableForm(on);
+    changeParentButton.setEnabled(on);
   }
 
   private void initParent() {
@@ -93,15 +96,57 @@ public class ProjectAccessScreen extends ProjectScreen {
       }
     });
 
-    Grid g = new Grid(2, 3);
+    changeParentButton = new Button(Util.C.buttonChangeParent());
+    DOM.setStyleAttribute(changeParentButton.getElement(), "marginLeft", "10px");
+    changeParentButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        doChangeParent();
+      };
+    });
+
+    Grid g = new Grid(2, 4);
     g.setWidget(0, 0, new SmallHeading(Util.C.headingParentProjectName()));
     g.setWidget(1, 0, parentName);
     g.setWidget(1, 1, show);
     g.setText(1, 2, Util.C.headingShowInherited());
+    g.setWidget(1, 3, changeParentButton);
 
     parentPanel = new VerticalPanel();
     parentPanel.add(g);
+
     add(parentPanel);
+  }
+
+  private void doChangeParent() {
+    ChangeParentDialog changeParentDialog =
+        new ChangeParentDialog(getProjectKey().get(), parentName.getText(),
+            new GerritCallback<String>() {
+              @Override
+              public void onSuccess(final String newParentProjectName) {
+                if (!parentName.getText().equals(newParentProjectName)) {
+                  final Project.NameKey newParentProject =
+                      newParentProjectName.isEmpty() ? null
+                          : new Project.NameKey(newParentProjectName);
+                  enableForm(false);
+                  Util.PROJECT_SVC.updateParent(getProjectKey(),
+                      newParentProject, new GerritCallback<ProjectDetail>() {
+                        @Override
+                        public void onSuccess(final ProjectDetail projectDetail) {
+                          display(projectDetail);
+                          enableForm(true);
+                        }
+
+                        @Override
+                        public void onFailure(Throwable caught) {
+                          super.onFailure(caught);
+                          enableForm(true);
+                        }
+                      });
+                }
+              }
+            });
+    changeParentDialog.center();
   }
 
   private void initRights() {
@@ -146,6 +191,7 @@ public class ProjectAccessScreen extends ProjectScreen {
 
     rights.display(result.groups, result.rights);
 
+    changeParentButton.setVisible(result.canChangeParent);
     rightEditor.setVisible(result.canModifyAccess);
     delRight.setVisible(rights.getCanDelete());
   }

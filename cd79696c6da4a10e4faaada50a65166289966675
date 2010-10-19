@@ -156,6 +156,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA8H///Vc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-19T05:12:14Z",
+      "side": 1,
+      "message": "We have already such a popup for confirming branch deletions. I guess this dialog (ConfirmationDialog) could be reused here.\n\n+1 for checkboxes",
+      "parentUuid": "AAAA8H///cg\u003d",
+      "revId": "cd79696c6da4a10e4faaada50a65166289966675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA8H///ys\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteProject.java",
         "patchSetId": 3

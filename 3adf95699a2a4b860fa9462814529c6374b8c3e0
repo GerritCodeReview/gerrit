@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H///LY\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/SetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:40:13Z",
+      "side": 1,
+      "message": "PerformSetParentImpl#setParent() to which this method delegates is already able to handle the parentName being null or empty. Why to duplicate this check and have it here once again?",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///LU\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/SetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:40:13Z",
+      "side": 1,
+      "message": "Maybe this check should be moved down into PerformSetParentImpl#setParent()?",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///Lk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/SetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:40:13Z",
+      "side": 1,
+      "message": "When I was trying out the new UI I managed to get this error message: \"error: Project \u0027test/myProject\u0027 not found All:\". At that time it was not understandable to me what this \u0027All:\u0027 means. Maybe the error message can be improved.",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///Lc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/SetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:40:13Z",
+      "side": 1,
+      "message": "Personally I dislike returning error messages as String. I would favour to have an Exception being thrown. Anyway there are already some errors which result in an Exception (OrmException). Why to have two ways of propagating errors? Throwing exceptions AND returning an error message?",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///K4\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:40:13Z",
+      "side": 1,
+      "message": "What is your motivation for introducing a projectId?",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///Lg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformSetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:40:13Z",
+      "side": 1,
+      "message": "Personally I dislike to return a StringBuilder that may contain an error message. This way it\u0027s hard to check whether the operation was successful (I need to check if the returned StringBuilder is empty). At the same time I still have to handle the OrmException. Why not always throwing an exception if the operation fails? I think it would makes things easier.",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///LQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformSetParentImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:40:13Z",
+      "side": 1,
+      "message": "What if parentName points to a non existing project and state would be null? Does it make sense to proceed?",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///LM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformSetParentImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:40:13Z",
+      "side": 1,
+      "message": "Before this change it was possible with the \u0027set-project-parent\u0027 SSH command to set a project as a parent for itself. You\u0027ve added here a new condition that prevents this. What was the motivation for this change? I\u0027m not sure if this was a bug of the earlier implementation or if it was intended to be possible. Maybe Shawn can answer this question. If it is fixing a bug it\u0027s maybe worth an own change.",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///LA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_36.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:40:13Z",
+      "side": 1,
+      "message": "Not sure, is it really needed to care about begin/commit/rollback of the database transaction yourself? At least other migrations don\u0027t seem to care about it.",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///LI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_36.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:40:13Z",
+      "side": 1,
+      "message": "Do we really need to check whether the projectId column exists? I thought the migration framework would garuantee that it is created.",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///K8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:40:13Z",
+      "side": 1,
+      "message": "This looks weird to me. If this \u0027All:\u0027 is only needed in the Web UI it maybe makes more sense to append it there and have the generic error message without it?",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

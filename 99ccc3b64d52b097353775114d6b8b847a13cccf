@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA8H///JQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T11:33:45Z",
+      "side": 1,
+      "message": "Never mind. I just saw that you\u0027ve done this in change 17540 [1] :-).\n\n[1] https://review.source.android.com/17540",
+      "parentUuid": "AAAA8H///Jg\u003d",
+      "revId": "99ccc3b64d52b097353775114d6b8b847a13cccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA73//+mc\u003d",
         "filename": "Documentation/cmd-review.txt",
         "patchSetId": 1

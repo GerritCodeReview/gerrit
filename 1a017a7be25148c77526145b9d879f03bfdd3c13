@@ -1,0 +1,327 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H///Jw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "spelling mistake: \u0027the the\u0027",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///Js\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "This change includes several features which are not mentioned in the commit message. It adds support for filtering the projects lists and allows setting new parent projects.",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///J4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "If there are a lot of projects which some hierarchies and if a lot of projects get selected (e.g. all) it can happen that the height of the project table is much smaller than the height of the SelectedItemsTable (e.g. if all project hierarchies are collapsed). In this case the setParentButton is not displayed directly under the project table but only at the very end of the page. So in this case there would be a lot of empty space between the project table and the setParentButton.",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///KA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "Under some conditions I\u0027m running here into an StackOverflowError:\n\njava.lang.StackOverflowError: null\n \tat com.google.gwt.user.client.ui.TreeItem.getChildCount(TreeItem.java:371)\n \tat com.google.gwt.user.client.ui.TreeItem.setState(TreeItem.java:538)\n \tat com.google.gwt.user.client.ui.TreeItem.setState(TreeItem.java:528)\n \tat com.google.gerrit.client.admin.ProjectListScreen.expandTreeNode(ProjectListScreen.java:310)\n \tat com.google.gerrit.client.admin.ProjectListScreen.expandTreeNode(ProjectListScreen.java:313)\n \tat com.google.gerrit.client.admin.ProjectListScreen.expandTreeNode(ProjectListScreen.java:313)\n...\n\nOne scenario in which I\u0027m getting this error is when I filter for projects having the parent \u0027parent2\u0027 while having the following project structure:\n-- All Projects -- -\u003e parent1 -\u003e parent2 -\u003e (project1, project2, project3)",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///K0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "maybe \u0027switchProjectsView\u0027 would be a better name",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///Kw\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "With this change the registration of the table navigation keys is not successful anymore. The problem seems to be that the \u0027project.setRegisterKeys(true)\u0027 is registering the keys only if the table widget is attached which is not the case. As a result there is no key navigation for the projects table.",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///Ks\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "It would be nice to display the parent name as Hyperlink so that one can easily navigate to the parent project.",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///KE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/SearchProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "Filtering projects is a great idea.\n\nHowever as a user I\u0027m a bit confused with the current implementation about what I\u0027m able to do here: Can I filter the projects list OR can I search in the project list and highlight the matches?\n\nThe panel title says \u0027Filter Projects\u0027, the button says \u0027Search\u0027. In the Flat View the project list is filtered, in the Tree View it highlights the matches.",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///KQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/SearchProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "Maybe here we should also use a SuggestBox so that a parent can be easily selected?",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///KM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/SearchProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "I\u0027m not sure that registering a SearchListener is the best way to be informed about search events.\n\nLooking at the GWT classes for UI elements (e.g. FocusWidget) one can see that all the \u0027add...Listener\u0027 methods have been deprecated. Instead it is now favoured to register handlers. Maybe you can define a custom SearchEvent and add a handler for it?\n\nHow this can be done is nicely explained in the following article:\nhttp://davidmaddison.blogspot.com/2010/02/using-gwt-2-custom-events.html",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///J0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/SearchProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "Have you considered to also support search/filtering with regular expressions?",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///KI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/SearchProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "onClick() is not really fitting in here. Better make it possible to register a standard ClickHandler on SearchProjects.",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///J8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/SelectedItemsTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "Here for each project which gets selected a new row is appended to the SelectedItemsTable. This means that the projects in the SelectedItemsTable are sorted in the order in which they have been selected. I would find it more convinient if they were sorted by name.",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///Kc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ToolTip.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "In Internet Explorer 6 the hiding of the tool tip is not working. A displayed tooltip will stay on the screen.",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///Kk\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TreeContents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "\u0027TreeContents\u0027 is a rather generic name. If this class can only be used for displaying projects in a tree, I would expect that \u0027Project\u0027 somehow appears in the class name.",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///KY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TreeContents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "Why are you checking here for parentId \u003d\u003d 0? \n\nIs this to check for the wild project? If yes, why to check for the wild project name and the id, one check should be sufficient. \n\nAlso can we be sure that the wild project always has 0 as project id? I think this cannot be guaranteed.",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///Kg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TreeContents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "The tooltip should only be shown if there is a project description. Currently a small empty white square is displayed as tooltip if a project has no description.",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///KU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TreeContents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "In the Flat View the projects are sorted by name. I think also the children under each node should be sorted by name. Currently they appear in a different order (I think they are ordered by creation time, but I\u0027m not sure).",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H///Ko\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-20T10:36:50Z",
+      "side": 1,
+      "message": "I\u0027m struggling to understand this visibility concept of projects. If I log on as a user which is only member of \u0027Anonymous Users\u0027 and \u0027Registered Users\u0027 I see all the projects in the project table, but in the parent project column I just see \u0027(x)\u0027. Why the parent project is not displayed if I can see it as own entry in the project table? Also when I click on a project for which the parent project is hidden from me by showing \u0027(x)\u0027 I can navigate to the project access rights screen and see the parent there. So all this looks rather inconsistent to me. Either I should see the project in all places or I should not see the project anywhere at all.\n\nAlso if a project is visible to me, I think I should always be allowed to also know the name of its parent project.",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

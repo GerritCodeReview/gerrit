@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA8H//+2c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/SetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2010-10-22T12:38:54Z",
+      "side": 1,
+      "message": "I\u0027m sorry, you are right this verification can be moved to PerformSetParentImpl. I thought I couldn\u0027t use ProjectCache for command lines but it truly can. I made I mistake.\r\nI\u0027ll do that.",
+      "parentUuid": "AAAA8H//+20\u003d",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA8H///Lk\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/SetParent.java",
         "patchSetId": 2

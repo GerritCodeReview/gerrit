@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client;
 
+import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_PROJECT;
 import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import static com.google.gerrit.common.PageLinks.MINE;
@@ -43,6 +44,7 @@ import com.google.gerrit.client.account.NewAgreementScreen;
 import com.google.gerrit.client.account.RegisterScreen;
 import com.google.gerrit.client.account.ValidateEmailScreen;
 import com.google.gerrit.client.admin.AccountGroupScreen;
+import com.google.gerrit.client.admin.CreateProjectScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
 import com.google.gerrit.client.admin.ProjectAccessScreen;
 import com.google.gerrit.client.admin.ProjectBranchesScreen;
@@ -437,6 +439,10 @@ public class Dispatcher {
 
         if (ADMIN_PROJECTS.equals(token)) {
           return new ProjectListScreen();
+        }
+
+        if (ADMIN_CREATE_PROJECT.equals(token)) {
+          return new CreateProjectScreen();
         }
 
         return new NotFoundScreen();

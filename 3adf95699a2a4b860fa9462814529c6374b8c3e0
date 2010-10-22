@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA8H//+20\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/SetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2010-10-22T11:34:06Z",
+      "side": 1,
+      "message": "Hi Edwin, PerformSetParentImpl class is used by two classes: this (SetParent) that is for setting parent project through web ui and by AdminSetParent class that is to set parent through command line, that \u0027s why this check is here.\nAbout the other verification (handle the parentName being null or empty) I\u0027ll unify that.",
+      "parentUuid": "AAAA8H///LU\u003d",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA8H///Lk\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/SetParent.java",
         "patchSetId": 2
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA8H//+2w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/SetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2010-10-22T11:34:06Z",
+      "side": 1,
+      "message": "You are right. I\u0027ll change this to propagate errors only throwing exceptions and also improve the messages.",
+      "parentUuid": "AAAA8H///Lc\u003d",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA8H///K4\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
         "patchSetId": 2
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA8H//+2s\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2010-10-22T11:34:06Z",
+      "side": 1,
+      "message": "We have created a projectId to do not expose all projects names to the browser. To construct the tree, I need some reference to parents. We create this reference using projectId, this way what is exposed to browser are numbers that do not mean anything for an evil user.\nIn the tree, the projects that are not visible for an specific user but are parents of any one that is visible appears with an \"X\" in place of its name and to do not use name to construct the tree, we used the id.\nIf you have any other suggestion, we can discuss that :)",
+      "parentUuid": "AAAA8H///K4\u003d",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA8H///Lg\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformSetParent.java",
         "patchSetId": 2
@@ -98,6 +152,24 @@
       "writtenOn": "2010-10-20T10:40:13Z",
       "side": 1,
       "message": "Personally I dislike to return a StringBuilder that may contain an error message. This way it\u0027s hard to check whether the operation was successful (I need to check if the returned StringBuilder is empty). At the same time I still have to handle the OrmException. Why not always throwing an exception if the operation fails? I think it would makes things easier.",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H//+2o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformSetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2010-10-22T11:34:06Z",
+      "side": 1,
+      "message": "You are right, I\u0027ll implement that.",
+      "parentUuid": "AAAA8H///Lg\u003d",
       "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -132,6 +204,24 @@
       "writtenOn": "2010-10-20T10:40:13Z",
       "side": 1,
       "message": "Before this change it was possible with the \u0027set-project-parent\u0027 SSH command to set a project as a parent for itself. You\u0027ve added here a new condition that prevents this. What was the motivation for this change? I\u0027m not sure if this was a bug of the earlier implementation or if it was intended to be possible. Maybe Shawn can answer this question. If it is fixing a bug it\u0027s maybe worth an own change.",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H//+2k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformSetParentImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2010-10-22T11:34:06Z",
+      "side": 1,
+      "message": "We have implemented this class as a common code for setting parent projects through web ui and command line. At that moment we figured out this problem and fixed it.",
+      "parentUuid": "AAAA8H///LM\u003d",
       "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

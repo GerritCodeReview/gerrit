@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H//+wY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritConstants.properties",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-10-25T13:46:56Z",
+      "side": 1,
+      "message": "hmm... trailing whitespace!",
+      "revId": "ca40d400313c3912f609f411bab807d3206628ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

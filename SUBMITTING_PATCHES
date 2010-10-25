@@ -1,9 +1,9 @@
 Short Version:
 
- - Make small logical changes.
- - Provide a meaningful commit message.
- - Make sure all code is under the Apache License, 2.0.
- - Publish your changes for review:
+ * Make small logical changes.
+ * Provide a meaningful commit message.
+ * Make sure all code is under the Apache License, 2.0.
+ * Publish your changes for review:
 
    git push ssh://review.source.android.com:29418/tools/gerrit.git HEAD:refs/for/master
 

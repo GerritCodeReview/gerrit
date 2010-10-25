@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H//+wk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-10-25T13:42:24Z",
+      "side": 1,
+      "message": "Only logging an error.\nI see that it was like that also before this change so at least this is not making things worse.\nWill the failed replication action be retried again by Gerrit?\nHow to fix/recover the replication in case when replication of a project creation fails?",
+      "revId": "addf917d02e895ecac3528ec6e119eb8ae77e1fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

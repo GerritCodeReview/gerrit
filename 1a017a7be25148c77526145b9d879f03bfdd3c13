@@ -322,6 +322,24 @@
       "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H//+eE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2010-10-26T11:26:00Z",
+      "side": 1,
+      "message": "Hi Edwin, you are right, this is inconsistent because we have a bug in this class at line 81. I made a mistake: in place of OR operator I should use AND operator. \nIf a project is not visible and user is not the owner, this should be hidden otherwise if it is visible for the current user this should not be hiddden.",
+      "parentUuid": "AAAA8H///Ko\u003d",
+      "revId": "1a017a7be25148c77526145b9d879f03bfdd3c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

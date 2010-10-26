@@ -159,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA8H//+eY\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-26T09:37:19Z",
+      "side": 1,
+      "message": "Thanks for the explanation. I think this is a valid reason to introduce a project-id :-) I was just curious because for the rename project feature we also had to introduce a project-id [1], only that there we used the project-id as primary key for the project table, so that all other tables had to be changed to use the project-id instead of the project name as foreign key to reference projects.\n\nRegarding the displaying of \u0027X\u0027 for a parent project if it\u0027s not visible I\u0027m not sure if I have a better idea (although I don\u0027t like the X too much). I have 2 questions about this:\n\n1. Is it really harmful if we would always allow a user to know the name of the parent project for a project that is visible to him (even though the parent project and its details might not be visible to this user)? If not, we could simply display the parent project name and we would not need to think about how to display \"there is a parent project but you are not allowed to know its name\".\n\n2. I understand that not all projects should be visible to a user. But if a project is not visible it really should not be visible at all. Currently it\u0027s like this that in the parent project column it displays me the X for a parent project that I\u0027m not allowed to see, but at the same time this parent project appears as own entry in the project list and also from the ProjectAccessScreen of a child project I can still navigate to the parent project. So my point is that this should be consistent, either I can see the project in all places or I can\u0027t see it at all. Please see also my comment in change 15634 in VisibleProjects.java [2].\n\n[1] https://review.source.android.com/16512\n\n[2] https://review.source.android.com/#patch,sidebyside,15634,1,gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
+      "parentUuid": "AAAA8H//+2s\u003d",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA8H///Lg\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformSetParent.java",
         "patchSetId": 2
@@ -240,6 +258,24 @@
       "side": 1,
       "message": "We have implemented this class as a common code for setting parent projects through web ui and command line. At that moment we figured out this problem and fixed it.",
       "parentUuid": "AAAA8H///LM\u003d",
+      "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H//+eU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformSetParentImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-26T09:37:19Z",
+      "side": 1,
+      "message": "Although I\u0027m not 100% sure I also trend to think that this is a bug. But as I said I think in this case it would be worth to do this bug-fix in an own change (this would be better than coupling it with this feature).",
+      "parentUuid": "AAAA8H//+2k\u003d",
       "revId": "3adf95699a2a4b860fa9462814529c6374b8c3e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

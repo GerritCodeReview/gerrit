@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H//+c4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAdminScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2010-10-26T14:19:34Z",
+      "side": 1,
+      "message": "Just a minor suggestion: also verify here if user has not typed only whitespaces, so the renameButton would only be enabled if user has really typed something and the entered text is not equal to current project name.",
+      "revId": "74e7dff7f6c793592587acf148c66fff5b19d205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

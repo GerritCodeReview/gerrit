@@ -16,6 +16,24 @@
       "revId": "addf917d02e895ecac3528ec6e119eb8ae77e1fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H//+e0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-26T08:49:43Z",
+      "side": 1,
+      "message": "Yes, I\u0027m also concerned about this. This is why I\u0027ve raised this point in issue 560 [1], but without replies so far.\n\nEspecially for project rename a replication failure would be severe, because it would mean that the replication of all further changes in the renamed project cannot succeed anymore.\n\nAs far as I know there is currently no automatic recovery/retry in case of replication errors, but there is a change for review that seems to address this topic [2]. I see this as an important topic but not directly related to the rename project functionality. As you\u0027ve said this problem existed for project creation before and at least this change is not making things worse.\n\n[1] http://code.google.com/p/gerrit/issues/detail?id\u003d560#c19\n\n[2] https://review.source.android.com/17355",
+      "parentUuid": "AAAA8H//+wk\u003d",
+      "revId": "addf917d02e895ecac3528ec6e119eb8ae77e1fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "74e7dff7f6c793592587acf148c66fff5b19d205",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H//+VA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAdminScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-10-27T09:46:02Z",
+      "side": 1,
+      "message": "Good point. I have fixed that with the new patch-set.",
+      "parentUuid": "AAAA8H//+c4\u003d",
+      "revId": "74e7dff7f6c793592587acf148c66fff5b19d205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

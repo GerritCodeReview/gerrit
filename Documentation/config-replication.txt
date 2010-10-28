@@ -42,8 +42,8 @@ different hosts:
     url = mirror1.us.some.org:/pub/git/${name}.git
     url = mirror2.us.some.org:/pub/git/${name}.git
     url = mirror3.us.some.org:/pub/git/${name}.git
-    push = +refs/heads/*
-    push = +refs/tags/*
+    push = +refs/heads/*:refs/heads/*
+    push = +refs/tags/*:refs/tags/*
     threads = 3
     authGroup = Public Mirror Group
     authGroup = Second Public Mirror Group

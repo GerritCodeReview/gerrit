@@ -120,6 +120,19 @@ public class PublishCommentScreen extends AccountScreen implements
     buttonRow.add(cancel);
   }
 
+  private void enableForm(final boolean enabled) {
+    for (final ValueRadioButton approvalButton : approvalButtons) {
+      approvalButton.setEnabled(enabled);
+    }
+    message.setEnabled(enabled);
+    for (final CommentEditorPanel commentEditor : commentEditors) {
+      commentEditor.enableButtons(enabled);
+    }
+    send.setEnabled(enabled);
+    submit.setEnabled(enabled);
+    cancel.setEnabled(enabled);
+  }
+
   @Override
   protected void onLoad() {
     super.onLoad();
@@ -326,6 +339,7 @@ public class PublishCommentScreen extends AccountScreen implements
       }
     }
 
+    enableForm(false);
     PatchUtil.DETAIL_SVC.publishComments(patchSetId, message.getText().trim(),
         new HashSet<ApprovalCategoryValue.Id>(values.values()),
         new GerritCallback<VoidResult>() {
@@ -336,6 +350,12 @@ public class PublishCommentScreen extends AccountScreen implements
               saveStateOnUnload = false;
               goChange();
             }
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            super.onFailure(caught);
+            enableForm(true);
           }
         });
   }

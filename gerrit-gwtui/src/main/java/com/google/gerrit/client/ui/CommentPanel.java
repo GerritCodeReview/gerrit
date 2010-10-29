@@ -195,7 +195,7 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
     handlerManager.fireEvent(event);
   }
 
-  protected void enableButtons(final boolean on) {
+  public void enableButtons(final boolean on) {
     for (Widget w : getButtonPanel()) {
       if (w instanceof Button) {
         ((Button) w).setEnabled(on);

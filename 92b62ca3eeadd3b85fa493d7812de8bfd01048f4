@@ -54,6 +54,23 @@
     },
     {
       "key": {
+        "uuid": "AAAA8H//904\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-29T22:47:16Z",
+      "side": 1,
+      "message": "My comment was to add more information to the commit message to support why we are adding this feature.  The message you propose above on Oct 19 is more suitable.",
+      "revId": "92b62ca3eeadd3b85fa493d7812de8bfd01048f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA8H///2M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
         "patchSetId": 1

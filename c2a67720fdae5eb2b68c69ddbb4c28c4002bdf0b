@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H//97U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2010-10-29T15:22:47Z",
+      "side": 1,
+      "message": "s/this of/this type of/",
+      "revId": "c2a67720fdae5eb2b68c69ddbb4c28c4002bdf0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H//97Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2010-10-29T15:22:47Z",
+      "side": 1,
+      "message": "s/give a/give an/",
+      "revId": "c2a67720fdae5eb2b68c69ddbb4c28c4002bdf0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

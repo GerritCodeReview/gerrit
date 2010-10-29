@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H//92A\u003d",
+        "filename": "Documentation/config-replication.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-10-29T22:10:38Z",
+      "side": 1,
+      "message": "s/due offline/due to an offline/",
+      "revId": "4c330bfc2bf4108b161bdda073851e7f4f4bb934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

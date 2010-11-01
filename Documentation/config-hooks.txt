@@ -75,6 +75,15 @@ Called whenever a ref has been updated.
   ref-updated --oldrev <old rev> --newrev <new rev> --refname <ref name> --project <project name> --submitter <submitter>
 ====
 
+cla-signed
+~~~~~~~~~~~
+
+Called whenever a user signs a contributor license agreement
+
+====
+  cla-signed --submitter <submitter> --user-id <user_id> --cla-id <cla_id>
+====
+
 
 Configuration Settings
 ----------------------

@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.IdentifiedUser;
@@ -103,6 +104,9 @@ public class ChangeHookRunner {
     /** Filename of the ref updated hook. */
     private final File refUpdatedHook;
 
+    /** Filename of the cla signed hook. */
+    private final File claSignedHook;
+
     /** Repository Manager. */
     private final GitRepositoryManager repoManager;
 
@@ -149,6 +153,7 @@ public class ChangeHookRunner {
         changeAbandonedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeAbandonedHook", "change-abandoned")).getPath());
         changeRestoredHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeRestoredHook", "change-restored")).getPath());
         refUpdatedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdatedHook", "ref-updated")).getPath());
+        claSignedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "claSignedHook", "cla-signed")).getPath());
     }
 
     public void addChangeListener(ChangeListener listener, IdentifiedUser user) {
@@ -390,6 +395,17 @@ public class ChangeHookRunner {
       runHook(openRepository(refName.getParentKey()), refUpdatedHook, args);
     }
 
+    public void doClaSignupHook(Account account, ContributorAgreement cla) {
+      if (account != null) {
+        final List<String> args = new ArrayList<String>();
+        addArg(args, "--submitter", getDisplayName(account));
+        addArg(args, "--user-id", account.getId().toString());
+        addArg(args, "--cla-id", cla.getId().toString());
+
+        runHook(claSignedHook, args);
+      }
+    }
+
     private void fireEvent(final Change change, final ChangeEvent event) {
       for (ChangeListenerHolder holder : listeners.values()) {
           if (isVisibleTo(change, holder.user)) {
@@ -477,6 +493,12 @@ public class ChangeHookRunner {
     }
   }
 
+  private synchronized void runHook(File hook, List<String> args) {
+    if (hook.exists()) {
+      hookQueue.execute(new HookTask(null, hook, args));
+    }
+  }
+
   private final class HookTask implements Runnable {
     private final Repository repo;
     private final File hook;
@@ -497,10 +519,12 @@ public class ChangeHookRunner {
 
         final ProcessBuilder pb = new ProcessBuilder(argv);
         pb.redirectErrorStream(true);
-        pb.directory(repo.getDirectory());
+        if (repo != null) {
+          pb.directory(repo.getDirectory());
 
-        final Map<String, String> env = pb.environment();
-        env.put("GIT_DIR", repo.getDirectory().getAbsolutePath());
+          final Map<String, String> env = pb.environment();
+          env.put("GIT_DIR", repo.getDirectory().getAbsolutePath());
+        }
 
         Process ps = pb.start();
         ps.getOutputStream().close();
@@ -522,7 +546,9 @@ public class ChangeHookRunner {
       } catch (Throwable err) {
         log.error("Error running hook " + hook.getAbsolutePath(), err);
       } finally {
-        repo.close();
+        if (repo != null) {
+          repo.close();
+        }
       }
     }
 

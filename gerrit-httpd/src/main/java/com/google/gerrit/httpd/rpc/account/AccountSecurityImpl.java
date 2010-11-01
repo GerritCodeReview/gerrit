@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.errors.ContactInformationStoreException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
@@ -29,6 +30,7 @@ import com.google.gerrit.reviewdb.AccountSshKey;
 import com.google.gerrit.reviewdb.ContactInformation;
 import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
@@ -82,6 +84,9 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final DeleteExternalIds.Factory deleteExternalIdsFactory;
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
   private final MyGroupsFactory.Factory myGroupsFactory;
+
+  @Inject
+  private ChangeHookRunner hooks;
 
   @Inject
   AccountSecurityImpl(final Provider<ReviewDb> schema,
@@ -262,6 +267,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
                 .getAccountId(), id));
         if (cla.isAutoVerify()) {
           a.review(AccountAgreement.Status.VERIFIED, null);
+
+          hooks.doClaSignupHook(user.get().getAccount(), cla);
         }
         db.accountAgreements().insert(Collections.singleton(a));
         return VoidResult.INSTANCE;

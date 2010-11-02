@@ -65,6 +65,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -148,6 +149,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final Project project;
   private final Repository repo;
   private final ReceivePack rp;
+  private final NoteMap rejectCommits;
 
   private ReceiveCommand newChange;
   private Branch.NameKey destBranch;
@@ -177,7 +179,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final TrackingFooters trackingFooters,
 
       @Assisted final ProjectControl projectControl,
-      @Assisted final Repository repo) {
+      @Assisted final Repository repo) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.approvalTypes = approvalTypes;
@@ -196,6 +198,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.project = projectControl.getProject();
     this.repo = repo;
     this.rp = new ReceivePack(repo);
+    this.rejectCommits = loadRejectCommitsMap();
 
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
@@ -715,6 +718,28 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       newChange.setResult(Result.REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", e);
       return;
+    }
+  }
+
+  /**
+   * Loads a list of commits to reject from {@code refs/meta/reject-commits}.
+   *
+   * @return NoteMap of commits to be rejected, null if there are none.
+   * @throws IOException the map cannot be loaded.
+   */
+  private NoteMap loadRejectCommitsMap() throws IOException {
+    String rejectNotes = "refs/meta/reject-commits";
+    try {
+      Ref ref = repo.getRef(rejectNotes);
+      if (ref == null) {
+        return null;
+      }
+
+      RevWalk rw = rp.getRevWalk();
+      RevCommit map = rw.parseCommit(ref.getObjectId());
+      return NoteMap.read(rw.getObjectReader(), map);
+    } catch (IOException badMap) {
+      throw new IOException("Cannot load " + rejectNotes, badMap);
     }
   }
 
@@ -1479,6 +1504,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         reject(cmd, "invalid Change-Id line format in commit message ");
         return false;
       }
+    }
+
+    // Check for banned commits to prevent them from entering the tree again.
+    if (rejectCommits != null && rejectCommits.contains(c)) {
+      reject(newChange, "contains banned commit " + c.getName());
+      return false;
     }
 
     return true;

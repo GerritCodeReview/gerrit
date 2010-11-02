@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H//9hI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1002975
+      },
+      "writtenOn": "2010-11-02T21:48:48Z",
+      "side": 1,
+      "message": "whoops, I suppose I need to return this",
+      "revId": "6112fa25de0a49e6ffe7b8a64ff04969f47129bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H//9hE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1524,
+      "author": {
+        "id": 1002975
+      },
+      "writtenOn": "2010-11-02T21:48:48Z",
+      "side": 1,
+      "message": "Should we include the message from the note object?",
+      "revId": "6112fa25de0a49e6ffe7b8a64ff04969f47129bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

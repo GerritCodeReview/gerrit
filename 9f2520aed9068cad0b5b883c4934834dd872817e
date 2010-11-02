@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8H//9go\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 1002975
+      },
+      "writtenOn": "2010-11-02T22:07:51Z",
+      "side": 1,
+      "message": "Should we catch the IncorrectObjectTypeException? If not, a bad repo will make it impossible to upload changes.",
+      "revId": "9f2520aed9068cad0b5b883c4934834dd872817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

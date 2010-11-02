@@ -55,6 +55,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -65,6 +66,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -148,6 +150,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final Project project;
   private final Repository repo;
   private final ReceivePack rp;
+  private final NoteMap rejectCommits;
 
   private ReceiveCommand newChange;
   private Branch.NameKey destBranch;
@@ -196,6 +199,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.project = projectControl.getProject();
     this.repo = repo;
     this.rp = new ReceivePack(repo);
+    this.rejectCommits = loadRejectCommitsMap("refs/meta/reject-commits");
 
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
@@ -715,6 +719,42 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       newChange.setResult(Result.REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", e);
       return;
+    }
+  }
+
+  /**
+   * Loads a list of commits to reject from a notes object specified by
+   * <code>refName</code>. If the ref could not be found because there has
+   * been no branch created with the specified value, the return value will
+   * be null.
+   *
+   * @param refName the git ref to load from
+   * @return NoteMap of commits to be rejected or <code>null</code> if it was
+   *        not found or an error was encountered while loading it.
+   */
+  private NoteMap loadRejectCommitsMap(final String refName) {
+    try {
+      final ObjectId rejectCommitsId = repo.resolve(refName);
+      if (rejectCommitsId == null) {
+        return null;
+      }
+
+      final RevWalk rw = rp.getRevWalk();
+
+      final RevCommit c;
+      if (rejectCommitsId instanceof RevCommit) {
+        c = (RevCommit) rejectCommitsId;
+      } else {
+        c = rw.parseCommit(rejectCommitsId);
+      }
+
+      return NoteMap.load(rw.getObjectReader(), c);
+    } catch (AmbiguousObjectException e) {
+      log.error("Ambiguous reference for reject commits map: " + refName, e);
+      return null;
+    } catch (IOException e) {
+      log.error("Error loading reject commits map", e);
+      return null;
     }
   }
 
@@ -1479,6 +1519,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         reject(cmd, "invalid Change-Id line format in commit message ");
         return false;
       }
+    }
+
+    // Check for banned commits to prevent them from entering the tree again.
+    if (rejectCommits != null && rejectCommits.contains(c.getId())) {
+      reject(newChange, "contains bad commit " + c.getId().getName());
+      return false;
     }
 
     return true;

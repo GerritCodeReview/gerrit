@@ -455,7 +455,6 @@ public abstract class PatchScreen extends Screen implements
       topNav.display(patchIndex, getPatchScreenType(), fileList);
       bottomNav.display(patchIndex, getPatchScreenType(), fileList);
     }
-    registerKeys();
 
     // Mark this file reviewed as soon we display the diff screen
     if (Gerrit.isSignedIn() && isFirst) {

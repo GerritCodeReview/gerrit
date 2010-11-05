@@ -16,6 +16,23 @@
       "revId": "9f2520aed9068cad0b5b883c4934834dd872817e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8H//85s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-11-05T21:32:46Z",
+      "side": 1,
+      "message": "We shouldn\u0027t catch any exceptions here.\n\nIf repo.resolve(refName) throws above, either the code is buggy (handed in a bad argument... which it should never do as its a constant), or the \"refs/meta/reject-commits\" exists but cannot be read.  If it exists, we should assume the admin wants us to enforce it.  If we can\u0027t load or use it, we shouldn\u0027t continue.\n\nLikewise if the parseCommit or NoteMap.load() fail, we also should just allow the exception to continue up the stack so the entire push aborts.",
+      "revId": "9f2520aed9068cad0b5b883c4934834dd872817e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

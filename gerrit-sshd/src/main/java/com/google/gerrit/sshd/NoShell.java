@@ -14,15 +14,28 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.sshd.SshScope.Context;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
 import org.apache.sshd.common.Factory;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
+import org.apache.sshd.server.SessionAware;
+import org.apache.sshd.server.session.ServerSession;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.util.SystemReader;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Dummy shell which prints a message and terminates.
@@ -32,41 +45,135 @@ import java.io.OutputStream;
  * cannot continue further.
  */
 class NoShell implements Factory<Command> {
+  private final Provider<SendMessage> shell;
+
+  @Inject
+  NoShell(Provider<SendMessage> shell) {
+    this.shell = shell;
+  }
+
   public Command create() {
-    return new Command() {
-      private InputStream in;
-      private OutputStream out;
-      private OutputStream err;
-      private ExitCallback exit;
+    return shell.get();
+  }
 
-      public void setInputStream(final InputStream in) {
-        this.in = in;
+  static class SendMessage implements Command, SessionAware {
+    private final Provider<MessageFactory> messageFactory;
+
+    private InputStream in;
+    private OutputStream out;
+    private OutputStream err;
+    private ExitCallback exit;
+    private Context context;
+
+    @Inject
+    SendMessage(Provider<MessageFactory> messageFactory) {
+      this.messageFactory = messageFactory;
+    }
+
+    public void setInputStream(final InputStream in) {
+      this.in = in;
+    }
+
+    public void setOutputStream(final OutputStream out) {
+      this.out = out;
+    }
+
+    public void setErrorStream(final OutputStream err) {
+      this.err = err;
+    }
+
+    public void setExitCallback(final ExitCallback callback) {
+      this.exit = callback;
+    }
+
+    public void setSession(final ServerSession session) {
+      this.context = new Context(session.getAttribute(SshSession.KEY), "");
+    }
+
+    public void start(final Environment env) throws IOException {
+      Context old = SshScope.set(context);
+      String message;
+      try {
+        message = messageFactory.get().getMessage();
+      } finally {
+        SshScope.set(old);
+      }
+      err.write(Constants.encodeASCII(message.toString()));
+      err.flush();
+
+      in.close();
+      out.close();
+      err.close();
+      exit.onExit(127);
+    }
+
+    public void destroy() {
+    }
+  }
+
+  static class MessageFactory {
+    private final IdentifiedUser user;
+    private final SshInfo sshInfo;
+    private final Provider<String> urlProvider;
+
+    @Inject
+    MessageFactory(IdentifiedUser user, SshInfo sshInfo,
+        @CanonicalWebUrl Provider<String> urlProvider) {
+      this.user = user;
+      this.sshInfo = sshInfo;
+      this.urlProvider = urlProvider;
+    }
+
+    String getMessage() {
+      StringBuilder msg = new StringBuilder();
+
+      msg.append("\r\n");
+      msg.append("  ****    Welcome to Gerrit Code Review    ****\r\n");
+      msg.append("\r\n");
+
+      Account account = user.getAccount();
+      String name = account.getFullName();
+      if (name == null || name.isEmpty()) {
+        name = user.getUserName();
+      }
+      msg.append("  Hi ");
+      msg.append(name);
+      msg.append(", you have successfully connected over SSH.");
+      msg.append("\r\n");
+      msg.append("\r\n");
+
+      msg.append("  Unfortunately, interactive shells are disabled.\r\n");
+      msg.append("  To clone a hosted Git repository, use:\r\n");
+      msg.append("\r\n");
+
+      if (!sshInfo.getHostKeys().isEmpty()) {
+        String host = sshInfo.getHostKeys().get(0).getHost();
+        if (host.startsWith("*:")) {
+          host = getGerritHost() + host.substring(1);
+        }
+
+        msg.append("  git clone ssh://");
+        msg.append(user.getUserName());
+        msg.append("@");
+        msg.append(host);
+        msg.append("/");
+        msg.append("REPOSITORY_NAME.git");
+        msg.append("\r\n");
       }
 
-      public void setOutputStream(final OutputStream out) {
-        this.out = out;
-      }
+      msg.append("\r\n");
+      return msg.toString();
+    }
 
-      public void setErrorStream(final OutputStream err) {
-        this.err = err;
+    private String getGerritHost() {
+      String url = urlProvider.get();
+      if (url != null) {
+        try {
+          return new URL(url).getHost();
+        } catch (MalformedURLException e) {
+        }
       }
-
-      public void setExitCallback(final ExitCallback callback) {
-        this.exit = callback;
-      }
-
-      public void start(final Environment env) throws IOException {
-        err.write(Constants.encodeASCII("gerrit: no shell available\r\n"));
-        err.flush();
-
-        in.close();
-        out.close();
-        err.close();
-        exit.onExit(127);
-      }
-
-      public void destroy() {
-      }
-    };
+      return SystemReader.getInstance().getHostname();
+    }
   }
 }

@@ -124,7 +124,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private volatile IoAcceptor acceptor;
 
   @Inject
-  SshDaemon(final CommandFactory commandFactory,
+  SshDaemon(final CommandFactory commandFactory, final NoShell noShell,
       final PublickeyAuthenticator userAuth,
       final KeyPairProvider hostKeyProvider, final IdGenerator idGenerator,
       @GerritServerConfig final Config cfg, final SshLog sshLog) {
@@ -169,7 +169,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     initUserAuth(userAuth);
     setKeyPairProvider(hostKeyProvider);
     setCommandFactory(commandFactory);
-    setShellFactory(new NoShell());
+    setShellFactory(noShell);
     setSessionFactory(new SessionFactory() {
       @Override
       protected ServerSession createSession(final IoSession io)

@@ -1603,6 +1603,41 @@ pool by a simple FIFO scheduling system.
 +
 By default, 1 plus the number of CPUs available to the JVM.
 
+[[sshd.maxAuthTries]]sshd.maxAuthTries::
++
+Maximum number of authentication attempts before the server
+disconnects the client.  Each public key that a client has loaded
+into its local agent counts as one auth request.  Users can work
+around the server's limit by loading less keys into their agent,
+or selecting a specific key in their `~/.ssh/config` file with
+the `IdentityFile` option.
++
+By default, 6.
+
+[[sshd.loginGraceTime]]sshd.loginGraceTime::
++
+Time in seconds that a client has to authenticate before the server
+automatically terminates their connection.  Values should use common
+unit suffixes to express their setting:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
+* d, day, days
+
++
+By default, 2 minutes.
+
+[[sshd.maxConnectionsPerUser]]sshd.maxConnectionsPerUser::
++
+Maximum number of concurrent SSH sessions that a user account
+may open at one time.  This is the number of distinct SSH logins
+the each user may have active at one time, and is not related to
+the number of commands a user may issue over a single connection.
+If set to 0, there is no limit.
++
+By default, 64.
+
 [[sshd.cipher]]sshd.cipher::
 +
 Available ciphers.  To permit multiple ciphers, specify multiple

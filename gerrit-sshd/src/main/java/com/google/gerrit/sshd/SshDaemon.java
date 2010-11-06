@@ -14,7 +14,12 @@
 
 package com.google.gerrit.sshd;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import com.google.gerrit.common.Version;
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.IdGenerator;
@@ -128,6 +133,25 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     listen = parseListen(cfg);
     reuseAddress = cfg.getBoolean("sshd", "reuseaddress", true);
     keepAlive = cfg.getBoolean("sshd", "tcpkeepalive", true);
+
+    getProperties().put(SERVER_IDENTIFICATION,
+        "GerritCodeReview_" + Version.getVersion() //
+            + " (" + super.getVersion() + ")");
+
+    getProperties().put(MAX_AUTH_REQUESTS,
+        String.valueOf(cfg.getInt("sshd", "maxAuthTries", 6)));
+
+    getProperties().put(
+        AUTH_TIMEOUT,
+        String.valueOf(MILLISECONDS.convert(ConfigUtil.getTimeUnit(cfg, "sshd",
+            null, "loginGraceTime", 120, SECONDS), SECONDS)));
+
+    final int maxConnectionsPerUser =
+        cfg.getInt("sshd", "maxConnectionsPerUser", 64);
+    if (0 < maxConnectionsPerUser) {
+      getProperties().put(MAX_CONCURRENT_SESSIONS,
+          String.valueOf(maxConnectionsPerUser));
+    }
 
     if (SecurityUtils.isBouncyCastleRegistered()) {
       initProviderBouncyCastle();

@@ -58,8 +58,11 @@ import org.apache.sshd.common.util.Buffer;
 import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.CommandFactory;
+import org.apache.sshd.server.FileSystemFactory;
+import org.apache.sshd.server.FileSystemView;
 import org.apache.sshd.server.ForwardingFilter;
 import org.apache.sshd.server.PublickeyAuthenticator;
+import org.apache.sshd.server.SshFile;
 import org.apache.sshd.server.UserAuth;
 import org.apache.sshd.server.auth.UserAuthPublicKey;
 import org.apache.sshd.server.channel.ChannelDirectTcpip;
@@ -136,6 +139,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     initSignatures();
     initChannels();
     initForwardingFilter();
+    initFileSystemFactory();
     initSubsystems();
     initCompression();
     initUserAuth(userAuth);
@@ -482,6 +486,19 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       @Override
       public boolean canListen(InetSocketAddress address, ServerSession session) {
         return false;
+      }
+    });
+  }
+
+  private void initFileSystemFactory() {
+    setFileSystemFactory(new FileSystemFactory() {
+      @Override
+      public FileSystemView createFileSystemView(String userName) {
+        return new FileSystemView() {
+          @Override
+          public SshFile getFile(String file) {
+            return null;
+          }};
       }
     });
   }

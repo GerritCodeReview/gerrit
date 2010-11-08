@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8X////s\u003d",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-11-08T23:00:23Z",
+      "side": 1,
+      "message": "New paragraph?  If so, should there be a blank line?  If not, should it be on the same line as the previous sentence?",
+      "revId": "5bd7a367f94ca610ed66eb91c6dba38a418614ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8X////w\u003d",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-11-08T23:00:23Z",
+      "side": 1,
+      "message": "Why was this space removed?  Seems like the rest of the doc uses 2 spaces after a period.",
+      "revId": "5bd7a367f94ca610ed66eb91c6dba38a418614ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8X////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-11-08T23:00:23Z",
+      "side": 1,
+      "message": "Old comment?",
+      "revId": "5bd7a367f94ca610ed66eb91c6dba38a418614ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

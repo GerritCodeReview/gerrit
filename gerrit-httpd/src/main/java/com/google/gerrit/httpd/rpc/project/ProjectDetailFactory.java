@@ -26,6 +26,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -75,8 +76,14 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     final List<InheritedRefRight> refRights = new ArrayList<InheritedRefRight>();
 
     for (final RefRight r : projectState.getInheritedRights()) {
-      InheritedRefRight refRight = new InheritedRefRight(
-          r, true, pc.controlForRef(r.getRefPattern()).isOwner());
+      RefControl rc = pc.controlForRef(r.getRefPattern());
+      boolean isOwner = rc.isOwner();
+
+      if (!isOwner && !rc.isVisible()) {
+        continue;
+      }
+
+      InheritedRefRight refRight = new InheritedRefRight(r, true, isOwner);
       if (!refRights.contains(refRight)) {
         refRights.add(refRight);
         wantGroup(r.getAccountGroupId());
@@ -84,8 +91,14 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     }
 
     for (final RefRight r : projectState.getLocalRights()) {
-      refRights.add(new InheritedRefRight(
-          r, false, pc.controlForRef(r.getRefPattern()).isOwner()));
+      RefControl rc = pc.controlForRef(r.getRefPattern());
+      boolean isOwner = rc.isOwner();
+
+      if (!isOwner && !rc.isVisible()) {
+        continue;
+      }
+
+      refRights.add(new InheritedRefRight(r, false, isOwner));
       wantGroup(r.getAccountGroupId());
     }
 

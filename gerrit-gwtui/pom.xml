@@ -175,12 +175,12 @@ limitations under the License.
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <property name="dst" location="${project.build.outputDirectory}" />
                 <property name="pkg" location="${dst}/com/google/gerrit/client/account"/>
                 <mkdir dir="${pkg}"/>
                 <echo file="${pkg}/keyapplet_jar">gerrit-keyapplet-${keyappletVersion}.cache.jar</echo>
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>
@@ -216,7 +216,7 @@ limitations under the License.
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <property name="dst" location="${project.build.directory}/${project.build.finalName}"/>
                 <property name="app" location="${dst}/gerrit"/>
 
@@ -233,7 +233,7 @@ limitations under the License.
                     <outputmapper type="glob" from="*" to="${app}/*.gz"/>
                   </redirector>
                 </apply>
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>

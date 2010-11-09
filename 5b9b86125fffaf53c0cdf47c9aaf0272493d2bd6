@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA8n////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/NavigationTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-09T14:25:08Z",
+      "side": 1,
+      "message": "Why don\u0027t we allow the registration of several NavigateListener\u0027s?\nThen it should be \u0027addNavigateListener\u0027. Of course in this case we would also need to allow to deregister NavigateListener\u0027s.\n\nIn general I wonder if the usage of listeners is the right way. Looking at the GWT classes for UI elements (e.g. FocusWidget) one can see that all the \u0027add...Listener\u0027 methods have been deprecated. Instead it is now favoured to register handlers. Maybe you can define a custom NavigateEvent and add a handler for it?\n\nHow this can be done is nicely explained in the following article: http://davidmaddison.blogspot.com/2010/02/using-gwt-2-custom-events.html",
+      "revId": "5b9b86125fffaf53c0cdf47c9aaf0272493d2bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8n////k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/NavigationTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-09T14:25:08Z",
+      "side": 1,
+      "message": "This comment seems to be incorrect... looks like it appeared by copy/paste from ProjectsSelectionTable?",
+      "revId": "5b9b86125fffaf53c0cdf47c9aaf0272493d2bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8n///7c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsSelectionTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-09T14:25:08Z",
+      "side": 1,
+      "message": "Is this method still used? If not, it should be removed.\nOtherwise I would expect a list of Project.NameKey\u0027s being returned since the table allows to select multiple projects.",
+      "revId": "5b9b86125fffaf53c0cdf47c9aaf0272493d2bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8n////Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsSelectionTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-09T14:25:08Z",
+      "side": 1,
+      "message": "Why don\u0027t we allow the registration of several ValueChangeListener\u0027s?\nThen it should be \u0027addValueChangeListener\u0027. Of course in this case we would also need to allow to deregister ValueChangeListener\u0027s.\n\nIn general I wonder if the usage of listeners is the right way. Looking at the GWT classes for UI elements (e.g. FocusWidget) one can see that all the \u0027add...Listener\u0027 methods have been deprecated. Instead it is now favoured to register handlers. Maybe you can define a custom ValueChangeEvent and add a handler for it?\n\nHow this can be done is nicely explained in the following article: http://davidmaddison.blogspot.com/2010/02/using-gwt-2-custom-events.html",
+      "revId": "5b9b86125fffaf53c0cdf47c9aaf0272493d2bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8n///7Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsSelectionTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-09T14:25:08Z",
+      "side": 1,
+      "message": "I\u0027m getting a NullPointerException here:\n\njava.lang.NullPointerException: while trying to invoke the method com.google.gwt.user.client.ui.CheckBox.setFocus(bool) of an object loaded from local variable \u0027checkBox\u0027\n \tat com.google.gerrit.client.ui.ProjectsSelectionTable.setCheckBoxFocus(ProjectsSelectionTable.java:132)\n \tat com.google.gerrit.client.admin.ProjectListScreen$2.onNavigate(ProjectListScreen.java:71)\n \tat com.google.gerrit.client.ui.NavigationTable.onDown(NavigationTable.java:91)\n \tat com.google.gerrit.client.ui.NavigationTable.finishDisplay(NavigationTable.java:224)\n \tat com.google.gerrit.client.ui.ProjectsTable.display(ProjectsTable.java:103)\n \tat com.google.gerrit.client.admin.ProjectListScreen$1.preDisplay(ProjectListScreen.java:52)\n \tat com.google.gerrit.client.admin.ProjectListScreen$1.preDisplay(ProjectListScreen.java:1)\n \tat com.google.gerrit.client.rpc.ScreenLoadCallback.onSuccess(ScreenLoadCallback.java:32)\n \tat com.google.gwtjsonrpc.client.JsonUtil.invoke(JsonUtil.java:136)\n...\n\nI guess the problem is that all projects that cannot be deleted do not have a checkbox. So in this case we can\u0027t set the focus on the checkbox.",
+      "revId": "5b9b86125fffaf53c0cdf47c9aaf0272493d2bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8n///74\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-09T14:25:08Z",
+      "side": 1,
+      "message": "This looks very strange to me. I understand that by using this constructor from ProjectsSelectionTable you want to avoid the initialization that is done in the actual ProjectsTable default constructor, but by looking at this class the purpose of this constructor is not clear.\n\nAlso I noticed that ProjectsSelectionTable overrides all methods from ProjectsTable except createFlexTable(), display() and getRowItemKey(), so it might make sense to seperate these two classes completely and have no inheritance between them? In this case the MyFlexTable could become an own class that can then be reused from both ProjectsTable and ProjectsSelectionTable.\n\nWhat do you think?",
+      "revId": "5b9b86125fffaf53c0cdf47c9aaf0272493d2bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA8n////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-09T14:25:08Z",
+      "side": 1,
+      "message": "there is no return code anymore",
+      "revId": "5b9b86125fffaf53c0cdf47c9aaf0272493d2bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

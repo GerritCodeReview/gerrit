@@ -117,7 +117,7 @@ limitations under the License.
                 <id>include-documentation</id>
                 <phase>process-classes</phase>
                 <configuration>
-                  <tasks>
+                  <target>
                     <property name="src" location="${basedir}/../Documentation" />
                     <property name="out" location="${project.build.directory}/${project.build.finalName}" />
                     <property name="dst" location="${out}/Documentation" />
@@ -134,7 +134,7 @@ limitations under the License.
                         <include name="*.html" />
                       </fileset>
                     </copy>
-                  </tasks>
+                  </target>
                 </configuration>
                 <goals>
                   <goal>run</goal>
@@ -186,14 +186,14 @@ limitations under the License.
             <id>fix-output</id>
             <phase>process-classes</phase>
             <configuration>
-              <tasks>
+              <target>
                 <property name="src" location="${basedir}/../Documentation" />
                 <property name="dst" location="${project.build.directory}/${project.build.finalName}" />
 
                 <copy tofile="${dst}/LICENSES.txt"
                       file="${src}/licenses.txt"
                       overwrite="true" />
-              </tasks>
+              </target>
             </configuration>
             <goals>
               <goal>run</goal>

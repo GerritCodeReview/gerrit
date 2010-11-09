@@ -73,7 +73,7 @@ limitations under the License.
             <id>generate-version</id>
             <phase>generate-resources</phase>
             <configuration>
-              <tasks>
+              <target>
                 <property name="dst" location="${project.build.outputDirectory}" />
                 <property name="pkg" location="${dst}/com/google/gerrit/common" />
                 <mkdir dir="${pkg}" />
@@ -82,7 +82,7 @@ limitations under the License.
                   <arg value="HEAD"/>
                 </exec>
                 <echo file="${pkg}/Version">${v}</echo>
-              </tasks>
+              </target>
             </configuration>
             <goals>
               <goal>run</goal>

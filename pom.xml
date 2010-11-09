@@ -478,7 +478,7 @@ limitations under the License.
       <dependency>
         <groupId>org.apache.sshd</groupId>
         <artifactId>sshd-core</artifactId>
-        <version>0.5.1-r1031886</version>
+        <version>0.5.1-r1033260</version>
       </dependency>
 
       <dependency>

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA83///5c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformSetParentImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-10T07:40:29Z",
+      "side": 1,
+      "message": "One more thought regarding this bug-fix which prevents the user now to set a project as parent for itself.\n\nAt least before this bug-fix it was possible to set a project as parent for itself. So it might be that there are some Gerrit systems that already have such a constellation. I\u0027m now wondering how the Project Tree View will behave in such a case? Would it simply ignore such projects? Maybe we could also say that such a constellation is not allowed at all and in the database migration we take care to correct them? This would of course mean that Access Rights for these projects would change, which is also bad.\n\nWhat do you think?",
+      "revId": "bfb19f1ab43801ae659731f6eab1d2590b42ede7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

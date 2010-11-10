@@ -50,6 +50,23 @@
       "revId": "5bd7a367f94ca610ed66eb91c6dba38a418614ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA83///48\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-10T08:40:27Z",
+      "side": 1,
+      "message": "I\u0027m getting an compilation error here. There is one \u0027null\u0027 too much as argument.\n\nIn the first patch-set ProjectControl.Factory was added as additional parameter to the ChangeQueryBuilder constructor, however in the second patch-set it was removed again. Looks like it was forgotten to adapt the code here?",
+      "revId": "5bd7a367f94ca610ed66eb91c6dba38a418614ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

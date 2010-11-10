@@ -67,6 +67,24 @@
       "revId": "5bd7a367f94ca610ed66eb91c6dba38a418614ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA83///4M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2010-11-10T12:14:06Z",
+      "side": 1,
+      "message": "I think I made a mistake, I\u0027ll check that. Thanks.",
+      "parentUuid": "AAAA83///48\u003d",
+      "revId": "5bd7a367f94ca610ed66eb91c6dba38a418614ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

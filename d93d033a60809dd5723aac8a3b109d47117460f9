@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA83///5k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-10T07:05:20Z",
+      "side": 1,
+      "message": "Maybe doCreateProject() should only be called if !createTxt.getText().trim().isEmpty() or if createButton.isEnabled()?\n\nWell an empty project name results already into an error, but I think it would be nice to not even try the project creation if no project name was specified.",
+      "revId": "d93d033a60809dd5723aac8a3b109d47117460f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA83///5o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-10T07:05:20Z",
+      "side": 1,
+      "message": "I think the alias should be \u0027-S\u0027 (only one \u0027-\u0027), shouldn\u0027t it?",
+      "revId": "d93d033a60809dd5723aac8a3b109d47117460f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

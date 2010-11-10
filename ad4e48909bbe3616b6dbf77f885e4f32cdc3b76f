@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA83///5U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-10T08:22:47Z",
+      "side": 1,
+      "message": "this line could be omitted since in the next line we anyway set this variable",
+      "revId": "ad4e48909bbe3616b6dbf77f885e4f32cdc3b76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA83///5Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-10T08:22:47Z",
+      "side": 1,
+      "message": "these 2 lines could be omitted since in the next 2 lines we anyway set these variables",
+      "revId": "ad4e48909bbe3616b6dbf77f885e4f32cdc3b76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA83///5I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAdminServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-10T08:22:47Z",
+      "side": 1,
+      "message": "The class SetParent is missing, it is only introduced by change 15244 but this change does not depend on it.",
+      "revId": "ad4e48909bbe3616b6dbf77f885e4f32cdc3b76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA83///5M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-10T08:22:47Z",
+      "side": 1,
+      "message": "The class SetParent is missing, it is only introduced by change 15244 but this change does not depend on it.",
+      "revId": "ad4e48909bbe3616b6dbf77f885e4f32cdc3b76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA83///5E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-10T08:22:47Z",
+      "side": 1,
+      "message": "The method Project#getId() is missing, it is only introduced by change 15244 but this change does not depend on it.",
+      "revId": "ad4e48909bbe3616b6dbf77f885e4f32cdc3b76f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

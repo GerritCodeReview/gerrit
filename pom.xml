@@ -48,9 +48,9 @@ limitations under the License.
   <properties>
     <jgitVersion>0.9.3.133-gaa09599</jgitVersion>
     <gwtormVersion>1.1.4</gwtormVersion>
-    <gwtjsonrpcVersion>1.2.2</gwtjsonrpcVersion>
+    <gwtjsonrpcVersion>1.2.3-SNAPSHOT</gwtjsonrpcVersion>
     <gwtexpuiVersion>1.2.2</gwtexpuiVersion>
-    <gwtVersion>2.0.4</gwtVersion>
+    <gwtVersion>2.1.0</gwtVersion>
     <slf4jVersion>1.6.1</slf4jVersion>
     <guiceVersion>2.0</guiceVersion>
     <jettyVersion>7.0.2.v20100331</jettyVersion>
@@ -355,7 +355,7 @@ limitations under the License.
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>gwt-maven-plugin</artifactId>
-          <version>1.2</version>
+          <version>2.1.0</version>
         </plugin>
 
         <plugin>

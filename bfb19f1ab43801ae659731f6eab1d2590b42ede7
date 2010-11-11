@@ -34,6 +34,24 @@
       "revId": "bfb19f1ab43801ae659731f6eab1d2590b42ede7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA83///vQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformSetParentImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-11-11T06:48:21Z",
+      "side": 1,
+      "message": "This would be fine with me, but I would also understand if anyone objects to it.",
+      "parentUuid": "AAAA83///4Q\u003d",
+      "revId": "bfb19f1ab43801ae659731f6eab1d2590b42ede7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

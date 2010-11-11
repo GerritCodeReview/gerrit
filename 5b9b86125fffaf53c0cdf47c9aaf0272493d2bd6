@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA83///vA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/NavigationTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2010-11-11T15:44:18Z",
+      "side": 1,
+      "message": "This change about listeners we did on change 15634 and Shawn has not approved so far. We can change it here also, np, my only concern is if Shawn do not approve it, in that case we would have to re-work not only there on 15634 but here as well.",
+      "parentUuid": "AAAA8n////c\u003d",
+      "revId": "5b9b86125fffaf53c0cdf47c9aaf0272493d2bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA8n////k\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/NavigationTable.java",
         "patchSetId": 4

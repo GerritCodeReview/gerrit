@@ -16,6 +16,24 @@
       "revId": "bfb19f1ab43801ae659731f6eab1d2590b42ede7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA83///4Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformSetParentImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003378
+      },
+      "writtenOn": "2010-11-11T06:22:21Z",
+      "side": 1,
+      "message": "I would favor the \"correction\" idea together with a message that access rights has changed. I do not think its too harsh, but someone else might...",
+      "parentUuid": "AAAA83///5c\u003d",
+      "revId": "bfb19f1ab43801ae659731f6eab1d2590b42ede7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

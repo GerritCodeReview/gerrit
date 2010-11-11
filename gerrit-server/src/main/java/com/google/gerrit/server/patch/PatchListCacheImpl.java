@@ -82,6 +82,7 @@ import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.EditList;
+import org.eclipse.jgit.diff.HistogramDiff;
 import org.eclipse.jgit.diff.MyersDiff;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
@@ -289,7 +290,7 @@ public class PatchListCacheImpl implements PatchListCache {
       byte[] rawHdr = hdr.toString().getBytes("UTF-8");
       RawText aRawText = new RawText(aText.getContent());
       RawText bRawText = new RawText(bText.getContent());
-      EditList edits = MyersDiff.INSTANCE.diff(cmp, aRawText, bRawText);
+      EditList edits = new HistogramDiff().diff(cmp, aRawText, bRawText);
       FileHeader fh = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
       return newEntry(reader, aText, bText, edits, null, null, fh);
     }

@@ -59,18 +59,15 @@ public class PatchList implements Serializable {
   @Nullable
   private transient ObjectId oldId;
   private transient ObjectId newId;
-  private transient boolean intralineDifference;
   private transient boolean againstParent;
   private transient int insertions;
   private transient int deletions;
   private transient PatchListEntry[] patches;
 
   PatchList(@Nullable final AnyObjectId oldId, final AnyObjectId newId,
-      final boolean intralineDifference, final boolean againstParent,
-      final PatchListEntry[] patches) {
+      final boolean againstParent, final PatchListEntry[] patches) {
     this.oldId = oldId != null ? oldId.copy() : null;
     this.newId = newId.copy();
-    this.intralineDifference = intralineDifference;
     this.againstParent = againstParent;
 
     // We assume index 0 contains the magic commit message entry.
@@ -99,11 +96,6 @@ public class PatchList implements Serializable {
   /** Get a sorted, unmodifiable list of all files in this list. */
   public List<PatchListEntry> getPatches() {
     return Collections.unmodifiableList(Arrays.asList(patches));
-  }
-
-  /** @return true if this list was computed with intraline difference enabled. */
-  public boolean hasIntralineDifference() {
-    return intralineDifference;
   }
 
   /** @return true if {@link #getOldId} is {@link #getNewId}'s ancestor. */
@@ -171,7 +163,6 @@ public class PatchList implements Serializable {
     try {
       writeCanBeNull(out, oldId);
       writeNotNull(out, newId);
-      writeVarInt32(out, intralineDifference ? 1 : 0);
       writeVarInt32(out, againstParent ? 1 : 0);
       writeVarInt32(out, insertions);
       writeVarInt32(out, deletions);
@@ -191,7 +182,6 @@ public class PatchList implements Serializable {
     try {
       oldId = readCanBeNull(in);
       newId = readNotNull(in);
-      intralineDifference = readVarInt32(in) != 0;
       againstParent = readVarInt32(in) != 0;
       insertions = readVarInt32(in);
       deletions = readVarInt32(in);

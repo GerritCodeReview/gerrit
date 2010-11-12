@@ -18,6 +18,11 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
 
+import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.lib.ObjectId;
+
+import java.util.List;
+
 /** Provides a cached list of {@link PatchListEntry}. */
 public interface PatchListCache {
   public PatchList get(PatchListKey key);
@@ -25,4 +30,7 @@ public interface PatchListCache {
   public PatchList get(Change change, PatchSet patchSet);
 
   public PatchList get(Change change, PatchSet patchSet, Whitespace whitespace);
+
+  public IntraLineDiff get(ObjectId aId, Text aText, ObjectId bId, Text bText,
+      List<Edit> edits);
 }

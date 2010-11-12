@@ -25,6 +25,8 @@ import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
 import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.patch.IntraLineDiff;
+import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.Text;
 import com.google.inject.Inject;
@@ -75,13 +77,15 @@ class PatchScriptBuilder {
 
   private List<Edit> edits;
   private final FileTypeRegistry registry;
+  private final PatchListCache patchListCache;
   private int context;
 
   @Inject
-  PatchScriptBuilder(final FileTypeRegistry ftr) {
+  PatchScriptBuilder(final FileTypeRegistry ftr, final PatchListCache plc) {
     a = new Side();
     b = new Side();
     registry = ftr;
+    patchListCache = plc;
   }
 
   void setRepository(final Repository r) {
@@ -110,19 +114,21 @@ class PatchScriptBuilder {
   }
 
   PatchScript toPatchScript(final PatchListEntry content,
-      final boolean intralineDifference, final CommentDetail comments,
-      final List<Patch> history) throws IOException {
+      final CommentDetail comments, final List<Patch> history)
+      throws IOException {
     reader = db.newObjectReader();
     try {
-      return build(content, intralineDifference, comments, history);
+      return build(content, comments, history);
     } finally {
       reader.release();
     }
   }
 
   private PatchScript build(final PatchListEntry content,
-      final boolean intralineDifference, final CommentDetail comments,
-      final List<Patch> history) throws IOException {
+      final CommentDetail comments, final List<Patch> history)
+      throws IOException {
+    boolean intralineDifference = diffPrefs.isIntralineDifference();
+
     a.path = oldName(content);
     b.path = newName(content);
 
@@ -130,6 +136,20 @@ class PatchScriptBuilder {
     b.resolve(a, bId);
 
     edits = new ArrayList<Edit>(content.getEdits());
+
+    if (intralineDifference) {
+      if (isModify(content)) {
+        IntraLineDiff d = patchListCache.get(a.id, a.src, b.id, b.src, edits);
+        if (d != null) {
+          edits = new ArrayList<Edit>(d.getEdits());
+        } else {
+          intralineDifference = false;
+        }
+      } else {
+        intralineDifference = false;
+      }
+    }
+
     ensureCommentsVisible(comments);
 
     boolean hugeFile = false;
@@ -171,6 +191,20 @@ class PatchScriptBuilder {
         .getOldName(), content.getNewName(), a.fileMode, b.fileMode, content
         .getHeaderLines(), diffPrefs, a.dst, b.dst, edits, a.displayMethod,
         b.displayMethod, comments, history, hugeFile, intralineDifference);
+  }
+
+  private static boolean isModify(PatchListEntry content) {
+    switch (content.getChangeType()) {
+      case MODIFIED:
+      case COPIED:
+      case RENAMED:
+        return true;
+
+      case ADDED:
+      case DELETED:
+      default:
+        return false;
+    }
   }
 
   private static String oldName(final PatchListEntry entry) {

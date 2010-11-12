@@ -87,13 +87,11 @@ import org.eclipse.jgit.diff.MyersDiff;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.diff.ReplaceEdit;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.patch.FileHeader;
@@ -115,7 +113,8 @@ import java.util.regex.Pattern;
 /** Provides a cached list of {@link PatchListEntry}. */
 @Singleton
 public class PatchListCacheImpl implements PatchListCache {
-  private static final String CACHE_NAME = "diff";
+  private static final String FILE_NAME = "diff";
+  private static final String INTRA_NAME = "diff_intraline";
 
   private static final Pattern BLANK_LINE_RE =
       Pattern.compile("^[ \\t]*(|[{}]|/\\*\\*?|\\*)[ \\t]*$");
@@ -126,29 +125,45 @@ public class PatchListCacheImpl implements PatchListCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<PatchListKey, PatchList>> type =
+        final TypeLiteral<Cache<PatchListKey, PatchList>> fileType =
             new TypeLiteral<Cache<PatchListKey, PatchList>>() {};
-        disk(type, CACHE_NAME) //
+        disk(fileType, FILE_NAME) //
             .memoryLimit(128) // very large items, cache only a few
             .evictionPolicy(EvictionPolicy.LRU) // prefer most recent
-            .populateWith(Loader.class) //
+            .populateWith(PatchListLoader.class) //
         ;
+
+        final TypeLiteral<Cache<IntraLineDiffKey, IntraLineDiff>> intraType =
+            new TypeLiteral<Cache<IntraLineDiffKey, IntraLineDiff>>() {};
+        disk(intraType, INTRA_NAME) //
+            .memoryLimit(128) // very large items, cache only a few
+            .evictionPolicy(EvictionPolicy.LRU) // prefer most recent
+            .populateWith(IntraLineLoader.class) //
+        ;
+
         bind(PatchListCacheImpl.class);
         bind(PatchListCache.class).to(PatchListCacheImpl.class);
       }
     };
   }
 
-  private final Cache<PatchListKey, PatchList> cache;
+  private final Cache<PatchListKey, PatchList> fileCache;
+  private final Cache<IntraLineDiffKey, IntraLineDiff> intraCache;
+  private final boolean computeIntraline;
 
   @Inject
   PatchListCacheImpl(
-      @Named(CACHE_NAME) final Cache<PatchListKey, PatchList> thecache) {
-    cache = thecache;
+      @Named(FILE_NAME) final Cache<PatchListKey, PatchList> fileCache,
+      @Named(INTRA_NAME) final Cache<IntraLineDiffKey, IntraLineDiff> intraCache,
+      @GerritServerConfig Config cfg) {
+    this.fileCache = fileCache;
+    this.intraCache = intraCache;
+
+    this.computeIntraline = cfg.getBoolean("cache", "diff", "intraline", true);
   }
 
   public PatchList get(final PatchListKey key) {
-    return cache.get(key);
+    return fileCache.get(key);
   }
 
   public PatchList get(final Change change, final PatchSet patchSet) {
@@ -163,14 +178,41 @@ public class PatchListCacheImpl implements PatchListCache {
     return get(new PatchListKey(projectKey, a, b, whitespace));
   }
 
-  static class Loader extends EntryCreator<PatchListKey, PatchList> {
+  @Override
+  public IntraLineDiff get(ObjectId aId, Text aText, ObjectId bId, Text bText,
+      List<Edit> edits) {
+    if (computeIntraline) {
+      IntraLineDiffKey key =
+          new IntraLineDiffKey(aId, aText, bId, bText, edits);
+      return intraCache.get(key);
+    } else {
+      return null;
+    }
+  }
+
+  private static RawTextComparator comparatorFor(Whitespace ws) {
+    switch (ws) {
+      case IGNORE_ALL_SPACE:
+        return RawTextComparator.WS_IGNORE_ALL;
+
+      case IGNORE_SPACE_AT_EOL:
+        return RawTextComparator.WS_IGNORE_TRAILING;
+
+      case IGNORE_SPACE_CHANGE:
+        return RawTextComparator.WS_IGNORE_CHANGE;
+
+      case IGNORE_NONE:
+      default:
+        return RawTextComparator.DEFAULT;
+    }
+  }
+
+  static class PatchListLoader extends EntryCreator<PatchListKey, PatchList> {
     private final GitRepositoryManager repoManager;
-    private final boolean computeIntraline;
 
     @Inject
-    Loader(GitRepositoryManager mgr, @GerritServerConfig Config config) {
+    PatchListLoader(GitRepositoryManager mgr) {
       repoManager = mgr;
-      computeIntraline = config.getBoolean("cache", "diff", "intraline", true);
     }
 
     @Override
@@ -187,23 +229,7 @@ public class PatchListCacheImpl implements PatchListCache {
         final Repository repo) throws IOException {
       // TODO(jeffschu) correctly handle merge commits
 
-      RawTextComparator cmp;
-      switch (key.getWhitespace()) {
-        case IGNORE_ALL_SPACE:
-          cmp = RawTextComparator.WS_IGNORE_ALL;
-          break;
-        case IGNORE_SPACE_AT_EOL:
-          cmp = RawTextComparator.WS_IGNORE_TRAILING;
-          break;
-        case IGNORE_SPACE_CHANGE:
-          cmp = RawTextComparator.WS_IGNORE_CHANGE;
-          break;
-        case IGNORE_NONE:
-        default:
-          cmp = RawTextComparator.DEFAULT;
-          break;
-      }
-
+      final RawTextComparator cmp = comparatorFor(key.getWhitespace());
       final ObjectReader reader = repo.newObjectReader();
       try {
         final RevWalk rw = new RevWalk(reader);
@@ -215,7 +241,7 @@ public class PatchListCacheImpl implements PatchListCache {
           //
           final PatchListEntry[] entries = new PatchListEntry[1];
           entries[0] = newCommitMessage(cmp, repo, reader, null, b);
-          return new PatchList(a, b, computeIntraline, true, entries);
+          return new PatchList(a, b, true, entries);
         }
 
         final boolean againstParent =
@@ -254,18 +280,17 @@ public class PatchListCacheImpl implements PatchListCache {
             againstParent ? null : aCommit, b);
         for (int i = 0; i < cnt; i++) {
           FileHeader fh = df.toFileHeader(diffEntries.get(i));
-          entries[1 + i] = newEntry(reader, aTree, bTree, fh);
+          entries[1 + i] = newEntry(aTree, fh);
         }
-        return new PatchList(a, b, computeIntraline, againstParent, entries);
+        return new PatchList(a, b, againstParent, entries);
       } finally {
         reader.release();
       }
     }
 
-    private PatchListEntry newCommitMessage(
-        final RawTextComparator cmp, final Repository db,
-        final ObjectReader reader, final RevCommit aCommit,
-        final RevCommit bCommit) throws IOException {
+    private PatchListEntry newCommitMessage(final RawTextComparator cmp,
+        final Repository db, final ObjectReader reader,
+        final RevCommit aCommit, final RevCommit bCommit) throws IOException {
       StringBuilder hdr = new StringBuilder();
 
       hdr.append("diff --git");
@@ -284,7 +309,8 @@ public class PatchListCacheImpl implements PatchListCache {
       }
       hdr.append("+++ b/" + Patch.COMMIT_MSG + "\n");
 
-      Text aText = aCommit != null ? Text.forCommit(db, reader, aCommit) : Text.EMPTY;
+      Text aText =
+          aCommit != null ? Text.forCommit(db, reader, aCommit) : Text.EMPTY;
       Text bText = Text.forCommit(db, reader, bCommit);
 
       byte[] rawHdr = hdr.toString().getBytes("UTF-8");
@@ -292,11 +318,10 @@ public class PatchListCacheImpl implements PatchListCache {
       RawText bRawText = new RawText(bText.getContent());
       EditList edits = new HistogramDiff().diff(cmp, aRawText, bRawText);
       FileHeader fh = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
-      return newEntry(reader, aText, bText, edits, null, null, fh);
+      return new PatchListEntry(fh, edits);
     }
 
-    private PatchListEntry newEntry(ObjectReader reader, RevTree aTree,
-        RevTree bTree, FileHeader fileHeader) throws IOException {
+    private PatchListEntry newEntry(RevTree aTree, FileHeader fileHeader) {
       final FileMode oldMode = fileHeader.getOldMode();
       final FileMode newMode = fileHeader.getNewMode();
 
@@ -313,36 +338,57 @@ public class PatchListCacheImpl implements PatchListCache {
       List<Edit> edits = fileHeader.toEditList();
       if (edits.isEmpty()) {
         return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
-      }
-      if (!computeIntraline) {
+      } else {
         return new PatchListEntry(fileHeader, edits);
       }
-
-      switch (fileHeader.getChangeType()) {
-        case ADD:
-        case DELETE:
-          return new PatchListEntry(fileHeader, edits);
-      }
-
-      return newEntry(reader, null, null, edits, aTree, bTree, fileHeader);
     }
 
-    private PatchListEntry newEntry(ObjectReader reader, Text aContent,
-        Text bContent, List<Edit> edits, RevTree aTree, RevTree bTree,
-        FileHeader fileHeader) throws IOException {
+    private static RevObject aFor(final PatchListKey key,
+        final Repository repo, final RevWalk rw, final RevCommit b)
+        throws IOException {
+      if (key.getOldId() != null) {
+        return rw.parseAny(key.getOldId());
+      }
+
+      switch (b.getParentCount()) {
+        case 0:
+          return rw.parseAny(emptyTree(repo));
+        case 1: {
+          RevCommit r = b.getParent(0);
+          rw.parseBody(r);
+          return r;
+        }
+        default:
+          // merge commit, return null to force combined diff behavior
+          return null;
+      }
+    }
+
+    private static ObjectId emptyTree(final Repository repo) throws IOException {
+      ObjectInserter oi = repo.newObjectInserter();
+      try {
+        ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
+        oi.flush();
+        return id;
+      } finally {
+        oi.release();
+      }
+    }
+  }
+
+  static class IntraLineLoader extends
+      EntryCreator<IntraLineDiffKey, IntraLineDiff> {
+    @Override
+    public IntraLineDiff createEntry(IntraLineDiffKey key) throws Exception {
+      List<Edit> edits = new ArrayList<Edit>(key.getEdits());
+      Text aContent = key.getTextA();
+      Text bContent = key.getTextB();
+      combineLineEdits(edits, aContent, bContent);
+
       for (int i = 0; i < edits.size(); i++) {
         Edit e = edits.get(i);
 
         if (e.getType() == Edit.Type.REPLACE) {
-          if (aContent == null) {
-            edits = new ArrayList<Edit>(edits);
-            aContent = read(reader, fileHeader.getOldPath(), aTree);
-            bContent = read(reader, fileHeader.getNewPath(), bTree);
-            combineLineEdits(edits, aContent, bContent);
-            i = -1; // restart the entire scan after combining lines.
-            continue;
-          }
-
           CharText a = new CharText(aContent, e.getBeginA(), e.getEndA());
           CharText b = new CharText(bContent, e.getBeginB(), e.getEndB());
           CharTextComparator cmp = new CharTextComparator();
@@ -520,7 +566,7 @@ public class PatchListCacheImpl implements PatchListCache {
         }
       }
 
-      return new PatchListEntry(fileHeader, edits);
+      return new IntraLineDiff(edits);
     }
 
     private static void combineLineEdits(List<Edit> edits, Text a, Text b) {
@@ -593,53 +639,6 @@ public class PatchListCacheImpl implements PatchListCache {
         }
       }
       return b < e;
-    }
-
-    private static Text read(ObjectReader reader, String path, RevTree tree)
-        throws IOException {
-      TreeWalk tw = TreeWalk.forPath(reader, path, tree);
-      if (tw == null || tw.getFileMode(0).getObjectType() != Constants.OBJ_BLOB) {
-        return Text.EMPTY;
-      }
-      ObjectLoader ldr;
-      try {
-        ldr = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
-      } catch (MissingObjectException notFound) {
-        return Text.EMPTY;
-      }
-      return new Text(ldr);
-    }
-
-    private static RevObject aFor(final PatchListKey key,
-        final Repository repo, final RevWalk rw, final RevCommit b)
-        throws IOException {
-      if (key.getOldId() != null) {
-        return rw.parseAny(key.getOldId());
-      }
-
-      switch (b.getParentCount()) {
-        case 0:
-          return rw.parseAny(emptyTree(repo));
-        case 1:{
-          RevCommit r = b.getParent(0);
-          rw.parseBody(r);
-          return r;
-        }
-        default:
-          // merge commit, return null to force combined diff behavior
-          return null;
-      }
-    }
-
-    private static ObjectId emptyTree(final Repository repo) throws IOException {
-      ObjectInserter oi = repo.newObjectInserter();
-      try {
-        ObjectId id = oi.insert(Constants.OBJ_TREE, new byte[] {});
-        oi.flush();
-        return id;
-      } finally {
-        oi.release();
-      }
     }
   }
 }

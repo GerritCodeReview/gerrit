@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA83///m4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsSelectionTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2010-11-12T17:35:55Z",
+      "side": 1,
+      "message": "Like Carlos said in NavigationTable code review, we agree with you but let\u0027s wait for Shawn comments.",
+      "parentUuid": "AAAA8n////Y\u003d",
+      "revId": "5b9b86125fffaf53c0cdf47c9aaf0272493d2bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA8n///7Y\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsSelectionTable.java",
         "patchSetId": 4
@@ -152,6 +170,24 @@
       "writtenOn": "2010-11-09T14:25:08Z",
       "side": 1,
       "message": "This looks very strange to me. I understand that by using this constructor from ProjectsSelectionTable you want to avoid the initialization that is done in the actual ProjectsTable default constructor, but by looking at this class the purpose of this constructor is not clear.\n\nAlso I noticed that ProjectsSelectionTable overrides all methods from ProjectsTable except createFlexTable(), display() and getRowItemKey(), so it might make sense to seperate these two classes completely and have no inheritance between them? In this case the MyFlexTable could become an own class that can then be reused from both ProjectsTable and ProjectsSelectionTable.\n\nWhat do you think?",
+      "revId": "5b9b86125fffaf53c0cdf47c9aaf0272493d2bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA83///m8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2010-11-12T17:35:55Z",
+      "side": 1,
+      "message": "Hi Edwin, you are right. This really make sense, I agree with you. I\u0027ll separate these classes. Thanks.",
+      "parentUuid": "AAAA8n///74\u003d",
       "revId": "5b9b86125fffaf53c0cdf47c9aaf0272493d2bd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

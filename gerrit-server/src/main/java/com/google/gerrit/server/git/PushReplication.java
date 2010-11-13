@@ -236,7 +236,7 @@ public class PushReplication implements ReplicationQueue {
     try {
       sshSession =
           sshFactory.getSession(replicateURI.getUser(), replicateURI.getPass(),
-              replicateURI.getHost(), replicateURI.getPort(), FS.DETECTED);
+              replicateURI.getHost(), replicateURI.getPort(), null, FS.DETECTED);
       sshSession.connect();
 
       Channel channel = sshSession.openChannel("exec");

@@ -59,6 +59,8 @@ public final class Project {
 
     MERGE_ALWAYS('A'),
 
+    SUB_TREE('T'),
+
     CHERRY_PICK('C');
 
     private final char code;

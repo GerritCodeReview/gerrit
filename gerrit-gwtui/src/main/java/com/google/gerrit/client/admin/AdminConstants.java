@@ -53,6 +53,7 @@ public interface AdminConstants extends Constants {
   String projectSubmitType_MERGE_ALWAYS();
   String projectSubmitType_MERGE_IF_NECESSARY();
   String projectSubmitType_CHERRY_PICK();
+  String projectSubmitType_SUB_TREE();
 
   String groupType_SYSTEM();
   String groupType_INTERNAL();

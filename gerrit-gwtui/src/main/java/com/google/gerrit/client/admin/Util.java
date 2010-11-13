@@ -47,6 +47,8 @@ public class Util {
         return C.projectSubmitType_MERGE_ALWAYS();
       case CHERRY_PICK:
         return C.projectSubmitType_CHERRY_PICK();
+      case SUB_TREE:
+        return C.projectSubmitType_SUB_TREE();
       default:
         return type.name();
     }

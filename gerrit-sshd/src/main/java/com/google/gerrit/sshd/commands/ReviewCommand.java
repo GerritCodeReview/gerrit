@@ -18,6 +18,8 @@ import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.reviewdb.Branch;
+import com.google.gerrit.reviewdb.Branch.NameKey;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -26,6 +28,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.MergeOp.Factory;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.CanSubmitResult;
@@ -51,6 +54,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class ReviewCommand extends BaseCommand {
   private static final Logger log =
@@ -113,6 +117,8 @@ public class ReviewCommand extends BaseCommand {
   @Inject
   private PublishComments.Factory publishCommentsFactory;
 
+  private Set<PatchSet.Id> toSubmit = new HashSet<PatchSet.Id>();
+
   @Override
   public final void start(final Environment env) {
     startThread(new CommandRunnable() {
@@ -135,9 +141,41 @@ public class ReviewCommand extends BaseCommand {
             log.error("internal error while approving " + patchSetId, e);
           }
         }
+
         if (!ok) {
           throw new UnloggedFailure(1, "one or more approvals failed;"
               + " review output above");
+        }
+
+        if (!toSubmit.isEmpty()) {
+          final Set<Branch.NameKey> toMerge = new HashSet<Branch.NameKey>();
+          try {
+            for (PatchSet.Id patchSetId : toSubmit) {
+              ChangeUtil.submit(opFactory, patchSetId, currentUser, db,
+                  new MergeQueue() {
+                    @Override
+                    public void merge(MergeOp.Factory mof, Branch.NameKey branch) {
+                      toMerge.add(branch);
+                    }
+
+                    @Override
+                    public void schedule(Branch.NameKey branch) {
+                      toMerge.add(branch);
+                    }
+
+                    @Override
+                    public void recheckAfter(Branch.NameKey branch, long delay,
+                        TimeUnit delayUnit) {
+                      toMerge.add(branch);
+                    }
+                  });
+            }
+            for (Branch.NameKey branch : toMerge) {
+              merger.merge(opFactory, branch);
+            }
+          } catch (OrmException updateError) {
+            throw new Failure(1, "one or more submits failed", updateError);
+          }
         }
       }
     });
@@ -170,7 +208,7 @@ public class ReviewCommand extends BaseCommand {
           changeControl.canSubmit(patchSetId, db, approvalTypes,
               functionStateFactory);
       if (result == CanSubmitResult.OK) {
-        ChangeUtil.submit(opFactory, patchSetId, currentUser, db, merger);
+        toSubmit.add(patchSetId);
       } else {
         throw error(result.getMessage());
       }

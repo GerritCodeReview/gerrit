@@ -112,6 +112,77 @@ and a URL link back to the change on the web.  The committer header
 is also set to the submitter, while the author header retains the
 original patch set author.
 
+* Sub-Tree
++
+This method extends the behavior of Cherry Pick by automatically
+splitting out changes to sub-tree changes into their own commits.  If
+a subtree merge has been performed to pull in some other project,
+Gerrit will automatically split out changes to that subtree when this
+merge strategy is used.  This allows the changes to be the subtree
+project to be more easily shared.
++
+For example, consider the following commit graph.  Commit E was
+merged in as a subtree creating commit B.  In commit C, the contents
+of that subtree were modified.  Change C has been uploaded as a
+change in Gerrit.
++
+-----------------------------------
+  A---B---C  super-project
+     /
+D---E        subtree-project
+-----------------------------------
++
+After the change has been submitted, the modification in the subtree
+will be split out and merged back in again in as follows:  Commit F is
+split out automatically from the change to the subtree in C.  C is then
+modified to include F as a parent which results in C'.  (Note that the
+trees that C and C' point to are exactly the same - no actual changes are
+made to the content of the commit.)
++
+-----------------------------------
+  A---B---C'  super-project
+     /   /
+D---E---F     subtree-project
+-----------------------------------
++
+Because change C did introduce a modification to the subtree, F is
+actually now a new branch.  If changes continue in upstream the full
+picture will look like this:
++
+-----------------------------------
+    A---B---C'  super-project
+       /   /
+  D---E---F     subtree-branch
+       \
+        G---H   subtree-upstream
+-----------------------------------
++
+Later on it may be desirable to merge in the latest changes from
+subtree-upstream into the super project.  For example if
+subtree-upstream commit H is merged into super-project, the result
+will look like this:
++
+-----------------------------------
+    A---B---C'--I   super-project
+       /   /   /
+  D---E---F   /     subtree-branch
+       \     /
+        G---H       subtree-upstream
+-----------------------------------
++
+When the change is submitted, Gerrit will split out the
+changes as follows:  J will be created automatically and I will be
+rewritten as I' to include J as a parent.
++
+-----------------------------------
+    A---B---C'--I'  super-project
+       /   /   /
+  D---E---F---J     subtree-branch
+       \     /
+        G---H       subtree-upstream
+-----------------------------------
+
+
 
 Registering Additional Branches
 -------------------------------

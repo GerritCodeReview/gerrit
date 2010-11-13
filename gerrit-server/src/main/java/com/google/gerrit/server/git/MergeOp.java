@@ -24,10 +24,12 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Change.Id;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -221,7 +223,11 @@ public class MergeOp {
     listPendingSubmits();
     validateChangeList();
     mergeTip = branchTip;
+    if (destProject.getSubmitType() == SubmitType.SUB_TREE) {
+      loadSubtrees();
+    }
     switch (destProject.getSubmitType()) {
+      case SUB_TREE:
       case CHERRY_PICK:
         cherryPickChanges();
         break;
@@ -380,6 +386,64 @@ public class MergeOp {
 
       commit.add(CAN_MERGE);
       toMerge.add(commit);
+    }
+  }
+
+  private void loadSubtrees() throws MergeException {
+    HashMap<String, ObjectId> subTrees = new HashMap<String, ObjectId>();
+    for (CodeReviewCommit c : commits.values()) {
+      try {
+        SubtreeSplitCommand.parseSubtreeFooters(db, c, subTrees);
+      } catch (IOException e) {
+        throw new MergeException("Unable to parse Sub-Tree footers in commit " + c.name(), e);
+      }
+      for (ObjectId subTree : subTrees.values()) {
+        try {
+          alreadyAccepted.add(rw.parseCommit(subTree));
+        } catch (IOException e) {
+          throw new MergeException("Unable resolve Sub-Tree: " + subTree.name());
+        }
+      }
+      subTrees.clear();
+    }
+  }
+
+  private void splitSubtrees() throws MergeException {
+    try {
+      // Find all the pre-existing commits and mark them as uninteresting.
+      rw.reset();
+      rw.markStart(mergeTip);
+      for (RevCommit c : alreadyAccepted) {
+        rw.markUninteresting(c);
+      }
+
+      // Find all the new commits
+      Set<RevCommit> newCommits = new HashSet<RevCommit>();
+      RevCommit c = null;
+      while ((c = rw.next()) != null) {
+        newCommits.add(c);
+      }
+
+      // Split out subtrees and rewrite mainline commits
+      Map<ObjectId, RevCommit> rewrittenCommits =
+        new SubtreeSplitCommand(db).call(rw, mergeTip, newCommits);
+      mergeTip = (CodeReviewCommit) rewrittenCommits.get(mergeTip);
+
+      // Update the changes to point to the new rewritten commits.
+      for (Id id : commits.keySet()) {
+        CodeReviewCommit changeCommit = commits.get(id);
+        CodeReviewCommit newCommit = (CodeReviewCommit) rewrittenCommits.get(changeCommit);
+        if (newCommit != null) {
+          newCommit.copyFrom(changeCommit);
+          commits.put(id, newCommit);
+        }
+      }
+    } catch (MissingObjectException e) {
+      throw new MergeException("Unable to split subtrees", e);
+    } catch (IncorrectObjectTypeException e) {
+      throw new MergeException("Unable to split subtrees", e);
+    } catch (IOException e) {
+      throw new MergeException("Unable to split subtrees", e);
     }
   }
 
@@ -872,6 +936,10 @@ public class MergeOp {
 
   private void updateBranch() throws MergeException {
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
+      // Split out subtrees right before we update the branch.
+      if (destProject.getSubmitType() == SubmitType.SUB_TREE) {
+        splitSubtrees();
+      }
       branchUpdate.setForceUpdate(false);
       branchUpdate.setNewObjectId(mergeTip);
       branchUpdate.setRefLogMessage("merged", true);

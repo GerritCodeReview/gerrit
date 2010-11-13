@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.PatchSetAncestor;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -42,6 +43,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.git.SubtreeSplitCommand.SubtreeFooterException;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
@@ -74,6 +76,8 @@ import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.AndRevFilter;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -808,6 +812,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     walk.reset();
     walk.sort(RevSort.TOPO);
     walk.sort(RevSort.REVERSE, true);
+    RevFilter oldFilter = walk.getRevFilter();
+    if (project.getSubmitType() == SubmitType.SUB_TREE) {
+      walk.setRevFilter(AndRevFilter.create(oldFilter, new SubtreeFilter(repo)));
+    }
     try {
       walk.markStart(walk.parseCommit(newChange.getNewId()));
       for (ObjectId id : existingObjects()) {
@@ -861,6 +869,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
         toCreate.add(c);
       }
+    } catch (SubtreeFooterException e) {
+      reject(newChange, "Invalid Sub-Tree footers: " + e.getLocalizedMessage());
+      return;
     } catch (IOException e) {
       // Should never happen, the core receive process would have
       // identified the missing object earlier before we got control.
@@ -872,6 +883,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       log.error("Cannot query database to locate prior changes", e);
       reject(newChange, "database error");
       return;
+    } finally {
+      walk.reset();
+      walk.setRevFilter(oldFilter);
     }
 
     if (toCreate.isEmpty() && replaceByChange.isEmpty()) {
@@ -1523,6 +1537,14 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     if (rejectCommits.contains(c)) {
       reject(newChange, "contains banned commit " + c.getName());
       return false;
+    }
+
+    if (project.getSubmitType() == SubmitType.SUB_TREE) {
+      try {
+        SubtreeSplitCommand.parseSubtreeFooters(repo, c, null);
+      } catch (IOException e) {
+        reject(cmd, "invalid subtree footers: " + e.getLocalizedMessage());
+      }
     }
 
     return true;

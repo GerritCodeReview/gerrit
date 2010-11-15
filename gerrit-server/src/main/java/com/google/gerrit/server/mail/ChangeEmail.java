@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.StarredChange;
+import com.google.gerrit.reviewdb.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -299,7 +300,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
       // BCC anyone else who has interest in this project's changes
       //
       for (final AccountProjectWatch w : getWatches()) {
-        if (w.isNotifyAllComments()) {
+        if (w.isNotify(NotifyType.ALL_COMMENTS)) {
           add(RecipientType.BCC, w.getAccountId());
         }
       }

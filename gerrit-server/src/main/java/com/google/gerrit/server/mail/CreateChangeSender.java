@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -61,7 +62,7 @@ public class CreateChangeSender extends NewChangeSender {
       // BCC anyone who has interest in this project's changes
       //
       for (final AccountProjectWatch w : getWatches()) {
-        if (w.isNotifyNewChanges()) {
+        if (w.isNotify(NotifyType.NEW_CHANGES)) {
           if (owners.contains(w.getAccountId())) {
             add(RecipientType.TO, w.getAccountId());
           } else {

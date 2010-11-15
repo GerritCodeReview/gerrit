@@ -21,8 +21,8 @@ import com.google.gwtorm.client.StringKey;
 /** An {@link Account} interested in a {@link Project}. */
 public final class AccountProjectWatch {
 
-  public enum Type {
-    NEW_CHANGES, SUBMITS, COMMENTS
+  public enum NotifyType {
+    NEW_CHANGES, ALL_COMMENTS, SUBMITTED_CHANGES
   }
 
   public static final String FILTER_ALL = "*";
@@ -124,46 +124,32 @@ public final class AccountProjectWatch {
     return FILTER_ALL.equals(key.filter.get()) ? null : key.filter.get();
   }
 
-  public boolean isNotifyNewChanges() {
-    return notifyNewChanges;
-  }
+  public boolean isNotify(final NotifyType type) {
+    switch (type) {
+      case NEW_CHANGES:
+        return notifyNewChanges;
 
-  public void setNotifyNewChanges(final boolean a) {
-    notifyNewChanges = a;
-  }
+      case ALL_COMMENTS:
+        return notifyAllComments;
 
-  public boolean isNotifyAllComments() {
-    return notifyAllComments;
-  }
-
-  public void setNotifyAllComments(final boolean a) {
-    notifyAllComments = a;
-  }
-
-  public boolean isNotifySubmittedChanges() {
-    return notifySubmittedChanges;
-  }
-
-  public void setNotifySubmittedChanges(final boolean a) {
-    notifySubmittedChanges = a;
-  }
-
-  public boolean isNotify(final Type type) {
-    switch(type) {
-      case NEW_CHANGES: return notifySubmittedChanges;
-      case SUBMITS:     return notifyNewChanges;
-      case COMMENTS:    return notifyAllComments;
+      case SUBMITTED_CHANGES:
+        return notifySubmittedChanges;
     }
     return false;
   }
 
-  public void setNotify(final Type type, final boolean v) {
-    switch(type) {
-      case NEW_CHANGES: notifySubmittedChanges = v;
+  public void setNotify(final NotifyType type, final boolean v) {
+    switch (type) {
+      case NEW_CHANGES:
+        notifyNewChanges = v;
         break;
-      case SUBMITS:     notifyNewChanges = v;
+
+      case ALL_COMMENTS:
+        notifyAllComments = v;
         break;
-      case COMMENTS:    notifyAllComments = v;
+
+      case SUBMITTED_CHANGES:
+        notifySubmittedChanges = v;
         break;
     }
   }

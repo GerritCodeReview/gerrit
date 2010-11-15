@@ -134,9 +134,9 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
     table.setWidget(row, 1, new CheckBox());
     table.setWidget(row, 2, fp);
 
-    addNotifyButton(AccountProjectWatch.Type.NEW_CHANGES, info, row, 3);
-    addNotifyButton(AccountProjectWatch.Type.COMMENTS, info, row, 4);
-    addNotifyButton(AccountProjectWatch.Type.SUBMITS, info, row, 5);
+    addNotifyButton(AccountProjectWatch.NotifyType.NEW_CHANGES, info, row, 3);
+    addNotifyButton(AccountProjectWatch.NotifyType.ALL_COMMENTS, info, row, 4);
+    addNotifyButton(AccountProjectWatch.NotifyType.SUBMITTED_CHANGES, info, row, 5);
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
@@ -148,7 +148,7 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
     setRowItem(row, info);
   }
 
-  protected void addNotifyButton(final AccountProjectWatch.Type type,
+  protected void addNotifyButton(final AccountProjectWatch.NotifyType type,
       final AccountProjectWatchInfo info, final int row, final int col) {
     final CheckBox cbox = new CheckBox();
 
@@ -157,13 +157,16 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
       public void onClick(final ClickEvent event) {
         final boolean oldVal = info.getWatch().isNotify(type);
         info.getWatch().setNotify(type, cbox.getValue());
+        cbox.setEnabled(false);
         Util.ACCOUNT_SVC.updateProjectWatch(info.getWatch(),
             new GerritCallback<VoidResult>() {
               public void onSuccess(final VoidResult result) {
+                cbox.setEnabled(true);
               }
 
               @Override
               public void onFailure(final Throwable caught) {
+                cbox.setEnabled(true);
                 info.getWatch().setNotify(type, oldVal);
                 cbox.setValue(oldVal);
                 super.onFailure(caught);

@@ -33,10 +33,10 @@ import java.util.List;
 public class IntraLineDiff implements Serializable {
   static final long serialVersionUID = IntraLineDiffKey.serialVersionUID;
 
-  private List<Edit> edits;
+  private transient List<Edit> edits;
 
   IntraLineDiff(List<Edit> edits) {
-    this.edits = edits;
+    this.edits = Collections.unmodifiableList(edits);
   }
 
   public List<Edit> getEdits() {
@@ -69,11 +69,13 @@ public class IntraLineDiff implements Serializable {
       int innerCount = readVarInt32(in);
       if (0 < innerCount) {
         Edit[] inner = new Edit[innerCount];
-        for (int j = 0; j < innerCount; j++)
+        for (int j = 0; j < innerCount; j++) {
           inner[j] = readEdit(in);
+        }
         editArray[i] = new ReplaceEdit(editArray[i], toList(inner));
       }
     }
+    edits = toList(editArray);
   }
 
   private static void writeEdit(OutputStream out, Edit e) throws IOException {

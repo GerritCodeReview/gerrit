@@ -397,6 +397,35 @@ See also link:cmd-flush-caches.html[gerrit flush-caches].
 [[cache_options]]Cache Options
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+cache.diff_intraline.maxIdleWorkers::
++
+Number of idle worker threads to maintain for the intraline difference
+computations.  There is no upper bound on how many concurrent requests
+can occur at once, if additional threads are started to handle a peak
+load, only this many will remaining idle afterwards.
++
+Default is 1.5x number of available CPUs.
+
+cache.diff_intraline.timeout::
++
+Maximum number of milliseconds to wait for intraline difference data
+before giving up and disabling it for a particular file pair.  This is
+a work around for an infinite loop bug in the intraline difference
+implementation.  If computation takes longer than the timeout the
+worker thread is terminated and no intraline difference is displayed.
++
+Values should use common unit suffixes to express their setting:
++
+* ms, milliseconds
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
+
++
+If a unit suffix is not specified, `milliseconds` is assumed.
++
+Default is 5 seconds.
+
 cache.diff_intraline.enabled::
 +
 Boolean to enable or disable the computation of intraline differences

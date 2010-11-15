@@ -31,6 +31,7 @@ public interface PatchConstants extends Constants {
 
   String patchHistoryTitle();
   String disabledOnLargeFiles();
+  String intralineFailure();
 
   String upToChange();
   String linePrev();

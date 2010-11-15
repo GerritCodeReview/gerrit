@@ -17,17 +17,11 @@ package com.google.gerrit.server.patch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 
-import org.eclipse.jgit.diff.Edit;
-import org.eclipse.jgit.lib.ObjectId;
-
-import java.util.List;
-
 /** Provides a cached list of {@link PatchListEntry}. */
 public interface PatchListCache {
   public PatchList get(PatchListKey key);
 
   public PatchList get(Change change, PatchSet patchSet);
 
-  public IntraLineDiff getIntraLineDiff(ObjectId aId, Text aText, ObjectId bId,
-      Text bText, List<Edit> edits);
+  public IntraLineDiff getIntraLineDiff(IntraLineDiffKey key);
 }

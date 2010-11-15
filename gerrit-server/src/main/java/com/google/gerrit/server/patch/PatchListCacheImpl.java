@@ -30,17 +30,14 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
-
-import java.util.List;
 
 /** Provides a cached list of {@link PatchListEntry}. */
 @Singleton
 public class PatchListCacheImpl implements PatchListCache {
   private static final String FILE_NAME = "diff";
-  private static final String INTRA_NAME = "diff_intraline";
+  static final String INTRA_NAME = "diff_intraline";
 
   public static Module module() {
     return new CacheModule() {
@@ -98,14 +95,15 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   @Override
-  public IntraLineDiff getIntraLineDiff(ObjectId aId, Text aText, ObjectId bId,
-      Text bText, List<Edit> edits) {
+  public IntraLineDiff getIntraLineDiff(IntraLineDiffKey key) {
     if (computeIntraline) {
-      IntraLineDiffKey key =
-          new IntraLineDiffKey(aId, aText, bId, bText, edits);
-      return intraCache.get(key);
+      IntraLineDiff d = intraCache.get(key);
+      if (d == null) {
+        d = new IntraLineDiff(IntraLineDiff.Status.ERROR);
+      }
+      return d;
     } else {
-      return null;
+      return new IntraLineDiff(IntraLineDiff.Status.DISABLED);
     }
   }
 }

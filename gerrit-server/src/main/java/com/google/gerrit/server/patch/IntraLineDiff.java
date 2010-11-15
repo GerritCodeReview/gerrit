@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.gerrit.server.ioutil.BasicSerialization.readEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
+import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
+
+import com.google.gerrit.reviewdb.CodedEnum;
 
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
@@ -33,10 +37,36 @@ import java.util.List;
 public class IntraLineDiff implements Serializable {
   static final long serialVersionUID = IntraLineDiffKey.serialVersionUID;
 
+  public static enum Status implements CodedEnum {
+    EDIT_LIST('e'), DISABLED('D'), TIMEOUT('T'), ERROR('E');
+
+    private final char code;
+
+    Status(char code) {
+      this.code = code;
+    }
+
+    @Override
+    public char getCode() {
+      return code;
+    }
+  }
+
+  private transient Status status;
   private transient List<Edit> edits;
 
+  IntraLineDiff(Status status) {
+    this.status = status;
+    this.edits = Collections.emptyList();
+  }
+
   IntraLineDiff(List<Edit> edits) {
+    this.status = Status.EDIT_LIST;
     this.edits = Collections.unmodifiableList(edits);
+  }
+
+  public Status getStatus() {
+    return status;
   }
 
   public List<Edit> getEdits() {
@@ -44,6 +74,7 @@ public class IntraLineDiff implements Serializable {
   }
 
   private void writeObject(final ObjectOutputStream out) throws IOException {
+    writeEnum(out, status);
     writeVarInt32(out, edits.size());
     for (Edit e : edits) {
       writeEdit(out, e);
@@ -61,6 +92,7 @@ public class IntraLineDiff implements Serializable {
   }
 
   private void readObject(final ObjectInputStream in) throws IOException {
+    status = readEnum(in, Status.values());
     int editCount = readVarInt32(in);
     Edit[] editArray = new Edit[editCount];
     for (int i = 0; i < editCount; i++) {

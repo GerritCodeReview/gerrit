@@ -173,7 +173,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private PatchScriptBuilder newBuilder(final PatchList list, Repository git) {
     final AccountDiffPreference dp = new AccountDiffPreference(diffPrefs);
     final PatchScriptBuilder b = builderFactory.get();
-    b.setRepository(git);
+    b.setRepository(git, projectKey);
     b.setChange(change);
     b.setDiffPrefs(dp);
     b.setTrees(list.isAgainstParent(), list.getOldId(), list.getNewId());

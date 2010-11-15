@@ -55,6 +55,7 @@ public class PatchScript {
   protected List<Patch> history;
   protected boolean hugeFile;
   protected boolean intralineDifference;
+  protected boolean intralineFailure;
 
   public PatchScript(final Change.Key ck, final ChangeType ct, final String on,
       final String nn, final FileMode om, final FileMode nm,
@@ -62,7 +63,7 @@ public class PatchScript {
       final SparseFileContent ca, final SparseFileContent cb,
       final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb,
       final CommentDetail cd, final List<Patch> hist, final boolean hf,
-      final boolean id) {
+      final boolean id, final boolean idf) {
     changeId = ck;
     changeType = ct;
     oldName = on;
@@ -80,6 +81,7 @@ public class PatchScript {
     history = hist;
     hugeFile = hf;
     intralineDifference = id;
+    intralineFailure = idf;
   }
 
   protected PatchScript() {
@@ -147,6 +149,10 @@ public class PatchScript {
 
   public boolean hasIntralineDifference() {
     return intralineDifference;
+  }
+
+  public boolean hasIntralineFailure() {
+    return intralineFailure;
   }
 
   public SparseFileContent getA() {

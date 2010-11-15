@@ -17,6 +17,8 @@ package com.google.gerrit.server.patch;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
+import com.google.gerrit.reviewdb.Project;
+
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -27,7 +29,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class IntraLineDiffKey implements Serializable {
-  static final long serialVersionUID = 2L;
+  static final long serialVersionUID = 3L;
 
   private transient ObjectId aId;
   private transient ObjectId bId;
@@ -38,14 +40,22 @@ public class IntraLineDiffKey implements Serializable {
   private transient Text bText;
   private transient List<Edit> edits;
 
-  IntraLineDiffKey(ObjectId aId, Text aText, ObjectId bId, Text bText,
-      List<Edit> edits) {
+  private transient Project.NameKey projectKey;
+  private transient ObjectId commit;
+  private transient String path;
+
+  public IntraLineDiffKey(ObjectId aId, Text aText, ObjectId bId, Text bText,
+      List<Edit> edits, Project.NameKey projectKey, ObjectId commit, String path) {
     this.aId = aId;
     this.bId = bId;
 
     this.aText = aText;
     this.bText = bText;
     this.edits = edits;
+
+    this.projectKey = projectKey;
+    this.commit = commit;
+    this.path = path;
   }
 
   Text getTextA() {
@@ -58,6 +68,26 @@ public class IntraLineDiffKey implements Serializable {
 
   List<Edit> getEdits() {
     return edits;
+  }
+
+  ObjectId getBlobA() {
+    return aId;
+  }
+
+  ObjectId getBlobB() {
+    return bId;
+  }
+
+  Project.NameKey getProject() {
+    return projectKey;
+  }
+
+  ObjectId getCommit() {
+    return commit;
+  }
+
+  String getPath() {
+    return path;
   }
 
   @Override

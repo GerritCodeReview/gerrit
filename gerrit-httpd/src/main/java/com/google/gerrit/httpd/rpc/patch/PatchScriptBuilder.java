@@ -20,12 +20,14 @@ import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
+import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
-import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.patch.IntraLineDiff;
+import com.google.gerrit.server.patch.IntraLineDiffKey;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.Text;
@@ -65,6 +67,7 @@ class PatchScriptBuilder {
   };
 
   private Repository db;
+  private Project.NameKey projectKey;
   private ObjectReader reader;
   private Change change;
   private AccountDiffPreference diffPrefs;
@@ -88,8 +91,9 @@ class PatchScriptBuilder {
     patchListCache = plc;
   }
 
-  void setRepository(final Repository r) {
-    db = r;
+  void setRepository(Repository r, Project.NameKey projectKey) {
+    this.db = r;
+    this.projectKey = projectKey;
   }
 
   void setChange(final Change c) {
@@ -128,6 +132,7 @@ class PatchScriptBuilder {
       final CommentDetail comments, final List<Patch> history)
       throws IOException {
     boolean intralineDifference = diffPrefs.isIntralineDifference();
+    boolean intralineFailure = false;
 
     a.path = oldName(content);
     b.path = newName(content);
@@ -137,17 +142,29 @@ class PatchScriptBuilder {
 
     edits = new ArrayList<Edit>(content.getEdits());
 
-    if (intralineDifference) {
-      if (isModify(content)) {
-        IntraLineDiff d =
-            patchListCache.getIntraLineDiff(a.id, a.src, b.id, b.src, edits);
-        if (d != null) {
-          edits = new ArrayList<Edit>(d.getEdits());
-        } else {
-          intralineDifference = false;
+    if (intralineDifference && isModify(content)) {
+      IntraLineDiff d =
+          patchListCache.getIntraLineDiff(new IntraLineDiffKey(a.id, a.src,
+              b.id, b.src, edits, projectKey, bId, b.path));
+      if (d != null) {
+        switch (d.getStatus()) {
+          case EDIT_LIST:
+            edits = new ArrayList<Edit>(d.getEdits());
+            break;
+
+          case DISABLED:
+            intralineDifference = false;
+            break;
+
+          case ERROR:
+          case TIMEOUT:
+            intralineDifference = false;
+            intralineFailure = true;
+            break;
         }
       } else {
         intralineDifference = false;
+        intralineFailure = true;
       }
     }
 
@@ -188,10 +205,11 @@ class PatchScriptBuilder {
       packContent(diffPrefs.getIgnoreWhitespace() != Whitespace.IGNORE_NONE);
     }
 
-    return new PatchScript(change.getKey(), content.getChangeType(), content
-        .getOldName(), content.getNewName(), a.fileMode, b.fileMode, content
-        .getHeaderLines(), diffPrefs, a.dst, b.dst, edits, a.displayMethod,
-        b.displayMethod, comments, history, hugeFile, intralineDifference);
+    return new PatchScript(change.getKey(), content.getChangeType(),
+        content.getOldName(), content.getNewName(), a.fileMode, b.fileMode,
+        content.getHeaderLines(), diffPrefs, a.dst, b.dst, edits,
+        a.displayMethod, b.displayMethod, comments, history, hugeFile,
+        intralineDifference, intralineFailure);
   }
 
   private static boolean isModify(PatchListEntry content) {

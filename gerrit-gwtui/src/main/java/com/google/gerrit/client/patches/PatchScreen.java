@@ -15,6 +15,7 @@
 package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.changes.CommitMessageBlock;
@@ -140,6 +141,7 @@ public abstract class PatchScreen extends Screen implements
   /** Keys that cause an action on this screen */
   private KeyCommandSet keysNavigation;
   private HandlerRegistration regNavigation;
+  private boolean intralineFailure;
 
   /**
    * How this patch should be displayed in the patch screen.
@@ -460,6 +462,17 @@ public abstract class PatchScreen extends Screen implements
     if (Gerrit.isSignedIn() && isFirst) {
       settingsPanel.getReviewedCheckBox().setValue(true);
       setReviewedByCurrentUser(true /* reviewed */);
+    }
+
+    intralineFailure = isFirst && script.hasIntralineFailure();
+  }
+
+  @Override
+  public void onShowView() {
+    super.onShowView();
+    if (intralineFailure) {
+      intralineFailure = false;
+      new ErrorDialog(PatchUtil.C.intralineFailure()).show();
     }
   }
 

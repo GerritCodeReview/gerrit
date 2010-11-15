@@ -139,7 +139,8 @@ class PatchScriptBuilder {
 
     if (intralineDifference) {
       if (isModify(content)) {
-        IntraLineDiff d = patchListCache.get(a.id, a.src, b.id, b.src, edits);
+        IntraLineDiff d =
+            patchListCache.getIntraLineDiff(a.id, a.src, b.id, b.src, edits);
         if (d != null) {
           edits = new ArrayList<Edit>(d.getEdits());
         } else {

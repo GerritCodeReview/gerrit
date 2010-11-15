@@ -90,20 +90,16 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   public PatchList get(final Change change, final PatchSet patchSet) {
-    return get(change, patchSet, Whitespace.IGNORE_NONE);
-  }
-
-  public PatchList get(final Change change, final PatchSet patchSet,
-      final Whitespace whitespace) {
     final Project.NameKey projectKey = change.getProject();
     final ObjectId a = null;
     final ObjectId b = ObjectId.fromString(patchSet.getRevision().get());
-    return get(new PatchListKey(projectKey, a, b, whitespace));
+    final Whitespace ws = Whitespace.IGNORE_NONE;
+    return get(new PatchListKey(projectKey, a, b, ws));
   }
 
   @Override
-  public IntraLineDiff get(ObjectId aId, Text aText, ObjectId bId, Text bText,
-      List<Edit> edits) {
+  public IntraLineDiff getIntraLineDiff(ObjectId aId, Text aText, ObjectId bId,
+      Text bText, List<Edit> edits) {
     if (computeIntraline) {
       IntraLineDiffKey key =
           new IntraLineDiffKey(aId, aText, bId, bText, edits);

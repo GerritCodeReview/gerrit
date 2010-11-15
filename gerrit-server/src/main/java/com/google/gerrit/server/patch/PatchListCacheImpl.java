@@ -159,7 +159,9 @@ public class PatchListCacheImpl implements PatchListCache {
     this.fileCache = fileCache;
     this.intraCache = intraCache;
 
-    this.computeIntraline = cfg.getBoolean("cache", "diff", "intraline", true);
+    this.computeIntraline =
+        cfg.getBoolean("cache", INTRA_NAME, "enabled",
+            cfg.getBoolean("cache", "diff", "intraline", true));
   }
 
   public PatchList get(final PatchListKey key) {

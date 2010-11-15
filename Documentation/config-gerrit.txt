@@ -397,14 +397,14 @@ See also link:cmd-flush-caches.html[gerrit flush-caches].
 [[cache_options]]Cache Options
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-cache.diff.intraline::
+cache.diff_intraline.enabled::
 +
 Boolean to enable or disable the computation of intraline differences
-when populating a diff cache entry.  Changing this setting in the
-server configuration requires flushing the "diff" cache after a
-restart, otherwise older cache entries stored on disk may not reflect
-the current server setting.  This flag is provided primarily as a
-backdoor to disable the intraline difference feature if necessary.
+when populating a diff cache entry.  This flag is provided primarily
+as a backdoor to disable the intraline difference feature if
+necessary.  To maintain backwards compatability with prior versions,
+this setting will fallback to `cache.diff.intraline` if not set in the
+configuration.
 +
 Default is true, enabled.
 

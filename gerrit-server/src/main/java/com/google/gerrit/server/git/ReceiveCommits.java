@@ -300,8 +300,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           }
         }
 
-        if (isHead(c) || isTag(c)) {
-          // We only schedule heads and tags for replication.
+        if (!c.getRefName().startsWith(NEW_CHANGE)) {
+          // We only schedule direct refs updates for replication.
           // Change refs are scheduled when they are created.
           //
           replication.scheduleUpdate(project.getNameKey(), c.getRefName());

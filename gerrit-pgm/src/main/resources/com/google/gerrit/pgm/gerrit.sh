@@ -522,8 +522,10 @@ case "$ACTION" in
     echo
 
     if test -f "$GERRIT_PID" ; then
-        echo "Gerrit running pid="`cat "$GERRIT_PID"`
-        exit 0
+        if running "$GERRIT_PID" ; then 
+            echo "Gerrit running pid="`cat "$GERRIT_PID"`
+            exit 0
+        fi
     fi
     exit 1
   ;;

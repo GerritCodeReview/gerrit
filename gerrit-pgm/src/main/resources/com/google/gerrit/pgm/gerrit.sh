@@ -425,6 +425,16 @@ case "$ACTION" in
       fi
     fi
 
+    if test $UID = 0; then
+        if test -f "/proc/${PID}/oom_score_adj" ; then
+            echo -1000 > /proc/${PID}/oom_score_adj
+        else
+            if test -f "/proc/${PID}/oom_adj" ; then
+                echo -16 > /proc/${PID}/oom_adj
+            fi
+        fi
+    fi
+
     TIMEOUT=90  # seconds
     sleep 1
     while running "$GERRIT_PID" && test $TIMEOUT -gt 0 ; do

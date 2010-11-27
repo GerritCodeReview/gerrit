@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA9n//+nE\u003d",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-11-27T01:21:06Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace here at end of line.\n\nBut there is also the question of, what platforms define \"running\"?  Mac OS X for example doesn\u0027t have it.",
+      "revId": "295a4e6bd5f1ec6194b9d6088218a84db482e48a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

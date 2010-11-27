@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA9n//+mk\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-11-27T01:27:55Z",
+      "side": 1,
+      "message": "Typo on values.  :-)\n\nI don\u0027t know squat about the Linux OOM killer.  If this reduces the risk of Gerrit being killed than its a suitable thing to set if its working for you.",
+      "revId": "92d616089cf91d80f0cf3e293089d7b0f8be2efb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA9n//+m0\u003d",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-11-27T01:27:55Z",
+      "side": 1,
+      "message": "PID isn\u0027t always populated at this point in the script.  It depends on which method above we used to start the process.  We should just read PID from GERRIT_PID before doing this test:\n\n  if test $UID \u003d 0; then\n    PID\u003d`cat \"$GERRIT_PID\"`\n    if test -f /proc/$PID/oom_score_adj; then\n\nAlso, please be consistent about the quoting of the /proc file name.  If you are quoting it in the test argument, we should also quote it on the shell redirection from echo.  Or don\u0027t quote it in either place.  In theory we shouldn\u0027t need to quote since $PID should only contain a numeric.",
+      "revId": "92d616089cf91d80f0cf3e293089d7b0f8be2efb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

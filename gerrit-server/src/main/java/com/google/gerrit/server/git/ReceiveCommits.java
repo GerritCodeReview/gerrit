@@ -133,6 +133,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private final IdentifiedUser currentUser;
   private final ReviewDb db;
+  private final MergeQueue merger;
+  private final MergeOp.Factory opFactory;
   private final ApprovalTypes approvalTypes;
   private final AccountResolver accountResolver;
   private final CreateChangeSender.Factory createChangeSenderFactory;
@@ -171,6 +173,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   @Inject
   ReceiveCommits(final ReviewDb db, final ApprovalTypes approvalTypes,
       final AccountResolver accountResolver,
+      final MergeQueue mq,
       final CreateChangeSender.Factory createChangeSenderFactory,
       final MergedSender.Factory mergedSenderFactory,
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
@@ -180,12 +183,14 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
-
+      final MergeOp.Factory opFactory,
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
       final SubmoduleOp.Factory subOpFactory) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
+    this.merger = mq;
+    this.opFactory = opFactory;
     this.approvalTypes = approvalTypes;
     this.accountResolver = accountResolver;
     this.createChangeSenderFactory = createChangeSenderFactory;
@@ -1000,6 +1005,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
     hooks.doPatchsetCreatedHook(change, ps);
+    ChangeUtil.testMerge(opFactory, change);
   }
 
   private static boolean isReviewer(final FooterLine candidateFooterLine) {
@@ -1312,6 +1318,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
+    ChangeUtil.testMerge(opFactory, change);
     sendMergedEmail(result);
     return result != null ? result.info.getKey() : null;
   }
@@ -1607,6 +1614,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           closeChange(req.cmd, psi, req.newCommit);
         }
       }
+
+      ChangeUtil.mergeTestChangesByBranch(opFactory, destBranch);
 
       // It handles gitlinks if required.
 

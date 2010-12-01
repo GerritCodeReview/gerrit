@@ -355,6 +355,9 @@ public final class Change {
   @Column(id = 14, notNull = false)
   protected String topic;
 
+  @Column(id = 15)
+  protected boolean mergeable;
+
   protected Change() {
   }
 
@@ -467,5 +470,13 @@ public final class Change {
 
   public void setTopic(String topic) {
     this.topic = topic;
+  }
+
+  public boolean isMergeable() {
+    return mergeable;
+  }
+
+  public void setMergeable(boolean mergeable) {
+    this.mergeable = mergeable;
   }
 }

@@ -67,6 +67,21 @@ public final class Branch {
 
       return n;
     }
+
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+      if ((obj != null) && (obj instanceof Branch.NameKey)) {
+        Branch.NameKey br = (Branch.NameKey) obj;
+        String p1 = br.getParentKey().get();
+
+        return (this.getParentKey().get().equals(p1) && br.branchName
+            .equals(this.branchName));
+      }
+      return false;
+    }
+
   }
 
   protected NameKey name;

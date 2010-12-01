@@ -41,6 +41,7 @@ import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.ChangeMergeQueue;
+import com.google.gerrit.server.git.ChangeTestMergeQueue;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.MergeQueue;
@@ -48,6 +49,7 @@ import com.google.gerrit.server.git.PushAllProjectsOp;
 import com.google.gerrit.server.git.PushReplication;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.ReplicationQueue;
+import com.google.gerrit.server.git.TestMergeQueue;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSender;
@@ -172,6 +174,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(PushAllProjectsOp.Factory.class);
 
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
+    bind(TestMergeQueue.class).to(ChangeTestMergeQueue.class).in(SINGLETON);
     factory(ReloadSubmitQueueOp.Factory.class);
 
     bind(FromAddressGenerator.class).toProvider(

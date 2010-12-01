@@ -47,6 +47,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
@@ -71,6 +72,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
   private Panel actionsPanel;
   private PatchTable patchTable;
   private final Set<ClickHandler> registeredClickHandler =  new HashSet<ClickHandler>();
+  private boolean isMergeable;
 
   /**
    * Creates a closed complex disclosure panel for a patch set.
@@ -96,6 +98,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     super(Util.M.patchSetHeader(ps.getPatchSetId()), isOpen);
     changeScreen = parent;
     changeDetail = detail;
+    this.isMergeable = changeDetail.getChange().isMergeable();
     patchSet = ps;
     body = new FlowPanel();
     setContent(body);
@@ -119,6 +122,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
    * followed by the action buttons.
    */
   public void ensureLoaded(final PatchSetDetail detail) {
+
     infoTable = new Grid(R_CNT, 2);
     infoTable.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     infoTable.addStyleName(Gerrit.RESOURCES.css().patchSetInfoBlock());
@@ -159,6 +163,11 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     }
     populateDiffAllActions(detail);
     body.add(patchTable);
+    if (!isMergeable) {
+      final Label lbl = new Label();
+      lbl.setText(Util.C.messageMergeFail());
+      actionsPanel.add(lbl);
+    }
 
     for(ClickHandler clickHandler : registeredClickHandler) {
       patchTable.addClickHandler(clickHandler);
@@ -365,6 +374,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
 
   private void populateActions(final PatchSetDetail detail) {
     final boolean isOpen = changeDetail.getChange().getStatus().isOpen();
+
     Set<ApprovalCategory.Id> allowed = changeDetail.getCurrentActions();
     if (allowed == null) {
       allowed = Collections.emptySet();
@@ -374,6 +384,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       final Button b =
           new Button(Util.M
               .submitPatchSet(detail.getPatchSet().getPatchSetId()));
+      b.setEnabled(isMergeable);
       b.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {

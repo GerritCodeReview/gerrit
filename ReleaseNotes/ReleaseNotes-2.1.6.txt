@@ -1,0 +1,322 @@
+Release notes for Gerrit 2.1.6
+==============================
+
+Gerrit 2.1.6 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.6.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.6.war]
+
+Schema Change
+-------------
+
+*WARNING* This release contains multiple schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+
+New Features
+------------
+
+Web UI
+~~~~~~
+* issue 312 Abandoned changes can now be restored.
+* issue 698 Make date and time fields customizable
+* issue 556 Preference to display patch sets in reverse order
+* issue 584 Allow deleted and/or uncommented files to be skipped
+
+* Use HistogramDiff for content differences
++
+HistogramDiff is an adaptation of Bram Cohen's Patience Difference
+algorithm, and was recently included in the upstream JGit project.
+Patience Difference tends to produce more readable differences for
+source code files, and JGit's HistogramDiff implementation tends to
+run several times faster than the prior Myers O(ND) algorithm.
+
+* Automatic merge file content during submit
++
+Project owners can now enable file-level content merge during submit,
+allowing Gerrit to automatically resolve many path conflict cases.
+This is built upon experimental merge code inherited from JGit,
+and is therefore still experimental in Gerrit.
+
+Change Query
+~~~~~~~~~~~~
+* issue 688 Match branch, topic, project, ref by regular expressions
++
+Similar to other features in Gerrit Code Review, starting any of these
+expressions with \^ will now treat the argument as a regular
+expression instead of an exact string match.
+
+* Search changes by commit messages with `message:` operator.
+
+* issue 729 query: Add a \--all-approvals option to queries
++
+The new flag includes approval information for all patch sets in the
+resulting query output.
+
+Notifications
+~~~~~~~~~~~~ 
+* Customize email notification templates
++
+Email notifications are now driven by the Velocity template engine,
+and may be modified by the site administrator by editing a template
+file under `'$site_path'/etc/mail`.
+
+* issue 311 Clarify email texts/subject
++
+The default email notification formatting was changed to make the
+subject lines and message bodies more consistent, and easier to
+understand.
+
+* issue 204 Add project list popup under Settings > Watched Projects
++
+The project list panel makes it easier for users to browse all
+projects they have at least READ +1 access to, and add them to their
+watched project set so notifications can be configured.
+
+* stream-event support for all ref-update events
++
+Whenever a ref is updated via either a direct push to a branch or a
+Gerrit change submission, Gerrit will now send a new "ref-updated"
+event to the event stream.
+
+User Management
+~~~~~~~~~~~~~~~
+* SSO via client SSL certificates
++
+A new auth.type of CLIENT_SSL_CERT_LDAP supports authenticating users
+using client SSL certificates.  This feature requires using the
+embedded Jetty web server with SSL enabled, and an LDAP directory to
+lookup individual account information.
+
+* issue 503 Inactive acounts may be disabled.
++
+Administrators can manually update the accounts table, setting
+inactive = `Y` to mark user accounts inactive.  Inactive accounts
+cannot sign-in, cannot be added as a reviewer, and cannot be added
+to a group.
+
+* Improve the no-interactive-shell error message over SSH
++
+Instead of giving a short 'no shell available' error, Gerrit Code
+Review now prints a banner letting the user know they have
+authenticated successfully, interactive shells are disabled, and how
+to clone a hosted project:
++
+----
+$ ssh -p 29418 review.example.com
+
+  ****    Welcome to Gerrit Code Review    ****
+
+  Hi A. U. Thor, you have successfully connected over SSH.
+
+  Unfortunately, interactive shells are disabled.
+  To clone a hosted Git repository, use:
+
+  git clone ssh://author@review.example.com:29418/REPOSITORY_NAME.git
+
+Connection to review.example.com closed.
+----
+
+* Configure SSHD maxAuthTries, loginGraceTime, maxConnectionsPerUser
++
+The internal SSH daemon now supports additional configuration
+settings to reduce the risk of abuse.
+
+Administration
+~~~~~~~~~~~~~~
+* issue 558 Allow Access rights to be edited by clicking on them.
+
+* New 'Project Owner' system group to define default rights
++
+The new system group 'Project Owners' can be used in access
+rights to mean any user that is a member of any group that
+has the 'Owner' access category granted within that project.
+This system group is primarily useful in higher level projects
+such as '\-- All Projects \--' to define standard access rights
+for all project owners.
+
+* issue 557 Allow rejection of changes without Change-Id line.
++
+Project owners can set a flag to require all commits to include
+the Gerrit specific 'Change-Id: I...' line during initial upload,
+reducing the risk of confusion when amends need to occur to
+incorporate reviewer feedback.
+
+* issue 613 create-project: Add --permissions-only option
++
+The new flag skips creating the associated Git repository, making the
+new project suitable for use as a parent to inherit permissions from.
+
+* create-project: Optionally create empty initial commit
++
+The `repo` tool used by Android doesn't like to clone an empty Git
+repository, making it difficult to setup a review for the initial file
+contents.  create-project can now optionally create an empty initial
+commit, permitting repo to sync the empty project.
+
+* Block off commands on a server for certain user groups.
++
+The upload.allowGroup and receive.allowGroup settings in gerrit.config
+can be used to restrict which users can perform git clone/fetch or git
+push on this server.  This can be useful if clone/fetch should be
+limited to only site administrators, while normal users are supposed
+to use to less expensive mirror servers.
+
+* issue 685 Define gerrit.replicateOnStartup to control replication
++
+The automatic replicate every project action that occurs during server
+startup can now be disabled by setting replicateOnStartup = false.
+This is primarily useful for sites with extremely large numbers of
+projects and replication targets, but runs the risk of having a target
+be out of date relative to the master server.
+
+* New non-blocking function category "NoBlock"
++
+Site defined approval categories may now use the function "NoBlock"
+to permit scoring without blocking submission.  This is mostly
+useful for automated tools to provide optional feedback on a change.
+
+* Ability to reject commits from entering repository
++
+The Git-note style branch `refs/meta/reject-commits` can be created
+by the project owner or site administrator to define a list of
+commits that must not be pushed into the repository.  This can be
+useful after performing a project-wide filter-branch operation to
+prevent the older (pre-filter-branch) history from being reintroduced
+into the repository.
+
+Bug Fixes
+---------
+
+Web UI
+~~~~~~
+* issue 498 Enable Keyboard navigation after change submit
+* issue 691 Make ']' on last file go up to change
+* issue 741 Make ENTER work for 'Create Group'
+* issue 622 Denote a symbolic link in side-by-side viewer
+* issue 612 Display empty branch list when project has no repository
+* issue 672 Fix deleting exclusive branch level rights
+* issue 645 Display 'No difference' between unchanged patchsets
+* Display groups as links to group information
+* Remove ctrl-d keybinding to discard comment, honor browser default
+* Do not auto enable save buttons, wait for changes to be made
+* Disable 'Create Group' button if group name not entered
+* Show commit message in PatchScreen if old patch sets are compared
+* Fixed a number of focus and shortcut bugs in Firefox, Chrome
+
+* issue 487 Work around buggy MyersDiff by killing threads
++
+MyersDiff sometimes locked up in an infinite loop when computing
+the intraline difference information for a file.  These threads
+are now killed after an administrator specified timeout
+(cache.diff_intraline.timeout, default is 5 seconds).  If the
+timeout is reached the file content is displayed without intraline
+differences.  This offers reduced functionality to the end-user, but
+prevents the "path of death" which usually took down a Gerrit server.
+
+* Hide access rights not visible to user
++
+Users were able to view access rights for branches they didn't
+actually have READ +1 permission on.  This may have leaked
+information about branches and/or groups to users that shouldn't
+know about code names contained within either string.  Users that
+are not project owners may now only view access rights for branches
+they have at least READ +1 permission on.
+
+Change Query
+~~~~~~~~~~~~
+* issue 689 Fix age:4days to parse correctly
+* Make branch: operator slightly less ambiguous
+
+Push Support
+~~~~~~~~~~~~
+* issue 695 Permit changing only the author of a commit
++
+Correcting only the author of a change failed to upload the new patch
+set onto the existing change, as neither the message nor the files
+were modified.  Fixed.
+
+* issue 576 Allow Push Branch +3 to force replace a tag
++
+Previously it was not possible to replace a tag object, even if
+`git push \--force` was used.  Fixed.
+
+* issue 690 Refuse to run receive-pack if refs/for/branch exists
++
+If a server repository was corrupted by an administrator manually
+creating a reference within the magical refs/for/ namespace, Gerrit
+became confused when changes were uploaded for review.  If this case
+occurs push now aborts very early, with a clear error message
+indicating the problem.  To recover an administrator must clear the
+refs/for/ namespace manually.
+
+* Allow receive-pack without Read +2 but with Push Head +1
++
+Users who had direct branch push permission but lacked the ability to
+create changes for review were unable to push to a project.  Fixed.
+This (finally) makes Gerrit a replacement for Gitosis or Gitolite.
+
+Replication
+~~~~~~~~~~~
+* issue 683 Don't assume authGroup = "Registered Users" in replication
++
+Previously a misconfigured authGroup in replication.config may have
+caused the server to assume "Registered Users" instead of the group(s)
+admin actually wanted.  This may have caused the replication to see
+(or not see) the correct set of projects.
+
+* issue 482 Upon replication fail, automatically retry later
++
+If replication fails (for example due to temporary network
+connectivity problems), other pending replication events to the
+same server are deferred and retried later until successful.
+
+* Replicate all refs received from push
++
+Replication now replicates all references, not just those that
+appear under `refs/heads`, `refs/tags`, or `refs/changes`.  This
+fix may be relevant if the server supports user-private sandboxes
+such as `refs/dev/'$\{username\}'/*`.
+
+* issue 658 Allow refspec shortcuts (push = master) for replication
+
+User Management
+~~~~~~~~~~~~~~~
+* Ensure proper escaping of LDAP group names
++
+Some special characters may appear in LDAP group names, these must be
+escape when looking up the group information from JNDI, otherwise the
+lookup fails.  Fixed by applying the necessary escape sequences.
+
+* Let login fail if user name cannot be set
++
+If the user name for a new account is supposed to import from LDAP
+but cannot because it is already in use by another user on this
+server, the new account won't be created.
+
+Administration
+~~~~~~~~~~~~~~
+* gerrit.sh: actually verify running processes
++
+Previously `gerrit.sh check` claimed a server was running if the
+pid file was present, even if the process itself was dead.  It now
+checks `ps` for the process before claiming it is running.
+
+* Don't allow exclusive branch rights to block Owner inheritance
++
+Exclusive branch level rights prevented the a higher level branch
+owner from managing the branch rights, unless they had an additional
+access right for the exclusive rights.  Now Owner inheritance cannot
+be blocked, ensuring that the higher level owner can manage their
+entire namespace.
+
+* Allow overriding permissions from parent project
++
+Permissions in the parent project could not be overridden in the
+child project.  Permissions can now be overidden if the category,
+group name and reference name all match.
+
+Version
+-------
+ef16a1816f293d00c33de9f90470021e2468a709

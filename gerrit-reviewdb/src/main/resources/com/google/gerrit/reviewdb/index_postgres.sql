@@ -107,6 +107,13 @@ ON account_project_watches (project_name);
 
 
 -- *********************************************************************
+-- AtomicEntry
+CREATE UNIQUE INDEX atomic_sourceChange_uk ON atomic_entries (source_change_id);
+
+
+
+
+-- *********************************************************************
 -- BranchAccess
 --    @PrimaryKey covers: byProject
 

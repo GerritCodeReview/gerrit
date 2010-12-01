@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.TrackingId;
+import com.google.gerrit.server.AtomicUtil;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.MergeOp;
@@ -149,6 +150,7 @@ public class ChangeUtil {
   public static void submit(MergeOp.Factory opFactory, PatchSet.Id patchSetId,
       IdentifiedUser user, ReviewDb db, MergeQueue merger) throws OrmException {
     final Change.Id changeId = patchSetId.getParentKey();
+
     final PatchSetApproval approval = createSubmitApproval(patchSetId, user, db);
 
     db.patchSetApprovals().upsert(Collections.singleton(approval));
@@ -164,9 +166,49 @@ public class ChangeUtil {
       }
     });
 
-    if (change.getStatus() == Change.Status.SUBMITTED) {
-      merger.merge(opFactory, change.getDest());
+    /*
+     * Check if the change being submitted is part of an atomic group,
+     *  if so,
+     *      check if all other members of this atomic group are submitted,
+     *      if so,
+     *          check if all changes within this group are mergeable true,
+     *          if so,
+     *              iterate through each change within the atomic group and send them to merge,
+     *          if not,
+     *              inform the user this change is part of an atomic group which is not able to
+     *              merge all atomically because there's not mergeable change inside
+     *      if not,
+     *          send the change to the default way to merge, however this change will not be merged
+     *          due to the restriction included at validateChangeList which will block it to be
+     *          merged because it's an atomic change with co-changes not submitted
+     *  if not,
+     *      follow the common way to merge.
+     *
+     */
+
+    final Change chg = db.changes().get(changeId);
+
+    if (AtomicUtil.isAtomic(db, chg)) {
+      if (AtomicUtil.isAllSubmitted(db, chg)) {
+        if (AtomicUtil.isAllMergeable(db, chg)) {
+          // iterate through each change within the atomic group and send them
+          // to merge
+          for (Change c : AtomicUtil.getAtomicGroupByAnyMember(db, chg)) {
+            merger.merge(opFactory, c.getDest());
+          }
+        } else {
+          // inform the user this change is part of an atomic group which is not
+          // able to
+          // merge all atomically because there's not mergeable change inside
+          return;
+        }
+      }
+    } else {
+      if (change.getStatus() == Change.Status.SUBMITTED) {
+        merger.merge(opFactory, change.getDest());
+      }
     }
+
   }
 
   public static PatchSetApproval createSubmitApproval(PatchSet.Id patchSetId, IdentifiedUser user, ReviewDb db)

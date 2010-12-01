@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.AccountAgreement;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupAgreement;
 import com.google.gerrit.reviewdb.ApprovalCategory;
+import com.google.gerrit.reviewdb.AtomicEntry;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
@@ -36,6 +37,7 @@ import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Subscription;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -55,16 +57,28 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.UnmergedPathException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.Tree;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
@@ -79,6 +93,7 @@ import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,6 +104,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -150,6 +166,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final ProjectControl projectControl;
   private final Project project;
   private final Repository repo;
+  private final GitRepositoryManager repoManager;
   private final ReceivePack rp;
   private final NoteMap rejectCommits;
 
@@ -170,6 +187,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private final SubmoduleOp.Factory subOpFactory;
 
+  private final HandleAtomicCommits.Factory atomicPushFactory;
+
+  private final List<AtomicEntry> newAtomicEntries = new ArrayList<AtomicEntry>();
+
   @Inject
   ReceiveCommits(final ReviewDb db, final ApprovalTypes approvalTypes,
       final AccountResolver accountResolver,
@@ -186,7 +207,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final MergeOp.Factory opFactory,
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
-      final SubmoduleOp.Factory subOpFactory) throws IOException {
+      final SubmoduleOp.Factory subOpFactory,
+      final HandleAtomicCommits.Factory atomicPushFactory,
+      final GitRepositoryManager repoManager) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.merger = mq;
@@ -206,10 +229,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
     this.repo = repo;
+    this.repoManager = repoManager;
     this.rp = new ReceivePack(repo);
     this.rejectCommits = loadRejectCommitsMap();
 
     this.subOpFactory = subOpFactory;
+    this.atomicPushFactory = atomicPushFactory;
 
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
@@ -224,6 +249,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     rp.setPreReceiveHook(this);
     rp.setPostReceiveHook(this);
+
   }
 
   /** Add reviewers for new (or updated) changes. */
@@ -944,6 +970,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     change.setTopic(destTopicName);
     change.nextPatchSetId();
 
+    final HandleAtomicCommits atomicHandling =
+        atomicPushFactory.create(repo, repoManager);
+    atomicHandling.handleAtCreateChange(c, change);
+
     final PatchSet ps = new PatchSet(change.currPatchSetId());
     ps.setCreatedOn(change.getCreatedOn());
     ps.setUploader(me);
@@ -1301,6 +1331,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
     replication.scheduleUpdate(project.getNameKey(), ru.getName());
     request.cmd.setResult(ReceiveCommand.Result.OK);
+
+    final HandleAtomicCommits atomicHandling =
+        atomicPushFactory.create(repo, repoManager);
+    atomicHandling.handleAtReplaceChange(c, change);
 
     try {
       final ReplacePatchSetSender cm;

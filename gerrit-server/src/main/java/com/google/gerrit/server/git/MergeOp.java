@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
+import com.google.gerrit.reviewdb.AtomicEntry;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
@@ -30,6 +31,7 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.AtomicUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -408,6 +410,30 @@ public class MergeOp {
             .error(CommitMergeStatus.REVISION_GONE));
         continue;
       }
+
+      /*
+       * Check if the change requested to be merged is atomic.
+       *   if so;
+       *        Check if any co-change is not submitted.
+       *        if so;
+       *            Do not include this change to toMerge.
+       *        if not;
+       *            In this case, the change is the one who is going to start up
+       *            the atomic merge. Include at toMerge as the normal way does.
+       *   if not;
+       *        Follow the normal way.
+       */
+
+      try {
+        if (changeForTest == null && AtomicUtil.isAtomic(schema, chg)) {
+          if (!AtomicUtil.isAllMerging(schema, chg)) {
+            continue;
+          }
+        }
+      } catch (OrmException e){
+        throw new MergeException("Cannot query the database", e);
+      }
+
 
       commit.change = chg;
       commit.patchsetId = ps.getId();

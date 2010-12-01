@@ -35,4 +35,8 @@ public interface SubscriptionAccess extends
   @Query("WHERE key.source = ?")
   ResultSet<Subscription> getSubscribers(Branch.NameKey source)
       throws OrmException;
+
+  @Query("WHERE key.target = ? AND path = ? LIMIT 1")
+  ResultSet<Subscription> getSubscription(Branch.NameKey target, String path)
+      throws OrmException;
 }

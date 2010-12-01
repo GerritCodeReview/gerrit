@@ -21,6 +21,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.git.HandleAtomicCommits;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.SubmoduleOp;
@@ -57,6 +58,7 @@ public class GerritRequestModule extends FactoryModule {
     factory(ChangeQueryBuilder.Factory.class);
     factory(ReceiveCommits.Factory.class);
     factory(SubmoduleOp.Factory.class);
+    factory(HandleAtomicCommits.Factory.class);
     factory(MergeOp.Factory.class);
 
     // Not really per-request, but dammit, I don't know where else to

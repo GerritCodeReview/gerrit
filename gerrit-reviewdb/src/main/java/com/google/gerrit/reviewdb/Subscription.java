@@ -42,7 +42,7 @@ public final class Subscription {
       source = new Branch.NameKey();
     }
 
-    protected Key(final Branch.NameKey t, final Branch.NameKey s) {
+    public Key(final Branch.NameKey t, final Branch.NameKey s) {
       target = t;
       source = s;
     }
@@ -87,6 +87,10 @@ public final class Subscription {
 
   public String getPath() {
     return path;
+  }
+
+  public Branch.NameKey getSource() {
+    return key.source;
   }
 
   public boolean equals(Object o) {

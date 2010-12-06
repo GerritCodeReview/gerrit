@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA9n//9fk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2010-12-06T20:50:44Z",
+      "side": 1,
+      "message": "This looks inconsistent with the Injected constructor below.  Is there a good reason for that?",
+      "revId": "a907b879e84517fe16ed898e6eaf6cff1d80bbdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

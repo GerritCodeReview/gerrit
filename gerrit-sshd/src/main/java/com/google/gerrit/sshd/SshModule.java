@@ -24,6 +24,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
+import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.git.TransferConfig;
@@ -75,6 +77,8 @@ public class SshModule extends FactoryModule {
     bind(WorkQueue.Executor.class).annotatedWith(StreamCommandExecutor.class)
         .toProvider(StreamCommandExecutorProvider.class).in(SINGLETON);
     bind(QueueProvider.class).to(CommandExecutorQueueProvider.class).in(SINGLETON);
+    bind(AccountManager.class);
+    factory(ChangeUserName.Factory.class);
 
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
     bind(KeyPairProvider.class).toProvider(HostKeyProvider.class).in(SINGLETON);

@@ -31,7 +31,6 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.git.GitProjectImporter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.schema.SchemaUpdater;
@@ -62,9 +61,6 @@ public class Init extends SiteProgram {
   @Option(name = "--batch", usage = "Batch mode; skip interactive prompting")
   private boolean batchMode;
 
-  @Option(name = "--import-projects", usage = "Import git repositories as projects")
-  private boolean importProjects;
-
   @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")
   private boolean noAutoStart;
 
@@ -73,7 +69,6 @@ public class Init extends SiteProgram {
     ErrorLogFile.errorOnlyConsole();
 
     final SiteInit init = createSiteInit();
-    init.flags.importProjects = importProjects;
     init.flags.autoStart = !noAutoStart && init.site.isNew;
 
     final SiteRun run;
@@ -83,7 +78,6 @@ public class Init extends SiteProgram {
 
       run = createSiteRun(init);
       run.upgradeSchema();
-      run.importGit();
     } catch (Exception failure) {
       if (init.flags.deleteOnFailure) {
         recursiveDelete(getSitePath());
@@ -166,7 +160,6 @@ public class Init extends SiteProgram {
     final SchemaUpdater schemaUpdater;
     final SchemaFactory<ReviewDb> schema;
     final GitRepositoryManager repositoryManager;
-    final GitProjectImporter gitProjectImporter;
     final Browser browser;
 
     @Inject
@@ -174,14 +167,13 @@ public class Init extends SiteProgram {
         final SchemaUpdater schemaUpdater,
         final SchemaFactory<ReviewDb> schema,
         final GitRepositoryManager repositoryManager,
-        final GitProjectImporter gitProjectImporter, final Browser browser) {
+        final Browser browser) {
       this.ui = ui;
       this.site = site;
       this.flags = flags;
       this.schemaUpdater = schemaUpdater;
       this.schema = schema;
       this.repositoryManager = repositoryManager;
-      this.gitProjectImporter = gitProjectImporter;
       this.browser = browser;
     }
 
@@ -238,23 +230,6 @@ public class Init extends SiteProgram {
             db.close();
           }
         }
-      }
-    }
-
-    void importGit() throws OrmException, IOException {
-      if (flags.importProjects) {
-        gitProjectImporter.run(new GitProjectImporter.Messages() {
-          @Override
-          public void info(String msg) {
-            System.err.println(msg);
-            System.err.flush();
-          }
-
-          @Override
-          public void warning(String msg) {
-            info(msg);
-          }
-        });
       }
     }
 
@@ -319,7 +294,6 @@ public class Init extends SiteProgram {
         bind(InitFlags.class).toInstance(init.flags);
 
         bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
-        bind(GitProjectImporter.class);
       }
     });
     return createDbInjector(SINGLE_USER).createChildInjector(modules);

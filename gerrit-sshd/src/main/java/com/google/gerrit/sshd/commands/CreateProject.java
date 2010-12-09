@@ -34,7 +34,6 @@ import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -42,7 +41,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RefUpdate.Result;
-import org.eclipse.jgit.lib.StoredConfig;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,13 +137,6 @@ final class CreateProject extends BaseCommand {
           if (!permissionsOnly) {
             final Repository repo = repoManager.createRepository(nameKey);
             try {
-              repo.create(true);
-
-              StoredConfig config = repo.getConfig();
-              config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
-                  null, ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
-              config.save();
-
               RefUpdate u = repo.updateRef(Constants.HEAD);
               u.disableRefLog();
               u.link(branch);

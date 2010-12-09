@@ -23,10 +23,12 @@ import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.LockFile;
 import org.eclipse.jgit.storage.file.WindowCache;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
@@ -129,10 +131,19 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         }
         loc = FileKey.exact(new File(basePath, n), FS.DETECTED);
       }
-      return RepositoryCache.open(loc, false);
+
+      Repository db = RepositoryCache.open(loc, false);
+      db.create(true /* bare */);
+
+      StoredConfig config = db.getConfig();
+      config.setBoolean(ConfigConstants.CONFIG_CORE_SECTION,
+        null, ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
+      config.save();
+
+      return db;
     } catch (IOException e1) {
       final RepositoryNotFoundException e2;
-      e2 = new RepositoryNotFoundException("Cannot open repository " + name);
+      e2 = new RepositoryNotFoundException("Cannot create repository " + name);
       e2.initCause(e1);
       throw e2;
     }

@@ -163,7 +163,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   }
 
   public void renameGroup(final AccountGroup.Id groupId, final String newName,
-      final AsyncCallback<VoidResult> callback) {
+      final AsyncCallback<GroupDetail> callback) {
     renameGroupFactory.create(groupId, newName).to(callback);
   }
 

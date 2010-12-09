@@ -124,10 +124,10 @@ public class AccountGroupScreen extends AccountScreen {
       public void onClick(final ClickEvent event) {
         final String newName = groupNameTxt.getText().trim();
         Util.GROUP_SVC.renameGroup(groupId, newName,
-            new GerritCallback<VoidResult>() {
-              public void onSuccess(final VoidResult result) {
+            new GerritCallback<GroupDetail>() {
+              public void onSuccess(final GroupDetail groupDetail) {
                 saveName.setEnabled(false);
-                setPageTitle(Util.M.group(newName));
+                display(groupDetail);
               }
             });
       }

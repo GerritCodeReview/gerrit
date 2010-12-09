@@ -25,14 +25,11 @@ import java.io.File;
 /** Initialize the GitRepositoryManager configuration section. */
 @Singleton
 class InitGitManager implements InitStep {
-  private final InitFlags flags;
   private final ConsoleUI ui;
   private final Section gerrit;
 
   @Inject
-  InitGitManager(final InitFlags flags, final ConsoleUI ui,
-      final Section.Factory sections) {
-    this.flags = flags;
+  InitGitManager(final ConsoleUI ui, final Section.Factory sections) {
     this.ui = ui;
     this.gerrit = sections.get("gerrit");
   }
@@ -44,11 +41,7 @@ class InitGitManager implements InitStep {
     if (d == null) {
       throw die("gerrit.basePath is required");
     }
-    if (d.exists()) {
-      if (!flags.importProjects && d.list() != null && d.list().length > 0) {
-        flags.importProjects = ui.yesno(true, "Import existing repositories");
-      }
-    } else if (!d.mkdirs()) {
+    if (!d.exists() && !d.mkdirs()) {
       throw die("Cannot create " + d);
     }
   }

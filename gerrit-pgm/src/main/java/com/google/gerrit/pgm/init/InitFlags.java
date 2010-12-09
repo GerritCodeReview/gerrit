@@ -30,9 +30,6 @@ public class InitFlags {
   /** Recursively delete the site path if initialization fails. */
   public boolean deleteOnFailure;
 
-  /** Run the Git project importer after initialization. */
-  public boolean importProjects;
-
   /** Run the daemon (and open the web UI in a browser) after initialization. */
   public boolean autoStart;
 

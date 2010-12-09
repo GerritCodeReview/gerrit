@@ -11,7 +11,6 @@ SYNOPSIS
 'java' -jar gerrit.war 'init'
 	-d <SITE_PATH>
 	[\--batch]
-	[\--import-projects]
 	[\--no-auto-start]
 
 DESCRIPTION
@@ -21,7 +20,7 @@ for some basic setup prior to writing default configuration files
 into a newly created `$site_path`.
 
 If run an an existing `$site_path`, init will upgrade some resources
-as necessary.  This can be useful to import newly created projects.
+as necessary.
 
 OPTIONS
 -------
@@ -29,12 +28,6 @@ OPTIONS
 	Run in batch mode, skipping interactive prompts.  Reasonable
 	configuration defaults are chosen based on the whims of
 	the Gerrit developers.
-
-\--import-projects::
-	Recursively search
-	link:config-gerrit.html#gerrit.basePath[gerrit.basePath]
-	for any Git repositories not yet registered as a project,
-	and initializes a new project for them.
 
 \--no-auto-start::
 	Don't automatically start the daemon after initializing a

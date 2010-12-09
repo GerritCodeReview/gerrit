@@ -79,6 +79,13 @@ public class GitProjectImporter {
 
       if (FileKey.isGitRepository(f, FS.DETECTED)) {
         if (name.equals(".git")) {
+          if ("".equals(prefix)) {
+            // If the git base path is itself a git repository working
+            // directory, this is a bit nonsensical for Gerrit Code Review.
+            // Skip the path and do the next one.
+            messages.warning("Skipping " + f.getAbsolutePath());
+            continue;
+          }
           name = prefix.substring(0, prefix.length() - 1);
 
         } else if (name.endsWith(".git")) {

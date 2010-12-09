@@ -134,8 +134,6 @@ final class CreateProject extends BaseCommand {
           if (!permissionsOnly) {
             final Repository repo = repoManager.createRepository(projectName);
             try {
-              repo.create(true);
-
               RefUpdate u = repo.updateRef(Constants.HEAD);
               u.disableRefLog();
               u.link(branch);

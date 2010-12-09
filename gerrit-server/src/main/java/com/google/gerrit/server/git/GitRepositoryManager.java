@@ -30,6 +30,9 @@ import java.io.IOException;
  * environment.
  */
 public interface GitRepositoryManager {
+  /** Note tree listing commits we refuse {@code refs/meta/reject-commits} */
+  public static final String REF_REJECT_COMMITS = "refs/meta/reject-commits";
+
   /**
    * Get (or open) a repository by name.
    *

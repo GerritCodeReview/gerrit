@@ -728,9 +728,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
    * @throws IOException the map cannot be loaded.
    */
   private NoteMap loadRejectCommitsMap() throws IOException {
-    String rejectNotes = "refs/meta/reject-commits";
     try {
-      Ref ref = repo.getRef(rejectNotes);
+      Ref ref = repo.getRef(GitRepositoryManager.REF_REJECT_COMMITS);
       if (ref == null) {
         return null;
       }
@@ -739,7 +738,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       RevCommit map = rw.parseCommit(ref.getObjectId());
       return NoteMap.read(rw.getObjectReader(), map);
     } catch (IOException badMap) {
-      throw new IOException("Cannot load " + rejectNotes, badMap);
+      throw new IOException("Cannot load "
+          + GitRepositoryManager.REF_REJECT_COMMITS, badMap);
     }
   }
 

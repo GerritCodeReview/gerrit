@@ -161,6 +161,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final Map<RevCommit, ReplaceRequest> replaceByCommit =
       new HashMap<RevCommit, ReplaceRequest>();
 
+  private Collection<ObjectId> existingObjects;
   private Map<ObjectId, Ref> refsById;
 
   private String destTopicName;
@@ -808,9 +809,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     walk.sort(RevSort.REVERSE, true);
     try {
       walk.markStart(walk.parseCommit(newChange.getNewId()));
-      for (final Ref r : rp.getAdvertisedRefs().values()) {
+      for (ObjectId id : existingObjects()) {
         try {
-          walk.markUninteresting(walk.parseCommit(r.getObjectId()));
+          walk.markUninteresting(walk.parseCommit(id));
         } catch (IOException e) {
           continue;
         }
@@ -1412,9 +1413,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     walk.sort(RevSort.NONE);
     try {
       walk.markStart(walk.parseCommit(cmd.getNewId()));
-      for (final Ref r : rp.getAdvertisedRefs().values()) {
+      for (ObjectId id : existingObjects()) {
         try {
-          walk.markUninteresting(walk.parseCommit(r.getObjectId()));
+          walk.markUninteresting(walk.parseCommit(id));
         } catch (IOException e) {
           continue;
         }
@@ -1430,6 +1431,17 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       cmd.setResult(Result.REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", err);
     }
+  }
+
+  private Collection<ObjectId> existingObjects() {
+    if (existingObjects == null) {
+      Map<String, Ref> refs = repo.getAllRefs();
+      existingObjects = new ArrayList<ObjectId>(refs.size());
+      for (Ref r : refs.values()) {
+        existingObjects.add(r.getObjectId());
+      }
+    }
+    return existingObjects;
   }
 
   private boolean validCommit(final RefControl ctl, final ReceiveCommand cmd,

@@ -292,8 +292,6 @@ public class Init extends SiteProgram {
       protected void configure() {
         bind(ConsoleUI.class).toInstance(init.ui);
         bind(InitFlags.class).toInstance(init.flags);
-
-        bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
       }
     });
     return createDbInjector(SINGLE_USER).createChildInjector(modules);

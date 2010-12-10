@@ -161,7 +161,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ProjectState.Factory.class);
     factory(RefControl.Factory.class);
 
-    bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(WorkQueue.class);
     bind(ToolsCatalog.class);
@@ -188,7 +187,6 @@ public class GerritGlobalModule extends FactoryModule {
     install(new LifecycleModule() {
       @Override
       protected void configure() {
-        listener().to(LocalDiskRepositoryManager.Lifecycle.class);
         listener().to(CachePool.Lifecycle.class);
         listener().to(WorkQueue.Lifecycle.class);
         listener().to(VelocityLifecycle.class);

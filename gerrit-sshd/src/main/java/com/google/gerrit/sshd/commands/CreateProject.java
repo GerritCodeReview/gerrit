@@ -26,6 +26,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ProjectCreatorGroups;
 import com.google.gerrit.server.config.ProjectOwnerGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand;
@@ -33,6 +34,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -138,6 +140,7 @@ final class CreateProject extends BaseCommand {
               u.disableRefLog();
               u.link(branch);
 
+              createProject(repo);
               repoManager
                   .setProjectDescription(projectName, projectDescription);
 
@@ -147,12 +150,11 @@ final class CreateProject extends BaseCommand {
               if (createEmptyCommit) {
                 createEmptyCommit(repo, project, branch);
               }
+
             } finally {
               repo.close();
             }
           }
-
-          createProject();
         } catch (Exception e) {
           p.print("Error when trying to create project: " + e.getMessage()
               + "\n");
@@ -195,7 +197,8 @@ final class CreateProject extends BaseCommand {
     }
   }
 
-  private void createProject() throws OrmException {
+  private void createProject(Repository git) throws OrmException, IOException,
+      ConfigInvalidException {
     final Project.NameKey newProjectNameKey = new Project.NameKey(projectName);
 
     List<RefRight> access = new ArrayList<RefRight>();
@@ -210,7 +213,10 @@ final class CreateProject extends BaseCommand {
     }
     db.refRights().insert(access);
 
-    final Project newProject = new Project(newProjectNameKey);
+    ProjectConfig pcfg = ProjectConfig.read(git);
+
+    Project newProject = pcfg.getProject();
+    newProject.setName(projectName);
     newProject.setDescription(projectDescription);
     newProject.setSubmitType(submitType);
     newProject.setUseContributorAgreements(contributorAgreements);
@@ -218,10 +224,16 @@ final class CreateProject extends BaseCommand {
     newProject.setUseContentMerge(contentMerge);
     newProject.setRequireChangeID(requireChangeID);
     if (newParent != null) {
-      newProject.setParent(newParent.getProject().getNameKey());
+      newProject.setParentName(newParent.getProject().getName());
     }
 
-    db.projects().insert(Collections.singleton(newProject));
+    CommitBuilder cb = new CommitBuilder();
+    cb.setAuthor(currentUser.newCommitterIdent());
+    cb.setCommitter(cb.getAuthor());
+    cb.setMessage("Created project\n");
+    if (!pcfg.commit(cb, git)) {
+      throw new IOException("Cannot create " + projectName);
+    }
   }
 
   private void validateParameters() throws Failure {

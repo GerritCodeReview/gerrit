@@ -294,6 +294,10 @@ public class IdentifiedUser extends CurrentUser {
     return new PersonIdent(name, user + "@" + host, when, tz);
   }
 
+  public PersonIdent newCommitterIdent() {
+    return newCommitterIdent(new Date(), TimeZone.getDefault());
+  }
+
   public PersonIdent newCommitterIdent(final Date when, final TimeZone tz) {
     final Account ua = getAccount();
     String name = ua.getFullName();

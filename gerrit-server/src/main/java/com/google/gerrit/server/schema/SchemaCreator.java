@@ -25,6 +25,8 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.workflow.NoOpFunction;
 import com.google.gerrit.server.workflow.SubmitFunction;
 import com.google.gwtjsonrpc.server.SignedToken;
@@ -36,6 +38,14 @@ import com.google.gwtorm.schema.sql.DialectMySQL;
 import com.google.gwtorm.schema.sql.DialectPostgreSQL;
 import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.inject.Inject;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.UserConfig;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,27 +60,35 @@ public class SchemaCreator {
   private final @SitePath
   File site_path;
 
+  private final GitRepositoryManager mgr;
+
   private final int versionNbr;
   private final ScriptRunner index_generic;
   private final ScriptRunner index_postgres;
   private final ScriptRunner mysql_nextval;
 
+  private PersonIdent adminUser;
+
   @Inject
   public SchemaCreator(final SitePaths site,
-      @Current final SchemaVersion version) {
-    this(site.site_path, version);
+      @Current final SchemaVersion version,
+      final GitRepositoryManager mgr) {
+    this(site.site_path, version, mgr);
   }
 
   public SchemaCreator(final @SitePath File site,
-      @Current final SchemaVersion version) {
+      @Current final SchemaVersion version,
+      final GitRepositoryManager gitMgr) {
     site_path = site;
+    mgr = gitMgr;
     versionNbr = version.getVersionNbr();
     index_generic = new ScriptRunner("index_generic.sql");
     index_postgres = new ScriptRunner("index_postgres.sql");
     mysql_nextval = new ScriptRunner("mysql_nextval.sql");
   }
 
-  public void create(final ReviewDb db) throws OrmException {
+  public void create(final ReviewDb db) throws OrmException, IOException,
+      ConfigInvalidException {
     final JdbcSchema jdbc = (JdbcSchema) db;
     final JdbcExecutor e = new JdbcExecutor(jdbc);
     try {
@@ -78,6 +96,10 @@ public class SchemaCreator {
     } finally {
       e.close();
     }
+
+    final UserConfig config = new Config().get(UserConfig.KEY);
+    adminUser =
+        new PersonIdent(config.getCommitterName(), config.getCommitterEmail());
 
     final CurrentSchemaVersion sVer = CurrentSchemaVersion.create();
     sVer.versionNbr = versionNbr;
@@ -92,7 +114,11 @@ public class SchemaCreator {
     initPushTagCategory(db);
     initPushUpdateBranchCategory(db);
     initForgeIdentityCategory(db, sConfig);
-    initWildCardProject(db);
+
+    if (mgr != null) {
+      // TODO This should never be null when initializing a site.
+      initWildCardProject();
+    }
 
     final SqlDialect d = jdbc.getDialect();
     if (d instanceof DialectH2) {
@@ -177,13 +203,38 @@ public class SchemaCreator {
     return s;
   }
 
-  private void initWildCardProject(final ReviewDb c) throws OrmException {
-    final Project p;
+  private void initWildCardProject() throws IOException, ConfigInvalidException {
+    final String name = DEFAULT_WILD_NAME.get();
+    Repository git;
+    try {
+      git = mgr.openRepository(name);
+    } catch (RepositoryNotFoundException notFound) {
+      // A repository may be missing if this project existed only to store
+      // inheritable permissions. For example '-- All Projects --'.
+      try {
+        git = mgr.createRepository(name);
+      } catch (RepositoryNotFoundException err) {
+        throw new IOException("Cannot create repository " + name, err);
+      }
+    }
+    try {
+      ProjectConfig pcfg = ProjectConfig.read(git);
 
-    p = new Project(DEFAULT_WILD_NAME);
-    p.setDescription("Rights inherited by all other projects");
-    p.setUseContributorAgreements(false);
-    c.projects().insert(Collections.singleton(p));
+      Project p = pcfg.getProject();
+      p.setName(name);
+      p.setDescription("Rights inherited by all other projects");
+      p.setUseContributorAgreements(false);
+
+      CommitBuilder cb = new CommitBuilder();
+      cb.setAuthor(adminUser);
+      cb.setCommitter(adminUser);
+      cb.setMessage("Created project\n");
+      if (!pcfg.commit(cb, git)) {
+        throw new IOException("Cannot create " + name);
+      }
+    } finally {
+      git.close();
+    }
   }
 
   private void initVerifiedCategory(final ReviewDb c) throws OrmException {

@@ -23,6 +23,8 @@ import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -49,7 +51,13 @@ public class SchemaUpdater {
       final SchemaVersion u = updater.get();
       final CurrentSchemaVersion version = getSchemaVersion(db);
       if (version == null) {
-        creator.create(db);
+        try {
+          creator.create(db);
+        } catch (IOException e) {
+          throw new OrmException("Cannot initialize schema", e);
+        } catch (ConfigInvalidException e) {
+          throw new OrmException("Cannot initialize schema", e);
+        }
 
       } else {
         try {

@@ -15,20 +15,28 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.Status;
 
 public class ProjectData {
   private Project.NameKey nameKey;
   private String description;
-  private boolean canBeDeleted;
+  private Status status;
+  private boolean isEmpty;
+  private boolean canBePruned;
+  private boolean canBeUpdated;
 
   protected ProjectData() {
   }
 
   public ProjectData(final Project.NameKey nameKey, final String description,
-      final boolean hasChanges) {
+      final boolean isEmpty, final boolean canBeUpdated,
+      final boolean canBeDeleted, final Status status) {
     this.nameKey = nameKey;
     this.description = description;
-    this.canBeDeleted = hasChanges;
+    this.isEmpty = isEmpty;
+    this.canBePruned = canBeDeleted;
+    this.canBeUpdated = canBeUpdated;
+    this.status = status;
   }
 
   public Project.NameKey getNameKey() {
@@ -43,7 +51,23 @@ public class ProjectData {
     return description;
   }
 
-  public boolean canBeDeleted() {
-    return canBeDeleted;
+  public boolean isEmpty() {
+    return isEmpty;
+  }
+
+  public boolean canBePruned() {
+    return canBePruned;
+  }
+
+  public boolean canBeUpdated() {
+    return canBeUpdated;
+  }
+
+  public void setStatus(final Status status) {
+    this.status = status;
+  }
+
+  public Status getStatus() {
+    return status;
   }
 }

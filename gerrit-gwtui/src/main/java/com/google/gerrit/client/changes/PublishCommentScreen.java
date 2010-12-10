@@ -129,6 +129,12 @@ public class PublishCommentScreen extends AccountScreen implements
           protected void preDisplay(final PatchSetPublishDetail result) {
             send.setEnabled(true);
             display(result);
+            if (!result.canApprove()) {
+              send.setEnabled(false);
+              submit.setEnabled(false);
+              message.setText(Util.M.changeReviewNotAllowed(result.getProjectStatus().name()));
+              message.setEnabled(false);
+            }
           }
 
           @Override
@@ -208,7 +214,9 @@ public class PublishCommentScreen extends AccountScreen implements
     for (final ApprovalType ct : Gerrit.getConfig().getApprovalTypes()
         .getApprovalTypes()) {
       if (r.isAllowed(ct.getCategory().getId())) {
-        initApprovalType(r, body, ct);
+        if (r.canApprove()) {
+          initApprovalType(r, body, ct);
+        }
       }
     }
   }
@@ -253,7 +261,9 @@ public class PublishCommentScreen extends AccountScreen implements
   private void display(final PatchSetPublishDetail r) {
     setPageTitle(Util.M.publishComments(r.getChange().getKey().abbreviate(),
         patchSetId.get()));
-    descBlock.display(r.getChange(), r.getPatchSetInfo(), r.getAccounts());
+
+    descBlock.display(r.getChange(), r.getPatchSetInfo(), r.getAccounts(), r
+        .getProjectStatus());
 
     if (r.getChange().getStatus().isOpen()) {
       initApprovals(r, approvalPanel);

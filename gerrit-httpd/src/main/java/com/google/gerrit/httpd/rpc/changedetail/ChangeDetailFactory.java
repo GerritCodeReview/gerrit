@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.PatchSetAncestor;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Project.Status;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -100,8 +101,29 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail = new ChangeDetail();
     detail.setChange(change);
     detail.setAllowsAnonymous(control.forAnonymousUser().isVisible());
-    detail.setCanAbandon(change.getStatus().isOpen() && control.canAbandon());
-    detail.setCanRestore(change.getStatus() == Change.Status.ABANDONED && control.canRestore());
+
+    boolean canAbandon;
+    boolean canRestore;
+    boolean canApprove;
+    final Status projectStatus = control.getProject().getStatus();
+
+    if (projectStatus.equals(Status.ARCHIVED)
+        || projectStatus.equals(Status.DELETED)
+        || projectStatus.equals(Status.PRUNE)) {
+      canAbandon = false;
+      canRestore = false;
+      canApprove = false;
+    } else {
+      canAbandon = change.getStatus().isOpen() && control.canAbandon();
+      canRestore =
+          change.getStatus() == Change.Status.ABANDONED && control.canRestore();
+      canApprove = true;
+    }
+
+    detail.setCanAbandon(canAbandon);
+    detail.setCanRestore(canRestore);
+    detail.setCanApprove(canApprove);
+    detail.setProjectStatus(projectStatus);
     detail.setStarred(control.getCurrentUser().getStarredChanges().contains(
         changeId));
     loadPatchSets();

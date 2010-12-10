@@ -63,7 +63,7 @@ public class EmptyProjectsDeletionTable extends NavigationTable<ProjectData> {
       table.removeRow(table.getRowCount() - 1);
 
     for (final ProjectData k : projects) {
-      if (k.canBeDeleted()) {
+      if (k.isEmpty()) {
         insert(table.getRowCount(), k);
       }
     }

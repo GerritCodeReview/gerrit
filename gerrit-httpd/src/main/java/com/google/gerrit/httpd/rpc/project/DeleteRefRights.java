@@ -85,6 +85,11 @@ class DeleteRefRights extends Handler<ProjectDetail> {
         db.refRights().delete(Collections.singleton(m));
       }
     }
+
+    final Project proj = db.projects().get(projectName);
+    proj.resetLastUpdatedOn();
+    db.projects().update(Collections.singleton(proj));
+
     projectCache.evictAll();
     return projectDetailFactory.create(projectName).call();
   }

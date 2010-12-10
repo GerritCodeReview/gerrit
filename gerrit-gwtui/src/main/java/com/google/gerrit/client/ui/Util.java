@@ -14,8 +14,29 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.core.client.GWT;
 
 public class Util {
   public static final ProjectConstants C = GWT.create(ProjectConstants.class);
+
+  public static String toLongString(final Project.Status status) {
+    if (status == null) {
+      return "";
+    }
+    switch (status) {
+      case EMPTY:
+        return C.projectStatus_EMPTY();
+      case ACTIVE:
+        return C.projectStatus_ACTIVE();
+      case ARCHIVED:
+        return C.projectStatus_ARCHIVED();
+      case DELETED:
+        return C.projectStatus_DELETED();
+      case PRUNE:
+        return C.projectStatus_PRUNE();
+      default:
+        return status.name();
+    }
+  }
 }

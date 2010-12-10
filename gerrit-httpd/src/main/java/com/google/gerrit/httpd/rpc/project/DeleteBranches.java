@@ -19,10 +19,12 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -33,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,6 +53,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
   private final ReplicationQueue replication;
   private final IdentifiedUser identifiedUser;
   private final ChangeHookRunner hooks;
+  private final ReviewDb db;
 
   private final Project.NameKey projectName;
   private final Set<Branch.NameKey> toRemove;
@@ -60,6 +64,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
       final ReplicationQueue replication,
       final IdentifiedUser identifiedUser,
       final ChangeHookRunner hooks,
+      final ReviewDb db,
 
       @Assisted Project.NameKey name, @Assisted Set<Branch.NameKey> toRemove) {
     this.projectControlFactory = projectControlFactory;
@@ -67,6 +72,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
     this.replication = replication;
     this.identifiedUser = identifiedUser;
     this.hooks = hooks;
+    this.db = db;
 
     this.projectName = name;
     this.toRemove = toRemove;
@@ -74,7 +80,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
 
   @Override
   public Set<Branch.NameKey> call() throws NoSuchProjectException,
-      RepositoryNotFoundException {
+      RepositoryNotFoundException, OrmException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
 
@@ -109,6 +115,11 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
           case FAST_FORWARD:
           case FORCED:
             deleted.add(branchKey);
+
+            final Project proj = db.projects().get(projectName);
+            proj.resetLastUpdatedOn();
+            db.projects().update(Collections.singleton(proj));
+
             replication.scheduleUpdate(projectName, refname);
             hooks.doRefUpdatedHook(branchKey, u, identifiedUser.getAccount());
             break;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb;
 
+import com.google.gerrit.reviewdb.Project.Status;
 import com.google.gwtorm.client.Access;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.PrimaryKey;
@@ -33,4 +34,7 @@ public interface ProjectAccess extends Access<Project, Project.NameKey> {
 
   @Query("WHERE parent.name = ?")
   ResultSet<Project> getChildren(String parentName) throws OrmException;
+
+  @Query("WHERE status = ?")
+  ResultSet<Project> byStatus(char status) throws OrmException;
 }

@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
+import com.google.gerrit.reviewdb.Project.Status;
 
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,8 @@ public class PatchSetPublishDetail {
   protected Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> allowed;
   protected Map<ApprovalCategory.Id, PatchSetApproval> given;
   protected boolean isSubmitAllowed;
+  protected boolean canApprove;
+  protected Status projectStatus;
 
   public Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> getAllowed() {
     return allowed;
@@ -71,6 +74,14 @@ public class PatchSetPublishDetail {
     isSubmitAllowed = allowed;
   }
 
+  public void setCanApprove(boolean allowed) {
+    canApprove = allowed;
+  }
+
+  public void setProjectStatus(Status status) {
+    projectStatus = status;
+  }
+
   public AccountInfoCache getAccounts() {
     return accounts;
   }
@@ -102,5 +113,13 @@ public class PatchSetPublishDetail {
 
   public boolean isSubmitAllowed() {
     return isSubmitAllowed;
+  }
+
+  public boolean canApprove() {
+    return canApprove;
+  }
+
+  public Status getProjectStatus() {
+    return projectStatus;
   }
 }

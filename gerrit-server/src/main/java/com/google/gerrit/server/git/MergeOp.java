@@ -1171,6 +1171,8 @@ public class MergeOp {
           return c;
         }
       });
+
+      ChangeUtil.updateProject(c, schema);
     } catch (OrmConcurrencyException err) {
     } catch (OrmException err) {
       log.warn("Cannot update change status", err);
@@ -1264,6 +1266,8 @@ public class MergeOp {
             return c;
           }
         });
+
+        ChangeUtil.updateProject(c,schema);
       } catch (OrmConcurrencyException err) {
       } catch (OrmException err) {
         log.warn("Cannot update change status", err);

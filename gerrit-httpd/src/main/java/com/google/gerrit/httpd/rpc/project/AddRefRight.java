@@ -201,6 +201,11 @@ class AddRefRight extends Handler<ProjectDetail> {
       rr.setMaxValue(max);
       db.refRights().update(Collections.singleton(rr));
     }
+
+    final Project proj = db.projects().get(projectName);
+    proj.resetLastUpdatedOn();
+    db.projects().update(Collections.singleton(proj));
+
     projectCache.evictAll();
     return projectDetailFactory.create(projectName).call();
   }

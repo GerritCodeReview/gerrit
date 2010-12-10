@@ -16,6 +16,7 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.Status;
 
 import java.util.List;
 import java.util.Map;
@@ -59,4 +60,8 @@ public class ProjectDetail {
   public void setCanModifyAccess(final boolean cma) {
     canModifyAccess = cma;
   }
+
+  public Status getProjectStatus() {
+    return project.getStatus();
+ }
 }

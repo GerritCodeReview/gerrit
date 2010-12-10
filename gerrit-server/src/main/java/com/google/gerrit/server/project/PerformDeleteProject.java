@@ -12,22 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.ui;
+package com.google.gerrit.server.project;
 
-import com.google.gwt.i18n.client.Constants;
+import com.google.gerrit.reviewdb.Project.NameKey;
 
-public interface ProjectConstants extends Constants {
-  String projectName();
-  String projectDescription();
-  String projectStatus();
-  String projectListOpen();
-  String projectListPrev();
-  String projectListNext();
-  String checkBoxSelectAll();
+import java.util.List;
 
-  String projectStatus_EMPTY();
-  String projectStatus_ACTIVE();
-  String projectStatus_ARCHIVED();
-  String projectStatus_DELETED();
-  String projectStatus_PRUNE();
+public interface PerformDeleteProject {
+  List<NameKey> deleteProjects();
 }

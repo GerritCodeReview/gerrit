@@ -69,6 +69,7 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
     }
 
     proj.copySettingsFrom(update);
+    proj.resetLastUpdatedOn();
     db.projects().update(Collections.singleton(proj));
     projectCache.evict(proj);
 

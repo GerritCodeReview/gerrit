@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.RpcImpl;
+import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
 import java.util.List;
@@ -60,6 +61,10 @@ public interface ProjectAdminService extends RemoteJsonService {
       AsyncCallback<Set<Branch.NameKey>> callback);
 
   @SignInRequired
-  void deleteProject(List<NameKey> projectsToDelete,
+  void deleteEmptyProjects(List<NameKey> projectsToDelete,
       AsyncCallback<List<NameKey>> callback);
+
+  @SignInRequired
+  void changeProjectStatus(List<ProjectData> projectsToUpdate,
+      AsyncCallback<VoidResult> callback);
 }

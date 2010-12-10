@@ -17,6 +17,8 @@ package com.google.gerrit.reviewdb;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
+import java.sql.Timestamp;
+
 /** Projects match a source code repository managed by Gerrit */
 public final class Project {
   /** Project name key */
@@ -81,6 +83,37 @@ public final class Project {
     }
   }
 
+  public static enum Status {
+    EMPTY('E'),
+
+    ACTIVE('A'),
+
+    ARCHIVED('R'),
+
+    DELETED('D'),
+
+    PRUNE('P');
+
+    private final char code;
+
+    private Status(final char c) {
+      code = c;
+    }
+
+    public char getCode() {
+      return code;
+    }
+
+    public static Status forCode(final char c) {
+      for (final Status s : Status.values()) {
+        if (s.code == c) {
+          return s;
+        }
+      }
+      return null;
+    }
+  }
+
   @Column(id = 1)
   protected NameKey name;
 
@@ -105,6 +138,15 @@ public final class Project {
   @Column(id = 8)
   protected boolean useContentMerge;
 
+  /**
+   * When was a meaningful modification last made to this record's data
+   */
+  @Column(id = 9, notNull = false)
+  protected Timestamp lastUpdatedOn;
+
+  @Column(id = 10)
+  protected char status;
+
   protected Project() {
   }
 
@@ -112,6 +154,8 @@ public final class Project {
     name = newName;
     useContributorAgreements = true;
     setSubmitType(SubmitType.MERGE_IF_NECESSARY);
+    setStatus(Status.EMPTY);
+    lastUpdatedOn = new Timestamp(System.currentTimeMillis());
   }
 
   public Project.NameKey getNameKey() {
@@ -170,6 +214,22 @@ public final class Project {
     submitType = type.getCode();
   }
 
+  public void setStatus(final Status s) {
+    status = s.getCode();
+  }
+
+  public Status getStatus() {
+    return Status.forCode(status);
+  }
+
+  public Timestamp getLastUpdatedOn() {
+    return lastUpdatedOn;
+  }
+
+  public void resetLastUpdatedOn() {
+    lastUpdatedOn = new Timestamp(System.currentTimeMillis());
+  }
+
   public void copySettingsFrom(final Project update) {
     description = update.description;
     useContributorAgreements = update.useContributorAgreements;
@@ -177,6 +237,8 @@ public final class Project {
     useContentMerge = update.useContentMerge;
     requireChangeID = update.requireChangeID;
     submitType = update.submitType;
+    status = update.status;
+    lastUpdatedOn = update.lastUpdatedOn;
   }
 
   public Project.NameKey getParent() {

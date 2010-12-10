@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
+import com.google.gerrit.reviewdb.Project.Status;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReplicationUser;
 import com.google.gerrit.server.config.GitReceivePackGroups;
@@ -243,5 +244,15 @@ public class ProjectControl {
 
   public boolean canRunReceivePack() {
     return isAnyIncludedIn(receiveGroups, user.getEffectiveGroups());
+  }
+
+  public boolean canModify() {
+    if (state.getProject().getStatus().equals(Status.ARCHIVED)
+        || state.getProject().getStatus().equals(Status.DELETED)
+        || state.getProject().getStatus().equals(Status.PRUNE)) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

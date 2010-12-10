@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.Project.Status;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +43,8 @@ public class ChangeDetail {
   protected PatchSet.Id currentPatchSetId;
   protected PatchSetDetail currentDetail;
   protected Set<ApprovalCategory.Id> currentActions;
+  protected Status projectStatus;
+  protected boolean canApprove;
 
   public ChangeDetail() {
   }
@@ -60,6 +63,22 @@ public class ChangeDetail {
 
   public void setAllowsAnonymous(final boolean anon) {
     allowsAnonymous = anon;
+  }
+
+  public void setProjectStatus(Status s) {
+    projectStatus = s;
+  }
+
+  public Status getProjectStatus() {
+    return projectStatus;
+  }
+
+  public void setCanApprove(boolean a) {
+    canApprove = a;
+  }
+
+  public boolean canApprove() {
+    return canApprove;
   }
 
   public boolean canAbandon() {

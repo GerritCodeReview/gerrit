@@ -59,6 +59,7 @@ public class ProjectListScreen extends ProjectOptionsScreen {
       protected void populate(final int row, final ProjectData k) {
         table.setWidget(row, 1, new Hyperlink(k.getName(), link(k)));
         table.setText(row, 2, k.getDescription());
+        table.setText(row, 3, k.getStatus().name());
 
         setRowItem(row, k);
       }

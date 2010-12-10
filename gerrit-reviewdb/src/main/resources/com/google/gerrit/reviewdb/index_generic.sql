@@ -152,6 +152,9 @@ ON patch_set_ancestors (ancestor_revision);
 CREATE INDEX projects_byParent
 ON projects (parent_name);
 
+CREATE INDEX projects_byStatus
+ON projects (status);
+
 -- *********************************************************************
 -- RefRightAccess
 --    @PrimaryKey covers: byProject

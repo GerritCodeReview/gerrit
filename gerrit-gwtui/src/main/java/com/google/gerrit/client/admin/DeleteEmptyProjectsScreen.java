@@ -23,7 +23,7 @@ import com.google.gerrit.client.ui.EmptyProjectsDeletionTable;
 import com.google.gerrit.client.ui.EmptyProjectsDeletionTable.ValueChangeListener;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ProjectData;
-import com.google.gerrit.common.errors.OperationNotExecutedException;
+import com.google.gerrit.common.errors.DeleteProjectException;
 import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -97,11 +97,11 @@ public class DeleteEmptyProjectsScreen extends ProjectOptionsScreen {
                 new HTML(message), new ConfirmationCallback() {
                   @Override
                   public void onOk() {
-                    Util.PROJECT_SVC.deleteProject(projectsToDelete,
+                    Util.PROJECT_SVC.deleteEmptyProjects(projectsToDelete,
                         new GerritCallback<List<NameKey>>() {
+
                           @Override
                           public void onSuccess(List<NameKey> notDeletedProjects) {
-
                             for (NameKey p : projectsToDelete) {
                               if (!notDeletedProjects.contains(p)) {
                                 projects.removeProject(p);
@@ -127,10 +127,11 @@ public class DeleteEmptyProjectsScreen extends ProjectOptionsScreen {
                                 errorMessage.append(r);
                               }
 
-                              OperationNotExecutedException exception =
-                                  new OperationNotExecutedException(
-                                      errorMessage.toString());
+                              DeleteProjectException exception =
+                                  new DeleteProjectException(errorMessage
+                                      .toString());
                               super.onFailure(exception);
+
                             }
                           }
                         });

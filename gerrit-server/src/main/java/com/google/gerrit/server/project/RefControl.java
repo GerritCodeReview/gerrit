@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.SystemConfig;
+import com.google.gerrit.reviewdb.Project.Status;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
@@ -328,19 +329,24 @@ public class RefControl {
 
   boolean canPerform(ApprovalCategory.Id actionId, short level) {
     final Set<AccountGroup.Id> groups = getCurrentUser().getEffectiveGroups();
+    final Status status = getProjectState().getProject().getStatus();
 
-    List<RefRight> allRights = new ArrayList<RefRight>();
-    allRights.addAll(getAllRights(actionId));
+    if ((!status.equals(Status.ARCHIVED) && !status.equals(Status.DELETED) && !status
+        .equals(Status.PRUNE))
+        || (actionId.equals(READ) && level == 1) || (actionId.equals(OWN))) {
+      List<RefRight> allRights = new ArrayList<RefRight>();
+      allRights.addAll(getAllRights(actionId));
 
-    SortedMap<String, RefRightsForPattern> perPatternRights =
-      sortedRightsByPattern(allRights);
+      SortedMap<String, RefRightsForPattern> perPatternRights =
+          sortedRightsByPattern(allRights);
 
-    for (RefRightsForPattern right : perPatternRights.values()) {
-      if (right.allowedValueForRef(groups, level)) {
-        return true;
-      }
-      if (right.containsExclusive() && !actionId.equals(OWN)) {
-        break;
+      for (RefRightsForPattern right : perPatternRights.values()) {
+        if (right.allowedValueForRef(groups, level)) {
+          return true;
+        }
+        if (right.containsExclusive() && !actionId.equals(OWN)) {
+          break;
+        }
       }
     }
     return false;

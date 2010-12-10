@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Project.Status;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -929,6 +930,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     cc.remove(me);
     cc.removeAll(reviewers);
 
+    Status newStatus = null;
+
+    if (repo.getAllRefs().isEmpty()) {
+      newStatus = Status.ACTIVE;
+    }
+
     final Change change =
         new Change(changeKey, new Change.Id(db.nextChangeId()), me, destBranch);
     change.setTopic(destTopicName);
@@ -944,6 +951,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     final PatchSetInfo info = patchSetInfoFactory.get(c, ps.getId());
     change.setCurrentPatchSet(info);
     ChangeUtil.updated(change);
+    ChangeUtil.updateProject(change, db);
     db.changes().insert(Collections.singleton(change));
 
     final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
@@ -977,6 +985,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       throw new IOException("Failed to create ref " + ps.getRefName() + " in "
           + repo.getDirectory() + ": " + ru.getResult());
     }
+
+    if (newStatus != null) {
+      project.setStatus(newStatus);
+      db.projects().update(Collections.singleton(project));
+    }
+
     replication.scheduleUpdate(project.getNameKey(), ru.getName());
 
     allNewChanges.add(change.getId());
@@ -1254,6 +1268,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
               }
             }
           });
+
+      ChangeUtil.updateProject(change, db);
+
       if (change == null) {
         db.patchSets().delete(Collections.singleton(ps));
         db.changeMessages().delete(Collections.singleton(msg));
@@ -1705,6 +1722,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         return change;
       }
     });
+
+    ChangeUtil.updateProject(change, db);
   }
 
   private void sendMergedEmail(final ReplaceResult result) {

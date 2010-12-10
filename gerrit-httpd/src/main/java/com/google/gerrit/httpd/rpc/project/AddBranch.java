@@ -21,12 +21,14 @@ import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -44,6 +46,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collections;
 
 class AddBranch extends Handler<ListBranchesResult> {
   private static final Logger log = LoggerFactory.getLogger(AddBranch.class);
@@ -60,6 +63,7 @@ class AddBranch extends Handler<ListBranchesResult> {
   private final GitRepositoryManager repoManager;
   private final ReplicationQueue replication;
   private final ChangeHookRunner hooks;
+  private final ReviewDb db;
 
   private final Project.NameKey projectName;
   private final String branchName;
@@ -72,6 +76,7 @@ class AddBranch extends Handler<ListBranchesResult> {
       final GitRepositoryManager repoManager,
       final ReplicationQueue replication,
       final ChangeHookRunner hooks,
+      final ReviewDb db,
 
       @Assisted Project.NameKey projectName,
       @Assisted("branchName") String branchName,
@@ -82,6 +87,7 @@ class AddBranch extends Handler<ListBranchesResult> {
     this.repoManager = repoManager;
     this.replication = replication;
     this.hooks = hooks;
+    this.db = db;
 
     this.projectName = projectName;
     this.branchName = branchName;
@@ -90,7 +96,7 @@ class AddBranch extends Handler<ListBranchesResult> {
 
   @Override
   public ListBranchesResult call() throws NoSuchProjectException,
-      InvalidNameException, InvalidRevisionException, IOException {
+      InvalidNameException, InvalidRevisionException, IOException, OrmException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
 
@@ -139,6 +145,10 @@ class AddBranch extends Handler<ListBranchesResult> {
           case FAST_FORWARD:
           case NEW:
           case NO_CHANGE:
+            final Project proj = db.projects().get(projectName);
+            proj.resetLastUpdatedOn();
+            db.projects().update(Collections.singleton(proj));
+
             replication.scheduleUpdate(name.getParentKey(), refname);
             hooks.doRefUpdatedHook(name, u, identifiedUser.getAccount());
             break;

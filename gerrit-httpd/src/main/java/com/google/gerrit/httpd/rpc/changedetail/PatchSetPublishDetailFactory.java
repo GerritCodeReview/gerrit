@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Project.Status;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -119,6 +120,17 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     detail.setDrafts(drafts);
     detail.setAllowed(allowed);
     detail.setGiven(given);
+
+    final Status projectStatus = control.getProject().getStatus();
+    detail.setProjectStatus(projectStatus);
+
+    if (projectStatus.equals(Status.ARCHIVED)
+        || projectStatus.equals(Status.DELETED)
+        || projectStatus.equals(Status.PRUNE)) {
+      detail.setCanApprove(false);
+    } else {
+      detail.setCanApprove(true);
+    }
 
     final CanSubmitResult canSubmitResult = control.canSubmit(patchSetId);
     detail.setSubmitAllowed(canSubmitResult == CanSubmitResult.OK);

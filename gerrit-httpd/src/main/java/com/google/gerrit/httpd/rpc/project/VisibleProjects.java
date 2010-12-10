@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.ProjectData;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Project.Status;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -48,7 +49,7 @@ class VisibleProjects extends Handler<List<ProjectData>> {
   private final ReviewDb db;
 
   private static final Logger log =
-    LoggerFactory.getLogger(VisibleProjects.class);
+      LoggerFactory.getLogger(VisibleProjects.class);
 
   @Inject
   VisibleProjects(final ProjectControl.Factory projectControlFactory,
@@ -60,15 +61,19 @@ class VisibleProjects extends Handler<List<ProjectData>> {
   }
 
   @Override
-  public List<ProjectData> call() throws OrmException, RepositoryNotFoundException {
+  public List<ProjectData> call() throws OrmException,
+      RepositoryNotFoundException {
     final List<ProjectData> result = new ArrayList<ProjectData>();
 
-    for(final Project p : db.projects().all().toList()) {
+    for (final Project p : db.projects().all().toList()) {
+      boolean isEmpty = false;
+      boolean canBeUpdated = false;
       boolean canBeDeleted = false;
 
       try {
-        final ProjectControl c = projectControlFactory.controlFor(p.getNameKey());
-        //Administrators users are also considered in method "isOwner".
+        final ProjectControl c =
+            projectControlFactory.controlFor(p.getNameKey());
+        // Administrators users are also considered in method "isOwner".
         if (c.isVisible() || c.isOwner()) {
           if (c.isOwner() && (!c.getProjectState().isSpecialWildProject())) {
             // Verifies if the project has any refs in the repository.
@@ -79,14 +84,29 @@ class VisibleProjects extends Handler<List<ProjectData>> {
               final Map<String, Ref> refs = repo.getAllRefs();
               repo.close();
               if (refs.isEmpty()) {
-                canBeDeleted = true;
+                isEmpty = true;
+              } else {
+                canBeUpdated = true;
               }
             } catch (RepositoryNotFoundException e) {
               log.error("Repository " + p.getName() + " was not found");
             }
           }
 
-          result.add(new ProjectData(p.getNameKey(), p.getDescription(), canBeDeleted));
+          if (c.getCurrentUser().isAdministrator()) {
+            canBeDeleted = true;
+          }
+
+          if (c.getProject().getStatus().equals(Status.DELETED)
+              || c.getProject().getStatus().equals(Status.PRUNE)) {
+            if (canBeDeleted) {
+              result.add(new ProjectData(p.getNameKey(), p.getDescription(),
+                  isEmpty, canBeUpdated, canBeDeleted, p.getStatus()));
+            }
+          } else {
+            result.add(new ProjectData(p.getNameKey(), p.getDescription(),
+                isEmpty, canBeUpdated, canBeDeleted, p.getStatus()));
+          }
         }
       } catch (NoSuchProjectException e) {
         continue;

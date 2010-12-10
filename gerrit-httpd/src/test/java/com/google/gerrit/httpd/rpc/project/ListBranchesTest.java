@@ -143,6 +143,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
 
     mockDb.close();
 
+    expect(pc.canModify()).andReturn(true);
     expect(pc.canAddRefs()).andReturn(true);
 
     expectLastCall();
@@ -167,6 +168,10 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
       expect(pc.controlForRef(ref.getTarget().getName())).andReturn(rc);
     } else {
       expect(pc.controlForRef(ref.getName())).andReturn(rc);
+    }
+
+    if (visible) {
+      expect(pc.canModify()).andReturn(true);
     }
   }
 
@@ -268,6 +273,8 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     for (Ref ref : u.values()) {
       assumeVisible(ref, true);
     }
+
+    expect(pc.canModify()).andReturn(true);
     expect(pc.canAddRefs()).andReturn(true);
     mockDb.close();
     expectLastCall();
@@ -295,6 +302,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     expect(mockDb.getAllRefs()).andReturn(u);
     assumeVisible(bar, false);
     assumeVisible(bar, false);
+    expect(pc.canModify()).andReturn(true);
     expect(pc.canAddRefs()).andReturn(true);
     mockDb.close();
     expectLastCall();
@@ -323,6 +331,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     assumeVisible(bar, true);
     assumeVisible(bar, true);
     assumeVisible(foo, false);
+    expect(pc.canModify()).andReturn(true);
     expect(pc.canAddRefs()).andReturn(true);
     mockDb.close();
     expectLastCall();

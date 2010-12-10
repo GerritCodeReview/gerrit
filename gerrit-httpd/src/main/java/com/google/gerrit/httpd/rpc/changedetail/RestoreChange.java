@@ -108,6 +108,8 @@ class RestoreChange extends Handler<ChangeDetail> {
       }
     });
 
+    ChangeUtil.updateProject(change, db);
+
     if (change != null) {
       db.changeMessages().insert(Collections.singleton(cmsg));
 

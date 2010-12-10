@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,22 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.ui;
+package com.google.gerrit.common.errors;
 
-import com.google.gwt.i18n.client.Constants;
+public class DeleteProjectException extends Exception {
+  private static final long serialVersionUID = 1L;
 
-public interface ProjectConstants extends Constants {
-  String projectName();
-  String projectDescription();
-  String projectStatus();
-  String projectListOpen();
-  String projectListPrev();
-  String projectListNext();
-  String checkBoxSelectAll();
-
-  String projectStatus_EMPTY();
-  String projectStatus_ACTIVE();
-  String projectStatus_ARCHIVED();
-  String projectStatus_DELETED();
-  String projectStatus_PRUNE();
+  public DeleteProjectException(final String err) {
+    super(err);
+  }
 }

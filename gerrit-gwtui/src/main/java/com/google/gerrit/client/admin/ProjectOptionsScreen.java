@@ -21,12 +21,15 @@ import com.google.gerrit.common.PageLinks;
 public class ProjectOptionsScreen extends MenuScreen {
   public static final String VIEW = "view";
   public static final String DELETE_EMPTY = "delete_empty";
+  public static final String UPDATE_STATUS = "update_status";
 
   public ProjectOptionsScreen() {
     link(Util.C.projectAdminTabView(), PageLinks.ADMIN_PROJECTS);
     if (Gerrit.isSignedIn()) {
       link(Util.C.projectAdminTabDeleteEmpty(),
           PageLinks.ADMIN_DELETE_EMPTY_PROJECT);
+      link(Util.C.projectAdminTabChangeStatus(),
+          PageLinks.ADMIN_CHANGE_STATUS_PROJECT);
     }
   }
 

@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.inject.Inject;
 
 import java.util.List;
@@ -38,7 +39,8 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ProjectDetailFactory.Factory projectDetailFactory;
   private final AddRefRight.Factory addRefRightFactory;
   private final DeleteRefRights.Factory deleteRefRightsFactory;
-  private final DeleteProject.Factory deleteProjectFactory;
+  private final DeleteEmptyProjects.Factory deleteProjectFactory;
+  private final ChangeProjectStatus.Factory changeProjectStatusFactory;
 
   @Inject
   ProjectAdminServiceImpl(final AddBranch.Factory addBranchFactory,
@@ -49,7 +51,8 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final ProjectDetailFactory.Factory projectDetailFactory,
       final AddRefRight.Factory addRefRightFactory,
       final DeleteRefRights.Factory deleteRefRightsFactory,
-      final DeleteProject.Factory deleteProjectFactory) {
+      final DeleteEmptyProjects.Factory deleteProjectFactory,
+      final ChangeProjectStatus.Factory changeProjectStatusFactory) {
     this.addBranchFactory = addBranchFactory;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
     this.deleteBranchesFactory = deleteBranchesFactory;
@@ -59,6 +62,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
     this.addRefRightFactory = addRefRightFactory;
     this.deleteRefRightsFactory = deleteRefRightsFactory;
     this.deleteProjectFactory = deleteProjectFactory;
+    this.changeProjectStatusFactory = changeProjectStatusFactory;
   }
 
   @Override
@@ -107,7 +111,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   }
 
   @Override
-  public void deleteProject(final List<NameKey> projectsToDelete,
+  public void deleteEmptyProjects(final List<NameKey> projectsToDelete,
       final AsyncCallback<List<NameKey>> callback) {
     deleteProjectFactory.create(projectsToDelete).to(callback);
   }
@@ -118,5 +122,11 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final AsyncCallback<ListBranchesResult> callback) {
     addBranchFactory.create(projectName, branchName, startingRevision).to(
         callback);
+  }
+
+  @Override
+  public void changeProjectStatus(List<ProjectData> projectsToUpdate,
+      AsyncCallback<VoidResult> callback) {
+    changeProjectStatusFactory.create(projectsToUpdate).to(callback);
   }
 }

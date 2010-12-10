@@ -23,6 +23,7 @@ public interface ChangeMessages extends Messages {
   String changesOpenInProject(String string);
   String changesMergedInProject(String string);
   String changesAbandonedInProject(String string);
+  String changeReviewNotAllowed(String projectStatus);
 
   String changeScreenTitleId(String changeId);
   String patchSetHeader(int id);

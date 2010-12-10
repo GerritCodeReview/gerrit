@@ -108,7 +108,7 @@ class ListBranches extends Handler<ListBranchesResult> {
 
           Branch b = createBranch(Constants.HEAD);
           b.setRevision(new RevId(target));
-          b.setCanDelete(targetRefControl.canDelete());
+          b.setCanDelete(pctl.canModify() && targetRefControl.canDelete());
 
           if (Constants.HEAD.equals(ref.getName())) {
             headBranch = b;
@@ -118,7 +118,7 @@ class ListBranches extends Handler<ListBranchesResult> {
           continue;
         }
 
-        RefControl refControl = pctl.controlForRef(ref.getName());
+        final RefControl refControl = pctl.controlForRef(ref.getName());
 
         if (ref.getName().startsWith(Constants.R_HEADS)
             && refControl.isVisible()) {
@@ -127,7 +127,7 @@ class ListBranches extends Handler<ListBranchesResult> {
             b.setRevision(new RevId(ref.getObjectId().name()));
           }
 
-          b.setCanDelete(refControl.canDelete());
+          b.setCanDelete(pctl.canModify() && refControl.canDelete());
 
           branches.add(b);
         }
@@ -144,7 +144,9 @@ class ListBranches extends Handler<ListBranchesResult> {
     if (headBranch != null) {
       branches.add(0, headBranch);
     }
-    return new ListBranchesResult(branches, pctl.canAddRefs(), false);
+
+    boolean canAdd = pctl.canModify() && pctl.canAddRefs();
+    return new ListBranchesResult(branches, canAdd, false);
   }
 
   private Branch createBranch(final String name) {

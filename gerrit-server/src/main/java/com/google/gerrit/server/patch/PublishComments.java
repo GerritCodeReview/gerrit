@@ -139,6 +139,7 @@ public class PublishComments implements Callable<VoidResult> {
 
   private void publishApprovals() throws OrmException {
     ChangeUtil.updated(change);
+    ChangeUtil.updateProject(change, db);
 
     final Set<ApprovalCategory.Id> dirty = new HashSet<ApprovalCategory.Id>();
     final List<PatchSetApproval> ins = new ArrayList<PatchSetApproval>();

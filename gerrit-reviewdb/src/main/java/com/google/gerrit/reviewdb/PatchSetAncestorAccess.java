@@ -31,4 +31,7 @@ public interface PatchSetAncestorAccess extends
   @Query("WHERE ancestorRevision = ?")
   ResultSet<PatchSetAncestor> descendantsOf(RevId revision)
       throws OrmException;
+
+  @Query("WHERE key.patchSetId.changeId = ?")
+  ResultSet<PatchSetAncestor> byChange(Change.Id id) throws OrmException;
 }

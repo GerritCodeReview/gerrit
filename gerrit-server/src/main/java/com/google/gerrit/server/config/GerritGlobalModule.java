@@ -58,6 +58,7 @@ import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.PerformDeleteProjectImpl;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -182,6 +183,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
     bind(ChangeControl.GenericFactory.class);
     bind(ProjectControl.GenericFactory.class);
+
+    factory(PerformDeleteProjectImpl.Factory.class);
     factory(FunctionState.Factory.class);
     factory(ReplicationUser.Factory.class);
 

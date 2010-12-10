@@ -30,6 +30,7 @@ public interface AdminConstants extends Constants {
   String buttonChangeGroupOwner();
   String buttonChangeGroupType();
   String buttonSelectGroup();
+  String buttonSaveProjectsStatus();
   String buttonAddProjectRight();
   String buttonClearProjectRight();
   String buttonSaveChanges();
@@ -88,12 +89,14 @@ public interface AdminConstants extends Constants {
   String groupListTitle();
   String projectListTitle();
   String projectDeletionTitle();
+  String projectChangeStatusTitle();
   String projectAdminTabGeneral();
   String projectAdminTabBranches();
   String projectAdminTabAccess();
 
   String projectAdminTabView();
   String projectAdminTabDeleteEmpty();
+  String projectAdminTabChangeStatus();
 
   String noGroupSelected();
   String errorNoMatchingGroups();

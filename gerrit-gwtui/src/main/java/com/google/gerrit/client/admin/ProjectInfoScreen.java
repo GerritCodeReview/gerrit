@@ -21,6 +21,7 @@ import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.Status;
 import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -78,12 +79,18 @@ public class ProjectInfoScreen extends ProjectScreen {
     Util.PROJECT_SVC.projectDetail(getProjectKey(),
         new ScreenLoadCallback<ProjectDetail>(this) {
           public void preDisplay(final ProjectDetail result) {
-            enableForm(result.canModifyAgreements,
-                result.canModifyDescription, result.canModifyMergeType);
-            saveProject.setVisible(
-                result.canModifyAgreements ||
-                result.canModifyDescription ||
-                result.canModifyMergeType);
+            if (result.getProjectStatus().equals(Status.DELETED)
+                || result.getProjectStatus().equals(Status.PRUNE)) {
+              enableForm(false, false, false);
+            } else {
+              if (result.getProjectStatus().equals(Status.ARCHIVED)) {
+                enableForm(false, result.canModifyDescription, false);
+              } else
+                enableForm(result.canModifyAgreements,
+                    result.canModifyDescription, result.canModifyMergeType);
+              saveProject.setVisible(result.canModifyAgreements
+                  || result.canModifyDescription || result.canModifyMergeType);
+            }
             display(result);
           }
         });
@@ -203,6 +210,12 @@ public class ProjectInfoScreen extends ProjectScreen {
     requireChangeID.setValue(project.isRequireChangeID());
     setSubmitType(project.getSubmitType());
 
+    if (result.getProjectStatus().equals(Status.DELETED)
+        || result.getProjectStatus().equals(Status.PRUNE)
+        || result.getProjectStatus().equals(Status.ARCHIVED)) {
+      useContentMerge.setEnabled(false);
+    }
+
     saveProject.setEnabled(false);
   }
 
@@ -222,8 +235,12 @@ public class ProjectInfoScreen extends ProjectScreen {
     Util.PROJECT_SVC.changeProjectSettings(project,
         new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
-            enableForm(result.canModifyAgreements,
-                result.canModifyDescription, result.canModifyMergeType);
+            if (result.getProjectStatus().equals(Status.ARCHIVED)) {
+              enableForm(false, result.canModifyDescription, false);
+            } else {
+              enableForm(result.canModifyAgreements,
+                  result.canModifyDescription, result.canModifyMergeType);
+            }
             display(result);
           }
         });

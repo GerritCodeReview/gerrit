@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
+import com.google.gerrit.reviewdb.Project.Status;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -130,10 +131,19 @@ public class ProjectAccessScreen extends ProjectScreen {
     parentName.setTargetHistoryToken(Dispatcher.toProjectAdmin(parent, ACCESS));
     parentName.setText(parent.get());
 
-    rights.display(result.groups, result.rights);
+    final boolean isModifyAllowed =
+        !(result.getProjectStatus().equals(Status.DELETED) || result
+            .getProjectStatus().equals(Status.PRUNE));
 
-    rightEditor.setVisible(result.canModifyAccess);
-    delRight.setVisible(rights.getCanDelete());
+    rights.display(result.groups, result.rights, isModifyAllowed);
+
+    if (isModifyAllowed) {
+      rightEditor.setVisible(result.canModifyAccess);
+      delRight.setVisible(rights.getCanDelete());
+    } else {
+      rightEditor.setVisible(false);
+      delRight.setVisible(false);
+    }
   }
 
   private void doDeleteRefRights(final HashSet<RefRight.Key> refRightIds) {
@@ -190,7 +200,7 @@ public class ProjectAccessScreen extends ProjectScreen {
     }
 
     void display(final Map<AccountGroup.Id, AccountGroup> grps,
-        final List<InheritedRefRight> refRights) {
+        final List<InheritedRefRight> refRights, final boolean isModifyAllowed) {
       groups = grps;
       canDelete = false;
 
@@ -201,9 +211,10 @@ public class ProjectAccessScreen extends ProjectScreen {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
-        populate(row, r);
+        populate(row, r, isModifyAllowed);
       }
     }
+
     protected void onOpenRow(final int row) {
       if (row > 0) {
         RefRight right = getRowItem(row);
@@ -211,7 +222,8 @@ public class ProjectAccessScreen extends ProjectScreen {
       }
     }
 
-    void populate(final int row, final InheritedRefRight r) {
+    void populate(final int row, final InheritedRefRight r,
+        final boolean isModifyAllowed) {
       final GerritConfig config = Gerrit.getConfig();
       final RefRight right = r.getRight();
       final ApprovalType ar =
@@ -219,7 +231,7 @@ public class ProjectAccessScreen extends ProjectScreen {
               right.getApprovalCategoryId());
       final AccountGroup group = groups.get(right.getAccountGroupId());
 
-      if (r.isInherited() || !r.isOwner()) {
+      if (r.isInherited() || !r.isOwner() || !isModifyAllowed) {
         table.setText(row, 1, "");
       } else {
         table.setWidget(row, 1, new CheckBox());

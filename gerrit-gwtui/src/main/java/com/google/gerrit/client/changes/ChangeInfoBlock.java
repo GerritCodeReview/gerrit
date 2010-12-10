@@ -34,13 +34,14 @@ public class ChangeInfoBlock extends Composite {
   private static final int R_CHANGE_ID = 0;
   private static final int R_OWNER = 1;
   private static final int R_PROJECT = 2;
-  private static final int R_BRANCH = 3;
-  private static final int R_TOPIC = 4;
-  private static final int R_UPLOADED = 5;
-  private static final int R_UPDATED = 6;
-  private static final int R_STATUS = 7;
-  private static final int R_PERMALINK = 8;
-  private static final int R_CNT = 9;
+  private static final int R_PROJECT_STATUS = 3;
+  private static final int R_BRANCH = 4;
+  private static final int R_TOPIC = 5;
+  private static final int R_UPLOADED = 6;
+  private static final int R_UPDATED = 7;
+  private static final int R_STATUS = 8;
+  private static final int R_PERMALINK = 9;
+  private static final int R_CNT = 10;
 
   private final Grid table;
 
@@ -52,6 +53,7 @@ public class ChangeInfoBlock extends Composite {
     initRow(R_CHANGE_ID, "Change-Id: ");
     initRow(R_OWNER, Util.C.changeInfoBlockOwner());
     initRow(R_PROJECT, Util.C.changeInfoBlockProject());
+    initRow(R_PROJECT_STATUS, Util.C.changeInfoBlockProjectStatus());
     initRow(R_BRANCH, Util.C.changeInfoBlockBranch());
     initRow(R_TOPIC, Util.C.changeInfoBlockTopic());
     initRow(R_UPLOADED, Util.C.changeInfoBlockUploaded());
@@ -74,7 +76,7 @@ public class ChangeInfoBlock extends Composite {
     table.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
   }
 
-  public void display(final Change chg, final AccountInfoCache acc) {
+  public void display(final Change chg, final AccountInfoCache acc, String projectStatus) {
     final Branch.NameKey dst = chg.getDest();
 
     CopyableLabel changeIdLabel =
@@ -84,6 +86,7 @@ public class ChangeInfoBlock extends Composite {
 
     table.setWidget(R_OWNER, 1, AccountDashboardLink.link(acc, chg.getOwner()));
     table.setWidget(R_PROJECT, 1, new ProjectLink(chg.getProject(), chg.getStatus()));
+    table.setText(R_PROJECT_STATUS, 1, projectStatus);
     table.setWidget(R_BRANCH, 1, new BranchLink(dst.getShortName(), chg
         .getProject(), chg.getStatus(), dst.get(), null));
     table.setWidget(R_TOPIC, 1, new BranchLink(chg.getTopic(),

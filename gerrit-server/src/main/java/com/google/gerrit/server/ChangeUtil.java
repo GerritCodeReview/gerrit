@@ -19,6 +19,7 @@ import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.config.TrackingFooter;
@@ -72,6 +73,7 @@ public class ChangeUtil {
       throws OrmException {
     try {
       updated(change);
+      updateProject(change, db);
       db.changes().update(Collections.singleton(change));
     } catch (OrmConcurrencyException e) {
       // Ignore a concurrent update, we just wanted to tag it as newer.
@@ -81,6 +83,13 @@ public class ChangeUtil {
   public static void updated(final Change c) {
     c.resetLastUpdatedOn();
     computeSortKey(c);
+  }
+
+  public static void updateProject(final Change c, ReviewDb db)
+      throws OrmException {
+    final Project proj = db.projects().get(c.getProject());
+    proj.resetLastUpdatedOn();
+    db.projects().update(Collections.singleton(proj));
   }
 
   public static void updateTrackingIds(ReviewDb db, Change change,
@@ -137,7 +146,7 @@ public class ChangeUtil {
   }
 
   public static void submit(MergeOp.Factory opFactory, PatchSet.Id patchSetId,
-      IdentifiedUser user, ReviewDb db, MergeQueue merger) throws OrmException {
+      IdentifiedUser user, final ReviewDb db, MergeQueue merger) throws OrmException {
     final Change.Id changeId = patchSetId.getParentKey();
     final PatchSetApproval approval = createSubmitApproval(patchSetId, user, db);
 
@@ -153,6 +162,8 @@ public class ChangeUtil {
         return change;
       }
     });
+
+    ChangeUtil.updateProject(change, db);
 
     if (change.getStatus() == Change.Status.SUBMITTED) {
       merger.merge(opFactory, change.getDest());

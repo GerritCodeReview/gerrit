@@ -17,6 +17,7 @@ package com.google.gerrit.client;
 import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import static com.google.gerrit.common.PageLinks.ADMIN_DELETE_EMPTY_PROJECT;
+import static com.google.gerrit.common.PageLinks.ADMIN_CHANGE_STATUS_PROJECT;
 import static com.google.gerrit.common.PageLinks.MINE;
 import static com.google.gerrit.common.PageLinks.REGISTER;
 import static com.google.gerrit.common.PageLinks.SETTINGS;
@@ -44,6 +45,7 @@ import com.google.gerrit.client.account.NewAgreementScreen;
 import com.google.gerrit.client.account.RegisterScreen;
 import com.google.gerrit.client.account.ValidateEmailScreen;
 import com.google.gerrit.client.admin.AccountGroupScreen;
+import com.google.gerrit.client.admin.ChangeProjectStatusScreen;
 import com.google.gerrit.client.admin.DeleteEmptyProjectsScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
 import com.google.gerrit.client.admin.ProjectAccessScreen;
@@ -443,6 +445,10 @@ public class Dispatcher {
 
         if (ADMIN_DELETE_EMPTY_PROJECT.equals(token)) {
           return new DeleteEmptyProjectsScreen();
+        }
+
+        if (ADMIN_CHANGE_STATUS_PROJECT.equals(token)) {
+          return new ChangeProjectStatusScreen();
         }
 
         return new NotFoundScreen();

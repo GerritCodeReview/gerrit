@@ -198,7 +198,7 @@ public class ProjectServlet extends GitServlet {
       UploadPack up = new UploadPack(repo);
       up.setPackConfig(packConfig);
       if (!pc.allRefsAreVisible()) {
-        up.setRefFilter(new VisibleRefFilter(repo, pc, db.get()));
+        up.setRefFilter(new VisibleRefFilter(repo, pc, db.get(), true));
       }
       return up;
     }

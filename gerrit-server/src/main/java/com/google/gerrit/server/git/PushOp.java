@@ -296,7 +296,7 @@ class PushOp implements ProjectRunnable {
         return Collections.emptyList();
       }
       try {
-        local = new VisibleRefFilter(db, pc, meta).filter(local);
+        local = new VisibleRefFilter(db, pc, meta, true).filter(local);
       } finally {
         meta.close();
       }

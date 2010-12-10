@@ -52,12 +52,15 @@ public class VisibleRefFilter implements RefFilter {
   private final Repository db;
   private final ProjectControl projectCtl;
   private final ReviewDb reviewDb;
+  private final boolean showChanges;
 
   public VisibleRefFilter(final Repository db,
-      final ProjectControl projectControl, final ReviewDb reviewDb) {
+      final ProjectControl projectControl, final ReviewDb reviewDb,
+      final boolean showChanges) {
     this.db = db;
     this.projectCtl = projectControl;
     this.reviewDb = reviewDb;
+    this.showChanges = showChanges;
   }
 
   @Override
@@ -99,6 +102,10 @@ public class VisibleRefFilter implements RefFilter {
   }
 
   private Set<Change.Id> visibleChanges() {
+    if (!showChanges) {
+      return Collections.emptySet();
+    }
+
     final Project project = projectCtl.getProject();
     try {
       final Set<Change.Id> visibleChanges = new HashSet<Change.Id>();

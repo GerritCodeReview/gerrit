@@ -1636,10 +1636,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     sendMergedEmail(result);
   }
 
-  private Map<ObjectId, Ref> changeRefsById() {
+  private Map<ObjectId, Ref> changeRefsById() throws IOException {
     if (refsById == null) {
       refsById = new HashMap<ObjectId, Ref>();
-      for (final Ref r : repo.getAllRefs().values()) {
+      for (Ref r : repo.getRefDatabase().getRefs("refs/changes/").values()) {
         if (PatchSet.isRef(r.getName())) {
           refsById.put(r.getObjectId(), r);
         }

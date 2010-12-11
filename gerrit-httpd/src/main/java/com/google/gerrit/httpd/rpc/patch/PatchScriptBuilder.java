@@ -131,7 +131,7 @@ class PatchScriptBuilder {
   private PatchScript build(final PatchListEntry content,
       final CommentDetail comments, final List<Patch> history)
       throws IOException {
-    boolean intralineDifference = diffPrefs.isIntralineDifference();
+    boolean intralineDifferenceIsPossible = true;
     boolean intralineFailure = false;
 
     a.path = oldName(content);
@@ -142,7 +142,9 @@ class PatchScriptBuilder {
 
     edits = new ArrayList<Edit>(content.getEdits());
 
-    if (intralineDifference && isModify(content)) {
+    if (!isModify(content)) {
+      intralineDifferenceIsPossible = false;
+    } else if (diffPrefs.isIntralineDifference()) {
       IntraLineDiff d =
           patchListCache.getIntraLineDiff(new IntraLineDiffKey(a.id, a.src,
               b.id, b.src, edits, projectKey, bId, b.path));
@@ -153,17 +155,17 @@ class PatchScriptBuilder {
             break;
 
           case DISABLED:
-            intralineDifference = false;
+            intralineDifferenceIsPossible = false;
             break;
 
           case ERROR:
           case TIMEOUT:
-            intralineDifference = false;
+            intralineDifferenceIsPossible = false;
             intralineFailure = true;
             break;
         }
       } else {
-        intralineDifference = false;
+        intralineDifferenceIsPossible = false;
         intralineFailure = true;
       }
     }
@@ -209,7 +211,7 @@ class PatchScriptBuilder {
         content.getOldName(), content.getNewName(), a.fileMode, b.fileMode,
         content.getHeaderLines(), diffPrefs, a.dst, b.dst, edits,
         a.displayMethod, b.displayMethod, comments, history, hugeFile,
-        intralineDifference, intralineFailure);
+        intralineDifferenceIsPossible, intralineFailure);
   }
 
   private static boolean isModify(PatchListEntry content) {

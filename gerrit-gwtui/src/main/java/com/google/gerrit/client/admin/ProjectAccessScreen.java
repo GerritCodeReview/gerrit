@@ -155,10 +155,11 @@ public class ProjectAccessScreen extends ProjectScreen {
 
     RightsTable() {
       table.setWidth("");
-      table.setText(0, 2, Util.C.columnApprovalCategory());
-      table.setText(0, 3, Util.C.columnGroupName());
-      table.setText(0, 4, Util.C.columnRefName());
-      table.setText(0, 5, Util.C.columnRightRange());
+      table.setText(0, 2, Util.C.columnRightOrigin());
+      table.setText(0, 3, Util.C.columnApprovalCategory());
+      table.setText(0, 4, Util.C.columnGroupName());
+      table.setText(0, 5, Util.C.columnRefName());
+      table.setText(0, 6, Util.C.columnRightRange());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
@@ -166,6 +167,7 @@ public class ProjectAccessScreen extends ProjectScreen {
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 5, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 6, Gerrit.RESOURCES.css().dataHeader());
 
       table.addClickHandler(new ClickHandler() {
         @Override
@@ -224,18 +226,19 @@ public class ProjectAccessScreen extends ProjectScreen {
         canDelete = true;
       }
 
-      table.setText(row, 2, ar != null ? ar.getCategory().getName()
+      table.setText(row, 2, right.getKey().getProjectNameKey().get());
+      table.setText(row, 3, ar != null ? ar.getCategory().getName()
                                        : right.getApprovalCategoryId().get() );
 
       if (group != null) {
-        table.setWidget(row, 3, new Hyperlink(group.getName(), Dispatcher
+        table.setWidget(row, 4, new Hyperlink(group.getName(), Dispatcher
             .toAccountGroup(group.getId())));
       } else {
-        table.setText(row, 3, Util.M.deletedGroup(right.getAccountGroupId()
+        table.setText(row, 4, Util.M.deletedGroup(right.getAccountGroupId()
             .get()));
       }
 
-      table.setText(row, 4, right.getRefPatternForDisplay());
+      table.setText(row, 5, right.getRefPatternForDisplay());
 
       {
         final SafeHtmlBuilder m = new SafeHtmlBuilder();
@@ -248,7 +251,7 @@ public class ProjectAccessScreen extends ProjectScreen {
           m.br();
         }
         formatValue(m, right.getMaxValue(), max);
-        SafeHtml.set(table, row, 5, m);
+        SafeHtml.set(table, row, 6, m);
       }
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
@@ -257,7 +260,8 @@ public class ProjectAccessScreen extends ProjectScreen {
       fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 5, Gerrit.RESOURCES.css().dataCell());
-      fmt.addStyleName(row, 5, Gerrit.RESOURCES.css()
+      fmt.addStyleName(row, 6, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 6, Gerrit.RESOURCES.css()
           .projectAdminApprovalCategoryRangeLine());
 
       setRowItem(row, right);

@@ -734,7 +734,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     try {
       Ref ref = repo.getRef(rejectNotes);
       if (ref == null) {
-        return null;
+        return NoteMap.newEmptyMap();
       }
 
       RevWalk rw = rp.getRevWalk();
@@ -1520,7 +1520,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     // Check for banned commits to prevent them from entering the tree again.
-    if (rejectCommits != null && rejectCommits.contains(c)) {
+    if (rejectCommits.contains(c)) {
       reject(newChange, "contains banned commit " + c.getName());
       return false;
     }

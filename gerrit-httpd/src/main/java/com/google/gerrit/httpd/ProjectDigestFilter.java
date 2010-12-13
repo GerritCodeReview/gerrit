@@ -126,6 +126,7 @@ class ProjectDigestFilter implements Filter {
         || nonce == null //
         || uri == null //
         || response == null //
+        || !"auth".equals(qop) //
         || !REALM_NAME.equals(realm)) {
       context.log("Invalid header: " + AUTHORIZATION + ": " + hdr);
       rsp.sendError(SC_FORBIDDEN);
@@ -146,14 +147,8 @@ class ProjectDigestFilter implements Filter {
 
     final String A1 = username + ":" + realm + ":" + passwd;
     final String A2 = method + ":" + uri;
-
-    final String expect;
-    if ("auth".equals(qop)) {
-      expect = KD(H(A1), //
-          nonce + ":" + nc + ":" + cnonce + ":" + qop + ":" + H(A2));
-    } else {
-      expect = KD(H(A1), nonce + ":" + H(A2));
-    }
+    final String expect =
+        KD(H(A1), nonce + ":" + nc + ":" + cnonce + ":" + qop + ":" + H(A2));
 
     if (expect.equals(response)) {
       try {

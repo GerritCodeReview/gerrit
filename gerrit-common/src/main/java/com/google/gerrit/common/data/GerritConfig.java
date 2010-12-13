@@ -41,6 +41,7 @@ public class GerritConfig implements Cloneable {
   protected Set<Account.FieldName> editableAccountFields;
   protected List<RegexFindReplace> commentLinks;
   protected boolean documentationAvailable;
+  protected int pruneProjectsDelay;
 
   protected String backgroundColor;
   protected String topMenuColor;
@@ -165,6 +166,14 @@ public class GerritConfig implements Cloneable {
 
   public void setDocumentationAvailable(final boolean available) {
     documentationAvailable = available;
+  }
+
+  public int getPruneProjectsDelay() {
+    return pruneProjectsDelay;
+  }
+
+  public void setPruneProjectsDelay(final int d) {
+    pruneProjectsDelay = d;
   }
 
   public String getBackgroundColor() {

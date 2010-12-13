@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.PruneProjectsDelayConfig;
 import com.google.gerrit.server.config.DownloadSchemeConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.WildProjectName;
@@ -53,6 +54,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final Project.NameKey wildProject;
   private final SshInfo sshInfo;
   private final ApprovalTypes approvalTypes;
+  private final PruneProjectsDelayConfig pruneProjectsDelayConfig;
 
   private EmailSender emailSender;
   private final ContactStore contactStore;
@@ -63,7 +65,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       final AuthConfig ac, final GitWebConfig gwc,
       @WildProjectName final Project.NameKey wp, final SshInfo si,
       final ApprovalTypes at, final ContactStore cs, final ServletContext sc,
-      final DownloadSchemeConfig dc) {
+      final DownloadSchemeConfig dc, final PruneProjectsDelayConfig dp) {
     realm = r;
     cfg = gsc;
     authConfig = ac;
@@ -74,6 +76,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     approvalTypes = at;
     contactStore = cs;
     servletContext = sc;
+    pruneProjectsDelayConfig = dp;
   }
 
   @Inject(optional = true)
@@ -103,6 +106,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setApprovalTypes(approvalTypes);
     config.setDocumentationAvailable(servletContext
         .getResource("/Documentation/index.html") != null);
+    config.setPruneProjectsDelay(pruneProjectsDelayConfig
+        .getPruneProjectsDelay());
 
     final Set<Account.FieldName> fields = new HashSet<Account.FieldName>();
     for (final Account.FieldName n : Account.FieldName.values()) {

@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.reviewdb.Project.Status;
+import com.google.gerrit.server.config.PruneProjectsDelayConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.PerformDeleteProject;
 import com.google.gerrit.server.project.PerformDeleteProjectImpl;
@@ -69,13 +70,16 @@ public class DeleteNonEmptyProjects implements Runnable {
 
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final PerformDeleteProjectImpl.Factory performDeleteProject;
+  private final PruneProjectsDelayConfig pruneProjectsDelayConfig;
   private ReviewDb db;
 
   @Inject
   DeleteNonEmptyProjects(final SchemaFactory<ReviewDb> sf,
-      final PerformDeleteProjectImpl.Factory performDeleteProject) {
+      final PerformDeleteProjectImpl.Factory performDeleteProject,
+      final PruneProjectsDelayConfig dp) {
     this.schemaFactory = sf;
     this.performDeleteProject = performDeleteProject;
+    pruneProjectsDelayConfig = dp;
   }
 
   @Override
@@ -93,10 +97,12 @@ public class DeleteNonEmptyProjects implements Runnable {
         final long diff = currentTimeMilliseconds - lastUpdatedOnMilliseconds;
         final long diffDays = diff / (24 * 60 * 60 * 1000);
 
-        // Projects will be put out of database and off disk after a delay of 5
-        // days in Prune status.
-        // This delay considers it had not been updated for 5 days at least.
-        if (diffDays > 5) {
+        // Projects will be put out of database and off disk after a delay of
+        // one or more days in Prune status.
+        // This delay is set in gerrit.config and considers it had not been
+        // updated for one or more days at least. The default value is a delay
+        // of 5 days.
+        if (diffDays > pruneProjectsDelayConfig.getPruneProjectsDelay()) {
           projectsToDelete.add(p.getNameKey());
         }
       }

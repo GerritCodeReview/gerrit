@@ -1409,6 +1409,26 @@ auto-detected and one thread per CPU is used, per client request.
 +
 By default, 1.
 
+[[projects]]Section projects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+----
+[projects]
+  prunedelay = 3
+----
+
+The projects section configures operations with projects.
+
+[[projects.prunedelay]]prunedelay::
++
+Delay (in days) for deletion of projects in PRUNE status.
+Projects will be put out of database and off disk if it is in
+PRUNE status and if it had not been updated for
+[projects.prunedelay] days at least.
++
+If prunedelay is not specified, 5 days is the default value.
+If the prunedelay specified is 0 or negative numbers it will be
+considered a delay of 1 day that is the minimum.
 
 [[receive]]Section receive
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

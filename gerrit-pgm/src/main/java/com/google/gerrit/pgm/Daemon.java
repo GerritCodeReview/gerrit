@@ -237,8 +237,8 @@ public class Daemon extends SiteProgram {
 
   private Injector createWebInjector() {
     final List<Module> modules = new ArrayList<Module>();
-    modules.add(sshInjector.getInstance(ProjectQoSFilter.Module.class));
     modules.add(sshInjector.getInstance(WebModule.class));
+    modules.add(sshInjector.getInstance(ProjectQoSFilter.Module.class));
     return sysInjector.createChildInjector(modules);
   }
 

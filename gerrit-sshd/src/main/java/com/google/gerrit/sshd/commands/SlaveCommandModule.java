@@ -33,5 +33,6 @@ public class SlaveCommandModule extends CommandModule {
     command(gerrit, "replicate").to(ErrorSlaveMode.class);
     command(gerrit, "review").to(ErrorSlaveMode.class);
     command(gerrit, "set-project-parent").to(ErrorSlaveMode.class);
+    command(gerrit, "prune-projects").to(ErrorSlaveMode.class);
   }
 }

@@ -1,0 +1,63 @@
+Release notes for Gerrit 2.1.6.1
+================================
+
+Gerrit 2.1.6.1 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.6.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.6.1.war]
+
+Schema Change
+-------------
+
+If upgrading from 2.1.6, there are no schema changes.  Replace the
+WAR and restart the daemon.
+
+If upgrading from 2.1.5 or earlier, there are schema changes.
+To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+New Features
+------------
+* Display the originator of each access rule
++
+The project access panel now shows which project each rule inherits
+from.  This can be informative when the inheritance chain is more
+than 1 project deep (for example C inherits from B, which inherits
+from A, which inherits from \-- All Projects \--).
+
+* Improved user->gerrit push speed
++
+Pushing changes for review (or directly to a branch) should be
+quicker now, especially if the project contains many changes.
+
+* Allow Owner permission to inherit
++
+The project Owner permission can now be inherited from any parent
+project, provided that the parent project is not the root level
+\-- All Projects \--.
+
+Bug Fixes
+---------
+* Fix disabled intraline difference checkbox
++
+Intraline difference couldn't be enabled once it was disabled by
+a user in their user preferences.  Fixed.
+
+* Fix push over HTTP
++
+Users couldn't push to Gerrit over http://, due to a bug in the
+way user authentication was handled for the request.  Fixed.
+
+* issue 751 Update displayed owner group after group rename
++
+The group owner field didn't update when a group was self-owned,
+and the self-owned group was renamed.  This left the owner name
+at the old name, leaving the user to wonder if the group owner was
+also reassigned by another user.  Fixed.
+
+* init: Fix string out of bounds when importing projects
++
+Project importing died when the top level directory contained a
+".git" directory (usually by accident by the site administrator).
+Fixed.

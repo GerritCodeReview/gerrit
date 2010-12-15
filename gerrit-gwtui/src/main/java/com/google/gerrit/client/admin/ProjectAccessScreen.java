@@ -226,7 +226,14 @@ public class ProjectAccessScreen extends ProjectScreen {
         canDelete = true;
       }
 
-      table.setText(row, 2, right.getKey().getProjectNameKey().get());
+      if (r.isInherited()) {
+        Project.NameKey fromProject = right.getKey().getProjectNameKey();
+        table.setWidget(row, 2, new Hyperlink(fromProject.get(), Dispatcher
+            .toProjectAdmin(fromProject, ACCESS)));
+      } else {
+        table.setText(row, 2, "");
+      }
+
       table.setText(row, 3, ar != null ? ar.getCategory().getName()
                                        : right.getApprovalCategoryId().get() );
 

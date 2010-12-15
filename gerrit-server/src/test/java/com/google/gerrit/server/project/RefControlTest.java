@@ -248,7 +248,7 @@ public class RefControlTest extends TestCase {
     assertFalse("NOT OWN " + ref, u.controlForRef(ref).isOwner());
   }
 
-  private void grant(Project.NameKey project, ApprovalCategory.Id categoryId, 
+  private void grant(Project.NameKey project, ApprovalCategory.Id categoryId,
       AccountGroup.Id group, String ref, int maxValue) {
     grant(project, categoryId, group, ref, maxValue, maxValue);
   }
@@ -284,7 +284,7 @@ public class RefControlTest extends TestCase {
 
   private ProjectState newProjectState() {
     ProjectCache projectCache = null;
-    Project.NameKey wildProject = null;
+    Project.NameKey wildProject = new Project.NameKey("-- All Projects --");
     ProjectControl.AssistedFactory projectControlFactory = null;
     ProjectState ps =
         new ProjectState(anonymousUser, projectCache, wildProject,

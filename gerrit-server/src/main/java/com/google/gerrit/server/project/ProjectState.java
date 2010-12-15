@@ -56,11 +56,21 @@ public class ProjectState {
       @WildProjectName final Project.NameKey wildProject,
       final ProjectControl.AssistedFactory projectControlFactory,
       @Assisted final Project project,
-      @Assisted final Collection<RefRight> rights) {
+      @Assisted Collection<RefRight> rights) {
     this.anonymousUser = anonymousUser;
     this.projectCache = projectCache;
     this.wildProject = wildProject;
     this.projectControlFactory = projectControlFactory;
+
+    if (wildProject.equals(project.getNameKey())) {
+      rights = new ArrayList<RefRight>(rights);
+      for (Iterator<RefRight> itr = rights.iterator(); itr.hasNext();) {
+        if (!itr.next().getApprovalCategoryId().canBeOnWildProject()) {
+          itr.remove();
+        }
+      }
+      rights = Collections.unmodifiableCollection(rights);
+    }
 
     this.project = project;
     this.localRights = rights;
@@ -174,9 +184,7 @@ public class ProjectState {
    */
   public Collection<RefRight> getAllRights(ApprovalCategory.Id action, boolean dropOverridden) {
     Collection<RefRight> rights = new LinkedList<RefRight>(getLocalRights(action));
-    if (action.canInheritFromWildProject()) {
-      rights.addAll(filter(getInheritedRights(), action));
-    }
+    rights.addAll(filter(getInheritedRights(), action));
     if (dropOverridden) {
       Set<Grant> grants = new HashSet<Grant>();
       Iterator<RefRight> iter = rights.iterator();

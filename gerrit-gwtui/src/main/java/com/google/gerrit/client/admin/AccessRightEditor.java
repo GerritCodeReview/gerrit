@@ -21,25 +21,21 @@ import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.RPCSuggestOracle;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
-import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -148,7 +144,7 @@ public class AccessRightEditor extends Composite
         .getActionTypes()) {
       final ApprovalCategory c = at.getCategory();
       if (Gerrit.getConfig().getWildProject().equals(projectKey)
-          && ApprovalCategory.OWN.equals(c.getId())) {
+          && !c.getId().canBeOnWildProject()) {
         // Giving out control of the WILD_PROJECT to other groups beyond
         // Administrators is dangerous. Having control over WILD_PROJECT
         // is about the same as having Administrator access as users are

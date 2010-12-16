@@ -1,0 +1,17 @@
+Gerrit Code Review - Error Messages
+===================================
+
+This page provides access to detailed explanations of Gerrit error
+messages. For each error message it is explained why the error is
+occurring and what can be done to solve it.
+
+
+Error Messages
+--------------
+
+* link:squash-commits-first.html[squash commits first]
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

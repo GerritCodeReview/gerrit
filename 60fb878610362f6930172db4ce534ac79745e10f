@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3///64\u003d",
+        "filename": "Documentation/error-messages.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-12-16T16:35:23Z",
+      "side": 1,
+      "message": "I admit, this is one of the areas where Gerrit slams Git complexity right into the new user\u0027s face.  Unfortunately I just don\u0027t have a good way around trying to teach users that their commit locally is the commit that they are reviewing and will be submitting to the project.  :-(",
+      "revId": "60fb878610362f6930172db4ce534ac79745e10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///68\u003d",
+        "filename": "Documentation/error-messages.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-12-16T16:35:23Z",
+      "side": 1,
+      "message": "We don\u0027t really tell the user how to pick HEAD~2 here.  If they have 3 such commits, they will try HEAD~2 and still get the same error.\n\nWe may also want to tell the user they need to change that second \"pick\" line to \"squash\".",
+      "revId": "60fb878610362f6930172db4ce534ac79745e10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

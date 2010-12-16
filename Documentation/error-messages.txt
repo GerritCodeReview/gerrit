@@ -1,0 +1,92 @@
+Gerrit Code Review - Error Messages
+===================================
+
+This page provides for certain error messages a detailed explanation
+about why the error is occurring and what can be done to solve it.
+
+squash commits first
+--------------------
+With this error message Gerrit rejects the pushing of a commit if
+this commit contains the same Change-ID as a predecessor commit.
+
+Here an example about how the push is failing. Please note that the
+two commits 'one commit' and 'another commit' both have the same
+Change-ID (of course in real life it can happen that there are more
+than two commits that have the same Change-ID).
+
+----
+  $ git log
+  commit 13d381265ffff88088e1af88d0e2c2c1143743cd
+  Author: John Doe <john.doe@example.com>
+  Date:   Thu Dec 16 10:15:48 2010 +0100
+
+      another commit
+
+      Change-Id: I93478acac09965af91f03c82e55346214811ac79
+
+  commit ca45e125145b12fe9681864b123bc9daea501bf7
+  Author: John Doe <john.doe@example.com>
+  Date:   Thu Dec 16 10:12:54 2010 +0100
+
+      one commit
+
+      Change-Id: I93478acac09965af91f03c82e55346214811ac79
+
+  $ git push ssh://JohnDoe@host:29418/myProject HEAD:refs/for/master
+  Counting objects: 8, done.
+  Delta compression using up to 2 threads.
+  Compressing objects: 100% (2/2), done.
+  Writing objects: 100% (6/6), 558 bytes, done.
+  Total 6 (delta 0), reused 0 (delta 0)
+  To ssh://JohnDoe@host:29418/myProject
+   ! [remote rejected] HEAD -> refs/for/master (squash commits first)
+  error: failed to push some refs to 'ssh://JohnDoe@host:29418/myProject'
+----
+
+The reason for rejecting the second commit is that it would introduce
+for the corresponding change in Gerrit a dependency upon itself.
+
+This error is quite common, it appears when a user tries to address
+review comments and creates a new commit instead of amending the
+existing commit.
+
+To fix the problem the commits that contain the same Change-ID should
+be squashed into one commit. The squashed commit can then be pushed
+to Gerrit.
+To squash the commits use git rebase to do an interactive rebase. For
+the example above where the last two commits have the same Change-ID
+this means a interactive rebase for the last two commits should be
+done. For further details about the git rebase command please check
+the Git documentation.
+
+----
+  $ git rebase -i HEAD~2
+
+  pick ca45e12 one commit
+  squash 13d3812 another commit
+
+  [detached HEAD ab37207] squashed commit
+   1 files changed, 3 insertions(+), 0 deletions(-)
+  Successfully rebased and updated refs/heads/master.
+
+  $ git log
+  commit ab37207d33647685801dba36cb4fd51f3eb73507
+  Author: John Doe <john.doe@example.com>
+  Date:   Thu Dec 16 10:12:54 2010 +0100
+
+      squashed commit
+
+      Change-Id: I93478acac09965af91f03c82e55346214811ac79
+
+  $ git push ssh://JohnDoe@host:29418/myProject HEAD:refs/for/master
+  Counting objects: 5, done.
+  Writing objects: 100% (3/3), 307 bytes, done.
+  Total 3 (delta 0), reused 0 (delta 0)
+  To ssh://JohnDoe@host:29418/myProject
+   * [new branch]      HEAD -> refs/for/master
+----
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

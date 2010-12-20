@@ -33,6 +33,24 @@
       "revId": "60fb878610362f6930172db4ce534ac79745e10f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///ro\u003d",
+        "filename": "Documentation/error-messages.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-12-20T07:02:01Z",
+      "side": 1,
+      "message": "You are right, how to do the interactive rebase of course depends on how many commits have the same Change-ID and where they are in the history.\n\nHowever for this documentation I actually don\u0027t want to explain in details how git rebase works, but I just want to give a small example, how it can be used to squash commits. I guess for users that want to understand git rebase there is already enough documentation available (maybe we should link to such a page?).\n\nI have now changed the explanation so that it\u0027s more clear that this is just an example for the case that the last two commits have the same Change-ID. Do you think this is sufficent or should we include even more details about git rebase?",
+      "parentUuid": "AAAA+3///68\u003d",
+      "revId": "60fb878610362f6930172db4ce534ac79745e10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

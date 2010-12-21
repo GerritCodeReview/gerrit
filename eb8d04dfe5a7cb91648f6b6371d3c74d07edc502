@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3///l4\u003d",
+        "filename": "Documentation/error-messages.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2010-12-21T08:00:56Z",
+      "side": 1,
+      "message": "rejects the pushing of a commit\n\nthis sounds like german, maybe better:\n\nrejects to push a commit if it contains ...",
+      "revId": "eb8d04dfe5a7cb91648f6b6371d3c74d07edc502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///lk\u003d",
+        "filename": "Documentation/error-messages.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2010-12-21T08:00:56Z",
+      "side": 1,
+      "message": "I think the reason for this behavior should be mentioned:\n\nGerrit prevents such dependencies between patchsets within the same change to keep the review process simple. Otherwise reviewers would not only have to review the latest patchset but also all the patchsets the latest one is depending on.",
+      "revId": "eb8d04dfe5a7cb91648f6b6371d3c74d07edc502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///lY\u003d",
+        "filename": "Documentation/error-messages.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2010-12-21T08:00:56Z",
+      "side": 1,
+      "message": "I think this depends on what the user intends to achieve. If the user wants instead a patch series with multiple changes to be reviewed he needs to use different Change-Ids for each patch in the series.",
+      "revId": "eb8d04dfe5a7cb91648f6b6371d3c74d07edc502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///lU\u003d",
+        "filename": "Documentation/error-messages.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2010-12-21T08:00:56Z",
+      "side": 1,
+      "message": "maybe add a link here ?",
+      "revId": "eb8d04dfe5a7cb91648f6b6371d3c74d07edc502",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

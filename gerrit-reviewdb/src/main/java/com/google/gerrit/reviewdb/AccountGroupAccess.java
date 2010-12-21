@@ -25,6 +25,9 @@ public interface AccountGroupAccess extends
   @PrimaryKey("groupId")
   AccountGroup get(AccountGroup.Id id) throws OrmException;
 
+  @Query("WHERE groupUUID = ?")
+  ResultSet<AccountGroup> byUUID(AccountGroup.UUID uuid) throws OrmException;
+
   @Query("WHERE externalName = ?")
   ResultSet<AccountGroup> byExternalName(AccountGroup.ExternalNameKey name)
       throws OrmException;

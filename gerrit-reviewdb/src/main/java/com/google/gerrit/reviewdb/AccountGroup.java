@@ -46,6 +46,32 @@ public final class AccountGroup {
     }
   }
 
+  /** Globally unique identifier. */
+  public static class UUID extends
+      StringKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
+    @Column(id = 1, length = 40)
+    protected String uuid;
+
+    protected UUID() {
+    }
+
+    public UUID(final String n) {
+      uuid = n;
+    }
+
+    @Override
+    public String get() {
+      return uuid;
+    }
+
+    @Override
+    protected void set(String newValue) {
+      uuid = newValue;
+    }
+  }
+
   /** Distinguished name, within organization directory server. */
   public static class ExternalNameKey extends
       StringKey<com.google.gwtorm.client.Key<?>> {
@@ -140,6 +166,18 @@ public final class AccountGroup {
     LDAP;
   }
 
+  /** Common UUID assigned to the "Project Owners" placeholder group. */
+  public static final AccountGroup.UUID PROJECT_OWNERS =
+      new AccountGroup.UUID("global:Project-Owners");
+
+  /** Common UUID assigned to the "Anonymous Users" group. */
+  public static final AccountGroup.UUID ANONYMOUS_USERS =
+      new AccountGroup.UUID("global:Anonymous-Users");
+
+  /** Common UUID assigned to the "Registered Users" group. */
+  public static final AccountGroup.UUID REGISTERED_USERS =
+      new AccountGroup.UUID("global:Registered-Users");
+
   /** Unique name of this group within the system. */
   @Column(id = 1)
   protected NameKey name;
@@ -168,14 +206,19 @@ public final class AccountGroup {
   @Column(id = 6, notNull = false)
   protected ExternalNameKey externalName;
 
+  /** Globally unique identifier name for this group. */
+  @Column(id = 7)
+  protected UUID groupUUID;
+
   protected AccountGroup() {
   }
 
   public AccountGroup(final AccountGroup.NameKey newName,
-      final AccountGroup.Id newId) {
+      final AccountGroup.Id newId, final AccountGroup.UUID uuid) {
     name = newName;
     groupId = newId;
     ownerGroupId = groupId;
+    groupUUID = uuid;
     setType(Type.INTERNAL);
   }
 
@@ -225,5 +268,13 @@ public final class AccountGroup {
 
   public void setExternalNameKey(final ExternalNameKey k) {
     externalName = k;
+  }
+
+  public AccountGroup.UUID getGroupUUID() {
+    return groupUUID;
+  }
+
+  public void setGroupUUID(AccountGroup.UUID uuid) {
+    groupUUID = uuid;
   }
 }

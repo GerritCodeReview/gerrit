@@ -278,7 +278,7 @@ public class FromAddressGeneratorProviderTest extends TestCase {
     account.setFullName(name);
     account.setPreferredEmail(email);
     final AccountState s =
-        new AccountState(account, Collections.<AccountGroup.Id> emptySet(),
+        new AccountState(account, Collections.<AccountGroup.UUID> emptySet(),
             Collections.<AccountExternalId> emptySet());
     return s;
   }

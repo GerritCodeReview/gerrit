@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -34,8 +35,11 @@ import org.eclipse.jgit.lib.Repository;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.locks.Lock;
@@ -191,9 +195,27 @@ public class ProjectCacheImpl implements ProjectCache {
           cfg.load(git);
 
           final Project p = cfg.getProject();
-          final Collection<RefRight> rights =
-              Collections.unmodifiableCollection(db.refRights().byProject(key)
-                  .toList());
+
+          Collection<RefRight> rights = db.refRights().byProject(key).toList();
+
+          Set<AccountGroup.Id> groupIds = new HashSet<AccountGroup.Id>();
+          for (RefRight r : rights) {
+            groupIds.add(r.getAccountGroupId());
+          }
+          Map<AccountGroup.Id, AccountGroup> groupsById =
+              db.accountGroups().toMap(db.accountGroups().get(groupIds));
+
+          for (RefRight r : rights) {
+            AccountGroup group = groupsById.get(r.getAccountGroupId());
+            if (group != null) {
+              r.setAccountGroupUUID(group.getGroupUUID());
+            } else {
+              r.setAccountGroupUUID(new AccountGroup.UUID("DELETED_GROUP_"
+                  + r.getAccountGroupId().get()));
+            }
+          }
+          rights = Collections.unmodifiableCollection(rights);
+
           return projectStateFactory.create(p, rights);
         } finally {
           git.close();

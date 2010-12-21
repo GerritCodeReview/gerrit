@@ -37,7 +37,7 @@ import java.util.Set;
 public class ProjectOwnerGroupsProvider extends GroupSetProvider {
   @Inject
   public ProjectOwnerGroupsProvider(
-      @ProjectCreatorGroups final Set<AccountGroup.Id> creatorGroups,
+      @ProjectCreatorGroups final Set<AccountGroup.UUID> creatorGroups,
       @GerritServerConfig final Config config, final SchemaFactory<ReviewDb> db) {
     super(config, db, "repository", "*", "ownerGroup");
 

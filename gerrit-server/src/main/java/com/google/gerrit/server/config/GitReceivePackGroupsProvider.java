@@ -22,21 +22,17 @@ import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 import java.util.Collections;
-import java.util.HashSet;
 
 public class GitReceivePackGroupsProvider extends GroupSetProvider {
   @Inject
   public GitReceivePackGroupsProvider(@GerritServerConfig Config config,
-      AuthConfig authConfig, SchemaFactory<ReviewDb> db) {
+      SchemaFactory<ReviewDb> db) {
     super(config, db, "receive", null, "allowGroup");
 
     // If no group was set, default to "registered users"
     //
     if (groupIds.isEmpty()) {
-      HashSet<AccountGroup.Id> all = new HashSet<AccountGroup.Id>();
-      all.addAll(authConfig.getRegisteredGroups());
-      all.removeAll(authConfig.getAnonymousGroups());
-      groupIds = Collections.unmodifiableSet(all);
+      groupIds = Collections.singleton(AccountGroup.REGISTERED_USERS);
     }
   }
 }

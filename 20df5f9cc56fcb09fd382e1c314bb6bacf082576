@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3///kU\u003d",
+        "filename": "Documentation/squash-commits-first.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-12-21T13:50:50Z",
+      "side": 1,
+      "message": "i would use some commas in this sentence like:\n\nThe reason for rejecting such a commit is that it would introduce, for\nthe corresponding change in Gerrit, a dependency upon itself",
+      "revId": "20df5f9cc56fcb09fd382e1c314bb6bacf082576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///kQ\u003d",
+        "filename": "Documentation/squash-commits-first.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-12-21T13:50:50Z",
+      "side": 1,
+      "message": "Again I would use commas here:\nAnother possibility for this error, although less\nlikely, is that ...",
+      "revId": "20df5f9cc56fcb09fd382e1c314bb6bacf082576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///kM\u003d",
+        "filename": "Documentation/squash-commits-first.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-12-21T13:50:50Z",
+      "side": 1,
+      "message": "s/intension/intention",
+      "revId": "20df5f9cc56fcb09fd382e1c314bb6bacf082576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

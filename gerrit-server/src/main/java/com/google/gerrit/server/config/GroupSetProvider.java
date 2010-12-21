@@ -30,11 +30,11 @@ import org.slf4j.LoggerFactory;
 import java.util.Set;
 
 public abstract class GroupSetProvider implements
-    Provider<Set<AccountGroup.Id>> {
+    Provider<Set<AccountGroup.UUID>> {
   private static final Logger log =
       LoggerFactory.getLogger(GroupSetProvider.class);
 
-  protected Set<AccountGroup.Id> groupIds;
+  protected Set<AccountGroup.UUID> groupIds;
 
   @Inject
   protected GroupSetProvider(@GerritServerConfig Config config,
@@ -44,7 +44,7 @@ public abstract class GroupSetProvider implements
   }
 
   @Override
-  public Set<AccountGroup.Id> get() {
+  public Set<AccountGroup.UUID> get() {
     return groupIds;
   }
 }

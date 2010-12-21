@@ -45,7 +45,7 @@ public class SubmitFunction extends CategoryFunction {
     if (valid(at, state)) {
       RefControl rc = state.controlFor(user);
       for (final RefRight pr : rc.getApplicableRights(at.getCategory().getId())) {
-        if (user.getEffectiveGroups().contains(pr.getAccountGroupId())
+        if (user.getEffectiveGroups().contains(pr.getAccountGroupUUID())
             && pr.getMaxValue() > 0) {
           return true;
         }

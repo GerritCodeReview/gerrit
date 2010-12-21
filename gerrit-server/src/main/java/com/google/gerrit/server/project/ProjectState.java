@@ -46,7 +46,7 @@ public class ProjectState {
 
   private final Project project;
   private final Collection<RefRight> localRights;
-  private final Set<AccountGroup.Id> owners;
+  private final Set<AccountGroup.UUID> owners;
 
   private volatile Collection<RefRight> inheritedRights;
 
@@ -75,11 +75,11 @@ public class ProjectState {
     this.project = project;
     this.localRights = rights;
 
-    final HashSet<AccountGroup.Id> groups = new HashSet<AccountGroup.Id>();
+    final HashSet<AccountGroup.UUID> groups = new HashSet<AccountGroup.UUID>();
     for (final RefRight right : rights) {
       if (ApprovalCategory.OWN.equals(right.getApprovalCategoryId())
           && right.getMaxValue() > 0) {
-        groups.add(right.getAccountGroupId());
+        groups.add(right.getAccountGroupUUID());
       }
     }
     owners = Collections.unmodifiableSet(groups);
@@ -209,7 +209,7 @@ public class ProjectState {
     return project.getNameKey().equals(wildProject);
   }
 
-  public Set<AccountGroup.Id> getOwners() {
+  public Set<AccountGroup.UUID> getOwners() {
     return owners;
   }
 

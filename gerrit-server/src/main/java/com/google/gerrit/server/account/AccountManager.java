@@ -275,7 +275,9 @@ public class AccountManager {
       // is going to be the site's administrator and just make them that
       // to bootstrap the authentication database.
       //
-      final AccountGroup.Id admin = authConfig.getAdministratorsGroup();
+      final AccountGroup.UUID uuid = authConfig.getAdministratorsGroup();
+      final AccountGroup g = db.accountGroups().byUUID(uuid).iterator().next();
+      final AccountGroup.Id admin = g.getId();
       final AccountGroupMember m =
           new AccountGroupMember(new AccountGroupMember.Key(newId, admin));
       db.accountGroupMembersAudit().insert(

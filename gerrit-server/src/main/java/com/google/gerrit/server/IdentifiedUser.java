@@ -43,11 +43,14 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.SocketAddress;
 import java.net.URL;
+import java.util.AbstractSet;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
@@ -139,6 +142,28 @@ public class IdentifiedUser extends CurrentUser {
   private static final Logger log =
       LoggerFactory.getLogger(IdentifiedUser.class);
 
+  private static final Set<AccountGroup.UUID> registeredGroups =
+      new AbstractSet<AccountGroup.UUID>() {
+        private final List<AccountGroup.UUID> groups =
+            Collections.unmodifiableList(Arrays.asList(new AccountGroup.UUID[] {
+                AccountGroup.ANONYMOUS_USERS, AccountGroup.REGISTERED_USERS}));
+
+        @Override
+        public boolean contains(Object o) {
+          return groups.contains(o);
+        }
+
+        @Override
+        public Iterator<AccountGroup.UUID> iterator() {
+          return groups.iterator();
+        }
+
+        @Override
+        public int size() {
+          return groups.size();
+        }
+      };
+
   private final Provider<String> canonicalUrl;
   private final Realm realm;
   private final AccountCache accountCache;
@@ -154,7 +179,7 @@ public class IdentifiedUser extends CurrentUser {
 
   private AccountState state;
   private Set<String> emailAddresses;
-  private Set<AccountGroup.Id> effectiveGroups;
+  private Set<AccountGroup.UUID> effectiveGroups;
   private Set<Change.Id> starredChanges;
   private Collection<AccountProjectWatch> notificationFilters;
 
@@ -217,14 +242,14 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   @Override
-  public Set<AccountGroup.Id> getEffectiveGroups() {
+  public Set<AccountGroup.UUID> getEffectiveGroups() {
     if (effectiveGroups == null) {
-      Set<AccountGroup.Id> seedGroups;
+      Set<AccountGroup.UUID> seedGroups;
 
       if (authConfig.isIdentityTrustable(state().getExternalIds())) {
         seedGroups = realm.groups(state());
       } else {
-        seedGroups = authConfig.getRegisteredGroups();
+        seedGroups = registeredGroups;
       }
 
       effectiveGroups = getIncludedGroups(seedGroups);
@@ -233,14 +258,14 @@ public class IdentifiedUser extends CurrentUser {
     return effectiveGroups;
   }
 
-  private Set<AccountGroup.Id> getIncludedGroups(Set<AccountGroup.Id> seedGroups) {
-    Set<AccountGroup.Id> includes = new HashSet<AccountGroup.Id> (seedGroups);
-    Queue<AccountGroup.Id> groupQueue = new LinkedList<AccountGroup.Id> (seedGroups);
+  private Set<AccountGroup.UUID> getIncludedGroups(Set<AccountGroup.UUID> seedGroups) {
+    Set<AccountGroup.UUID> includes = new HashSet<AccountGroup.UUID> (seedGroups);
+    Queue<AccountGroup.UUID> groupQueue = new LinkedList<AccountGroup.UUID> (seedGroups);
 
     while (groupQueue.size() > 0) {
-      AccountGroup.Id id = groupQueue.remove();
+      AccountGroup.UUID id = groupQueue.remove();
 
-      for (final AccountGroup.Id groupId : groupIncludeCache.getByInclude(id)) {
+      for (final AccountGroup.UUID groupId : groupIncludeCache.getByInclude(id)) {
         if (includes.add(groupId)) {
           groupQueue.add(groupId);
         }

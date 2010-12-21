@@ -20,7 +20,6 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountGroup.Id;
 import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -158,10 +157,11 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         map.put(account.getId(), info);
         break;
       case SAME_GROUP: {
-        Set<AccountGroup.Id> usersGroups = groupsOf(account);
-        usersGroups.removeAll(authConfig.getRegisteredGroups());
+        Set<AccountGroup.UUID> usersGroups = groupsOf(account);
+        usersGroups.remove(AccountGroup.ANONYMOUS_USERS);
+        usersGroups.remove(AccountGroup.REGISTERED_USERS);
         usersGroups.remove(authConfig.getBatchUsersGroup());
-        for (AccountGroup.Id myGroup : currentUser.get().getEffectiveGroups()) {
+        for (AccountGroup.UUID myGroup : currentUser.get().getEffectiveGroups()) {
           if (usersGroups.contains(myGroup)) {
             map.put(account.getId(), info);
             break;
@@ -176,9 +176,9 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     }
   }
 
-  private Set<Id> groupsOf(Account account) {
+  private Set<AccountGroup.UUID> groupsOf(Account account) {
     IdentifiedUser user = userFactory.create(account.getId());
-    return new HashSet<AccountGroup.Id>(user.getEffectiveGroups());
+    return new HashSet<AccountGroup.UUID>(user.getEffectiveGroups());
   }
 
   public void suggestAccountGroup(final String query, final int limit,
@@ -189,7 +189,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         final String b = a + MAX_SUFFIX;
         final int max = 10;
         final int n = limit <= 0 ? max : Math.min(limit, max);
-        Set<AccountGroup.Id> memberOf = currentUser.get().getEffectiveGroups();
+        Set<AccountGroup.UUID> memberOf = currentUser.get().getEffectiveGroups();
         List<AccountGroupName> names = new ArrayList<AccountGroupName>(n);
         for (AccountGroupName group : db.accountGroupNames()
               .suggestByName(a, b, n)) {

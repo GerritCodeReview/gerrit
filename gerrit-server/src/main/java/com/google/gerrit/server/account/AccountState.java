@@ -26,11 +26,11 @@ import java.util.Set;
 
 public class AccountState {
   private final Account account;
-  private final Set<AccountGroup.Id> internalGroups;
+  private final Set<AccountGroup.UUID> internalGroups;
   private final Collection<AccountExternalId> externalIds;
 
   public AccountState(final Account account,
-      final Set<AccountGroup.Id> actualGroups,
+      final Set<AccountGroup.UUID> actualGroups,
       final Collection<AccountExternalId> externalIds) {
     this.account = account;
     this.internalGroups = actualGroups;
@@ -89,7 +89,7 @@ public class AccountState {
   }
 
   /** The set of groups maintained directly within the Gerrit database. */
-  public Set<AccountGroup.Id> getInternalGroups() {
+  public Set<AccountGroup.UUID> getInternalGroups() {
     return internalGroups;
   }
 

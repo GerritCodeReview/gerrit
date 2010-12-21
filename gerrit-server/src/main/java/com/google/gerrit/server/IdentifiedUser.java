@@ -144,7 +144,7 @@ public class IdentifiedUser extends CurrentUser {
 
   private AccountState state;
   private Set<String> emailAddresses;
-  private Set<AccountGroup.Id> effectiveGroups;
+  private Set<AccountGroup.UUID> effectiveGroups;
   private Set<Change.Id> starredChanges;
   private Collection<AccountProjectWatch> notificationFilters;
 
@@ -205,7 +205,7 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   @Override
-  public Set<AccountGroup.Id> getEffectiveGroups() {
+  public Set<AccountGroup.UUID> getEffectiveGroups() {
     if (effectiveGroups == null) {
       if (authConfig.isIdentityTrustable(state().getExternalIds())) {
         effectiveGroups = realm.groups(state());

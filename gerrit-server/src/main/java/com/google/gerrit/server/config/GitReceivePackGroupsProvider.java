@@ -33,7 +33,7 @@ public class GitReceivePackGroupsProvider extends GroupSetProvider {
     // If no group was set, default to "registered users"
     //
     if (groupIds.isEmpty()) {
-      HashSet<AccountGroup.Id> all = new HashSet<AccountGroup.Id>();
+      HashSet<AccountGroup.UUID> all = new HashSet<AccountGroup.UUID>();
       all.addAll(authConfig.getRegisteredGroups());
       all.removeAll(authConfig.getAnonymousGroups());
       groupIds = Collections.unmodifiableSet(all);

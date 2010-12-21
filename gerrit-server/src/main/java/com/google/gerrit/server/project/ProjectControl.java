@@ -101,16 +101,16 @@ public class ProjectControl {
     ProjectControl create(CurrentUser who, ProjectState ps);
   }
 
-  private final Set<AccountGroup.Id> uploadGroups;
-  private final Set<AccountGroup.Id> receiveGroups;
+  private final Set<AccountGroup.UUID> uploadGroups;
+  private final Set<AccountGroup.UUID> receiveGroups;
 
   private final RefControl.Factory refControlFactory;
   private final CurrentUser user;
   private final ProjectState state;
 
   @Inject
-  ProjectControl(@GitUploadPackGroups Set<AccountGroup.Id> uploadGroups,
-      @GitReceivePackGroups Set<AccountGroup.Id> receiveGroups,
+  ProjectControl(@GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
+      @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
       final RefControl.Factory refControlFactory,
       @Assisted CurrentUser who, @Assisted ProjectState ps) {
     this.uploadGroups = uploadGroups;
@@ -197,10 +197,10 @@ public class ProjectControl {
   // TODO (anatol.pomazau): Try to merge this method with similar RefRightsForPattern#canPerform
   private boolean canPerformOnAnyRef(ApprovalCategory.Id actionId,
       short requireValue) {
-    final Set<AccountGroup.Id> groups = user.getEffectiveGroups();
+    final Set<AccountGroup.UUID> groups = user.getEffectiveGroups();
 
     for (final RefRight pr : state.getAllRights(actionId, true)) {
-      if (groups.contains(pr.getAccountGroupId())
+      if (groups.contains(pr.getAccountGroupUUID())
           && pr.getMaxValue() >= requireValue) {
         return true;
       }

@@ -40,6 +40,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.mail.CreateChangeSender;
@@ -143,6 +144,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeHookRunner hooks;
   private final ProjectCache projectCache;
+  private final GroupCache groupCache;
   private final String canonicalWebUrl;
   private final PersonIdent gerritIdent;
   private final TrackingFooters trackingFooters;
@@ -178,6 +180,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final PatchSetInfoFactory patchSetInfoFactory,
       final ChangeHookRunner hooks,
       final ProjectCache projectCache,
+      final GroupCache groupCache,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
@@ -195,6 +198,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.hooks = hooks;
     this.projectCache = projectCache;
+    this.groupCache = groupCache;
     this.canonicalWebUrl = canonicalWebUrl;
     this.gerritIdent = gerritIdent;
     this.trackingFooters = trackingFooters;
@@ -336,9 +340,14 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     AbstractAgreement bestAgreement = null;
     ContributorAgreement bestCla = null;
 
-    OUTER: for (AccountGroup.Id groupId : currentUser.getEffectiveGroups()) {
+    OUTER: for (AccountGroup.UUID groupUUID : currentUser.getEffectiveGroups()) {
+      AccountGroup group = groupCache.get(groupUUID);
+      if (group == null) {
+        continue;
+      }
+
       final List<AccountGroupAgreement> temp =
-          db.accountGroupAgreements().byGroup(groupId).toList();
+          db.accountGroupAgreements().byGroup(group.getId()).toList();
 
       Collections.reverse(temp);
 

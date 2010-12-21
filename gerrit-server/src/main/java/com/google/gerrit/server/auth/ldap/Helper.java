@@ -133,7 +133,7 @@ import javax.net.ssl.SSLSocketFactory;
     }
   }
 
-  Set<AccountGroup.Id> queryForGroups(final DirContext ctx,
+  Set<AccountGroup.UUID> queryForGroups(final DirContext ctx,
       final String username, LdapQuery.Result account)
       throws NamingException, AccountException {
     final LdapSchema schema = getSchema(ctx);
@@ -175,12 +175,12 @@ import javax.net.ssl.SSLSocketFactory;
       }
     }
 
-    final Set<AccountGroup.Id> actual = new HashSet<AccountGroup.Id>();
+    final Set<AccountGroup.UUID> actual = new HashSet<AccountGroup.UUID>();
     for (String dn : groupDNs) {
       for (AccountGroup group : groupCache
           .get(new AccountGroup.ExternalNameKey(dn))) {
         if (group.getType() == AccountGroup.Type.LDAP) {
-          actual.add(group.getId());
+          actual.add(group.getGroupUUID());
         }
       }
     }

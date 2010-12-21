@@ -18,9 +18,12 @@ import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AuthType;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -31,6 +34,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /** Authentication related settings from {@code gerrit.config}. */
@@ -43,10 +47,10 @@ public class AuthConfig {
   private final List<OpenIdProviderPattern> allowedOpenIDs;
   private final SignedToken emailReg;
 
-  private final AccountGroup.Id administratorGroup;
-  private final Set<AccountGroup.Id> anonymousGroups;
-  private final Set<AccountGroup.Id> registeredGroups;
-  private final AccountGroup.Id batchUsersGroup;
+  private final AccountGroup.UUID administratorGroup;
+  private final Set<AccountGroup.UUID> anonymousGroups;
+  private final Set<AccountGroup.UUID> registeredGroups;
+  private final AccountGroup.UUID batchUsersGroup;
 
   private final boolean allowGoogleAccountUpgrade;
 
@@ -60,13 +64,13 @@ public class AuthConfig {
     allowedOpenIDs = toPatterns(cfg, "allowedOpenID");
     emailReg = new SignedToken(5 * 24 * 60 * 60, s.registerEmailPrivateKey);
 
-    final HashSet<AccountGroup.Id> r = new HashSet<AccountGroup.Id>(2);
-    r.add(s.anonymousGroupId);
-    r.add(s.registeredGroupId);
+    HashSet<AccountGroup.UUID> r = new HashSet<AccountGroup.UUID>(2);
+    r.add(s.anonymousGroupUUID);
+    r.add(s.registeredGroupUUID);
     registeredGroups = Collections.unmodifiableSet(r);
-    anonymousGroups = Collections.singleton(s.anonymousGroupId);
-    administratorGroup = s.adminGroupId;
-    batchUsersGroup = s.batchUsersGroupId;
+    anonymousGroups = Collections.singleton(s.anonymousGroupUUID);
+    administratorGroup = s.adminGroupUUID;
+    batchUsersGroup = s.batchUsersGroupUUID;
 
     if (authType == AuthType.OPENID) {
       allowGoogleAccountUpgrade =
@@ -115,22 +119,22 @@ public class AuthConfig {
   }
 
   /** Identity of the magic group with full powers. */
-  public AccountGroup.Id getAdministratorsGroup() {
+  public AccountGroup.UUID getAdministratorsGroup() {
     return administratorGroup;
   }
 
   /** Identity of the group whose service is degraded to lower priority. */
-  public AccountGroup.Id getBatchUsersGroup() {
+  public AccountGroup.UUID getBatchUsersGroup() {
     return batchUsersGroup;
   }
 
   /** Groups that all users, including anonymous users, belong to. */
-  public Set<AccountGroup.Id> getAnonymousGroups() {
+  public Set<AccountGroup.UUID> getAnonymousGroups() {
     return anonymousGroups;
   }
 
   /** Groups that all users who have created an account belong to. */
-  public Set<AccountGroup.Id> getRegisteredGroups() {
+  public Set<AccountGroup.UUID> getRegisteredGroups() {
     return registeredGroups;
   }
 

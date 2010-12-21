@@ -34,6 +34,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class PerformCreateGroup {
@@ -160,8 +161,9 @@ public class PerformCreateGroup {
     db.accountGroupIncludes().insert(includeList);
     db.accountGroupIncludesAudit().insert(includesAudit);
 
-    for (AccountGroup.Id includeId : groups) {
-      groupIncludeCache.evictInclude(includeId);
+    for (AccountGroup group : db.accountGroups().get(
+        new HashSet<AccountGroup.Id>(groups))) {
+      groupIncludeCache.evictInclude(group.getGroupUUID());
     }
   }
 }

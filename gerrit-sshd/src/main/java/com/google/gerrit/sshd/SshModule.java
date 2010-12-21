@@ -28,11 +28,11 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
-import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.sshd.args4j.AccountGroupIdHandler;
+import com.google.gerrit.sshd.args4j.AccountGroupUUIDHandler;
 import com.google.gerrit.sshd.args4j.AccountIdHandler;
 import com.google.gerrit.sshd.args4j.PatchSetIdHandler;
 import com.google.gerrit.sshd.args4j.ProjectControlHandler;
@@ -118,6 +118,7 @@ public class SshModule extends FactoryModule {
 
     registerOptionHandler(Account.Id.class, AccountIdHandler.class);
     registerOptionHandler(AccountGroup.Id.class, AccountGroupIdHandler.class);
+    registerOptionHandler(AccountGroup.UUID.class, AccountGroupUUIDHandler.class);
     registerOptionHandler(PatchSet.Id.class, PatchSetIdHandler.class);
     registerOptionHandler(ProjectControl.class, ProjectControlHandler.class);
     registerOptionHandler(SocketAddress.class, SocketAddressHandler.class);

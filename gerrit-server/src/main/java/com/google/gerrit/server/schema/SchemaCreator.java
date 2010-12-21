@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -132,10 +133,19 @@ public class SchemaCreator {
     }
   }
 
+  private AccountGroup newGroup(ReviewDb c, String name, AccountGroup.UUID uuid)
+      throws OrmException {
+    if (uuid == null) {
+      uuid = GroupUUID.make(name, serverUser);
+    }
+    return new AccountGroup( //
+        new AccountGroup.NameKey(name), //
+        new AccountGroup.Id(c.nextAccountGroupId()), //
+        uuid);
+  }
+
   private SystemConfig initSystemConfig(final ReviewDb c) throws OrmException {
-    final AccountGroup admin =
-        new AccountGroup(new AccountGroup.NameKey("Administrators"),
-            new AccountGroup.Id(c.nextAccountGroupId()));
+    final AccountGroup admin = newGroup(c, "Administrators", null);
     admin.setDescription("Gerrit Site Administrators");
     admin.setType(AccountGroup.Type.INTERNAL);
     c.accountGroups().insert(Collections.singleton(admin));
@@ -143,8 +153,7 @@ public class SchemaCreator {
         Collections.singleton(new AccountGroupName(admin)));
 
     final AccountGroup anonymous =
-        new AccountGroup(new AccountGroup.NameKey("Anonymous Users"),
-            new AccountGroup.Id(c.nextAccountGroupId()));
+        newGroup(c, "Anonymous Users", AccountGroup.ANONYMOUS_USERS);
     anonymous.setDescription("Any user, signed-in or not");
     anonymous.setOwnerGroupId(admin.getId());
     anonymous.setType(AccountGroup.Type.SYSTEM);
@@ -153,8 +162,7 @@ public class SchemaCreator {
         Collections.singleton(new AccountGroupName(anonymous)));
 
     final AccountGroup registered =
-        new AccountGroup(new AccountGroup.NameKey("Registered Users"),
-            new AccountGroup.Id(c.nextAccountGroupId()));
+        newGroup(c, "Registered Users", AccountGroup.REGISTERED_USERS);
     registered.setDescription("Any signed-in user");
     registered.setOwnerGroupId(admin.getId());
     registered.setType(AccountGroup.Type.SYSTEM);
@@ -162,9 +170,7 @@ public class SchemaCreator {
     c.accountGroupNames().insert(
         Collections.singleton(new AccountGroupName(registered)));
 
-    final AccountGroup batchUsers =
-      new AccountGroup(new AccountGroup.NameKey("Non-Interactive Users"),
-          new AccountGroup.Id(c.nextAccountGroupId()));
+    final AccountGroup batchUsers = newGroup(c, "Non-Interactive Users", null);
     batchUsers.setDescription("Users who perform batch actions on Gerrit");
     batchUsers.setOwnerGroupId(admin.getId());
     batchUsers.setType(AccountGroup.Type.INTERNAL);
@@ -173,8 +179,7 @@ public class SchemaCreator {
         Collections.singleton(new AccountGroupName(batchUsers)));
 
     final AccountGroup owners =
-        new AccountGroup(new AccountGroup.NameKey("Project Owners"),
-            new AccountGroup.Id(c.nextAccountGroupId()));
+        newGroup(c, "Project Owners", AccountGroup.PROJECT_OWNERS);
     owners.setDescription("Any owner of the project");
     owners.setOwnerGroupId(admin.getId());
     owners.setType(AccountGroup.Type.SYSTEM);
@@ -184,10 +189,17 @@ public class SchemaCreator {
 
     final SystemConfig s = SystemConfig.create();
     s.registerEmailPrivateKey = SignedToken.generateRandomKey();
+
     s.adminGroupId = admin.getId();
+    s.adminGroupUUID = admin.getGroupUUID();
+
     s.anonymousGroupId = anonymous.getId();
+
     s.registeredGroupId = registered.getId();
+
     s.batchUsersGroupId = batchUsers.getId();
+    s.batchUsersGroupUUID = batchUsers.getGroupUUID();
+
     s.ownerGroupId = owners.getId();
     s.wildProjectName = DEFAULT_WILD_NAME;
     try {

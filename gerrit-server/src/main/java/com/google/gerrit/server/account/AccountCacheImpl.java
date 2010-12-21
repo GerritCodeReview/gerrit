@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -90,18 +89,13 @@ public class AccountCacheImpl implements AccountCache {
 
   static class ByIdLoader extends EntryCreator<Account.Id, AccountState> {
     private final SchemaFactory<ReviewDb> schema;
-    private final Set<AccountGroup.Id> registered;
-    private final Set<AccountGroup.Id> anonymous;
     private final GroupCache groupCache;
     private final Cache<String, Account.Id> byName;
 
     @Inject
-    ByIdLoader(SchemaFactory<ReviewDb> sf, AuthConfig auth,
-        GroupCache groupCache,
+    ByIdLoader(SchemaFactory<ReviewDb> sf, GroupCache groupCache,
         @Named(BYUSER_NAME) Cache<String, Account.Id> byUsername) {
       this.schema = sf;
-      this.registered = auth.getRegisteredGroups();
-      this.anonymous = auth.getAnonymousGroups();
       this.groupCache = groupCache;
       this.byName = byUsername;
     }
@@ -133,21 +127,18 @@ public class AccountCacheImpl implements AccountCache {
           Collections.unmodifiableCollection(db.accountExternalIds().byAccount(
               who).toList());
 
-      Set<AccountGroup.Id> internalGroups = new HashSet<AccountGroup.Id>();
+      Set<AccountGroup.UUID> internalGroups = new HashSet<AccountGroup.UUID>();
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
         final AccountGroup.Id groupId = g.getAccountGroupId();
         final AccountGroup group = groupCache.get(groupId);
         if (group != null && group.getType() == AccountGroup.Type.INTERNAL) {
-          internalGroups.add(groupId);
+          internalGroups.add(group.getGroupUUID());
         }
       }
 
-      if (internalGroups.isEmpty()) {
-        internalGroups = registered;
-      } else {
-        internalGroups.addAll(registered);
-        internalGroups = Collections.unmodifiableSet(internalGroups);
-      }
+      internalGroups.add(AccountGroup.REGISTERED_USERS);
+      internalGroups.add(AccountGroup.ANONYMOUS_USERS);
+      internalGroups = Collections.unmodifiableSet(internalGroups);
 
       return new AccountState(account, internalGroups, externalIds);
     }
@@ -156,6 +147,8 @@ public class AccountCacheImpl implements AccountCache {
     public AccountState missing(final Account.Id accountId) {
       final Account account = new Account(accountId);
       final Collection<AccountExternalId> ids = Collections.emptySet();
+      final Set<AccountGroup.UUID> anonymous =
+          Collections.singleton(AccountGroup.ANONYMOUS_USERS);
       return new AccountState(account, anonymous, ids);
     }
   }

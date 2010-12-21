@@ -68,7 +68,6 @@ public class RefControl {
     RefControl create(ProjectControl projectControl, String ref);
   }
 
-  private final SystemConfig systemConfig;
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -76,10 +75,8 @@ public class RefControl {
   private Boolean canForgeCommitter;
 
   @Inject
-  protected RefControl(final SystemConfig systemConfig,
-      @Assisted final ProjectControl projectControl,
+  protected RefControl(@Assisted final ProjectControl projectControl,
       @Assisted String ref) {
-    this.systemConfig = systemConfig;
     if (isRE(ref)) {
       ref = shortestExample(ref);
 
@@ -265,7 +262,7 @@ public class RefControl {
   public short normalize(ApprovalCategory.Id category, short score) {
     short minAllowed = 0, maxAllowed = 0;
     for (RefRight r : getApplicableRights(category)) {
-      if (getCurrentUser().getEffectiveGroups().contains(r.getAccountGroupId())) {
+      if (getCurrentUser().getEffectiveGroups().contains(r.getAccountGroupUUID())) {
         minAllowed = (short) Math.min(minAllowed, r.getMinValue());
         maxAllowed = (short) Math.max(maxAllowed, r.getMaxValue());
       }
@@ -315,9 +312,9 @@ public class RefControl {
      * @param groups The groups of the user
      * @return The allowed value for this ref for all the specified groups
      */
-    private boolean allowedValueForRef(Set<AccountGroup.Id> groups, short level) {
+    private boolean allowedValueForRef(Set<AccountGroup.UUID> groups, short level) {
       for (RefRight right : rights) {
-        if (groups.contains(right.getAccountGroupId())
+        if (groups.contains(right.getAccountGroupUUID())
             && right.getMaxValue() >= level) {
           return true;
         }
@@ -327,7 +324,7 @@ public class RefControl {
   }
 
   boolean canPerform(ApprovalCategory.Id actionId, short level) {
-    final Set<AccountGroup.Id> groups = getCurrentUser().getEffectiveGroups();
+    final Set<AccountGroup.UUID> groups = getCurrentUser().getEffectiveGroups();
 
     List<RefRight> allRights = new ArrayList<RefRight>();
     allRights.addAll(getAllRights(actionId));
@@ -533,9 +530,9 @@ public class RefControl {
    */
   private Set<RefRight> resolveOwnerGroups(final RefRight refRight) {
     final Set<RefRight> resolvedRefRights = new HashSet<RefRight>();
-    if (refRight.getAccountGroupId().equals(systemConfig.ownerGroupId)) {
-      for (final AccountGroup.Id ownerGroup : getProjectState().getOwners()) {
-        if (!ownerGroup.equals(systemConfig.ownerGroupId)) {
+    if (AccountGroup.PROJECT_OWNERS.equals(refRight.getAccountGroupUUID())) {
+      for (final AccountGroup.UUID ownerGroup : getProjectState().getOwners()) {
+        if (!AccountGroup.PROJECT_OWNERS.equals(ownerGroup)) {
           resolvedRefRights.add(new RefRight(refRight, ownerGroup));
         }
       }

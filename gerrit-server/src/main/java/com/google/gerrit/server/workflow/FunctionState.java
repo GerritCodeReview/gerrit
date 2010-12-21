@@ -147,7 +147,7 @@ public class FunctionState {
     //
     short minAllowed = 0, maxAllowed = 0;
     for (final RefRight r : rc.getApplicableRights(a.getCategoryId())) {
-      final AccountGroup.Id grp = r.getAccountGroupId();
+      final AccountGroup.UUID grp = r.getAccountGroupUUID();
       if (user.getEffectiveGroups().contains(grp)) {
         minAllowed = (short) Math.min(minAllowed, r.getMinValue());
         maxAllowed = (short) Math.max(maxAllowed, r.getMaxValue());

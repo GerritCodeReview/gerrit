@@ -42,10 +42,13 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.SocketAddress;
 import java.net.URL;
+import java.util.AbstractSet;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
@@ -130,6 +133,28 @@ public class IdentifiedUser extends CurrentUser {
   private static final Logger log =
       LoggerFactory.getLogger(IdentifiedUser.class);
 
+  private static final Set<AccountGroup.UUID> registeredGroups =
+      new AbstractSet<AccountGroup.UUID>() {
+        private final List<AccountGroup.UUID> groups =
+            Collections.unmodifiableList(Arrays.asList(new AccountGroup.UUID[] {
+                AccountGroup.ANONYMOUS_USERS, AccountGroup.REGISTERED_USERS}));
+
+        @Override
+        public boolean contains(Object o) {
+          return groups.contains(o);
+        }
+
+        @Override
+        public Iterator<AccountGroup.UUID> iterator() {
+          return groups.iterator();
+        }
+
+        @Override
+        public int size() {
+          return groups.size();
+        }
+      };
+
   private final Provider<String> canonicalUrl;
   private final Realm realm;
   private final AccountCache accountCache;
@@ -144,7 +169,7 @@ public class IdentifiedUser extends CurrentUser {
 
   private AccountState state;
   private Set<String> emailAddresses;
-  private Set<AccountGroup.Id> effectiveGroups;
+  private Set<AccountGroup.UUID> effectiveGroups;
   private Set<Change.Id> starredChanges;
   private Collection<AccountProjectWatch> notificationFilters;
 
@@ -205,13 +230,13 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   @Override
-  public Set<AccountGroup.Id> getEffectiveGroups() {
+  public Set<AccountGroup.UUID> getEffectiveGroups() {
     if (effectiveGroups == null) {
       if (authConfig.isIdentityTrustable(state().getExternalIds())) {
         effectiveGroups = realm.groups(state());
 
       } else {
-        effectiveGroups = authConfig.getRegisteredGroups();
+        effectiveGroups = registeredGroups;
       }
     }
     return effectiveGroups;

@@ -17,16 +17,25 @@ package com.google.gerrit.httpd.rpc.project;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gwtorm.client.OrmConcurrencyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import java.util.Collections;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+
+import java.io.IOException;
 
 class ChangeProjectSettings extends Handler<ProjectDetail> {
   interface Factory {
@@ -36,8 +45,9 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
   private final ProjectDetailFactory.Factory projectDetailFactory;
   private final ProjectControl.Factory projectControlFactory;
   private final ProjectCache projectCache;
-  private final ReviewDb db;
-  private final GitRepositoryManager repoManager;
+  private final IdentifiedUser currentUser;
+  private final GitRepositoryManager mgr;
+  private final PersonIdent serverIdent;
 
   private final Project update;
 
@@ -45,14 +55,16 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
   ChangeProjectSettings(
       final ProjectDetailFactory.Factory projectDetailFactory,
       final ProjectControl.Factory projectControlFactory,
-      final ProjectCache projectCache, final ReviewDb db,
-      final GitRepositoryManager grm,
+      final ProjectCache projectCache, final IdentifiedUser currentUser,
+      final GitRepositoryManager mgr,
+      @GerritPersonIdent final PersonIdent serverIdent,
       @Assisted final Project update) {
     this.projectDetailFactory = projectDetailFactory;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
-    this.db = db;
-    this.repoManager = grm;
+    this.currentUser = currentUser;
+    this.mgr = mgr;
+    this.serverIdent = serverIdent;
 
     this.update = update;
   }
@@ -63,17 +75,37 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
     final ProjectControl projectControl =
         projectControlFactory.ownerFor(projectName);
 
-    final Project proj = db.projects().get(projectName);
-    if (proj == null) {
+    final Repository git;
+    try {
+      git = mgr.openRepository(projectName);
+    } catch (RepositoryNotFoundException notFound) {
       throw new NoSuchProjectException(projectName);
     }
+    try {
+      // TODO We really should take advantage of the Git commit DAG and
+      // ensure the current version matches the old version the caller read.
+      //
+      ProjectConfig config = new ProjectConfig();
+      config.load(git);
+      config.getProject().copySettingsFrom(update);
 
-    proj.copySettingsFrom(update);
-    db.projects().update(Collections.singleton(proj));
-    projectCache.evict(proj);
-
-    if (!projectControl.getProjectState().isSpecialWildProject()) {
-      repoManager.setProjectDescription(projectName, update.getDescription());
+      CommitBuilder commit = new CommitBuilder();
+      commit.setAuthor(currentUser.newCommitterIdent(serverIdent.getWhen(),
+          serverIdent.getTimeZone()));
+      commit.setCommitter(serverIdent);
+      commit.setMessage("Modified project settings\n");
+      if (config.commit(commit, git)) {
+        mgr.setProjectDescription(projectName, update.getDescription());
+        projectCache.evict(config.getProject());
+      } else {
+        throw new OrmConcurrencyException("Cannot update " + projectName);
+      }
+    } catch (ConfigInvalidException err) {
+      throw new OrmException("Cannot read project " + projectName, err);
+    } catch (IOException err) {
+      throw new OrmException("Cannot update project " + projectName, err);
+    } finally {
+      git.close();
     }
 
     return projectDetailFactory.create(projectName).call();

@@ -48,6 +48,7 @@ import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.client.AtomicUpdate;
@@ -141,6 +142,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final ReplicationQueue replication;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeHookRunner hooks;
+  private final ProjectCache projectCache;
   private final String canonicalWebUrl;
   private final PersonIdent gerritIdent;
   private final TrackingFooters trackingFooters;
@@ -175,6 +177,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final ReplicationQueue replication,
       final PatchSetInfoFactory patchSetInfoFactory,
       final ChangeHookRunner hooks,
+      final ProjectCache projectCache,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
@@ -191,6 +194,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.replication = replication;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.hooks = hooks;
+    this.projectCache = projectCache;
     this.canonicalWebUrl = canonicalWebUrl;
     this.gerritIdent = gerritIdent;
     this.trackingFooters = trackingFooters;
@@ -300,6 +304,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
               autoCloseChanges(c);
               break;
           }
+        }
+
+        if (GitRepositoryManager.REF_CONFIG.equals(c.getRefName())) {
+          projectCache.evict(projectControl.getProject());
         }
 
         if (!c.getRefName().startsWith(NEW_CHANGE)) {
@@ -481,24 +489,59 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       switch (cmd.getType()) {
         case CREATE:
           parseCreate(cmd);
-          continue;
+          break;
 
         case UPDATE:
           parseUpdate(cmd);
-          continue;
+          break;
 
         case DELETE:
           parseDelete(cmd);
-          continue;
+          break;
 
         case UPDATE_NONFASTFORWARD:
           parseRewind(cmd);
+          break;
+
+        default:
+          reject(cmd);
           continue;
       }
 
-      // Everything else is bogus as far as we are concerned.
-      //
-      reject(cmd);
+      if (cmd.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED){
+        continue;
+      }
+
+      if (GitRepositoryManager.REF_CONFIG.equals(cmd.getRefName())) {
+        if (!projectControl.isOwner()) {
+          reject(cmd, "not project owner");
+          continue;
+        }
+
+        switch (cmd.getType()) {
+          case CREATE:
+          case UPDATE:
+          case UPDATE_NONFASTFORWARD:
+            try {
+              ProjectConfig cfg = new ProjectConfig();
+              cfg.load(repo, cmd.getNewId());
+            } catch (Exception e) {
+              reject(cmd, "invalid project configuration");
+              log.error("User " + currentUser.getUserName()
+                  + " tried to push invalid project configuration "
+                  + cmd.getNewId().name() + " for " + project.getName(), e);
+              continue;
+            }
+            break;
+
+          case DELETE:
+            break;
+
+          default:
+            reject(cmd);
+            continue;
+        }
+      }
     }
   }
 

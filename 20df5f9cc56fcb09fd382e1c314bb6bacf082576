@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3///i0\u003d",
+        "filename": "Documentation/squash-commits-first.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-12-21T17:39:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3///kU\u003d",
+      "revId": "20df5f9cc56fcb09fd382e1c314bb6bacf082576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3///kQ\u003d",
         "filename": "Documentation/squash-commits-first.txt",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3///iw\u003d",
+        "filename": "Documentation/squash-commits-first.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-12-21T17:39:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3///kQ\u003d",
+      "revId": "20df5f9cc56fcb09fd382e1c314bb6bacf082576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3///kM\u003d",
         "filename": "Documentation/squash-commits-first.txt",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2010-12-21T13:50:50Z",
       "side": 1,
       "message": "s/intension/intention",
+      "revId": "20df5f9cc56fcb09fd382e1c314bb6bacf082576",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///is\u003d",
+        "filename": "Documentation/squash-commits-first.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-12-21T17:39:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3///kM\u003d",
       "revId": "20df5f9cc56fcb09fd382e1c314bb6bacf082576",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

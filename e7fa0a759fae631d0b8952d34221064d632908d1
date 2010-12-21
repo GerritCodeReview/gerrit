@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3///kE\u003d",
+        "filename": "Documentation/you-are-not-committer.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-12-21T13:54:43Z",
+      "side": 1,
+      "message": "I would put a comma after \"fails\" and a \"then\":\nand you committed the change for which the push fails, then either you have no",
+      "revId": "e7fa0a759fae631d0b8952d34221064d632908d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///kA\u003d",
+        "filename": "Documentation/you-are-not-committer.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-12-21T13:54:43Z",
+      "side": 1,
+      "message": "again here I would use \", then\":\nand somebody else committed the change for which the push fails, then you have",
+      "revId": "e7fa0a759fae631d0b8952d34221064d632908d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

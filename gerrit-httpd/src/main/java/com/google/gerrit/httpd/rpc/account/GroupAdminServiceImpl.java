@@ -46,6 +46,7 @@ import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -281,7 +282,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
               Collections.singleton(new AccountGroupIncludeAudit(m,
                   getAccountId())));
           db.accountGroupIncludes().insert(Collections.singleton(m));
-          groupIncludeCache.evictInclude(a.getId());
+          groupIncludeCache.evictInclude(a.getGroupUUID());
         }
 
         return groupDetailFactory.create(groupId).call();
@@ -361,6 +362,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         }
 
         final Account.Id me = getAccountId();
+        final Set<AccountGroup.Id> groupsToEvict = new HashSet<AccountGroup.Id>();
         for (final AccountGroupInclude.Key k : keys) {
           final AccountGroupInclude m =
               db.accountGroupIncludes().get(k);
@@ -385,8 +387,11 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
                   Collections.singleton(audit));
             }
             db.accountGroupIncludes().delete(Collections.singleton(m));
-            groupIncludeCache.evictInclude(m.getIncludeId());
+            groupsToEvict.add(k.getIncludeId());
           }
+        }
+        for (AccountGroup group : db.accountGroups().get(groupsToEvict)) {
+          groupIncludeCache.evictInclude(group.getGroupUUID());
         }
         return VoidResult.INSTANCE;
       }

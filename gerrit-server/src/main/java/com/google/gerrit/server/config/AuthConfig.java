@@ -29,9 +29,7 @@ import org.eclipse.jgit.lib.Config;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
@@ -45,10 +43,8 @@ public class AuthConfig {
   private final boolean cookieSecure;
   private final SignedToken emailReg;
 
-  private final AccountGroup.Id administratorGroup;
-  private final Set<AccountGroup.Id> anonymousGroups;
-  private final Set<AccountGroup.Id> registeredGroups;
-  private final AccountGroup.Id batchUsersGroup;
+  private final AccountGroup.UUID administratorGroup;
+  private final AccountGroup.UUID batchUsersGroup;
 
   private final boolean allowGoogleAccountUpgrade;
 
@@ -64,13 +60,8 @@ public class AuthConfig {
     cookieSecure = cfg.getBoolean("auth", "cookiesecure", false);
     emailReg = new SignedToken(5 * 24 * 60 * 60, s.registerEmailPrivateKey);
 
-    final HashSet<AccountGroup.Id> r = new HashSet<AccountGroup.Id>(2);
-    r.add(s.anonymousGroupId);
-    r.add(s.registeredGroupId);
-    registeredGroups = Collections.unmodifiableSet(r);
-    anonymousGroups = Collections.singleton(s.anonymousGroupId);
-    administratorGroup = s.adminGroupId;
-    batchUsersGroup = s.batchUsersGroupId;
+    administratorGroup = s.adminGroupUUID;
+    batchUsersGroup = s.batchUsersGroupUUID;
 
     if (authType == AuthType.OPENID) {
       allowGoogleAccountUpgrade =
@@ -127,23 +118,13 @@ public class AuthConfig {
   }
 
   /** Identity of the magic group with full powers. */
-  public AccountGroup.Id getAdministratorsGroup() {
+  public AccountGroup.UUID getAdministratorsGroup() {
     return administratorGroup;
   }
 
   /** Identity of the group whose service is degraded to lower priority. */
-  public AccountGroup.Id getBatchUsersGroup() {
+  public AccountGroup.UUID getBatchUsersGroup() {
     return batchUsersGroup;
-  }
-
-  /** Groups that all users, including anonymous users, belong to. */
-  public Set<AccountGroup.Id> getAnonymousGroups() {
-    return anonymousGroups;
-  }
-
-  /** Groups that all users who have created an account belong to. */
-  public Set<AccountGroup.Id> getRegisteredGroups() {
-    return registeredGroups;
   }
 
   /** OpenID identities which the server permits for authentication. */

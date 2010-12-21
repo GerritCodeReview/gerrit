@@ -15,7 +15,6 @@
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -37,11 +36,11 @@ import java.util.Collections;
 public class ProjectCreatorGroupsProvider extends GroupSetProvider {
   @Inject
   public ProjectCreatorGroupsProvider(@GerritServerConfig final Config config,
-      final SystemConfig systemConfig, final SchemaFactory<ReviewDb> db) {
+      final AuthConfig authConfig, final SchemaFactory<ReviewDb> db) {
     super(config, db, "repository", "*", "createGroup");
 
     if (groupIds.isEmpty()) {
-      groupIds = Collections.singleton(systemConfig.adminGroupId);
+      groupIds = Collections.singleton(authConfig.getAdministratorsGroup());
     }
   }
 }

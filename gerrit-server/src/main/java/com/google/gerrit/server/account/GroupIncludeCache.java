@@ -20,8 +20,8 @@ import java.util.Collection;
 
 /** Tracks group inclusions in memory for efficient access. */
 public interface GroupIncludeCache {
-  public Collection<AccountGroup.Id> getByInclude(AccountGroup.Id groupId);
+  public Collection<AccountGroup.UUID> getByInclude(AccountGroup.UUID groupId);
 
-  public void evictInclude(AccountGroup.Id groupId);
+  public void evictInclude(AccountGroup.UUID groupId);
 }
 

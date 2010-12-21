@@ -21,16 +21,17 @@ import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gwtorm.client.SchemaFactory;
-
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /** Tracks group inclusions in memory for efficient access. */
 @Singleton
@@ -41,8 +42,8 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<AccountGroup.Id, Collection<AccountGroup.Id>>> byInclude =
-            new TypeLiteral<Cache<AccountGroup.Id, Collection<AccountGroup.Id>>>() {};
+        final TypeLiteral<Cache<AccountGroup.UUID, Collection<AccountGroup.UUID>>> byInclude =
+            new TypeLiteral<Cache<AccountGroup.UUID, Collection<AccountGroup.UUID>>>() {};
         core(byInclude, BYINCLUDE_NAME).populateWith(ByIncludeLoader.class);
 
         bind(GroupIncludeCacheImpl.class);
@@ -51,23 +52,24 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     };
   }
 
-  private final Cache<AccountGroup.Id, Collection<AccountGroup.Id>> byInclude;
+  private final Cache<AccountGroup.UUID, Collection<AccountGroup.UUID>> byInclude;
 
   @Inject
   GroupIncludeCacheImpl(
-      @Named(BYINCLUDE_NAME) Cache<AccountGroup.Id, Collection<AccountGroup.Id>> byInclude) {
+      @Named(BYINCLUDE_NAME) Cache<AccountGroup.UUID, Collection<AccountGroup.UUID>> byInclude) {
     this.byInclude = byInclude;
   }
 
-  public Collection<AccountGroup.Id> getByInclude(final AccountGroup.Id groupId) {
+  public Collection<AccountGroup.UUID> getByInclude(AccountGroup.UUID groupId) {
     return byInclude.get(groupId);
   }
 
-  public void evictInclude(AccountGroup.Id groupId) {
+  public void evictInclude(AccountGroup.UUID groupId) {
     byInclude.remove(groupId);
   }
 
-  static class ByIncludeLoader extends EntryCreator<AccountGroup.Id, Collection<AccountGroup.Id>> {
+  static class ByIncludeLoader extends
+      EntryCreator<AccountGroup.UUID, Collection<AccountGroup.UUID>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -76,14 +78,23 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
 
     @Override
-    public Collection<AccountGroup.Id> createEntry(final AccountGroup.Id key) throws Exception {
+    public Collection<AccountGroup.UUID> createEntry(final AccountGroup.UUID key) throws Exception {
       final ReviewDb db = schema.open();
       try {
-        ArrayList<AccountGroup.Id> groupArray = new ArrayList<AccountGroup.Id> ();
-        for (AccountGroupInclude agi : db.accountGroupIncludes().byInclude(key)) {
-          groupArray.add(agi.getGroupId());
+        List<AccountGroup> group = db.accountGroups().byUUID(key).toList();
+        if (group.size() != 1) {
+          return Collections.emptyList();
         }
 
+        Set<AccountGroup.Id> ids = new HashSet<AccountGroup.Id>();
+        for (AccountGroupInclude agi : db.accountGroupIncludes().byInclude(group.get(0).getId())) {
+          ids.add(agi.getGroupId());
+        }
+
+        Set<AccountGroup.UUID> groupArray = new HashSet<AccountGroup.UUID> ();
+        for (AccountGroup g : db.accountGroups().get(ids)) {
+          groupArray.add(g.getGroupUUID());
+        }
         return Collections.unmodifiableCollection(groupArray);
       } finally {
         db.close();
@@ -91,7 +102,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
 
     @Override
-    public Collection<AccountGroup.Id> missing(final AccountGroup.Id key) {
+    public Collection<AccountGroup.UUID> missing(final AccountGroup.UUID key) {
       return Collections.emptyList();
     }
   }

@@ -46,7 +46,7 @@ public class ProjectState {
 
   private final Project project;
   private final Collection<RefRight> localRights;
-  private final Set<AccountGroup.Id> localOwners;
+  private final Set<AccountGroup.UUID> localOwners;
 
   private volatile Collection<RefRight> inheritedRights;
 
@@ -75,12 +75,12 @@ public class ProjectState {
     this.project = project;
     this.localRights = rights;
 
-    final HashSet<AccountGroup.Id> groups = new HashSet<AccountGroup.Id>();
+    final HashSet<AccountGroup.UUID> groups = new HashSet<AccountGroup.UUID>();
     for (final RefRight right : rights) {
       if (ApprovalCategory.OWN.equals(right.getApprovalCategoryId())
           && right.getMaxValue() > 0
           && right.getRefPattern().equals(RefRight.ALL)) {
-        groups.add(right.getAccountGroupId());
+        groups.add(right.getAccountGroupUUID());
       }
     }
     localOwners = Collections.unmodifiableSet(groups);
@@ -216,7 +216,7 @@ public class ProjectState {
    *         are no local owners the local owners of the nearest parent project
    *         that has local owners are returned
    */
-  public Set<AccountGroup.Id> getOwners() {
+  public Set<AccountGroup.UUID> getOwners() {
     if (!localOwners.isEmpty() || isSpecialWildProject()
         || project.getParent() == null) {
       return localOwners;
@@ -237,11 +237,11 @@ public class ProjectState {
    *         owners) and all groups to which the owner privilege for 'refs/*' is
    *         assigned for one of the parent projects (the inherited owners).
    */
-  public Set<AccountGroup.Id> getAllOwners() {
-    final HashSet<AccountGroup.Id> owners = new HashSet<AccountGroup.Id>();
+  public Set<AccountGroup.UUID> getAllOwners() {
+    final HashSet<AccountGroup.UUID> owners = new HashSet<AccountGroup.UUID>();
     for (final RefRight right : getAllRights(ApprovalCategory.OWN, true)) {
       if (right.getMaxValue() > 0 && right.getRefPattern().equals(RefRight.ALL)) {
-        owners.add(right.getAccountGroupId());
+        owners.add(right.getAccountGroupUUID());
       }
     }
     return Collections.unmodifiableSet(owners);

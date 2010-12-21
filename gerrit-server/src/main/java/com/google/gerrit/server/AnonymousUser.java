@@ -34,7 +34,7 @@ public class AnonymousUser extends CurrentUser {
   }
 
   @Override
-  public Set<AccountGroup.Id> getEffectiveGroups() {
+  public Set<AccountGroup.UUID> getEffectiveGroups() {
     return authConfig.getAnonymousGroups();
   }
 

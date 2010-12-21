@@ -90,8 +90,8 @@ public class AccountCacheImpl implements AccountCache {
 
   static class ByIdLoader extends EntryCreator<Account.Id, AccountState> {
     private final SchemaFactory<ReviewDb> schema;
-    private final Set<AccountGroup.Id> registered;
-    private final Set<AccountGroup.Id> anonymous;
+    private final Set<AccountGroup.UUID> registered;
+    private final Set<AccountGroup.UUID> anonymous;
     private final GroupCache groupCache;
     private final Cache<String, Account.Id> byName;
 
@@ -133,12 +133,12 @@ public class AccountCacheImpl implements AccountCache {
           Collections.unmodifiableCollection(db.accountExternalIds().byAccount(
               who).toList());
 
-      Set<AccountGroup.Id> internalGroups = new HashSet<AccountGroup.Id>();
+      Set<AccountGroup.UUID> internalGroups = new HashSet<AccountGroup.UUID>();
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
         final AccountGroup.Id groupId = g.getAccountGroupId();
         final AccountGroup group = groupCache.get(groupId);
         if (group != null && group.getType() == AccountGroup.Type.INTERNAL) {
-          internalGroups.add(groupId);
+          internalGroups.add(group.getGroupUUID());
         }
       }
 

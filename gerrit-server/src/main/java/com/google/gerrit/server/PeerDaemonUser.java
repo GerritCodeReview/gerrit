@@ -17,7 +17,6 @@ package com.google.gerrit.server;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -37,21 +36,21 @@ public class PeerDaemonUser extends CurrentUser {
     PeerDaemonUser create(@Assisted SocketAddress peer);
   }
 
-  private final Set<AccountGroup.Id> effectiveGroups;
+  private final Set<AccountGroup.UUID> effectiveGroups;
   private final SocketAddress peer;
 
   @Inject
   protected PeerDaemonUser(AuthConfig authConfig, @Assisted SocketAddress peer) {
     super(AccessPath.SSH_COMMAND, authConfig);
 
-    final HashSet<AccountGroup.Id> g = new HashSet<AccountGroup.Id>();
+    final HashSet<AccountGroup.UUID> g = new HashSet<AccountGroup.UUID>();
     g.add(authConfig.getAdministratorsGroup());
     this.effectiveGroups = Collections.unmodifiableSet(g);
     this.peer = peer;
   }
 
   @Override
-  public Set<AccountGroup.Id> getEffectiveGroups() {
+  public Set<AccountGroup.UUID> getEffectiveGroups() {
     return effectiveGroups;
   }
 

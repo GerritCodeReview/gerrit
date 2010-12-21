@@ -116,6 +116,8 @@ public final class RefRight {
   @Column(id = 3)
   protected short maxValue;
 
+  protected transient AccountGroup.UUID groupUUID;
+
   protected RefRight() {
   }
 
@@ -123,11 +125,12 @@ public final class RefRight {
     this.key = key;
   }
 
-  public RefRight(final RefRight refRight, final AccountGroup.Id groupId) {
+  public RefRight(final RefRight refRight, final AccountGroup.UUID groupId) {
     this(new RefRight.Key(refRight.getKey().projectName,
-        refRight.getKey().refPattern, refRight.getKey().categoryId, groupId));
+        refRight.getKey().refPattern, refRight.getKey().categoryId, null));
     setMinValue(refRight.getMinValue());
     setMaxValue(refRight.getMaxValue());
+    setAccountGroupUUID(groupId);
   }
 
   public RefRight.Key getKey() {
@@ -159,6 +162,14 @@ public final class RefRight {
 
   public AccountGroup.Id getAccountGroupId() {
     return key.groupId;
+  }
+
+  public AccountGroup.UUID getAccountGroupUUID() {
+    return groupUUID;
+  }
+
+  public void setAccountGroupUUID(AccountGroup.UUID uuid) {
+    groupUUID = uuid;
   }
 
   public short getMinValue() {

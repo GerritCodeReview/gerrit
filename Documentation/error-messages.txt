@@ -10,6 +10,7 @@ Error Messages
 --------------
 
 * link:squash-commits-first.html[squash commits first]
+* link:you-are-not-committer.html[you are not committer ...]
 
 
 GERRIT

@@ -90,7 +90,13 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         } else {
           final HashSet<AccountGroup.Id> seen = new HashSet<AccountGroup.Id>();
           result = new ArrayList<AccountGroup>();
-          for (final AccountGroup.Id myGroup : user.getEffectiveGroups()) {
+          for (AccountGroup.UUID myGroupUUID : user.getEffectiveGroups()) {
+            AccountGroup ag = groupCache.get(myGroupUUID);
+            if (ag == null) {
+              continue;
+            }
+            AccountGroup.Id myGroup = ag.getId();
+
             for (AccountGroup group : db.accountGroups().ownedByGroup(myGroup)) {
               final AccountGroup.Id id = group.getId();
               if (!seen.add(id)) {

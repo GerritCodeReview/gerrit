@@ -326,7 +326,7 @@ public class PushReplication implements ReplicationQueue {
 
       String[] authGroupNames =
           cfg.getStringList("remote", rc.getName(), "authGroup");
-      final Set<AccountGroup.Id> authGroups;
+      final Set<AccountGroup.UUID> authGroups;
       if (authGroupNames.length > 0) {
         authGroups = ConfigUtil.groupsFor(db, authGroupNames, //
             log, "Group \"{0}\" not in database, removing from authGroup");

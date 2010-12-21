@@ -338,15 +338,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     //
     AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(who));
     if (g != null) {
-      return visibleto(new SingleGroupUser(args.authConfig, g.getId()));
+      return visibleto(new SingleGroupUser(args.authConfig, g.getGroupUUID()));
     }
 
     Collection<AccountGroup> matches =
         args.groupCache.get(new AccountGroup.ExternalNameKey(who));
     if (matches != null && !matches.isEmpty()) {
-      HashSet<AccountGroup.Id> ids = new HashSet<AccountGroup.Id>();
+      HashSet<AccountGroup.UUID> ids = new HashSet<AccountGroup.UUID>();
       for (AccountGroup group : matches) {
-        ids.add(group.getId());
+        ids.add(group.getGroupUUID());
       }
       return visibleto(new SingleGroupUser(args.authConfig, ids));
     }

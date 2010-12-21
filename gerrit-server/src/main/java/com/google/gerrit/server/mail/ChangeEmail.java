@@ -255,11 +255,11 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Get the groups which own the project. */
-  protected Set<AccountGroup.Id> getProjectOwners() {
+  protected Set<AccountGroup.UUID> getProjectOwners() {
     final ProjectState r;
 
     r = args.projectCache.get(change.getProject());
-    return r != null ? r.getOwners() : Collections.<AccountGroup.Id> emptySet();
+    return r != null ? r.getOwners() : Collections.<AccountGroup.UUID> emptySet();
   }
 
   /** TO or CC all vested parties (change owner, patch set uploader, author). */

@@ -51,7 +51,7 @@ public final class DefaultRealm implements Realm {
   }
 
   @Override
-  public Set<AccountGroup.Id> groups(final AccountState who) {
+  public Set<AccountGroup.UUID> groups(final AccountState who) {
     return who.getInternalGroups();
   }
 

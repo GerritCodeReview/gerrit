@@ -22,12 +22,16 @@ import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.GroupUUID;
 import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.util.Collections;
 
@@ -39,17 +43,20 @@ class CreateGroup extends Handler<AccountGroup.Id> {
   private final ReviewDb db;
   private final IdentifiedUser user;
   private final AccountCache accountCache;
+  private final PersonIdent serverIdent;
 
   private final String name;
 
   @Inject
   CreateGroup(final ReviewDb db, final IdentifiedUser user,
       final AccountCache accountCache,
+      @GerritPersonIdent final PersonIdent serverIdent,
 
       @Assisted final String newName) {
     this.db = db;
     this.user = user;
     this.accountCache = accountCache;
+    this.serverIdent = serverIdent;
 
     this.name = newName;
   }
@@ -64,8 +71,11 @@ class CreateGroup extends Handler<AccountGroup.Id> {
 
     final AccountGroup.Id id = new AccountGroup.Id(db.nextAccountGroupId());
     final Account.Id me = user.getAccountId();
-
-    final AccountGroup group = new AccountGroup(key, id);
+    final AccountGroup.UUID uuid = GroupUUID.make(name, //
+        user.newCommitterIdent( //
+            serverIdent.getWhen(), //
+            serverIdent.getTimeZone()));
+    final AccountGroup group = new AccountGroup(key, id, uuid);
     db.accountGroups().insert(Collections.singleton(group));
 
     try {

@@ -14,9 +14,12 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.NoReplication;
@@ -35,10 +38,17 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 class Schema_48 extends SchemaVersion {
   private final GitRepositoryManager mgr;
   private final PersonIdent serverUser;
+
+  private SystemConfig systemConfig;
+  private Map<AccountGroup.Id, AccountGroup> groupMap;
 
   @Inject
   Schema_48(Provider<Schema_47> prior, GitRepositoryManager mgr,
@@ -51,7 +61,42 @@ class Schema_48 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException,
       SQLException {
+    systemConfig = db.systemConfig().get(new SystemConfig.Key());
+    assignGroupUUIDs(db);
+    exportProjectConfig(db);
+  }
 
+  private void assignGroupUUIDs(ReviewDb db) throws OrmException {
+    groupMap = new HashMap<AccountGroup.Id, AccountGroup>();
+    List<AccountGroup> groups = db.accountGroups().all().toList();
+    for (AccountGroup g : groups) {
+      if (g.getId().equals(systemConfig.ownerGroupId)) {
+        g.setGroupUUID(AccountGroup.PROJECT_OWNERS);
+
+      } else if (g.getId().equals(systemConfig.anonymousGroupId)) {
+        g.setGroupUUID(AccountGroup.ANONYMOUS_USERS);
+
+      } else if (g.getId().equals(systemConfig.registeredGroupId)) {
+        g.setGroupUUID(AccountGroup.REGISTERED_USERS);
+
+      } else {
+        g.setGroupUUID(GroupUUID.make(g.getName(), serverUser));
+      }
+      groupMap.put(g.getId(), g);
+    }
+    db.accountGroups().update(groups);
+
+    systemConfig.adminGroupUUID = toUUID(systemConfig.adminGroupId);
+    systemConfig.batchUsersGroupUUID = toUUID(systemConfig.batchUsersGroupId);
+    db.systemConfig().update(Collections.singleton(systemConfig));
+  }
+
+  private AccountGroup.UUID toUUID(AccountGroup.Id id) {
+    return groupMap.get(id).getGroupUUID();
+  }
+
+  private void exportProjectConfig(ReviewDb db) throws OrmException,
+      SQLException {
     Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
     ResultSet rs = stmt.executeQuery("SELECT * FROM projects ORDER BY name");
     while (rs.next()) {

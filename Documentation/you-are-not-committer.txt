@@ -1,0 +1,109 @@
+you are not committer ...
+=========================
+
+Gerrit verifies for every pushed commit that the e-mail address of
+the committer matches one of the registered e-mail addresses of the
+pushing user. If this is not the case pushing the commit fails with
+the error message "you are not committer ...". This policy can be
+bypassed by having the access right '+2 Forge Committer or Tagger
+Identity' in the link:access-control.html#category_FORG['Forge Identity'] category.
+
+This error may happen for two reasons:
+1. incorrect configuration of the e-mail address on client or server
+   side
+2. missing privileges to push commits that were committed by other
+   users
+
+
+Incorrect configuration of the e-mail address on client or server side
+----------------------------------------------------------------------
+
+If pushing to Gerrit fails with the error message "you are not
+committer ..." and you committed the change for which the push fails,
+then either you have not successfully registered this e-mail address
+for your Gerrit account or the committer information of the pushed
+commit is incorrect.
+
+Configuration of e-mail address in Gerrit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Check in Gerrit under 'Settings -> Identities' which e-mail addresses
+you've configured for your Gerrit account, if no e-mail address is
+registered go to 'Settings -> Contact Information' and register a new
+e-mail address there. Make sure you confirm your e-mail address by
+clicking on the link in the e-mail verification mail sent by Gerrit.
+
+Incorrect committer information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For every commit Git maintains the user who did the commit, the so
+called committer. Git computes the committer out of the Git
+configuration parameters 'user.name' and 'user.email'.
+
+----
+  $ git config -l
+  ...
+  user.name=John Doe
+  user.email=john.doe@example.com
+  ...
+----
+
+A commit done with the above Git configuration would have
+"John Doe <john.doe@example.com>" as committer.
+
+To see the committer information for existing commits do
+"git log --format=full":
+
+----
+  $ git log --format=full
+  commit cbe31bdba7d14963eb42f7e1e0eef1fe58698c05
+  Author: John Doe <john.doe@example.com>
+  Commit: John Doe <john.doe@example.com>
+
+      my commit
+
+----
+
+Check in Git that the committer information of the commit that should
+be pushed is correct. As explained above you can do this by
+'git log --format=full'. The committer should have the same e-mail
+address that you've configured for your Gerrit account. If the
+committer information is incorrect set the Git configuration
+parameters 'user.name' and 'user.email' to the correct values (you
+might want to set this globally by including the option '--global'):
+
+----
+  $ git config user.name "John Doe"
+  $
+  $ git config user.email john.doe@example.com
+  $
+----
+
+Now you should rewrite the commits for which the committer
+information is wrong. If only the last commit is affected you can do
+this by doing a 'commit --amend'. If you need to update the committer
+information for several commits it gets more complicated. In this
+case you have to do an interactive git rebase for the affected
+commits. While doing the interactive rebase you have to ensure that
+the commits are rewritten (e.g. by choosing 'reword' for all these
+commits and then confirming all the commit messages). Just picking
+all the changes will not work as in this case the committer is not
+rewritten. For further details about git rebase please check the
+link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git documentation].
+
+
+Missing privileges to push commits that were committed by other users
+---------------------------------------------------------------------
+
+If pushing to Gerrit fails with the error message "you are not
+committer ..." and somebody else committed the change for which the
+push fails, then you have no permissions to forge the committer
+identity. In this case you may contact the project owner to request
+the access right '+2 Forge Committer or Tagger Identity' in the
+'Forge Identity' category or ask the maintainer to commit this change
+on the author's behalf.
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

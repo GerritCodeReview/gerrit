@@ -65,6 +65,8 @@ public final class SystemConfig {
   /** Identity of the administration group; those with full access. */
   @Column(id = 4)
   public AccountGroup.Id adminGroupId;
+  @Column(id = 10)
+  public AccountGroup.UUID adminGroupUUID;
 
   /** Identity of the anonymous group, which permits anyone. */
   @Column(id = 5)
@@ -81,6 +83,8 @@ public final class SystemConfig {
   /** Identity of the batch users group */
   @Column(id = 8)
   public AccountGroup.Id batchUsersGroupId;
+  @Column(id = 11)
+  public AccountGroup.UUID batchUsersGroupUUID;
 
   /** Identity of the owner group, which permits any project owner. */
   @Column(id = 9)

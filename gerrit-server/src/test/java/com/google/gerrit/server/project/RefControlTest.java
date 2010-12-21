@@ -45,8 +45,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class RefControlTest extends TestCase {
@@ -188,25 +190,24 @@ public class RefControlTest extends TestCase {
 
   private final Project.NameKey local = new Project.NameKey("test");
   private final Project.NameKey parent = new Project.NameKey("parent");
-  private final AccountGroup.Id admin = new AccountGroup.Id(1);
-  private final AccountGroup.Id anonymous = new AccountGroup.Id(2);
-  private final AccountGroup.Id registered = new AccountGroup.Id(3);
-  private final AccountGroup.Id owners = new AccountGroup.Id(4);
+  private final AccountGroup.UUID admin = new AccountGroup.UUID("test.admin");
+  private final AccountGroup.UUID anonymous = AccountGroup.ANONYMOUS_USERS;
+  private final AccountGroup.UUID registered = AccountGroup.REGISTERED_USERS;
 
-  private final AccountGroup.Id devs = new AccountGroup.Id(5);
-  private final AccountGroup.Id fixers = new AccountGroup.Id(6);
+  private final AccountGroup.UUID devs = new AccountGroup.UUID("test.devs");
+  private final AccountGroup.UUID fixers = new AccountGroup.UUID("test.fixers");
 
   private final SystemConfig systemConfig;
   private final AuthConfig authConfig;
   private final AnonymousUser anonymousUser;
 
+  private final Map<AccountGroup.UUID, AccountGroup.Id> groupIds =
+      new HashMap<AccountGroup.UUID, AccountGroup.Id>();
+
   public RefControlTest() {
     systemConfig = SystemConfig.create();
-    systemConfig.adminGroupId = admin;
-    systemConfig.anonymousGroupId = anonymous;
-    systemConfig.registeredGroupId = registered;
-    systemConfig.ownerGroupId = owners;
-    systemConfig.batchUsersGroupId = anonymous;
+    systemConfig.adminGroupUUID = admin;
+    systemConfig.batchUsersGroupUUID = anonymous;
     try {
       byte[] bin = "abcdefghijklmnopqrstuvwxyz".getBytes("UTF-8");
       systemConfig.registerEmailPrivateKey = Base64.encodeBase64String(bin);
@@ -249,15 +250,22 @@ public class RefControlTest extends TestCase {
   }
 
   private void grant(Project.NameKey project, ApprovalCategory.Id categoryId,
-      AccountGroup.Id group, String ref, int maxValue) {
+      AccountGroup.UUID group, String ref, int maxValue) {
     grant(project, categoryId, group, ref, maxValue, maxValue);
   }
 
-  private void grant(Project.NameKey project, ApprovalCategory.Id categoryId, AccountGroup.Id group,
-      String ref, int minValue, int maxValue) {
+  private void grant(Project.NameKey project, ApprovalCategory.Id categoryId,
+      AccountGroup.UUID groupUUID, String ref, int minValue, int maxValue) {
+    AccountGroup.Id groupId = groupIds.get(groupUUID);
+    if (groupId == null) {
+      groupId = new AccountGroup.Id(groupIds.size() + 1);
+      groupIds.put(groupUUID, groupId);
+    }
+
     RefRight right =
         new RefRight(new RefRight.Key(project, new RefPattern(ref),
-            categoryId, group));
+            categoryId, groupId));
+    right.setAccountGroupUUID(groupUUID);
     right.setMinValue((short) minValue);
     right.setMaxValue((short) maxValue);
 
@@ -270,15 +278,15 @@ public class RefControlTest extends TestCase {
     }
   }
 
-  private ProjectControl user(AccountGroup.Id... memberOf) {
+  private ProjectControl user(AccountGroup.UUID... memberOf) {
     RefControl.Factory refControlFactory = new RefControl.Factory() {
       @Override
       public RefControl create(final ProjectControl projectControl, final String ref) {
-        return new RefControl(systemConfig, projectControl, ref);
+        return new RefControl(projectControl, ref);
       }
     };
-    return new ProjectControl(Collections.<AccountGroup.Id> emptySet(),
-        Collections.<AccountGroup.Id> emptySet(), refControlFactory,
+    return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
+        Collections.<AccountGroup.UUID> emptySet(), refControlFactory,
         new MockUser(memberOf), newProjectState());
   }
 
@@ -295,17 +303,17 @@ public class RefControlTest extends TestCase {
   }
 
   private class MockUser extends CurrentUser {
-    private final Set<AccountGroup.Id> groups;
+    private final Set<AccountGroup.UUID> groups;
 
-    MockUser(AccountGroup.Id[] groupId) {
+    MockUser(AccountGroup.UUID[] groupId) {
       super(AccessPath.UNKNOWN, RefControlTest.this.authConfig);
-      groups = new HashSet<AccountGroup.Id>(Arrays.asList(groupId));
+      groups = new HashSet<AccountGroup.UUID>(Arrays.asList(groupId));
       groups.add(registered);
       groups.add(anonymous);
     }
 
     @Override
-    public Set<AccountGroup.Id> getEffectiveGroups() {
+    public Set<AccountGroup.UUID> getEffectiveGroups() {
       return groups;
     }
 

@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.ProjectCreatorGroups;
 import com.google.gerrit.server.config.ProjectOwnerGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -64,7 +65,7 @@ final class CreateProject extends BaseCommand {
   private String projectName;
 
   @Option(name = "--owner", aliases = {"-o"}, usage = "owner(s) of project")
-  private List<AccountGroup.Id> ownerIds;
+  private List<AccountGroup.UUID> ownerIds;
 
   @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "parent project")
   private ProjectControl newParent;
@@ -105,12 +106,15 @@ final class CreateProject extends BaseCommand {
   private ProjectCache projectCache;
 
   @Inject
+  private GroupCache groupCache;
+
+  @Inject
   @ProjectCreatorGroups
-  private Set<AccountGroup.Id> projectCreatorGroups;
+  private Set<AccountGroup.UUID> projectCreatorGroups;
 
   @Inject
   @ProjectOwnerGroups
-  private Set<AccountGroup.Id> projectOwnerGroups;
+  private Set<AccountGroup.UUID> projectOwnerGroups;
 
   @Inject
   private IdentifiedUser currentUser;
@@ -202,10 +206,12 @@ final class CreateProject extends BaseCommand {
       ConfigInvalidException {
 
     List<RefRight> access = new ArrayList<RefRight>();
-    for (AccountGroup.Id ownerId : ownerIds) {
+    for (AccountGroup.UUID ownerId : ownerIds) {
+      AccountGroup group = groupCache.get(ownerId);
+
       final RefRight.Key prk =
           new RefRight.Key(nameKey, new RefRight.RefPattern(
-              RefRight.ALL), ApprovalCategory.OWN, ownerId);
+              RefRight.ALL), ApprovalCategory.OWN, group.getId());
       final RefRight pr = new RefRight(prk);
       pr.setMaxValue((short) 1);
       pr.setMinValue((short) 1);
@@ -251,9 +257,9 @@ final class CreateProject extends BaseCommand {
 
     if (ownerIds != null && !ownerIds.isEmpty()) {
       ownerIds =
-          new ArrayList<AccountGroup.Id>(new HashSet<AccountGroup.Id>(ownerIds));
+          new ArrayList<AccountGroup.UUID>(new HashSet<AccountGroup.UUID>(ownerIds));
     } else {
-      ownerIds = new ArrayList<AccountGroup.Id>(projectOwnerGroups);
+      ownerIds = new ArrayList<AccountGroup.UUID>(projectOwnerGroups);
     }
 
     while (branch.startsWith("/")) {

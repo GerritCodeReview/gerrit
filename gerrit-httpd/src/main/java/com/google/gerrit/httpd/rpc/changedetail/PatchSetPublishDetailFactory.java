@@ -127,7 +127,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   }
 
   private void computeAllowed() {
-    final Set<AccountGroup.Id> am = user.getEffectiveGroups();
+    final Set<AccountGroup.UUID> am = user.getEffectiveGroups();
     final ProjectState pe = projectCache.get(change.getProject());
     for (ApprovalCategory.Id category : approvalTypes.getApprovalCategories()) {
       RefControl rc = pe.controlFor(user).controlForRef(change.getDest());
@@ -136,7 +136,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     }
   }
 
-  private void computeAllowed(final Set<AccountGroup.Id> am,
+  private void computeAllowed(final Set<AccountGroup.UUID> am,
       final List<RefRight> list, ApprovalCategory.Id category) {
 
     Set<ApprovalCategoryValue.Id> s = allowed.get(category);
@@ -146,7 +146,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     }
 
     for (final RefRight r : list) {
-      if (!am.contains(r.getAccountGroupId())) {
+      if (!am.contains(r.getAccountGroupUUID())) {
         continue;
       }
       final ApprovalType at =

@@ -33,19 +33,19 @@ import java.util.Set;
 public class AccessControlModule extends FactoryModule {
   @Override
   protected void configure() {
-    bind(new TypeLiteral<Set<AccountGroup.Id>>() {}) //
+    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {}) //
         .annotatedWith(ProjectCreatorGroups.class) //
         .toProvider(ProjectCreatorGroupsProvider.class).in(SINGLETON);
 
-    bind(new TypeLiteral<Set<AccountGroup.Id>>() {}) //
+    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {}) //
         .annotatedWith(ProjectOwnerGroups.class) //
         .toProvider(ProjectOwnerGroupsProvider.class).in(SINGLETON);
 
-    bind(new TypeLiteral<Set<AccountGroup.Id>>() {}) //
+    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {}) //
         .annotatedWith(GitUploadPackGroups.class) //
         .toProvider(GitUploadPackGroupsProvider.class).in(SINGLETON);
 
-    bind(new TypeLiteral<Set<AccountGroup.Id>>() {}) //
+    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {}) //
         .annotatedWith(GitReceivePackGroups.class) //
         .toProvider(GitReceivePackGroupsProvider.class).in(SINGLETON);
 

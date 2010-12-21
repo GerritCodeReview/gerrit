@@ -311,10 +311,10 @@ public class ConfigUtil {
    * @return the actual groups resolved from the database. If no groups are
    *         found, returns an empty {@code Set}, never {@code null}.
    */
-  public static Set<AccountGroup.Id> groupsFor(
+  public static Set<AccountGroup.UUID> groupsFor(
       SchemaFactory<ReviewDb> dbfactory, String[] groupNames, Logger log,
       String groupNotFoundWarning) {
-    final Set<AccountGroup.Id> result = new HashSet<AccountGroup.Id>();
+    final Set<AccountGroup.UUID> result = new HashSet<AccountGroup.UUID>();
     try {
       final ReviewDb db = dbfactory.open();
       try {
@@ -323,9 +323,16 @@ public class ConfigUtil {
               db.accountGroupNames().get(new AccountGroup.NameKey(name));
           if (group == null) {
             log.warn(MessageFormat.format(groupNotFoundWarning, name));
-          } else {
-            result.add(group.getId());
+            continue;
           }
+
+          AccountGroup ag = db.accountGroups().get(group.getId());
+          if (ag == null) {
+            log.warn(MessageFormat.format(groupNotFoundWarning, name));
+            continue;
+          }
+
+          result.add(ag.getGroupUUID());
         }
       } finally {
         db.close();
@@ -346,7 +353,7 @@ public class ConfigUtil {
    * @return the actual groups resolved from the database. If no groups are
    *         found, returns an empty {@code Set}, never {@code null}.
    */
-  public static Set<AccountGroup.Id> groupsFor(
+  public static Set<AccountGroup.UUID> groupsFor(
       SchemaFactory<ReviewDb> dbfactory, String[] groupNames, Logger log) {
     return groupsFor(dbfactory, groupNames, log,
         "Group \"{0}\" not in database, skipping.");

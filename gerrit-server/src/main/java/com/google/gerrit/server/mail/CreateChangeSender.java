@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.AccountProjectWatch.NotifyType;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -34,10 +35,13 @@ public class CreateChangeSender extends NewChangeSender {
     public CreateChangeSender create(Change change);
   }
 
+  private final GroupCache groupCache;
+
   @Inject
   public CreateChangeSender(EmailArguments ea, SshInfo sshInfo,
-      @Assisted Change c) {
+      GroupCache groupCache, @Assisted Change c) {
     super(ea, sshInfo, c);
+    this.groupCache = groupCache;
   }
 
   @Override
@@ -52,10 +56,13 @@ public class CreateChangeSender extends NewChangeSender {
       // Try to mark interested owners with a TO and not a BCC line.
       //
       final Set<Account.Id> owners = new HashSet<Account.Id>();
-      for (AccountGroup.Id g : getProjectOwners()) {
-        for (AccountGroupMember m : args.db.get().accountGroupMembers()
-            .byGroup(g)) {
-          owners.add(m.getAccountId());
+      for (AccountGroup.UUID uuid : getProjectOwners()) {
+        AccountGroup group = groupCache.get(uuid);
+        if (group != null) {
+          for (AccountGroupMember m : args.db.get().accountGroupMembers()
+              .byGroup(group.getId())) {
+            owners.add(m.getAccountId());
+          }
         }
       }
 

@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AuthConfig;
@@ -27,19 +26,19 @@ import java.util.Collections;
 import java.util.Set;
 
 final class SingleGroupUser extends CurrentUser {
-  private final Set<AccountGroup.Id> groups;
+  private final Set<AccountGroup.UUID> groups;
 
-  SingleGroupUser(AuthConfig authConfig, AccountGroup.Id groupId) {
+  SingleGroupUser(AuthConfig authConfig, AccountGroup.UUID groupId) {
     this(authConfig, Collections.singleton(groupId));
   }
 
-  SingleGroupUser(AuthConfig authConfig, Set<AccountGroup.Id> groups) {
+  SingleGroupUser(AuthConfig authConfig, Set<AccountGroup.UUID> groups) {
     super(AccessPath.UNKNOWN, authConfig);
     this.groups = groups;
   }
 
   @Override
-  public Set<AccountGroup.Id> getEffectiveGroups() {
+  public Set<AccountGroup.UUID> getEffectiveGroups() {
     return groups;
   }
 

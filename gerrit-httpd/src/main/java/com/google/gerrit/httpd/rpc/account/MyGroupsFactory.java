@@ -42,10 +42,10 @@ class MyGroupsFactory extends Handler<List<AccountGroup>> {
 
   @Override
   public List<AccountGroup> call() throws Exception {
-    final Set<AccountGroup.Id> effective = user.getEffectiveGroups();
+    final Set<AccountGroup.UUID> effective = user.getEffectiveGroups();
     final int cnt = effective.size();
     final List<AccountGroup> groupList = new ArrayList<AccountGroup>(cnt);
-    for (final AccountGroup.Id groupId : effective) {
+    for (final AccountGroup.UUID groupId : effective) {
       groupList.add(groupCache.get(groupId));
     }
     Collections.sort(groupList, new Comparator<AccountGroup>() {

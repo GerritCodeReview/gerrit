@@ -56,7 +56,7 @@ public abstract class CurrentUser {
    *
    * @return active groups for this user.
    */
-  public abstract Set<AccountGroup.Id> getEffectiveGroups();
+  public abstract Set<AccountGroup.UUID> getEffectiveGroups();
 
   /** Set of changes starred by this user. */
   public abstract Set<Change.Id> getStarredChanges();

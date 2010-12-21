@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -113,12 +112,10 @@ public class GroupCacheImpl implements GroupCache {
 
   static class ByIdLoader extends EntryCreator<AccountGroup.Id, AccountGroup> {
     private final SchemaFactory<ReviewDb> schema;
-    private final AccountGroup.Id administrators;
 
     @Inject
-    ByIdLoader(final SchemaFactory<ReviewDb> sf, final AuthConfig authConfig) {
+    ByIdLoader(final SchemaFactory<ReviewDb> sf) {
       schema = sf;
-      administrators = authConfig.getAdministratorsGroup();
     }
 
     @Override
@@ -142,7 +139,6 @@ public class GroupCacheImpl implements GroupCache {
           new AccountGroup.NameKey("Deleted Group" + key.toString());
       final AccountGroup g = new AccountGroup(name, key, null);
       g.setType(AccountGroup.Type.SYSTEM);
-      g.setOwnerGroupId(administrators);
       return g;
     }
   }

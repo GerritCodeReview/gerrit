@@ -27,15 +27,15 @@ import java.util.HashSet;
 public class GitUploadPackGroupsProvider extends GroupSetProvider {
   @Inject
   public GitUploadPackGroupsProvider(@GerritServerConfig Config config,
-      AuthConfig authConfig, SchemaFactory<ReviewDb> db) {
+      SchemaFactory<ReviewDb> db) {
     super(config, db, "upload", null, "allowGroup");
 
     // If no group was set, default to "registered users" and "anonymous"
     //
     if (groupIds.isEmpty()) {
-      HashSet<AccountGroup.Id> all = new HashSet<AccountGroup.Id>();
-      all.addAll(authConfig.getRegisteredGroups());
-      all.addAll(authConfig.getAnonymousGroups());
+      HashSet<AccountGroup.UUID> all = new HashSet<AccountGroup.UUID>();
+      all.add(AccountGroup.REGISTERED_USERS);
+      all.add(AccountGroup.ANONYMOUS_USERS);
       groupIds = Collections.unmodifiableSet(all);
     }
   }

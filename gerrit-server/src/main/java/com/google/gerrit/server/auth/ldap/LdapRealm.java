@@ -68,14 +68,14 @@ class LdapRealm implements Realm {
   private final Cache<String, Account.Id> usernameCache;
   private final Set<Account.FieldName> readOnlyAccountFields;
 
-  private final Cache<String, Set<AccountGroup.Id>> membershipCache;
+  private final Cache<String, Set<AccountGroup.UUID>> membershipCache;
 
   @Inject
   LdapRealm(
       final Helper helper,
       final AuthConfig authConfig,
       final EmailExpander emailExpander,
-      @Named(LdapModule.GROUP_CACHE) final Cache<String, Set<AccountGroup.Id>> membershipCache,
+      @Named(LdapModule.GROUP_CACHE) final Cache<String, Set<AccountGroup.UUID>> membershipCache,
       @Named(LdapModule.USERNAME_CACHE) final Cache<String, Account.Id> usernameCache,
       @GerritServerConfig final Config config) {
     this.helper = helper;
@@ -241,8 +241,8 @@ class LdapRealm implements Realm {
   }
 
   @Override
-  public Set<AccountGroup.Id> groups(final AccountState who) {
-    final HashSet<AccountGroup.Id> r = new HashSet<AccountGroup.Id>();
+  public Set<AccountGroup.UUID> groups(final AccountState who) {
+    final HashSet<AccountGroup.UUID> r = new HashSet<AccountGroup.UUID>();
     r.addAll(membershipCache.get(findId(who.getExternalIds())));
     r.addAll(who.getInternalGroups());
     return r;
@@ -324,7 +324,7 @@ class LdapRealm implements Realm {
     }
   }
 
-  static class MemberLoader extends EntryCreator<String, Set<AccountGroup.Id>> {
+  static class MemberLoader extends EntryCreator<String, Set<AccountGroup.UUID>> {
     private final Helper helper;
 
     @Inject
@@ -333,7 +333,7 @@ class LdapRealm implements Realm {
     }
 
     @Override
-    public Set<AccountGroup.Id> createEntry(final String username)
+    public Set<AccountGroup.UUID> createEntry(final String username)
         throws Exception {
       final DirContext ctx = helper.open();
       try {
@@ -348,7 +348,7 @@ class LdapRealm implements Realm {
     }
 
     @Override
-    public Set<AccountGroup.Id> missing(final String key) {
+    public Set<AccountGroup.UUID> missing(final String key) {
       return Collections.emptySet();
     }
   }

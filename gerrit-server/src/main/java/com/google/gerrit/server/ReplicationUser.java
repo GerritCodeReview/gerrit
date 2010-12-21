@@ -28,18 +28,18 @@ import java.util.Set;
 
 public class ReplicationUser extends CurrentUser {
   /** Magic set of groups enabling read of any project and reference. */
-  public static final Set<AccountGroup.Id> EVERYTHING_VISIBLE =
-      Collections.unmodifiableSet(new HashSet<AccountGroup.Id>(0));
+  public static final Set<AccountGroup.UUID> EVERYTHING_VISIBLE =
+      Collections.unmodifiableSet(new HashSet<AccountGroup.UUID>(0));
 
   public interface Factory {
-    ReplicationUser create(@Assisted Set<AccountGroup.Id> authGroups);
+    ReplicationUser create(@Assisted Set<AccountGroup.UUID> authGroups);
   }
 
-  private final Set<AccountGroup.Id> effectiveGroups;
+  private final Set<AccountGroup.UUID> effectiveGroups;
 
   @Inject
   protected ReplicationUser(AuthConfig authConfig,
-      @Assisted Set<AccountGroup.Id> authGroups) {
+      @Assisted Set<AccountGroup.UUID> authGroups) {
     super(AccessPath.REPLICATION, authConfig);
 
     if (authGroups == EVERYTHING_VISIBLE) {
@@ -53,12 +53,12 @@ public class ReplicationUser extends CurrentUser {
     }
   }
 
-  private static Set<AccountGroup.Id> copy(Set<AccountGroup.Id> groups) {
-    return Collections.unmodifiableSet(new HashSet<AccountGroup.Id>(groups));
+  private static Set<AccountGroup.UUID> copy(Set<AccountGroup.UUID> groups) {
+    return Collections.unmodifiableSet(new HashSet<AccountGroup.UUID>(groups));
   }
 
   @Override
-  public Set<AccountGroup.Id> getEffectiveGroups() {
+  public Set<AccountGroup.UUID> getEffectiveGroups() {
     return effectiveGroups;
   }
 

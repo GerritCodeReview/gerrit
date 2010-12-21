@@ -69,8 +69,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
     /** Is the from user in an email squelching group? */
     final IdentifiedUser user =  args.identifiedUserFactory.create(id);
-    final Set<AccountGroup.Id> gids = user.getEffectiveGroups();
-    for (final AccountGroup.Id gid : gids) {
+    final Set<AccountGroup.UUID> gids = user.getEffectiveGroups();
+    for (final AccountGroup.UUID gid : gids) {
       if (args.groupCache.get(gid).isEmailOnlyAuthors()) {
         emailOnlyAuthors = true;
         break;
@@ -273,11 +273,11 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Get the groups which own the project. */
-  protected Set<AccountGroup.Id> getProjectOwners() {
+  protected Set<AccountGroup.UUID> getProjectOwners() {
     final ProjectState r;
 
     r = args.projectCache.get(change.getProject());
-    return r != null ? r.getOwners() : Collections.<AccountGroup.Id> emptySet();
+    return r != null ? r.getOwners() : Collections.<AccountGroup.UUID> emptySet();
   }
 
   /** TO or CC all vested parties (change owner, patch set uploader, author). */

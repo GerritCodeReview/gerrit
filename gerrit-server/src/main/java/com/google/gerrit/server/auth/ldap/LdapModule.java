@@ -32,8 +32,8 @@ public class LdapModule extends CacheModule {
 
   @Override
   protected void configure() {
-    final TypeLiteral<Cache<String, Set<AccountGroup.Id>>> groups =
-        new TypeLiteral<Cache<String, Set<AccountGroup.Id>>>() {};
+    final TypeLiteral<Cache<String, Set<AccountGroup.UUID>>> groups =
+        new TypeLiteral<Cache<String, Set<AccountGroup.UUID>>>() {};
     core(groups, GROUP_CACHE).maxAge(1, HOURS) //
         .populateWith(LdapRealm.MemberLoader.class);
 

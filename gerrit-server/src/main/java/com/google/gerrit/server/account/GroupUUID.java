@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,19 +16,20 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.AccountGroup;
 
-import java.util.Collection;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 
-/** Tracks group objects in memory for efficient access. */
-public interface GroupCache {
-  public AccountGroup get(AccountGroup.Id groupId);
+import java.security.MessageDigest;
 
-  public AccountGroup get(AccountGroup.NameKey name);
+public class GroupUUID {
+  public static AccountGroup.UUID make(String groupName, PersonIdent creator) {
+    MessageDigest md = Constants.newMessageDigest();
+    md.update(Constants.encode("group " + groupName + "\n"));
+    md.update(Constants.encode("creator " + creator.toExternalString() + "\n"));
+    return new AccountGroup.UUID(ObjectId.fromRaw(md.digest()).name());
+  }
 
-  public AccountGroup get(AccountGroup.UUID uuid);
-
-  public Collection<AccountGroup> get(AccountGroup.ExternalNameKey externalName);
-
-  public void evict(AccountGroup group);
-
-  public void evictAfterRename(AccountGroup.NameKey oldName);
+  private GroupUUID() {
+  }
 }

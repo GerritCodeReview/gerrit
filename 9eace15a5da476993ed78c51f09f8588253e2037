@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3///fE\u003d",
+        "filename": "Documentation/you-are-not-committer.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2010-12-22T00:47:55Z",
+      "side": 1,
+      "message": "s/the pushing of the commit/pushing the commit/",
+      "revId": "9eace15a5da476993ed78c51f09f8588253e2037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///fA\u003d",
+        "filename": "Documentation/you-are-not-committer.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2010-12-22T00:47:55Z",
+      "side": 1,
+      "message": "s/with/with the error message/",
+      "revId": "9eace15a5da476993ed78c51f09f8588253e2037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///e8\u003d",
+        "filename": "Documentation/you-are-not-committer.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2010-12-22T00:47:55Z",
+      "side": 1,
+      "message": "s/your e-mail/this e-mail/ : a user may have multiple e-mail addresses",
+      "revId": "9eace15a5da476993ed78c51f09f8588253e2037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///e0\u003d",
+        "filename": "Documentation/you-are-not-committer.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2010-12-22T00:47:55Z",
+      "side": 1,
+      "message": "or  ask the maintainer to commit the change on the author\u0027s behalf.",
+      "revId": "9eace15a5da476993ed78c51f09f8588253e2037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

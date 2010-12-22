@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3///dk\u003d",
+        "filename": "Documentation/squash-commits-first.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-12-22T07:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3///fQ\u003d",
+      "revId": "024fedee79e937207681b1a1198413ba369516d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3///fM\u003d",
         "filename": "Documentation/squash-commits-first.txt",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2010-12-22T00:40:41Z",
       "side": 1,
       "message": "also then it is recommended to generate the change id on the sending side (either using commit hook or using egit), since then amending this commit to create a subsequent patchset is less error prone.",
+      "revId": "024fedee79e937207681b1a1198413ba369516d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///dg\u003d",
+        "filename": "Documentation/squash-commits-first.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-12-22T07:06:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3///fM\u003d",
       "revId": "024fedee79e937207681b1a1198413ba369516d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

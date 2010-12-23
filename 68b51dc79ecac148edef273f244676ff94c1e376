@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3///TQ\u003d",
+        "filename": "Documentation/error-messages.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-12-23T20:37:36Z",
+      "side": 1,
+      "message": "Can we categorize the error pages by prefixing them with \"error-\" or \"err-\", similar to the cmd-, config-, pgm- and user- categories?",
+      "revId": "68b51dc79ecac148edef273f244676ff94c1e376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

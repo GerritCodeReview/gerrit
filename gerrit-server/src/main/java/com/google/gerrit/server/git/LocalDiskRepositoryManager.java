@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
@@ -84,14 +85,18 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     return basePath;
   }
 
-  public Repository openRepository(String name)
+  private File gitDirOf(Project.NameKey name) {
+    return new File(getBasePath(), name.get());
+  }
+
+  public Repository openRepository(Project.NameKey name)
       throws RepositoryNotFoundException {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
 
     try {
-      final FileKey loc = FileKey.lenient(new File(basePath, name), FS.DETECTED);
+      final FileKey loc = FileKey.lenient(gitDirOf(name), FS.DETECTED);
       return RepositoryCache.open(loc);
     } catch (IOException e1) {
       final RepositoryNotFoundException e2;
@@ -101,14 +106,14 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  public Repository createRepository(String name)
+  public Repository createRepository(final Project.NameKey name)
       throws RepositoryNotFoundException {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
 
     try {
-      File dir = FileKey.resolve(new File(basePath, name), FS.DETECTED);
+      File dir = FileKey.resolve(gitDirOf(name), FS.DETECTED);
       FileKey loc;
       if (dir != null) {
         // Already exists on disk, use the repository we found.
@@ -118,10 +123,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         // It doesn't exist under any of the standard permutations
         // of the repository name, so prefer the standard bare name.
         //
-        if (!name.endsWith(".git")) {
-          name = name + ".git";
+        String n = name.get();
+        if (!n.endsWith(Constants.DOT_GIT_EXT)) {
+          n = n + Constants.DOT_GIT_EXT;
         }
-        loc = FileKey.exact(new File(basePath, name), FS.DETECTED);
+        loc = FileKey.exact(new File(basePath, n), FS.DETECTED);
       }
       return RepositoryCache.open(loc, false);
     } catch (IOException e1) {
@@ -132,7 +138,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  public String getProjectDescription(final String name)
+  public String getProjectDescription(final Project.NameKey name)
       throws RepositoryNotFoundException, IOException {
     final Repository e = openRepository(name);
     try {
@@ -160,7 +166,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  public void setProjectDescription(final String name, final String description) {
+  public void setProjectDescription(final Project.NameKey name,
+      final String description) {
     // Update git's description file, in case gitweb is being used
     //
     try {
@@ -193,7 +200,9 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
   }
 
-  private boolean isUnreasonableName(final String name) {
+  private boolean isUnreasonableName(final Project.NameKey nameKey) {
+    final String name = nameKey.get();
+
     if (name.length() == 0) return true; // no empty paths
 
     if (name.indexOf('\\') >= 0) return true; // no windows/dos stlye paths

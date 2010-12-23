@@ -171,7 +171,7 @@ public class ProjectServlet extends GitServlet {
       }
       req.setAttribute(ATT_CONTROL, pc);
 
-      return manager.openRepository(pc.getProject().getName());
+      return manager.openRepository(pc.getProject().getNameKey());
     }
   }
 

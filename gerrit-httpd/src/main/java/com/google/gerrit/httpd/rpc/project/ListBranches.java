@@ -70,7 +70,7 @@ class ListBranches extends Handler<ListBranchesResult> {
 
     final Repository db;
     try {
-      db = repoManager.openRepository(projectName.get());
+      db = repoManager.openRepository(projectName);
     } catch (RepositoryNotFoundException noGitRepository) {
       return new ListBranchesResult(branches, false, true);
     }

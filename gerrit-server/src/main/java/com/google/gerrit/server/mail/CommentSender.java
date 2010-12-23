@@ -136,7 +136,7 @@ public class CommentSender extends ReplyToChangeSender {
 
   private Repository getRepository() {
     try {
-      return args.server.openRepository(projectName);
+      return args.server.openRepository(projectState.getProject().getNameKey());
     } catch (RepositoryNotFoundException e) {
       return null;
     }

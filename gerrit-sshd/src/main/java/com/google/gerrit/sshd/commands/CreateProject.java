@@ -119,6 +119,8 @@ final class CreateProject extends BaseCommand {
   @GerritPersonIdent
   private PersonIdent serverIdent;
 
+  private Project.NameKey nameKey;
+
   @Override
   public void start(final Environment env) {
     startThread(new CommandRunnable() {
@@ -130,9 +132,10 @@ final class CreateProject extends BaseCommand {
 
         try {
           validateParameters();
+          nameKey = new Project.NameKey(projectName);
 
           if (!permissionsOnly) {
-            final Repository repo = repoManager.createRepository(projectName);
+            final Repository repo = repoManager.createRepository(nameKey);
             try {
               repo.create(true);
 
@@ -140,14 +143,12 @@ final class CreateProject extends BaseCommand {
               u.disableRefLog();
               u.link(branch);
 
-              repoManager
-                  .setProjectDescription(projectName, projectDescription);
+              repoManager.setProjectDescription(nameKey, projectDescription);
 
-              final Project.NameKey project = new Project.NameKey(projectName);
-              rq.replicateNewProject(project, branch);
+              rq.replicateNewProject(nameKey, branch);
 
               if (createEmptyCommit) {
-                createEmptyCommit(repo, project, branch);
+                createEmptyCommit(repo, nameKey, branch);
               }
             } finally {
               repo.close();
@@ -198,12 +199,10 @@ final class CreateProject extends BaseCommand {
   }
 
   private void createProject() throws OrmException {
-    final Project.NameKey newProjectNameKey = new Project.NameKey(projectName);
-
     List<RefRight> access = new ArrayList<RefRight>();
     for (AccountGroup.Id ownerId : ownerIds) {
       final RefRight.Key prk =
-          new RefRight.Key(newProjectNameKey, new RefRight.RefPattern(
+          new RefRight.Key(nameKey, new RefRight.RefPattern(
               RefRight.ALL), ApprovalCategory.OWN, ownerId);
       final RefRight pr = new RefRight(prk);
       pr.setMaxValue((short) 1);
@@ -212,7 +211,7 @@ final class CreateProject extends BaseCommand {
     }
     db.refRights().insert(access);
 
-    final Project newProject = new Project(newProjectNameKey);
+    final Project newProject = new Project(nameKey);
     newProject.setDescription(projectDescription);
     newProject.setSubmitType(submitType);
     newProject.setUseContributorAgreements(contributorAgreements);
@@ -227,9 +226,9 @@ final class CreateProject extends BaseCommand {
   }
 
   private void validateParameters() throws Failure {
-    if (projectName.endsWith(".git")) {
-      projectName =
-          projectName.substring(0, projectName.length() - ".git".length());
+    if (projectName.endsWith(Constants.DOT_GIT_EXT)) {
+      projectName = projectName.substring(0, //
+          projectName.length() - Constants.DOT_GIT_EXT.length());
     }
 
     if (!CollectionsUtil.isAnyIncludedIn(currentUser.getEffectiveGroups(), projectCreatorGroups)) {

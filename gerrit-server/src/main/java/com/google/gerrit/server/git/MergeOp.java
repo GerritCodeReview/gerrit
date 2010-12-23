@@ -240,11 +240,11 @@ public class MergeOp {
   }
 
   private void openRepository() throws MergeException {
-    final String name = destBranch.getParentKey().get();
+    final Project.NameKey name = destBranch.getParentKey();
     try {
       db = repoManager.openRepository(name);
     } catch (RepositoryNotFoundException notGit) {
-      final String m = "Repository \"" + name + "\" unknown.";
+      final String m = "Repository \"" + name.get() + "\" unknown.";
       throw new MergeException(m, notGit);
     }
 

@@ -92,7 +92,7 @@ public class MessagePredicate extends OperatorPredicate<ChangeData> {
     }
 
     try {
-      final Repository repo = repoManager.openRepository(projectName.get());
+      final Repository repo = repoManager.openRepository(projectName);
       try {
         final RevWalk rw = new RevWalk(repo);
         try {

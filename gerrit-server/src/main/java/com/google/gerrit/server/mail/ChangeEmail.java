@@ -48,12 +48,11 @@ import java.util.TreeSet;
 /** Sends an email to one or more interested parties. */
 public abstract class ChangeEmail extends OutgoingEmail {
   protected final Change change;
-  protected String projectName;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
   protected ChangeMessage changeMessage;
 
-  private ProjectState projectState;
+  protected ProjectState projectState;
   protected ChangeData changeData;
 
   protected ChangeEmail(EmailArguments ea, final Change c, final String mc) {
@@ -105,11 +104,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
   protected void init() throws EmailException {
     if (args.projectCache != null) {
       projectState = args.projectCache.get(change.getProject());
-      projectName =
-          projectState != null ? projectState.getProject().getName() : null;
     } else {
       projectState = null;
-      projectName = null;
     }
 
     if (patchSet == null) {
@@ -399,7 +395,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
     velocityContext.put("coverLetter", getCoverLetter());
     velocityContext.put("branch", change.getDest());
     velocityContext.put("fromName", getNameFor(fromId));
-    velocityContext.put("projectName", projectName);
+    velocityContext.put("projectName", //
+        projectState != null ? projectState.getProject().getName() : null);
     velocityContext.put("patchSet", patchSet);
     velocityContext.put("patchSetInfo", patchSetInfo);
   }

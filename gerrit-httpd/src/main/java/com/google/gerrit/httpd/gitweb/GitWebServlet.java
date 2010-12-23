@@ -323,9 +323,9 @@ class GitWebServlet extends HttpServlet {
       name = name.substring(0, name.length() - 4);
     }
 
+    final Project.NameKey nameKey = new Project.NameKey(name);
     final ProjectControl project;
     try {
-      final Project.NameKey nameKey = new Project.NameKey(name);
       project = projectControl.validateFor(nameKey);
       if (!project.allRefsAreVisible()) {
          // Pretend the project doesn't exist
@@ -338,7 +338,7 @@ class GitWebServlet extends HttpServlet {
 
     final Repository repo;
     try {
-      repo = repoManager.openRepository(name);
+      repo = repoManager.openRepository(nameKey);
     } catch (RepositoryNotFoundException e) {
       getServletContext().log("Cannot open repository", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

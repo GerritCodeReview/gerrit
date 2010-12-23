@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.reviewdb.Project;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -42,7 +43,7 @@ public interface GitRepositoryManager {
    * @throws RepositoryNotFoundException the name does not denote an existing
    *         repository, or the name cannot be read as a repository.
    */
-  public abstract Repository openRepository(String name)
+  public abstract Repository openRepository(Project.NameKey name)
       throws RepositoryNotFoundException;
 
   /**
@@ -54,7 +55,7 @@ public interface GitRepositoryManager {
    * @throws RepositoryNotFoundException the name does not denote an existing
    *         repository, or the name cannot be read as a repository.
    */
-  public abstract Repository createRepository(String name)
+  public abstract Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException;
 
   /**
@@ -69,7 +70,7 @@ public interface GitRepositoryManager {
    * @throws IOException the description file exists, but is not readable by
    *         this process.
    */
-  public abstract String getProjectDescription(final String name)
+  public abstract String getProjectDescription(Project.NameKey name)
       throws RepositoryNotFoundException, IOException;
 
   /**
@@ -81,6 +82,6 @@ public interface GitRepositoryManager {
    * @param name the repository name, relative to the base directory.
    * @param description new description text for the repository.
    */
-  public abstract void setProjectDescription(final String name,
+  public abstract void setProjectDescription(Project.NameKey name,
       final String description);
 }

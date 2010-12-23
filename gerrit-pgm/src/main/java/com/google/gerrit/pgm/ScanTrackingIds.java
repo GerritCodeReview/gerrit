@@ -116,7 +116,7 @@ public class ScanTrackingIds extends SiteProgram {
     final Project.NameKey project = change.getDest().getParentKey();
     final Repository git;
     try {
-      git = gitManager.openRepository(project.get());
+      git = gitManager.openRepository(project);
     } catch (RepositoryNotFoundException e) {
       return;
     }

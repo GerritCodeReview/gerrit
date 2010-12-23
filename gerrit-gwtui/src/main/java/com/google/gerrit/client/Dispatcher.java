@@ -44,7 +44,6 @@ import com.google.gerrit.client.account.RegisterScreen;
 import com.google.gerrit.client.account.ValidateEmailScreen;
 import com.google.gerrit.client.admin.AccountGroupScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
-import com.google.gerrit.client.admin.ProjectAccessScreen;
 import com.google.gerrit.client.admin.ProjectBranchesScreen;
 import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
@@ -425,7 +424,7 @@ public class Dispatcher {
           }
 
           if (ProjectScreen.ACCESS.equals(p)) {
-            return new ProjectAccessScreen(k);
+            return new NotFoundScreen();
           }
 
           return new NotFoundScreen();

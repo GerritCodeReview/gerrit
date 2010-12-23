@@ -29,10 +29,8 @@ public class ProjectModule extends RpcServletModule {
       @Override
       protected void configure() {
         factory(AddBranch.Factory.class);
-        factory(AddRefRight.Factory.class);
         factory(ChangeProjectSettings.Factory.class);
         factory(DeleteBranches.Factory.class);
-        factory(DeleteRefRights.Factory.class);
         factory(ListBranches.Factory.class);
         factory(VisibleProjects.Factory.class);
         factory(ProjectDetailFactory.Factory.class);

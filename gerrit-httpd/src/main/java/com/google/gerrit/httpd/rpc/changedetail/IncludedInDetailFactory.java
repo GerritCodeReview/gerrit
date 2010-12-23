@@ -77,7 +77,7 @@ class IncludedInDetailFactory extends Handler<IncludedInDetail> {
     final PatchSet patch =
         db.patchSets().get(control.getChange().currentPatchSetId());
     final Repository repo =
-        repoManager.openRepository(control.getProject().getName());
+        repoManager.openRepository(control.getProject().getNameKey());
     try {
       final RevWalk rw = new RevWalk(repo);
       try {

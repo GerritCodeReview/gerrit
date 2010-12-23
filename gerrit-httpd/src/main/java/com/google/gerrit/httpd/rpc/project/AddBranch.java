@@ -107,7 +107,7 @@ class AddBranch extends Handler<ListBranchesResult> {
 
     final Branch.NameKey name = new Branch.NameKey(projectName, refname);
     final RefControl refControl = projectControl.controlForRef(name);
-    final Repository repo = repoManager.openRepository(projectName.get());
+    final Repository repo = repoManager.openRepository(projectName);
     try {
       final ObjectId revid = parseStartingRevision(repo);
       final RevWalk rw = verifyConnected(repo, revid);

@@ -137,7 +137,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
     final Repository git;
     try {
-      git = repoManager.openRepository(projectKey.get());
+      git = repoManager.openRepository(projectKey);
     } catch (RepositoryNotFoundException e) {
       log.error("Repository " + projectKey + " not found", e);
       throw new NoSuchChangeException(changeId, e);

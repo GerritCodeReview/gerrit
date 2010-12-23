@@ -158,7 +158,7 @@ class PushOp implements ProjectRunnable {
     // since the canceled flag would be set locking the queue.
     if (!canceled) {
       try {
-        db = repoManager.openRepository(projectName.get());
+        db = repoManager.openRepository(projectName);
         runImpl();
       } catch (RepositoryNotFoundException e) {
         log.error("Cannot replicate " + projectName + "; " + e.getMessage());

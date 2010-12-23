@@ -73,7 +73,7 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
     projectCache.evict(proj);
 
     if (!projectControl.getProjectState().isSpecialWildProject()) {
-      repoManager.setProjectDescription(projectName.get(), update.getDescription());
+      repoManager.setProjectDescription(projectName, update.getDescription());
     }
 
     return projectDetailFactory.create(projectName).call();

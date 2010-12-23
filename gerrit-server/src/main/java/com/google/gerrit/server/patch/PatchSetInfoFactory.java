@@ -76,8 +76,7 @@ public class PatchSetInfoFactory {
       final PatchSet patchSet = db.patchSets().get(patchSetId);
       final Change change = db.changes().get(patchSet.getId().getParentKey());
       final Project.NameKey projectKey = change.getProject();
-      final String projectName = projectKey.get();
-      repo = repoManager.openRepository(projectName);
+      repo = repoManager.openRepository(projectKey);
       final RevWalk rw = new RevWalk(repo);
       try {
         final RevCommit src =

@@ -128,7 +128,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
 
     validate().andReturn(pc);
 
-    expect(grm.openRepository(eq(name.get()))).andReturn(mockDb);
+    expect(grm.openRepository(eq(name))).andReturn(mockDb);
     expect(mockDb.getAllRefs()).andDelegateTo(realDb);
     if (getHead) {
       expect(mockDb.getRef(HEAD)).andDelegateTo(realDb);
@@ -263,7 +263,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
         + "master", null)));
 
     validate().andReturn(pc);
-    expect(grm.openRepository(eq(name.get()))).andReturn(mockDb);
+    expect(grm.openRepository(eq(name))).andReturn(mockDb);
     expect(mockDb.getAllRefs()).andReturn(u);
     for (Ref ref : u.values()) {
       assumeVisible(ref, true);
@@ -291,7 +291,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     u.put(HEAD, new SymbolicRef(HEAD, bar));
 
     validate().andReturn(pc);
-    expect(grm.openRepository(eq(name.get()))).andReturn(mockDb);
+    expect(grm.openRepository(eq(name))).andReturn(mockDb);
     expect(mockDb.getAllRefs()).andReturn(u);
     assumeVisible(bar, false);
     assumeVisible(bar, false);
@@ -318,7 +318,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     u.put(foo.getName(), foo);
 
     validate().andReturn(pc);
-    expect(grm.openRepository(eq(name.get()))).andReturn(mockDb);
+    expect(grm.openRepository(eq(name))).andReturn(mockDb);
     expect(mockDb.getAllRefs()).andReturn(u);
     assumeVisible(bar, true);
     assumeVisible(bar, true);

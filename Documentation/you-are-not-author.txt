@@ -1,0 +1,143 @@
+you are not author ...
+=========================
+
+Gerrit verifies for every pushed commit that the e-mail address of
+the author matches one of the registered e-mail addresses of the
+pushing user. If this is not the case pushing the commit fails with
+the error message "you are not author ...". This policy can be
+bypassed by having the access right '+1 Forge Author Identity' in the
+'Forge Identity' category.
+
+This error may happen for two reasons:
+1. incorrect configuration of the e-mail address on client or server
+   side
+2. missing privileges to push commits of other authors
+
+
+Incorrect configuration of the e-mail address on client or server side
+----------------------------------------------------------------------
+
+If pushing to Gerrit fails with the error message "you are not
+author ..." and you are the author of the commit for which the push
+fails, then either you have not successfully registered this e-mail
+address for your Gerrit account or the author information of the
+pushed commit is incorrect.
+
+Configuration of e-mail address in Gerrit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Check in Gerrit under 'Settings -> Identities' which e-mail addresses
+you've configured for your Gerrit account, if no e-mail address is
+registered go to 'Settings -> Contact Information' and register a new
+e-mail address there. Make sure you confirm your e-mail address by
+clicking on the link in the e-mail verification mail sent by Gerrit.
+
+Incorrect author information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For every commit Git maintains the author. If not explicitly
+specified Git computes the author on commit out of the Git
+configuration parameters 'user.name' and 'user.email'.
+
+----
+  $ git config -l
+  ...
+  user.name=John Doe
+  user.email=john.doe@example.com
+  ...
+----
+
+A commit done with the above Git configuration would have
+"John Doe <john.doe@example.com>" as author.
+
+You can see the author information for existing commits in the
+history.
+
+----
+  $ git log
+  commit cbe31bdba7d14963eb42f7e1e0eef1fe58698c05
+  Author: John Doe <john.doe@example.com>
+  Date:   Mon Dec 20 15:36:33 2010 +0100
+
+      my commit
+
+----
+
+Check in Git that the author information of the commit that should
+be pushed is correct. The author should have the same e-mail address
+that you've configured for your Gerrit account. If the author
+information is incorrect set the Git configuration parameters
+'user.name' and 'user.email' to the correct values (you might want to
+set this globally by including the option '--global'):
+
+----
+  $ git config user.name "John Doe"
+  $
+  $ git config user.email john.doe@example.com
+  $
+----
+
+Now you should update the author for those commits where the author
+information is wrong. If only the last commit is affected you can do
+this by amending the last commit and explicitly setting the author:
+
+----
+  $ git commit --amend --author "John Doe <john.doe@example.com>"
+----
+
+If you need to update the author information for several commits it
+gets more complicated. In this case you have to do an interactive
+git rebase for the affected commits. While doing the interactive
+rebase you have to choose 'edit' for those commits for which the
+author should be rewritten. When the rebase stops at such a commit
+you have to amend the commit with explicitly setting the author
+before continuing the rebase.
+
+Here is an exmaple that shows how the interactive rebase is used to
+update the author for the last 3 commits:
+
+----
+  $ git rebase -i HEAD~3
+
+  edit 51f0d47 one commit
+  edit 7299690 another commit
+  edit 304ad96 one more commit
+
+  Stopped at 51f0d47... one commit
+  You can amend the commit now, with
+
+          git commit --amend
+
+  Once you are satisfied with your changes, run
+
+          git rebase --continue
+
+  $ git commit --amend --author "John Doe <john.doe@example.com>"
+  [detached HEAD baea1e4] one commit
+   Author: John Doe <john.doe@example.com>
+   1 files changed, 4 insertions(+), 1 deletions(-)
+
+  $ git rebase --continue
+
+  ...
+----
+
+For further details about git rebase please check the
+link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git documentation].
+
+
+Missing privileges to push commits of other users
+-------------------------------------------------
+
+If pushing to Gerrit fails with the error message "you are not
+author ..." and somebody else is author of the commit for which the
+push fails, then you have no permissions to forge the author
+identity. In this case you may contact the project owner to request
+the access right '+1 Forge Author Identity' in the 'Forge Identity'
+category or ask the maintainer to commit this change on the author's
+behalf.
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

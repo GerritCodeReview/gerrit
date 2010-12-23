@@ -14,16 +14,10 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
-
-import java.util.List;
-import java.util.Map;
 
 public class ProjectDetail {
   public Project project;
-  public Map<AccountGroup.Id, AccountGroup> groups;
-  public List<InheritedRefRight> rights;
   public boolean canModifyDescription;
   public boolean canModifyMergeType;
   public boolean canModifyAgreements;
@@ -34,14 +28,6 @@ public class ProjectDetail {
 
   public void setProject(final Project p) {
     project = p;
-  }
-
-  public void setGroups(final Map<AccountGroup.Id, AccountGroup> g) {
-    groups = g;
-  }
-
-  public void setRights(final List<InheritedRefRight> r) {
-    rights = r;
   }
 
   public void setCanModifyDescription(final boolean cmd) {

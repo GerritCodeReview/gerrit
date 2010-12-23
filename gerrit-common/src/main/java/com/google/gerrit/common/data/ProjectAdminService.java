@@ -15,10 +15,8 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.auth.SignInRequired;
-import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.RefRight;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.RpcImpl;
@@ -36,15 +34,6 @@ public interface ProjectAdminService extends RemoteJsonService {
 
   @SignInRequired
   void changeProjectSettings(Project update,
-      AsyncCallback<ProjectDetail> callback);
-
-  @SignInRequired
-  void deleteRight(Project.NameKey projectName, Set<RefRight.Key> ids,
-      AsyncCallback<ProjectDetail> callback);
-
-  @SignInRequired
-  void addRight(Project.NameKey projectName, ApprovalCategory.Id categoryId,
-      String groupName, String refName, short min, short max,
       AsyncCallback<ProjectDetail> callback);
 
   void listBranches(Project.NameKey projectName,

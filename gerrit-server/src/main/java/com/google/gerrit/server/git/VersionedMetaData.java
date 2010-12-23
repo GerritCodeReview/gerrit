@@ -69,6 +69,18 @@ public abstract class VersionedMetaData {
     return revision.copy();
   }
 
+  /** Initialize in-memory as though the repository branch doesn't exist. */
+  public void createInMemory() {
+    try {
+      revision = null;
+      onLoad();
+    } catch (IOException err) {
+      throw new RuntimeException("Unexpected IOException", err);
+    } catch (ConfigInvalidException err) {
+      throw new RuntimeException("Unexpected ConfigInvalidException", err);
+    }
+  }
+
   /**
    * Load the current version from the branch.
    * <p>

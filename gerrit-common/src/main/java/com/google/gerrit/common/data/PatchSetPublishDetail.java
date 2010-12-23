@@ -14,40 +14,37 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.data.AccessSection.Range;
 import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class PatchSetPublishDetail {
   protected AccountInfoCache accounts;
   protected PatchSetInfo patchSetInfo;
   protected Change change;
   protected List<PatchLineComment> drafts;
-  protected Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> allowed;
-  protected Map<ApprovalCategory.Id, PatchSetApproval> given;
-  protected boolean isSubmitAllowed;
+  protected List<Range> labels;
+  protected List<PatchSetApproval> given;
+  protected boolean canSubmit;
 
-  public Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> getAllowed() {
-    return allowed;
+  public List<Range> getLabels() {
+    return labels;
   }
 
-  public void setAllowed(
-      Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> allowed) {
-    this.allowed = allowed;
+  public void setLabels(List<Range> labels) {
+    this.labels = labels;
   }
 
-  public Map<ApprovalCategory.Id, PatchSetApproval> getGiven() {
+  public List<PatchSetApproval> getGiven() {
     return given;
   }
 
-  public void setGiven(Map<ApprovalCategory.Id, PatchSetApproval> given) {
+  public void setGiven(List<PatchSetApproval> given) {
     this.given = given;
   }
 
@@ -67,8 +64,8 @@ public class PatchSetPublishDetail {
     this.drafts = drafts;
   }
 
-  public void setSubmitAllowed(boolean allowed) {
-    isSubmitAllowed = allowed;
+  public void setCanSubmit(boolean allowed) {
+    canSubmit = allowed;
   }
 
   public AccountInfoCache getAccounts() {
@@ -87,20 +84,25 @@ public class PatchSetPublishDetail {
     return drafts;
   }
 
-  public boolean isAllowed(final ApprovalCategory.Id id) {
-    final Set<ApprovalCategoryValue.Id> s = getAllowed(id);
-    return s != null && !s.isEmpty();
+  public Range getRange(final String permissionName) {
+    for (Range s : labels) {
+      if (s.getName().equals(permissionName)) {
+        return s;
+      }
+    }
+    return null;
   }
 
-  public Set<ApprovalCategoryValue.Id> getAllowed(final ApprovalCategory.Id id) {
-    return allowed.get(id);
+  public PatchSetApproval getChangeApproval(ApprovalCategory.Id id) {
+    for (PatchSetApproval a : given) {
+      if (a.getCategoryId().equals(id)) {
+        return a;
+      }
+    }
+    return null;
   }
 
-  public PatchSetApproval getChangeApproval(final ApprovalCategory.Id id) {
-    return given.get(id);
-  }
-
-  public boolean isSubmitAllowed() {
-    return isSubmitAllowed;
+  public boolean canSubmit() {
+    return canSubmit;
   }
 }

@@ -16,6 +16,24 @@
       "revId": "68c06824a5341cc2b61d2d63646b6d12b8171bd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///WA\u003d",
+        "filename": "Documentation/you-are-not-author.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-12-23T09:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3///Wg\u003d",
+      "revId": "68c06824a5341cc2b61d2d63646b6d12b8171bd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

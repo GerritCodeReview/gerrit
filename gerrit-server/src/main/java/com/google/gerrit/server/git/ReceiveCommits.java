@@ -1500,18 +1500,19 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       }
     }
 
-    if (project.isRequireChangeID()) {
-      final List<String> idList = c.getFooterLines(CHANGE_ID);
-      if (idList.isEmpty()) {
-        reject(cmd, "missing Change-Id in commit message ");
-        return false;
-      }
+    final List<String> idList = c.getFooterLines(CHANGE_ID);
 
-      if (idList.size() > 1) {
-        reject(cmd, "multiple Change-Id lines in commit message ");
-        return false;
-      }
+    if (project.isRequireChangeID() && idList.isEmpty()) {
+      reject(cmd, "missing Change-Id in commit message ");
+      return false;
+    }
 
+    if (idList.size() > 1) {
+      reject(cmd, "multiple Change-Id lines in commit message ");
+      return false;
+    }
+
+    if (!idList.isEmpty()) {
       final String v = idList.get(idList.size() - 1).trim();
       if (!v.matches("^I[0-9a-f]{8,}.*$")) {
         reject(cmd, "invalid Change-Id line format in commit message ");

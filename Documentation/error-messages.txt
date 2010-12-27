@@ -9,9 +9,16 @@ occurring and what can be done to solve it.
 Error Messages
 --------------
 
+* link:error-missing-changeid.html[missing Change-Id in commit message]
 * link:error-squash-commits-first.html[squash commits first]
 * link:error-you-are-not-author.html[you are not author ...]
 * link:error-you-are-not-committer.html[you are not committer ...]
+
+
+General Hints
+-------------
+
+* link:error-push-fails-due-to-commit-message.html[push fails due to commit message]
 
 
 GERRIT

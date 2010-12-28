@@ -1,0 +1,31 @@
+invalid Change-Id line format in commit message
+===============================================
+
+With this error message Gerrit rejects to push a commit if its commit
+message contains an invalid Change-Id line.
+
+You can see the commit messages for existing commits in the history
+by doing a link:http://www.kernel.org/pub/software/scm/git/docs/git-log.html[git log].
+
+If it was the intention to rework a change and to push a new patch
+set, find the change in the Gerrit WebUI, copy its Change-Id line and
+use it to correct the invalid Change-Id line in the commit message of
+the commit for which the push is failing. How to do this is explained
+link:error-push-fails-due-to-commit-message.html#commit_hook[here].
+
+If it was the intention to create a new change in Gerrit simply
+remove the invalid Change-Id line from the commit message of the
+commit for which the push is failing. How to do this is explained
+link:error-push-fails-due-to-commit-message.html#commit_hook[here]. In case you have configured the link:cmd-hook-commit-msg.html[commit hook] a new valid
+Change-Id will be automatically generated and inserted.
+
+
+SEE ALSO
+--------
+
+* link:user-changeid.html[Change-Id Lines]
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

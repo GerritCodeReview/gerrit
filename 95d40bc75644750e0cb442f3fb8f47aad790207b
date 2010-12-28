@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3///Fk\u003d",
+        "filename": "Documentation/error-missing-changeid.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2010-12-28T22:43:36Z",
+      "side": 1,
+      "message": "simpler:\n\n... rejects to push a commit to a project which is configured to always require a Change-Id in the commit message and ...",
+      "revId": "95d40bc75644750e0cb442f3fb8f47aad790207b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///Fg\u003d",
+        "filename": "Documentation/error-missing-changeid.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2010-12-28T22:43:36Z",
+      "side": 1,
+      "message": "s/on every/into every/",
+      "revId": "95d40bc75644750e0cb442f3fb8f47aad790207b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3///Fc\u003d",
+        "filename": "Documentation/error-missing-changeid.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2010-12-28T22:43:36Z",
+      "side": 1,
+      "message": "can be simplified: s/How to do this/This/",
+      "revId": "95d40bc75644750e0cb442f3fb8f47aad790207b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

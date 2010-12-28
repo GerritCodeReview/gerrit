@@ -1,0 +1,42 @@
+no new changes
+==============
+
+With this error message Gerrit rejects to push a commit if the pushed
+commit was already successfully pushed to Gerrit. In this case there
+is no new change and consequently there is nothing to do for Gerrit.
+
+If your push is failing with this error message, you normally
+don't have to do anything since the commit was already successfully
+pushed. Still this error message may sometimes come as a surprise if
+you expected a new commit to be pushed. In this case you should
+verify that:
+1. your changes were successfully committed locally (otherwise there
+   is no new commit which can be pushed)
+2. you are pushing the correct commit (e.g. if you are pushing HEAD
+   make sure you have locally checked out the correct branch)
+
+If you are sure you are pushing the correct commit and you are still
+getting the "no new changes" error unexpectedly you can take the
+commit ID and search for the corresponding change in Gerrit. To do
+this simply paste the commit ID in the Gerrit WebUI into the search
+field. Details about how to search in Gerrit are explained link:user-search.html[here].
+
+Please note that each commit can really be pushed only once. This
+means:
+1. you cannot push a commit again even if the change for which the
+   commit was pushed before was abandoned (but you may restore the
+   abandoned change)
+2. you cannot reset a change to an old patch set by pushing the old
+   commit for this change again
+3. if a commit was pushed to one branch you cannot push this commit
+   to another branch
+
+If you need to re-push a commit you may rewrite this commit by
+link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[amending] it or doing an interactive link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase]. By rewriting the
+commit you actually create a new commit (with a new commit ID) which
+can then be pushed to Gerrit.
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

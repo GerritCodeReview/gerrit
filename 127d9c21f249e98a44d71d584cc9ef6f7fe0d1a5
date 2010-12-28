@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3///KY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1505,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-12-28T09:53:16Z",
+      "side": 1,
+      "message": "I find the following code more readable:\n\n if (idList.isEmpty()) {\n \tif (project.isRequireChangeID()) {\n \t\treject(cmd, \"missing Change-Id in commit message\");\n \t\treturn false;\n \t}\n } else if (idList.size() \u003e 1) {\n \treject(cmd, \"multiple Change-Id lines in commit message\");\n \treturn false;\n } else {\n \tfinal String v \u003d idList.get(idList.size() - 1).trim();\n \tif (!v.matches(\"^I[0-9a-f]{8,}.*$\")) {\n \t\treject(cmd, \"invalid Change-Id line format in commit message \");\n \t\treturn false;\n \t}\n }",
+      "revId": "127d9c21f249e98a44d71d584cc9ef6f7fe0d1a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

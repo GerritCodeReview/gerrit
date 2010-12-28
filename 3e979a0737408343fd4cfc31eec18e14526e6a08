@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3///GM\u003d",
+        "filename": "Documentation/error-no-new-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2010-12-28T22:13:16Z",
+      "side": 1,
+      "message": "If the old commit contains a ChangeId footer in the commit message you also need to replace this with a new ChangeId (case 1. and 3. above) otherwise push will fail with another error message.",
+      "revId": "3e979a0737408343fd4cfc31eec18e14526e6a08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

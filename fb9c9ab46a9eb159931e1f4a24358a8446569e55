@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3///JU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-12-28T15:25:08Z",
+      "side": 1,
+      "message": "Is using Constants.DOT_GIT_EXT here any better than using \".git\" literal? If the constant ever changes we have to remember and change this magic 4 also.\nI know it is unlikely that the DOT_GIT_EXT will ever change but if we use it then shouldn\u0027t we also use DOT_GIT_EXT.length()?",
+      "revId": "fb9c9ab46a9eb159931e1f4a24358a8446569e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

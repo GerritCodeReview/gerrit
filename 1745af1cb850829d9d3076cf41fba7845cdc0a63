@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAA+3///Lk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 992,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-12-28T08:27:48Z",
+      "side": 1,
+      "message": "After the creation of new Git notes on the refs/notes/submitted branch we should also take care to trigger the replication for this branch, shouldn\u0027t we?",
+      "revId": "1745af1cb850829d9d3076cf41fba7845cdc0a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3///Lw\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
         "patchSetId": 1

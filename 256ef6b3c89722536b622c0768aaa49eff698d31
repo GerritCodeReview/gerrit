@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3///LI\u003d",
+        "filename": "Documentation/error-push-fails-due-to-commit-message.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2010-12-28T08:48:51Z",
+      "side": 1,
+      "message": "here, again, explaining the same thing: to rewrite one commit use --amend and to rewrite several commits use interactive rebase.\nThis information shouldn\u0027t be repeated so many times as the repetition can only bring confusion to the reader.",
+      "revId": "256ef6b3c89722536b622c0768aaa49eff698d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

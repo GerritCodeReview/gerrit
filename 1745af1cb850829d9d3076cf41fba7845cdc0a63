@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3///Lw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2010-12-28T06:55:49Z",
+      "side": 1,
+      "message": "I just wonder, this writes the old numeric ID of the change into the Git note (the ID that is used in the URL of the change). As \"Change-Id\" I actually expected the long ID starting with \u0027I\u0027 (which is used in the commit message to upload a new patch set for a change in Gerrit). Not sure, maybe both Change ID\u0027s are interesting and should be contained in the Git note?",
+      "revId": "1745af1cb850829d9d3076cf41fba7845cdc0a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

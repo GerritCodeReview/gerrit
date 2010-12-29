@@ -16,6 +16,24 @@
       "revId": "40274f2d39f0f4d7c88fedd2cb21c5d6e7244dd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//+8k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-12-29T21:24:21Z",
+      "side": 1,
+      "message": "Something like:\n\n  git push URL HEAD:refs/for/refs/meta/config\n\nJust take the target branch name (refs/meta/config) and add refs/for/ to make it a review.  But this is so common for branch heads that we have shorthands.  refs/for/master is shorthand for refs/for/refs/heads/master.",
+      "parentUuid": "AAAA+3///BU\u003d",
+      "revId": "40274f2d39f0f4d7c88fedd2cb21c5d6e7244dd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

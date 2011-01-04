@@ -1,0 +1,29 @@
+Gerrit Code Review - Error Messages
+===================================
+
+This page provides access to detailed explanations of Gerrit error
+messages. For each error message it is explained why the error is
+occurring and what can be done to solve it.
+
+
+Error Messages
+--------------
+
+* link:error-invalid-changeid.html[invalid Change-Id line format in commit message]
+* link:error-missing-changeid.html[missing Change-Id in commit message]
+* link:error-multiple-changeid-lines.html[multiple Change-Id lines in commit message]
+* link:error-no-new-changes.html[no new changes]
+* link:error-squash-commits-first.html[squash commits first]
+* link:error-you-are-not-author.html[you are not author ...]
+* link:error-you-are-not-committer.html[you are not committer ...]
+
+
+General Hints
+-------------
+
+* link:error-push-fails-due-to-commit-message.html[push fails due to commit message]
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

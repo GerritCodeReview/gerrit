@@ -16,6 +16,24 @@
       "revId": "46ed098d0b885af5746a8d91f09cb0231d03c2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//+PI\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/AbstractGitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-04T20:05:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3///Jk\u003d",
+      "revId": "46ed098d0b885af5746a8d91f09cb0231d03c2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

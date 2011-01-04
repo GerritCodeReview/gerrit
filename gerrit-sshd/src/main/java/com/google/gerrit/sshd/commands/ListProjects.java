@@ -170,7 +170,7 @@ final class ListProjects extends BaseCommand {
 
   private Ref getBranchRef(Project.NameKey projectName) {
     try {
-      final Repository r = repoManager.openRepository(projectName.get());
+      final Repository r = repoManager.openRepository(projectName);
       try {
         return r.getRef(showBranch);
       } finally {

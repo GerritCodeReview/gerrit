@@ -88,7 +88,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
     }
 
     final Set<Branch.NameKey> deleted = new HashSet<Branch.NameKey>();
-    final Repository r = repoManager.openRepository(projectName.get());
+    final Repository r = repoManager.openRepository(projectName);
     try {
       for (final Branch.NameKey branchKey : toRemove) {
         final String refname = branchKey.get();

@@ -93,11 +93,10 @@ public abstract class AbstractGitCommand extends BaseCommand {
   private void service() throws IOException, Failure {
     project = projectControl.getProjectState().getProject();
 
-    final String name = project.getName();
     try {
-      repo = repoManager.openRepository(name);
+      repo = repoManager.openRepository(project.getNameKey());
     } catch (RepositoryNotFoundException e) {
-      throw new Failure(1, "fatal: '" + name + "': not a git archive", e);
+      throw new Failure(1, "fatal: '" + project.getName() + "': not a git archive", e);
     }
 
     try {

@@ -191,7 +191,7 @@ public class ChangeHookRunner {
      */
     private Repository openRepository(final Project.NameKey name) {
         try {
-            return repoManager.openRepository(name.get());
+            return repoManager.openRepository(name);
         } catch (RepositoryNotFoundException err) {
             log.warn("Cannot open repository " + name.get(), err);
             return null;

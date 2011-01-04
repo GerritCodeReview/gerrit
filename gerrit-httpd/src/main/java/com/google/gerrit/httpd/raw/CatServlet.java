@@ -157,7 +157,7 @@ public class CatServlet extends HttpServlet {
 
     final Repository repo;
     try {
-      repo = repoManager.openRepository(project.getNameKey().get());
+      repo = repoManager.openRepository(project.getNameKey());
     } catch (RepositoryNotFoundException e) {
       getServletContext().log("Cannot open repository", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

@@ -58,7 +58,7 @@ class PatchListLoader extends EntryCreator<PatchListKey, PatchList> {
 
   @Override
   public PatchList createEntry(final PatchListKey key) throws Exception {
-    final Repository repo = repoManager.openRepository(key.projectKey.get());
+    final Repository repo = repoManager.openRepository(key.projectKey);
     try {
       return readPatchList(key, repo);
     } finally {

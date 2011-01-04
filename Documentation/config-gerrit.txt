@@ -1264,9 +1264,8 @@ server is attempted.
 +
 _(Optional)_ How an LDAP referral should be handled if it is
 encountered during directory traversal.  Set to `follow` to
-automatically follow any referrals, or `ignore` to stop and fail
-with `javax.naming.PartialResultException: Unprocessed Continuation
-Reference(s)`
+automatically follow any referrals, or `ignore` to ignore the
+referrals.
 +
 By default, `ignore`.
 

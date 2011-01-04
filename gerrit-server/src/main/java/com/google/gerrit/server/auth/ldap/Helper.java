@@ -38,6 +38,7 @@ import javax.naming.Context;
 import javax.naming.Name;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import javax.naming.PartialResultException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
@@ -168,9 +169,12 @@ import javax.net.ssl.SSLSocketFactory;
       final Attribute groupAtt = account.getAll(schema.accountMemberField);
       if (groupAtt != null) {
         final NamingEnumeration<?> groups = groupAtt.getAll();
-        while (groups.hasMore()) {
-          final String nextDN = (String) groups.next();
-          recursivelyExpandGroups(groupDNs, schema, ctx, nextDN);
+        try {
+          while (groups.hasMore()) {
+            final String nextDN = (String) groups.next();
+            recursivelyExpandGroups(groupDNs, schema, ctx, nextDN);
+          }
+        } catch (PartialResultException e) {
         }
       }
     }
@@ -203,9 +207,12 @@ import javax.net.ssl.SSLSocketFactory;
             ctx.getAttributes(compositeGroupName).get(schema.accountMemberField);
         if (in != null) {
           final NamingEnumeration<?> groups = in.getAll();
-          while (groups.hasMore()) {
-            final String nextDN = (String) groups.next();
-            recursivelyExpandGroups(groupDNs, schema, ctx, nextDN);
+          try {
+            while (groups.hasMore()) {
+              final String nextDN = (String) groups.next();
+              recursivelyExpandGroups(groupDNs, schema, ctx, nextDN);
+            }
+          } catch (PartialResultException e) {
           }
         }
       } catch (NamingException e) {

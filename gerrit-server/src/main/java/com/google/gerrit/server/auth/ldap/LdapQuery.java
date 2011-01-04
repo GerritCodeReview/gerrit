@@ -25,6 +25,7 @@ import java.util.Set;
 
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import javax.naming.PartialResultException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.DirContext;
@@ -69,8 +70,11 @@ class LdapQuery {
     res = ctx.search(base, pattern.getRawPattern(), pattern.bind(params), sc);
     try {
       final List<Result> r = new ArrayList<Result>();
-      while (res.hasMore()) {
-        r.add(new Result(res.next()));
+      try {
+        while (res.hasMore()) {
+          r.add(new Result(res.next()));
+        }
+      } catch (PartialResultException e) {
       }
       return r;
     } finally {

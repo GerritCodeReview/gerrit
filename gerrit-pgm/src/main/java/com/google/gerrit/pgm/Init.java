@@ -258,7 +258,7 @@ public class Init extends SiteProgram {
       }
     }
 
-    void start() throws IOException {
+    void start() throws Exception {
       if (flags.autoStart) {
         if (HostPlatform.isWin32()) {
           System.err.println("Automatic startup not supported on Win32.");

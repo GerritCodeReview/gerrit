@@ -33,11 +33,11 @@ public class Browser {
     this.cfg = cfg;
   }
 
-  public void open() throws IOException {
+  public void open() throws Exception {
     open(null /* root page */);
   }
 
-  public void open(final String link) throws IOException {
+  public void open(final String link) throws Exception {
     String url = cfg.getString("httpd", null, "listenUrl");
     if (url == null) {
       return;

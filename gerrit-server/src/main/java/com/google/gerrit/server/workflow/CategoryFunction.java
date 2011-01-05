@@ -15,11 +15,10 @@
 package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.project.RefControl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +28,6 @@ public abstract class CategoryFunction {
   private static Map<String, CategoryFunction> all =
       new HashMap<String, CategoryFunction>();
   static {
-    all.put(SubmitFunction.NAME, new SubmitFunction());
     all.put(MaxWithBlock.NAME, new MaxWithBlock());
     all.put(MaxNoBlock.NAME, new MaxNoBlock());
     all.put(NoOpFunction.NAME, new NoOpFunction());
@@ -44,19 +42,8 @@ public abstract class CategoryFunction {
    *         is not known to Gerrit and thus cannot be executed.
    */
   public static CategoryFunction forCategory(final ApprovalCategory category) {
-    final CategoryFunction r = forName(category.getFunctionName());
+    final CategoryFunction r = all.get(category.getFunctionName());
     return r != null ? r : new NoOpFunction();
-  }
-
-  /**
-   * Locate a function by name.
-   *
-   * @param functionName the function's unique name.
-   * @return the function implementation; null if the function is not known to
-   *         Gerrit and thus cannot be executed.
-   */
-  public static CategoryFunction forName(final String functionName) {
-    return all.get(functionName);
   }
 
   /**
@@ -92,13 +79,8 @@ public abstract class CategoryFunction {
 
   public boolean isValid(final CurrentUser user, final ApprovalType at,
       final FunctionState state) {
-    RefControl rc = state.controlFor(user);
-    for (final RefRight pr : rc.getApplicableRights(at.getCategory().getId())) {
-      if (user.getEffectiveGroups().contains(pr.getAccountGroupUUID())
-          && (pr.getMinValue() < 0 || pr.getMaxValue() > 0)) {
-        return true;
-      }
-    }
-    return false;
+    return !state.controlFor(user) //
+        .getRange(Permission.forLabel(at.getCategory().getLabelName())) //
+        .isEmpty();
   }
 }

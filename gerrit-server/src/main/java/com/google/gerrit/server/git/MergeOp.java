@@ -805,7 +805,7 @@ public class MergeOp {
           tag = "Tested-by";
         } else {
           final ApprovalType at =
-              approvalTypes.getApprovalType(a.getCategoryId());
+              approvalTypes.byId(a.getCategoryId());
           if (at == null) {
             // A deprecated/deleted approval type, ignore it.
             continue;

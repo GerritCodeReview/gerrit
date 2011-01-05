@@ -212,10 +212,13 @@ public class CreateCodeReviewNotes {
         if (ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
           submit = a;
         } else {
-          formatter.appendApproval(
-              approvalTypes.getApprovalType(a.getCategoryId()).getCategory(),
-              a.getValue(),
-              accountCache.get(a.getAccountId()).getAccount());
+          ApprovalCategory type = approvalTypes.byId(a.getCategoryId()).getCategory();
+          if (type != null) {
+            formatter.appendApproval(
+                type,
+                a.getValue(),
+                accountCache.get(a.getAccountId()).getAccount());
+          }
         }
       }
 

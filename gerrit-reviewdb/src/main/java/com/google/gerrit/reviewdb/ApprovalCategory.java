@@ -24,33 +24,6 @@ public final class ApprovalCategory {
   public static final ApprovalCategory.Id SUBMIT =
       new ApprovalCategory.Id("SUBM");
 
-  /** Id of the special "Read" action (and category). */
-  public static final ApprovalCategory.Id READ =
-      new ApprovalCategory.Id("READ");
-
-  /** Id of the special "Own" category; manages a project. */
-  public static final ApprovalCategory.Id OWN = new ApprovalCategory.Id("OWN");
-
-  /** Id of the special "Push Annotated Tag" action (and category). */
-  public static final ApprovalCategory.Id PUSH_TAG =
-      new ApprovalCategory.Id("pTAG");
-  public static final short PUSH_TAG_SIGNED = 1;
-  public static final short PUSH_TAG_ANNOTATED = 2;
-
-  /** Id of the special "Push Branch" action (and category). */
-  public static final ApprovalCategory.Id PUSH_HEAD =
-      new ApprovalCategory.Id("pHD");
-  public static final short PUSH_HEAD_UPDATE = 1;
-  public static final short PUSH_HEAD_CREATE = 2;
-  public static final short PUSH_HEAD_REPLACE = 3;
-
-  /** Id of the special "Forge Identity" category. */
-  public static final ApprovalCategory.Id FORGE_IDENTITY =
-      new ApprovalCategory.Id("FORG");
-  public static final short FORGE_AUTHOR = 1;
-  public static final short FORGE_COMMITTER = 2;
-  public static final short FORGE_SERVER = 3;
-
   public static class Id extends StringKey<Key<?>> {
     private static final long serialVersionUID = 1L;
 
@@ -73,15 +46,6 @@ public final class ApprovalCategory {
     protected void set(String newValue) {
       id = newValue;
     }
-
-    /** True if the right can be assigned on the wild project. */
-    public boolean canBeOnWildProject() {
-      if (OWN.equals(this)) {
-        return false;
-      } else {
-        return true;
-      }
-    }
   }
 
   /** Internal short unique identifier for this category. */
@@ -96,16 +60,7 @@ public final class ApprovalCategory {
   @Column(id = 3, length = 4, notNull = false)
   protected String abbreviatedName;
 
-  /**
-   * Order of this category within the Approvals table when presented.
-   * <p>
-   * If < 0 (e.g. -1) this category is not shown in the Approvals table but is
-   * instead considered to be an action that the user might be able to perform,
-   * e.g. "Submit".
-   * <p>
-   * If >= 0 this category is shown in the Approvals table, sorted along with
-   * its siblings by <code>position, name</code>.
-   */
+  /** Order of this category within the Approvals table when presented. */
   @Column(id = 4)
   protected short position;
 
@@ -116,6 +71,9 @@ public final class ApprovalCategory {
   /** If set, the minimum score is copied during patch set replacement. */
   @Column(id = 6)
   protected boolean copyMinScore;
+
+  /** Computed name derived from {@link #name}. */
+  protected String labelName;
 
   protected ApprovalCategory() {
   }
@@ -136,6 +94,26 @@ public final class ApprovalCategory {
 
   public void setName(final String n) {
     name = n;
+    labelName = null;
+  }
+
+  /** Clean version of {@link #getName()}, e.g. "Code Review" is "Code-Review". */
+  public String getLabelName() {
+    if (labelName == null) {
+      StringBuilder r = new StringBuilder();
+      for (int i = 0; i < name.length(); i++) {
+        char c = name.charAt(i);
+        if (('0' <= c && c <= '9') //
+            || ('a' <= c && c <= 'z') //
+            || ('A' <= c && c <= 'Z')) {
+          r.append(c);
+        } else if (c == ' ') {
+          r.append('-');
+        }
+      }
+      labelName = r.toString();
+    }
+    return labelName;
   }
 
   public String getAbbreviatedName() {
@@ -152,14 +130,6 @@ public final class ApprovalCategory {
 
   public void setPosition(final short p) {
     position = p;
-  }
-
-  public boolean isAction() {
-    return position < 0;
-  }
-
-  public boolean isRange() {
-    return !isAction();
   }
 
   public String getFunctionName() {

@@ -39,8 +39,7 @@ class ApprovalTypesProvider implements Provider<ApprovalTypes> {
 
   @Override
   public ApprovalTypes get() {
-    List<ApprovalType> approvalTypes = new ArrayList<ApprovalType>(2);
-    List<ApprovalType> actionTypes = new ArrayList<ApprovalType>(2);
+    List<ApprovalType> types = new ArrayList<ApprovalType>(2);
 
     try {
       final ReviewDb db = schema.open();
@@ -48,12 +47,7 @@ class ApprovalTypesProvider implements Provider<ApprovalTypes> {
         for (final ApprovalCategory c : db.approvalCategories().all()) {
           final List<ApprovalCategoryValue> values =
               db.approvalCategoryValues().byCategory(c.getId()).toList();
-          final ApprovalType type = new ApprovalType(c, values);
-          if (type.getCategory().isAction()) {
-            actionTypes.add(type);
-          } else {
-            approvalTypes.add(type);
-          }
+          types.add(new ApprovalType(c, values));
         }
       } finally {
         db.close();
@@ -62,8 +56,6 @@ class ApprovalTypesProvider implements Provider<ApprovalTypes> {
       throw new ProvisionException("Cannot query approval categories", e);
     }
 
-    approvalTypes = Collections.unmodifiableList(approvalTypes);
-    actionTypes = Collections.unmodifiableList(actionTypes);
-    return new ApprovalTypes(approvalTypes, actionTypes);
+    return new ApprovalTypes(Collections.unmodifiableList(types));
   }
 }

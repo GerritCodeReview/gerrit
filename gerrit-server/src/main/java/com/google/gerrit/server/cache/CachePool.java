@@ -237,14 +237,10 @@ public class CachePool {
     }
 
     private CacheConfiguration newCache(final String name) {
-      try {
-        final CacheConfiguration c;
-        c = mgr.getDefaultCacheConfiguration().clone();
-        c.setName(name);
-        return c;
-      } catch (CloneNotSupportedException e) {
-        throw new ProvisionException("Cannot configure cache " + name, e);
-      }
+      final CacheConfiguration c;
+      c = mgr.getDefaultCacheConfiguration().clone();
+      c.setName(name);
+      return c;
     }
   }
 }

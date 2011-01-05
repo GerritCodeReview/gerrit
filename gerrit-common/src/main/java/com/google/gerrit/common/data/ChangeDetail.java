@@ -39,10 +39,10 @@ public class ChangeDetail {
   protected List<PatchSet> patchSets;
   protected List<ApprovalDetail> approvals;
   protected Set<ApprovalCategory.Id> missingApprovals;
+  protected boolean canSubmit;
   protected List<ChangeMessage> messages;
   protected PatchSet.Id currentPatchSetId;
   protected PatchSetDetail currentDetail;
-  protected Set<ApprovalCategory.Id> currentActions;
 
   public ChangeDetail() {
   }
@@ -85,6 +85,14 @@ public class ChangeDetail {
 
   public void setCanRevert(boolean a) {
       canRevert = a;
+  }
+
+  public boolean canSubmit() {
+    return canSubmit;
+  }
+
+  public void setCanSubmit(boolean a) {
+    canSubmit = a;
   }
 
   public Change getChange() {
@@ -151,14 +159,6 @@ public class ChangeDetail {
 
   public void setMissingApprovals(Set<ApprovalCategory.Id> a) {
     missingApprovals = a;
-  }
-
-  public Set<ApprovalCategory.Id> getCurrentActions() {
-    return currentActions;
-  }
-
-  public void setCurrentActions(Set<ApprovalCategory.Id> a) {
-    currentActions = a;
   }
 
   public boolean isCurrentPatchSet(final PatchSetDetail detail) {

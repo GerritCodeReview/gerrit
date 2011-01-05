@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.workflow.CategoryFunction;
@@ -94,6 +95,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     if (patch == null) {
       throw new NoSuchEntityException();
     }
+    final CanSubmitResult canSubmitResult = control.canSubmit(patch.getId());
 
     aic.want(change.getOwner());
 
@@ -103,6 +105,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     detail.setCanAbandon(change.getStatus().isOpen() && control.canAbandon());
     detail.setCanRestore(change.getStatus() == Change.Status.ABANDONED && control.canRestore());
+    detail.setCanSubmit(canSubmitResult == CanSubmitResult.OK);
     detail.setStarred(control.getCurrentUser().getStarredChanges().contains(
         changeId));
 
@@ -141,23 +144,13 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       final Set<ApprovalCategory.Id> missingApprovals =
           new HashSet<ApprovalCategory.Id>();
 
-      final Set<ApprovalCategory.Id> currentActions =
-          new HashSet<ApprovalCategory.Id>();
-
       for (final ApprovalType at : approvalTypes.getApprovalTypes()) {
         CategoryFunction.forCategory(at.getCategory()).run(at, fs);
         if (!fs.isValid(at)) {
           missingApprovals.add(at.getCategory().getId());
         }
       }
-      for (final ApprovalType at : approvalTypes.getActionTypes()) {
-        if (CategoryFunction.forCategory(at.getCategory()).isValid(
-            control.getCurrentUser(), at, fs)) {
-          currentActions.add(at.getCategory().getId());
-        }
-      }
       detail.setMissingApprovals(missingApprovals);
-      detail.setCurrentActions(currentActions);
     }
 
     final boolean canRemoveReviewers = detail.getChange().getStatus().isOpen() //

@@ -51,8 +51,7 @@ class ReviewNoteHeaderFormatter {
 
   void appendApproval(ApprovalCategory category,
       short value, Account user) {
-    // TODO: use category.getLabel() when available
-    sb.append(category.getName().replace(' ', '-'));
+    sb.append(category.getLabelName());
     sb.append(value < 0 ? "-" : "+").append(Math.abs(value)).append(": ");
     appendUserData(user);
     sb.append("\n");

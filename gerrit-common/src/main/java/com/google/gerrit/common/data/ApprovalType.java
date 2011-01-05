@@ -56,6 +56,9 @@ public class ApprovalType {
         maxPositive = values.get(values.size() - 1).getValue();
       }
     }
+
+    // Force the label name to pre-compute so we don't have data race conditions.
+    getCategory().getLabelName();
   }
 
   public ApprovalCategory getCategory() {

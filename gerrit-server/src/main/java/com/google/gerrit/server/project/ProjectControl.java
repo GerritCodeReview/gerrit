@@ -14,13 +14,15 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.gerrit.common.CollectionsUtil.*;
+import static com.google.gerrit.common.CollectionsUtil.isAnyIncludedIn;
+
+import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReplicationUser;
 import com.google.gerrit.server.config.GitReceivePackGroups;
@@ -29,6 +31,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -108,6 +111,8 @@ public class ProjectControl {
   private final CurrentUser user;
   private final ProjectState state;
 
+  private Collection<AccessSection> access;
+
   @Inject
   ProjectControl(@GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
@@ -155,18 +160,18 @@ public class ProjectControl {
   /** Can this user see this project exists? */
   public boolean isVisible() {
     return visibleForReplication()
-        || canPerformOnAnyRef(ApprovalCategory.READ, (short) 1);
+        || canPerformOnAnyRef(Permission.READ);
   }
 
   public boolean canAddRefs() {
-    return (canPerformOnAnyRef(ApprovalCategory.PUSH_HEAD, ApprovalCategory.PUSH_HEAD_CREATE)
+    return (canPerformOnAnyRef(Permission.CREATE)
         || isOwnerAnyRef());
   }
 
   /** Can this user see all the refs in this projects? */
   public boolean allRefsAreVisible() {
     return visibleForReplication()
-        || canPerformOnAllRefs(ApprovalCategory.READ, (short) 1);
+        || canPerformOnAllRefs(Permission.READ);
   }
 
   /** Is this project completely visible for replication? */
@@ -177,49 +182,60 @@ public class ProjectControl {
 
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
   public boolean isOwner() {
-    return controlForRef(RefRight.ALL).isOwner()
+    return controlForRef(AccessSection.ALL).isOwner()
         || getCurrentUser().isAdministrator();
   }
 
   /** Does this user have ownership on at least one reference name? */
   public boolean isOwnerAnyRef() {
-    return canPerformOnAnyRef(ApprovalCategory.OWN, (short) 1)
+    return canPerformOnAnyRef(Permission.OWNER)
         || getCurrentUser().isAdministrator();
   }
 
   /** @return true if the user can upload to at least one reference */
   public boolean canPushToAtLeastOneRef() {
-    return canPerformOnAnyRef(ApprovalCategory.READ, (short) 2)
-        || canPerformOnAnyRef(ApprovalCategory.PUSH_HEAD, (short) 1)
-        || canPerformOnAnyRef(ApprovalCategory.PUSH_TAG, (short) 1);
+    return canPerformOnAnyRef(Permission.PUSH)
+        || canPerformOnAnyRef(Permission.PUSH_TAG);
   }
 
-  // TODO (anatol.pomazau): Try to merge this method with similar RefRightsForPattern#canPerform
-  private boolean canPerformOnAnyRef(ApprovalCategory.Id actionId,
-      short requireValue) {
+  private boolean canPerformOnAnyRef(String permissionName) {
     final Set<AccountGroup.UUID> groups = user.getEffectiveGroups();
 
-    for (final RefRight pr : state.getAllRights(actionId, true)) {
-      if (groups.contains(pr.getAccountGroupUUID())
-          && pr.getMaxValue() >= requireValue) {
-        return true;
+    for (AccessSection section : access()) {
+      Permission permission = section.getPermission(permissionName);
+      if (permission == null) {
+        continue;
+      }
+
+      for (PermissionRule rule : permission.getRules()) {
+        if (rule.getDeny()) {
+          continue;
+        }
+
+        // Being in a group that was granted this permission is only an
+        // approximation.  There might be overrides and doNotInherit
+        // that would render this to be false.
+        //
+        if (groups.contains(rule.getGroup().getUUID())
+            && controlForRef(section.getRefPattern()).canPerform(permissionName)) {
+          return true;
+        }
       }
     }
 
     return false;
   }
 
-  private boolean canPerformOnAllRefs(ApprovalCategory.Id actionId,
-      short requireValue) {
+  private boolean canPerformOnAllRefs(String permission) {
     boolean canPerform = false;
-    final Set<String> patterns = allRefPatterns(actionId);
-    if (patterns.contains(RefRight.ALL)) {
+    Set<String> patterns = allRefPatterns(permission);
+    if (patterns.contains(AccessSection.ALL)) {
       // Only possible if granted on the pattern that
       // matches every possible reference.  Check all
       // patterns also have the permission.
       //
       for (final String pattern : patterns) {
-        if (controlForRef(pattern).canPerform(actionId, requireValue)) {
+        if (controlForRef(pattern).canPerform(permission)) {
           canPerform = true;
         } else {
           return false;
@@ -229,12 +245,22 @@ public class ProjectControl {
     return canPerform;
   }
 
-  private Set<String> allRefPatterns(ApprovalCategory.Id actionId) {
-    final Set<String> all = new HashSet<String>();
-    for (final RefRight pr : state.getAllRights(actionId, true)) {
-      all.add(pr.getRefPattern());
+  private Set<String> allRefPatterns(String permissionName) {
+    Set<String> all = new HashSet<String>();
+    for (AccessSection section : access()) {
+      Permission permission = section.getPermission(permissionName);
+      if (permission != null) {
+        all.add(section.getRefPattern());
+      }
     }
     return all;
+  }
+
+  Collection<AccessSection> access() {
+    if (access == null) {
+      access = state.getAllAccessSections();
+    }
+    return access;
   }
 
   public boolean canRunUploadPack() {

@@ -289,7 +289,7 @@ public class ReviewCommand extends BaseCommand {
         functionStateFactory.create(changeControl.getChange(), patchSetId,
             Collections.<PatchSetApproval> emptyList());
     psa.setValue(v);
-    fs.normalize(approvalTypes.getApprovalType(psa.getCategoryId()), psa);
+    fs.normalize(approvalTypes.byId(psa.getCategoryId()), psa);
     if (v != psa.getValue()) {
       throw error(ao.name() + "=" + ao.value() + " not permitted");
     }

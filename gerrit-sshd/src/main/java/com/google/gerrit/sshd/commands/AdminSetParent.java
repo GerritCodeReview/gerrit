@@ -135,10 +135,6 @@ final class AdminSetParent extends BaseCommand {
       }
     }
 
-    // Invalidate all projects in cache since inherited rights were changed.
-    //
-    projectCache.evictAll();
-
     if (err.length() > 0) {
       while (err.charAt(err.length() - 1) == '\n') {
         err.setLength(err.length() - 1);

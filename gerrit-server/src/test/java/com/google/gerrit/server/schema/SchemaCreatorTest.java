@@ -17,11 +17,8 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
-import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
-import com.google.gerrit.server.workflow.NoOpFunction;
-import com.google.gerrit.server.workflow.SubmitFunction;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -163,107 +160,11 @@ public class SchemaCreatorTest extends TestCase {
       assertEquals("R", cat.getAbbreviatedName());
       assertEquals("MaxWithBlock", cat.getFunctionName());
       assertTrue(cat.isCopyMinScore());
-      assertFalse(cat.isAction());
       assertTrue(0 <= cat.getPosition());
     } finally {
       c.close();
     }
     assertValueRange(codeReview, -2, -1, 0, 1, 2);
-  }
-
-  public void testCreateSchema_ApprovalCategory_Read() throws OrmException {
-    final ReviewDb c = db.create().open();
-    try {
-      final ApprovalCategory cat;
-
-      cat = c.approvalCategories().get(ApprovalCategory.READ);
-      assertNotNull(cat);
-      assertEquals(ApprovalCategory.READ, cat.getId());
-      assertEquals("Read Access", cat.getName());
-      assertNull(cat.getAbbreviatedName());
-      assertEquals(NoOpFunction.NAME, cat.getFunctionName());
-      assertTrue(cat.isAction());
-    } finally {
-      c.close();
-    }
-    assertValueRange(ApprovalCategory.READ, -1, 1, 2);
-  }
-
-  public void testCreateSchema_ApprovalCategory_Submit() throws OrmException {
-    final ReviewDb c = db.create().open();
-    try {
-      final ApprovalCategory cat;
-
-      cat = c.approvalCategories().get(ApprovalCategory.SUBMIT);
-      assertNotNull(cat);
-      assertEquals(ApprovalCategory.SUBMIT, cat.getId());
-      assertEquals("Submit", cat.getName());
-      assertNull(cat.getAbbreviatedName());
-      assertEquals(SubmitFunction.NAME, cat.getFunctionName());
-      assertTrue(cat.isAction());
-    } finally {
-      c.close();
-    }
-    assertValueRange(ApprovalCategory.SUBMIT, 1);
-  }
-
-  public void testCreateSchema_ApprovalCategory_PushTag() throws OrmException {
-    final ReviewDb c = db.create().open();
-    try {
-      final ApprovalCategory cat;
-
-      cat = c.approvalCategories().get(ApprovalCategory.PUSH_TAG);
-      assertNotNull(cat);
-      assertEquals(ApprovalCategory.PUSH_TAG, cat.getId());
-      assertEquals("Push Tag", cat.getName());
-      assertNull(cat.getAbbreviatedName());
-      assertEquals(NoOpFunction.NAME, cat.getFunctionName());
-      assertTrue(cat.isAction());
-    } finally {
-      c.close();
-    }
-    assertValueRange(ApprovalCategory.PUSH_TAG, //
-        ApprovalCategory.PUSH_TAG_SIGNED, //
-        ApprovalCategory.PUSH_TAG_ANNOTATED);
-  }
-
-  public void testCreateSchema_ApprovalCategory_PushHead() throws OrmException {
-    final ReviewDb c = db.create().open();
-    try {
-      final ApprovalCategory cat;
-
-      cat = c.approvalCategories().get(ApprovalCategory.PUSH_HEAD);
-      assertNotNull(cat);
-      assertEquals(ApprovalCategory.PUSH_HEAD, cat.getId());
-      assertEquals("Push Branch", cat.getName());
-      assertNull(cat.getAbbreviatedName());
-      assertEquals(NoOpFunction.NAME, cat.getFunctionName());
-      assertTrue(cat.isAction());
-    } finally {
-      c.close();
-    }
-    assertValueRange(ApprovalCategory.PUSH_HEAD, //
-        ApprovalCategory.PUSH_HEAD_UPDATE, //
-        ApprovalCategory.PUSH_HEAD_CREATE, //
-        ApprovalCategory.PUSH_HEAD_REPLACE);
-  }
-
-  public void testCreateSchema_ApprovalCategory_Owner() throws OrmException {
-    final ReviewDb c = db.create().open();
-    try {
-      final ApprovalCategory cat;
-
-      cat = c.approvalCategories().get(ApprovalCategory.OWN);
-      assertNotNull(cat);
-      assertEquals(ApprovalCategory.OWN, cat.getId());
-      assertEquals("Owner", cat.getName());
-      assertNull(cat.getAbbreviatedName());
-      assertEquals(NoOpFunction.NAME, cat.getFunctionName());
-      assertTrue(cat.isAction());
-    } finally {
-      c.close();
-    }
-    assertValueRange(ApprovalCategory.OWN, 1);
   }
 
   private void assertValueRange(ApprovalCategory.Id cat, int... range)
@@ -293,57 +194,6 @@ public class SchemaCreatorTest extends TestCase {
     }
     if (!act.isEmpty()) {
       fail("Category " + cat + " has additional values: " + act);
-    }
-  }
-
-  public void testCreateSchema_DefaultAccess_AnonymousUsers()
-      throws OrmException {
-    db.create();
-    final SystemConfig config = db.getSystemConfig();
-    assertDefaultRight("refs/*", config.anonymousGroupId,
-        ApprovalCategory.READ, 1, 1);
-  }
-
-  public void testCreateSchema_DefaultAccess_RegisteredUsers()
-      throws OrmException {
-    db.create();
-    final SystemConfig config = db.getSystemConfig();
-    assertDefaultRight("refs/*", config.registeredGroupId,
-        ApprovalCategory.READ, 1, 2);
-    assertDefaultRight("refs/heads/*", config.registeredGroupId, codeReview,
-        -1, 1);
-  }
-
-  public void testCreateSchema_DefaultAccess_Administrators()
-      throws OrmException {
-    db.create();
-    final SystemConfig config = db.getSystemConfig();
-    assertDefaultRight("refs/*", config.adminGroupId, ApprovalCategory.READ, 1,
-        1);
-  }
-
-  private void assertDefaultRight(final String pattern,
-      final AccountGroup.Id group, final ApprovalCategory.Id category, int min,
-      int max) throws OrmException {
-    final ReviewDb c = db.open();
-    try {
-      final SystemConfig cfg;
-      final RefRight right;
-
-      cfg = c.systemConfig().get(new SystemConfig.Key());
-      right =
-          c.refRights().get(
-              new RefRight.Key(cfg.wildProjectName, new RefRight.RefPattern(
-                  pattern), category, group));
-
-      assertNotNull(right);
-      assertEquals(cfg.wildProjectName, right.getProjectNameKey());
-      assertEquals(group, right.getAccountGroupId());
-      assertEquals(category, right.getApprovalCategoryId());
-      assertEquals(min, right.getMinValue());
-      assertEquals(max, right.getMaxValue());
-    } finally {
-      c.close();
     }
   }
 }

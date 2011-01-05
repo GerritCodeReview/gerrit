@@ -31,6 +31,7 @@ public class ApprovalType {
   protected short maxNegative;
   protected short maxPositive;
 
+  private transient List<Integer> intList;
   private transient Map<Short, ApprovalCategoryValue> byValue;
 
   protected ApprovalType() {
@@ -56,6 +57,9 @@ public class ApprovalType {
         maxPositive = values.get(values.size() - 1).getValue();
       }
     }
+
+    // Force the label name to pre-compute so we don't have data race conditions.
+    getCategory().getLabelName();
   }
 
   public ApprovalCategory getCategory() {
@@ -106,5 +110,17 @@ public class ApprovalType {
         byValue.put(acv.getValue(), acv);
       }
     }
+  }
+
+  public List<Integer> getValuesAsList() {
+    if (intList == null) {
+      intList = new ArrayList<Integer>(values.size());
+      for (ApprovalCategoryValue acv : values) {
+        intList.add(Integer.valueOf(acv.getValue()));
+      }
+      Collections.sort(intList);
+      Collections.reverse(intList);
+    }
+    return intList;
   }
 }

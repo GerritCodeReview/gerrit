@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//+F8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CachePool.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2011-01-05T22:37:32Z",
+      "side": 0,
+      "message": "I removed it as ehcache docs say you should use either TTL or ethernal property.",
+      "revId": "ba318f25bb4c2c0a48767127b9943852ccac2d07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -192,7 +192,7 @@ limitations under the License.
         <configuration>
           <module>com.google.gerrit.GerritGwtUI</module>
           <extraJvmArgs>-Xmx512m</extraJvmArgs>
-          <soyc>${gwt.soyc}</soyc>
+          <compileReport>${gwt.compileReport}</compileReport>
           <disableClassMetadata>true</disableClassMetadata>
           <disableCastChecking>true</disableCastChecking>
         </configuration>

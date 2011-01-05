@@ -200,14 +200,6 @@ ON patch_set_ancestors (ancestor_revision);
 
 
 -- *********************************************************************
--- RefRightAccess
---    @PrimaryKey covers: byProject
---    covers:             byCategoryGroup
-CREATE INDEX ref_rights_byCatGroup
-ON ref_rights (category_id, group_id);
-
-
--- *********************************************************************
 -- TrackingIdAccess
 --
 CREATE INDEX tracking_ids_byTrkId

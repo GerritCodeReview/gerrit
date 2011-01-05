@@ -16,13 +16,12 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.reviewdb.ApprovalCategory;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.workflow.CategoryFunction;
@@ -31,7 +30,6 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -164,8 +162,14 @@ public class ChangeControl {
     return canAbandon(); // Anyone who can abandon the change can restore it back
   }
 
-  public short normalize(ApprovalCategory.Id category, short score) {
-    return getRefControl().normalize(category, score);
+  /** All value ranges of any allowed label permission. */
+  public List<PermissionRange> getLabelRanges() {
+    return getRefControl().getLabelRanges();
+  }
+
+  /** The range of permitted values associated with a label permission. */
+  public PermissionRange getRange(String permission) {
+    return getRefControl().getRange(permission);
   }
 
   /** Can this user add a patch set to this change? */
@@ -240,34 +244,22 @@ public class ChangeControl {
       return result;
     }
 
-    final List<PatchSetApproval> allApprovals =
-        new ArrayList<PatchSetApproval>(db.patchSetApprovals().byPatchSet(
-            patchSetId).toList());
-    final PatchSetApproval myAction =
-        ChangeUtil.createSubmitApproval(patchSetId,
-            (IdentifiedUser) getCurrentUser(), db);
-
-    final ApprovalType actionType =
-        approvalTypes.getApprovalType(myAction.getCategoryId());
-    if (actionType == null || !actionType.getCategory().isAction()) {
-      return new CanSubmitResult("Invalid action " + myAction.getCategoryId());
-    }
+    final List<PatchSetApproval> all =
+        db.patchSetApprovals().byPatchSet(patchSetId).toList();
 
     final FunctionState fs =
-        functionStateFactory.create(change, patchSetId, allApprovals);
+        functionStateFactory.create(change, patchSetId, all);
+
     for (ApprovalType c : approvalTypes.getApprovalTypes()) {
       CategoryFunction.forCategory(c.getCategory()).run(c, fs);
     }
-    if (!CategoryFunction.forCategory(actionType.getCategory()).isValid(
-        getCurrentUser(), actionType, fs)) {
-      return new CanSubmitResult(actionType.getCategory().getName()
-          + " not permitted");
+
+    for (ApprovalType type : approvalTypes.getApprovalTypes()) {
+      if (!fs.isValid(type)) {
+        return new CanSubmitResult("Requires " + type.getCategory().getName());
+      }
     }
-    fs.normalize(actionType, myAction);
-    if (myAction.getValue() <= 0) {
-      return new CanSubmitResult(actionType.getCategory().getName()
-          + " not permitted");
-    }
+
     return CanSubmitResult.OK;
   }
 }

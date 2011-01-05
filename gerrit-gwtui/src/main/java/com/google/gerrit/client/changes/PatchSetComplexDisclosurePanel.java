@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadScheme;
-import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.Patch;
@@ -52,7 +51,6 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -365,12 +363,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
 
   private void populateActions(final PatchSetDetail detail) {
     final boolean isOpen = changeDetail.getChange().getStatus().isOpen();
-    Set<ApprovalCategory.Id> allowed = changeDetail.getCurrentActions();
-    if (allowed == null) {
-      allowed = Collections.emptySet();
-    }
 
-    if (isOpen && allowed.contains(ApprovalCategory.SUBMIT)) {
+    if (isOpen && changeDetail.canSubmit()) {
       final Button b =
           new Button(Util.M
               .submitPatchSet(detail.getPatchSet().getPatchSetId()));

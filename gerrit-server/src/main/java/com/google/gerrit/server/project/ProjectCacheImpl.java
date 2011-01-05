@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
@@ -33,13 +31,9 @@ import com.google.inject.name.Named;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.locks.Lock;
@@ -97,11 +91,6 @@ public class ProjectCacheImpl implements ProjectCache {
     if (p != null) {
       byName.remove(p.getNameKey());
     }
-  }
-
-  /** Invalidate the cached information about all projects. */
-  public void evictAll() {
-    byName.removeAll();
   }
 
   @Override
@@ -193,30 +182,7 @@ public class ProjectCacheImpl implements ProjectCache {
         try {
           final ProjectConfig cfg = new ProjectConfig(key);
           cfg.load(git);
-
-          final Project p = cfg.getProject();
-
-          Collection<RefRight> rights = db.refRights().byProject(key).toList();
-
-          Set<AccountGroup.Id> groupIds = new HashSet<AccountGroup.Id>();
-          for (RefRight r : rights) {
-            groupIds.add(r.getAccountGroupId());
-          }
-          Map<AccountGroup.Id, AccountGroup> groupsById =
-              db.accountGroups().toMap(db.accountGroups().get(groupIds));
-
-          for (RefRight r : rights) {
-            AccountGroup group = groupsById.get(r.getAccountGroupId());
-            if (group != null) {
-              r.setAccountGroupUUID(group.getGroupUUID());
-            } else {
-              r.setAccountGroupUUID(new AccountGroup.UUID("DELETED_GROUP_"
-                  + r.getAccountGroupId().get()));
-            }
-          }
-          rights = Collections.unmodifiableCollection(rights);
-
-          return projectStateFactory.create(p, rights);
+          return projectStateFactory.create(cfg);
         } finally {
           git.close();
         }

@@ -15,11 +15,12 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.CollectionsUtil;
+import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.RefRight;
-import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -33,7 +34,6 @@ import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand;
-import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
@@ -95,9 +95,6 @@ final class CreateProject extends BaseCommand {
 
   @Option(name = "--empty-commit", usage = "to create initial empty commit")
   private boolean createEmptyCommit;
-
-  @Inject
-  private ReviewDb db;
 
   @Inject
   private GitRepositoryManager repoManager;
@@ -202,27 +199,11 @@ final class CreateProject extends BaseCommand {
     }
   }
 
-  private void createProject() throws OrmException, IOException,
-      ConfigInvalidException {
-
-    List<RefRight> access = new ArrayList<RefRight>();
-    for (AccountGroup.UUID ownerId : ownerIds) {
-      AccountGroup group = groupCache.get(ownerId);
-
-      final RefRight.Key prk =
-          new RefRight.Key(nameKey, new RefRight.RefPattern(
-              RefRight.ALL), ApprovalCategory.OWN, group.getId());
-      final RefRight pr = new RefRight(prk);
-      pr.setMaxValue((short) 1);
-      pr.setMinValue((short) 1);
-      access.add(pr);
-    }
-    db.refRights().insert(access);
-
-    Project.NameKey nameKey = new Project.NameKey(projectName);
+  private void createProject() throws IOException, ConfigInvalidException {
     MetaDataUpdate md = metaDataUpdateFactory.create(nameKey);
     try {
       ProjectConfig config = ProjectConfig.read(md);
+      config.load(md);
 
       Project newProject = config.getProject();
       newProject.setDescription(projectDescription);
@@ -233,6 +214,16 @@ final class CreateProject extends BaseCommand {
       newProject.setRequireChangeID(requireChangeID);
       if (newParent != null) {
         newProject.setParentName(newParent.getProject().getName());
+      }
+
+      if (!ownerIds.isEmpty()) {
+        AccessSection all = config.getAccessSection(AccessSection.ALL, true);
+        for (AccountGroup.UUID ownerId : ownerIds) {
+          AccountGroup accountGroup = groupCache.get(ownerId);
+          GroupReference group = config.resolve(accountGroup);
+          all.getPermission(Permission.OWNER, true).add(
+              new PermissionRule(group));
+        }
       }
 
       md.setMessage("Created project\n");

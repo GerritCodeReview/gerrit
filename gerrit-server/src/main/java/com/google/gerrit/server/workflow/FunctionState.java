@@ -16,13 +16,13 @@ package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ApprovalCategory.Id;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -139,28 +139,12 @@ public class FunctionState {
    * of them is used.
    * <p>
    */
-  private void applyRightFloor(final PatchSetApproval a) {
+  private void applyRightFloor(final ApprovalType at, final PatchSetApproval a) {
+    final ApprovalCategory category = at.getCategory();
+    final String permission = Permission.forLabel(category.getLabelName());
     final IdentifiedUser user = userFactory.create(a.getAccountId());
-    RefControl rc = controlFor(user);
-
-    // Find the maximal range actually granted to the user.
-    //
-    short minAllowed = 0, maxAllowed = 0;
-    for (final RefRight r : rc.getApplicableRights(a.getCategoryId())) {
-      final AccountGroup.UUID grp = r.getAccountGroupUUID();
-      if (user.getEffectiveGroups().contains(grp)) {
-        minAllowed = (short) Math.min(minAllowed, r.getMinValue());
-        maxAllowed = (short) Math.max(maxAllowed, r.getMaxValue());
-      }
-    }
-
-    // Normalize the value into that range.
-    //
-    if (a.getValue() < minAllowed) {
-      a.setValue(minAllowed);
-    } else if (a.getValue() > maxAllowed) {
-      a.setValue(maxAllowed);
-    }
+    final PermissionRange range = controlFor(user).getRange(permission);
+    a.setValue((short) range.squash(a.getValue()));
   }
 
   RefControl controlFor(final CurrentUser user) {
@@ -172,7 +156,7 @@ public class FunctionState {
   /** Run <code>applyTypeFloor</code>, <code>applyRightFloor</code>. */
   public void normalize(final ApprovalType at, final PatchSetApproval ca) {
     applyTypeFloor(at, ca);
-    applyRightFloor(ca);
+    applyRightFloor(at, ca);
   }
 
   private static Id id(final ApprovalType at) {

@@ -14,25 +14,13 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.gerrit.reviewdb.ApprovalCategory.FORGE_AUTHOR;
-import static com.google.gerrit.reviewdb.ApprovalCategory.FORGE_COMMITTER;
-import static com.google.gerrit.reviewdb.ApprovalCategory.FORGE_IDENTITY;
-import static com.google.gerrit.reviewdb.ApprovalCategory.FORGE_SERVER;
-import static com.google.gerrit.reviewdb.ApprovalCategory.OWN;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD_CREATE;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD_REPLACE;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD_UPDATE;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG_ANNOTATED;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG_SIGNED;
-import static com.google.gerrit.reviewdb.ApprovalCategory.READ;
-
+import com.google.gerrit.common.CollectionsUtil;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ParamertizedString;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.RefRight;
-import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
@@ -49,7 +37,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -57,8 +44,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 
@@ -71,6 +56,9 @@ public class RefControl {
   private final ProjectControl projectControl;
   private final String refName;
 
+  private Map<String, List<PermissionRule>> permissions;
+
+  private Boolean owner;
   private Boolean canForgeAuthor;
   private Boolean canForgeCommitter;
 
@@ -111,26 +99,29 @@ public class RefControl {
 
   /** Is this user a ref owner? */
   public boolean isOwner() {
-    if (canPerform(OWN, (short) 1)) {
-      return true;
-    }
+    if (owner == null) {
+      if (canPerform(Permission.OWNER)) {
+        owner = true;
 
-    // We have to prevent infinite recursion here, the project control
-    // calls us to find out if there is ownership of all references in
-    // order to determine project level ownership.
-    //
-    if (getRefName().equals(
-        RefRight.ALL.substring(0, RefRight.ALL.length() - 1))) {
-      return getCurrentUser().isAdministrator();
-    } else {
-      return getProjectControl().isOwner();
+      } else if (getRefName().equals(
+          AccessSection.ALL.substring(0, AccessSection.ALL.length() - 1))) {
+        // We have to prevent infinite recursion here, the project control
+        // calls us to find out if there is ownership of all references in
+        // order to determine project level ownership.
+        //
+        owner = getCurrentUser().isAdministrator();
+
+      } else {
+        owner = getProjectControl().isOwner();
+      }
     }
+    return owner;
   }
 
   /** Can this user see this reference exists? */
   public boolean isVisible() {
     return getProjectControl().visibleForReplication()
-        || canPerform(READ, (short) 1);
+        || canPerform(Permission.READ);
   }
 
   /**
@@ -141,22 +132,33 @@ public class RefControl {
    *         ref
    */
   public boolean canUpload() {
-    return canPerform(READ, (short) 2);
+    return getProjectControl() //
+        .controlForRef("refs/for/" + getRefName()) //
+        .canPerform(Permission.PUSH);
   }
 
   /** @return true if this user can submit patch sets to this ref */
   public boolean canSubmit() {
-    return canPerform(ApprovalCategory.SUBMIT, (short) 1);
+    return canPerform(Permission.SUBMIT);
   }
 
   /** @return true if the user can update the reference as a fast-forward. */
   public boolean canUpdate() {
-    return canPerform(PUSH_HEAD, PUSH_HEAD_UPDATE);
+    return canPerform(Permission.PUSH);
   }
 
   /** @return true if the user can rewind (force push) the reference. */
   public boolean canForceUpdate() {
-    return canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE) || canDelete();
+    return canPushWithForce() || canDelete();
+  }
+
+  private boolean canPushWithForce() {
+    for (PermissionRule rule : access(Permission.PUSH)) {
+      if (rule.getForce()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -178,7 +180,7 @@ public class RefControl {
     }
 
     if (object instanceof RevCommit) {
-      return owner || canPerform(PUSH_HEAD, PUSH_HEAD_CREATE);
+      return owner || canPerform(Permission.CREATE);
 
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
@@ -200,7 +202,7 @@ public class RefControl {
         } else {
           valid = false;
         }
-        if (!valid && !owner && !canPerform(FORGE_IDENTITY, FORGE_COMMITTER)) {
+        if (!valid && !owner && !canForgeCommitter()) {
           return false;
         }
       }
@@ -209,9 +211,9 @@ public class RefControl {
       // than if it doesn't have a PGP signature.
       //
       if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
-        return owner || canPerform(PUSH_TAG, PUSH_TAG_SIGNED);
+        return owner || canPerform(Permission.PUSH_TAG);
       } else {
-        return owner || canPerform(PUSH_TAG, PUSH_TAG_ANNOTATED);
+        return owner || canPerform(Permission.PUSH_TAG);
       }
 
     } else {
@@ -228,10 +230,10 @@ public class RefControl {
   public boolean canDelete() {
     switch (getCurrentUser().getAccessPath()) {
       case WEB_UI:
-        return isOwner() || canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE);
+        return isOwner() || canPushWithForce();
 
       case GIT:
-        return canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE);
+        return canPushWithForce();
 
       default:
         return false;
@@ -241,7 +243,7 @@ public class RefControl {
   /** @return true if this user can forge the author line in a commit. */
   public boolean canForgeAuthor() {
     if (canForgeAuthor == null) {
-      canForgeAuthor = canPerform(FORGE_IDENTITY, FORGE_AUTHOR);
+      canForgeAuthor = canPerform(Permission.FORGE_AUTHOR);
     }
     return canForgeAuthor;
   }
@@ -249,314 +251,103 @@ public class RefControl {
   /** @return true if this user can forge the committer line in a commit. */
   public boolean canForgeCommitter() {
     if (canForgeCommitter == null) {
-      canForgeCommitter = canPerform(FORGE_IDENTITY, FORGE_COMMITTER);
+      canForgeCommitter = canPerform(Permission.FORGE_COMMITTER);
     }
     return canForgeCommitter;
   }
 
   /** @return true if this user can forge the server on the committer line. */
   public boolean canForgeGerritServerIdentity() {
-    return canPerform(FORGE_IDENTITY, FORGE_SERVER);
+    return canPerform(Permission.FORGE_SERVER);
   }
 
-  public short normalize(ApprovalCategory.Id category, short score) {
-    short minAllowed = 0, maxAllowed = 0;
-    for (RefRight r : getApplicableRights(category)) {
-      if (getCurrentUser().getEffectiveGroups().contains(r.getAccountGroupUUID())) {
-        minAllowed = (short) Math.min(minAllowed, r.getMinValue());
-        maxAllowed = (short) Math.max(maxAllowed, r.getMaxValue());
+  /** All value ranges of any allowed label permission. */
+  public List<PermissionRange> getLabelRanges() {
+    List<PermissionRange> r = new ArrayList<PermissionRange>();
+    for (Map.Entry<String, List<PermissionRule>> e : permissions().entrySet()) {
+      if (Permission.isLabel(e.getKey())) {
+        r.add(toRange(e.getKey(), e.getValue()));
       }
     }
-
-    if (score < minAllowed) {
-      score = minAllowed;
-    }
-    if (score > maxAllowed) {
-      score = maxAllowed;
-    }
-    return score;
+    return r;
   }
 
-  /**
-   * Convenience holder class used to map a ref pattern to the list of
-   * {@code RefRight}s that use it in the database.
-   */
-  public final static class RefRightsForPattern {
-    private final List<RefRight> rights;
-    private boolean containsExclusive;
-
-    public RefRightsForPattern() {
-      rights = new ArrayList<RefRight>();
-      containsExclusive = false;
+  /** The range of permitted values associated with a label permission. */
+  public PermissionRange getRange(String permission) {
+    if (Permission.isLabel(permission)) {
+      return toRange(permission, access(permission));
     }
+    return null;
+  }
 
-    public void addRight(RefRight right) {
-      rights.add(right);
-      if (right.isExclusive()) {
-        containsExclusive = true;
-      }
+  private static PermissionRange toRange(String permissionName, List<PermissionRule> ruleList) {
+    int min = 0;
+    int max = 0;
+    for (PermissionRule rule : ruleList) {
+      min = Math.min(min, rule.getMin());
+      max = Math.max(max, rule.getMax());
     }
+    return new PermissionRange(permissionName, min, max);
+  }
 
-    public List<RefRight> getRights() {
-      return Collections.unmodifiableList(rights);
-    }
+  /** True if the user has this permission. Works only for non labels. */
+  boolean canPerform(String permissionName) {
+    return !access(permissionName).isEmpty();
+  }
 
-    public boolean containsExclusive() {
-      return containsExclusive;
-    }
+  /** Rules for the given permission, or the empty list. */
+  private List<PermissionRule> access(String permissionName) {
+    List<PermissionRule> r = permissions().get(permissionName);
+    return r != null ? r : Collections.<PermissionRule> emptyList();
+  }
 
-    /**
-     * Returns The max allowed value for this ref pattern for all specified
-     * groups.
-     *
-     * @param groups The groups of the user
-     * @return The allowed value for this ref for all the specified groups
-     */
-    private boolean allowedValueForRef(Set<AccountGroup.UUID> groups, short level) {
-      for (RefRight right : rights) {
-        if (groups.contains(right.getAccountGroupUUID())
-            && right.getMaxValue() >= level) {
-          return true;
+  /** All rules that pertain to this user, on this reference. */
+  private Map<String, List<PermissionRule>> permissions() {
+    if (permissions == null) {
+      List<AccessSection> sections = new ArrayList<AccessSection>();
+      for (AccessSection section : projectControl.access()) {
+        if (appliesToRef(section)) {
+          sections.add(section);
         }
       }
-      return false;
-    }
-  }
+      Collections.sort(sections, new MostSpecificComparator(getRefName()));
 
-  boolean canPerform(ApprovalCategory.Id actionId, short level) {
-    final Set<AccountGroup.UUID> groups = getCurrentUser().getEffectiveGroups();
+      Set<SeenRule> seen = new HashSet<SeenRule>();
+      Set<String> doNotInherit = new HashSet<String>();
 
-    List<RefRight> allRights = new ArrayList<RefRight>();
-    allRights.addAll(getAllRights(actionId));
+      permissions = new HashMap<String, List<PermissionRule>>();
+      for (AccessSection section : sections) {
+        for (Permission permission : section.getPermissions()) {
+          if (doNotInherit.contains(permission.getName())) {
+            continue;
+          }
 
-    SortedMap<String, RefRightsForPattern> perPatternRights =
-      sortedRightsByPattern(allRights);
-
-    for (RefRightsForPattern right : perPatternRights.values()) {
-      if (right.allowedValueForRef(groups, level)) {
-        return true;
-      }
-      if (right.containsExclusive() && !actionId.equals(OWN)) {
-        break;
-      }
-    }
-    return false;
-  }
-
-  /**
-   * Order the Ref Pattern by the most specific. This sort is done by:
-   * <ul>
-   * <li>1 - The minor value of Levenshtein string distance between the branch
-   * name and the regex string shortest example. A shorter distance is a more
-   * specific match.
-   * <li>2 - Finites first, infinities after.
-   * <li>3 - Number of transitions.
-   * <li>4 - Length of the expression text.
-   * </ul>
-   *
-   * Levenshtein distance is a measure of the similarity between two strings.
-   * The distance is the number of deletions, insertions, or substitutions
-   * required to transform one string into another.
-   *
-   * For example, if given refs/heads/m* and refs/heads/*, the distances are 5
-   * and 6. It means that refs/heads/m* is more specific because it's closer to
-   * refs/heads/master than refs/heads/*.
-   *
-   * Another example could be refs/heads/* and refs/heads/[a-zA-Z]*, the
-   * distances are both 6. Both are infinite, but refs/heads/[a-zA-Z]* has more
-   * transitions, which after all turns it more specific.
-   */
-  private final Comparator<String> BY_MOST_SPECIFIC_SORT =
-      new Comparator<String>() {
-        public int compare(final String pattern1, final String pattern2) {
-          int cmp = distance(pattern1) - distance(pattern2);
-          if (cmp == 0) {
-            boolean p1_finite = finite(pattern1);
-            boolean p2_finite = finite(pattern2);
-
-            if (p1_finite && !p2_finite) {
-              cmp = -1;
-            } else if (!p1_finite && p2_finite) {
-              cmp = 1;
-            } else /* if (f1 == f2) */{
-              cmp = 0;
+          for (PermissionRule rule : permission.getRules()) {
+            if (matchGroup(rule.getGroup().getUUID())) {
+              SeenRule s = new SeenRule(section, permission, rule);
+              if (seen.add(s) && !rule.getDeny()) {
+                List<PermissionRule> r = permissions.get(permission.getName());
+                if (r == null) {
+                  r = new ArrayList<PermissionRule>(2);
+                  permissions.put(permission.getName(), r);
+                }
+                r.add(rule);
+              }
             }
           }
-          if (cmp == 0) {
-            cmp = transitions(pattern1) - transitions(pattern2);
-          }
-          if (cmp == 0) {
-            cmp = pattern2.length() - pattern1.length();
-          }
-          return cmp;
-        }
 
-        private int distance(String pattern) {
-          String example;
-          if (isRE(pattern)) {
-            example = shortestExample(pattern);
-
-          } else if (pattern.endsWith("/*")) {
-            example = pattern.substring(0, pattern.length() - 1) + '1';
-
-          } else if (pattern.equals(getRefName())) {
-            return 0;
-
-          } else {
-            return Math.max(pattern.length(), getRefName().length());
-          }
-          return StringUtils.getLevenshteinDistance(example, getRefName());
-        }
-
-        private boolean finite(String pattern) {
-          if (isRE(pattern)) {
-            return toRegExp(pattern).toAutomaton().isFinite();
-
-          } else if (pattern.endsWith("/*")) {
-            return false;
-
-          } else {
-            return true;
+          if (!permission.getInherit()) {
+            doNotInherit.add(permission.getName());
           }
         }
-
-        private int transitions(String pattern) {
-          if (isRE(pattern)) {
-            return toRegExp(pattern).toAutomaton().getNumberOfTransitions();
-
-          } else if (pattern.endsWith("/*")) {
-            return pattern.length();
-
-          } else {
-            return pattern.length();
-          }
-        }
-      };
-
-  /**
-   * Sorts all given rights into a map, ordered by descending length of
-   * ref pattern.
-   *
-   * For example, if given the following rights in argument:
-   *
-   * ["refs/heads/master", group1, -1, +1],
-   * ["refs/heads/master", group2, -2, +2],
-   * ["refs/heads/*", group3, -1, +1]
-   * ["refs/heads/stable", group2, -1, +1]
-   *
-   * Then the following map is returned:
-   * "refs/heads/master" => {
-   *      ["refs/heads/master", group1, -1, +1],
-   *      ["refs/heads/master", group2, -2, +2]
-   *  }
-   * "refs/heads/stable" => {["refs/heads/stable", group2, -1, +1]}
-   * "refs/heads/*" => {["refs/heads/*", group3, -1, +1]}
-   *
-   * @param actionRights
-   * @return A sorted map keyed off the ref pattern of all rights.
-   */
-  private SortedMap<String, RefRightsForPattern> sortedRightsByPattern(
-      List<RefRight> actionRights) {
-    SortedMap<String, RefRightsForPattern> rights =
-      new TreeMap<String, RefRightsForPattern>(BY_MOST_SPECIFIC_SORT);
-    for (RefRight actionRight : actionRights) {
-      RefRightsForPattern patternRights =
-        rights.get(actionRight.getRefPattern());
-      if (patternRights == null) {
-        patternRights = new RefRightsForPattern();
-        rights.put(actionRight.getRefPattern(), patternRights);
-      }
-      patternRights.addRight(actionRight);
-    }
-    return rights;
-  }
-
-  private List<RefRight> getAllRights(ApprovalCategory.Id actionId) {
-    final List<RefRight> allRefRights = filter(getProjectState().getAllRights(actionId, true));
-    return resolveOwnerGroups(allRefRights);
-  }
-
-  /**
-   * Returns all applicable rights for a given approval category.
-   *
-   * Applicable rights are defined as the list of {@code RefRight}s which match
-   * the ref for which this object was created, stopping the ref wildcard
-   * matching when an exclusive ref right was encountered, for the given
-   * approval category.
-   * @param id The {@link ApprovalCategory.Id}.
-   * @return All applicable rights.
-   */
-  public List<RefRight> getApplicableRights(final ApprovalCategory.Id id) {
-    List<RefRight> l = new ArrayList<RefRight>();
-    l.addAll(getAllRights(id));
-    SortedMap<String, RefRightsForPattern> perPatternRights =
-      sortedRightsByPattern(l);
-    List<RefRight> applicable = new ArrayList<RefRight>();
-    for (RefRightsForPattern patternRights : perPatternRights.values()) {
-      applicable.addAll(patternRights.getRights());
-      if (patternRights.containsExclusive()) {
-        break;
       }
     }
-    return Collections.unmodifiableList(applicable);
+    return permissions;
   }
 
-  /**
-   * Resolves all refRights which assign privileges to the 'Project Owners'
-   * group. All other refRights stay unchanged.
-   *
-   * @param refRights refRights to be resolved
-   * @return the resolved refRights
-   */
-  private List<RefRight> resolveOwnerGroups(final List<RefRight> refRights) {
-    final List<RefRight> resolvedRefRights =
-        new ArrayList<RefRight>(refRights.size());
-    for (final RefRight refRight : refRights) {
-      resolvedRefRights.addAll(resolveOwnerGroups(refRight));
-    }
-    return resolvedRefRights;
-  }
+  private boolean appliesToRef(AccessSection section) {
+    String refPattern = section.getRefPattern();
 
-  /**
-   * Checks if the given refRight assigns privileges to the 'Project Owners'
-   * group.
-   * If yes, resolves the 'Project Owners' group to the concrete groups that
-   * own the project and creates new refRights for the concrete owner groups
-   * which are returned.
-   * If no, the given refRight is returned unchanged.
-   *
-   * @param refRight refRight
-   * @return the resolved refRights
-   */
-  private Set<RefRight> resolveOwnerGroups(final RefRight refRight) {
-    final Set<RefRight> resolvedRefRights = new HashSet<RefRight>();
-    if (AccountGroup.PROJECT_OWNERS.equals(refRight.getAccountGroupUUID())) {
-      for (final AccountGroup.UUID ownerGroup : getProjectState().getOwners()) {
-        if (!AccountGroup.PROJECT_OWNERS.equals(ownerGroup)) {
-          resolvedRefRights.add(new RefRight(refRight, ownerGroup));
-        }
-      }
-    } else {
-      resolvedRefRights.add(refRight);
-    }
-    return resolvedRefRights;
-  }
-
-  private List<RefRight> filter(Collection<RefRight> all) {
-    List<RefRight> mine = new ArrayList<RefRight>(all.size());
-    for (RefRight right : all) {
-      if (matches(right.getRefPattern())) {
-        mine.add(right);
-      }
-    }
-    return mine;
-  }
-
-  private ProjectState getProjectState() {
-    return projectControl.getProjectState();
-  }
-
-  private boolean matches(String refPattern) {
     if (isTemplate(refPattern)) {
       ParamertizedString template = new ParamertizedString(refPattern);
       HashMap<String, String> p = new HashMap<String, String>();
@@ -591,6 +382,18 @@ public class RefControl {
     }
   }
 
+  private boolean matchGroup(AccountGroup.UUID uuid) {
+    Set<AccountGroup.UUID> userGroups = getCurrentUser().getEffectiveGroups();
+
+    if (AccountGroup.PROJECT_OWNERS.equals(uuid)) {
+      ProjectState state = projectControl.getProjectState();
+      return CollectionsUtil.isAnyIncludedIn(state.getOwners(), userGroups);
+
+    } else {
+      return userGroups.contains(uuid);
+    }
+  }
+
   private static boolean isTemplate(String refPattern) {
     return 0 <= refPattern.indexOf("${");
   }
@@ -603,7 +406,7 @@ public class RefControl {
   }
 
   private static boolean isRE(String refPattern) {
-    return refPattern.startsWith(RefRight.REGEX_PREFIX);
+    return refPattern.startsWith(AccessSection.REGEX_PREFIX);
   }
 
   public static String shortestExample(String pattern) {
@@ -621,5 +424,144 @@ public class RefControl {
       refPattern = refPattern.substring(1);
     }
     return new RegExp(refPattern, RegExp.NONE);
+  }
+
+  /** Tracks whether or not a permission has been overridden. */
+  private static class SeenRule {
+    final String refPattern;
+    final String permissionName;
+    final AccountGroup.UUID group;
+
+    SeenRule(AccessSection section, Permission permission, PermissionRule rule) {
+      refPattern = section.getRefPattern();
+      permissionName = permission.getName();
+      group = rule.getGroup().getUUID();
+    }
+
+    @Override
+    public int hashCode() {
+      int hc = refPattern.hashCode();
+      hc = hc * 31 + permissionName.hashCode();
+      if (group != null) {
+        hc = hc * 31 + group.hashCode();
+      }
+      return hc;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+      if (other instanceof SeenRule) {
+        SeenRule a = this;
+        SeenRule b = (SeenRule) other;
+        return a.refPattern.equals(b.refPattern) //
+            && a.permissionName.equals(b.permissionName) //
+            && eq(a.group, b.group);
+      }
+      return false;
+    }
+
+    private boolean eq(AccountGroup.UUID a, AccountGroup.UUID b) {
+      return a != null && b != null && a.equals(b);
+    }
+  }
+
+  /**
+   * Order the Ref Pattern by the most specific. This sort is done by:
+   * <ul>
+   * <li>1 - The minor value of Levenshtein string distance between the branch
+   * name and the regex string shortest example. A shorter distance is a more
+   * specific match.
+   * <li>2 - Finites first, infinities after.
+   * <li>3 - Number of transitions.
+   * <li>4 - Length of the expression text.
+   * </ul>
+   *
+   * Levenshtein distance is a measure of the similarity between two strings.
+   * The distance is the number of deletions, insertions, or substitutions
+   * required to transform one string into another.
+   *
+   * For example, if given refs/heads/m* and refs/heads/*, the distances are 5
+   * and 6. It means that refs/heads/m* is more specific because it's closer to
+   * refs/heads/master than refs/heads/*.
+   *
+   * Another example could be refs/heads/* and refs/heads/[a-zA-Z]*, the
+   * distances are both 6. Both are infinite, but refs/heads/[a-zA-Z]* has more
+   * transitions, which after all turns it more specific.
+   */
+  private static final class MostSpecificComparator implements
+      Comparator<AccessSection> {
+    private final String refName;
+
+    MostSpecificComparator(String refName) {
+      this.refName = refName;
+    }
+
+    public int compare(AccessSection a, AccessSection b) {
+      return compare(a.getRefPattern(), b.getRefPattern());
+    }
+
+    private int compare(final String pattern1, final String pattern2) {
+      int cmp = distance(pattern1) - distance(pattern2);
+      if (cmp == 0) {
+        boolean p1_finite = finite(pattern1);
+        boolean p2_finite = finite(pattern2);
+
+        if (p1_finite && !p2_finite) {
+          cmp = -1;
+        } else if (!p1_finite && p2_finite) {
+          cmp = 1;
+        } else /* if (f1 == f2) */{
+          cmp = 0;
+        }
+      }
+      if (cmp == 0) {
+        cmp = transitions(pattern1) - transitions(pattern2);
+      }
+      if (cmp == 0) {
+        cmp = pattern2.length() - pattern1.length();
+      }
+      return cmp;
+    }
+
+    private int distance(String pattern) {
+      String example;
+      if (isRE(pattern)) {
+        example = shortestExample(pattern);
+
+      } else if (pattern.endsWith("/*")) {
+        example = pattern.substring(0, pattern.length() - 1) + '1';
+
+      } else if (pattern.equals(refName)) {
+        return 0;
+
+      } else {
+        return Math.max(pattern.length(), refName.length());
+      }
+      return StringUtils.getLevenshteinDistance(example, refName);
+    }
+
+    private boolean finite(String pattern) {
+      if (isRE(pattern)) {
+        return toRegExp(pattern).toAutomaton().isFinite();
+
+      } else if (pattern.endsWith("/*")) {
+        return false;
+
+      } else {
+        return true;
+      }
+    }
+
+    private int transitions(String pattern) {
+      if (isRE(pattern)) {
+        return toRegExp(pattern).toAutomaton().getNumberOfTransitions();
+
+      } else if (pattern.endsWith("/*")) {
+        return pattern.length();
+
+      } else {
+        return pattern.length();
+      }
+    }
   }
 }

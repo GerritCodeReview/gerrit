@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//+Gg\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-05T21:43:17Z",
+      "side": 1,
+      "message": "This is a beta version.  Should we use the stable 1.2.147 instead?",
+      "revId": "1f52cad82acb2cb41e1ce53d1921870bb6fd2459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

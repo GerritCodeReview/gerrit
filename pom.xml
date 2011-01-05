@@ -482,6 +482,12 @@ limitations under the License.
       </dependency>
 
       <dependency>
+        <groupId>com.jcraft</groupId>
+        <artifactId>jsch</artifactId>
+        <version>0.1.44</version>
+      </dependency>
+
+      <dependency>
         <groupId>org.apache.velocity</groupId>
         <artifactId>velocity</artifactId>
         <version>1.6.4</version>

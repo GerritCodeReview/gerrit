@@ -25,8 +25,11 @@ import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetPublishDetail;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Change;
@@ -205,16 +208,25 @@ public class PublishCommentScreen extends AccountScreen implements
   }
 
   private void initApprovals(final PatchSetPublishDetail r, final Panel body) {
-    for (final ApprovalType ct : Gerrit.getConfig().getApprovalTypes()
-        .getApprovalTypes()) {
-      if (r.isAllowed(ct.getCategory().getId())) {
-        initApprovalType(r, body, ct);
+    ApprovalTypes types = Gerrit.getConfig().getApprovalTypes();
+
+    for (ApprovalType type : types.getApprovalTypes()) {
+      String permission = Permission.forLabel(type.getCategory().getLabelName());
+      PermissionRange range = r.getRange(permission);
+      if (range != null && !range.isEmpty()) {
+        initApprovalType(r, body, type, range);
+      }
+    }
+
+    for (PermissionRange range : r.getLabels()) {
+      if (!range.isEmpty() && types.byLabel(range.getLabel()) == null) {
+        // TODO: this is a non-standard label. Offer it without the type.
       }
     }
   }
 
   private void initApprovalType(final PatchSetPublishDetail r,
-      final Panel body, final ApprovalType ct) {
+      final Panel body, final ApprovalType ct, final PermissionRange range) {
     body.add(new SmallHeading(ct.getCategory().getName() + ":"));
 
     final VerticalPanel vp = new VerticalPanel();
@@ -223,11 +235,10 @@ public class PublishCommentScreen extends AccountScreen implements
         new ArrayList<ApprovalCategoryValue>(ct.getValues());
     Collections.reverse(lst);
     final ApprovalCategory.Id catId = ct.getCategory().getId();
-    final Set<ApprovalCategoryValue.Id> allowed = r.getAllowed(catId);
     final PatchSetApproval prior = r.getChangeApproval(catId);
 
     for (final ApprovalCategoryValue buttonValue : lst) {
-      if (!allowed.contains(buttonValue.getId())) {
+      if (!range.contains(buttonValue.getValue())) {
         continue;
       }
 
@@ -293,7 +304,7 @@ public class PublishCommentScreen extends AccountScreen implements
       }
     }
 
-    submit.setVisible(r.isSubmitAllowed());
+    submit.setVisible(r.canSubmit());
   }
 
   private void onSend(final boolean submit) {

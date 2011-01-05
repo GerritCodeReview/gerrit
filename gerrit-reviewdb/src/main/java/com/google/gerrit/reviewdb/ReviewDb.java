@@ -105,9 +105,6 @@ public interface ReviewDb extends Schema {
   PatchLineCommentAccess patchComments();
 
   @Relation
-  RefRightAccess refRights();
-
-  @Relation
   TrackingIdAccess trackingIds();
 
   /** Create the next unique id for an {@link Account}. */

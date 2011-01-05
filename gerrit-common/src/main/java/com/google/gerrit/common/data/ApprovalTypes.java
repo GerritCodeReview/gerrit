@@ -19,20 +19,17 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class ApprovalTypes {
   protected List<ApprovalType> approvalTypes;
-  protected List<ApprovalType> actionTypes;
-  private transient Map<ApprovalCategory.Id, ApprovalType> byCategoryId;
+  private transient Map<ApprovalCategory.Id, ApprovalType> byId;
+  private transient Map<String, ApprovalType> byLabel;
 
   protected ApprovalTypes() {
   }
 
-  public ApprovalTypes(final List<ApprovalType> approvals,
-      final List<ApprovalType> actions) {
+  public ApprovalTypes(final List<ApprovalType> approvals) {
     approvalTypes = approvals;
-    actionTypes = actions;
     byCategory();
   }
 
@@ -40,33 +37,35 @@ public class ApprovalTypes {
     return approvalTypes;
   }
 
-  public List<ApprovalType> getActionTypes() {
-    return actionTypes;
-  }
-
-  public ApprovalType getApprovalType(final ApprovalCategory.Id id) {
+  public ApprovalType byId(final ApprovalCategory.Id id) {
     return byCategory().get(id);
   }
 
-  public Set<ApprovalCategory.Id> getApprovalCategories() {
-    return byCategory().keySet();
-  }
-
   private Map<ApprovalCategory.Id, ApprovalType> byCategory() {
-    if (byCategoryId == null) {
-      byCategoryId = new HashMap<ApprovalCategory.Id, ApprovalType>();
-      if (actionTypes != null) {
-        for (final ApprovalType t : actionTypes) {
-          byCategoryId.put(t.getCategory().getId(), t);
-        }
-      }
-
+    if (byId == null) {
+      byId = new HashMap<ApprovalCategory.Id, ApprovalType>();
       if (approvalTypes != null) {
         for (final ApprovalType t : approvalTypes) {
-          byCategoryId.put(t.getCategory().getId(), t);
+          byId.put(t.getCategory().getId(), t);
         }
       }
     }
-    return byCategoryId;
+    return byId;
+  }
+
+  public ApprovalType byLabel(String labelName) {
+    return byLabel().get(labelName.toLowerCase());
+  }
+
+  private Map<String, ApprovalType> byLabel() {
+    if (byLabel == null) {
+      byLabel = new HashMap<String, ApprovalType>();
+      if (approvalTypes != null) {
+        for (ApprovalType t : approvalTypes) {
+          byLabel.put(t.getCategory().getLabelName().toLowerCase(), t);
+        }
+      }
+    }
+    return byLabel;
   }
 }

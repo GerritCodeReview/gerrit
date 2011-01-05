@@ -171,7 +171,7 @@ public class PublishComments implements Callable<VoidResult> {
       final short o = a.getValue();
       a.setValue(want.get());
       a.cache(change);
-      functionState.normalize(types.getApprovalType(a.getCategoryId()), a);
+      functionState.normalize(types.byId(a.getCategoryId()), a);
       if (o != a.getValue()) {
         // Value changed, ensure we update the database.
         //

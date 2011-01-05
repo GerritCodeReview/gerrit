@@ -29,9 +29,6 @@ public interface ProjectCache {
   /** Invalidate the cached information about the given project. */
   public void evict(Project p);
 
-  /** Invalidate the cached information about all projects. */
-  public void evictAll();
-
   /** @return sorted iteration of projects. */
   public abstract Iterable<Project.NameKey> all();
 

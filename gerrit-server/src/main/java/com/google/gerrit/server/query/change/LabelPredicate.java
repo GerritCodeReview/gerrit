@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -33,48 +34,54 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
   private static enum Test {
     EQ {
       @Override
-      public boolean match(short psValue, short expValue) {
+      public boolean match(int psValue, int expValue) {
         return psValue == expValue;
       }
     },
     GT_EQ {
       @Override
-      public boolean match(short psValue, short expValue) {
+      public boolean match(int psValue, int expValue) {
         return psValue >= expValue;
       }
     },
     LT_EQ {
       @Override
-      public boolean match(short psValue, short expValue) {
+      public boolean match(int psValue, int expValue) {
         return psValue <= expValue;
       }
     };
 
-    abstract boolean match(short psValue, short expValue);
+    abstract boolean match(int psValue, int expValue);
   }
 
-  private static ApprovalCategory.Id category(ApprovalTypes types, String toFind) {
-    if (types.getApprovalType(new ApprovalCategory.Id(toFind)) != null) {
-      return new ApprovalCategory.Id(toFind);
+  private static ApprovalCategory category(ApprovalTypes types, String toFind) {
+    if (types.byLabel(toFind) != null) {
+      return types.byLabel(toFind).getCategory();
+    }
+
+    if (types.byId(new ApprovalCategory.Id(toFind)) != null) {
+      return types.byId(new ApprovalCategory.Id(toFind)).getCategory();
     }
 
     for (ApprovalType at : types.getApprovalTypes()) {
-      String name = at.getCategory().getName();
-      if (toFind.equalsIgnoreCase(name)) {
-        return at.getCategory().getId();
+      ApprovalCategory category = at.getCategory();
 
-      } else if (toFind.equalsIgnoreCase(name.replace(" ", ""))) {
-        return at.getCategory().getId();
+      if (toFind.equalsIgnoreCase(category.getName())) {
+        return category;
+
+      } else if (toFind.equalsIgnoreCase(category.getName().replace(" ", ""))) {
+        return category;
       }
     }
 
     for (ApprovalType at : types.getApprovalTypes()) {
-      if (toFind.equalsIgnoreCase(at.getCategory().getAbbreviatedName())) {
-        return at.getCategory().getId();
+      ApprovalCategory category = at.getCategory();
+      if (toFind.equalsIgnoreCase(category.getAbbreviatedName())) {
+        return category;
       }
     }
 
-    return new ApprovalCategory.Id(toFind);
+    return new ApprovalCategory(new ApprovalCategory.Id(toFind), toFind);
   }
 
   private static Test op(String op) {
@@ -92,19 +99,20 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
     }
   }
 
-  private static short value(String value) {
+  private static int value(String value) {
     if (value.startsWith("+")) {
       value = value.substring(1);
     }
-    return Short.parseShort(value);
+    return Integer.parseInt(value);
   }
 
   private final ChangeControl.GenericFactory ccFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<ReviewDb> dbProvider;
   private final Test test;
-  private final ApprovalCategory.Id category;
-  private final short expVal;
+  private final ApprovalCategory category;
+  private final String permissionName;
+  private final int expVal;
 
   LabelPredicate(ChangeControl.GenericFactory ccFactory,
       IdentifiedUser.GenericFactory userFactory, Provider<ReviewDb> dbProvider,
@@ -131,13 +139,15 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
       test = Test.EQ;
       expVal = 1;
     }
+
+    this.permissionName = Permission.forLabel(category.getLabelName());
   }
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
     for (PatchSetApproval p : object.currentApprovals(dbProvider)) {
       if (p.getCategoryId().equals(category)) {
-        short psVal = p.getValue();
+        int psVal = p.getValue();
         if (test.match(psVal, expVal)) {
           // Double check the value is still permitted for the user.
           //
@@ -149,7 +159,7 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
               //
               continue;
             }
-            psVal = cc.normalize(category, psVal);
+            psVal = cc.getRange(permissionName).squash(psVal);
           } catch (NoSuchChangeException e) {
             // The project has disappeared.
             //

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//+E0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CachePool.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2011-01-05T23:40:23Z",
+      "side": 1,
+      "message": "The message is very confusing and the code that checks properties even more confusing.\n\nThe warning happens because we created default configuration with setEternal(true) and later in line 146 we set TTL before setting Eternal(false)\n\nThe right solution is to setEternal(false) first.",
+      "parentUuid": "AAAA+3//+Fw\u003d",
+      "revId": "29a7a4315d13649f07d7ec2795649af49029d6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//+F0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CachePool.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2011-01-05T22:39:41Z",
       "side": 1,
       "message": "Is this still true in the latest Ehcache version?\n\nBased on that error messages it sounded like we should be doing instead just:\n\n  c.setEternal(true);",
+      "revId": "29a7a4315d13649f07d7ec2795649af49029d6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//+FU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CachePool.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2011-01-05T23:40:23Z",
+      "side": 1,
+      "message": "According to javadocs - yes it is still true. http://svn.terracotta.org/svn/ehcache/trunk/core/src/main/java/net/sf/ehcache/config/CacheConfiguration.java\n\n\u003e\u003e we should be doing instead just\nOK",
+      "parentUuid": "AAAA+3//+F0\u003d",
       "revId": "29a7a4315d13649f07d7ec2795649af49029d6ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

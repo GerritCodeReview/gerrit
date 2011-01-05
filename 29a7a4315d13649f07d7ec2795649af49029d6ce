@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//+Fw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CachePool.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-05T22:39:41Z",
+      "side": 1,
+      "message": "See my comment below.  If p.maxAge() is 0 we should be making the cache entry to never expire, which is c.setEternal(true).",
+      "revId": "29a7a4315d13649f07d7ec2795649af49029d6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//+F0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/cache/CachePool.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-05T22:39:41Z",
+      "side": 1,
+      "message": "Is this still true in the latest Ehcache version?\n\nBased on that error messages it sounded like we should be doing instead just:\n\n  c.setEternal(true);",
+      "revId": "29a7a4315d13649f07d7ec2795649af49029d6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

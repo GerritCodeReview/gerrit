@@ -1365,7 +1365,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       }
 
       final ApprovalType type =
-          approvalTypes.getApprovalType(a.getCategoryId());
+          approvalTypes.byId(a.getCategoryId());
       if (a.getPatchSetId().equals(priorPatchSet)
           && type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
         // If there was a negative vote on the prior patch set, carry it

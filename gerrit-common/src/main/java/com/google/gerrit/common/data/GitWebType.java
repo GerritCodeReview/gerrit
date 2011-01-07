@@ -31,6 +31,13 @@ public class GitWebType {
       type.setRevision("?p=${project}.git;a=commit;h=${commit}");
       type.setBranch("?p=${project}.git;a=shortlog;h=${branch}");
 
+    } else if (name.equalsIgnoreCase("gitweb-pathinfo")) {
+      type = new GitWebType();
+      type.setProject("${project}.git/summary");
+      type.setRevision("${project}.git/commit/${commit}");
+      type.setBranch("${project}.git/shortlog/${branch}");
+      type.setPathInfo(true);
+
     } else if (name.equalsIgnoreCase("cgit")) {
       type = new GitWebType();
       type.setProject("${project}/summary");
@@ -55,6 +62,9 @@ public class GitWebType {
 
   /** ParamertizedString for branch view url. */
   private String branch;
+
+  /** Whether a managed gitweb should default to path_info style or not. */
+  private boolean is_path_info;
 
   /** Private default constructor for gson. */
   protected GitWebType() {
@@ -88,6 +98,13 @@ public class GitWebType {
   }
 
   /**
+   * Return whether a managed gitweb should default to path_info enabled.
+   */
+  public boolean isPathInfo() {
+    return is_path_info;
+  }
+
+  /**
    * Set the pattern for branch view.
    *
    * @param pattern The pattern for branch view
@@ -118,5 +135,12 @@ public class GitWebType {
     if (pattern != null && !pattern.isEmpty()) {
       revision = pattern;
     }
+  }
+
+  /**
+   * Set whether a managed gitweb should default to path_info enabled.
+   */
+  public void setPathInfo(final boolean b) {
+    is_path_info = b;
   }
 }

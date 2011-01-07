@@ -40,7 +40,12 @@ public class GitWebConfig {
     final String cfgUrl = cfg.getString("gitweb", null, "url");
     final String cfgCgi = cfg.getString("gitweb", null, "cgi");
 
-    type = GitWebType.fromName(cfg.getString("gitweb", null, "type"));
+    String type_str = cfg.getString("gitweb", null, "type");
+    if (cfgUrl == null && type_str == null) {
+        // default to pathinfo format for internally managed gitweb.
+        type_str = "gitweb-pathinfo";
+    }
+    type = GitWebType.fromName(type_str);
     type.setBranch(cfg.getString("gitweb", null, "branch"));
     type.setProject(cfg.getString("gitweb", null, "project"));
     type.setRevision(cfg.getString("gitweb", null, "revision"));

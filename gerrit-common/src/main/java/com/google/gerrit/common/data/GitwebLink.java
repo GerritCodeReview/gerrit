@@ -40,7 +40,9 @@ public class GitwebLink {
     ParamertizedString pattern = new ParamertizedString(type.getRevision());
 
     final Map<String, String> p = new HashMap<String, String>();
-    p.put("project", URL.encodeQueryString(project.get()));
+    String proj_qs = URL.encodeQueryString(project.get());
+    p.put("project", proj_qs);
+    p.put("project_path", proj_qs.replace("%2F", "/"));
     p.put("commit", URL.encodeQueryString(ps.getRevision().get()));
     return baseUrl + pattern.replace(p);
   }
@@ -49,7 +51,9 @@ public class GitwebLink {
     ParamertizedString pattern = new ParamertizedString(type.getProject());
 
     final Map<String, String> p = new HashMap<String, String>();
-    p.put("project", URL.encodeQueryString(project.get()));
+    String proj_qs = URL.encodeQueryString(project.get());
+    p.put("project", proj_qs);
+    p.put("project_path", proj_qs.replace("%2F", "/"));
     return baseUrl + pattern.replace(p);
   }
 
@@ -57,8 +61,12 @@ public class GitwebLink {
     ParamertizedString pattern = new ParamertizedString(type.getBranch());
 
     final Map<String, String> p = new HashMap<String, String>();
-    p.put("project", URL.encodeQueryString(branch.getParentKey().get()));
-    p.put("branch", URL.encodeQueryString(branch.get()));
+    String proj_qs = URL.encodeQueryString(branch.getParentKey().get());
+    String branch_qs = URL.encodeQueryString(branch.get());
+    p.put("project", proj_qs);
+    p.put("project_path", proj_qs.replace("%2F", "/"));
+    p.put("branch", branch_qs);
+    p.put("branch_path", branch_qs.replace("%2F", "/"));
     return baseUrl + pattern.replace(p);
   }
 }

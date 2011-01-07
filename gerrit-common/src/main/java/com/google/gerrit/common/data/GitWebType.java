@@ -31,6 +31,12 @@ public class GitWebType {
       type.setRevision("?p=${project}.git;a=commit;h=${commit}");
       type.setBranch("?p=${project}.git;a=shortlog;h=${branch}");
 
+    } else if (name.equalsIgnoreCase("gitweb-pathinfo")) {
+      type = new GitWebType();
+      type.setProject("/${project_path}.git/summary");
+      type.setRevision("/${project_path}.git/commit/${commit}");
+      type.setBranch("/${project_path}.git/shortlog/${branch_path}");
+
     } else if (name.equalsIgnoreCase("cgit")) {
       type = new GitWebType();
       type.setProject("${project}/summary");

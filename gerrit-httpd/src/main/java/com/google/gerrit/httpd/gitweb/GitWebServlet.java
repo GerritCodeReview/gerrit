@@ -77,7 +77,6 @@ class GitWebServlet extends HttpServlet {
   private static final Logger log =
       LoggerFactory.getLogger(GitWebServlet.class);
 
-  private final Set<String> deniedActions;
   private final int bufferSize = 8192;
   private final File gitwebCgi;
   private final URI gitwebUrl;
@@ -93,7 +92,6 @@ class GitWebServlet extends HttpServlet {
     this.repoManager = repoManager;
     this.projectControl = projectControl;
     this.gitwebCgi = gitWebConfig.getGitwebCGI();
-    this.deniedActions = new HashSet<String>();
 
     final String url = gitWebConfig.getUrl();
     if ((url != null) && (!url.equals("gitweb"))) {
@@ -107,11 +105,6 @@ class GitWebServlet extends HttpServlet {
     } else {
       gitwebUrl = null;
     }
-
-    deniedActions.add("forks");
-    deniedActions.add("opml");
-    deniedActions.add("project_list");
-    deniedActions.add("project_index");
 
     _env = new EnvList();
     makeSiteConfig(site, gerritConfig);
@@ -255,10 +248,8 @@ class GitWebServlet extends HttpServlet {
       p.print("  if (!$h || $h eq 'HEAD') {\n");
       p.print("    $q = qq{#q,project:$ENV{'GERRIT_PROJECT_NAME'},n,z};\n");
       p.print("  } elsif ($h =~ /^refs\\/heads\\/([-\\w]+)$/) {\n");
-      p.print("    $q = qq{#q,project:$ENV{'GERRIT_PROJECT_NAME'}");
-      p.print("+branch:$1,n,z};\n"); // wrapped
-      p.print("  } elsif ($h =~ /^refs\\/changes\\/\\d{2}\\/(\\d+)\\/\\d+$/) ");
-      p.print("{\n"); // wrapped
+      p.print("    $q = qq{#q,project:$ENV{'GERRIT_PROJECT_NAME'}+branch:$1,n,z};\n");
+      p.print("  } elsif ($h =~ /^refs\\/changes\\/\\d{2}\\/(\\d+)\\/\\d+$/) {\n");
       p.print("    $q = qq{#change,$1};\n");
       p.print("  } else {\n");
       p.print("    $q = qq{#q,$h,n,z};\n");
@@ -267,13 +258,22 @@ class GitWebServlet extends HttpServlet {
       p.print("  push @{$feature{'actions'}{'default'}},\n");
       p.print("      ('review',$r,'commitdiff');\n");
       p.print("}\n");
-      p.print("if ($cgi->param('hb')) {\n");
-      p.print("  add_review_link($cgi->param('hb'));\n");
-      p.print("} elsif ($cgi->param('h')) {\n");
-      p.print("  add_review_link($cgi->param('h'));\n");
-      p.print("} else {\n");
-      p.print("  add_review_link();\n");
-      p.print("}\n");
+      // Note: need to run this after the args have been
+      // parsed. Hooking configure_gitweb_features is a convenient
+      // place to add the functionality.
+      p.print("my $original_configure_gitweb_features = \\&configure_gitweb_features;\n");
+      p.print("no warnings 'redefine';\n");
+      p.print("*configure_gitweb_features = sub {\n");
+      p.print("  if ($input_params{'action'} =~ /^(commit|commitdir|commitdiff)$/) {\n");
+      p.print("    add_review_link($input_params{'hash'});\n");
+      p.print("  } elsif ($input_params{'action'} =~ /^(tree|blob)$/) {\n");
+      p.print("    add_review_link($input_params{'hash_base'});\n");
+      p.print("  } else {\n");
+      p.print("    add_review_link();\n");
+      p.print("  }\n");
+      p.print("  $original_configure_gitweb_features->()\n");
+      p.print("};\n");
+      p.print("*configure_gitweb_features = $override_configure_gitweb_features;\n");
 
       // If the administrator has created a site-specific gitweb_config,
       // load that before we perform any final overrides.
@@ -300,11 +300,10 @@ class GitWebServlet extends HttpServlet {
       p.print("    return $dir eq $allow;\n");
       p.print("  };\n");
 
-      // Do not allow the administrator to enable path info, its
-      // not a URL format we currently support.
-      //
+      // Enable path_info (FIXME: get from gerrit config instead of hardcoding).
+
       p.print("$feature{'pathinfo'}{'override'} = 0;\n");
-      p.print("$feature{'pathinfo'}{'default'} = [0];\n");
+      p.print("$feature{'pathinfo'}{'default'} = [1];\n");
 
       // We don't do forking, so don't allow it to be enabled.
       //
@@ -337,7 +336,11 @@ class GitWebServlet extends HttpServlet {
   @Override
   protected void service(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    if (req.getQueryString() == null || req.getQueryString().isEmpty()) {
+
+    final String path_info = req.getPathInfo();
+
+    if (req.getPathInfo() == null &&
+        (req.getQueryString() == null || req.getQueryString().isEmpty())) {
       // No query string? They want the project list, which we don't
       // currently support. Return to Gerrit's own web UI.
       //
@@ -346,19 +349,31 @@ class GitWebServlet extends HttpServlet {
     }
 
     final Map<String, String> params = getParameters(req);
-    if (deniedActions.contains(params.get("a"))) {
-      rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
-      return;
+    String name = params.get("p");
+
+    if ((name == null || name.isEmpty()) && path_info != null) {
+      // No p parameter, check for path_info.
+      String[] path_info_parts = req.getPathInfo().split("/");
+
+      // Pull out the first segments up till a name that ends with .git (skipping the first "/")
+      String new_name = "";
+      for (int i = 1; i < path_info_parts.length; i++) {
+        if (i != 1)
+          new_name += '/';
+        new_name += path_info_parts[i];
+        if (new_name.endsWith(".git"))
+          break;
+      }
+      if (new_name.endsWith(".git"))
+        name = new_name;
     }
 
-    String name = params.get("p");
-    if (name == null) {
+    if (name == null || !name.endsWith(".git"))  {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
-    if (name.endsWith(".git")) {
-      name = name.substring(0, name.length() - 4);
-    }
+    // Strip off ".git"
+    name = name.substring(0, name.length() - 4);
 
     final Project.NameKey nameKey = new Project.NameKey(name);
     final ProjectControl project;
@@ -394,6 +409,9 @@ class GitWebServlet extends HttpServlet {
   private static Map<String, String> getParameters(final HttpServletRequest req)
       throws UnsupportedEncodingException {
     final Map<String, String> params = new HashMap<String, String>();
+    final String qs = req.getQueryString();
+    if (qs == null)
+        return params;
     for (final String pair : req.getQueryString().split("[&;]")) {
       final int eq = pair.indexOf('=');
       if (0 < eq) {

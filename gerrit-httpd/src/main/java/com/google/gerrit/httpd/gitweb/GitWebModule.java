@@ -20,6 +20,7 @@ public class GitWebModule extends ServletModule {
   @Override
   protected void configureServlets() {
     serve("/gitweb").with(GitWebServlet.class);
+    serve("/gitweb/*").with(GitWebServlet.class);
     serve("/gitweb-logo.png").with(GitLogoServlet.class);
     serve("/gitweb.js").with(GitWebJavaScriptServlet.class);
     serve("/gitweb-default.css").with(GitWebCssServlet.Default.class);

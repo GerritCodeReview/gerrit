@@ -955,7 +955,11 @@ For example, "?p=$project.git;h=$commit".
 Optional type of affiliated gitweb service. This allows using
 alternatives to gitweb, such as cgit.
 +
-Valid values are `gitweb`, `cgit` or `custom`.
+Valid values are `gitweb`, `gitweb-pathinfo`, `cgit` or `custom`.
++
+Defaults to `gitweb-pathinfo` when gitweb.url is unset (indicating a
+default internally managed installation), otherwise defaults to
+`gitweb` for compatibility with existing installations.
 
 [[gitweb.type]]gitweb.revision::
 +

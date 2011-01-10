@@ -872,6 +872,17 @@ public class MergeOp {
 
   private void updateBranch() throws MergeException {
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
+      if (GitRepositoryManager.REF_CONFIG.equals(branchUpdate.getName())) {
+        try {
+          ProjectConfig cfg = new ProjectConfig(destProject.getNameKey());
+          cfg.load(db, mergeTip);
+        } catch (Exception e) {
+          throw new MergeException("Submit would store invalid"
+              + " project configuration " + mergeTip.name() + " for "
+              + destProject.getName(), e);
+        }
+      }
+
       branchUpdate.setForceUpdate(false);
       branchUpdate.setNewObjectId(mergeTip);
       branchUpdate.setRefLogMessage("merged", true);
@@ -879,6 +890,13 @@ public class MergeOp {
         switch (branchUpdate.update(rw)) {
           case NEW:
           case FAST_FORWARD:
+            if (GitRepositoryManager.REF_CONFIG.equals(branchUpdate.getName())) {
+              projectCache.evict(destProject);
+              ProjectState ps = projectCache.get(destProject.getNameKey());
+              repoManager.setProjectDescription(destProject.getNameKey(), //
+                  ps.getProject().getDescription());
+            }
+
             replication.scheduleUpdate(destBranch.getParentKey(), branchUpdate
                 .getName());
 

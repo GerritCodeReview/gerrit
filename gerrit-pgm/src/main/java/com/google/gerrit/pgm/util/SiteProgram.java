@@ -22,6 +22,7 @@ import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DatabaseModule;
+import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
@@ -163,6 +164,7 @@ public abstract class SiteProgram extends AbstractProgram {
     });
     modules.add(new GerritServerConfigModule());
     modules.add(new DatabaseModule());
+    modules.add(new SchemaModule());
 
     try {
       return Guice.createInjector(PRODUCTION, modules);

@@ -30,8 +30,9 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -52,6 +53,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private static final String MAX_SUFFIX = "\u9fa5";
 
   private final AuthConfig authConfig;
+  private final ProjectControl.Factory projectControlFactory;
   private final ProjectCache projectCache;
   private final AccountCache accountCache;
   private final GroupControl.Factory groupControlFactory;
@@ -62,6 +64,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   @Inject
   SuggestServiceImpl(final Provider<ReviewDb> schema,
       final AuthConfig authConfig,
+      final ProjectControl.Factory projectControlFactory,
       final ProjectCache projectCache, final AccountCache accountCache,
       final GroupControl.Factory groupControlFactory,
       final IdentifiedUser.GenericFactory userFactory,
@@ -69,6 +72,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       @GerritServerConfig final Config cfg) {
     super(schema, currentUser);
     this.authConfig = authConfig;
+    this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
     this.accountCache = accountCache;
     this.groupControlFactory = groupControlFactory;
@@ -80,24 +84,24 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
   public void suggestProjectNameKey(final String query, final int limit,
       final AsyncCallback<List<Project.NameKey>> callback) {
-    run(callback, new Action<List<Project.NameKey>>() {
-      public List<Project.NameKey> run(final ReviewDb db) throws OrmException {
-        final String a = query;
-        final String b = a + MAX_SUFFIX;
-        final int max = 10;
-        final int n = limit <= 0 ? max : Math.min(limit, max);
+    final int max = 10;
+    final int n = limit <= 0 ? max : Math.min(limit, max);
 
-        final CurrentUser user = currentUser.get();
-        final List<Project.NameKey> r = new ArrayList<Project.NameKey>();
-        for (final Project p : db.projects().suggestByName(a, b, n)) {
-          final ProjectState e = projectCache.get(p.getNameKey());
-          if (e != null && e.controlFor(user).isVisible()) {
-            r.add(p.getNameKey());
-          }
-        }
-        return r;
+    final List<Project.NameKey> r = new ArrayList<Project.NameKey>(n);
+    for (final Project.NameKey nameKey : projectCache.byName(query)) {
+      final ProjectControl ctl;
+      try {
+        ctl = projectControlFactory.validateFor(nameKey);
+      } catch (NoSuchProjectException e) {
+        continue;
       }
-    });
+
+      r.add(ctl.getProject().getNameKey());
+      if (r.size() == n) {
+        break;
+      }
+    }
+    callback.onSuccess(r);
   }
 
   public void suggestAccount(final String query, final Boolean active,

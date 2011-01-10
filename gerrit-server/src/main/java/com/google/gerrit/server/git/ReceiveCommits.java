@@ -48,7 +48,9 @@ import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmException;
@@ -141,6 +143,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final ReplicationQueue replication;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeHookRunner hooks;
+  private final GitRepositoryManager repoManager;
+  private final ProjectCache projectCache;
   private final String canonicalWebUrl;
   private final PersonIdent gerritIdent;
   private final TrackingFooters trackingFooters;
@@ -175,6 +179,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final ReplicationQueue replication,
       final PatchSetInfoFactory patchSetInfoFactory,
       final ChangeHookRunner hooks,
+      final ProjectCache projectCache,
+      final GitRepositoryManager repoManager,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
@@ -191,6 +197,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.replication = replication;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.hooks = hooks;
+    this.projectCache = projectCache;
+    this.repoManager = repoManager;
     this.canonicalWebUrl = canonicalWebUrl;
     this.gerritIdent = gerritIdent;
     this.trackingFooters = trackingFooters;
@@ -376,6 +384,13 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           }
         }
 
+        if (GitRepositoryManager.REF_CONFIG.equals(c.getRefName())) {
+          projectCache.evict(project);
+          ProjectState ps = projectCache.get(project.getNameKey());
+          repoManager.setProjectDescription(project.getNameKey(), //
+              ps.getProject().getDescription());
+        }
+
         if (!c.getRefName().startsWith(NEW_CHANGE)) {
           // We only schedule direct refs updates for replication.
           // Change refs are scheduled when they are created.
@@ -555,24 +570,59 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       switch (cmd.getType()) {
         case CREATE:
           parseCreate(cmd);
-          continue;
+          break;
 
         case UPDATE:
           parseUpdate(cmd);
-          continue;
+          break;
 
         case DELETE:
           parseDelete(cmd);
-          continue;
+          break;
 
         case UPDATE_NONFASTFORWARD:
           parseRewind(cmd);
+          break;
+
+        default:
+          reject(cmd);
           continue;
       }
 
-      // Everything else is bogus as far as we are concerned.
-      //
-      reject(cmd);
+      if (cmd.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED){
+        continue;
+      }
+
+      if (GitRepositoryManager.REF_CONFIG.equals(cmd.getRefName())) {
+        if (!projectControl.isOwner()) {
+          reject(cmd, "not project owner");
+          continue;
+        }
+
+        switch (cmd.getType()) {
+          case CREATE:
+          case UPDATE:
+          case UPDATE_NONFASTFORWARD:
+            try {
+              ProjectConfig cfg = new ProjectConfig(project.getNameKey());
+              cfg.load(repo, cmd.getNewId());
+            } catch (Exception e) {
+              reject(cmd, "invalid project configuration");
+              log.error("User " + currentUser.getUserName()
+                  + " tried to push invalid project configuration "
+                  + cmd.getNewId().name() + " for " + project.getName(), e);
+              continue;
+            }
+            break;
+
+          case DELETE:
+            break;
+
+          default:
+            reject(cmd);
+            continue;
+        }
+      }
     }
   }
 

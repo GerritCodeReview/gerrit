@@ -26,8 +26,6 @@ import com.google.inject.TypeLiteral;
 public class DatabaseModule extends FactoryModule {
   @Override
   protected void configure() {
-    install(new SchemaVersion.Module());
-
     bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).to(
         new TypeLiteral<Database<ReviewDb>>() {}).in(SINGLETON);
     bind(new TypeLiteral<Database<ReviewDb>>() {}).toProvider(

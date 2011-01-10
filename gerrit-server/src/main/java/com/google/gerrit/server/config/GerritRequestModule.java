@@ -24,6 +24,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
@@ -48,6 +49,7 @@ public class GerritRequestModule extends FactoryModule {
     bind(ReviewDb.class).toProvider(RequestScopedReviewDbProvider.class).in(
         RequestScoped.class);
     bind(IdentifiedUser.RequestFactory.class).in(SINGLETON);
+    bind(MetaDataUpdate.User.class).in(RequestScoped.class);
     bind(AccountResolver.class);
     bind(ChangeQueryRewriter.class);
 

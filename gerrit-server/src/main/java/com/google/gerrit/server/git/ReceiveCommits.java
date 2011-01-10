@@ -781,25 +781,26 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     requestReplace(cmd, changeEnt, newCommit);
   }
 
-  private void requestReplace(final ReceiveCommand cmd, final Change change,
+  private boolean requestReplace(final ReceiveCommand cmd, final Change change,
       final RevCommit newCommit) {
     if (change.getStatus().isClosed()) {
       reject(cmd, "change " + change.getId() + " closed");
-      return;
+      return false;
     }
 
     final ReplaceRequest req =
         new ReplaceRequest(change.getId(), newCommit, cmd);
     if (replaceByChange.containsKey(req.ontoChange)) {
       reject(cmd, "duplicate request");
-      return;
+      return false;
     }
     if (replaceByCommit.containsKey(req.newCommit)) {
       reject(cmd, "duplicate request");
-      return;
+      return false;
     }
     replaceByChange.put(req.ontoChange, req);
     replaceByCommit.put(req.newCommit, req);
+    return true;
   }
 
   private void createNewChanges() {
@@ -854,8 +855,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           if (changes.size() == 1) {
             // Schedule as a replacement to this one matching change.
             //
-            requestReplace(newChange, changes.get(0), c);
-            continue;
+            if (requestReplace(newChange, changes.get(0), c)) {
+              continue;
+            } else {
+              return;
+            }
           }
         }
 

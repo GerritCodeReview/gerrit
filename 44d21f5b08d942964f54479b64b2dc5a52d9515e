@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//9hY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2011-01-10T13:58:20Z",
+      "side": 1,
+      "message": "style nit: capitalize beginning of header line",
+      "revId": "44d21f5b08d942964f54479b64b2dc5a52d9515e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9hU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2011-01-10T13:58:20Z",
+      "side": 1,
+      "message": "typo: s/meantioned/mentioned/",
+      "revId": "44d21f5b08d942964f54479b64b2dc5a52d9515e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

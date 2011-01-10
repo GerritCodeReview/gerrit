@@ -16,6 +16,24 @@
       "revId": "8380d4f37fd84060754cc721ab0724c3f87b1b74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9ho\u003d",
+        "filename": "Documentation/error-change-closed.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-01-10T13:18:27Z",
+      "side": 1,
+      "message": "As far as I know there is no special documentation that explains how to restore a change that was abandoned :-(\nWith the new patch set I\u0027ve now added some hints about this right here.",
+      "parentUuid": "AAAA+3//9hw\u003d",
+      "revId": "8380d4f37fd84060754cc721ab0724c3f87b1b74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

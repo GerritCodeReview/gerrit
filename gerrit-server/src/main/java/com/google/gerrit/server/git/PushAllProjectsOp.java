@@ -15,10 +15,8 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.config.WildProjectName;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -37,18 +35,17 @@ public class PushAllProjectsOp extends DefaultQueueOp {
   private static final Logger log =
       LoggerFactory.getLogger(PushAllProjectsOp.class);
 
-  private final SchemaFactory<ReviewDb> schema;
+  private final ProjectCache projectCache;
   private final ReplicationQueue replication;
   private final Project.NameKey wildProject;
   private final String urlMatch;
 
   @Inject
-  public PushAllProjectsOp(final WorkQueue wq,
-      final SchemaFactory<ReviewDb> sf, final ReplicationQueue rq,
-      @WildProjectName final Project.NameKey wp,
+  public PushAllProjectsOp(final WorkQueue wq, final ProjectCache projectCache,
+      final ReplicationQueue rq, @WildProjectName final Project.NameKey wp,
       @Assisted @Nullable final String urlMatch) {
     super(wq);
-    this.schema = sf;
+    this.projectCache = projectCache;
     this.replication = rq;
     this.wildProject = wp;
     this.urlMatch = urlMatch;
@@ -63,17 +60,12 @@ public class PushAllProjectsOp extends DefaultQueueOp {
 
   public void run() {
     try {
-      final ReviewDb db = schema.open();
-      try {
-        for (final Project project : db.projects().all()) {
-          if (!project.getNameKey().equals(wildProject)) {
-            replication.scheduleFullSync(project.getNameKey(), urlMatch);
-          }
+      for (final Project.NameKey nameKey : projectCache.all()) {
+        if (!nameKey.equals(wildProject)) {
+          replication.scheduleFullSync(nameKey, urlMatch);
         }
-      } finally {
-        db.close();
       }
-    } catch (OrmException e) {
+    } catch (RuntimeException e) {
       log.error("Cannot enumerate known projects", e);
     }
   }

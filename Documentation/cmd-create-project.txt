@@ -13,7 +13,6 @@ SYNOPSIS
 [--branch <REF>] \
 [\--owner <GROUP> ...] \
 [\--parent <NAME>] \
-[\--permissions-only] \
 [\--description <DESC>] \
 [\--submit-type <TYPE>] \
 [\--use-content-merge] \
@@ -70,11 +69,6 @@ repository.*.createGroup will be used. If they don't exist,
 	Name of the parent project to inherit access rights
 	through. If not specified, the parent is set to the default
 	project `\-- All Projects \--`.
-
-\--permissions-only::
-	Create the project only to serve as a parent for other
-	projects.  The new project's Git repository will not be
-	initialized, and cannot be cloned.
 
 \--description::
 	Initial description of the project.  If not specified,

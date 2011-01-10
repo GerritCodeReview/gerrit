@@ -56,7 +56,6 @@ public class ScanTrackingIds extends SiteProgram {
   private List<Change> todo;
 
   private Injector dbInjector;
-  private Injector gitInjector;
 
   @Inject
   private TrackingFooters footers;
@@ -74,17 +73,9 @@ public class ScanTrackingIds extends SiteProgram {
     }
 
     dbInjector = createDbInjector(MULTI_USER);
-    gitInjector = dbInjector.createChildInjector(new LifecycleModule() {
-      @Override
-      protected void configure() {
-        bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
-        listener().to(LocalDiskRepositoryManager.Lifecycle.class);
-      }
-    });
-
-    manager.add(dbInjector, gitInjector);
+    manager.add(dbInjector);
     manager.start();
-    gitInjector.injectMembers(this);
+    dbInjector.injectMembers(this);
 
     final ReviewDb db = database.open();
     try {

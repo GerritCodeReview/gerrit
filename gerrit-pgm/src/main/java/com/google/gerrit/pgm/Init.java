@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.util.HostPlatform;
@@ -292,8 +291,6 @@ public class Init extends SiteProgram {
       protected void configure() {
         bind(ConsoleUI.class).toInstance(init.ui);
         bind(InitFlags.class).toInstance(init.flags);
-
-        bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
       }
     });
     return createDbInjector(SINGLE_USER).createChildInjector(modules);

@@ -19,13 +19,10 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.FileTypeRegistry;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.ReplicationUser;
@@ -38,11 +35,9 @@ import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.cache.CachePool;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.ChangeMergeQueue;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.PushAllProjectsOp;
 import com.google.gerrit.server.git.PushReplication;
@@ -66,16 +61,12 @@ import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.inject.Inject;
-import com.google.inject.TypeLiteral;
 
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
-
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
 
 import java.util.Properties;
-import java.util.Set;
 
 
 /** Starts global state with standard dependencies. */
@@ -145,9 +136,6 @@ public class GerritGlobalModule extends FactoryModule {
         SINGLETON);
     bind(AnonymousUser.class);
 
-    bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class).toProvider(
-        GerritPersonIdentProvider.class);
-
     bind(IdGenerator.class);
     bind(CachePool.class);
     install(AccountByEmailCacheImpl.module());
@@ -156,12 +144,12 @@ public class GerritGlobalModule extends FactoryModule {
     install(PatchListCacheImpl.module());
     install(ProjectCacheImpl.module());
     install(new AccessControlModule());
+    install(new GitModule());
 
     factory(AccountInfoCacheFactory.Factory.class);
     factory(ProjectState.Factory.class);
     factory(RefControl.Factory.class);
 
-    bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(WorkQueue.class);
     bind(ToolsCatalog.class);
@@ -188,7 +176,6 @@ public class GerritGlobalModule extends FactoryModule {
     install(new LifecycleModule() {
       @Override
       protected void configure() {
-        listener().to(LocalDiskRepositoryManager.Lifecycle.class);
         listener().to(CachePool.Lifecycle.class);
         listener().to(WorkQueue.Lifecycle.class);
         listener().to(VelocityLifecycle.class);

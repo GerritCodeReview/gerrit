@@ -1,0 +1,361 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//9gQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "I have to say, the commit message is *not* clear about what you are trying to do here.  The best explanation I got was by reading the project-setup.txt documentation section you added.  I wish a lot more of that text was replicated in the commit message, to make the rationale for the change easier to understand.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9gM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "In general, if something belongs in JGit, it should go there first, before being added to Gerrit.  I\u0027ve made some mistakes by not putting code in JGit right away and I\u0027m trying to fix that.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9gY\u003d",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "s/is a$/as a/",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9gU\u003d",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "This is uh, wow, some serious magic voodoo.\n\nWhy can\u0027t the developer who creates I be responsible for merging F with H first?  And instead of making Gerrit construct J, make Gerrit require that F be contained in I (and thus that the developer constructed J).",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9gI\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "Please include an AOSP copyright header after the #!/bin/bash line above.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9f0\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "If you call OPTS_SPEC OPTIONS_SPEC, loading git-sh-setup will process the options for you.  Which means this line isn\u0027t necessary.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9f8\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "Why can\u0027t this be git rev-parse --show-cdup?  As in:\n\n  up\u003d`git rev-parse --show-cdup`\n  [ -n \"$up\" ] \u0026\u0026 cd \"$up\"\n\nIf you need to return, you can do:\n\n  up\u003d`git rev-parse --show-cdup`\n  cw\u003d`git rev-parse --show-prefix`\n  [ -n \"$up\" ] \u0026\u0026 cd \"$up\"\n  $(git --exec-path)/git-sh-setup\n  [ -n \"$cw\" ] \u0026\u0026 cd \"$cw\"\n\nBut shouldn\u0027t git-sh-setup work without all of that cd\u0027ing?\n\n  . $(git --exec-path)/git-sh-setup\n\nShould be sufficient on its own.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9fw\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be necessary.  Setting OPTIONS_SPEC should cause variables prefix and name to be defined for you when git-sh-setup is sourced.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9fs\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "Why isn\u0027t this just git rev-parse?",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9fo\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "Instead of TOP_DIR, use --show-cdup:\n\n  TOP_DIR\u003d$(git rev-parse --show-cdup)\n\nAnd then here you can say:\n\n  git config --file ${TOP_DIR}.gitsubtree",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9fg\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "You may be able to simplify this a bit and avoid the use of awk:\n\n  function get_dir_subtree_id {\n    local key, path\n    local p\u003d$(git rev-parse --show-prefix)\n    p\u003d${p%/}\n\n    git config --file\u003d${TOP_DIR}.gitsubtree \\\n      --get-regexp \u0027subtree\\..*\\.path\u0027 \"^$p\" |\n    while read key path; do\n      if [ \"$p\" \u003d \"$path\" ]; then\n        key\u003d${key#subtree.}\n        echo \"${key/.path$/}\"\n    done\n  }",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9fc\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "Use git rev-parse --show-prefix instead.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9fM\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "Is this left over debugging?",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9fI\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "Why does merge amend the prior commit?",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9fY\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "See above about how to parse out the name from the key.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9fU\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "See above about how to parse out the name from the key.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9fE\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "What is the purpose of this command?\n\nIf its to tell you the last merged SHA-1 of a subtree, why not use a path filter based on the paths in .gitsubtree file?\n\n  git config --file\u003d${TOP_DIR}.gitsubtree --get-regexp \u0027subtree\\..*\\.path\u0027 |\n  while read subtree path; do\n    git log -n 1 --pretty\u003dformat:%P -- \"$path\" |\n    while read parent subtree; do\n      echo $subtree\n    done\n  done\n\nDoing a log call per subtree sort of sucks.  You could instead build a list of all subtree paths and do git log over that entire path list, but then you need to drop the -n 1 limiter and read the entire history of the parent project, and emit all of the subtree revisions that have ever been merged, rather than simply the most recent.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9fQ\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "Why pushd/popd?  Why can\u0027t you just cd_to_toplevel?",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9fA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SplitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "This is big enough to be its own top-level class.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9e4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SplitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "I think RevWalk promises the body to always be parsed when the RevFilter is invoked.  Indeed, the Javadoc for include says:\n\n\t * @param cmit\n\t *            the commit currently being tested. The commit has been parsed\n\t *            and its body is available for inspection.\n\nSo this isn\u0027t necessary.  If it is, its a bug in RevWalk that should be fixed in JGit, not patched up by adding it to the filter.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9es\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SplitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:07:07Z",
+      "side": 1,
+      "message": "forPath() doesn\u0027t work for tree objects because it sets recursive true, which causes TreeWalk to avoid tree entries altogether.\n\nThis should be a new utility method on TreeWalk... and it should do it without needing to use StringTokenizer to break up the path components.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

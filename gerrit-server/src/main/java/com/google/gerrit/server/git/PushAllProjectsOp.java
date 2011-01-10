@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -37,17 +36,14 @@ public class PushAllProjectsOp extends DefaultQueueOp {
 
   private final ProjectCache projectCache;
   private final ReplicationQueue replication;
-  private final Project.NameKey wildProject;
   private final String urlMatch;
 
   @Inject
   public PushAllProjectsOp(final WorkQueue wq, final ProjectCache projectCache,
-      final ReplicationQueue rq, @WildProjectName final Project.NameKey wp,
-      @Assisted @Nullable final String urlMatch) {
+      final ReplicationQueue rq, @Assisted @Nullable final String urlMatch) {
     super(wq);
     this.projectCache = projectCache;
     this.replication = rq;
-    this.wildProject = wp;
     this.urlMatch = urlMatch;
   }
 
@@ -61,9 +57,7 @@ public class PushAllProjectsOp extends DefaultQueueOp {
   public void run() {
     try {
       for (final Project.NameKey nameKey : projectCache.all()) {
-        if (!nameKey.equals(wildProject)) {
-          replication.scheduleFullSync(nameKey, urlMatch);
-        }
+        replication.scheduleFullSync(nameKey, urlMatch);
       }
     } catch (RuntimeException e) {
       log.error("Cannot enumerate known projects", e);

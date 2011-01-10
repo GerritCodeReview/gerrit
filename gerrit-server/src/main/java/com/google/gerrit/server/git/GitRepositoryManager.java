@@ -34,6 +34,9 @@ public interface GitRepositoryManager {
   /** Note tree listing commits we refuse {@code refs/meta/reject-commits} */
   public static final String REF_REJECT_COMMITS = "refs/meta/reject-commits";
 
+  /** Configuration settings for a project {@code refs/meta/config} */
+  public static final String REF_CONFIG = "refs/meta/config";
+
   /**
    * Get (or open) a repository by name.
    *

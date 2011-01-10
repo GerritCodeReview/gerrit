@@ -16,7 +16,12 @@ package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
@@ -26,6 +31,9 @@ import com.google.inject.Guice;
 import com.google.inject.TypeLiteral;
 
 import junit.framework.TestCase;
+
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -58,6 +66,22 @@ public class SchemaUpdaterTest extends TestCase {
         bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).toInstance(db);
         bind(SitePaths.class).toInstance(paths);
         install(new SchemaVersion.Module());
+
+        Config cfg = new Config();
+        cfg.setString("gerrit", null, "basePath", "git");
+        cfg.setString("user", null, "name", "Gerrit Code Review");
+        cfg.setString("user", null, "email", "gerrit@localhost");
+
+        bind(Config.class) //
+            .annotatedWith(GerritServerConfig.class) //
+            .toInstance(cfg);
+
+        bind(PersonIdent.class) //
+            .annotatedWith(GerritPersonIdent.class) //
+            .toProvider(GerritPersonIdentProvider.class);
+
+        bind(GitRepositoryManager.class) //
+            .to(LocalDiskRepositoryManager.class);
       }
     }).getInstance(SchemaUpdater.class);
 

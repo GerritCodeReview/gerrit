@@ -21,12 +21,16 @@ import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Repository;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -167,27 +171,37 @@ public class ProjectCacheImpl implements ProjectCache {
   static class Loader extends EntryCreator<Project.NameKey, ProjectState> {
     private final ProjectState.Factory projectStateFactory;
     private final SchemaFactory<ReviewDb> schema;
+    private final GitRepositoryManager mgr;
 
     @Inject
-    Loader(ProjectState.Factory psf, SchemaFactory<ReviewDb> sf) {
+    Loader(ProjectState.Factory psf, SchemaFactory<ReviewDb> sf,
+        GitRepositoryManager g) {
       projectStateFactory = psf;
       schema = sf;
+      mgr = g;
     }
 
     @Override
     public ProjectState createEntry(Project.NameKey key) throws Exception {
       final ReviewDb db = schema.open();
       try {
-        final Project p = db.projects().get(key);
-        if (p == null) {
-          return null;
+        Repository git = mgr.openRepository(key);
+        try {
+          final ProjectConfig cfg = new ProjectConfig(key);
+          cfg.load(git);
+
+          final Project p = cfg.getProject();
+          final Collection<RefRight> rights =
+              Collections.unmodifiableCollection(db.refRights().byProject(key)
+                  .toList());
+          return projectStateFactory.create(p, rights);
+        } finally {
+          git.close();
         }
 
-        final Collection<RefRight> rights =
-            Collections.unmodifiableCollection(db.refRights().byProject(
-                p.getNameKey()).toList());
+      } catch (RepositoryNotFoundException notFound) {
+        return null;
 
-        return projectStateFactory.create(p, rights);
       } finally {
         db.close();
       }

@@ -58,65 +58,37 @@ public final class Project {
   }
 
   public static enum SubmitType {
-    FAST_FORWARD_ONLY('F'),
+    FAST_FORWARD_ONLY,
 
-    MERGE_IF_NECESSARY('M'),
+    MERGE_IF_NECESSARY,
 
-    MERGE_ALWAYS('A'),
+    MERGE_ALWAYS,
 
-    CHERRY_PICK('C');
-
-    private final char code;
-
-    private SubmitType(final char c) {
-      code = c;
-    }
-
-    public char getCode() {
-      return code;
-    }
-
-    public static SubmitType forCode(final char c) {
-      for (final SubmitType s : SubmitType.values()) {
-        if (s.code == c) {
-          return s;
-        }
-      }
-      return null;
-    }
+    CHERRY_PICK;
   }
 
-  @Column(id = 1)
   protected NameKey name;
 
-  @Column(id = 2, length = Integer.MAX_VALUE, notNull = false)
   protected String description;
 
-  @Column(id = 3)
   protected boolean useContributorAgreements;
 
-  @Column(id = 4)
   protected boolean useSignedOffBy;
 
-  @Column(id = 5)
-  protected char submitType;
+  protected SubmitType submitType;
 
-  @Column(id = 6, notNull = false, name = "parent_name")
   protected NameKey parent;
 
-  @Column(id = 7)
   protected boolean requireChangeID;
 
-  @Column(id = 8)
   protected boolean useContentMerge;
 
   protected Project() {
   }
 
-  public Project(final Project.NameKey newName) {
-    name = newName;
-    useContributorAgreements = true;
-    setSubmitType(SubmitType.MERGE_IF_NECESSARY);
+  public Project(Project.NameKey nameKey) {
+    name = nameKey;
+    submitType = SubmitType.MERGE_IF_NECESSARY;
   }
 
   public Project.NameKey getNameKey() {
@@ -124,7 +96,7 @@ public final class Project {
   }
 
   public String getName() {
-    return name.get();
+    return name != null ? name.get() : null;
   }
 
   public String getDescription() {
@@ -168,11 +140,11 @@ public final class Project {
   }
 
   public SubmitType getSubmitType() {
-    return SubmitType.forCode(submitType);
+    return submitType;
   }
 
   public void setSubmitType(final SubmitType type) {
-    submitType = type.getCode();
+    submitType = type;
   }
 
   public void copySettingsFrom(final Project update) {
@@ -188,7 +160,11 @@ public final class Project {
     return parent;
   }
 
-  public void setParent(final Project.NameKey parentProjectName) {
-      parent = parentProjectName;
+  public String getParentName() {
+    return parent != null ? parent.get() : null;
+  }
+
+  public void setParentName(String n) {
+    parent = n != null ? new NameKey(n) : null;
   }
 }

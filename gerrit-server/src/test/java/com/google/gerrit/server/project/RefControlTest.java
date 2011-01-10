@@ -286,9 +286,10 @@ public class RefControlTest extends TestCase {
     ProjectCache projectCache = null;
     Project.NameKey wildProject = new Project.NameKey("-- All Projects --");
     ProjectControl.AssistedFactory projectControlFactory = null;
+    Project project = new Project(parent);
     ProjectState ps =
         new ProjectState(anonymousUser, projectCache, wildProject,
-            projectControlFactory, new Project(parent), localRights);
+            projectControlFactory, project, localRights);
     ps.setInheritedRights(inheritedRights);
     return ps;
   }

@@ -15,22 +15,24 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
-import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,10 +46,10 @@ final class AdminSetParent extends BaseCommand {
   private List<ProjectControl> children = new ArrayList<ProjectControl>();
 
   @Inject
-  private ReviewDb db;
+  private ProjectCache projectCache;
 
   @Inject
-  private ProjectCache projectCache;
+  private MetaDataUpdate.User metaDataUpdateFactory;
 
   @Inject
   @WildProjectName
@@ -64,7 +66,7 @@ final class AdminSetParent extends BaseCommand {
     });
   }
 
-  private void updateParents() throws OrmException, UnloggedFailure {
+  private void updateParents() throws Failure {
     final StringBuilder err = new StringBuilder();
     final Set<Project.NameKey> grandParents = new HashSet<Project.NameKey>();
     Project.NameKey newParentKey;
@@ -112,16 +114,25 @@ final class AdminSetParent extends BaseCommand {
         continue;
       }
 
-      final Project child = db.projects().get(key);
-      if (child == null) {
-        // Race condition? Its in the cache, but not the database.
-        //
-        err.append("error: Project '" + name + "' not found\n");
-        continue;
+      try {
+        MetaDataUpdate md = metaDataUpdateFactory.create(key);
+        try {
+          ProjectConfig config = ProjectConfig.read(md);
+          config.getProject().setParentName(newParentKey.get());
+          md.setMessage("Inherit access from " + newParentKey.get() + "\n");
+          if (!config.commit(md)) {
+            err.append("error: Could not update project " + name + "\n");
+          }
+        } finally {
+          md.close();
+        }
+      } catch (RepositoryNotFoundException notFound) {
+        err.append("error: Project " + name + " not found\n");
+      } catch (IOException e) {
+        throw new Failure(1, "Cannot update project " + name, e);
+      } catch (ConfigInvalidException e) {
+        throw new Failure(1, "Cannot update project " + name, e);
       }
-
-      child.setParent(newParentKey);
-      db.projects().update(Collections.singleton(child));
     }
 
     // Invalidate all projects in cache since inherited rights were changed.

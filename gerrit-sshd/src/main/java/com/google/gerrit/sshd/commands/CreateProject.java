@@ -26,6 +26,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.ProjectCreatorGroups;
 import com.google.gerrit.server.config.ProjectOwnerGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -34,6 +36,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -49,7 +52,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -66,9 +68,6 @@ final class CreateProject extends BaseCommand {
 
   @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "parent project")
   private ProjectControl newParent;
-
-  @Option(name = "--permissions-only", usage = "create project for use only as parent")
-  private boolean permissionsOnly;
 
   @Option(name = "--description", aliases = {"-d"}, metaVar = "DESC", usage = "description of project")
   private String projectDescription = "";
@@ -123,6 +122,9 @@ final class CreateProject extends BaseCommand {
   @GerritPersonIdent
   private PersonIdent serverIdent;
 
+  @Inject
+  MetaDataUpdate.User metaDataUpdateFactory;
+
   private Project.NameKey nameKey;
 
   @Override
@@ -138,34 +140,28 @@ final class CreateProject extends BaseCommand {
           validateParameters();
           nameKey = new Project.NameKey(projectName);
 
-          if (!permissionsOnly) {
-            final Repository repo = repoManager.createRepository(nameKey);
-            try {
-              RefUpdate u = repo.updateRef(Constants.HEAD);
-              u.disableRefLog();
-              u.link(branch);
+          final Repository repo = repoManager.createRepository(nameKey);
+          try {
+            RefUpdate u = repo.updateRef(Constants.HEAD);
+            u.disableRefLog();
+            u.link(branch);
 
-              repoManager.setProjectDescription(nameKey, projectDescription);
-
-              createProject();
-
-              rq.replicateNewProject(nameKey, branch);
-
-              if (createEmptyCommit) {
-                createEmptyCommit(repo, nameKey, branch);
-              }
-            } finally {
-              repo.close();
-            }
-          } else {
             createProject();
+            repoManager.setProjectDescription(nameKey, projectDescription);
+
+            if (createEmptyCommit) {
+              createEmptyCommit(repo, nameKey, branch);
+            }
+
+            rq.replicateNewProject(nameKey, branch);
+          } finally {
+            repo.close();
           }
         } catch (Exception e) {
           p.print("Error when trying to create project: " + e.getMessage()
               + "\n");
           p.flush();
         }
-
       }
     });
   }
@@ -176,9 +172,9 @@ final class CreateProject extends BaseCommand {
     try {
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
+      cb.setAuthor(metaDataUpdateFactory.getUserPersonIdent());
       cb.setCommitter(serverIdent);
-      cb.setAuthor(cb.getCommitter());
-      cb.setMessage("Initial empty repository");
+      cb.setMessage("Initial empty repository\n");
 
       ObjectId id = oi.insert(cb);
       oi.flush();
@@ -202,7 +198,9 @@ final class CreateProject extends BaseCommand {
     }
   }
 
-  private void createProject() throws OrmException {
+  private void createProject() throws OrmException, IOException,
+      ConfigInvalidException {
+
     List<RefRight> access = new ArrayList<RefRight>();
     for (AccountGroup.Id ownerId : ownerIds) {
       final RefRight.Key prk =
@@ -215,19 +213,30 @@ final class CreateProject extends BaseCommand {
     }
     db.refRights().insert(access);
 
-    final Project newProject = new Project(nameKey);
-    newProject.setDescription(projectDescription);
-    newProject.setSubmitType(submitType);
-    newProject.setUseContributorAgreements(contributorAgreements);
-    newProject.setUseSignedOffBy(signedOffBy);
-    newProject.setUseContentMerge(contentMerge);
-    newProject.setRequireChangeID(requireChangeID);
-    if (newParent != null) {
-      newProject.setParent(newParent.getProject().getNameKey());
-    }
+    Project.NameKey nameKey = new Project.NameKey(projectName);
+    MetaDataUpdate md = metaDataUpdateFactory.create(nameKey);
+    try {
+      ProjectConfig config = ProjectConfig.read(md);
 
-    db.projects().insert(Collections.singleton(newProject));
-    projectCache.onCreateProject(newProject.getNameKey());
+      Project newProject = config.getProject();
+      newProject.setDescription(projectDescription);
+      newProject.setSubmitType(submitType);
+      newProject.setUseContributorAgreements(contributorAgreements);
+      newProject.setUseSignedOffBy(signedOffBy);
+      newProject.setUseContentMerge(contentMerge);
+      newProject.setRequireChangeID(requireChangeID);
+      if (newParent != null) {
+        newProject.setParentName(newParent.getProject().getName());
+      }
+
+      md.setMessage("Created project\n");
+      if (!config.commit(md)) {
+        throw new IOException("Cannot create " + projectName);
+      }
+    } finally {
+      md.close();
+    }
+    projectCache.onCreateProject(nameKey);
   }
 
   private void validateParameters() throws Failure {

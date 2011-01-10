@@ -21,7 +21,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
-
+import java.util.SortedSet;
 
 /**
  * Manages Git repositories for the Gerrit server process.
@@ -57,6 +57,9 @@ public interface GitRepositoryManager {
    */
   public abstract Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException;
+
+  /** @return set of all known projects, sorted by natural NameKey order. */
+  public abstract SortedSet<Project.NameKey> list();
 
   /**
    * Read the {@code GIT_DIR/description} file for gitweb.

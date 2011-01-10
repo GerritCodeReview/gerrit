@@ -38,7 +38,8 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
               new ChangeQueryBuilder.Arguments( //
                   new InvalidProvider<ReviewDb>(), //
                   new InvalidProvider<ChangeQueryRewriter>(), //
-                  null, null, null, null, null, null, null, null, null, null), null));
+                  null, null, null, null, null, null, null, //
+                  null, null, null, null), null));
 
   private final Provider<ReviewDb> dbProvider;
 

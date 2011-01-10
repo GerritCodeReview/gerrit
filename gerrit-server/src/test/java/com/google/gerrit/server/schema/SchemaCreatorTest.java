@@ -17,7 +17,6 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
-import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
@@ -146,24 +145,6 @@ public class SchemaCreatorTest extends TestCase {
       assertEquals(config.registeredGroupId, reg.getId());
       assertEquals("Registered Users", reg.getName());
       assertSame(AccountGroup.Type.SYSTEM, reg.getType());
-    } finally {
-      c.close();
-    }
-  }
-
-  public void testCreateSchema_WildCardProject() throws OrmException {
-    final ReviewDb c = db.create().open();
-    try {
-      final SystemConfig cfg;
-      final Project all;
-
-      cfg = c.systemConfig().get(new SystemConfig.Key());
-      all = c.projects().get(cfg.wildProjectName);
-      assertNotNull(all);
-      assertEquals("-- All Projects --", all.getName());
-      assertFalse(all.isUseContributorAgreements());
-      assertFalse(all.isUseSignedOffBy());
-      assertFalse(all.isRequireChangeID());
     } finally {
       c.close();
     }
@@ -347,18 +328,16 @@ public class SchemaCreatorTest extends TestCase {
     final ReviewDb c = db.open();
     try {
       final SystemConfig cfg;
-      final Project all;
       final RefRight right;
 
       cfg = c.systemConfig().get(new SystemConfig.Key());
-      all = c.projects().get(cfg.wildProjectName);
       right =
           c.refRights().get(
-              new RefRight.Key(all.getNameKey(), new RefRight.RefPattern(
+              new RefRight.Key(cfg.wildProjectName, new RefRight.RefPattern(
                   pattern), category, group));
 
       assertNotNull(right);
-      assertEquals(all.getNameKey(), right.getProjectNameKey());
+      assertEquals(cfg.wildProjectName, right.getProjectNameKey());
       assertEquals(group, right.getAccountGroupId());
       assertEquals(category, right.getApprovalCategoryId());
       assertEquals(min, right.getMinValue());

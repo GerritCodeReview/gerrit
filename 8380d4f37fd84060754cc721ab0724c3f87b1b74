@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//9hw\u003d",
+        "filename": "Documentation/error-change-closed.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2011-01-10T12:24:24Z",
+      "side": 1,
+      "message": "would be good to add a link to the documentation how to restore a change in the Gerrit Web UI (don\u0027t know if this documentation exists already, couldn\u0027t find it)",
+      "revId": "8380d4f37fd84060754cc721ab0724c3f87b1b74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

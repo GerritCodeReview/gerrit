@@ -31,4 +31,18 @@ public interface ProjectCache {
 
   /** Invalidate the cached information about all projects. */
   public void evictAll();
+
+  /** @return sorted iteration of projects. */
+  public abstract Iterable<Project.NameKey> all();
+
+  /**
+   * Filter the set of registered project names by common prefix.
+   *
+   * @param prefix common prefix.
+   * @return sorted iteration of projects sharing the same prefix.
+   */
+  public abstract Iterable<Project.NameKey> byName(String prefix);
+
+  /** Notify the cache that a new project was constructed. */
+  public void onCreateProject(Project.NameKey newProjectName);
 }

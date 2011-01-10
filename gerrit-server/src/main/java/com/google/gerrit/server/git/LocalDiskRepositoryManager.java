@@ -39,6 +39,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /** Manages Git repositories stored on the local filesystem. */
 @Singleton
@@ -218,5 +221,44 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (name.contains("//")) return true; // windows UNC path can be "//..."
 
     return false; // is a reasonable name
+  }
+
+  @Override
+  public SortedSet<Project.NameKey> list() {
+    SortedSet<Project.NameKey> names = new TreeSet<Project.NameKey>();
+    scanProjects(basePath, "", names);
+    return Collections.unmodifiableSortedSet(names);
+  }
+
+  private void scanProjects(final File dir, final String prefix,
+      final SortedSet<Project.NameKey> names) {
+    final File[] ls = dir.listFiles();
+    if (ls == null) {
+      return;
+    }
+
+    for (File f : ls) {
+      String name = f.getName();
+      if (FileKey.isGitRepository(f, FS.DETECTED)) {
+        if (name.equals(Constants.DOT_GIT)) {
+          name = prefix.substring(0, prefix.length() - 1);
+
+        } else if (name.endsWith(Constants.DOT_GIT_EXT)) {
+          int newLen = name.length() - Constants.DOT_GIT_EXT.length();
+          name = prefix + name.substring(0, newLen);
+
+        } else {
+          name = prefix + name;
+        }
+
+        Project.NameKey nameKey = new Project.NameKey(name);
+        if (!isUnreasonableName(nameKey)) {
+          names.add(nameKey);
+        }
+
+      } else if (f.isDirectory()) {
+        scanProjects(f, prefix + f.getName() + "/", names);
+      }
+    }
   }
 }

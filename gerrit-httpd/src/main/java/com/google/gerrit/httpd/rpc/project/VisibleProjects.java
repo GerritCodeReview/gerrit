@@ -17,11 +17,9 @@ package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
@@ -35,33 +33,26 @@ class VisibleProjects extends Handler<List<Project>> {
   }
 
   private final ProjectControl.Factory projectControlFactory;
-  private final CurrentUser user;
-  private final ReviewDb db;
+  private final ProjectCache projectCache;
 
   @Inject
   VisibleProjects(final ProjectControl.Factory projectControlFactory,
-      final CurrentUser user, final ReviewDb db) {
+       final ProjectCache projectCache) {
     this.projectControlFactory = projectControlFactory;
-    this.user = user;
-    this.db = db;
+    this.projectCache = projectCache;
   }
 
   @Override
-  public List<Project> call() throws OrmException {
-    final List<Project> result;
-    if (user.isAdministrator()) {
-      result = db.projects().all().toList();
-    } else {
-      result = new ArrayList<Project>();
-      for (Project p : db.projects().all().toList()) {
-        try {
-          ProjectControl c = projectControlFactory.controlFor(p.getNameKey());
-          if (c.isVisible() || c.isOwner()) {
-            result.add(p);
-          }
-        } catch (NoSuchProjectException e) {
-          continue;
+  public List<Project> call() {
+    List<Project> result = new ArrayList<Project>();
+    for (Project.NameKey p : projectCache.all()) {
+      try {
+        ProjectControl c = projectControlFactory.controlFor(p);
+        if (c.isVisible() || c.isOwner()) {
+          result.add(c.getProject());
         }
+      } catch (NoSuchProjectException e) {
+        continue;
       }
     }
     Collections.sort(result, new Comparator<Project>() {

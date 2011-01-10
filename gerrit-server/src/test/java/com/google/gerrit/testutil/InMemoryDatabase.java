@@ -17,7 +17,13 @@ package com.google.gerrit.testutil;
 import com.google.gerrit.reviewdb.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SystemConfigProvider;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.schema.Current;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.schema.SchemaVersion;
@@ -25,13 +31,19 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 
 import junit.framework.TestCase;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
+
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -84,8 +96,33 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
       database = new Database<ReviewDb>(dataSource, ReviewDb.class);
 
       schemaVersion =
-          Guice.createInjector(new SchemaVersion.Module()).getBinding(
-              Key.get(SchemaVersion.class, Current.class)).getProvider().get();
+          Guice.createInjector(new AbstractModule() {
+            @Override
+            protected void configure() {
+              install(new SchemaVersion.Module());
+
+              bind(File.class) //
+                  .annotatedWith(SitePath.class) //
+                  .toInstance(new File("."));
+
+              Config cfg = new Config();
+              cfg.setString("gerrit", null, "basePath", "git");
+              cfg.setString("user", null, "name", "Gerrit Code Review");
+              cfg.setString("user", null, "email", "gerrit@localhost");
+
+              bind(Config.class) //
+                  .annotatedWith(GerritServerConfig.class) //
+                  .toInstance(cfg);
+
+              bind(PersonIdent.class) //
+                  .annotatedWith(GerritPersonIdent.class) //
+                  .toProvider(GerritPersonIdentProvider.class);
+
+              bind(GitRepositoryManager.class) //
+                  .to(LocalDiskRepositoryManager.class);
+            }
+          }).getBinding(Key.get(SchemaVersion.class, Current.class))
+              .getProvider().get();
     } catch (SQLException e) {
       throw new OrmException(e);
     }
@@ -106,7 +143,14 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
       created = true;
       final ReviewDb c = open();
       try {
-        new SchemaCreator(new File("."), schemaVersion).create(c);
+        try {
+          new SchemaCreator(new File("."), schemaVersion, null,
+              new PersonIdent("name", "email@site")).create(c);
+        } catch (IOException e) {
+          throw new OrmException("Cannot create in-memory database", e);
+        } catch (ConfigInvalidException e) {
+          throw new OrmException("Cannot create in-memory database", e);
+        }
       } finally {
         c.close();
       }

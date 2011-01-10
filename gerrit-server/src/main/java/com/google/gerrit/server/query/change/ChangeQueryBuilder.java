@@ -30,6 +30,7 @@ import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
@@ -107,6 +108,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Project.NameKey wildProjectName;
     final PatchListCache patchListCache;
     final GitRepositoryManager repoManager;
+    final ProjectCache projectCache;
 
     @Inject
     Arguments(Provider<ReviewDb> dbProvider,
@@ -118,7 +120,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AuthConfig authConfig, ApprovalTypes approvalTypes,
         @WildProjectName Project.NameKey wildProjectName,
         PatchListCache patchListCache,
-        GitRepositoryManager repoManager) {
+        GitRepositoryManager repoManager,
+        ProjectCache projectCache) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
@@ -131,6 +134,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.wildProjectName = wildProjectName;
       this.patchListCache = patchListCache;
       this.repoManager = repoManager;
+      this.projectCache = projectCache;
     }
   }
 
@@ -508,23 +512,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       // Try to match a project name by substring query.
       final List<ProjectPredicate> predicate =
           new ArrayList<ProjectPredicate>();
-      try {
-        for (final Project p : args.dbProvider.get().projects().all()) {
-          if (p.getName().toLowerCase().contains(query.toLowerCase())) {
-            predicate.add(new ProjectPredicate(args.dbProvider, p.getName()));
-          }
+      for (Project.NameKey name : args.projectCache.all()) {
+        if (name.get().toLowerCase().contains(query.toLowerCase())) {
+          predicate.add(new ProjectPredicate(args.dbProvider, name.get()));
         }
+      }
 
-        // If two or more projects contains "query" as substring create an
-        // OrPredicate holding predicates for all these projects, otherwise if
-        // only one contains that, return only that one predicate by itself.
-        if (predicate.size() == 1) {
-          return predicate.get(0);
-        } else if (predicate.size() > 1) {
-          return Predicate.or(predicate);
-        }
-      } catch (OrmException e) {
-        throw error("Cannot lookup project.", e);
+      // If two or more projects contains "query" as substring create an
+      // OrPredicate holding predicates for all these projects, otherwise if
+      // only one contains that, return only that one predicate by itself.
+      if (predicate.size() == 1) {
+        return predicate.get(0);
+      } else if (predicate.size() > 1) {
+        return Predicate.or(predicate);
       }
 
       throw error("Unsupported query:" + query);

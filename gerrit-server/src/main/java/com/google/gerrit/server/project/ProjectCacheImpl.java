@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -29,19 +30,31 @@ import com.google.inject.name.Named;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /** Cache of project information, including access rights. */
 @Singleton
 public class ProjectCacheImpl implements ProjectCache {
   private static final String CACHE_NAME = "projects";
+  private static final String CACHE_LIST = "project_list";
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<Project.NameKey, ProjectState>> type =
+        final TypeLiteral<Cache<Project.NameKey, ProjectState>> nameType =
             new TypeLiteral<Cache<Project.NameKey, ProjectState>>() {};
-        core(type, CACHE_NAME).populateWith(Loader.class);
+        core(nameType, CACHE_NAME).populateWith(Loader.class);
+
+        final TypeLiteral<Cache<ListKey, SortedSet<Project.NameKey>>> listType =
+            new TypeLiteral<Cache<ListKey, SortedSet<Project.NameKey>>>() {};
+        core(listType, CACHE_LIST).populateWith(Lister.class);
+
         bind(ProjectCacheImpl.class);
         bind(ProjectCache.class).to(ProjectCacheImpl.class);
       }
@@ -49,11 +62,16 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   private final Cache<Project.NameKey, ProjectState> byName;
+  private final Cache<ListKey,SortedSet<Project.NameKey>> list;
+  private final Lock listLock;
 
   @Inject
   ProjectCacheImpl(
-      @Named(CACHE_NAME) final Cache<Project.NameKey, ProjectState> byName) {
+      @Named(CACHE_NAME) final Cache<Project.NameKey, ProjectState> byName,
+      @Named(CACHE_LIST) final Cache<ListKey, SortedSet<Project.NameKey>> list) {
     this.byName = byName;
+    this.list = list;
+    this.listLock = new ReentrantLock(true /* fair */);
   }
 
   /**
@@ -76,6 +94,74 @@ public class ProjectCacheImpl implements ProjectCache {
   /** Invalidate the cached information about all projects. */
   public void evictAll() {
     byName.removeAll();
+  }
+
+  @Override
+  public void onCreateProject(Project.NameKey newProjectName) {
+    listLock.lock();
+    try {
+      SortedSet<Project.NameKey> n = list.get(ListKey.ALL);
+      n = new TreeSet<Project.NameKey>(n);
+      n.add(newProjectName);
+      list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
+    } finally {
+      listLock.unlock();
+    }
+  }
+
+  @Override
+  public Iterable<Project.NameKey> all() {
+    return list.get(ListKey.ALL);
+  }
+
+  @Override
+  public Iterable<Project.NameKey> byName(final String pfx) {
+    return new Iterable<Project.NameKey>() {
+      @Override
+      public Iterator<Project.NameKey> iterator() {
+        return new Iterator<Project.NameKey>() {
+          private Project.NameKey next;
+          private Iterator<Project.NameKey> itr =
+              list.get(ListKey.ALL).tailSet(new Project.NameKey(pfx)).iterator();
+
+          @Override
+          public boolean hasNext() {
+            if (next != null) {
+              return true;
+            }
+
+            if (!itr.hasNext()) {
+              return false;
+            }
+
+            Project.NameKey r = itr.next();
+            if (r.get().startsWith(pfx)) {
+              next = r;
+              return true;
+            } else {
+              itr = Collections.<Project.NameKey> emptyList().iterator();
+              return false;
+            }
+          }
+
+          @Override
+          public Project.NameKey next() {
+            if (!hasNext()) {
+              throw new NoSuchElementException();
+            }
+
+            Project.NameKey r = next;
+            next = null;
+            return r;
+          }
+
+          @Override
+          public void remove() {
+            throw new UnsupportedOperationException();
+          }
+        };
+      }
+    };
   }
 
   static class Loader extends EntryCreator<Project.NameKey, ProjectState> {
@@ -105,6 +191,27 @@ public class ProjectCacheImpl implements ProjectCache {
       } finally {
         db.close();
       }
+    }
+  }
+
+  static class ListKey {
+    static final ListKey ALL = new ListKey();
+
+    private ListKey() {
+    }
+  }
+
+  static class Lister extends EntryCreator<ListKey, SortedSet<Project.NameKey>> {
+    private final GitRepositoryManager mgr;
+
+    @Inject
+    Lister(GitRepositoryManager mgr) {
+      this.mgr = mgr;
+    }
+
+    @Override
+    public SortedSet<Project.NameKey> createEntry(ListKey key) throws Exception {
+      return mgr.list();
     }
   }
 }

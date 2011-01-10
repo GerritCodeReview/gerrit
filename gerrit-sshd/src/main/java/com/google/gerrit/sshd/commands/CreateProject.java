@@ -27,6 +27,7 @@ import com.google.gerrit.server.config.ProjectCreatorGroups;
 import com.google.gerrit.server.config.ProjectOwnerGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmException;
@@ -100,6 +101,9 @@ final class CreateProject extends BaseCommand {
 
   @Inject
   private GitRepositoryManager repoManager;
+
+  @Inject
+  private ProjectCache projectCache;
 
   @Inject
   @ProjectCreatorGroups
@@ -223,6 +227,7 @@ final class CreateProject extends BaseCommand {
     }
 
     db.projects().insert(Collections.singleton(newProject));
+    projectCache.onCreateProject(newProject.getNameKey());
   }
 
   private void validateParameters() throws Failure {

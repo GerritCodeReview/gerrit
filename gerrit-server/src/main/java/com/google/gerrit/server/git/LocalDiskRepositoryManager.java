@@ -156,28 +156,32 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       throws RepositoryNotFoundException, IOException {
     final Repository e = openRepository(name);
     try {
-      final File d = new File(e.getDirectory(), "description");
-
-      String description;
-      try {
-        description = RawParseUtils.decode(IO.readFully(d));
-      } catch (FileNotFoundException err) {
-        return null;
-      }
-
-      if (description != null) {
-        description = description.trim();
-        if (description.isEmpty()) {
-          description = null;
-        }
-        if (UNNAMED.equals(description)) {
-          description = null;
-        }
-      }
-      return description;
+      return getProjectDescription(e);
     } finally {
       e.close();
     }
+  }
+
+  private String getProjectDescription(final Repository e) throws IOException {
+    final File d = new File(e.getDirectory(), "description");
+
+    String description;
+    try {
+      description = RawParseUtils.decode(IO.readFully(d));
+    } catch (FileNotFoundException err) {
+      return null;
+    }
+
+    if (description != null) {
+      description = description.trim();
+      if (description.isEmpty()) {
+        description = null;
+      }
+      if (UNNAMED.equals(description)) {
+        description = null;
+      }
+    }
+    return description;
   }
 
   public void setProjectDescription(final Project.NameKey name,
@@ -185,12 +189,15 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     // Update git's description file, in case gitweb is being used
     //
     try {
-      final Repository e;
-      final LockFile f;
-
-      e = openRepository(name);
+      final Repository e = openRepository(name);
       try {
-        f = new LockFile(new File(e.getDirectory(), "description"), FS.DETECTED);
+        final String old = getProjectDescription(e);
+        if ((old == null && description == null)
+            || (old != null && old.equals(description))) {
+          return;
+        }
+
+        final LockFile f = new LockFile(new File(e.getDirectory(), "description"), FS.DETECTED);
         if (f.lock()) {
           String d = description;
           if (d != null) {

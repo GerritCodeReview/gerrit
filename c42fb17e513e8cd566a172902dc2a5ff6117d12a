@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//9eg\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:49:03Z",
+      "side": 1,
+      "message": "I still don\u0027t get why these footer messages are required.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9gM\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -64,6 +81,24 @@
       "writtenOn": "2011-01-10T16:07:07Z",
       "side": 1,
       "message": "This is uh, wow, some serious magic voodoo.\n\nWhy can\u0027t the developer who creates I be responsible for merging F with H first?  And instead of making Gerrit construct J, make Gerrit require that F be contained in I (and thus that the developer constructed J).",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9ek\u003d",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-10T16:49:03Z",
+      "side": 1,
+      "message": "After thinking about this further during breakfast, I realize why you are generating J here.  You already have the tree for J within I, so its trivial to extract and construct J for the developer, and he was able to easily construct commit I using the stock `git merge -s subtree` command.  Making him build J and then I by hand is just make-work.",
+      "parentUuid": "AAAA+3//9gU\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

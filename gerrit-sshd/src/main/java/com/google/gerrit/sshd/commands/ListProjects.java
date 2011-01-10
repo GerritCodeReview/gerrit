@@ -15,7 +15,6 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -23,7 +22,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.BaseCommand;
-import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
@@ -42,9 +40,6 @@ final class ListProjects extends BaseCommand {
   private static final String LAST_NODE_PREFIX = "`-- ";
   private static final String DEFAULT_TAB_SEPARATOR = "|";
   private static final String NOT_VISIBLE_PROJECT = "(x)";
-
-  @Inject
-  private ReviewDb db;
 
   @Inject
   private IdentifiedUser currentUser;
@@ -93,14 +88,14 @@ final class ListProjects extends BaseCommand {
     }
 
     try {
-      for (final Project p : db.projects().all()) {
-        if (p.getNameKey().equals(wildProject)) {
+      for (final Project.NameKey projectName : projectCache.all()) {
+        if (projectName.equals(wildProject)) {
           // This project "doesn't exist". At least not as a repository.
           //
           continue;
         }
 
-        final ProjectState e = projectCache.get(p.getNameKey());
+        final ProjectState e = projectCache.get(projectName);
         if (e == null) {
           // If we can't get it from the cache, pretend its not present.
           //
@@ -118,7 +113,7 @@ final class ListProjects extends BaseCommand {
           }
 
           if (showBranch != null) {
-            final Ref ref = getBranchRef(p.getNameKey());
+            final Ref ref = getBranchRef(projectName);
             if (ref == null || ref.getObjectId() == null
                 || !pctl.controlForRef(ref.getLeaf().getName()).isVisible()) {
               // No branch, or the user can't see this branch, so skip it.
@@ -130,9 +125,10 @@ final class ListProjects extends BaseCommand {
             stdout.print(' ');
           }
 
-          stdout.print(p.getName() + "\n");
+          stdout.print(projectName.get() + "\n");
         } else {
-          treeMap.put(p.getName(), new TreeNode(p, pctl.isVisible()));
+          treeMap.put(projectName.get(),
+              new TreeNode(pctl.getProject(), pctl.isVisible()));
         }
       }
 
@@ -144,7 +140,7 @@ final class ListProjects extends BaseCommand {
         for (final TreeNode key : treeMap.values()) {
           final String parentName = key.getParentName();
           if (parentName != null) {
-            final TreeNode node = treeMap.get((String)parentName);
+            final TreeNode node = treeMap.get(parentName);
             if (node != null) {
               node.addChild(key);
             } else {
@@ -161,8 +157,6 @@ final class ListProjects extends BaseCommand {
         printElement(stdout, fakeRoot, -1, false, sortedNodes.get(sortedNodes.size() - 1));
         stdout.flush();
       }
-    } catch (OrmException e) {
-      throw new Failure(1, "fatal: database error", e);
     } finally {
       stdout.flush();
     }

@@ -509,23 +509,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       // Try to match a project name by substring query.
       final List<ProjectPredicate> predicate =
           new ArrayList<ProjectPredicate>();
-      try {
-        for (final Project p : args.dbProvider.get().projects().all()) {
-          if (p.getName().toLowerCase().contains(query.toLowerCase())) {
-            predicate.add(new ProjectPredicate(args.dbProvider, p.getName()));
-          }
+      for (Project.NameKey name : args.repoManager.list()) {
+        if (name.get().toLowerCase().contains(query.toLowerCase())) {
+          predicate.add(new ProjectPredicate(args.dbProvider, name.get()));
         }
+      }
 
-        // If two or more projects contains "query" as substring create an
-        // OrPredicate holding predicates for all these projects, otherwise if
-        // only one contains that, return only that one predicate by itself.
-        if (predicate.size() == 1) {
-          return predicate.get(0);
-        } else if (predicate.size() > 1) {
-          return Predicate.or(predicate);
-        }
-      } catch (OrmException e) {
-        throw error("Cannot lookup project.", e);
+      // If two or more projects contains "query" as substring create an
+      // OrPredicate holding predicates for all these projects, otherwise if
+      // only one contains that, return only that one predicate by itself.
+      if (predicate.size() == 1) {
+        return predicate.get(0);
+      } else if (predicate.size() > 1) {
+        return Predicate.or(predicate);
       }
 
       throw error("Unsupported query:" + query);

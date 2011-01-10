@@ -30,6 +30,10 @@ means:
    commit for this change again
 3. if a commit was pushed to one branch you cannot push this commit
    to another branch
+4. if a commit was pushed directly to a branch (without going through
+   code review) you cannot push this commit once again for code
+   review (please note that in this case searching by the commit ID
+   in the Gerrit WebUI will not find any change)
 
 If you need to re-push a commit you may rewrite this commit by
 link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[amending] it or doing an interactive link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase]. By rewriting the

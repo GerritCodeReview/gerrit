@@ -1,0 +1,20 @@
+not a Gerrit project
+====================
+
+With this error message Gerrit rejects to push a commit if the
+project to which the push should be done does not exist in the Gerrit
+server.
+
+To fix this problem verify
+* that the project name in the push command is typed correctly (case
+  sensitive) and
+* that the project really exists in the Gerrit server to which you
+  are trying to push (in the Gerrit WebUI go to 'Admin' -> 'Projects'
+  and check that the project is listed).
+
+Details about how to push a commit for code review are explained at
+link:user-upload.html#push_create[Create Changes]).
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

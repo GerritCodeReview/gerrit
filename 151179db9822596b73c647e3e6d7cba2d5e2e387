@@ -16,6 +16,24 @@
       "revId": "151179db9822596b73c647e3e6d7cba2d5e2e387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9Ns\u003d",
+        "filename": "Documentation/error-upload-denied.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-01-11T13:09:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//9Oo\u003d",
+      "revId": "151179db9822596b73c647e3e6d7cba2d5e2e387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

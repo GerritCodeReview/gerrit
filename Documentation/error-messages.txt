@@ -15,6 +15,7 @@ Error Messages
 * link:error-multiple-changeid-lines.html[multiple Change-Id lines in commit message]
 * link:error-no-new-changes.html[no new changes]
 * link:error-squash-commits-first.html[squash commits first]
+* link:error-upload-denied.html[Upload denied for project '...']
 * link:error-you-are-not-author.html[you are not author ...]
 * link:error-you-are-not-committer.html[you are not committer ...]
 

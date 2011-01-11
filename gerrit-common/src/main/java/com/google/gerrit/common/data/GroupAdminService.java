@@ -54,6 +54,10 @@ public interface GroupAdminService extends RemoteJsonService {
       AsyncCallback<VoidResult> callback);
 
   @SignInRequired
+  void changeGroupEmailOnlyAuthors(AccountGroup.Id groupId,
+      boolean emailOnlyAuthors, AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
   void changeExternalGroup(AccountGroup.Id groupId,
       AccountGroup.ExternalNameKey bindTo, AsyncCallback<VoidResult> callback);
 

@@ -41,6 +41,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
@@ -73,6 +74,8 @@ public class AccountGroupScreen extends AccountScreen {
   private Label typeSystem;
   private ListBox typeSelect;
   private Button saveType;
+
+  private CheckBox onlyAuthors;
 
   private Panel memberPanel;
   private AddMemberBox addMemberBox;
@@ -107,6 +110,12 @@ public class AccountGroupScreen extends AccountScreen {
     initOwner();
     initDescription();
     initGroupType();
+    initGroupNotifications();
+
+    Label spacer = new Label("");
+    spacer.setHeight("15px");
+    add(spacer);
+
     initMemberList();
     initExternal();
   }
@@ -237,6 +246,34 @@ public class AccountGroupScreen extends AccountScreen {
     fp.add(typeSelect);
     fp.add(saveType);
     add(fp);
+  }
+
+  private void initGroupNotifications() {
+    final VerticalPanel vp = new VerticalPanel();
+    vp.add(new SmallHeading(Util.C.headingNotifications()));
+    vp.add(new Label(Util.C.descriptionNotifications()));
+
+    onlyAuthors = new CheckBox();
+    onlyAuthors.setEnabled(false);
+    onlyAuthors.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        Util.GROUP_SVC.changeGroupEmailOnlyAuthors(groupId,
+          onlyAuthors.getValue().booleanValue(),
+            new GerritCallback<VoidResult>() {
+              public void onSuccess(final VoidResult result) {
+              }
+            });
+      }
+    });
+
+    final HorizontalPanel hp = new HorizontalPanel();
+    hp.add(onlyAuthors);
+    hp.add(new Label(Util.C.emailOnlyAuthors()));
+
+    vp.add(hp);
+
+    add(vp);
   }
 
   private void initMemberList() {
@@ -431,6 +468,8 @@ public class AccountGroupScreen extends AccountScreen {
       ownerTxt.setText(Util.M.deletedGroup(group.getOwnerGroupId().get()));
     }
     descTxt.setText(group.getDescription());
+    onlyAuthors.setValue(group.isEmailOnlyAuthors());
+    onlyAuthors.setEnabled(true);
 
     switch (group.getType()) {
       case INTERNAL:

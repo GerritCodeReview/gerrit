@@ -54,11 +54,28 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   protected ProjectState projectState;
   protected ChangeData changeData;
+  protected Set<Account.Id> authors;
+  protected boolean emailOnlyAuthors;
 
   protected ChangeEmail(EmailArguments ea, final Change c, final String mc) {
     super(ea, mc);
     change = c;
     changeData = change != null ? new ChangeData(change) : null;
+    emailOnlyAuthors = false;
+  }
+
+  public void setFrom(final Account.Id id) {
+    super.setFrom(id);
+
+    /** Is the from user in an email squelching group? */
+    final IdentifiedUser user =  args.identifiedUserFactory.create(id);
+    final Set<AccountGroup.Id> gids = user.getEffectiveGroups();
+    for (final AccountGroup.Id gid : gids) {
+      if (args.groupCache.get(gid).isEmailOnlyAuthors()) {
+        emailOnlyAuthors = true;
+        break;
+      }
+    }
   }
 
   public void setPatchSet(final PatchSet ps) {
@@ -123,6 +140,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
         patchSetInfo = null;
       }
     }
+    authors = getAuthors();
 
     super.init();
 
@@ -264,13 +282,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** TO or CC all vested parties (change owner, patch set uploader, author). */
   protected void rcptToAuthors(final RecipientType rt) {
-    add(rt, change.getOwner());
-    if (patchSet != null) {
-      add(rt, patchSet.getUploader());
-    }
-    if (patchSetInfo != null) {
-      add(rt, patchSetInfo.getAuthor());
-      add(rt, patchSetInfo.getCommitter());
+    for (final Account.Id id : authors) {
+      add(rt, id);
     }
   }
 
@@ -380,11 +393,32 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
   }
 
+  protected void add(final RecipientType rt, final Account.Id to) {
+    if (! emailOnlyAuthors || authors.contains(to)) {
+      super.add(rt, to);
+    }
+  }
+
   protected boolean isVisibleTo(final Account.Id to) {
     return projectState == null
         || change == null
         || projectState.controlFor(args.identifiedUserFactory.create(to))
             .controlFor(change).isVisible();
+  }
+
+  /** Find all users who are authors of any part of this change. */
+  protected Set<Account.Id> getAuthors() {
+    Set<Account.Id> authors = new HashSet<Account.Id>();
+
+    authors.add(change.getOwner());
+    if (patchSet != null) {
+      authors.add(patchSet.getUploader());
+    }
+    if (patchSetInfo != null) {
+      authors.add(patchSetInfo.getAuthor().getAccount());
+      authors.add(patchSetInfo.getCommitter().getAccount());
+    }
+    return authors;
   }
 
   @Override

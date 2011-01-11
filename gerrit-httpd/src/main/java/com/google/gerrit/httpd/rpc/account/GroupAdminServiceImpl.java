@@ -138,6 +138,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         final AccountGroup group = db.accountGroups().get(groupId);
         assertAmGroupOwner(db, group);
         group.setVisibleToAll(groupOptions.isVisibleToAll());
+        group.setEmailOnlyAuthors(groupOptions.isEmailOnlyAuthors());
         db.accountGroups().update(Collections.singleton(group));
         groupCache.evict(group);
         return VoidResult.INSTANCE;

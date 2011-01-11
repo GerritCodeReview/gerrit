@@ -171,6 +171,11 @@ public final class AccountGroup {
   @Column(id = 7)
   protected boolean visibleToAll;
 
+  /** Comment and action email notifications by users in this group are only
+   *  sent to change authors. */
+  @Column(id = 8)
+  protected boolean emailOnlyAuthors;
+
   protected AccountGroup() {
   }
 
@@ -237,5 +242,13 @@ public final class AccountGroup {
 
   public boolean isVisibleToAll() {
     return visibleToAll;
+  }
+
+  public boolean isEmailOnlyAuthors() {
+    return emailOnlyAuthors;
+  }
+
+  public void setEmailOnlyAuthors(boolean emailOnlyAuthors) {
+    this.emailOnlyAuthors = emailOnlyAuthors;
   }
 }

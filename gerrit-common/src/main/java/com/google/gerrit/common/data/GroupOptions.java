@@ -22,15 +22,22 @@ import com.google.gerrit.reviewdb.AccountGroup;
 public class GroupOptions {
 
   private boolean visibleToAll;
+  private boolean emailOnlyAuthors;
 
   protected GroupOptions() {
   }
 
-  public GroupOptions(final boolean visibleToAll) {
+  public GroupOptions(final boolean visibleToAll,
+       final boolean emailOnlyAuthors) {
     this.visibleToAll = visibleToAll;
+    this.emailOnlyAuthors = emailOnlyAuthors;
   }
 
   public boolean isVisibleToAll() {
     return visibleToAll;
+  }
+
+  public boolean isEmailOnlyAuthors() {
+    return emailOnlyAuthors;
   }
 }

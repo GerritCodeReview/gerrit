@@ -87,6 +87,7 @@ public class AccountGroupScreen extends AccountScreen {
 
   private Panel groupOptionsPanel;
   private CheckBox visibleToAllCheckBox;
+  private CheckBox emailOnlyAuthors;
   private Button saveGroupOptions;
 
   public AccountGroupScreen(final AccountGroup.Id toShow) {
@@ -121,6 +122,7 @@ public class AccountGroupScreen extends AccountScreen {
     initDescription();
     initGroupOptions();
     initGroupType();
+
     initMemberList();
     initExternal();
   }
@@ -134,6 +136,7 @@ public class AccountGroupScreen extends AccountScreen {
     externalNameFilter.setEnabled(canModify);
     externalNameSearch.setEnabled(canModify);
     visibleToAllCheckBox.setEnabled(canModify);
+    emailOnlyAuthors.setEnabled(canModify);
   }
 
   private void initName() {
@@ -229,7 +232,16 @@ public class AccountGroupScreen extends AccountScreen {
     groupOptionsPanel.add(new SmallHeading(Util.C.headingGroupOptions()));
 
     visibleToAllCheckBox = new CheckBox(Util.C.isVisibleToAll());
+    visibleToAllCheckBox.setEnabled(false);
     groupOptionsPanel.add(visibleToAllCheckBox);
+
+    emailOnlyAuthors = new CheckBox(Util.C.emailOnlyAuthors());
+    emailOnlyAuthors.setEnabled(false);
+
+    final VerticalPanel vp = new VerticalPanel();
+    vp.add(new Label(Util.C.descriptionNotifications()));
+    vp.add(emailOnlyAuthors);
+    groupOptionsPanel.add(vp);
 
     saveGroupOptions = new Button(Util.C.buttonSaveGroupOptions());
     saveGroupOptions.setEnabled(false);
@@ -237,7 +249,8 @@ public class AccountGroupScreen extends AccountScreen {
       @Override
       public void onClick(final ClickEvent event) {
         final GroupOptions groupOptions =
-            new GroupOptions(visibleToAllCheckBox.getValue());
+            new GroupOptions(visibleToAllCheckBox.getValue(),
+              emailOnlyAuthors.getValue());
         Util.GROUP_SVC.changeGroupOptions(groupId, groupOptions,
             new GerritCallback<VoidResult>() {
               public void onSuccess(final VoidResult result) {
@@ -250,7 +263,9 @@ public class AccountGroupScreen extends AccountScreen {
 
     add(groupOptionsPanel);
 
-    new OnEditEnabler(saveGroupOptions, visibleToAllCheckBox);
+    final OnEditEnabler enabler = new OnEditEnabler(saveGroupOptions);
+    enabler.listenTo(visibleToAllCheckBox);
+    enabler.listenTo(emailOnlyAuthors);
   }
 
   private void initGroupType() {
@@ -486,6 +501,11 @@ public class AccountGroupScreen extends AccountScreen {
     }
     descTxt.setText(group.getDescription());
 
+    visibleToAllCheckBox.setValue(group.isVisibleToAll());
+    visibleToAllCheckBox.setEnabled(true);
+    emailOnlyAuthors.setValue(group.isEmailOnlyAuthors());
+    emailOnlyAuthors.setEnabled(true);
+
     switch (group.getType()) {
       case INTERNAL:
         accounts = result.accounts;
@@ -499,8 +519,6 @@ public class AccountGroupScreen extends AccountScreen {
     }
 
     setType(group.getType());
-
-    visibleToAllCheckBox.setValue(group.isVisibleToAll());
   }
 
   void doAddNew() {

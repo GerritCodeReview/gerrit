@@ -15,10 +15,14 @@
 package com.google.gerrit.httpd.rpc.project;
 
 
+import com.google.gerrit.common.CollectionsUtil;
+import com.google.gerrit.common.data.ProjectList;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.ProjectCreatorGroups;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmException;
@@ -28,8 +32,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
-class VisibleProjects extends Handler<List<Project>> {
+class VisibleProjects extends Handler<ProjectList> {
   interface Factory {
     VisibleProjects create();
   }
@@ -37,38 +42,53 @@ class VisibleProjects extends Handler<List<Project>> {
   private final ProjectControl.Factory projectControlFactory;
   private final CurrentUser user;
   private final ReviewDb db;
+  private final Set<AccountGroup.Id> projectCreatorGroups;
 
   @Inject
   VisibleProjects(final ProjectControl.Factory projectControlFactory,
-      final CurrentUser user, final ReviewDb db) {
+      final CurrentUser user, final ReviewDb db,
+      @ProjectCreatorGroups Set<AccountGroup.Id> projectCreatorGroups) {
     this.projectControlFactory = projectControlFactory;
     this.user = user;
     this.db = db;
+    this.projectCreatorGroups = projectCreatorGroups;
   }
 
   @Override
-  public List<Project> call() throws OrmException {
-    final List<Project> result;
+  public ProjectList call() throws OrmException {
+    final ProjectList result = new ProjectList();
+
+    List<Project> projects = getProjects();
+    result.setProjects(projects);
+
+    result.setCanCreateProject(CollectionsUtil.isAnyIncludedIn(user
+        .getEffectiveGroups(), projectCreatorGroups));
+
+    return result;
+  }
+
+  private List<Project> getProjects() throws OrmException {
+    final List<Project> projects;
     if (user.isAdministrator()) {
-      result = db.projects().all().toList();
+      projects = db.projects().all().toList();
     } else {
-      result = new ArrayList<Project>();
+      projects = new ArrayList<Project>();
       for (Project p : db.projects().all().toList()) {
         try {
           ProjectControl c = projectControlFactory.controlFor(p.getNameKey());
           if (c.isVisible() || c.isOwner()) {
-            result.add(p);
+            projects.add(p);
           }
         } catch (NoSuchProjectException e) {
           continue;
         }
       }
     }
-    Collections.sort(result, new Comparator<Project>() {
+    Collections.sort(projects, new Comparator<Project>() {
       public int compare(final Project a, final Project b) {
         return a.getName().compareTo(b.getName());
       }
     });
-    return result;
+    return projects;
   }
 }

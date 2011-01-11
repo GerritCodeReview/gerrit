@@ -14,57 +14,41 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.CollectionsUtil;
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.RefRight;
-import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.SubmitType;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.ProjectCreatorGroups;
-import com.google.gerrit.server.config.ProjectOwnerGroups;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ReplicationQueue;
-import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.CreateProjectArgs;
+import com.google.gerrit.server.project.CreateProjectParamsException;
+import com.google.gerrit.server.project.PerformCreateProject;
+import com.google.gerrit.server.project.PerformCreateProjectImpl;
+import com.google.gerrit.server.project.RetrieveParentCandidates;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
-import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-/** Create a new project. **/
+/** Create a new project. */
 final class CreateProject extends BaseCommand {
-  private static final Logger log = LoggerFactory.getLogger(CreateProject.class);
-
   @Option(name = "--name", required = true, aliases = {"-n"}, metaVar = "NAME", usage = "name of project to be created")
   private String projectName;
+
+  @Option(name = "--suggest-parent", aliases = {"-S"}, usage = "suggest parent candidates, "
+      + "it cannot be used with other arguments combination")
+  private boolean suggestParent;
 
   @Option(name = "--owner", aliases = {"-o"}, usage = "owner(s) of project")
   private List<AccountGroup.Id> ownerIds;
 
   @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "parent project")
-  private ProjectControl newParent;
+  private String newParent;
 
   @Option(name = "--permissions-only", usage = "create project for use only as parent")
   private boolean permissionsOnly;
@@ -96,30 +80,10 @@ final class CreateProject extends BaseCommand {
   private boolean createEmptyCommit;
 
   @Inject
-  private ReviewDb db;
+  private PerformCreateProjectImpl.Factory performCreateProject;
 
   @Inject
-  private GitRepositoryManager repoManager;
-
-  @Inject
-  @ProjectCreatorGroups
-  private Set<AccountGroup.Id> projectCreatorGroups;
-
-  @Inject
-  @ProjectOwnerGroups
-  private Set<AccountGroup.Id> projectOwnerGroups;
-
-  @Inject
-  private IdentifiedUser currentUser;
-
-  @Inject
-  private ReplicationQueue rq;
-
-  @Inject
-  @GerritPersonIdent
-  private PersonIdent serverIdent;
-
-  private Project.NameKey nameKey;
+  private RetrieveParentCandidates retrieveParentCandidates;
 
   @Override
   public void start(final Environment env) {
@@ -130,126 +94,57 @@ final class CreateProject extends BaseCommand {
 
         parseCommandLine();
 
-        try {
-          validateParameters();
-          nameKey = new Project.NameKey(projectName);
-
-          if (!permissionsOnly) {
-            final Repository repo = repoManager.createRepository(nameKey);
-            try {
-              repo.create(true);
-
-              RefUpdate u = repo.updateRef(Constants.HEAD);
-              u.disableRefLog();
-              u.link(branch);
-
-              repoManager.setProjectDescription(nameKey, projectDescription);
-
-              rq.replicateNewProject(nameKey, branch);
-
-              if (createEmptyCommit) {
-                createEmptyCommit(repo, nameKey, branch);
-              }
-            } finally {
-              repo.close();
-            }
+        if (!suggestParent) {
+          // hard-coding this, to not make "suggest-parent" option requiring
+          // "--name"
+          //
+          if (projectName == null) {
+            p.println("fatal: Option \"--name (-n)\" is required");
+            p.flush();
+            return;
           }
 
-          createProject();
-        } catch (Exception e) {
-          p.print("Error when trying to create project: " + e.getMessage()
-              + "\n");
+          try {
+            createProject();
+          } catch (Exception e) {
+            p.print("Error when trying to create project: " + e.getMessage()
+                + "\n");
+            p.flush();
+          }
+        } else {
+          List<Project.NameKey> parentCandidates =
+              retrieveParentCandidates.getParentCandidates();
+          for (Project.NameKey parent : parentCandidates) {
+            p.print(parent.get() + "\n");
+          }
           p.flush();
         }
-
       }
     });
   }
 
-  private void createEmptyCommit(final Repository repo,
-      final Project.NameKey project, final String ref) throws IOException {
-    ObjectInserter oi = repo.newObjectInserter();
+  private void createProject() throws RepositoryNotFoundException,
+      OrmException, IOException, Failure {
+    final CreateProjectArgs args = new CreateProjectArgs();
+    args.setProjectName(projectName);
+    args.setOwnerIds(ownerIds);
+    args.setNewParent(newParent);
+    args.setProjectDescription(projectDescription);
+    args.setSubmitType(submitType);
+    args.setContributorAgreements(contributorAgreements);
+    args.setSignedOffBy(signedOffBy);
+    args.setPermissionsOnly(permissionsOnly);
+    args.setBranch(branch);
+    args.setContentMerge(contentMerge);
+    args.setChangeIdRequired(requireChangeID);
+    args.setCreateEmptyCommit(createEmptyCommit);
+
+    final PerformCreateProject perfCreateProject =
+        performCreateProject.create(args);
     try {
-      CommitBuilder cb = new CommitBuilder();
-      cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
-      cb.setCommitter(serverIdent);
-      cb.setAuthor(cb.getCommitter());
-      cb.setMessage("Initial empty repository");
-
-      ObjectId id = oi.insert(cb);
-      oi.flush();
-
-      RefUpdate ru = repo.updateRef(Constants.HEAD);
-      ru.setNewObjectId(id);
-      final Result result = ru.update();
-      switch (result) {
-        case NEW:
-          rq.scheduleUpdate(project, ref);
-          break;
-        default: {
-          throw new IOException(result.name());
-        }
-      }
-    } catch (IOException e) {
-      log.error("Cannot create empty commit for " + projectName, e);
-      throw e;
-    } finally {
-      oi.release();
-    }
-  }
-
-  private void createProject() throws OrmException {
-    List<RefRight> access = new ArrayList<RefRight>();
-    for (AccountGroup.Id ownerId : ownerIds) {
-      final RefRight.Key prk =
-          new RefRight.Key(nameKey, new RefRight.RefPattern(
-              RefRight.ALL), ApprovalCategory.OWN, ownerId);
-      final RefRight pr = new RefRight(prk);
-      pr.setMaxValue((short) 1);
-      pr.setMinValue((short) 1);
-      access.add(pr);
-    }
-    db.refRights().insert(access);
-
-    final Project newProject = new Project(nameKey);
-    newProject.setDescription(projectDescription);
-    newProject.setSubmitType(submitType);
-    newProject.setUseContributorAgreements(contributorAgreements);
-    newProject.setUseSignedOffBy(signedOffBy);
-    newProject.setUseContentMerge(contentMerge);
-    newProject.setRequireChangeID(requireChangeID);
-    if (newParent != null) {
-      newProject.setParent(newParent.getProject().getNameKey());
-    }
-
-    db.projects().insert(Collections.singleton(newProject));
-  }
-
-  private void validateParameters() throws Failure {
-    if (projectName.endsWith(Constants.DOT_GIT_EXT)) {
-      projectName = projectName.substring(0, //
-          projectName.length() - Constants.DOT_GIT_EXT.length());
-    }
-
-    if (!CollectionsUtil.isAnyIncludedIn(currentUser.getEffectiveGroups(), projectCreatorGroups)) {
-      throw new Failure(1, "fatal: Not permitted to create " + projectName);
-    }
-
-    if (ownerIds != null && !ownerIds.isEmpty()) {
-      ownerIds =
-          new ArrayList<AccountGroup.Id>(new HashSet<AccountGroup.Id>(ownerIds));
-    } else {
-      ownerIds = new ArrayList<AccountGroup.Id>(projectOwnerGroups);
-    }
-
-    while (branch.startsWith("/")) {
-      branch = branch.substring(1);
-    }
-    if (!branch.startsWith(Constants.R_HEADS)) {
-      branch = Constants.R_HEADS + branch;
-    }
-    if (!Repository.isValidRefName(branch)) {
-      throw new Failure(1, "--branch \"" + branch + "\" is not a valid name");
+      perfCreateProject.createProject();
+    } catch (CreateProjectParamsException e) {
+      throw new Failure(1, e.getMessage());
     }
   }
 }

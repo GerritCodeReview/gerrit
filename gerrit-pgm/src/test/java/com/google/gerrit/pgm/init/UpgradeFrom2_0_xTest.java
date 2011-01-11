@@ -19,6 +19,10 @@ import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
@@ -27,6 +31,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -35,6 +40,8 @@ import java.io.Writer;
 
 
 public class UpgradeFrom2_0_xTest extends InitTestCase {
+
+  @Test
   public void testUpgrade() throws IOException, ConfigInvalidException {
     final File p = newSitePath();
     final SitePaths site = new SitePaths(p);

@@ -50,8 +50,11 @@
 
 package com.google.gerrit.server.tools.hooks;
 
+import static org.junit.Assert.fail;
+
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
+import org.junit.Before;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -61,7 +64,8 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
   protected Repository repository;
 
   @Override
-  protected void setUp() throws Exception {
+  @Before
+  public void setUp() throws Exception {
     super.setUp();
     repository = createWorkRepository();
   }

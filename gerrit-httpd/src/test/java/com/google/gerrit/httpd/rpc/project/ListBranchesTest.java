@@ -23,6 +23,11 @@ import static org.easymock.EasyMock.verify;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Ref.Storage.LOOSE;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.reviewdb.Branch;
@@ -42,6 +47,8 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,7 +71,8 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
   private List<RefControl> refMocks;
 
   @Override
-  protected void setUp() throws Exception {
+  @Before
+  public void setUp() throws Exception {
     super.setUp();
 
     idA = ObjectId.fromString("df84c2f4f7ce7e0b25cdeac84b8870bcff319885");
@@ -108,6 +116,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     }
   }
 
+  @Test
   public void testProjectNotVisible() throws Exception {
     final NoSuchProjectException err = new NoSuchProjectException(name);
     validate().andThrow(err);
@@ -170,6 +179,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     }
   }
 
+  @Test
   public void testEmptyProject() throws Exception {
     ListBranchesResult r = permitted(true);
 
@@ -189,6 +199,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     assertEquals("master", b.getRevision().get());
   }
 
+  @Test
   public void testMasterBranch() throws Exception {
     set("master", idA);
 
@@ -222,6 +233,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     assertEquals(idA.name(), b.getRevision().get());
   }
 
+  @Test
   public void testBranchNotHead() throws Exception {
     set("foo", idA);
 
@@ -255,6 +267,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     assertEquals(idA.name(), b.getRevision().get());
   }
 
+  @Test
   public void testSortByName() throws Exception {
     Map<String, Ref> u = new LinkedHashMap<String, Ref>();
     u.put("foo", new ObjectIdRef.Unpeeled(LOOSE, R_HEADS + "foo", idA));
@@ -283,6 +296,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     assertEquals("foo", r.getBranches().get(2).getShortName());
   }
 
+  @Test
   public void testHeadNotVisible() throws Exception {
     ObjectIdRef.Unpeeled bar =
         new ObjectIdRef.Unpeeled(LOOSE, R_HEADS + "bar", idA);
@@ -306,6 +320,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     assertTrue(r.getBranches().isEmpty());
   }
 
+  @Test
   public void testHeadVisibleButBranchHidden() throws Exception {
     ObjectIdRef.Unpeeled bar =
         new ObjectIdRef.Unpeeled(LOOSE, R_HEADS + "bar", idA);

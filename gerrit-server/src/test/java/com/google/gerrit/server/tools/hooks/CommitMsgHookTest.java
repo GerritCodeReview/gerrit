@@ -14,9 +14,13 @@
 
 package com.google.gerrit.server.tools.hooks;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
+
 import com.google.gerrit.server.util.HostPlatform;
 
-import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -26,6 +30,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestName;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,23 +44,19 @@ public class CommitMsgHookTest extends HookTestCase {
   private final String SOB1 = "Signed-off-by: J Author <ja@example.com>\n";
   private final String SOB2 = "Signed-off-by: J Committer <jc@example.com>\n";
 
-  @Override
-  public void runBare() throws Throwable {
-    try {
-      super.runBare();
-    } catch (SkipTestOnThisPlatform e) {
-      System.err.println(" - Skipping " + getName() + " on this system");
-    }
-  }
+  @Rule public TestName test = new TestName();
 
-  private static class SkipTestOnThisPlatform extends RuntimeException {
-  }
-
-  @Override
-  protected void setUp() throws Exception {
+  private void skipIfWin32Platform() {
     if (HostPlatform.isWin32()) {
-      throw new SkipTestOnThisPlatform();
+      System.err.println(" - Skipping " + test.getMethodName() + " on this system");
+      assumeTrue(false);
     }
+  }
+
+  @Override
+  @Before
+  public void setUp() throws Exception {
+    skipIfWin32Platform();
 
     super.setUp();
     final Date when = author.getWhen();
@@ -65,6 +69,7 @@ public class CommitMsgHookTest extends HookTestCase {
     committer = new PersonIdent(committer, when, tz);
   }
 
+  @Test
   public void testEmptyMessages() throws Exception {
     // Empty input must yield empty output so commit will abort.
     // Note we must consider different commit templates formats.
@@ -85,6 +90,7 @@ public class CommitMsgHookTest extends HookTestCase {
         + "new file mode 100644\nindex 0000000..c78b7f0\n");
   }
 
+  @Test
   public void testChangeIdAlreadySet() throws Exception {
     // If a Change-Id is already present in the footer, the hook must
     // not modify the message but instead must leave the identity alone.
@@ -106,6 +112,7 @@ public class CommitMsgHookTest extends HookTestCase {
         "Change-Id: I4f4e2e1e8568ddc1509baecb8c1270a1fb4b6da7\n");
   }
 
+  @Test
   public void testTimeAltersId() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
@@ -125,6 +132,7 @@ public class CommitMsgHookTest extends HookTestCase {
         call("a\n"));
   }
 
+  @Test
   public void testFirstParentAltersId() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
@@ -138,6 +146,7 @@ public class CommitMsgHookTest extends HookTestCase {
         call("a\n"));
   }
 
+  @Test
   public void testDirCacheAltersId() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
@@ -154,6 +163,7 @@ public class CommitMsgHookTest extends HookTestCase {
         call("a\n"));
   }
 
+  @Test
   public void testSingleLineMessages() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
@@ -179,6 +189,7 @@ public class CommitMsgHookTest extends HookTestCase {
         call("Fix-A-Widget: this thing\n"));
   }
 
+  @Test
   public void testMultiLineMessagesWithoutFooter() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
@@ -204,6 +215,7 @@ public class CommitMsgHookTest extends HookTestCase {
         call("a\n" + "\n" + "b\nc\nd\ne\n" + "\n" + "f\ng\nh\n"));
   }
 
+  @Test
   public void testSingleLineMessagesWithSignedOffBy() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
@@ -219,6 +231,7 @@ public class CommitMsgHookTest extends HookTestCase {
         call("a\n" + "\n" + SOB1 + SOB2));
   }
 
+  @Test
   public void testMultiLineMessagesWithSignedOffBy() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
@@ -267,6 +280,7 @@ public class CommitMsgHookTest extends HookTestCase {
             SOB2));
   }
 
+  @Test
   public void testNoteInMiddle() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
@@ -280,6 +294,7 @@ public class CommitMsgHookTest extends HookTestCase {
             "does not fix it.\n"));
   }
 
+  @Test
   public void testKernelStyleFooter() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
@@ -296,6 +311,7 @@ public class CommitMsgHookTest extends HookTestCase {
             SOB2));
   }
 
+  @Test
   public void testChangeIdAfterBugOrIssue() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
@@ -318,6 +334,7 @@ public class CommitMsgHookTest extends HookTestCase {
             SOB1));
   }
 
+  @Test
   public void testCommitDashV() throws Exception {
     assertEquals("a\n" + //
         "\n" + //
@@ -335,6 +352,7 @@ public class CommitMsgHookTest extends HookTestCase {
             "index 0000000..c78b7f0\n"));
   }
 
+  @Test
   public void testWithEndingURL() throws Exception {
     assertEquals("a\n" + //
         "\n" + //

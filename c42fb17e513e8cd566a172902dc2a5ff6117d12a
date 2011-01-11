@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//9eI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll try to copy some or all of that text into the commit message and updated it accordingly.",
+      "parentUuid": "AAAA+3//9gQ\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9eg\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,23 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//9Zw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "These footers are put in whenever a new subtree commit is merged into the super project.  This is done for a couple of reasons:\n\n- By explicitly identifying if a commit parent is a subtree or mainline commit we can avoid making new Gerrit changes for subtree commits.\n- The subtree split logic needs to associate subtrees in super project commits with the subtree commits they originated from.  For instance, consider the case that the Tree pointed to by the subtree commit doesn\u0027t match the Tree pointed to be the subtree dir in the superproject commit.  In this case, a new commit needs to be made for the subtree lineage to capture the change to the subtree.  The super project commit is then \"rewritten\" to pull in the new subtree commit.\n\nIt may be possible to be the subtree commit information directly in the .gitsubtree file so the commit message is cleaner.  However, the advantage of putting this information in the commit message is that I don\u0027t have to worry about conflicts when merging two super project commits.  A custom merge driver may help here.\n\nOne disadvantage of the footers is that right now only *changes* to subtree\u0027s are listed in the footers.  This is to keep the client side tools simple and so we don\u0027t have to have 100+ footers on every commit on large projects.  Because of this, we have to walk the entire history of a super-project commit to determine the subtree commits that each subtree came from.\n\nHope that makes sense.. this is certainly where some of the \"voodoo\" lives.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9gM\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -47,6 +82,24 @@
       "writtenOn": "2011-01-10T16:07:07Z",
       "side": 1,
       "message": "In general, if something belongs in JGit, it should go there first, before being added to Gerrit.  I\u0027ve made some mistakes by not putting code in JGit right away and I\u0027m trying to fix that.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9eM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll see about moving the SplitCommand stuff into JGit then.  It was easier to get started with modifying only Gerrit.",
+      "parentUuid": "AAAA+3//9gM\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//9eE\u003d",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "Exactly.  None of the new subtree logic is actually doing any merging at all - it always uses existing tree objects.\n\nThe real voodoo is determining whether or not a new subtree commit needs to be created and then setting the parents correctly.  There is also some voodoo in determining what the parents of I\u0027 should be.  For example, H should not be a parent on I\u0027 anymore because it is already reachable from J.",
+      "parentUuid": "AAAA+3//9ek\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9gI\u003d",
         "filename": "contrib/git-subtree.sh",
         "patchSetId": 1
@@ -116,6 +187,24 @@
       "writtenOn": "2011-01-10T16:07:07Z",
       "side": 1,
       "message": "Please include an AOSP copyright header after the #!/bin/bash line above.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9MA\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "AAAA+3//9gI\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -139,6 +228,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//9Lg\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll try that.",
+      "parentUuid": "AAAA+3//9f0\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9f8\u003d",
         "filename": "contrib/git-subtree.sh",
         "patchSetId": 1
@@ -150,6 +257,24 @@
       "writtenOn": "2011-01-10T16:07:07Z",
       "side": 1,
       "message": "Why can\u0027t this be git rev-parse --show-cdup?  As in:\n\n  up\u003d`git rev-parse --show-cdup`\n  [ -n \"$up\" ] \u0026\u0026 cd \"$up\"\n\nIf you need to return, you can do:\n\n  up\u003d`git rev-parse --show-cdup`\n  cw\u003d`git rev-parse --show-prefix`\n  [ -n \"$up\" ] \u0026\u0026 cd \"$up\"\n  $(git --exec-path)/git-sh-setup\n  [ -n \"$cw\" ] \u0026\u0026 cd \"$cw\"\n\nBut shouldn\u0027t git-sh-setup work without all of that cd\u0027ing?\n\n  . $(git --exec-path)/git-sh-setup\n\nShould be sufficient on its own.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9MI\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "I see this error when just running git-sh-setup without cd\u0027ing:\n\n  You need to run this command from the toplevel of the working tree.\n\nI didn\u0027t know about those options on rev-parse (or much about it in general).  That looks much better, I\u0027ll update the script.",
+      "parentUuid": "AAAA+3//9f8\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -190,6 +315,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//9L8\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "I\u0027ll try that.",
+      "parentUuid": "AAAA+3//9fs\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9fo\u003d",
         "filename": "contrib/git-subtree.sh",
         "patchSetId": 1
@@ -201,6 +344,24 @@
       "writtenOn": "2011-01-10T16:07:07Z",
       "side": 1,
       "message": "Instead of TOP_DIR, use --show-cdup:\n\n  TOP_DIR\u003d$(git rev-parse --show-cdup)\n\nAnd then here you can say:\n\n  git config --file ${TOP_DIR}.gitsubtree",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9ME\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "AAAA+3//9fo\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -224,6 +385,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//9L4\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "I\u0027ll try that.",
+      "parentUuid": "AAAA+3//9fg\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9fc\u003d",
         "filename": "contrib/git-subtree.sh",
         "patchSetId": 1
@@ -235,6 +414,24 @@
       "writtenOn": "2011-01-10T16:07:07Z",
       "side": 1,
       "message": "Use git rev-parse --show-prefix instead.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9Lk\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "AAAA+3//9fc\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -258,6 +455,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//9L0\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "Yes, I\u0027ll remove (or wrap in a debug if)",
+      "parentUuid": "AAAA+3//9fM\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9fI\u003d",
         "filename": "contrib/git-subtree.sh",
         "patchSetId": 1
@@ -269,6 +484,24 @@
       "writtenOn": "2011-01-10T16:07:07Z",
       "side": 1,
       "message": "Why does merge amend the prior commit?",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9Lo\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "To set the commit message.  It shouldn\u0027t be ammending, however, it should just set the commit message directly when calling git merge.",
+      "parentUuid": "AAAA+3//9fI\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -326,6 +559,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//9Ls\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "The purpose is to list all subtree SHA-1\u0027s, not just the latest one.  Because a subtree\u0027s path can technically change, the subtree\u0027s name would need to be used as it shouldn\u0027t change.  However, using the current .gitsubtree config is still problematic because subtrees may be removed during the history of the project and those should still be filtered out.",
+      "parentUuid": "AAAA+3//9fE\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9fQ\u003d",
         "filename": "contrib/git-subtree.sh",
         "patchSetId": 1
@@ -337,6 +588,24 @@
       "writtenOn": "2011-01-10T16:07:07Z",
       "side": 1,
       "message": "Why pushd/popd?  Why can\u0027t you just cd_to_toplevel?",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9Lw\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "AAAA+3//9fQ\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -360,6 +629,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//9eU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SplitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "AAAA+3//9fA\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9e4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SplitCommand.java",
         "patchSetId": 1
@@ -377,6 +664,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//9eY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SplitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "If I remember correctly, I was running into an issue with the body not being parsed.  It seems that this could occur when the RevWalk is being reused after a reset.\n\nI\u0027ll see how this could be fixed in JGit.",
+      "parentUuid": "AAAA+3//9e4\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9es\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SplitCommand.java",
         "patchSetId": 1
@@ -388,6 +693,24 @@
       "writtenOn": "2011-01-10T16:07:07Z",
       "side": 1,
       "message": "forPath() doesn\u0027t work for tree objects because it sets recursive true, which causes TreeWalk to avoid tree entries altogether.\n\nThis should be a new utility method on TreeWalk... and it should do it without needing to use StringTokenizer to break up the path components.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//9eQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SplitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-11T17:51:18Z",
+      "side": 1,
+      "message": "I\u0027ll add it to TreeWalk.\n\nRegarding StringTokenizer, would String.split() be an acceptable alternative?  Or is the concern with the GC overhead of making separate String objects for each of the path components.  In which case I should perhaps look at using AbstractTreeIterator.path directory and doing comparisons manually?",
+      "parentUuid": "AAAA+3//9es\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

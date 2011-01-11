@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//9NI\u003d",
+        "filename": "Documentation/error-not-valid-ref.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1005390
+      },
+      "writtenOn": "2011-01-11T14:13:55Z",
+      "side": 1,
+      "message": "With this error message Gerrit rejects to push a commit if the target\n5\tref in the push specification has an incorrect format (for example: \n7\t\u0027/refs/for/master\u0027, \u0027refs/for//master\u0027).",
+      "revId": "4b8b0b111fda870e24ed24d9c31f5228ba47ee0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

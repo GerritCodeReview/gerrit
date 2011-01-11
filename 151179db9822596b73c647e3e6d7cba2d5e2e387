@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//9Oo\u003d",
+        "filename": "Documentation/error-upload-denied.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2011-01-11T12:35:46Z",
+      "side": 1,
+      "message": "this would not work for eclipse.org as they require that patches must be contributed through Bugzilla, hence don\u0027t specify how to transmit the patch file:\n\n... and provide the patch file to one of the project owners",
+      "revId": "151179db9822596b73c647e3e6d7cba2d5e2e387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

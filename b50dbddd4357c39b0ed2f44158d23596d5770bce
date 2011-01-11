@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//9OU\u003d",
+        "filename": "Documentation/error-not-a-gerrit-project.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-11T12:59:23Z",
+      "side": 1,
+      "message": "I would rather say \"git repository\" instead of \"project\" because \"git push\" doesn\u0027t have notion of a \"project\".\n \nAlternatively, we should explain that project name corresponds 1:1 to the git repository path and that by \"pushing to a project\" you are pushing to the corresponding Git repo.",
+      "revId": "b50dbddd4357c39b0ed2f44158d23596d5770bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

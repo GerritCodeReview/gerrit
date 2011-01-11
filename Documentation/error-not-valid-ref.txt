@@ -1,0 +1,33 @@
+not valid ref
+=============
+
+With this error message Gerrit rejects to push a commit if the target
+ref in the push specification is invalid.
+
+If it was the intention to push a commit for code review the target
+ref in the push specification must be the project's magical ref
+`refs/for/'branch'` (where 'branch' must be replaced with the name
+of the branch to which you want to push your commit). Further details
+about how to push a commit for code review are explained at
+link:user-upload.html#push_create[Create Changes]).
+
+Example for pushing a commit for code review to the 'master' branch:
+----
+$ git push ssh://JohnDoe@host:29418/myProject HEAD:refs/for/master
+----
+
+If it was the intention to bypass code review and to push directly to
+a branch the target ref in the push specification must be the name of
+the branch to which you want to push. Further details about how to
+bypass code review are explained at link:user-upload.html#bypass_review[Bypass Review].
+
+Example for pushing a commit directly to the 'master' branch (without
+code review):
+----
+$ git push ssh://JohnDoe@host:29418/myProject HEAD:master
+----
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

@@ -1,0 +1,61 @@
+Permission denied (publickey)
+=============================
+
+With this error message a SSH command to Gerrit is rejected if the
+SSH authentication is not successful.
+
+The link:http://en.wikipedia.org/wiki/Secure_Shell[SSH] protocol is using link:http://en.wikipedia.org/wiki/Public-key_cryptography[Public-key Cryptography] for authentication.
+This means for a successful SSH authentication you need your private
+SSH key and the corresponding public SSH key must be known to Gerrit.
+
+If you are facing this problem, do the following:
+1. Verify that you are using the correct username for the SSH command
+   and that it is typed correctly (case sensitive). You can lookup
+   your username in the Gerrit WebUI under 'Settings' -> 'Profile'.
+2. Verify that you have uploaded your public SSH key for your Gerrit
+   account. To do this go in the Gerrit WebUI to 'Settings' ->
+   'SSH Public Keys' and check that your public SSH key is there. If
+   your public SSH key is not there you have to upload it.
+3. Verify that you are using the correct private SSH key. To find out
+   which private SSH key is used test the SSH authentication as
+   described below. From the trace you should see which private SSH
+   key is used.
+
+
+Test SSH authentication
+-----------------------
+
+To test the SSH authentication you can run the following SSH command.
+This command will print out a detailed trace which is helpful to
+analyze problems with the SSH authentication:
+
+----
+  $ ssh -vv -p 29418 john.doe@git.example.com
+----
+
+If the SSH authentication is successful you should find the following
+lines in the output:
+
+----
+  ...
+
+  debug1: Authentication succeeded (publickey).
+
+  ...
+
+  ****    Welcome to Gerrit Code Review    ****
+
+  Hi John Doe, you have successfully connected over SSH.
+
+  Unfortunately, interactive shells are disabled.
+  To clone a hosted Git repository, use:
+
+  git clone ssh://john.doe@git.example.com:29418/REPOSITORY_NAME.git
+
+  ...
+----
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

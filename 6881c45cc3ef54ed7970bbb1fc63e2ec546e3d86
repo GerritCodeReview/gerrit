@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAA+3//9Oc\u003d",
+        "filename": "Documentation/error-not-valid-ref.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-11T12:50:47Z",
+      "side": 1,
+      "message": "You should explain what \"invalid\" means so that users can differentiate between an invalid and a non-existing target ref.",
+      "revId": "6881c45cc3ef54ed7970bbb1fc63e2ec546e3d86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9O4\u003d",
         "filename": "Documentation/error-not-valid-ref.txt",
         "patchSetId": 1

@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.WildProjectName;
@@ -36,6 +37,7 @@ import javax.annotation.Nullable;
 class EmailArguments {
   final GitRepositoryManager server;
   final ProjectCache projectCache;
+  final GroupCache groupCache;
   final AccountCache accountCache;
   final PatchListCache patchListCache;
   final FromAddressGenerator fromAddressGenerator;
@@ -52,9 +54,9 @@ class EmailArguments {
 
   @Inject
   EmailArguments(GitRepositoryManager server, ProjectCache projectCache,
-      AccountCache accountCache, PatchListCache patchListCache,
-      FromAddressGenerator fromAddressGenerator, EmailSender emailSender,
-      PatchSetInfoFactory patchSetInfoFactory,
+      GroupCache groupCache, AccountCache accountCache,
+      PatchListCache patchListCache, FromAddressGenerator fromAddressGenerator,
+      EmailSender emailSender, PatchSetInfoFactory patchSetInfoFactory,
       GenericFactory identifiedUserFactory,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       @WildProjectName Project.NameKey wildProject,
@@ -63,6 +65,7 @@ class EmailArguments {
       SitePaths site) {
     this.server = server;
     this.projectCache = projectCache;
+    this.groupCache = groupCache;
     this.accountCache = accountCache;
     this.patchListCache = patchListCache;
     this.fromAddressGenerator = fromAddressGenerator;

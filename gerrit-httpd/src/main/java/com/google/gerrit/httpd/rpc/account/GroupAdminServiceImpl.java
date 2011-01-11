@@ -181,6 +181,21 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     });
   }
 
+  public void changeGroupEmailOnlyAuthors(final AccountGroup.Id groupId,
+      final boolean emailOnlyAuthors,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+        final AccountGroup group = db.accountGroups().get(groupId);
+        assertAmGroupOwner(db, group);
+        group.setEmailOnlyAuthors(emailOnlyAuthors);
+        db.accountGroups().update(Collections.singleton(group));
+        groupCache.evict(group);
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
   public void changeExternalGroup(final AccountGroup.Id groupId,
       final AccountGroup.ExternalNameKey bindTo,
       final AsyncCallback<VoidResult> callback) {

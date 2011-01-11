@@ -168,6 +168,11 @@ public final class AccountGroup {
   @Column(id = 6, notNull = false)
   protected ExternalNameKey externalName;
 
+  /** Comment and action email notifications by users in this group are only
+   *  sent to change authors. */
+  @Column(id = 7, notNull = false)
+  protected boolean emailOnlyAuthors;
+
   protected AccountGroup() {
   }
 
@@ -225,5 +230,13 @@ public final class AccountGroup {
 
   public void setExternalNameKey(final ExternalNameKey k) {
     externalName = k;
+  }
+
+  public boolean isEmailOnlyAuthors() {
+    return emailOnlyAuthors;
+  }
+
+  public void setEmailOnlyAuthors(boolean emailOnlyAuthors) {
+    this.emailOnlyAuthors = emailOnlyAuthors;
   }
 }

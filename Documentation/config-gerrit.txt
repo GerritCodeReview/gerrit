@@ -1672,6 +1672,24 @@ of them.
 +
 By default, *:29418.
 
+[[sshd.advertisedAddress]]sshd.advertisedAddress::
++
+Specifies the addresses clients should be told to connect to.
+This may differ from sshd.listenAddress if a firewall based port
+redirector is being used, making Gerrit appear to answer on port
+22. The following forms may be used to specify an address.  In any
+form, `:'port'` may be omitted to use the default SSH port of 22.
++
+* 'hostname':'port' (for example `review.example.com:22`)
+* 'IPv4':'port' (for example `10.0.0.1:29418`)
+* ['IPv6']:'port' (for example `[ff02::1]:29418`)
+
++
+If multiple values are supplied, the daemon will advertise all
+of them.
++
+By default, sshd.listenAddress.
+
 [[sshd.reuseAddress]]sshd.reuseAddress::
 +
 If true, permits the daemon to bind to the port even if the port

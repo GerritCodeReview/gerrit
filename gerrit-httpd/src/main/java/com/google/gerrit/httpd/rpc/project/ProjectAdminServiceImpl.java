@@ -14,7 +14,9 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ListBranchesResult;
+import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.Branch;
@@ -22,29 +24,37 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.ObjectId;
+
 import java.util.List;
 import java.util.Set;
 
 class ProjectAdminServiceImpl implements ProjectAdminService {
   private final AddBranch.Factory addBranchFactory;
+  private final ChangeProjectAccess.Factory changeProjectAccessFactory;
   private final ChangeProjectSettings.Factory changeProjectSettingsFactory;
   private final DeleteBranches.Factory deleteBranchesFactory;
   private final ListBranches.Factory listBranchesFactory;
   private final VisibleProjects.Factory visibleProjectsFactory;
+  private final ProjectAccessFactory.Factory projectAccessFactory;
   private final ProjectDetailFactory.Factory projectDetailFactory;
 
   @Inject
   ProjectAdminServiceImpl(final AddBranch.Factory addBranchFactory,
+      final ChangeProjectAccess.Factory changeProjectAccessFactory,
       final ChangeProjectSettings.Factory changeProjectSettingsFactory,
       final DeleteBranches.Factory deleteBranchesFactory,
       final ListBranches.Factory listBranchesFactory,
       final VisibleProjects.Factory visibleProjectsFactory,
+      final ProjectAccessFactory.Factory projectAccessFactory,
       final ProjectDetailFactory.Factory projectDetailFactory) {
     this.addBranchFactory = addBranchFactory;
+    this.changeProjectAccessFactory = changeProjectAccessFactory;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
     this.deleteBranchesFactory = deleteBranchesFactory;
     this.listBranchesFactory = listBranchesFactory;
     this.visibleProjectsFactory = visibleProjectsFactory;
+    this.projectAccessFactory = projectAccessFactory;
     this.projectDetailFactory = projectDetailFactory;
   }
 
@@ -60,9 +70,23 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   }
 
   @Override
+  public void projectAccess(final Project.NameKey projectName,
+      final AsyncCallback<ProjectAccess> callback) {
+    projectAccessFactory.create(projectName).to(callback);
+  }
+
+  @Override
   public void changeProjectSettings(final Project update,
       final AsyncCallback<ProjectDetail> callback) {
     changeProjectSettingsFactory.create(update).to(callback);
+  }
+
+  @Override
+  public void changeProjectAccess(Project.NameKey projectName,
+      String baseRevision, String msg, List<AccessSection> sections,
+      AsyncCallback<ProjectAccess> cb) {
+    ObjectId base = ObjectId.fromString(baseRevision);
+    changeProjectAccessFactory.create(projectName, base, sections, msg).to(cb);
   }
 
   @Override

@@ -16,6 +16,24 @@
       "revId": "1c69d0afca7e73270b14ded01a948650f1f213d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8/o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AgreementInfoFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-12T15:00:18Z",
+      "side": 1,
+      "message": "The cache is self-populating, so if an entry isn\u0027t present the cache goes off and looks for it in the backend data store.  If no group has this UUID, the cache returns null, indicating the group has been removed.\n\nA group may have been deleted by the system administrator after this user session got started, in which case the group\u0027s UUID is still in the user\u0027s EffectiveGroup set, but we can\u0027t find information about it.  Because its deleted, there cannot be an agreement associated with it.",
+      "parentUuid": "AAAA+3//9Bc\u003d",
+      "revId": "1c69d0afca7e73270b14ded01a948650f1f213d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

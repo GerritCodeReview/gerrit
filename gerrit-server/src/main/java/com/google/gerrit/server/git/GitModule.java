@@ -20,6 +20,7 @@ import com.google.gerrit.server.config.FactoryModule;
 public class GitModule extends FactoryModule {
   @Override
   protected void configure() {
+    factory(RenameGroupOp.Factory.class);
     factory(MetaDataUpdate.InternalFactory.class);
     bind(MetaDataUpdate.Server.class);
   }

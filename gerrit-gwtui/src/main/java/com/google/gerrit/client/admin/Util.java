@@ -32,6 +32,8 @@ public class Util {
 
     PROJECT_SVC = GWT.create(ProjectAdminService.class);
     JsonUtil.bind(PROJECT_SVC, "rpc/ProjectAdminService");
+
+    AdminResources.I.css().ensureInjected();
   }
 
   public static String toLongString(final Project.SubmitType type) {

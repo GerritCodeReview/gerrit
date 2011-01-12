@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//8+0\u003d",
+        "filename": "Documentation/error-not-a-gerrit-project.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-12T15:16:05Z",
+      "side": 1,
+      "message": "This is only half true.\n\nThe other reason is, the project exists but you don\u0027t have READ +1 access to it.  Here the server lies and tells you it doesn\u0027t exist, even it does, you just aren\u0027t permitted to read it.  This prevents users from probing a server to see if a particular repository name exists in order to guess if a particular chipset might be getting developed, etc.",
+      "revId": "e79d1dcfaf59b987e5f439d65889ba930a44bdc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8+s\u003d",
+        "filename": "Documentation/error-not-a-gerrit-project.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-12T15:16:05Z",
+      "side": 1,
+      "message": "Users might also need to contact their server administrator or project administrator to gain access if they are certain the name is right, but they can\u0027t see the project.",
+      "revId": "e79d1dcfaf59b987e5f439d65889ba930a44bdc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8+o\u003d",
+        "filename": "Documentation/error-not-a-gerrit-project.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-12T15:16:05Z",
+      "side": 1,
+      "message": "I\u0027m not sure how this is relevant.",
+      "revId": "e79d1dcfaf59b987e5f439d65889ba930a44bdc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

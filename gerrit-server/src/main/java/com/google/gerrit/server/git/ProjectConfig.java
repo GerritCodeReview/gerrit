@@ -111,6 +111,16 @@ public class ProjectConfig extends VersionedMetaData {
     return group;
   }
 
+  /** @return the group reference, if the group is used by at least one rule. */
+  public GroupReference getGroup(AccountGroup.UUID uuid) {
+    return groupsByUUID.get(uuid);
+  }
+
+  /** @return true if this group is mentioned in an access rule. */
+  public boolean hasGroup(AccountGroup.UUID uuid) {
+    return groupsByUUID.containsKey(uuid);
+  }
+
   /**
    * Check all GroupReferences use current group name, repairing stale ones.
    *

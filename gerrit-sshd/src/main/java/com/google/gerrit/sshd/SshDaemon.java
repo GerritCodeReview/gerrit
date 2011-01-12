@@ -120,6 +120,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private static final Logger log = LoggerFactory.getLogger(SshDaemon.class);
 
   private final List<SocketAddress> listen;
+  private final List<String> advertisedAddrs;
   private final boolean keepAlive;
   private final List<HostKey> hostKeys;
   private volatile IoAcceptor acceptor;
@@ -132,6 +133,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     setPort(IANA_SSH_PORT /* never used */);
 
     listen = parseListen(cfg);
+    advertisedAddrs = parseAdvertisedAddrs(cfg);
     reuseAddress = cfg.getBoolean("sshd", "reuseaddress", true);
     keepAlive = cfg.getBoolean("sshd", "tcpkeepalive", true);
 
@@ -262,15 +264,28 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       buf.putRawPublicKey(pub);
       final byte[] keyBin = buf.getCompactData();
 
-      for (final InetSocketAddress addr : myAddresses()) {
+      for (final String addr : myAdvertisedAddresses()) {
         try {
-          r.add(new HostKey(SocketUtil.format(addr, IANA_SSH_PORT), keyBin));
+          r.add(new HostKey(addr, keyBin));
         } catch (JSchException e) {
           log.warn("Cannot format SSHD host key", e);
         }
       }
     }
     return Collections.unmodifiableList(r);
+  }
+
+  private List<String> myAdvertisedAddresses() {
+    if (advertisedAddrs != null)
+      return advertisedAddrs;
+    else {
+      List<InetSocketAddress> addrs = myAddresses();
+      List<String> str_addrs = new ArrayList<String>(addrs.size());
+      for (final InetSocketAddress addr : addrs) {
+        str_addrs.add(SocketUtil.format(addr, IANA_SSH_PORT));
+      }
+      return str_addrs;
+    }
   }
 
   private List<InetSocketAddress> myAddresses() {
@@ -315,6 +330,13 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       }
     }
     return r.toString();
+  }
+
+  private List<String> parseAdvertisedAddrs(final Config cfg) {
+    final String[] want = cfg.getStringList("sshd", null, "advertisedaddress");
+    if (want.length == 0)
+      return null;
+    return Arrays.asList(want);
   }
 
   private List<SocketAddress> parseListen(final Config cfg) {

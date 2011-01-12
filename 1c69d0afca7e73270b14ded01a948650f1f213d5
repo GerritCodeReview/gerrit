@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//9Bc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AgreementInfoFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-12T12:20:33Z",
+      "side": 1,
+      "message": "Skipping groups that are not in cache?\nThis wasn\u0027t done in the previous revision. May it result in a different groupAccepted list?\nThis pattern occurs in several other classes that are part of this change.",
+      "revId": "1c69d0afca7e73270b14ded01a948650f1f213d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,429 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//8u8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "This should be the longer Change-Id, i.e.:\n\n  Change-Id: I1745af1cb850829d9d3076cf41fba7845cdc0a63\n\nAnd only if the Change-Id isn\u0027t already in the footer of the commit message.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8u4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "We should put a - between Code and Review here.  So:\n\n  Code-Review+2: John Doe \u003cjohn.doe@example.com\u003e\n\nThe git-store branch is already starting to use this convention, label-Code-Review is the name of the permission that allows John Doe to use the code review approval category.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8uw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "This date format should be the full RFC 2822 date format, including day-of-week in the given time zone:\n\n  Sat, 8 Jan 2011 23:49:15 -0800\n\nIts at least a recognized Internet standard format used for data interchange between machines, and is also mostly human readable.  If we have to pick a format that is both machine and human readable, I\u0027d prefer RFC 2822 because its already so widely used in email and HTTP.\n\nOther formats like the above one aren\u0027t very ambiguous, but are also a lot less common.  ISO 8601 format is also pretty recognizable and standard, but is less common on the Internet for date exchanges.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8uQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "Missing Android Open Source copyright header.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8tY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "Most of what you need you can take by Guice injection:\n\n  static Factory {\n    CreateCodeReviewNotes create(Repository db);\n  }\n\n  @Inject\n  CreateCodeReviewNotes(ReviewDb reviewDb,\n    @GerritPersonIdent PersonIdent gerritIdent,\n    AccountCache accountCache,\n    ApprovalTypes approvalTypes,\n\n    @Assisted Repository db)\n\nThen look for where type MergeOp.Factory is used, and at each place also add a:\n\n  factory(CreateCodeReviewNotes.Factory.class);\n\nDeclaration to tell Guice about this type.  And in MergeOp, add CreateCodeReviewNotes.Factory to its constructor and use the factory\u0027s create() method to construct the instance it uses.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8uA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "Release your inserter and RevWalk when done:\n\n  } finally {\n    inserter.release();\n    revWalk.release();\n  }",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8t4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "This could be a big oneline summary.  Maybe instead we do:\n\n  StringBuilder message \u003d new StringBuilder();\n  message.append(\"Update notes for submitted changes\\n\\n\");\n\n  for (CodeReviewCommit c : commits) {\n    ...\n    message.append(\"* \").append(c.getShortMessage()).append(\"\\n\");\n  }",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8t8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "Instead of failing hard here, lets just log this as an error in the server\u0027s log and continue with the next commit.\n\nOr maybe just append to the existing note.  Its simple enough to do.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8t0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "You don\u0027t need to flush here.  Defer your flush until the flush that occurs inside of createCommit().",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8tw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "You don\u0027t need to lookup the blob.  Just pass the id to ours.set().  It takes an ObjectId.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8tU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "The TimeZone should be author.getTimeZone().",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8ts\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "Take the ApprovalTypes object in your constructor and use that here instead of doing a database query to look up the ApprovalCategory.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8to\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "Take the AccountCache in your constructor and use that to get the Account information, instead of doing a database query.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8tk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "You only need the project name.  That\u0027s available from commit.change.getProject().  So you don\u0027t need to query the projects table to get it.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8tg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "Same as above, use the AccountCache to get the user data.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8tc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "Don\u0027t wrap this in RuntimeException, just declare it as something you throw from here.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8uI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "Why not reuse the ObjectInserter that you already have as a field?",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8uE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "You need to flush before you parse:\n\n  ObjectId commitId \u003d inserter.insert(b);\n  inserter.flush();\n  return revWalk.parseCommit(commitId);",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8us\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "Missing Android Open Source copyright header.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8uo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "Drop this constructor and always use the one that supplies the author time zone.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8uk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "Missing day-of-week at the start of the format pattern.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8ug\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "This should be Change.Key so you can get the longer (and globally unique) form of the change identifier.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8uY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "Replace spaces with \u0027-\u0027:\n\n  sb.append(category.getName().replace(\u0027 \u0027, \u0027-\u0027));\n\nBut maybe I just need to finish my git-store branch and get your work rebased on top.  I\u0027ve added a getLabel() method to ApprovalCategory which supplies you that replacement, making your code just:\n\n  sb.append(category.getLabel());",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8uc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "This is going to include a double negative when value is less than zero, because append(value) will also insert the negative.  Instead maybe use:\n\n  sb.append(value \u003c 0 ? \"-\" : \"+\").append(Math.abs(value)).append(\": \");",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8uU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-13T20:34:50Z",
+      "side": 1,
+      "message": "The full name and preferred email are optional for a user.  This really complicates how to format the user:\n\n  boolean needSpace \u003d false;\n  boolean wroteData \u003d false;\n\n  if (user.getFullName() !\u003d null \u0026\u0026 !user.getFullName().isEmpty()) {\n    sb.append(user.getFullName());\n    needSpace \u003d true;\n    wroteData \u003d true;\n  }\n\n  if (user.getPreferredEmail() !\u003d null \u0026\u0026 !user.getPreferredEmail().isEmpty()) {\n    if (needSpace) {\n      sb.append(\u0027 \u0027);\n    }\n    sb.append(\u0027\u003c\u0027).append(user.getPreferredEmail()).append(\u0027\u003e\u0027);\n    wroteData \u003d true;\n  }\n\n  if (!wroteData) {\n    sb.append(\"Anonymous Coward #\");\n    sb.append(user.getId());\n  }",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

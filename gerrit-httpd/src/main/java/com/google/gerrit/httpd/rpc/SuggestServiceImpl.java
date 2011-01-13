@@ -15,14 +15,17 @@
 package com.google.gerrit.httpd.rpc;
 
 import com.google.gerrit.common.data.AccountInfo;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.SuggestService;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -43,16 +46,18 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private final ProjectControl.Factory projectControlFactory;
   private final AccountCache accountCache;
   private final ProjectCache projectCache;
+  private final GroupCache groupCache;
 
   @Inject
   SuggestServiceImpl(final Provider<ReviewDb> schema,
       final ProjectControl.Factory projectControlFactory,
       final AccountCache accountCache, final ProjectCache projectCache,
-      final Provider<CurrentUser> currentUser) {
+      final GroupCache groupCache, final Provider<CurrentUser> currentUser) {
     super(schema, currentUser);
     this.projectControlFactory = projectControlFactory;
     this.accountCache = accountCache;
     this.projectCache = projectCache;
+    this.groupCache = groupCache;
   }
 
   public void suggestProjectNameKey(final String query, final int limit,
@@ -121,14 +126,21 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   }
 
   public void suggestAccountGroup(final String query, final int limit,
-      final AsyncCallback<List<AccountGroupName>> callback) {
-    run(callback, new Action<List<AccountGroupName>>() {
-      public List<AccountGroupName> run(final ReviewDb db) throws OrmException {
+      final AsyncCallback<List<GroupReference>> callback) {
+    run(callback, new Action<List<GroupReference>>() {
+      public List<GroupReference> run(final ReviewDb db) throws OrmException {
         final String a = query;
         final String b = a + MAX_SUFFIX;
         final int max = 10;
         final int n = limit <= 0 ? max : Math.min(limit, max);
-        return db.accountGroupNames().suggestByName(a, b, n).toList();
+        List<GroupReference> r = new ArrayList<GroupReference>(n);
+        for (AccountGroupName c : db.accountGroupNames().suggestByName(a, b, n)) {
+          AccountGroup g = groupCache.get(c.getId());
+          if (g != null && g.getGroupUUID() != null) {
+            r.add(GroupReference.forGroup(g));
+          }
+        }
+        return r;
       }
     });
   }

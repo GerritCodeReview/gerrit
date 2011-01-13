@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8z8\u003d",
+        "filename": "Documentation/error-not-a-gerrit-project.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-01-13T08:22:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8+0\u003d",
+      "revId": "e79d1dcfaf59b987e5f439d65889ba930a44bdc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//8+s\u003d",
         "filename": "Documentation/error-not-a-gerrit-project.txt",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8z4\u003d",
+        "filename": "Documentation/error-not-a-gerrit-project.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-01-13T08:22:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8+s\u003d",
+      "revId": "e79d1dcfaf59b987e5f439d65889ba930a44bdc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//8+o\u003d",
         "filename": "Documentation/error-not-a-gerrit-project.txt",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2011-01-12T15:16:05Z",
       "side": 1,
       "message": "I\u0027m not sure how this is relevant.",
+      "revId": "e79d1dcfaf59b987e5f439d65889ba930a44bdc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//81I\u003d",
+        "filename": "Documentation/error-not-a-gerrit-project.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-01-13T08:22:57Z",
+      "side": 1,
+      "message": "You are right, it\u0027s not really needed.\nI\u0027ll remove it",
+      "parentUuid": "AAAA+3//8+o\u003d",
       "revId": "e79d1dcfaf59b987e5f439d65889ba930a44bdc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8sE\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//9eI\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9eg\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -106,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8sA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Still need to do this...",
+      "parentUuid": "AAAA+3//9eM\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9gY\u003d",
         "filename": "Documentation/project-setup.txt",
         "patchSetId": 1
@@ -117,6 +153,24 @@
       "writtenOn": "2011-01-10T16:07:07Z",
       "side": 1,
       "message": "s/is a$/as a/",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8r8\u003d",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//9gY\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -211,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8r0\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//9MA\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9f0\u003d",
         "filename": "contrib/git-subtree.sh",
         "patchSetId": 1
@@ -239,6 +311,24 @@
       "writtenOn": "2011-01-11T17:51:18Z",
       "side": 1,
       "message": "Ok, I\u0027ll try that.",
+      "parentUuid": "AAAA+3//9f0\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8rw\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "AAAA+3//9f0\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -281,6 +371,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8rs\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//9MI\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9fw\u003d",
         "filename": "contrib/git-subtree.sh",
         "patchSetId": 1
@@ -292,6 +400,24 @@
       "writtenOn": "2011-01-10T16:07:07Z",
       "side": 1,
       "message": "This shouldn\u0027t be necessary.  Setting OPTIONS_SPEC should cause variables prefix and name to be defined for you when git-sh-setup is sourced.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//87g\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "I\u0027m not seeing any environment variables getting set after calling git-sh-setup.  I also poked around at some of the scripts in git and see that they\u0027re also parsing options \"manually\".  For example git-repack.sh, git-am.sh.",
+      "parentUuid": "AAAA+3//9fw\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -333,6 +459,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//874\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "It looks like git rev-parse doesn\u0027t resolve tag\u0027s to the actual commit objects they point to (which is needed).",
+      "parentUuid": "AAAA+3//9L8\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9fo\u003d",
         "filename": "contrib/git-subtree.sh",
         "patchSetId": 1
@@ -362,6 +506,24 @@
       "side": 1,
       "message": "Ok",
       "parentUuid": "AAAA+3//9fo\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8ro\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//9ME\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -403,6 +565,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8rk\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//9L4\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9fc\u003d",
         "filename": "contrib/git-subtree.sh",
         "patchSetId": 1
@@ -432,6 +612,24 @@
       "side": 1,
       "message": "Ok",
       "parentUuid": "AAAA+3//9fc\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8rc\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//9Lk\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -473,6 +671,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8rY\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//9L0\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9fI\u003d",
         "filename": "contrib/git-subtree.sh",
         "patchSetId": 1
@@ -508,6 +724,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8rU\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//9Lo\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9fY\u003d",
         "filename": "contrib/git-subtree.sh",
         "patchSetId": 1
@@ -525,6 +759,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8rQ\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//9fY\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9fU\u003d",
         "filename": "contrib/git-subtree.sh",
         "patchSetId": 1
@@ -536,6 +788,24 @@
       "writtenOn": "2011-01-10T16:07:07Z",
       "side": 1,
       "message": "See above about how to parse out the name from the key.",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8rM\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//9fU\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -612,6 +882,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8rI\u003d",
+        "filename": "contrib/git-subtree.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//9Lw\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9fA\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SplitCommand.java",
         "patchSetId": 1
@@ -641,6 +929,24 @@
       "side": 1,
       "message": "Ok",
       "parentUuid": "AAAA+3//9fA\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8q8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SplitCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-13T23:50:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//9eU\u003d",
       "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

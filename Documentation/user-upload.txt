@@ -191,8 +191,8 @@ manual mapping technique described below.
 
 For more about Change-Ids, see link:user-changeid.html[Change-Id Lines].
 
-Manual Replacment Mapping
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Manual Replacement Mapping
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .Deprecation Warning
 ****

@@ -44,6 +44,7 @@ import com.google.gerrit.client.account.RegisterScreen;
 import com.google.gerrit.client.account.ValidateEmailScreen;
 import com.google.gerrit.client.admin.AccountGroupScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
+import com.google.gerrit.client.admin.ProjectAccessScreen;
 import com.google.gerrit.client.admin.ProjectBranchesScreen;
 import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
@@ -84,6 +85,10 @@ public class Dispatcher {
 
   public static String toAccountGroup(final AccountGroup.Id id) {
     return "admin,group," + id.toString();
+  }
+
+  public static String toGroup(final AccountGroup.UUID uuid) {
+    return "admin,group,uuid-" + uuid.toString();
   }
 
   public static String toProjectAdmin(final Project.NameKey n, final String tab) {
@@ -410,6 +415,10 @@ public class Dispatcher {
       private Screen select() {
         String p;
 
+        p = "admin,group,uuid-";
+        if (token.startsWith(p))
+          return new AccountGroupScreen(AccountGroup.UUID.parse(skip(p, token)));
+
         p = "admin,group,";
         if (token.startsWith(p))
           return new AccountGroupScreen(AccountGroup.Id.parse(skip(p, token)));
@@ -431,7 +440,7 @@ public class Dispatcher {
           }
 
           if (ProjectScreen.ACCESS.equals(p)) {
-            return new NotFoundScreen();
+            return new ProjectAccessScreen(k);
           }
 
           return new NotFoundScreen();

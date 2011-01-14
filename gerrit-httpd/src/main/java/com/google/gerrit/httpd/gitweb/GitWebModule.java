@@ -24,5 +24,9 @@ public class GitWebModule extends ServletModule {
     serve("/gitweb.js").with(GitWebJavaScriptServlet.class);
     serve("/gitweb-default.css").with(GitWebCssServlet.Default.class);
     serve("/gitweb-site.css").with(GitWebCssServlet.Site.class);
+    serve("/static/gitweb-logo.png").with(GitLogoServlet.class);
+    serve("/static/gitweb.js").with(GitWebJavaScriptServlet.class);
+    serve("/static/gitweb-default.css").with(GitWebCssServlet.Default.class);
+    serve("/static/gitweb-site.css").with(GitWebCssServlet.Site.class);
   }
 }

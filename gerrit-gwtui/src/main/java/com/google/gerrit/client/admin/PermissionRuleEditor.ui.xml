@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2011 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder
+  xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'
+  xmlns:e='urn:import:com.google.gwt.editor.ui.client'
+  xmlns:my='urn:import:com.google.gerrit.client.admin'
+  xmlns:q='urn:import:com.google.gerrit.client.ui'
+  ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+  ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+  ui:generateLocales='default,en'
+  >
+<ui:with field='res' type='com.google.gerrit.client.admin.AdminResources'/>
+<ui:style>
+  @eval selectionColor com.google.gerrit.client.Gerrit.getConfig().getSelectionColor();
+
+  .panel {
+    position: relative;
+    height: 1.5em;
+  }
+
+  .panel:hover {
+    background-color: selectionColor;
+  }
+
+  .normal {
+    padding-left: 10px;
+    white-space: nowrap;
+    height: 100%;
+  }
+
+  .deleted {
+    height: 100%;
+  }
+
+  .actionList, .minmax {
+    font-size: 80%;
+  }
+
+  .forcePush {
+    position: absolute;
+    top: 0;
+    right: 36px;
+    width: 7em;
+    font-size: 80%;
+  }
+
+  .deleteIcon {
+    position: absolute;
+    top: 2px;
+    right: 11px;
+  }
+
+  .groupName {
+    display: inline;
+  }
+</ui:style>
+
+<g:HTMLPanel styleName='{style.panel}'>
+<div ui:field='normal' class='{style.normal}'>
+  <g:ValueListBox ui:field='action' styleName='{style.actionList}'/>
+  <span ui:field='rangeEditor'>
+    <g:ValueListBox ui:field='min' styleName='{style.minmax}'/>
+    <g:ValueListBox ui:field='max' styleName='{style.minmax}'/>
+  </span>
+
+  <q:Hyperlink ui:field='normalGroupName' styleName='{style.groupName}'/>
+  <g:CheckBox
+      ui:field='force'
+      addStyleNames='{style.forcePush}'
+      text='Force Push'>
+    <ui:attribute name='text'/>
+  </g:CheckBox>
+
+  <g:Anchor
+      ui:field='deleteRule'
+      href='javascript:void'
+      styleName='{style.deleteIcon} {res.css.deleteIcon}'
+      title='Delete this rule'>
+    <ui:attribute name='title'/>
+  </g:Anchor>
+</div>
+
+<div
+    ui:field='deleted'
+    class='{res.css.deleted} {style.deleted}'
+    style='display: none'>
+  <ui:msg>Group <span ui:field='deletedGroupName'/> was deleted</ui:msg>
+  <g:Anchor
+      ui:field='undoDelete'
+      href='javascript:void'
+      styleName='{style.deleteIcon} {res.css.undoIcon}'
+      title='Undo deletion'>
+    <ui:attribute name='title'/>
+  </g:Anchor>
+</div>
+</g:HTMLPanel>
+</ui:UiBinder>

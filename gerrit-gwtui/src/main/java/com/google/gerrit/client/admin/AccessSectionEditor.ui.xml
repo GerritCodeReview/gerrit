@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2011 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder
+  xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'
+  xmlns:e='urn:import:com.google.gwt.editor.ui.client'
+  xmlns:my='urn:import:com.google.gerrit.client.admin'
+  ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+  ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+  ui:generateLocales='default,en'
+  >
+<ui:with field='res' type='com.google.gerrit.client.admin.AdminResources'/>
+<ui:style>
+  @eval selectionColor com.google.gerrit.client.Gerrit.getConfig().getSelectionColor();
+  @eval trimColor com.google.gerrit.client.Gerrit.getConfig().getTrimColor();
+
+  .panel {
+    position: relative;
+  }
+
+  .content {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding-bottom: 2px;
+  }
+
+  .normal {
+    background-color: trimColor;
+  }
+
+  .deleted {
+    padding-left: 7px;
+    padding-bottom: 2px;
+  }
+
+  .header {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .headerText {
+    vertical-align: top;
+    white-space: nowrap;
+    font-weight: bold;
+  }
+  .headerTable {
+    border: 0;
+    width: 100%;
+    padding-right: 40px;
+  }
+
+  .header:hover {
+    background-color: selectionColor;
+  }
+
+  .refName {
+    width: 100%;
+  }
+  .refNameEdit {
+    width: 100%;
+  }
+
+  .permissionList {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  .addContainer {
+    padding-left: 16px;
+    padding-right: 16px;
+    font-size: 80%;
+  }
+  .addContainer:hover {
+    background-color: selectionColor;
+  }
+  .addSelector {
+    font-size: 80%;
+  }
+
+  .deleteIcon {
+    position: absolute;
+    top: 5px;
+    right: 17px;
+  }
+
+  .undoIcon {
+    position: absolute;
+    top: 2px;
+    right: 17px;
+  }
+</ui:style>
+
+<g:HTMLPanel styleName='{style.panel}'>
+<div ui:field='normal' class='{style.normal} {style.content}'>
+  <div class='{style.header}'>
+    <table class='{style.headerTable}'><tr>
+      <td class='{style.headerText}'><ui:msg>Reference:</ui:msg></td>
+      <td width='100%'>
+        <my:ValueEditor
+            ui:field='refPattern'
+            addStyleNames='{style.refName}'
+            editTitle='Edit reference pattern'>
+          <ui:attribute name='editTitle'/>
+          <my:editor>
+            <my:RefPatternBox styleName='{style.refNameEdit}'/>
+          </my:editor>
+        </my:ValueEditor>
+      </td>
+    </tr></table>
+
+    <g:Anchor
+        ui:field='deleteSection'
+        href='javascript:void'
+        styleName='{style.deleteIcon} {res.css.deleteIcon}'
+        title='Delete this section (and nested rules)'>
+      <ui:attribute name='title'/>
+    </g:Anchor>
+  </div>
+
+  <g:FlowPanel
+      ui:field='permissionContainer'
+      styleName='{style.permissionList}'/>
+  <div ui:field='addContainer' class='{style.addContainer}'>
+    <g:ValueListBox
+        ui:field='permissionSelector'
+        styleName='{style.addSelector}' />
+  </div>
+</div>
+
+<div
+    ui:field='deleted'
+    class='{style.deleted} {res.css.deleted}'
+    style='display: none'>
+  <ui:msg>Reference <span ui:field='deletedName'/> was deleted</ui:msg>
+  <g:Anchor
+      ui:field='undoDelete'
+      href='javascript:void'
+      styleName='{style.undoIcon} {res.css.undoIcon}'
+      title='Undo deletion'>
+    <ui:attribute name='title'/>
+  </g:Anchor>
+</div>
+</g:HTMLPanel>
+</ui:UiBinder>

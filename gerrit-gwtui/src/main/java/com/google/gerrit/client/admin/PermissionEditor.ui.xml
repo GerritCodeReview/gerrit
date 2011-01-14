@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2011 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder
+  xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'
+  xmlns:e='urn:import:com.google.gwt.editor.ui.client'
+  xmlns:my='urn:import:com.google.gerrit.client.admin'
+  ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+  ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+  ui:generateLocales='default,en'
+  >
+<ui:with field='res' type='com.google.gerrit.client.admin.AdminResources'/>
+<ui:style>
+  @eval selectionColor com.google.gerrit.client.Gerrit.getConfig().getSelectionColor();
+  @eval backgroundColor com.google.gerrit.client.Gerrit.getConfig().getBackgroundColor();
+
+  .panel {
+    position: relative;
+  }
+
+  .normal {
+    border: 1px solid backgroundColor;
+    margin-top: -1px;
+    margin-bottom: -1px;
+  }
+
+  .header {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 1px;
+    white-space: nowrap;
+  }
+
+  .header:hover {
+    background-color: selectionColor;
+  }
+
+  .name {
+    font-style: italic;
+  }
+
+  .exclusiveGroup {
+    position: absolute;
+    top: 0;
+    right: 36px;
+    width: 7em;
+    font-size: 80%;
+  }
+
+  .addContainer {
+    padding-left: 10px;
+    position: relative;
+  }
+  .addContainer:hover {
+    background-color: selectionColor;
+  }
+  .addLink {
+    font-size: 80%;
+  }
+
+  .deleteIcon {
+    position: absolute;
+    top: 1px;
+    right: 12px;
+  }
+</ui:style>
+
+<g:HTMLPanel stylePrimaryName='{style.panel}'>
+<div ui:field='normal' class='{style.normal}'>
+  <div class='{style.header}'>
+    <g:ValueLabel styleName='{style.name}' ui:field='normalName'/>
+    <g:CheckBox
+        ui:field='exclusiveGroup'
+        addStyleNames='{style.exclusiveGroup}'
+        text='Exclusive'>
+      <ui:attribute name='text'/>
+    </g:CheckBox>
+  <g:Anchor
+      ui:field='deletePermission'
+      href='javascript:void'
+      styleName='{style.deleteIcon} {res.css.deleteIcon}'
+      title='Delete this permission (and nested rules)'>
+    <ui:attribute name='title'/>
+  </g:Anchor>
+  </div>
+  <g:FlowPanel ui:field='ruleContainer'/>
+  <div ui:field='addContainer' class='{style.addContainer}'>
+    <div ui:field='addStage1'>
+      <g:Anchor
+          ui:field='beginAddRule'
+          styleName='{style.addLink}'
+          href='javascript:void'
+          text='Add Group'>
+        <ui:attribute name='text'/>
+      </g:Anchor>
+    </div>
+    <div ui:field='addStage2' style='display: none'>
+      <ui:msg>Group Name: <my:GroupReferenceBox
+                                            ui:field='groupToAdd'
+                                            visibleLength='45'/></ui:msg>
+      <g:Button
+          ui:field='addRule'
+          text='Add'>
+        <ui:attribute name='text'/>
+      </g:Button>
+      <g:Anchor
+          ui:field='hideAddGroup'
+          href='javascript:void'
+          styleName='{style.deleteIcon} {res.css.deleteIcon}'
+          title='Cancel additional group'>
+        <ui:attribute name='title'/>
+      </g:Anchor>
+    </div>
+  </div>
+</div>
+
+<div
+    ui:field='deleted'
+    class='{res.css.deleted} {res.css.deletedBorder}'
+    style='display: none'>
+  <ui:msg>Permission <g:ValueLabel styleName='{style.name}' ui:field='deletedName'/> was deleted</ui:msg>
+  <g:Anchor
+      ui:field='undoDelete'
+      href='javascript:void'
+      styleName='{style.deleteIcon} {res.css.undoIcon}'
+      title='Undo deletion'>
+    <ui:attribute name='title'/>
+  </g:Anchor>
+</div>
+</g:HTMLPanel>
+</ui:UiBinder>

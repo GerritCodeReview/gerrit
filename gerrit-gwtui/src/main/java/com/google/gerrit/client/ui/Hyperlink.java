@@ -25,6 +25,10 @@ import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 public class Hyperlink extends com.google.gwt.user.client.ui.Hyperlink {
   static final HyperlinkImpl impl = GWT.create(HyperlinkImpl.class);
 
+  /** Initialize a default hyperlink with no target and no text. */
+  public Hyperlink() {
+  }
+
   /**
    * Creates a hyperlink with its text and target history token specified.
    *

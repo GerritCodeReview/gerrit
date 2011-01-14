@@ -56,7 +56,9 @@ import java.util.HashSet;
 import java.util.List;
 
 public class AccountGroupScreen extends AccountScreen {
-  private final AccountGroup.Id groupId;
+  private AccountGroup.Id groupId;
+  private AccountGroup.UUID groupUUID;
+
   private AccountInfoCache accounts = AccountInfoCache.empty();
   private MemberTable members;
 
@@ -88,16 +90,23 @@ public class AccountGroupScreen extends AccountScreen {
     groupId = toShow;
   }
 
+  public AccountGroupScreen(final AccountGroup.UUID toShow) {
+    groupUUID = toShow;
+  }
+
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.GROUP_SVC.groupDetail(groupId, new ScreenLoadCallback<GroupDetail>(
-        this) {
-      @Override
-      protected void preDisplay(final GroupDetail result) {
-        display(result);
-      }
-    });
+
+    Util.GROUP_SVC.groupDetail(groupId, groupUUID,
+        new ScreenLoadCallback<GroupDetail>(this) {
+          @Override
+          protected void preDisplay(final GroupDetail result) {
+            groupId = result.group.getId();
+            groupUUID = result.group.getGroupUUID();
+            display(result);
+          }
+        });
   }
 
   @Override

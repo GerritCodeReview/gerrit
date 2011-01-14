@@ -93,14 +93,14 @@ public class Permission implements Comparable<Permission> {
     return null;
   }
 
-  public boolean getInherit() {
+  public Boolean getInherit() {
     // We always inherit owner permission, otherwise project owners
     // lose access over subspaces they have delegated control to.
     //
     return inherit || OWNER.equals(getName());
   }
 
-  public void setInherit(boolean newInherit) {
+  public void setInherit(Boolean newInherit) {
     inherit = newInherit;
   }
 
@@ -153,6 +153,17 @@ public class Permission implements Comparable<Permission> {
       return r;
     } else {
       return null;
+    }
+  }
+
+  void mergeFrom(Permission src) {
+    for (PermissionRule srcRule : src.getRules()) {
+      PermissionRule dstRule = getRule(srcRule.getGroup());
+      if (dstRule != null) {
+        dstRule.mergeFrom(srcRule);
+      } else {
+        add(srcRule);
+      }
     }
   }
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,11 +14,12 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gwt.resources.client.CssResource;
 
-public interface AdminMessages extends Messages {
-  String group(String name);
-  String label(String name);
-  String project(String name);
-  String deletedGroup(int id);
+public interface AdminCss extends CssResource {
+  String deleteIcon();
+  String undoIcon();
+
+  String deleted();
+  String deletedBorder();
 }

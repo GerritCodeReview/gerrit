@@ -16,6 +16,8 @@ package com.google.gerrit.client.admin;
 
 import com.google.gwt.i18n.client.Constants;
 
+import java.util.Map;
+
 public interface AdminConstants extends Constants {
   String defaultAccountName();
   String defaultAccountGroupName();
@@ -101,4 +103,14 @@ public interface AdminConstants extends Constants {
   String noGroupSelected();
   String errorNoMatchingGroups();
   String errorNoGitRepository();
+
+  String addPermission();
+  Map<String,String> permissionNames();
+
+  String refErrorEmpty();
+  String refErrorBeginSlash();
+  String refErrorDoubleSlash();
+  String refErrorNoSpace();
+  String refErrorPrintable();
+  String errorsMustBeFixed();
 }

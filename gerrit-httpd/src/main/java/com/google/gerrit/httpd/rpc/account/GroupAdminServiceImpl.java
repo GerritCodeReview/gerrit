@@ -119,8 +119,14 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     createGroupFactory.create(newName).to(callback);
   }
 
-  public void groupDetail(final AccountGroup.Id groupId,
-      final AsyncCallback<GroupDetail> callback) {
+  public void groupDetail(AccountGroup.Id groupId, AccountGroup.UUID groupUUID,
+      AsyncCallback<GroupDetail> callback) {
+    if (groupId == null && groupUUID != null) {
+      AccountGroup g = groupCache.get(groupUUID);
+      if (g != null) {
+        groupId = g.getId();
+      }
+    }
     groupDetailFactory.create(groupId).to(callback);
   }
 

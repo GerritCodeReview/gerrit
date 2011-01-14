@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc;
 
 import com.google.gerrit.common.data.AccountInfo;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.SuggestService;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.Account;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -59,6 +61,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<CurrentUser> currentUser;
   private final SuggestAccountsEnum suggestAccounts;
+  private final GroupCache groupCache;
 
   @Inject
   SuggestServiceImpl(final Provider<ReviewDb> schema,
@@ -68,7 +71,8 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       final GroupControl.Factory groupControlFactory,
       final IdentifiedUser.GenericFactory userFactory,
       final Provider<CurrentUser> currentUser,
-      @GerritServerConfig final Config cfg) {
+      @GerritServerConfig final Config cfg,
+      final GroupCache groupCache) {
     super(schema, currentUser);
     this.authConfig = authConfig;
     this.projectControlFactory = projectControlFactory;
@@ -79,6 +83,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     this.currentUser = currentUser;
     this.suggestAccounts =
         cfg.getEnum("suggest", null, "accounts", SuggestAccountsEnum.ALL);
+    this.groupCache = groupCache;
   }
 
   public void suggestProjectNameKey(final String query, final int limit,
@@ -182,27 +187,30 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   }
 
   public void suggestAccountGroup(final String query, final int limit,
-      final AsyncCallback<List<AccountGroupName>> callback) {
-    run(callback, new Action<List<AccountGroupName>>() {
-      public List<AccountGroupName> run(final ReviewDb db) throws OrmException {
+      final AsyncCallback<List<GroupReference>> callback) {
+    run(callback, new Action<List<GroupReference>>() {
+      public List<GroupReference> run(final ReviewDb db) throws OrmException {
         final String a = query;
         final String b = a + MAX_SUFFIX;
         final int max = 10;
         final int n = limit <= 0 ? max : Math.min(limit, max);
         Set<AccountGroup.UUID> memberOf = currentUser.get().getEffectiveGroups();
-        List<AccountGroupName> names = new ArrayList<AccountGroupName>(n);
+        List<GroupReference> r = new ArrayList<GroupReference>(n);
         for (AccountGroupName group : db.accountGroupNames()
               .suggestByName(a, b, n)) {
           try {
             if (memberOf.contains(group.getId())
                 || groupControlFactory.controlFor(group.getId()).isVisible()) {
-              names.add(group);
+              AccountGroup g = groupCache.get(group.getId());
+              if (g != null && g.getGroupUUID() != null) {
+                r.add(GroupReference.forGroup(g));
+              }
             }
           } catch (NoSuchGroupException e) {
             continue;
           }
         }
-        return names;
+        return r;
       }
     });
   }

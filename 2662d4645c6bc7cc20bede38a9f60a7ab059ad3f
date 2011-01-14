@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8nA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8uQ\u003d",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//8tY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
         "patchSetId": 5
@@ -81,6 +99,24 @@
       "writtenOn": "2011-01-13T20:34:50Z",
       "side": 1,
       "message": "Most of what you need you can take by Guice injection:\n\n  static Factory {\n    CreateCodeReviewNotes create(Repository db);\n  }\n\n  @Inject\n  CreateCodeReviewNotes(ReviewDb reviewDb,\n    @GerritPersonIdent PersonIdent gerritIdent,\n    AccountCache accountCache,\n    ApprovalTypes approvalTypes,\n\n    @Assisted Repository db)\n\nThen look for where type MergeOp.Factory is used, and at each place also add a:\n\n  factory(CreateCodeReviewNotes.Factory.class);\n\nDeclaration to tell Guice about this type.  And in MergeOp, add CreateCodeReviewNotes.Factory to its constructor and use the factory\u0027s create() method to construct the instance it uses.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8mc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8tY\u003d",
       "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +140,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8mY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8uA\u003d",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//8t4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
         "patchSetId": 5
@@ -115,6 +169,24 @@
       "writtenOn": "2011-01-13T20:34:50Z",
       "side": 1,
       "message": "This could be a big oneline summary.  Maybe instead we do:\n\n  StringBuilder message \u003d new StringBuilder();\n  message.append(\"Update notes for submitted changes\\n\\n\");\n\n  for (CodeReviewCommit c : commits) {\n    ...\n    message.append(\"* \").append(c.getShortMessage()).append(\"\\n\");\n  }",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8mI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8t4\u003d",
       "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +210,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8jw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Ah, I missed to handle this place after the support for merging notes from JGit\nbecame available.\n\nHowever, instead of simply appending the new note to the existing note, I think\nwe should apply the same algorithm as the NoteMapMerger would do in case when\nit has to merge the notes. Means, we should reuse the same NoteMerger for\nmerging the note content. However, the question is what would be the merge base\nin this case? The intention was to create a new Note (base \u003d\u003d null) but there\nwas already a note with the same name. I am even not sure if this is a merge\nscenario or not?\n\nAnother issue is that in order to invoke the NoteMerger.merge we need Note\ninstances.  However, Note class doesn\u0027t have a public constructor. I know this\nwas my mistake, you wanted to expose this class fully and I wasn\u0027t sure about\nit :-( So, I would need another upgrade of JGit after fixing that.  Another\nissue with that non-public Note constructor is that Gerrit wouldn\u0027t be able to\nimplement custom NoteMerger as it wouldn\u0027t be able to instantiate a new Note\ninstance to return it as a result.\n\nI am also thinking if it was good to have this signature for NoteMerger.merge:\n\n Note merge(Note base, Note ours, Note their, ObjectReader reader,\n\t\t\tObjectInserter inserter) throws NotesMergeConflictException,\n\t\t\tIOException;\n\nEvery NoteMerger implementation has to deal with git object database in order\nto perform the merge: it must properly insert the merged content and\nthis may be too much for mergers implemented outside of JGit.\nHowever, a note merger is only really interested in note contents. I am\nthinking if something as simple as:\n\n String merge(String base, String ours, String theirs)\n\nwouldn\u0027t be easier for implementors and better reusable.  Assuming that\nnote contents are not too big Strings should be OK.\n\nInterested in your opinion.",
+      "parentUuid": "AAAA+3//8t8\u003d",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//8t0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
         "patchSetId": 5
@@ -149,6 +239,24 @@
       "writtenOn": "2011-01-13T20:34:50Z",
       "side": 1,
       "message": "You don\u0027t need to flush here.  Defer your flush until the flush that occurs inside of createCommit().",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8mA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8t0\u003d",
       "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -172,6 +280,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8l8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8tw\u003d",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//8tU\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
         "patchSetId": 5
@@ -183,6 +309,24 @@
       "writtenOn": "2011-01-13T20:34:50Z",
       "side": 1,
       "message": "The TimeZone should be author.getTimeZone().",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8l4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8tU\u003d",
       "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -206,6 +350,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8lg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8ts\u003d",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//8to\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
         "patchSetId": 5
@@ -217,6 +379,24 @@
       "writtenOn": "2011-01-13T20:34:50Z",
       "side": 1,
       "message": "Take the AccountCache in your constructor and use that to get the Account information, instead of doing a database query.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8lc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8to\u003d",
       "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -240,6 +420,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8lU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8tk\u003d",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//8tg\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
         "patchSetId": 5
@@ -251,6 +449,24 @@
       "writtenOn": "2011-01-13T20:34:50Z",
       "side": 1,
       "message": "Same as above, use the AccountCache to get the user data.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8lQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8tg\u003d",
       "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -274,6 +490,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8lA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "OK, this is not nice. However, looking up the call chain I couldn\u0027t find a good\nplace where to handle the OrmException. Wrapping it into a MergeException\nwithin the create method of this class also wouldn\u0027t be a nice solution as\npropagating MergeException up the call chain would finally result in an error\nlike:\n\n \"Merge attempt for \" + branch + \" failed\"\n\nHowever, merging of changes was successful and it was creation of git notes\nthat failed. Actually, even throwing the MergeException from this class was a\nbad idea I think.\n\nTo make a better distinction between these two cases I introduced the\n\n CodeReviewNoteCreationException\n\nto clearly indicate an error on code review note creation.  The caller, MergeOp\nclass, will just log an error in case of this exception because the main\noperation already finished successfully.  Failing to create a git note\nshouldn\u0027t result in a major application error.  Right?",
+      "parentUuid": "AAAA+3//8tc\u003d",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//8uI\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
         "patchSetId": 5
@@ -285,6 +519,24 @@
       "writtenOn": "2011-01-13T20:34:50Z",
       "side": 1,
       "message": "Why not reuse the ObjectInserter that you already have as a field?",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8k8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "don\u0027t know how I missed it.",
+      "parentUuid": "AAAA+3//8uI\u003d",
       "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -308,6 +560,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8k4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8uE\u003d",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//8us\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
         "patchSetId": 5
@@ -319,6 +589,24 @@
       "writtenOn": "2011-01-13T20:34:50Z",
       "side": 1,
       "message": "Missing Android Open Source copyright header.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8k0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8us\u003d",
       "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -342,6 +630,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8kw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8uo\u003d",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//8uk\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
         "patchSetId": 5
@@ -353,6 +659,24 @@
       "writtenOn": "2011-01-13T20:34:50Z",
       "side": 1,
       "message": "Missing day-of-week at the start of the format pattern.",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8ks\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8uk\u003d",
       "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -376,6 +700,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8ko\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8ug\u003d",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//8uY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
         "patchSetId": 5
@@ -387,6 +729,24 @@
       "writtenOn": "2011-01-13T20:34:50Z",
       "side": 1,
       "message": "Replace spaces with \u0027-\u0027:\n\n  sb.append(category.getName().replace(\u0027 \u0027, \u0027-\u0027));\n\nBut maybe I just need to finish my git-store branch and get your work rebased on top.  I\u0027ve added a getLabel() method to ApprovalCategory which supplies you that replacement, making your code just:\n\n  sb.append(category.getLabel());",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8kk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Fixed using:\n\n replace(\u0027 \u0027, \u0027-\u0027)\n\nOnce your git-store branch is done we can change this line and use\n\n category.getLabel()\n\nif we remember to do that :-)",
+      "parentUuid": "AAAA+3//8uY\u003d",
       "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -410,6 +770,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8kg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//8uc\u003d",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//8uU\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
         "patchSetId": 5
@@ -421,6 +799,24 @@
       "writtenOn": "2011-01-13T20:34:50Z",
       "side": 1,
       "message": "The full name and preferred email are optional for a user.  This really complicates how to format the user:\n\n  boolean needSpace \u003d false;\n  boolean wroteData \u003d false;\n\n  if (user.getFullName() !\u003d null \u0026\u0026 !user.getFullName().isEmpty()) {\n    sb.append(user.getFullName());\n    needSpace \u003d true;\n    wroteData \u003d true;\n  }\n\n  if (user.getPreferredEmail() !\u003d null \u0026\u0026 !user.getPreferredEmail().isEmpty()) {\n    if (needSpace) {\n      sb.append(\u0027 \u0027);\n    }\n    sb.append(\u0027\u003c\u0027).append(user.getPreferredEmail()).append(\u0027\u003e\u0027);\n    wroteData \u003d true;\n  }\n\n  if (!wroteData) {\n    sb.append(\"Anonymous Coward #\");\n    sb.append(user.getId());\n  }",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8kc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-14T15:54:39Z",
+      "side": 1,
+      "message": "Done, but without the needSpace and wroteData variables as their values are equivalent to:\n\n sb.length() \u003e 0 \n\nat both places where they are checked.",
+      "parentUuid": "AAAA+3//8uU\u003d",
       "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//8m4\u003d",
+        "filename": "Documentation/error-contains-banned-commit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2011-01-14T08:39:42Z",
+      "side": 1,
+      "message": "I think it would make sense to add a link to the description how to ban a commit (or include it here)",
+      "revId": "7417b5703f7cfdf47b2801224fa283f9f72ca638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

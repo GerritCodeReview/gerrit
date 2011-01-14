@@ -52,6 +52,24 @@
       "revId": "7417b5703f7cfdf47b2801224fa283f9f72ca638",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8lo\u003d",
+        "filename": "Documentation/error-contains-banned-commit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-01-14T11:30:05Z",
+      "side": 1,
+      "message": "The problem is that banning a commit is not so straight forward. It requires you to create a git note on the ref refs/meta/reject-commits which is currently not possible with the \u0027git notes add\u0027 command [1].\n\n[1] http://permalink.gmane.org/gmane.comp.version-control.git/165091",
+      "parentUuid": "AAAA+3//8mU\u003d",
+      "revId": "7417b5703f7cfdf47b2801224fa283f9f72ca638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

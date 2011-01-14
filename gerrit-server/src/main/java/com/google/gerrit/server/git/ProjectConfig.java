@@ -108,11 +108,23 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   public Collection<AccessSection> getAccessSections() {
-    return accessSections.values();
+    return sort(accessSections.values());
   }
 
   public void remove(AccessSection section) {
-    accessSections.remove(section.getRefPattern());
+    if (section != null) {
+      accessSections.remove(section.getRefPattern());
+    }
+  }
+
+  public void replace(AccessSection section) {
+    for (Permission permission : section.getPermissions()) {
+      for (PermissionRule rule : permission.getRules()) {
+        rule.setGroup(resolve(rule.getGroup()));
+      }
+    }
+
+    accessSections.put(section.getRefPattern(), section);
   }
 
   public GroupReference resolve(AccountGroup group) {

@@ -15,6 +15,10 @@
 package com.google.gerrit.common.data;
 
 public class PermissionRule implements Comparable<PermissionRule> {
+  public static enum Action {
+    ALLOW, DENY;
+  }
+
   protected boolean deny;
   protected boolean force;
   protected int min;
@@ -28,6 +32,17 @@ public class PermissionRule implements Comparable<PermissionRule> {
     this.group = group;
   }
 
+  public Action getAction() {
+    return deny ? Action.DENY : Action.ALLOW;
+  }
+
+  public void setAction(Action action) {
+    if (action == null) {
+      throw new NullPointerException("action");
+    }
+    setDeny(action == Action.DENY);
+  }
+
   public boolean getDeny() {
     return deny;
   }
@@ -36,11 +51,11 @@ public class PermissionRule implements Comparable<PermissionRule> {
     deny = newDeny;
   }
 
-  public boolean getForce() {
+  public Boolean getForce() {
     return force;
   }
 
-  public void setForce(boolean newForce) {
+  public void setForce(Boolean newForce) {
     force = newForce;
   }
 
@@ -68,6 +83,12 @@ public class PermissionRule implements Comparable<PermissionRule> {
 
   public void setGroup(GroupReference newGroup) {
     group = newGroup;
+  }
+
+  void mergeFrom(PermissionRule src) {
+    setDeny(getDeny() || src.getDeny());
+    setForce(getForce() || src.getForce());
+    setRange(Math.min(getMin(), src.getMin()), Math.max(getMax(), src.getMax()));
   }
 
   @Override

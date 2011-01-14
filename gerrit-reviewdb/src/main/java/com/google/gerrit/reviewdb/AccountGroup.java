@@ -70,6 +70,13 @@ public final class AccountGroup {
     protected void set(String newValue) {
       uuid = newValue;
     }
+
+    /** Parse an AccountGroup.UUID out of a string representation. */
+    public static UUID parse(final String str) {
+      final UUID r = new UUID();
+      r.fromString(str);
+      return r;
+    }
   }
 
   /** Distinguished name, within organization directory server. */

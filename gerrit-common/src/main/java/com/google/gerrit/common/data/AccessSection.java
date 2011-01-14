@@ -110,6 +110,17 @@ public class AccessSection implements Comparable<AccessSection> {
     }
   }
 
+  public void mergeFrom(AccessSection section) {
+    for (Permission src : section.getPermissions()) {
+      Permission dst = getPermission(src.getName());
+      if (dst != null) {
+        dst.mergeFrom(src);
+      } else {
+        permissions.add(dst);
+      }
+    }
+  }
+
   @Override
   public int compareTo(AccessSection o) {
     return comparePattern().compareTo(o.comparePattern());

@@ -14,6 +14,7 @@
  limitations under the License.
 -->
 <module rename-to="gerrit">
+  <inherits name='com.google.gwt.editor.Editor'/>
   <inherits name='com.google.gwt.user.User'/>
   <inherits name='com.google.gwt.resources.Resources'/>
   <inherits name='com.google.gwt.user.theme.chrome.Chrome'/>

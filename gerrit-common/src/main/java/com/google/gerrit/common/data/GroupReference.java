@@ -39,7 +39,7 @@ public class GroupReference implements Comparable<GroupReference> {
   }
 
   public void setUUID(AccountGroup.UUID newUUID) {
-    uuid = newUUID.get();
+    uuid = newUUID != null ? newUUID.get() : null;
   }
 
   public String getName() {

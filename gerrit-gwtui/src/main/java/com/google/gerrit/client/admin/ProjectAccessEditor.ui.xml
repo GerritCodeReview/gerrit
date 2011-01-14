@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2011 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<ui:UiBinder
+  xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'
+  xmlns:q='urn:import:com.google.gerrit.client.ui'
+  ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+  ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+  ui:generateLocales='default,en'
+  >
+<ui:style>
+  .inheritsFrom {
+    margin-bottom: 0.5em;
+  }
+  .parentTitle {
+    font-weight: bold;
+  }
+  .parentLink {
+    display: inline;
+  }
+
+  .addContainer {
+    margin-top: 5px;
+    font-size: 80%;
+  }
+  .addContainer:hover {
+    background-color: selectionColor;
+  }
+</ui:style>
+
+<g:HTMLPanel>
+  <div ui:field='inheritsFrom' class='{style.inheritsFrom}'>
+    <span class='{style.parentTitle}'><ui:msg>Rights Inherit From:</ui:msg></span>
+    <q:Hyperlink ui:field='parentProject' styleName='{style.parentLink}'/>
+  </div>
+
+  <g:FlowPanel ui:field='localContainer'/>
+  <div class='{style.addContainer}'>
+    <g:Anchor
+        ui:field='addSection'
+        href='javascript:void'
+        text='Add'>
+      <ui:attribute name='text'/>
+    </g:Anchor>
+  </div>
+</g:HTMLPanel>
+</ui:UiBinder>

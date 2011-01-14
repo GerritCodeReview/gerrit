@@ -94,14 +94,14 @@ public class Permission implements Comparable<Permission> {
     return null;
   }
 
-  public boolean getExclusiveGroup() {
+  public Boolean getExclusiveGroup() {
     // Only permit exclusive group behavior on non OWNER permissions,
     // otherwise an owner might lose access to a delegated subspace.
     //
     return exclusiveGroup && !OWNER.equals(getName());
   }
 
-  public void setExclusiveGroup(boolean newExclusiveGroup) {
+  public void setExclusiveGroup(Boolean newExclusiveGroup) {
     exclusiveGroup = newExclusiveGroup;
   }
 
@@ -154,6 +154,17 @@ public class Permission implements Comparable<Permission> {
       return r;
     } else {
       return null;
+    }
+  }
+
+  void mergeFrom(Permission src) {
+    for (PermissionRule srcRule : src.getRules()) {
+      PermissionRule dstRule = getRule(srcRule.getGroup());
+      if (dstRule != null) {
+        dstRule.mergeFrom(srcRule);
+      } else {
+        add(srcRule);
+      }
     }
   }
 

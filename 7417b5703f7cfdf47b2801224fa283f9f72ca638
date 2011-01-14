@@ -16,6 +16,24 @@
       "revId": "7417b5703f7cfdf47b2801224fa283f9f72ca638",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8mw\u003d",
+        "filename": "Documentation/error-contains-banned-commit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-01-14T09:15:34Z",
+      "side": 1,
+      "message": "As far as I know there is no such description available :-(\nI agree that this description would be useful but I would not describe it right here, it should rather be an own page. Once we have it we can of course link to it from here.",
+      "parentUuid": "AAAA+3//8m4\u003d",
+      "revId": "7417b5703f7cfdf47b2801224fa283f9f72ca638",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

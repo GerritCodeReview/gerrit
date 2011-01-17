@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//8Ss\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000673
+      },
+      "writtenOn": "2011-01-17T22:39:32Z",
+      "side": 1,
+      "message": "Thinking about (and prototyping) this some more, I think it may be possible to detect which subtree a parent commit belongs to (if any at all).  This should be possible with a simple heuristic to determine which subtree a given parent is the least different to.\n\nWith this heuristic, it would not be necessary to explicitly declare subtrees in footer messages.  Doing the analysis will be slower, but the results can be cached in a git-note so it would only need to be done once.\n\nThis may lead to other problems.  For instance, what if you wanted to merge in a sub project into multiple locations in the super project?  Or, what if two sub projects are very similar?  However, these cases are probably pretty rare.  If it ever did fail, though, it may be pretty confusing to the user.",
+      "parentUuid": "AAAA+3//9Zw\u003d",
+      "revId": "c42fb17e513e8cd566a172902dc2a5ff6117d12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//9gM\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

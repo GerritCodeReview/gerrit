@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//8S4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-17T22:21:12Z",
+      "side": 1,
+      "message": "I think its fine.",
+      "revId": "2a9ed93ac178a847ec407755c9eb9c8117ce0298",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//8S0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-01-17T22:21:12Z",
+      "side": 1,
+      "message": "Yup, simple solution to handling both the older and newer gitweb.cgis without actually needing to do a version test.",
+      "revId": "2a9ed93ac178a847ec407755c9eb9c8117ce0298",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

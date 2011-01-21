@@ -228,6 +228,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA+3//72U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-21T16:12:54Z",
+      "side": 1,
+      "message": "Forget the previous comments. I am going to use the NoteMerger to merge the content of the existing and the new note. The NoteMerger\ninterface will stay unchanged.\nHowever, there will be a new change in JGit to expose the constructor of the Note constructor. The new version of JGit, containing this change, will be needed in order to proceed with this change.",
+      "parentUuid": "AAAA+3//8jw\u003d",
+      "revId": "2662d4645c6bc7cc20bede38a9f60a7ab059ad3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//8t0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
         "patchSetId": 5

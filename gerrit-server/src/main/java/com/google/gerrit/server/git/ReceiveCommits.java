@@ -1506,7 +1506,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     final List<String> idList = c.getFooterLines(CHANGE_ID);
     if (idList.isEmpty()) {
-      if (project.isRequireChangeID()) {
+      if (project.isRequireChangeID() && cmd.getRefName().startsWith(NEW_CHANGE)) {
         reject(cmd, "missing Change-Id in commit message");
         return false;
       }

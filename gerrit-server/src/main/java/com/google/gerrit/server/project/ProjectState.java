@@ -76,9 +76,8 @@ public class ProjectState {
     this.localRights = rights;
 
     final HashSet<AccountGroup.Id> groups = new HashSet<AccountGroup.Id>();
-    for (final RefRight right : rights) {
-      if (ApprovalCategory.OWN.equals(right.getApprovalCategoryId())
-          && right.getMaxValue() > 0) {
+    for (final RefRight right : getAllRights(ApprovalCategory.OWN, true)) {
+      if (right.getMaxValue() > 0) {
         groups.add(right.getAccountGroupId());
       }
     }

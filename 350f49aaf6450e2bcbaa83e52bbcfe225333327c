@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//7wY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-01-24T07:03:18Z",
+      "side": 1,
+      "message": "Personally I don\u0027t like it too much if a variable is used for two different semantics. First \u0027name\u0027 contains the file name later it contains the project name. I would prefer having two variables (fileName, projectName) in this case.",
+      "revId": "350f49aaf6450e2bcbaa83e52bbcfe225333327c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//7wU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-01-24T07:03:18Z",
+      "side": 1,
+      "message": "Here we silently ignore all git repositories that do not have a reasonable name. Maybe we could log a warning in this case?",
+      "revId": "350f49aaf6450e2bcbaa83e52bbcfe225333327c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//7wQ\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-01-24T07:03:18Z",
+      "side": 1,
+      "message": "Maybe better would be:\n\ntreeMap.put(projectName.get(), new TreeNode(pctl.getProject(), pctl.isVisible()));\n\nIf also other occurences of \u0027p.getName()\u0027 are replaced with \u0027projectName.get()\u0027 we do not need to retrieve the project already above, but only here in this else case.",
+      "revId": "350f49aaf6450e2bcbaa83e52bbcfe225333327c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

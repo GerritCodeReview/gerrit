@@ -46,7 +46,7 @@ public class ProjectState {
 
   private final Project project;
   private final Collection<RefRight> localRights;
-  private final Set<AccountGroup.Id> owners;
+  private final Set<AccountGroup.Id> localOwners;
 
   private volatile Collection<RefRight> inheritedRights;
 
@@ -82,7 +82,7 @@ public class ProjectState {
         groups.add(right.getAccountGroupId());
       }
     }
-    owners = Collections.unmodifiableSet(groups);
+    localOwners = Collections.unmodifiableSet(groups);
   }
 
   public Project getProject() {
@@ -209,8 +209,36 @@ public class ProjectState {
     return project.getNameKey().equals(wildProject);
   }
 
+  /**
+   * @return all {@link AccountGroup}'s to which the owner privilege is assigned
+   *         for this project (the local owners), if there are no local owners
+   *         the local owners of the nearest parent project that has local
+   *         owners are returned
+   */
   public Set<AccountGroup.Id> getOwners() {
-    return owners;
+    if (!localOwners.isEmpty()) {
+      return localOwners;
+    } else {
+      final ProjectState parent = projectCache.get(project.getParent());
+      return parent.getOwners();
+    }
+  }
+
+  /**
+   * @return all {@link AccountGroup}'s that are allowed to administrate the
+   *         project. This includes all groups to which the owner privilege is
+   *         assigned for this project (the local owners) and all groups to
+   *         which the owner privilege is assigned for one of the parent
+   *         projects (the inherited owners).
+   */
+  public Set<AccountGroup.Id> getAllOwners() {
+    final HashSet<AccountGroup.Id> owners = new HashSet<AccountGroup.Id>();
+    for (final RefRight right : getAllRights(ApprovalCategory.OWN, true)) {
+      if (right.getMaxValue() > 0) {
+        owners.add(right.getAccountGroupId());
+      }
+    }
+    return Collections.unmodifiableSet(owners);
   }
 
   public ProjectControl controlForAnonymousUser() {

@@ -14,6 +14,7 @@ Error Messages
 * link:error-invalid-changeid.html[invalid Change-Id line format in commit message]
 * link:error-missing-changeid.html[missing Change-Id in commit message]
 * link:error-multiple-changeid-lines.html[multiple Change-Id lines in commit message]
+* link:error-no-common-ancestry.html[no common ancestry]
 * link:error-no-new-changes.html[no new changes]
 * link:error-not-a-gerrit-project.html[not a Gerrit project]
 * link:error-not-valid-ref.html[not valid ref]

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//7qQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-25T08:45:15Z",
+      "side": 1,
+      "message": "More precisely it is the \"OWN\" access rights that were not taken into account. Other access rights, assigned to Project Owners, are taken into account.\nThis difference should be reflected in the commit message.",
+      "revId": "a908db25512ccbe8805445f838fe355536317cd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

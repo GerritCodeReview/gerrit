@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//7hQ\u003d",
+        "filename": "Documentation/error-no-common-ancestry.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-26T07:50:21Z",
+      "side": 1,
+      "message": "This paragraph basically repeats the first paragraph. I think it could be skipped.",
+      "revId": "5e95534196114b704000c6c00919b3749e350d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

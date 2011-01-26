@@ -1,0 +1,30 @@
+not Signed-off-by author/committer/uploader
+===========================================
+
+Projects in Gerrit can be configured to require a link:user-signedoffby.html#Signed-off-by[Signed-off-by] in
+the commit message to enforce that every change is signed by the
+author, committer or uploader. If for a project a Signed-off-by is
+required and the commit message does not contain it, Gerrit rejects
+to push the commit with this error message.
+
+This policy can be bypassed by having the access right '+2 Forge
+Committer or Tagger Identity' in the link:access-control.html#category_FORG['Forge Identity'] category.
+
+This error may happen for different reasons if you do not have the
+access right to forge the committer identity:
+1. missing Signed-off-by in the commit message
+2. Signed-off-by is contained in the commit message but it's neither
+   from the author, committer nor uploader
+3. Signed-off-by from the author, committer or uploader is contained
+   in the commit message but not in the last paragraph
+
+To be able to push your commits you have to update the commit
+messages as explained link:error-push-fails-due-to-commit-message.html[here] so that they contain a Signed-off-by from
+the author, committer or uploader in the last paragraph. However it
+is important that you only add a Signed-off-by if you understand the
+semantics of the link:user-signedoffby.html#Signed-off-by[Signed-off-by] and the commit applies to the rules
+that are connected with this footer.
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

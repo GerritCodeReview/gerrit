@@ -16,6 +16,7 @@ Error Messages
 * link:error-multiple-changeid-lines.html[multiple Change-Id lines in commit message]
 * link:error-no-new-changes.html[no new changes]
 * link:error-not-a-gerrit-project.html[not a Gerrit project]
+* link:error-not-signed-off-by.html[not Signed-off-by author/committer/uploader]
 * link:error-not-valid-ref.html[not valid ref]
 * link:error-permission-denied.html[Permission denied (publickey)]
 * link:error-prohibited-by-gerrit.html[prohibited by Gerrit]

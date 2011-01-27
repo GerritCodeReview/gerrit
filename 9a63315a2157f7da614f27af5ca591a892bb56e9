@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//7aM\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGroup.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-01-27T11:42:58Z",
+      "side": 1,
+      "message": "Doe this means that PROJECT_OWNERS, ANONYMOUS_USERS and REGISTERED_USERS will have human readable groupUUID while all others will have char[40] Hex UUIDs?",
+      "revId": "9a63315a2157f7da614f27af5ca591a892bb56e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

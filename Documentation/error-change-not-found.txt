@@ -1,0 +1,15 @@
+change ... not found
+====================
+
+With this error message Gerrit rejects to push a commit to a change
+that cannot be found.
+
+This error message means that the user explicitly pushed a commit to
+a non-existing change by specifying it as target ref. This way of
+adding a new patch set to a change is deprecated as explained link:user-upload.html#manual_replacement_mapping[here].
+It is recommended to only rely on Change-ID's for link:user-upload.html#push_replace[replacing changes].
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

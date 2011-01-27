@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//7WM\u003d",
+        "filename": "Documentation/error-change-upload-blocked.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2011-01-27T22:08:51Z",
+      "side": 1,
+      "message": "I would rephrase that:\n\n... magical refs that represent the review queues for branches in the git repository hosted by Gerrit.",
+      "revId": "51d34f24e9da8d5a7e2c1523916029119e3cb256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//7V0\u003d",
+        "filename": "Documentation/error-change-upload-blocked.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2011-01-27T22:08:51Z",
+      "side": 1,
+      "message": "rephrase:\n\n... is created under the \u0027refs/for\u0027 namespace this conflicts with the namespace reserved for Gerrit review queues and Gerrit can\u0027t ...",
+      "revId": "51d34f24e9da8d5a7e2c1523916029119e3cb256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

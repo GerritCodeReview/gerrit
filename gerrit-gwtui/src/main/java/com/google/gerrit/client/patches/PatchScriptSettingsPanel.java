@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -216,6 +217,11 @@ public class PatchScriptSettingsPanel extends Composite implements
   }
 
   private void update() {
+    if (colWidth.getIntValue() == 0) {
+      new ErrorDialog("The number of columns cannot be zero").center();
+      return;
+    }
+
     AccountDiffPreference dp = new AccountDiffPreference(getValue());
     dp.setIgnoreWhitespace(getIgnoreWhitespace());
     dp.setContext(getContext());

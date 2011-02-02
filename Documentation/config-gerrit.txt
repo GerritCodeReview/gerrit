@@ -115,7 +115,9 @@ List of permitted OpenID providers.  A user may only authenticate
 with an OpenID that matches this list.  Only used if `auth.type`
 was set to OpenID (the default).
 +
-Patterns may be either a regular expression (start with `^` and
+Patterns may be either a
+link:http://download.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html[standard
+Java regular expression (java.util.regex)] (start with `^` and
 end with `$`) or be a simple prefix (any other string).
 +
 By default, the list contains two values, `http://` and `https://`,
@@ -131,7 +133,9 @@ granted to the `Anonymous Users` and `Registered Users` groups,
 the user account must only have OpenIDs which match at least one
 pattern from this list.
 +
-Patterns may be either a regular expression (start with `^` and
+Patterns may be either a
+link:http://download.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html[standard
+Java regular expression (java.util.regex)] (start with `^` and
 end with `$`) or be a simple prefix (any other string).
 +
 By default, the list contains two values, `http://` and `https://`,
@@ -1831,10 +1835,12 @@ Several trakingid entries can have the same footer tag.
 
 [[trackingid.name.match]]trackingid.<name>.match::
 +
-A regular expression used to match the external tracking id part of the
-footer line. The match can result in several entries in the DB.
-If grouping is used in the regex the first group will be interpreted
-as the tracking id. Tracking ids > 20 char will be ignored.
+A link:http://download.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html[standard
+Java regular expression (java.util.regex)] used to match the
+external tracking id part of the footer line. The match can
+result in several entries in the DB.  If grouping is used in the
+regex the first group will be interpreted as the tracking id.
+Tracking ids > 20 char will be ignored.
 +
 The configuration file parser eats one level of backslashes, so the
 character class `\s` requires `\\s` in the configuration file.  The

@@ -101,7 +101,10 @@ Changes where 'SHA1' is one of the patch sets of the change.
 project:'PROJECT'::
 +
 Changes occuring in 'PROJECT'. If 'PROJECT' starts with `^` it
-matches project names by regular expression.
+matches project names by regular expression.  The
+link:http://www.brics.dk/automaton/[dk.brics.automaton
+library] is used for evaluation of such patterns.
+
 
 [[branch]]
 branch:'BRANCH'::
@@ -114,7 +117,9 @@ for 'branch:refs/heads/master' is the same as searching for
 'ref:refs/heads/refs/heads/master'.
 +
 If 'BRANCH' starts with `^` it matches branch names by regular
-expression patterns.
+expression patterns.  The
+link:http://www.brics.dk/automaton/[dk.brics.automaton
+library] is used for evaluation of such patterns.
 
 [[topic]]
 topic:'TOPIC'::
@@ -124,7 +129,9 @@ often combined with 'branch:' and 'project:' operators to select
 all related changes in a series.
 +
 If 'TOPIC' starts with `^` it matches topic names by regular
-expression patterns.
+expression patterns.  The
+link:http://www.brics.dk/automaton/[dk.brics.automaton
+library] is used for evaluation of such patterns.
 
 [[ref]]
 ref:'REF'::
@@ -134,7 +141,9 @@ name.  Since 'REF' is absolute from the top of the repository it
 must start with 'refs/'.
 +
 If 'REF' starts with `^` it matches reference names by regular
-expression patterns.
+expression patterns.  The
+link:http://www.brics.dk/automaton/[dk.brics.automaton
+library] is used for evaluation of such patterns.
 
 [[tr,bug]]
 tr:'ID', bug:'ID'::
@@ -164,6 +173,8 @@ file:^'REGEX'::
 Matches any change where REGEX matches a file that was affected
 by the change.  The regular expression pattern must start with
 `^`.  For example, to match all XML files use `file:^.*\.xml$`.
+The link:http://www.brics.dk/automaton/[dk.brics.automaton
+library] is used for the evaluation of such patterns.
 +
 The `^` required at the beginning of the regular expression not only
 denotes a regular expression, but it also has the usual meaning of

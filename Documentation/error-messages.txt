@@ -17,6 +17,7 @@ Error Messages
 * link:error-multiple-changeid-lines.html[multiple Change-Id lines in commit message]
 * link:error-no-common-ancestry.html[no common ancestry]
 * link:error-no-new-changes.html[no new changes]
+* link:error-not-a-gerrit-administrator[Not a Gerrit administrator]
 * link:error-not-a-gerrit-project.html[not a Gerrit project]
 * link:error-not-valid-ref.html[not valid ref]
 * link:error-change-upload-blocked.html[One or more refs/for/ names blocks change upload]

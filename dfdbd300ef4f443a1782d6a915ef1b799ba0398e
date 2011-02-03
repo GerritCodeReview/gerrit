@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//6Rw\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-02-03T17:24:29Z",
+      "side": 1,
+      "message": "Should we also prevent negative values?  Or are they impossible in this box?",
+      "revId": "dfdbd300ef4f443a1782d6a915ef1b799ba0398e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//6Rs\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-02-03T17:24:29Z",
+      "side": 1,
+      "message": "This probably should go into a Constants interface, so the message text is in a properties file and could be translated.  We\u0027ve done that pretty much everywhere else in the UI in case someone decides they want to translate it.",
+      "revId": "dfdbd300ef4f443a1782d6a915ef1b799ba0398e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

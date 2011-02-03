@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//6Sg\u003d",
+        "filename": "Documentation/error-not-a-gerrit-administrator.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2011-02-03T13:18:00Z",
+      "side": 1,
+      "message": "grammar: \n\nWith this error message Gerrit rejects to execute a SSH command that requires administrator privileges if the user ....",
+      "revId": "1f002b73e7689499e8dcfc359c857559efe03f6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -90,7 +91,8 @@ class AddBranch extends Handler<ListBranchesResult> {
 
   @Override
   public ListBranchesResult call() throws NoSuchProjectException,
-      InvalidNameException, InvalidRevisionException, IOException {
+      InvalidNameException, InvalidRevisionException, IOException,
+      BranchCreationNotAllowedException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
 
@@ -103,6 +105,9 @@ class AddBranch extends Handler<ListBranchesResult> {
     }
     if (!Repository.isValidRefName(refname)) {
       throw new InvalidNameException();
+    }
+    if (refname.startsWith(ReceiveCommits.NEW_CHANGE)) {
+      throw new BranchCreationNotAllowedException(ReceiveCommits.NEW_CHANGE);
     }
 
     final Branch.NameKey name = new Branch.NameKey(projectName, refname);

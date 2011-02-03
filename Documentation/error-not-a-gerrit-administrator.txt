@@ -1,0 +1,14 @@
+Not a Gerrit administrator
+==========================
+
+With this error message a SSH command to Gerrit that requires
+administrator privileges is rejected if the user is not a Gerrit
+administrator.
+
+The Gerrit link:cmd-index.html#admin_commands[administrator commands] can only be executed by users who
+are member of the Gerrit link:access-control.html#administrators[Administrators] group.
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

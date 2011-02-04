@@ -112,6 +112,9 @@ public interface ReviewDb extends Schema {
   RefRightAccess refRights();
 
   @Relation
+  SearchAccess searches();
+
+  @Relation
   TrackingIdAccess trackingIds();
 
   /** Create the next unique id for an {@link Account}. */

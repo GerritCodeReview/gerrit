@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//6Hs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/OwnerinPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-02-04T11:48:29Z",
+      "side": 1,
+      "message": "do we need the \u0027Code Aurora Forum\u0027 copyright header?",
+      "revId": "481783b24df271ad2fe748767b7fb37870981289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//6Ho\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ReviewerinPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-02-04T11:48:29Z",
+      "side": 1,
+      "message": "do we need the \u0027Code Aurora Forum\u0027 copyright header?",
+      "revId": "481783b24df271ad2fe748767b7fb37870981289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

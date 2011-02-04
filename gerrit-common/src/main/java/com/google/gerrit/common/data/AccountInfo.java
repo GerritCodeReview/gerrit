@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.Account;
 /** Summary information about an {@link Account}, for simple tabular displays. */
 public class AccountInfo {
   protected Account.Id id;
+  protected String userName;
   protected String fullName;
   protected String preferredEmail;
 
@@ -43,6 +44,7 @@ public class AccountInfo {
    */
   public AccountInfo(final Account a) {
     id = a.getId();
+    userName = a.getUserName();
     fullName = a.getFullName();
     preferredEmail = a.getPreferredEmail();
   }
@@ -50,6 +52,11 @@ public class AccountInfo {
   /** @return the unique local id of the account */
   public Account.Id getId() {
     return id;
+  }
+
+  /** @return the computed user name for this account */
+  public String getUserName() {
+    return userName;
   }
 
   /** @return the full name of the account holder; null if not supplied */

@@ -48,6 +48,13 @@ public class BaseServiceImplementation {
     return null;
   }
 
+  protected boolean isLoggedIn() {
+    try {
+      return getAccountId() != null;
+    } catch(Exception e) {}
+    return false;
+  }
+
   /**
    * Executes <code>action.run</code> with an active ReviewDb connection.
    * <p>

@@ -15,14 +15,22 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.searches.SearchEditor;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.SingleListChangeInfo;
+import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.Search;
 import com.google.gerrit.reviewdb.RevId;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtorm.client.KeyUtil;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwtorm.client.KeyUtil;
 
 public class QueryScreen extends PagedSingleListScreen implements
     ChangeListScreen {
@@ -35,6 +43,8 @@ public class QueryScreen extends PagedSingleListScreen implements
   }
 
   private final String query;
+  protected SearchEditor editor;
+  private Button save;
 
   public QueryScreen(final String encQuery, final String positionToken) {
     super("q," + encQuery, positionToken);
@@ -46,6 +56,39 @@ public class QueryScreen extends PagedSingleListScreen implements
     super.onInitUI();
     setWindowTitle(Util.M.changeQueryWindowTitle(query));
     setPageTitle(Util.M.changeQueryPageTitle(query));
+
+    editor = new SearchEditor(null) {
+      @Override
+      public void onSaveSuccess(Search updated, String linkName) {
+        setVisible(false);
+        History.newItem(Dispatcher.toSearches(updated.getType(),
+          linkName));
+      }
+
+      @Override
+      public void onCancel() {
+        super.onCancel();
+        setVisible(false);
+        save.setVisible(true);
+      }
+    };
+    editor.setVisible(false);
+
+    save = new Button(Util.C.buttonSaveSearch());
+    save.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
+        save.setVisible(false);
+        editor.setSearch(new Search(null, null, query));
+        editor.setVisible(true);
+      }
+    });
+
+    add(save);
+    add(editor);
+
+    if (! Gerrit.isSignedIn()) {
+      save.setVisible(false);
+    }
   }
 
   @Override

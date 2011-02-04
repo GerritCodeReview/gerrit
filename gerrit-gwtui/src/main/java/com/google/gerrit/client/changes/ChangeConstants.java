@@ -24,6 +24,8 @@ public interface ChangeConstants extends Constants {
 
   String changesRecentlyClosed();
 
+  String buttonSaveSearch();
+
   String starredHeading();
   String watchedHeading();
   String draftsHeading();

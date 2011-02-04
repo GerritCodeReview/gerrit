@@ -1234,3 +1234,8 @@ a:hover.downloadLink {
   margin: 4px;
   opacity: 0.90;
 }
+
+.searchEditor {
+  background: trimColor;
+  width: 100%;
+}

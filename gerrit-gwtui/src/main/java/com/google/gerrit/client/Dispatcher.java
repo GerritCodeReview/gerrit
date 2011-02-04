@@ -57,15 +57,18 @@ import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.patches.PatchScreen;
+import com.google.gerrit.client.searches.SearchScreen;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Owner;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Search;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
@@ -89,6 +92,26 @@ public class Dispatcher {
 
   public static String toProjectAdmin(final Project.NameKey n, final String tab) {
     return "admin,project," + n.toString() + "," + tab;
+  }
+
+  public static String toSearches(final Owner.Type type) {
+    return "searches," + type.getId();
+  }
+
+  public static String toSearches(final Owner.Type type, final String id) {
+    if (id == null || "".equals(id)) {
+      return toSearches(type);
+    }
+    return toSearches(type) + "," + id;
+  }
+
+  public static String toSearches(final Owner.Type type, final String owner,
+    String search) {
+    if (owner == null || "".equals(owner) ||
+        search == null || "".equals(search)) {
+      return toSearches(type, owner + search);
+    }
+    return toSearches(type, owner + "," + search);
   }
 
   static final String RELOAD_UI = "reload-ui,";
@@ -127,6 +150,9 @@ public class Dispatcher {
 
     } else if (token.startsWith("project,")) {
       Gerrit.display(token, project(token));
+
+    } else if (token.startsWith("searches,")) {
+      Gerrit.display(token, searches(token));
 
     } else if (SETTINGS.equals(token) //
         || REGISTER.equals(token) //
@@ -298,6 +324,28 @@ public class Dispatcher {
         return new NotFoundScreen();
       }
     });
+  }
+
+  private static Screen searches(final String token) {
+    String[] toks = token.split(",");
+    Owner.Type type = Owner.Type.USER;
+    String owner = "";
+    String name = "";
+
+    if (toks.length > 1) {
+      type = Owner.Type.forId(toks[1]);
+    }
+    if (toks.length > 2) {
+      if (type == Owner.Type.SITE) {
+        name = toks[2];
+      } else {
+        owner = toks[2];
+      }
+    }
+    if (toks.length > 3) {
+      name = toks[3];
+    }
+    return new SearchScreen(new Search.Key(type, owner, name));
   }
 
   private static void settings(String token) {

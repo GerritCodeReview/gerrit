@@ -96,6 +96,9 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   }
 
   protected void ensurePointerVisible() {
+    if (getRowItem(currentRow) == null) {
+      return;
+    }
     final int max = table.getRowCount();
     int row = currentRow;
     final int init = row;
@@ -151,6 +154,17 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
       pointer.removeFromParent();
     }
     currentRow = newRow;
+  }
+
+  protected void clearPointer() {
+    if (currentRow != -1) {
+      final CellFormatter fmt = table.getCellFormatter();
+      final Element tr = DOM.getParent(fmt.getElement(currentRow, C_ARROW));
+      UIObject.setStyleName(tr, Gerrit.RESOURCES.css().activeRow(), false);
+      table.setWidget(currentRow, C_ARROW, null);
+      pointer.removeFromParent();
+    }
+    currentRow = -1;
   }
 
   protected void scrollIntoView(final Element tr) {

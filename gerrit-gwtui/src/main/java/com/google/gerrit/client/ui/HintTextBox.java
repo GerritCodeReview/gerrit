@@ -139,7 +139,7 @@ public class HintTextBox extends NpTextBox {
 
   private void onKey(int key) {
     if (key == KeyCodes.KEY_ESCAPE) {
-      setText(prevText);
+      super.setText(prevText);
 
       Widget p = getParent();
       if (p instanceof SuggestBox) {
@@ -207,5 +207,9 @@ public class HintTextBox extends NpTextBox {
     }
 
     isFocused = focus;
+  }
+
+  public boolean isHintOn() {
+    return hintOn;
   }
 }

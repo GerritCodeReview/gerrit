@@ -1077,6 +1077,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     final PatchSet.Id priorPatchSet = change.currentPatchSetId();
     for (final PatchSet ps : db.patchSets().byChange(request.ontoChange)) {
       if (ps.getRevision() == null) {
+        log.warn("Patch set " + ps.getId() + " has no revision");
         reject(request.cmd, "change state corrupt");
         return null;
       }

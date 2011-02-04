@@ -15,25 +15,35 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.OwnerInfo;
+import com.google.gerrit.common.errors.NoSuchEntityException;
+import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Owner;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Search;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.OwnerControl;
+import com.google.gerrit.server.OwnerUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.NoSuchGroupException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.IntPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryBuilder;
 import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.SearchControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -47,6 +57,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * Parses a query string meant to be applied to change objects.
@@ -98,6 +109,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final IdentifiedUser.GenericFactory userFactory;
     final ChangeControl.Factory changeControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
+    final SearchControl.Factory searchControlFactory;
     final AccountResolver accountResolver;
     final GroupCache groupCache;
     final AuthConfig authConfig;
@@ -105,6 +117,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Project.NameKey wildProjectName;
     final PatchListCache patchListCache;
     final GitRepositoryManager repoManager;
+    final OwnerUtil ownerUtil;
 
     @Inject
     Arguments(Provider<ReviewDb> dbProvider,
@@ -112,16 +125,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         IdentifiedUser.GenericFactory userFactory,
         ChangeControl.Factory changeControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
+        SearchControl.Factory searchControlFactory,
         AccountResolver accountResolver, GroupCache groupCache,
         AuthConfig authConfig, ApprovalTypes approvalTypes,
         @WildProjectName Project.NameKey wildProjectName,
         PatchListCache patchListCache,
-        GitRepositoryManager repoManager) {
+        GitRepositoryManager repoManager,
+        OwnerUtil ownerUtil) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
       this.changeControlFactory = changeControlFactory;
       this.changeControlGenericFactory = changeControlGenericFactory;
+      this.searchControlFactory = searchControlFactory;
       this.accountResolver = accountResolver;
       this.groupCache = groupCache;
       this.authConfig = authConfig;
@@ -129,6 +145,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.wildProjectName = wildProjectName;
       this.patchListCache = patchListCache;
       this.repoManager = repoManager;
+      this.ownerUtil = ownerUtil;
     }
   }
 
@@ -334,7 +351,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           .create(args.dbProvider, account.getId()));
     }
 
-    // If its not an account, maybe its a group?
+    // If it's not an account, maybe it's a group?
     //
     AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(who));
     if (g != null) {
@@ -362,6 +379,71 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   public Predicate<ChangeData> is_visible() {
     return visibleto(currentUser);
+  }
+
+  @Operator
+  public Predicate<ChangeData> usersearch(String name) throws QueryParseException,
+      OrmException {
+    String split[] = splitSearch(name);
+    if ("".equals(split[0])) {
+      if (currentUser instanceof IdentifiedUser) {
+        return search(new Search.Key(Owner.Type.USER, "", name));
+      } else {
+        throw error("Unqualified user search: " + name + ", and not logged in");
+      }
+    }
+    return search(new Search.Key(Owner.Type.USER, split[0], split[1]));
+  }
+
+  @Operator
+  public Predicate<ChangeData> groupsearch(String name) throws QueryParseException,
+      OrmException {
+    String split[] = splitSearch(name);
+    return search(new Search.Key(Owner.Type.GROUP, split[0], split[1]));
+  }
+
+  @Operator
+  public Predicate<ChangeData> projectsearch(String name) throws QueryParseException,
+      OrmException {
+    String split[] = splitSearch(name);
+    return search(new Search.Key(new Project.NameKey(split[0]), split[1]));
+  }
+
+  @Operator
+  public Predicate<ChangeData> sitesearch(String name) throws QueryParseException,
+      OrmException {
+    return search(new Search.Key(name));
+  }
+
+  private Predicate<ChangeData> search(Search.Key key) throws QueryParseException,
+      OrmException {
+    key.setOwnerId(getOwnerInfo(key.getOwnerId()).getId());
+
+    Search search = args.dbProvider.get().searches().get(key);
+    try {
+      args.searchControlFactory.validateFor(key);
+    } catch (Exception e) {
+      search = null;
+    }
+    if (search == null) {
+      throw error(key.getType().getId() + "search " + key.get() + " not found");
+    }
+    return parse(search.getQuery());
+  }
+
+  private OwnerInfo getOwnerInfo(final Owner.Id id)
+      throws OrmException, QueryParseException {
+    try {
+      return args.ownerUtil.getOwnerInfo(id);
+    } catch (NoSuchEntityException e) {
+      throw error("Owner " + id.get() + " not found.");
+    } catch (NoSuchAccountException e) {
+      throw error("User " + id.get() + " not found.");
+    } catch (NoSuchGroupException e) {
+      throw error("Group " + id.get() + " not found.");
+    } catch (NoSuchProjectException e) {
+      throw error("Project " + id.get() + " not found.");
+    }
   }
 
   @Operator
@@ -486,5 +568,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     } else {
       throw error("Unsupported query:" + query);
     }
+  }
+
+  private static String [] splitSearch(String search) {
+    String [] out = { "", search };
+    Pattern p = Pattern.compile("^([^\\.]*)\\.(.*)$");
+    Matcher m = p.matcher(search);
+    if (m.find()) {
+      out[0] = m.group(1);
+      out[1] = m.group(2);
+    }
+    return out;
   }
 }

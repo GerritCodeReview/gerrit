@@ -30,6 +30,7 @@ import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.Owner;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -456,6 +457,13 @@ public class Gerrit implements EntryPoint {
     } else {
       menuLeft.selectTab(0);
     }
+
+    m = new LinkMenuBar();
+    addLink(m, C.menuSearchesUsers(), PageLinks.toSearches(Owner.Type.USER));
+    addLink(m, C.menuSearchesGroups(), PageLinks.toSearches(Owner.Type.GROUP));
+    addLink(m, C.menuSearchesProjects(), PageLinks.toSearches(Owner.Type.PROJECT));
+    addLink(m, C.menuSearchesSite(), PageLinks.toSearches(Owner.Type.SITE));
+    menuLeft.add(m, C.menuSearches());
 
     if (signedIn) {
       m = new LinkMenuBar();

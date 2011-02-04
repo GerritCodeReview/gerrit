@@ -59,6 +59,12 @@ public interface GerritConstants extends Constants {
   String menuMyWatchedChanges();
   String menuMyStarredChanges();
 
+  String menuSearches();
+  String menuSearchesUsers();
+  String menuSearchesGroups();
+  String menuSearchesProjects();
+  String menuSearchesSite();
+
   String menuAdmin();
   String menuPeople();
   String menuGroups();

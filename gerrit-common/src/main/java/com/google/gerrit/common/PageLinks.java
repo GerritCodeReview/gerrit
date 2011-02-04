@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Owner;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.Change.Status;
 import com.google.gwtorm.client.KeyUtil;
@@ -59,6 +60,10 @@ public class PageLinks {
 
   public static String toChangeQuery(final String query) {
     return "q," + KeyUtil.encode(query) + "," + TOP;
+  }
+
+  public static String toSearches(final Owner.Type type) {
+    return "searches," + type.getId();
   }
 
   public static String projectQuery(Project.NameKey proj, Status status) {

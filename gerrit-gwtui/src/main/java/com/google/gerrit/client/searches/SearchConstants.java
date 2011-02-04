@@ -17,13 +17,19 @@ package com.google.gerrit.client.searches;
 import com.google.gwt.i18n.client.Constants;
 
 public interface SearchConstants extends Constants {
+  String defaultAccountName();
+  String defaultAccountGroupName();
+  String defaultProjectName();
   String defaultSearchName();
 
+  String buttonBrowseSearches();
   String buttonDeleteSearches();
   String buttonCancelSearch();
   String buttonInsertNewSearch();
   String buttonInsertSearch();
   String buttonSaveSearch();
+
+  String headingBrowse();
 
   String columnSearchName();
   String columnSearchDescription();

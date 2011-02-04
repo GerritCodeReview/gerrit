@@ -16,7 +16,6 @@ package com.google.gerrit.client.searches;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.common.data.OwnerInfo;
@@ -30,7 +29,7 @@ import com.google.gwt.user.client.ui.Button;
 
 import java.util.List;
 
-public class SearchScreen extends Screen {
+public class SearchScreen extends OwnerScreen {
   protected SearchList list;
   protected SearchTable table;
   protected Search.Key key;
@@ -69,7 +68,7 @@ public class SearchScreen extends Screen {
     };
 
   public SearchScreen(final Search.Key key) {
-    super();
+    super(key.getOwnerId());
     this.key = key;
   }
 
@@ -146,19 +145,27 @@ public class SearchScreen extends Screen {
 
   public void refresh() {
     loadSearchList();
+    if (owner != null) {
+      owner.setFocus(true);
+      owner.setFocus(false); // why do we have to do this to make Hint blurr?
+    }
   }
 
   public void loadSearchList() {
-    Util.SEARCH_LIST_SVC.getSearchList(key.getOwnerId(), cbList);
+    Util.SEARCH_LIST_SVC.getSearchList(ownerId, cbList);
   }
 
   public void loadSearches() {
-    Util.SEARCH_LIST_SVC.getSearches(key.getOwnerId(), cbSearches);
+    Util.SEARCH_LIST_SVC.getSearches(ownerId, cbSearches);
   }
 
   private void displaySearches(List<Search> searches) {
     list.setSearches(searches);
     table.refresh(key);
+  }
+
+  public void browse(String ownerForLink) {
+    History.newItem(Dispatcher.toSearches(ownerId.getType(), ownerForLink));
   }
 
   protected void display(final SearchList list) {
@@ -203,14 +210,14 @@ public class SearchScreen extends Screen {
   protected String getSearchTitle() {
     String owner = list.getOwnerInfo().getOwnerForDisplay();
     if ("".equals(owner)) {
-      switch(key.getType()) {
+      switch(ownerId.getType()) {
         case USER:    return Util.C.titleSearchUser();
         case GROUP:   return Util.C.titleSearchGroup();
         case PROJECT: return Util.C.titleSearchProject();
         case SITE:    return Util.C.titleSearchSite();
       }
     } else {
-      switch(key.getType()) {
+      switch(ownerId.getType()) {
         case USER:    return Util.M.titleSearchUser(owner);
         case GROUP:   return Util.M.titleSearchGroup(owner);
         case PROJECT: return Util.M.titleSearchProject(owner);

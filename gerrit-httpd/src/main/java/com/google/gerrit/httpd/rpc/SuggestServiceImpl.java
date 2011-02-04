@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -42,14 +43,17 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private final ProjectCache projectCache;
   private final AccountCache accountCache;
   private final Provider<CurrentUser> currentUser;
+  private final AccountResolver accountResolver;
 
   @Inject
   SuggestServiceImpl(final Provider<ReviewDb> schema,
       final ProjectCache projectCache, final AccountCache accountCache,
+      final AccountResolver accountResolver,
       final Provider<CurrentUser> currentUser) {
     super(schema, currentUser);
     this.projectCache = projectCache;
     this.accountCache = accountCache;
+    this.accountResolver = accountResolver;
     this.currentUser = currentUser;
   }
 
@@ -107,6 +111,16 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
           }
         }
         return new ArrayList<AccountInfo>(r.values());
+      }
+    });
+  }
+
+  public void getAccountInfo(final String nameOrEmail,
+      final AsyncCallback<AccountInfo> callback) {
+    run(callback, new Action<AccountInfo>() {
+      public AccountInfo run(final ReviewDb db) throws OrmException {
+        final Account a = accountResolver.find(nameOrEmail);
+        return new AccountInfo(a);
       }
     });
   }

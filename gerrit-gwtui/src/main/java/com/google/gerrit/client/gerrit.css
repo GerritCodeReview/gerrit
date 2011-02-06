@@ -464,7 +464,7 @@
   background: backgroundColor;
 }
 
-.changeTable .activeRow, 
+.changeTable .activeRow,
 .accountDashboard.changeTable .activeRow,
 .accountDashboard.changeTable .activeRow a {
   background: selectionColor;
@@ -507,7 +507,9 @@
 .changeTable .dataCell.posscore {
   color: #08a400;
 }
-
+.changeTable .dataCell.singleLine {
+  white-space: nowrap;
+}
 .changeTable .iconHeader {
   border-top: 1px solid backgroundColor;
   border-bottom: 1px solid backgroundColor;

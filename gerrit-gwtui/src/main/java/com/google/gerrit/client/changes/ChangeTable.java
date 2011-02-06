@@ -314,6 +314,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
       fmt.removeStyleName(row, col, Gerrit.RESOURCES.css().negscore());
       fmt.removeStyleName(row, col, Gerrit.RESOURCES.css().posscore());
+      fmt.addStyleName(row, col, Gerrit.RESOURCES.css().singleLine());
 
       if (ca == null || ca.getValue() == 0) {
         table.clearCell(row, col);
@@ -321,14 +322,21 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       } else {
         haveReview = true;
 
+        final ApprovalCategoryValue acv = type.getValue(ca);
+        final AccountInfo ai = aic.get(ca.getAccountId());
+
         if (type.isMaxNegative(ca)) {
-          table.setWidget(row, col, new Image(Gerrit.RESOURCES.redNot()));
+          table.setHTML(row, col, new Image(Gerrit.RESOURCES.redNot())
+              .getElement().getString()
+              + FormatUtil.name(ai));
 
         } else if (type.isMaxPositive(ca)) {
-          table.setWidget(row, col, new Image(Gerrit.RESOURCES.greenCheck()));
+          table.setHTML(row, col, new Image(Gerrit.RESOURCES.greenCheck())
+              .getElement().getString()
+              + FormatUtil.name(ai));
 
         } else {
-          String vstr = String.valueOf(ca.getValue());
+          String vstr = String.valueOf(ca.getValue()) + " " + FormatUtil.name(ai);
           if (ca.getValue() > 0) {
             vstr = "+" + vstr;
             fmt.addStyleName(row, col, Gerrit.RESOURCES.css().posscore());
@@ -337,9 +345,6 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
           }
           table.setText(row, col, vstr);
         }
-
-        final ApprovalCategoryValue acv = type.getValue(ca);
-        final AccountInfo ai = aic.get(ca.getAccountId());
 
         // Some web browsers ignore the embedded newline; some like it;
         // so we include a space before the newline to accommodate both.

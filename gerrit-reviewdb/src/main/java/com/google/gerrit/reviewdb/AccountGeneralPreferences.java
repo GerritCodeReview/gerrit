@@ -117,6 +117,9 @@ public final class AccountGeneralPreferences {
   @Column(id = 10)
   protected boolean displayPatchSetsInReverseOrder;
 
+  @Column(id = 11)
+  protected boolean displayPersonNameInReviewCategory;
+
   public AccountGeneralPreferences() {
   }
 
@@ -190,6 +193,14 @@ public final class AccountGeneralPreferences {
     this.displayPatchSetsInReverseOrder = displayPatchSetsInReverseOrder;
   }
 
+  public boolean isDisplayPersonNameInReviewCategory() {
+    return displayPersonNameInReviewCategory;
+  }
+
+  public void setDisplayPersonNameInReviewCategory(final boolean displayPersonNameInReviewCategory) {
+    this.displayPersonNameInReviewCategory = displayPersonNameInReviewCategory;
+  }
+
   public DateFormat getDateFormat() {
     if (dateFormat == null) {
       return DateFormat.STD;
@@ -218,6 +229,7 @@ public final class AccountGeneralPreferences {
     useFlashClipboard = true;
     copySelfOnEmail = false;
     displayPatchSetsInReverseOrder = false;
+    displayPersonNameInReviewCategory = false;
     downloadUrl = null;
     downloadCommand = null;
     dateFormat = null;

@@ -35,6 +35,7 @@ import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.ToggleStarRequest;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Change;
@@ -46,7 +47,10 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -309,11 +313,22 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     int col = BASE_COLUMNS;
     boolean haveReview = false;
 
+    boolean displayPersonNameInReviewCategory = false;
+
+    if (Gerrit.isSignedIn()) {
+      AccountGeneralPreferences prefs = Gerrit.getUserAccount().getGeneralPreferences();
+
+      if (prefs.isDisplayPersonNameInReviewCategory()) {
+        displayPersonNameInReviewCategory = true;
+      }
+    }
+
     for (final ApprovalType type : approvalTypes) {
       final PatchSetApproval ca = approvals.get(type.getCategory().getId());
 
       fmt.removeStyleName(row, col, Gerrit.RESOURCES.css().negscore());
       fmt.removeStyleName(row, col, Gerrit.RESOURCES.css().posscore());
+      fmt.addStyleName(row, col, Gerrit.RESOURCES.css().singleLine());
 
       if (ca == null || ca.getValue() == 0) {
         table.clearCell(row, col);
@@ -321,14 +336,38 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       } else {
         haveReview = true;
 
+        final ApprovalCategoryValue acv = type.getValue(ca);
+        final AccountInfo ai = aic.get(ca.getAccountId());
+
         if (type.isMaxNegative(ca)) {
-          table.setWidget(row, col, new Image(Gerrit.RESOURCES.redNot()));
+
+          if (displayPersonNameInReviewCategory) {
+            FlowPanel fp = new FlowPanel();
+            fp.add(new Image(Gerrit.RESOURCES.redNot()));
+            fp.add(new InlineLabel(FormatUtil.name(ai)));
+            table.setWidget(row, col, fp);
+          } else {
+            table.setWidget(row, col, new Image(Gerrit.RESOURCES.redNot()));
+          }
 
         } else if (type.isMaxPositive(ca)) {
-          table.setWidget(row, col, new Image(Gerrit.RESOURCES.greenCheck()));
+
+          if (displayPersonNameInReviewCategory) {
+            FlowPanel fp = new FlowPanel();
+            fp.add(new Image(Gerrit.RESOURCES.greenCheck()));
+            fp.add(new InlineLabel(FormatUtil.name(ai)));
+            table.setWidget(row, col, fp);
+          } else {
+            table.setWidget(row, col, new Image(Gerrit.RESOURCES.greenCheck()));
+          }
 
         } else {
           String vstr = String.valueOf(ca.getValue());
+
+          if (displayPersonNameInReviewCategory) {
+            vstr = vstr + " " + FormatUtil.name(ai);
+          }
+
           if (ca.getValue() > 0) {
             vstr = "+" + vstr;
             fmt.addStyleName(row, col, Gerrit.RESOURCES.css().posscore());
@@ -337,9 +376,6 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
           }
           table.setText(row, col, vstr);
         }
-
-        final ApprovalCategoryValue acv = type.getValue(ca);
-        final AccountInfo ai = aic.get(ca.getAccountId());
 
         // Some web browsers ignore the embedded newline; some like it;
         // so we include a space before the newline to accommodate both.

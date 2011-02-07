@@ -17,6 +17,7 @@ Error Messages
 * link:error-multiple-changeid-lines.html[multiple Change-Id lines in commit message]
 * link:error-no-common-ancestry.html[no common ancestry]
 * link:error-no-new-changes.html[no new changes]
+* link:error-non-fast-forward.html[non-fast forward]
 * link:error-not-a-gerrit-administrator[Not a Gerrit administrator]
 * link:error-not-a-gerrit-project.html[not a Gerrit project]
 * link:error-not-permitted-to-create.html[Not permitted to create ...]

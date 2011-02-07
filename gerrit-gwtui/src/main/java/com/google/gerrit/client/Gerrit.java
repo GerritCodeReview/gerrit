@@ -30,6 +30,7 @@ import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.AuthType;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -476,7 +477,9 @@ public class Gerrit implements EntryPoint {
     if (signedIn) {
       whoAmI();
       addLink(menuRight, C.menuSettings(), PageLinks.SETTINGS);
-      menuRight.add(anchor(C.menuSignOut(), "logout"));
+      if (cfg.getAuthType() != AuthType.CLIENT_SSL_CERT_LDAP) {
+        menuRight.add(anchor(C.menuSignOut(), "logout"));
+      }
     } else {
       switch (cfg.getAuthType()) {
         case HTTP:

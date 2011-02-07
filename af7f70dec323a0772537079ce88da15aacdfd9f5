@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//5vw\u003d",
+        "filename": "Documentation/error-non-fast-forward.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1005390
+      },
+      "writtenOn": "2011-02-07T15:51:45Z",
+      "side": 1,
+      "message": "With this error message Git rejects a so-called non-fast forward push. A push is a non-fast forward push if the following two conditions hold true: First, the pushed commit is not based on the current tip of the remote branch. Second, the remote branch cannot be fast forwarded onto the pushed commit.",
+      "revId": "af7f70dec323a0772537079ce88da15aacdfd9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

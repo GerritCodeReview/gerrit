@@ -16,6 +16,24 @@
       "revId": "af7f70dec323a0772537079ce88da15aacdfd9f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//5ns\u003d",
+        "filename": "Documentation/error-non-fast-forward.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-02-08T05:51:36Z",
+      "side": 1,
+      "message": "Actually it\u0027s only one condition (the pushed commit is not based on the current tip of the remote branch). That the remote branch can\u0027t be fast forwarded onto the pushed commit is the consequence that is always true if the condition is fulfilled. \n\nI will see how I can rephrase it to make it more clear.",
+      "parentUuid": "AAAA+3//5vw\u003d",
+      "revId": "af7f70dec323a0772537079ce88da15aacdfd9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

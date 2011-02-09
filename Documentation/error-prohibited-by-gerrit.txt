@@ -14,6 +14,14 @@ In particular this error occurs:
 3. if you push a tag without sufficient privileges in the link:access-control.html#category_pTAG['Push Tag']
    category
 
+For new users it happens often that they accidentally try to bypass
+code review. The push then fails with the error message 'prohibited
+by Gerrit' because the project didn't allow to bypass code review.
+Bypassing the code review is done by pushing directly to refs/heads/*
+(e.g. refs/heads/master) instead of pushing to refs/for/* (e.g.
+refs/for/master). Details about how to push commits for code review
+are explained link:user-upload.html#push_create[here].
+
 
 GERRIT
 ------

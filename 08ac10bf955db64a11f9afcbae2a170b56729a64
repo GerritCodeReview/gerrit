@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//5OY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-02-10T11:10:51Z",
+      "side": 1,
+      "message": "Could you provide a bit more elaborate commit message especially explaining the reason/motivation for your change?",
+      "revId": "08ac10bf955db64a11f9afcbae2a170b56729a64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1562,6 +1562,25 @@ email from Gerrit.
 +
 By default, unset, permitting delivery to any email address.
 
+[[sendemail.importance]]sendemail.importance::
++
+If present, emails sent from Gerrit will have the given level
+of importance. Valid values include 'high' and 'low', which
+email clients will render in different ways.
++
+By default, unset, so no Importance header is generated.
+
+[[sendemail.expiryDays]]sendemail.expiryDays::
++
+If present, emails sent from Gerrit will expire after the given
+number of days. This will add the Expiry-Date header and
+email clients may expire or expunge mails whose Expiry-Date
+header is in the past. This should be a positive non-zero
+number indicating how many days in the future the mails
+should expire.
++
+By default, unset, so no Expiry-Date header is generated.
+
 [[sshd]] Section sshd
 ~~~~~~~~~~~~~~~~~~~~~
 

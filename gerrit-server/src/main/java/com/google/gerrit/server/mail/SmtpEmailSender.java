@@ -28,8 +28,10 @@ import org.eclipse.jgit.lib.Config;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -51,6 +53,8 @@ public class SmtpEmailSender implements EmailSender {
   private Encryption smtpEncryption;
   private boolean sslVerify;
   private Set<String> allowrcpt;
+  private String importance;
+  private int expiryDays;
 
   @Inject
   SmtpEmailSender(@GerritServerConfig final Config cfg) {
@@ -88,6 +92,8 @@ public class SmtpEmailSender implements EmailSender {
       rcpt.add(addr);
     }
     allowrcpt = Collections.unmodifiableSet(rcpt);
+    importance = cfg.getString("sendemail", null, "importance");
+    expiryDays = cfg.getInt("sendemail", null, "expiryDays", 0);
   }
 
   @Override
@@ -132,6 +138,15 @@ public class SmtpEmailSender implements EmailSender {
     setMissingHeader(hdrs, "Content-Transfer-Encoding", "8bit");
     setMissingHeader(hdrs, "Content-Disposition", "inline");
     setMissingHeader(hdrs, "User-Agent", "Gerrit/" + Version.getVersion());
+    if(importance != null) {
+      setMissingHeader(hdrs, "Importance", importance);
+    }
+    if(expiryDays > 0) {
+      Date expiry = new Date(System.currentTimeMillis() + 
+        expiryDays * 24 * 60 * 60 * 1000 );
+      setMissingHeader(hdrs, "Expiry-Date", 
+        new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").format(expiry));
+    }
 
     try {
       final SMTPClient client = open();

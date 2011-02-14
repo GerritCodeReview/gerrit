@@ -106,7 +106,7 @@ class ListBranches extends Handler<ListBranchesResult> {
             target = target.substring(Constants.R_HEADS.length());
           }
 
-          Branch b = createBranch(Constants.HEAD);
+          Branch b = createBranch(ref.getName());
           b.setRevision(new RevId(target));
           b.setCanDelete(targetRefControl.canDelete());
 

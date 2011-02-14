@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//45I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-02-14T14:41:56Z",
+      "side": 1,
+      "message": "Start the sentence with uppercase letter :-)",
+      "revId": "ff039ae47087a65ebc02c223fa6df8b322ddb3d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//45E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-02-14T14:41:56Z",
+      "side": 1,
+      "message": "You are using too short text width. 70 characters text width should be OK.",
+      "revId": "ff039ae47087a65ebc02c223fa6df8b322ddb3d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA+3//45A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-02-14T14:41:56Z",
+      "side": 1,
+      "message": "Instead of using the List\u003cString\u003e as the type of targets use\nthe Set\u003cString\u003e targets \u003d new HashSet\u003cString\u003e();\nThe contains method of a HashSet should perform faster than contains method on a list.",
+      "revId": "ff039ae47087a65ebc02c223fa6df8b322ddb3d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

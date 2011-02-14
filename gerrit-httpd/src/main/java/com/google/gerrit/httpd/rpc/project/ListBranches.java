@@ -35,8 +35,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 class ListBranches extends Handler<ListBranchesResult> {
   interface Factory {
@@ -67,6 +69,7 @@ class ListBranches extends Handler<ListBranchesResult> {
 
     final List<Branch> branches = new ArrayList<Branch>();
     Branch headBranch = null;
+    final Set<String> targets = new HashSet<String>();
 
     final Repository db;
     try {
@@ -94,6 +97,12 @@ class ListBranches extends Handler<ListBranchesResult> {
 
       for (final Ref ref : all.values()) {
         if (ref.isSymbolic()) {
+          targets.add(ref.getTarget().getName());
+        }
+      }
+
+      for (final Ref ref : all.values()) {
+        if (ref.isSymbolic()) {
           // A symbolic reference to another branch, instead of
           // showing the resolved value, show the name it references.
           //
@@ -108,11 +117,12 @@ class ListBranches extends Handler<ListBranchesResult> {
 
           Branch b = createBranch(ref.getName());
           b.setRevision(new RevId(target));
-          b.setCanDelete(targetRefControl.canDelete());
 
           if (Constants.HEAD.equals(ref.getName())) {
+            b.setCanDelete(false);
             headBranch = b;
           } else {
+            b.setCanDelete(targetRefControl.canDelete());
             branches.add(b);
           }
           continue;
@@ -127,7 +137,7 @@ class ListBranches extends Handler<ListBranchesResult> {
             b.setRevision(new RevId(ref.getObjectId().name()));
           }
 
-          b.setCanDelete(refControl.canDelete());
+          b.setCanDelete(!targets.contains(ref.getName()) && refControl.canDelete());
 
           branches.add(b);
         }

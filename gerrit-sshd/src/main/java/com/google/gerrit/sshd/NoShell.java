@@ -28,7 +28,6 @@ import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.SessionAware;
 import org.apache.sshd.server.session.ServerSession;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.SystemReader;
 
 import java.io.IOException;
@@ -98,7 +97,7 @@ class NoShell implements Factory<Command> {
       } finally {
         SshScope.set(old);
       }
-      err.write(Constants.encodeASCII(message.toString()));
+      err.write(message.toString().getBytes());
       err.flush();
 
       in.close();

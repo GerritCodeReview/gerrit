@@ -32,7 +32,7 @@ public final class RefRight {
       StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1)
+    @Column(id = 1, length = 140)
     protected String pattern;
 
     protected RefPattern() {

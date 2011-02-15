@@ -59,11 +59,16 @@ rights on it:
 
   CREATE USER 'gerrit2'@'localhost' IDENTIFIED BY 'secret';
   CREATE DATABASE reviewdb;
-  ALTER DATABASE reviewdb charset=latin1;
+  ALTER DATABASE reviewdb charset=utf8;
   GRANT ALL ON reviewdb.* TO 'gerrit2'@'localhost';
   FLUSH PRIVILEGES;
 ----
 
+Add the following line to my.cnf in section of [client] and [mysqld]:
+
+----
+  default-character-set = utf8
+----
 
 [[init]]
 Initialize the Site

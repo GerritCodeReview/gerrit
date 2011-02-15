@@ -65,7 +65,7 @@ public final class AccountProjectWatch {
   public static class Filter extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1)
+    @Column(id = 1, length  = 150)
     protected String filter;
 
     protected Filter() {

@@ -24,7 +24,7 @@ public final class Project {
       StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1)
+    @Column(id = 1, length = 150)
     protected String name;
 
     protected NameKey() {

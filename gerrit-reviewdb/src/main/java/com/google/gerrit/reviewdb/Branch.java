@@ -29,7 +29,7 @@ public final class Branch {
     @Column(id = 1)
     protected Project.NameKey projectName;
 
-    @Column(id = 2)
+    @Column(id = 2, length = 140)
     protected String branchName;
 
     protected NameKey() {

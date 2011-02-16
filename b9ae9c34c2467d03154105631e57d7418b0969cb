@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//4gg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-02-16T22:47:37Z",
+      "side": 1,
+      "message": "It would probably be good to disable the createButton button during this RPC so that it cannot happen twice in a row on slow links.  (see http://code.google.com/p/gerrit/issues/detail?id\u003d846)",
+      "revId": "b9ae9c34c2467d03154105631e57d7418b0969cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

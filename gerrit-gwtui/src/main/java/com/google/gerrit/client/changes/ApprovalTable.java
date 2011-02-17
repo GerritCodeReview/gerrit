@@ -179,6 +179,7 @@ public class ApprovalTable extends Composite {
           public void onSuccess(final ReviewerResult result) {
             addMemberBox.setEnabled(true);
             addMemberBox.setText("");
+            addMemberBox.focusTextBox();
 
             if (!result.getErrors().isEmpty()) {
               final SafeHtmlBuilder r = new SafeHtmlBuilder();

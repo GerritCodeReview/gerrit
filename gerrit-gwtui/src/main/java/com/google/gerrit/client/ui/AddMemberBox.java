@@ -99,6 +99,10 @@ public class AddMemberBox extends Composite {
     nameTxtBox.setText(text);
   }
 
+  public void focusTextBox() {
+    nameTxtBox.setFocus(true);
+  }
+
   private void doAdd() {
     addMember.fireEvent(new ClickEvent() {});
   }

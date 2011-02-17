@@ -459,6 +459,7 @@ public class AccountGroupScreen extends AccountScreen {
           public void onSuccess(final GroupDetail result) {
             addMemberBox.setEnabled(true);
             addMemberBox.setText("");
+            addMemberBox.focusTextBox();
             if (result.accounts != null && result.members != null) {
               accounts.merge(result.accounts);
               members.display(result.members);

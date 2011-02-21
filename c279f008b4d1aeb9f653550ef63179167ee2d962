@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA+3//4Fw\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-02-21T21:52:36Z",
+      "side": 1,
+      "message": "I guess we could do this, but it harms users of PostgreSQL and H2 where they aren\u0027t limited on key length like MySQL users. If they wanted a project name longer than 150 characters, their servers would support it, but the schema wouldn\u0027t by default because of this length declaration.\n\nI would prefer to truncate these columns elsewhere for MySQL users only.",
+      "revId": "c279f008b4d1aeb9f653550ef63179167ee2d962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

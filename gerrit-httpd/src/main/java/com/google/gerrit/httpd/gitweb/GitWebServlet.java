@@ -242,14 +242,18 @@ class GitWebServlet extends HttpServlet {
       //
       p.print("if ($cgi->param('a') =~ /^(commit|commitdiff)$/) {\n");
       p.print("  my $h = $cgi->param('h');\n");
-      p.print("  my $r = qq{$ENV{'GERRIT_CONTEXT_PATH'}#q,$h,n,z};");
-      p.print("  push @{$feature{'actions'}{'default'}},\n");
-      p.print("    ('review',$r,'commitdiff');\n");
+      p.print("  if ($h && $h ne 'HEAD') {\n");
+      p.print("    my $r = qq{$ENV{'GERRIT_CONTEXT_PATH'}#q,$h,n,z};\n");
+      p.print("    push @{$feature{'actions'}{'default'}},\n");
+      p.print("      ('review',$r,'commitdiff');\n");
+      p.print("  }\n");
       p.print("} elsif ($cgi->param('a') =~ /^(tree|blob)$/) {\n");
       p.print("  my $h = $cgi->param('hb');\n");
-      p.print("  my $r = qq{$ENV{'GERRIT_CONTEXT_PATH'}#q,$h,n,z};");
-      p.print("  push @{$feature{'actions'}{'default'}},\n");
-      p.print("    ('review',$r,'commitdiff');\n");
+      p.print("  if ($h && $h ne 'HEAD') {\n");
+      p.print("    my $r = qq{$ENV{'GERRIT_CONTEXT_PATH'}#q,$h,n,z};\n");
+      p.print("    push @{$feature{'actions'}{'default'}},\n");
+      p.print("      ('review',$r,'commitdiff');\n");
+      p.print("  }\n");
       p.print("}\n");
 
       // Permit exporting only the project we were started for.

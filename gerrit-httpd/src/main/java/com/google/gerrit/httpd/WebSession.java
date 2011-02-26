@@ -28,6 +28,7 @@ import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EvictionPolicy;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
@@ -62,6 +63,7 @@ public final class WebSession {
   private final HttpServletRequest request;
   private final HttpServletResponse response;
   private final WebSessionManager manager;
+  private final AuthConfig authConfig;
   private final AnonymousUser anonymous;
   private final IdentifiedUser.RequestFactory identified;
   private AccessPath accessPath = AccessPath.WEB_UI;
@@ -73,11 +75,12 @@ public final class WebSession {
   @Inject
   WebSession(final HttpServletRequest request,
       final HttpServletResponse response, final WebSessionManager manager,
-      final AnonymousUser anonymous,
+      final AuthConfig authConfig, final AnonymousUser anonymous,
       final IdentifiedUser.RequestFactory identified) {
     this.request = request;
     this.response = response;
     this.manager = manager;
+    this.authConfig = authConfig;
     this.anonymous = anonymous;
     this.identified = identified;
 
@@ -182,13 +185,17 @@ public final class WebSession {
     }
 
     if (outCookie == null) {
-      String path = request.getContextPath();
-      if (path.equals("")) {
-        path = "/";
+      String path = authConfig.getCookiePath();
+      if (path == null || path.isEmpty()) {
+        path = request.getContextPath();
+        if (path.isEmpty()) {
+          path = "/";
+        }
       }
       outCookie = new Cookie(ACCOUNT_COOKIE, token);
       outCookie.setPath(path);
       outCookie.setMaxAge(ageSeconds);
+      outCookie.setSecure(authConfig.getCookieSecure());
       response.addCookie(outCookie);
     } else {
       outCookie.setValue(token);

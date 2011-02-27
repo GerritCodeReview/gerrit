@@ -69,7 +69,7 @@ public class GitWebConfig {
       return;
     }
 
-    if (cfgUrl != null) {
+    if ((cfgUrl != null) && (cfgCgi == null || cfgCgi.isEmpty())) {
       // Use an externally managed gitweb instance, and not an internal one.
       //
       url = cfgUrl;
@@ -126,7 +126,11 @@ public class GitWebConfig {
       }
     }
 
-    url = cgi != null ? "gitweb" : null;
+    if (cfgUrl == null || cfgUrl.isEmpty()) {
+      url = cgi != null ? "gitweb" : null;
+    } else {
+      url = cgi != null ? cfgUrl : null;
+    }
     gitweb_cgi = cgi;
     gitweb_css = css;
     gitweb_js = js;

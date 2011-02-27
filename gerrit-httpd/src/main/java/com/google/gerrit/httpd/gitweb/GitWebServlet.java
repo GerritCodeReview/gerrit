@@ -78,6 +78,7 @@ class GitWebServlet extends HttpServlet {
   private final Set<String> deniedActions;
   private final int bufferSize = 8192;
   private final File gitwebCgi;
+  private final String gitwebUrl;
   private final LocalDiskRepositoryManager repoManager;
   private final ProjectControl.Factory projectControl;
   private final EnvList _env;
@@ -90,6 +91,7 @@ class GitWebServlet extends HttpServlet {
     this.repoManager = repoManager;
     this.projectControl = projectControl;
     this.gitwebCgi = gitWebConfig.getGitwebCGI();
+    this.gitwebUrl = gitWebConfig.getUrl();
     this.deniedActions = new HashSet<String>();
 
     deniedActions.add("forks");
@@ -155,6 +157,9 @@ class GitWebServlet extends HttpServlet {
       //
       p.print("$home_link = $ENV{'GERRIT_CONTEXT_PATH'};\n");
       p.print("$home_link_str = 'Code Review';\n");
+      if (this.gitwebUrl != "gitweb") {
+        p.print("$my_uri = " + quoteForPerl(this.gitwebUrl) + ";\n");
+      }
 
       p.print("$favicon = 'favicon.ico';\n");
       p.print("$logo = 'gitweb-logo.png';\n");

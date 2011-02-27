@@ -81,7 +81,8 @@ public class GitWebConfig {
     }
 
     final File pkgCgi = new File("/usr/lib/cgi-bin/gitweb.cgi");
-    String[] resourcePaths = {"/usr/share/gitweb", "/var/www"};
+    String[] resourcePaths = {"/usr/share/gitweb/static", "/usr/share/gitweb",
+        "/var/www/static", "/var/www"};
     File cgi;
 
     if (cfgCgi != null) {
@@ -100,7 +101,8 @@ public class GitWebConfig {
         // Assume the administrator pointed us to the distribution,
         // which also has the corresponding CSS and logo file.
         //
-        resourcePaths = new String[] {cgi.getParentFile().getAbsolutePath()};
+        String absPath = cgi.getParentFile().getAbsolutePath();
+        resourcePaths = new String[] {absPath + "/static", absPath};
       }
 
     } else if (pkgCgi.isFile() && pkgCgi.canExecute()) {

@@ -158,6 +158,7 @@ class GitWebServlet extends HttpServlet {
 
       p.print("$favicon = 'favicon.ico';\n");
       p.print("$logo = 'gitweb-logo.png';\n");
+      p.print("$javascript = 'gitweb.js';\n");
       p.print("@stylesheets = ('gitweb-default.css');\n");
       final File css = site.site_css;
       if (css.isFile()) {

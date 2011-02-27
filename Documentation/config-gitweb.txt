@@ -21,6 +21,18 @@ Linux distributions.
 
 ====
   git config --file $site_path/etc/gerrit.config gitweb.cgi /usr/lib/cgi-bin/gitweb.cgi
+  git config --file $site_path/etc/gerrit.config --unset gitweb.url
+====
+
+Alternatively, if Gerrit is served behind reverse proxy, it can
+generate different URLs for gitweb's links (they need to be
+rewritten to `<gerrit>/gitweb?args` on the web server). This allows
+for serving gitweb under different URL than the Gerrit instance.
+To enable this feature set both: `gitweb.cgi` and `gitweb.url`.
+
+====
+  git config --file $site_path/etc/gerrit.config gitweb.cgi /usr/lib/cgi-bin/gitweb.cgi
+  git config --file $site_path/etc/gerrit.config gitweb.url /pretty/path/to/gitweb
 ====
 
 After updating `'$site_path'/etc/gerrit.config`, the Gerrit server must
@@ -69,6 +81,7 @@ namespace is available.
 
 ====
   git config --file $site_path/etc/gerrit.config gitweb.url http://example.com/gitweb.cgi
+  git config --file $site_path/etc/gerrit.config --unset gitweb.cgi
 ====
 
 After updating `'$site_path'/etc/gerrit.config`, the Gerrit server must

@@ -57,6 +57,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -78,6 +80,7 @@ class GitWebServlet extends HttpServlet {
   private final Set<String> deniedActions;
   private final int bufferSize = 8192;
   private final File gitwebCgi;
+  private final URI gitwebUrl;
   private final LocalDiskRepositoryManager repoManager;
   private final ProjectControl.Factory projectControl;
   private final EnvList _env;
@@ -91,6 +94,19 @@ class GitWebServlet extends HttpServlet {
     this.projectControl = projectControl;
     this.gitwebCgi = gitWebConfig.getGitwebCGI();
     this.deniedActions = new HashSet<String>();
+
+    final String url = gitWebConfig.getUrl();
+    if ((url != null) && (!url.equals("gitweb"))) {
+      URI uri = null;
+      try {
+        uri = new URI(url);
+      } catch (URISyntaxException e) {
+        log.error("Invalid gitweb.url: " + url);
+      }
+      gitwebUrl = uri;
+    } else {
+      gitwebUrl = null;
+    }
 
     deniedActions.add("forks");
     deniedActions.add("opml");
@@ -486,6 +502,42 @@ class GitWebServlet extends HttpServlet {
       }
     }
     env.set("REMOTE_USER", remoteUser);
+
+    // Override CGI settings using alternative URI provided by gitweb.url.
+    // This is required to trick Gitweb into thinking that it's served under
+    // different URL. Setting just $my_uri on the perl's side isn't enough,
+    // because few actions (atom, blobdiff_plain, commitdiff_plain) rely on
+    // URL returned by $cgi->self_url().
+    //
+    if (gitwebUrl != null) {
+      int schemePort = -1;
+
+      if (gitwebUrl.getScheme() != null) {
+        if (gitwebUrl.getScheme().equals("http")) {
+          env.set("HTTPS", "OFF");
+          schemePort = 80;
+        } else {
+          env.set("HTTPS", "ON");
+          schemePort = 443;
+        }
+      }
+
+      if (gitwebUrl.getHost() != null) {
+        env.set("SERVER_NAME", gitwebUrl.getHost());
+        env.set("HTTP_HOST", gitwebUrl.getHost());
+      }
+
+      if (gitwebUrl.getPort() != -1) {
+        env.set("SERVER_PORT", Integer.toString(gitwebUrl.getPort()));
+      } else if (schemePort != -1) {
+        env.set("SERVER_PORT", Integer.toString(schemePort));
+      }
+
+      if (gitwebUrl.getPath() != null) {
+        env.set("SCRIPT_NAME", gitwebUrl.getPath().isEmpty()
+                               ? "/" : gitwebUrl.getPath());
+      }
+    }
 
     return env.getEnvArray();
   }

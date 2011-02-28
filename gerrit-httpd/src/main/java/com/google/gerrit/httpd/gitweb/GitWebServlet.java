@@ -32,13 +32,19 @@ package com.google.gerrit.httpd.gitweb;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.httpd.GitWebConfig;
 import com.google.gerrit.launcher.GerritLauncher;
+import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.RevId;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -61,6 +67,7 @@ import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -81,16 +88,19 @@ class GitWebServlet extends HttpServlet {
   private final LocalDiskRepositoryManager repoManager;
   private final ProjectControl.Factory projectControl;
   private final EnvList _env;
+  private final Provider<ReviewDb> dbProvider;
 
   @Inject
   GitWebServlet(final LocalDiskRepositoryManager repoManager,
       final ProjectControl.Factory projectControl, final SitePaths site,
-      final GerritConfig gerritConfig, final GitWebConfig gitWebConfig)
+      final GerritConfig gerritConfig, final GitWebConfig gitWebConfig,
+      final Provider<ReviewDb> dbProvider)
       throws IOException {
     this.repoManager = repoManager;
     this.projectControl = projectControl;
     this.gitwebCgi = gitWebConfig.getGitwebCGI();
     this.deniedActions = new HashSet<String>();
+    this.dbProvider = dbProvider;
 
     deniedActions.add("forks");
     deniedActions.add("opml");
@@ -235,7 +245,9 @@ class GitWebServlet extends HttpServlet {
       p.print("sub add_review_link {\n");
       p.print("  my $h = shift;\n");
       p.print("  my $q;\n");
-      p.print("  if (!$h || $h eq 'HEAD') {\n");
+      p.print("  if ($ENV{'GERRIT_CHANGE_NUMBER'}) {\n");
+      p.print("    $q = qq{#change,$ENV{'GERRIT_CHANGE_NUMBER'}};\n");
+      p.print("  } elsif (!$h || $h eq 'HEAD') {\n");
       p.print("    $q = qq{#q,project:$ENV{'GERRIT_PROJECT_NAME'},n,z};\n");
       p.print("  } elsif ($h =~ /^refs\\/heads\\/([-\\w]+)$/) {\n");
       p.print("    $q = qq{#q,project:$ENV{'GERRIT_PROJECT_NAME'}");
@@ -244,7 +256,7 @@ class GitWebServlet extends HttpServlet {
       p.print("{\n"); // wrapped
       p.print("    $q = qq{#change,$1};\n");
       p.print("  } else {\n");
-      p.print("    $q = qq{#q,$h,n,z};\n");
+      p.print("    $q = qq{#q,project:$ENV{'GERRIT_PROJECT_NAME'},n,z};\n");
       p.print("  }\n");
       p.print("  my $r = qq{$ENV{'GERRIT_CONTEXT_PATH'}$q};\n");
       p.print("  push @{$feature{'actions'}{'default'}},\n");
@@ -356,6 +368,15 @@ class GitWebServlet extends HttpServlet {
       return;
     }
 
+    final String hash;
+    if (params.containsKey("hb")) {
+      hash = params.get("hb");
+    } else if (params.containsKey("h")) {
+      hash = params.get("h");
+    } else {
+      hash = null;
+    }
+
     final Repository repo;
     try {
       repo = repoManager.openRepository(nameKey);
@@ -368,7 +389,7 @@ class GitWebServlet extends HttpServlet {
       rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
       rsp.setHeader("Pragma", "no-cache");
       rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
-      exec(req, rsp, project, repo);
+      exec(req, rsp, project, repo, hash);
     } finally {
       repo.close();
     }
@@ -393,10 +414,10 @@ class GitWebServlet extends HttpServlet {
 
   private void exec(final HttpServletRequest req,
       final HttpServletResponse rsp, final ProjectControl project,
-      final Repository repo) throws IOException {
+      final Repository repo, final String hash) throws IOException {
     final Process proc =
         Runtime.getRuntime().exec(new String[] {gitwebCgi.getAbsolutePath()},
-            makeEnv(req, project), repo.getDirectory());
+            makeEnv(req, project, hash), repo.getDirectory());
 
     copyStderrToLog(proc.getErrorStream());
     if (0 < req.getContentLength()) {
@@ -449,7 +470,7 @@ class GitWebServlet extends HttpServlet {
   }
 
   private String[] makeEnv(final HttpServletRequest req,
-      final ProjectControl project) {
+      final ProjectControl project, final String hash) {
     final EnvList env = new EnvList(_env);
     final int contentLength = Math.max(0, req.getContentLength());
 
@@ -489,6 +510,29 @@ class GitWebServlet extends HttpServlet {
 
     env.set("GERRIT_CONTEXT_PATH", req.getContextPath() + "/");
     env.set("GERRIT_PROJECT_NAME", project.getProject().getName());
+
+    // Get change number from the database (via revision).
+    // We do this to create "review" links that point to "#change,<change>"
+    // review page instead of "#q,<revision>,n,z" search query. Without this,
+    // "#q,<revision>,n,z" redirects us instantly to "#change,<change>", which
+    // renders web browser's "back" button pretty much useless (and quite
+    // annoying).
+    //
+    if ((hash != null) && (hash.matches("^[0-9a-fA-F]{" + RevId.LEN + "}$"))) {
+      try {
+        final RevId rev = new RevId(hash);
+        final ReviewDb db = dbProvider.get();
+        final List<PatchSet> patches = db.patchSets().byRevision(rev).toList();
+        if (patches.size() == 1) {
+          final PatchSet ps = patches.get(0);
+          final Change.Id id = ps.getId().getParentKey();
+          final Change change = db.changes().get(id);
+          if (project.getProject().getNameKey().equals(change.getProject())) {
+            env.set("GERRIT_CHANGE_NUMBER", Integer.toString(id.get()));
+          }
+        }
+      } catch (OrmException e) { }
+    }
 
     if (project.forAnonymousUser().isVisible()) {
       env.set("GERRIT_ANONYMOUS_READ", "1");

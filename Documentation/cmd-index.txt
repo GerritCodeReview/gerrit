@@ -9,8 +9,8 @@ from Gerrit's daemon, and then executed on the client system.
 
 To download a client command or hook, use scp or an http client:
 
-  $ scp -p -P 29418 review.example.com:bin/gerrit-cherry-pick ~/bin/
-  $ scp -p -P 29418 review.example.com:hooks/commit-msg .git/hooks/
+  $ scp -p -P 29418 john.doe@review.example.com:bin/gerrit-cherry-pick ~/bin/
+  $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg .git/hooks/
 
   $ curl http://review.example.com/tools/bin/gerrit-cherry-pick
   $ curl http://review.example.com/tools/hooks/commit-msg

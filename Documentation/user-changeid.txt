@@ -48,7 +48,7 @@ can be installed in the local Git repository to automatically
 create and insert a unique Change-Id line during `git commit`.
 To install the hook, copy it from Gerrit's daemon:
 
-  $ scp -p -P 29418 review.example.com:hooks/commit-msg .git/hooks/
+  $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg .git/hooks/
 
   $ curl http://review.example.com/tools/hooks/commit-msg
 

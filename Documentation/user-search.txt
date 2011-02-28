@@ -351,7 +351,7 @@ the change.  This flag is always added to any query.
 
 starredby:'USER'::
 +
-Matches changes that have been started by 'USER'.
+Matches changes that have been starred by 'USER'.
 
 watchedby:'USER'::
 +

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/H///48\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-03-01T14:46:01Z",
+      "side": 1,
+      "message": "Exactly, how meaningful is the \"project name\" really? From the \"Branch: tools/gerrit refs/heads/master\" the only interesting information in context of repository is \"Branch: master\" (of course, YMMV)... But to be honest, personally I\u0027m not even interested in that, and if this would be configurable then I would definitely disable this header for my projects.\n\nBtw: e-mail messages contain \"Gerrit-Project: tools/gerrit\" and \"Gerrit-Branch: master\" in the footer.",
+      "parentUuid": "AAAA/H///5I\u003d",
+      "revId": "677916f7963d2e084f2f76c63fb6a964cde3e319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//3Wc\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
         "patchSetId": 7

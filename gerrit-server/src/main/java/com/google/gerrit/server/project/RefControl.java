@@ -147,6 +147,11 @@ public class RefControl {
     return canPerform(READ, (short) 2);
   }
 
+  /** @return true if this user can submit merge patch sets to this ref */
+  public boolean canUploadMerges() {
+    return canPerform(READ, (short) 3);
+  }
+
   /** @return true if this user can submit patch sets to this ref */
   public boolean canSubmit() {
     return canPerform(ApprovalCategory.SUBMIT, (short) 1);

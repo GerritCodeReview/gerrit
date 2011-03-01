@@ -250,6 +250,7 @@ public class SchemaCreator {
     cat.setPosition((short) -1);
     cat.setFunctionName(NoOpFunction.NAME);
     vals = new ArrayList<ApprovalCategoryValue>();
+    vals.add(value(cat, 3, "Upload merges permission"));
     vals.add(value(cat, 2, "Upload permission"));
     vals.add(value(cat, 1, "Read access"));
     vals.add(value(cat, -1, "No access"));

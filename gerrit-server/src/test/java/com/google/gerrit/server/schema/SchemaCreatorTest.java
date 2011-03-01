@@ -205,7 +205,7 @@ public class SchemaCreatorTest extends TestCase {
     } finally {
       c.close();
     }
-    assertValueRange(ApprovalCategory.READ, -1, 1, 2);
+    assertValueRange(ApprovalCategory.READ, -1, 1, 2, 3);
   }
 
   public void testCreateSchema_ApprovalCategory_Submit() throws OrmException {

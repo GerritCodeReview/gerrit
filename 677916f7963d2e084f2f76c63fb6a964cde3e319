@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/H///5I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-03-01T12:37:33Z",
+      "side": 1,
+      "message": "Good question. First, as I remember from discussion with Shawn Pearce, keeping the project name inside the Branch header is just a way to avoid the Project: header. Additionally, the Branch header still remains parseable as the branch name is everything after the last space.\nThe other question is what the project name is good for... and I can only imagine that it might be useful in case when the project gets renamed.\nHowever, I would also like to get opinion from Shawn about this question.",
+      "parentUuid": "AAAA+3//3WU\u003d",
+      "revId": "677916f7963d2e084f2f76c63fb6a964cde3e319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//3Wc\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2011-02-27T22:33:29Z",
       "side": 1,
       "message": "Since this is full date (including time), shouldn\u0027t this be \"at\" instead of \"on\"?",
+      "revId": "677916f7963d2e084f2f76c63fb6a964cde3e319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/H///5E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-03-01T12:37:33Z",
+      "side": 1,
+      "message": "Well, english is not my mother language and I might not have been quite precise here.\nShawn do you also agree on this change?",
+      "parentUuid": "AAAA+3//3Wc\u003d",
       "revId": "677916f7963d2e084f2f76c63fb6a964cde3e319",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

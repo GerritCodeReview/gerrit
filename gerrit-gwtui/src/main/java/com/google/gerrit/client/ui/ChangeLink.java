@@ -19,6 +19,7 @@ import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.DOM;
 
@@ -27,13 +28,26 @@ public class ChangeLink extends InlineHyperlink {
     return GWT.getHostPageBaseURL() + c.get();
   }
 
+  public static String permalink(final PatchSet.Id ps) {
+    return GWT.getHostPageBaseURL() + "#change," + ps.getParentKey().get() + ",patchset=" + ps.get();
+  }
+
   protected Change.Id id;
+  protected PatchSet.Id ps;
   private ChangeInfo info;
 
   public ChangeLink(final String text, final Change.Id c) {
     super(text, PageLinks.toChange(c));
     DOM.setElementProperty(getElement(), "href", permalink(c));
     id = c;
+    ps = null;
+  }
+
+  public ChangeLink(final String text, final PatchSet.Id ps) {
+    super(text, PageLinks.toChange(ps));
+    DOM.setElementProperty(getElement(), "href", permalink(ps));
+    id = ps.getParentKey();
+    this.ps = ps;
   }
 
   public ChangeLink(final String text, final ChangeInfo c) {
@@ -47,6 +61,12 @@ public class ChangeLink extends InlineHyperlink {
   }
 
   private Screen createScreen() {
-    return info != null ? new ChangeScreen(info) : new ChangeScreen(id);
+    if (info != null) {
+      return new ChangeScreen(info);
+    } else if (ps != null) {
+      return new ChangeScreen(ps);
+    } else {
+      return new ChangeScreen(id);
+    }
   }
 }

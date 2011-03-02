@@ -151,7 +151,7 @@ public class PatchSetsBlock extends Composite {
    * This method also ensures that the current row is only highlighted in the
    * table of the active patch set panel.
    */
-  private void activate(final PatchSet.Id patchSetId) {
+  public void activate(final PatchSet.Id patchSetId) {
     if (!patchSetId.equals(activePatchSetId)) {
       deactivate();
       PatchSetComplexDisclosurePanel patchSetPanel =

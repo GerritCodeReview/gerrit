@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.Change.Status;
 import com.google.gwtorm.client.KeyUtil;
@@ -47,6 +48,10 @@ public class PageLinks {
 
   public static String toChange(final Change.Id c) {
     return "change," + c.toString();
+  }
+
+  public static String toChange(final PatchSet.Id ps) {
+    return "change," + ps.getParentKey().toString() + ",patchset=" + ps.get();
   }
 
   public static String toAccountDashboard(final AccountInfo acct) {

@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -151,14 +152,18 @@ public class PatchSetsBlock extends Composite {
    * This method also ensures that the current row is only highlighted in the
    * table of the active patch set panel.
    */
-  private void activate(final PatchSet.Id patchSetId) {
-    if (!patchSetId.equals(activePatchSetId)) {
-      deactivate();
-      PatchSetComplexDisclosurePanel patchSetPanel =
-          patchSetPanels.get(patchSetId);
-      patchSetPanel.setOpen(true);
-      patchSetPanel.setActive(true);
-      activePatchSetId = patchSetId;
+  public void activate(final PatchSet.Id patchSetId) {
+    if (indexOf(patchSetId) != -1) {
+      if (!patchSetId.equals(activePatchSetId)) {
+        deactivate();
+        PatchSetComplexDisclosurePanel patchSetPanel =
+            patchSetPanels.get(patchSetId);
+        patchSetPanel.setOpen(true);
+        patchSetPanel.setActive(true);
+        activePatchSetId = patchSetId;
+      }
+    } else {
+      Gerrit.display(PageLinks.toChange(patchSetId.getParentKey()));
     }
   }
 

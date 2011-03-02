@@ -54,6 +54,7 @@ import java.util.List;
 
 public class ChangeScreen extends Screen {
   private final Change.Id changeId;
+  private final PatchSet.Id openPatchSetId;
 
   private Image starChange;
   private boolean starred;
@@ -78,6 +79,12 @@ public class ChangeScreen extends Screen {
 
   public ChangeScreen(final Change.Id toShow) {
     changeId = toShow;
+    openPatchSetId = null;
+  }
+
+  public ChangeScreen(final PatchSet.Id toShow) {
+    changeId = toShow.getParentKey();
+    openPatchSetId = toShow;
   }
 
   public ChangeScreen(final ChangeInfo c) {
@@ -251,6 +258,9 @@ public class ChangeScreen extends Screen {
         .getApprovals());
 
     patchSetsBlock.display(detail);
+    if (openPatchSetId != null) {
+      patchSetsBlock.activate(openPatchSetId);
+    }
     addComments(detail);
 
     // If any dependency change is still open, show our dependency list.

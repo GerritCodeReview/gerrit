@@ -232,8 +232,15 @@ public class Dispatcher {
     String p;
 
     p = "change,";
-    if (token.startsWith(p))
-      return new ChangeScreen(Change.Id.parse(skip(p, token)));
+    if (token.startsWith(p)) {
+      final String s = skip(p, token);
+      final String q = "patchset=";
+      final String t[] = s.split(",", 2);
+      if (t.length > 1 && t[1].startsWith(q)) {
+        return new ChangeScreen(PatchSet.Id.parse(t[0] + "," + skip(q, t[1])));
+      }
+      return new ChangeScreen(Change.Id.parse(t[0]));
+    }
 
     p = "dashboard,";
     if (token.startsWith(p))

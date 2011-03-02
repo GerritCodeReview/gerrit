@@ -250,9 +250,8 @@ public abstract class PatchScreen extends Screen implements
   protected void onInitUI() {
     super.onInitUI();
 
-    final Change.Id ck = patchKey.getParentKey().getParentKey();
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    keysNavigation.add(new UpToChangeCommand(ck, 0, 'u'));
+    keysNavigation.add(new UpToChangeCommand(patchKey.getParentKey(), 0, 'u'));
     keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));
 
     historyTable = new HistoryTable(this);
@@ -284,9 +283,8 @@ public abstract class PatchScreen extends Screen implements
     contentTable = createContentTable();
     contentTable.fileList = fileList;
 
-    topNav =
-        new NavLinks(keysNavigation, patchKey.getParentKey().getParentKey());
-    bottomNav = new NavLinks(null, patchKey.getParentKey().getParentKey());
+    topNav = new NavLinks(keysNavigation, patchKey.getParentKey());
+    bottomNav = new NavLinks(null, patchKey.getParentKey());
 
     add(topNav);
     contentPanel = new FlowPanel();

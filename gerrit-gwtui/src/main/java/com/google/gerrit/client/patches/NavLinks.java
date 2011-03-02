@@ -19,7 +19,7 @@ import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.InlineHyperlink;
-import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
@@ -47,14 +47,14 @@ class NavLinks extends Composite {
     }
   }
 
-  private final Change.Id changeId;
+  private final PatchSet.Id patchSetId;
   private final KeyCommandSet keys;
   private final Grid table;
 
   private KeyCommand cmds[] = new KeyCommand[2];
 
-  NavLinks(KeyCommandSet kcs, Change.Id forChange) {
-    changeId = forChange;
+  NavLinks(KeyCommandSet kcs, PatchSet.Id forPatch) {
+    patchSetId = forPatch;
     keys = kcs;
     table = new Grid(1, 3);
     initWidget(table);
@@ -65,7 +65,7 @@ class NavLinks extends Composite {
     fmt.setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_CENTER);
     fmt.setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 
-    final ChangeLink up = new ChangeLink("", changeId);
+    final ChangeLink up = new ChangeLink("", patchSetId);
     SafeHtml.set(up, SafeHtml.asis(Util.C.upToChangeIconLink()));
     table.setWidget(0, 1, up);
   }
@@ -104,7 +104,7 @@ class NavLinks extends Composite {
           }
         };
       } else {
-        cmds[nav.cmd] = new UpToChangeCommand(changeId, 0, nav.key);
+        cmds[nav.cmd] = new UpToChangeCommand(patchSetId, 0, nav.key);
       }
 
       keys.add(cmds[nav.cmd]);

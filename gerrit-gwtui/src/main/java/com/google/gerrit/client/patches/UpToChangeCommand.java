@@ -17,20 +17,20 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 class UpToChangeCommand extends KeyCommand {
-  private final Change.Id changeId;
+  private final PatchSet.Id patchSetId;
 
-  UpToChangeCommand(Change.Id changeId, int mask, int key) {
+  UpToChangeCommand(PatchSet.Id patchSetId, int mask, int key) {
     super(mask, key, PatchUtil.C.upToChange());
-    this.changeId = changeId;
+    this.patchSetId = patchSetId;
   }
 
   @Override
   public void onKeyPress(final KeyPressEvent event) {
-    Gerrit.display(PageLinks.toChange(changeId), new ChangeScreen(changeId));
+    Gerrit.display(PageLinks.toChange(patchSetId), new ChangeScreen(patchSetId));
   }
 }

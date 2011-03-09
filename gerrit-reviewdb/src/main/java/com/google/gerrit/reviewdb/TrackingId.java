@@ -144,7 +144,7 @@ public final class TrackingId {
   public boolean equals(final Object obj) {
     if (obj instanceof TrackingId) {
       final TrackingId tr = (TrackingId) obj;
-      return tr.key.equals(tr.key);
+      return key.equals(tr.key);
     }
     return false;
   }

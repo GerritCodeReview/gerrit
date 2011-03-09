@@ -42,21 +42,26 @@ public class Schema_46 extends SchemaVersion {
 
     // update system_config
     final Connection connection = ((JdbcSchema) db).getConnection();
-    final Statement stmt = connection.createStatement();
-    stmt.execute("UPDATE system_config SET OWNER_GROUP_ID = " + groupId.get());
-    final ResultSet resultSet =
-      stmt.executeQuery("SELECT ADMIN_GROUP_ID FROM system_config");
-    resultSet.next();
-    final int adminGroupId = resultSet.getInt(1);
+    Statement stmt = null;
+    try {
+      stmt = connection.createStatement();
+      stmt.execute("UPDATE system_config SET OWNER_GROUP_ID = " + groupId.get());
+      final ResultSet resultSet =
+          stmt.executeQuery("SELECT ADMIN_GROUP_ID FROM system_config");
+      resultSet.next();
+      final int adminGroupId = resultSet.getInt(1);
 
-    // create 'Project Owners' group
-    AccountGroup.NameKey nameKey = new AccountGroup.NameKey("Project Owners");
-    AccountGroup group = new AccountGroup(nameKey, groupId);
-    group.setType(AccountGroup.Type.SYSTEM);
-    group.setOwnerGroupId(new AccountGroup.Id(adminGroupId));
-    group.setDescription("Any owner of the project");
-    AccountGroupName gn = new AccountGroupName(group);
-    db.accountGroupNames().insert(Collections.singleton(gn));
-    db.accountGroups().insert(Collections.singleton(group));
+      // create 'Project Owners' group
+      AccountGroup.NameKey nameKey = new AccountGroup.NameKey("Project Owners");
+      AccountGroup group = new AccountGroup(nameKey, groupId);
+      group.setType(AccountGroup.Type.SYSTEM);
+      group.setOwnerGroupId(new AccountGroup.Id(adminGroupId));
+      group.setDescription("Any owner of the project");
+      AccountGroupName gn = new AccountGroupName(group);
+      db.accountGroupNames().insert(Collections.singleton(gn));
+      db.accountGroups().insert(Collections.singleton(group));
+    } finally {
+      if (stmt != null) stmt.close();
+    }
   }
 }

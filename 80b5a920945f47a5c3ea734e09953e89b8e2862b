@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/H//+9Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-03-09T20:20:55Z",
+      "side": 1,
+      "message": "This looks like a candidate for documentation.\nIf you want to make it truly available to an admin, the docs need to be updated, not only the code.",
+      "revId": "80b5a920945f47a5c3ea734e09953e89b8e2862b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

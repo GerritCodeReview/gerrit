@@ -34,6 +34,24 @@
       "revId": "80b5a920945f47a5c3ea734e09953e89b8e2862b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/H//+5k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-03-09T23:06:54Z",
+      "side": 1,
+      "message": "You\u0027re right that it\u0027ll become a separate change for a full documentation on gitwebs relation to gerrit (or vice versa)\n\nMy point was, if it\u0027s gerrit unique/specific, it should go in.\nI realize I read the comment and the code a bit sloppy, sorry about that.",
+      "parentUuid": "AAAA/H//+6I\u003d",
+      "revId": "80b5a920945f47a5c3ea734e09953e89b8e2862b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -162,6 +162,8 @@ public class ProjectState {
 
     @Override
     public boolean equals(Object o) {
+      if (o == null)
+        return false;
       Grant grant = (Grant) o;
       return group.equals(grant.group) && pattern.equals(grant.pattern);
     }

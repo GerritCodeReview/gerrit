@@ -34,6 +34,24 @@
       "revId": "c279f008b4d1aeb9f653550ef63179167ee2d962",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/H//+9A\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-03-09T20:36:28Z",
+      "side": 1,
+      "message": "In $DAYJOBs previous large scale software project we were quite challenged by the limitation of max 256 chars in windows command line, since the paths to our source code files grew tremendously in depth. It\u0027s a long story, but the conclusion is if we can avoid imposing limits on anything affecting maximum length of the filesystem path, it\u0027s good thing.\n\nThanks. :-)",
+      "parentUuid": "AAAA+3//4Ek\u003d",
+      "revId": "c279f008b4d1aeb9f653550ef63179167ee2d962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

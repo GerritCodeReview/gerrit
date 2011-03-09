@@ -16,6 +16,24 @@
       "revId": "80b5a920945f47a5c3ea734e09953e89b8e2862b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/H//+6I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-03-09T22:50:41Z",
+      "side": 1,
+      "message": "Yes and no.\n\nThis auto-generated \"gitweb_config.perl\" isn\u0027t even mentioned in the documentation and \"$site/etc/gitweb_config.perl\" is only mentioned, but isn\u0027t documented at all...\n\nRead the 100 lines above and you\u0027ll notice that there is quite a lot of things that admins can override in their \"$site/etc/gitweb_config.perl\"... They can also override any Gitweb\u0027s variable.\n\nHaving said that, I\u0027ve got mixed feelings regarding Gitweb\u0027s documentation in Gerrit... But if Shawn would want to see it, then I believe that documentation of \"gitweb_config.perl\" (whole, not just modified \"review\" link) should be submitted as separate change, otherwise this code will get lost in hundreds of lines of unrelated documentation.",
+      "parentUuid": "AAAA/H//+9Q\u003d",
+      "revId": "80b5a920945f47a5c3ea734e09953e89b8e2862b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

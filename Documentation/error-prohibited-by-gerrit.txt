@@ -11,7 +11,10 @@ In particular this error occurs:
    in the link:access-control.html#category_READ['Read Access'] category)
 2. if you bypass code review without sufficient privileges in the
    link:access-control.html#category_pHD['Push Branch'] category
-3. if you push a tag without sufficient privileges in the link:access-control.html#category_pTAG['Push Tag']
+3. if you push a signed or annotated tag without sufficient
+   privileges in the link:access-control.html#category_pTAG['Push Tag'] category
+4. if you push a lightweight tag without the access right '+2 Create
+   Branch' for the reference name 'refs/tags/*' in the link:access-control.html#category_pHD['Push Branch']
    category
 
 For new users it happens often that they accidentally try to bypass

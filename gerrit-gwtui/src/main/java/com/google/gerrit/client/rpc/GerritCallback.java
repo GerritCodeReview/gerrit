@@ -21,6 +21,7 @@ import com.google.gerrit.common.errors.InactiveAccountException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -50,6 +51,13 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
 
     } else if (isNameAlreadyUsed(caught)) {
       new ErrorDialog(Gerrit.C.nameAlreadyUsedBody()).center();
+
+    } else if (isNoSuchGroup(caught)) {
+      final String msg = caught.getMessage();
+      final String group = msg.substring(NoSuchGroupException.MESSAGE.length());
+      final ErrorDialog d = new ErrorDialog(Gerrit.M.noSuchGroupMessage(group));
+      d.setText(Gerrit.C.noSuchGroupTitle());
+      d.center();
 
     } else if (caught instanceof ServerUnavailableException) {
       new ErrorDialog(RpcConstants.C.errorServerUnavailable()).center();
@@ -88,5 +96,10 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
   private static boolean isNameAlreadyUsed(final Throwable caught) {
     return caught instanceof RemoteJsonException
         && caught.getMessage().equals(NameAlreadyUsedException.MESSAGE);
+  }
+
+  private static boolean isNoSuchGroup(final Throwable caught) {
+    return caught instanceof RemoteJsonException
+    && caught.getMessage().startsWith(NoSuchGroupException.MESSAGE);
   }
 }

@@ -1,0 +1,24 @@
+... has duplicates
+==================
+
+With this error message Gerrit rejects to push a commit if its commit
+message contains a Change-ID for which multiple changes can be found
+in the project.
+
+This error means that there is an inconsistency in Gerrit since for
+one project there are multiple changes that have the same Change-ID.
+Every change is expected to have an unique Change-ID.
+
+Since this error should never occur in practice, you should inform
+your Gerrit administrator if you hit this problem and/or
+link:http://code.google.com/p/gerrit/issues/list[open a Gerrit issue].
+
+In any case to not be blocked with your work, you can simply create a
+new Change-ID for your commit and then push it as new change to
+Gerrit. How to exchange the Change-ID in the commit message of your
+commit is explained link:error-push-fails-due-to-commit-message.html[here].
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

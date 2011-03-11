@@ -232,7 +232,7 @@ public class ApprovalTable extends Composite {
     table.setWidget(row, col++, link(ad.getAccount()));
 
     if (ad.canRemove()) {
-      PushButton remove = new PushButton( //
+      final PushButton remove = new PushButton( //
           new Image(Util.R.removeReviewerNormal()), //
           new Image(Util.R.removeReviewerPressed()));
       remove.setTitle(Util.M.removeReviewer( //
@@ -241,7 +241,7 @@ public class ApprovalTable extends Composite {
       remove.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
-          doRemove(ad);
+          doRemove(ad, remove);
         }
       });
       table.setWidget(row, col, remove);
@@ -294,7 +294,8 @@ public class ApprovalTable extends Composite {
     col++;
   }
 
-  private void doRemove(final ApprovalDetail ad) {
+  private void doRemove(final ApprovalDetail ad, final PushButton remove) {
+    remove.setEnabled(false);
     PatchUtil.DETAIL_SVC.removeReviewer(changeId, ad.getAccount(),
         new GerritCallback<ReviewerResult>() {
           @Override
@@ -305,6 +306,12 @@ public class ApprovalTable extends Composite {
             } else {
               new ErrorDialog(result.getErrors().get(0).toString()).center();
             }
+          }
+
+          @Override
+          public void onFailure(final Throwable caught) {
+            remove.setEnabled(true);
+            super.onFailure(caught);
           }
         });
   }

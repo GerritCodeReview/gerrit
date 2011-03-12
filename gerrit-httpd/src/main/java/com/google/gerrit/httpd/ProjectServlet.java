@@ -35,15 +35,15 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
-import org.eclipse.jgit.http.server.resolver.ReceivePackFactory;
-import org.eclipse.jgit.http.server.resolver.RepositoryResolver;
-import org.eclipse.jgit.http.server.resolver.ServiceNotAuthorizedException;
-import org.eclipse.jgit.http.server.resolver.ServiceNotEnabledException;
-import org.eclipse.jgit.http.server.resolver.UploadPackFactory;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
+import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
+import org.eclipse.jgit.transport.resolver.RepositoryResolver;
+import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
+import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
+import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -124,7 +124,7 @@ public class ProjectServlet extends GitServlet {
     });
   }
 
-  static class Resolver implements RepositoryResolver {
+  static class Resolver implements RepositoryResolver<HttpServletRequest> {
     private final GitRepositoryManager manager;
     private final ProjectControl.Factory projectControlFactory;
 
@@ -175,7 +175,7 @@ public class ProjectServlet extends GitServlet {
     }
   }
 
-  static class Upload implements UploadPackFactory {
+  static class Upload implements UploadPackFactory<HttpServletRequest> {
     private final Provider<ReviewDb> db;
     private final PackConfig packConfig;
 
@@ -204,7 +204,7 @@ public class ProjectServlet extends GitServlet {
     }
   }
 
-  static class Receive implements ReceivePackFactory {
+  static class Receive implements ReceivePackFactory<HttpServletRequest> {
     private final ReceiveCommits.Factory factory;
 
     @Inject

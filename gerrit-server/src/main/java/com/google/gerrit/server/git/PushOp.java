@@ -313,7 +313,7 @@ class PushOp implements ProjectRunnable {
           if (dst == null || !src.getObjectId().equals(dst.getObjectId())) {
             // Doesn't exist yet, or isn't the same value, request to push.
             //
-            send(cmds, spec);
+            send(cmds, spec, src);
           }
         }
       }
@@ -335,8 +335,9 @@ class PushOp implements ProjectRunnable {
         if (spec != null) {
           // If the ref still exists locally, send it, otherwise delete it.
           //
-          if (local.containsKey(src)) {
-            send(cmds, spec);
+          Ref srcRef = local.get(src);
+          if (srcRef != null) {
+            send(cmds, spec, srcRef);
           } else {
             delete(cmds, spec);
           }
@@ -375,9 +376,8 @@ class PushOp implements ProjectRunnable {
     return null;
   }
 
-  private void send(final List<RemoteRefUpdate> cmds, final RefSpec spec)
-      throws IOException {
-    final String src = spec.getSource();
+  private void send(final List<RemoteRefUpdate> cmds, final RefSpec spec,
+      final Ref src) throws IOException {
     final String dst = spec.getDestination();
     final boolean force = spec.isForceUpdate();
     cmds.add(new RemoteRefUpdate(db, src, dst, force, null, null));
@@ -387,7 +387,7 @@ class PushOp implements ProjectRunnable {
       throws IOException {
     final String dst = spec.getDestination();
     final boolean force = spec.isForceUpdate();
-    cmds.add(new RemoteRefUpdate(db, null, dst, force, null, null));
+    cmds.add(new RemoteRefUpdate(db, (Ref) null, dst, force, null, null));
   }
 
   @Override

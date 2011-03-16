@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/X///xY\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Owner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-03-16T14:00:35Z",
+      "side": 1,
+      "message": "Maybe it should be checked that type is Owner.Type.USER before trying to parse the id as Account.Id?\nMaybe it\u0027s cleaner to directly return null if the type is not as expected.",
+      "revId": "053c670ef29533dc6f863014e7461e4239f33371",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X///xU\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Owner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-03-16T14:00:35Z",
+      "side": 1,
+      "message": "Same as above, maybe the type should be checked before trying to parse the id as AccountGroup.Id.",
+      "revId": "053c670ef29533dc6f863014e7461e4239f33371",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X///xQ\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Owner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-03-16T14:00:35Z",
+      "side": 1,
+      "message": "Same as above, maybe the type should be checked before trying to parse the id as project name.",
+      "revId": "053c670ef29533dc6f863014e7461e4239f33371",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

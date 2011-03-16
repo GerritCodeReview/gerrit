@@ -14,16 +14,13 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountGroupMember;
-import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
-import com.google.gerrit.reviewdb.AccountGroupName;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.PerformCreateGroup;
+import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
-import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
@@ -32,10 +29,7 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -54,18 +48,15 @@ public class AdminCreateGroup extends BaseCommand {
   @Argument(index = 0, required = true, metaVar = "GROUP", usage = "name of group to be created")
   private String groupName;
 
-  @Inject
-  private IdentifiedUser currentUser;
-
-  @Inject
-  private ReviewDb db;
-
   private final Set<Account.Id> initialMembers = new HashSet<Account.Id>();
 
   @Option(name = "--member", aliases = {"-m"}, metaVar = "USERNAME", usage = "initial set of users to become members of the group")
   void addMember(final Account.Id id) {
     initialMembers.add(id);
   }
+
+  @Inject
+  private PerformCreateGroup.Factory performCreateGroupFactory;
 
   @Override
   public void start(Environment env) throws IOException {
@@ -79,37 +70,12 @@ public class AdminCreateGroup extends BaseCommand {
   }
 
   private void createGroup() throws OrmException, UnloggedFailure {
-    AccountGroup.Id groupId = new AccountGroup.Id(db.nextAccountGroupId());
-    AccountGroup.NameKey nameKey = new AccountGroup.NameKey(groupName);
-    AccountGroup group = new AccountGroup(nameKey, groupId);
-    if (ownerGroupId != null) {
-      group.setOwnerGroupId(ownerGroupId);
-    }
-    if (groupDescription != null) {
-      group.setDescription(groupDescription);
-    }
-    AccountGroupName gn = new AccountGroupName(group);
-    // first insert the group name to validate that the group name hasn't already been
-    // used to create another group
+    final PerformCreateGroup performCreateGroup =
+        performCreateGroupFactory.create();
     try {
-      db.accountGroupNames().insert(Collections.singleton(gn));
-    } catch (OrmDuplicateKeyException e) {
-      throw die("group '" + groupName + "' already exists");
+      performCreateGroup.createGroup(groupName, groupDescription, ownerGroupId, initialMembers.toArray(new Account.Id[initialMembers.size()]));
+    } catch (NameAlreadyUsedException e) {
+      throw die(e);
     }
-    db.accountGroups().insert(Collections.singleton(group));
-
-    List<AccountGroupMember> memberships = new ArrayList<AccountGroupMember>();
-    List<AccountGroupMemberAudit> membershipsAudit = new ArrayList<AccountGroupMemberAudit>();
-    for (Account.Id accountId : initialMembers) {
-      AccountGroupMember membership =
-          new AccountGroupMember(new AccountGroupMember.Key(accountId, groupId));
-      memberships.add(membership);
-
-      AccountGroupMemberAudit audit =
-          new AccountGroupMemberAudit(membership, currentUser.getAccountId());
-      membershipsAudit.add(audit);
-    }
-    db.accountGroupMembers().insert(memberships);
-    db.accountGroupMembersAudit().insert(membershipsAudit);
   }
 }

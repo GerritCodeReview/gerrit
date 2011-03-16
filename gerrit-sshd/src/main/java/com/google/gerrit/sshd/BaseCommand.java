@@ -347,6 +347,10 @@ public abstract class BaseCommand implements Command {
     return new UnloggedFailure(1, "fatal: " + msg);
   }
 
+  protected UnloggedFailure die(Throwable why) {
+    return new UnloggedFailure(1, "fatal: " + why.getMessage(), why);
+  }
+
   private final class TaskThunk implements CancelableRunnable, ProjectRunnable {
     private final CommandRunnable thunk;
     private final Context context;

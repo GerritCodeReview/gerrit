@@ -401,16 +401,14 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          new AbandonChangeDialog(patchSet.getId(),
-              new AsyncCallback<ChangeDetail>() {
-                public void onSuccess(ChangeDetail result) {
-                  changeScreen.update(result);
+          new CommentedChangeActionDialog(patchSet.getId(), createCommentedCallback(b),
+              Util.C.abandonChangeTitle(), Util.C.headingAbandonMessage(),
+              Util.C.buttonAbandonChangeSend(), Util.C.buttonAbandonChangeCancel(),
+              Gerrit.RESOURCES.css().abandonChangeDialog(), Gerrit.RESOURCES.css().abandonMessage()) {
+                public void onSend() {
+                  Util.MANAGE_SVC.abandonChange(getPatchSetId() , getMessageText(), createCallback());
                 }
-
-                public void onFailure(Throwable caught) {
-                  b.setEnabled(true);
-                }
-              }).center();
+              }.center();
         }
       });
       actionsPanel.add(b);
@@ -422,16 +420,14 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          new RestoreChangeDialog(patchSet.getId(),
-              new AsyncCallback<ChangeDetail>() {
-                public void onSuccess(ChangeDetail result) {
-                  changeScreen.update(result);
+          new CommentedChangeActionDialog(patchSet.getId(), createCommentedCallback(b),
+              Util.C.restoreChangeTitle(), Util.C.headingRestoreMessage(),
+              Util.C.buttonRestoreChangeSend(), Util.C.buttonRestoreChangeCancel(),
+              Gerrit.RESOURCES.css().abandonChangeDialog(), Gerrit.RESOURCES.css().abandonMessage()) {
+                public void onSend() {
+                  Util.MANAGE_SVC.restoreChange(getPatchSetId(), getMessageText(), createCallback());
                 }
-
-                public void onFailure(Throwable caught) {
-                  b.setEnabled(true);
-                }
-              }).center();
+              }.center();
         }
       });
       actionsPanel.add(b);
@@ -540,5 +536,17 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     if (patchTable != null) {
       patchTable.setActive(active);
     }
+  }
+
+  private AsyncCallback<ChangeDetail> createCommentedCallback(final Button b) {
+    return new AsyncCallback<ChangeDetail>() {
+      public void onSuccess(ChangeDetail result) {
+        changeScreen.update(result);
+      }
+
+      public void onFailure(Throwable caught) {
+        b.setEnabled(true);
+      }
+    };
   }
 }

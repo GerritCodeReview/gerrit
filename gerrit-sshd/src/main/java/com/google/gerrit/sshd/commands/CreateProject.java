@@ -152,6 +152,8 @@ final class CreateProject extends BaseCommand {
 
               repoManager.setProjectDescription(nameKey, projectDescription);
 
+              createProject();
+
               rq.replicateNewProject(nameKey, branch);
 
               if (createEmptyCommit) {
@@ -160,9 +162,9 @@ final class CreateProject extends BaseCommand {
             } finally {
               repo.close();
             }
+          } else {
+            createProject();
           }
-
-          createProject();
         } catch (Exception e) {
           p.print("Error when trying to create project: " + e.getMessage()
               + "\n");

@@ -18,72 +18,34 @@ import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountGroupMember;
-import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
-import com.google.gerrit.reviewdb.AccountGroupName;
-import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gwtorm.client.OrmDuplicateKeyException;
+import com.google.gerrit.server.account.PerformCreateGroup;
+import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import java.util.Collections;
-
 class CreateGroup extends Handler<AccountGroup.Id> {
   interface Factory {
-    CreateGroup create(String newName);
+    CreateGroup create(String groupName);
   }
 
-  private final ReviewDb db;
+  private final PerformCreateGroup.Factory performCreateGroupFactory;
   private final IdentifiedUser user;
-  private final AccountCache accountCache;
-
-  private final String name;
+  private final String groupName;
 
   @Inject
-  CreateGroup(final ReviewDb db, final IdentifiedUser user,
-      final AccountCache accountCache,
-
-      @Assisted final String newName) {
-    this.db = db;
+  CreateGroup(final PerformCreateGroup.Factory performCreateGroupFactory,
+      final IdentifiedUser user, @Assisted final String groupName) {
+    this.performCreateGroupFactory = performCreateGroupFactory;
     this.user = user;
-    this.accountCache = accountCache;
-
-    this.name = newName;
+    this.groupName = groupName;
   }
 
   @Override
   public AccountGroup.Id call() throws OrmException, NameAlreadyUsedException {
-    final AccountGroup.NameKey key = new AccountGroup.NameKey(name);
-
-    if (db.accountGroupNames().get(key) != null) {
-      throw new NameAlreadyUsedException();
-    }
-
-    final AccountGroup.Id id = new AccountGroup.Id(db.nextAccountGroupId());
+    final PerformCreateGroup performCreateGroup = performCreateGroupFactory.create();
     final Account.Id me = user.getAccountId();
-
-    final AccountGroup group = new AccountGroup(key, id);
-    db.accountGroups().insert(Collections.singleton(group));
-
-    try {
-      final AccountGroupName n = new AccountGroupName(group);
-      db.accountGroupNames().insert(Collections.singleton(n));
-    } catch (OrmDuplicateKeyException dupeErr) {
-      db.accountGroups().delete(Collections.singleton(group));
-      throw new NameAlreadyUsedException();
-    }
-
-    AccountGroupMember member = new AccountGroupMember(//
-        new AccountGroupMember.Key(me, id));
-
-    db.accountGroupMembersAudit().insert(
-        Collections.singleton(new AccountGroupMemberAudit(member, me)));
-    db.accountGroupMembers().insert(Collections.singleton(member));
-
-    accountCache.evict(me);
-    return id;
+    return performCreateGroup.createGroup(groupName, null, null, me);
   }
 }

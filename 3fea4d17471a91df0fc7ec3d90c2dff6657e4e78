@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/X///xE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformCreateGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-03-16T14:02:46Z",
+      "side": 1,
+      "message": "This interface isn\u0027t necessary. Just fold its javadoc with the PerformCreateGroupImpl code and rename that to just PerformCreateGroup.",
+      "revId": "3fea4d17471a91df0fc7ec3d90c2dff6657e4e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X///xA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformCreateGroupImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-03-16T14:02:46Z",
+      "side": 1,
+      "message": "Style-nit: We usually make these constructors package access.",
+      "revId": "3fea4d17471a91df0fc7ec3d90c2dff6657e4e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X///xM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformCreateGroupImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-03-16T14:02:46Z",
+      "side": 1,
+      "message": "There is a race condition here, the user might reload himself before the insert below completes, resulting in the same bug.\n\nIdeally we would just loop through the accounts after the inserts and evict them then.",
+      "revId": "3fea4d17471a91df0fc7ec3d90c2dff6657e4e78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

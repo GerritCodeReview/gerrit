@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/X///lU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-03-17T15:49:56Z",
+      "side": 1,
+      "message": "thinking once again about it, maybe it was intended not to reveal the existence of a certain change?",
+      "revId": "f88ff717e77e45b83d6339bcbd785981b1d7607c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

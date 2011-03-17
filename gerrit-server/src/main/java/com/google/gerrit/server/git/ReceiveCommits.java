@@ -774,7 +774,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       return;
     }
     if (!project.getNameKey().equals(changeEnt.getProject())) {
-      reject(cmd, "change " + changeId + " not found");
+      reject(cmd, "change " + changeId + " does not belong to project " + project.getName());
       return;
     }
 

@@ -34,6 +34,24 @@
       "revId": "f88ff717e77e45b83d6339bcbd785981b1d7607c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X///eM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-03-18T07:02:49Z",
+      "side": 1,
+      "message": "not sure if that would help, as long as the error message differs from \"change ... not found\" somebody can conclude from this message that a change with this id exists, the question is if this is harmful?\n\nBy the way, changeId is here the old numeric id which is also used in the URL and not the new long changeId starting with I...",
+      "parentUuid": "AAAA/X///gs\u003d",
+      "revId": "f88ff717e77e45b83d6339bcbd785981b1d7607c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

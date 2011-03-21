@@ -35,6 +35,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -82,11 +83,24 @@ public class ProjectAccessScreen extends ProjectScreen {
   }
 
   private void initParent() {
-    parentPanel = new VerticalPanel();
-    parentPanel.add(new SmallHeading(Util.C.headingParentProjectName()));
-
     parentName = new Hyperlink("", "");
-    parentPanel.add(parentName);
+
+    final CheckBox show = new CheckBox();
+    show.setChecked(true);
+    show.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
+        rights.showInherited(show.isChecked());
+      }
+    });
+
+    Grid g = new Grid(2, 3);
+    g.setWidget(0, 0, new SmallHeading(Util.C.headingParentProjectName()));
+    g.setWidget(1, 0, parentName);
+    g.setWidget(1, 1, show);
+    g.setText(1, 2, Util.C.headingShowInherited());
+
+    parentPanel = new VerticalPanel();
+    parentPanel.add(g);
     add(parentPanel);
   }
 
@@ -149,7 +163,7 @@ public class ProjectAccessScreen extends ProjectScreen {
     }
   }
 
-  private class RightsTable extends FancyFlexTable<RefRight> {
+  private class RightsTable extends FancyFlexTable<InheritedRefRight> {
     boolean canDelete;
     Map<AccountGroup.Id, AccountGroup> groups;
 
@@ -180,7 +194,7 @@ public class ProjectAccessScreen extends ProjectScreen {
     HashSet<RefRight.Key> getRefRightIdsChecked() {
       final HashSet<RefRight.Key> refRightIds = new HashSet<RefRight.Key>();
       for (int row = 1; row < table.getRowCount(); row++) {
-        RefRight r = getRowItem(row);
+        RefRight r = getRowItem(row).getRight();
         if (r != null && table.getWidget(row, 1) instanceof CheckBox
             && ((CheckBox) table.getWidget(row, 1)).getValue()) {
           refRightIds.add(r.getKey());
@@ -204,9 +218,10 @@ public class ProjectAccessScreen extends ProjectScreen {
         populate(row, r);
       }
     }
+
     protected void onOpenRow(final int row) {
       if (row > 0) {
-        RefRight right = getRowItem(row);
+        RefRight right = getRowItem(row).getRight();
         rightEditor.load(right, groups.get(right.getAccountGroupId()));
       }
     }
@@ -271,7 +286,15 @@ public class ProjectAccessScreen extends ProjectScreen {
       fmt.addStyleName(row, 6, Gerrit.RESOURCES.css()
           .projectAdminApprovalCategoryRangeLine());
 
-      setRowItem(row, right);
+      setRowItem(row, r);
+    }
+
+    public void showInherited(boolean visible) {
+      for (int r = 0; r < table.getRowCount(); r++) {
+        if (getRowItem(r) != null && getRowItem(r).isInherited()) {
+          table.getRowFormatter().setVisible(r, visible);
+        }
+      }
     }
 
     private void formatValue(final SafeHtmlBuilder m, final short v,

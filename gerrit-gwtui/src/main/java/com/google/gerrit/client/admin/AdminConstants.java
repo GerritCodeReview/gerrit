@@ -48,6 +48,7 @@ public interface AdminConstants extends Constants {
   String headingCreateGroup();
   String headingAccessRights();
   String headingAgreements();
+  String headingShowInherited();
 
   String projectSubmitType_FAST_FORWARD_ONLY();
   String projectSubmitType_MERGE_ALWAYS();

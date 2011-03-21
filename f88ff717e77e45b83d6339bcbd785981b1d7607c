@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAA/X///SY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-03-21T08:02:09Z",
+      "side": 1,
+      "message": "Maybe you should use an article:\ns/to change/to a change/",
+      "revId": "f88ff717e77e45b83d6339bcbd785981b1d7607c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X///SU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-03-21T08:02:09Z",
+      "side": 1,
+      "message": "You may here also provide an example push command that shows\nwhat you meant i.e.:\n\n git push origin HEAD:refs/changes/711",
+      "revId": "f88ff717e77e45b83d6339bcbd785981b1d7607c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/X///lU\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -49,6 +83,24 @@
       "side": 1,
       "message": "not sure if that would help, as long as the error message differs from \"change ... not found\" somebody can conclude from this message that a change with this id exists, the question is if this is harmful?\n\nBy the way, changeId is here the old numeric id which is also used in the URL and not the new long changeId starting with I...",
       "parentUuid": "AAAA/X///gs\u003d",
+      "revId": "f88ff717e77e45b83d6339bcbd785981b1d7607c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X///SQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-03-21T08:02:09Z",
+      "side": 1,
+      "message": "Looking at the target project only (target of push) Gerrit is right when it tells you that the change was not found. This change doesn\u0027t exist in this project. True.\nI am undecided if it makes sense to tell the user that, yes, the change indeed exists, but in another project and therefore your push command will fail.",
+      "parentUuid": "AAAA/X///lU\u003d",
       "revId": "f88ff717e77e45b83d6339bcbd785981b1d7607c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

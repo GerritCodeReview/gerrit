@@ -35,6 +35,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -82,11 +83,24 @@ public class ProjectAccessScreen extends ProjectScreen {
   }
 
   private void initParent() {
-    parentPanel = new VerticalPanel();
-    parentPanel.add(new SmallHeading(Util.C.headingParentProjectName()));
-
     parentName = new Hyperlink("", "");
-    parentPanel.add(parentName);
+
+    final CheckBox show = new CheckBox();
+    show.setChecked(true);
+    show.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
+        rights.showInherited(show.isChecked());
+      }
+    });
+
+    Grid g = new Grid(2, 3);
+    g.setWidget(0, 0, new SmallHeading(Util.C.headingParentProjectName()));
+    g.setWidget(1, 0, parentName);
+    g.setWidget(1, 1, show);
+    g.setText(1, 2, Util.C.headingShowInherited());
+
+    parentPanel = new VerticalPanel();
+    parentPanel.add(g);
     add(parentPanel);
   }
 
@@ -272,6 +286,14 @@ public class ProjectAccessScreen extends ProjectScreen {
           .projectAdminApprovalCategoryRangeLine());
 
       setRowItem(row, right);
+    }
+
+    public void showInherited(boolean visible) {
+      for (int r = 0; r < table.getRowCount(); r++) {
+        if (table.getWidget(r, 2) instanceof Hyperlink) {
+          table.getRowFormatter().setVisible(r, visible);
+        }
+      }
     }
 
     private void formatValue(final SafeHtmlBuilder m, final short v,

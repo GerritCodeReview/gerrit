@@ -17,12 +17,14 @@ package com.google.gerrit.server;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountGroupIncludedGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.IncludedGroupCache;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -46,7 +48,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -61,15 +65,18 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<String> canonicalUrl;
     private final Realm realm;
     private final AccountCache accountCache;
+    private final IncludedGroupCache includedGroupCache;
 
     @Inject
     GenericFactory(final AuthConfig authConfig,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
-        final Realm realm, final AccountCache accountCache) {
+        final Realm realm, final AccountCache accountCache,
+        final IncludedGroupCache includedGroupCache) {
       this.authConfig = authConfig;
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
       this.accountCache = accountCache;
+      this.includedGroupCache = includedGroupCache;
     }
 
     public IdentifiedUser create(final Account.Id id) {
@@ -78,13 +85,13 @@ public class IdentifiedUser extends CurrentUser {
 
     public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
       return new IdentifiedUser(AccessPath.UNKNOWN, authConfig, canonicalUrl,
-          realm, accountCache, null, db, id);
+          realm, accountCache, includedGroupCache, null, db, id);
     }
 
     public IdentifiedUser create(AccessPath accessPath,
         Provider<SocketAddress> remotePeerProvider, Account.Id id) {
       return new IdentifiedUser(accessPath, authConfig, canonicalUrl, realm,
-          accountCache, remotePeerProvider, null, id);
+          accountCache, includedGroupCache, remotePeerProvider, null, id);
     }
   }
 
@@ -100,6 +107,7 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<String> canonicalUrl;
     private final Realm realm;
     private final AccountCache accountCache;
+    private final IncludedGroupCache includedGroupCache;
 
     private final Provider<SocketAddress> remotePeerProvider;
     private final Provider<ReviewDb> dbProvider;
@@ -108,6 +116,7 @@ public class IdentifiedUser extends CurrentUser {
     RequestFactory(final AuthConfig authConfig,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
         final Realm realm, final AccountCache accountCache,
+        final IncludedGroupCache includedGroupCache,
 
         final @RemotePeer Provider<SocketAddress> remotePeerProvider,
         final Provider<ReviewDb> dbProvider) {
@@ -115,6 +124,7 @@ public class IdentifiedUser extends CurrentUser {
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
       this.accountCache = accountCache;
+      this.includedGroupCache = includedGroupCache;
 
       this.remotePeerProvider = remotePeerProvider;
       this.dbProvider = dbProvider;
@@ -123,7 +133,7 @@ public class IdentifiedUser extends CurrentUser {
     public IdentifiedUser create(final AccessPath accessPath,
         final Account.Id id) {
       return new IdentifiedUser(accessPath, authConfig, canonicalUrl, realm,
-          accountCache, remotePeerProvider, dbProvider, id);
+          accountCache, includedGroupCache, remotePeerProvider, dbProvider, id);
     }
   }
 
@@ -133,6 +143,7 @@ public class IdentifiedUser extends CurrentUser {
   private final Provider<String> canonicalUrl;
   private final Realm realm;
   private final AccountCache accountCache;
+  private final IncludedGroupCache includedGroupCache;
 
   @Nullable
   private final Provider<SocketAddress> remotePeerProvider;
@@ -151,12 +162,14 @@ public class IdentifiedUser extends CurrentUser {
   private IdentifiedUser(final AccessPath accessPath,
       final AuthConfig authConfig, final Provider<String> canonicalUrl,
       final Realm realm, final AccountCache accountCache,
+      final IncludedGroupCache includedGroupCache,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
     super(accessPath, authConfig);
     this.canonicalUrl = canonicalUrl;
     this.realm = realm;
     this.accountCache = accountCache;
+    this.includedGroupCache = includedGroupCache;
     this.remotePeerProvider = remotePeerProvider;
     this.dbProvider = dbProvider;
     this.accountId = id;
@@ -207,14 +220,36 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public Set<AccountGroup.Id> getEffectiveGroups() {
     if (effectiveGroups == null) {
+      Set<AccountGroup.Id> seedGroups = new HashSet<AccountGroup.Id> ();
       if (authConfig.isIdentityTrustable(state().getExternalIds())) {
-        effectiveGroups = realm.groups(state());
+        seedGroups = realm.groups(state());
 
       } else {
-        effectiveGroups = authConfig.getRegisteredGroups();
+        seedGroups = authConfig.getRegisteredGroups();
+      }
+
+      effectiveGroups = getIncludedGroups(seedGroups);
+    }
+
+    return effectiveGroups;
+  }
+
+  private Set<AccountGroup.Id> getIncludedGroups(Set<AccountGroup.Id> seedGroups)
+  {
+    Set<AccountGroup.Id> includedGroups = new HashSet<AccountGroup.Id> (seedGroups);
+    Queue<AccountGroup.Id> groupQueue = new LinkedList<AccountGroup.Id> (seedGroups);
+
+    while (groupQueue.size() > 0) {
+      AccountGroup.Id id = groupQueue.remove();
+
+      for (final AccountGroup.Id groupId : includedGroupCache.getByIncludedGroup(id)) {
+        if (!includedGroups.contains(groupId)) {
+          includedGroups.add(groupId);
+          groupQueue.add(groupId);
+        }
       }
     }
-    return effectiveGroups;
+    return includedGroups;
   }
 
   @Override

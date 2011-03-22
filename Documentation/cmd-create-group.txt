@@ -12,6 +12,7 @@ SYNOPSIS
 [\--owner <GROUP>] \
 [\--description <DESC>] \
 [\--member <USERNAME>] \
+[\--group <GROUP>] \
 <GROUP>
 
 DESCRIPTION
@@ -49,6 +50,10 @@ Description values containing spaces should be quoted in single quotes
 \--member::
 	User name to become initial member of the group.  Multiple \--member
 	options may be specified to add more initial members.
+
+\--group::
+	Group name to include in the group.  Multiple \--group options may
+	be specified to include more initial groups.
 
 EXAMPLES
 --------

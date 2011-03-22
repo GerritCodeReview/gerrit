@@ -58,6 +58,13 @@ public class AdminCreateGroup extends BaseCommand {
   @Option(name = "--visible-to-all", usage = "to make the group visible to all registered users")
   private boolean visibleToAll;
 
+  private final Set<AccountGroup.Id> initialGroups = new HashSet<AccountGroup.Id>();
+
+  @Option(name = "--group", aliases = "-g", metaVar = "GROUP", usage = "initial set of groups to be included in the group")
+  void addGroup(final AccountGroup.Id id) {
+    initialGroups.add(id);
+  }
+
   @Inject
   private PerformCreateGroup.Factory performCreateGroupFactory;
 
@@ -77,8 +84,7 @@ public class AdminCreateGroup extends BaseCommand {
         performCreateGroupFactory.create();
     try {
       performCreateGroup.createGroup(groupName, groupDescription, visibleToAll,
-          ownerGroupId,
-          initialMembers.toArray(new Account.Id[initialMembers.size()]));
+          ownerGroupId, initialMembers, initialGroups);
     } catch (NameAlreadyUsedException e) {
       throw die(e);
     }

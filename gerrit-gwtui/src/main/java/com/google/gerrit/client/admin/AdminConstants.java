@@ -22,6 +22,7 @@ public interface AdminConstants extends Constants {
   String defaultBranchName();
   String defaultRevisionSpec();
 
+  String buttonAddIncludedGroup();
   String buttonDeleteGroupMembers();
   String buttonAddGroupMember();
   String buttonSaveDescription();
@@ -47,6 +48,7 @@ public interface AdminConstants extends Constants {
   String headingProjectOptions();
   String headingGroupType();
   String headingMembers();
+  String headingIncludedGroups();
   String headingExternalGroup();
   String headingCreateGroup();
   String headingAccessRights();

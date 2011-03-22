@@ -17,6 +17,8 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountGroupIncludedGroup;
+import com.google.gerrit.reviewdb.AccountGroupIncludedGroupAudit;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.AccountGroupName;
@@ -27,6 +29,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,13 +41,15 @@ public class PerformCreateGroup {
 
   private final ReviewDb db;
   private final AccountCache accountCache;
+  private final IncludedGroupCache includedGroupCache;
   private final IdentifiedUser currentUser;
 
   @Inject
   PerformCreateGroup(final ReviewDb db, final AccountCache accountCache,
-      final IdentifiedUser currentUser) {
+      final IncludedGroupCache includedGroupCache, final IdentifiedUser currentUser) {
     this.db = db;
     this.accountCache = accountCache;
+    this.includedGroupCache = includedGroupCache;
     this.currentUser = currentUser;
   }
 
@@ -60,6 +65,7 @@ public class PerformCreateGroup {
    * @param ownerGroupId the group that should own the new group, if
    *        <code>null</code> the new group will own itself
    * @param initialMembers initial members to be added to the new group
+   * @param initialIncludedGroups initial groups to include in the new group
    * @return the id of the new group
    * @throws OrmException is thrown in case of any data store read or write
    *         error
@@ -68,7 +74,9 @@ public class PerformCreateGroup {
    */
   public AccountGroup.Id createGroup(final String groupName,
       final String groupDescription, final boolean visibleToAll,
-      final AccountGroup.Id ownerGroupId, final Account.Id... initialMembers)
+      final AccountGroup.Id ownerGroupId,
+      final Collection<? extends Account.Id> initialMembers,
+      final Collection<? extends AccountGroup.Id> initialIncludedGroups)
       throws OrmException, NameAlreadyUsedException {
     final AccountGroup.Id groupId =
         new AccountGroup.Id(db.nextAccountGroupId());
@@ -93,11 +101,15 @@ public class PerformCreateGroup {
 
     addMembers(groupId, initialMembers);
 
+    if (initialIncludedGroups != null) {
+      addIncludedGroups(groupId, initialIncludedGroups);
+    }
+
     return groupId;
   }
 
   private void addMembers(final AccountGroup.Id groupId,
-      final Account.Id... members) throws OrmException {
+      final Collection<? extends Account.Id> members) throws OrmException {
     final List<AccountGroupMember> memberships =
         new ArrayList<AccountGroupMember>();
     final List<AccountGroupMemberAudit> membershipsAudit =
@@ -119,4 +131,26 @@ public class PerformCreateGroup {
     }
   }
 
+  private void addIncludedGroups(final AccountGroup.Id groupId,
+      final Collection<? extends AccountGroup.Id> includedGroups) throws OrmException {
+    final List<AccountGroupIncludedGroup> includedGroupList =
+      new ArrayList<AccountGroupIncludedGroup>();
+    final List<AccountGroupIncludedGroupAudit> includedGroupsAudit =
+      new ArrayList<AccountGroupIncludedGroupAudit>();
+    for (AccountGroup.Id includedGroupId : includedGroups) {
+      final AccountGroupIncludedGroup includedGroup =
+        new AccountGroupIncludedGroup(new AccountGroupIncludedGroup.Key(groupId, includedGroupId));
+      includedGroupList.add(includedGroup);
+
+      final AccountGroupIncludedGroupAudit audit =
+        new AccountGroupIncludedGroupAudit(includedGroup, currentUser.getAccountId());
+      includedGroupsAudit.add(audit);
+    }
+    db.accountGroupIncludedGroups().insert(includedGroupList);
+    db.accountGroupIncludedGroupsAudit().insert(includedGroupsAudit);
+
+    for (AccountGroup.Id includedGroupId : includedGroups) {
+      includedGroupCache.evictIncludedGroup(includedGroupId);
+    }
+  }
 }

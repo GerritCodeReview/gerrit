@@ -45,6 +45,13 @@ ON account_group_members (group_id);
 
 
 -- *********************************************************************
+-- AccountGroupIncludedGroupAccess
+--    @PrimaryKey covers: byGroup
+CREATE INDEX account_group_included_groups_byIncludedGroup
+ON account_group_included_groups (included_group_id);
+
+
+-- *********************************************************************
 -- AccountProjectWatchAccess
 --    @PrimaryKey covers: byAccount
 --    covers:             byProject

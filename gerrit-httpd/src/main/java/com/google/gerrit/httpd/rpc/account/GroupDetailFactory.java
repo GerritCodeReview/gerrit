@@ -18,11 +18,13 @@ import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountGroupIncludedGroup;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.account.GroupInfoCacheFactory;
 import com.google.gerrit.server.account.NoSuchGroupException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -42,6 +44,7 @@ class GroupDetailFactory extends Handler<GroupDetail> {
   private final GroupControl.Factory groupControl;
   private final GroupCache groupCache;
   private final AccountInfoCacheFactory aic;
+  private final GroupInfoCacheFactory gic;
 
   private final AccountGroup.Id groupId;
   private GroupControl control;
@@ -50,11 +53,13 @@ class GroupDetailFactory extends Handler<GroupDetail> {
   GroupDetailFactory(final ReviewDb db,
       final GroupControl.Factory groupControl, final GroupCache groupCache,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
+      final GroupInfoCacheFactory.Factory groupInfoCacheFactory,
       @Assisted final AccountGroup.Id groupId) {
     this.db = db;
     this.groupControl = groupControl;
     this.groupCache = groupCache;
     this.aic = accountInfoCacheFactory.create();
+    this.gic = groupInfoCacheFactory.create();
 
     this.groupId = groupId;
   }
@@ -69,16 +74,18 @@ class GroupDetailFactory extends Handler<GroupDetail> {
     switch (group.getType()) {
       case INTERNAL:
         detail.setMembers(loadMembers());
+        detail.setIncludedGroups(loadIncludedGroups());
         break;
     }
     detail.setAccounts(aic.create());
+    detail.setGroups(gic.create());
     return detail;
   }
 
   private List<AccountGroupMember> loadMembers() throws OrmException {
     List<AccountGroupMember> members = new ArrayList<AccountGroupMember>();
     for (final AccountGroupMember m : db.accountGroupMembers().byGroup(groupId)) {
-      if (control.canSee(m.getAccountId())) {
+      if (control.canSeeMember(m.getAccountId())) {
         aic.want(m.getAccountId());
         members.add(m);
       }
@@ -107,5 +114,42 @@ class GroupDetailFactory extends Handler<GroupDetail> {
       }
     });
     return members;
+  }
+
+  private List<AccountGroupIncludedGroup> loadIncludedGroups() throws OrmException {
+    List<AccountGroupIncludedGroup> groups = new ArrayList<AccountGroupIncludedGroup>();
+
+    List<AccountGroupIncludedGroup> includedGroups = new ArrayList<AccountGroupIncludedGroup>();
+    for (final AccountGroupIncludedGroup m : db.accountGroupIncludedGroups().byGroup(groupId)) {
+      if (control.canSeeIncludedGroup(m.getIncludedGroupId())) {
+        gic.want(m.getIncludedGroupId());
+        groups.add(m);
+      }
+    }
+
+    Collections.sort(groups, new Comparator<AccountGroupIncludedGroup>() {
+      public int compare(final AccountGroupIncludedGroup o1,
+          final AccountGroupIncludedGroup o2) {
+        final AccountGroup a = gic.get(o1.getIncludedGroupId());
+        final AccountGroup b = gic.get(o2.getIncludedGroupId());
+        return n(a).compareTo(n(b));
+      }
+
+      private String n(final AccountGroup a) {
+        String n = a.getName();
+        if (n != null && n.length() > 0) {
+          return n;
+        }
+
+        n = a.getDescription();
+        if (n != null && n.length() > 0) {
+          return n;
+        }
+
+        return a.getId().toString();
+      }
+    });
+
+    return groups;
   }
 }

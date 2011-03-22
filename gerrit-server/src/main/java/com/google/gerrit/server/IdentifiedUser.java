@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountGroupIncludedGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -46,7 +47,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -207,14 +210,41 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public Set<AccountGroup.Id> getEffectiveGroups() {
     if (effectiveGroups == null) {
+      Set<AccountGroup.Id> seedGroups = new HashSet<AccountGroup.Id> ();
       if (authConfig.isIdentityTrustable(state().getExternalIds())) {
-        effectiveGroups = realm.groups(state());
+        seedGroups = realm.groups(state());
 
       } else {
-        effectiveGroups = authConfig.getRegisteredGroups();
+        seedGroups = authConfig.getRegisteredGroups();
+      }
+
+      effectiveGroups = getIncludedGroups(seedGroups);
+    }
+
+    return effectiveGroups;
+  }
+
+  private Set<AccountGroup.Id> getIncludedGroups(Set<AccountGroup.Id> seedGroups)
+  {
+    Set<AccountGroup.Id> includedGroups = new HashSet<AccountGroup.Id> (seedGroups);
+    Queue<AccountGroup.Id> groupQueue = new LinkedList<AccountGroup.Id> (seedGroups);
+
+    while(groupQueue.size() > 0) {
+      AccountGroup.Id id = groupQueue.remove();
+
+      try {
+        for (final AccountGroupIncludedGroup i : dbProvider.get().accountGroupIncludedGroups().byIncludedGroup(id)) {
+          AccountGroup.Id groupId = i.getGroupId();
+          if(!includedGroups.contains(groupId)) {
+            includedGroups.add(groupId);
+            groupQueue.add(groupId);
+          }
+        }
+      } catch (OrmException e) {
+        log.warn("Cannot query included groups", e);
       }
     }
-    return effectiveGroups;
+    return includedGroups;
   }
 
   @Override

@@ -23,6 +23,8 @@ import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountGroupIncludedGroup;
+import com.google.gerrit.reviewdb.AccountGroupIncludedGroupAudit;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -225,7 +227,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         if (!a.isActive()) {
           throw new Failure(new InactiveAccountException(a.getFullName()));
         }
-        if (!control.canAdd(a.getId())) {
+        if (!control.canAddMember(a.getId())) {
           throw new Failure(new NoSuchEntityException());
         }
 
@@ -240,6 +242,37 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
           db.accountGroupMembers().insert(Collections.singleton(m));
           accountCache.evict(m.getAccountId());
         }
+
+        return groupDetailFactory.create(groupId).call();
+      }
+    });
+  }
+
+  public void addIncludedGroup(final AccountGroup.Id groupId,
+      final String groupName, final AsyncCallback<GroupDetail> callback) {
+    run(callback, new Action<GroupDetail>() {
+      public GroupDetail run(ReviewDb db) throws OrmException, Failure,
+          NoSuchGroupException {
+        final GroupControl control = groupControlFactory.validateFor(groupId);
+        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+          throw new Failure(new NameAlreadyUsedException());
+        }
+
+        final AccountGroup a = findGroup(groupName);
+        if (!control.canAddIncludedGroup(a.getId())) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        final AccountGroupIncludedGroup.Key key =
+          new AccountGroupIncludedGroup.Key(groupId, a.getId());
+          AccountGroupIncludedGroup m = db.accountGroupIncludedGroups().get(key);
+          if (m == null) {
+            m = new AccountGroupIncludedGroup(key);
+            db.accountGroupIncludedGroupsAudit().insert(
+                Collections.singleton(new AccountGroupIncludedGroupAudit(m,
+                    getAccountId())));
+            db.accountGroupIncludedGroups().insert(Collections.singleton(m));
+          }
 
         return groupDetailFactory.create(groupId).call();
       }
@@ -267,7 +300,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         for (final AccountGroupMember.Key k : keys) {
           final AccountGroupMember m = db.accountGroupMembers().get(k);
           if (m != null) {
-            if (!control.canRemove(m.getAccountId())) {
+            if (!control.canRemoveMember(m.getAccountId())) {
               throw new Failure(new NoSuchEntityException());
             }
 
@@ -300,6 +333,46 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     });
   }
 
+  public void deleteIncludedGroups(final AccountGroup.Id groupId,
+      final Set<AccountGroupIncludedGroup.Key> keys, final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException,
+          NoSuchGroupException, Failure {
+        final GroupControl control = groupControlFactory.validateFor(groupId);
+        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+          throw new Failure(new NameAlreadyUsedException());
+        }
+
+        final Account.Id me = getAccountId();
+        for (final AccountGroupIncludedGroup.Key k : keys) {
+          final AccountGroupIncludedGroup m = db.accountGroupIncludedGroups().get(k);
+          if (m != null) {
+            if (!control.canRemoveIncludedGroup(m.getIncludedGroupId())) {
+              throw new Failure(new NoSuchEntityException());
+            }
+
+            AccountGroupIncludedGroupAudit audit = null;
+            for (AccountGroupIncludedGroupAudit a : db.accountGroupIncludedGroupsAudit()
+                .byGroupIncludedGroup(m.getGroupId(), m.getIncludedGroupId())) {
+              if (a.isActive()) {
+                audit = a;
+                break;
+              }
+            }
+
+            if (audit != null) {
+              audit.removed(me);
+              db.accountGroupIncludedGroupsAudit()
+                  .update(Collections.singleton(audit));
+            }
+            db.accountGroupIncludedGroups().delete(Collections.singleton(m));
+          }
+        }
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
   private void assertAmGroupOwner(final ReviewDb db, final AccountGroup group)
       throws Failure {
     try {
@@ -319,4 +392,14 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     }
     return r;
   }
+
+  private AccountGroup findGroup(final String name) throws OrmException,
+      Failure {
+    final AccountGroup g = groupCache.get(new AccountGroup.NameKey(name));
+    if (g == null) {
+      throw new Failure(new NoSuchEntityException());
+    }
+    return g;
+  }
+
 }

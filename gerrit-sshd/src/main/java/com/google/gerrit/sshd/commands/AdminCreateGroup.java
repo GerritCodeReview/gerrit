@@ -55,6 +55,13 @@ public class AdminCreateGroup extends BaseCommand {
     initialMembers.add(id);
   }
 
+  private final Set<AccountGroup.Id> initialIncGroups = new HashSet<AccountGroup.Id>();
+
+  @Option(name = "--included-groups", aliases = "-i", metaVar = "INCLUDEDGROUPS", usage = "initial set of groups to be included in the group")
+  void addIncludedGroup(final AccountGroup.Id id) {
+    initialIncGroups.add(id);
+  }
+
   @Inject
   private PerformCreateGroup.Factory performCreateGroupFactory;
 
@@ -73,7 +80,7 @@ public class AdminCreateGroup extends BaseCommand {
     final PerformCreateGroup performCreateGroup =
         performCreateGroupFactory.create();
     try {
-      performCreateGroup.createGroup(groupName, groupDescription, ownerGroupId, initialMembers.toArray(new Account.Id[initialMembers.size()]));
+      performCreateGroup.createGroup(groupName, groupDescription, ownerGroupId, initialMembers.toArray(new Account.Id[initialMembers.size()]), initialIncGroups.toArray(new AccountGroup.Id[initialIncGroups.size()]));
     } catch (NameAlreadyUsedException e) {
       throw die(e);
     }

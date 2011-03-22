@@ -15,14 +15,17 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountGroupInclude;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 
 import java.util.List;
 
 public class GroupDetail {
   public AccountInfoCache accounts;
+  public GroupInfoCache groups;
   public AccountGroup group;
   public List<AccountGroupMember> members;
+  public List<AccountGroupInclude> includes;
   public AccountGroup ownerGroup;
   public boolean canModify;
 
@@ -33,12 +36,20 @@ public class GroupDetail {
     accounts = c;
   }
 
+  public void setGroups(GroupInfoCache c) {
+    groups = c;
+  }
+
   public void setGroup(AccountGroup g) {
     group = g;
   }
 
   public void setMembers(List<AccountGroupMember> m) {
     members = m;
+  }
+
+  public void setIncludes(List<AccountGroupInclude> i) {
+    includes = i;
   }
 
   public void setOwnerGroup(AccountGroup g) {

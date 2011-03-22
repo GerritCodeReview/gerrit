@@ -87,8 +87,7 @@ public class BaseServiceImplementation {
       }
     } catch (Failure e) {
       if (e.getCause() instanceof NoSuchProjectException
-          || e.getCause() instanceof NoSuchChangeException
-          || e.getCause() instanceof NoSuchGroupException) {
+          || e.getCause() instanceof NoSuchChangeException) {
         callback.onFailure(new NoSuchEntityException());
 
       } else {

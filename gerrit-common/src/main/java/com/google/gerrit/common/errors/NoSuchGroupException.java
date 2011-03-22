@@ -37,4 +37,12 @@ public class NoSuchGroupException extends Exception {
   public NoSuchGroupException(final AccountGroup.NameKey k, final Throwable why) {
     super(MESSAGE + k.toString(), why);
   }
+
+  public NoSuchGroupException(String who) {
+    this(who, null);
+  }
+
+  public NoSuchGroupException(String who, final Throwable why) {
+    super(MESSAGE + who, why);
+  }
 }

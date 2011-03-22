@@ -25,6 +25,8 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.Collections;
+
 class CreateGroup extends Handler<AccountGroup.Id> {
   interface Factory {
     CreateGroup create(String groupName);
@@ -46,6 +48,6 @@ class CreateGroup extends Handler<AccountGroup.Id> {
   public AccountGroup.Id call() throws OrmException, NameAlreadyUsedException {
     final PerformCreateGroup performCreateGroup = performCreateGroupFactory.create();
     final Account.Id me = user.getAccountId();
-    return performCreateGroup.createGroup(groupName, null, false, null, me);
+    return performCreateGroup.createGroup(groupName, null, false, null, Collections.singleton(me), null);
   }
 }

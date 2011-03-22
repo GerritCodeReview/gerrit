@@ -73,6 +73,12 @@ public interface ReviewDb extends Schema {
   AccountGroupMemberAuditAccess accountGroupMembersAudit();
 
   @Relation
+  AccountGroupIncludeAccess accountGroupIncludes();
+
+  @Relation
+  AccountGroupIncludeAuditAccess accountGroupIncludesAudit();
+
+  @Relation
   AccountGroupAgreementAccess accountGroupAgreements();
 
   @Relation

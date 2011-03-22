@@ -35,6 +35,8 @@ import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.DefaultRealm;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCacheImpl;
+import com.google.gerrit.server.account.GroupInfoCacheFactory;
+import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.cache.CachePool;
@@ -153,11 +155,13 @@ public class GerritGlobalModule extends FactoryModule {
     install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());
     install(GroupCacheImpl.module());
+    install(GroupIncludeCacheImpl.module());
     install(PatchListCacheImpl.module());
     install(ProjectCacheImpl.module());
     install(new AccessControlModule());
 
     factory(AccountInfoCacheFactory.Factory.class);
+    factory(GroupInfoCacheFactory.Factory.class);
     factory(ProjectState.Factory.class);
     factory(RefControl.Factory.class);
 

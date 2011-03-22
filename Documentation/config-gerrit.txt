@@ -366,6 +366,11 @@ Gerrit group membership obtained from the `account_group_members`
 table is cached under the `"accounts"` cache, above.  External group
 membership obtained from LDAP is cached under `"ldap_groups"`.
 
+cache `"groups_byinclude"`::
++
+Caches group inclusions in other groups.  If direct updates are made
+to the `account_group_includes` table, this cache should be flushed.
+
 cache `"ldap_groups"`::
 +
 Caches the LDAP groups that a user belongs to, if LDAP has been

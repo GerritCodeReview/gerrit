@@ -83,15 +83,27 @@ public class GroupControl {
         || getCurrentUser().isAdministrator();
   }
 
-  public boolean canAdd(final Account.Id id) {
+  public boolean canAddMember(final Account.Id id) {
     return isOwner();
   }
 
-  public boolean canRemove(final Account.Id id) {
+  public boolean canRemoveMember(final Account.Id id) {
     return isOwner();
   }
 
-  public boolean canSee(Account.Id id) {
+  public boolean canSeeMember(Account.Id id) {
+    return isVisible();
+  }
+
+  public boolean canAddGroup(final AccountGroup.Id id) {
+    return isOwner();
+  }
+
+  public boolean canRemoveGroup(final AccountGroup.Id id) {
+    return isOwner();
+  }
+
+  public boolean canSeeGroup(AccountGroup.Id id) {
     return isVisible();
   }
 }

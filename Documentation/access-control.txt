@@ -3,8 +3,8 @@ Gerrit Code Review - Access Controls
 
 Access controls in Gerrit are group based.  Every user account is a
 member of one or more groups, and access and privileges are granted
-to those groups.  Groups cannot be nested, and access rights cannot
-be granted to individual users.
+to those groups.  Access rights cannot be granted to individual
+users.
 
 
 System Groups
@@ -87,9 +87,6 @@ Account Groups
 Account groups contain a list of zero or more user account members,
 added individually by a group owner.  Any user account listed as
 a group member is given any access rights granted to the group.
-
-To keep the schema simple to manage, groups cannot be nested.
-Only individual user accounts can be added as a member.
 
 Every group has one other group designated as its owner.  Users who
 are members of the owner group can:

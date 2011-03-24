@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/X///F8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-03-24T12:53:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA/X///SY\u003d",
+      "revId": "f88ff717e77e45b83d6339bcbd785981b1d7607c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/X///SU\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-03-21T08:02:09Z",
       "side": 1,
       "message": "You may here also provide an example push command that shows\nwhat you meant i.e.:\n\n git push origin HEAD:refs/changes/711",
+      "revId": "f88ff717e77e45b83d6339bcbd785981b1d7607c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X//+zU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-03-24T12:53:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA/X///SU\u003d",
       "revId": "f88ff717e77e45b83d6339bcbd785981b1d7607c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/X//+zc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-03-24T12:53:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA/X///QM\u003d",
+      "revId": "f88ff717e77e45b83d6339bcbd785981b1d7607c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/X///QI\u003d",
         "filename": "Documentation/error-change-does-not-belong-to-project.txt",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2011-03-21T14:49:53Z",
       "side": 1,
       "message": "maybe you should give a sample push command here",
+      "revId": "f88ff717e77e45b83d6339bcbd785981b1d7607c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X//+zQ\u003d",
+        "filename": "Documentation/error-change-does-not-belong-to-project.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-03-24T12:53:39Z",
+      "side": 1,
+      "message": "Not sure if this is really needed here. The link that is given in the next sentence leads to the documentation that explains the push command for this case. Also a user who gets this error probably knows how to specify a change as target ref or just needs to look at his failing push command.\n\n\nIf we add a sample push command here, we should do the same for description of the \"change ... not found\" error [1].\n\n\n[1] https://android.git.kernel.org/?p\u003dtools/gerrit.git;a\u003dblob_plain;f\u003dDocumentation/error-change-not-found.txt;hb\u003drefs/heads/master",
+      "parentUuid": "AAAA/X///QI\u003d",
       "revId": "f88ff717e77e45b83d6339bcbd785981b1d7607c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

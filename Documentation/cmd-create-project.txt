@@ -8,18 +8,18 @@ gerrit create-project - Create a new hosted project
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit create-project' \
-\--name <NAME> \
-[--branch <REF>] \
-[\--owner <GROUP> ...] \
-[\--parent <NAME>] \
-[\--permissions-only] \
-[\--description <DESC>] \
-[\--submit-type <TYPE>] \
-[\--use-content-merge] \
-[\--use-contributor-agreements] \
-[\--use-signed-off-by]
-[\--empty-commit]
+ 'ssh' -p <port> <host> 'gerrit create-project' \
+ --name <NAME> \
+ [--branch <REF>] \
+ [\--owner <GROUP> ...] \
+ [\--parent <NAME>] \
+ [\--permissions-only] \
+ [\--description <DESC>] \
+ [\--submit-type <TYPE>] \
+ [\--use-content-merge] \
+ [\--use-contributor-agreements] \
+ [\--use-signed-off-by] \
+ [\--empty-commit]
 
 DESCRIPTION
 -----------

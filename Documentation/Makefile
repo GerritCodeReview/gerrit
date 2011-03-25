@@ -29,7 +29,6 @@ endif
 
 DOC_HTML      := $(patsubst %.txt,%.html,$(wildcard *.txt))
 LOCAL_ROOT    := .published
-SCRIPTSDIR    := $(shell pwd)/javascript
 COMMIT        := $(shell git describe HEAD | sed s/^v//)
 PUB_DIR       := $(PUB_ROOT)/$(VERSION)
 PRIOR          = PRIOR
@@ -71,13 +70,13 @@ endif
 	  $(SVN) commit -m "Updated $(VERSION) documentation to v$(COMMIT)"
 	@-rm -rf $(LOCAL_ROOT)
 
-$(DOC_HTML): %.html : %.txt $(SCRIPTSDIR)/toc.js
+$(DOC_HTML): %.html : %.txt
 	@echo "FORMAT $@"
 	@rm -f $@+ $@
-	@$(ASCIIDOC) --unsafe \
-		-a toc \
+	@$(ASCIIDOC) -a toc \
 		-a 'revision=$(REVISION)' \
-		-a 'scriptsdir=$(SCRIPTSDIR)' \
-		-b xhtml11 -f asciidoc.conf \
-		$(ASCIIDOC_EXTRA) -o $@+ $<
+		-b xhtml11 \
+		-f asciidoc.conf \
+		$(ASCIIDOC_EXTRA) \
+		-o $@+ $<
 	@mv $@+ $@

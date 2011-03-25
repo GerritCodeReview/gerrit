@@ -8,9 +8,9 @@ gerrit gsql - Administrative interface to active database
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit gsql' \
-[\--format \{PRETTY | JSON\}] \
-[\-c QUERY]
+ 'ssh' -p <port> <host> 'gerrit gsql' \
+ [\--format \{PRETTY | JSON\}] \
+ [\-c QUERY]
 
 DESCRIPTION
 -----------

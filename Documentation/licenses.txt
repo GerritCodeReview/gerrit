@@ -8,50 +8,49 @@ components that are covered by additional licenses.
 Included Components
 -------------------
 
-[grid="all"]
-`---------------------------`------------------------------
-Included Package            License
------------------------------------------------------------
-Gerrit Code Review          <<apache2,Apache License 2.0>>
-gwtexpui                    <<apache2,Apache License 2.0>>
-gwtjsonrpc                  <<apache2,Apache License 2.0>>
-gwtorm                      <<apache2,Apache License 2.0>>
-Google Gson                 <<apache2,Apache License 2.0>>
-Google Web Toolkit          <<apache2,Apache License 2.0>>
-Guice                       <<apache2,Apache License 2.0>>
-Apache Commons Codec        <<apache2,Apache License 2.0>>
-Apache Commons DBCP         <<apache2,Apache License 2.0>>
-Apache Commons Http Client  <<apache2,Apache License 2.0>>
-Apache Commons Lang         <<apache2,Apache License 2.0>>
-Apache Commons Logging      <<apache2,Apache License 2.0>>
-Apache Commons Net          <<apache2,Apache License 2.0>>
-Apache Commons Pool         <<apache2,Apache License 2.0>>
-Apache Log4J                <<apache2,Apache License 2.0>>
-Apache MINA                 <<apache2,Apache License 2.0>>
-Apache Tomact Servlet API   <<apache2,Apache License 2.0>>
-Apache SSHD                 <<apache2,Apache License 2.0>>, see also <<sshd,NOTICE>>
-Apache Velocity             <<apache2,Apache License 2.0>>
-Apache Xerces               <<apache2,Apache License 2.0>>
-OpenID4Java                 <<apache2,Apache License 2.0>>
-Neko HTML                   <<apache2,Apache License 2.0>>
-Ehcache                     <<apache2,Apache License 2.0>>
-mime-util                   <<apache2,Apache License 2.0>>
-Jetty                       <<apache2,Apache License 2.0>>, or link:http://www.eclipse.org/legal/epl-v10.html[EPL]
-Google Code Prettify        <<apache2,Apache License 2.0>>
-JGit                        <<jgit,New-Style BSD>>
-JSch                        <<sshd,New-Style BSD>>
-PostgreSQL JDBC Driver      <<postgresql,New-Style BSD>>
-H2 Database                 <<h2,EPL or modified MPL>>
-ObjectWeb ASM               <<asm,New-Style BSD>>
-ANTLR                       <<antlr,New-Style BSD>>
-args4j                      <<args4j,MIT License>>
-SLF4J                       <<slf4j,MIT License>>
-Clippy                      <<clippy,MIT License>>
-juniversalchardet           <<mpl1_1,MPL 1.1>>
-AOP Alliance                Public Domain
-JSR 305                     <<jsr305,New-Style BSD>>
-dk.brics.automaton          <<automaton,New-Style BSD>>
------------------------------------------------------------
+[options="header"]
+|======================================================================
+|Included Package           | License
+|Gerrit Code Review         | <<apache2,Apache License 2.0>>
+|gwtexpui                   | <<apache2,Apache License 2.0>>
+|gwtjsonrpc                 | <<apache2,Apache License 2.0>>
+|gwtorm                     | <<apache2,Apache License 2.0>>
+|Google Gson                | <<apache2,Apache License 2.0>>
+|Google Web Toolkit         | <<apache2,Apache License 2.0>>
+|Guice                      | <<apache2,Apache License 2.0>>
+|Apache Commons Codec       | <<apache2,Apache License 2.0>>
+|Apache Commons DBCP        | <<apache2,Apache License 2.0>>
+|Apache Commons Http Client | <<apache2,Apache License 2.0>>
+|Apache Commons Lang        | <<apache2,Apache License 2.0>>
+|Apache Commons Logging     | <<apache2,Apache License 2.0>>
+|Apache Commons Net         | <<apache2,Apache License 2.0>>
+|Apache Commons Pool        | <<apache2,Apache License 2.0>>
+|Apache Log4J               | <<apache2,Apache License 2.0>>
+|Apache MINA                | <<apache2,Apache License 2.0>>
+|Apache Tomact Servlet API  | <<apache2,Apache License 2.0>>
+|Apache SSHD                | <<apache2,Apache License 2.0>>, see also <<sshd,NOTICE>>
+|Apache Velocity            | <<apache2,Apache License 2.0>>
+|Apache Xerces              | <<apache2,Apache License 2.0>>
+|OpenID4Java                | <<apache2,Apache License 2.0>>
+|Neko HTML                  | <<apache2,Apache License 2.0>>
+|Ehcache                    | <<apache2,Apache License 2.0>>
+|mime-util                  | <<apache2,Apache License 2.0>>
+|Jetty                      | <<apache2,Apache License 2.0>>, or link:http://www.eclipse.org/legal/epl-v10.html[EPL]
+|Google Code Prettify       | <<apache2,Apache License 2.0>>
+|JGit                       | <<jgit,New-Style BSD>>
+|JSch                       | <<sshd,New-Style BSD>>
+|PostgreSQL JDBC Driver     | <<postgresql,New-Style BSD>>
+|H2 Database                | <<h2,EPL or modified MPL>>
+|ObjectWeb ASM              | <<asm,New-Style BSD>>
+|ANTLR                      | <<antlr,New-Style BSD>>
+|args4j                     | <<args4j,MIT License>>
+|SLF4J                      | <<slf4j,MIT License>>
+|Clippy                     | <<clippy,MIT License>>
+|juniversalchardet          | <<mpl1_1,MPL 1.1>>
+|AOP Alliance               | Public Domain
+|JSR 305                    | <<jsr305,New-Style BSD>>
+|dk.brics.automaton         | <<automaton,New-Style BSD>>
+|======================================================================
 
 Cryptography Notice
 -------------------

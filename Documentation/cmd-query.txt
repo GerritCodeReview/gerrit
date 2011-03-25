@@ -8,14 +8,14 @@ gerrit query - Query the change database
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit query' \
-[\--format {TEXT | JSON}] \
-[\--current-patch-set] \
-[\--patch-sets|--all-approvals] \
-[\--] \
-<query> \
-[limit:<n>] \
-[resume\_sortkey:<sortKey>]
+ 'ssh' -p <port> <host> 'gerrit query' \
+ [\--format {TEXT | JSON}] \
+ [\--current-patch-set] \
+ [\--patch-sets|--all-approvals] \
+ [\--] \
+ <query> \
+ [limit:<n>] \
+ [resume\_sortkey:<sortKey>]
 
 DESCRIPTION
 -----------

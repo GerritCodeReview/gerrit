@@ -125,7 +125,7 @@ how to register a new project with Gerrit.  This step is necessary
 if existing Git repositories were not imported during 'init'.
 
 
-[[rc.d]]
+[[rc_d]]
 Start/Stop Daemon
 -----------------
 

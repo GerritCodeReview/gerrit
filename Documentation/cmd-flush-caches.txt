@@ -8,8 +8,8 @@ gerrit flush-caches - Flush some/all server caches from memory
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit flush-caches' \
-[\--all | \--list | \--cache <NAME> ...]
+ 'ssh' -p <port> <host> 'gerrit flush-caches' \
+ [\--all | \--list | \--cache <NAME> ...]
 
 DESCRIPTION
 -----------

@@ -10,18 +10,17 @@ query, execute it, and present the results.  If exactly one change
 matches the search, the change will be presented instead of a list.
 
 
-[grid="all"]
-`---------------------------`------------------------------
-Description                 Default Query
------------------------------------------------------------
-All > Open                  status:open '(or is:open)'
-All > Merged                status:merged
-All > Abandoned             status:abandoned
-My > Dafts                  has:draft
-My > Watched Changes        status:open is:watched
-My > Starred Changes        is:starred
-Open changes in Foo         status:open project:Foo
------------------------------------------------------------
+[options="header"]
+|=================================================
+|Description          | Default Query
+|All > Open           | status:open '(or is:open)'
+|All > Merged         | status:merged
+|All > Abandoned      | status:abandoned
+|My > Dafts           | has:draft
+|My > Watched Changes | status:open is:watched
+|My > Starred Changes | is:starred
+|Open changes in Foo  | status:open project:Foo
+|=================================================
 
 Basic Change Search
 -------------------
@@ -29,16 +28,15 @@ Basic Change Search
 Similar to many popular search engines on the web, just enter some
 text and let Gerrit figure out the meaning:
 
-[grid="all"]
-`---------------------------------`------------------------------
-Description                       Examples
------------------------------------------------------------------
-Legacy numerical id               15183
-Full or abbreviated Change-Id     Ic0ff33
-Full or abbreviated commit SHA-1  d81b32ef
-Email address                     user@example.com
-Approval requirement              CodeReview>=+2, Verified=1
------------------------------------------------------------------
+[options="header"]
+|=============================================================
+|Description                      | Examples
+|Legacy numerical id              | 15183
+|Full or abbreviated Change-Id    | Ic0ff33
+|Full or abbreviated commit SHA-1 | d81b32ef
+|Email address                    | user@example.com
+|Approval requirement             | CodeReview>=+2, Verified=1
+|=============================================================
 
 
 Search Operators
@@ -123,7 +121,7 @@ must start with 'refs/'.
 If 'REF' starts with `^` it matches reference names by regular
 expression patterns.
 
-[[tr]][[bug]]
+[[tr,bug]]
 tr:'ID', bug:'ID'::
 +
 Search for changes whose commit message contains 'ID' and matched
@@ -146,13 +144,13 @@ message:'MESSAGE'::
 Changes that matches 'MESSAGE' arbitrary string in body commit messages.
 
 [[file]]
-file:\^'REGEX'::
+file:^'REGEX'::
 +
 Matches any change where REGEX matches a file that was affected
 by the change.  The regular expression pattern must start with
-`\^`.  For example, to match all XML files use `file:^.*\.xml$`.
+`^`.  For example, to match all XML files use `file:^.*\.xml$`.
 +
-The `\^` required at the beginning of the regular expression not only
+The `^` required at the beginning of the regular expression not only
 denotes a regular expression, but it also has the usual meaning of
 anchoring the match to the start of the string.  To match all Java
 files, use `file:^.*\.java`.
@@ -370,14 +368,14 @@ automatically set to the page size configured in the current user's
 preferences.  Including it in a web query may lead to unpredictable
 results with regards to pagination.
 
-resume\_sortkey:'KEY'::
+resume_sortkey:'KEY'::
 +
 Positions the low level scan routine to start from 'KEY' and
 continue through changes from this point.  This is most often used
 for paginating result sets.  Including this in a web query may lead
 to unpredictable results.
 
-sortkey\_after:'KEY', sortkey\_before:'KEY'::
+sortkey_after:'KEY', sortkey_before:'KEY'::
 +
 Restart the low level scan routine from 'KEY'.  This is automatically
 set by the pagination system as the user navigates through results

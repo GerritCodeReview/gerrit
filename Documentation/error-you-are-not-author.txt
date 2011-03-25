@@ -1,5 +1,5 @@
 you are not author ...
-=========================
+======================
 
 Gerrit verifies for every pushed commit that the e-mail address of
 the author matches one of the registered e-mail addresses of the
@@ -9,9 +9,9 @@ bypassed by having the access right '+1 Forge Author Identity' in the
 link:access-control.html#category_FORG['Forge Identity'] category.
 
 This error may happen for two reasons:
-1. incorrect configuration of the e-mail address on client or server
-   side
-2. missing privileges to push commits of other authors
+
+. incorrect configuration of the e-mail address on client or server side
+. missing privileges to push commits of other authors
 
 
 Incorrect configuration of the e-mail address on client or server side
@@ -35,7 +35,7 @@ If you don't receive the e-mail verification mail it might be that it
 was caught by your spam filter.
 
 Incorrect author information
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For every commit Git maintains the author. If not explicitly
 specified Git computes the author on commit out of the Git

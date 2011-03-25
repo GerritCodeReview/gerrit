@@ -131,14 +131,13 @@ Users are permitted to use the maximum range granted to any of their
 groups in an approval category.  For example, a user is a member of
 `Foo Leads`, and the following ACLs are granted on a project:
 
-[grid="all"]
-`---------------`---------------`-------------`-------
-Group            Reference Name Category       Range
-------------------------------------------------------
-Anonymous Users  refs/heads/*   Code Review     -1..+1
-Registered Users refs/heads/*   Code Review     -1..+2
-Foo Leads        refs/heads/*   Code Review     -2..0
-------------------------------------------------------
+[options="header"]
+|=================================================
+|Group           |Reference Name |Category|Range
+|Anonymous Users |refs/heads/*|Code Review|-1..+1
+|Registered Users|refs/heads/*|Code Review|-1..+2
+|Foo Leads       |refs/heads/*|Code Review|-2..0
+|=================================================
 
 Then the effective range permitted to be used by the user is
 `-2..+2`, as the user is a member of all three groups (see above
@@ -173,14 +172,13 @@ member of `Foo Leads`, they are reviewing a change destined for
 the `refs/heads/qa` branch, and the following ACLs are granted
 on the project:
 
-[grid="all"]
-`---------------`---------------`-------------`-------
-Group            Reference Name Category       Range
-------------------------------------------------------
-Registered Users refs/heads/*   Code Review     -1..+1
-Foo Leads        refs/heads/*   Code Review     -2..+2
-QA Leads         refs/heads/qa  Code Review     -2..+2
-------------------------------------------------------
+[options="header"]
+|=====================================================
+|Group            |Reference Name|Category   |Range
+|Registered Users |refs/heads/*  |Code Review| -1..+1
+|Foo Leads        |refs/heads/*  |Code Review| -2..+2
+|QA Leads         |refs/heads/qa |Code Review| -2..+2
+|=====================================================
 
 Then the effective range permitted to be used by the user is
 `-2..+2`, as the user's membership of `Foo Leads` effectively grant
@@ -197,14 +195,13 @@ For example, if a user who is a member of `Foo Leads` tries to
 review a change destined for branch `refs/heads/qa` in a project,
 and the following ACLs are granted:
 
-[grid="all"]
-`---------------`----------------`--------------`-------
-Group            Reference Name   Category       Range
---------------------------------------------------------
-Registered Users refs/heads/*     Code Review     -1..+1
-Foo Leads        refs/heads/*     Code Review     -2..+2
-QA Leads         -refs/heads/qa   Code Review     -2..+2
---------------------------------------------------------
+[options="header"]
+|=====================================================
+|Group           |Reference Name|Category   |Range
+|Registered Users|refs/heads/*  |Code Review| -1..+1
+|Foo Leads       |refs/heads/*  |Code Review| -2..+2
+|QA Leads        |-refs/heads/qa|Code Review| -2..+2
+|=====================================================
 
 Then this user will not have `Code Review` rights on that change,
 since there is an exclusive access right in place for the
@@ -216,15 +213,14 @@ In order to grant the ability to `Code Review` to the members of
 `Foo Leads`, in `refs/heads/qa` then the following access rights
 would be needed:
 
-[grid="all"]
-`---------------`----------------`--------------`-------
-Group            Reference Name   Category       Range
---------------------------------------------------------
-Registered Users refs/heads/*     Code Review     -1..+1
-Foo Leads        refs/heads/*     Code Review     -2..+2
-QA Leads         -refs/heads/qa   Code Review     -2..+2
-Foo Leads        refs/heads/qa    Code Review     -2..+2
---------------------------------------------------------
+[options="header"]
+|=====================================================
+|Group           |Reference Name|Category   |Range
+|Registered Users|refs/heads/*  |Code Review| -1..+1
+|Foo Leads       |refs/heads/*  |Code Review| -2..+2
+|QA Leads        |-refs/heads/qa|Code Review| -2..+2
+|Foo Leads       |refs/heads/qa |Code Review| -2..+2
+|=====================================================
 
 
 OpenID Authentication

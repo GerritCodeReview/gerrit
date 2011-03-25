@@ -450,18 +450,17 @@ Gerrit is designed for an open source project.  Roughly this
 amounts to parameters such as the following:
 
 .Design Parameters
-[grid="all"]
-`-----------------'----------------
-Parameter         Estimated Maximum
------------------------------------
-Projects            500
-Contributors      2,000
-Changes/Day         400
-Revisions/Change    2.0
-Files/Change        4
-Comments/File       2
-Reviewers/Change    1.0
------------------------------------
+[options="header"]
+|====================================
+|Parameter        | Estimated Maximum
+|Projects         |   500
+|Contributors     | 2,000
+|Changes/Day      |   400
+|Revisions/Change |   2.0
+|Files/Change     |   4
+|Comments/File    |   2
+|Reviewers/Change |   1.0
+|====================================
 
 CPU Usage
 ~~~~~~~~~

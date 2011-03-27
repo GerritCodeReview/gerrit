@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/X//+lE\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGroupIncludedGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-03-27T21:41:48Z",
+      "side": 1,
+      "message": "Please don\u0027t abbreviate method names.",
+      "revId": "564f71a115fde86c066c63e4c748d77b69e2376a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X//+lA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-03-27T21:41:48Z",
+      "side": 1,
+      "message": "Style-nit: Space between while and (",
+      "revId": "564f71a115fde86c066c63e4c748d77b69e2376a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X//+k8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-03-27T21:41:48Z",
+      "side": 1,
+      "message": "Why doesn\u0027t this use a cache?",
+      "revId": "564f71a115fde86c066c63e4c748d77b69e2376a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X//+k4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-03-27T21:41:48Z",
+      "side": 1,
+      "message": "Style-nit: Space after if before (",
+      "revId": "564f71a115fde86c066c63e4c748d77b69e2376a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X//+kw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-03-27T21:41:48Z",
+      "side": 1,
+      "message": "I think includedGroup is a bit long for a name here. Why not just canAddGroup / canRemoveGroup / canSeeGroup?\n\nOr maybe we should have them be canAddMemberAccount, canAddMemberGroup?",
+      "revId": "564f71a115fde86c066c63e4c748d77b69e2376a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X//+k0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminCreateGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-03-27T21:41:48Z",
+      "side": 1,
+      "message": "Style-nit: Please break this line up into multiple lines by inserting an LF after each ,. Its too long.",
+      "revId": "564f71a115fde86c066c63e4c748d77b69e2376a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

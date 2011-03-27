@@ -75,6 +75,7 @@ public class RestoreChangeDialog extends AutoCenterDialogBox implements CloseHan
       @Override
       public void onClick(final ClickEvent event) {
         sendButton.setEnabled(false);
+        cancelButton.setEnabled(false);
         Util.MANAGE_SVC.restoreChange(psid, message.getText().trim(),
             new GerritCallback<ChangeDetail>() {
               @Override
@@ -89,6 +90,7 @@ public class RestoreChangeDialog extends AutoCenterDialogBox implements CloseHan
               @Override
               public void onFailure(Throwable caught) {
                 sendButton.setEnabled(true);
+                cancelButton.setEnabled(true);
                 super.onFailure(caught);
               }
             });

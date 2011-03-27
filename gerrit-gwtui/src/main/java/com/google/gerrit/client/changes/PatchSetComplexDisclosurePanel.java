@@ -400,6 +400,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       b.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {
+          b.setEnabled(false);
           new AbandonChangeDialog(patchSet.getId(),
               new AsyncCallback<ChangeDetail>() {
                 public void onSuccess(ChangeDetail result) {
@@ -420,6 +421,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       b.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {
+          b.setEnabled(false);
           new RestoreChangeDialog(patchSet.getId(),
               new AsyncCallback<ChangeDetail>() {
                 public void onSuccess(ChangeDetail result) {

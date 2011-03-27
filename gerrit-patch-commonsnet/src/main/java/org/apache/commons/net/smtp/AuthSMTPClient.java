@@ -103,10 +103,12 @@ public class AuthSMTPClient extends SMTPClient {
     if (types.contains("CRAM-MD5")) {
       return authCram(smtpUser, smtpPass, "MD5");
     }
+    if (types.contains("LOGIN")) {
+      return authLogin(smtpUser, smtpPass);
+    }
     if (types.contains("PLAIN")) {
       return authPlain(smtpUser, smtpPass);
     }
-
     throw new IOException("Unsupported AUTH: " + authTypes);
   }
 
@@ -132,6 +134,21 @@ public class AuthSMTPClient extends SMTPClient {
 
     String token = smtpUser + ' ' + sec;
     String cmd = encodeBase64(token.getBytes(UTF_8));
+    return SMTPReply.isPositiveCompletion(sendCommand(cmd));
+  }
+
+  private boolean authLogin(String smtpUser, String smtpPass) throws UnsupportedEncodingException,
+      IOException {
+    if (sendCommand("AUTH", "LOGIN") != 334) {
+      return false;
+    }
+
+    String cmd = encodeBase64(smtpUser.getBytes(UTF_8));
+    if(sendCommand(cmd) != 334) {
+      return false;
+    }
+
+    cmd = encodeBase64(smtpPass.getBytes(UTF_8));
     return SMTPReply.isPositiveCompletion(sendCommand(cmd));
   }
 

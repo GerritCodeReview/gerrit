@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/X//+ds\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-03-28T17:07:01Z",
+      "side": 1,
+      "message": "Look at AccountCache/AccountCacheImpl or GroupCache/GropuCacheImpl.\n\nThe getAccountDiffPreference() and getNotificationFilters() are infrequently called, so its OK to just use the database directly. But getEffectiveGroups() is called on every request, everywhere. Its better to avoid the database lookup here for something that doesn\u0027t change that often (which groups a given group is a member of).",
+      "parentUuid": "AAAA/X//+kY\u003d",
+      "revId": "564f71a115fde86c066c63e4c748d77b69e2376a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/X//+k4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
         "patchSetId": 2

@@ -19,9 +19,7 @@ import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -30,13 +28,9 @@ import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import java.util.Collections;
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -78,60 +72,15 @@ class AbandonChange extends Handler<ChangeDetail> {
   @Override
   public ChangeDetail call() throws NoSuchChangeException, OrmException,
       EmailException, NoSuchEntityException, PatchSetInfoNotAvailableException {
+
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl control = changeControlFactory.validateFor(changeId);
     if (!control.canAbandon()) {
       throw new NoSuchChangeException(changeId);
     }
-    Change change = control.getChange();
-    final PatchSet patch = db.patchSets().get(patchSetId);
-    if (patch == null) {
-      throw new NoSuchChangeException(changeId);
-    }
 
-    final ChangeMessage cmsg =
-        new ChangeMessage(new ChangeMessage.Key(changeId, ChangeUtil
-            .messageUUID(db)), currentUser.getAccountId());
-    final StringBuilder msgBuf =
-        new StringBuilder("Patch Set " + patchSetId.get() + ": Abandoned");
-    if (message != null && message.length() > 0) {
-      msgBuf.append("\n\n");
-      msgBuf.append(message);
-    }
-    cmsg.setMessage(msgBuf.toString());
-
-    change = db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
-      @Override
-      public Change update(Change change) {
-        if (change.getStatus().isOpen()
-            && change.currentPatchSetId().equals(patchSetId)) {
-          change.setStatus(Change.Status.ABANDONED);
-          ChangeUtil.updated(change);
-          return change;
-        } else {
-          return null;
-        }
-      }
-    });
-
-    if (change != null) {
-      db.changeMessages().insert(Collections.singleton(cmsg));
-
-      final List<PatchSetApproval> approvals =
-          db.patchSetApprovals().byChange(changeId).toList();
-      for (PatchSetApproval a : approvals) {
-        a.cache(change);
-      }
-      db.patchSetApprovals().update(approvals);
-
-      // Email the reviewers
-      final AbandonedSender cm = abandonedSenderFactory.create(change);
-      cm.setFrom(currentUser.getAccountId());
-      cm.setChangeMessage(cmsg);
-      cm.send();
-    }
-
-    hooks.doChangeAbandonedHook(change, currentUser.getAccount(), message);
+    ChangeUtil.abandon(patchSetId, currentUser, message, db,
+       abandonedSenderFactory, hooks);
 
     return changeDetailFactory.create(changeId).call();
   }

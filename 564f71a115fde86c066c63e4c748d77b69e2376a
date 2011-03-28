@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/X//+kY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003080
+      },
+      "writtenOn": "2011-03-28T04:48:03Z",
+      "side": 1,
+      "message": "I\u0027m not sure I exactly know what you mean here.  Are you talking about caching within this function, across multiple calls to this same user, or system-wide?\n\nBeing new to this code, when I wrote this I basically just aped what was being done in other functions like getAccountDiffPreference() and getNotificationFilters(), which use the database without any intermediate caching.  If you can point me to a example of the type of caching that needs to be done here, I\u0027ll be happy to put it in.",
+      "parentUuid": "AAAA/X//+k8\u003d",
+      "revId": "564f71a115fde86c066c63e4c748d77b69e2376a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/X//+k4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
         "patchSetId": 2
@@ -81,6 +99,24 @@
       "writtenOn": "2011-03-27T21:41:48Z",
       "side": 1,
       "message": "I think includedGroup is a bit long for a name here. Why not just canAddGroup / canRemoveGroup / canSeeGroup?\n\nOr maybe we should have them be canAddMemberAccount, canAddMemberGroup?",
+      "revId": "564f71a115fde86c066c63e4c748d77b69e2376a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/X//+kU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003080
+      },
+      "writtenOn": "2011-03-28T04:48:03Z",
+      "side": 1,
+      "message": "I was trying to be consistent with names, but it probably makes sense to just say canAddGroup here, because there\u0027s no ambiguity.  \n\nThere\u0027s a couple other places where trying to rigorously use the term \"IncludedGroup\" leads to some pretty long names as well, though (see the additions in ReviewDb.)  Are those names ok, or should I try to come up with a naming convention that\u0027s a little bit shorter but still adequately descriptive and consistent with everything else?",
+      "parentUuid": "AAAA/X//+kw\u003d",
       "revId": "564f71a115fde86c066c63e4c748d77b69e2376a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,8 +16,11 @@ package com.google.gerrit.client.rpc;
 
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritConstants;
 import com.google.gerrit.client.NotSignedInDialog;
+import com.google.gerrit.common.errors.ForbiddenRefRightException;
 import com.google.gerrit.common.errors.InactiveAccountException;
+import com.google.gerrit.common.errors.InvalidRegExpException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
@@ -54,6 +57,26 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
     } else if (caught instanceof ServerUnavailableException) {
       new ErrorDialog(RpcConstants.C.errorServerUnavailable()).center();
 
+    } else if (isForbiddenRefRight(caught)) {
+      final String msg = caught.getMessage();
+      final String allows = msg.substring(ForbiddenRefRightException.MESSAGE.length());
+      String err;
+      if (allows.length() > 0) {
+        err = Gerrit.M.forbiddenRefRight1(allows);
+      } else {
+        err = Gerrit.M.forbiddenRefRight2();
+      }
+      final ErrorDialog d = new ErrorDialog(err);
+      d.setText(Gerrit.C.forbidden());
+      d.center();
+
+    } else if (isInvalidRegExp(caught)) {
+      final String msg = caught.getMessage();
+      final String regExp = msg.substring(InvalidRegExpException.MESSAGE.length());
+      final ErrorDialog d = new ErrorDialog(regExp);
+      d.setText(Gerrit.C.invalidRegExp());
+      d.center();
+
     } else {
       GWT.log(getClass().getName() + " caught " + caught, caught);
       new ErrorDialog(caught).center();
@@ -89,4 +112,15 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
     return caught instanceof RemoteJsonException
         && caught.getMessage().equals(NameAlreadyUsedException.MESSAGE);
   }
+
+  private static boolean isForbiddenRefRight(final Throwable caught) {
+    return caught instanceof RemoteJsonException
+        && caught.getMessage().startsWith(ForbiddenRefRightException.MESSAGE);
+  }
+
+  private static boolean isInvalidRegExp(final Throwable caught) {
+    return caught instanceof RemoteJsonException
+        && caught.getMessage().startsWith(InvalidRegExpException.MESSAGE);
+  }
+
 }

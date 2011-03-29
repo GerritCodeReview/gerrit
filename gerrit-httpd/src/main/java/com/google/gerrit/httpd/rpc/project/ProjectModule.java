@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.httpd.rpc.RpcServletModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
+import com.google.gerrit.httpd.rpc.project.constraints.ApprovalCategoryConstraintsConfig;
 import com.google.gerrit.server.config.FactoryModule;
 
 public class ProjectModule extends RpcServletModule {
@@ -36,6 +37,7 @@ public class ProjectModule extends RpcServletModule {
         factory(ListBranches.Factory.class);
         factory(VisibleProjects.Factory.class);
         factory(ProjectDetailFactory.Factory.class);
+        bind(ApprovalCategoryConstraintsConfig.class);
       }
     });
     rpc(ProjectAdminServiceImpl.class);

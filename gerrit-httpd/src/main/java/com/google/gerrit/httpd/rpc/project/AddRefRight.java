@@ -19,6 +19,8 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.httpd.rpc.project.constraints.ApprovalCategoryConstraintsConfig;
+import com.google.gerrit.httpd.rpc.project.constraints.ForbiddenRefRightException;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
@@ -57,6 +59,7 @@ class AddRefRight extends Handler<ProjectDetail> {
   private final GroupCache groupCache;
   private final ReviewDb db;
   private final ApprovalTypes approvalTypes;
+  private final ApprovalCategoryConstraintsConfig constraintsConfig;
 
   private final Project.NameKey projectName;
   private final ApprovalCategory.Id categoryId;
@@ -70,6 +73,7 @@ class AddRefRight extends Handler<ProjectDetail> {
       final ProjectControl.Factory projectControlFactory,
       final ProjectCache projectCache, final GroupCache groupCache,
       final ReviewDb db, final ApprovalTypes approvalTypes,
+      final ApprovalCategoryConstraintsConfig constraintsConfig,
 
       @Assisted final Project.NameKey projectName,
       @Assisted final ApprovalCategory.Id categoryId,
@@ -82,6 +86,7 @@ class AddRefRight extends Handler<ProjectDetail> {
     this.groupCache = groupCache;
     this.approvalTypes = approvalTypes;
     this.db = db;
+    this.constraintsConfig = constraintsConfig;
 
     this.projectName = projectName;
     this.categoryId = categoryId;
@@ -99,9 +104,13 @@ class AddRefRight extends Handler<ProjectDetail> {
 
   @Override
   public ProjectDetail call() throws NoSuchProjectException, OrmException,
-      NoSuchGroupException, InvalidNameException, NoSuchRefException {
+      NoSuchGroupException, InvalidNameException, NoSuchRefException, ForbiddenRefRightException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
+
+    if (! projectControl.getCurrentUser().isAdministrator()) {
+      constraintsConfig.checkIfAllowed(categoryId, refPattern, min, max);
+    }
 
     final ApprovalType at = approvalTypes.getApprovalType(categoryId);
     if (at == null || at.getValue(min) == null || at.getValue(max) == null) {

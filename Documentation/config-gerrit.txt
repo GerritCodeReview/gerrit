@@ -1541,6 +1541,22 @@ A name of a group which exists in the database. Zero, one or many
 groups are allowed.  Each on its own line.  Groups which don't exist
 in the database are ignored.
 
+[[restrictions]]Section restrictions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Global settings that impose restrictions on which permission rules are
+allowed/denied.
+
+[[restrictions.denyTagUpdate]]restrictions.denyTagUpdate::
++
+If true Gerrit will not allow setting the "push" permission with the
+"allow" action and the "force" flag on any referernce which intersects
+with refs/tags/*.
++
+Gerrit Administrators may want to use this restriction to ensure that
+no tag can be updated or deleted.
++
+By default, false, no restrictions.
+
 [[sendemail]]Section sendemail
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

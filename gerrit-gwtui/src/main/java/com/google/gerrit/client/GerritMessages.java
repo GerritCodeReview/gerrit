@@ -22,6 +22,6 @@ public interface GerritMessages extends Messages {
   String poweredBy(String version);
 
   String noSuchAccountMessage(String who);
-
   String noSuchGroupMessage(String who);
+  String ruleNotAllowedMessage(String rule);
 }

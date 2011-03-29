@@ -23,6 +23,7 @@ import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.common.errors.NotSignedInException;
+import com.google.gerrit.common.errors.RuleNotAllowedException;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
@@ -61,6 +62,12 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
 
     } else if (caught instanceof ServerUnavailableException) {
       new ErrorDialog(RpcConstants.C.errorServerUnavailable()).center();
+
+    } else if (isRuleNotAllowed(caught)) {
+      final String msg = caught.getMessage();
+      final String rule = msg.substring(RuleNotAllowedException.MESSAGE.length());
+      final ErrorDialog d = new ErrorDialog(Gerrit.M.ruleNotAllowedMessage(rule));
+      d.setText(Gerrit.C.ruleNotAllowedTitle());
 
     } else {
       GWT.log(getClass().getName() + " caught " + caught, caught);
@@ -101,5 +108,10 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
   private static boolean isNoSuchGroup(final Throwable caught) {
     return caught instanceof RemoteJsonException
     && caught.getMessage().startsWith(NoSuchGroupException.MESSAGE);
+  }
+
+  private static boolean isRuleNotAllowed(final Throwable caught) {
+    return caught instanceof RuleNotAllowedException
+        && caught.getMessage().startsWith(RuleNotAllowedException.MESSAGE);
   }
 }

@@ -21,10 +21,13 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.common.errors.RuleNotAllowedException;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.httpd.rpc.project.restrictions.RestrictionsConfig;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -37,6 +40,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
@@ -62,6 +66,7 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
   private final ProjectCache projectCache;
   private final GroupCache groupCache;
   private final MetaDataUpdate.User metaDataUpdateFactory;
+  private final RestrictionsConfig restrictions;
 
   private final Project.NameKey projectName;
   private final ObjectId base;
@@ -73,6 +78,7 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
       final ProjectControl.Factory projectControlFactory,
       final ProjectCache projectCache, final GroupCache groupCache,
       final MetaDataUpdate.User metaDataUpdateFactory,
+      final RestrictionsConfig restrictions,
 
       @Assisted final Project.NameKey projectName,
       @Assisted final ObjectId base, @Assisted List<AccessSection> sectionList,
@@ -82,6 +88,7 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
     this.projectCache = projectCache;
     this.groupCache = groupCache;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.restrictions = restrictions;
 
     this.projectName = projectName;
     this.base = base;
@@ -92,7 +99,7 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
   @Override
   public ProjectAccess call() throws NoSuchProjectException, IOException,
       ConfigInvalidException, InvalidNameException, NoSuchGroupException,
-      OrmConcurrencyException {
+      OrmConcurrencyException, RuleNotAllowedException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
 
@@ -138,6 +145,7 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
             throw new InvalidNameException();
           }
 
+          checkIfAllowed(section);
           replace(config, toDelete, section);
         }
       }
@@ -219,6 +227,14 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
         throw new NoSuchGroupException(name);
       }
       ref.setUUID(group.getGroupUUID());
+    }
+  }
+
+  private void checkIfAllowed(AccessSection section) throws RuleNotAllowedException {
+    for (Permission p : section.getPermissions()) {
+      for (PermissionRule r : p.getRules()) {
+        restrictions.checkPermissionRule(section, p, r);
+      }
     }
   }
 }

@@ -87,6 +87,9 @@ public class PatchScriptSettingsPanel extends Composite implements
   @UiField
   CheckBox skipUncommented;
 
+  @UiField
+  CheckBox expandAllComments;
+
 
   @UiField
   Button update;
@@ -209,6 +212,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     showTabs.setValue(dp.isShowTabs());
     skipDeleted.setValue(dp.isSkipDeleted());
     skipUncommented.setValue(dp.isSkipUncommented());
+    expandAllComments.setValue(dp.isExpandAllComments());
   }
 
   @UiHandler("update")
@@ -233,6 +237,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     dp.setShowTabs(showTabs.getValue());
     dp.setSkipDeleted(skipDeleted.getValue());
     dp.setSkipUncommented(skipUncommented.getValue());
+    dp.setExpandAllComments(expandAllComments.getValue());
 
     listenablePrefs.set(dp);
 

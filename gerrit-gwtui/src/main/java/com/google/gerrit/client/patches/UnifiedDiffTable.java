@@ -205,7 +205,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   }
 
   @Override
-  public void display(final CommentDetail cd) {
+  public void display(final CommentDetail cd, boolean expandComments) {
     if (cd.isEmpty()) {
       return;
     }
@@ -224,13 +224,13 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           all.addAll(fora);
           all.addAll(forb);
           Collections.sort(all, BY_DATE);
-          row = insert(all, row);
+          row = insert(all, row, expandComments);
 
         } else if (!fora.isEmpty()) {
-          row = insert(fora, row);
+          row = insert(fora, row, expandComments);
 
         } else if (!forb.isEmpty()) {
-          row = insert(forb, row);
+          row = insert(forb, row, expandComments);
         }
       } else {
         row++;
@@ -248,11 +248,11 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     fmt.addStyleName(row, PC, Gerrit.RESOURCES.css().diffText());
   }
 
-  private int insert(final List<PatchLineComment> in, int row) {
+  private int insert(final List<PatchLineComment> in, int row, boolean expandComment) {
     for (Iterator<PatchLineComment> ci = in.iterator(); ci.hasNext();) {
       final PatchLineComment c = ci.next();
       insertRow(row);
-      bindComment(row, PC, c, !ci.hasNext());
+      bindComment(row, PC, c, !ci.hasNext(), expandComment);
       row++;
     }
     return row;

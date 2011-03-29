@@ -186,7 +186,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
   }
 
   @Override
-  public void display(final CommentDetail cd) {
+  public void display(final CommentDetail cd, boolean expandComments) {
     if (cd.isEmpty()) {
       return;
     }
@@ -205,13 +205,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
           final PatchLineComment ac = ai.next();
           final PatchLineComment bc = bi.next();
           insertRow(row);
-          bindComment(row, COL_A, ac, !ai.hasNext());
-          bindComment(row, COL_B, bc, !bi.hasNext());
+          bindComment(row, COL_A, ac, !ai.hasNext(), expandComments);
+          bindComment(row, COL_B, bc, !bi.hasNext(), expandComments);
           row++;
         }
 
-        row = finish(ai, row, COL_A);
-        row = finish(bi, row, COL_B);
+        row = finish(ai, row, COL_A, expandComments);
+        row = finish(bi, row, COL_B, expandComments);
       } else {
         row++;
       }
@@ -228,11 +228,11 @@ public class SideBySideTable extends AbstractPatchContentTable {
     fmt.addStyleName(row, COL_B, Gerrit.RESOURCES.css().diffText());
   }
 
-  private int finish(final Iterator<PatchLineComment> i, int row, final int col) {
+  private int finish(final Iterator<PatchLineComment> i, int row, final int col, boolean expandComment) {
     while (i.hasNext()) {
       final PatchLineComment c = i.next();
       insertRow(row);
-      bindComment(row, col, c, !i.hasNext());
+      bindComment(row, col, c, !i.hasNext(), expandComment);
       row++;
     }
     return row;

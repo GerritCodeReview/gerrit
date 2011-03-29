@@ -175,7 +175,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
 
   protected abstract void onInsertComment(PatchLine pl);
 
-  public abstract void display(CommentDetail comments);
+  public abstract void display(CommentDetail comments, boolean expandComments);
 
   @Override
   protected MyFlexTable createFlexTable() {
@@ -529,7 +529,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   }
 
   protected void bindComment(final int row, final int col,
-      final PatchLineComment line, final boolean isLast) {
+      final PatchLineComment line, final boolean isLast, boolean expandComment) {
     if (line.getStatus() == PatchLineComment.Status.DRAFT) {
       final CommentEditorPanel plc = new CommentEditorPanel(line);
       plc.addFocusHandler(this);
@@ -541,6 +541,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       final AccountInfo author = accountCache.get(line.getAuthor());
       final PublishedCommentPanel panel =
           new PublishedCommentPanel(author, line);
+      panel.setOpen(expandComment);
       panel.addFocusHandler(this);
       panel.addBlurHandler(this);
       table.setWidget(row, col, panel);

@@ -438,7 +438,7 @@ public abstract class PatchScreen extends Screen implements
 
     if (hasDifferences) {
       contentTable.display(patchKey, idSideA, idSideB, script);
-      contentTable.display(script.getCommentDetail());
+      contentTable.display(script.getCommentDetail(), script.isExpandAllComments());
       contentTable.finishDisplay();
     }
     showPatch(hasDifferences);

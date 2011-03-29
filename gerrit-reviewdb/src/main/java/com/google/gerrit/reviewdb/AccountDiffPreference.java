@@ -102,6 +102,9 @@ public class AccountDiffPreference {
   @Column(id = 11)
   protected boolean skipUncommented;
 
+  @Column(id = 12)
+  protected boolean expandAllComments;
+
   protected AccountDiffPreference() {
   }
 
@@ -120,6 +123,7 @@ public class AccountDiffPreference {
     this.showTabs = p.showTabs;
     this.skipDeleted = p.skipDeleted;
     this.skipUncommented = p.skipUncommented;
+    this.expandAllComments = p.expandAllComments;
     this.context = p.context;
   }
 
@@ -208,5 +212,13 @@ public class AccountDiffPreference {
 
   public void setSkipUncommented(boolean skip) {
     skipUncommented = skip;
+  }
+
+  public boolean isExpandAllComments() {
+    return expandAllComments;
+  }
+
+  public void setExpandAllComments(boolean expand) {
+    expandAllComments = expand;
   }
 }

@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/X//+TU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003080
+      },
+      "writtenOn": "2011-03-30T15:37:26Z",
+      "side": 1,
+      "message": "Sounds good.  Does it make sense to create a whole new cache (IncludedGroupCache/IncludedGroupCacheImpl or something), or add it to the existing GroupCache?  I\u0027m inclined to say add it to GroupCache, since it\u0027s part of the group\u0027s identity.\n\nIf I do that, though, I think I\u0027m going to have to add a GroupState class, like the current AccountState object that\u0027s returned by the AccountCache.  Currently, the GroupCache just returns a raw AccountGroup object.  I don\u0027t think that will be a problem to do, but I wanted to confirm that that\u0027s the right way to go about it before I start pulling guts out.",
+      "parentUuid": "AAAA/X//+ds\u003d",
+      "revId": "564f71a115fde86c066c63e4c748d77b69e2376a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/X//+k4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
         "patchSetId": 2

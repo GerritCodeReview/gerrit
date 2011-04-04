@@ -262,6 +262,7 @@ except when the cache is full.
 +
 Default is `90 days` for most caches, except:
 +
+* `"adv_bases"`: default is maxAge `10 minutes`
 * `"ldap_groups"`: default is `1 hour`
 * `"web_sessions"`: default is `12 hours`
 
@@ -272,6 +273,7 @@ this is total number of items, not bytes of heap used.
 +
 Default is 1024 for most caches, except:
 +
+* `"adv_bases"`: default is `4096`
 * `"diff"`: default is `128`
 
 [[cache.name.diskLimit]]cache.<name>.diskLimit::
@@ -318,6 +320,14 @@ cache `"accounts_byemail"`::
 Caches account identities keyed by email address, which is scanned
 from the `account_external_ids` database table.  If updates are
 made to this table, this cache should be flushed.
+
+cache `"adv_bases"`::
++
+Used only for push over smart HTTP when branch level access controls
+are enabled.  The cache entry contains all commits that are avaliable
+for the client to use as potential delta bases.  Push over smart HTTP
+requires two HTTP requests, and this cache tries to carry state from
+the first request into the second to ensure it can complete.
 
 cache `"diff"`::
 +

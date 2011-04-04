@@ -86,7 +86,9 @@ using one thread per URL.
 +
 Within each URL value the magic placeholder `$\{name}` is replaced
 with the Gerrit project name.  This is a Gerrit specific extension
-to the otherwise standard Git URL syntax.
+to the otherwise standard Git URL syntax and it must be included
+in each URL so that Gerrit can figure out where each project needs
+to be replicated.
 +
 See link:http://www.kernel.org/pub/software/scm/git/docs/git-push.html#URLS[GIT URLS]
 for details on Git URL syntax.

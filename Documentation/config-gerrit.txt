@@ -319,6 +319,16 @@ Caches account identities keyed by email address, which is scanned
 from the `account_external_ids` database table.  If updates are
 made to this table, this cache should be flushed.
 
+cache `"adv_bases"`::
++
+Used only for push over smart HTTP when branch level access controls
+are enabled.  The cache entry contains all commits that are avaliable
+for the client to use as potential delta bases.  Push over smart HTTP
+requires two HTTP requests, and this cache tries to carry state from
+the first request into the second to ensure it can complete.
++
+Defaults are memoryLimit of 4096, maxAge of 10 minutes.
+
 cache `"diff"`::
 +
 Each item caches the differences between two commits, at both the

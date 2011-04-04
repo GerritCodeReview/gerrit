@@ -20,6 +20,8 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.cache.Cache;
+import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommits;
@@ -31,10 +33,14 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Named;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.http.server.GitServlet;
+import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceivePack;
@@ -48,10 +54,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,16 +79,29 @@ public class ProjectServlet extends GitServlet {
 
   private static final String ATT_CONTROL = ProjectControl.class.getName();
 
+  private static final String ID_CACHE = "adv_bases";
+
   static class Module extends AbstractModule {
     @Override
     protected void configure() {
       bind(Resolver.class);
       bind(Upload.class);
       bind(Receive.class);
+      bind(ReceiveFilter.class);
+      install(new CacheModule() {
+        @Override
+        protected void configure() {
+          TypeLiteral<Cache<AdvertisedObjectsCacheKey, Set<ObjectId>>> cache =
+              new TypeLiteral<Cache<AdvertisedObjectsCacheKey, Set<ObjectId>>>() {};
+          core(cache, ID_CACHE)
+            .memoryLimit(4096)
+            .maxAge(10, TimeUnit.MINUTES);
+        }
+      });
     }
   }
 
-  static ProjectControl getProjectControl(HttpServletRequest req)
+  static ProjectControl getProjectControl(ServletRequest req)
       throws ServiceNotEnabledException {
     ProjectControl pc = (ProjectControl) req.getAttribute(ATT_CONTROL);
     if (pc == null) {
@@ -88,6 +116,7 @@ public class ProjectServlet extends GitServlet {
   @Inject
   ProjectServlet(final Resolver resolver, final Upload upload,
       final Receive receive,
+      final ReceiveFilter receiveFilter,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider) {
     this.urlProvider = urlProvider;
 
@@ -95,6 +124,7 @@ public class ProjectServlet extends GitServlet {
     setAsIsFileService(AsIsFileService.DISABLED);
     setUploadPackFactory(upload);
     setReceivePackFactory(receive);
+    addReceivePackFilter(receiveFilter);
   }
 
   @Override
@@ -240,6 +270,73 @@ public class ProjectServlet extends GitServlet {
       } else {
         throw new ServiceNotAuthorizedException();
       }
+    }
+  }
+
+  static class ReceiveFilter implements Filter {
+    private final Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache;
+
+    @Inject
+    ReceiveFilter(
+        @Named(ID_CACHE) Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache) {
+      this.cache = cache;
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+        FilterChain chain) throws IOException, ServletException {
+      boolean isGet =
+        "GET".equalsIgnoreCase(((HttpServletRequest) request).getMethod());
+
+      ReceivePack rp =
+          (ReceivePack) request.getAttribute(ServletUtils.ATTRIBUTE_HANDLER);
+
+      if (!rp.isCheckReferencedObjectsAreReachable()) {
+        chain.doFilter(request, response);
+        return;
+      }
+
+      ProjectControl pc;
+      try {
+        pc = getProjectControl(request);
+      } catch (ServiceNotEnabledException e) {
+        // This shouldn't occur, the parent should have stopped processing.
+        throw new ServletException(e);
+      }
+
+      if (!(pc.getCurrentUser() instanceof IdentifiedUser)) {
+        chain.doFilter(request, response);
+        return;
+      }
+
+      AdvertisedObjectsCacheKey cacheKey = new AdvertisedObjectsCacheKey(
+          ((IdentifiedUser) pc.getCurrentUser()).getAccountId(),
+          pc.getProject().getNameKey());
+
+      if (isGet) {
+        cache.remove(cacheKey);
+      } else {
+        Set<ObjectId> ids = cache.get(cacheKey);
+        if (ids != null) {
+          rp.getAdvertisedObjects().addAll(ids);
+          cache.remove(cacheKey);
+        }
+      }
+
+      chain.doFilter(request, response);
+
+      if (isGet) {
+        cache.put(cacheKey, Collections.unmodifiableSet(
+            new HashSet<ObjectId>(rp.getAdvertisedObjects())));
+      }
+    }
+
+    @Override
+    public void init(FilterConfig arg0) throws ServletException {
+    }
+
+    @Override
+    public void destroy() {
     }
   }
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -40,8 +42,11 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
@@ -275,11 +280,14 @@ public class ProjectServlet extends GitServlet {
 
   static class ReceiveFilter implements Filter {
     private final Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache;
+    private final Provider<ReviewDb> db;
 
     @Inject
     ReceiveFilter(
-        @Named(ID_CACHE) Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache) {
+        @Named(ID_CACHE) Cache<AdvertisedObjectsCacheKey, Set<ObjectId>> cache,
+        Provider<ReviewDb> db) {
       this.cache = cache;
+      this.db = db;
     }
 
     @Override
@@ -291,17 +299,22 @@ public class ProjectServlet extends GitServlet {
       ReceivePack rp =
           (ReceivePack) request.getAttribute(ServletUtils.ATTRIBUTE_HANDLER);
 
-      if (!rp.isCheckReferencedObjectsAreReachable()) {
-        chain.doFilter(request, response);
-        return;
-      }
-
       ProjectControl pc;
       try {
         pc = getProjectControl(request);
       } catch (ServiceNotEnabledException e) {
         // This shouldn't occur, the parent should have stopped processing.
         throw new ServletException(e);
+      }
+
+      Project.NameKey projectName = pc.getProject().getNameKey();
+
+      if (!rp.isCheckReferencedObjectsAreReachable()) {
+        if (isGet) {
+          advertiseHistory(rp, projectName);
+        }
+        chain.doFilter(request, response);
+        return;
       }
 
       if (!(pc.getCurrentUser() instanceof IdentifiedUser)) {
@@ -311,9 +324,10 @@ public class ProjectServlet extends GitServlet {
 
       AdvertisedObjectsCacheKey cacheKey = new AdvertisedObjectsCacheKey(
           ((IdentifiedUser) pc.getCurrentUser()).getAccountId(),
-          pc.getProject().getNameKey());
+          projectName);
 
       if (isGet) {
+        advertiseHistory(rp, projectName);
         cache.remove(cacheKey);
       } else {
         Set<ObjectId> ids = cache.get(cacheKey);
@@ -329,6 +343,79 @@ public class ProjectServlet extends GitServlet {
         cache.put(cacheKey, Collections.unmodifiableSet(
             new HashSet<ObjectId>(rp.getAdvertisedObjects())));
       }
+    }
+
+    private void advertiseHistory(ReceivePack rp, Project.NameKey projectName) {
+      Set<ObjectId> toInclude = new HashSet<ObjectId>();
+
+      // Advertise all open changes, in case a new commit is based on it.
+      try {
+        Set<PatchSet.Id> toGet = new HashSet<PatchSet.Id>();
+        for (Change change : db.get().changes()
+            .byProjectOpenNext(projectName, "z", 32)) {
+          PatchSet.Id id = change.currentPatchSetId();
+          if (id != null) {
+            toGet.add(id);
+          }
+        }
+        for (PatchSet ps : db.get().patchSets().get(toGet)) {
+          if (ps.getRevision() != null && ps.getRevision().get() != null) {
+            toInclude.add(ObjectId.fromString(ps.getRevision().get()));
+          }
+        }
+      } catch (OrmException err) {
+        log.error("Cannot list open changes of " + projectName, err);
+      }
+
+      // Size of an additional ".have" line.
+      final int haveLineLen = 4 + Constants.OBJECT_ID_STRING_LENGTH + 1 + 5 + 1;
+
+      // Maximum number of bytes to "waste" in the advertisement with
+      // a peek at this repository's current reachable history.
+      final int maxExtraSize = 8192;
+
+      // Number of recent commits to advertise immediately, hoping to
+      // show a client a nearby merge base.
+      final int base = 64;
+
+      // Number of commits to skip once base has already been shown.
+      final int step = 16;
+
+      // Total number of commits to extract from the history.
+      final int max = maxExtraSize / haveLineLen;
+
+      // Scan history until the advertisement is full.
+      Set<ObjectId> alreadySending = rp.getAdvertisedObjects();
+      RevWalk rw = rp.getRevWalk();
+      for (ObjectId haveId : alreadySending) {
+        try {
+          rw.markStart(rw.parseCommit(haveId));
+        } catch (IOException badCommit) {
+          continue;
+        }
+      }
+
+      int stepCnt = 0;
+      RevCommit c;
+      try {
+        while ((c = rw.next()) != null && toInclude.size() < max) {
+          if (alreadySending.contains(c)) {
+          } else if (toInclude.contains(c)) {
+          } else if (c.getParentCount() > 1) {
+          } else if (toInclude.size() < base) {
+            toInclude.add(c);
+          } else {
+            stepCnt = ++stepCnt % step;
+            if (stepCnt == 0) {
+              toInclude.add(c);
+            }
+          }
+        }
+      } catch (IOException err) {
+        log.error("Error trying to advertise history on " + projectName, err);
+      }
+      rw.reset();
+      rp.getAdvertisedObjects().addAll(toInclude);
     }
 
     @Override

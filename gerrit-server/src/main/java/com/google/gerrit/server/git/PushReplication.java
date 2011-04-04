@@ -30,22 +30,21 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryProvider;
 
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.transport.JschConfigSessionFactory;
 import org.eclipse.jgit.transport.OpenSshConfig;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
-import org.eclipse.jgit.transport.SshConfigSessionFactory;
+import org.eclipse.jgit.transport.RemoteSession;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.QuotedString;
+import org.eclipse.jgit.util.io.StreamCopyThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,7 +68,7 @@ public class PushReplication implements ReplicationQueue {
     // Install our own factory which always runs in batch mode, as we
     // have no UI available for interactive prompting.
     //
-    SshSessionFactory.setInstance(new SshConfigSessionFactory() {
+    SshSessionFactory.setInstance(new JschConfigSessionFactory() {
       @Override
       protected void configure(OpenSshConfig.Host hc, Session session) {
         // Default configuration is batch mode.
@@ -218,7 +217,7 @@ public class PushReplication implements ReplicationQueue {
 
   private void replicateProject(final URIish replicateURI, final String head) {
     SshSessionFactory sshFactory = SshSessionFactory.getInstance();
-    Session sshSession;
+    RemoteSession sshSession;
     String projectPath = QuotedString.BOURNE.quote(replicateURI.getPath());
 
     if (!usingSSH(replicateURI)) {
@@ -234,30 +233,22 @@ public class PushReplication implements ReplicationQueue {
             + QuotedString.BOURNE.quote(head);
 
     try {
-      sshSession =
-          sshFactory.getSession(replicateURI.getUser(), replicateURI.getPass(),
-              replicateURI.getHost(), replicateURI.getPort(), null, FS.DETECTED);
-      sshSession.connect();
-
-      Channel channel = sshSession.openChannel("exec");
-      ((ChannelExec) channel).setCommand(cmd);
-
-      channel.setInputStream(null);
-
-      ((ChannelExec) channel).setErrStream(errStream);
-
-      channel.connect();
-
-      while (!channel.isClosed()) {
-        try {
-          final int delay = 50;
-          Thread.sleep(delay);
-        } catch (InterruptedException e) {
-        }
+      sshSession = sshFactory.getSession(replicateURI, null, FS.DETECTED, 0);
+      Process proc = sshSession.exec(cmd, 0);
+      proc.getOutputStream().close();
+      StreamCopyThread out = new StreamCopyThread(proc.getInputStream(), errStream);
+      StreamCopyThread err = new StreamCopyThread(proc.getErrorStream(), errStream);
+      out.start();
+      err.start();
+      try {
+        proc.waitFor();
+        out.halt();
+        err.halt();
+      } catch (InterruptedException interrupted) {
+        // Don't wait, drop out immediately.
       }
-      channel.disconnect();
       sshSession.disconnect();
-    } catch (JSchException e) {
+    } catch (IOException e) {
       log.error("Communication error when trying to replicate to: "
           + replicateURI.toString() + "\n" + "Error reported: "
           + e.getMessage() + "\n" + "Error in communication: "
@@ -279,7 +270,7 @@ public class PushReplication implements ReplicationQueue {
       }
 
       @Override
-      public void write(final int b) throws IOException {
+      public synchronized void write(final int b) throws IOException {
         if (b == '\r') {
           return;
         }

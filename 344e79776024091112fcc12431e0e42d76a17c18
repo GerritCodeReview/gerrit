@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/n///2g\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-04-05T08:05:16Z",
+      "side": 1,
+      "message": "the new cache \u0027adv_bases\u0027 with a default maxAge of 10 minutes is an exception which should be mentioned here",
+      "revId": "344e79776024091112fcc12431e0e42d76a17c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///2c\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-04-05T08:05:16Z",
+      "side": 1,
+      "message": "the new cache \u0027adv_bases\u0027 with a default memoryLimit of 4096 is an exception which should be mentioned here",
+      "revId": "344e79776024091112fcc12431e0e42d76a17c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///2Y\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-04-05T08:05:16Z",
+      "side": 1,
+      "message": "Maybe the information about the memoryLimit and the maxAge should be better in the sections \u0027cache.\u003cname\u003e.memoryLimit \u0027 and \u0027cache.\u003cname\u003e.maxAge\u0027 as commented above? At least this is the place where the same information for other caches is placed.",
+      "revId": "344e79776024091112fcc12431e0e42d76a17c18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

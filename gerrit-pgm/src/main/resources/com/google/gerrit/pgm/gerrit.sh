@@ -269,8 +269,11 @@ if test -z "$JAVA_HOME" ; then
     echo "** INFO: Using $JAVA"
 fi
 
-if test -z "$JAVA" -a -n "$JAVA_HOME" ; then
-  test -x $JAVA_HOME/bin/java -a ! -d $JAVA_HOME/bin/java && JAVA=$JAVA_HOME/bin/java
+if test -z "$JAVA" \
+     -a -n "$JAVA_HOME" \
+     -a -x "$JAVA_HOME/bin/java" \
+     -a ! -d "$JAVA_HOME/bin/java" ; then
+  JAVA="$JAVA_HOME/bin/java"
 fi
 
 if test -z "$JAVA" ; then
@@ -354,10 +357,11 @@ if test -x /usr/bin/perl ; then
   # If possible, use Perl to mask the name of the process so its
   # something specific to us rather than the generic 'java' name.
   #
+  export JAVA
   RUN_EXEC=/usr/bin/perl
   RUN_Arg1=-e
-  RUN_Arg2='$x=shift @ARGV;exec $x @ARGV;die $!'
-  RUN_Arg3="-- $JAVA GerritCodeReview"
+  RUN_Arg2='$x=$ENV{JAVA};exec $x @ARGV;die $!'
+  RUN_Arg3='-- GerritCodeReview'
 else
   RUN_EXEC=$JAVA
   RUN_Arg1=

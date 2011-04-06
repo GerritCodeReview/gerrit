@@ -99,54 +99,6 @@ limitations under the License.
     </dependency>
   </dependencies>
 
-  <profiles>
-    <profile>
-      <id>include-documentation-profile</id>
-      <activation>
-        <property>
-          <name>gerrit.include-documentation</name>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>include-documentation</id>
-                <phase>process-classes</phase>
-                <configuration>
-                  <target>
-                    <property name="src" location="${basedir}/../Documentation" />
-                    <property name="out" location="${project.build.directory}/${project.build.finalName}" />
-                    <property name="dst" location="${out}/Documentation" />
-
-                    <exec dir="${src}" executable="make">
-                      <arg value="VERSION=${project.version}" />
-                      <arg value="clean" />
-                      <arg value="all" />
-                    </exec>
-
-                    <mkdir dir="${dst}" />
-                    <copy overwrite="true" todir="${dst}">
-                      <fileset dir="${src}">
-                        <include name="*.html" />
-                      </fileset>
-                    </copy>
-                  </target>
-                </configuration>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-
   <build>
     <plugins>
       <plugin>
@@ -183,7 +135,7 @@ limitations under the License.
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
-            <id>fix-output</id>
+            <id>copy-license</id>
             <phase>process-classes</phase>
             <configuration>
               <target>
@@ -193,6 +145,33 @@ limitations under the License.
                 <copy tofile="${dst}/LICENSES.txt"
                       file="${src}/licenses.txt"
                       overwrite="true" />
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>include-documentation</id>
+            <phase>process-classes</phase>
+            <configuration>
+              <target if="gerrit.include-documentation">
+                <property name="src" location="${basedir}/../Documentation" />
+                <property name="out" location="${project.build.directory}/${project.build.finalName}" />
+                <property name="dst" location="${out}/Documentation" />
+
+                <exec dir="${src}" executable="make">
+                  <arg value="VERSION=${project.version}" />
+                  <arg value="clean" />
+                  <arg value="all" />
+                </exec>
+
+                <mkdir dir="${dst}" />
+                <copy overwrite="true" todir="${dst}">
+                  <fileset dir="${src}">
+                    <include name="*.html" />
+                  </fileset>
+                </copy>
               </target>
             </configuration>
             <goals>

@@ -231,6 +231,80 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     return rp;
   }
 
+  /** Scan part of history and include it in the advertisement. */
+  public void advertiseHistory() {
+    Set<ObjectId> toInclude = new HashSet<ObjectId>();
+
+    // Advertise some recent open changes, in case a commit is based one.
+    try {
+      Set<PatchSet.Id> toGet = new HashSet<PatchSet.Id>();
+      for (Change change : db.changes()
+          .byProjectOpenNext(project.getNameKey(), "z", 32)) {
+        PatchSet.Id id = change.currentPatchSetId();
+        if (id != null) {
+          toGet.add(id);
+        }
+      }
+      for (PatchSet ps : db.patchSets().get(toGet)) {
+        if (ps.getRevision() != null && ps.getRevision().get() != null) {
+          toInclude.add(ObjectId.fromString(ps.getRevision().get()));
+        }
+      }
+    } catch (OrmException err) {
+      log.error("Cannot list open changes of " + project.getNameKey(), err);
+    }
+
+    // Size of an additional ".have" line.
+    final int haveLineLen = 4 + Constants.OBJECT_ID_STRING_LENGTH + 1 + 5 + 1;
+
+    // Maximum number of bytes to "waste" in the advertisement with
+    // a peek at this repository's current reachable history.
+    final int maxExtraSize = 8192;
+
+    // Number of recent commits to advertise immediately, hoping to
+    // show a client a nearby merge base.
+    final int base = 64;
+
+    // Number of commits to skip once base has already been shown.
+    final int step = 16;
+
+    // Total number of commits to extract from the history.
+    final int max = maxExtraSize / haveLineLen;
+
+    // Scan history until the advertisement is full.
+    Set<ObjectId> alreadySending = rp.getAdvertisedObjects();
+    RevWalk rw = rp.getRevWalk();
+    for (ObjectId haveId : alreadySending) {
+      try {
+        rw.markStart(rw.parseCommit(haveId));
+      } catch (IOException badCommit) {
+        continue;
+      }
+    }
+
+    int stepCnt = 0;
+    RevCommit c;
+    try {
+      while ((c = rw.next()) != null && toInclude.size() < max) {
+        if (alreadySending.contains(c)) {
+        } else if (toInclude.contains(c)) {
+        } else if (c.getParentCount() > 1) {
+        } else if (toInclude.size() < base) {
+          toInclude.add(c);
+        } else {
+          stepCnt = ++stepCnt % step;
+          if (stepCnt == 0) {
+            toInclude.add(c);
+          }
+        }
+      }
+    } catch (IOException err) {
+      log.error("Error trying to advertise history on " + project.getNameKey(), err);
+    }
+    rw.reset();
+    rp.getAdvertisedObjects().addAll(toInclude);
+  }
+
   /** Determine if the user can upload commits. */
   public Capable canUpload() {
     if (!projectControl.canPushToAtLeastOneRef()) {

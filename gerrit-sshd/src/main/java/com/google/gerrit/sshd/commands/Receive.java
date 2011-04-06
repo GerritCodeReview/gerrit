@@ -86,6 +86,7 @@ final class Receive extends AbstractGitCommand {
     rp.setRefLogIdent(currentUser.newRefLogIdent());
     rp.setTimeout(config.getTimeout());
     try {
+      receive.advertiseHistory();
       rp.receive(in, out, err);
     } catch (InterruptedIOException err) {
       throw new Failure(128, "fatal: client IO read/write timeout", err);

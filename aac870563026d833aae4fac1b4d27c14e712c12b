@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/n///sE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-04-06T06:52:36Z",
+      "side": 1,
+      "message": "Isn\u0027t there a better way to identify if an access right is inherited than checking is a UI widget is an instance of Hyperlink?",
+      "revId": "aac870563026d833aae4fac1b4d27c14e712c12b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

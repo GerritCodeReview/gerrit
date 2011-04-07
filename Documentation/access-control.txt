@@ -699,6 +699,16 @@ The new column will appear at the end of the table (in position 3),
 and `-1 Do not have copyright` will block submit, while `+1 Copyright
 clear` is required to enable submit.
 
+[[category_TAL]]
+Tie Arbitrary Labels
+~~~~~~
+
+This category permits users to tie (or untie) arbitrary labels
+to changes.
+
+Arbitrary labels are displayed and can be managed in the
+change screen.
+
 [[restart_changes]]
 [NOTE]
 Restart the Gerrit web application and reload all browsers after

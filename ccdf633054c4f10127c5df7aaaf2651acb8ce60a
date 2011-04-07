@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/n///iQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-04-07T14:02:41Z",
+      "side": 1,
+      "message": "\u0027An\u0027?  maybe it should be \u0027E.g.\u0027?",
+      "revId": "ccdf633054c4f10127c5df7aaaf2651acb8ce60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///iE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/constraints/InvalidRangeException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-04-07T14:02:41Z",
+      "side": 1,
+      "message": "missing licence header",
+      "revId": "ccdf633054c4f10127c5df7aaaf2651acb8ce60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

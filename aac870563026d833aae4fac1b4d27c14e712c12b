@@ -16,6 +16,24 @@
       "revId": "aac870563026d833aae4fac1b4d27c14e712c12b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///X8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:14:31Z",
+      "side": 1,
+      "message": "There is. You need to change the RightsTable to use the InheritedRefRight as the rowItem rather than the RefRight. Then you can do getRowItem(r).isInherited().",
+      "parentUuid": "AAAA/n///sE\u003d",
+      "revId": "aac870563026d833aae4fac1b4d27c14e712c12b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

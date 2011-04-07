@@ -23,8 +23,11 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupName;
+import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ChangeLabel;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.ChangeLabel.LabelKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -240,6 +243,23 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       }
     }
     return r;
+  }
+
+  @Override
+  public void suggestLabel(final Change.Id changeId,
+      final AsyncCallback<Set<LabelKey>> callback) {
+    run(callback, new Action<Set<LabelKey>>() {
+      public Set<LabelKey> run(final ReviewDb db) throws OrmException {
+        final Set<LabelKey> suggestions = new HashSet<LabelKey>();
+
+        for (final ChangeLabel cl : db.changeLabels().allExcludingOneChange(
+            changeId)) {
+          suggestions.add(cl.getLabel());
+        }
+
+        return suggestions;
+      }
+    });
   }
 
   @Override

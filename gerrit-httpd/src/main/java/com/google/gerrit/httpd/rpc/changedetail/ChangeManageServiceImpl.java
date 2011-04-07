@@ -16,25 +16,41 @@ package com.google.gerrit.httpd.rpc.changedetail;
 
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeManageService;
+import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
+import com.google.gerrit.reviewdb.ChangeLabel;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-class ChangeManageServiceImpl implements ChangeManageService {
+class ChangeManageServiceImpl extends BaseServiceImplementation implements
+    ChangeManageService {
   private final SubmitAction.Factory submitAction;
   private final AbandonChange.Factory abandonChangeFactory;
   private final RestoreChange.Factory restoreChangeFactory;
   private final RevertChange.Factory revertChangeFactory;
+  private final AddLabel.Factory addLableFactory;
+  private final DeleteLabel.Factory deleteLableFactory;
 
   @Inject
-  ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction,
+  ChangeManageServiceImpl(final Provider<ReviewDb> schema,
+      final Provider<CurrentUser> currentUser,
+      final SubmitAction.Factory patchSetAction,
       final AbandonChange.Factory abandonChangeFactory,
       final RestoreChange.Factory restoreChangeFactory,
-      final RevertChange.Factory revertChangeFactory) {
+      final RevertChange.Factory revertChangeFactory,
+      final AddLabel.Factory addLableFactory,
+      final DeleteLabel.Factory deleteLableFactory) {
+    super(schema, currentUser);
     this.submitAction = patchSetAction;
     this.abandonChangeFactory = abandonChangeFactory;
     this.restoreChangeFactory = restoreChangeFactory;
     this.revertChangeFactory = revertChangeFactory;
+    this.addLableFactory = addLableFactory;
+    this.deleteLableFactory = deleteLableFactory;
   }
 
   public void submit(final PatchSet.Id patchSetId,
@@ -55,5 +71,15 @@ class ChangeManageServiceImpl implements ChangeManageService {
   public void restoreChange(final PatchSet.Id patchSetId, final String message,
       final AsyncCallback<ChangeDetail> callback) {
     restoreChangeFactory.create(patchSetId, message).to(callback);
+  }
+
+  public void addLabel(final ChangeLabel newChangeLabel,
+      final AsyncCallback<VoidResult> callback) {
+    addLableFactory.create(newChangeLabel).to(callback);
+  }
+
+  public void deleteLabel(final ChangeLabel changeLabel,
+      final AsyncCallback<VoidResult> callback) {
+    deleteLableFactory.create(changeLabel).to(callback);
   }
 }

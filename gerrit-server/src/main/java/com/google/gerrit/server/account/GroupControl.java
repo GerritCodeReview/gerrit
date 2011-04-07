@@ -42,6 +42,10 @@ public class GroupControl {
       return new GroupControl(user.get(), group);
     }
 
+    public GroupControl controlFor(final AccountGroup group) {
+      return new GroupControl(user.get(), group);
+    }
+
     public GroupControl validateFor(final AccountGroup.Id groupId)
         throws NoSuchGroupException {
       final GroupControl c = controlFor(groupId);
@@ -70,7 +74,7 @@ public class GroupControl {
 
   /** Can this user see this group exists? */
   public boolean isVisible() {
-    return isOwner();
+    return group.isVisibleToAll() || isOwner();
   }
 
   public boolean isOwner() {
@@ -88,6 +92,6 @@ public class GroupControl {
   }
 
   public boolean canSee(Account.Id id) {
-    return isOwner();
+    return isVisible();
   }
 }

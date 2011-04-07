@@ -49,7 +49,7 @@ public class GroupListScreen extends AccountScreen {
   protected void onLoad() {
     super.onLoad();
     Util.GROUP_SVC
-        .ownedGroups(new ScreenLoadCallback<List<AccountGroup>>(this) {
+        .visibleGroups(new ScreenLoadCallback<List<AccountGroup>>(this) {
           @Override
           protected void preDisplay(final List<AccountGroup> result) {
             groups.display(result);

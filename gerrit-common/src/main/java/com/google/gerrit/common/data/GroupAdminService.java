@@ -29,7 +29,7 @@ import java.util.Set;
 @RpcImpl(version = Version.V2_0)
 public interface GroupAdminService extends RemoteJsonService {
   @SignInRequired
-  void ownedGroups(AsyncCallback<List<AccountGroup>> callback);
+  void visibleGroups(AsyncCallback<List<AccountGroup>> callback);
 
   @SignInRequired
   void createGroup(String newName, AsyncCallback<AccountGroup.Id> callback);
@@ -39,6 +39,10 @@ public interface GroupAdminService extends RemoteJsonService {
 
   @SignInRequired
   void changeGroupDescription(AccountGroup.Id groupId, String description,
+      AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void changeGroupOptions(AccountGroup.Id groupId, GroupOptions groupOptions,
       AsyncCallback<VoidResult> callback);
 
   @SignInRequired

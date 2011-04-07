@@ -31,8 +31,4 @@ public interface AccountGroupAccess extends
 
   @Query
   ResultSet<AccountGroup> all() throws OrmException;
-
-  @Query("WHERE ownerGroupId = ?")
-  ResultSet<AccountGroup> ownedByGroup(AccountGroup.Id groupId)
-      throws OrmException;
 }

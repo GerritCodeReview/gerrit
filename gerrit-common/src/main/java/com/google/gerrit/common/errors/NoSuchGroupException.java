@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.common.errors;
 
 import com.google.gerrit.reviewdb.AccountGroup;
 
@@ -20,12 +20,14 @@ import com.google.gerrit.reviewdb.AccountGroup;
 public class NoSuchGroupException extends Exception {
   private static final long serialVersionUID = 1L;
 
+  public static final String MESSAGE = "Group Not Found: ";
+
   public NoSuchGroupException(final AccountGroup.Id key) {
     this(key, null);
   }
 
   public NoSuchGroupException(final AccountGroup.Id key, final Throwable why) {
-    super(key.toString(), why);
+    super(MESSAGE + key.toString(), why);
   }
 
   public NoSuchGroupException(final AccountGroup.NameKey k) {
@@ -33,6 +35,6 @@ public class NoSuchGroupException extends Exception {
   }
 
   public NoSuchGroupException(final AccountGroup.NameKey k, final Throwable why) {
-    super(k.toString(), why);
+    super(MESSAGE + k.toString(), why);
   }
 }

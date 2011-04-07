@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc.account;
 
 import com.google.gerrit.common.data.GroupDetail;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -23,7 +24,6 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.account.NoSuchGroupException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;

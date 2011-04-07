@@ -15,10 +15,12 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.auth.SignInRequired;
+import com.google.gerrit.reviewdb.ChangeLabel;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.RpcImpl;
+import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
 @RpcImpl(version = Version.V2_0)
@@ -37,4 +39,10 @@ public interface ChangeManageService extends RemoteJsonService {
   @SignInRequired
   void restoreChange(PatchSet.Id patchSetId, String message,
       AsyncCallback<ChangeDetail> callback);
+
+  @SignInRequired
+  void addLabel(ChangeLabel newChangeLabel, AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void deleteLabel(ChangeLabel changeLabel, AsyncCallback<VoidResult> callback);
 }

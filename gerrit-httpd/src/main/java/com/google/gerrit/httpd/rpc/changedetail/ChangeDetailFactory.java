@@ -24,6 +24,7 @@ import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ChangeLabel;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetAncestor;
@@ -142,6 +143,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     loadPatchSets();
     loadMessages();
+    loadLabels();
     if (change.currentPatchSetId() != null) {
       loadCurrentPatchSet();
     }
@@ -286,5 +288,17 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
   private boolean isStarred(final Change ac) {
     return control.getCurrentUser().getStarredChanges().contains(ac.getId());
+  }
+
+  private void loadLabels() throws OrmException {
+    final List<ChangeLabel> changeLabels =
+        db.changeLabels().byChange(changeId).toList();
+
+    final Set<ChangeLabel.LabelKey> labels =
+        new HashSet<ChangeLabel.LabelKey>(changeLabels.size());
+    for (ChangeLabel cl : changeLabels) {
+      labels.add(cl.getLabel());
+    }
+    detail.setLabels(labels);
   }
 }

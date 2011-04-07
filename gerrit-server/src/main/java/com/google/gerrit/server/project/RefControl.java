@@ -284,6 +284,11 @@ public class RefControl {
     return canPerform(Permission.FORGE_SERVER);
   }
 
+  /** @return true if this user can label changes. */
+  public boolean canLabelChanges() {
+    return canPerform(Permission.LABEL_CHANGES);
+  }
+
   /** All value ranges of any allowed label permission. */
   public List<PermissionRange> getLabelRanges() {
     List<PermissionRange> r = new ArrayList<PermissionRange>();

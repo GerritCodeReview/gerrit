@@ -174,7 +174,7 @@ public class ReviewCommand extends BaseCommand {
           final Set<Branch.NameKey> toMerge = new HashSet<Branch.NameKey>();
           try {
             for (PatchSet.Id patchSetId : toSubmit) {
-              ChangeUtil.submit(opFactory, patchSetId, currentUser, db,
+              ChangeUtil.submit(patchSetId, currentUser, db, opFactory,
                   new MergeQueue() {
                     @Override
                     public void merge(MergeOp.Factory mof, Branch.NameKey branch) {

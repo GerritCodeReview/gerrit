@@ -46,6 +46,6 @@ class CreateGroup extends Handler<AccountGroup.Id> {
   public AccountGroup.Id call() throws OrmException, NameAlreadyUsedException {
     final PerformCreateGroup performCreateGroup = performCreateGroupFactory.create();
     final Account.Id me = user.getAccountId();
-    return performCreateGroup.createGroup(groupName, null, null, me);
+    return performCreateGroup.createGroup(groupName, null, false, null, me);
   }
 }

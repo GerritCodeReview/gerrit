@@ -69,7 +69,7 @@ public class GroupControl {
 
   /** Can this user see this group exists? */
   public boolean isVisible() {
-    return isOwner();
+    return group.isVisibleToAll() || isOwner();
   }
 
   public boolean isOwner() {
@@ -87,6 +87,6 @@ public class GroupControl {
   }
 
   public boolean canSee(Account.Id id) {
-    return isOwner();
+    return isVisible();
   }
 }

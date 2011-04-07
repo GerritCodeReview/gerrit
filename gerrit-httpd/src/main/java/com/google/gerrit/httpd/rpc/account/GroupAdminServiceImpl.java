@@ -80,7 +80,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     this.groupDetailFactory = groupDetailFactory;
   }
 
-  public void ownedGroups(final AsyncCallback<List<AccountGroup>> callback) {
+  public void visibleGroups(final AsyncCallback<List<AccountGroup>> callback) {
     run(callback, new Action<List<AccountGroup>>() {
       public List<AccountGroup> run(ReviewDb db) throws OrmException {
         final IdentifiedUser user = identifiedUser.get();
@@ -105,6 +105,11 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
                 continue;
               }
             }
+          }
+        }
+        for(final AccountGroup group : db.accountGroups().all().toList()) {
+          if (group.isVisibleToAll() && !result.contains(group)) {
+            result.add(group);
           }
         }
         Collections.sort(result, new Comparator<AccountGroup>() {
@@ -134,6 +139,20 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         final AccountGroup group = db.accountGroups().get(groupId);
         assertAmGroupOwner(db, group);
         group.setDescription(description);
+        db.accountGroups().update(Collections.singleton(group));
+        groupCache.evict(group);
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  public void changeGroupOptions(final AccountGroup.Id groupId,
+      final boolean visibleToAll, final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+        final AccountGroup group = db.accountGroups().get(groupId);
+        assertAmGroupOwner(db, group);
+        group.setVisibleToAll(visibleToAll);
         db.accountGroups().update(Collections.singleton(group));
         groupCache.evict(group);
         return VoidResult.INSTANCE;

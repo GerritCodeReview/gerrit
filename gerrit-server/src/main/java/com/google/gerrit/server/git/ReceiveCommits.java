@@ -893,6 +893,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         }
       }
 
+      final Set<Change.Key> newChangeIds = new HashSet<Change.Key>();
       for (;;) {
         final RevCommit c = walk.next();
         if (c == null) {
@@ -913,6 +914,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         if (!idList.isEmpty()) {
           final String idStr = idList.get(idList.size() - 1).trim();
           final Change.Key key = new Change.Key(idStr);
+
+          if (newChangeIds.contains(key)) {
+            reject(newChange, "squash commits first");
+            return;
+          }
+
           final List<Change> changes =
               db.changes().byProjectKey(project.getNameKey(), key).toList();
           if (changes.size() > 1) {
@@ -934,6 +941,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
             } else {
               return;
             }
+          }
+
+          if (changes.size() == 0) {
+            newChangeIds.add(key);
           }
         }
 

@@ -1,0 +1,548 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/n///t0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GroupInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "I doubt you wrote this in 2008.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///tw\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GroupInfoCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Wrong date.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///ts\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AddIncludedGroupBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Wrong date.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///s4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/CreateGroup.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Use Collections.singleton(me) instead.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///mw\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "I think the indentation is messed up here, this should be one level to the left.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///mY\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "You should validate that the group in k matches the groupId argument passed from the web UI. If they don\u0027t match, this delete cannot continue.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///m8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Why not NoSuchGroupException?",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///aY\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Yea, see here you are using the database directly to list which groups this group includes. So you don\u0027t need it in the cache.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///to\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGroupIncludedGroup.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Wrong date.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///tk\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGroupIncludedGroupAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Wrong date.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///aM\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGroupIncludedGroupAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "This query needs an additional index to be manually defined in the two index SQ files (index_generic.sql and index_postgres.sql). The includedGroupId column is the 2nd column in the PRIMARY KEY, and without an additional index requires a nasty table scan in order to find the groups that include this group.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///tg\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGroupIncludedGroupAudit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Wrong date.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///tc\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGroupIncludedGroupAuditAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Wrong date.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///aI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "There is no need to initialize the variable here, both branch directions below assign to the variable and discard this HashSet.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///aA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "This can be written slightly shorter:\n\n  if (includedGroups.add(groupId)) {\n    groupQueue.add(groupId);\n  }\n\nThis works because add returns true only if the set was modified, the set is only modified if groupId is not already present in the set when the add occurs. Doing it this way saves looking in the set twice (once to test contains, again to find where to perform the insertion).",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///Z8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "I think this needs to be wrapped in Collections.unmodifiableSet()",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///tY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupInfoCacheFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Wrong date.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///tU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludedGroupCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Wrong date.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///tQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludedGroupCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Wrong date.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///t8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludedGroupCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "This name is really long. How about instead:\n\n* groups_includedby\n* groups_includes",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///tM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludedGroupCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Please document these caches in Documentation/config-gerrit.txt.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///nA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludedGroupCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Why do we need this cache? IIRC when we are showing the members in a group, we scan the database and don\u0027t rely on a cache for it. This is considered OK because we don\u0027t frequently show the membership of a group... but we do frequently need to do know what groups a user (or group) is a member of, so that is what we cache.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///Z0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludedGroupCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "If you keep this, this should be wrapped in Collections.unmodifiableCollection().",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///Zw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludedGroupCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Should be Collections.emptyList();",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///Zk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludedGroupCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Its probably shorter code to inline groups here:\n\n  for (AccountGroupIncludedGroup agig : db.accountGroupIncludedGroups().byIncludedGroup(key))",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///Zs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludedGroupCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Needs to be wrapped in Collections.unmodifiableCollection().",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///Zo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/IncludedGroupCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Should be Collections.emptyList();",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///tA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformCreateGroup.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Please update Javadoc when changing the method parameters.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///tE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformCreateGroup.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "I think I would prefer Collection here over an array for these two arguments.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///s8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformCreateGroup.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Style-nit: Space after if.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///tI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_48.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "Wrong date.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///Zg\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminCreateGroup.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T21:58:24Z",
+      "side": 1,
+      "message": "I wonder if --group / -g isn\u0027t a better name for this option.",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

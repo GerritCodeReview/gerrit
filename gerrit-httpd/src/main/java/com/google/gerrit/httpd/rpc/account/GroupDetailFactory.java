@@ -72,6 +72,7 @@ class GroupDetailFactory extends Handler<GroupDetail> {
         break;
     }
     detail.setAccounts(aic.create());
+    detail.setCanModify(control.isOwner());
     return detail;
   }
 

@@ -84,6 +84,10 @@ public class AccountGroupScreen extends AccountScreen {
   private Button externalNameSearch;
   private Grid externalMatches;
 
+  private Panel groupOptionsPanel;
+  private CheckBox visibleToAllCheckBox;
+  private Button saveGroupOptions;
+
   public AccountGroupScreen(final AccountGroup.Id toShow) {
     groupId = toShow;
   }
@@ -95,6 +99,14 @@ public class AccountGroupScreen extends AccountScreen {
         this) {
       @Override
       protected void preDisplay(final GroupDetail result) {
+        enableForm(result.canModify);
+        saveName.setVisible(result.canModify);
+        saveOwner.setVisible(result.canModify);
+        saveDesc.setVisible(result.canModify);
+        saveGroupOptions.setVisible(result.canModify);
+        delMember.setVisible(result.canModify);
+        members.setEnabled(result.canModify);
+        saveType.setVisible(result.canModify);
         display(result);
       }
     });
@@ -106,9 +118,21 @@ public class AccountGroupScreen extends AccountScreen {
     initName();
     initOwner();
     initDescription();
+    initGroupOptions();
     initGroupType();
     initMemberList();
     initExternal();
+  }
+
+  private void enableForm(final boolean canModify) {
+    groupNameTxt.setEnabled(canModify);
+    ownerTxtBox.setEnabled(canModify);
+    descTxt.setEnabled(canModify);
+    typeSelect.setEnabled(canModify);
+    addMemberBox.setEnabled(canModify);
+    externalNameFilter.setEnabled(canModify);
+    externalNameSearch.setEnabled(canModify);
+    visibleToAllCheckBox.setEnabled(canModify);
   }
 
   private void initName() {
@@ -194,9 +218,38 @@ public class AccountGroupScreen extends AccountScreen {
       }
     });
     vp.add(saveDesc);
+
     add(vp);
 
     new OnEditEnabler(saveDesc, descTxt);
+  }
+
+  private void initGroupOptions() {
+    groupOptionsPanel = new VerticalPanel();
+    groupOptionsPanel.add(new SmallHeading(Util.C.headingGroupOptions()));
+
+    visibleToAllCheckBox = new CheckBox(Util.C.isVisibleToAll());
+    groupOptionsPanel.add(visibleToAllCheckBox);
+
+    saveGroupOptions = new Button(Util.C.buttonSaveGroupOptions());
+    saveGroupOptions.setEnabled(false);
+    saveGroupOptions.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        final boolean visibleToAll = visibleToAllCheckBox.getValue();
+        Util.GROUP_SVC.changeGroupOptions(groupId, visibleToAll,
+            new GerritCallback<VoidResult>() {
+              public void onSuccess(final VoidResult result) {
+                saveGroupOptions.setEnabled(false);
+              }
+            });
+      }
+    });
+    groupOptionsPanel.add(saveGroupOptions);
+
+    add(groupOptionsPanel);
+
+    new OnEditEnabler(saveGroupOptions, visibleToAllCheckBox);
   }
 
   private void initGroupType() {
@@ -445,6 +498,8 @@ public class AccountGroupScreen extends AccountScreen {
     }
 
     setType(group.getType());
+
+    visibleToAllCheckBox.setValue(group.isVisibleToAll());
   }
 
   void doAddNew() {
@@ -474,6 +529,8 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   private class MemberTable extends FancyFlexTable<AccountGroupMember> {
+    private boolean enabled = true;
+
     MemberTable() {
       table.setText(0, 2, Util.C.columnMember());
       table.setText(0, 3, Util.C.columnEmailAddress());
@@ -482,6 +539,16 @@ public class AccountGroupScreen extends AccountScreen {
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
+    }
+
+    void setEnabled(final boolean enabled) {
+      this.enabled = enabled;
+      for (int row = 1; row < table.getRowCount(); row++) {
+        final AccountGroupMember k = getRowItem(row);
+        if (k != null) {
+          ((CheckBox) table.getWidget(row, 1)).setEnabled(enabled);
+        }
+      }
     }
 
     void deleteChecked() {
@@ -531,7 +598,9 @@ public class AccountGroupScreen extends AccountScreen {
 
     void populate(final int row, final AccountGroupMember k) {
       final Account.Id accountId = k.getAccountId();
-      table.setWidget(row, 1, new CheckBox());
+      CheckBox checkBox = new CheckBox();
+      table.setWidget(row, 1, checkBox);
+      checkBox.setEnabled(enabled);
       table.setWidget(row, 2, AccountDashboardLink.link(accounts, accountId));
       table.setText(row, 3, accounts.get(accountId).getPreferredEmail());
 

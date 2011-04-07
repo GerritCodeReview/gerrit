@@ -168,6 +168,9 @@ public final class AccountGroup {
   @Column(id = 6, notNull = false)
   protected ExternalNameKey externalName;
 
+  @Column(id = 7)
+  protected boolean visibleToAll;
+
   protected AccountGroup() {
   }
 
@@ -176,6 +179,7 @@ public final class AccountGroup {
     name = newName;
     groupId = newId;
     ownerGroupId = groupId;
+    visibleToAll = false;
     setType(Type.INTERNAL);
   }
 
@@ -225,5 +229,26 @@ public final class AccountGroup {
 
   public void setExternalNameKey(final ExternalNameKey k) {
     externalName = k;
+  }
+
+  public void setVisibleToAll(final boolean visibleToAll) {
+    this.visibleToAll = visibleToAll;
+  }
+
+  public boolean isVisibleToAll() {
+    return visibleToAll;
+  }
+
+  @Override
+  public int hashCode() {
+    return getId().hashCode();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o != null && o instanceof AccountGroup) {
+      return getId().equals(((AccountGroup)o).getId());
+    }
+    return false;
   }
 }

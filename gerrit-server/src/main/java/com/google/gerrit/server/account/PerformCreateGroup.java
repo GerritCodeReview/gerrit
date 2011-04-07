@@ -54,6 +54,9 @@ public class PerformCreateGroup {
    * @param groupName the name for the new group
    * @param groupDescription the description of the new group, <code>null</code>
    *        if no description
+   * @param visibleToAll <code>true</code> to make the group visible to all
+   *        registered users, if <code>false</code> the group is only visible to
+   *        the group owners and Gerrit administrators
    * @param ownerGroupId the group that should own the new group, if
    *        <code>null</code> the new group will own itself
    * @param initialMembers initial members to be added to the new group
@@ -64,13 +67,14 @@ public class PerformCreateGroup {
    *         name already exists
    */
   public AccountGroup.Id createGroup(final String groupName,
-      final String groupDescription, final AccountGroup.Id ownerGroupId,
-      final Account.Id... initialMembers) throws OrmException,
-      NameAlreadyUsedException {
+      final String groupDescription, final boolean visibleToAll,
+      final AccountGroup.Id ownerGroupId, final Account.Id... initialMembers)
+      throws OrmException, NameAlreadyUsedException {
     final AccountGroup.Id groupId =
         new AccountGroup.Id(db.nextAccountGroupId());
     final AccountGroup.NameKey nameKey = new AccountGroup.NameKey(groupName);
     final AccountGroup group = new AccountGroup(nameKey, groupId);
+    group.setVisibleToAll(visibleToAll);
     if (ownerGroupId != null) {
       group.setOwnerGroupId(ownerGroupId);
     }

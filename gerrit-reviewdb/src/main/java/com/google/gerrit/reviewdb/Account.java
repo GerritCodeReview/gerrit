@@ -69,9 +69,13 @@ public final class Account {
 
   /** Regular expression that {@link #userName} must match. */
   public static final String USER_NAME_PATTERN = "^" + //
+      "(" + //
       USER_NAME_PATTERN_FIRST + //
       USER_NAME_PATTERN_REST + "*" + //
       USER_NAME_PATTERN_LAST + //
+      "|" + //
+      USER_NAME_PATTERN_FIRST + //
+      ")" + //
       "$";
 
   /** Key local to Gerrit to identify a user. */

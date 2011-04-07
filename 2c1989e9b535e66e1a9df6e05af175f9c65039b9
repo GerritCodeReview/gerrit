@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/n///XM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:39:58Z",
+      "side": 1,
+      "message": "getUserAccount() returns null if the user is not signed in. Which means anonymous users will crash with an NPE in their browser and be unable to view any change table here.\n\nYou need to be more careful and say something like:\n\n  AccountGeneralPreferences pref;\n  if (Gerrit.isSignedIn()) {\n    pref \u003d Gerrit.getUserAccount().getGeneralPreferences();\n  } else {\n    pref \u003d null;\n  }\n\nAnd then check for pref \u003d\u003d null below and handle that case as though the flag were false.",
+      "revId": "2c1989e9b535e66e1a9df6e05af175f9c65039b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///XI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:39:58Z",
+      "side": 1,
+      "message": "Be pref !\u003d null \u0026\u0026 pref.isDisplayNameInReviewCategory()",
+      "revId": "2c1989e9b535e66e1a9df6e05af175f9c65039b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///XA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:39:58Z",
+      "side": 1,
+      "message": "I\u0027d prefer to *not* rely on the HTML element\u0027s toString() constructing the correct HTML here. There is another way to get the HTML of the Image in GWT. Or use a compound object here like a FlowPanel to construct a div or span within the table element, with the image and the text as two subelements.",
+      "revId": "2c1989e9b535e66e1a9df6e05af175f9c65039b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///XE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:39:58Z",
+      "side": 1,
+      "message": "Be pref !\u003d null \u0026\u0026 pref...",
+      "revId": "2c1989e9b535e66e1a9df6e05af175f9c65039b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///W8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:39:58Z",
+      "side": 1,
+      "message": "Same as above.",
+      "revId": "2c1989e9b535e66e1a9df6e05af175f9c65039b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///W4\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGeneralPreferences.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:39:58Z",
+      "side": 1,
+      "message": "I thought the default was false.",
+      "revId": "2c1989e9b535e66e1a9df6e05af175f9c65039b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///W0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_48.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:39:58Z",
+      "side": 1,
+      "message": "Year wrong? 2011?",
+      "revId": "2c1989e9b535e66e1a9df6e05af175f9c65039b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

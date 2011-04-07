@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/n///Xs\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetsBlock.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:25:07Z",
+      "side": 1,
+      "message": "This should use a PageLink method to generate this URL.",
+      "revId": "da5ac14a5882fa6f9bfa83f9b1951a0fb6107924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///Xo\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ChangeLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:25:07Z",
+      "side": 1,
+      "message": "A permalink shouldn\u0027t use a anchor. I would just drop this part.",
+      "revId": "da5ac14a5882fa6f9bfa83f9b1951a0fb6107924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

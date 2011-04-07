@@ -15,6 +15,8 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ChangeLabel;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
@@ -33,6 +35,9 @@ public interface SuggestService extends RemoteJsonService {
 
   void suggestAccountGroup(String query, int limit,
       AsyncCallback<List<GroupReference>> callback);
+
+  void suggestLabel(Change.Id changeId,
+      AsyncCallback<List<ChangeLabel.LabelKey>> callback);
 
   /**
    * Suggests reviewers. A reviewer can be a user or a group. Inactive users,

@@ -23,8 +23,11 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupName;
+import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ChangeLabel;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.ChangeLabel.LabelKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -39,6 +42,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -240,6 +244,26 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       }
     }
     return r;
+  }
+
+  @Override
+  public void suggestLabel(final Change.Id changeId,
+      final AsyncCallback<List<LabelKey>> callback) {
+    run(callback, new Action<List<LabelKey>>() {
+      public List<LabelKey> run(final ReviewDb db) throws OrmException {
+        final List<LabelKey> suggestions = new ArrayList<LabelKey>();
+        final ResultSet<ChangeLabel> changeLabels = db.changeLabels().all();
+
+        for (final ChangeLabel cl : changeLabels) {
+          if (!changeId.equals(cl.getChangeId())
+              && !suggestions.contains(cl.getLabel())) {
+            suggestions.add(cl.getLabel());
+          }
+        }
+
+        return suggestions;
+      }
+    });
   }
 
   @Override

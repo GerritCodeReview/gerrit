@@ -19,6 +19,125 @@
     },
     {
       "key": {
+        "uuid": "AAAA/n///ZM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:02:40Z",
+      "side": 1,
+      "message": "I think I would prefer to use the full name, \"Push Branch\".\n\nBut I\u0027m wondering if we shouldn\u0027t use the format that the git-store topic is using:\n\n  [access \"refs/tags/*\"]\n    push \u003d -2..+2\n\n  [access \"refs/heads/*\"]\n    push \u003d -3..+3\n\n  [access \"refs/heads/*\"]\n    label-Code-Review \u003d -1..+1\n\nBut then I would even say this should be called restrict-access or limit-access.",
+      "revId": "ccdf633054c4f10127c5df7aaaf2651acb8ce60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///ZE\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/ForbiddenRefRightException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:02:40Z",
+      "side": 1,
+      "message": "This should be an english string, not the full package and class name of the class.",
+      "revId": "ccdf633054c4f10127c5df7aaaf2651acb8ce60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///ZA\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/InvalidRegExpException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:02:40Z",
+      "side": 1,
+      "message": "If you change the format like I suggest in the commit message, you need to adjust this documentation string.",
+      "revId": "ccdf633054c4f10127c5df7aaaf2651acb8ce60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///Y8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/GerritCallback.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:02:40Z",
+      "side": 1,
+      "message": "This is better positioned in the access editor\u0027s addRight callback. Override the onError method and don\u0027t call super if isForbiddenRefRight is true.",
+      "revId": "ccdf633054c4f10127c5df7aaaf2651acb8ce60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///Yw\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:02:40Z",
+      "side": 1,
+      "message": "I think this should be in GerritGlobalModule, which requires moving this type to the gerrit-server package. But if we ever support editing permissions over SSH (which git-store enables!) we need to run this logic in a context where the gerrit-http code might not be visible.",
+      "revId": "ccdf633054c4f10127c5df7aaaf2651acb8ce60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///Yc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/constraints/Allow.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:02:40Z",
+      "side": 1,
+      "message": "This isn\u0027t how we usually do this sort of matching.\n\nInstead we say something like:\n\n* If ref is regexp, get the shortest example. See if allowedRef matches that. If it does, this rule applies.\n* If ref is a glob (ends with \"/*\"), see if allowedRef startsWith ref minus the trailing *.\n* Otherwise, allowedRef has to equal ref to match.\n\nEquality on a regex is really tricky. That\u0027s why we do it this way.",
+      "revId": "ccdf633054c4f10127c5df7aaaf2651acb8ce60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///Ys\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/constraints/Allow.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-07T23:02:40Z",
+      "side": 1,
+      "message": "This Javadoc comment isn\u0027t really worthwhile.",
+      "revId": "ccdf633054c4f10127c5df7aaaf2651acb8ce60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n///iE\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/constraints/InvalidRangeException.java",
         "patchSetId": 2

@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ChangeLabel;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
 
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /** Detail necessary to display a change. */
 public class ChangeDetail {
@@ -42,6 +44,7 @@ public class ChangeDetail {
   protected PatchSet.Id currentPatchSetId;
   protected PatchSetDetail currentDetail;
   protected boolean canEditLabels;
+  protected Set<ChangeLabel.LabelKey> labels;
 
   public ChangeDetail() {
   }
@@ -198,5 +201,13 @@ public class ChangeDetail {
 
   public void setCanEditLabels(boolean canEditLabels) {
     this.canEditLabels = canEditLabels;
+  }
+
+  public Set<ChangeLabel.LabelKey> getLabels() {
+    return labels;
+  }
+
+  public void setLabels(Set<ChangeLabel.LabelKey> labels) {
+    this.labels = labels;
   }
 }

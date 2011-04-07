@@ -31,6 +31,7 @@ public class Permission implements Comparable<Permission> {
   public static final String PUSH_TAG = "pushTag";
   public static final String READ = "read";
   public static final String SUBMIT = "submit";
+  public static final String TIE_ARBITRARY_LABEL = "tieArbitraryLabel";
 
   private static final List<String> NAMES_LC;
   private static final int labelIndex;
@@ -48,6 +49,7 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(PUSH_TAG.toLowerCase());
     NAMES_LC.add(LABEL.toLowerCase());
     NAMES_LC.add(SUBMIT.toLowerCase());
+    NAMES_LC.add(TIE_ARBITRARY_LABEL.toLowerCase());
 
     labelIndex = NAMES_LC.indexOf(Permission.LABEL);
   }

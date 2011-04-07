@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -282,6 +283,11 @@ public class RefControl {
   /** @return true if this user can forge the server on the committer line. */
   public boolean canForgeGerritServerIdentity() {
     return canPerform(Permission.FORGE_SERVER);
+  }
+
+  /** @return true if this user can tie arbitrary label to a change. */
+  public boolean canTieArbitraryLabel() {
+    return canPerform(Permission.TIE_ARBITRARY_LABEL);
   }
 
   /** All value ranges of any allowed label permission. */

@@ -178,6 +178,11 @@ public class ChangeControl {
     return getRefControl().getLabelRanges();
   }
 
+  /** Can this user add and/or delete arbitrary labels to this change? */
+  public boolean canEditArbitraryLabels() {
+    return getRefControl().canTieArbitraryLabel();
+  }
+
   /** The range of permitted values associated with a label permission. */
   public PermissionRange getRange(String permission) {
     return getRefControl().getRange(permission);

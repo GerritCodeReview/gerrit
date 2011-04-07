@@ -134,6 +134,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     }
     load();
     detail.setAccounts(aic.create());
+    detail.setCanEditLabels(control.canEditArbitraryLabels());
     return detail;
   }
 

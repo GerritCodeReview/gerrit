@@ -24,6 +24,7 @@ import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ChangeLabel;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetAncestor;
@@ -39,6 +40,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -129,6 +131,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     loadPatchSets();
     loadMessages();
+    loadLabels();
     if (change.currentPatchSetId() != null) {
       loadCurrentPatchSet();
     }
@@ -269,5 +272,16 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
   private boolean isStarred(final Change ac) {
     return control.getCurrentUser().getStarredChanges().contains(ac.getId());
+  }
+
+  private void loadLabels() throws OrmException {
+    final ResultSet<ChangeLabel> changeLabels =
+        db.changeLabels().byChange(changeId);
+    final Set<ChangeLabel.LabelKey> labels =
+        new HashSet<ChangeLabel.LabelKey>();
+    for (ChangeLabel cl : changeLabels) {
+      labels.add(cl.getLabel());
+    }
+    detail.setLabels(labels);
   }
 }

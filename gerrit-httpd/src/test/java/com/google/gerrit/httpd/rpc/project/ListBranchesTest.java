@@ -24,6 +24,7 @@ import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.lib.Ref.Storage.LOOSE;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -52,9 +53,11 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ListBranchesTest extends LocalDiskRepositoryTestCase {
   static {
@@ -146,8 +149,9 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
       }
     }
 
+    Set<String> targets = targets(refs);
     for (Ref ref : refs.values()) {
-      assumeVisible(ref, true);
+      assumeVisible(ref, true, targets);
     }
 
     mockDb.close();
@@ -164,11 +168,21 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     return r;
   }
 
-  private void assumeVisible(Ref ref, boolean visible) {
+  private Set<String> targets(Map<String, Ref> refs) {
+    Set<String> targets = new HashSet<String>();
+    for (Ref ref : refs.values()) {
+      if (ref.isSymbolic()) {
+        targets.add(ref.getLeaf().getName());
+      }
+    }
+    return targets;
+  }
+
+  private void assumeVisible(Ref ref, boolean visible, Set<String> targets) {
     RefControl rc = createStrictMock(RefControl.class);
     refMocks.add(rc);
     expect(rc.isVisible()).andReturn(visible);
-    if (visible) {
+    if (visible && !ref.isSymbolic() && !targets.contains(ref.getName())) {
       expect(rc.canDelete()).andReturn(true);
     }
 
@@ -252,6 +266,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
 
     assertNotNull(b.getRevision());
     assertEquals("master", b.getRevision().get());
+    assertFalse(b.getCanDelete());
 
     b = r.getBranches().get(1);
     assertNotNull(b);
@@ -265,6 +280,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
 
     assertNotNull(b.getRevision());
     assertEquals(idA.name(), b.getRevision().get());
+    assertTrue(b.getCanDelete());
   }
 
   @Test
@@ -279,7 +295,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     expect(grm.openRepository(eq(name))).andReturn(mockDb);
     expect(mockDb.getAllRefs()).andReturn(u);
     for (Ref ref : u.values()) {
-      assumeVisible(ref, true);
+      assumeVisible(ref, true, targets(u));
     }
     expect(pc.canAddRefs()).andReturn(true);
     mockDb.close();
@@ -307,8 +323,8 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     validate().andReturn(pc);
     expect(grm.openRepository(eq(name))).andReturn(mockDb);
     expect(mockDb.getAllRefs()).andReturn(u);
-    assumeVisible(bar, false);
-    assumeVisible(bar, false);
+    assumeVisible(bar, false, targets(u));
+    assumeVisible(bar, false, targets(u));
     expect(pc.canAddRefs()).andReturn(true);
     mockDb.close();
     expectLastCall();
@@ -335,9 +351,9 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     validate().andReturn(pc);
     expect(grm.openRepository(eq(name))).andReturn(mockDb);
     expect(mockDb.getAllRefs()).andReturn(u);
-    assumeVisible(bar, true);
-    assumeVisible(bar, true);
-    assumeVisible(foo, false);
+    assumeVisible(bar, true, targets(u));
+    assumeVisible(bar, true, targets(u));
+    assumeVisible(foo, false, targets(u));
     expect(pc.canAddRefs()).andReturn(true);
     mockDb.close();
     expectLastCall();
@@ -348,7 +364,11 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     assertNotNull(r);
 
     assertEquals(2, r.getBranches().size());
+
     assertEquals(HEAD, r.getBranches().get(0).getShortName());
+    assertFalse(r.getBranches().get(0).getCanDelete());
+
     assertEquals("bar", r.getBranches().get(1).getShortName());
+    assertFalse(r.getBranches().get(1).getCanDelete());
   }
 }

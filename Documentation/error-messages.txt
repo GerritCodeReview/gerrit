@@ -13,6 +13,7 @@ Error Messages
 * link:error-change-closed.html[change ... closed]
 * link:error-change-does-not-belong-to-project.html[change ... does not belong to project ...]
 * link:error-change-not-found.html[change ... not found]
+* link:error-contains-banned-commit[contains banned commit ...]
 * link:error-has-duplicates.html[... has duplicates]
 * link:error-invalid-changeid.html[invalid Change-Id line format in commit message]
 * link:error-missing-changeid.html[missing Change-Id in commit message]

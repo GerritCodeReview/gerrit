@@ -23,6 +23,7 @@ Error Messages
 * link:error-not-a-gerrit-administrator[Not a Gerrit administrator]
 * link:error-not-a-gerrit-project.html[not a Gerrit project]
 * link:error-not-permitted-to-create.html[Not permitted to create ...]
+* link:error-not-signed-off-by.html[not Signed-off-by author/committer/uploader]
 * link:error-not-valid-ref.html[not valid ref]
 * link:error-change-upload-blocked.html[One or more refs/for/ names blocks change upload]
 * link:error-permission-denied.html[Permission denied (publickey)]

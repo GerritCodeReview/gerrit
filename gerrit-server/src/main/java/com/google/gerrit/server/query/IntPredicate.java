@@ -39,6 +39,8 @@ public abstract class IntPredicate<T> extends OperatorPredicate<T> {
 
   @Override
   public boolean equals(final Object other) {
+    if (other == null)
+      return false;
     if (getClass() == other.getClass()) {
       final IntPredicate<?> p = (IntPredicate<?>) other;
       return getOperator().equals(p.getOperator())

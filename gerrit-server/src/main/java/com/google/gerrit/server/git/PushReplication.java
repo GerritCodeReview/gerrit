@@ -414,7 +414,8 @@ public class PushReplication implements ReplicationQueue {
 
       // It locks access to pending variable.
       synchronized (pending) {
-        PushOp pendingPushOp = pending.get(pushOp.getURI());
+        URIish uri = pushOp.getURI();
+        PushOp pendingPushOp = pending.get(uri);
 
         if (pendingPushOp != null) {
           // There is one PushOp instance already pending to same URI.
@@ -447,7 +448,7 @@ public class PushReplication implements ReplicationQueue {
             // pending list and it will not execute its run implementation.
 
             pendingPushOp.cancel();
-            pending.remove(pendingPushOp);
+            pending.remove(uri);
 
             pushOp.addRefs(pendingPushOp.getRefs());
           }
@@ -459,7 +460,7 @@ public class PushReplication implements ReplicationQueue {
 
           pushOp.setToRetry();
 
-          pending.put(pushOp.getURI(), pushOp);
+          pending.put(uri, pushOp);
           pool.schedule(pushOp, retryDelay, TimeUnit.MINUTES);
         }
       }

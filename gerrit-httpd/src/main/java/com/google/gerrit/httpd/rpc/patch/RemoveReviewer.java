@@ -57,7 +57,6 @@ class RemoveReviewer extends Handler<ReviewerResult> {
   @Override
   public ReviewerResult call() throws Exception {
     ReviewerResult result = new ReviewerResult();
-    List<Account.Id> accounts = new ArrayList<Account.Id>();
     ChangeControl ctl = changeControlFactory.validateFor(changeId);
     boolean permitted = true;
 

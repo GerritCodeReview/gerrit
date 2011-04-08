@@ -75,6 +75,7 @@ public interface ChangeConstants extends Constants {
   String changeScreenDependsOn();
   String changeScreenNeededBy();
   String changeScreenComments();
+  String changeScreenLabels();
 
   String approvalTableReviewer();
   String approvalTableAddReviewer();
@@ -142,4 +143,6 @@ public interface ChangeConstants extends Constants {
 
   String buttonDiffAllSideBySide();
   String buttonDiffAllUnified();
+
+  String buttonAddLabel();
 }

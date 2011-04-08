@@ -82,6 +82,7 @@ public interface GerritCss extends CssResource {
   String coverMessage();
   String dataCell();
   String dataHeader();
+  String deleteLabelButton();
   String diffLinkCell();
   String diffText();
   String diffTextCONTEXT();
@@ -137,6 +138,7 @@ public interface GerritCss extends CssResource {
   String infoTable();
   String inputFieldTypeHint();
   String keyhelp();
+  String labelsPanel();
   String leftMostCell();
   String lineHeader();
   String lineNumber();

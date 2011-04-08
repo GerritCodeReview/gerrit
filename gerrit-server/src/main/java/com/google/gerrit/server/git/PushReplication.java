@@ -122,7 +122,12 @@ public class PushReplication implements ReplicationQueue {
   private static String replace(final String pat, final String key,
       final String val) {
     final int n = pat.indexOf("${" + key + "}");
-    return pat.substring(0, n) + val + pat.substring(n + 3 + key.length());
+
+    if (n != -1) {
+      return pat.substring(0, n) + val + pat.substring(n + 3 + key.length());
+    } else {
+      return null;
+    }
   }
 
   private List<ReplicationConfig> allConfigs(final SitePaths site)
@@ -162,7 +167,8 @@ public class PushReplication implements ReplicationQueue {
         }
       }
 
-      // In case if refspec destination for push is not set then we assume it is equal to source
+      // In case if refspec destination for push is not set then we assume it is
+      // equal to source
       for (RefSpec ref : c.getPushRefSpecs()) {
         if (ref.getDestination() == null) {
           ref.setDestination(ref.getSource());
@@ -208,9 +214,39 @@ public class PushReplication implements ReplicationQueue {
 
     for (ReplicationConfig config : configs) {
       List<URIish> uriList = config.getURIs(projectName, "*");
+      String[] adminUrls = config.getAdminUrls();
+      boolean adminURLUsed = false;
 
-      for (URIish uri : uriList) {
-        replicateProject(uri, head);
+      for (String url : adminUrls) {
+        URIish adminURI = null;
+        try {
+          if (url != null && !url.isEmpty()) {
+            adminURI = new URIish(url);
+          }
+        } catch (URISyntaxException e) {
+          log.error("The URL '" + url + "' is invalid");
+        }
+
+        if (adminURI != null) {
+          final String replacedPath =
+              replace(adminURI.getPath(), "name", projectName.get());
+          if (replacedPath != null) {
+            adminURI = adminURI.setPath(replacedPath);
+            if (usingSSH(adminURI)) {
+              replicateProject(adminURI, head);
+              adminURLUsed = true;
+            } else {
+              log.error("The adminURL '" + url
+                  + "' is non-SSH which is not allowed");
+            }
+          }
+        }
+      }
+
+      if (!adminURLUsed) {
+        for (URIish uri : uriList) {
+          replicateProject(uri, head);
+        }
       }
     }
   }
@@ -296,6 +332,7 @@ public class PushReplication implements ReplicationQueue {
 
   static class ReplicationConfig {
     private final RemoteConfig remote;
+    private final String[] adminUrls;
     private final int delay;
     private final int retryDelay;
     private final WorkQueue.Executor pool;
@@ -324,6 +361,8 @@ public class PushReplication implements ReplicationQueue {
       } else {
         authGroups = ReplicationUser.EVERYTHING_VISIBLE;
       }
+
+      adminUrls = cfg.getStringList("remote", rc.getName(), "adminUrl");
 
       final ReplicationUser remoteUser =
           replicationUserFactory.create(authGroups);
@@ -492,11 +531,19 @@ public class PushReplication implements ReplicationQueue {
       final List<URIish> r = new ArrayList<URIish>(remote.getURIs().size());
       for (URIish uri : remote.getURIs()) {
         if (matches(uri, urlMatch)) {
-          uri = uri.setPath(replace(uri.getPath(), "name", project.get()));
-          r.add(uri);
+          final String replacedPath =
+              replace(uri.getPath(), "name", project.get());
+          if (replacedPath != null) {
+            uri = uri.setPath(replacedPath);
+            r.add(uri);
+          }
         }
       }
       return r;
+    }
+
+    String[] getAdminUrls() {
+      return this.adminUrls;
     }
 
     private boolean matches(URIish uri, final String urlMatch) {

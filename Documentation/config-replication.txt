@@ -93,6 +93,19 @@ to be replicated.
 See link:http://www.kernel.org/pub/software/scm/git/docs/git-push.html#URLS[GIT URLS]
 for details on Git URL syntax.
 
+[[remote.name.url]]remote.<name>.adminUrl::
++
+Address of the alternative remote server only for repository creation.  Multiple URLs may
+be specified within a single remote block, listing different
+destinations which share the same settings.
++
+The adminUrl can be used as a ssh alternative to the url option, but only related to repository creation.
+If not specified, the repository creation tries to follow the default way through the url value specified.
++
+It is useful when remote.<name>.url protocols does not allow repository creation
+although their usage are mandatory in the local environment.
+In that case, an alternative ssh url could be specified to repository creation.
+
 [[remote.name.receivepack]]remote.<name>.receivepack::
 +
 Path of the `git-receive-pack` executable on the remote system, if

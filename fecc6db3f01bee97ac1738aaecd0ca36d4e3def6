@@ -139,6 +139,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/n///Ks\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-08T20:34:54Z",
+      "side": 1,
+      "message": "Rebase onto current master. Edwin moved the NoSuchGroupException type in commit ff2438231fcb4ddb431e20ff3f171568e60f8538.",
+      "parentUuid": "AAAA/n///O4\u003d",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n///aY\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupDetailFactory.java",
         "patchSetId": 3

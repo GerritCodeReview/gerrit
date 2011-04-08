@@ -121,6 +121,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/n///PQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/constraints/Allow.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-04-08T15:06:42Z",
+      "side": 1,
+      "message": "Reading the rules you wrote it looks like what we call allowedRef you call\nref and what we call ref you call allowedRef. Before continuing I would like\nto clarify that:\n- allowedRef is what comes from \"access\" section in the gerrit.config file\n- ref is what user types in the project access screen\n\nBasically, we assumed that both allowedRef and ref could be any of\n{ref, glob, regex} which gives 9 possible combinations:\n{ref, glob, regex} x  {ref, glob, regex}.\n\nTheoretically, we could implement this method with just one line:\n\n return isSuperSet(toAutomaton(toRegExp(allowedref)), toAutomaton(toRegExp(ref)));\n\nwhere isSuperSet(a1, a2) checks if the language of the automaton a1 is a\nsuperset of the language of the automaton a2.\nFor, performance reasons we avoid conversion to regex and automaton wherever\npossible.\n\nDo you think that the implementation of the isSuperSet is not correct?\n\n\n\u003e Instead we say something like:\n\nAssuming, here you think that allowedRef is what user entered and ref is\nwhat comes from gerrit.config.\n\n\u003e If ref is regexp, get the shortest example. See if allowedRef matches that. If it does, this rule applies.\n\n\u003e If ref is a glob (ends with \"/*\"), see if allowedRef startsWith ref minus the trailing *.\n\nWe do that in lines 64-65\n\n\u003e Otherwise, allowedRef has to equal ref to match.\n\nWe do that in line 68\n\nAbout the 1st rule: basically you are saying that for any two regular\nexpressions r1 and r2:\n\n r2.matches(shortestExample(r1)) implies r1 isSuperSetOf r2\n\nIs there a proof for that?\n\n\u003e Equality on a regex is really tricky. That\u0027s why we do it this way.\n\nI am really curios to find out what is incorrect in the isSuperSet implementation.",
+      "parentUuid": "AAAA/n///Yc\u003d",
+      "revId": "ccdf633054c4f10127c5df7aaaf2651acb8ce60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n///Ys\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/constraints/Allow.java",
         "patchSetId": 2

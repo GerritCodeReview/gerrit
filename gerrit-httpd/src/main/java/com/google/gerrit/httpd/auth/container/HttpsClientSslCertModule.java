@@ -21,5 +21,6 @@ public class HttpsClientSslCertModule extends ServletModule {
   @Override
   protected void configureServlets() {
     filter("/").through(HttpsClientSslCertAuthFilter.class);
+    serve("/login/*").with(HttpsClientSslCertLoginServlet.class);
   }
 }

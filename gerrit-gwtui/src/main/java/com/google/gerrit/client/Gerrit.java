@@ -207,6 +207,7 @@ public class Gerrit implements EntryPoint {
     switch (myConfig.getAuthType()) {
       case HTTP:
       case HTTP_LDAP:
+      case CLIENT_SSL_CERT_LDAP:
         Location.assign(Location.getPath() + "login/" + token);
         break;
 

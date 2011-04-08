@@ -52,6 +52,24 @@
       "revId": "c279f008b4d1aeb9f653550ef63179167ee2d962",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///SI\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-08T03:01:56Z",
+      "side": 1,
+      "message": "Yea I don\u0027t want to insert this limit here just to cater to MySQL. It would be better to make this limit unique to MySQL, or avoid it altogether by switching to some sort of surrogate key to shrink the column width.",
+      "parentUuid": "AAAA/H//+9A\u003d",
+      "revId": "c279f008b4d1aeb9f653550ef63179167ee2d962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

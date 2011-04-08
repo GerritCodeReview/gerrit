@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/n///RM\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GroupAdminService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-04-08T08:47:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA/n///YQ\u003d",
+      "revId": "945200c6761ae3cf0de11680914b08b29430383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n///YM\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-04-07T23:10:42Z",
       "side": 1,
       "message": "I would prefer to combine this with the above loop. Make the above loop use this for construct so it iterates all groups, and then on the if (c.isOwner()) line also add a || c.isVisible(). Move the isVisibleToAll check into the GroupControl.isVisible method.",
+      "revId": "945200c6761ae3cf0de11680914b08b29430383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///RY\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-04-08T08:47:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA/n///YM\u003d",
       "revId": "945200c6761ae3cf0de11680914b08b29430383a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/n///RU\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-04-08T08:47:03Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "AAAA/n///YI\u003d",
+      "revId": "945200c6761ae3cf0de11680914b08b29430383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n///YE\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_48.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2011-04-07T23:10:42Z",
       "side": 1,
       "message": "This shouldn\u0027t be necessary. gwtorm should add the new column and initialize it to false by default.",
+      "revId": "945200c6761ae3cf0de11680914b08b29430383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n///RQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_48.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-04-08T08:47:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA/n///YE\u003d",
       "revId": "945200c6761ae3cf0de11680914b08b29430383a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.ApprovalCategory;
+import com.google.gerrit.reviewdb.ChangeLabel;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
@@ -113,6 +114,7 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
   private final ApprovalCategory category;
   private final String permissionName;
   private final int expVal;
+  private String labelValue;
 
   LabelPredicate(ChangeControl.GenericFactory ccFactory,
       IdentifiedUser.GenericFactory userFactory, Provider<ReviewDb> dbProvider,
@@ -138,6 +140,7 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
       category = category(types, value);
       test = Test.EQ;
       expVal = 1;
+      this.labelValue = value;
     }
 
     this.permissionName = Permission.forLabel(category.getLabelName());
@@ -145,6 +148,13 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
 
   @Override
   public boolean match(final ChangeData object) throws OrmException {
+    if (labelValue != null) {
+      if (object.currentLabels(dbProvider).contains(
+          new ChangeLabel(object.getId(), labelValue))) {
+        return true;
+      }
+    }
+
     for (PatchSetApproval p : object.currentApprovals(dbProvider)) {
       if (p.getCategoryId().equals(category.getId())) {
         int psVal = p.getValue();

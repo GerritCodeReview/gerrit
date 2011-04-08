@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ChangeLabel;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -47,6 +48,7 @@ public class ChangeData {
   private Collection<PatchLineComment> comments;
   private Collection<TrackingId> trackingIds;
   private CurrentUser visibleTo;
+  private Collection<ChangeLabel> currentLabels;
 
   public ChangeData(final Change.Id id) {
     legacyId = id;
@@ -149,6 +151,19 @@ public class ChangeData {
       }
     }
     return currentApprovals;
+  }
+
+  public Collection<ChangeLabel> currentLabels(Provider<ReviewDb> db)
+      throws OrmException {
+    if (currentLabels == null) {
+      Change c = change(db);
+      if (c == null) {
+        currentLabels = Collections.emptyList();
+      } else {
+        currentLabels = db.get().changeLabels().byChange(c.getId()).toList();
+      }
+    }
+    return currentLabels;
   }
 
   public Collection<PatchSetApproval> approvalsFor(Provider<ReviewDb> db,

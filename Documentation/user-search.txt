@@ -159,8 +159,8 @@ system's issue identifier.
 label:'VALUE'::
 +
 Matches changes where the approval score 'VALUE' has been set during
-a review.  See <<labels,labels>> below for more detail on the format
-of the argument.
+a review or changes where arbitrary label 'VALUE' was defined. See
+<<labels,labels>> below for more detail on the format of the argument.
 
 [[message]]
 message:'MESSAGE'::
@@ -290,8 +290,9 @@ that are returned, as more changes are considered.
 Labels
 ------
 Label operators can be used to match approval score given during
-a code review.  The specific set of supported labels depends on
-the server configuration, however `CodeReview` and `Verified`
+a code review or to match arbitrary label tied to changes.
+The specific set of supported labels depends on the server
+configuration, however `CodeReview` and `Verified`
 are the default labels provided out of the box.
 
 A label name is any of the following:
@@ -307,8 +308,10 @@ A label name is any of the following:
 * The one or two character abbreviation shown in the column header
   of change list pages.  Example: `label:R` or `label:V`.
 
-A label name must be followed by a score, or an operator and a score.
-The easiest way to explain these are by example.
+* An arbitrary label tied to change. Example: `label:ILikeThis`.
+
+When searching for approvals a label name must be followed by a score, or
+an operator and a score. The easiest way to explain these are by example.
 
 `label:CodeReview=2`::
 `label:CodeReview=+2`::

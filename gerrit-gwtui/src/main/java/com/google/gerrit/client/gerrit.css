@@ -762,6 +762,25 @@
   white-space: nowrap;
 }
 
+.labelsPanel {
+  margin-bottom: 10px;
+  margin-left: none;
+  background: trimColor;
+  white-space: nowrap;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.deleteLabelButton {
+  cursor: hand;
+  cursor: pointer;
+  border: none;
+}
+
+.deleteLabelButton:hover {
+  border: none;
+}
+
 .patchSetRevision {
   padding-left: 20px;
   font-size: 8pt;

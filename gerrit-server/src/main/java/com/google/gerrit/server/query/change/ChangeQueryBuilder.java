@@ -78,9 +78,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_LIMIT = "limit";
   public static final String FIELD_MESSAGE = "message";
   public static final String FIELD_OWNER = "owner";
+  public static final String FIELD_OWNERIN = "ownerin";
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_REF = "ref";
   public static final String FIELD_REVIEWER = "reviewer";
+  public static final String FIELD_REVIEWERIN = "reviewerin";
   public static final String FIELD_STARREDBY = "starredby";
   public static final String FIELD_STATUS = "status";
   public static final String FIELD_TOPIC = "topic";
@@ -383,6 +385,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
+  public Predicate<ChangeData> ownerin(String group) throws QueryParseException,
+      OrmException {
+    AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(group));
+    if (g == null) {
+      throw error("Group " + group + " not found");
+    }
+    return new OwnerinPredicate(args.dbProvider, args.userFactory, g.getId());
+  }
+
+  @Operator
   public Predicate<ChangeData> reviewer(String who)
       throws QueryParseException, OrmException {
     Set<Account.Id> m = args.accountResolver.findAll(who);
@@ -398,6 +410,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       }
       return Predicate.or(p);
     }
+  }
+
+  @Operator
+  public Predicate<ChangeData> reviewerin(String group)
+      throws QueryParseException, OrmException {
+    AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(group));
+    if (g == null) {
+      throw error("Group " + group + " not found");
+    }
+    return new ReviewerinPredicate(args.dbProvider, args.userFactory, g.getId());
   }
 
   @Operator

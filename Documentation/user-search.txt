@@ -77,10 +77,20 @@ owner:'USER'::
 +
 Changes originally submitted by 'USER'.
 
+[[ownerin]]
+ownerin:'GROUP'::
++
+Changes originally submitted by a user in 'GROUP'.
+
 [[reviewer]]
 reviewer:'USER'::
 +
 Changes that have been, or need to be, reviewed by 'USER'.
+
+[[reviewerin]]
+reviewerin:'GROUP'::
++
+Changes that have been, or need to be, reviewed by a user in 'GROUP'.
 
 [[commit]]
 commit:'SHA1'::

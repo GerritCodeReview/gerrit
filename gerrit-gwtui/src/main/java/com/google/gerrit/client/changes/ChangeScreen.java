@@ -18,6 +18,7 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.LabelsEditor;
 import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ExpandAllCommand;
@@ -31,6 +32,7 @@ import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.ToggleStarRequest;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ChangeLabel;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Change.Status;
@@ -56,6 +58,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -86,6 +89,8 @@ public class ChangeScreen extends Screen {
 
   private Grid patchesGrid;
   private ListBox patchesList;
+  private DisclosurePanel labelsPanel;
+  private LabelsEditor labelsEditor;
 
   /**
    * The change id for which the old version history is valid.
@@ -219,6 +224,11 @@ public class ChangeScreen extends Screen {
     includedInPanel.setContent(includedInTable);
     add(includedInPanel);
 
+    labelsEditor = new LabelsEditor(changeId);
+    labelsPanel = new DisclosurePanel(Util.C.changeScreenLabels());
+    labelsPanel.setContent(labelsEditor);
+    add(labelsPanel);
+
     dependencies = new ChangeTable() {
       {
         table.setWidth("auto");
@@ -342,6 +352,10 @@ public class ChangeScreen extends Screen {
         }
       }
     }
+
+    labelsEditor.display(
+        new ArrayList<ChangeLabel.LabelKey>(detail.getLabels()), detail
+            .canEditLabels());
 
     dependenciesPanel.setOpen(depsOpen);
     if (outdated > 0) {

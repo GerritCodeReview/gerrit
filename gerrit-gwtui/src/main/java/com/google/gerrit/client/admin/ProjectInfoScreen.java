@@ -153,7 +153,7 @@ public class ProjectInfoScreen extends ProjectScreen {
       useContentMerge.setEnabled(false);
       useContentMerge.setValue(false);
     } else {
-      useContentMerge.setEnabled(true);
+      useContentMerge.setEnabled(submitType.isEnabled());
     }
   }
 

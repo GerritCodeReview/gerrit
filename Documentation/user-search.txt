@@ -44,7 +44,12 @@ Search Operators
 
 Operators act as restrictions on the search.  As more operators
 are added to the same query string, they further restrict the
-returned results.
+returned results. Search can also be performed by typing only a
+text with no operator. It will try to match a project name by
+substring.
+
+E.g. Searching for just "gerrit is:starred" will try to match a
+project name by "gerrit" as substring.
 
 [[age]]
 age:'AGE'::
@@ -85,7 +90,7 @@ Changes where 'SHA1' is one of the patch sets of the change.
 [[project]]
 project:'PROJECT'::
 +
-Changes occuring in 'PROJECT'.  If 'PROJECT' starts with `^` it
+Changes occuring in 'PROJECT'. If 'PROJECT' starts with `^` it
 matches project names by regular expression.
 
 [[branch]]

@@ -41,6 +41,8 @@ public class AuthConfig {
   private final String logoutUrl;
   private final List<OpenIdProviderPattern> trustedOpenIDs;
   private final List<OpenIdProviderPattern> allowedOpenIDs;
+  private final String cookiePath;
+  private final boolean cookieSecure;
   private final SignedToken emailReg;
 
   private final AccountGroup.Id administratorGroup;
@@ -58,6 +60,8 @@ public class AuthConfig {
     logoutUrl = cfg.getString("auth", null, "logouturl");
     trustedOpenIDs = toPatterns(cfg, "trustedOpenID");
     allowedOpenIDs = toPatterns(cfg, "allowedOpenID");
+    cookiePath = cfg.getString("auth", null, "cookiepath");
+    cookieSecure = cfg.getBoolean("auth", "cookiesecure", false);
     emailReg = new SignedToken(5 * 24 * 60 * 60, s.registerEmailPrivateKey);
 
     final HashSet<AccountGroup.Id> r = new HashSet<AccountGroup.Id>(2);
@@ -104,6 +108,14 @@ public class AuthConfig {
 
   public String getLogoutURL() {
     return logoutUrl;
+  }
+
+  public String getCookiePath() {
+    return cookiePath;
+  }
+
+  public boolean getCookieSecure() {
+    return cookieSecure;
   }
 
   public SignedToken getEmailRegistrationToken() {

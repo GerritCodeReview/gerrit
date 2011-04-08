@@ -182,6 +182,19 @@ when auth.type is `LDAP`.
 +
 If not set, no "Register" link is displayed.
 
+[[auth.cookiePath]]auth.cookiePath::
++
+Sets "path" attribute of the authentication cookie.
++
+If not set, HTTP request's path is used.
+
+[[auth.cookieSecure]]auth.cookieSecure::
++
+Sets "secure" flag of the authentication cookie.  If true, cookies
+will be transmitted only over HTTPS protocol.
++
+By default, false.
+
 [[auth.emailFormat]]auth.emailFormat::
 +
 Optional format string to construct user email addresses out of

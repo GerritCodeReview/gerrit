@@ -225,6 +225,40 @@ class GitWebServlet extends HttpServlet {
         p.print("}\n");
       }
 
+      // Link back to Gerrit (when possible, to matching review record).
+      // Supported Gitweb's hash values are:
+      // - (missing),
+      // - HEAD,
+      // - refs/heads/<branch>,
+      // - refs/changes/*/<change>/*,
+      // - <revision>.
+      //
+      p.print("sub add_review_link {\n");
+      p.print("  my $h = shift;\n");
+      p.print("  my $q;\n");
+      p.print("  if (!$h || $h eq 'HEAD') {\n");
+      p.print("    $q = qq{#q,project:$ENV{'GERRIT_PROJECT_NAME'},n,z};\n");
+      p.print("  } elsif ($h =~ /^refs\\/heads\\/([-\\w]+)$/) {\n");
+      p.print("    $q = qq{#q,project:$ENV{'GERRIT_PROJECT_NAME'}");
+      p.print("+branch:$1,n,z};\n"); // wrapped
+      p.print("  } elsif ($h =~ /^refs\\/changes\\/\\d{2}\\/(\\d+)\\/\\d+$/) ");
+      p.print("{\n"); // wrapped
+      p.print("    $q = qq{#change,$1};\n");
+      p.print("  } else {\n");
+      p.print("    $q = qq{#q,$h,n,z};\n");
+      p.print("  }\n");
+      p.print("  my $r = qq{$ENV{'GERRIT_CONTEXT_PATH'}$q};\n");
+      p.print("  push @{$feature{'actions'}{'default'}},\n");
+      p.print("      ('review',$r,'commitdiff');\n");
+      p.print("}\n");
+      p.print("if ($cgi->param('hb')) {\n");
+      p.print("  add_review_link($cgi->param('hb'));\n");
+      p.print("} elsif ($cgi->param('h')) {\n");
+      p.print("  add_review_link($cgi->param('h'));\n");
+      p.print("} else {\n");
+      p.print("  add_review_link();\n");
+      p.print("}\n");
+
       // If the administrator has created a site-specific gitweb_config,
       // load that before we perform any final overrides.
       //
@@ -238,20 +272,6 @@ class GitWebServlet extends HttpServlet {
 
       final File root = repoManager.getBasePath();
       p.print("$projectroot = " + quoteForPerl(root) + ";\n");
-
-      // Link from commits to their matching review record.
-      //
-      p.print("if ($cgi->param('a') =~ /^(commit|commitdiff)$/) {\n");
-      p.print("  my $h = $cgi->param('h');\n");
-      p.print("  my $r = qq{$ENV{'GERRIT_CONTEXT_PATH'}#q,$h,n,z};");
-      p.print("  push @{$feature{'actions'}{'default'}},\n");
-      p.print("    ('review',$r,'commitdiff');\n");
-      p.print("} elsif ($cgi->param('a') =~ /^(tree|blob)$/) {\n");
-      p.print("  my $h = $cgi->param('hb');\n");
-      p.print("  my $r = qq{$ENV{'GERRIT_CONTEXT_PATH'}#q,$h,n,z};");
-      p.print("  push @{$feature{'actions'}{'default'}},\n");
-      p.print("    ('review',$r,'commitdiff');\n");
-      p.print("}\n");
 
       // Permit exporting only the project we were started for.
       // We use the name under $projectroot in case symlinks

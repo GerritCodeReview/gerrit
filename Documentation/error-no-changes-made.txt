@@ -1,0 +1,19 @@
+no changes made
+===============
+
+With this error message Gerrit rejects to push a commit as a new
+patch set for a change, if the pushed commit is identical with the
+current patch set of this change.
+
+A pushed commit is considered to be identical with the current patch
+set if
+- the files in the commit,
+- the commit message,
+- the author of the commit and
+- the parents of the commit
+are all identical.
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

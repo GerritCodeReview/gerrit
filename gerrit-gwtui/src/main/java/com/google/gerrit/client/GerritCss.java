@@ -139,6 +139,8 @@ public interface GerritCss extends CssResource {
   String inputFieldTypeHint();
   String keyhelp();
   String labelsPanel();
+  String labelValueCell();
+  String labelDeleteCell();
   String leftMostCell();
   String lineHeader();
   String lineNumber();

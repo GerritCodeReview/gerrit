@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc.account;
 
 import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.GroupDetail;
+import com.google.gerrit.common.data.GroupOptions;
 import com.google.gerrit.common.errors.InactiveAccountException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchAccountException;
@@ -80,7 +81,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     this.groupDetailFactory = groupDetailFactory;
   }
 
-  public void ownedGroups(final AsyncCallback<List<AccountGroup>> callback) {
+  public void visibleGroups(final AsyncCallback<List<AccountGroup>> callback) {
     run(callback, new Action<List<AccountGroup>>() {
       public List<AccountGroup> run(ReviewDb db) throws OrmException {
         final IdentifiedUser user = identifiedUser.get();
@@ -88,22 +89,11 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         if (user.isAdministrator()) {
           result = db.accountGroups().all().toList();
         } else {
-          final HashSet<AccountGroup.Id> seen = new HashSet<AccountGroup.Id>();
           result = new ArrayList<AccountGroup>();
-          for (final AccountGroup.Id myGroup : user.getEffectiveGroups()) {
-            for (AccountGroup group : db.accountGroups().ownedByGroup(myGroup)) {
-              final AccountGroup.Id id = group.getId();
-              if (!seen.add(id)) {
-                continue;
-              }
-              try {
-                GroupControl c = groupControlFactory.controlFor(id);
-                if (c.isOwner()) {
-                  result.add(c.getAccountGroup());
-                }
-              } catch (NoSuchGroupException e) {
-                continue;
-              }
+          for(final AccountGroup group : db.accountGroups().all().toList()) {
+            final GroupControl c = groupControlFactory.controlFor(group);
+            if (c.isVisible()) {
+              result.add(c.getAccountGroup());
             }
           }
         }
@@ -134,6 +124,20 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         final AccountGroup group = db.accountGroups().get(groupId);
         assertAmGroupOwner(db, group);
         group.setDescription(description);
+        db.accountGroups().update(Collections.singleton(group));
+        groupCache.evict(group);
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  public void changeGroupOptions(final AccountGroup.Id groupId,
+      final GroupOptions groupOptions, final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+        final AccountGroup group = db.accountGroups().get(groupId);
+        assertAmGroupOwner(db, group);
+        group.setVisibleToAll(groupOptions.isVisibleToAll());
         db.accountGroups().update(Collections.singleton(group));
         groupCache.evict(group);
         return VoidResult.INSTANCE;

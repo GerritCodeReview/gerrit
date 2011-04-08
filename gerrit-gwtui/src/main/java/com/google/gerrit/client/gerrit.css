@@ -769,6 +769,15 @@
   white-space: nowrap;
   padding-top: 2px;
   padding-bottom: 2px;
+  width: 100%;
+}
+
+.labelValueCell {
+  width: 95%;
+}
+
+.labelDeleteCell {
+  width: 5%;	
 }
 
 .deleteLabelButton {

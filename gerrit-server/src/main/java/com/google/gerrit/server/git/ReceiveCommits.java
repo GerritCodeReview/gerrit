@@ -1541,6 +1541,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     final PersonIdent committer = c.getCommitterIdent();
     final PersonIdent author = c.getAuthorIdent();
 
+    // Require permission to upload merges.
+    if (c.getParentCount() > 1 && !ctl.canUploadMerges()) {
+      reject(cmd, "you are not allowed to upload merges");
+      return false;
+    }
+
     // Don't allow the user to amend a merge created by Gerrit Code Review.
     // This seems to happen all too often, due to users not paying any
     // attention to what they are doing.

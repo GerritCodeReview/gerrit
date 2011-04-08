@@ -324,9 +324,9 @@ is already restricted to the correct set of users.
 Upload Access
 ~~~~~~~~~~~~~
 
-The `Read Access +2` permits the user to upload a commit to the
-project's `refs/for/BRANCH` namespace, creating a new change for
-code review.
+The `Read Access +2` permits the user to upload a non-merge commit
+to the project's `refs/for/BRANCH` namespace, creating a new change
+for code review.
 
 Rather than place this permission in its own category, its chained
 into the Read Access category as a higher level of access.  A user
@@ -339,6 +339,15 @@ For an open source, public Gerrit installation, it is common to
 grant `Read Access +1..+2` to `Registered Users` in the `\-- All
 Projects \--` ACL.  For more private installations, its common to
 simply grant `Read Access +1..+2` to all users of a project.
+
+[[category_READ_3]]
+Upload Merge Access
+~~~~~~~~~~~~~~~~~~~
+The `Read Access +3` permits the user to upload merge commits, but is
+otherwise identical to `Read Access +2`. Some projects wish to
+restrict merges to being created by Gerrit. By granting,
+`Read Access +1..+2`, the only merges that enter the system will be
+those created by Gerrit, or those pushed directly.
 
 [[category_pTAG]]
 Push Tag

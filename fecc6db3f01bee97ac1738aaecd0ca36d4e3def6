@@ -121,6 +121,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/n///O4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1003080
+      },
+      "writtenOn": "2011-04-08T16:54:52Z",
+      "side": 1,
+      "message": "It lives in a different namespace than the NoSuchEntityException and NoSuchAccountException classes do, and appears to be used for internal communication of errors, instead of reporting problems up to the UI like those classes are.  I can certainly put it in, but making GerritCallback handle it well looks like it will involve changing things around a bit.  Can you comment on the right thing to do here?",
+      "parentUuid": "AAAA/n///m8\u003d",
+      "revId": "fecc6db3f01bee97ac1738aaecd0ca36d4e3def6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n///aY\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupDetailFactory.java",
         "patchSetId": 3

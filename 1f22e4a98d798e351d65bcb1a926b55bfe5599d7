@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/n//+7g\u003d",
+        "filename": "Documentation/cmd-create-project.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-11T18:41:18Z",
+      "side": 1,
+      "message": "Unfortunately I think this should be changed to be the parent project whose name is a prefix of the newly created project name.",
+      "revId": "1f22e4a98d798e351d65bcb1a926b55bfe5599d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+7o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_48.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-11T18:41:18Z",
+      "side": 1,
+      "message": "Please rebase onto current master, I\u0027m pretty sure we\u0027re past 48 at this point.",
+      "revId": "1f22e4a98d798e351d65bcb1a926b55bfe5599d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+8A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-11T18:41:18Z",
+      "side": 1,
+      "message": "The problem with this default of Administrators is a user might lock themselves out of a project they created if they have Create Project permission but forget to supply the -o option.\n\nI think the default shouldn\u0027t be Administrators, but instead the group that gave the user permission to create this project. If the user has access through a Create Project RefRight, then it should be the group of that RefRight. If its because they are in Administrators (there is no Create Project RefRight) then it should be Administrators.\n\nBecause this default is difficult to know in advance, as it depends on what Create Project RefRight was used, we shouldn\u0027t list the default value here.",
+      "revId": "1f22e4a98d798e351d65bcb1a926b55bfe5599d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+7s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-11T18:41:18Z",
+      "side": 1,
+      "message": "-p shouldn\u0027t default to All Projects. It should default to the parent project that has a prefix of the new project name.\n\nIf I have Create Project permission in \"kernel\", then I should be able to just say `gerrit create-project -n kernel/foo` and have it succeed even if I am not a site administrator. Needing to pass -p kernel here is sort of redundant given the rule below that requires projectName to start with the parent project name.\n\nI think we want to take the projectName and look up for a parent project, something like:\n\n  private ProjectControl findParent(String projectName) {\n    if (projectName.lastIndexOf(\u0027/\u0027) !\u003d -1) {\n      String parentName \u003d projectName;\n      while (parentName.lastIndexOf(\u0027/\u0027) !\u003d -1) {\n        int slash \u003d parentName.lastIndexOf(\u0027/\u0027);\n        parentName \u003d parentName.substring(0, slash);\n        try {\n          return projectControlFactory.controlFor(parentName);\n        } catch (NoSuchProjectException e) {\n          continue;\n        }\n      }\n    }\n    return null;\n  }\n\nThen use findParent() to check for the canCreateProject() permission.",
+      "revId": "1f22e4a98d798e351d65bcb1a926b55bfe5599d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+74\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-11T18:41:18Z",
+      "side": 1,
+      "message": "Style-nit: We put a blank line after curly brace and before //.",
+      "revId": "1f22e4a98d798e351d65bcb1a926b55bfe5599d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+78\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-11T18:41:18Z",
+      "side": 1,
+      "message": "There is no reason for this local variable, just inline it in the one use case (the if ! below).",
+      "revId": "1f22e4a98d798e351d65bcb1a926b55bfe5599d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

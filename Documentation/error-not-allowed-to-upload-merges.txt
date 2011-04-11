@@ -1,0 +1,20 @@
+you are not allowed to upload merges
+====================================
+
+With this error message Gerrit rejects to push a merge commit if the
+pushing user has no permissions to upload merge commits for the
+project to which the push is done.
+
+If you need to upload merge commits, you can contact one of the
+project owners and request for this project permissions to upload
+merge commits (access right '+3 Upload merges permission' in the
+link:access-control.html#category_READ['Read Access'] category).
+
+If one of your changes could not be merged in Gerrit due to conflicts
+and you created the merge commit to resolve the conflicts, you might
+want to revert the merge and instead of this do a link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[rebase].
+
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

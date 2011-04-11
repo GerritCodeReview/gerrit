@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/n//+9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-11T17:08:28Z",
+      "side": 1,
+      "message": "Style-nit: Opening brace goes on prior line.",
+      "revId": "bc9d14836a8a577c9c35f2a409d0b56741a4c8fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+9Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_50.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-11T17:08:28Z",
+      "side": 1,
+      "message": "Since you added indexes to the SQL scripts, you need to manually add those indexes yourself during the schema upgrade.",
+      "revId": "bc9d14836a8a577c9c35f2a409d0b56741a4c8fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

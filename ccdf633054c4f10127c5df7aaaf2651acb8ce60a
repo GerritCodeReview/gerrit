@@ -139,6 +139,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/n///B4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/constraints/Allow.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-11T15:26:45Z",
+      "side": 1,
+      "message": "I don\u0027t think there is anything wrong with the isSuperSet implementation. It seems like it should work, assuming the Automaton package implements union correctly. :-)\n\nThere isn\u0027t anything that says this is true:\n\n r2.matches(shortestExample(r1)) implies r1 isSuperSetOf r2\n\nIn fact, its not. Its a bad approximation of isSuperSet(). There are patterns where it is not true. E.g. \"refs/[a]{1,}\" and \"refs/[a-z]{1,}\". The shortest example of the 2nd is \"refs/a\", which matches the 1st. But another example of the 2nd is \"refs/b\", which the 1st does not permit.\n\nSince we also need this logic inside of RefRight, we should pull this all into a utility class somewhere. We should have a uniform behavior of applying regex against regex.",
+      "parentUuid": "AAAA/n///PQ\u003d",
+      "revId": "ccdf633054c4f10127c5df7aaaf2651acb8ce60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n///Ys\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/constraints/Allow.java",
         "patchSetId": 2

@@ -184,8 +184,8 @@ public class ChangeControl {
     return getRefControl().getLabelRanges();
   }
 
-  /** Can this user add and/or delete arbitrary labels to this change? */
-  public boolean canEditArbitraryLabels() {
+  /** Can this user add and/or delete labels to this change? */
+  public boolean canEditChangeLabels() {
     return getRefControl().canLabelChanges();
   }
 

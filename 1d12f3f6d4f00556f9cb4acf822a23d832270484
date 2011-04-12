@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/n//+2M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-12T04:35:21Z",
+      "side": 1,
+      "message": "I\u0027m not sure we want OWN to be inherited like this. ChangeEmail getProjectOwners() uses the collection you are changing to decide who gets email about new changes. If \"kernel/qemu\" has qemu-owners, and \"kernel\" (the parent it inherits from) has \"kernel-owners\" do we really want new changes to be addressed to BOTH groups? I say no.",
+      "revId": "1d12f3f6d4f00556f9cb4acf822a23d832270484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+2I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-12T04:35:21Z",
+      "side": 1,
+      "message": "The resolution of Project Owners in RefControl.resolveOwnerGroups() is the only other user of that owners collection you are changing. And I agree with you here, this is a bug that should be fixed.\n\nI think you need to split the owners collection inside of ProjectState into two different collections: one of local owners for ChangeEmail, and one of all owners (local + inherited) for RefControl.resolveOwnerGroups.\n\nIf there are no local owners, then ChangeEmail should be using the owners of the first parent project that has owners. For example, if we have:\n\n   -- All Projects --\n    |\n   foo  (Owner foo-owners)\n    |\n   foo/bar (Owner bar-owners)\n    |\n  foo/bar/thingy (no owners)\n\nThen the ChangeEmail set should be only bar-owners, while RefControl set should be bar-owners + foo-owners.\n\nA complication here is the inherited owners used by RefControl or ChangeEmail cannot be cached in ProjectState. If the inherited project changed its owner set, all dependents would have to flush in the cache. So *only* the local set can be cached... which we are already doing!\n\nYou need to change the getOwners() accessor method instead to have two variants, one for the email and one for RefControl. And have those dynamically resolve the inherited set as described above.",
+      "revId": "1d12f3f6d4f00556f9cb4acf822a23d832270484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

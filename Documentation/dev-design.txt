@@ -446,43 +446,61 @@ guarantees can be made about latency.
 Scalability
 -----------
 
-Gerrit is designed for an open source project.  Roughly this
-amounts to parameters such as the following:
+Gerrit is designed for a very large scale open source project, or
+large commerical development project.  Roughly this amounts to
+parameters such as the following:
 
 .Design Parameters
 [options="header"]
-|====================================
-|Parameter        | Estimated Maximum
-|Projects         |   500
-|Contributors     | 2,000
-|Changes/Day      |   400
-|Revisions/Change |   2.0
-|Files/Change     |   4
-|Comments/File    |   2
-|Reviewers/Change |   1.0
-|====================================
+|======================================================
+|Parameter        | Default Maximum | Estimated Maximum
+|Projects         |         1,000   | 10,000
+|Contributors     |         1,000   | 50,000
+|Changes/Day      |           100   |  2,000
+|Revisions/Change |            20   |     20
+|Files/Change     |            50   | 16,000
+|Comments/File    |           100   |    100
+|Reviewers/Change |             8   |      8
+|======================================================
 
-CPU Usage
-~~~~~~~~~
+Out of the box, Gerrit will handle the "Default Maxium". Site
+administrators may reconfigure their servers by editing gerrit.config
+to run closer to the estimated maximum if sufficient memory is made
+avaliable to the JVM and the relevant cache.*.memoryLimit variables
+are increased from their defaults.
+
+Discussion
+~~~~~~~~~~
 
 Very few, if any open source projects have more than a handful of
-Git repositories associated with them.  Since Gerrit treats one
-Git repository as a project, an assumed limit of 500 projects
-is reasonable.  Only an operating system distribution project
-would really need to be tracking more than a handful of discrete
-Git repositories.
+Git repositories associated with them.  Since Gerrit treats each
+Git repository as a project, an upper limit of 10,000 projects
+is reasonable.
 
-Almost no open source project has 2,000 contributors over all time,
-let alone on a daily basis.  This figure of 2,000 was WAG'd by
+Almost no open source project has 1,000 contributors over all time,
+let alone on a daily basis.  This default figure of 1,000 was WAG'd by
 looking at PR statements published by cell phone companies picking
 up the Android operating system.  If all of the stated employees in
 those PR statements were working on *only* the open source Android
-repositories, we might reach the 2,000 estimate listed here.  Knowing
+repositories, we might reach the 1,000 estimate listed here.  Knowing
 these companies as being very closed-source minded in the past, it
 is very unlikely all of their Android engineers will be working on
-the open source repository, and thus 2,000 is a very high estimate.
+the open source repository, and thus 1,000 is a very high estimate.
+If a site has more than 1,000 projects, administrators should increase
+link:config-gerrit.html#cache.name.memoryLimit[`cache.projects.memoryLimit`]
+to match.
 
-The estimate of 400 changes per day was WAG'd off some estimates
+The upper maximum of 50,000 contributors is based on existing
+installations that are already handling quite a bit more than the
+default maximum of 1,000 contributors. Given how the user data is
+stored and indexed, supporting 50,000 contributor accounts (or more)
+is easily possible for a server. If a server has more than 1,000
+*active* contributors,
+link:config-gerrit.html#cache.name.memoryLimit[`cache.accounts.memoryLimit`]
+should be increased by the site administrator, if sufficient RAM
+is available to the host JVM.
+
+The estimate of 100 changes per day was WAG'd off some estimates
 originally obtained from Android's development history.  Writing a
 good change that will be accepted through a peer-review process
 takes time.  The average engineer may need 4-6 hours per change just
@@ -491,20 +509,39 @@ additional but equally important tasks such as meetings, interviews,
 training, and eating lunch will often pad the engineer's day out
 such that suitable changes are only posted once a day, or once
 every other day.  For reference, the entire Linux kernel has an
-average of only 79 changes/day.
+average of only 79 changes/day. If more than 100 changes are active
+per day, site administrators should consider increasing the
+link:config-gerrit.html#cache.name.memoryLimit[`cache.diff.memoryLimit`]
+and `cache.diff_intraline.memoryLimit`.
 
-The estimate of 2 revisions/change means that on average any
-given change will need to be modified once to address peer review
-comments before the final revision can be accepted by the project.
-Executing these revisions also eats into the contributor's time,
-and is another factor limiting the number of changes/day accepted
-by the Gerrit instance.
+On average any given change will need to be modified once to address
+peer review comments before the final revision can be accepted by the
+project.  Executing these revisions also eats into the contributor's
+time, and is another factor limiting the number of changes/day
+accepted by the Gerrit instance.  However, even though this implies
+only 2 revisions/change, many existing Gerrit installations have seen
+20 or more revisions/change, when new contributors are learning the
+project's style and conventions.
 
-The estimate of 1 reviewer/change means that on average only one
-person will comment on a change.  Usually this would be the project
-lead, or someone who is familiar with the code being modified.
-The time required to comment further reduces the time available
-for writing one's own changes.
+On average, each change will have 2 reviewers, a human and an
+automated test bed system.  Usually this would be the project lead, or
+someone who is familiar with the code being modified.  The time
+required to comment further reduces the time available for writing
+one's own changes.  However, existing Gerrit installations have seen 8
+or more reviewers frequently show up on changes that impact many
+functional areas, and therefore it is reasonable to expect 8 or more
+reviewers to be able to work together on a single change.
+
+Existing installations have successfully processed change reviews in
+excess of 16,000 files per change. However, since 16,000 files is a
+massive amount of code to review, it is more typical to see less than
+10 files modified in any given change. Changes larger than 10 files
+are typically merges, for example integrating the latest version of an
+upstream dependency, where the reviewer has little to do than to test
+the project compiles and passes a test suite.
+
+CPU Usage - Web UI
+~~~~~~~~~~~~~~~~~~
 
 Gerrit's web UI would require on average `4+F+F*C` HTTP requests to
 review a change and post comments.  Here `F` is the number of files
@@ -514,38 +551,76 @@ to load the reviewer's dashboard, to load the change detail page,
 to publish the review comments, and to reload the change detail
 page after comments are published.
 
-This WAG'd estimate boils down to <12,800 HTTP requests per day
+This WAG'd estimate boils down to 216,000 HTTP requests per day
 (QPD). Assuming these are evenly distributed over an 8 hour work day
-in a single time zone, we are looking at approximately 0.43 queries
+in a single time zone, we are looking at approximately 7.5 queries
 per second (QPS).
 
 ----
-  QPD = Changes_Day * Revisions_Change * Reviewers_Change * (4 + F + F * C)
-      = 400         * 2.0              * 1.0              * (4 + 4 + 4 * 2)
-      = 12,800
+  QPD = Changes_Day * Revisions_Change * Reviewers_Change * (4 +  F +  F * C)
+      = 2,000       * 2                * 1                * (4 + 10 + 10 * 4)
+      = 216,000
   QPS = QPD / 8_Hours / 60_Minutes / 60_Seconds
-      = 0.43
+      = 7.5
 ----
 
 Gerrit serves most requests in under 60 ms when using the loopback
 interface and a single processor.  On a single CPU system there is
 sufficient capacity for 16 QPS.  A dual processor system should be
-sufficient for a site with the estimated load described above.
+more than sufficient for a site with the estimated load described above.
 
 Given a more realistic estimate of 79 changes per day (from the
-Linux kernel) suggests only 2,528 queries per day, and a much lower
-0.08 QPS when spread out over an 8 hour work day.
+Linux kernel) suggests only 8,532 queries per day, and a much lower
+0.29 QPS when spread out over an 8 hour work day.
+
+CPU Usage - Git over SSH/HTTP
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A 24 core server is able to handle ~25 concurrent `git fetch`
+operations per second. The issue here is each concurrent operation
+demands one full core, as the computation is almost entirely server
+side CPU bound. 25 concurrent operations is known to be sufficient to
+support hundreds of active developers and 50 automated build servers
+polling for updates and building every change.  (This data was derived
+from an actual installation's performance.)
+
+Because of the distributed nature of Git, end-users don't need to
+contact the central Gerrit Code Review server very often. For `git
+fetch` traffic, link:pgm-daemon.html[slave mode] is known to be an
+effective way to offload traffic from the main server, permitting it
+to scale to a large user base without needing an excessive number of
+cores in a single system.
+
+Clients on very slow network connections (for example home office
+users on VPN over home DSL) may be network bound rather than server
+side CPU bound, in which case a core may be effectively shared with
+another user. Possible core sharing due to network bottlenecks
+generally holds true for network connections running below 10 MiB/sec.
+
+If the server's own network interface is 1 Gib/sec (Gigabit Ethernet),
+the system can really only serve about 10 concurrent clients at the
+10 MiB/sec speed, no matter how many cores it has.
 
 Disk Usage
 ~~~~~~~~~~
 
-The average size of a revision in the Linux kernel once compressed
-by Git is 2,327 bytes, or roughly 2 KB.  Over the course of a year
-a Gerrit server running with the parameters above might see an
-introduction of 570 MB over the total set of 500 projects hosted in
-that server.  This figure assumes the majorty of the content is human
-written source code, and not large binary blobs such as disk images.
+The average size of a revision in the Linux kernel once compressed by
+Git is 2,327 bytes, or roughly 2 KiB.  Over the course of a year a
+Gerrit server running with the estimated maxium parameters above might
+see an introduction of 1.4 GiB over the total set of 10,000 projects
+hosted in that server.  This figure assumes the majorty of the content
+is human written source code, and not large binary blobs such as disk
+images.
 
+Production Gerrit installations have been tested, and are known to
+handle Git repositories in the multigigabyte range, storing binary
+files, ranging in size from a few kilobytes (for example compressed
+icons) to 800+ megabytes (firmware images, large uncompressed original
+artwork files).  Best practices encourage breaking very large binary
+files into their Git repositories based on access, to prevent desktop
+clients from needing to clone unnecessary materials (for example a C
+developer does not need every 800+ megabyte firmware image created by
+the product's quality assurance team).
 
 Redundancy & Reliability
 ------------------------

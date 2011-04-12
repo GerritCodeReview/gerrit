@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/n//+1s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-12T05:09:29Z",
+      "side": 1,
+      "message": "I can\u0027t remember why the heck we wanted this Branch field here. I\u0027m inclined to drop it altogether.\n\n*IF* we allow it to exist at all, it should be optional, and Piotr is probably right, it should follow the email format:\n\n  Gerrit-Server: https://review.source.android.com/\n  Gerrit-Project: tools/gerrit\n  Gerrit-Branch: master",
+      "parentUuid": "AAAA/H///48\u003d",
+      "revId": "677916f7963d2e084f2f76c63fb6a964cde3e319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//3Wc\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
         "patchSetId": 7
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "Well, english is not my mother language and I might not have been quite precise here.\nShawn do you also agree on this change?",
       "parentUuid": "AAAA+3//3Wc\u003d",
+      "revId": "677916f7963d2e084f2f76c63fb6a964cde3e319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+1k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-12T05:09:29Z",
+      "side": 1,
+      "message": "Internally our database uses _on as the suffix for timestamp fields. This is because its always a time in the past. Basically I was just mirroring what our current database schema does. But that\u0027s also my fault that it uses on rather than at. :-)\n\nI\u0027m no English expert, but up until today my understanding of at/on usage was at is used for future dates, and on for past dates. \"I will submit this at noon tomorrow if there are no more comments\" vs. \"I submitted this to the branch on noon last friday\".\n\nYou know where I got my on misusage from? In English prose I would write \"Change X submitted by Shawn on May 23, 2010 12:00 PM\" instead of \"Change X submitted by Shawn at May 23, 2010 12:00 PM\". That\u0027s the way I read these headers.\n\nI went and looked this up, it looks like I\u0027m wrong. The correct usage should be \"at\" for a specific time (which this is). Or \"last\" or \"ago\" since it has already happened. Last makes no sense here since it implies there was a prior submission event for the same change. Ago doesn\u0027t work, \"Submitted-ago\"? I don\u0027t think that\u0027s a sane usage of ago.\n\nSo the correct choice is \"Submitted-at\". Alternatively we could do what RFC 2822 does and call it \"Submitted-Date\" and bypass the entire at/on mess. I dislike this header name just because it doesn\u0027t line up in a fixed-width font with Submitted-by.",
+      "parentUuid": "AAAA/H///5E\u003d",
       "revId": "677916f7963d2e084f2f76c63fb6a964cde3e319",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

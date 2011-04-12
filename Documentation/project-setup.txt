@@ -111,6 +111,11 @@ end of the commit message a short summary of the change's approvals,
 and a URL link back to the change on the web.  The committer header
 is also set to the submitter, while the author header retains the
 original patch set author.
++
+Note that Gerrit ignores patch set dependencies when operating in
+cherry-pick mode. Submitters must remember to submit changes in
+the right order since inter-change dependencies will not be
+enforced for them.
 
 
 Registering Additional Branches

@@ -1,0 +1,267 @@
+Release notes for Gerrit 2.1.7
+==============================
+
+Gerrit 2.1.7 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.7.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.7.war]
+
+Schema Change
+-------------
+*WARNING* This release contains multiple schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+Memory Usage Increase
+---------------------
+*WARNING* The JGit delta base cache, whose size is controlled by
+`core.deltaBaseCacheLimit`, has changed in this release from being a
+JVM-wide singleton to per-thread. This alters the memory usage, going
+from 10M for the entire JVM to 10M per concurrent operation. The
+change improves performance on big repositories, but may need a larger
+`container.heapLimit` if the number of concurrent operations is high.
+
+New Features
+------------
+
+Query
+~~~~~
+* Search project names by substring
++
+Entering a word with no operator (for example `gerrit`) will be
+expanded to all projects whose names contain the string 'gerrit'.
+
+* issue 722 ownerin and reviewerin search predicates
++
+New search predicates `ownerin:'GROUP'` and `reviewerin:'GROUP'`
+search for changes whose owner or that has a reviewer in (or not
+in if prefixed with `-`) the specified group.
+
+Web UI
+~~~~~~
+* Add reviewer/verifier name beside check/plus/minus
++
+Change lists (such as from a search result, or in a user's dashboard)
+can now optionally display the name of the reviewer or verifier who
+gave the score being shown in the summary column. This is an optional
+per-user preference that can be enabled in the Settings screen.
+
+SSH Commands
+~~~~~~~~~~~~
+* issue 674 Add abandon/restore to `gerrit review`
+
+Outgoing Mail
+~~~~~~~~~~~~~
+* Optionally add Importance and Expiry-Days headers
++
+New gerrit.config variable `sendemail.importance` can be set to `high`
+or `low` to classify outgoing mail, and `sendemail.expiryDays` can be
+set to suggest clients should automatically expire or expunge messages
+this many days after being sent.
+
+* Add support for SMTP AUTH LOGIN
+
+Administration
+~~~~~~~~~~~~~~
+* Group option to make group visible to all users
++
+A new group option permits the group to be visible to all users,
+rather than just its members. Some sites may find this useful for
+a project owners group, to help users contact the relevant folks.
+
+* Group option to only email change authors on updates
++
+A new group option causes all users who are a member of that group to
+only send email notifications to change authors, excluding reviewers
+and watchers. This can be useful for automated build and testing users
+to reduce the amount of email sent to reviewers.
+
+* Permit groups to be members of other groups
++
+Groups can now be a member of another group, users are automatically
+a member of the transitive closure of their group membership.
+
+* READ +3 permission required to upload merges
++
+The new READ +3 permission is required to upload merge commits. Users
+with only READ +2 permission may upload new changes, but not merges.
+The schema upgrade will automatically convert any current READ +2
+access lines to be READ +3 to maintain prior behavior.
+
+* "Show Inherited Rights" checkbox in Project Access
++
+This checkbox enables showing or hiding the lines that are inherited
+from the parent project. This makes it easier to find the rules that
+are unique to the project being viewed.
+
+* Allow single letter usernames
++
+Username requirements are relaxed to permit single letter usernames.
+
+* Fine-grained control over authentication cookie
++
+Site administrators can now set `auth.cookieSecure` to request
+browsers only send the cookie over https:// connections, preventing
+eavesdropping.
++
+Site administrators can now set `auth.cookiePath` to override the
+path used for the authentication cookie, which may be necessary if
+a reverse proxy maps requests to the managed gitweb.
+
+Documentation
+~~~~~~~~~~~~~
+* Detailed error message explanations
++
+Most common error messages are now described in detail in the
+documentation under 'User Guide', 'Error Messages'.  Each error is
+explained, along with possible courses of action for an end-user to
+resolve the issue.
+
+* issue 905 Document reverse proxy using Nginx
+* Updated system scaling data in 'System Design'
+
+Misc.
+~~~~~
+* Add adminUrl to replication for repository creation
++
+Replication remotes can be configured with `remote.name.adminUrl` to
+indicate an SSH path for repository creation that is different from
+the normal push URL in `remote.name.url`. The adminUrl can be used by
+Gerrit to create a new repository when the normal URL is a non-SSH
+URL, such as git:// or http://.
+
+* Alternative URL for Gerrit's managed Gitweb
++
+The internal gitweb served from `/gitweb` can now appear to be from a
+different URL by using a reverse proxy that does URL rewriting.
+
+* Internal dependencies updated
++
+Updated H2 Database to 1.2.147, PostgreSQL JDBC Client to 9.0-801,
+ANTLR to 3.2, GWT to 2.1.1, JSch to 0.1.44, Gson to 1.6, Ehcache to
+2.3.0, Apache Commons Net to 2.2, Apache Commons Pool to 1.5.5, JGit
+to 0.11.3.219-gefad732.
+
+Bug Fixes
+---------
+
+Web UI
+~~~~~~
+* Disallow negative/zero columns in difference views
++
+Previously a negative or zero value in the number of columns field
+would break the user's account and prevent them from viewing any file
+differences through the web UI. Values less than 1 are now rejected,
+and existing broken accounts will work again by resetting to a sane
+column count.
+
+* Fix branches table displaying symbolic references (e.g. HEAD).
++
+In the project's "Branches" tab symbolic references like HEAD always
+displayed the wrong target name. Fixed to display the target name of
+the reference.
+
+* Disallow deletion of HEAD and targets of symbolic refs
++
+Deleting the target of a symbolic reference causes the symbolic to
+become dangling, and it becomes useless.
+
+* Prevent creating 'refs/for/branch' in web UI.
+
+* issue 804 Display proper error message on invalid group
++
+Attempting to browse a group that does not exist or that is not
+visible to the current user now displays a proper error message,
+instead of a scary generic "Application Error, Server Error".
+
+* issue 822 Up To Change link activates last browsed patch set
+* issue 846 Disable buttons during RPCs
+* Enable "Sign Out" when auth.type = CLIENT_SSL_CERT_LDAP.
+* Fix handling of "Session Expired" with SSL certificates.
+* Fix compatibility with recent releases of Gitweb.
+* Fix "review" link in Gitweb integration.
+* Always disable content merge option if user can't change project
+
+Outgoing Mail
+~~~~~~~~~~~~~
+* Fix comma/space separation in email templates
+
+Pushing Changes
+~~~~~~~~~~~~~~~
+* Avoid huge pushes during refs/for/BRANCH push
++
+With Gerrit 2.1.6, clients started to push possibly hundreds of
+megabytes for what should be a tiny patch set changing 1 line of 1
+file. This large push was caused by the server advancing ahead of the
+client (e.g. due to another change being submitted) and the client not
+having fetched the new version. Fixed by adding some recent history to
+the advertisement so that clients don't have to upload the entire
+project for a small change.
+
+* issue 414 Reject pushing multiple commits with same Change-Id
++
+If multiple new commits are uploaded to a refs/for/ branch and
+they have the same Change-Id, the push is now rejected.  Within
+a project, the Change-Id should be unique and users should either
+squash the commits, or modify them to use unique Change-Ids.
+
+* Always do Change-Id checks on receiving commits
++
+Ensure Change-Ids aren't incorrectly used, even if the project does
+not require them to be present.  Previously some validity checks were
+only performed if the project required Change-Id lines.
+
+* Fix error message returned on push to closed change
++
+If a commit with a Change-Id was pushed, and the corresponding change
+was already closed, the server incorrectly errored out with "No new
+changes". Now it reports the change is closed and does not accept a
+new patch set.
+
+* Fix error message for rejecting a change of another project
++
+Instead of saying 'change not found' when pushing to a commit to
+a refs/changes/NNNN reference that belongs in another project, the
+error now indicates the change belongs to another project.
+
+* Log warning on 'change state corrupt' error
++
+If a change state corrupt error is reported to a client, there was
+no mention if it on the server error log. Now it is reported so the
+site administrator also knows about it.
+
+SSH Commands
+~~~~~~~~~~~~
+* issue 814 Evict initial members of group created by SSH
+* issue 879 Fix replication of initial empty commit in new project
+
+Administration
+~~~~~~~~~~~~~~
+* Enable git reflog for all newly created projects
++
+Previously branch updates were not being recorded in the native Git
+reflogs ($GIT_DIR/logs/refs/heads) due to a misconfiguration on new
+projects created by gerrit create-project. Fixed.
+
+* Fix IllegalArgumentException caused by non-ASCII user names
++
+An invalid username is now always reported in UTF-8.
+
+* gerrit.sh: Support spaces in JAVA_HOME
++
+Mac OS X may need spaces in the path to the JRE.
+
+Documentation
+~~~~~~~~~~~~~
+* issue 800 documentation: Show example of review -m
+* issue 896 Clarify that ${name} is required for replication.
+* Fix spelling mistake in 'Searching Changes' documentation
+* Fix spelling mistake in user-upload documentation
+* Document cache diff_intraline
+* Document change set dependencies and cherry-pick
+* Include user in scp commands to copy commit hook
+* Adjust documentation to build with current AsciiDoc version
+
+Version
+-------
+a1b59472d207054ff635636807c943c0b14aae58

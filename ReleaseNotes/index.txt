@@ -4,6 +4,7 @@ Gerrit Code Review - Release Notes
 [[2_1]]
 Version 2.1.x
 -------------
+* link:ReleaseNotes-2.1.7.html[2.1.7],
 * link:ReleaseNotes-2.1.6.html[2.1.6],
   link:ReleaseNotes-2.1.6.1.html[2.1.6.1]
 * link:ReleaseNotes-2.1.5.html[2.1.5]

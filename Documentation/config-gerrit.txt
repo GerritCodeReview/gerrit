@@ -288,6 +288,7 @@ Default is 1024 for most caches, except:
 +
 * `"adv_bases"`: default is `4096`
 * `"diff"`: default is `128`
+* `"diff_intraline"`: default is `128`
 
 [[cache.name.diskLimit]]cache.<name>.diskLimit::
 +
@@ -347,6 +348,21 @@ cache `"diff"`::
 Each item caches the differences between two commits, at both the
 directory and file levels.  Gerrit uses this cache to accelerate
 the display of affected file names, as well as file contents.
++
+Entries in this cache are relatively large, so the memory limit
+should not be set incredibly high.  Administrators should try to
+target cache.diff.memoryLimit to be roughly the number of changes
+which their users will process in a 1 or 2 day span.
++
+Keeping entries for 90 days gives sufficient time for most changes
+to be submitted or abandoned before their relevant difference items
+expire out.
+
+cache `"diff_intraline"`::
++
+Each item caches the intraline difference of one file, when compared
+between two commits. Gerrit uses this cache to accelerate display of
+intraline differences when viewing a file.
 +
 Entries in this cache are relatively large, so the memory limit
 should not be set incredibly high.  Administrators should try to

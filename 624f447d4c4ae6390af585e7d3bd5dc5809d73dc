@@ -16,6 +16,24 @@
       "revId": "624f447d4c4ae6390af585e7d3bd5dc5809d73dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+q8\u003d",
+        "filename": "Documentation/config-reverseproxy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006115
+      },
+      "writtenOn": "2011-04-13T08:47:41Z",
+      "side": 1,
+      "message": "I\u0027m not quite sure which line you are referring to actually.\n\nIf you mean the line which consists of the word \"GERRIT\", then yes, from this diff it looks like there\u0027s one between the Apache and the Nginx config, however that\u0027s not the case if I look at the file directly on the branch I submitted for review.",
+      "parentUuid": "AAAA/n//+rE\u003d",
+      "revId": "624f447d4c4ae6390af585e7d3bd5dc5809d73dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

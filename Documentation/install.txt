@@ -158,7 +158,7 @@ Site Customization
 Gerrit Code Review supports some site-specific customization options.
 For more information, see the related topic in this manual:
 
-* link:config-apache2.html[Apache 2 Reverse Proxy]
+* link:config-reverseproxy.html[Reverse Proxy]
 * link:config-sso.html[Single Sign-On Systems]
 * link:config-replication.html[Git Replication/Mirroring]
 * link:config-headerfooter.html[Site Header/Footer]

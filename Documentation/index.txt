@@ -30,7 +30,7 @@ Configuration
 * link:config-gitweb.html[Gitweb Integration]
 * link:config-headerfooter.html[Site Header/Footer]
 * link:config-sso.html[Single Sign-On Systems]
-* link:config-apache2.html[Apache 2 Reverse Proxy]
+* link:config-reverseproxy.html[Reverse Proxy]
 * link:config-hooks.html[Hooks]
 * link:config-mail.html[Mail Templates]
 

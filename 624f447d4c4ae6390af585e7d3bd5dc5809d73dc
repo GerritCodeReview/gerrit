@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/n//+rE\u003d",
+        "filename": "Documentation/config-reverseproxy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-04-13T08:29:56Z",
+      "side": 1,
+      "message": "I think this line is too much now",
+      "revId": "624f447d4c4ae6390af585e7d3bd5dc5809d73dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

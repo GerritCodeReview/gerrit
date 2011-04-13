@@ -4,21 +4,14 @@ Gerrit Code Review - Reverse Proxy
 Description
 -----------
 
-Gerrit can be configured to run behind an Apache server using
-'mod_proxy'.  This allows Apache to bind to the privileged ports 80
+Gerrit can be configured to run behind a third-party web server.
+This allows the other web server to bind to the privileged ports 80
 (or 443 for SSL), as well as offloads the SSL processing overhead
 from Java to optimized native C code.
 
 
-Configuration
-------------
-
-Enable the necessary Apache2 modules:
-
-----
-  a2enmod proxy_http
-  a2enmod ssl          ; # optional, needed for HTTPS / SSL
-----
+Gerrit Configuration
+--------------------
 
 Ensure `'$site_path'/etc/gerrit.config` has the property
 link:config-gerrit.html#httpd.listenUrl[httpd.listenUrl] configured
@@ -29,6 +22,18 @@ during 'init'.
 ----
   [httpd]
   	listenUrl = proxy-http://127.0.0.1:8081/r/
+----
+
+
+Apache 2 Configuration
+----------------------
+
+To run Gerrit behind an Apache server using 'mod_proxy', enable the
+necessary Apache2 modules:
+
+----
+  a2enmod proxy_http
+  a2enmod ssl          ; # optional, needed for HTTPS / SSL
 ----
 
 Configure an Apache VirtualHost to proxy to the Gerrit daemon,
@@ -73,6 +78,50 @@ the SSL engine in the Apache VirtualHost block:
 See the Apache 'mod_ssl' documentation for more details on how to
 configure SSL within the server, like controlling how strong of an
 encryption algorithm is required.
+
+
+Nginx Configuration
+-------------------
+
+To run Gerrit behind an Nginx server, use a server statement such
+as this one:
+
+----
+	server {
+	  listen 80;
+	  server_name reviews.example.com;
+
+	  location /r/ {
+	    proxy_pass       http://127.0.0.1:8081/r/;
+	    proxy_set_header X-Real-IP        $remote_addr;
+	    proxy_set_header X-Forwarded-For  $proxy_add_x_forwarded_for;
+	    proxy_set_header Host             $http_host;
+	  }
+	}
+----
+
+SSL
+~~~
+
+To enable Nginx to perform the SSL processing, use 'proxy-https://'
+in httpd.listenUrl within Gerrit's configuration file, and enable
+the SSL engine in the Nginx server statement:
+
+----
+	server {
+	  listen 443;
+
+	  ssl  on;
+	  ssl_certificate      conf/server.crt;
+	  ssl_certificate_key  conf/server.key;
+
+	  ... same as above ...
+	}
+----
+
+See the Nginx 'http ssl module' documentation for more details on
+how to configure SSL within the server, like controlling how strong
+of an encryption algorithm is required.
 
 GERRIT
 ------

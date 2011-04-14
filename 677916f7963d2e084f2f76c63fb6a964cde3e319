@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAA/n//+kI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-04-14T08:29:38Z",
+      "side": 1,
+      "message": "include a link to Gerrit issue 64:\n\nhttp://code.google.com/p/gerrit/issues/detail?id\u003d64",
+      "revId": "677916f7963d2e084f2f76c63fb6a964cde3e319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//3WU\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReviewNoteHeaderFormatter.java",
         "patchSetId": 7

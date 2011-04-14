@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/n//+gc\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-04-14T19:10:16Z",
+      "side": 1,
+      "message": "Shawn, in case the user try to create a project with name \"tools/gerrit\" not indicating a parent, and there is not a \"tools\" project created, can we consider the \"tools/gerrit\" project to be created and inherit from All Projects? \n\nCan we assume user could create a \"tools/gerrit\" project in this scenario I talked about (in the running gerrit git folder one could see tools folder and inside it the gerrit project)?",
+      "parentUuid": "AAAA/n//+7s\u003d",
+      "revId": "1f22e4a98d798e351d65bcb1a926b55bfe5599d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n//+74\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
         "patchSetId": 3

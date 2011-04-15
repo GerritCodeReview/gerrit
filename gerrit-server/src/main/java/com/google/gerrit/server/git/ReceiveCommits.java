@@ -1563,7 +1563,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     //
     if (!currentUser.getEmailAddresses().contains(author.getEmailAddress())
         && !ctl.canForgeAuthor()) {
-      reject(cmd, "you are not author " + author.getEmailAddress());
+      reject(cmd, "you [" + currentUser.getName()
+                  + " <" + currentUser.getEmailAddress() + ">]"
+                  + " are not author [" + author.getName()
+                  + " <" + author.getEmailAddress() + ">]");
       return false;
     }
 
@@ -1571,7 +1574,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     //
     if (!currentUser.getEmailAddresses().contains(committer.getEmailAddress())
         && !ctl.canForgeCommitter()) {
-      reject(cmd, "you are not committer " + committer.getEmailAddress());
+      reject(cmd, "you [" + currentUser.getName()
+                  + " <" + currentUser.getEmailAddress() + ">]"
+                  + " are not committer [" + committer.getName()
+                  + " <" + committer.getEmailAddress() + ">]");
       return false;
     }
 

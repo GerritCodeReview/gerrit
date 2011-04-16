@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/n//+TY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1566,
+      "author": {
+        "id": 1005169
+      },
+      "writtenOn": "2011-04-16T19:41:10Z",
+      "side": 1,
+      "message": "When something gets referred as \"you\", the user doing the command would know. Perhaps do something like:\n\nreject(cmd, \"you are not author \" + author.toExternalString());",
+      "revId": "23eb0b5b48380b1eed3e3d17e7a2f19e983cb10d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

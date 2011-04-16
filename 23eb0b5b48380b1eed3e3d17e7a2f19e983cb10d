@@ -16,6 +16,23 @@
       "revId": "23eb0b5b48380b1eed3e3d17e7a2f19e983cb10d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+Sw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1569,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2011-04-16T22:22:30Z",
+      "side": 1,
+      "message": "I think it worth to make it even more verbose and add commit SHA1. So the user can easily identify what exactly commit Gerrit is talking about.",
+      "revId": "23eb0b5b48380b1eed3e3d17e7a2f19e983cb10d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

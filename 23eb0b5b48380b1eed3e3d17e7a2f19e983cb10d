@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/n//+Ro\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1566,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2011-04-17T23:46:23Z",
+      "side": 1,
+      "message": "So, this currently doesn\u0027t compile, however I don\u0027t agree that the user doing the command would always know.\n\nI was using a role account and did not realize that according to Gerrit\u0027s database, the role account had no email address associated to it.  Even looking at the Gerrit logs did not make this clear.  Gerrit would see access by \u0027foo\u0027.  And foo would get error message \u0027you are not author foo@google.com\u0027.\n\nHence the message we should end up with here should be much more verbose.\nSomething like:\n\nYou [uid:234 account:\"foo\" name:\"Foo\" emails:\"foo@bar.com\",\"foo@google.com\"] are not author [\"Foo\" \u003cfoo@bar.com\u003e].",
+      "parentUuid": "AAAA/n//+TY\u003d",
+      "revId": "23eb0b5b48380b1eed3e3d17e7a2f19e983cb10d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n//+Sw\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-04-16T22:22:30Z",
       "side": 1,
       "message": "I think it worth to make it even more verbose and add commit SHA1. So the user can easily identify what exactly commit Gerrit is talking about.",
+      "revId": "23eb0b5b48380b1eed3e3d17e7a2f19e983cb10d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+Rk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1569,
+      "author": {
+        "id": 1003247
+      },
+      "writtenOn": "2011-04-17T23:46:23Z",
+      "side": 1,
+      "message": "Perhaps, theoretically you can always fall back to pushing one SHA1 at a time though?",
+      "parentUuid": "AAAA/n//+Sw\u003d",
       "revId": "23eb0b5b48380b1eed3e3d17e7a2f19e983cb10d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

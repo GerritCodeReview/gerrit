@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/n//+BQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-04-21T17:09:04Z",
+      "side": 1,
+      "message": "nginx passes unchanged request URI by default (when we don\u0027t set anything after scheme://host:port).",
+      "parentUuid": "AAAA/n//+Bk\u003d",
+      "revId": "b9222a5170a493cf0771dc4282959ba83f95fb56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n//+Bg\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-04-21T17:04:17Z",
       "side": 1,
       "message": "It does. Gerrit records the client\u0027s IP address in the reflog of any branch a client pushes directly to.",
+      "revId": "b9222a5170a493cf0771dc4282959ba83f95fb56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+BM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-04-21T17:09:04Z",
+      "side": 1,
+      "message": "Pushes via HTTP(S)?",
+      "parentUuid": "AAAA/n//+Bg\u003d",
       "revId": "b9222a5170a493cf0771dc4282959ba83f95fb56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

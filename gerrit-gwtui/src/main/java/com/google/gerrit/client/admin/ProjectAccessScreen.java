@@ -53,6 +53,7 @@ public class ProjectAccessScreen extends ProjectScreen {
   private RightsTable rights;
   private Button delRight;
   private AccessRightEditor rightEditor;
+  private CheckBox showInherited;
 
   public ProjectAccessScreen(final Project.NameKey toShow) {
     super(toShow);
@@ -85,18 +86,18 @@ public class ProjectAccessScreen extends ProjectScreen {
   private void initParent() {
     parentName = new Hyperlink("", "");
 
-    final CheckBox show = new CheckBox();
-    show.setChecked(true);
-    show.addClickHandler(new ClickHandler() {
+    showInherited = new CheckBox();
+    showInherited.setChecked(true);
+    showInherited.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
-        rights.showInherited(show.isChecked());
+        rights.showInherited(showInherited.isChecked());
       }
     });
 
     Grid g = new Grid(2, 3);
     g.setWidget(0, 0, new SmallHeading(Util.C.headingParentProjectName()));
     g.setWidget(1, 0, parentName);
-    g.setWidget(1, 1, show);
+    g.setWidget(1, 1, showInherited);
     g.setText(1, 2, Util.C.headingShowInherited());
 
     parentPanel = new VerticalPanel();
@@ -214,6 +215,9 @@ public class ProjectAccessScreen extends ProjectScreen {
       for (final InheritedRefRight r : refRights) {
         final int row = table.getRowCount();
         table.insertRow(row);
+        if (! showInherited.isChecked() && r.isInherited()) {
+          table.getRowFormatter().setVisible(row, false);
+        }
         applyDataRowStyle(row);
         populate(row, r);
       }

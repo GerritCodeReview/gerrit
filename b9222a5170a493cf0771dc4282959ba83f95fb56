@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/n//+Bk\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-21T17:04:17Z",
+      "side": 1,
+      "message": "Does the /r/ on the proxy_pass depend on what is in the gerrit.config for httpd.listenUrl?  Earlier in the document we say put this in gerrit.config:\n\n  [httpd]\n    listenUrl \u003d proxy-http://127.0.0.1:8081/r/\n\nOr am I missing something here and nginx will pass the leading /r/ to the new server? Because Apache would have stripped it.",
+      "revId": "b9222a5170a493cf0771dc4282959ba83f95fb56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+Bg\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-21T17:04:17Z",
+      "side": 1,
+      "message": "It does. Gerrit records the client\u0027s IP address in the reflog of any branch a client pushes directly to.",
+      "revId": "b9222a5170a493cf0771dc4282959ba83f95fb56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/n//+BA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-21T17:22:14Z",
+      "side": 1,
+      "message": "OK, thanks for the explanation.",
+      "parentUuid": "AAAA/n//+BQ\u003d",
+      "revId": "b9222a5170a493cf0771dc4282959ba83f95fb56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n//+Bg\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Pushes via HTTP(S)?",
       "parentUuid": "AAAA/n//+Bg\u003d",
+      "revId": "b9222a5170a493cf0771dc4282959ba83f95fb56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+A8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-21T17:22:14Z",
+      "side": 1,
+      "message": "Yes. You can push over http:// or https://.\n\n:-)",
+      "parentUuid": "AAAA/n//+BM\u003d",
       "revId": "b9222a5170a493cf0771dc4282959ba83f95fb56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

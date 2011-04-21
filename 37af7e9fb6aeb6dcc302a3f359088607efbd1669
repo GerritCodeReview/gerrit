@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/n//+As\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-21T17:27:48Z",
+      "side": 1,
+      "message": "See below, but I wonder if this shouldn\u0027t also be filtering the pattern for refs/*.",
+      "revId": "37af7e9fb6aeb6dcc302a3f359088607efbd1669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+BE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-21T17:27:48Z",
+      "side": 1,
+      "message": "You need to terminate the recursion on isSpecialWildProject(), and handle projects that have no parent (as their parent is All Projects).\n\nI would replace the method with:\n\n  if (!localOwners.isEmpty()\n    || isSpecialWildProject()\n    || project.getParent() \u003d\u003d null) {\n    return localOwners;\n  }\n\n  ProjectState parent \u003d projectCache.get(project.getParent());\n  if (parent !\u003d null) {\n    return parent.getOwners();\n  }\n\n  return Collections.emptySet();",
+      "revId": "37af7e9fb6aeb6dcc302a3f359088607efbd1669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/n//+Aw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-04-21T17:27:48Z",
+      "side": 1,
+      "message": "This doesn\u0027t work as it should (and neither does the old code).\n\nIf I create the following rules:\n\n  Owner +1 refs/* Devs\n  Owner +1 refs/tags/qa/* QA\n  Submit +1 refs/heads/* Project Owners\n\nUnfortunately the group QA has Submit rights on refs/heads/*. The problem is we aren\u0027t filtering the RefRight to only the refs/* lines.",
+      "revId": "37af7e9fb6aeb6dcc302a3f359088607efbd1669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1563,7 +1563,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     //
     if (!currentUser.getEmailAddresses().contains(author.getEmailAddress())
         && !ctl.canForgeAuthor()) {
-      reject(cmd, "you are not author " + author.getEmailAddress());
+      sendInvalidEmailError(c, "author", author);
+      reject(cmd, "invalid author");
       return false;
     }
 
@@ -1571,7 +1572,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     //
     if (!currentUser.getEmailAddresses().contains(committer.getEmailAddress())
         && !ctl.canForgeCommitter()) {
-      reject(cmd, "you are not committer " + committer.getEmailAddress());
+      sendInvalidEmailError(c, "committer", committer);
+      reject(cmd, "invalid committer");
       return false;
     }
 
@@ -1620,6 +1622,30 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     return true;
+  }
+
+  private void sendInvalidEmailError(RevCommit c, String type, PersonIdent who) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("\n");
+    sb.append("ERROR:  In commit " + c.name() + "\n");
+    sb.append("ERROR:  " + type + " email address " + who.getEmailAddress() + "\n");
+    sb.append("ERROR:  does not match your user account.\n");
+    sb.append("ERROR:\n");
+    if (currentUser.getEmailAddresses().isEmpty()) {
+      sb.append("ERROR:  You have not registered any email addresses.\n");
+    } else {
+      sb.append("ERROR:  The following addresses are currently registered:\n");
+      for (String address : currentUser.getEmailAddresses()) {
+        sb.append("ERROR:    " + address + "\n");
+      }
+    }
+    sb.append("ERROR:\n");
+    if (canonicalWebUrl != null) {
+      sb.append("ERROR:  To register an email address, please visit:\n");
+      sb.append("ERROR:  " + canonicalWebUrl + "#" + PageLinks.SETTINGS_CONTACT + "\n");
+    }
+    sb.append("\n");
+    getReceivePack().sendMessage(sb.toString());
   }
 
   private void warnMalformedMessage(RevCommit c) {

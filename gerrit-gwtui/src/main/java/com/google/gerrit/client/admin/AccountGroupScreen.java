@@ -119,8 +119,8 @@ public class AccountGroupScreen extends AccountScreen {
         saveDesc.setVisible(result.canModify);
         saveGroupOptions.setVisible(result.canModify);
         delMember.setVisible(result.canModify);
-        members.setEnabled(result.canModify);
         saveType.setVisible(result.canModify);
+        delInclude.setVisible(result.canModify);
         display(result);
       }
     });
@@ -146,10 +146,13 @@ public class AccountGroupScreen extends AccountScreen {
     descTxt.setEnabled(canModify);
     typeSelect.setEnabled(canModify);
     addMemberBox.setEnabled(canModify);
+    members.setEnabled(canModify);
     externalNameFilter.setEnabled(canModify);
     externalNameSearch.setEnabled(canModify);
     visibleToAllCheckBox.setEnabled(canModify);
     emailOnlyAuthors.setEnabled(canModify);
+    addIncludeBox.setEnabled(canModify);
+    includes.setEnabled(canModify);
   }
 
   private void initName() {
@@ -245,11 +248,9 @@ public class AccountGroupScreen extends AccountScreen {
     groupOptionsPanel.add(new SmallHeading(Util.C.headingGroupOptions()));
 
     visibleToAllCheckBox = new CheckBox(Util.C.isVisibleToAll());
-    visibleToAllCheckBox.setEnabled(false);
     groupOptionsPanel.add(visibleToAllCheckBox);
 
     emailOnlyAuthors = new CheckBox(Util.C.emailOnlyAuthors());
-    emailOnlyAuthors.setEnabled(false);
 
     final VerticalPanel vp = new VerticalPanel();
     vp.add(new Label(Util.C.descriptionNotifications()));
@@ -544,9 +545,7 @@ public class AccountGroupScreen extends AccountScreen {
     descTxt.setText(group.getDescription());
 
     visibleToAllCheckBox.setValue(group.isVisibleToAll());
-    visibleToAllCheckBox.setEnabled(true);
     emailOnlyAuthors.setValue(group.isEmailOnlyAuthors());
-    emailOnlyAuthors.setEnabled(true);
 
     switch (group.getType()) {
       case INTERNAL:
@@ -703,6 +702,8 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   private class IncludeTable extends FancyFlexTable<AccountGroupInclude> {
+    private boolean enabled = true;
+
     IncludeTable() {
       table.setText(0, 2, Util.C.columnGroupName());
       table.setText(0, 3, Util.C.columnGroupDescription());
@@ -711,6 +712,16 @@ public class AccountGroupScreen extends AccountScreen {
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
+    }
+
+    void setEnabled(final boolean enabled) {
+      this.enabled = enabled;
+      for (int row = 1; row < table.getRowCount(); row++) {
+        final AccountGroupInclude k = getRowItem(row);
+        if (k != null) {
+          ((CheckBox) table.getWidget(row, 1)).setEnabled(enabled);
+        }
+      }
     }
 
     void deleteChecked() {
@@ -761,7 +772,9 @@ public class AccountGroupScreen extends AccountScreen {
     void populate(final int row, final AccountGroupInclude k) {
       AccountGroup.Id id = k.getIncludeId();
       GroupInfo group = groups.get(id);
-      table.setWidget(row, 1, new CheckBox());
+      CheckBox checkBox = new CheckBox();
+      table.setWidget(row, 1, checkBox);
+      checkBox.setEnabled(enabled);
       table.setWidget(row, 2, new Hyperlink(group.getName(), Dispatcher
           .toAccountGroup(id)));
       table.setText(row, 3, groups.get(id).getDescription());

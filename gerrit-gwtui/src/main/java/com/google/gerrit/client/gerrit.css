@@ -87,6 +87,10 @@
 
 
 /** Widgets **/
+.gwt-Button {
+  color: black;
+}
+
 .hyperlink {
   text-decoration: underline;
 }

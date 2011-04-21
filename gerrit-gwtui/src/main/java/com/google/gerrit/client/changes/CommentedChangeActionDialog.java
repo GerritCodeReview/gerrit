@@ -32,7 +32,7 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 
-public class RestoreChangeDialog extends AutoCenterDialogBox implements CloseHandler<PopupPanel>{
+public abstract class CommentedChangeActionDialog extends AutoCenterDialogBox implements CloseHandler<PopupPanel>{
   private final FlowPanel panel;
   private final NpTextArea message;
   private final Button sendButton;
@@ -42,23 +42,26 @@ public class RestoreChangeDialog extends AutoCenterDialogBox implements CloseHan
 
   private boolean buttonClicked = false;
 
-  public RestoreChangeDialog(final PatchSet.Id psi,
-      final AsyncCallback<ChangeDetail> callback) {
+  public CommentedChangeActionDialog(final PatchSet.Id psi,
+      final AsyncCallback<ChangeDetail> callback, final String dialogTitle,
+      final String dialogHeading, final String buttonSend,
+      final String buttonCancel, final String dialogStyle,
+      final String messageStyle) {
     super(/* auto hide */false, /* modal */true);
     setGlassEnabled(true);
 
     psid = psi;
     this.callback = callback;
-    addStyleName(Gerrit.RESOURCES.css().abandonChangeDialog());
-    setText(Util.C.restoreChangeTitle());
+    addStyleName(dialogStyle);
+    setText(dialogTitle);
 
     panel = new FlowPanel();
     add(panel);
 
-    panel.add(new SmallHeading(Util.C.headingRestoreMessage()));
+    panel.add(new SmallHeading(dialogHeading));
 
     final FlowPanel mwrap = new FlowPanel();
-    mwrap.setStyleName(Gerrit.RESOURCES.css().abandonMessage());
+    mwrap.setStyleName(messageStyle);
     panel.add(mwrap);
 
     message = new NpTextArea();
@@ -69,36 +72,18 @@ public class RestoreChangeDialog extends AutoCenterDialogBox implements CloseHan
 
     final FlowPanel buttonPanel = new FlowPanel();
     panel.add(buttonPanel);
-
-    sendButton = new Button(Util.C.buttonRestoreChangeSend());
+    sendButton = new Button(buttonSend);
     sendButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
         sendButton.setEnabled(false);
         cancelButton.setEnabled(false);
-        Util.MANAGE_SVC.restoreChange(psid, message.getText().trim(),
-            new GerritCallback<ChangeDetail>() {
-              @Override
-              public void onSuccess(ChangeDetail result) {
-                buttonClicked = true;
-                if (callback != null) {
-                  callback.onSuccess(result);
-                }
-                hide();
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-                sendButton.setEnabled(true);
-                cancelButton.setEnabled(true);
-                super.onFailure(caught);
-              }
-            });
+        onSend();
       }
     });
     buttonPanel.add(sendButton);
 
-    cancelButton = new Button(Util.C.buttonRestoreChangeCancel());
+    cancelButton = new Button(buttonCancel);
     DOM.setStyleAttribute(cancelButton.getElement(), "marginLeft", "300px");
     cancelButton.addClickHandler(new ClickHandler() {
       @Override
@@ -131,5 +116,35 @@ public class RestoreChangeDialog extends AutoCenterDialogBox implements CloseHan
         callback.onFailure(null);
       }
     }
+  }
+
+  public abstract void onSend();
+
+  public PatchSet.Id getPatchSetId() {
+    return psid;
+  }
+
+  public String getMessageText() {
+    return message.getText().trim();
+  }
+
+  public GerritCallback<ChangeDetail> createCallback() {
+    return new GerritCallback<ChangeDetail>(){
+      @Override
+      public void onSuccess(ChangeDetail result) {
+        buttonClicked = true;
+        if (callback != null) {
+          callback.onSuccess(result);
+        }
+        hide();
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+        sendButton.setEnabled(true);
+        cancelButton.setEnabled(true);
+        super.onFailure(caught);
+      }
+    };
   }
 }

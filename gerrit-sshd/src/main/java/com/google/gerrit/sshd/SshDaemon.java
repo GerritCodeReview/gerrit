@@ -42,6 +42,7 @@ import org.apache.sshd.common.Compression;
 import org.apache.sshd.common.KeyExchange;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.NamedFactory;
+import org.apache.sshd.common.Session;
 import org.apache.sshd.common.Signature;
 import org.apache.sshd.common.cipher.AES128CBC;
 import org.apache.sshd.common.cipher.AES192CBC;
@@ -517,8 +518,14 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private void initFileSystemFactory() {
     setFileSystemFactory(new FileSystemFactory() {
       @Override
-      public FileSystemView createFileSystemView(String userName) {
+      public FileSystemView createFileSystemView(Session session)
+          throws IOException {
         return new FileSystemView() {
+          @Override
+          public SshFile getFile(SshFile baseDir, String file) {
+            return null;
+          }
+
           @Override
           public SshFile getFile(String file) {
             return null;

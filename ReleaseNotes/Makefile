@@ -19,7 +19,6 @@ PUB_ROOT       ?= https://gerrit.googlecode.com/svn/ReleaseNotes
 
 DOC_HTML      := $(patsubst %.txt,%.html,$(wildcard ReleaseNotes*.txt))
 COMMIT        := $(shell git describe HEAD | sed s/^v//)
-SCRIPTSDIR    := $(shell pwd)/../Documentation/javascript
 LOCAL_ROOT    := .published
 PUB_DIR       := $(PUB_ROOT)
 
@@ -49,17 +48,16 @@ clean:
 	rm -f *.html
 	rm -rf $(LOCAL_ROOT)
 
-index.html: index.txt $(SCRIPTSDIR)/toc.js
+index.html: index.txt
 	@echo FORMAT $@
 	@rm -f $@+ $@
 	@$(ASCIIDOC) --unsafe \
 		-a toc \
-		-a 'scriptsdir=$(SCRIPTSDIR)' \
 		-b xhtml11 -f asciidoc.conf \
 		$(ASCIIDOC_EXTRA) -o $@+ $<
 	@mv $@+ $@
 
-$(DOC_HTML): %.html : %.txt $(SCRIPTSDIR)/toc.js
+$(DOC_HTML): %.html : %.txt
 	@echo FORMAT $@
 	@rm -f $@+ $@
 	@v=$$(echo $< | sed 's/^ReleaseNotes-//;s/.txt$$//;') && \
@@ -69,7 +67,6 @@ $(DOC_HTML): %.html : %.txt $(SCRIPTSDIR)/toc.js
 	 $(ASCIIDOC) --unsafe \
 		-a toc \
 		-a "revision=$$v" \
-		-a 'scriptsdir=$(SCRIPTSDIR)' \
 		-b xhtml11 -f asciidoc.conf \
 		$(ASCIIDOC_EXTRA) -o $@+ $<
 	@mv $@+ $@

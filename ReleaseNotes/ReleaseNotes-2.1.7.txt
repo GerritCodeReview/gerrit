@@ -140,7 +140,8 @@ different URL by using a reverse proxy that does URL rewriting.
 Updated H2 Database to 1.2.147, PostgreSQL JDBC Client to 9.0-801,
 ANTLR to 3.2, GWT to 2.1.1, JSch to 0.1.44, Gson to 1.6, Ehcache to
 2.3.0, Apache Commons Net to 2.2, Apache Commons Pool to 1.5.5, JGit
-to 0.11.3.219-gefad732.
+to 0.11.3.240-gd05d351, MINA SSHD to 0.5.1-r1095809, Jetty to
+7.4.0.v20110414.
 
 Bug Fixes
 ---------
@@ -180,6 +181,7 @@ instead of a scary generic "Application Error, Server Error".
 * Fix handling of "Session Expired" with SSL certificates.
 * Fix compatibility with recent releases of Gitweb.
 * Fix "review" link in Gitweb integration.
+* Always display button text in black
 * Always disable content merge option if user can't change project
 
 Outgoing Mail
@@ -250,6 +252,8 @@ An invalid username is now always reported in UTF-8.
 * gerrit.sh: Support spaces in JAVA_HOME
 +
 Mac OS X may need spaces in the path to the JRE.
+
+* Stop logging 'keepalive@jcraft.com' errors in error_log
 
 Documentation
 ~~~~~~~~~~~~~

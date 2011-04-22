@@ -417,6 +417,7 @@ case "$ACTION" in
         touch "$GERRIT_PID"
         chown $GERRIT_USER "$GERRIT_PID"
         su - $GERRIT_USER -c "
+          JAVA='$JAVA' ; export JAVA ;
           $RUN_EXEC $RUN_Arg1 '$RUN_Arg2' $RUN_Arg3 $RUN_ARGS &
           PID=\$! ;
           disown \$PID ;

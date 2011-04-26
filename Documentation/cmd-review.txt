@@ -8,8 +8,8 @@ gerrit review - Verify, approve and/or submit one or more patch sets
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit approve' [\--project <PROJECT>] [\--message <MESSAGE>] [\--verified <N>] [\--code-review <N>] [\--abandon] [\--restore] [\--submit]  {COMMIT | CHANGEID,PATCHSET}...
-'ssh' -p <port> <host> 'gerrit review' [\--project <PROJECT>] [\--message <MESSAGE>] [\--verified <N>] [\--code-review <N>] [\--abandon] [\--restore] [\--submit]  {COMMIT | CHANGEID,PATCHSET}...
+'ssh' -p <port> <host> 'gerrit approve' [\--project <PROJECT>] [\--message <MESSAGE>] [\--verified <N>] [\--code-review <N>] [\--abandon] [\--restore] [\--submit]  [\--json] {COMMIT | CHANGEID,PATCHSET | JSON}...
+'ssh' -p <port> <host> 'gerrit review' [\--project <PROJECT>] [\--message <MESSAGE>] [\--verified <N>] [\--code-review <N>] [\--abandon] [\--restore] [\--submit]  [\--json] {COMMIT | CHANGEID,PATCHSET | JSON}...
 
 DESCRIPTION
 -----------
@@ -66,6 +66,23 @@ OPTIONS
 -s::
 	Submit the specified patch set(s) for merging.
 	(option is mutually exclusive with --abandon)
+
+\--json::
+-j::
+    Argument will be handled as json which describes inline comments for patch set.
+    Other options are ignored when using this command. Format of json is following:
+    {
+        message: This goes to cover message
+        commit: SHA1 or legacy 'CHANGEID,PATCHSET'
+        inline_comments: [
+            {
+                file: path/to/file
+                line: linenumber
+                message: message to be added
+            }
+            ...
+        ]
+    }
 
 ACCESS
 ------

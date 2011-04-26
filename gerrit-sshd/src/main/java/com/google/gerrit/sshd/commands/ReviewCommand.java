@@ -22,7 +22,10 @@ import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Branch.NameKey;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Patch;
+import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.PatchSet.Id;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -41,6 +44,9 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.util.cli.CmdLineParser;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
@@ -53,6 +59,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -73,15 +80,25 @@ public class ReviewCommand extends BaseCommand {
   }
 
   private final Set<PatchSet.Id> patchSetIds = new HashSet<PatchSet.Id>();
+  private final Collection<Review> reviews = new ArrayList<Review>();
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}", usage = "patch to review")
-  void addPatchSetId(final String token) {
-    try {
-      patchSetIds.addAll(parsePatchSetId(token));
-    } catch (UnloggedFailure e) {
-      throw new IllegalArgumentException(e.getMessage(), e);
-    } catch (OrmException e) {
-      throw new IllegalArgumentException("database error", e);
+  @Argument(index = 0, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET | JSON}", usage = "patch to review or json")
+  void parseArgument(final String token) {
+    if(json)
+    {
+      Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+      reviews.add(gson.fromJson(token, Review.class));
+    }
+    else
+    {
+      try {
+        patchSetIds.addAll(parsePatchSetId(token));
+      } catch (UnloggedFailure e) {
+        throw new IllegalArgumentException(e.getMessage(), e);
+      } catch (OrmException e) {
+        throw new IllegalArgumentException("database error", e);
+      }
+
     }
   }
 
@@ -99,6 +116,9 @@ public class ReviewCommand extends BaseCommand {
 
   @Option(name = "--submit", aliases = "-s", usage = "submit the patch set")
   private boolean submitChange;
+
+  @Option(name = "--json", aliases = "-j", usage = "use json as argument")
+  private boolean json;
 
   @Inject
   private ReviewDb db;
@@ -141,67 +161,144 @@ public class ReviewCommand extends BaseCommand {
       public void run() throws Failure {
         initOptionList();
         parseCommandLine();
-        if (abandonChange) {
-          if (restoreChange) {
-            throw error("abandon and restore actions are mutually exclusive");
-          }
-          if (submitChange) {
-            throw error("abandon and submit actions are mutually exclusive");
-          }
+
+        if(json)
+        {
+          processJson();
         }
+        else
+        {
 
-        boolean ok = true;
-        for (final PatchSet.Id patchSetId : patchSetIds) {
-          try {
-            approveOne(patchSetId);
-          } catch (UnloggedFailure e) {
-            ok = false;
-            writeError("error: " + e.getMessage() + "\n");
-          } catch (Exception e) {
-            ok = false;
-            writeError("fatal: internal server error while approving "
-                + patchSetId + "\n");
-            log.error("internal error while approving " + patchSetId, e);
-          }
-        }
-
-        if (!ok) {
-          throw new UnloggedFailure(1, "one or more approvals failed;"
-              + " review output above");
-        }
-
-        if (!toSubmit.isEmpty()) {
-          final Set<Branch.NameKey> toMerge = new HashSet<Branch.NameKey>();
-          try {
-            for (PatchSet.Id patchSetId : toSubmit) {
-              ChangeUtil.submit(patchSetId, currentUser, db, opFactory,
-                  new MergeQueue() {
-                    @Override
-                    public void merge(MergeOp.Factory mof, Branch.NameKey branch) {
-                      toMerge.add(branch);
-                    }
-
-                    @Override
-                    public void schedule(Branch.NameKey branch) {
-                      toMerge.add(branch);
-                    }
-
-                    @Override
-                    public void recheckAfter(Branch.NameKey branch, long delay,
-                        TimeUnit delayUnit) {
-                      toMerge.add(branch);
-                    }
-                  });
+          if (abandonChange) {
+            if (restoreChange) {
+              throw error("abandon and restore actions are mutually exclusive");
             }
-            for (Branch.NameKey branch : toMerge) {
-              merger.merge(opFactory, branch);
+            if (submitChange) {
+              throw error("abandon and submit actions are mutually exclusive");
             }
-          } catch (OrmException updateError) {
-            throw new Failure(1, "one or more submits failed", updateError);
+          }
+
+          boolean ok = approvePatchSets();
+
+          if (!ok) {
+            throw new UnloggedFailure(1, "one or more approvals failed;"
+                + " review output above");
+          }
+
+          if (!toSubmit.isEmpty()) {
+            submitPatchSets();
           }
         }
       }
     });
+  }
+
+  boolean approvePatchSets() {
+    boolean ok = true;
+    for (final PatchSet.Id patchSetId : patchSetIds) {
+      try {
+        approveOne(patchSetId);
+      } catch (UnloggedFailure e) {
+        ok = false;
+        writeError("error: " + e.getMessage() + "\n");
+      } catch (Exception e) {
+        ok = false;
+        writeError("fatal: internal server error while approving "
+            + patchSetId + "\n");
+        log.error("internal error while approving " + patchSetId, e);
+      }
+    }
+    return ok;
+  }
+
+  private static class InlineComment
+  {
+    String message;
+    String file;
+    int line;
+  }
+  private static class Review
+  {
+    String message;
+    String commit;
+    Collection<InlineComment> inlineComments;
+  }
+
+  private void processJson() {
+
+    for(Review review: reviews)
+    {
+      Collection<PatchLineComment> patchLineComments =
+        new ArrayList<PatchLineComment>();
+
+      Set<PatchSet.Id> ids = Collections.emptySet();
+      try {
+        ids = parsePatchSetId(review.commit);
+      } catch (UnloggedFailure e) {
+        writeError("fatal: internal server error while parsing patch set id from "
+            + review.commit + ", ignoring inline comments\n");
+      } catch (OrmException e) {
+        writeError("fatal: internal server error while parsing patch set id from "
+            + review.commit + "\n");
+      }
+
+      for(InlineComment inlineComment: review.inlineComments)
+      {
+        patchLineComments.addAll(createPatchLineComments(ids, inlineComment));
+      }
+
+      try {
+        for (final PatchLineComment c : patchLineComments) {
+          c.setStatus(PatchLineComment.Status.PUBLISHED);
+          c.updated();
+        }
+        db.patchComments().insert(patchLineComments);
+      } catch (OrmException e) {
+        throw new IllegalArgumentException("database error", e);
+      }
+      for(PatchSet.Id id : ids)
+      {
+        try {
+          publishCommentsFactory.create(id, review.message, Collections.<ApprovalCategoryValue.Id>emptySet()).call();
+        } catch (NoSuchChangeException e) {
+          writeError("No such change" + id.toString());
+        } catch (OrmException e) {
+          throw new IllegalArgumentException("database error", e);
+        }
+      }
+    }
+  }
+
+  private Collection<PatchLineComment> createPatchLineComments(Iterable<Id> ids, InlineComment inlineComment) {
+    int side = 1;
+    Collection<PatchLineComment> patchLineComments = new ArrayList<PatchLineComment>();
+    for (PatchSet.Id id : ids) {
+      PatchLineComment patchComment =
+        createPatchLineComment(inlineComment.message, inlineComment.file, inlineComment.line, id, side);
+      patchLineComments.add(patchComment);
+    }
+    return patchLineComments;
+  }
+
+  private PatchLineComment createPatchLineComment(String comment,
+      String filename, int lineNumber, PatchSet.Id id, int side) {
+    Patch.Key patchKey = new Patch.Key(id, filename);
+    PatchLineComment.Key patchLineKey;
+    String messageUUID = "";
+    try {
+      messageUUID = ChangeUtil.messageUUID(db);
+    } catch (OrmException e) {
+      throw new IllegalArgumentException("database error", e);
+    }
+    patchLineKey = new PatchLineComment.Key(patchKey, messageUUID);
+
+    PatchLineComment inlineComment =
+        new PatchLineComment(patchLineKey, lineNumber,
+            currentUser.getAccountId(), null);
+
+    inlineComment.setSide((short) side);
+    inlineComment.setMessage(comment);
+    return inlineComment;
   }
 
   private void approveOne(final PatchSet.Id patchSetId)
@@ -361,6 +458,37 @@ public class ReviewCommand extends BaseCommand {
     try {
       err.write(msg.getBytes(ENC));
     } catch (IOException e) {
+    }
+  }
+
+  void submitPatchSets() throws Failure {
+    final Set<Branch.NameKey> toMerge = new HashSet<Branch.NameKey>();
+    try {
+      for (PatchSet.Id patchSetId : toSubmit) {
+        ChangeUtil.submit(patchSetId, currentUser, db, opFactory,
+            new MergeQueue() {
+              @Override
+              public void merge(MergeOp.Factory mof, Branch.NameKey branch) {
+                toMerge.add(branch);
+              }
+
+              @Override
+              public void schedule(Branch.NameKey branch) {
+                toMerge.add(branch);
+              }
+
+              @Override
+              public void recheckAfter(Branch.NameKey branch, long delay,
+                  TimeUnit delayUnit) {
+                toMerge.add(branch);
+              }
+            });
+      }
+      for (Branch.NameKey branch : toMerge) {
+        merger.merge(opFactory, branch);
+      }
+    } catch (OrmException updateError) {
+      throw new Failure(1, "one or more submits failed", updateError);
     }
   }
 

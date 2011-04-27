@@ -35,6 +35,8 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -45,10 +47,31 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ProjectAccessScreen extends ProjectScreen {
+  private class ParentNames extends Composite {
+    FlowPanel fp = new FlowPanel();
+    public ParentNames() {
+      setWidget(fp);
+    }
+
+    public void setParents(Set<Project.NameKey> parents) {
+      fp.clear();
+
+      if (parents.isEmpty()) {
+        final Project.NameKey wildKey = Gerrit.getConfig().getWildProject();
+        fp.add(new Hyperlink(wildKey.get(), Dispatcher.toProjectAdmin(wildKey, ACCESS)));
+      } else {
+        for (final Project.NameKey p : parents) {
+          fp.add(new Hyperlink(p.get(), Dispatcher.toProjectAdmin(p, ACCESS)));
+        }
+      }
+    }
+  }
+
   private Panel parentPanel;
-  private Hyperlink parentName;
+  private ParentNames parentNames;
 
   private RightsTable rights;
   private Button delRight;
@@ -84,7 +107,7 @@ public class ProjectAccessScreen extends ProjectScreen {
   }
 
   private void initParent() {
-    parentName = new Hyperlink("", "");
+    parentNames = new ParentNames();
 
     showInherited = new CheckBox();
     showInherited.setChecked(true);
@@ -96,7 +119,7 @@ public class ProjectAccessScreen extends ProjectScreen {
 
     Grid g = new Grid(2, 3);
     g.setWidget(0, 0, new SmallHeading(Util.C.headingParentProjectName()));
-    g.setWidget(1, 0, parentName);
+    g.setWidget(1, 0, parentNames);
     g.setWidget(1, 1, showInherited);
     g.setText(1, 2, Util.C.headingShowInherited());
 
@@ -135,16 +158,8 @@ public class ProjectAccessScreen extends ProjectScreen {
     final Project project = result.project;
 
     final Project.NameKey wildKey = Gerrit.getConfig().getWildProject();
-    final boolean isWild = wildKey.equals(project.getNameKey());
-    Project.NameKey parent = project.getParent();
-    if (parent == null) {
-      parent = wildKey;
-    }
-
-    parentPanel.setVisible(!isWild);
-    parentName.setTargetHistoryToken(Dispatcher.toProjectAdmin(parent, ACCESS));
-    parentName.setText(parent.get());
-
+    parentPanel.setVisible(!wildKey.equals(project.getNameKey()));
+    parentNames.setParents(project.getParents());
     rights.display(result.groups, result.rights);
 
     rightEditor.setVisible(result.canModifyAccess);

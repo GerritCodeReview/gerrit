@@ -96,6 +96,7 @@ public class ProjectCacheImpl implements ProjectCache {
         if (p == null) {
           return null;
         }
+        ProjectUtil.populateParents(db, p);
 
         final Collection<RefRight> rights =
             Collections.unmodifiableCollection(db.refRights().byProject(

@@ -45,10 +45,11 @@ public class ProjectState {
   private final ProjectControl.AssistedFactory projectControlFactory;
 
   private final Project project;
+  private Set<List<Project.NameKey>> ancestorLines;
+  private Set<List<RefRight>> inheritedRightsLines;
+  private Collection<RefRight> inheritedRights;
   private final Collection<RefRight> localRights;
   private final Set<AccountGroup.Id> owners;
-
-  private volatile Collection<RefRight> inheritedRights;
 
   @Inject
   protected ProjectState(final AnonymousUser anonymousUser,
@@ -89,22 +90,66 @@ public class ProjectState {
     return project;
   }
 
-  /** Get the rights that pertain only to this project. */
-  public Collection<RefRight> getLocalRights() {
-    return localRights;
+  public Set<List<Project.NameKey>> getAncestorLines() {
+    if (ancestorLines == null) {
+      ancestorLines = computeAncestorLines();
+    }
+    return ancestorLines;
   }
 
-  /**
-   * Get the rights that pertain only to this project.
-   *
-   * @param action the category requested.
-   * @return immutable collection of rights for the requested category.
-   */
-  public Collection<RefRight> getLocalRights(ApprovalCategory.Id action) {
-    return filter(getLocalRights(), action);
+  private Set<List<Project.NameKey>> computeAncestorLines() {
+    final Set<List<Project.NameKey>> lines =
+      new HashSet<List<Project.NameKey>>();
+
+    if (project.getParents() == null || project.getParents().size() == 0) {
+      final List<Project.NameKey> line = new LinkedList();
+      line.add(getProject().getNameKey());
+      line.add(wildProject);
+      lines.add(line);
+    } else {
+      for (final Project.NameKey p: project.getParents()) {
+        final ProjectState s = projectCache.get(p);
+        if (s != null) {
+          final Set<List<Project.NameKey>> subLines = s.getAncestorLines();
+          for (final List<Project.NameKey> l: subLines) {
+            final List<Project.NameKey> line = new LinkedList(l);
+            line.add(0, getProject().getNameKey());
+            lines.add(line);
+          }
+        }
+      }
+    }
+    return Collections.unmodifiableSet(lines);
   }
 
-  /** Get the rights this project inherits from the wild project. */
+  /** Get the rights this project inherits from the parent lines. */
+  public Set<List<RefRight>> getInheritedRightsLines() {
+    if (inheritedRightsLines == null) {
+      inheritedRightsLines = computeInheritedRightsLines();
+    }
+    return inheritedRightsLines;
+  }
+
+  private Set<List<RefRight>> computeInheritedRightsLines() {
+    final Set<List<RefRight>> rightLines = new HashSet<List<RefRight>>();
+    for (final List<Project.NameKey> line : getAncestorLines()) {
+      rightLines.add(computeRightsLine(line));
+    }
+    return Collections.unmodifiableSet(rightLines);
+  }
+
+  private List<RefRight> computeRightsLine(List<Project.NameKey> line) {
+    final List<RefRight> rights = new LinkedList<RefRight>();
+    for (final Project.NameKey a : line) {
+      final ProjectState s = projectCache.get(a);
+      if (s != null) {
+        rights.addAll(s.getLocalRights());
+      }
+    }
+    return Collections.unmodifiableList(rights);
+  }
+
+  /** Get the rights this project inherits from all ancestors. */
   public Collection<RefRight> getInheritedRights() {
     if (inheritedRights == null) {
       inheritedRights = computeInheritedRights();
@@ -112,40 +157,23 @@ public class ProjectState {
     return inheritedRights;
   }
 
-  void setInheritedRights(Collection<RefRight> all) {
-    inheritedRights = all;
-  }
-
   private Collection<RefRight> computeInheritedRights() {
-    if (isSpecialWildProject()) {
-      return Collections.emptyList();
-    }
-
-    List<RefRight> inherited = new ArrayList<RefRight>();
-    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
-    Project.NameKey parent = project.getParent();
-
-    while (parent != null && seen.add(parent)) {
-      ProjectState s = projectCache.get(parent);
+    Set<RefRight> inherited = new HashSet<RefRight>();
+    for (Project.NameKey a : project.getParents()) {
+      ProjectState s = projectCache.get(a);
       if (s != null) {
-        inherited.addAll(s.getLocalRights());
-        parent = s.getProject().getParent();
-      } else {
-        break;
+        Set<List<RefRight>> lines = s.getInheritedRightsLines();
+        for (final List<RefRight> line : lines) {
+          inherited.addAll(line);
+        }
       }
     }
-
-    // Wild project is the parent, or the root of the tree
-    if (parent == null) {
-      inherited.addAll(getWildProjectRights());
-    }
-
     return Collections.unmodifiableCollection(inherited);
   }
 
-  private Collection<RefRight> getWildProjectRights() {
-    final ProjectState s = projectCache.get(wildProject);
-    return s != null ? s.getLocalRights() : Collections.<RefRight> emptyList();
+  /** Get the rights that pertain only to this project. */
+  public Collection<RefRight> getLocalRights() {
+    return localRights;
   }
 
   /**
@@ -177,7 +205,7 @@ public class ProjectState {
   }
 
   /**
-   * Get the rights this project has and inherits from the wild project.
+   * Get the rights this project has and inherits from other projects.
    *
    * @param action the category requested.
    * @param dropOverridden whether to remove inherited permissions in case if we have a
@@ -185,26 +213,32 @@ public class ProjectState {
    * @return immutable collection of rights for the requested category.
    */
   public Collection<RefRight> getAllRights(ApprovalCategory.Id action, boolean dropOverridden) {
-    Collection<RefRight> rights = new LinkedList<RefRight>(getLocalRights(action));
-    rights.addAll(filter(getInheritedRights(), action));
-    if (dropOverridden) {
-      Set<Grant> grants = new HashSet<Grant>();
-      Iterator<RefRight> iter = rights.iterator();
-      while (iter.hasNext()) {
-        RefRight right = iter.next();
-
-        Grant grant = new Grant(right.getAccountGroupId(), right.getRefPattern());
-        if (grants.contains(grant)) {
-          iter.remove();
-        } else {
-          grants.add(grant);
-        }
+    final Collection<RefRight> rights = new LinkedList<RefRight>();
+    for (final List<RefRight> line : getInheritedRightsLines()) {
+      final List<RefRight> filtered = filter2(line, action);
+      if (dropOverridden) {
+        rights.addAll(dropOverriddenRights(filtered));
+      } else {
+        rights.addAll(filtered);
       }
     }
     return Collections.unmodifiableCollection(rights);
   }
 
-  /** Is this the special wild project which manages inherited rights? */
+  private static List<RefRight> dropOverriddenRights(List<RefRight> rights) {
+    List<RefRight> granted = new ArrayList<RefRight>();
+    final Set<Grant> grants = new HashSet<Grant>();
+    for (final RefRight right: rights) {
+      final Grant grant = new Grant(right.getAccountGroupId(), right.getRefPattern());
+      if (! grants.contains(grant)) {
+        grants.add(grant);
+        granted.add(right);
+      }
+    }
+    return granted;
+  }
+
+  /** Is this the special wild project? */
   public boolean isSpecialWildProject() {
     return project.getNameKey().equals(wildProject);
   }
@@ -221,12 +255,18 @@ public class ProjectState {
     return projectControlFactory.create(user, this);
   }
 
-  private static Collection<RefRight> filter(Collection<RefRight> all,
+  // ~ should eventually not be needed
+  private static List<RefRight> filter(Collection<RefRight> all,
+      ApprovalCategory.Id actionId) {
+    return filter2(new ArrayList<RefRight>(all), actionId);
+  }
+
+  private static List<RefRight> filter2(List<RefRight> all,
       ApprovalCategory.Id actionId) {
     if (all.isEmpty()) {
       return Collections.emptyList();
     }
-    final Collection<RefRight> mine = new ArrayList<RefRight>(all.size());
+    final List<RefRight> mine = new ArrayList<RefRight>(all.size());
     for (final RefRight right : all) {
       if (right.getApprovalCategoryId().equals(actionId)) {
         mine.add(right);
@@ -235,6 +275,6 @@ public class ProjectState {
     if (mine.isEmpty()) {
       return Collections.emptyList();
     }
-    return Collections.unmodifiableCollection(mine);
+    return Collections.unmodifiableList(mine);
   }
 }

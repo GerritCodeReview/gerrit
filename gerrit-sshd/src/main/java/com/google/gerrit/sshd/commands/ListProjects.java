@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 
 final class ListProjects extends BaseCommand {
@@ -93,7 +94,7 @@ final class ListProjects extends BaseCommand {
     }
 
     try {
-      for (final Project p : db.projects().all()) {
+      for (Project p : db.projects().all()) {
         if (p.getNameKey().equals(wildProject)) {
           // This project "doesn't exist". At least not as a repository.
           //
@@ -106,6 +107,7 @@ final class ListProjects extends BaseCommand {
           //
           continue;
         }
+        p = e.getProject();
 
         final ProjectControl pctl = e.controlFor(currentUser);
 
@@ -142,13 +144,15 @@ final class ListProjects extends BaseCommand {
         // Builds the inheritance tree using a list.
         //
         for (final TreeNode key : treeMap.values()) {
-          final String parentName = key.getParentName();
-          if (parentName != null) {
-            final TreeNode node = treeMap.get((String)parentName);
-            if (node != null) {
-              node.addChild(key);
-            } else {
-              sortedNodes.add(key);
+          Set<Project.NameKey> parents = key.getProject().getParents();
+          if (parents.size() > 0) {
+            for (Project.NameKey parent : parents) {
+              final TreeNode node = treeMap.get(parent.get());
+              if (node != null) {
+                node.addChild(key);
+              } else {
+                sortedNodes.add(key);
+              }
             }
           } else {
             sortedNodes.add(key);
@@ -214,18 +218,6 @@ final class ListProjects extends BaseCommand {
      */
     public boolean isLeaf() {
       return children.size() == 0;
-    }
-
-    /**
-     * Returns the project parent name
-     * @return Project parent name
-     */
-    public String getParentName() {
-      if (project.getParent() != null) {
-        return project.getParent().get();
-      }
-
-      return null;
     }
 
     /**

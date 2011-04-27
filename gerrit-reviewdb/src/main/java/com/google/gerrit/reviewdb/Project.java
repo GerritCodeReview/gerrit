@@ -17,6 +17,8 @@ package com.google.gerrit.reviewdb;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
+import java.util.Set;
+
 /** Projects match a source code repository managed by Gerrit */
 public final class Project {
   /** Project name key */
@@ -96,14 +98,13 @@ public final class Project {
   @Column(id = 5)
   protected char submitType;
 
-  @Column(id = 6, notNull = false, name = "parent_name")
-  protected NameKey parent;
-
-  @Column(id = 7)
+  @Column(id = 6)
   protected boolean requireChangeID;
 
-  @Column(id = 8)
+  @Column(id = 7)
   protected boolean useContentMerge;
+
+  protected Set<NameKey> parents; // must be loaded and saved separately
 
   protected Project() {
   }
@@ -179,11 +180,11 @@ public final class Project {
     submitType = update.submitType;
   }
 
-  public Project.NameKey getParent() {
-    return parent;
+  public Set<Project.NameKey> getParents() {
+    return parents;
   }
 
-  public void setParent(final Project.NameKey parentProjectName) {
-      parent = parentProjectName;
+  public void setParents(final Set<Project.NameKey> parents) {
+      this.parents = parents;
   }
 }

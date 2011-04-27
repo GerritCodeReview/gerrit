@@ -72,6 +72,8 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     final ProjectDetail detail = new ProjectDetail();
     detail.setProject(projectState.getProject());
 
+    detail.setParents(projectState.getParents());
+
     groups = new HashMap<AccountGroup.Id, AccountGroup>();
     final List<InheritedRefRight> refRights = new ArrayList<InheritedRefRight>();
 

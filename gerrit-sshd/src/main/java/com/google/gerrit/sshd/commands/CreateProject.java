@@ -27,7 +27,9 @@ import com.google.gerrit.server.config.ProjectCreatorGroups;
 import com.google.gerrit.server.config.ProjectOwnerGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectUtil;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -65,8 +67,8 @@ final class CreateProject extends BaseCommand {
   @Option(name = "--owner", aliases = {"-o"}, usage = "owner(s) of project")
   private List<AccountGroup.Id> ownerIds;
 
-  @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "parent project")
-  private ProjectControl newParent;
+  @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "parent project(s)")
+  private List<ProjectControl> parents = new ArrayList<ProjectControl>();
 
   @Option(name = "--permissions-only", usage = "create project for use only as parent")
   private boolean permissionsOnly;
@@ -99,6 +101,12 @@ final class CreateProject extends BaseCommand {
 
   @Inject
   private ReviewDb db;
+
+  @Inject
+  private ProjectUtil util;
+
+  @Inject
+  private ProjectCache projectCache;
 
   @Inject
   private GitRepositoryManager repoManager;
@@ -207,7 +215,7 @@ final class CreateProject extends BaseCommand {
     }
   }
 
-  private void createProject() throws OrmException {
+  private void createProject() throws OrmException, Failure {
     List<RefRight> access = new ArrayList<RefRight>();
     for (AccountGroup.Id ownerId : ownerIds) {
       final RefRight.Key prk =
@@ -227,11 +235,20 @@ final class CreateProject extends BaseCommand {
     newProject.setUseSignedOffBy(signedOffBy);
     newProject.setUseContentMerge(contentMerge);
     newProject.setRequireChangeID(requireChangeID);
-    if (newParent != null) {
-      newProject.setParent(newParent.getProject().getNameKey());
-    }
 
     db.projects().insert(Collections.singleton(newProject));
+
+    if (parents.size() > 0) {
+      final StringBuilder err = new StringBuilder();
+      ProjectControl ctrl = projectCache.get(nameKey).controlFor(currentUser);
+      for (ProjectControl parent: parents) {
+        err.append(util.addParent(ctrl, parent));
+      }
+      String e = err.toString();
+      if (! "".equals(e)) {
+        throw new Failure(1, e);
+      }
+    }
   }
 
   private void validateParameters() throws Failure {

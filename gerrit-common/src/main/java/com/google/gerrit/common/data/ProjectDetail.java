@@ -19,9 +19,11 @@ import com.google.gerrit.reviewdb.Project;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ProjectDetail {
   public Project project;
+  public Set<Project.NameKey> parents;
   public Map<AccountGroup.Id, AccountGroup> groups;
   public List<InheritedRefRight> rights;
   public boolean canModifyDescription;
@@ -34,6 +36,10 @@ public class ProjectDetail {
 
   public void setProject(final Project p) {
     project = p;
+  }
+
+  public void setParents(final Set<Project.NameKey> ps) {
+    parents = ps;
   }
 
   public void setGroups(final Map<AccountGroup.Id, AccountGroup> g) {

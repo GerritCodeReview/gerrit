@@ -29,6 +29,7 @@ import com.google.inject.name.Named;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 /** Cache of project information, including access rights. */
 @Singleton
@@ -96,12 +97,13 @@ public class ProjectCacheImpl implements ProjectCache {
         if (p == null) {
           return null;
         }
+        final Set<Project.NameKey> parents = ProjectUtil.getParents(db, p);
 
         final Collection<RefRight> rights =
             Collections.unmodifiableCollection(db.refRights().byProject(
                 p.getNameKey()).toList());
 
-        return projectStateFactory.create(p, rights);
+        return projectStateFactory.create(p, parents, rights);
       } finally {
         db.close();
       }

@@ -45,17 +45,139 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class RefControlTest extends TestCase {
+
+  // "Setup" tests ensure that we have working parents, ancestorslines
+  // and rightslines
+
+  public void testSetup_Parents() {
+    initProjectStates();
+
+    assertTrue("local == 1", projectCache.get(local).getParents().size() == 1);
+    assertTrue("parent == 1", projectCache.get(parent).getParents().size() == 1);
+    assertTrue("gparent == 0", projectCache.get(gparent).getParents().size() == 0);
+    assertTrue("multi == 2", projectCache.get(multi).getParents().size() == 2);
+    assertTrue("parentA == 1", projectCache.get(parentA).getParents().size() == 1);
+    assertTrue("parentB == 1", projectCache.get(parentB).getParents().size() == 1);
+  }
+
+  public void testSetup_AncestorLines() {
+    initProjectStates();
+
+    assertTrue("local == 1", 1==projectCache.get(local).getAncestorLines().size());
+    assertTrue("parent == 1", 1==projectCache.get(parent).getAncestorLines().size());
+    assertTrue("gparent == 1", 1==projectCache.get(gparent).getAncestorLines().size());
+    assertTrue("multi == 2", 2==projectCache.get(multi).getAncestorLines().size());
+    assertTrue("parentA == 1", 1==projectCache.get(parentA).getAncestorLines().size());
+    assertTrue("parentB == 1", 1==projectCache.get(parentB).getAncestorLines().size());
+  }
+
+  public void testSetup_AncestorLine() {
+    initProjectStates();
+
+    Set<List<Project.NameKey>> lines = projectCache.get(local).getAncestorLines();
+    List<Project.NameKey> line = (List<Project.NameKey>) lines.toArray()[0];
+    assertTrue("local == 4", 4==line.size());
+
+    lines = projectCache.get(multi).getAncestorLines();
+    line = (List<Project.NameKey>) lines.toArray()[0];
+    assertTrue("multi0 == 4", 4==line.size());
+
+    line = (List<Project.NameKey>) lines.toArray()[1];
+    assertTrue("multi1 == 4", 4==line.size());
+
+    lines = projectCache.get(parent).getAncestorLines();
+    line = (List<Project.NameKey>) lines.toArray()[0];
+    assertTrue("parent == 3", 3==line.size());
+
+    lines = projectCache.get(parentA).getAncestorLines();
+    line = (List<Project.NameKey>) lines.toArray()[0];
+    assertTrue("parentA == 3", 3==line.size());
+
+    lines = projectCache.get(parentB).getAncestorLines();
+    line = (List<Project.NameKey>) lines.toArray()[0];
+    assertTrue("parentB == 3", 3==line.size());
+
+    lines = projectCache.get(gparent).getAncestorLines();
+    line = (List<Project.NameKey>) lines.toArray()[0];
+    assertTrue("gparent == 2", 2==line.size());
+  }
+
+  public void testSetup_InheritedLines() {
+    grant(local, READ, registered, "refs/*", 1);
+    grant(multi, READ, registered, "refs/*", 1);
+    grant(parent, READ, registered, "refs/*", 1);
+    grant(parentA, READ, registered, "refs/*", 1);
+    grant(parentB, READ, registered, "refs/*", 1);
+    grant(gparent, READ, registered, "refs/*", 1);
+
+    initProjectStates();
+
+    assertTrue("local == 1", 1==projectCache.get(local).getInheritedRightsLines().size());
+    assertTrue("parent == 1", 1==projectCache.get(parent).getInheritedRightsLines().size());
+    assertTrue("gparent == 1", 1==projectCache.get(gparent).getInheritedRightsLines().size());
+    assertTrue("multi == 2", 2==projectCache.get(multi).getInheritedRightsLines().size());
+    assertTrue("parentA == 1", 1==projectCache.get(parentA).getInheritedRightsLines().size());
+    assertTrue("parentB == 1", 1==projectCache.get(parentB).getInheritedRightsLines().size());
+  }
+
+  public void testSetup_InheritedLine() {
+    grant(local, READ, registered, "refs/*", 1);
+    grant(local, READ, devs, "refs/*", 2);
+    grant(local, READ, fixers, "refs/*", 3);
+    grant(local, READ, anonymous, "refs/*", 0);
+    grant(multi, READ, registered, "refs/*", 1);
+    grant(multi, READ, devs, "refs/*", 2);
+    grant(multi, READ, fixers, "refs/*", 3);
+    grant(multi, READ, anonymous, "refs/*", 0);
+    grant(parent, READ, registered, "refs/*", 1);
+    grant(parent, READ, devs, "refs/*", 2);
+    grant(parentA, READ, registered, "refs/*", 1);
+    grant(parentA, READ, devs, "refs/*", 2);
+    grant(parentB, READ, registered, "refs/*", 1);
+    grant(parentB, READ, devs, "refs/*", 2);
+    grant(gparent, READ, registered, "refs/*", 1);
+
+    initProjectStates();
+
+    Set<List<RefRight>> lines = projectCache.get(local).getInheritedRightsLines();
+    List<RefRight> line = (List<RefRight>) lines.toArray()[0];
+    assertTrue("local == 7", 7==line.size());
+
+    lines = projectCache.get(multi).getInheritedRightsLines();
+    line = (List<RefRight>) lines.toArray()[0];
+    assertTrue("multi0 == 7", 7==line.size());
+    line = (List<RefRight>) lines.toArray()[1];
+    assertTrue("multi1 == 7", 7==line.size());
+
+    lines = projectCache.get(parent).getInheritedRightsLines();
+    line = (List<RefRight>) lines.toArray()[0];
+    assertTrue("parent == 3", 3==line.size());
+
+    lines = projectCache.get(parentA).getInheritedRightsLines();
+    line = (List<RefRight>) lines.toArray()[0];
+    assertTrue("parentA == 3", 3==line.size());
+
+    lines = projectCache.get(parentB).getInheritedRightsLines();
+    line = (List<RefRight>) lines.toArray()[0];
+    assertTrue("parentB == 3", 3==line.size());
+
+    lines = projectCache.get(gparent).getInheritedRightsLines();
+    line = (List<RefRight>) lines.toArray()[0];
+    assertTrue("gparent == 1", 1==line.size());
+  }
+
   public void testOwnerProject() {
     grant(local, OWN, admin, "refs/*", 1);
 
     ProjectControl uBlah = user(devs);
     ProjectControl uAdmin = user(devs, admin);
-
     assertFalse("not owner", uBlah.isOwner());
     assertTrue("is owner", uAdmin.isOwner());
   }
@@ -74,12 +196,22 @@ public class RefControlTest extends TestCase {
 
     assertNotOwner("refs/*", uDev);
     assertNotOwner("refs/heads/master", uDev);
+    assertNotOwner("refs/heads/master/x", uDev);
+
+    // Crazy wild stuff
+    assertNotOwner("refs/heads/*/x", uDev);
+    assertNotOwner("refs/*/x", uDev);
+    assertNotOwner("refs/heads/y/../x/*", uDev);
   }
 
   public void testBranchDelegation2() {
     grant(local, OWN, admin, "refs/*", 1);
     grant(local, OWN, devs, "refs/heads/x/*", 1);
     grant(local, OWN, fixers, "-refs/heads/x/y/*", 1);
+
+    ProjectControl uAdmin = user(devs, admin);
+    assertTrue("owns ref", uAdmin.isOwner());
+    assertOwner("refs/heads/x/y/*", uAdmin);
 
     ProjectControl uDev = user(devs);
     assertFalse("not owner", uDev.isOwner());
@@ -95,8 +227,8 @@ public class RefControlTest extends TestCase {
     assertFalse("not owner", uFix.isOwner());
     assertTrue("owns ref", uFix.isOwnerAnyRef());
 
-    assertOwner("refs/heads/x/y/*", uFix);
     assertOwner("refs/heads/x/y/bar", uFix);
+    assertOwner("refs/heads/x/y/*", uFix);
     assertNotOwner("refs/heads/x/*", uFix);
     assertNotOwner("refs/heads/x/y", uFix);
     assertNotOwner("refs/*", uFix);
@@ -117,6 +249,20 @@ public class RefControlTest extends TestCase {
         u.controlForRef("refs/heads/foobar").canUpload());
   }
 
+  public void testInheritRead_GParent() {
+    grant(gparent, READ, registered, "refs/*", 1);
+
+    ProjectControl u = user();
+    assertTrue("can read", u.isVisible());
+  }
+
+  public void testInheritRead_WildProject() {
+    grant(wildProject, READ, registered, "refs/*", 1);
+
+    ProjectControl u = user();
+    assertTrue("can read", u.isVisible());
+  }
+
   public void testInheritRead_SingleBranchDoesNotOverrideInherited() {
     grant(parent, READ, registered, "refs/*", 1, 2);
     grant(local, READ, registered, "refs/heads/foobar", 1);
@@ -132,6 +278,31 @@ public class RefControlTest extends TestCase {
   }
 
   public void testInheritRead_OverrideWithDeny() {
+    grant(parent, READ, registered, "refs/*", 1);
+    grant(local, READ, registered, "refs/*", 0);
+
+    ProjectControl u = user();
+    assertFalse("can't read", u.isVisible());
+  }
+
+  public void testInheritRead_OverrideGParentWithDeny() {
+    grant(gparent, READ, registered, "refs/*", 1);
+    grant(local, READ, registered, "refs/*", 0);
+
+    ProjectControl u = user();
+    assertFalse("can't read", u.isVisible());
+  }
+
+  public void testInheritRead_ParentOverridesGParentWithDeny() {
+    grant(gparent, READ, registered, "refs/*", 1);
+    grant(parent, READ, registered, "refs/*", 0);
+
+    ProjectControl u = user();
+    assertFalse("can't read", u.isVisible());
+  }
+
+  public void testInheritRead_AllowParentOverrideGParentOverrideParentWithDeny() {
+    grant(gparent, READ, registered, "refs/*", 2);
     grant(parent, READ, registered, "refs/*", 1);
     grant(local, READ, registered, "refs/*", 0);
 
@@ -183,11 +354,82 @@ public class RefControlTest extends TestCase {
         u.controlForRef("refs/heads/master").canUpload());
   }
 
+  public void testMultiRead_FromSingleParent() {
+    grant(parentA, READ, devs, "refs/*", 1);
+    grant(parentB, READ, fixers, "refs/*", 1);
+
+    ProjectControl uDev = multi(devs);
+    ProjectControl uFix = multi(fixers);
+    assertTrue("can read", uDev.isVisible());
+    assertTrue("can read", uFix.isVisible());
+  }
+
+  public void testMultiRead_HighestOfSiblings() {
+    grant(parentA, READ, devs, "refs/*", 0);
+    grant(parentB, READ, devs, "refs/*", 1);
+    grant(parentA, READ, fixers, "refs/*", 0);
+    grant(parentB, READ, fixers, "refs/*", 1);
+
+    ProjectControl uDev = multi(devs);
+    ProjectControl uFix = multi(fixers);
+    assertTrue("can read", uDev.isVisible());
+    assertTrue("can read", uFix.isVisible());
+  }
+
+  public void testMultiRead_SingleParentDoesNotOverrideGParent() {
+    grant(gparent, READ, devs, "refs/*", 1);
+    grant(parentA, READ, devs, "refs/*", 0);
+    grant(gparent, READ, fixers, "refs/*", 1);
+    grant(parentB, READ, fixers, "refs/*", 0);
+
+    ProjectControl uDev = multi(devs);
+    ProjectControl uFix = multi(fixers);
+    assertTrue("can read", uDev.isVisible());
+    assertTrue("can read", uFix.isVisible());
+  }
+
+  public void testMultiRead_GParentOverridenByParents() {
+    grant(gparent, READ, registered, "refs/*", 1);
+    grant(parentA, READ, registered, "refs/*", 0);
+    grant(parentB, READ, registered, "refs/*", 0);
+
+    ProjectControl u = multi();
+    assertFalse("can't read", u.isVisible());
+  }
+
+  public void testMultiRead_SingleParentDoesNotOverrideWildProject() {
+    grant(wildProject, READ, devs, "refs/*", 1);
+    grant(parentA, READ, devs, "refs/*", 0);
+    grant(wildProject, READ, fixers, "refs/*", 1);
+    grant(parentB, READ, fixers, "refs/*", 0);
+
+    ProjectControl uDev = multi(devs);
+    ProjectControl uFix = multi(fixers);
+    assertTrue("can read", uDev.isVisible());
+    assertTrue("can read", uFix.isVisible());
+  }
+
+  public void testMultiRead_ParentDoesOverrideWildProject() {
+    grant(wildProject, READ, registered, "refs/*", 1);
+    grant(gparent, READ, registered, "refs/*", 0);
+
+    ProjectControl u = multi();
+    assertFalse("can't read", u.isVisible());
+  }
 
   // -----------------------------------------------------------------------
 
-  private final Project.NameKey local = new Project.NameKey("test");
+  private final Project.NameKey wildProject = new Project.NameKey("-- All Projects --");
+
+  private final Project.NameKey local = new Project.NameKey("single");
+  private final Project.NameKey multi = new Project.NameKey("multi");
+
   private final Project.NameKey parent = new Project.NameKey("parent");
+  private final Project.NameKey parentA = new Project.NameKey("parentA");
+  private final Project.NameKey parentB = new Project.NameKey("parentB");
+
+  private final Project.NameKey gparent = new Project.NameKey("gparent");
+
   private final AccountGroup.Id admin = new AccountGroup.Id(1);
   private final AccountGroup.Id anonymous = new AccountGroup.Id(2);
   private final AccountGroup.Id registered = new AccountGroup.Id(3);
@@ -199,6 +441,9 @@ public class RefControlTest extends TestCase {
   private final SystemConfig systemConfig;
   private final AuthConfig authConfig;
   private final AnonymousUser anonymousUser;
+
+  private final ProjectControl.AssistedFactory projectControlFactory = null;
+
 
   public RefControlTest() {
     systemConfig = SystemConfig.create();
@@ -230,14 +475,26 @@ public class RefControlTest extends TestCase {
     anonymousUser = injector.getInstance(AnonymousUser.class);
   }
 
-  private List<RefRight> localRights;
-  private List<RefRight> inheritedRights;
+  private Map<Project.NameKey,List<RefRight>> rightsByProject;
+  private HashProjectCacheImpl projectCache;
+  private boolean initedProjectStates;
 
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    localRights = new ArrayList<RefRight>();
-    inheritedRights = new ArrayList<RefRight>();
+    initedProjectStates = false;
+    projectCache = new HashProjectCacheImpl();
+    rightsByProject = new HashMap<Project.NameKey,List<RefRight>>();
+
+    rightsByProject.put(wildProject, new ArrayList<RefRight>());
+
+    rightsByProject.put(local, new ArrayList<RefRight>());
+    rightsByProject.put(parent, new ArrayList<RefRight>());
+    rightsByProject.put(gparent, new ArrayList<RefRight>());
+
+    rightsByProject.put(multi, new ArrayList<RefRight>());
+    rightsByProject.put(parentA, new ArrayList<RefRight>());
+    rightsByProject.put(parentB, new ArrayList<RefRight>());
   }
 
   private static void assertOwner(String ref, ProjectControl u) {
@@ -255,42 +512,69 @@ public class RefControlTest extends TestCase {
 
   private void grant(Project.NameKey project, ApprovalCategory.Id categoryId, AccountGroup.Id group,
       String ref, int minValue, int maxValue) {
-    RefRight right =
-        new RefRight(new RefRight.Key(project, new RefPattern(ref),
-            categoryId, group));
-    right.setMinValue((short) minValue);
-    right.setMaxValue((short) maxValue);
-
-    if (project == parent) {
-      inheritedRights.add(right);
-    } else if (project == local) {
-      localRights.add(right);
+    if (initedProjectStates) {
+      fail("Project States are already inited, cannot modify " + project);
     } else {
-      fail("Unknown project key: " + project);
+      RefRight right =
+          new RefRight(new RefRight.Key(project, new RefPattern(ref),
+              categoryId, group));
+      right.setMinValue((short) minValue);
+      right.setMaxValue((short) maxValue);
+
+      List<RefRight> rights = rightsByProject.get(project);
+      if (rights == null) {
+        fail("Unknown project key: " + project);
+      } else {
+        rights.add(right);
+      }
     }
   }
 
   private ProjectControl user(AccountGroup.Id... memberOf) {
+    return controlFor(local, memberOf);
+  }
+
+  private ProjectControl multi(AccountGroup.Id... memberOf) {
+    return controlFor(multi, memberOf);
+  }
+
+  private ProjectControl controlFor(Project.NameKey project,
+      AccountGroup.Id... memberOf) {
     RefControl.Factory refControlFactory = new RefControl.Factory() {
       @Override
       public RefControl create(final ProjectControl projectControl, final String ref) {
         return new RefControl(systemConfig, projectControl, ref);
       }
     };
+    initProjectStates();
     return new ProjectControl(Collections.<AccountGroup.Id> emptySet(),
         Collections.<AccountGroup.Id> emptySet(), refControlFactory,
-        new MockUser(memberOf), newProjectState());
+        new MockUser(memberOf), projectCache.get(project));
   }
 
-  private ProjectState newProjectState() {
-    ProjectCache projectCache = null;
-    Project.NameKey wildProject = new Project.NameKey("-- All Projects --");
-    ProjectControl.AssistedFactory projectControlFactory = null;
-    ProjectState ps =
+  private void initProjectStates() {
+    if (! initedProjectStates) {
+      initedProjectStates = true;
+      initProjectState(wildProject);
+
+      initProjectState(gparent);
+
+      initProjectState(parent, gparent);
+      initProjectState(parentA, gparent);
+      initProjectState(parentB, gparent);
+
+      initProjectState(local, parent);
+      initProjectState(multi, parentA, parentB);
+    }
+  }
+
+  private void initProjectState(Project.NameKey child, Project.NameKey... parents) {
+    Project project = new Project(child);
+    Set<Project.NameKey> pKeys = new HashSet<Project.NameKey>(Arrays.asList(parents));
+    projectCache.put(child,
         new ProjectState(anonymousUser, projectCache, wildProject,
-            projectControlFactory, new Project(parent), localRights);
-    ps.setInheritedRights(inheritedRights);
-    return ps;
+            projectControlFactory, project, pKeys, rightsByProject.get(child))
+      );
   }
 
   private class MockUser extends CurrentUser {
@@ -316,6 +600,28 @@ public class RefControlTest extends TestCase {
     @Override
     public Collection<AccountProjectWatch> getNotificationFilters() {
       return Collections.emptySet();
+    }
+  }
+
+  private static class HashProjectCacheImpl implements ProjectCache {
+    private final Map<Project.NameKey, ProjectState> byName;
+
+    public HashProjectCacheImpl() {
+      byName = new HashMap<Project.NameKey, ProjectState>();
+    }
+
+    public ProjectState get(Project.NameKey projectName) {
+      return byName.get(projectName);
+    }
+
+    public void put(Project.NameKey projectName, ProjectState ps) {
+      byName.put(projectName, ps);
+    }
+
+    public void evict(Project p) {
+    }
+
+    public void evictAll() {
     }
   }
 }

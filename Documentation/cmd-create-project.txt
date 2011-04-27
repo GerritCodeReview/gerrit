@@ -12,7 +12,7 @@ SYNOPSIS
  --name <NAME> \
  [--branch <REF>] \
  [\--owner <GROUP> ...] \
- [\--parent <NAME>] \
+ [\--parent <NAME> ...] \
  [\--permissions-only] \
  [\--description <DESC>] \
  [\--submit-type <TYPE>] \
@@ -67,7 +67,7 @@ repository.*.createGroup will be used. If they don't exist,
 `Administrators` will be used.
 
 \--parent::
-	Name of the parent project to inherit access rights
+	Name of the parent project(s) to inherit access rights
 	through. If not specified, the parent is set to the default
 	project `\-- All Projects \--`.
 

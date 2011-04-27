@@ -97,6 +97,9 @@ public interface ReviewDb extends Schema {
   ProjectAccess projects();
 
   @Relation
+  ProjectParentAccess projectParents();
+
+  @Relation
   ChangeAccess changes();
 
   @Relation

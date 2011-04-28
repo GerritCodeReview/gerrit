@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/3///n0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-04-28T08:38:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA/n//+As\u003d",
+      "revId": "37af7e9fb6aeb6dcc302a3f359088607efbd1669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n//+BE\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/3///oc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-04-28T08:38:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA/n//+BE\u003d",
+      "revId": "37af7e9fb6aeb6dcc302a3f359088607efbd1669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n//+Aw\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2011-04-21T17:27:48Z",
       "side": 1,
       "message": "This doesn\u0027t work as it should (and neither does the old code).\n\nIf I create the following rules:\n\n  Owner +1 refs/* Devs\n  Owner +1 refs/tags/qa/* QA\n  Submit +1 refs/heads/* Project Owners\n\nUnfortunately the group QA has Submit rights on refs/heads/*. The problem is we aren\u0027t filtering the RefRight to only the refs/* lines.",
+      "revId": "37af7e9fb6aeb6dcc302a3f359088607efbd1669",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/3///n4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-04-28T08:38:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA/n//+Aw\u003d",
       "revId": "37af7e9fb6aeb6dcc302a3f359088607efbd1669",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

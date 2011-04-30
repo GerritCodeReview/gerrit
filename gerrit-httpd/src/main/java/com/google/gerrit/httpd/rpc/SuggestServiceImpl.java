@@ -111,8 +111,8 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  private void addSuggestion(Map map, Account account, AccountInfo info,
-      Boolean active) {
+  private void addSuggestion(Map<Account.Id, AccountInfo> map, Account account,
+      AccountInfo info, Boolean active) {
     if (active == null || active == account.isActive()) {
       map.put(account.getId(), info);
     }

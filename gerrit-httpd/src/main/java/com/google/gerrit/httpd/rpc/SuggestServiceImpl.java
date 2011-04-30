@@ -20,12 +20,16 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountGroup.Id;
 import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -33,7 +37,11 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.lib.Config;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,21 +51,31 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {
   private static final String MAX_SUFFIX = "\u9fa5";
 
+  private final AuthConfig authConfig;
   private final ProjectCache projectCache;
   private final AccountCache accountCache;
   private final GroupControl.Factory groupControlFactory;
+  private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<CurrentUser> currentUser;
+  private final SuggestAccountsEnum suggestAccounts;
 
   @Inject
   SuggestServiceImpl(final Provider<ReviewDb> schema,
+      final AuthConfig authConfig,
       final ProjectCache projectCache, final AccountCache accountCache,
       final GroupControl.Factory groupControlFactory,
-      final Provider<CurrentUser> currentUser) {
+      final IdentifiedUser.GenericFactory userFactory,
+      final Provider<CurrentUser> currentUser,
+      @GerritServerConfig final Config cfg) {
     super(schema, currentUser);
+    this.authConfig = authConfig;
     this.projectCache = projectCache;
     this.accountCache = accountCache;
     this.groupControlFactory = groupControlFactory;
+    this.userFactory = userFactory;
     this.currentUser = currentUser;
+    this.suggestAccounts =
+        cfg.getEnum("suggest", null, "accounts", SuggestAccountsEnum.ALL);
   }
 
   public void suggestProjectNameKey(final String query, final int limit,
@@ -84,6 +102,11 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
   public void suggestAccount(final String query, final Boolean active,
       final int limit, final AsyncCallback<List<AccountInfo>> callback) {
+    if (suggestAccounts == SuggestAccountsEnum.OFF) {
+      callback.onSuccess(Collections.<AccountInfo> emptyList());
+      return;
+    }
+
     run(callback, new Action<List<AccountInfo>>() {
       public List<AccountInfo> run(final ReviewDb db) throws OrmException {
         final String a = query;
@@ -120,9 +143,38 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
   private void addSuggestion(Map<Account.Id, AccountInfo> map, Account account,
       AccountInfo info, Boolean active) {
-    if (active == null || active == account.isActive()) {
-      map.put(account.getId(), info);
+    if (map.containsKey(account.getId())) {
+      return;
     }
+    if (active != null && active != account.isActive()) {
+      return;
+    }
+    switch (suggestAccounts) {
+      case ALL:
+        map.put(account.getId(), info);
+        break;
+      case SAME_GROUP: {
+        Set<AccountGroup.Id> usersGroups = groupsOf(account);
+        usersGroups.removeAll(authConfig.getRegisteredGroups());
+        usersGroups.remove(authConfig.getBatchUsersGroup());
+        for (AccountGroup.Id myGroup : currentUser.get().getEffectiveGroups()) {
+          if (usersGroups.contains(myGroup)) {
+            map.put(account.getId(), info);
+            break;
+          }
+        }
+        break;
+      }
+      case OFF:
+        break;
+      default:
+        throw new IllegalStateException("Bad SuggestAccounts " + suggestAccounts);
+    }
+  }
+
+  private Set<Id> groupsOf(Account account) {
+    IdentifiedUser user = userFactory.create(account.getId());
+    return new HashSet<AccountGroup.Id>(user.getEffectiveGroups());
   }
 
   public void suggestAccountGroup(final String query, final int limit,

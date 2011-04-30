@@ -1755,6 +1755,22 @@ Supported MACs: hmac-md5, hmac-md5-96, hmac-sha1, hmac-sha1-96.
 +
 By default, all supported MACs are available.
 
+[[suggest]] Section suggest
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[suggest.accounts]]::
++
+If `ALL`, all matching user accounts will be offered as
+completion suggestions when adding a reviewer to a change,
+or a user to a group.
++
+If `SAME_GROUP`, only users who are also members of a group the
+current user is a member of will be offered.
++
+If `OFF`, no account suggestions are given.
++
+Default is `ALL`.
+
 [[theme]] Section theme
 ~~~~~~~~~~~~~~~~~~~~~~~
 

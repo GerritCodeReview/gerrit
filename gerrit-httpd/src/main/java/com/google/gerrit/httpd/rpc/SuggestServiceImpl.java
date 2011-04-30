@@ -16,13 +16,16 @@ package com.google.gerrit.httpd.rpc;
 
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.SuggestService;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -34,6 +37,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {
@@ -41,15 +45,18 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
   private final ProjectCache projectCache;
   private final AccountCache accountCache;
+  private final GroupControl.Factory groupControlFactory;
   private final Provider<CurrentUser> currentUser;
 
   @Inject
   SuggestServiceImpl(final Provider<ReviewDb> schema,
       final ProjectCache projectCache, final AccountCache accountCache,
+      final GroupControl.Factory groupControlFactory,
       final Provider<CurrentUser> currentUser) {
     super(schema, currentUser);
     this.projectCache = projectCache;
     this.accountCache = accountCache;
+    this.groupControlFactory = groupControlFactory;
     this.currentUser = currentUser;
   }
 
@@ -126,7 +133,20 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         final String b = a + MAX_SUFFIX;
         final int max = 10;
         final int n = limit <= 0 ? max : Math.min(limit, max);
-        return db.accountGroupNames().suggestByName(a, b, n).toList();
+        Set<AccountGroup.Id> memberOf = currentUser.get().getEffectiveGroups();
+        List<AccountGroupName> names = new ArrayList<AccountGroupName>(n);
+        for (AccountGroupName group : db.accountGroupNames()
+              .suggestByName(a, b, n)) {
+          try {
+            if (memberOf.contains(group.getId())
+                || groupControlFactory.controlFor(group.getId()).isVisible()) {
+              names.add(group);
+            }
+          } catch (NoSuchGroupException e) {
+            continue;
+          }
+        }
+        return names;
       }
     });
   }

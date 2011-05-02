@@ -395,6 +395,9 @@ Push Branch
 This category permits users to push directly into a branch over SSH,
 bypassing any code review process that would otherwise be used.
 
+These permissions also permit the equivalent branch administration 
+operations (Add Branch/Delete Branch) on the web UI.
+
 This category has several possible values:
 
 * +1 Update Branch
@@ -613,6 +616,28 @@ project's history.
 In order to submit, all approval categories (such as `Verified` and
 `Code Review`, above) must enable submit, and also must not block it.
 See above for details on each category.
+
+[[category_brAD]]
+Branch Admin
+~~~~~~
+
+This category permits users to administrate project branches on the web UI while 
+not changing any other project settings.
+
+For some projects, particularly those with users new to GIT, it may be desirable to 
+allow users to create branches while still disabling the by-pass of code review by 
+pushing over SSH.
+
+* +1 Add Branch
++
+Allows the creation of new branches via the web UI. Theis permission may be restricted by 
+a path ref such as "refs/heads/sandbox/$\{username\}/*" giving users branch creation rights 
+within their own sandbox.
+
+* +2 Delete Branch
++
+Implies 'Add Branch', but also allows the deletion of existing branches. This level may 
+allow existing commits to be discarded from a project history.
 
 [[category_makeoneup]]
 Your Category Here

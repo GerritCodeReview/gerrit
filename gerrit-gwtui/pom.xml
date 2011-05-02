@@ -140,31 +140,6 @@ limitations under the License.
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>get-keyapplet</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>copy</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>gerrit</groupId>
-                  <artifactId>gerrit-keyapplet</artifactId>
-                  <version>${keyappletVersion}</version>
-                  <outputDirectory>${project.build.directory}/${project.build.finalName}/gerrit</outputDirectory>
-                  <destFileName>gerrit-keyapplet-${keyappletVersion}.cache.jar</destFileName>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
         <configuration>
@@ -187,21 +162,6 @@ limitations under the License.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
-          <execution>
-            <id>name-keyapplet</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <target>
-                <property name="dst" location="${project.build.outputDirectory}" />
-                <property name="pkg" location="${dst}/com/google/gerrit/client/account"/>
-                <mkdir dir="${pkg}"/>
-                <echo file="${pkg}/keyapplet_jar">gerrit-keyapplet-${keyappletVersion}.cache.jar</echo>
-              </target>
-            </configuration>
-          </execution>
           <execution>
             <id>compress-html</id>
             <phase>prepare-package</phase>

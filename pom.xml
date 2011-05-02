@@ -54,7 +54,6 @@ limitations under the License.
     <slf4jVersion>1.6.1</slf4jVersion>
     <guiceVersion>2.0</guiceVersion>
     <jettyVersion>7.4.0.v20110414</jettyVersion>
-    <keyappletVersion>1.0</keyappletVersion>
 
     <gwt.compileReport>false</gwt.compileReport>
 

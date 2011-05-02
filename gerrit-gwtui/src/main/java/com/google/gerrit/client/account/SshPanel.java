@@ -22,25 +22,20 @@ import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.SshHostKey;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.AccountSshKey;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
@@ -51,11 +46,6 @@ import java.util.HashSet;
 import java.util.List;
 
 class SshPanel extends Composite {
-  private static boolean loadedApplet;
-  private static Element applet;
-  private static String appletErrorInvalidKey;
-  private static String appletErrorSecurity;
-
   private SshKeyTable keys;
 
   private Button showAddKeyBlock;
@@ -63,8 +53,6 @@ class SshPanel extends Composite {
   private Button closeAddKeyBlock;
   private Button clearNew;
   private Button addNew;
-  private Button browse;
-  private Timer appletLoadTimer;
   private NpTextArea addTxt;
   private Button deleteKey;
 
@@ -125,16 +113,6 @@ class SshPanel extends Composite {
     });
     buttons.add(clearNew);
 
-    browse = new Button(Util.C.buttonOpenSshKey());
-    browse.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        doBrowse();
-      }
-    });
-    browse.setVisible(!loadedApplet || applet != null);
-    buttons.add(browse);
-
     addNew = new Button(Util.C.buttonAddSshKey());
     addNew.addClickHandler(new ClickHandler() {
       @Override
@@ -169,108 +147,6 @@ class SshPanel extends Composite {
     deleteKey.setVisible(on);
     closeAddKeyBlock.setVisible(on);
   }
-
-  void doBrowse() {
-    browse.setEnabled(false);
-
-    if (!loadedApplet) {
-      applet = DOM.createElement("applet");
-      applet.setAttribute("code",
-          "com.google.gerrit.keyapplet.ReadPublicKey.class");
-      applet.setAttribute("archive", GWT.getModuleBaseURL()
-          + AccountResources.I.keyapplet_jar().getText());
-      applet.setAttribute("mayscript", "true");
-      applet.setAttribute("width", "0");
-      applet.setAttribute("height", "0");
-      RootPanel.getBodyElement().appendChild(applet);
-      loadedApplet = true;
-
-      // We have to defer to allow the event loop time to setup that
-      // new applet tag we just created above, and actually load the
-      // applet into the runtime.
-      //
-      appletLoadTimer = new Timer() {
-        private int attempts;
-
-        @Override
-        public void run() {
-          if (isAppletRunning(applet)) {
-            appletLoadTimer = null;
-            cancel();
-            doBrowse();
-          } else if (30000 / 200 < attempts++) {
-            appletLoadTimer = null;
-            cancel();
-            noBrowse();
-          }
-        }
-      };
-      appletLoadTimer.scheduleRepeating(200);
-      return;
-    }
-
-    if (applet == null || !isAppletRunning(applet)) {
-      // If the applet element is null, the applet was determined
-      // to have failed to load, and we are dead. Hide the button.
-      //
-      noBrowse();
-      return;
-    }
-
-    String txt;
-    try {
-      txt = openPublicKey(applet);
-    } catch (RuntimeException re) {
-      // If this call fails, the applet is dead. It is most likely
-      // not loading due to Java support being disabled.
-      //
-      noBrowse();
-      return;
-    }
-    if (txt == null) {
-      txt = "";
-    }
-
-    browse.setEnabled(true);
-
-    if (appletErrorInvalidKey == null) {
-      appletErrorInvalidKey = getErrorInvalidKey(applet);
-      appletErrorSecurity = getErrorSecurity(applet);
-    }
-
-    if (appletErrorInvalidKey.equals(txt)) {
-      new ErrorDialog(Util.C.invalidSshKeyError()).center();
-      return;
-    }
-    if (appletErrorSecurity.equals(txt)) {
-      new ErrorDialog(Util.C.invalidSshKeyError()).center();
-      return;
-    }
-
-    addTxt.setText(txt);
-    addNew.setFocus(true);
-  }
-
-  private void noBrowse() {
-    if (applet != null) {
-      applet.getParentElement().removeChild(applet);
-      applet = null;
-    }
-    browse.setVisible(false);
-    new ErrorDialog(Util.C.sshJavaAppletNotAvailable()).center();
-  }
-
-  private static native boolean isAppletRunning(Element keyapp)
-  /*-{ return keyapp['openPublicKey'] ? true : false }-*/;
-
-  private static native String openPublicKey(Element keyapp)
-  /*-{ var r = keyapp.openPublicKey(); return r == null ? null : ''+r; }-*/;
-
-  private static native String getErrorInvalidKey(Element keyapp)
-  /*-{ return ''+keyapp.getErrorInvalidKey(); }-*/;
-
-  private static native String getErrorSecurity(Element keyapp)
-  /*-{ return ''+keyapp.getErrorSecurity(); }-*/;
 
   void doAddNew() {
     final String txt = addTxt.getText();
@@ -341,16 +217,6 @@ class SshPanel extends Composite {
   }
 
   void display() {
-  }
-
-  @Override
-  protected void onUnload() {
-    if (appletLoadTimer != null) {
-      appletLoadTimer.cancel();
-      appletLoadTimer = null;
-    }
-
-    super.onUnload();
   }
 
   private void showAddKeyBlock(final boolean show) {

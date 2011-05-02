@@ -160,6 +160,7 @@ public class ProjectControl {
 
   public boolean canAddRefs() {
     return (canPerformOnAnyRef(ApprovalCategory.PUSH_HEAD, ApprovalCategory.PUSH_HEAD_CREATE)
+        || canPerformOnAnyRef(ApprovalCategory.BRANCH_ADMIN, ApprovalCategory.BRANCH_ADMIN_ADD)
         || isOwnerAnyRef());
   }
 

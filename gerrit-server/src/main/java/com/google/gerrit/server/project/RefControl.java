@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.reviewdb.ApprovalCategory.BRANCH_ADMIN;
+import static com.google.gerrit.reviewdb.ApprovalCategory.BRANCH_ADMIN_ADD;
+import static com.google.gerrit.reviewdb.ApprovalCategory.BRANCH_ADMIN_DELETE;
 import static com.google.gerrit.reviewdb.ApprovalCategory.FORGE_AUTHOR;
 import static com.google.gerrit.reviewdb.ApprovalCategory.FORGE_COMMITTER;
 import static com.google.gerrit.reviewdb.ApprovalCategory.FORGE_IDENTITY;
@@ -176,17 +179,20 @@ public class RefControl {
    */
   public boolean canCreate(RevWalk rw, RevObject object) {
     boolean owner;
+    boolean webUI;
     switch (getCurrentUser().getAccessPath()) {
       case WEB_UI:
         owner = isOwner();
+        webUI = true;
         break;
 
       default:
         owner = false;
+        webUI = false;
     }
 
     if (object instanceof RevCommit) {
-      return owner || canPerform(PUSH_HEAD, PUSH_HEAD_CREATE);
+      return owner || canPerform(PUSH_HEAD, PUSH_HEAD_CREATE) || (webUI && canPerform(BRANCH_ADMIN, BRANCH_ADMIN_ADD));
 
     } else if (object instanceof RevTag) {
       final RevTag tag = (RevTag) object;
@@ -236,7 +242,7 @@ public class RefControl {
   public boolean canDelete() {
     switch (getCurrentUser().getAccessPath()) {
       case WEB_UI:
-        return isOwner() || canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE);
+        return isOwner() || canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE) || canPerform(BRANCH_ADMIN, BRANCH_ADMIN_DELETE);
 
       case GIT:
         return canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE);

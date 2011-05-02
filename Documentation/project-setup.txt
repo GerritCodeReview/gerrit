@@ -126,14 +126,18 @@ if the user has been granted the `Push Branch` > `Create Branch`
 (or higher) access right.
 
 Additional branches can also be created through the web UI, assuming
-at least one commit already exists in the project repository.
-A project owner can create additional branches under `Admin` >
-`Projects` > `Branches`.  Enter the new branch name, and the
-starting Git revision.  Branch names that don't start with `refs/`
-will automatically have `refs/heads/` prefixed to ensure they are
-a standard Git branch name.  Almost any valid SHA-1 expression can
-be used to specify the starting revision, so long as it resolves
-to a commit object.  Abbreviated SHA-1s are not supported.
+at least one commit already exists in the project repository and
+appropriate permissions are held. A person must be the project owner or
+have been granted at least `Push Branch` > `Create Branch` or
+`Branch Admin` > `Add Branch`.
+
+Users create additional branches under `Admin` > `Projects` > `Branches`.
+Enter the new branch name, and the starting Git revision.  Branch
+names that don't start with `refs/` will automatically have
+`refs/heads/` prefixed to ensure they are a standard Git branch name.
+Almost any valid SHA-1 expression can be used to specify the starting
+revision, so long as it resolves to a commit object.
+Abbreviated SHA-1s are not supported.
 
 GERRIT
 ------

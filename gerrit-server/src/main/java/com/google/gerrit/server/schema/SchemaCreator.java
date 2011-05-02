@@ -92,6 +92,7 @@ public class SchemaCreator {
     initPushTagCategory(db);
     initPushUpdateBranchCategory(db);
     initForgeIdentityCategory(db, sConfig);
+    initBranchAdminCategory(db, sConfig);
     initWildCardProject(db);
 
     final SqlDialect d = jdbc.getDialect();
@@ -355,6 +356,24 @@ public class SchemaCreator {
     right.setMinValue(ApprovalCategory.FORGE_AUTHOR);
     right.setMaxValue(ApprovalCategory.FORGE_AUTHOR);
     c.refRights().insert(Collections.singleton(right));
+  }
+
+  private void initBranchAdminCategory(final ReviewDb c,
+      final SystemConfig sConfig) throws OrmException {
+    final ApprovalCategory cat;
+    final ArrayList<ApprovalCategoryValue> values;
+
+    cat =
+        new ApprovalCategory(ApprovalCategory.BRANCH_ADMIN, "Branch Admin");
+    cat.setPosition((short) -1);
+    cat.setFunctionName(NoOpFunction.NAME);
+    values = new ArrayList<ApprovalCategoryValue>();
+    values.add(value(cat, ApprovalCategory.BRANCH_ADMIN_ADD,
+        "Add Branch"));
+    values.add(value(cat, ApprovalCategory.BRANCH_ADMIN_DELETE,
+        "Delete Branch"));
+    c.approvalCategories().insert(Collections.singleton(cat));
+    c.approvalCategoryValues().insert(values);
   }
 
   private static ApprovalCategoryValue value(final ApprovalCategory cat,

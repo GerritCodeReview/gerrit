@@ -39,4 +39,7 @@ public interface GerritResources extends ClientBundle {
 
   @Source("redNot.png")
   public ImageResource redNot();
+
+  @Source("editIcon.png")
+  public ImageResource editIcon();
 }

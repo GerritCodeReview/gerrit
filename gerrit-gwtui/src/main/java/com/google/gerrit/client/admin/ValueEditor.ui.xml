@@ -18,7 +18,7 @@ limitations under the License.
   xmlns:ui='urn:ui:com.google.gwt.uibinder'
   xmlns:g='urn:import:com.google.gwt.user.client.ui'
   >
-<ui:with field='res' type='com.google.gerrit.client.admin.AdminResources'/>
+<ui:with field='res' type='com.google.gerrit.client.GerritResources'/>
 <ui:style>
   .panel {
     position: relative;
@@ -49,7 +49,7 @@ limitations under the License.
 <g:HTMLPanel stylePrimaryName='{style.panel}'>
   <g:Image
       ui:field='editIcon'
-      resource='{res.editText}'
+      resource='{res.editIcon}'
       stylePrimaryName='{style.editIcon}'
       title='Edit'>
     <ui:attribute name='title'/>

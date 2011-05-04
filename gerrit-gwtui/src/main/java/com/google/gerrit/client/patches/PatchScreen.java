@@ -156,16 +156,11 @@ public abstract class PatchScreen extends Screen implements
     patchSetDetail = detail;
     fileList = patchTable;
 
-    // If we have any diff side stored, make sure they are applicable to the
-    // current change, discard them otherwise.
-    //
-    Change.Id thisChangeId = id.getParentKey().getParentKey();
-    if (currentChangeId != null && !currentChangeId.equals(thisChangeId)) {
-      diffSideA = null;
-      diffSideB = null;
+    diffSideA = patchTable.getPatchSetIdToCompareWith();
+    if (diffSideA == null) {
       historyOpen = null;
     }
-    currentChangeId = thisChangeId;
+
     idSideA = diffSideA; // null here means we're diff'ing from the Base
     idSideB = diffSideB != null ? diffSideB : id.getParentKey();
     this.patchIndex = patchIndex;

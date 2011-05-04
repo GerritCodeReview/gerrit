@@ -41,6 +41,7 @@ public class GerritConfig implements Cloneable {
   protected Set<Account.FieldName> editableAccountFields;
   protected List<RegexFindReplace> commentLinks;
   protected boolean documentationAvailable;
+  protected String[] remoteDashboardUrl;
 
   protected String backgroundColor;
   protected String topMenuColor;
@@ -165,6 +166,14 @@ public class GerritConfig implements Cloneable {
 
   public void setDocumentationAvailable(final boolean available) {
     documentationAvailable = available;
+  }
+
+  public String[] getRemoteDashboardUrl() {
+    return remoteDashboardUrl;
+  }
+
+  public void setRemoteDashboardUrl(final String[] remoteDashboardUrl) {
+    this.remoteDashboardUrl = remoteDashboardUrl;
   }
 
   public String getBackgroundColor() {

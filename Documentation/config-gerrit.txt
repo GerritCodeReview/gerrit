@@ -1474,6 +1474,23 @@ Name of the groups of users that are allowed to execute
 If no groups are added, any user will be allowed to execute
 'receive-pack' on the server.
 
+[[remotedashboard]]Section remotedashboard
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sets the url for remote servers to get changes from.
+These changes will populate a common dashboard between remote
+and internal server.
+
+----
+[remotedashboard]
+  url = http://172.21.110.28:8081
+  url = http://172.21.110.40:8080
+----
+
+[[remotedashboard.url]]remotedashboard.url::
++
+Remote server url. Changes from this server, owned by the current
+user, will populate a common dashboard.
+
 
 [[repository]]Section repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

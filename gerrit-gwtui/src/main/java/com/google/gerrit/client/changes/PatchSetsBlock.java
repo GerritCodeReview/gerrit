@@ -32,6 +32,7 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +50,8 @@ public class PatchSetsBlock extends Composite {
   private final ChangeScreen parent;
   private final FlowPanel body;
   private HandlerRegistration regNavigation;
+
+  private List<PatchSetComplexDisclosurePanel> patchSetPanelsList;
 
   /**
    * the patch set id of the patch set for which is the keyboard navigation is
@@ -69,12 +72,18 @@ public class PatchSetsBlock extends Composite {
   }
 
   /** Adds UI elements for each patch set of the given change to this composite. */
-  public void display(final ChangeDetail detail) {
+  public void display(final ChangeDetail detail, final PatchSet.Id diffBaseId) {
     clear();
 
     final PatchSet currps = detail.getCurrentPatchSet();
     currentPatchSetId = currps.getId();
     patchSets = detail.getPatchSets();
+
+    final List<PatchSet.Id> changePatchSets = new ArrayList<PatchSet.Id>();
+
+    for (final PatchSet ps : patchSets) {
+      changePatchSets.add(ps.getId());
+    }
 
     if (Gerrit.isSignedIn()) {
       final AccountGeneralPreferences p =
@@ -84,13 +93,25 @@ public class PatchSetsBlock extends Composite {
       }
     }
 
+    patchSetPanelsList = new ArrayList<PatchSetComplexDisclosurePanel>();
+
     for (final PatchSet ps : patchSets) {
+      final PatchSetComplexDisclosurePanel p;
       if (ps == currps) {
-        add(new PatchSetComplexDisclosurePanel(parent, detail, detail
-            .getCurrentPatchSetDetail()));
+        p = new PatchSetComplexDisclosurePanel(parent, detail, detail
+            .getCurrentPatchSetDetail());
+        if (diffBaseId != null) {
+          p.setDiffBaseId(diffBaseId);
+          p.refresh();
+        }
       } else {
-        add(new PatchSetComplexDisclosurePanel(parent, detail, ps));
+        p = new PatchSetComplexDisclosurePanel(parent, detail, ps);
+        if (diffBaseId != null) {
+          p.setDiffBaseId(diffBaseId);
+        }
       }
+      add(p);
+      patchSetPanelsList.add(p);
     }
   }
 
@@ -98,6 +119,17 @@ public class PatchSetsBlock extends Composite {
     setRegisterKeys(false);
     body.clear();
     patchSetPanels.clear();
+  }
+
+  public void refresh(final PatchSet.Id diffBaseId) {
+    if (patchSetPanelsList != null) {
+      for (final PatchSetComplexDisclosurePanel p : patchSetPanelsList) {
+        p.setDiffBaseId(diffBaseId);
+        if (p.isOpen()) {
+          p.refresh();
+        }
+      }
+    }
   }
 
   /**

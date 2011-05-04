@@ -186,4 +186,6 @@ public interface GerritCss extends CssResource {
   String usernameField();
   String version();
   String watchedProjectFilter();
+  String selectPatchSetOldVersion();
+  String patchCellReverseDiff();
 }

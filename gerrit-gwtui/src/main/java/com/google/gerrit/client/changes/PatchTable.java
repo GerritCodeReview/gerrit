@@ -22,6 +22,7 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Patch;
+import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Patch.ChangeType;
 import com.google.gerrit.reviewdb.Patch.Key;
 import com.google.gerrit.reviewdb.Patch.PatchType;
@@ -61,6 +62,8 @@ public class PatchTable extends Composite {
   private boolean active;
   private boolean registerKeys;
 
+  private PatchSet.Id patchSetIdToCompareWith;
+
   public PatchTable(ListenableAccountDiffPreference prefs) {
     listenablePrefs = prefs;
     myBody = new FlowPanel();
@@ -85,7 +88,7 @@ public class PatchTable extends Composite {
     this.patchList = detail.getPatches();
     myTable = null;
 
-    final DisplayCommand cmd = new DisplayCommand(patchList);
+    final DisplayCommand cmd = new DisplayCommand(patchList, patchSetIdToCompareWith);
     if (cmd.execute()) {
       cmd.initMeter();
       DeferredCommand.addCommand(cmd);
@@ -272,12 +275,22 @@ public class PatchTable extends Composite {
     listenablePrefs = prefs;
   }
 
+  public PatchSet.Id getPatchSetIdToCompareWith() {
+    return patchSetIdToCompareWith;
+  }
+
+  public void setPatchSetIdToCompareWith(final PatchSet.Id psId) {
+    patchSetIdToCompareWith = psId;
+  }
+
   private class MyTable extends NavigationTable<Patch> {
     private static final int C_PATH = 2;
     private static final int C_DRAFT = 3;
     private static final int C_SIZE = 4;
     private static final int C_SIDEBYSIDE = 5;
     private int activeRow = -1;
+
+    private PatchSet.Id patchSetIdToCompareWith;
 
     MyTable() {
       keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.patchTablePrev()));
@@ -463,7 +476,8 @@ public class PatchTable extends Composite {
       m.closeTr();
     }
 
-    void appendRow(final SafeHtmlBuilder m, final Patch p) {
+    void appendRow(final SafeHtmlBuilder m, final Patch p,
+        final boolean isReverseDiff) {
       m.openTr();
 
       m.openTd();
@@ -474,6 +488,10 @@ public class PatchTable extends Composite {
 
       m.openTd();
       m.setStyleName(Gerrit.RESOURCES.css().changeTypeCell());
+      if (isReverseDiff) {
+        m.addStyleName(Gerrit.RESOURCES.css().patchCellReverseDiff());
+      }
+
       if (Patch.COMMIT_MSG.equals(p.getFileName())) {
         m.nbsp();
       } else {
@@ -494,7 +512,12 @@ public class PatchTable extends Composite {
 
       m.openTd();
       m.addStyleName(Gerrit.RESOURCES.css().dataCell());
+
       m.addStyleName(Gerrit.RESOURCES.css().patchSizeCell());
+      if (isReverseDiff) {
+        m.addStyleName(Gerrit.RESOURCES.css().patchCellReverseDiff());
+      }
+
       appendSize(m, p);
       m.closeTd();
 
@@ -559,7 +582,8 @@ public class PatchTable extends Composite {
       m.closeTr();
     }
 
-    void appendTotals(final SafeHtmlBuilder m, int ins, int dels) {
+    void appendTotals(final SafeHtmlBuilder m, int ins, int dels,
+        final boolean isReverseDiff) {
       m.openTr();
 
       m.openTd();
@@ -576,6 +600,11 @@ public class PatchTable extends Composite {
       m.addStyleName(Gerrit.RESOURCES.css().dataCell());
       m.addStyleName(Gerrit.RESOURCES.css().patchSizeCell());
       m.addStyleName(Gerrit.RESOURCES.css().leftMostCell());
+
+      if (isReverseDiff) {
+        m.addStyleName(Gerrit.RESOURCES.css().patchCellReverseDiff());
+      }
+
       m.append(Util.M.patchTableSize_Modify(ins, dels));
       m.closeTd();
 
@@ -699,9 +728,12 @@ public class PatchTable extends Composite {
     private int insertions;
     private int deletions;
 
-    private DisplayCommand(final List<Patch> list) {
+    private final PatchSet.Id psIdToCompareWith;
+
+    private DisplayCommand(final List<Patch> list, final PatchSet.Id psIdToCompareWith) {
       this.table = new MyTable();
       this.list = list;
+      this.psIdToCompareWith = psIdToCompareWith;
     }
 
     /**
@@ -722,24 +754,31 @@ public class PatchTable extends Composite {
         return false;
       }
 
+      boolean isReverseDiff = false;
+
+      if (psIdToCompareWith != null
+          && list.get(0).getKey().getParentKey().get() < psIdToCompareWith.get()) {
+        isReverseDiff = true;
+      }
+
       start = System.currentTimeMillis();
       switch (stage) {
         case 0:
           if (row == 0) {
             table.appendHeader(nc);
-            table.appendRow(nc, list.get(row++));
+            table.appendRow(nc, list.get(row++), isReverseDiff);
           }
           while (row < list.size()) {
             Patch p = list.get(row);
             insertions += p.getInsertions();
             deletions += p.getDeletions();
-            table.appendRow(nc, p);
+            table.appendRow(nc, p, isReverseDiff);
             if ((++row % 10) == 0 && longRunning()) {
               updateMeter();
               return true;
             }
           }
-          table.appendTotals(nc, insertions, deletions);
+          table.appendTotals(nc, insertions, deletions, isReverseDiff);
           table.resetHtml(nc);
           nc = null;
           stage = 1;

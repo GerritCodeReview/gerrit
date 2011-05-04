@@ -29,9 +29,11 @@ import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.ToggleStarRequest;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.Change.Status;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.Change.Status;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -39,9 +41,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
@@ -77,9 +81,30 @@ public class ChangeScreen extends Screen {
   private HandlerRegistration regNavigation;
   private HandlerRegistration regAction;
 
+  private Grid patchesGrid;
+  private ListBox patchesList;
+
+  /**
+   * The change id for which the old version history is valid.
+   */
+  private static Change.Id currentChangeId;
+
+  /**
+   * Which patch set id is the diff base.
+   */
+  private static PatchSet.Id diffBaseId;
+
   public ChangeScreen(final Change.Id toShow) {
     changeId = toShow;
     openPatchSetId = null;
+
+    // If we have any diff stored, make sure they are applicable to the
+    // current change, discard them otherwise.
+    //
+    if (currentChangeId != null && !currentChangeId.equals(toShow)) {
+      diffBaseId = null;
+    }
+    currentChangeId = toShow;
   }
 
   public ChangeScreen(final PatchSet.Id toShow) {
@@ -182,6 +207,31 @@ public class ChangeScreen extends Screen {
     approvals = new ApprovalTable();
     add(approvals);
 
+    patchesList = new ListBox();
+    patchesList.addChangeHandler(new ChangeHandler() {
+      @Override
+      public void onChange(ChangeEvent event) {
+        final int index = patchesList.getSelectedIndex();
+        final String selectedPatchSet = patchesList.getValue(index);
+        if (index == 0) {
+          diffBaseId = null;
+        } else {
+          diffBaseId = PatchSet.Id.parse(selectedPatchSet);
+        }
+        if (patchSetsBlock != null) {
+          patchSetsBlock.refresh(diffBaseId);
+        }
+      }
+    });
+
+    patchesList.addItem(Util.C.baseDiffItem());
+
+    patchesGrid = new Grid(1, 2);
+    patchesGrid.setStyleName(Gerrit.RESOURCES.css().selectPatchSetOldVersion());
+    patchesGrid.setText(0, 0, Util.C.oldVersionHistory());
+    patchesGrid.setWidget(0, 1, patchesList);
+    add(patchesGrid);
+
     includedInPanel = new DisclosurePanel(Util.C.changeScreenIncludedIn());
     includedInTable = new IncludedInTable(changeId);
 
@@ -257,7 +307,18 @@ public class ChangeScreen extends Screen {
     approvals.display(detail.getChange(), detail.getMissingApprovals(), detail
         .getApprovals());
 
-    patchSetsBlock.display(detail);
+    for (PatchSet pId : detail.getPatchSets()) {
+      if (patchesList != null) {
+        patchesList.addItem(Util.M.patchSetHeader(pId.getPatchSetId()), pId
+            .getId().toString());
+      }
+    }
+
+    if (diffBaseId != null && patchesList != null) {
+      patchesList.setSelectedIndex(diffBaseId.get());
+    }
+
+    patchSetsBlock.display(detail, diffBaseId);
     if (openPatchSetId != null) {
       patchSetsBlock.activate(openPatchSetId);
     }

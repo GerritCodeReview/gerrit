@@ -200,6 +200,12 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     }
   }
 
+  @Override
+  public void forAccountPreferredEmail(String preferredEmail,
+      AsyncCallback<AccountDashboardInfo> callback) {
+    // TODO Implement method in next change.
+  }
+
   public void forAccount(final Account.Id id,
       final AsyncCallback<AccountDashboardInfo> callback) {
     final Account.Id me = getAccountId();

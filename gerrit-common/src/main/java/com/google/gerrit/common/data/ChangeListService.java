@@ -38,6 +38,13 @@ public interface ChangeListService extends RemoteJsonService {
   /** Get the data to show AccountDashboardScreen for an account. */
   void forAccount(Account.Id id, AsyncCallback<AccountDashboardInfo> callback);
 
+  /**
+   * Get the data from a remote server to show AccountDashboardScreen for an
+   * account.
+   */
+  void forAccountPreferredEmail(String preferredEmail,
+      AsyncCallback<AccountDashboardInfo> callback);
+
   /** Get the ids of all changes starred by the caller. */
   @SignInRequired
   void myStarredChangeIds(AsyncCallback<Set<Change.Id>> callback);

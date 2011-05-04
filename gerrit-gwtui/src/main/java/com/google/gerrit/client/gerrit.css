@@ -421,6 +421,10 @@
   color: #ff5555;
 }
 
+.changeTable .patchCellReverseDiff {
+  color: red;
+}
+
 .changeTable .patchSizeCell {
   text-align: right;
   white-space: nowrap;
@@ -747,7 +751,7 @@
   white-space: nowrap;
 }
 .changeScreen .gwt-DisclosurePanel .complexHeader span {
-  white-space: nowrap;
+  white-space: nowrap; 
 }
 
 .patchSetRevision {
@@ -903,6 +907,12 @@
 .patchSetActions .gwt-Button {
   margin-right: 30px;
   font-size: 8pt;
+}
+
+.selectPatchSetOldVersion {
+  font-weight: bold;
+  margin-right: 30px;
+  margin-top: 5px;
 }
 
 .changeScreen .approvalTable {

@@ -36,11 +36,9 @@ on the remote system to create the empty repository.
 
 ACCESS
 ------
-Caller must be a member of any of the groups defined by
-repository.*.createGroup in gerrit.config.
-
-If there is no such declaration, caller is required to be a member
-of the privileged 'Administrators' group.
+Caller must be either a member of the privileged 'Administrators' group or
+any which has been assigned to 'Create Project' access right in a certain
+sub-tree
 
 SCRIPTING
 ---------
@@ -60,16 +58,14 @@ OPTIONS
 	Name of the group(s) which will initially own this repository.
 	The specified group(s) must already be defined within Gerrit.
 	Several groups can be specified on the command line.
+	To specify additional owners, add the additional owners
+	through the web interface after project creation.
 +
-Defaults to what is specified by repository.*.ownerGroup
-in gerrit.config. If no such declaration(s) exist,
-repository.*.createGroup will be used. If they don't exist,
-`Administrators` will be used.
+Defaults to `Administrators` if not specified.
 
 \--parent::
 	Name of the parent project to inherit access rights
-	through. If not specified, the parent is set to the default
-	project `\-- All Projects \--`.
+	through.
 
 \--permissions-only::
 	Create the project only to serve as a parent for other

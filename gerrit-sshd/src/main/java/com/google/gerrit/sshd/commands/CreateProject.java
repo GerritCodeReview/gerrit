@@ -14,7 +14,6 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.CollectionsUtil;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
@@ -22,11 +21,11 @@ import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.ProjectCreatorGroups;
-import com.google.gerrit.server.config.ProjectOwnerGroups;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmException;
@@ -53,7 +52,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /** Create a new project. **/
 final class CreateProject extends BaseCommand {
@@ -62,7 +60,7 @@ final class CreateProject extends BaseCommand {
   @Option(name = "--name", required = true, aliases = {"-n"}, metaVar = "NAME", usage = "name of project to be created")
   private String projectName;
 
-  @Option(name = "--owner", aliases = {"-o"}, usage = "owner(s) of project")
+  @Option(name = "--owner", aliases = {"-o"}, usage = "owner(s) of project\n")
   private List<AccountGroup.Id> ownerIds;
 
   @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "parent project")
@@ -98,24 +96,23 @@ final class CreateProject extends BaseCommand {
   private boolean createEmptyCommit;
 
   @Inject
+  private AuthConfig authConfig;
+
+  @Inject
   private ReviewDb db;
 
   @Inject
   private GitRepositoryManager repoManager;
 
   @Inject
-  @ProjectCreatorGroups
-  private Set<AccountGroup.Id> projectCreatorGroups;
-
-  @Inject
-  @ProjectOwnerGroups
-  private Set<AccountGroup.Id> projectOwnerGroups;
-
-  @Inject
-  private IdentifiedUser currentUser;
-
-  @Inject
   private ReplicationQueue rq;
+
+  @Inject
+  @WildProjectName
+  private Project.NameKey wildProject;
+
+  @Inject
+  private ProjectControl.Factory projectControlFactory;
 
   @Inject
   @GerritPersonIdent
@@ -240,15 +237,43 @@ final class CreateProject extends BaseCommand {
           projectName.length() - Constants.DOT_GIT_EXT.length());
     }
 
-    if (!CollectionsUtil.isAnyIncludedIn(currentUser.getEffectiveGroups(), projectCreatorGroups)) {
-      throw new Failure(1, "fatal: Not permitted to create " + projectName);
+    final ProjectControl extractedParent = findParent(projectName);
+    if (extractedParent != null) {
+      newParent = extractedParent;
+    } else if (newParent == null) {
+      try {
+        newParent = projectControlFactory.controlFor(wildProject);
+      } catch (NoSuchProjectException e) {
+        // If somehow this happened, exit the command
+        //
+        throw new Failure(1, "internal server error");
+      }
     }
 
     if (ownerIds != null && !ownerIds.isEmpty()) {
       ownerIds =
           new ArrayList<AccountGroup.Id>(new HashSet<AccountGroup.Id>(ownerIds));
     } else {
-      ownerIds = new ArrayList<AccountGroup.Id>(projectOwnerGroups);
+      ownerIds = newParent.allGroupsGrantingCreateProject();
+      if (ownerIds.isEmpty()) {
+        ownerIds.add(authConfig.getAdministratorsGroup());
+      }
+    }
+
+    // check if the user has permissions to create a project with the given parent
+    // the default allowed group for "-- All Projects --" is Administrators
+    //
+    if (!newParent.canCreateProject()) {
+      throw new Failure(1, "fatal: Not permitted to create " + projectName);
+    }
+
+    final Project.NameKey parentNameKey = newParent.getProject().getNameKey();
+    if (!parentNameKey.equals(wildProject)) {
+      final String correctProjectPrefix = parentNameKey.get() + "/";
+      if (!projectName.startsWith(correctProjectPrefix)) {
+        throw new Failure(1, "fatal: Not permitted to create " + projectName
+            + " project name must start with: " + correctProjectPrefix);
+      }
     }
 
     while (branch.startsWith("/")) {
@@ -261,4 +286,22 @@ final class CreateProject extends BaseCommand {
       throw new Failure(1, "--branch \"" + branch + "\" is not a valid name");
     }
   }
+
+  private ProjectControl findParent(final String projectName) {
+    if (projectName.lastIndexOf('/') != -1) {
+      String parentName = projectName;
+      while (parentName.lastIndexOf('/') != -1) {
+        int slash = parentName.lastIndexOf('/');
+        parentName = parentName.substring(0, slash);
+        try {
+          return projectControlFactory.controlFor(new Project.NameKey(
+              parentName));
+        } catch (NoSuchProjectException e) {
+          continue;
+        }
+      }
+    }
+    return null;
+  }
 }
+

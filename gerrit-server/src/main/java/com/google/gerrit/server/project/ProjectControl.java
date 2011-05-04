@@ -29,7 +29,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /** Access control management for a user accessing a project's data. */
@@ -187,6 +189,11 @@ public class ProjectControl {
         || getCurrentUser().isAdministrator();
   }
 
+  /** Does this user have permission to create projects under this one? */
+  public boolean canCreateProject() {
+    return canPerformOnAnyRef(ApprovalCategory.CREATE_PROJECT, (short) 1);
+  }
+
   /** @return true if the user can upload to at least one reference */
   public boolean canPushToAtLeastOneRef() {
     return canPerformOnAnyRef(ApprovalCategory.READ, (short) 2)
@@ -229,6 +236,28 @@ public class ProjectControl {
     return canPerform;
   }
 
+  private List<AccountGroup.Id> allGroupsPerformOnAnyRef(
+      ApprovalCategory.Id actionId, short requireValue) {
+    List<AccountGroup.Id> groups = new ArrayList<AccountGroup.Id>();
+
+    final Set<String> patterns = allRefPatterns(actionId);
+    if (patterns.contains(RefRight.ALL)) {
+      for (final String pattern : patterns) {
+        if (controlForRef(pattern).canPerform(actionId, requireValue)) {
+          final List<RefRight> applicableRights =
+              controlForRef(pattern).getApplicableRights(actionId);
+          for (final RefRight ar : applicableRights) {
+            if (!groups.contains(ar.getAccountGroupId())) {
+              groups.add(ar.getAccountGroupId());
+            }
+          }
+        }
+      }
+    }
+
+    return groups;
+  }
+
   private Set<String> allRefPatterns(ApprovalCategory.Id actionId) {
     final Set<String> all = new HashSet<String>();
     for (final RefRight pr : state.getAllRights(actionId, true)) {
@@ -243,5 +272,9 @@ public class ProjectControl {
 
   public boolean canRunReceivePack() {
     return isAnyIncludedIn(receiveGroups, user.getEffectiveGroups());
+  }
+
+  public List<AccountGroup.Id> allGroupsGrantingCreateProject() {
+    return allGroupsPerformOnAnyRef(ApprovalCategory.CREATE_PROJECT, (short) 1);
   }
 }

@@ -324,7 +324,7 @@ public abstract class PatchScreen extends Screen implements
   protected void onLoad() {
     super.onLoad();
     if (patchSetDetail == null) {
-      Util.DETAIL_SVC.patchSetDetail(idSideB,
+      Util.DETAIL_SVC.patchSetDetail(idSideB, null, null,
           new GerritCallback<PatchSetDetail>() {
             @Override
             public void onSuccess(PatchSetDetail result) {
@@ -407,7 +407,7 @@ public abstract class PatchScreen extends Screen implements
       commitMessageBlock.display(patchSetDetail.getInfo().getMessage());
     } else {
       commitMessageBlock.setVisible(false);
-      Util.DETAIL_SVC.patchSetDetail(idSideB,
+      Util.DETAIL_SVC.patchSetDetail(idSideB, null, null,
           new GerritCallback<PatchSetDetail>() {
             @Override
             public void onSuccess(PatchSetDetail result) {
@@ -501,7 +501,7 @@ public abstract class PatchScreen extends Screen implements
         final PatchSet.Id psid = patchKey.getParentKey();
         fileList = new PatchTable(prefs);
         fileList.setSavePointerId("PatchTable " + psid);
-        Util.DETAIL_SVC.patchSetDetail(psid,
+        Util.DETAIL_SVC.patchSetDetail(psid, null, null,
             new GerritCallback<PatchSetDetail>() {
               public void onSuccess(final PatchSetDetail result) {
                 fileList.display(result);

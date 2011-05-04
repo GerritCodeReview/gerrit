@@ -503,7 +503,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
   @Override
   public void onOpen(final OpenEvent<DisclosurePanel> event) {
     if (infoTable == null) {
-      Util.DETAIL_SVC.patchSetDetail(patchSet.getId(),
+      Util.DETAIL_SVC.patchSetDetail(patchSet.getId(), null, null,
           new GerritCallback<PatchSetDetail>() {
             public void onSuccess(final PatchSetDetail result) {
               ensureLoaded(result);

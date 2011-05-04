@@ -63,6 +63,12 @@ public interface PatchDetailService extends RemoteJsonService {
   void strongestApprovals(Set<Change.Id> cids,
       AsyncCallback<ApprovalSummarySet> callback);
 
+  public void remoteUserApprovals(String remoteUrl, Set<Change.Id> cids,
+      Account.Id aid, AsyncCallback<ApprovalSummarySet> callback);
+
+  void remoteStrongestApprovals(String remoteUrl, Set<Change.Id> cids,
+      AsyncCallback<ApprovalSummarySet> callback);
+
   /**
    * Update the reviewed status for the patch.
    */

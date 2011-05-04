@@ -25,12 +25,17 @@
 package com.google.gerrit.httpd.rpc;
 
 import com.google.gerrit.common.data.AccountDashboardInfo;
+import com.google.gerrit.common.data.ApprovalSummarySet;
 import com.google.gerrit.common.data.ChangeListService;
+import com.google.gerrit.common.data.PatchDetailService;
+import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.Change;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class GerritClient {
 
@@ -92,6 +97,30 @@ public class GerritClient {
     return ad;
   }
 
+  public ApprovalSummarySet queryUserApprovals(final Set<Change.Id> cids,
+      final Account.Id aid) throws Exception {
+    final ApprovalSummarySet a =
+        execute(new GerritOperation<ApprovalSummarySet>() {
+          @Override
+          public void execute() {
+            getPatchDetailService().userApprovals(cids, aid, this);
+          }
+        });
+    return a;
+  }
+
+  public ApprovalSummarySet queryStrongestApprovals(final Set<Change.Id> cids)
+      throws Exception {
+    final ApprovalSummarySet a =
+        execute(new GerritOperation<ApprovalSummarySet>() {
+          @Override
+          public void execute() {
+            getPatchDetailService().strongestApprovals(cids, this);
+          }
+        });
+    return a;
+  }
+
   protected <T> T execute(GerritOperation<T> operation) throws Exception {
     try {
       operation.execute();
@@ -109,6 +138,10 @@ public class GerritClient {
 
   private ChangeListService getChangeListService() {
     return getService(ChangeListService.class);
+  }
+
+  private PatchDetailService getPatchDetailService() {
+    return getService(PatchDetailService.class);
   }
 
   protected synchronized <T extends RemoteJsonService> T getService(

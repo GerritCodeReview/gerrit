@@ -14,14 +14,15 @@
 
 package com.google.gerrit.httpd.rpc.patch;
 
-import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.common.data.ApprovalSummary;
 import com.google.gerrit.common.data.ApprovalSummarySet;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.PatchDetailService;
 import com.google.gerrit.common.data.PatchScript;
+import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
+import com.google.gerrit.httpd.rpc.GerritClient;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
@@ -34,6 +35,7 @@ import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Change.Id;
 import com.google.gerrit.reviewdb.Patch.Key;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
@@ -46,6 +48,9 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -65,6 +70,9 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final PublishComments.Factory publishCommentsFactory;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final SaveDraft.Factory saveDraftFactory;
+
+  private static final Logger log =
+    LoggerFactory.getLogger(PatchDetailServiceImpl.class);
 
   @Inject
   PatchDetailServiceImpl(final Provider<ReviewDb> schema,
@@ -262,6 +270,47 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         }
 
         return new ApprovalSummarySet(aicFactory.create(), approvals);
+      }
+    });
+  }
+
+  @Override
+  public void remoteStrongestApprovals(final String remoteUrl,
+      final Set<Id> cids, final AsyncCallback<ApprovalSummarySet> callback) {
+    run(callback, new Action<ApprovalSummarySet>() {
+      public ApprovalSummarySet run(ReviewDb db) throws OrmException {
+        try {
+          final GerritClient client = new GerritClient(remoteUrl);
+          // Get patch set strongest approvals from remote server.
+          final ApprovalSummarySet result =
+              client.queryStrongestApprovals(cids);
+          return result;
+        } catch (Exception e) {
+          log
+              .error("Unable to retrieve strongest approvals from remote server: "
+                  + remoteUrl + " " + e.getMessage());
+          return null;
+        }
+      }
+    });
+  }
+
+  @Override
+  public void remoteUserApprovals(final String remoteUrl, final Set<Id> cids,
+      final Account.Id aid, final AsyncCallback<ApprovalSummarySet> callback) {
+    run(callback, new Action<ApprovalSummarySet>() {
+      public ApprovalSummarySet run(ReviewDb db) throws OrmException {
+        try {
+          final GerritClient client = new GerritClient(remoteUrl);
+          // Get patch set user approvals from remote server.
+          final ApprovalSummarySet result =
+              client.queryUserApprovals(cids, aid);
+          return result;
+        } catch (Exception e) {
+          log.error("Unable to retrieve user approvals from remote server: "
+              + remoteUrl + " " + e.getMessage());
+          return null;
+        }
       }
     });
   }

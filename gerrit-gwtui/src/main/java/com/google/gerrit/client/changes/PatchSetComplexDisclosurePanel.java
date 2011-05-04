@@ -20,13 +20,13 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
+import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
@@ -35,6 +35,8 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.UserIdentity;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadCommand;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -47,9 +49,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
 import java.util.Collections;
@@ -73,6 +75,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
   private Panel actionsPanel;
   private PatchTable patchTable;
   private final Set<ClickHandler> registeredClickHandler =  new HashSet<ClickHandler>();
+
+  private PatchSet.Id diffBaseId;
 
   /**
    * Creates a closed complex disclosure panel for a patch set.
@@ -116,6 +120,10 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     }
   }
 
+  public void setDiffBaseId(PatchSet.Id diffBaseId) {
+    this.diffBaseId = diffBaseId;
+  }
+
   /**
    * Display the table showing the Author, Committer and Download links,
    * followed by the action buttons.
@@ -145,27 +153,29 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     displayParents(info.getParents());
     displayDownload();
 
-
-    patchTable = new PatchTable();
-    patchTable.setSavePointerId("PatchTable " + patchSet.getId());
-    patchTable.display(detail);
-
     body.add(infoTable);
 
-    actionsPanel = new FlowPanel();
-    actionsPanel.setStyleName(Gerrit.RESOURCES.css().patchSetActions());
-    body.add(actionsPanel);
-    if (Gerrit.isSignedIn()) {
-      populateReviewAction();
-      if (changeDetail.isCurrentPatchSet(detail)) {
-        populateActions(detail);
-      }
-    }
-    populateDiffAllActions(detail);
-    body.add(patchTable);
+    if (!patchSet.getId().equals(diffBaseId)) {
+      patchTable = new PatchTable();
+      patchTable.setSavePointerId("PatchTable " + patchSet.getId());
+      patchTable.setPatchSetIdToCompareWith(diffBaseId);
+      patchTable.display(detail);
 
-    for(ClickHandler clickHandler : registeredClickHandler) {
-      patchTable.addClickHandler(clickHandler);
+      actionsPanel = new FlowPanel();
+      actionsPanel.setStyleName(Gerrit.RESOURCES.css().patchSetActions());
+      body.add(actionsPanel);
+      if (Gerrit.isSignedIn()) {
+        populateReviewAction();
+        if (changeDetail.isCurrentPatchSet(detail)) {
+          populateActions(detail);
+        }
+      }
+      populateDiffAllActions(detail);
+      body.add(patchTable);
+
+      for(ClickHandler clickHandler : registeredClickHandler) {
+        patchTable.addClickHandler(clickHandler);
+      }
     }
   }
 
@@ -500,10 +510,51 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     actionsPanel.add(b);
   }
 
+  public void refresh() {
+    AccountDiffPreference diffPrefs;
+    if (patchTable == null) {
+      diffPrefs = new ListenableAccountDiffPreference().get();
+    } else {
+      diffPrefs = patchTable.getPreferences().get();
+    }
+
+    Util.DETAIL_SVC.patchSetDetail(patchSet.getId(), diffBaseId, diffPrefs,
+        new GerritCallback<PatchSetDetail>() {
+          @Override
+          public void onSuccess(PatchSetDetail result) {
+
+            if (patchSet.getId().equals(diffBaseId)) {
+              patchTable.setVisible(false);
+              actionsPanel.setVisible(false);
+            } else {
+
+              if (patchTable != null) {
+                patchTable.removeFromParent();
+              }
+              patchTable = new PatchTable();
+              patchTable.setPatchSetIdToCompareWith(diffBaseId);
+              patchTable.display(result);
+              body.add(patchTable);
+
+              for (ClickHandler clickHandler : registeredClickHandler) {
+                patchTable.addClickHandler(clickHandler);
+              }
+            }
+          }
+        });
+  }
+
   @Override
   public void onOpen(final OpenEvent<DisclosurePanel> event) {
     if (infoTable == null) {
-      Util.DETAIL_SVC.patchSetDetail(patchSet.getId(), null, null,
+      AccountDiffPreference diffPrefs;
+      if (diffBaseId == null) {
+        diffPrefs = null;
+      } else {
+        diffPrefs = new ListenableAccountDiffPreference().get();
+      }
+
+      Util.DETAIL_SVC.patchSetDetail(patchSet.getId(), diffBaseId, diffPrefs,
           new GerritCallback<PatchSetDetail>() {
             public void onSuccess(final PatchSetDetail result) {
               ensureLoaded(result);

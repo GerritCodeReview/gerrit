@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.ChangeDetailService;
 import com.google.gerrit.common.data.IncludedInDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.data.PatchSetPublishDetail;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -51,9 +52,10 @@ class ChangeDetailServiceImpl implements ChangeDetailService {
     includedInDetail.create(id).to(callback);
   }
 
-  public void patchSetDetail(final PatchSet.Id id,
+  public void patchSetDetail(final PatchSet.Id idA, final PatchSet.Id idB,
+      final AccountDiffPreference diffPrefs,
       final AsyncCallback<PatchSetDetail> callback) {
-    patchSetDetail.create(id).to(callback);
+    patchSetDetail.create(idA, idB, diffPrefs).to(callback);
   }
 
   public void patchSetPublishDetail(final PatchSet.Id id,

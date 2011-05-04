@@ -22,6 +22,7 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountDashboardInfo;
 import com.google.gerrit.common.data.AccountInfo;
+import com.google.gerrit.common.data.RemoteAccountDashboardInfo;
 import com.google.gerrit.reviewdb.Account;
 
 
@@ -70,10 +71,10 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     table.setRegisterKeys(true);
   }
 
-  private void display(final AccountDashboardInfo r) {
-    table.setAccountInfoCache(r.getAccounts());
+  private void display(final AccountDashboardInfo ad) {
+    table.setAccountInfoCache(ad.getAccounts());
 
-    final AccountInfo o = r.getAccounts().get(r.getOwner());
+    final AccountInfo o = ad.getAccounts().get(ad.getOwner());
     final String name = FormatUtil.name(o);
     setWindowTitle(name);
     setPageTitle(Util.M.accountDashboardTitle(name));
@@ -81,9 +82,42 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     forReview.setTitleText(Util.M.changesReviewableBy(name));
     closed.setTitleText(Util.C.changesRecentlyClosed());
 
-    byOwner.display(r.getByOwner());
-    forReview.display(r.getForReview());
-    closed.display(r.getClosed());
+    byOwner.display(ad.getByOwner());
+    forReview.display(ad.getForReview());
+    closed.display(ad.getClosed());
+
+    boolean appendByOwner = !ad.getByOwner().isEmpty();
+    boolean appendForReview = !ad.getForReview().isEmpty();
+    boolean appendClosed = !ad.getClosed().isEmpty();
+
+    // Verify if there are changes for current user in the specified
+    // (gerrit.config) remote server.
+    if (ad.getRemoteChanges() != null && !ad.getRemoteChanges().isEmpty()) {
+      for (final RemoteAccountDashboardInfo rChanges : ad.getRemoteChanges()) {
+        table.setRemoteAccountInfoCache(rChanges.getRemoteAccounts());
+
+        byOwner.display(rChanges.getByOwner(), rChanges.getRemoteUrl(),
+            appendByOwner);
+        if (!appendByOwner) {
+          appendByOwner = !rChanges.getByOwner().isEmpty();
+        }
+
+        forReview.setRemoteOwnerId(rChanges.getRemoteOwnerId());
+        forReview.display(rChanges.getForReview(), rChanges.getRemoteUrl(),
+            appendForReview);
+
+        if (!appendForReview) {
+          appendForReview = !rChanges.getForReview().isEmpty();
+        }
+
+        closed.display(rChanges.getClosed(), rChanges.getRemoteUrl(),
+            appendClosed);
+        if (!appendClosed) {
+          appendClosed = !rChanges.getClosed().isEmpty();
+        }
+      }
+    }
+
     table.finishDisplay();
   }
 }

@@ -48,6 +48,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
@@ -76,6 +77,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
   private final List<Section> sections;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
+  private AccountInfoCache remoteAccountCache = AccountInfoCache.empty();
   private final List<ApprovalType> approvalTypes;
   private final int columns;
 
@@ -212,7 +214,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
   }
 
-  private void populateChangeRow(final int row, final ChangeInfo c) {
+  private void populateChangeRow(final int row, final ChangeInfo c,
+      final String remoteUrl) {
     final String idstr = c.getKey().abbreviate();
     table.setWidget(row, C_ARROW, null);
     if (Gerrit.isSignedIn()) {
@@ -227,12 +230,63 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     if (c.getStatus() != null && c.getStatus() != Change.Status.NEW) {
       s += " (" + c.getStatus().name() + ")";
     }
-    table.setWidget(row, C_SUBJECT, new TableChangeLink(s, c));
-    table.setWidget(row, C_OWNER, link(c.getOwner()));
-    table.setWidget(row, C_PROJECT, new ProjectLink(c.getProject().getKey(), c
-        .getStatus()));
-    table.setWidget(row, C_BRANCH, new BranchLink(c.getProject().getKey(), c
-        .getStatus(), c.getBranch(), c.getTopic()));
+
+    // Verify if the change is from internal or remote server. If the change is
+    // from remote set remote links.
+    if (remoteUrl.isEmpty()) {
+      table.setWidget(row, C_SUBJECT, new TableChangeLink(s, c));
+      table.setWidget(row, C_OWNER, link(c.getOwner()));
+      table.setWidget(row, C_PROJECT, new ProjectLink(c.getProject().getKey(),
+          c.getStatus()));
+      table.setWidget(row, C_BRANCH, new BranchLink(c.getProject().getKey(), c
+          .getStatus(), c.getBranch(), c.getTopic()));
+    } else {
+      // Set remote link for change id.
+      final Anchor aId = new Anchor(idstr, remoteUrl + "/" + c.getId().get());
+      aId.setTarget("_blank");
+      table.setWidget(row, C_ID, aId);
+
+      // Set remote link for change subject.
+      final Anchor aSubject = new Anchor(s, remoteUrl + "/" + c.getId().get());
+      aSubject.setTarget("_blank");
+      table.setWidget(row, C_SUBJECT, aSubject);
+
+      // Set remote link for change owner.
+      final String ownerRemoteLink =
+          "#" + PageLinks.toAccountDashboard(c.getOwner());
+
+      final AccountInfo ai = remoteAccountCache.get(c.getOwner());
+      final String remoteOwner =
+          ai != null ? FormatUtil.name(ai) : Util.C.ownerRemoteLinkText() + " "
+              + c.getOwner();
+
+      final Anchor aOwner =
+          new Anchor(remoteOwner, remoteUrl + "/" + ownerRemoteLink);
+      aOwner.setTarget("_blank");
+      table.setWidget(row, C_OWNER, aOwner);
+
+      // Set remote link for change project.
+      final String projectRemoteLink =
+          "#"
+              + PageLinks.toChangeQuery(PageLinks.projectQuery(c.getProject()
+                  .getKey(), c.getStatus()));
+      final Anchor aProject =
+          new Anchor(c.getProject().getName(), remoteUrl + "/"
+              + projectRemoteLink);
+      aProject.setTarget("_blank");
+      table.setWidget(row, C_PROJECT, aProject);
+
+      // Set remote link for change branch.
+      final String branchRemoteLink =
+          "#"
+              + PageLinks.toChangeQuery(BranchLink.query(c.getProject()
+                  .getKey(), c.getStatus(), c.getBranch(), c.getTopic()));
+      final Anchor aBranch =
+          new Anchor(c.getBranch(), remoteUrl + "/" + branchRemoteLink);
+      aBranch.setTarget("_blank");
+      table.setWidget(row, C_BRANCH, aBranch);
+    }
+
     table.setText(row, C_LAST_UPDATE, shortFormat(c.getLastUpdatedOn()));
     setRowItem(row, c);
   }
@@ -279,6 +333,11 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   public void setAccountInfoCache(final AccountInfoCache aic) {
     assert aic != null;
     accountCache = aic;
+  }
+
+  public void setRemoteAccountInfoCache(final AccountInfoCache aic) {
+    assert aic != null;
+    remoteAccountCache = aic;
   }
 
   private int insertRow(final int beforeRow) {
@@ -442,6 +501,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     ChangeTable parent;
     final ApprovalViewType viewType;
     final Account.Id ownerId;
+    Account.Id remoteOwnerId;
     int titleRow = -1;
     int dataBegin;
     int rows;
@@ -461,6 +521,10 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       ownerId = owner;
     }
 
+    public void setRemoteOwnerId(Account.Id remoteOwnerId) {
+      this.remoteOwnerId = remoteOwnerId;
+    }
+
     public void setTitleText(final String text) {
       titleText = text;
       if (titleRow >= 0) {
@@ -468,11 +532,18 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       }
     }
 
-    public void display(final List<ChangeInfo> changeList) {
-      final int sz = changeList != null ? changeList.size() : 0;
+    public void display (final List<ChangeInfo> changeList) {
+      display(changeList, "", false);
+    }
+
+    public void display(final List<ChangeInfo> changeList,
+        final String remoteUrl, final boolean append) {
+      final int sz =
+          changeList != null ? (append ? changeList.size() + rows : changeList
+              .size()) : 0;
       final boolean hadData = rows > 0;
 
-      if (hadData) {
+      if (hadData && !append) {
         while (sz < rows) {
           parent.removeRow(dataBegin);
           rows--;
@@ -486,18 +557,22 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       } else {
         Set<Change.Id> cids = new HashSet<Change.Id>();
 
-        if (!hadData) {
+        if (!hadData && !append) {
           parent.removeRow(dataBegin);
         }
+
+        final int populateBegin = append ? rows + dataBegin : dataBegin;
 
         while (rows < sz) {
           parent.insertChangeRow(dataBegin + rows);
           rows++;
         }
 
-        for (int i = 0; i < sz; i++) {
+        final int populateSize = append ? changeList.size() : sz;
+
+        for (int i = 0; i < populateSize; i++) {
           ChangeInfo c = changeList.get(i);
-          parent.populateChangeRow(dataBegin + i, c);
+          parent.populateChangeRow(populateBegin + i, c, remoteUrl);
           cids.add(c.getId());
         }
 
@@ -505,12 +580,23 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
           case NONE:
             break;
           case USER:
-            PatchUtil.DETAIL_SVC.userApprovals(cids, ownerId, parent
-                .approvalFormatter(dataBegin, rows, true));
+            if (remoteUrl.isEmpty()) {
+              PatchUtil.DETAIL_SVC.userApprovals(cids, ownerId, parent
+                  .approvalFormatter(dataBegin, rows, true));
+            } else {
+              PatchUtil.DETAIL_SVC.remoteUserApprovals(remoteUrl, cids,
+                  remoteOwnerId, parent
+                      .approvalFormatter(dataBegin, rows, true));
+            }
             break;
           case STRONGEST:
-            PatchUtil.DETAIL_SVC.strongestApprovals(cids, parent
-                .approvalFormatter(dataBegin, rows, false));
+            if (remoteUrl.isEmpty()) {
+              PatchUtil.DETAIL_SVC.strongestApprovals(cids, parent
+                  .approvalFormatter(dataBegin, rows, false));
+            } else {
+              PatchUtil.DETAIL_SVC.remoteStrongestApprovals(remoteUrl, cids,
+                  parent.approvalFormatter(dataBegin, rows, false));
+            }
             break;
         }
       }

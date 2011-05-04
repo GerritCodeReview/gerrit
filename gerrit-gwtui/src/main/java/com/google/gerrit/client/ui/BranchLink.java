@@ -57,7 +57,7 @@ public class BranchLink extends InlineHyperlink {
     }
   }
 
-  private static String query(Project.NameKey project, Change.Status status,
+  public static String query(Project.NameKey project, Change.Status status,
       String branch, String topic) {
     String query = PageLinks.projectQuery(project, status);
 

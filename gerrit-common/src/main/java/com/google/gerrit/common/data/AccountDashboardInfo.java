@@ -25,6 +25,7 @@ public class AccountDashboardInfo {
   protected List<ChangeInfo> byOwner;
   protected List<ChangeInfo> forReview;
   protected List<ChangeInfo> closed;
+  protected List<RemoteAccountDashboardInfo> remoteChanges;
 
   protected AccountDashboardInfo() {
   }
@@ -67,5 +68,13 @@ public class AccountDashboardInfo {
 
   public void setClosed(List<ChangeInfo> c) {
     closed = c;
+  }
+
+  public List<RemoteAccountDashboardInfo> getRemoteChanges() {
+    return remoteChanges;
+  }
+
+  public void setRemoteChanges(final List<RemoteAccountDashboardInfo> rC) {
+    remoteChanges = rC;
   }
 }

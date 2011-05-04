@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.rpc;
 import com.google.gerrit.common.data.AccountDashboardInfo;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.ChangeListService;
+import com.google.gerrit.common.data.RemoteAccountDashboardInfo;
 import com.google.gerrit.common.data.SingleListChangeInfo;
 import com.google.gerrit.common.data.ToggleStarRequest;
 import com.google.gerrit.common.errors.InvalidQueryException;
@@ -29,6 +30,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.config.RemoteDashboardConfig;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.Predicate;
@@ -44,6 +46,9 @@ import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.impl.ListResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -91,6 +96,12 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
   private final ChangeQueryBuilder.Factory queryBuilder;
   private final Provider<ChangeQueryRewriter> queryRewriter;
+  private final RemoteDashboardConfig remoteDashboardConfig;
+
+  protected GerritHttpClient client;
+
+  private static final Logger log =
+      LoggerFactory.getLogger(ChangeListServiceImpl.class);
 
   @Inject
   ChangeListServiceImpl(final Provider<ReviewDb> schema,
@@ -98,13 +109,15 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final ChangeQueryBuilder.Factory queryBuilder,
-      final Provider<ChangeQueryRewriter> queryRewriter) {
+      final Provider<ChangeQueryRewriter> queryRewriter,
+      final RemoteDashboardConfig remoteDashboardConfig) {
     super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
     this.accountInfoCacheFactory = accountInfoCacheFactory;
     this.queryBuilder = queryBuilder;
     this.queryRewriter = queryRewriter;
+    this.remoteDashboardConfig = remoteDashboardConfig;
   }
 
   private boolean canRead(final Change c) {
@@ -167,7 +180,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         for (ChangeData d : ((ChangeDataSource) s).read()) {
           if (d.hasChange()) {
             // Checking visibleToMe here should be unnecessary, the
-            // query should have already performed it.  But we don't
+            // query should have already performed it. But we don't
             // want to trust the query rewriter that much yet.
             //
             if (visibleToMe.match(d)) {
@@ -200,10 +213,33 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     }
   }
 
-  @Override
-  public void forAccountPreferredEmail(String preferredEmail,
-      AsyncCallback<AccountDashboardInfo> callback) {
-    // TODO Implement method in next change.
+  public void forAccountPreferredEmail(final String preferredEmail,
+      final AsyncCallback<AccountDashboardInfo> callback) {
+
+    run(callback, new Action<AccountDashboardInfo>() {
+      public AccountDashboardInfo run(final ReviewDb db) throws OrmException,
+          Failure {
+        final AccountInfoCacheFactory ac = accountInfoCacheFactory.create();
+        final List<Account> accounts =
+            db.accounts().byPreferredEmail(preferredEmail).toList();
+
+        if (accounts.size() > 0) {
+          final Account.Id id = accounts.get(0).getId();
+          final Set<Change.Id> stars = new HashSet<Change.Id>();
+
+          for (final StarredChange sc : db.starredChanges().byAccount(id)) {
+            stars.add(sc.getChangeId());
+          }
+
+          final AccountDashboardInfo d =
+              getChangesForAccount(db, id, id, ac, stars);
+          return d;
+        }
+        log.error("Unable to find user for preferred email: " + preferredEmail
+            + " when trying to retrieve changes.");
+        return null;
+      }
+    });
   }
 
   public void forAccount(final Account.Id id,
@@ -225,41 +261,91 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         }
 
         final Set<Change.Id> stars = currentUser.get().getStarredChanges();
-        final ChangeAccess changes = db.changes();
-        final AccountDashboardInfo d;
+        final AccountDashboardInfo d =
+            getChangesForAccount(db, target, id, ac, stars);
 
-        final Set<Change.Id> openReviews = new HashSet<Change.Id>();
-        final Set<Change.Id> closedReviews = new HashSet<Change.Id>();
-        for (final PatchSetApproval ca : db.patchSetApprovals().openByUser(id)) {
-          openReviews.add(ca.getPatchSetId().getParentKey());
-        }
-        for (final PatchSetApproval ca : db.patchSetApprovals()
-            .closedByUser(id)) {
-          closedReviews.add(ca.getPatchSetId().getParentKey());
-        }
+        final List<RemoteAccountDashboardInfo> rChangesList =
+            new ArrayList<RemoteAccountDashboardInfo>();
 
-        d = new AccountDashboardInfo(target);
-        d.setByOwner(filter(changes.byOwnerOpen(target), stars, ac));
-        d.setClosed(filter(changes.byOwnerClosed(target), stars, ac));
+        // Get Remote changes if [remotedashboard] section is specified in
+        // gerrit.config.
+        for (String urlConnection : remoteDashboardConfig
+            .getRemoteDashboardUrl()) {
+          final AccountDashboardInfo remoteAd =
+              remoteServerChangesRequest(urlConnection, user
+                  .getPreferredEmail());
+          if (remoteAd != null) {
+            final RemoteAccountDashboardInfo rChanges =
+                new RemoteAccountDashboardInfo(urlConnection);
+            rChanges.setRemoteOwnerId(remoteAd.getOwner());
+            rChanges.setByOwner(remoteAd.getByOwner());
+            rChanges.setForReview(remoteAd.getForReview());
+            rChanges.setClosed(remoteAd.getClosed());
+            rChanges.setRemoteAccounts(remoteAd.getAccounts());
 
-        for (final ChangeInfo c : d.getByOwner()) {
-          openReviews.remove(c.getId());
-        }
-        d.setForReview(filter(changes.get(openReviews), stars, ac));
-        Collections.sort(d.getForReview(), ID_COMP);
-
-        for (final ChangeInfo c : d.getClosed()) {
-          closedReviews.remove(c.getId());
-        }
-        if (!closedReviews.isEmpty()) {
-          d.getClosed().addAll(filter(changes.get(closedReviews), stars, ac));
-          Collections.sort(d.getClosed(), SORT_KEY_COMP);
+            rChangesList.add(rChanges);
+          } else {
+            log.error("Unable to retrieve changes from remote server: "
+                + urlConnection + " for user: " + user.getPreferredEmail());
+          }
         }
 
-        d.setAccounts(ac.create());
+        d.setRemoteChanges(rChangesList);
         return d;
       }
     });
+  }
+
+  public AccountDashboardInfo getChangesForAccount(final ReviewDb db,
+      final Account.Id target, final Account.Id id,
+      final AccountInfoCacheFactory ac, final Set<Change.Id> stars)
+      throws OrmException {
+    final ChangeAccess changes = db.changes();
+    final AccountDashboardInfo d;
+
+    final Set<Change.Id> openReviews = new HashSet<Change.Id>();
+    final Set<Change.Id> closedReviews = new HashSet<Change.Id>();
+    for (final PatchSetApproval ca : db.patchSetApprovals().openByUser(id)) {
+      openReviews.add(ca.getPatchSetId().getParentKey());
+    }
+    for (final PatchSetApproval ca : db.patchSetApprovals().closedByUser(id)) {
+      closedReviews.add(ca.getPatchSetId().getParentKey());
+    }
+
+    d = new AccountDashboardInfo(target);
+    d.setByOwner(filter(changes.byOwnerOpen(target), stars, ac));
+    d.setClosed(filter(changes.byOwnerClosed(target), stars, ac));
+
+    for (final ChangeInfo c : d.getByOwner()) {
+      openReviews.remove(c.getId());
+    }
+    d.setForReview(filter(changes.get(openReviews), stars, ac));
+    Collections.sort(d.getForReview(), ID_COMP);
+
+    for (final ChangeInfo c : d.getClosed()) {
+      closedReviews.remove(c.getId());
+    }
+    if (!closedReviews.isEmpty()) {
+      d.getClosed().addAll(filter(changes.get(closedReviews), stars, ac));
+      Collections.sort(d.getClosed(), SORT_KEY_COMP);
+    }
+
+    d.setAccounts(ac.create());
+    return d;
+  }
+
+  public AccountDashboardInfo remoteServerChangesRequest(
+      final String urlConnection, final String preferredEmail) {
+    try {
+      final GerritClient client = new GerritClient(urlConnection);
+      // Get changes from remote server.
+      final AccountDashboardInfo result = client.queryMyReviews(preferredEmail);
+      return result;
+    } catch (Exception e) {
+      log.error("Unable to retrieve changes from remote server: "
+          + urlConnection + " " + e.getMessage());
+      return null;
+    }
   }
 
   public void toggleStars(final ToggleStarRequest req,

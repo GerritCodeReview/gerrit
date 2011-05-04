@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.auth.SignInRequired;
+import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -28,7 +29,8 @@ public interface ChangeDetailService extends RemoteJsonService {
 
   void includedInDetail(Change.Id id, AsyncCallback<IncludedInDetail> callback);
 
-  void patchSetDetail(PatchSet.Id key, AsyncCallback<PatchSetDetail> callback);
+  void patchSetDetail(PatchSet.Id keyA, PatchSet.Id keyB,
+      AccountDiffPreference diffPrefs, AsyncCallback<PatchSetDetail> callback);
 
   @SignInRequired
   void patchSetPublishDetail(PatchSet.Id key,

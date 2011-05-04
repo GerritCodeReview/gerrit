@@ -21,21 +21,26 @@
 
 package com.google.gerrit.httpd.rpc;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.eclipse.jgit.diff.Edit;
-
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.InstanceCreator;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.google.gwtjsonrpc.server.JsonServlet;
+import com.google.gwtjsonrpc.server.MapDeserializer;
+import com.google.gwtjsonrpc.server.SqlDateDeserializer;
+
+import org.eclipse.jgit.diff.Edit;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class JSonSupport {
 
@@ -88,7 +93,7 @@ public class JSonSupport {
 
   public JSonSupport() {
     gson =
-        JsonServlet.defaultGsonBuilder().registerTypeAdapter(
+        defaultGsonBuilder().registerTypeAdapter(
             JSonResponse.class, new JSonResponseDeserializer())
             .registerTypeAdapter(Edit.class, new JsonDeserializer<Edit>() {
               public Edit deserialize(JsonElement json, Type typeOfT,
@@ -104,6 +109,21 @@ public class JSonSupport {
                 return new Edit(0, 0);
               }
             }).create();
+  }
+
+  public static GsonBuilder defaultGsonBuilder() {
+    final GsonBuilder gb = new GsonBuilder();
+    gb.registerTypeAdapter(java.util.Set.class,
+        new InstanceCreator<java.util.Set<Object>>() {
+          public Set<Object> createInstance(final Type arg0) {
+            return new HashSet<Object>();
+          }
+        });
+    gb.registerTypeAdapter(java.util.Map.class, new MapDeserializer());
+    gb.registerTypeAdapter(java.sql.Date.class, new SqlDateDeserializer());
+    gb.registerTypeAdapter(java.sql.Timestamp.class,
+        new SqlTimestampDeserialize());
+    return gb;
   }
 
   public String createRequest(int id, String xsrfKey, String methodName,

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/3//+4Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CodeReviewNoteCreationException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-05-04T12:54:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//69M\u003d",
+      "revId": "4e3bac953ea27e80a7a744a7093131979ceea352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+3//69I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2011-01-31T09:37:12Z",
       "side": 1,
       "message": "do you mean: \"there is not really a common ancestry...\"?",
+      "revId": "4e3bac953ea27e80a7a744a7093131979ceea352",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/3//+4U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-05-04T12:54:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+3//69I\u003d",
       "revId": "4e3bac953ea27e80a7a744a7093131979ceea352",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

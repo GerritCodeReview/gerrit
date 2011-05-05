@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/3//+w8\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-05T12:34:23Z",
+      "side": 1,
+      "message": "I think the complete section heading \u0027Branch Admin\u0027 should be underlined with \u0027~\u0027.",
+      "revId": "686741e96b74fb0f79bd257e383e40c3306776a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/3//+w4\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-05T12:34:23Z",
+      "side": 1,
+      "message": "maybe better: ... while they are not allowed to change any other project settings.",
+      "revId": "686741e96b74fb0f79bd257e383e40c3306776a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/3//+w0\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-05T12:34:23Z",
+      "side": 1,
+      "message": "Maybe this access right should better be named \u0027Create Branch\u0027 so that the naming is consistent with \u0027Push Branch\u0027 -\u003e \u0027Create Branch\u0027 ?",
+      "revId": "686741e96b74fb0f79bd257e383e40c3306776a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/3//+ww\u003d",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-05T12:34:23Z",
+      "side": 1,
+      "message": "maybe better: Users can create additional branches ...",
+      "revId": "686741e96b74fb0f79bd257e383e40c3306776a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/3//+wM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-05T12:34:23Z",
+      "side": 1,
+      "message": "unnecessary import: RefRight is never used",
+      "revId": "686741e96b74fb0f79bd257e383e40c3306776a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/3//+wI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-05T12:34:23Z",
+      "side": 1,
+      "message": "If you introduce a new schema you also have to update the information about the current schema in the class SchemaVersion:\n\nsee: com.google.gerrit.server.schema.SchemaVersion#C\n\nOtherwise your migration will not be executed when initializing Gerrit.",
+      "revId": "686741e96b74fb0f79bd257e383e40c3306776a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/3//+wE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-05T12:34:23Z",
+      "side": 1,
+      "message": "variable cat is not used, remove it",
+      "revId": "686741e96b74fb0f79bd257e383e40c3306776a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/3//+wA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-05T12:34:23Z",
+      "side": 1,
+      "message": "style-nit: one blank line too much",
+      "revId": "686741e96b74fb0f79bd257e383e40c3306776a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

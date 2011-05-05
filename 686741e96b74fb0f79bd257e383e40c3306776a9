@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/3//+vk\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-05-05T13:58:29Z",
+      "side": 1,
+      "message": "\"... while not allowing them to change any other project settings.\"",
+      "parentUuid": "AAAA/3//+w4\u003d",
+      "revId": "686741e96b74fb0f79bd257e383e40c3306776a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/3//+w0\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 4
@@ -47,6 +65,23 @@
       "writtenOn": "2011-05-05T12:34:23Z",
       "side": 1,
       "message": "Maybe this access right should better be named \u0027Create Branch\u0027 so that the naming is consistent with \u0027Push Branch\u0027 -\u003e \u0027Create Branch\u0027 ?",
+      "revId": "686741e96b74fb0f79bd257e383e40c3306776a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAA/3//+vg\u003d",
+        "filename": "Documentation/project-setup.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-05-05T13:58:29Z",
+      "side": 1,
+      "message": "I don\u0027t know what are the guidelines, but this and the \"Users ...\" line look a bit wider than the rest of the docs.",
       "revId": "686741e96b74fb0f79bd257e383e40c3306776a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -33,7 +33,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -192,8 +191,7 @@ public class LabelsEditor extends Composite {
     g.getCellFormatter().setStyleName(0, 1,
         Gerrit.RESOURCES.css().labelDeleteCell());
 
-    final Label l = new Label(labelKey);
-    g.setWidget(0, 0, l);
+    g.setWidget(0, 0, new LabelLink(labelKey));
 
     final Image upImage = new Image(Gerrit.RESOURCES.deleteHover());
     final PushButton deleteLabelButton = new PushButton(upImage);

@@ -9,17 +9,18 @@ This means for a successful SSH authentication you need your private
 SSH key and the corresponding public SSH key must be known to Gerrit.
 
 If you are facing this problem, do the following:
-1. Verify that you are using the correct username for the SSH command
-   and that it is typed correctly (case sensitive). You can look up
-   your username in the Gerrit WebUI under 'Settings' -> 'Profile'.
-2. Verify that you have uploaded your public SSH key for your Gerrit
-   account. To do this go in the Gerrit WebUI to 'Settings' ->
-   'SSH Public Keys' and check that your public SSH key is there. If
-   your public SSH key is not there you have to upload it.
-3. Verify that you are using the correct private SSH key. To find out
-   which private SSH key is used test the SSH authentication as
-   described below. From the trace you should see which private SSH
-   key is used.
+
+. Verify that you are using the correct username for the SSH command
+  and that it is typed correctly (case sensitive). You can look up
+  your username in the Gerrit WebUI under 'Settings' -> 'Profile'.
+. Verify that you have uploaded your public SSH key for your Gerrit
+  account. To do this go in the Gerrit WebUI to 'Settings' ->
+  'SSH Public Keys' and check that your public SSH key is there. If
+  your public SSH key is not there you have to upload it.
+. Verify that you are using the correct private SSH key. To find out
+  which private SSH key is used test the SSH authentication as
+  described below. From the trace you should see which private SSH
+  key is used.
 
 
 Test SSH authentication

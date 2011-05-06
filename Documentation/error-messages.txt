@@ -31,7 +31,7 @@ Error Messages
 * link:error-permission-denied.html[Permission denied (publickey)]
 * link:error-prohibited-by-gerrit.html[prohibited by Gerrit]
 * link:error-squash-commits-first.html[squash commits first]
-* link:error-upload-denied.html[Upload denied for project '...']
+* link:error-upload-denied.html[Upload denied for project \'...']
 * link:error-not-allowed-to-upload-merges.html[you are not allowed to upload merges]
 * link:error-you-are-not-author.html[you are not author ...]
 * link:error-you-are-not-committer.html[you are not committer ...]

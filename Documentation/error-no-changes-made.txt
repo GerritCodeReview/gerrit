@@ -7,10 +7,12 @@ current patch set of this change.
 
 A pushed commit is considered to be identical with the current patch
 set if
+
 - the files in the commit,
 - the commit message,
 - the author of the commit and
 - the parents of the commit
+
 are all identical.
 
 

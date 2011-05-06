@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAA/3//+s4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-05-06T14:24:36Z",
+      "side": 1,
+      "message": "This format is grouped by refs and makes more sense once we have the project\naccess rights admin UI from the git-store topic.\n\nAdditionally, with this format we should really call the section\nrestrict-access instead of just access to make it explicit that everything\nnot mentioned is allowed and everything specified under the restrict-access is\na restriction.\n\nTo validate a new ref right we would then use the following algorithm:\n\n\tfor (restriction in [r in restrict-access where applies(r, newRefRight)])\n\t\tif (newRefRight.range \u003e restriction)\n\t\t\tthrow NOT-ALLOWED\n\n\tfunction applies(restriction, newRefRight)\n\t\treturn restriction.category \u003d\u003d newRefRight.category\n\t\t\t\u0026\u0026 nonEmptyIntersection(restriction.ref, newRefRight.ref)\n\n\tfunction nonEmptyIntersection(ref1, ref2)\n\t\treturn ! toAutomaton(ref1).intersection(toAutomaton(ref2)).isEmpty()\n\nSome examples. Let\u0027s suppose we have the following access restrictions in\ngerrit.config file:\n\n\t[restrict-access \"refs/tags/*\"]\n\t\tpush \u003d -2..+2\n\nWhen parsed we have a restrict-access list like:\n\n\trestrict-access \u003d [\n\t\tRestrictAccess(\"push\", \"refs/tags/*\", Range(-2,2))\n\t]\n\nIf a user enters a new ref right like:\n\n\tpush, refs/tags/abc, -3..+3\n\nthen the user input matches the RestrictAccess rule from the restrict-access\nlist as:\n- categories are equal\n- intersection(\"refs/tags/abc\", \"refs/tags/*\") is non empty\n\nand the new ref right is not allowed because:\n- Range(-3,3) \u003e Range(-2,2)\n\nWith the same restrict-access list if a user enters:\n\n\tpush, ^refs/[nt]ags/abc, -3..+3\n\nthen the user input matches the RestrictAccess rule from the restrict-acces for\nthe same reasons as in the previous example and the new ref right is also not\nallowed for the same reason as above.\n\n\nBefore I start changing the existing implementation please let me know\nif you agree with the above.",
+      "parentUuid": "AAAA/n///ZM\u003d",
+      "revId": "ccdf633054c4f10127c5df7aaaf2651acb8ce60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n///ZE\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/ForbiddenRefRightException.java",
         "patchSetId": 2

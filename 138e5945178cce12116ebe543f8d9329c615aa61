@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAA/3//+tI\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PermissionRule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-05-06T14:33:54Z",
+      "side": 1,
+      "message": "Why the switch statement? I propose:\n\n    if (action \u003d\u003d null) {\n      throw new NullPointerException();\n    }\n    setDeny(action \u003d\u003d Action.DENY);",
+      "revId": "138e5945178cce12116ebe543f8d9329c615aa61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

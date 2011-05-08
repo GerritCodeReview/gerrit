@@ -1,0 +1,71 @@
+gerrit inline
+==============
+
+NAME
+----
+gerrit inline - Add inline comment
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit inline' [\--project <PROJECT>] [\--left] {COMMIT | CHANGEID,PATCHSET} PATH LINENUMBER MESSAGE
+
+DESCRIPTION
+-----------
+
+Patch sets should be specified as complete or abbreviated commit
+SHA-1s.  If the same commit is available in multiple projects the
+\--project option may be used to limit where Gerrit searches for
+the change to only the contents of the specified project.
+
+For current backward compatibility with user tools patch sets may
+also be specified in the legacy 'CHANGEID,PATCHSET' format, such as
+'8242,2'.  Support for this legacy format is planned to be removed
+in a future edition of Gerrit Code Review.  Use of commit SHA-1s
+is strongly encouraged.
+
+PATH and LINENUMBER arguments tells Gerrit the file where the MESSAGE should be added.
+
+OPTIONS
+-------
+
+\--project::
+-p::
+	Name of the project the intended changes are contained
+	within.  This option must be supplied before the commit
+	SHA-1 in order to take effect.
+
+\--left::
+-l::
+    Add comment to left side of diff viewer. Default is right.
+
+\--help::
+-h::
+	Display site-specific usage information, including the
+	complete listing of supported approval categories and values.
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+EXAMPLES
+--------
+
+Add inline comment to file on path src/example.txt, line 3
+=====
+	$ ssh -p 29418 review.example.com gerrit inline c0ff33 src/example.txt 3 '"example message"'
+=====
+
+SEE ALSO
+--------
+
+* link:access-control.html[Access Controls]
+* link:cmd-review.html[gerrit review]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

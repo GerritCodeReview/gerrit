@@ -69,6 +69,9 @@ link:cmd-ls-projects.html[gerrit ls-projects]::
 link:cmd-query.html[gerrit query]::
 	Query the change database.
 
+link:cmd-inline.html[gerrit inline]::
+	Add inline comment.
+
 link:cmd-review.html[gerrit review]::
 	Verify, approve and/or submit a patch set from the command line.
 

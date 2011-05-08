@@ -34,5 +34,6 @@ public class MasterCommandModule extends CommandModule {
     command(gerrit, "replicate").to(AdminReplicate.class);
     command(gerrit, "set-project-parent").to(AdminSetParent.class);
     command(gerrit, "review").to(ReviewCommand.class);
+    command(gerrit, "inline").to(InlineCommentCommand.class);
   }
 }

@@ -20,11 +20,9 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Branch;
-import com.google.gerrit.reviewdb.Branch.NameKey;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -37,12 +35,9 @@ import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.workflow.FunctionState;
-import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
@@ -59,7 +54,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class ReviewCommand extends BaseCommand {
+public class ReviewCommand extends PatchSetCommand {
   private static final Logger log =
       LoggerFactory.getLogger(ReviewCommand.class);
 
@@ -84,9 +79,6 @@ public class ReviewCommand extends BaseCommand {
       throw new IllegalArgumentException("database error", e);
     }
   }
-
-  @Option(name = "--project", aliases = "-p", usage = "project containing the patch set")
-  private ProjectControl projectControl;
 
   @Option(name = "--message", aliases = "-m", usage = "cover message to publish on change", metaVar = "MESSAGE")
   private String changeComment;
@@ -257,70 +249,6 @@ public class ReviewCommand extends BaseCommand {
         throw error(result.getMessage());
       }
     }
-  }
-
-  private Set<PatchSet.Id> parsePatchSetId(final String patchIdentity)
-      throws UnloggedFailure, OrmException {
-    // By commit?
-    //
-    if (patchIdentity.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
-      final RevId id = new RevId(patchIdentity);
-      final ResultSet<PatchSet> patches;
-      if (id.isComplete()) {
-        patches = db.patchSets().byRevision(id);
-      } else {
-        patches = db.patchSets().byRevisionRange(id, id.max());
-      }
-
-      final Set<PatchSet.Id> matches = new HashSet<PatchSet.Id>();
-      for (final PatchSet ps : patches) {
-        final Change change = db.changes().get(ps.getId().getParentKey());
-        if (inProject(change)) {
-          matches.add(ps.getId());
-        }
-      }
-
-      switch (matches.size()) {
-        case 1:
-          return matches;
-        case 0:
-          throw error("\"" + patchIdentity + "\" no such patch set");
-        default:
-          throw error("\"" + patchIdentity + "\" matches multiple patch sets");
-      }
-    }
-
-    // By older style change,patchset?
-    //
-    if (patchIdentity.matches("^[1-9][0-9]*,[1-9][0-9]*$")) {
-      final PatchSet.Id patchSetId;
-      try {
-        patchSetId = PatchSet.Id.parse(patchIdentity);
-      } catch (IllegalArgumentException e) {
-        throw error("\"" + patchIdentity + "\" is not a valid patch set");
-      }
-      if (db.patchSets().get(patchSetId) == null) {
-        throw error("\"" + patchIdentity + "\" no such patch set");
-      }
-      if (projectControl != null) {
-        final Change change = db.changes().get(patchSetId.getParentKey());
-        if (!inProject(change)) {
-          throw error("change " + change.getId() + " not in project "
-              + projectControl.getProject().getName());
-        }
-      }
-      return Collections.singleton(patchSetId);
-    }
-
-    throw error("\"" + patchIdentity + "\" is not a valid patch set");
-  }
-
-  private boolean inProject(final Change change) {
-    if (projectControl == null) {
-      // No --project option, so they want every project.
-      return true;
-    }
-    return projectControl.getProject().getNameKey().equals(change.getProject());
   }
 
   private void assertScoreIsAllowed(final PatchSet.Id patchSetId,

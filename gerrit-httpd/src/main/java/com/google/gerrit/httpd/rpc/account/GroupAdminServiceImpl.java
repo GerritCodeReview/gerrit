@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.AccountGroupIncludeAudit;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.AccountGroup.Id;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
@@ -46,7 +47,6 @@ import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -61,6 +61,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   private final GroupControl.Factory groupControlFactory;
 
   private final CreateGroup.Factory createGroupFactory;
+  private final DeleteGroup.Factory deleteGroupFactory;
   private final RenameGroup.Factory renameGroupFactory;
   private final GroupDetailFactory.Factory groupDetailFactory;
 
@@ -73,6 +74,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory,
       final CreateGroup.Factory createGroupFactory,
+      final DeleteGroup.Factory deleteGroupFactory,
       final RenameGroup.Factory renameGroupFactory,
       final GroupDetailFactory.Factory groupDetailFactory) {
     super(schema, currentUser);
@@ -84,6 +86,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.createGroupFactory = createGroupFactory;
+    this.deleteGroupFactory = deleteGroupFactory;
     this.renameGroupFactory = renameGroupFactory;
     this.groupDetailFactory = groupDetailFactory;
   }
@@ -117,6 +120,12 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   public void createGroup(final String newName,
       final AsyncCallback<AccountGroup.Id> callback) {
     createGroupFactory.create(newName).to(callback);
+  }
+
+
+  @Override
+  public void deleteGroup(Id groupid, AsyncCallback<Id> callback) {
+    deleteGroupFactory.create(groupid).to(callback);
   }
 
   public void groupDetail(final AccountGroup.Id groupId,
@@ -422,5 +431,6 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     }
     return g;
   }
+
 
 }

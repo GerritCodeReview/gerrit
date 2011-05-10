@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.ConfirmationCallback;
+import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -21,22 +23,24 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountScreen;
-import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.AddIncludedGroupBox;
+import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.RPCSuggestOracle;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.GroupDetail;
-import com.google.gerrit.common.data.GroupOptions;
 import com.google.gerrit.common.data.GroupInfo;
 import com.google.gerrit.common.data.GroupInfoCache;
+import com.google.gerrit.common.data.GroupOptions;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupInclude;
 import com.google.gerrit.reviewdb.AccountGroupMember;
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -48,6 +52,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
@@ -61,6 +66,7 @@ import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AccountGroupScreen extends AccountScreen {
   private final AccountGroup.Id groupId;
@@ -71,6 +77,8 @@ public class AccountGroupScreen extends AccountScreen {
 
   private NpTextBox groupNameTxt;
   private Button saveName;
+
+  private Button deleteGroup;
 
   private NpTextBox ownerTxtBox;
   private SuggestBox ownerTxt;
@@ -121,6 +129,7 @@ public class AccountGroupScreen extends AccountScreen {
         delMember.setVisible(result.canModify);
         saveType.setVisible(result.canModify);
         delInclude.setVisible(result.canModify);
+        deleteGroup.setVisible(result.canModify);
         display(result);
       }
     });
@@ -153,6 +162,7 @@ public class AccountGroupScreen extends AccountScreen {
     emailOnlyAuthors.setEnabled(canModify);
     addIncludeBox.setEnabled(canModify);
     includes.setEnabled(canModify);
+    deleteGroup.setEnabled(canModify);
   }
 
   private void initName() {
@@ -176,7 +186,22 @@ public class AccountGroupScreen extends AccountScreen {
             });
       }
     });
-    groupNamePanel.add(saveName);
+
+    deleteGroup = new Button(Util.C.buttonDeleteGroup());
+    deleteGroup.setEnabled(false);
+    deleteGroup.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        deleteGroupChecked();
+      }
+    });
+
+    FlowPanel buttonsPanel = new FlowPanel();
+    buttonsPanel.add(new SmallHeading(Util.C.headingMembers()));
+    buttonsPanel.add(saveName);
+    buttonsPanel.add(deleteGroup);
+    groupNamePanel.add(buttonsPanel);
+
     add(groupNamePanel);
 
     new OnEditEnabler(saveName, groupNameTxt);
@@ -188,8 +213,9 @@ public class AccountGroupScreen extends AccountScreen {
 
     ownerTxtBox = new NpTextBox();
     ownerTxtBox.setVisibleLength(60);
-    ownerTxt = new SuggestBox(new RPCSuggestOracle(
-        new AccountGroupSuggestOracle()), ownerTxtBox);
+    ownerTxt =
+        new SuggestBox(new RPCSuggestOracle(new AccountGroupSuggestOracle()),
+            ownerTxtBox);
     ownerPanel.add(ownerTxt);
 
     saveOwner = new Button(Util.C.buttonChangeGroupOwner());
@@ -263,8 +289,8 @@ public class AccountGroupScreen extends AccountScreen {
       @Override
       public void onClick(final ClickEvent event) {
         final GroupOptions groupOptions =
-            new GroupOptions(visibleToAllCheckBox.getValue(),
-              emailOnlyAuthors.getValue());
+            new GroupOptions(visibleToAllCheckBox.getValue(), emailOnlyAuthors
+                .getValue());
         Util.GROUP_SVC.changeGroupOptions(groupId, groupOptions,
             new GerritCallback<VoidResult>() {
               public void onSuccess(final VoidResult result) {
@@ -286,7 +312,8 @@ public class AccountGroupScreen extends AccountScreen {
     typeSystem = new Label(Util.C.groupType_SYSTEM());
 
     typeSelect = new ListBox();
-    typeSelect.addItem(Util.C.groupType_INTERNAL(), AccountGroup.Type.INTERNAL.name());
+    typeSelect.addItem(Util.C.groupType_INTERNAL(), AccountGroup.Type.INTERNAL
+        .name());
     typeSelect.addItem(Util.C.groupType_LDAP(), AccountGroup.Type.LDAP.name());
     typeSelect.addChangeHandler(new ChangeHandler() {
       @Override
@@ -786,5 +813,25 @@ public class AccountGroupScreen extends AccountScreen {
 
       setRowItem(row, k);
     }
+  }
+
+  void deleteGroupChecked() {
+
+    ConfirmationDialog confirmationDialog =
+        new ConfirmationDialog(Gerrit.C.groupDeletionDialogTitle(), new HTML(
+            Gerrit.C.groupDeletionConfirmationMessage()),
+            new ConfirmationCallback() {
+              @Override
+              public void onOk() {
+                Util.GROUP_SVC.deleteGroup(groupId,
+                    new GerritCallback<AccountGroup.Id>() {
+                      public void onSuccess(final AccountGroup.Id id) {
+                        Gerrit.display(PageLinks.ADMIN_GROUPS);
+                      }
+                    });
+              }
+            });
+
+    confirmationDialog.center();
   }
 }

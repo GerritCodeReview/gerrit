@@ -35,6 +35,7 @@ public class AccountModule extends RpcServletModule {
         factory(GroupDetailFactory.Factory.class);
         factory(MyGroupsFactory.Factory.class);
         factory(RenameGroup.Factory.class);
+        factory(DeleteGroup.Factory.class);
       }
     });
     rpc(AccountSecurityImpl.class);

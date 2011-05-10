@@ -36,6 +36,9 @@ public interface GroupAdminService extends RemoteJsonService {
   void createGroup(String newName, AsyncCallback<AccountGroup.Id> callback);
 
   @SignInRequired
+  void deleteGroup(AccountGroup.Id groupid, AsyncCallback<AccountGroup.Id> callback);
+
+  @SignInRequired
   void groupDetail(AccountGroup.Id groupId, AsyncCallback<GroupDetail> callback);
 
   @SignInRequired

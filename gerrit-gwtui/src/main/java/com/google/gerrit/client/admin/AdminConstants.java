@@ -15,6 +15,7 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.safehtml.shared.SafeHtml;
 
 public interface AdminConstants extends Constants {
   String defaultAccountName();
@@ -44,6 +45,7 @@ public interface AdminConstants extends Constants {
   String emailOnlyAuthors();
   String descriptionNotifications();
   String buttonSaveGroupOptions();
+  String buttonDeleteGroup();
 
   String headingOwner();
   String headingParentProjectName();

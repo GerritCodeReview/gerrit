@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAH///7U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "Better remove \"[issue 44] fix - \" from the heading line and instead add the following footer: \"Bug: issue 64\". This is the standard way to link a commit to an issue.",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///7Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "this import is not used, better remove it",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///7M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "this import is not used, better remove it",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///6s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "I think this is not correct. A user might be able to modifiy a group but still he may not be able to delete it. E.g. a Gerrit administrator can add other users to the \u0027Administrator\u0027 group but the \u0027Administrators\u0027 group cannot be deleted since it is a system group.",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///7I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "this modification is not necessary, you just changed the formatting",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///7E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "this modification is not necessary, you just changed the formatting",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///7A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "this modification is not necessary, you just changed the formatting",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///68\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "this import is not used, better remove it",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///+U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/DeleteGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "2009? I guess it should be 2011",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///6o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/DeleteGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "We actually never import the internal Id classes. Here it would be preferred to just import \u0027AccountGroup\u0027 and then use \u0027AccountGroup.Id\u0027 as type instead of only \u0027Id\u0027. The reason is that there are so many Id classes that otherwise it\u0027s easy to get confused.",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///6k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/DeleteGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "use \u0027AccountGroup.Id\u0027 as type instead of just \u0027Id\u0027",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///6w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/DeleteGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "I think you have to check for the group type here. There are different kinds of group types (SYSTEM, INTERNAL, LDAP) and not all are deletable, e.g. it must not be possible to delete SYSTEM groups. INTERNAL groups should be deletable, but I\u0027m not sure what about LDAP groups...",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///64\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/DeleteGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "in the comment better also say why the audit is not cleaned on purpose",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///6Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/DeleteGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "Not sure, but I think the membership of a user in a group is cached in the accountCache. If a membership is deleted I guess the member needs to be evicted from the accountCache:\n\naccountCache.evict(member.getAccountId());",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///6g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "Remove this import. We actually never import the internal Id classes. Here it would be preferred to just import \u0027AccountGroup\u0027 and then use \u0027AccountGroup.Id\u0027 as type instead of only \u0027Id\u0027. The reason is that there are so many Id classes that otherwise it\u0027s easy to get confused.",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///60\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "style-nit: one blank line too much",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///6c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-11T07:41:21Z",
+      "side": 1,
+      "message": "use \u0027AccountGroup.Id\u0027 as type instead of just \u0027Id\u0027",
+      "revId": "e717177b264959478075b6b60d22fec88b7e1996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

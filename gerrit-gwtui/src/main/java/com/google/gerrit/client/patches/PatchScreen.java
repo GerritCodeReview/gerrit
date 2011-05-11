@@ -258,10 +258,13 @@ public abstract class PatchScreen extends Screen implements
     historyPanel = new DisclosurePanel(PatchUtil.C.patchHistoryTitle());
     historyPanel.setContent(historyTable);
     historyPanel.setVisible(false);
-    // If the user selected a different patch set than the default for either
-    // side, expand the history panel
-    historyPanel.setOpen(diffSideA != null || diffSideB != null
-        || (historyOpen != null && historyOpen));
+    if (historyOpen != null) {
+      historyPanel.setOpen(historyOpen);
+    } else {
+      // If the user selected a different patch set than the default for either
+      // side, expand the history panel
+      historyPanel.setOpen(diffSideA != null || diffSideB != null);
+    }
     historyPanel.addOpenHandler(cacheOpenState);
     historyPanel.addCloseHandler(cacheCloseState);
 

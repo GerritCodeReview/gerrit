@@ -388,7 +388,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           }
         }
 
-        if (GitRepositoryManager.REF_CONFIG.equals(c.getRefName())) {
+        if (isConfig(c)) {
           projectCache.evict(project);
           ProjectState ps = projectCache.get(project.getNameKey());
           repoManager.setProjectDescription(project.getNameKey(), //
@@ -602,7 +602,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         continue;
       }
 
-      if (GitRepositoryManager.REF_CONFIG.equals(cmd.getRefName())) {
+      if (isConfig(cmd)) {
         if (!projectControl.isOwner()) {
           reject(cmd, "not project owner");
           continue;
@@ -823,7 +823,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
       boolean haveHeads = false;
       for (final Ref r : rp.getAdvertisedRefs().values()) {
-        if (isHead(r) || isTag(r)) {
+        if (isHead(r) || isTag(r) || isConfig(r)) {
           try {
             final RevCommit h = walk.parseCommit(r.getObjectId());
             h.add(SIDE_HAVE);
@@ -1962,4 +1962,13 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private static boolean isHead(final ReceiveCommand cmd) {
     return cmd.getRefName().startsWith(Constants.R_HEADS);
   }
+
+  private static boolean isConfig(final Ref ref) {
+    return ref.getName().equals(GitRepositoryManager.REF_CONFIG);
+  }
+
+  private static boolean isConfig(final ReceiveCommand cmd) {
+    return cmd.getRefName().equals(GitRepositoryManager.REF_CONFIG);
+  }
+
 }

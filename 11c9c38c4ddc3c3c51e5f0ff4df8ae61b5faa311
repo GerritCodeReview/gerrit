@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAH///1o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-12T05:42:43Z",
+      "side": 1,
+      "message": "I think the correct format for the Bug-footer would be:\n\nBug: issue 922",
+      "revId": "11c9c38c4ddc3c3c51e5f0ff4df8ae61b5faa311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

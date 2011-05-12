@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABAH///zs\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003379
+      },
+      "writtenOn": "2011-05-12T18:07:05Z",
+      "side": 1,
+      "message": "Yep, I\u0027ll do that.",
+      "parentUuid": "AAABAH///1Y\u003d",
+      "revId": "97bcdc6bd17fa4f60a44fccac6031bc03d035820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABAH///1c\u003d",
         "filename": "Documentation/cmd-inline.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-05-12T06:10:30Z",
       "side": 1,
       "message": "Not sure, but maybe it would be good to support adding of multiple inline commands with just one \u0027gerrit inline\u0027 command?\n\nAs I understand this command is intended to be used from scripts in a CI system, e.g. to comment on findbug issues. In this case it is not unlikely that several inline comments have to be added and it\u0027s always good to minimize the number of requests that have to be send. \n\nWhat do you think?",
+      "revId": "97bcdc6bd17fa4f60a44fccac6031bc03d035820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///zo\u003d",
+        "filename": "Documentation/cmd-inline.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003379
+      },
+      "writtenOn": "2011-05-12T18:07:05Z",
+      "side": 1,
+      "message": "Yep, I\u0027ve modified few Jenkins plugins already for this, and have been running them for about two weeks now. Usually there is multiple comments for patch set, so support for multiple comments would be useful. \n\nBut I\u0027m not sure how to have multiple comments on one command. My first version for this functionality was done in the review -command, I just added an option --inline filepath#linenumber#path and so on, but that had a few problems, like selecting a character for separator (I used #, but it\u0027s valid in filenames).\n\nIs it usual/acceptable to have multiple parameter tuples for command? Or is there other ways to fo this?",
+      "parentUuid": "AAABAH///1c\u003d",
       "revId": "97bcdc6bd17fa4f60a44fccac6031bc03d035820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAH///1Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-12T06:10:30Z",
+      "side": 1,
+      "message": "maybe you can clarify in the title line that this change adds support to add inline comments via an SSH command, otherwise it\u0027s a bit misleading since Gerrit actually already supports inline comments",
+      "revId": "97bcdc6bd17fa4f60a44fccac6031bc03d035820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAH///1c\u003d",
+        "filename": "Documentation/cmd-inline.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-12T06:10:30Z",
+      "side": 1,
+      "message": "Not sure, but maybe it would be good to support adding of multiple inline commands with just one \u0027gerrit inline\u0027 command?\n\nAs I understand this command is intended to be used from scripts in a CI system, e.g. to comment on findbug issues. In this case it is not unlikely that several inline comments have to be added and it\u0027s always good to minimize the number of requests that have to be send. \n\nWhat do you think?",
+      "revId": "97bcdc6bd17fa4f60a44fccac6031bc03d035820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

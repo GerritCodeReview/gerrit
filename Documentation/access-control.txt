@@ -15,6 +15,7 @@ and membership management.  The identity of these groups is set
 in the `system_config` table within the database, so the groups
 can be renamed after installation if desired.
 
+[[administrators]]
 Administrators
 ~~~~~~~~~~~~~~
 

@@ -138,9 +138,9 @@ different URL by using a reverse proxy that does URL rewriting.
 * Internal dependencies updated
 +
 Updated H2 Database to 1.2.147, PostgreSQL JDBC Client to 9.0-801,
-ANTLR to 3.2, GWT to 2.1.1, JSch to 0.1.44, Gson to 1.6, Ehcache to
-2.3.0, Apache Commons Net to 2.2, Apache Commons Pool to 1.5.5, JGit
-to 0.11.3.240-gd05d351, MINA SSHD to 0.5.1-r1095809.
+ANTLR to 3.2, GWT to 2.1.1, JSch to 0.1.44, Gson to 1.6, Apache
+Commons Net to 2.2, Apache Commons Pool to 1.5.5, JGit to
+0.11.3.240-gd05d351, MINA SSHD to 0.5.1-r1095809.
 
 Bug Fixes
 ---------

@@ -10,10 +10,11 @@ don't have to do anything since the commit was already successfully
 pushed. Still this error message may sometimes come as a surprise if
 you expected a new commit to be pushed. In this case you should
 verify that:
-1. your changes were successfully committed locally (otherwise there
-   is no new commit which can be pushed)
-2. you are pushing the correct commit (e.g. if you are pushing HEAD
-   make sure you have locally checked out the correct branch)
+
+. your changes were successfully committed locally (otherwise there
+  is no new commit which can be pushed)
+. you are pushing the correct commit (e.g. if you are pushing HEAD
+  make sure you have locally checked out the correct branch)
 
 If you are sure you are pushing the correct commit and you are still
 getting the "no new changes" error unexpectedly you can take the
@@ -23,17 +24,18 @@ field. Details about how to search in Gerrit are explained link:user-search.html
 
 Please note that each commit can really be pushed only once. This
 means:
-1. you cannot push a commit again even if the change for which the
-   commit was pushed before was abandoned (but you may restore the
-   abandoned change)
-2. you cannot reset a change to an old patch set by pushing the old
-   commit for this change again
-3. if a commit was pushed to one branch you cannot push this commit
-   to another branch
-4. if a commit was pushed directly to a branch (without going through
-   code review) you cannot push this commit once again for code
-   review (please note that in this case searching by the commit ID
-   in the Gerrit WebUI will not find any change)
+
+. you cannot push a commit again even if the change for which the
+  commit was pushed before was abandoned (but you may restore the
+  abandoned change)
+. you cannot reset a change to an old patch set by pushing the old
+  commit for this change again
+. if a commit was pushed to one branch you cannot push this commit
+  to another branch
+. if a commit was pushed directly to a branch (without going through
+  code review) you cannot push this commit once again for code
+  review (please note that in this case searching by the commit ID
+  in the Gerrit WebUI will not find any change)
 
 If you need to re-push a commit you may rewrite this commit by
 link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[amending] it or doing an interactive link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase]. By rewriting the

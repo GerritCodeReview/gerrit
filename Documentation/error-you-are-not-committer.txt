@@ -9,10 +9,11 @@ bypassed by having the access right '+2 Forge Committer or Tagger
 Identity' in the link:access-control.html#category_FORG['Forge Identity'] category.
 
 This error may happen for two reasons:
-1. incorrect configuration of the e-mail address on client or server
-   side
-2. missing privileges to push commits that were committed by other
-   users
+
+. incorrect configuration of the e-mail address on client or server
+  side
+. missing privileges to push commits that were committed by other
+  users
 
 
 Incorrect configuration of the e-mail address on client or server side

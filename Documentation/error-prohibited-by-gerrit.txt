@@ -6,6 +6,7 @@ is not allowed, e.g. because the pushing user has no sufficient
 privileges.
 
 In particular this error occurs:
+
 1. if you push a commit for code review to a branch for which you
    don't have upload permissions (access right '+2 Upload permission'
    in the link:access-control.html#category_READ['Read Access'] category)

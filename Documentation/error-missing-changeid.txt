@@ -7,9 +7,10 @@ message if the commit message of the pushed commit does not contain
 a Change-Id.
 
 This error may happen for two reasons:
-1. missing Change-Id in the commit message
-2. Change-Id is contained in the commit message but not in the last
-   paragraph
+
+. missing Change-Id in the commit message
+. Change-Id is contained in the commit message but not in the last
+  paragraph
 
 You can see the commit messages for existing commits in the history
 by doing a link:http://www.kernel.org/pub/software/scm/git/docs/git-log.html[git log].

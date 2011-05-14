@@ -1,16 +1,17 @@
-Upload denied for project '...'
-===============================
+Upload denied for project \'...'
+=================================
 
 With this error message Gerrit rejects to push a commit if the
 pushing user has no upload permissions for the project to which the
 push was done.
 
 There are two possibilities how to continue in this situation:
-1. contact one of the project owners and request upload permissions
-   for the project (access right '+2 Upload permission' in the
-   link:access-control.html#category_READ['Read Access'] category)
-2. export your commit as a patch using the link:http://www.kernel.org/pub/software/scm/git/docs/git-format-patch.html[git format-patch] command
-   and provide the patch file to one of the project owners
+
+. contact one of the project owners and request upload permissions
+  for the project (access right '+2 Upload permission' in the
+  link:access-control.html#category_READ['Read Access'] category)
+. export your commit as a patch using the link:http://www.kernel.org/pub/software/scm/git/docs/git-format-patch.html[git format-patch] command
+  and provide the patch file to one of the project owners
 
 
 GERRIT

@@ -12,11 +12,12 @@ Committer or Tagger Identity' in the link:access-control.html#category_FORG['For
 
 This error may happen for different reasons if you do not have the
 access right to forge the committer identity:
-1. missing Signed-off-by in the commit message
-2. Signed-off-by is contained in the commit message but it's neither
-   from the author, committer nor uploader
-3. Signed-off-by from the author, committer or uploader is contained
-   in the commit message but not in the last paragraph
+
+. missing Signed-off-by in the commit message
+. Signed-off-by is contained in the commit message but it's neither
+  from the author, committer nor uploader
+. Signed-off-by from the author, committer or uploader is contained
+  in the commit message but not in the last paragraph
 
 To be able to push your commits you have to update the commit
 messages as explained link:error-push-fails-due-to-commit-message.html[here] so that they contain a Signed-off-by from

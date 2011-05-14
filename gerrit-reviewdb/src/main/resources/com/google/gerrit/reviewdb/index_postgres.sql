@@ -13,9 +13,42 @@ ALTER TABLE starred_changes CLUSTER ON starred_changes_pkey;
 CLUSTER;
 
 
+-- Define function for conditional installation of PL/pgSQL.
+-- This is required, because starting with PostgreSQL 9.0, PL/pgSQL
+-- language is installed by default and database returns error when
+-- we try to install it again.
+--
+-- Source: http://wiki.postgresql.org/wiki/CREATE_OR_REPLACE_LANGUAGE
+-- Author: David Fetter
+--
+
+delimiter //
+
+CREATE OR REPLACE FUNCTION make_plpgsql()
+RETURNS VOID
+LANGUAGE SQL
+AS $$
+CREATE LANGUAGE plpgsql;
+$$;
+
+//
+
+delimiter ;
+
+SELECT
+    CASE
+    WHEN EXISTS(
+        SELECT 1
+        FROM pg_catalog.pg_language
+        WHERE lanname='plpgsql'
+    )
+    THEN NULL
+    ELSE make_plpgsql() END;
+
+DROP FUNCTION make_plpgsql();
+
 -- Define our schema upgrade support function.
 --
-CREATE LANGUAGE plpgsql;
 
 delimiter //
 

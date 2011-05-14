@@ -47,7 +47,7 @@ test $# -gt 0 || usage
 ##################################################
 running() {
   test -f $1 || return 1
-  PID=$(cat $1)
+  PID=`cat $1`
   ps -p $PID >/dev/null 2>/dev/null || return 1
   return 0
 }
@@ -203,7 +203,7 @@ fi
 # Check that Gerrit is where we think it is
 #####################################################
 GERRIT_CONFIG="$GERRIT_SITE/$GERRIT_INSTALL_TRACE_FILE"
-test -e "$GERRIT_CONFIG" || {
+test -f "$GERRIT_CONFIG" || {
    echo "** ERROR: Gerrit is not initialized in $GERRIT_SITE"
    exit 1
 }
@@ -309,12 +309,12 @@ GERRIT_USER=`get_config --get container.user`
 ulimit -c 0            ; # core file size
 ulimit -d unlimited    ; # data seg size
 ulimit -f unlimited    ; # file size
-ulimit -m unlimited    ; # max memory size
+ulimit -m >/dev/null 2>&1 && ulimit -m unlimited  ; # max memory size
 ulimit -n $GERRIT_FDS  ; # open files
 ulimit -t unlimited    ; # cpu time
-ulimit -t unlimited    ; # virtual memory
+ulimit -v unlimited    ; # virtual memory
 
-ulimit -x unlimited    2>/dev/null ; # file locks
+ulimit -x >/dev/null 2>&1 && ulimit -x unlimited  ; # file locks
 
 #####################################################
 # This is how the Gerrit server will be started
@@ -344,7 +344,7 @@ if test -z "$GERRIT_WAR" ; then
   exit 1
 fi
 
-test -z "$GERRIT_USER" && GERRIT_USER=$(whoami)
+test -z "$GERRIT_USER" && GERRIT_USER=`whoami`
 RUN_ARGS="-jar $GERRIT_WAR daemon -d $GERRIT_SITE"
 if test "`get_config --bool container.slave`" = "true" ; then
   RUN_ARGS="$RUN_ARGS --slave"
@@ -381,9 +381,9 @@ case "$ACTION" in
       exit 0
     fi
 
-    test -z "$UID" && UID=`id -u`
+    test -z "$UID" && UID=`id | sed -e 's/^[^=]*=\([0-9]*\).*/\1/'`
 
-    RUN_ID=$(date +%s).$$
+    RUN_ID=`date +%s`.$$
     RUN_ARGS="$RUN_ARGS --run-id=$RUN_ID"
 
     if test 1 = "$START_STOP_DAEMON" && type start-stop-daemon >/dev/null 2>&1
@@ -425,7 +425,7 @@ case "$ACTION" in
       else
         $RUN_EXEC $RUN_Arg1 "$RUN_Arg2" $RUN_Arg3 $RUN_ARGS &
         PID=$!
-        disown $PID
+        type disown >/dev/null 2>&1 && disown $PID
         echo $PID >"$GERRIT_PID"
       fi
     fi
@@ -444,13 +444,13 @@ case "$ACTION" in
     TIMEOUT=90  # seconds
     sleep 1
     while running "$GERRIT_PID" && test $TIMEOUT -gt 0 ; do
-      if test "x$RUN_ID" = "x$(cat $GERRIT_RUN 2>/dev/null)" ; then
+      if test "x$RUN_ID" = "x`cat $GERRIT_RUN 2>/dev/null`" ; then
         echo OK
         exit 0
       fi
 
       sleep 2
-      TIMEOUT=$(($TIMEOUT - 2))
+      TIMEOUT=`expr $TIMEOUT - 2`
     done
 
     echo FAILED
@@ -481,7 +481,7 @@ case "$ACTION" in
       while running "$GERRIT_PID" && test $TIMEOUT -gt 0 ; do
         kill $PID 2>/dev/null
         sleep 1
-        TIMEOUT=$(($TIMEOUT - 1))
+        TIMEOUT=`expr $TIMEOUT - 1`
       done
       test $TIMEOUT -gt 0 || kill -9 $PID 2>/dev/null
       rm -f "$GERRIT_PID" "$GERRIT_RUN"
@@ -491,7 +491,9 @@ case "$ACTION" in
 
   restart)
     GERRIT_SH=$0
-    if ! test -f "$GERRIT_SH" ; then
+    if test -f "$GERRIT_SH" ; then
+      : OK
+    else
       echo >&2 "** ERROR: Cannot locate gerrit.sh"
       exit 1
     fi

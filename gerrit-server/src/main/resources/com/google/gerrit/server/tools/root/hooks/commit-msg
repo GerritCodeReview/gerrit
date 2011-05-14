@@ -23,14 +23,14 @@ MSG="$1"
 # Check for, and add if missing, a unique Change-Id
 #
 add_ChangeId() {
-	clean_message=$(sed -e '
+	clean_message=`sed -e '
 		/^diff --git a\/.*/{
 			s///
 			q
 		}
 		/^Signed-off-by:/d
 		/^#/d
-	' "$MSG" | git stripspace)
+	' "$MSG" | git stripspace`
 	if test -z "$clean_message"
 	then
 		return
@@ -41,7 +41,7 @@ add_ChangeId() {
 		return
 	fi
 
-	id=$(_gen_ChangeId)
+	id=`_gen_ChangeId`
 	perl -e '
 		$MSG = shift;
 		$id = shift;
@@ -84,13 +84,13 @@ add_ChangeId() {
 	' "$MSG" "$id" "$CHANGE_ID_AFTER"
 }
 _gen_ChangeIdInput() {
-	echo "tree $(git write-tree)"
-	if parent=$(git rev-parse HEAD^0 2>/dev/null)
+	echo "tree `git write-tree`"
+	if parent=`git rev-parse HEAD^0 2>/dev/null`
 	then
 		echo "parent $parent"
 	fi
-	echo "author $(git var GIT_AUTHOR_IDENT)"
-	echo "committer $(git var GIT_COMMITTER_IDENT)"
+	echo "author `git var GIT_AUTHOR_IDENT`"
+	echo "committer `git var GIT_COMMITTER_IDENT`"
 	echo
 	printf '%s' "$clean_message"
 }

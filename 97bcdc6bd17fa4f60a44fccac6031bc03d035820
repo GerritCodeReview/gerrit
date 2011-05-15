@@ -69,6 +69,24 @@
       "revId": "97bcdc6bd17fa4f60a44fccac6031bc03d035820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAX///wQ\u003d",
+        "filename": "Documentation/cmd-inline.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-15T00:01:09Z",
+      "side": 1,
+      "message": "Why not have the command accept JSON input if given a --json flag? The JSON can be supplied on stdin and be something like:\n\n {message: \"Cover message\",\n  commit: \"COMMIT\",\n  inline-comments: [\n  {file: \"name/of/file\",\n   line: 42,\n   message: \"Lint warning here!\"},\n  {file: \"name/of/file\",\n   line: 82,\n   message: \"Lint warning here!\"},\n  ]}\n\nJSON is pretty easy to output from most application level code, and we already have Gson available to parse it. It should work to just read from the command input stream until end of stream into a buffer, then parse that with Gson into an object graph and apply the comments to the change.\n\nI would add this to the existing gerrit review command. There isn\u0027t a good reason to make a new top level command for this different style of comments.",
+      "parentUuid": "AAABAH///zo\u003d",
+      "revId": "97bcdc6bd17fa4f60a44fccac6031bc03d035820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

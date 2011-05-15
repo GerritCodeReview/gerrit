@@ -1945,6 +1945,9 @@ Sample `etc/secure.config`:
 
 [sendemail]
   smtpPass = sp@m
+
+[remote "bar"]
+  password = s3kr3t
 ----
 
 File `etc/replication.config`

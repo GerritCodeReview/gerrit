@@ -194,6 +194,24 @@ By default, replicates without group control, i.e replicates
 everything to all remotes.
 
 
+[[secure_config]]File `secure.config`
+-----------------------------------------------
+
+The optional file `'$site_path'/secure.config` is a Git-style config
+file that provides secure values that should not be world-readable,
+such as passwords. Passwords for HTTP remotes can be obtained from
+this file.
+
+[[remote.name.username]]remote.<name>.username::
++
+Username to use for HTTP authentication on this remote, if not given
+in the URL.
+
+[[remote.name.password]]remote.<name>.password::
++
+Password to use for HTTP authentication on this remote.
+
+
 [[ssh_config]]File `~/.ssh/config`
 ----------------------------------
 

@@ -15,8 +15,8 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.NameKey;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmException;
@@ -34,6 +34,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.FetchConnection;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
@@ -70,6 +71,7 @@ class PushOp implements ProjectRunnable {
   private final SchemaFactory<ReviewDb> schema;
   private final PushReplication.ReplicationConfig pool;
   private final RemoteConfig config;
+  private final CredentialsProvider credentialsProvider;
 
   private final Set<String> delta = new HashSet<String>();
   private final Project.NameKey projectName;
@@ -88,11 +90,13 @@ class PushOp implements ProjectRunnable {
   @Inject
   PushOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> s,
       final PushReplication.ReplicationConfig p, final RemoteConfig c,
+      final SecureCredentialsProvider.Factory cpFactory,
       @Assisted final Project.NameKey d, @Assisted final URIish u) {
     repoManager = grm;
     schema = s;
     pool = p;
     config = c;
+    credentialsProvider = cpFactory.create(c.getName());
     projectName = d;
     uri = u;
   }
@@ -249,6 +253,7 @@ class PushOp implements ProjectRunnable {
   private PushResult pushVia(final Transport tn) throws IOException,
       NotSupportedException, TransportException {
     tn.applyConfig(config);
+    tn.setCredentialsProvider(credentialsProvider);
 
     final List<RemoteRefUpdate> todo = generateUpdates(tn);
     if (todo.isEmpty()) {

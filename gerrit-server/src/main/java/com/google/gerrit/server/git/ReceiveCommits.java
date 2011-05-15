@@ -913,6 +913,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         final List<String> idList = c.getFooterLines(CHANGE_ID);
         if (!idList.isEmpty()) {
           final String idStr = idList.get(idList.size() - 1).trim();
+          if (idStr.matches("^I00*$")) {
+            // Reject this invalid line from EGit.
+            reject(newChange, "invalid Change-Id");
+            return;
+          }
+
           final Change.Key key = new Change.Key(idStr);
 
           if (newChangeIds.contains(key)) {
@@ -944,6 +950,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           }
 
           if (changes.size() == 0) {
+            if (!isValidChangeId(idStr)) {
+              reject(newChange, "invalid Change-Id");
+              return;
+            }
+
             newChangeIds.add(key);
           }
         }
@@ -984,6 +995,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     newChange.setResult(ReceiveCommand.Result.OK);
   }
 
+  private static boolean isValidChangeId(String idStr) {
+    return idStr.matches("^I[0-9a-fA-F]{40}$") && !idStr.matches("^I00*$");
+  }
+
   private void createChange(final RevWalk walk, final RevCommit c)
       throws OrmException, IOException {
     walk.parseBody(c);
@@ -998,7 +1013,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       try {
         if (footerLine.matches(CHANGE_ID)) {
           final String v = footerLine.getValue().trim();
-          if (v.matches("^I[0-9a-f]{8,}.*$")) {
+          if (isValidChangeId(v)) {
             changeKey = new Change.Key(v);
           }
         } else if (isReviewer(footerLine)) {

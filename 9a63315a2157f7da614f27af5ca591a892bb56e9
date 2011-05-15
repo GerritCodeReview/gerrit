@@ -16,6 +16,24 @@
       "revId": "9a63315a2157f7da614f27af5ca591a892bb56e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAX///u8\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGroup.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-15T19:34:45Z",
+      "side": 1,
+      "message": "Yes. The 3 standard groups that are recognized automatically and have special handling will use human readable UUIDs that are not able to occur using the standard UUID generator.\n\nI decided it was a bit cleaner to just code these as readable group names using something that the standard UUID generator cannot produce (\"global:foo\") than it is to construct 3 UUIDs and embed them in the source code.\n\nSince the 3 groups are handled specially, its nice to be able to read a group table and know these are in fact the 3 special groups, and not just ones that happen to be named the same as a special group.",
+      "parentUuid": "AAAA+3//7aM\u003d",
+      "revId": "9a63315a2157f7da614f27af5ca591a892bb56e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

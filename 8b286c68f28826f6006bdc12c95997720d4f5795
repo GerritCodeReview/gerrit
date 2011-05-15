@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAX///uo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1831,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-15T19:43:11Z",
+      "side": 1,
+      "message": "startsWith isn\u0027t the right test here. It should be equals(). The reference is supposed to exist. If it exists, there cannot be other references below it as the reference file cannot also be a directory.",
+      "revId": "8b286c68f28826f6006bdc12c95997720d4f5795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAX///us\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1834,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-15T19:43:11Z",
+      "side": 1,
+      "message": "This seems to be unused.",
+      "revId": "8b286c68f28826f6006bdc12c95997720d4f5795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

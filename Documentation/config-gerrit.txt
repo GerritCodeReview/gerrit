@@ -1695,6 +1695,14 @@ pool by a simple FIFO scheduling system.
 +
 By default, 1 plus the number of CPUs available to the JVM.
 
+[sshd.commandStartThreads]]sshd.commandStartThreads::
++
+Number of threads used to parse a command line submitted by a client
+over SSH for execution, create the internal data structures used by
+that command, and schedule it for execution on another thread.
++
+By default, 2.
+
 [[sshd.maxAuthTries]]sshd.maxAuthTries::
 +
 Maximum number of authentication attempts before the server

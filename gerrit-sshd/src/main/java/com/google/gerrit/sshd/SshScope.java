@@ -71,6 +71,10 @@ class SshScope {
       return commandLine;
     }
 
+    SshSession getSession() {
+      return session;
+    }
+
     synchronized <T> T get(Key<T> key, Provider<T> creator) {
       @SuppressWarnings("unchecked")
       T t = (T) map.get(key);
@@ -96,7 +100,7 @@ class SshScope {
   static class SshSessionProvider implements Provider<SshSession> {
     @Override
     public SshSession get() {
-      return getContext().session;
+      return getContext().getSession();
     }
   }
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -24,26 +25,34 @@ import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.SessionAware;
 import org.apache.sshd.server.session.ServerSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 /**
  * Creates a CommandFactory using commands registered by {@link CommandModule}.
  */
 class CommandFactoryProvider implements Provider<CommandFactory> {
+  private static final Logger logger = LoggerFactory
+      .getLogger(CommandFactoryProvider.class);
+
   private final DispatchCommandProvider dispatcher;
   private final SshLog log;
+  private final Executor startExecutor;
 
   @Inject
   CommandFactoryProvider(
       @CommandName(Commands.ROOT) final DispatchCommandProvider d,
-      final SshLog l) {
+      final WorkQueue workQueue, final SshLog l) {
     dispatcher = d;
     log = l;
+    startExecutor = workQueue.createQueue(2, "SshCommandStart");
   }
 
   @Override
@@ -62,6 +71,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
     private OutputStream out;
     private OutputStream err;
     private ExitCallback exit;
+    private Environment env;
     private Context ctx;
     private DispatchCommand cmd;
     private boolean logged;
@@ -93,6 +103,25 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
     }
 
     public void start(final Environment env) throws IOException {
+      this.env = env;
+      startExecutor.execute(new Runnable() {
+        public void run() {
+          try {
+            onStart();
+          } catch (Exception e) {
+            logger.warn("Cannot start command \"" + ctx.getCommandLine()
+                + "\" for user " + ctx.getSession().getUsername(), e);
+          }
+        }
+
+        @Override
+        public String toString() {
+          return "start (user " + ctx.getSession().getUsername() + ")";
+        }
+      });
+    }
+
+    private void onStart() throws IOException {
       synchronized (this) {
         final Context old = SshScope.set(ctx);
         try {

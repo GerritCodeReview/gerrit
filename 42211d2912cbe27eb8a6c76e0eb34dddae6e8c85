@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAn///3w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-16T22:24:59Z",
+      "side": 1,
+      "message": "Style-nit: Remove blank line.",
+      "revId": "42211d2912cbe27eb8a6c76e0eb34dddae6e8c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///3s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-16T22:24:59Z",
+      "side": 1,
+      "message": "Style-nit: Please use /** */ style Javadoc for variables.",
+      "revId": "42211d2912cbe27eb8a6c76e0eb34dddae6e8c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///3o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-16T22:24:59Z",
+      "side": 1,
+      "message": "Style-nit: Don\u0027t assign null/0/false to members. These will be assigned automatically.",
+      "revId": "42211d2912cbe27eb8a6c76e0eb34dddae6e8c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///3Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-16T22:24:59Z",
+      "side": 1,
+      "message": "This should be based on the position, not a string. E.g. always have index 0 be the Base.",
+      "revId": "42211d2912cbe27eb8a6c76e0eb34dddae6e8c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///3M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-16T22:24:59Z",
+      "side": 1,
+      "message": "Can we combine these two conditionals together into one?\n\n  if (diffBaseId !\u003d null \u0026\u0026 patchesList !\u003d null) {",
+      "revId": "42211d2912cbe27eb8a6c76e0eb34dddae6e8c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///3I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-16T22:24:59Z",
+      "side": 1,
+      "message": "See comment above about making the base always occur at the same position (e.g. index 0).",
+      "revId": "42211d2912cbe27eb8a6c76e0eb34dddae6e8c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///28\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-16T22:24:59Z",
+      "side": 1,
+      "message": "Long term we won\u0027t be able to sort commits like this so I don\u0027t want to add a new dependency on it. Can we instead do this by list.indexOf to find where the change is in the list.",
+      "revId": "42211d2912cbe27eb8a6c76e0eb34dddae6e8c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///24\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-16T22:24:59Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace was added here.",
+      "revId": "42211d2912cbe27eb8a6c76e0eb34dddae6e8c85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

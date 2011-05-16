@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAn///34\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-16T21:54:43Z",
+      "side": 1,
+      "message": "A better commit message for this change may have been:\n\n Pass through arguments for diff between patch sets\n\n Modify internal APIs to pass through the old, new and preferences\n needed to compute the differences between two patch sets for the\n UI.",
+      "revId": "baaea82a68530504814b8e303fcd338f9f40d544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///4Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-16T21:54:43Z",
+      "side": 1,
+      "message": "Style-nit: Please place the logger before the factory.",
+      "revId": "baaea82a68530504814b8e303fcd338f9f40d544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///4M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-16T21:54:43Z",
+      "side": 1,
+      "message": "Style-nit: Please put @Nullable before final.",
+      "revId": "baaea82a68530504814b8e303fcd338f9f40d544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///4A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-16T21:54:43Z",
+      "side": 1,
+      "message": "Why do we immediately open the repository and then close it? If its an existence check, we already know the project exists because they wouldn\u0027t have gotten down into this code due to the ProjectControl rejecting the user\u0027s access of this project at a higher level in the RPC code.",
+      "revId": "baaea82a68530504814b8e303fcd338f9f40d544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///4E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-16T21:54:43Z",
+      "side": 1,
+      "message": "This needs to be in the finally of the prior try block.",
+      "revId": "baaea82a68530504814b8e303fcd338f9f40d544",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

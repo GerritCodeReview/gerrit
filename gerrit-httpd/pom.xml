@@ -67,6 +67,7 @@ limitations under the License.
     <dependency>
       <groupId>org.openid4java</groupId>
       <artifactId>openid4java-consumer</artifactId>
+      <type>pom</type>
     </dependency>
 
     <dependency>

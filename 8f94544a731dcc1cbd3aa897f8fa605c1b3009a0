@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAABAn///94\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-16T14:01:16Z",
+      "side": 1,
+      "message": "Noted. But I think this code is still based on a version that does not have the error documentation. It needs to be rebased forward onto current master first. :-)",
+      "revId": "8f94544a731dcc1cbd3aa897f8fa605c1b3009a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABAn////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 5

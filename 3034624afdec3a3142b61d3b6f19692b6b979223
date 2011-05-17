@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAn///0A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-17T01:10:11Z",
+      "side": 1,
+      "message": "Isn\u0027t pc.getProject().getNameKey() already declared as \"key\" above on line 96?",
+      "revId": "3034624afdec3a3142b61d3b6f19692b6b979223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -92,7 +92,13 @@ public class StaticServlet extends HttpServlet {
 
   @Inject
   StaticServlet(final SitePaths site) {
-    staticBase = site.static_dir;
+    File f;
+    try {
+      f = site.static_dir.getCanonicalFile();
+    } catch (IOException e) {
+      f = site.static_dir;
+    }
+    staticBase = f;
   }
 
   private File local(final HttpServletRequest req) {
@@ -104,16 +110,16 @@ public class StaticServlet extends HttpServlet {
       return null;
     }
 
-    if (name.indexOf('/', 1) > 0 || name.indexOf('\\', 1) > 0) {
-      // Contains a path separator. Don't serve it as the client
-      // might be trying something evil like "/../../etc/passwd".
-      // This static servlet is just meant to facilitate simple
-      // assets like banner images.
-      //
-      return null;
+    final File p = new File(staticBase, name.substring(1));
+
+    // Ensure that the requested file is *actually* within the static dir base.
+    try {
+      if (!p.getCanonicalFile().getPath().startsWith(staticBase.getPath()+File.separator))
+        return null;
+    } catch (IOException e) {
+        return null;
     }
 
-    final File p = new File(staticBase, name.substring(1));
     return p.isFile() ? p : null;
   }
 

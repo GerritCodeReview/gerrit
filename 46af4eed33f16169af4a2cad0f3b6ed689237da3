@@ -118,6 +118,23 @@
       "revId": "46af4eed33f16169af4a2cad0f3b6ed689237da3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///zU\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-17T04:37:51Z",
+      "side": 1,
+      "message": "why do we need to evict all projects from the cache here?",
+      "revId": "46af4eed33f16169af4a2cad0f3b6ed689237da3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

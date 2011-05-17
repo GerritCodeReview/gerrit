@@ -103,7 +103,7 @@ final class AdminSetParent extends BaseCommand {
         continue;
       }
 
-      if (grandParents.contains(key)) {
+      if (grandParents.contains(key) || key.equals(newParentKey)) {
         // Try to avoid creating a cycle in the parent pointers.
         //
         err.append("error: Cycle exists between '" + name + "' and '"

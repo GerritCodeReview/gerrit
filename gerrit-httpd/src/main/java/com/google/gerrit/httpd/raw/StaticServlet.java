@@ -89,32 +89,51 @@ public class StaticServlet extends HttpServlet {
   }
 
   private final File staticBase;
+  private final String staticBasePath;
 
   @Inject
   StaticServlet(final SitePaths site) {
-    staticBase = site.static_dir;
+    File f;
+    try {
+      f = site.static_dir.getCanonicalFile();
+    } catch (IOException e) {
+      f = site.static_dir.getAbsoluteFile();
+    }
+    staticBase = f;
+    staticBasePath = staticBase.getPath() + File.separator;
   }
 
   private File local(final HttpServletRequest req) {
     final String name = req.getPathInfo();
-    if (name.length() < 2 || !name.startsWith("/")) {
+    if (name.length() < 2 || !name.startsWith("/") || isUnreasonableName(name)) {
       // Too short to be a valid file name, or doesn't start with
       // the path info separator like we expected.
       //
       return null;
     }
 
-    if (name.indexOf('/', 1) > 0 || name.indexOf('\\', 1) > 0) {
-      // Contains a path separator. Don't serve it as the client
-      // might be trying something evil like "/../../etc/passwd".
-      // This static servlet is just meant to facilitate simple
-      // assets like banner images.
-      //
-      return null;
+    final File p = new File(staticBase, name.substring(1));
+
+    // Ensure that the requested file is *actually* within the static dir base.
+    try {
+      if (!p.getCanonicalFile().getPath().startsWith(staticBasePath))
+        return null;
+    } catch (IOException e) {
+        return null;
     }
 
-    final File p = new File(staticBase, name.substring(1));
     return p.isFile() ? p : null;
+  }
+
+  private static boolean isUnreasonableName(String name) {
+    if (name.charAt(name.length() -1) == '/') return true; // no suffix
+    if (name.indexOf('\\') >= 0) return true; // no windows/dos stlye paths
+    if (name.startsWith("../")) return true; // no "../etc/passwd"
+    if (name.contains("/../")) return true; // no "foo/../etc/passwd"
+    if (name.contains("/./")) return true; // "foo/./foo" is insane to ask
+    if (name.contains("//")) return true; // windows UNC path can be "//..."
+
+    return false; // is a reasonable name
   }
 
   @Override

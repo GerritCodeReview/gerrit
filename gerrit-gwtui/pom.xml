@@ -137,17 +137,45 @@ limitations under the License.
     </dependency>
   </dependencies>
 
+  <profiles>
+    <profile>
+      <id>all</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <GerritGwtUI.browserType>com.google.gerrit.GerritGwtUI</GerritGwtUI.browserType>
+        <GerritGwtUI.draftCompile>false</GerritGwtUI.draftCompile>
+      </properties>
+    </profile>
+    <profile>
+      <id>safari</id>
+      <properties>
+        <GerritGwtUI.browserType>com.google.gerrit.GerritGwtUIsafari</GerritGwtUI.browserType>
+        <GerritGwtUI.draftCompile>true</GerritGwtUI.draftCompile>
+      </properties>
+    </profile>
+    <profile>
+      <id>gecko1_8</id>
+      <properties>
+        <GerritGwtUI.browserType>com.google.gerrit.GerritGwtUIgecko1_8</GerritGwtUI.browserType>
+        <GerritGwtUI.draftCompile>true</GerritGwtUI.draftCompile>
+      </properties>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
         <configuration>
-          <module>com.google.gerrit.GerritGwtUI</module>
+          <module>${GerritGwtUI.browserType}</module>
           <extraJvmArgs>-Xmx512m</extraJvmArgs>
           <compileReport>${gwt.compileReport}</compileReport>
           <disableClassMetadata>true</disableClassMetadata>
           <disableCastChecking>true</disableCastChecking>
+          <draftCompile>${GerritGwtUI.draftCompile}</draftCompile>
         </configuration>
         <executions>
           <execution>

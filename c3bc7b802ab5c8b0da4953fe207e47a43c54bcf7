@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABAn///rs\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-17T19:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA93///64\u003d",
+      "revId": "c3bc7b802ab5c8b0da4953fe207e47a43c54bcf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+X////E\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshModule.java",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAABAn///ro\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-17T19:15:26Z",
+      "side": 1,
+      "message": "as discussed, leaving the binding here in SshModule",
+      "parentUuid": "AAAA+n///+Q\u003d",
+      "revId": "c3bc7b802ab5c8b0da4953fe207e47a43c54bcf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA+X////A\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/args4j/AccountIdHandler.java",
         "patchSetId": 1
@@ -65,6 +101,24 @@
       "writtenOn": "2010-12-11T03:15:16Z",
       "side": 1,
       "message": "This line probably should be line wrapped, its a bit long for our style conventions.",
+      "revId": "c3bc7b802ab5c8b0da4953fe207e47a43c54bcf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///rk\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/args4j/AccountIdHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-17T19:15:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAA+X////A\u003d",
       "revId": "c3bc7b802ab5c8b0da4953fe207e47a43c54bcf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAn///ms\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-17T23:39:56Z",
+      "side": 1,
+      "message": "These maps should be final.",
+      "revId": "4b46209341b33832e4cd13d847ae85158e12d340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///mo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-17T23:39:56Z",
+      "side": 1,
+      "message": "Use a ConcurrentHashMap instead. Also style nit: Space after comma in the type parameters.",
+      "revId": "4b46209341b33832e4cd13d847ae85158e12d340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///mg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-17T23:39:56Z",
+      "side": 1,
+      "message": "Style-nit: Don\u0027t set to null.",
+      "revId": "4b46209341b33832e4cd13d847ae85158e12d340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///mY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-17T23:39:56Z",
+      "side": 1,
+      "message": "Decide this once and use a single local map variable:\n\n  Map\u003cApprovalCategory.Id, Collection\u003cRefRight\u003e\u003e cache;\n  cache \u003d dropOverridden ? overriddenByAction : notOverriddenByAction;",
+      "revId": "4b46209341b33832e4cd13d847ae85158e12d340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///mc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-17T23:39:56Z",
+      "side": 1,
+      "message": "Make this private.",
+      "revId": "4b46209341b33832e4cd13d847ae85158e12d340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

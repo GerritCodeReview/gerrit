@@ -27,10 +27,12 @@ import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /** Cached information on a project. */
@@ -49,6 +51,8 @@ public class ProjectState {
   private final Set<AccountGroup.Id> owners;
 
   private volatile Collection<RefRight> inheritedRights;
+  private Map<ApprovalCategory.Id,Collection<RefRight>> overriddenByAction;
+  private Map<ApprovalCategory.Id,Collection<RefRight>> notOverriddenByAction;
 
   @Inject
   protected ProjectState(final AnonymousUser anonymousUser,
@@ -83,6 +87,9 @@ public class ProjectState {
       }
     }
     owners = Collections.unmodifiableSet(groups);
+
+    overriddenByAction = new HashMap<ApprovalCategory.Id,Collection<RefRight>>();
+    notOverriddenByAction = new HashMap<ApprovalCategory.Id,Collection<RefRight>>();
   }
 
   public Project getProject() {
@@ -185,6 +192,24 @@ public class ProjectState {
    * @return immutable collection of rights for the requested category.
    */
   public Collection<RefRight> getAllRights(ApprovalCategory.Id action, boolean dropOverridden) {
+    Collection<RefRight> rights = null;
+    if (dropOverridden) {
+      rights = overriddenByAction.get(action);
+    } else {
+      rights = notOverriddenByAction.get(action);
+    }
+    if (rights == null) {
+      rights = calculateRightsBy(action, dropOverridden);
+      if (dropOverridden) {
+        overriddenByAction.put(action, rights);
+      } else {
+        notOverriddenByAction.put(action, rights);
+      }
+    }
+    return rights;
+  }
+
+  public Collection<RefRight> calculateRightsBy(ApprovalCategory.Id action, boolean dropOverridden) {
     Collection<RefRight> rights = new LinkedList<RefRight>(getLocalRights(action));
     rights.addAll(filter(getInheritedRights(), action));
     if (dropOverridden) {

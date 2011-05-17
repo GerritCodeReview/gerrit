@@ -1709,7 +1709,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       }
 
       final Map<ObjectId, Ref> byCommit = changeRefsById();
-      final Map<Change.Key, Change.Id> byKey = openChangesByKey();
+      final Map<Change.Key, Change.Id> byKey = openChangesByKey(
+          new Branch.NameKey(project.getNameKey(), cmd.getRefName()));
       final List<ReplaceRequest> toClose = new ArrayList<ReplaceRequest>();
       RevCommit c;
       while ((c = rw.next()) != null) {
@@ -1785,9 +1786,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     return refsById;
   }
 
-  private Map<Change.Key, Change.Id> openChangesByKey() throws OrmException {
+  private Map<Change.Key, Change.Id> openChangesByKey(Branch.NameKey branch)
+      throws OrmException {
     final Map<Change.Key, Change.Id> r = new HashMap<Change.Key, Change.Id>();
-    for (Change c : db.changes().byProjectOpenAll(project.getNameKey())) {
+    for (Change c : db.changes().byBranchOpenAll(branch)) {
       r.put(c.getKey(), c.getId());
     }
     return r;

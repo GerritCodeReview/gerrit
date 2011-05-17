@@ -927,7 +927,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           }
 
           final List<Change> changes =
-              db.changes().byProjectKey(project.getNameKey(), key).toList();
+              db.changes().byBranch(destBranch, key).toList();
           if (changes.size() > 1) {
             // WTF, multiple changes in this project have the same key?
             // Since the commit is new, the user should recreate it with

@@ -31,8 +31,8 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   ResultSet<Change> byKeyRange(Change.Key reva, Change.Key revb)
       throws OrmException;
 
-  @Query("WHERE dest.projectName = ? AND changeKey = ?")
-  ResultSet<Change> byProjectKey(Project.NameKey p, Change.Key key)
+  @Query("WHERE dest = ? AND changeKey = ?")
+  ResultSet<Change> byBranch(Branch.NameKey p, Change.Key key)
       throws OrmException;
 
   @Query("WHERE dest.projectName = ?")

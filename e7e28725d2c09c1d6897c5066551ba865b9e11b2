@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAn///ho\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-18T16:57:37Z",
+      "side": 1,
+      "message": "Use rp.getAdvertisedRefs().get(destBranchName) instead.",
+      "revId": "e7e28725d2c09c1d6897c5066551ba865b9e11b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///hg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-18T16:57:37Z",
+      "side": 1,
+      "message": "This shouldn\u0027t actually be possible. Pushing changes for review requires the destination branch to already exist.",
+      "revId": "e7e28725d2c09c1d6897c5066551ba865b9e11b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///hc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-18T16:57:37Z",
+      "side": 1,
+      "message": "Style-nit: We use } else { rather than }\\n  else {.",
+      "revId": "e7e28725d2c09c1d6897c5066551ba865b9e11b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

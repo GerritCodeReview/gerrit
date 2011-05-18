@@ -821,18 +821,22 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       tip.add(SIDE_NEW);
       walk.markStart(tip);
 
+      Ref targetRef = repo.getRef(destBranchName);
       boolean haveHeads = false;
-      for (final Ref r : rp.getAdvertisedRefs().values()) {
-        if (isHead(r) || isTag(r) || isConfig(r)) {
-          try {
-            final RevCommit h = walk.parseCommit(r.getObjectId());
-            h.add(SIDE_HAVE);
-            walk.markStart(h);
-            haveHeads = true;
-          } catch (IOException e) {
-            continue;
+      if (targetRef == null)
+        for (final Ref r : rp.getAdvertisedRefs().values()) {
+          if (isHead(r) || isTag(r) || isConfig(r)) {
+            try {
+              markWalk(walk, SIDE_HAVE, r);
+              haveHeads = true;
+            } catch (IOException e) {
+              continue;
+            }
           }
         }
+      else {
+        markWalk(walk, SIDE_HAVE, targetRef);
+        haveHeads = true;
       }
 
       if (haveHeads) {
@@ -854,6 +858,15 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       log.error("Invalid pack upload; one or more objects weren't sent", e);
       return;
     }
+  }
+
+  private RevCommit markWalk(final RevWalk walk, final RevFlag SIDE_HAVE,
+      final Ref r) throws MissingObjectException, IncorrectObjectTypeException,
+      IOException {
+    final RevCommit h = walk.parseCommit(r.getObjectId());
+    h.add(SIDE_HAVE);
+    walk.markStart(h);
+    return h;
   }
 
   /**

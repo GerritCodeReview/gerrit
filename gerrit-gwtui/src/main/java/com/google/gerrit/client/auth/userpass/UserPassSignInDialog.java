@@ -114,7 +114,7 @@ public class UserPassSignInDialog extends SignInDialog {
     username.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
-        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
           event.preventDefault();
           password.selectAll();
           password.setFocus(true);
@@ -128,7 +128,7 @@ public class UserPassSignInDialog extends SignInDialog {
     password.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
-        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
           event.preventDefault();
           onLogin();
         }

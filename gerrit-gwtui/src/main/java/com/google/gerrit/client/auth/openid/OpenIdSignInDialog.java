@@ -181,7 +181,7 @@ public class OpenIdSignInDialog extends SignInDialog implements
     providerId.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
-        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
           event.preventDefault();
           form.submit();
         }

@@ -75,7 +75,7 @@ public class GroupListScreen extends AccountScreen {
     addTxt.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
-        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
           doCreateGroup();
         }
       }

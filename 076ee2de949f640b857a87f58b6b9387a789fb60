@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAn///jw\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-18T05:53:52Z",
+      "side": 1,
+      "message": "is this check good enough? what if it\u0027s an invalid regular expression that cannot be parsed, do we then have trouble later?",
+      "revId": "076ee2de949f640b857a87f58b6b9387a789fb60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///kM\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-18T05:53:52Z",
+      "side": 1,
+      "message": "maybe better: return Collections.unmodifiableList(permissions)\n\notherwise one could add permissions without going through the setPermissions(...) method and then the check implemented in this method is skipped",
+      "revId": "076ee2de949f640b857a87f58b6b9387a789fb60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///kI\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-18T05:53:52Z",
+      "side": 1,
+      "message": "maybe better: permissions \u003d new LinkedList\u003cPermission\u003e (list);",
+      "revId": "076ee2de949f640b857a87f58b6b9387a789fb60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///kE\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetPublishDetail.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-18T05:53:52Z",
+      "side": 1,
+      "message": "can labels be null?",
+      "revId": "076ee2de949f640b857a87f58b6b9387a789fb60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///kA\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetPublishDetail.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-18T05:53:52Z",
+      "side": 1,
+      "message": "can given be null?",
+      "revId": "076ee2de949f640b857a87f58b6b9387a789fb60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///j8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-18T05:53:52Z",
+      "side": 1,
+      "message": "should we also do here varName.toLowerCase() is it\u0027s done in the isPermission(...) method above?",
+      "revId": "076ee2de949f640b857a87f58b6b9387a789fb60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///j4\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PermissionRule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-18T05:53:52Z",
+      "side": 1,
+      "message": "sp may be -1 if the input string is invalid",
+      "revId": "076ee2de949f640b857a87f58b6b9387a789fb60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

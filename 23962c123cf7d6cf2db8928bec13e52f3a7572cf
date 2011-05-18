@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAn///gc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RenameGroupOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-18T17:29:20Z",
+      "side": 1,
+      "message": "style-nit: Iterable\u003cProject.NameKey\u003e",
+      "revId": "23962c123cf7d6cf2db8928bec13e52f3a7572cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

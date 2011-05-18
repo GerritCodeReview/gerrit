@@ -51,7 +51,7 @@ public class AddIncludedGroupBox extends Composite {
       public void onKeyPress(KeyPressEvent event) {
         submitOnSelection = false;
 
-        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
           if (nameTxt.isSuggestionListShowing()) {
             submitOnSelection = true;
           } else {

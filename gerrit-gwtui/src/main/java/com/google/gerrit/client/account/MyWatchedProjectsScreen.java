@@ -173,7 +173,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen implements
       public void onKeyPress(KeyPressEvent event) {
         submitOnSelection = false;
 
-        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
           if (nameTxt.isSuggestionListShowing()) {
             submitOnSelection = true;
           } else {
@@ -198,7 +198,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen implements
     filterTxt.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
-        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
           doAddNew();
         }
       }

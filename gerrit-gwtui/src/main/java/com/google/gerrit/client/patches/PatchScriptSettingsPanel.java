@@ -117,7 +117,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     KeyPressHandler onEnter = new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
-        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
           update();
         }
       }

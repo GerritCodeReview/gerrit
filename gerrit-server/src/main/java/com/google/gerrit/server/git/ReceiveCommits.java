@@ -796,12 +796,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       reject(cmd);
     }
 
-    // Validate that the new commits are connected with the existing heads
-    // or tags of this repository. If they aren't, we want to abort. We do
-    // this check by coloring the tip CONNECTED and letting a RevWalk push
-    // that color through the graph until it reaches at least one of our
-    // already existing heads or tags. We then test to see if that color
-    // made it back onto that set.
+    // Validate that the new commits are connected with the target branch.
+    // If they aren't, we want to abort. We do this check by coloring the
+    // tip CONNECTED and letting a RevWalk push that color through the graph
+    // until it reaches the head of the target branch. We then test to see
+    // if that color made it back onto that set.
     //
     try {
       final RevWalk walk = rp.getRevWalk();
@@ -821,39 +820,36 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       tip.add(SIDE_NEW);
       walk.markStart(tip);
 
-      boolean haveHeads = false;
-      for (final Ref r : rp.getAdvertisedRefs().values()) {
-        if (isHead(r) || isTag(r) || isConfig(r)) {
-          try {
-            final RevCommit h = walk.parseCommit(r.getObjectId());
-            h.add(SIDE_HAVE);
-            walk.markStart(h);
-            haveHeads = true;
-          } catch (IOException e) {
-            continue;
-          }
+      Ref targetRef = rp.getAdvertisedRefs().get(destBranchName);
+      final RevCommit h = walk.parseCommit(targetRef.getObjectId());
+      h.add(SIDE_HAVE);
+      walk.markStart(h);
+      boolean isConnected = false;
+      RevCommit c;
+      while ((c = walk.next()) != null) {
+        if (c.hasAll(COMMON)) {
+          isConnected = true;
+          break;
         }
       }
-
-      if (haveHeads) {
-        boolean isConnected = false;
-        RevCommit c;
-        while ((c = walk.next()) != null) {
-          if (c.hasAll(COMMON)) {
-            isConnected = true;
-            break;
-          }
-        }
-        if (!isConnected) {
-          reject(newChange, "no common ancestry");
-          return;
-        }
+      if (!isConnected) {
+        reject(newChange, "no common ancestry");
+        return;
       }
     } catch (IOException e) {
       newChange.setResult(Result.REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", e);
       return;
     }
+  }
+
+  private RevCommit markWalk(final RevWalk walk, final RevFlag SIDE_HAVE,
+      final Ref r) throws MissingObjectException, IncorrectObjectTypeException,
+      IOException {
+    final RevCommit h = walk.parseCommit(r.getObjectId());
+    h.add(SIDE_HAVE);
+    walk.markStart(h);
+    return h;
   }
 
   /**

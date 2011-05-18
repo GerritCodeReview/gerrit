@@ -99,6 +99,8 @@ public interface ChangeConstants extends Constants {
   String patchSetInfoAuthor();
   String patchSetInfoCommitter();
   String patchSetInfoDownload();
+  String patchSetInfoParents();
+  String initialCommit();
 
   String buttonAbandonChangeBegin();
   String buttonAbandonChangeSend();

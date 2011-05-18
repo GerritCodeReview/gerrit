@@ -131,10 +131,12 @@ public interface GerritCss extends CssResource {
   String menuScreenMenuBar();
   String missingApproval();
   String missingApprovalList();
+  String monospace();
   String needsReview();
   String negscore();
   String noLineLineNumber();
   String noborder();
+  String parentsTable();
   String patchBrowserPopup();
   String patchBrowserPopupBody();
   String patchComments();

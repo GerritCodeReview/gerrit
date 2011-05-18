@@ -1358,15 +1358,18 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         oldCC.add(a.getAccountId());
       }
 
-      final ApprovalType type =
+      // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
+      if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+        final ApprovalType type =
           approvalTypes.byId(a.getCategoryId());
-      if (a.getPatchSetId().equals(priorPatchSet)
-          && type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
-        // If there was a negative vote on the prior patch set, carry it
-        // into this patch set.
-        //
-        db.patchSetApprovals().insert(
-            Collections.singleton(new PatchSetApproval(ps.getId(), a)));
+        if (a.getPatchSetId().equals(priorPatchSet)
+            && type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
+          // If there was a negative vote on the prior patch set, carry it
+          // into this patch set.
+          //
+          db.patchSetApprovals().insert(
+              Collections.singleton(new PatchSetApproval(ps.getId(), a)));
+        }
       }
 
       if (!haveAuthor && authorId != null && a.getAccountId().equals(authorId)) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -212,10 +213,10 @@ public class CreateCodeReviewNotes {
         if (ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
           submit = a;
         } else {
-          ApprovalCategory type = approvalTypes.byId(a.getCategoryId()).getCategory();
+          ApprovalType type = approvalTypes.byId(a.getCategoryId());
           if (type != null) {
             formatter.appendApproval(
-                type,
+                type.getCategory(),
                 a.getValue(),
                 accountCache.get(a.getAccountId()).getAccount());
           }

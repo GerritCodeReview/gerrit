@@ -54,13 +54,15 @@ import com.google.gwtexpui.clippy.client.CopyableLabel;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements OpenHandler<DisclosurePanel> {
   private static final int R_AUTHOR = 0;
   private static final int R_COMMITTER = 1;
-  private static final int R_DOWNLOAD = 2;
-  private static final int R_CNT = 3;
+  private static final int R_PARENTS = 2;
+  private static final int R_DOWNLOAD = 3;
+  private static final int R_CNT = 4;
 
   private final ChangeScreen changeScreen;
   private final ChangeDetail changeDetail;
@@ -125,6 +127,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
 
     initRow(R_AUTHOR, Util.C.patchSetInfoAuthor());
     initRow(R_COMMITTER, Util.C.patchSetInfoCommitter());
+    initRow(R_PARENTS, Util.C.patchSetInfoParents());
     initRow(R_DOWNLOAD, Util.C.patchSetInfoDownload());
 
     final CellFormatter itfmt = infoTable.getCellFormatter();
@@ -139,6 +142,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     final PatchSetInfo info = detail.getInfo();
     displayUserIdentity(R_AUTHOR, info.getAuthor());
     displayUserIdentity(R_COMMITTER, info.getCommitter());
+    displayParents(info.getParents());
     displayDownload();
 
 
@@ -361,6 +365,28 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       fp.add(new InlineLabel(FormatUtil.mediumFormat(who.getDate())));
     }
     infoTable.setWidget(row, 1, fp);
+  }
+
+  private void displayParents(final List<PatchSetInfo.ParentInfo> parents) {
+    if (parents.size() == 0) {
+      infoTable.setWidget(R_PARENTS, 1, new InlineLabel("Initial Commit"));
+      return;
+    }
+    final Grid parentsTable = new Grid(parents.size(), 2);
+
+    parentsTable.setStyleName(Gerrit.RESOURCES.css().parentsTable());
+    parentsTable.addStyleName(Gerrit.RESOURCES.css().noborder());
+    final CellFormatter ptfmt = parentsTable.getCellFormatter();
+    int row = 0;
+    for (PatchSetInfo.ParentInfo parent : parents) {
+      parentsTable.setWidget(row, 0, new InlineLabel(parent.id.get()));
+      ptfmt.addStyleName(row, 0, Gerrit.RESOURCES.css().noborder());
+      ptfmt.addStyleName(row, 0, Gerrit.RESOURCES.css().monospace());
+      parentsTable.setWidget(row, 1, new InlineLabel(parent.shortMessage));
+      ptfmt.addStyleName(row, 1, Gerrit.RESOURCES.css().noborder());
+      row++;
+    }
+    infoTable.setWidget(R_PARENTS, 1, parentsTable);
   }
 
   private void populateActions(final PatchSetDetail detail) {

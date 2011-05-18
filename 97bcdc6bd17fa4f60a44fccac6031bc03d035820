@@ -87,6 +87,24 @@
       "revId": "97bcdc6bd17fa4f60a44fccac6031bc03d035820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///wQ\u003d",
+        "filename": "Documentation/cmd-inline.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003379
+      },
+      "writtenOn": "2011-05-18T15:59:39Z",
+      "side": 1,
+      "message": "That sounds good. I\u0027ll add something like --inline \"comment as json\" into review -command.",
+      "parentUuid": "AAABAX///wQ\u003d",
+      "revId": "97bcdc6bd17fa4f60a44fccac6031bc03d035820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

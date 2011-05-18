@@ -367,6 +367,12 @@ public class PublishCommentScreen extends AccountScreen implements
             saveStateOnUnload = false;
             goChange();
           }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            super.onFailure(caught);
+            enableForm(true);
+          }
         });
   }
 

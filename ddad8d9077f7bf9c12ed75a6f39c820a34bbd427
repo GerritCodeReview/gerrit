@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABAn///bM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2011-05-18T22:56:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABAn///b0\u003d",
+      "revId": "ddad8d9077f7bf9c12ed75a6f39c820a34bbd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABAn///bw\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAABAn///bI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2011-05-18T22:56:31Z",
+      "side": 1,
+      "message": "Done.\n\nI agree. I just thought that the two lines are quite separated from each other and may change independently.",
+      "parentUuid": "AAABAn///bw\u003d",
+      "revId": "ddad8d9077f7bf9c12ed75a6f39c820a34bbd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABAn///b4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2011-05-18T22:19:13Z",
       "side": 1,
       "message": "Please inline markWalk since it is a new method that you introduced, but is used only once now.",
+      "revId": "ddad8d9077f7bf9c12ed75a6f39c820a34bbd427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///bE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2011-05-18T22:56:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABAn///b4\u003d",
       "revId": "ddad8d9077f7bf9c12ed75a6f39c820a34bbd427",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

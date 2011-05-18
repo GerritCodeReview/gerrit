@@ -187,11 +187,13 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
             for (final PatchSetApproval ca : db.patchSetApprovals()
                 .byPatchSetUser(ps_id, aid)) {
               final ApprovalCategory.Id category = ca.getCategoryId();
+              if (ApprovalCategory.SUBMIT.equals(category)) {
+                continue;
+              }
               if (change.getStatus().isOpen()) {
                 fs.normalize(approvalTypes.byId(category), ca);
               }
-              if (ca.getValue() == 0
-                  || ApprovalCategory.SUBMIT.equals(category)) {
+              if (ca.getValue() == 0) {
                 continue;
               }
               psas.put(category, ca);
@@ -231,11 +233,13 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
             for (PatchSetApproval ca : db.patchSetApprovals().byPatchSet(ps_id)) {
               final ApprovalCategory.Id category = ca.getCategoryId();
+              if (ApprovalCategory.SUBMIT.equals(category)) {
+                continue;
+              }
               if (change.getStatus().isOpen()) {
                 fs.normalize(approvalTypes.byId(category), ca);
               }
-              if (ca.getValue() == 0
-                  || ApprovalCategory.SUBMIT.equals(category)) {
+              if (ca.getValue() == 0) {
                 continue;
               }
               boolean keep = true;

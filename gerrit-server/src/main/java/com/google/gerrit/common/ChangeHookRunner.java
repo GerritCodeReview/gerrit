@@ -433,8 +433,10 @@ public class ChangeHookRunner {
             Entry<ApprovalCategory.Id, ApprovalCategoryValue.Id> approval) {
         ApprovalAttribute a = new ApprovalAttribute();
         a.type = approval.getKey().get();
-        final ApprovalType at = approvalTypes.byId(approval.getKey());
-        a.description = at.getCategory().getName();
+        ApprovalType at = approvalTypes.byId(approval.getKey());
+        if (at != null) {
+          a.description = at.getCategory().getName();
+        }
         a.value = Short.toString(approval.getValue().get());
         return a;
     }

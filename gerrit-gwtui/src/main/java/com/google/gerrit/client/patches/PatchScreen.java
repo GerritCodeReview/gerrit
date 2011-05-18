@@ -36,19 +36,12 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.OpenEvent;
-import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -96,21 +89,12 @@ public abstract class PatchScreen extends Screen implements
   private static PatchSet.Id diffSideA = null;
   private static PatchSet.Id diffSideB = null;
 
-  private static Boolean historyOpen = null;
-  private static final OpenHandler<DisclosurePanel> cacheOpenState =
-      new OpenHandler<DisclosurePanel>() {
-        @Override
-        public void onOpen(OpenEvent<DisclosurePanel> event) {
-          historyOpen = true;
-        }
-      };
-  private static final CloseHandler<DisclosurePanel> cacheCloseState =
-      new CloseHandler<DisclosurePanel>() {
-        @Override
-        public void onClose(CloseEvent<DisclosurePanel> event) {
-          historyOpen = false;
-        }
-      };
+  /**
+   * What should be displayed in the top of the screen
+   */
+  public static enum TopView {
+    MAIN, COMMIT, PREFERENCES, PATCH_SETS, FILES
+  }
 
   // The change id for which the above patch set id's are valid
   private static Change.Id currentChangeId = null;
@@ -122,8 +106,8 @@ public abstract class PatchScreen extends Screen implements
   protected PatchSet.Id idSideB;
   protected PatchScriptSettingsPanel settingsPanel;
 
-  private DisclosurePanel historyPanel;
   private HistoryTable historyTable;
+  private FlowPanel topPanel;
   private FlowPanel contentPanel;
   private Label noDifference;
   private AbstractPatchContentTable contentTable;
@@ -163,7 +147,6 @@ public abstract class PatchScreen extends Screen implements
     if (currentChangeId != null && !currentChangeId.equals(thisChangeId)) {
       diffSideA = null;
       diffSideB = null;
-      historyOpen = null;
     }
     currentChangeId = thisChangeId;
     idSideA = diffSideA; // null here means we're diff'ing from the Base
@@ -255,26 +238,11 @@ public abstract class PatchScreen extends Screen implements
     keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));
 
     historyTable = new HistoryTable(this);
-    historyPanel = new DisclosurePanel(PatchUtil.C.patchHistoryTitle());
-    historyPanel.setContent(historyTable);
-    historyPanel.setVisible(false);
-    // If the user selected a different patch set than the default for either
-    // side, expand the history panel
-    historyPanel.setOpen(diffSideA != null || diffSideB != null
-        || (historyOpen != null && historyOpen));
-    historyPanel.addOpenHandler(cacheOpenState);
-    historyPanel.addCloseHandler(cacheCloseState);
 
-
-    VerticalPanel vp = new VerticalPanel();
-    vp.add(historyPanel);
-    vp.add(settingsPanel);
     commitMessageBlock = new CommitMessageBlock("6em");
-    HorizontalPanel hp = new HorizontalPanel();
-    hp.setWidth("100%");
-    hp.add(vp);
-    hp.add(commitMessageBlock);
-    add(hp);
+
+    topPanel = new FlowPanel();
+    add(topPanel);
 
     noDifference = new Label(PatchUtil.C.noDifference());
     noDifference.setStyleName(Gerrit.RESOURCES.css().patchNoDifference());
@@ -418,7 +386,6 @@ public abstract class PatchScreen extends Screen implements
     }
 
     historyTable.display(script.getHistory());
-    historyPanel.setVisible(true);
 
     // True if there are differences between the two patch sets
     boolean hasEdits = !script.getEdits().isEmpty();
@@ -488,6 +455,20 @@ public abstract class PatchScreen extends Screen implements
   public void setSideB(PatchSet.Id patchSetId) {
     idSideB = patchSetId;
     diffSideB = patchSetId;
+  }
+
+  public void setTopView(TopView tv) {
+    topPanel.clear();
+    switch(tv) {
+      case COMMIT:      topPanel.add(commitMessageBlock);
+        break;
+      case PREFERENCES: topPanel.add(settingsPanel);
+        break;
+      case PATCH_SETS:  topPanel.add(historyTable);
+        break;
+      case FILES:       topPanel.add(fileList);
+        break;
+    }
   }
 
   public class FileListCmd extends KeyCommand {

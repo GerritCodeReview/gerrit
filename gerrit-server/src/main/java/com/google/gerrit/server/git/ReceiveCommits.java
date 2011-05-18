@@ -735,6 +735,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     destBranchCtl = projectControl.controlForRef(destBranch);
     if (!destBranchCtl.canUpload()) {
       reject(cmd);
+      return;
     }
 
     // Validate that the new commits are connected with the existing heads

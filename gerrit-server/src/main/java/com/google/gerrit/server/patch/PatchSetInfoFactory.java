@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gerrit.server.account.AccountByEmailCache;
@@ -28,6 +29,7 @@ import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -36,6 +38,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -81,7 +85,9 @@ public class PatchSetInfoFactory {
       try {
         final RevCommit src =
             rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
-        return get(src, patchSetId);
+        PatchSetInfo info = get(src, patchSetId);
+        info.setParents(toParentInfos(src.getParents(), rw));
+        return info;
       } finally {
         rw.release();
       }
@@ -115,6 +121,21 @@ public class PatchSetInfoFactory {
     }
 
     return u;
+  }
+
+  private List<PatchSetInfo.ParentInfo> toParentInfos(final RevCommit[] parents,
+      final RevWalk walk) throws IOException, MissingObjectException {
+    List<PatchSetInfo.ParentInfo> pInfos = new ArrayList<PatchSetInfo.ParentInfo>();
+
+    for (RevCommit parent : parents) {
+      if (parent != null && walk != null) {
+        walk.parseBody(parent);
+        RevId pRevId = new RevId(parent.getId().name());
+        String pCommitMsg = parent.getShortMessage();
+        pInfos.add(new PatchSetInfo.ParentInfo(pRevId, pCommitMsg));
+      }
+    }
+    return pInfos;
   }
 
 }

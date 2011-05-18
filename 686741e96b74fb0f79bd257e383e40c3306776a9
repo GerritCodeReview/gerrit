@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABAn///cQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-18T22:06:00Z",
+      "side": 1,
+      "message": "There is also a Gerrit issue [1] that requests this feature, you should link to it by including the following footer into the commit message:\n\nBug: issue 910\n\n[1] http://code.google.com/p/gerrit/issues/detail?id\u003d910",
+      "revId": "686741e96b74fb0f79bd257e383e40c3306776a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/3//+w8\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 4

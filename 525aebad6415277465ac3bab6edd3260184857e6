@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAn///iY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RenameGroupOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-18T15:43:58Z",
+      "side": 1,
+      "message": "Can it be that a project is not in the project cache and then for this project the renaming of the group is not done?",
+      "revId": "525aebad6415277465ac3bab6edd3260184857e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///iM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RenameGroupOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-18T15:43:58Z",
+      "side": 1,
+      "message": "is tryingAgain not always false?\n\n1. run() sets it to false\n\n2. if tryingAgain is false we reschedule the command here to run again in 5 minutes\n\n3. 5 minutes later the first thing that rerunning the command does is setting tryingAgain to false again (so we are back at step 1.)\n\nAm I missing something?",
+      "revId": "525aebad6415277465ac3bab6edd3260184857e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///iI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RenameGroupOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-18T15:43:58Z",
+      "side": 1,
+      "message": "if renaming the group for a project failed and we are not retrying (else case), should we log an error or warning?",
+      "revId": "525aebad6415277465ac3bab6edd3260184857e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

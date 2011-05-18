@@ -132,11 +132,16 @@ class AddReviewer extends Handler<ReviewerResult> {
 
     // Email the reviewers
     //
-    final AddReviewerSender cm;
-    cm = addReviewerSenderFactory.create(control.getChange());
-    cm.setFrom(currentUser.getAccountId());
-    cm.addReviewers(added);
-    cm.send();
+    // The user knows they added themselves, don't bother emailing them.
+    added.remove(currentUser.getAccountId());
+    if (!added.isEmpty()) {
+      final AddReviewerSender cm;
+
+      cm = addReviewerSenderFactory.create(control.getChange());
+      cm.setFrom(currentUser.getAccountId());
+      cm.addReviewers(added);
+      cm.send();
+    }
 
     result.setChange(changeDetailFactory.create(changeId).call());
     return result;

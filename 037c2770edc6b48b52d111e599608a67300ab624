@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAn///lM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-18T00:46:46Z",
+      "side": 1,
+      "message": "Please extract to the ChangeConstants.java interface and ChangeConstants.properties file.",
+      "revId": "037c2770edc6b48b52d111e599608a67300ab624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///mI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-18T00:46:46Z",
+      "side": 1,
+      "message": "Style-nit: Parens aren\u0027t necessary here around the new operator.",
+      "revId": "037c2770edc6b48b52d111e599608a67300ab624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///mE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-18T00:46:46Z",
+      "side": 1,
+      "message": "Style-nit: Parens aren\u0027t necessary here around the new operator.",
+      "revId": "037c2770edc6b48b52d111e599608a67300ab624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///mQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-18T00:46:46Z",
+      "side": 1,
+      "message": "IIRC patchTable can be null if a user directly jumps to this screen without coming through the web UI. (Consider copying and pasting the URL of a side by side page into email then clicking the link to open a new browser window.)\n\nSo we need to handle patchTable being null here and assume diffSideA is null.",
+      "revId": "037c2770edc6b48b52d111e599608a67300ab624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

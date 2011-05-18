@@ -972,6 +972,28 @@ a:hover.downloadLink {
   width: 30em;
 }
 
+.parentsTable {
+  border-style: none;
+  border: 1px 1px 1px 0px;
+  outline: 0px;
+  padding: 0px;
+  border-spacing: 0px;
+  text-align: left;
+  font-family: mono-font;
+  font-size: 10px;
+}
+
+.parentsTable td.noborder {
+  border: none;
+}
+
+.parentsTable td.monospace {
+  font-family: mono-font;
+  font-size: 10px;
+  margin: 0px;
+  padding-left: 0px;
+}
+
 /** SideBySideScreen **/
 .sideBySideScreenSideBySideTable {
   width: 100%;

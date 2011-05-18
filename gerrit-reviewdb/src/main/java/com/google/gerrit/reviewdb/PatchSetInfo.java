@@ -14,11 +14,26 @@
 
 package com.google.gerrit.reviewdb;
 
+import java.util.List;
+
 
 /**
  * Additional data about a {@link PatchSet} not normally loaded.
  */
 public final class PatchSetInfo {
+  public static class ParentInfo {
+    public RevId id;
+    public String shortMessage;
+
+    public ParentInfo(final RevId id, final String shortMessage) {
+      this.id = id;
+      this.shortMessage = shortMessage;
+    }
+
+    protected ParentInfo() {
+    }
+  }
+
   protected PatchSet.Id key;
 
   /** First line of {@link #message}. */
@@ -32,6 +47,9 @@ public final class PatchSetInfo {
 
   /** Identity of who committed the patch set to the VCS. */
   protected UserIdentity committer;
+
+  /** List of parents of the patch set. */
+  protected List<ParentInfo> parents;
 
   protected PatchSetInfo() {
   }
@@ -78,5 +96,13 @@ public final class PatchSetInfo {
 
   public void setCommitter(final UserIdentity u) {
     committer = u;
+  }
+
+  public void setParents(final List<ParentInfo> p) {
+    parents = p;
+  }
+
+  public List<ParentInfo> getParents() {
+    return parents;
   }
 }

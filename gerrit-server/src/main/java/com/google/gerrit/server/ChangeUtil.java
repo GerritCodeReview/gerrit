@@ -17,31 +17,48 @@ package com.google.gerrit.server;
 import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
 
 import com.google.gerrit.common.ChangeHookRunner;
-import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
-import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
+import com.google.gerrit.reviewdb.PatchSetInfo;
+import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
+import com.google.gerrit.server.git.ReplicationQueue;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.EmailException;
+import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmConcurrencyException;
 import com.google.gwtorm.client.OrmException;
 
 
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.NB;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -246,6 +263,108 @@ public class ChangeUtil {
     }
 
     hooks.doChangeAbandonedHook(updatedChange, user.getAccount(), message);
+  }
+
+  public static void revert(final PatchSet.Id patchSetId,
+      final IdentifiedUser user, final String message, final ReviewDb db,
+      final RevertedSender.Factory revertedSenderFactory,
+      final ChangeHookRunner hooks, GitRepositoryManager gitManager,
+      final PatchSetInfoFactory patchSetInfoFactory,
+      final ReplicationQueue replication, PersonIdent myIdent)
+      throws NoSuchChangeException, EmailException, OrmException,
+      MissingObjectException, IncorrectObjectTypeException, IOException,
+      PatchSetInfoNotAvailableException {
+
+    final Change.Id changeId = patchSetId.getParentKey();
+    final PatchSet patch = db.patchSets().get(patchSetId);
+    if (patch == null) {
+      throw new NoSuchChangeException(changeId);
+    }
+
+    final Repository git;
+    try {
+      git = gitManager.openRepository(db.changes().get(changeId).getProject());
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchChangeException(changeId, e);
+    };
+
+    final RevWalk revWalk = new RevWalk(git);
+    try {
+      RevCommit commitToRevert =
+          revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
+
+      PersonIdent authorIdent =
+          user.newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
+
+      RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
+      revWalk.parseHeaders(parentToCommitToRevert);
+
+      CommitBuilder revertCommit = new CommitBuilder();
+      revertCommit.addParentId(commitToRevert);
+      revertCommit.setTreeId(parentToCommitToRevert.getTree());
+      revertCommit.setAuthor(authorIdent);
+      revertCommit.setCommitter(myIdent);
+      revertCommit.setMessage(message);
+
+      final ObjectInserter oi = git.newObjectInserter();;
+      ObjectId id;
+      try {
+        id = oi.insert(revertCommit);
+        oi.flush();
+      } finally {
+        oi.release();
+      }
+
+      Change.Key changeKey = new Change.Key("I" + id.name());
+      final Change change =
+          new Change(changeKey, new Change.Id(db.nextChangeId()),
+              user.getAccountId(), db.changes().get(changeId).getDest());
+      change.nextPatchSetId();
+
+      final PatchSet ps = new PatchSet(change.currPatchSetId());
+      ps.setCreatedOn(change.getCreatedOn());
+      ps.setUploader(user.getAccountId());
+      ps.setRevision(new RevId(id.getName()));
+
+      db.patchSets().insert(Collections.singleton(ps));
+
+      final PatchSetInfo info =
+          patchSetInfoFactory.get(revWalk.parseCommit(id), ps.getId());
+      change.setCurrentPatchSet(info);
+      ChangeUtil.updated(change);
+      db.changes().insert(Collections.singleton(change));
+
+      final RefUpdate ru = git.updateRef(ps.getRefName());
+      ru.setNewObjectId(id);
+      ru.disableRefLog();
+      if (ru.update(revWalk) != RefUpdate.Result.NEW) {
+        throw new IOException("Failed to create ref " + ps.getRefName()
+            + " in " + git.getDirectory() + ": " + ru.getResult());
+      }
+      replication.scheduleUpdate(db.changes().get(changeId).getProject(),
+          ru.getName());
+
+      final ChangeMessage cmsg =
+          new ChangeMessage(new ChangeMessage.Key(changeId,
+              ChangeUtil.messageUUID(db)), user.getAccountId());
+      final StringBuilder msgBuf =
+          new StringBuilder("Patch Set " + patchSetId.get() + ": Reverted");
+      msgBuf.append("\n\n");
+      msgBuf.append("This patchset was reverted in change: " + changeKey.get());
+
+      cmsg.setMessage(msgBuf.toString());
+      db.changeMessages().insert(Collections.singleton(cmsg));
+
+      final RevertedSender cm = revertedSenderFactory.create(change);
+      cm.setFrom(user.getAccountId());
+      cm.setChangeMessage(cmsg);
+      cm.send();
+
+      hooks.doPatchsetCreatedHook(change, ps);
+    } finally {
+      revWalk.release();
+      git.close();
+    }
   }
 
   public static void restore(final PatchSet.Id patchSetId,

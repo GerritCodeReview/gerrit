@@ -20,6 +20,8 @@ public interface GerritCss extends CssResource {
   String greenCheckClass();
   String abandonChangeDialog();
   String abandonMessage();
+  String revertChangeDialog();
+  String revertMessage();
   String accountContactOnFile();
   String accountContactPrivacyDetails();
   String accountDashboard();

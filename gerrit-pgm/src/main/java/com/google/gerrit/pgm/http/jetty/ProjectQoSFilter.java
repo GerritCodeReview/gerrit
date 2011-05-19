@@ -90,7 +90,6 @@ public class ProjectQoSFilter implements Filter {
   private final ServletContext context;
   private final long maxWait;
 
-  @SuppressWarnings("unchecked")
   @Inject
   ProjectQoSFilter(final Provider<CurrentUser> userProvider,
       QueueProvider queue, final ServletContext context,

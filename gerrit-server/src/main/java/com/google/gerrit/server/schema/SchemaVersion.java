@@ -120,7 +120,6 @@ public abstract class SchemaVersion {
    * Invoked between updateSchema (adds new columns/tables) and pruneSchema
    * (removes deleted columns/tables).
    */
-  @SuppressWarnings("unused")
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
   }
 

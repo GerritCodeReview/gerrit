@@ -1847,7 +1847,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       msgBuf.append(" into ");
       if (mergedIntoRef.startsWith(Constants.R_HEADS)) {
         msgBuf.append("branch ");
-        msgBuf.append(repo.shortenRefName(mergedIntoRef));
+        msgBuf.append(Repository.shortenRefName(mergedIntoRef));
       } else {
         msgBuf.append(mergedIntoRef);
       }

@@ -34,8 +34,10 @@ In order to use permissions beyond those granted to the
 `Anonymous Users` and `Registered Users` groups, an account
 must only have OpenIDs which match at least one pattern from the
 `auth.trustedOpenID` list in `gerrit.config`.  Patterns may be
-either a regular expression (must start with `^` and end with `$`)
-or be a simple prefix (any other string).
+either a
+link:http://download.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html[standard
+Java regular expression (java.util.regex)] (must start with `^`
+and end with `$`) or be a simple prefix (any other string).
 
 Out of the box Gerrit is configured to trust two patterns, which
 will match any OpenID provider on the Internet:

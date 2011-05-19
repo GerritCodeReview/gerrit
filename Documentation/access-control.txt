@@ -156,6 +156,10 @@ by prefixing the reference name with `\^`.  For example
 `\^refs/heads/[a-z]\{1,8\}` matches all lower case branch names
 between 1 and 8 characters long.  Within a regular expression `.`
 is a wildcard matching any character, but may be escaped as `\.`.
+The link:http://www.brics.dk/automaton/[dk.brics.automaton library]
+is used for evaluation of regular expression access control
+rules. See the library documentation for details on this
+particular regular expression flavor.
 
 References can have the current user name automatically included,
 creating dynamic access controls that change to match the currently

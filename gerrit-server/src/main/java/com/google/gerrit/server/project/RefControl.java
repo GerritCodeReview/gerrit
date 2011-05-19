@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -146,11 +147,20 @@ public class RefControl {
 
   /** @return true if this user can submit patch sets to this ref */
   public boolean canSubmit() {
+    if (GitRepositoryManager.REF_CONFIG.equals(refName)) {
+      // Always allow project owners to submit configuration changes.
+      return getProjectControl().isOwner();
+    }
     return canPerform(Permission.SUBMIT);
   }
 
   /** @return true if the user can update the reference as a fast-forward. */
   public boolean canUpdate() {
+    if (GitRepositoryManager.REF_CONFIG.equals(refName)
+        && !getProjectControl().isOwner()) {
+      // Pushing requires being at least project owner, in addition to push.
+      return false;
+    }
     return canPerform(Permission.PUSH);
   }
 
@@ -160,6 +170,11 @@ public class RefControl {
   }
 
   private boolean canPushWithForce() {
+    if (GitRepositoryManager.REF_CONFIG.equals(refName)
+        && !getProjectControl().isOwner()) {
+      // Pushing requires being at least project owner, in addition to push.
+      return false;
+    }
     for (PermissionRule rule : access(Permission.PUSH)) {
       if (rule.getForce()) {
         return true;
@@ -235,6 +250,11 @@ public class RefControl {
    * @return {@code true} if the user specified can delete a Git ref.
    */
   public boolean canDelete() {
+    if (GitRepositoryManager.REF_CONFIG.equals(refName)) {
+      // Never allow removal of the refs/meta/config branch.
+      return false;
+    }
+
     switch (getCurrentUser().getAccessPath()) {
       case WEB_UI:
         return isOwner() || canPushWithForce();

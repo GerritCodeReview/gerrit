@@ -25,9 +25,9 @@ import java.util.Date;
 public class FormatUtil {
   private static final long ONE_YEAR = 182L * 24 * 60 * 60 * 1000;
 
-  private static DateTimeFormat sTime = DateTimeFormat.getShortTimeFormat();
+  private static DateTimeFormat sTime = DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.TIME_SHORT);
   private static DateTimeFormat sDate = DateTimeFormat.getFormat("MMM d");
-  private static DateTimeFormat mDate = DateTimeFormat.getMediumDateFormat();
+  private static DateTimeFormat mDate = DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.DATE_MEDIUM);
   private static DateTimeFormat dtfmt;
 
   public static void setPreferences(AccountGeneralPreferences pref) {

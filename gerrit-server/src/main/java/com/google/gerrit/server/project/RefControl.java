@@ -146,6 +146,9 @@ public class RefControl {
 
   /** @return true if this user can submit patch sets to this ref */
   public boolean canSubmit() {
+    if ("refs/meta/config".equals(refName)) {
+      return getProjectControl().isOwner();
+    }
     return canPerform(Permission.SUBMIT);
   }
 
@@ -164,6 +167,9 @@ public class RefControl {
       if (rule.getForce()) {
         return true;
       }
+    }
+    if ("refs/meta/config".equals(refName)) {
+      return getProjectControl().isOwner();
     }
     return false;
   }

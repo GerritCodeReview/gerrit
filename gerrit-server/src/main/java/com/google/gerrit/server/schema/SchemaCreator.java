@@ -256,8 +256,6 @@ public class SchemaCreator {
 
       meta.getPermission(Permission.READ, true) //
           .add(rule(config, owners));
-      meta.getPermission(Permission.PUSH, true) //
-          .add(rule(config, owners));
 
       md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
       if (!config.commit(md)) {

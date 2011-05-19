@@ -60,6 +60,7 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
     mimeUtil.registerMimeDetector(name);
   }
 
+  @SuppressWarnings("unchecked")
   public MimeType getMimeType(final String path, final byte[] content) {
     Set<MimeType> mimeTypes = new HashSet<MimeType>();
     if (content != null && content.length > 0) {

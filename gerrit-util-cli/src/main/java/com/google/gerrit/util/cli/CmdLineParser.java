@@ -132,7 +132,7 @@ public class CmdLineParser {
       super(bean);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     protected OptionHandler createOptionHandler(final OptionDef option,
         final Setter setter) {
@@ -157,13 +157,11 @@ public class CmdLineParser {
       return option.handler() != OptionHandler.class;
     }
 
-    @SuppressWarnings("unchecked")
-    private boolean isEnum(final Setter setter) {
+    private <T> boolean isEnum(Setter<T> setter) {
       return Enum.class.isAssignableFrom(setter.getType());
     }
 
-    @SuppressWarnings("unchecked")
-    private boolean isPrimitive(final Setter setter) {
+    private <T> boolean isPrimitive(Setter<T> setter) {
       return setter.getType().isPrimitive();
     }
   }

@@ -146,6 +146,7 @@ class OpenIdServiceImpl implements OpenIdService {
         "auth", null, "maxOpenIdSessionAge", -1, TimeUnit.SECONDS);
   }
 
+  @SuppressWarnings("unchecked")
   public void discover(final String openidIdentifier, final SignInMode mode,
       final boolean remember, final String returnToken,
       final AsyncCallback<DiscoveryResult> cb) {

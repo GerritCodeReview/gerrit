@@ -290,7 +290,7 @@ public class QueryProcessor {
 
     } else if (value instanceof Collection) {
       out.print('\n');
-      for (Object thing : ((Collection) value)) {
+      for (Object thing : ((Collection<?>) value)) {
         if (isPrimitive(thing)) {
           out.print(' ');
           out.print(value);

@@ -39,7 +39,7 @@ public abstract class RewritePredicate<T> extends Predicate<T> {
   @Override
   public boolean equals(Object other) {
     if (other instanceof RewritePredicate) {
-      RewritePredicate that = (RewritePredicate<T>) other;
+      RewritePredicate<T> that = (RewritePredicate<T>) other;
       if (this.init && that.init) {
         return this.getClass() == that.getClass()
             && this.name.equals(that.name)

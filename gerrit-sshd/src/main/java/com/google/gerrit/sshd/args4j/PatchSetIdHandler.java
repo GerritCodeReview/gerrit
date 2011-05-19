@@ -26,7 +26,7 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 public class PatchSetIdHandler extends OptionHandler<PatchSet.Id> {
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   @Inject
   public PatchSetIdHandler(@Assisted final CmdLineParser parser,
       @Assisted final OptionDef option, @Assisted final Setter setter) {

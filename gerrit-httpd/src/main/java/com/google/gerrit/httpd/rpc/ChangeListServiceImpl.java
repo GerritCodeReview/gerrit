@@ -162,7 +162,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       }
 
       if (s instanceof ChangeDataSource) {
-        ArrayList<Change> r = new ArrayList();
+        ArrayList<Change> r = new ArrayList<Change>();
         HashSet<Change.Id> want = new HashSet<Change.Id>();
         for (ChangeData d : ((ChangeDataSource) s).read()) {
           if (d.hasChange()) {

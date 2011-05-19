@@ -109,9 +109,10 @@ public abstract class QueryBuilder<T> {
     }
   }
 
+  @SuppressWarnings("rawtypes")
   private final Map<String, OperatorFactory> opFactories;
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   protected QueryBuilder(Definition<T, ? extends QueryBuilder<T>> def) {
     opFactories = (Map) def.opFactories;
   }
@@ -199,7 +200,8 @@ public abstract class QueryBuilder<T> {
   @SuppressWarnings("unchecked")
   private Predicate<T> operator(final String name, final String value)
       throws QueryParseException {
-    final OperatorFactory f = opFactories.get(name);
+    @SuppressWarnings("rawtypes")
+    OperatorFactory f = opFactories.get(name);
     if (f == null) {
       throw error("Unsupported operator " + name + ":" + value);
     }
@@ -271,7 +273,7 @@ public abstract class QueryBuilder<T> {
   public <P extends OperatorPredicate<T>> P find(Predicate<T> p,
       Class<P> clazz, String name) {
     if (p instanceof OperatorPredicate
-        && ((OperatorPredicate) p).getOperator().equals(name)
+        && ((OperatorPredicate<?>) p).getOperator().equals(name)
         && clazz.isAssignableFrom(p.getClass())) {
       return (P) p;
     }

@@ -85,7 +85,8 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
       }
     }
 
-    return Collections.unmodifiableMap(new LinkedHashMap(m));
+    return Collections.unmodifiableMap(
+        new LinkedHashMap<String, Provider<Command>>(m));
   }
 
   private static final TypeLiteral<Command> type =

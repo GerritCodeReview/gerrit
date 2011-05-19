@@ -81,7 +81,7 @@ public abstract class QueryRewriter<T> {
           if ((m.getModifiers() & Modifier.ABSTRACT) != Modifier.ABSTRACT
               && (m.getModifiers() & Modifier.PUBLIC) == Modifier.PUBLIC
               && rp != null) {
-            rewriteRules.add(new MethodRewrite(qb, rp.value(), m));
+            rewriteRules.add(new MethodRewrite<T>(qb, rp.value(), m));
           }
         }
         c = c.getSuperclass();
@@ -414,7 +414,7 @@ public abstract class QueryRewriter<T> {
         return null;
       }
 
-      final Predicate[] argList = new Predicate[argNames.length];
+      final Predicate<T>[] argList = new Predicate[argNames.length];
       for (int i = 0; i < argList.length; i++) {
         argList[i] = args.get(argNames[i]);
         if (argList[i] == null) {
@@ -438,7 +438,7 @@ public abstract class QueryRewriter<T> {
       }
 
       if (rep instanceof RewritePredicate) {
-        ((RewritePredicate) rep).init(method.getName(), argList);
+        ((RewritePredicate<T>) rep).init(method.getName(), argList);
       }
 
       if (res.extra == null) {

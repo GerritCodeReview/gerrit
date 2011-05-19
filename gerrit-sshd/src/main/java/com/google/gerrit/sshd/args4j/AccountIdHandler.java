@@ -35,7 +35,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
   private final AccountResolver accountResolver;
   private final AccountManager accountManager;
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   @Inject
   public AccountIdHandler(final AccountResolver accountResolver,
       final AccountManager accountManager,

@@ -24,7 +24,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -43,7 +42,7 @@ import java.util.Map;
  *  registered input widget.
  */
 public class OnEditEnabler implements KeyPressHandler, KeyDownHandler,
-   MouseUpHandler, ChangeHandler, ValueChangeHandler {
+   MouseUpHandler, ChangeHandler, ValueChangeHandler<Object> {
 
   private final FocusWidget widget;
   private Map<TextBoxBase, String> strings = new HashMap<TextBoxBase, String>();
@@ -102,8 +101,9 @@ public class OnEditEnabler implements KeyPressHandler, KeyDownHandler,
     lb.addChangeHandler(this);
   }
 
+  @SuppressWarnings({"unchecked", "rawtypes"})
   public void listenTo(final CheckBox cb) {
-    cb.addValueChangeHandler(this);
+    cb.addValueChangeHandler((ValueChangeHandler) this);
   }
 
 
@@ -129,12 +129,13 @@ public class OnEditEnabler implements KeyPressHandler, KeyDownHandler,
     on(e);
   }
 
+  @SuppressWarnings("rawtypes")
   @Override
   public void onValueChange(final ValueChangeEvent e) {
     on(e);
   }
 
-  private void on(final GwtEvent e) {
+  private void on(final GwtEvent<?> e) {
     if (widget.isEnabled() ||
         ! (e.getSource() instanceof FocusWidget) ||
         ! ((FocusWidget) e.getSource()).isEnabled() ) {

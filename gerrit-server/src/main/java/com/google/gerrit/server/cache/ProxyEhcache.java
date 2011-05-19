@@ -105,6 +105,7 @@ final class ProxyEhcache implements Ehcache {
     return self().get(key);
   }
 
+  @SuppressWarnings("rawtypes")
   public Map getAllWithLoader(Collection keys, Object loaderArgument)
       throws CacheException {
     return self().getAllWithLoader(keys, loaderArgument);
@@ -150,14 +151,17 @@ final class ProxyEhcache implements Ehcache {
     return self().getGuid();
   }
 
+  @SuppressWarnings("rawtypes")
   public List getKeys() throws IllegalStateException, CacheException {
     return self().getKeys();
   }
 
+  @SuppressWarnings("rawtypes")
   public List getKeysNoDuplicateCheck() throws IllegalStateException {
     return self().getKeysNoDuplicateCheck();
   }
 
+  @SuppressWarnings("rawtypes")
   public List getKeysWithExpiryCheck() throws IllegalStateException,
       CacheException {
     return self().getKeysWithExpiryCheck();
@@ -247,6 +251,7 @@ final class ProxyEhcache implements Ehcache {
     self().load(key);
   }
 
+  @SuppressWarnings("rawtypes")
   public void loadAll(Collection keys, Object argument) throws CacheException {
     self().loadAll(keys, argument);
   }

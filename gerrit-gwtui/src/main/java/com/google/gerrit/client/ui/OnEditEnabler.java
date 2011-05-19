@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -27,8 +29,6 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.ListBox;
@@ -154,7 +154,7 @@ public class OnEditEnabler implements KeyPressHandler, KeyDownHandler,
 
   private void onTextBoxBase(final TextBoxBase tb) {
     // The text appears to not get updated until the handlers complete.
-    DeferredCommand.add(new Command() {
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
         String orig = strings.get(tb);

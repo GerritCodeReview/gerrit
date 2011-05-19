@@ -33,6 +33,8 @@ import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -41,8 +43,6 @@ import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -205,7 +205,7 @@ public abstract class PatchScreen extends Screen implements
       lastScript.setDiffPrefs(dp);
       RpcStatus.INSTANCE.onRpcStart(null);
       settingsPanel.setEnabled(false);
-      DeferredCommand.addCommand(new Command() {
+      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
         @Override
         public void execute() {
           try {

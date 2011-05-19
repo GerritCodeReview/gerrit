@@ -27,21 +27,21 @@ import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 import java.util.HashSet;
@@ -169,7 +169,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
     String rev = irevTxtBox.getText();
     if ("".equals(rev)) {
       irevTxtBox.setText("HEAD");
-      DeferredCommand.addCommand(new Command() {
+      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
         @Override
         public void execute() {
           irevTxtBox.selectAll();

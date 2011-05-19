@@ -26,19 +26,19 @@ import com.google.gerrit.reviewdb.Patch.ChangeType;
 import com.google.gerrit.reviewdb.Patch.Key;
 import com.google.gerrit.reviewdb.Patch.PatchType;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.IncrementalCommand;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
@@ -88,7 +88,7 @@ public class PatchTable extends Composite {
     final DisplayCommand cmd = new DisplayCommand(patchList);
     if (cmd.execute()) {
       cmd.initMeter();
-      DeferredCommand.addCommand(cmd);
+      Scheduler.get().scheduleIncremental(cmd);
     } else {
       cmd.showTable();
     }
@@ -686,7 +686,7 @@ public class PatchTable extends Composite {
     }
   }
 
-  private final class DisplayCommand implements IncrementalCommand {
+  private final class DisplayCommand implements RepeatingCommand {
     private final MyTable table;
     private final List<Patch> list;
     private boolean attached;

@@ -21,14 +21,14 @@ import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.auth.userpass.LoginResult;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -73,7 +73,7 @@ public class UserPassSignInDialog extends SignInDialog {
   @Override
   public void show() {
     super.show();
-    DeferredCommand.addCommand(new Command() {
+    Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
         username.setFocus(true);
@@ -215,7 +215,7 @@ public class UserPassSignInDialog extends SignInDialog {
           showError(Util.C.invalidLogin());
           enable(true);
           password.selectAll();
-          DeferredCommand.addCommand(new Command() {
+          Scheduler.get().scheduleDeferred(new ScheduledCommand() {
             @Override
             public void execute() {
               password.setFocus(true);

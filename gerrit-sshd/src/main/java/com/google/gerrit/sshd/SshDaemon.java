@@ -479,7 +479,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         ));
   }
 
-  @SuppressWarnings("unchecked")
   private void initSubsystems() {
     setSubsystemFactories(Collections.<NamedFactory<Command>> emptyList());
   }

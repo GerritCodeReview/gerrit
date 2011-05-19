@@ -84,8 +84,6 @@ abstract class LdapType {
   }
 
   private static class ActiveDirectory extends LdapType {
-    private final String defaultDomain;
-
     ActiveDirectory(final Attributes atts) throws NamingException {
       // Convert "defaultNamingContext: DC=foo,DC=example,DC=com" into
       // the a standard DNS name as we would expect to find in the suffix
@@ -105,7 +103,6 @@ abstract class LdapType {
           b.append(n.substring(3));
         }
       }
-      defaultDomain = b.toString();
     }
 
     @Override

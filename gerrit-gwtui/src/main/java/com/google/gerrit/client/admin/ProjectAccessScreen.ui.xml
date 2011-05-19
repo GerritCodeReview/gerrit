@@ -35,6 +35,18 @@ limitations under the License.
 </ui:style>
 
 <g:HTMLPanel>
+  <div ui:field='editTools'>
+    <g:Button
+        ui:field='edit'
+        text='Edit'>
+      <ui:attribute name='text'/>
+    </g:Button>
+    <g:Button
+        ui:field='cancel'
+        text='Cancel'>
+      <ui:attribute name='text'/>
+    </g:Button>
+  </div>
   <my:ProjectAccessEditor ui:field='accessEditor'/>
   <div ui:field='commitTools'>
     <div class='{style.commitMessage}'>
@@ -49,6 +61,11 @@ limitations under the License.
     <g:Button
         ui:field='commit'
         text='Save Changes'>
+      <ui:attribute name='text'/>
+    </g:Button>
+    <g:Button
+        ui:field='cancel2'
+        text='Cancel'>
       <ui:attribute name='text'/>
     </g:Button>
   </div>

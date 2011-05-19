@@ -54,6 +54,10 @@ public class PageLinks {
     return "change," + ps.getParentKey().toString() + ",patchset=" + ps.get();
   }
 
+  public static String toProjectAcceess(final Project.NameKey p) {
+    return "admin,project," + p.get() + ",access";
+  }
+
   public static String toAccountDashboard(final AccountInfo acct) {
     return toAccountDashboard(acct.getId());
   }

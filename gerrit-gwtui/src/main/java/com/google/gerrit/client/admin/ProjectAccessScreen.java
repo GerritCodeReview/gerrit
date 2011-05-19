@@ -14,8 +14,10 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.core.client.GWT;
@@ -43,6 +45,15 @@ public class ProjectAccessScreen extends ProjectScreen {
   }
 
   @UiField
+  DivElement editTools;
+
+  @UiField
+  Button edit;
+
+  @UiField
+  Button cancel;
+
+  @UiField
   ProjectAccessEditor accessEditor;
 
   @UiField
@@ -56,6 +67,8 @@ public class ProjectAccessScreen extends ProjectScreen {
 
   private Driver driver;
 
+  private ProjectAccess access;
+
   public ProjectAccessScreen(final Project.NameKey toShow) {
     super(toShow);
   }
@@ -66,6 +79,7 @@ public class ProjectAccessScreen extends ProjectScreen {
     add(uiBinder.createAndBindUi(this));
 
     driver = GWT.create(Driver.class);
+    accessEditor.setEditing(false);
     driver.initialize(accessEditor);
   }
 
@@ -82,8 +96,27 @@ public class ProjectAccessScreen extends ProjectScreen {
   }
 
   void edit(ProjectAccess access) {
+    this.access = access;
+    final boolean editing = !edit.isEnabled();
+    accessEditor.setEditing(editing);
+    UIObject.setVisible(editTools, !access.getOwnerOf().isEmpty());
+    cancel.setVisible(editing);
+    UIObject.setVisible(commitTools, editing);
     driver.edit(access);
-    UIObject.setVisible(commitTools, !access.getOwnerOf().isEmpty());
+  }
+
+  @UiHandler("edit")
+  void onEdit(ClickEvent event) {
+    edit.setEnabled(false);
+    cancel.setVisible(true);
+    UIObject.setVisible(commitTools, true);
+    accessEditor.setEditing(true);
+    driver.edit(access);
+  }
+
+  @UiHandler(value={"cancel", "cancel2"})
+  void onCancel(ClickEvent event) {
+    Gerrit.display(PageLinks.toProjectAcceess(getProjectKey()));
   }
 
   @UiHandler("commit")

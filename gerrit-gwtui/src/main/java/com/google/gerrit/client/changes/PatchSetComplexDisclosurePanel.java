@@ -27,7 +27,6 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.Change;

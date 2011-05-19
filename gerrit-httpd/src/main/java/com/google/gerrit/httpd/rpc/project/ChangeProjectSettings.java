@@ -65,8 +65,7 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
   @Override
   public ProjectDetail call() throws NoSuchProjectException, OrmException {
     final Project.NameKey projectName = update.getNameKey();
-    final ProjectControl projectControl =
-        projectControlFactory.ownerFor(projectName);
+    projectControlFactory.ownerFor(projectName);
 
     final MetaDataUpdate md;
     try {

@@ -1893,10 +1893,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     return ref.getName().startsWith(Constants.R_TAGS);
   }
 
-  private static boolean isTag(final ReceiveCommand cmd) {
-    return cmd.getRefName().startsWith(Constants.R_TAGS);
-  }
-
   private static boolean isHead(final Ref ref) {
     return ref.getName().startsWith(Constants.R_HEADS);
   }

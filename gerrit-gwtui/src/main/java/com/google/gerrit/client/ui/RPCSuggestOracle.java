@@ -15,9 +15,6 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.SuggestOracle.Callback;
-import com.google.gwt.user.client.ui.SuggestOracle.Request;
-import com.google.gwt.user.client.ui.SuggestOracle.Response;
 
 /** This class will proxy SuggestOracle requests to another SuggestOracle
  *  while keeping track of the latest request.  Any repsonse that belongs

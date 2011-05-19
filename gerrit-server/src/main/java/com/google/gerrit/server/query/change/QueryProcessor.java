@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.events.ChangeAttribute;
 import com.google.gerrit.server.events.EventFactory;
-import com.google.gerrit.server.events.PatchSetAttribute;
 import com.google.gerrit.server.events.QueryStats;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;

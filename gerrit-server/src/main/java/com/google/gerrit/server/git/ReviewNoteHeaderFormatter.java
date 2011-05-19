@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.Project;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

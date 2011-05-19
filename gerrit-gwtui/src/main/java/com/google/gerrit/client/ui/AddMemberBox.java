@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.admin.Util;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.RPCSuggestOracle;

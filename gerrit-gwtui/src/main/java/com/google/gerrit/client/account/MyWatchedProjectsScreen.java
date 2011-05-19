@@ -19,7 +19,6 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
-import com.google.gerrit.client.ui.RPCSuggestOracle;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountProjectWatchInfo;

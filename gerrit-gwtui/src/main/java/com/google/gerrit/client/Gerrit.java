@@ -239,7 +239,7 @@ public class Gerrit implements EntryPoint {
     KeyUtil.setEncoderImpl(new KeyUtil.Encoder() {
       @Override
       public String encode(String e) {
-        e = URL.encodeComponent(e);
+        e = URL.encodeQueryString(e);
         e = fixPathImpl(e);
         e = fixColonImpl(e);
         return e;
@@ -247,7 +247,7 @@ public class Gerrit implements EntryPoint {
 
       @Override
       public String decode(final String e) {
-        return URL.decodeComponent(e);
+        return URL.decodeQueryString(e);
       }
 
       private native String fixPathImpl(String path)

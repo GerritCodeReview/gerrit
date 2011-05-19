@@ -69,7 +69,6 @@ public abstract class CurrentUser {
     return getEffectiveGroups().contains(authConfig.getBatchUsersGroup());
   }
 
-  @Deprecated
   public final boolean isAdministrator() {
     return getEffectiveGroups().contains(authConfig.getAdministratorsGroup());
   }

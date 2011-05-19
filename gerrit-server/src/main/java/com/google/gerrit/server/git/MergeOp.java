@@ -156,6 +156,7 @@ public class MergeOp {
 
   private final ChangeHookRunner hooks;
   private final AccountCache accountCache;
+  private final CreateCodeReviewNotes.Factory codeReviewNotesFactory;
 
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
@@ -167,7 +168,8 @@ public class MergeOp {
       final IdentifiedUser.GenericFactory iuf,
       @GerritPersonIdent final PersonIdent myIdent,
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
-      final ChangeHookRunner hooks, final AccountCache accountCache) {
+      final ChangeHookRunner hooks, final AccountCache accountCache,
+      final CreateCodeReviewNotes.Factory crnf) {
     repoManager = grm;
     schemaFactory = sf;
     functionState = fs;
@@ -182,6 +184,7 @@ public class MergeOp {
     this.mergeQueue = mergeQueue;
     this.hooks = hooks;
     this.accountCache = accountCache;
+    codeReviewNotesFactory = crnf;
 
     this.myIdent = myIdent;
     destBranch = branch;
@@ -527,8 +530,22 @@ public class MergeOp {
       }
     }
 
+    PersonIdent authorIdent = computeAuthor(merged);
+
+    final CommitBuilder mergeCommit = new CommitBuilder();
+    mergeCommit.setTreeId(m.getResultTreeId());
+    mergeCommit.setParentIds(mergeTip, n);
+    mergeCommit.setAuthor(authorIdent);
+    mergeCommit.setCommitter(myIdent);
+    mergeCommit.setMessage(msgbuf.toString());
+
+    mergeTip = (CodeReviewCommit) rw.parseCommit(commit(m, mergeCommit));
+  }
+
+  private PersonIdent computeAuthor(
+      final List<CodeReviewCommit> codeReviewCommits) {
     PatchSetApproval submitter = null;
-    for (final CodeReviewCommit c : merged) {
+    for (final CodeReviewCommit c : codeReviewCommits) {
       PatchSetApproval s = getSubmitter(c.patchsetId);
       if (submitter == null
           || (s != null && s.getGranted().compareTo(submitter.getGranted()) > 0)) {
@@ -547,7 +564,7 @@ public class MergeOp {
       IdentifiedUser who =
           identifiedUserFactory.create(submitter.getAccountId());
       Set<String> emails = new HashSet<String>();
-      for (RevCommit c : merged) {
+      for (RevCommit c : codeReviewCommits) {
         emails.add(c.getAuthorIdent().getEmailAddress());
       }
 
@@ -555,22 +572,15 @@ public class MergeOp {
       final TimeZone tz = myIdent.getTimeZone();
       if (emails.size() == 1
           && who.getEmailAddresses().contains(emails.iterator().next())) {
-        authorIdent = new PersonIdent(merged.get(0).getAuthorIdent(), dt, tz);
+        authorIdent =
+            new PersonIdent(codeReviewCommits.get(0).getAuthorIdent(), dt, tz);
       } else {
         authorIdent = who.newCommitterIdent(dt, tz);
       }
     } else {
       authorIdent = myIdent;
     }
-
-    final CommitBuilder mergeCommit = new CommitBuilder();
-    mergeCommit.setTreeId(m.getResultTreeId());
-    mergeCommit.setParentIds(mergeTip, n);
-    mergeCommit.setAuthor(authorIdent);
-    mergeCommit.setCommitter(myIdent);
-    mergeCommit.setMessage(msgbuf.toString());
-
-    mergeTip = (CodeReviewCommit) rw.parseCommit(commit(m, mergeCommit));
+    return authorIdent;
   }
 
   private void markCleanMerges() throws MergeException {
@@ -899,7 +909,9 @@ public class MergeOp {
     }
   }
 
-  private void updateChangeStatus() {
+  private void updateChangeStatus() throws MergeException {
+    List<CodeReviewCommit> merged = new ArrayList<CodeReviewCommit>();
+
     for (final Change c : submitted) {
       final CodeReviewCommit commit = commits.get(c.getId());
       final CommitMergeStatus s = commit != null ? commit.statusCode : null;
@@ -915,6 +927,7 @@ public class MergeOp {
           final String txt =
               "Change has been successfully merged into the git repository.";
           setMerged(c, message(c, txt));
+          merged.add(commit);
           break;
         }
 
@@ -923,11 +936,13 @@ public class MergeOp {
               "Change has been successfully cherry-picked as " + commit.name()
                   + ".";
           setMerged(c, message(c, txt));
+          merged.add(commit);
           break;
         }
 
         case ALREADY_MERGED:
           setMerged(c, null);
+          merged.add(commit);
           break;
 
         case PATH_CONFLICT: {
@@ -976,6 +991,15 @@ public class MergeOp {
           break;
       }
     }
+
+    CreateCodeReviewNotes codeReviewNotes = codeReviewNotesFactory.create(db);
+    try {
+      codeReviewNotes.create(merged, computeAuthor(merged));
+    } catch (CodeReviewNoteCreationException e) {
+      log.error(e.getMessage());
+    }
+    replication.scheduleUpdate(destBranch.getParentKey(),
+        CreateCodeReviewNotes.REFS_NOTES_REVIEW);
   }
 
   private void dependencyError(final CodeReviewCommit commit) {

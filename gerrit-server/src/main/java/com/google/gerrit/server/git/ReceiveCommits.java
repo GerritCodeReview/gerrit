@@ -763,6 +763,13 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       walk.markStart(tip);
 
       Ref targetRef = rp.getAdvertisedRefs().get(destBranchName);
+      if (targetRef == null || targetRef.getObjectId() == null) {
+        // The destination branch does not yet exist. Assume the
+        // history being sent for review will start it and thus
+        // is "connected" to the branch.
+        return;
+      }
+
       final RevCommit h = walk.parseCommit(targetRef.getObjectId());
       h.add(SIDE_HAVE);
       walk.markStart(h);

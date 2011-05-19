@@ -94,7 +94,6 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     return and(new SortKeyPredicate.Before(dbProvider, cut), a);
   }
 
-  @SuppressWarnings("unchecked")
   @NoCostComputation
   @Rewrite("A=(limit:*) B=(limit:*)")
   public Predicate<ChangeData> r00_smallestLimit(
@@ -103,7 +102,6 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     return a.intValue() <= b.intValue() ? a : b;
   }
 
-  @SuppressWarnings("unchecked")
   @NoCostComputation
   @Rewrite("A=(sortkey_before:*) B=(sortkey_before:*)")
   public Predicate<ChangeData> r00_oldestSortKey(
@@ -112,7 +110,6 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     return a.getValue().compareTo(b.getValue()) <= 0 ? a : b;
   }
 
-  @SuppressWarnings("unchecked")
   @NoCostComputation
   @Rewrite("A=(sortkey_after:*) B=(sortkey_after:*)")
   public Predicate<ChangeData> r00_newestSortKey(
@@ -519,7 +516,6 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     return or(r30_byReviewerOpen(r), r30_byReviewerClosed(r));
   }
 
-  @SuppressWarnings("unchecked")
   @Rewrite("status:submitted")
   public Predicate<ChangeData> r99_allSubmitted() {
     return new ChangeSource(50) {
@@ -535,7 +531,6 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     };
   }
 
-  @SuppressWarnings("unchecked")
   @Rewrite("P=(project:*)")
   public Predicate<ChangeData> r99_byProject(
       @Named("P") final ProjectPredicate p) {

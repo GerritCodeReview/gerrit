@@ -17,10 +17,8 @@ package com.google.gerrit.server;
 import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
 
 import com.google.gerrit.common.ChangeHookRunner;
-import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
-import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;

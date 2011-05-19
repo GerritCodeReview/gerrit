@@ -29,7 +29,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
-import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 class SearchPanel extends Composite {
   private final HintTextBox searchBox;

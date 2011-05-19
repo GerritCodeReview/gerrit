@@ -370,8 +370,8 @@ public class PublishCommentScreen extends AccountScreen implements
 
           @Override
           public void onFailure(Throwable caught) {
+            goChange();
             super.onFailure(caught);
-            enableForm(true);
           }
         });
   }

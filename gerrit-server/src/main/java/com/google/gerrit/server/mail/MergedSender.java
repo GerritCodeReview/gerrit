@@ -18,12 +18,11 @@ import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
+import com.google.gerrit.reviewdb.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
-import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gerrit.reviewdb.AccountProjectWatch.NotifyType;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -43,9 +42,6 @@ public class MergedSender extends ReplyToChangeSender {
   public MergedSender(EmailArguments ea, ApprovalTypes at, @Assisted Change c) {
     super(ea, c, "merged");
     approvalTypes = at;
-  }
-
-  public void setDest(final Branch.NameKey key) {
   }
 
   @Override

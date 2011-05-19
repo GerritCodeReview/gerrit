@@ -1879,8 +1879,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         final MergedSender cm = mergedSenderFactory.create(result.change);
         cm.setFrom(currentUser.getAccountId());
         cm.setPatchSet(result.patchSet, result.info);
-        cm.setDest(new Branch.NameKey(project.getNameKey(),
-            result.mergedIntoRef));
         cm.send();
       } catch (EmailException e) {
         final PatchSet.Id psi = result.patchSet.getId();

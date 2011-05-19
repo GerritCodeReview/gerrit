@@ -75,8 +75,6 @@ public final class SuExec extends BaseCommand {
   public void start(Environment env) throws IOException {
     try {
       if (caller.get() instanceof PeerDaemonUser) {
-        final PeerDaemonUser peer = (PeerDaemonUser) caller.get();
-
         parseCommandLine();
 
         final Context ctx = callingContext.subContext(newSession(), join(args));

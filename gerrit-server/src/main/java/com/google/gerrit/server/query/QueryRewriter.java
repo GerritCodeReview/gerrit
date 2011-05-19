@@ -237,7 +237,6 @@ public abstract class QueryRewriter<T> {
       }
     }
 
-    final int cnt = pattern.getChildCount();
     if ((isAND(pattern) && isAND(actual)) //
         || (isOR(pattern) && isOR(actual)) //
         || (isNOT(pattern) && isNOT(actual)) //

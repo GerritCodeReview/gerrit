@@ -80,10 +80,6 @@ public class ToolServlet extends HttpServlet {
     rsp.setDateHeader(HDR_EXPIRES, 0L);
     rsp.setHeader(HDR_PRAGMA, "no-cache");
     rsp.setHeader(HDR_CACHE_CONTROL, "no-cache, must-revalidate");
-    if (false) {
-      rsp.setHeader("Content-Disposition", "attachment; filename=\""
-          + ent.getName() + "\"");
-    }
     rsp.setContentType("application/octet-stream");
     rsp.setContentLength(tosend.length);
     final OutputStream out = rsp.getOutputStream();

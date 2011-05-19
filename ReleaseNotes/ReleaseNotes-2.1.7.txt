@@ -140,7 +140,7 @@ different URL by using a reverse proxy that does URL rewriting.
 Updated H2 Database to 1.2.147, PostgreSQL JDBC Client to 9.0-801,
 openid4java to 0.9.6, ANTLR to 3.2, GWT to 2.1.1, JSch to 0.1.44, Gson
 to 1.6, Apache Commons Net to 2.2, Apache Commons Pool to 1.5.5, JGit
-to 0.12.1.41-g4b4df4c, MINA SSHD to 0.5.1-r1095809.
+to 0.12.1.53-g5ec4977, MINA SSHD to 0.5.1-r1095809.
 
 Bug Fixes
 ---------

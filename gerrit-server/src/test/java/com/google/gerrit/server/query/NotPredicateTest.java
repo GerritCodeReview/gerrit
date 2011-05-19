@@ -45,7 +45,7 @@ public class NotPredicateTest extends TestCase {
 
   public void testNotNot() {
     final TestPredicate p = f("author", "bob");
-    final Predicate n = not(p);
+    final Predicate<String> n = not(p);
     assertTrue(n instanceof NotPredicate);
     assertNotSame(p, n);
     assertSame(p, not(n));
@@ -53,14 +53,14 @@ public class NotPredicateTest extends TestCase {
 
   public void testChildren() {
     final TestPredicate p = f("author", "bob");
-    final Predicate n = not(p);
+    final Predicate<String> n = not(p);
     assertEquals(1, n.getChildCount());
     assertSame(p, n.getChild(0));
   }
 
   public void testChildrenUnmodifiable() {
     final TestPredicate p = f("author", "bob");
-    final Predicate n = not(p);
+    final Predicate<String> n = not(p);
 
     try {
       n.getChildren().clear();
@@ -81,7 +81,8 @@ public class NotPredicateTest extends TestCase {
     assertOnlyChild("remove(0)", p, n);
   }
 
-  private static void assertOnlyChild(String o, Predicate c, Predicate p) {
+  private static void assertOnlyChild(String o, Predicate<String> c,
+      Predicate<String> p) {
     assertEquals(o + " did not affect child", 1, p.getChildCount());
     assertSame(o + " did not affect child", c, p.getChild(0));
   }
@@ -102,6 +103,7 @@ public class NotPredicateTest extends TestCase {
     assertFalse(not(f("a", "b")).hashCode() == not(f("a", "a")).hashCode());
   }
 
+  @SuppressWarnings({"rawtypes", "unchecked"})
   public void testCopy() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");

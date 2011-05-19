@@ -43,6 +43,7 @@ public class AndPredicateTest extends TestCase {
     return new TestPredicate(name, value);
   }
 
+  @SuppressWarnings("unchecked")
   public void testChildren() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
@@ -52,6 +53,7 @@ public class AndPredicateTest extends TestCase {
     assertSame(b, n.getChild(1));
   }
 
+  @SuppressWarnings("unchecked")
   public void testChildrenUnmodifiable() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
@@ -81,6 +83,7 @@ public class AndPredicateTest extends TestCase {
     assertEquals(o + " did not affect child", l, p.getChildren());
   }
 
+  @SuppressWarnings("unchecked")
   public void testToString() {
     final TestPredicate a = f("q", "alice");
     final TestPredicate b = f("q", "bob");
@@ -89,6 +92,7 @@ public class AndPredicateTest extends TestCase {
     assertEquals("(q:alice q:bob q:charlie)", and(a, b, c).toString());
   }
 
+  @SuppressWarnings("unchecked")
   public void testEquals() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
@@ -103,6 +107,7 @@ public class AndPredicateTest extends TestCase {
     assertFalse(and(a, c).equals(a));
   }
 
+  @SuppressWarnings("unchecked")
   public void testHashCode() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
@@ -113,6 +118,7 @@ public class AndPredicateTest extends TestCase {
     assertFalse(and(a, c).hashCode() == and(a, b).hashCode());
   }
 
+  @SuppressWarnings("unchecked")
   public void testCopy() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");

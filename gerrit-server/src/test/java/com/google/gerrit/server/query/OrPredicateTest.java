@@ -43,19 +43,21 @@ public class OrPredicateTest extends TestCase {
     return new TestPredicate(name, value);
   }
 
+  @SuppressWarnings("unchecked")
   public void testChildren() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
-    final Predicate n = or(a, b);
+    final Predicate<String> n = or(a, b);
     assertEquals(2, n.getChildCount());
     assertSame(a, n.getChild(0));
     assertSame(b, n.getChild(1));
   }
 
+  @SuppressWarnings("unchecked")
   public void testChildrenUnmodifiable() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
-    final Predicate n = or(a, b);
+    final Predicate<String> n = or(a, b);
 
     try {
       n.getChildren().clear();
@@ -76,11 +78,12 @@ public class OrPredicateTest extends TestCase {
     assertChildren("remove(0)", n, list(a, b));
   }
 
-  private static void assertChildren(String o, Predicate p,
-      final List<Predicate> l) {
+  private static void assertChildren(String o, Predicate<String> p,
+      final List<Predicate<String>> l) {
     assertEquals(o + " did not affect child", l, p.getChildren());
   }
 
+  @SuppressWarnings("unchecked")
   public void testToString() {
     final TestPredicate a = f("q", "alice");
     final TestPredicate b = f("q", "bob");
@@ -89,6 +92,7 @@ public class OrPredicateTest extends TestCase {
     assertEquals("(q:alice OR q:bob OR q:charlie)", or(a, b, c).toString());
   }
 
+  @SuppressWarnings("unchecked")
   public void testEquals() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
@@ -103,6 +107,7 @@ public class OrPredicateTest extends TestCase {
     assertFalse(or(a, c).equals(a));
   }
 
+  @SuppressWarnings("unchecked")
   public void testHashCode() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
@@ -113,26 +118,27 @@ public class OrPredicateTest extends TestCase {
     assertFalse(or(a, c).hashCode() == or(a, b).hashCode());
   }
 
+  @SuppressWarnings("unchecked")
   public void testCopy() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
     final TestPredicate c = f("author", "charlie");
-    final List<Predicate> s2 = list(a, b);
-    final List<Predicate> s3 = list(a, b, c);
-    final Predicate n2 = or(a, b);
+    final List<Predicate<String>> s2 = list(a, b);
+    final List<Predicate<String>> s3 = list(a, b, c);
+    final Predicate<String> n2 = or(a, b);
 
     assertNotSame(n2, n2.copy(s2));
     assertEquals(s2, n2.copy(s2).getChildren());
     assertEquals(s3, n2.copy(s3).getChildren());
 
     try {
-      n2.copy(Collections.<Predicate> emptyList());
+      n2.copy(Collections.<Predicate<String>> emptyList());
     } catch (IllegalArgumentException e) {
       assertEquals("Need at least two predicates", e.getMessage());
     }
   }
 
-  private static List<Predicate> list(final Predicate... predicates) {
+  private static <T> List<Predicate<T>> list(final Predicate<T>... predicates) {
     return Arrays.asList(predicates);
   }
 }

@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAn///Dk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-19T19:31:39Z",
+      "side": 1,
+      "message": "This should be in a try/finally to close the repository:\n\n  Repository git \u003d ....;\n  try {\n    ... stuff ...\n  } finally {\n    git.close();\n  }",
+      "revId": "4d009d55582b90f8dac20e2a3b972faab13832b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///Dg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-19T19:31:39Z",
+      "side": 1,
+      "message": "This should be in a try/finally with a release:\n\n  RevWalk revWalk \u003d new RevWalk(git);\n  try {\n    ... stuff ...\n  } finally {\n    revWalk.release();\n  }",
+      "revId": "4d009d55582b90f8dac20e2a3b972faab13832b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///DY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-19T19:31:39Z",
+      "side": 1,
+      "message": "I think this should be myIdent since Gerrit created the commit on behalf of the user. The user is recorded in author already.",
+      "revId": "4d009d55582b90f8dac20e2a3b972faab13832b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///Dc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-19T19:31:39Z",
+      "side": 1,
+      "message": "This should be in a try-finally with a release:\n\n  ObjectInserter oi \u003d git.newObjectInserter();\n  try {\n    ... stuff ...\n  } finally {\n    oi.release();\n  }",
+      "revId": "4d009d55582b90f8dac20e2a3b972faab13832b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///DQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-19T19:31:39Z",
+      "side": 1,
+      "message": "Why this conditional? Shouldn\u0027t we always record this information in the ChangeMessage?",
+      "revId": "4d009d55582b90f8dac20e2a3b972faab13832b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///DU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-19T19:31:39Z",
+      "side": 1,
+      "message": "Instead of \"I\" + id.getName() use changeKey.get() from above.",
+      "revId": "4d009d55582b90f8dac20e2a3b972faab13832b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

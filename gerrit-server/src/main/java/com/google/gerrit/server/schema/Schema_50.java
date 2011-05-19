@@ -14,19 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.AccountProjectWatch;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.jdbc.JdbcSchema;
-import com.google.gwtorm.schema.sql.DialectH2;
-import com.google.gwtorm.schema.sql.DialectMySQL;
-import com.google.gwtorm.schema.sql.DialectPostgreSQL;
-import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class Schema_50 extends SchemaVersion {
   @Inject

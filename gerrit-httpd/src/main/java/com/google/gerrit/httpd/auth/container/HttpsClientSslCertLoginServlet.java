@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd.auth.container;
 
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

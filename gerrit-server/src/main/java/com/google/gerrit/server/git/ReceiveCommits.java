@@ -1993,10 +1993,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     return cmd.getRefName().startsWith(Constants.R_HEADS);
   }
 
-  private static boolean isConfig(final Ref ref) {
-    return ref.getName().equals(GitRepositoryManager.REF_CONFIG);
-  }
-
   private static boolean isConfig(final ReceiveCommand cmd) {
     return cmd.getRefName().equals(GitRepositoryManager.REF_CONFIG);
   }

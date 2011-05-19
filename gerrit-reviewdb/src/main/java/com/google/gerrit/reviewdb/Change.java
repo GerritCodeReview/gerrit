@@ -370,13 +370,11 @@ public final class Change {
   }
 
   /** Legacy 32 bit integer identity for a change. */
-  @Deprecated
   public Change.Id getId() {
     return changeId;
   }
 
   /** Legacy 32 bit integer identity for a change. */
-  @Deprecated
   public int getChangeId() {
     return changeId.get();
   }

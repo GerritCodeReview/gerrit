@@ -1618,7 +1618,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     if (idList.isEmpty()) {
       if (project.isRequireChangeID() && (cmd.getRefName().startsWith(NEW_CHANGE)
   || NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
-        reject(cmd, "missing Change-Id in commit message");
+        String errMsg = "missing Change-Id in commit message";
+        reject(cmd, errMsg);
+        rp.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
         return false;
       }
     } else if (idList.size() > 1) {
@@ -1627,7 +1629,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     } else {
       final String v = idList.get(idList.size() - 1).trim();
       if (!v.matches("^I[0-9a-f]{8,}.*$")) {
-        reject(cmd, "invalid Change-Id line format in commit message ");
+        final String errMsg = "missing or invalid Change-Id line format in commit message";
+        reject(cmd, errMsg);
+        rp.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
         return false;
       }
     }
@@ -1639,6 +1643,44 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     return true;
+  }
+
+  private String getFixedCommitMsgWithChangeId(String errMsg, RevCommit c) {
+    // We handle 3 cases:
+    // 1. No change id in the commit message at all.
+    // 2. change id last in the commit message but missing empty line to create the footer.
+    // 3. there is a change-id somewhere in the commit message, but we ignore it.
+    final String changeId = "Change-Id:";
+    StringBuilder sb = new StringBuilder();
+    sb.append("ERROR: ").append(errMsg);
+    sb.append("\n");
+    sb.append("Suggestion for commit message:\n");
+
+    if (c.getFullMessage().indexOf(changeId)==-1) {
+      sb.append(c.getFullMessage());
+      sb.append("\n");
+      sb.append(changeId).append(" I").append(c.name());
+    } else {
+      String lines[] = c.getFullMessage().trim().split("\n");
+      String lastLine = lines.length > 0 ? lines[lines.length - 1] : "";
+
+      if (lastLine.indexOf(changeId)==0) {
+        for (int i = 0; i < lines.length - 1; i++) {
+          sb.append(lines[i]);
+          sb.append("\n");
+        }
+
+        sb.append("\n");
+        sb.append(lastLine);
+      } else {
+        sb.append(c.getFullMessage());
+        sb.append("\n");
+        sb.append(changeId).append(" I").append(c.name());
+        sb.append("\nHint: A potential Change-Id was found, but it was not in the footer of the commit message.");
+      }
+    }
+
+    return sb.toString();
   }
 
   private void sendInvalidEmailError(RevCommit c, String type, PersonIdent who) {

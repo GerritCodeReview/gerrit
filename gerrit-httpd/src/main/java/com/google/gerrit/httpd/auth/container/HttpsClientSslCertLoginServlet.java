@@ -40,13 +40,10 @@ import javax.servlet.http.HttpServletResponse;
 public class HttpsClientSslCertLoginServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  private final Provider<WebSession> webSession;
   private final Provider<String> urlProvider;
 
   @Inject
-  public HttpsClientSslCertLoginServlet(final Provider<WebSession> webSession,
-      @CanonicalWebUrl @Nullable final Provider<String> urlProvider) {
-    this.webSession = webSession;
+  public HttpsClientSslCertLoginServlet(@CanonicalWebUrl @Nullable final Provider<String> urlProvider) {
     this.urlProvider = urlProvider;
   }
 

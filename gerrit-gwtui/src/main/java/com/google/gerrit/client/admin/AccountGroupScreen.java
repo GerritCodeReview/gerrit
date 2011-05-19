@@ -665,13 +665,6 @@ public class AccountGroupScreen extends AccountScreen {
       }
     }
 
-    void insertMember(final AccountGroupMember k) {
-      final int row = table.getRowCount();
-      table.insertRow(row);
-      applyDataRowStyle(row);
-      populate(row, k);
-    }
-
     void display(final List<AccountGroupMember> result) {
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
@@ -748,13 +741,6 @@ public class AccountGroupScreen extends AccountScreen {
               }
             });
       }
-    }
-
-    void insertMember(final AccountGroupInclude k) {
-      final int row = table.getRowCount();
-      table.insertRow(row);
-      applyDataRowStyle(row);
-      populate(row, k);
     }
 
     void display(final List<AccountGroupInclude> result) {

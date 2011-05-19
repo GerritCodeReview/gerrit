@@ -87,10 +87,10 @@ public class ProjectAccessScreen extends ProjectScreen {
     parentName = new Hyperlink("", "");
 
     showInherited = new CheckBox();
-    showInherited.setChecked(true);
+    showInherited.setValue(true);
     showInherited.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
-        rights.showInherited(showInherited.isChecked());
+        rights.showInherited(showInherited.getValue());
       }
     });
 
@@ -215,7 +215,7 @@ public class ProjectAccessScreen extends ProjectScreen {
       for (final InheritedRefRight r : refRights) {
         final int row = table.getRowCount();
         table.insertRow(row);
-        if (! showInherited.isChecked() && r.isInherited()) {
+        if (! showInherited.getValue() && r.isInherited()) {
           table.getRowFormatter().setVisible(row, false);
         }
         applyDataRowStyle(row);

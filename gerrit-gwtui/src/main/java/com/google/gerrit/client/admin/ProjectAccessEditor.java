@@ -61,6 +61,8 @@ public class ProjectAccessEditor extends Composite implements
 
   private ProjectAccess value;
 
+  private boolean editing;
+
   public ProjectAccessEditor() {
     initWidget(uiBinder.createAndBindUi(this));
     local = ListEditor.of(new Source(localContainer));
@@ -90,7 +92,7 @@ public class ProjectAccessEditor extends Composite implements
       inheritsFrom.getStyle().setDisplay(Display.NONE);
     }
 
-    addSection.setVisible(value != null && !value.getOwnerOf().isEmpty());
+    addSection.setVisible(value != null && editing && !value.getOwnerOf().isEmpty());
   }
 
   @Override
@@ -115,6 +117,11 @@ public class ProjectAccessEditor extends Composite implements
   public void setDelegate(EditorDelegate<ProjectAccess> delegate) {
   }
 
+  void setEditing(final boolean editing) {
+    this.editing = editing;
+    addSection.setVisible(editing);
+  }
+
   private class Source extends EditorSource<AccessSectionEditor> {
     private final FlowPanel container;
 
@@ -125,6 +132,7 @@ public class ProjectAccessEditor extends Composite implements
     @Override
     public AccessSectionEditor create(int index) {
       AccessSectionEditor subEditor = new AccessSectionEditor(value);
+      subEditor.setEditing(editing);
       container.insert(subEditor, index);
       return subEditor;
     }

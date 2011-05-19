@@ -80,6 +80,7 @@ public class AccessSectionEditor extends Composite implements
 
   private final ProjectAccess projectAccess;
   private AccessSection value;
+  private boolean editing;
   private boolean readOnly;
   private boolean isDeleted;
 
@@ -154,7 +155,7 @@ public class AccessSectionEditor extends Composite implements
   @Override
   public void setValue(AccessSection value) {
     this.value = value;
-    this.readOnly = !projectAccess.isOwnerOf(value);
+    this.readOnly = !editing || !projectAccess.isOwnerOf(value);
 
     refPattern.setEnabled(!readOnly);
     deleteSection.setVisible(!readOnly);
@@ -164,6 +165,10 @@ public class AccessSectionEditor extends Composite implements
     } else {
       enableEditing();
     }
+  }
+
+  void setEditing(final boolean editing) {
+    this.editing = editing;
   }
 
   private void rebuildPermissionSelector() {

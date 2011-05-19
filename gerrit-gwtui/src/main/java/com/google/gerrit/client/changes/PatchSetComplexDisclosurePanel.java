@@ -431,6 +431,26 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       actionsPanel.add(b);
     }
 
+    if (changeDetail.canRevert()) {
+      final Button b = new Button(Util.C.buttonRevertChangeBegin());
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          b.setEnabled(false);
+          new CommentedChangeActionDialog(patchSet.getId(), createCommentedCallback(b),
+              Util.C.revertChangeTitle(), Util.C.headingRevertMessage(),
+              Util.C.buttonRevertChangeSend(), Util.C.buttonRevertChangeCancel(),
+              Gerrit.RESOURCES.css().revertChangeDialog(), Gerrit.RESOURCES.css().revertMessage(),
+              Util.M.revertChangeDefaultMessage(detail.getInfo().getSubject(), detail.getPatchSet().getRevision().get())) {
+                public void onSend() {
+                  Util.MANAGE_SVC.revertChange(getPatchSetId() , getMessageText(), createCallback());
+                }
+              }.center();
+        }
+      });
+      actionsPanel.add(b);
+    }
+
     if (changeDetail.canAbandon()) {
       final Button b = new Button(Util.C.buttonAbandonChangeBegin());
       b.addClickHandler(new ClickHandler() {

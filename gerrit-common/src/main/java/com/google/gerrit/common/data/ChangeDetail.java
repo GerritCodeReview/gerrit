@@ -31,6 +31,7 @@ public class ChangeDetail {
   protected boolean allowsAnonymous;
   protected boolean canAbandon;
   protected boolean canRestore;
+  protected boolean canRevert;
   protected Change change;
   protected boolean starred;
   protected List<ChangeInfo> dependsOn;
@@ -76,6 +77,14 @@ public class ChangeDetail {
 
   public void setCanRestore(final boolean a) {
     canRestore = a;
+  }
+
+  public boolean canRevert() {
+    return canRevert;
+  }
+
+  public void setCanRevert(boolean a) {
+      canRevert = a;
   }
 
   public Change getChange() {

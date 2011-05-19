@@ -46,6 +46,14 @@ public abstract class CommentedChangeActionDialog extends AutoCenterDialogBox im
       final String dialogHeading, final String buttonSend,
       final String buttonCancel, final String dialogStyle,
       final String messageStyle) {
+     this(psi, callback, dialogTitle, dialogHeading, buttonSend, buttonCancel, dialogStyle, messageStyle, null);
+  }
+
+  public CommentedChangeActionDialog(final PatchSet.Id psi,
+      final AsyncCallback<ChangeDetail> callback, final String dialogTitle,
+      final String dialogHeading, final String buttonSend,
+      final String buttonCancel, final String dialogStyle,
+      final String messageStyle, final String defaultMessage) {
     super(/* auto hide */false, /* modal */true);
     setGlassEnabled(true);
 
@@ -66,6 +74,7 @@ public abstract class CommentedChangeActionDialog extends AutoCenterDialogBox im
     message = new NpTextArea();
     message.setCharacterWidth(60);
     message.setVisibleLines(10);
+    message.setText(defaultMessage);
     DOM.setElementPropertyBoolean(message.getElement(), "spellcheck", true);
     mwrap.add(message);
 

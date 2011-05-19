@@ -1262,6 +1262,31 @@ a:hover.downloadLink {
   font-size: small;
 }
 
+/** RevertChangeDialog **/
+
+.revertChangeDialog .gwt-DisclosurePanel .header td {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.revertChangeDialog .smallHeading {
+  font-size: small;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.revertChangeDialog .revertMessage {
+  margin-left: 10px;
+  background: trimColor;
+  padding: 5px 5px 5px 5px;
+}
+.revertChangeDialog .revertMessage textarea {
+  font-size: small;
+}
+.revertChangeDialog .gwt-Hyperlink {
+  white-space: nowrap;
+  font-size: small;
+}
+
 
 /** PatchBrowserPopup **/
 .patchBrowserPopup {

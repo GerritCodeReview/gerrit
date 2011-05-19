@@ -224,8 +224,7 @@ public class VisibleRefFilter implements RefFilter {
     // Traverse the history until the tag is found.
     //
     rw.markUninteresting(tagged);
-    RevCommit c;
-    while ((c = rw.next()) != null) {
+    while (rw.next() != null) {
     }
   }
 

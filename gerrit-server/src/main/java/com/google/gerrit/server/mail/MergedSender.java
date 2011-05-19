@@ -38,17 +38,14 @@ public class MergedSender extends ReplyToChangeSender {
   }
 
   private final ApprovalTypes approvalTypes;
-  private Branch.NameKey dest;
 
   @Inject
   public MergedSender(EmailArguments ea, ApprovalTypes at, @Assisted Change c) {
     super(ea, c, "merged");
-    dest = c.getDest();
     approvalTypes = at;
   }
 
   public void setDest(final Branch.NameKey key) {
-    dest = key;
   }
 
   @Override

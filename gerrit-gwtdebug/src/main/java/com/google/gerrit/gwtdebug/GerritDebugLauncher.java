@@ -268,12 +268,9 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
     private final ClassLoader systemClassLoader =
         Thread.currentThread().getContextClassLoader();
 
-    private final TreeLogger logger;
-
     @SuppressWarnings("unchecked")
-    private MyWebAppContext(TreeLogger logger, String webApp, String contextPath) {
+    private MyWebAppContext(String webApp, String contextPath) {
       super(webApp, contextPath);
-      this.logger = logger;
 
       // Prevent file locking on Windows; pick up file changes.
       getInitParams().put(
@@ -397,7 +394,7 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
     // Create a new web app in the war directory.
     //
     WebAppContext wac =
-        new MyWebAppContext(logger, warDir.getAbsolutePath(), "/");
+        new MyWebAppContext(warDir.getAbsolutePath(), "/");
     wac.setDescriptor(webxml.getAbsolutePath());
 
     RequestLogHandler logHandler = new RequestLogHandler();

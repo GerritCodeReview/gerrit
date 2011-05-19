@@ -103,7 +103,6 @@ class AccountServiceImpl extends BaseServiceImplementation implements
       AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>(){
       public VoidResult run(ReviewDb db) throws OrmException {
-        Account.Id accountId = getAccountId();
         if (!diffPref.getAccountId().equals(getAccountId())) {
           throw new IllegalArgumentException("diffPref.getAccountId() "
               + diffPref.getAccountId() + " doesn't match"

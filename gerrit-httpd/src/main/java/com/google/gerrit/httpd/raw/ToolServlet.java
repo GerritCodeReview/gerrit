@@ -42,6 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 /** Sends the client side tools we keep within our software. */
 @Singleton
 public class ToolServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
   private final ToolsCatalog toc;
 
   @Inject

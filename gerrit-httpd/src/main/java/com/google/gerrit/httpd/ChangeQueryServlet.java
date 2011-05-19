@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 public class ChangeQueryServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
   private final Provider<QueryProcessor> processor;
 
   @Inject

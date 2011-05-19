@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 class XrdsServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
   private static final String ENC = "UTF-8";
   static final String LOCATION = "OpenID.XRDS";
 

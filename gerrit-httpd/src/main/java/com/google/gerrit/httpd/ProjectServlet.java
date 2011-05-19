@@ -73,6 +73,7 @@ import javax.servlet.http.HttpServletResponse;
 /** Serves Git repositories over HTTP. */
 @Singleton
 public class ProjectServlet extends GitServlet {
+  private static final long serialVersionUID = 1L;
   private static final Logger log =
       LoggerFactory.getLogger(ProjectServlet.class);
 
@@ -131,6 +132,8 @@ public class ProjectServlet extends GitServlet {
     super.init(config);
 
     serveRegex("^/(.*?)/?$").with(new HttpServlet() {
+      private static final long serialVersionUID = 1L;
+
       @Override
       protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
           throws IOException {

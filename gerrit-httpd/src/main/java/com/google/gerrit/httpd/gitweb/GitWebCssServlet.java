@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
 abstract class GitWebCssServlet extends HttpServlet {
-  @SuppressWarnings("serial")
   @Singleton
   static class Site extends GitWebCssServlet {
     @Inject
@@ -41,7 +40,6 @@ abstract class GitWebCssServlet extends HttpServlet {
     }
   }
 
-  @SuppressWarnings("serial")
   @Singleton
   static class Default extends GitWebCssServlet {
     @Inject

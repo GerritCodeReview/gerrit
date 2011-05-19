@@ -39,7 +39,6 @@ public class BaseServiceImplementation {
     this.currentUser = currentUser;
   }
 
-  @Deprecated
   protected Account.Id getAccountId() {
     CurrentUser u = currentUser.get();
     if (u instanceof IdentifiedUser) {
@@ -97,7 +96,6 @@ public class BaseServiceImplementation {
   }
 
   /** Exception whose cause is passed into onFailure. */
-  @Deprecated
   public static class Failure extends Exception {
     private static final long serialVersionUID = 1L;
 

@@ -500,17 +500,14 @@ public abstract class QueryRewriter<T> {
     }
   }
 
-  @SuppressWarnings("unchecked")
   private static <T> boolean isAND(final Predicate<T> p) {
     return p instanceof AndPredicate;
   }
 
-  @SuppressWarnings("unchecked")
   private static <T> boolean isOR(final Predicate<T> p) {
     return p instanceof OrPredicate;
   }
 
-  @SuppressWarnings("unchecked")
   private static <T> boolean isNOT(final Predicate<T> p) {
     return p instanceof NotPredicate;
   }

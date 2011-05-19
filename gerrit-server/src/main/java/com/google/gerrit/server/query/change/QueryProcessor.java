@@ -282,7 +282,6 @@ public class QueryProcessor {
     }
   }
 
-  @SuppressWarnings( {"cast", "unchecked"})
   private void showTextValue(Object value, int depth) {
     if (isPrimitive(value)) {
       out.print(' ');
@@ -307,7 +306,6 @@ public class QueryProcessor {
     }
   }
 
-  @SuppressWarnings("unchecked")
   private static boolean isPrimitive(Object value) {
     return value instanceof String //
         || value instanceof Number //

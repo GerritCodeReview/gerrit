@@ -65,7 +65,6 @@ public abstract class Predicate<T> {
   }
 
   /** Invert the passed node. */
-  @SuppressWarnings("unchecked")
   public static <T> Predicate<T> not(final Predicate<T> that) {
     if (that instanceof NotPredicate) {
       // Negate of a negate is the original predicate.

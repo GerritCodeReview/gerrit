@@ -152,7 +152,6 @@ public class ConfigUtil {
    *        Must not be null as the enumeration values are derived from this.
    * @return the selected enumeration values list, or {@code defaultValue}.
    */
-  @SuppressWarnings("unchecked")
   public static <T extends Enum<?>> List<T> getEnumList(final Config config,
       final String section, final String subsection, final String setting,
       final T defaultValue) {

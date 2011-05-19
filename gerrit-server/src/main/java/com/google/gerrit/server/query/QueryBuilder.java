@@ -109,7 +109,6 @@ public abstract class QueryBuilder<T> {
     }
   }
 
-  @SuppressWarnings("unchecked")
   private final Map<String, OperatorFactory> opFactories;
 
   @SuppressWarnings("unchecked")

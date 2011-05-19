@@ -91,11 +91,6 @@ limitations under the License.
     </dependency>
 
     <dependency>
-      <groupId>org.antlr</groupId>
-      <artifactId>antlr</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.google.code.guice</groupId>
       <artifactId>guice</artifactId>
     </dependency>
@@ -113,6 +108,12 @@ limitations under the License.
     <dependency>
       <groupId>aopalliance</groupId>
       <artifactId>aopalliance</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-antlr</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
@@ -154,20 +155,4 @@ limitations under the License.
       <artifactId>automaton</artifactId>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.antlr</groupId>
-        <artifactId>antlr3-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>antlr</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 </project>

@@ -72,6 +72,7 @@ limitations under the License.
     <module>gerrit-util-cli</module>
     <module>gerrit-util-ssl</module>
 
+    <module>gerrit-antlr</module>
     <module>gerrit-common</module>
     <module>gerrit-httpd</module>
     <module>gerrit-launcher</module>

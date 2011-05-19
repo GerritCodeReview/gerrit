@@ -26,14 +26,11 @@ import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
 
 class RestoreChange extends Handler<ChangeDetail> {
   interface Factory {

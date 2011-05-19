@@ -17,7 +17,6 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.AccountService;
 import com.google.gerrit.common.data.ProjectAdminService;
-import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 

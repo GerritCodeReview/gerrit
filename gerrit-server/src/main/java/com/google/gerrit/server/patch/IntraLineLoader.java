@@ -133,13 +133,18 @@ class IntraLineLoader extends EntryCreator<IntraLineDiffKey, IntraLineDiff> {
             + " comparing " + key.getBlobA().name() //
             + ".." + key.getBlobB().name() //
             + ".  Killing " + thread.getName());
-        try {
-          thread.stop();
-        } catch (Throwable error) {
-          // Ignore any reason the thread won't stop.
-          log.error("Cannot stop runaway thread " + thread.getName(), error);
-        }
+        forcefullyKillThreadInAnUglyWay();
         return Result.TIMEOUT;
+      }
+    }
+
+    @SuppressWarnings("deprecation")
+    private void forcefullyKillThreadInAnUglyWay() {
+      try {
+        thread.stop();
+      } catch (Throwable error) {
+        // Ignore any reason the thread won't stop.
+        log.error("Cannot stop runaway thread " + thread.getName(), error);
       }
     }
 

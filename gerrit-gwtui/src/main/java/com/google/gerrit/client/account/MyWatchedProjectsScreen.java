@@ -41,6 +41,7 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.HidePopupPanelCommand;
@@ -173,7 +174,8 @@ public class MyWatchedProjectsScreen extends SettingsScreen implements
         submitOnSelection = false;
 
         if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          if (nameTxt.isSuggestionListShowing()) {
+          if (((DefaultSuggestionDisplay) nameTxt.getSuggestionDisplay())
+              .isSuggestionListShowing()) {
             submitOnSelection = true;
           } else {
             doAddNew();

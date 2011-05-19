@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 public class AddIncludedGroupBox extends Composite {
@@ -52,7 +53,8 @@ public class AddIncludedGroupBox extends Composite {
         submitOnSelection = false;
 
         if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          if (nameTxt.isSuggestionListShowing()) {
+          if (((DefaultSuggestionDisplay) nameTxt.getSuggestionDisplay())
+              .isSuggestionListShowing()) {
             submitOnSelection = true;
           } else {
             doAdd();

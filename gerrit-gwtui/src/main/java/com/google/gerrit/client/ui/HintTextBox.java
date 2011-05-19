@@ -27,6 +27,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 
 
 public class HintTextBox extends NpTextBox {
@@ -152,7 +153,8 @@ public class HintTextBox extends NpTextBox {
         ((SuggestBox)p).showSuggestionList();
 
         // The suggestion list lingers if we don't hide it.
-        ((SuggestBox)p).hideSuggestionList();
+        ((DefaultSuggestionDisplay) ((SuggestBox) p).getSuggestionDisplay())
+            .hideSuggestions();
       }
 
       setFocus(false);

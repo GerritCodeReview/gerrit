@@ -15,8 +15,6 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.admin.Util;
-import com.google.gerrit.client.ui.HintTextBox;
-import com.google.gerrit.client.ui.RPCSuggestOracle;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -28,6 +26,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 public class AddMemberBox extends Composite {
@@ -52,7 +51,8 @@ public class AddMemberBox extends Composite {
         submitOnSelection = false;
 
         if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          if (nameTxt.isSuggestionListShowing()) {
+          if (((DefaultSuggestionDisplay) nameTxt.getSuggestionDisplay())
+              .isSuggestionListShowing()) {
             submitOnSelection = true;
           } else {
             doAdd();

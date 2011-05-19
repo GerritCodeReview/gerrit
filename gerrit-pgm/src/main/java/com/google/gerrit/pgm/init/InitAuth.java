@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm.init;
 
+import static com.google.gerrit.pgm.init.InitUtil.dnOf;
+
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.inject.Inject;
@@ -72,6 +74,9 @@ class InitAuth implements InitStep {
 
         ldap.string("LDAP username", "username", null);
         ldap.password("username", "password");
+
+        String aBase = ldap.string("Account BaseDN", "accountBase", dnOf(server));
+        ldap.string("Group BaseDN", "groupBase", aBase);
         break;
       }
     }

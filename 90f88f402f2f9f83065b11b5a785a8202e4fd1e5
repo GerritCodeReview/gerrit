@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABAn///Sc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2011-05-19T04:00:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABAn///Yk\u003d",
+      "revId": "90f88f402f2f9f83065b11b5a785a8202e4fd1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABAn///YM\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAABAn///SY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2011-05-19T04:00:21Z",
+      "side": 1,
+      "message": "Doesn\u0027t look like it. RevCommit.parseCanonical seems to ensure parents cannot be null.",
+      "parentUuid": "AAABAn///YM\u003d",
+      "revId": "90f88f402f2f9f83065b11b5a785a8202e4fd1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABAn///YQ\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2011-05-19T00:53:24Z",
       "side": 1,
       "message": "walk cannot be null, so you might skip this check.\nIf you want to keep this check, you might want to move it before the loop.",
+      "revId": "90f88f402f2f9f83065b11b5a785a8202e4fd1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABAn///SQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2011-05-19T04:00:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABAn///YQ\u003d",
       "revId": "90f88f402f2f9f83065b11b5a785a8202e4fd1e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

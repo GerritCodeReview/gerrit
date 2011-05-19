@@ -539,7 +539,7 @@ public class RefControl {
   private Set<RefRight> resolveOwnerGroups(final RefRight refRight) {
     final Set<RefRight> resolvedRefRights = new HashSet<RefRight>();
     if (refRight.getAccountGroupId().equals(systemConfig.ownerGroupId)) {
-      for (final AccountGroup.Id ownerGroup : getProjectState().getOwners()) {
+      for (final AccountGroup.Id ownerGroup : getProjectState().getAllOwners()) {
         if (!ownerGroup.equals(systemConfig.ownerGroupId)) {
           resolvedRefRights.add(new RefRight(refRight, ownerGroup));
         }

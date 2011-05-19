@@ -148,6 +148,9 @@ public class ChangeScreen extends Screen {
     super.registerKeys();
     regNavigation = GlobalKey.add(this, keysNavigation);
     regAction = GlobalKey.add(this, keysAction);
+    if (openPatchSetId != null) {
+      patchSetsBlock.activate(openPatchSetId);
+    }
   }
 
   public void refresh() {
@@ -318,9 +321,6 @@ public class ChangeScreen extends Screen {
     }
 
     patchSetsBlock.display(detail, diffBaseId);
-    if (openPatchSetId != null) {
-      patchSetsBlock.activate(openPatchSetId);
-    }
     addComments(detail);
 
     // If any dependency change is still open, show our dependency list.

@@ -112,9 +112,6 @@ public abstract class PatchScreen extends Screen implements
         }
       };
 
-  // The change id for which the above patch set id's are valid
-  private static Change.Id currentChangeId = null;
-
   protected final Patch.Key patchKey;
   protected PatchSetDetail patchSetDetail;
   protected PatchTable fileList;

@@ -19,16 +19,15 @@ import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
+import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.AccountPatchReview;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
@@ -40,9 +39,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,8 +60,6 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
         @Assisted("psIdOld") PatchSet.Id psIdB, AccountDiffPreference diffPrefs);
   }
 
-  private final GitRepositoryManager repoManager;
-
   private final PatchSetInfoFactory infoFactory;
   private final ReviewDb db;
   private final PatchListCache patchListCache;
@@ -82,14 +77,12 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   PatchSet patchSet;
 
   @Inject
-  PatchSetDetailFactory(final GitRepositoryManager grm,
-      final PatchSetInfoFactory psif, final ReviewDb db,
+  PatchSetDetailFactory(final PatchSetInfoFactory psif, final ReviewDb db,
       final PatchListCache patchListCache,
       final ChangeControl.Factory changeControlFactory,
       @Assisted("psIdNew") final PatchSet.Id psIdNew,
       @Assisted("psIdOld") @Nullable final PatchSet.Id psIdOld,
       @Assisted @Nullable final AccountDiffPreference diffPrefs) {
-    this.repoManager = grm;
     this.infoFactory = psif;
     this.db = db;
     this.patchListCache = patchListCache;
@@ -100,7 +93,6 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     this.diffPrefs = diffPrefs;
   }
 
-  @SuppressWarnings("deprecation")
   @Override
   public PatchSetDetail call() throws OrmException, NoSuchEntityException,
       PatchSetInfoNotAvailableException, NoSuchChangeException {

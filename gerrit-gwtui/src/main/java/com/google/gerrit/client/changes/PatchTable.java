@@ -290,8 +290,6 @@ public class PatchTable extends Composite {
     private static final int C_SIDEBYSIDE = 5;
     private int activeRow = -1;
 
-    private PatchSet.Id patchSetIdToCompareWith;
-
     MyTable() {
       keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.patchTablePrev()));
       keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.patchTableNext()));

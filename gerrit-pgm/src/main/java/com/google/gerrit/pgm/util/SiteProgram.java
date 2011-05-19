@@ -32,7 +32,6 @@ import com.google.inject.Module;
 import com.google.inject.name.Names;
 import com.google.inject.spi.Message;
 
-import org.apache.commons.dbcp.SQLNestedException;
 import org.kohsuke.args4j.Option;
 
 import java.io.File;
@@ -176,10 +175,7 @@ public abstract class SiteProgram extends AbstractProgram {
       if (why instanceof OrmException && why.getCause() != null
           && "Unable to determine driver URL".equals(why.getMessage())) {
         why = why.getCause();
-        if (why instanceof SQLNestedException
-            && why.getCause() != null
-            && why.getMessage().startsWith(
-                "Cannot create PoolableConnectionFactory")) {
+        if (isCannotCreatePoolException(why)) {
           throw die("Cannot connect to SQL database", why.getCause());
         }
         throw die("Cannot connect to SQL database", why);
@@ -199,5 +195,13 @@ public abstract class SiteProgram extends AbstractProgram {
       }
       throw die(buf.toString(), new RuntimeException("DbInjector failed", ce));
     }
+  }
+
+  @SuppressWarnings("deprecation")
+  private static boolean isCannotCreatePoolException(Throwable why) {
+    return why instanceof org.apache.commons.dbcp.SQLNestedException
+        && why.getCause() != null
+        && why.getMessage().startsWith(
+            "Cannot create PoolableConnectionFactory");
   }
 }

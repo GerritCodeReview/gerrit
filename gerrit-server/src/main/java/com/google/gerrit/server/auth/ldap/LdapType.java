@@ -93,16 +93,6 @@ abstract class LdapType {
       if (defaultNamingContext == null || defaultNamingContext.size() < 1) {
         throw new NamingException("rootDSE has no defaultNamingContext");
       }
-
-      final StringBuilder b = new StringBuilder();
-      for (String n : ((String) defaultNamingContext.get(0)).split(", *")) {
-        if (n.toUpperCase().startsWith("DC=")) {
-          if (b.length() > 0) {
-            b.append('.');
-          }
-          b.append(n.substring(3));
-        }
-      }
     }
 
     @Override

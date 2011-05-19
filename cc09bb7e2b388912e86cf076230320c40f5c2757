@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABAn///Vk\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-19T02:29:08Z",
+      "side": 1,
+      "message": "This code can\u0027t be in display(). Its too early.\n\nMove it to an override of the onShowView() method of PatchScreen itself... and to the base class Screen.\n\nThe problem is in display() the Screen isn\u0027t actually ready for display yet. Its attached to a hidden part of the UI and then its RPCs start to populate the data. When the RPCs are done, the onShowView() method actually updates the UI to make the Screen visible.\n\nYes, display() is named wrong.  :-)",
+      "revId": "cc09bb7e2b388912e86cf076230320c40f5c2757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

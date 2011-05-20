@@ -485,6 +485,21 @@ configuration.
 +
 Default is true, enabled.
 
+cache.projects.checkFrequency::
++
+How often project configuration should be checked for update from Git.
+Gerrit Code Review caches project access rules and configuration in
+memory, checking the refs/meta/config branch every checkFrequency
+minutes to see if a new revision should be loaded and used for future
+access. Values can be specified using standard time unit abbreviations
+('ms', 'sec', 'min', etc.).
++
+If set to 0, checks occur every time, which may slow down operations.
+Administrators may force the cache to flush with
+link:cmd-flush-caches.html[gerrit flush-caches].
++
+Default is 5 minutes.
+
 
 [[commentlink]]Section commentlink
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

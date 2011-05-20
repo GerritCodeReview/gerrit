@@ -72,6 +72,7 @@ public class Gerrit implements EntryPoint {
 
   private static String myHost;
   private static GerritConfig myConfig;
+  private static HostPageData.Theme myTheme;
   private static Account myAccount;
   private static AccountDiffPreference myAccountDiffPref;
 
@@ -183,6 +184,11 @@ public class Gerrit implements EntryPoint {
     return myConfig;
   }
 
+  /** Site theme information (site specific colors)/ */
+  public static HostPageData.Theme getTheme() {
+    return myTheme;
+  }
+
   /** @return the currently signed in user's account data; null if no account */
   public static Account getUserAccount() {
     return myAccount;
@@ -264,6 +270,7 @@ public class Gerrit implements EntryPoint {
     hpd.load(new GerritCallback<HostPageData>() {
       public void onSuccess(final HostPageData result) {
         myConfig = result.config;
+        myTheme = result.theme;
         if (result.account != null) {
           myAccount = result.account;
         }

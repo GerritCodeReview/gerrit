@@ -1830,6 +1830,19 @@ code, or standard color name.
 +
 By default a shade of yellow, `FFFFCC`.
 
+A different theme may be used for signed-in vs. signed-out user status
+by using the "signed-in" and "signed-out" theme sections. Variables
+not specified in a section are inherited from the default theme.
+
+----
+[theme]
+  backgroundColor = FFFFFF
+[theme "signed-in"]
+  backgroundColor = C0C0C0
+[theme "signed-out"]
+  backgroundColor = 00FFFF
+----
+
 [[trackingid]] Section trackingid
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

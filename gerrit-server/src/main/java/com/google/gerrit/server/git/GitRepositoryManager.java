@@ -31,6 +31,9 @@ import java.io.IOException;
  * environment.
  */
 public interface GitRepositoryManager {
+  /** Notes branch successful reviews are written to after being merged. */
+  public static final String REFS_NOTES_REVIEW = "refs/notes/review";
+
   /** Note tree listing commits we refuse {@code refs/meta/reject-commits} */
   public static final String REF_REJECT_COMMITS = "refs/meta/reject-commits";
 

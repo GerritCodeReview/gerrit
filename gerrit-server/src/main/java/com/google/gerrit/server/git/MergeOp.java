@@ -992,14 +992,15 @@ public class MergeOp {
       }
     }
 
-    CreateCodeReviewNotes codeReviewNotes = codeReviewNotesFactory.create(db);
+    CreateCodeReviewNotes codeReviewNotes =
+        codeReviewNotesFactory.create(schema, db);
     try {
       codeReviewNotes.create(merged, computeAuthor(merged));
     } catch (CodeReviewNoteCreationException e) {
       log.error(e.getMessage());
     }
     replication.scheduleUpdate(destBranch.getParentKey(),
-        CreateCodeReviewNotes.REFS_NOTES_REVIEW);
+        GitRepositoryManager.REFS_NOTES_REVIEW);
   }
 
   private void dependencyError(final CodeReviewCommit commit) {

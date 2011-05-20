@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.server.git.GitRepositoryManager.REFS_NOTES_REVIEW;
+
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.ApprovalCategory;
+import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -26,6 +29,9 @@ import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -47,6 +53,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import java.io.IOException;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 /**
  * This class create code review notes for given {@link CodeReviewCommit}s.
  * <p>
@@ -55,10 +63,9 @@ import java.util.List;
  */
 public class CreateCodeReviewNotes {
   public interface Factory {
-    CreateCodeReviewNotes create(Repository db);
+    CreateCodeReviewNotes create(ReviewDb reviewDb, Repository db);
   }
 
-  static final String REFS_NOTES_REVIEW = "refs/notes/review";
   private static final int MAX_LOCK_FAILURE_CALLS = 10;
   private static final int SLEEP_ON_LOCK_FAILURE_MS = 25;
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
@@ -83,13 +90,15 @@ public class CreateCodeReviewNotes {
   private PersonIdent author;
 
   @Inject
-  CreateCodeReviewNotes(final ReviewDb reviewDb,
+  CreateCodeReviewNotes(
       @GerritPersonIdent final PersonIdent gerritIdent,
       final AccountCache accountCache,
       final ApprovalTypes approvalTypes,
-      @CanonicalWebUrl final String canonicalWebUrl,
+      @Nullable @CanonicalWebUrl final String canonicalWebUrl,
+      @Assisted  ReviewDb reviewDb,
       @Assisted final Repository db) {
     schema = reviewDb;
+    this.author = gerritIdent;
     this.gerritIdent = gerritIdent;
     this.accountCache = accountCache;
     this.approvalTypes = approvalTypes;
@@ -106,107 +115,82 @@ public class CreateCodeReviewNotes {
     try {
       this.commits = commits;
       this.author = author;
-      setBase();
-      setOurs();
-
-      int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
-      RefUpdate refUpdate = createRefUpdate(oursCommit, baseCommit);
-
-      for (;;) {
-        Result result = refUpdate.update();
-
-        if (result == Result.LOCK_FAILURE) {
-          if (--remainingLockFailureCalls > 0) {
-            Thread.sleep(SLEEP_ON_LOCK_FAILURE_MS);
-          } else {
-            throw new CodeReviewNoteCreationException(
-                "Failed to lock the ref: " + REFS_NOTES_REVIEW);
-          }
-
-        } else if (result == Result.REJECTED) {
-          RevCommit theirsCommit =
-              revWalk.parseCommit(refUpdate.getOldObjectId());
-          NoteMap theirs =
-              NoteMap.read(revWalk.getObjectReader(), theirsCommit);
-          NoteMapMerger merger = new NoteMapMerger(db);
-          NoteMap merged = merger.merge(base, ours, theirs);
-          RevCommit mergeCommit =
-              createCommit(merged, gerritIdent, "Merged note commits\n",
-                  theirsCommit, oursCommit);
-          refUpdate = createRefUpdate(mergeCommit, theirsCommit);
-          remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
-
-        } else if (result == Result.IO_FAILURE) {
-          throw new CodeReviewNoteCreationException(
-              "Couldn't create code review notes because of IO_FAILURE");
-        } else {
-          break;
-        }
-      }
-
+      loadBase();
+      applyNotes();
+      updateRef();
     } catch (IOException e) {
       throw new CodeReviewNoteCreationException(e);
     } catch (InterruptedException e) {
       throw new CodeReviewNoteCreationException(e);
     } finally {
-      reader.release();
-      inserter.release();
-      revWalk.release();
+      release();
     }
   }
 
-  private void setBase() throws IOException {
+  public void loadBase() throws IOException {
     Ref notesBranch = db.getRef(REFS_NOTES_REVIEW);
     if (notesBranch != null) {
       baseCommit = revWalk.parseCommit(notesBranch.getObjectId());
       base = NoteMap.read(revWalk.getObjectReader(), baseCommit);
     }
-  }
-
-  private void setOurs() throws IOException, CodeReviewNoteCreationException {
     if (baseCommit != null) {
       ours = NoteMap.read(db.newObjectReader(), baseCommit);
     } else {
       ours = NoteMap.newEmptyMap();
     }
+  }
 
+  private void applyNotes() throws IOException, CodeReviewNoteCreationException {
     StringBuilder message =
         new StringBuilder("Update notes for submitted changes\n\n");
     for (CodeReviewCommit c : commits) {
-      ObjectId noteContent = createNoteContent(c);
-      if (ours.contains(c)) {
-        // merge the existing and the new note as if they are both new
-        // means: base == null
-        // there is not really a common ancestry for these two note revisions
-        // use the same NoteMerger that is used from the NoteMapMerger
-        DefaultNoteMerger noteMerger = new DefaultNoteMerger();
-        Note newNote = new Note(c, noteContent);
-        noteContent =
-            noteMerger.merge(null, newNote, base.getNote(c), reader, inserter)
-                .getData();
-      }
-      ours.set(c, noteContent);
-
+      add(c.change, c);
       message.append("* ").append(c.getShortMessage()).append("\n");
     }
+    commit(message.toString());
+  }
 
+  public void commit(String message) throws IOException {
     if (baseCommit != null) {
-      oursCommit = createCommit(ours, author, message.toString(), baseCommit);
+      oursCommit = createCommit(ours, author, message, baseCommit);
     } else {
-      oursCommit = createCommit(ours, author, message.toString());
+      oursCommit = createCommit(ours, author, message);
     }
   }
 
-  private ObjectId createNoteContent(CodeReviewCommit commit)
+  public void add(Change change, ObjectId commit)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException,
+      CodeReviewNoteCreationException {
+    if (!(commit instanceof RevCommit)) {
+      commit = revWalk.parseCommit(commit);
+    }
+
+    RevCommit c = (RevCommit) commit;
+    ObjectId noteContent = createNoteContent(change, c);
+    if (ours.contains(c)) {
+      // merge the existing and the new note as if they are both new
+      // means: base == null
+      // there is not really a common ancestry for these two note revisions
+      // use the same NoteMerger that is used from the NoteMapMerger
+      DefaultNoteMerger noteMerger = new DefaultNoteMerger();
+      Note newNote = new Note(c, noteContent);
+      noteContent =
+          noteMerger.merge(null, newNote, base.getNote(c), reader, inserter)
+              .getData();
+    }
+    ours.set(c, noteContent);
+  }
+
+  private ObjectId createNoteContent(Change change, RevCommit commit)
       throws CodeReviewNoteCreationException, IOException {
     try {
       ReviewNoteHeaderFormatter formatter =
         new ReviewNoteHeaderFormatter(author.getTimeZone());
       final List<String> idList = commit.getFooterLines(CHANGE_ID);
       if (idList.isEmpty())
-        formatter.appendChangeId(commit.change.getKey());
+        formatter.appendChangeId(change.getKey());
       ResultSet<PatchSetApproval> approvals =
-        schema.patchSetApprovals().byPatchSet(commit.patchsetId);
+        schema.patchSetApprovals().byPatchSet(change.currentPatchSetId());
       PatchSetApproval submit = null;
       for (PatchSetApproval a : approvals) {
         if (ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
@@ -219,23 +203,77 @@ public class CreateCodeReviewNotes {
         }
       }
 
-      formatter.appendSubmittedBy(accountCache.get(submit.getAccountId()).getAccount());
-      formatter.appendSubmittedAt(submit.getGranted());
-
-      formatter.appendReviewedOn(canonicalWebUrl, commit.change.getId());
-      formatter.appendProject(commit.change.getProject().get());
-      formatter.appendBranch(commit.change.getDest());
+      if (submit != null) {
+        formatter.appendSubmittedBy(accountCache.get(submit.getAccountId()).getAccount());
+        formatter.appendSubmittedAt(submit.getGranted());
+      }
+      if (canonicalWebUrl != null) {
+        formatter.appendReviewedOn(canonicalWebUrl, change.getId());
+      }
+      formatter.appendProject(change.getProject().get());
+      formatter.appendBranch(change.getDest());
       return inserter.insert(Constants.OBJ_BLOB, formatter.toString().getBytes("UTF-8"));
     } catch (OrmException e) {
       throw new CodeReviewNoteCreationException(commit, e);
     }
   }
 
+  public void updateRef() throws IOException, InterruptedException,
+      CodeReviewNoteCreationException, MissingObjectException,
+      IncorrectObjectTypeException, CorruptObjectException {
+    if (baseCommit != null && oursCommit.getTree().equals(baseCommit.getTree())) {
+      // If the trees are identical, there is no change in the notes.
+      // Avoid saving this commit as it has no new information.
+      return;
+    }
+
+    int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
+    RefUpdate refUpdate = createRefUpdate(oursCommit, baseCommit);
+
+    for (;;) {
+      Result result = refUpdate.update();
+
+      if (result == Result.LOCK_FAILURE) {
+        if (--remainingLockFailureCalls > 0) {
+          Thread.sleep(SLEEP_ON_LOCK_FAILURE_MS);
+        } else {
+          throw new CodeReviewNoteCreationException(
+              "Failed to lock the ref: " + REFS_NOTES_REVIEW);
+        }
+
+      } else if (result == Result.REJECTED) {
+        RevCommit theirsCommit =
+            revWalk.parseCommit(refUpdate.getOldObjectId());
+        NoteMap theirs =
+            NoteMap.read(revWalk.getObjectReader(), theirsCommit);
+        NoteMapMerger merger = new NoteMapMerger(db);
+        NoteMap merged = merger.merge(base, ours, theirs);
+        RevCommit mergeCommit =
+            createCommit(merged, gerritIdent, "Merged note commits\n",
+                theirsCommit, oursCommit);
+        refUpdate = createRefUpdate(mergeCommit, theirsCommit);
+        remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
+
+      } else if (result == Result.IO_FAILURE) {
+        throw new CodeReviewNoteCreationException(
+            "Couldn't create code review notes because of IO_FAILURE");
+      } else {
+        break;
+      }
+    }
+  }
+
+  public void release() {
+    reader.release();
+    inserter.release();
+    revWalk.release();
+  }
+
   private RevCommit createCommit(NoteMap map, PersonIdent author,
       String message, RevCommit... parents) throws IOException {
     CommitBuilder b = new CommitBuilder();
     b.setTreeId(map.writeTree(inserter));
-    b.setAuthor(author);
+    b.setAuthor(author != null ? author : gerritIdent);
     b.setCommitter(gerritIdent);
     if (parents.length > 0) {
       b.setParentIds(parents);
@@ -247,7 +285,8 @@ public class CreateCodeReviewNotes {
   }
 
 
-  private RefUpdate createRefUpdate(ObjectId newObjectId, ObjectId expectedOldObjectId) throws IOException {
+  private RefUpdate createRefUpdate(ObjectId newObjectId,
+      ObjectId expectedOldObjectId) throws IOException {
     RefUpdate refUpdate = db.updateRef(REFS_NOTES_REVIEW);
     refUpdate.setNewObjectId(newObjectId);
     if (expectedOldObjectId == null) {

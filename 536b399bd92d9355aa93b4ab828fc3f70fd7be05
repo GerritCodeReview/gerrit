@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABBH////0\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-20T17:37:51Z",
+      "side": 1,
+      "message": "This is my major objection. I would like to wait for the plugin to have a release before using it. :-)",
+      "revId": "536b399bd92d9355aa93b4ab828fc3f70fd7be05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

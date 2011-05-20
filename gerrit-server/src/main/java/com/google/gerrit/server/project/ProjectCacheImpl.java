@@ -19,6 +19,8 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gwtorm.client.SchemaFactory;
@@ -29,6 +31,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 import java.util.Collections;
@@ -36,6 +39,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -66,14 +70,20 @@ public class ProjectCacheImpl implements ProjectCache {
   private final Cache<Project.NameKey, ProjectState> byName;
   private final Cache<ListKey,SortedSet<Project.NameKey>> list;
   private final Lock listLock;
+  private final long checkFrequencyMillis;
 
   @Inject
   ProjectCacheImpl(
       @Named(CACHE_NAME) final Cache<Project.NameKey, ProjectState> byName,
-      @Named(CACHE_LIST) final Cache<ListKey, SortedSet<Project.NameKey>> list) {
+      @Named(CACHE_LIST) final Cache<ListKey, SortedSet<Project.NameKey>> list,
+      @GerritServerConfig final Config serverConfig) {
     this.byName = byName;
     this.list = list;
     this.listLock = new ReentrantLock(true /* fair */);
+    this.checkFrequencyMillis = TimeUnit.MILLISECONDS.convert(
+        ConfigUtil.getTimeUnit(serverConfig,
+            "cache", "projects", "checkFrequency",
+            5, TimeUnit.MINUTES), TimeUnit.MINUTES);
   }
 
   /**
@@ -83,7 +93,12 @@ public class ProjectCacheImpl implements ProjectCache {
    * @return the cached data; null if no such project exists.
    */
   public ProjectState get(final Project.NameKey projectName) {
-    return byName.get(projectName);
+    ProjectState state = byName.get(projectName);
+    if (state != null && state.needsRefresh(checkFrequencyMillis)) {
+      byName.remove(projectName);
+      state = byName.get(projectName);
+    }
+    return state;
   }
 
   /** Invalidate the cached information about the given project. */

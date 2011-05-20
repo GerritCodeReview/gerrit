@@ -31,6 +31,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -316,12 +317,13 @@ public class RefControlTest extends TestCase {
       }
     };
 
+    GitRepositoryManager mgr = null;
     Project.NameKey wildProject = new Project.NameKey("-- All Projects --");
     ProjectControl.AssistedFactory projectControlFactory = null;
     all.put(local.getProject().getNameKey(), new ProjectState(anonymousUser,
-        projectCache, wildProject, projectControlFactory, local));
+        projectCache, wildProject, projectControlFactory, mgr, local));
     all.put(parent.getProject().getNameKey(), new ProjectState(anonymousUser,
-        projectCache, wildProject, projectControlFactory, parent));
+        projectCache, wildProject, projectControlFactory, mgr, parent));
     return all.get(local.getProject().getNameKey());
   }
 

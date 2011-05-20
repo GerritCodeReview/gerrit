@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-@eval selectionColor com.google.gerrit.client.Gerrit.getConfig().getSelectionColor();
-@eval textColor com.google.gerrit.client.Gerrit.getConfig().getTextColor();
+@eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
+@eval textColor com.google.gerrit.client.Gerrit.getTheme().textColor;
 @def deletedBackground #a9a9a9;
 
 @sprite .deleteIcon {

@@ -42,6 +42,15 @@ public class GroupControl {
       return new GroupControl(user.get(), group);
     }
 
+    public GroupControl controlFor(final AccountGroup.UUID groupId)
+        throws NoSuchGroupException {
+      final AccountGroup group = groupCache.get(groupId);
+      if (group == null) {
+        throw new NoSuchGroupException(groupId);
+      }
+      return new GroupControl(user.get(), group);
+    }
+
     public GroupControl controlFor(final AccountGroup group) {
       return new GroupControl(user.get(), group);
     }

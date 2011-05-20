@@ -189,7 +189,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
 
     if (changeDetail.isAllowsAnonymous()
         && Gerrit.getConfig().getGitDaemonUrl() != null
-        && allowedSchemes.contains(DownloadScheme.ANON_GIT)) {
+        && (allowedSchemes.contains(DownloadScheme.ANON_GIT) ||
+            allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
       StringBuilder r = new StringBuilder();
       r.append(Gerrit.getConfig().getGitDaemonUrl());
       r.append(projectName);

@@ -174,6 +174,23 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         }
         break;
       }
+      case VISIBLE_GROUP: {
+        Set<AccountGroup.UUID> usersGroups = groupsOf(account);
+        usersGroups.remove(AccountGroup.ANONYMOUS_USERS);
+        usersGroups.remove(AccountGroup.REGISTERED_USERS);
+        usersGroups.remove(authConfig.getBatchUsersGroup());
+        for (AccountGroup.UUID usersGroup : usersGroups) {
+          try {
+            if (groupControlFactory.controlFor(usersGroup).isVisible()) {
+              map.put(account.getId(), info);
+              break;
+            }
+          } catch (NoSuchGroupException e) {
+            continue;
+          }
+        }
+        break;
+      }
       case OFF:
         break;
       default:

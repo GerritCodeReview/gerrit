@@ -25,8 +25,8 @@ limitations under the License.
   >
 <ui:with field='res' type='com.google.gerrit.client.admin.AdminResources'/>
 <ui:style>
-  @eval selectionColor com.google.gerrit.client.Gerrit.getConfig().getSelectionColor();
-  @eval backgroundColor com.google.gerrit.client.Gerrit.getConfig().getBackgroundColor();
+  @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
+  @eval backgroundColor com.google.gerrit.client.Gerrit.getTheme().backgroundColor;
 
   .panel {
     position: relative;

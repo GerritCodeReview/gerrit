@@ -38,11 +38,11 @@
 @def norm-font  Arial Unicode MS, Arial, sans-serif;
 @def mono-font 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
 
-@eval backgroundColor com.google.gerrit.client.Gerrit.getConfig().getBackgroundColor();
-@eval topMenuColor com.google.gerrit.client.Gerrit.getConfig().getTopMenuColor();
-@eval textColor com.google.gerrit.client.Gerrit.getConfig().getTextColor();;
-@eval trimColor com.google.gerrit.client.Gerrit.getConfig().getTrimColor();
-@eval selectionColor com.google.gerrit.client.Gerrit.getConfig().getSelectionColor();
+@eval backgroundColor com.google.gerrit.client.Gerrit.getTheme().backgroundColor;
+@eval topMenuColor com.google.gerrit.client.Gerrit.getTheme().topMenuColor;
+@eval textColor com.google.gerrit.client.Gerrit.getTheme().textColor;
+@eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
+@eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
 
 
 @sprite .greenCheckClass {

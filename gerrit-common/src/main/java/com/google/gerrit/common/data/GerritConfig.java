@@ -42,12 +42,6 @@ public class GerritConfig implements Cloneable {
   protected List<RegexFindReplace> commentLinks;
   protected boolean documentationAvailable;
 
-  protected String backgroundColor;
-  protected String topMenuColor;
-  protected String textColor;
-  protected String trimColor;
-  protected String selectionColor;
-
   public String getRegisterUrl() {
     return registerUrl;
   }
@@ -165,45 +159,5 @@ public class GerritConfig implements Cloneable {
 
   public void setDocumentationAvailable(final boolean available) {
     documentationAvailable = available;
-  }
-
-  public String getBackgroundColor() {
-    return backgroundColor;
-  }
-
-  public void setBackgroundColor(String color) {
-    backgroundColor = color;
-  }
-
-  public String getTopMenuColor() {
-    return topMenuColor;
-  }
-
-  public void setTopMenuColor(String color) {
-    topMenuColor = color;
-  }
-
-  public String getTextColor() {
-    return textColor;
-  }
-
-  public void setTextColor(String color) {
-    textColor = color;
-  }
-
-  public String getTrimColor() {
-    return trimColor;
-  }
-
-  public void setTrimColor(String color) {
-    trimColor = color;
-  }
-
-  public String getSelectionColor() {
-    return selectionColor;
-  }
-
-  public void setSelectionColor(String color) {
-    selectionColor = color;
   }
 }

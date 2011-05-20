@@ -23,10 +23,10 @@
 @external .gwt-TabPanel;
 @external .gwt-TabPanelBottom;
 
-@eval backgroundColor com.google.gerrit.client.Gerrit.getConfig().getBackgroundColor();
-@eval textColor com.google.gerrit.client.Gerrit.getConfig().getTextColor();;
-@eval trimColor com.google.gerrit.client.Gerrit.getConfig().getTrimColor();
-@eval selectionColor com.google.gerrit.client.Gerrit.getConfig().getSelectionColor();
+@eval backgroundColor com.google.gerrit.client.Gerrit.getTheme().backgroundColor;
+@eval textColor com.google.gerrit.client.Gerrit.getTheme().textColor;
+@eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
+@eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
 
 body {
   background: backgroundColor;

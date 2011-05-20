@@ -26,7 +26,15 @@ public class NoSuchGroupException extends Exception {
     this(key, null);
   }
 
+  public NoSuchGroupException(final AccountGroup.UUID key) {
+    this(key, null);
+  }
+
   public NoSuchGroupException(final AccountGroup.Id key, final Throwable why) {
+    super(MESSAGE + key.toString(), why);
+  }
+
+  public NoSuchGroupException(final AccountGroup.UUID key, final Throwable why) {
     super(MESSAGE + key.toString(), why);
   }
 

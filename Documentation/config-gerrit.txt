@@ -1779,6 +1779,9 @@ or a user to a group.
 If `SAME_GROUP`, only users who are also members of a group the
 current user is a member of will be offered.
 +
+If `VISIBLE_GROUP`, only users who are members of at least one group
+that is visible to the current user will be offered.
++
 If `OFF`, no account suggestions are given.
 +
 Default is `ALL`.
@@ -1792,7 +1795,8 @@ Background color for the page, and major data tables like the all
 open changes table or the account dashboard. The value must be a
 valid HTML hex color code, or standard color name.
 +
-By default white, `FFFFFF`.
+By default white, `FFFFFF` for signed-out theme and `FCFEEF` (creme)
+for signed-in theme.
 
 [[theme.topMenuColor]]theme.topMenuColor::
 +
@@ -1826,6 +1830,19 @@ currently selected row.  The value must be a valid HTML hex color
 code, or standard color name.
 +
 By default a shade of yellow, `FFFFCC`.
+
+A different theme may be used for signed-in vs. signed-out user status
+by using the "signed-in" and "signed-out" theme sections. Variables
+not specified in a section are inherited from the default theme.
+
+----
+[theme]
+  backgroundColor = FFFFFF
+[theme "signed-in"]
+  backgroundColor = C0C0C0
+[theme "signed-out"]
+  backgroundColor = 00FFFF
+----
 
 [[trackingid]] Section trackingid
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

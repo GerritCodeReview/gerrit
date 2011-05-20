@@ -18,6 +18,7 @@ import static com.google.gerrit.common.data.AccessSection.isAccessSection;
 import static com.google.gerrit.common.data.Permission.isPermission;
 
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -53,6 +54,8 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String ACCESS = "access";
   private static final String KEY_INHERIT_FROM = "inheritFrom";
   private static final String KEY_GROUP_PERMISSIONS = "exclusiveGroupPermissions";
+
+  private static final String CAPABILITY = "capability";
 
   private static final String RECEIVE = "receive";
   private static final String KEY_REQUIRE_SIGNED_OFF_BY = "requireSignedOffBy";
@@ -207,34 +210,54 @@ public class ProjectConfig extends VersionedMetaData {
         for (String varName : rc.getNames(ACCESS, refName)) {
           if (isPermission(varName)) {
             Permission perm = as.getPermission(varName, true);
-
-            boolean useRange = perm.isLabel();
-            for (String ruleString : rc.getStringList(ACCESS, refName, varName)) {
-              PermissionRule rule;
-              try {
-                rule = PermissionRule.fromString(ruleString, useRange);
-              } catch (IllegalArgumentException notRule) {
-                throw new ConfigInvalidException("Invalid rule in " + ACCESS
-                    + "." + refName + "." + varName + ": "
-                    + notRule.getMessage(), notRule);
-              }
-
-              GroupReference ref = groupsByName.get(rule.getGroup().getName());
-              if (ref == null) {
-                // The group wasn't mentioned in the groups table, so there is
-                // no valid UUID for it. Pool the reference anyway so at least
-                // all rules in the same file share the same GroupReference.
-                //
-                ref = rule.getGroup();
-                groupsByName.put(ref.getName(), ref);
-              }
-
-              rule.setGroup(ref);
-              perm.add(rule);
-            }
+            loadPermissionRules(rc, ACCESS, refName, varName, groupsByName,
+                perm, perm.isLabel());
           }
         }
       }
+    }
+
+    AccessSection capability = null;
+    for (String varName : rc.getNames(CAPABILITY)) {
+      if (GlobalCapability.isCapability(varName)) {
+        if (capability == null) {
+          capability = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
+          accessSections.put(AccessSection.GLOBAL_CAPABILITIES, capability);
+        }
+        Permission perm = capability.getPermission(varName, true);
+        loadPermissionRules(rc, CAPABILITY, null, varName, groupsByName, perm,
+            GlobalCapability.hasRange(varName));
+      }
+    }
+  }
+
+  private void loadPermissionRules(Config rc, String section,
+      String subsection, String varName,
+      Map<String, GroupReference> groupsByName, Permission perm,
+      boolean useRange) throws ConfigInvalidException {
+    for (String ruleString : rc.getStringList(section, subsection, varName)) {
+      PermissionRule rule;
+      try {
+        rule = PermissionRule.fromString(ruleString, useRange);
+      } catch (IllegalArgumentException notRule) {
+        throw new ConfigInvalidException("Invalid rule in " + section
+            + (subsection != null ? "." + subsection : "")
+            + "." + varName
+            + ": " + notRule.getMessage(), notRule);
+      }
+
+      GroupReference ref = groupsByName.get(rule.getGroup().getName());
+      if (ref == null) {
+        // The group wasn't mentioned in the groups table, so there is
+        // no valid UUID for it. Pool the reference anyway so at least
+        // all rules in the same file share the same GroupReference.
+        //
+        ref = rule.getGroup();
+        groupsByName.put(ref.getName(), ref);
+      }
+
+      rule.setGroup(ref);
+      perm.add(rule);
     }
   }
 
@@ -291,8 +314,36 @@ public class ProjectConfig extends VersionedMetaData {
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.isUseContentMerge());
 
     Set<AccountGroup.UUID> keepGroups = new HashSet<AccountGroup.UUID>();
+    AccessSection capability = accessSections.get(AccessSection.GLOBAL_CAPABILITIES);
+    if (capability != null) {
+      Set<String> have = new HashSet<String>();
+      for (Permission permission : sort(capability.getPermissions())) {
+        have.add(permission.getName().toLowerCase());
+
+        boolean needRange = GlobalCapability.hasRange(permission.getName());
+        List<String> rules = new ArrayList<String>();
+        for (PermissionRule rule : sort(permission.getRules())) {
+          GroupReference group = rule.getGroup();
+          if (group.getUUID() != null) {
+            keepGroups.add(group.getUUID());
+          }
+          rules.add(rule.asString(needRange));
+        }
+        rc.setStringList(CAPABILITY, null, permission.getName(), rules);
+      }
+      for (String varName : rc.getNames(CAPABILITY)) {
+        if (GlobalCapability.isCapability(varName)
+            && !have.contains(varName.toLowerCase())) {
+          rc.unset(CAPABILITY, null, varName);
+        }
+      }
+    }
+
     for (AccessSection as : sort(accessSections.values())) {
       String refName = as.getRefPattern();
+      if (AccessSection.GLOBAL_CAPABILITIES.equals(refName)) {
+        continue;
+      }
 
       StringBuilder doNotInherit = new StringBuilder();
       for (Permission perm : sort(as.getPermissions())) {

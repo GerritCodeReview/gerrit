@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.events.ChangeAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.QueryStats;
@@ -77,11 +80,17 @@ public class QueryProcessor {
   @Inject
   QueryProcessor(EventFactory eventFactory,
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
-      ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db) {
+      ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db,
+      CapabilityControl ctl) {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
     this.db = db;
+
+    PermissionRange range = ctl.getRange(GlobalCapability.QUERY_LIMIT);
+    if (range != null) {
+      defaultLimit = range.getMax();
+    }
   }
 
   public void setIncludePatchSets(boolean on) {

@@ -1373,8 +1373,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           insertDummyApproval(result, reviewer, catId, db);
         }
       }
-
-      hooks.doPatchsetCreatedHook(result.change, ps);
     }
 
     final RefUpdate ru = repo.updateRef(ps.getRefName());
@@ -1385,6 +1383,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           + repo.getDirectory() + ": " + ru.getResult());
     }
     replication.scheduleUpdate(project.getNameKey(), ru.getName());
+    hooks.doPatchsetCreatedHook(result.change, ps);
     request.cmd.setResult(ReceiveCommand.Result.OK);
 
     try {

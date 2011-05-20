@@ -24,6 +24,8 @@ import java.util.List;
 public class ReviewerResult {
   protected List<Error> errors;
   protected ChangeDetail change;
+  protected int memberCount;
+  protected boolean askForConfirmation;
 
   public ReviewerResult() {
     errors = new ArrayList<Error>();
@@ -45,16 +47,41 @@ public class ReviewerResult {
     change = d;
   }
 
+  public int getMemberCount() {
+    return memberCount;
+  }
+
+  public void setMemberCount(final int memberCount) {
+    this.memberCount = memberCount;
+  }
+
+  public boolean askForConfirmation() {
+    return askForConfirmation;
+  }
+
+  public void setAskForConfirmation(final boolean askForConfirmation) {
+    this.askForConfirmation = askForConfirmation;
+  }
+
   public static class Error {
     public static enum Type {
       /** Name supplied does not match to a registered account. */
-      ACCOUNT_NOT_FOUND,
+      ACCOUNT_OR_GROUP_NOT_FOUND,
 
       /** The account is inactive. */
       ACCOUNT_INACTIVE,
 
       /** The account is not permitted to see the change. */
       CHANGE_NOT_VISIBLE,
+
+      /** The groups has no members. */
+      GROUP_EMPTY,
+
+      /** The groups has too many members. */
+      GROUP_HAS_TOO_MANY_MEMBERS,
+
+      /** The group is not allowed to be added as reviewer. */
+      GROUP_NOT_ALLOWED,
 
       /** Could not remove this reviewer from the change. */
       COULD_NOT_REMOVE

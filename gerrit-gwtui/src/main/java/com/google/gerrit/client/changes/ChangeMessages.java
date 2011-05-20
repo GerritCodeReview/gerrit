@@ -50,9 +50,13 @@ public interface ChangeMessages extends Messages {
   String changeQueryWindowTitle(String query);
   String changeQueryPageTitle(String query);
 
-  String accountNotFound(String who);
+  String accountOrGroupNotFound(String who);
   String accountInactive(String who);
   String changeNotVisibleTo(String who);
+  String groupIsEmpty(String group);
+  String groupIsNotAllowed(String group);
+  String groupHasTooManyMembers(String group);
+  String groupManyMembersConfirmation(String group, int memberCount);
 
   String anonymousDownload(String protocol);
 }

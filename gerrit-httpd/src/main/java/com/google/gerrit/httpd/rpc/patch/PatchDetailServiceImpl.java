@@ -155,8 +155,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   }
 
   public void addReviewers(final Change.Id id, final List<String> reviewers,
-      final AsyncCallback<ReviewerResult> callback) {
-    addReviewerFactory.create(id, reviewers).to(callback);
+      final boolean confirmed, final AsyncCallback<ReviewerResult> callback) {
+    addReviewerFactory.create(id, reviewers, confirmed).to(callback);
   }
 
   public void removeReviewer(final Change.Id id, final Account.Id reviewerId,

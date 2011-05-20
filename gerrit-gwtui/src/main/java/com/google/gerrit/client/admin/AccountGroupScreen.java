@@ -22,7 +22,6 @@ import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.AddMemberBox;
-import com.google.gerrit.client.ui.AddIncludedGroupBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.OnEditEnabler;
@@ -90,7 +89,7 @@ public class AccountGroupScreen extends AccountScreen {
   private Button delMember;
 
   private Panel includePanel;
-  private AddIncludedGroupBox addIncludeBox;
+  private AddMemberBox addIncludeBox;
   private Button delInclude;
 
   private Panel externalPanel;
@@ -360,7 +359,9 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   private void initIncludeList() {
-    addIncludeBox = new AddIncludedGroupBox();
+    addIncludeBox =
+        new AddMemberBox(Util.C.buttonAddIncludedGroup(),
+            Util.C.defaultAccountGroupName(), new AccountGroupSuggestOracle());
 
     addIncludeBox.addClickHandler(new ClickHandler() {
       @Override

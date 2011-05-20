@@ -24,6 +24,29 @@ Sample `etc/gerrit.config`:
   diskbuffer = 10 m
 ----
 
+[[addreviewer]]Section addreviewer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[addreviewer.maxWithoutConfirmation]]addreviewer.maxWithoutConfirmation::
++
+The maximum number of reviewers a user can add at once by adding a
+group as reviewer without being asked to confirm the operation.
++
+If set to 0, the user will never be asked to confirm adding a group
+as reviewer.
++
+Default is 10.
+
+[[addreviewer.maxAllowed]]addreviewer.maxAllowed::
++
+The maximum number of reviewers a user can add at once by adding a
+group as reviewer.
++
+If set to 0, there is no limit for the number of reviewers that can
+be added at once by adding a group as reviewer.
++
+Default is 20.
+
 [[auth]]Section auth
 ~~~~~~~~~~~~~~~~~~~~
 

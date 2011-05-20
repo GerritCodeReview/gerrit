@@ -35,8 +35,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-class GroupDetailFactory extends Handler<GroupDetail> {
-  interface Factory {
+public class GroupDetailFactory extends Handler<GroupDetail> {
+  public interface Factory {
     GroupDetailFactory create(AccountGroup.Id groupId);
   }
 

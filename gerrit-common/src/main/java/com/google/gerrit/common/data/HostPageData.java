@@ -22,4 +22,13 @@ public class HostPageData {
   public Account account;
   public AccountDiffPreference accountDiffPref;
   public GerritConfig config;
+  public Theme theme;
+
+  public static class Theme {
+    public String backgroundColor;
+    public String topMenuColor;
+    public String textColor;
+    public String trimColor;
+    public String selectionColor;
+  }
 }

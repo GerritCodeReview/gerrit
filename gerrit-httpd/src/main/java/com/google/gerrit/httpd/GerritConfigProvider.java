@@ -149,26 +149,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     }
     config.setCommentLinks(links);
 
-    config.setBackgroundColor(getThemeColor("backgroundColor", "#FFFFFF"));
-    config.setTextColor(getThemeColor("textColor", "#000000"));
-    config.setTrimColor(getThemeColor("trimColor", "#D4E9A9"));
-    config.setSelectionColor(getThemeColor("selectionColor", "#FFFFCC"));
-
-    config
-        .setTopMenuColor(getThemeColor("topMenuColor", config.getTrimColor()));
-
     return config;
-  }
-
-  private String getThemeColor(String name, String defaultValue) {
-    String v = cfg.getString("theme", null, name);
-    if (v == null || v.isEmpty()) {
-      v = defaultValue;
-    }
-    if (!v.startsWith("#") && v.matches("^[0-9a-fA-F]{2,6}$")) {
-      v = "#" + v;
-    }
-    return v;
   }
 
   @Override

@@ -62,6 +62,8 @@ public class HostPageServlet extends HttpServlet {
 
   private final Provider<CurrentUser> currentUser;
   private final GerritConfig config;
+  private final HostPageData.Theme signedOutTheme;
+  private final HostPageData.Theme signedInTheme;
   private final SitePaths site;
   private final Document template;
   private final String noCacheName;
@@ -70,10 +72,12 @@ public class HostPageServlet extends HttpServlet {
 
   @Inject
   HostPageServlet(final Provider<CurrentUser> cu, final SitePaths sp,
-      final GerritConfig gc, final ServletContext servletContext)
-      throws IOException, ServletException {
+      final ThemeFactory themeFactory, final GerritConfig gc,
+      final ServletContext servletContext) throws IOException, ServletException {
     currentUser = cu;
     config = gc;
+    signedOutTheme = themeFactory.getSignedOutTheme();
+    signedInTheme = themeFactory.getSignedInTheme();
     site = sp;
 
     final String pageName = "HostPage.html";
@@ -158,12 +162,16 @@ public class HostPageServlet extends HttpServlet {
       w.write(HPD_ID + ".account=");
       json(((IdentifiedUser) user).getAccount(), w);
       w.write(";");
+
       w.write(HPD_ID + ".accountDiffPref=");
       json(((IdentifiedUser) user).getAccountDiffPreference(), w);
       w.write(";");
 
-      final byte[] userData = w.toString().getBytes("UTF-8");
+      w.write(HPD_ID + ".theme=");
+      json(signedInTheme, w);
+      w.write(";");
 
+      final byte[] userData = w.toString().getBytes("UTF-8");
       raw = concat(page.part1, userData, page.part2);
     } else {
       raw = page.full;
@@ -303,7 +311,14 @@ public class HostPageServlet extends HttpServlet {
         }
         part1 = raw.substring(0, p).getBytes("UTF-8");
         part2 = raw.substring(raw.indexOf('>', p) + 1).getBytes("UTF-8");
-        full = concat(part1, part2, new byte[0]);
+
+        final StringWriter w = new StringWriter();
+        w.write(HPD_ID + ".theme=");
+        json(signedOutTheme, w);
+        w.write(";");
+
+        final byte[] themeData = w.toString().getBytes("UTF-8");
+        full = concat(part1, themeData, part2);
         full_gz = HtmlDomUtil.compress(full);
       }
     }

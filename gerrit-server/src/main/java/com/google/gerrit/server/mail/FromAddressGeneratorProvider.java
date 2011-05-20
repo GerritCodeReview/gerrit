@@ -52,8 +52,8 @@ public class FromAddressGeneratorProvider implements
 
     } else {
       final Address a = Address.parse(from);
-      final ParamertizedString name = new ParamertizedString(a.name);
-      if (name.getParameterNames().isEmpty()) {
+      final ParamertizedString name = a.name != null ? new ParamertizedString(a.name) : null;
+      if (name == null || name.getParameterNames().isEmpty()) {
         generator = new ServerGen(a);
       } else {
         generator = new PatternGen(srvAddr, accountCache, name, a.email);

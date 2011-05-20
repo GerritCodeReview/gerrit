@@ -23,10 +23,15 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -44,21 +49,28 @@ public class ProjectState {
   private final Project.NameKey wildProject;
   private final ProjectCache projectCache;
   private final ProjectControl.AssistedFactory projectControlFactory;
+  private final GitRepositoryManager gitMgr;
 
   private final ProjectConfig config;
   private final Set<AccountGroup.UUID> localOwners;
+
+  /** Last system time the configuration's revision was examined. */
+  private transient long lastCheckTime;
 
   @Inject
   protected ProjectState(final AnonymousUser anonymousUser,
       final ProjectCache projectCache,
       @WildProjectName final Project.NameKey wildProject,
       final ProjectControl.AssistedFactory projectControlFactory,
+      final GitRepositoryManager gitMgr,
       @Assisted final ProjectConfig config) {
     this.anonymousUser = anonymousUser;
     this.projectCache = projectCache;
     this.wildProject = wildProject;
     this.projectControlFactory = projectControlFactory;
+    this.gitMgr = gitMgr;
     this.config = config;
+    this.lastCheckTime = System.currentTimeMillis();
 
     HashSet<AccountGroup.UUID> groups = new HashSet<AccountGroup.UUID>();
     AccessSection all = config.getAccessSection(AccessSection.ALL);
@@ -74,6 +86,34 @@ public class ProjectState {
       }
     }
     localOwners = Collections.unmodifiableSet(groups);
+  }
+
+  boolean needsRefresh(long generation) {
+    if (generation <= 0) {
+      return isRevisionOutOfDate();
+    }
+    if (lastCheckTime != generation) {
+      lastCheckTime = generation;
+      return isRevisionOutOfDate();
+    }
+    return false;
+  }
+
+  private boolean isRevisionOutOfDate() {
+    try {
+      Repository git = gitMgr.openRepository(getProject().getNameKey());
+      try {
+        Ref ref = git.getRef(GitRepositoryManager.REF_CONFIG);
+        if (ref == null || ref.getObjectId() == null) {
+          return true;
+        }
+        return !ref.getObjectId().equals(config.getRevision());
+      } finally {
+        git.close();
+      }
+    } catch (IOException gone) {
+      return true;
+    }
   }
 
   public Project getProject() {

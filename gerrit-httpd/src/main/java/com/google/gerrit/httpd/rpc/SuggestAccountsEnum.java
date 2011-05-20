@@ -17,5 +17,6 @@ package com.google.gerrit.httpd.rpc;
 public enum SuggestAccountsEnum {
   ALL,
   SAME_GROUP,
+  VISIBLE_GROUP,
   OFF;
 }

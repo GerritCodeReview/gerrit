@@ -1779,6 +1779,9 @@ or a user to a group.
 If `SAME_GROUP`, only users who are also members of a group the
 current user is a member of will be offered.
 +
+If `VISIBLE_GROUP`, only users who are members of at least one group
+that is visible to the current user will be offered.
++
 If `OFF`, no account suggestions are given.
 +
 Default is `ALL`.

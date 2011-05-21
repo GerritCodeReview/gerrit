@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABBX///8s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-21T00:34:19Z",
+      "side": 1,
+      "message": "The WorkQueue isn\u0027t actually required. I\u0027ll remove it.",
+      "revId": "221253b2487ab04fb46c07e5af1a8b476dd1a642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

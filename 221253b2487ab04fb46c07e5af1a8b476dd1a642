@@ -33,6 +33,24 @@
       "revId": "221253b2487ab04fb46c07e5af1a8b476dd1a642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABBX///8c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-05-21T00:45:56Z",
+      "side": 1,
+      "message": "We don\u0027t have checkFrequencyMillis. But yes, there is a bug in the ProjectCacheImpl. It needs to set the generation to -1 when the configuration is \u003c\u003d 0.",
+      "parentUuid": "AAABBX///8k\u003d",
+      "revId": "221253b2487ab04fb46c07e5af1a8b476dd1a642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

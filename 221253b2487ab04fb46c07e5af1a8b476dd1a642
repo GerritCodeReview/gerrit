@@ -16,6 +16,23 @@
       "revId": "221253b2487ab04fb46c07e5af1a8b476dd1a642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABBX///8k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-05-21T00:44:23Z",
+      "side": 1,
+      "message": "shouldn\u0027t this stay as it was in the first patch set?\n\nif (checkFrequencyMillis \u003c\u003d 0) {\n\nIf checkFrequencyMillis was set to 0 in the gerrit.config we want to check each time.",
+      "revId": "221253b2487ab04fb46c07e5af1a8b476dd1a642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

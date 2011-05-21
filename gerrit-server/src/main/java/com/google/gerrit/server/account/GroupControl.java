@@ -39,7 +39,7 @@ public class GroupControl {
       if (group == null) {
         throw new NoSuchGroupException(groupId);
       }
-      return new GroupControl(user.get(), group);
+      return new GroupControl(groupCache, user.get(), group);
     }
 
     public GroupControl controlFor(final AccountGroup.UUID groupId)
@@ -48,11 +48,11 @@ public class GroupControl {
       if (group == null) {
         throw new NoSuchGroupException(groupId);
       }
-      return new GroupControl(user.get(), group);
+      return new GroupControl(groupCache, user.get(), group);
     }
 
     public GroupControl controlFor(final AccountGroup group) {
-      return new GroupControl(user.get(), group);
+      return new GroupControl(groupCache, user.get(), group);
     }
 
     public GroupControl validateFor(final AccountGroup.Id groupId)
@@ -65,10 +65,13 @@ public class GroupControl {
     }
   }
 
+  private final GroupCache groupCache;
   private final CurrentUser user;
   private final AccountGroup group;
+  private Boolean isOwner;
 
-  GroupControl(final CurrentUser who, final AccountGroup gc) {
+  GroupControl(GroupCache g, CurrentUser who, AccountGroup gc) {
+    groupCache = g;
     user = who;
     group = gc;
   }
@@ -87,9 +90,13 @@ public class GroupControl {
   }
 
   public boolean isOwner() {
-    final AccountGroup.Id owner = group.getOwnerGroupId();
-    return getCurrentUser().getEffectiveGroups().contains(owner)
-        || getCurrentUser().isAdministrator();
+    if (isOwner == null) {
+      AccountGroup g = groupCache.get(group.getOwnerGroupId());
+      AccountGroup.UUID ownerUUID = g != null ? g.getGroupUUID() : null;
+      isOwner = getCurrentUser().getEffectiveGroups().contains(ownerUUID)
+             || getCurrentUser().isAdministrator();
+    }
+    return isOwner;
   }
 
   public boolean canAddMember(final Account.Id id) {

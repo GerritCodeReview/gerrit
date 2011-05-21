@@ -13,6 +13,8 @@
 // limitations under the License.
 package com.google.gerrit.server.git;
 
+import org.eclipse.jgit.revwalk.RevCommit;
+
 /**
  * Thrown when creation of a code review note fails.
  */
@@ -27,9 +29,9 @@ public class CodeReviewNoteCreationException extends Exception {
     super(why);
   }
 
-  public CodeReviewNoteCreationException(final CodeReviewCommit commit,
+  public CodeReviewNoteCreationException(final RevCommit commit,
       final Throwable cause) {
     super("Couldn't create code review note for the following commit: "
-        + commit, cause);
+        + commit.name(), cause);
   }
 }

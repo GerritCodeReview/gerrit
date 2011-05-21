@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class ApprovalTypesProvider implements Provider<ApprovalTypes> {
+public class ApprovalTypesProvider implements Provider<ApprovalTypes> {
   private final SchemaFactory<ReviewDb> schema;
 
   @Inject

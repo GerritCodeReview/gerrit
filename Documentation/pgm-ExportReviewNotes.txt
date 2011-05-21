@@ -1,0 +1,51 @@
+ExportReviewNotes
+=================
+
+NAME
+----
+ExportReviewNotes - Export successful reviews to refs/notes/review
+
+SYNOPSIS
+--------
+[verse]
+'java' -jar gerrit.war 'ExportReviewNotes' -d <SITE_PATH>
+
+DESCRIPTION
+-----------
+Scans every submitted change and creates an initial notes
+branch detailing the previous submission information for
+each merged changed.
+
+This task can take quite some time, but can run in the background
+concurrently to the server if the database is MySQL or PostgreSQL.
+If the database is H2, this task must be run by itself.
+
+OPTIONS
+-------
+
+-d::
+\--site-path::
+	Location of the gerrit.config file, and all other per-site
+	configuration data, supporting libaries and log files.
+
+\--threads::
+	Number of threads to perform the scan work with.  Defaults to
+	twice the number of CPUs available.
+
+CONTEXT
+-------
+This command can only be run on a server which has direct
+connectivity to the metadata database, and local access to the
+managed Git repositories.
+
+EXAMPLES
+--------
+To generate all review information:
+
+====
+	$ java -jar gerrit.war ExportReviewNotes -d site_path --threads 16
+====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

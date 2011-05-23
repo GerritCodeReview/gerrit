@@ -24,8 +24,6 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.cache.CachePool;
@@ -47,7 +45,6 @@ import com.google.inject.Scopes;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.lib.ThreadSafeProgressMonitor;
@@ -94,13 +91,10 @@ public class ExportReviewNotes extends SiteProgram {
     gitInjector = dbInjector.createChildInjector(new AbstractModule() {
       @Override
       protected void configure() {
-        bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
         bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
             Scopes.SINGLETON);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)
             .toProvider(CanonicalWebUrlProvider.class).in(Scopes.SINGLETON);
-        bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
-            .toProvider(GerritPersonIdentProvider.class).in(Scopes.SINGLETON);
         bind(CachePool.class);
 
         install(AccountCacheImpl.module());

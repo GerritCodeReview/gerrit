@@ -76,13 +76,23 @@ public class RefControlTest extends TestCase {
 
     assertNotOwner("refs/*", uDev);
     assertNotOwner("refs/heads/master", uDev);
+    assertNotOwner("refs/heads/master/x", uDev);
+
+    // Odd stuff
+    assertNotOwner("refs/heads/*/x", uDev);
+    assertNotOwner("refs/*/x", uDev);
+    assertNotOwner("refs/heads/y/../x/*", uDev);
   }
 
   public void testBranchDelegation2() {
     grant(local, OWNER, admin, "refs/*");
     grant(local, OWNER, devs, "refs/heads/x/*");
     grant(local, OWNER, fixers, "refs/heads/x/y/*");
-    doNotInherit(local, OWNER, "refs/heads/x/y/*");
+    exclusive(local, OWNER, "refs/heads/x/y/*");
+
+    ProjectControl uAdmin = user(devs, admin);
+    assertTrue("owns ref", uAdmin.isOwner());
+    assertOwner("refs/heads/x/y/*", uAdmin);
 
     ProjectControl uDev = user(devs);
     assertFalse("not owner", uDev.isOwner());
@@ -106,12 +116,54 @@ public class RefControlTest extends TestCase {
     assertNotOwner("refs/heads/master", uFix);
   }
 
+  public void testInherit() {
+    grant(wild, READ, registered, "refs/*");
+    grant(parent, PUSH, registered, "refs/*");
+
+    ProjectControl u = user();
+    assertTrue("can read", u.isVisible());
+    assertTrue("can push", u.canPushToAtLeastOneRef());
+  }
+
+  public void testInheritRead_OverrideWithDeny() {
+    grant(parent, READ, registered, "refs/*");
+    grant(local, READ, registered, "refs/*").setDeny(true);
+
+    ProjectControl u = user();
+    assertFalse("can't read", u.isVisible());
+  }
+
+  public void testInheritRead_OverrideWithDeny2() {
+    grant(wild, READ, registered, "refs/*");
+    grant(local, READ, registered, "refs/*").setDeny(true);
+
+    ProjectControl u = user();
+    assertFalse("can't read", u.isVisible());
+  }
+
+  public void testInheritRead_OverrideWithDeny3() {
+    grant(wild, READ, registered, "refs/*");
+    grant(parent, READ, registered, "refs/*").setDeny(true);
+
+    ProjectControl u = user();
+    assertFalse("can't read", u.isVisible());
+  }
+
+  public void testInheritRead_RevertOverride() {
+    grant(wild, READ, registered, "refs/*");
+    grant(parent, READ, registered, "refs/*").setDeny(true);
+    grant(local, READ, registered, "refs/*");
+
+    ProjectControl u = user();
+    assertTrue("can read", u.isVisible());
+  }
+
   public void testInheritRead_SingleBranchDeniesUpload() {
     grant(parent, READ, registered, "refs/*");
     grant(parent, PUSH, registered, "refs/for/refs/*");
     grant(local, READ, registered, "refs/heads/foobar");
-    doNotInherit(local, READ, "refs/heads/foobar");
-    doNotInherit(local, PUSH, "refs/for/refs/heads/foobar");
+    exclusive(local, READ, "refs/heads/foobar");
+    exclusive(local, PUSH, "refs/for/refs/heads/foobar");
 
     ProjectControl u = user();
     assertTrue("can upload", u.canPushToAtLeastOneRef());
@@ -136,14 +188,6 @@ public class RefControlTest extends TestCase {
 
     assertTrue("can upload refs/heads/foobar", //
         u.controlForRef("refs/heads/foobar").canUpload());
-  }
-
-  public void testInheritRead_OverrideWithDeny() {
-    grant(parent, READ, registered, "refs/*");
-    grant(local, READ, registered, "refs/*").setDeny(true);
-
-    ProjectControl u = user();
-    assertFalse("can't read", u.isVisible());
   }
 
   public void testInheritRead_AppendWithDenyOfRef() {
@@ -194,6 +238,9 @@ public class RefControlTest extends TestCase {
 
   // -----------------------------------------------------------------------
 
+  private Project.NameKey wildProject = new Project.NameKey("-- All Projects --");
+
+  private ProjectConfig wild;
   private ProjectConfig local;
   private ProjectConfig parent;
   private final AccountGroup.UUID admin = new AccountGroup.UUID("test.admin");
@@ -238,6 +285,9 @@ public class RefControlTest extends TestCase {
   public void setUp() throws Exception {
     super.setUp();
 
+    wild = new ProjectConfig(wildProject);
+    wild.createInMemory();
+
     parent = new ProjectConfig(new Project.NameKey("parent"));
     parent.createInMemory();
 
@@ -263,7 +313,7 @@ public class RefControlTest extends TestCase {
     return rule;
   }
 
-  private void doNotInherit(ProjectConfig project, String permissionName,
+  private void exclusive(ProjectConfig project, String permissionName,
       String ref) {
     project.getAccessSection(ref, true) //
         .getPermission(permissionName, true) //
@@ -318,12 +368,14 @@ public class RefControlTest extends TestCase {
     };
 
     GitRepositoryManager mgr = null;
-    Project.NameKey wildProject = new Project.NameKey("-- All Projects --");
     ProjectControl.AssistedFactory projectControlFactory = null;
     all.put(local.getProject().getNameKey(), new ProjectState(anonymousUser,
         projectCache, wildProject, projectControlFactory, mgr, local));
     all.put(parent.getProject().getNameKey(), new ProjectState(anonymousUser,
         projectCache, wildProject, projectControlFactory, mgr, parent));
+    all.put(wild.getProject().getNameKey(), new ProjectState(anonymousUser,
+        projectCache, wildProject, projectControlFactory, mgr, wild));
+
     return all.get(local.getProject().getNameKey());
   }
 

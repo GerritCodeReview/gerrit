@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -45,6 +46,123 @@ public class ProjectState {
     ProjectState create(ProjectConfig config);
   }
 
+  /** Used to record a snapshot of project's AccessSections along
+   *  with the revisionSet to which these sections apply
+   */
+  private static class AccessSections {
+    final Set<ObjectId> configRevisionSet;
+    final List<AccessSection> allAccessSections;
+
+    public AccessSections(final Set<ObjectId> configRevisionSet,
+        final List<AccessSection> allAccessSections) {
+      this.configRevisionSet = configRevisionSet;
+      this.allAccessSections = allAccessSections;
+    }
+  }
+
+  /** Read Only Version */
+  private static class ROAccessSections extends AccessSections {
+    public ROAccessSections(AccessSections as) {
+      super(as.configRevisionSet == null ? null :
+          Collections.unmodifiableSet(as.configRevisionSet),
+          Collections.unmodifiableList(as.allAccessSections));
+    }
+  }
+
+  /**
+   * Use this class to walk the ancestor tree, it will abort loops safely.
+   *
+   * This class provides the ability to store data of type T which
+   * can then be accessed with the get()/set() methods to pass
+   * to/from the child and parents, or to gather data between each
+   * parent invocation in the walkParent() method.
+   *
+   * This class is static to ensure that developers do not mistakingly
+   * access instance methods and variable in walkParent() since these
+   * would likely incorrectly always refer to the instance which
+   * initiated the walk and not the child ProjectState.
+   */
+  public abstract static class Walker<T> {
+    T data;
+    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
+
+    boolean abort = false;
+
+    final Project.NameKey wildProject;
+    final ProjectCache projectCache;
+
+    public Walker(Project.NameKey wild, ProjectCache cache) {
+      wildProject = wild;
+      projectCache = cache;
+    }
+
+    public T get() {
+      return data;
+    }
+
+    public void set(T d) {
+      data = d;
+    }
+
+    /**
+     * Used to indicate that the walk should no longer call any more
+     * parents at any level in the walk.  Use to quickly interrupt a
+     * walk.
+     */
+    public void abortWalk() {
+      abort = true;
+    }
+
+    /** Stack like walker (preserve/restore data before/after call) */
+    public T walkAncestors(ProjectState child, T d) {
+      T prev = get();
+      set(d);
+      T rtn = walkAncestors(child);
+      set(prev);
+      return rtn;
+    }
+
+    /**
+     * Call this method to walk each one of the parents and in turn
+     * call walkParent() with them as the parent argument.  Skips
+     * parents which have already been traversed by this walker
+     * at a previous level (to prevent looping).
+     */
+    public T walkAncestors(ProjectState child) {
+      if (! abort) {
+        Project.NameKey parent = child.getProject().getParent();
+        if (parent == null && ! child.isWildProject()) {
+          parent = wildProject;
+        }
+
+        if (seen.add(parent)) {
+          final ProjectState s = projectCache.get(parent);
+          if (s != null) {
+            walkParent(child, s);
+          }
+        }
+      }
+      return get();
+    }
+
+    /**
+     * In order to be able to walk all the way up the ancestory tree,
+     * this method must call a method in the parent ProjectState which
+     * will eventually call walkAncestors(...) somewhere in its code path.
+     */
+    public abstract void walkParent(ProjectState child, ProjectState parent);
+  }
+
+  /**
+   * Helper to setup the Walker with the required initiator's
+   *  instance variables
+   */
+  public abstract class MyWalker<T> extends Walker<T> {
+    public MyWalker() {
+      super(ProjectState.this.wildProject, ProjectState.this.projectCache);
+    }
+  }
+
   private final AnonymousUser anonymousUser;
   private final Project.NameKey wildProject;
   private final ProjectCache projectCache;
@@ -56,6 +174,7 @@ public class ProjectState {
 
   /** Last system time the configuration's revision was examined. */
   private transient long lastCheckTime;
+  private volatile AccessSections accessSections;
 
   @Inject
   protected ProjectState(final AnonymousUser anonymousUser,
@@ -124,48 +243,90 @@ public class ProjectState {
     return config;
   }
 
-  /** Get the rights that pertain only to this project. */
-  public Collection<AccessSection> getLocalAccessSections() {
-    return getConfig().getAccessSections();
+  /**
+   * @param walker Omit. Only used internally when recursing
+   * @return revision set of the metadata revisions of this project and
+   *         all its ancestors.  A null indicates an undeterminable
+   *         revision set and should be considered different from any
+   *         other revision set, including other null revision sets.
+   */
+  public Set<ObjectId> getConfigRevisionSet(Walker<Set<ObjectId>>... walker) {
+    if (walker.length == 0) {
+      return getConfigRevisionSet(this.new MyWalker<Set<ObjectId>>() {
+          {
+            set(new HashSet<ObjectId>());
+          }
+          @Override
+          public void walkParent(ProjectState child, ProjectState parent) {
+            parent.getConfigRevisionSet(this);
+          }
+        });
+    }
+
+    ObjectId revision = config.getRevision();
+    if (revision == null) {
+      walker[0].set(null);
+      walker[0].abortWalk();
+      return null;
+    }
+    walker[0].get().add(revision);
+
+    return walker[0].walkAncestors(this);
   }
 
-  /** Get the rights this project inherits. */
-  public Collection<AccessSection> getInheritedAccessSections() {
-    if (isWildProject()) {
-      return Collections.emptyList();
+  /** @param seen is the parents seen so far, used to detect loops */
+  protected AccessSections getAccessSections(Walker<AccessSections>... walker) {
+    Set<ObjectId> configRevisionSet = getConfigRevisionSet();
+    AccessSections as = accessSections;
+    if (as == null || configRevisionSet == null ||
+        !configRevisionSet.equals(as.configRevisionSet)) {
+      as = computeAccessSections(walker);
+      accessSections = as;
     }
-
-    List<AccessSection> inherited = new ArrayList<AccessSection>();
-    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
-    Project.NameKey parent = getProject().getParent();
-
-    while (parent != null && seen.add(parent)) {
-      ProjectState s = projectCache.get(parent);
-      if (s != null) {
-        inherited.addAll(s.getLocalAccessSections());
-        parent = s.getProject().getParent();
-      } else {
-        break;
-      }
-    }
-
-    // Wild project is the parent, or the root of the tree
-    if (parent == null) {
-      ProjectState s = projectCache.get(wildProject);
-      if (s != null) {
-        inherited.addAll(s.getLocalAccessSections());
-      }
-    }
-
-    return inherited;
+    return as;
   }
+
+  /** @param walker Omit. Only used internally when recursing */
+  private ROAccessSections computeAccessSections(Walker<AccessSections>... walker) {
+    if (walker.length == 0) {
+      return computeAccessSections(this.new MyWalker<AccessSections>() {
+          @Override
+          public void walkParent(ProjectState child, ProjectState parent) {
+            AccessSections as = get();
+            AccessSections pas = parent.getAccessSections(this);
+            as.allAccessSections.addAll(pas.allAccessSections);
+            if (as.configRevisionSet != null && pas.configRevisionSet != null) {
+              as.configRevisionSet.addAll(pas.configRevisionSet);
+            } else {
+              set(new AccessSections(null, as.allAccessSections));
+            }
+          }
+        });
+    }
+
+    Set<ObjectId> revisions = null;
+    ObjectId revision = config.getRevision();
+    if (revision != null) {
+      revisions = new HashSet<ObjectId>();
+      revisions.add(revision);
+    }
+
+    List<AccessSection> accessSections = new ArrayList<AccessSection>(
+        getConfig().getAccessSections());
+
+    AccessSections as = new AccessSections(revisions, accessSections);
+    walker[0].set(as);
+
+    if (! isWildProject()) {
+      walker[0].walkAncestors(this, as);
+    }
+    return new ROAccessSections(walker[0].get());
+  }
+
 
   /** Get both local and inherited access sections. */
   public Collection<AccessSection> getAllAccessSections() {
-    List<AccessSection> all = new ArrayList<AccessSection>();
-    all.addAll(getLocalAccessSections());
-    all.addAll(getInheritedAccessSections());
-    return all;
+    return getAccessSections().allAccessSections;
   }
 
   /**

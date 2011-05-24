@@ -8,7 +8,7 @@ gerrit ls-projects - List projects visible to caller
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit ls-projects' [\--show-branch <BRANCH>]
+'ssh' -p <port> <host> 'gerrit ls-projects' [\--show-branch <BRANCH1> ...]
 
 DESCRIPTION
 -----------
@@ -30,7 +30,13 @@ OPTIONS
 -------
 \--show-branch::
 \-b::
-	Name of the branch for which the command will display the sha of each project.
+	Branch for which the command will display the sha of each project.
+	The command may have multiple \--show-branch parameters, in this case
+	sha will be shown for each of the branches.
+	If the user does not have READ access to some branch or the branch does not
+	exist then stub (forty '\-' symbols) is shown.
+	If the user does not have access to any branch in the project then the
+	whole project is not shown.
 
 \--tree::
 \-t::

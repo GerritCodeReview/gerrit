@@ -1795,8 +1795,8 @@ Background color for the page, and major data tables like the all
 open changes table or the account dashboard. The value must be a
 valid HTML hex color code, or standard color name.
 +
-By default white, `FFFFFF` for signed-out theme and `FCFEEF` (creme)
-for signed-in theme.
+By default `FCFEEF` (a creme color) for signed-out theme and white
+(`FFFFFF`) for signed-in theme.
 
 [[theme.topMenuColor]]theme.topMenuColor::
 +

@@ -38,7 +38,7 @@ class ThemeFactory {
 
   private HostPageData.Theme getTheme(String name) {
     HostPageData.Theme theme = new HostPageData.Theme();
-    theme.backgroundColor = color(name, "backgroundColor", "#FFFFFF");
+    theme.backgroundColor = color(name, "backgroundColor", "#FCFEEF");
     theme.textColor = color(name, "textColor", "#000000");
     theme.trimColor = color(name, "trimColor", "#D4E9A9");
     theme.selectionColor = color(name, "selectionColor", "#FFFFCC");
@@ -52,7 +52,7 @@ class ThemeFactory {
       v = cfg.getString("theme", null, name);
       if (v == null || v.isEmpty()) {
         if ("signed-in".equals(section) && "backgroundColor".equals(name)) {
-          v = "#FCFEEF";
+          v = "#FFFFFF";
         } else {
           v = defaultValue;
         }

@@ -31,6 +31,7 @@ import org.kohsuke.args4j.Option;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -49,7 +50,7 @@ final class ListProjects extends BaseCommand {
   @Inject
   private GitRepositoryManager repoManager;
 
-  @Option(name = "--show-branch", aliases = {"-b"}, usage = "displays the sha of each project in the specified branch")
+  @Option(name = "--show-branch", aliases = {"-b"}, usage = "displays the sha of each project in the specified branches")
   private String showBranch;
 
   @Option(name = "--tree", aliases = {"-t"}, usage = "displays project inheritance in a tree-like format\n" +
@@ -82,6 +83,11 @@ final class ListProjects extends BaseCommand {
       treeMap = new TreeMap<String, TreeNode>();
     }
 
+    List<String> branchNames = new ArrayList<String>();
+    if (showBranch != null) {
+      branchNames = Arrays.asList(showBranch.split(","));
+    }
+
     try {
       for (final Project.NameKey projectName : projectCache.all()) {
         final ProjectState e = projectCache.get(projectName);
@@ -102,16 +108,37 @@ final class ListProjects extends BaseCommand {
           }
 
           if (showBranch != null) {
-            final Ref ref = getBranchRef(projectName);
-            if (ref == null || ref.getObjectId() == null
-                || !pctl.controlForRef(ref.getLeaf().getName()).isVisible()) {
-              // No branch, or the user can't see this branch, so skip it.
-              //
+            final List<Ref> refs = getBranchRefs(projectName, branchNames);
+            if (refs == null) {
               continue;
             }
 
-            stdout.print(ref.getObjectId().name());
-            stdout.print(' ');
+            boolean hasVisibleRefs = false;
+            for (int i = 0; i < refs.size(); i++) {
+              Ref ref = refs.get(i);
+              if (ref == null
+                || ref.getObjectId() == null
+                || !pctl.controlForRef(ref.getLeaf().getName()).isVisible()) {
+                // No branch, or the user can't see this branch, so remove it.
+                refs.set(i, null);
+              } else {
+                hasVisibleRefs = true;
+              }
+            }
+
+            if (!hasVisibleRefs) {
+             continue;
+            }
+
+            for (Ref ref : refs) {
+              if (ref == null) {
+                // Print stub forty '-' symbols
+                stdout.print("----------------------------------------");
+              } else {
+                stdout.print(ref.getObjectId().name());
+              }
+              stdout.print(' ');
+            }
           }
 
           stdout.print(projectName.get() + "\n");
@@ -151,11 +178,15 @@ final class ListProjects extends BaseCommand {
     }
   }
 
-  private Ref getBranchRef(Project.NameKey projectName) {
+  private List<Ref> getBranchRefs(Project.NameKey projectName, List<String> branches) {
     try {
       final Repository r = repoManager.openRepository(projectName);
       try {
-        return r.getRef(showBranch);
+        final List<Ref> result = new ArrayList<Ref>(branches.size());
+        for (String branch : branches) {
+          result.add(r.getRef(branch));
+        }
+        return result;
       } finally {
         r.close();
       }

@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -45,6 +46,20 @@ public class ProjectState {
     ProjectState create(ProjectConfig config);
   }
 
+  /** Used to record a snapshot of project's AccessSections along
+   *  with the revisionSet to which these sections apply
+   */
+  private static class AccessSections {
+    final Set<ObjectId> configRevisionSet;
+    final Collection<AccessSection> allAccessSections;
+
+    public AccessSections(final Set<ObjectId> configRevisionSet,
+        final Collection<AccessSection> allAccessSections) {
+      this.configRevisionSet = configRevisionSet;
+      this.allAccessSections = allAccessSections;
+    }
+  }
+
   private final AnonymousUser anonymousUser;
   private final Project.NameKey wildProject;
   private final ProjectCache projectCache;
@@ -56,6 +71,7 @@ public class ProjectState {
 
   /** Last system time the configuration's revision was examined. */
   private transient long lastCheckTime;
+  private volatile AccessSections accessSections;
 
   @Inject
   protected ProjectState(final AnonymousUser anonymousUser,
@@ -124,48 +140,82 @@ public class ProjectState {
     return config;
   }
 
-  /** Get the rights that pertain only to this project. */
-  public Collection<AccessSection> getLocalAccessSections() {
-    return getConfig().getAccessSections();
+  /**
+   * @param seen is the parents seen so far, used to detect loops
+   * @return revision set of the metadata revisions of this project and
+   *         all its ancestors.  A null indicates an undeterminable
+   *         revision set and should be considered different from any
+   *         other revision set, including other null revision sets.
+   */
+  protected Set<ObjectId> getConfigRevisionSet(Set<Project.NameKey> seen) {
+    ObjectId revision = config.getRevision();
+    if (revision == null) {
+      return null;
+    }
+    Set<ObjectId> revisions = new HashSet<ObjectId>();
+    revisions.add(revision);
+
+    ProjectState parent = projectCache.get(getProject().getParent());
+    if (parent == null) {
+      parent = projectCache.get(wildProject);
+    }
+    if (parent != null && seen.add(getProject().getNameKey())) {
+      Set<ObjectId> parentRevisions = parent.getConfigRevisionSet(seen);
+      if (parentRevisions == null) {
+        return null;
+      }
+      revisions.addAll(parentRevisions);
+    }
+    return Collections.unmodifiableSet(revisions);
   }
 
-  /** Get the rights this project inherits. */
-  public Collection<AccessSection> getInheritedAccessSections() {
-    if (isWildProject()) {
-      return Collections.emptyList();
+  /** @param seen is the parents seen so far, used to detect loops */
+  protected AccessSections getAccessSections(Set<Project.NameKey> seen) {
+    Set<ObjectId> configRevisionSet = getConfigRevisionSet(
+        new HashSet<Project.NameKey>());
+    if (accessSections == null || configRevisionSet == null ||
+        !configRevisionSet.equals(accessSections.configRevisionSet)) {
+      accessSections = calculateAccessSections(seen);
+    }
+    return accessSections;
+  }
+
+  /** @param seen is the parents seen so far, used to detect loops */
+  private AccessSections calculateAccessSections(Set<Project.NameKey> seen) {
+    ObjectId revision = config.getRevision();
+    Set<ObjectId> revisions = null;
+    if (revision != null) {
+      revisions = new HashSet<ObjectId>();
+      revisions.add(revision);
     }
 
-    List<AccessSection> inherited = new ArrayList<AccessSection>();
-    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
-    Project.NameKey parent = getProject().getParent();
+    List<AccessSection> all = new ArrayList<AccessSection>(
+        getConfig().getAccessSections());
 
-    while (parent != null && seen.add(parent)) {
-      ProjectState s = projectCache.get(parent);
-      if (s != null) {
-        inherited.addAll(s.getLocalAccessSections());
-        parent = s.getProject().getParent();
-      } else {
-        break;
-      }
-    }
-
-    // Wild project is the parent, or the root of the tree
+    ProjectState parent = projectCache.get(getProject().getParent());
     if (parent == null) {
-      ProjectState s = projectCache.get(wildProject);
-      if (s != null) {
-        inherited.addAll(s.getLocalAccessSections());
+      parent = projectCache.get(wildProject);
+    }
+    if (parent != null && seen.add(getProject().getNameKey())) {
+      AccessSections pvas = parent.getAccessSections(seen);
+      if (revisions != null && pvas.configRevisionSet != null) {
+        revisions.addAll(pvas.configRevisionSet);
+      } else {
+        revisions = null;
       }
+      all.addAll(pvas.allAccessSections);
     }
 
-    return inherited;
+    if (revisions != null) {
+      revisions = Collections.unmodifiableSet(revisions);
+    }
+    all = Collections.unmodifiableList(all);
+    return new AccessSections(revisions, all);
   }
 
   /** Get both local and inherited access sections. */
   public Collection<AccessSection> getAllAccessSections() {
-    List<AccessSection> all = new ArrayList<AccessSection>();
-    all.addAll(getLocalAccessSections());
-    all.addAll(getInheritedAccessSections());
-    return all;
+    return getAccessSections(new HashSet<Project.NameKey>()).allAccessSections;
   }
 
   /**

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABBn///2o\u003d",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2011-05-24T18:21:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABBn///3g\u003d",
+      "revId": "53aea5d9ee4530efd845566de95330ed0fe0b465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABBn///3Y\u003d",
         "filename": "Documentation/cmd-ls-projects.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-05-24T17:42:30Z",
       "side": 1,
       "message": "I think this should not be a comma-seperated list, but the user should simply be able to specify multiple branches by specifying the \u0027-b \u003cBRANCH\u003e\u0027 parameter multiple times.",
+      "revId": "53aea5d9ee4530efd845566de95330ed0fe0b465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABBn///2k\u003d",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2011-05-24T18:21:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABBn///3Y\u003d",
       "revId": "53aea5d9ee4530efd845566de95330ed0fe0b465",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABBn///2g\u003d",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2011-05-24T18:21:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABBn///3Q\u003d",
+      "revId": "53aea5d9ee4530efd845566de95330ed0fe0b465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABBn///3I\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2011-05-24T17:42:30Z",
       "side": 1,
       "message": "Maybe better use:\n\nprivate List\u003cString\u003e showBranch;\n\nThen the user can specify this parameter multiple times and you don\u0027t need to care about splitting the values by your own.",
+      "revId": "53aea5d9ee4530efd845566de95330ed0fe0b465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABBn///2I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2011-05-24T18:21:29Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. I though about it - but I did not find any examples of using List with Option and decided that it was not possible.",
+      "parentUuid": "AAABBn///3I\u003d",
       "revId": "53aea5d9ee4530efd845566de95330ed0fe0b465",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

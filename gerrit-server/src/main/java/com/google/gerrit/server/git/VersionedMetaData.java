@@ -64,7 +64,10 @@ public abstract class VersionedMetaData {
   protected abstract void onSave(CommitBuilder commit) throws IOException,
       ConfigInvalidException;
 
-  /** @return revision of the metadata that was loaded. */
+  /** @return revision of the metadata that was loaded.  A null indicates
+   *          an undeterminable revision and should be considered different
+   *          from any revision, including other null revisions.
+   */
   public ObjectId getRevision() {
     return revision != null ? revision.copy() : null;
   }

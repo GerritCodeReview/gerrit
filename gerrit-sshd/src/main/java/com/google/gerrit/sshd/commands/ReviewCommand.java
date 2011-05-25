@@ -34,6 +34,7 @@ import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.workflow.FunctionState;
@@ -202,9 +203,8 @@ public class ReviewCommand extends BaseCommand {
     });
   }
 
-  private void approveOne(final PatchSet.Id patchSetId)
-      throws NoSuchChangeException, UnloggedFailure, OrmException,
-             EmailException {
+  private void approveOne(final PatchSet.Id patchSetId) throws
+      NoSuchChangeException, UnloggedFailure, OrmException, EmailException {
 
     final Change.Id changeId = patchSetId.getParentKey();
     ChangeControl changeControl = changeControlFactory.validateFor(changeId);
@@ -224,25 +224,29 @@ public class ReviewCommand extends BaseCommand {
 
     publishCommentsFactory.create(patchSetId, changeComment, aps).call();
 
-    if (abandonChange) {
-      if (changeControl.canAbandon()) {
-        ChangeUtil.abandon(patchSetId, currentUser, changeComment, db,
-          abandonedSenderFactory, hooks);
-      } else {
-        throw error("Not permitted to abandon change");
+    try {
+      if (abandonChange) {
+        if (changeControl.canAbandon()) {
+          ChangeUtil.abandon(patchSetId, currentUser, changeComment, db,
+              abandonedSenderFactory, hooks);
+        } else {
+          throw error("Not permitted to abandon change");
+        }
       }
-    }
 
-    if (restoreChange) {
-      if (changeControl.canRestore()) {
-        ChangeUtil.restore(patchSetId, currentUser, changeComment, db,
-          abandonedSenderFactory, hooks);
-      } else {
-        throw error("Not permitted to restore change");
+      if (restoreChange) {
+        if (changeControl.canRestore()) {
+          ChangeUtil.restore(patchSetId, currentUser, changeComment, db,
+              abandonedSenderFactory, hooks);
+        } else {
+          throw error("Not permitted to restore change");
+        }
+        if (submitChange) {
+          changeControl = changeControlFactory.validateFor(changeId);
+        }
       }
-      if (submitChange) {
-        changeControl = changeControlFactory.validateFor(changeId);
-      }
+    } catch (InvalidChangeOperationException e) {
+      throw error(e.getMessage());
     }
 
     if (submitChange) {

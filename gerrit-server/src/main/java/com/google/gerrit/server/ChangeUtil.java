@@ -34,6 +34,7 @@ import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.EmailException;
@@ -212,7 +213,7 @@ public class ChangeUtil {
       final IdentifiedUser user, final String message, final ReviewDb db,
       final AbandonedSender.Factory abandonedSenderFactory,
       final ChangeHookRunner hooks) throws NoSuchChangeException,
-      EmailException, OrmException {
+      InvalidChangeOperationException, EmailException, OrmException {
     final Change.Id changeId = patchSetId.getParentKey();
     final PatchSet patch = db.patchSets().get(patchSetId);
     if (patch == null) {
@@ -245,22 +246,25 @@ public class ChangeUtil {
       }
     });
 
-    if (updatedChange != null) {
-      db.changeMessages().insert(Collections.singleton(cmsg));
-
-      final List<PatchSetApproval> approvals =
-          db.patchSetApprovals().byChange(changeId).toList();
-      for (PatchSetApproval a : approvals) {
-        a.cache(updatedChange);
-      }
-      db.patchSetApprovals().update(approvals);
-
-      // Email the reviewers
-      final AbandonedSender cm = abandonedSenderFactory.create(updatedChange);
-      cm.setFrom(user.getAccountId());
-      cm.setChangeMessage(cmsg);
-      cm.send();
+    if (updatedChange == null) {
+      throw new InvalidChangeOperationException(changeId,
+          "Change is no longer open");
     }
+
+    db.changeMessages().insert(Collections.singleton(cmsg));
+
+    final List<PatchSetApproval> approvals =
+        db.patchSetApprovals().byChange(changeId).toList();
+    for (PatchSetApproval a : approvals) {
+      a.cache(updatedChange);
+    }
+    db.patchSetApprovals().update(approvals);
+
+    // Email the reviewers
+    final AbandonedSender cm = abandonedSenderFactory.create(updatedChange);
+    cm.setFrom(user.getAccountId());
+    cm.setChangeMessage(cmsg);
+    cm.send();
 
     hooks.doChangeAbandonedHook(updatedChange, user.getAccount(), message);
   }
@@ -371,7 +375,7 @@ public class ChangeUtil {
       final IdentifiedUser user, final String message, final ReviewDb db,
       final AbandonedSender.Factory abandonedSenderFactory,
       final ChangeHookRunner hooks) throws NoSuchChangeException,
-      EmailException, OrmException {
+      InvalidChangeOperationException, EmailException, OrmException {
     final Change.Id changeId = patchSetId.getParentKey();
     final PatchSet patch = db.patchSets().get(patchSetId);
     if (patch == null) {
@@ -404,22 +408,25 @@ public class ChangeUtil {
       }
     });
 
-    if (updatedChange != null) {
-      db.changeMessages().insert(Collections.singleton(cmsg));
-
-      final List<PatchSetApproval> approvals =
-          db.patchSetApprovals().byChange(changeId).toList();
-      for (PatchSetApproval a : approvals) {
-        a.cache(updatedChange);
-      }
-      db.patchSetApprovals().update(approvals);
-
-      // Email the reviewers
-      final AbandonedSender cm = abandonedSenderFactory.create(updatedChange);
-      cm.setFrom(user.getAccountId());
-      cm.setChangeMessage(cmsg);
-      cm.send();
+    if (updatedChange == null) {
+      throw new InvalidChangeOperationException(changeId,
+          "Change is not abandonned or patchset is not latest");
     }
+
+    db.changeMessages().insert(Collections.singleton(cmsg));
+
+    final List<PatchSetApproval> approvals =
+        db.patchSetApprovals().byChange(changeId).toList();
+    for (PatchSetApproval a : approvals) {
+      a.cache(updatedChange);
+    }
+    db.patchSetApprovals().update(approvals);
+
+    // Email the reviewers
+    final AbandonedSender cm = abandonedSenderFactory.create(updatedChange);
+    cm.setFrom(user.getAccountId());
+    cm.setChangeMessage(cmsg);
+    cm.send();
 
     hooks.doChangeRestoreHook(updatedChange, user.getAccount(), message);
   }

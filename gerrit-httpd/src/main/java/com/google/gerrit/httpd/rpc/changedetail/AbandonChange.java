@@ -27,6 +27,7 @@ import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -71,7 +72,8 @@ class AbandonChange extends Handler<ChangeDetail> {
 
   @Override
   public ChangeDetail call() throws NoSuchChangeException, OrmException,
-      EmailException, NoSuchEntityException, PatchSetInfoNotAvailableException {
+      EmailException, NoSuchEntityException, InvalidChangeOperationException,
+      PatchSetInfoNotAvailableException {
 
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl control = changeControlFactory.validateFor(changeId);

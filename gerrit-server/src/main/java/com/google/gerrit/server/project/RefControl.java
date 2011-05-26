@@ -347,41 +347,82 @@ public class RefControl {
   /** All rules that pertain to this user, on this reference. */
   private Map<String, List<PermissionRule>> permissions() {
     if (permissions == null) {
-      List<AccessSection> sections = new ArrayList<AccessSection>();
-      for (AccessSection section : projectControl.access()) {
-        if (appliesToRef(section)) {
-          sections.add(section);
-        }
-      }
-      Collections.sort(sections, new MostSpecificComparator(getRefName()));
+      for (List<AccessSection> sections: projectControl.getAccessSectionLines()) {
+        if (permissions == null) {
+          permissions = permissionsPerLine(sections);
+        } else {
+          Map<String, List<PermissionRule>> line = permissionsPerLine(sections);
+          for (String perm: line.keySet()) {
+            List<PermissionRule> newRules = line.get(perm);
 
-      Set<SeenRule> seen = new HashSet<SeenRule>();
-      Set<String> exclusiveGroupPermissions = new HashSet<String>();
+            List<PermissionRule> curRules = permissions.get(perm);
+            if (curRules == null) {
+              permissions.put(perm, newRules);
 
-      permissions = new HashMap<String, List<PermissionRule>>();
-      for (AccessSection section : sections) {
-        for (Permission permission : section.getPermissions()) {
-          if (exclusiveGroupPermissions.contains(permission.getName())) {
-            continue;
-          }
-
-          for (PermissionRule rule : permission.getRules()) {
-            if (matchGroup(rule.getGroup().getUUID())) {
-              SeenRule s = new SeenRule(section, permission, rule);
-              if (seen.add(s) && !rule.getDeny()) {
-                List<PermissionRule> r = permissions.get(permission.getName());
-                if (r == null) {
-                  r = new ArrayList<PermissionRule>(2);
-                  permissions.put(permission.getName(), r);
+            } else {
+              for (PermissionRule newRule : newRules) {
+                PermissionRule curRule = getMatchingRuleFor(curRules, newRule);
+                if (curRule == null) {
+                  curRules.add(newRule);
+                } else {
+                  curRule.mergeFrom(newRule);
                 }
-                r.add(rule);
               }
             }
           }
+        }
+      }
+    }
+    return permissions;
+  }
 
-          if (permission.getExclusiveGroup()) {
-            exclusiveGroupPermissions.add(permission.getName());
+  private static PermissionRule getMatchingRuleFor(List<PermissionRule> rules,
+      PermissionRule rule) {
+    for (PermissionRule mRule : rules) {
+      if (mRule.getGroup().equals(rule.getGroup())) {
+       return mRule;
+      }
+    }
+    return null;
+  }
+
+  /** All rules that pertain to this user, on this reference and this ancestor line. */
+  private Map<String, List<PermissionRule>> permissionsPerLine(List<AccessSection> line) {
+    Map<String, List<PermissionRule>> permissions = new HashMap<String, List<PermissionRule>>();
+    List<AccessSection> sections = new ArrayList<AccessSection>();
+    for (AccessSection section : line) {
+      if (appliesToRef(section)) {
+        sections.add(section);
+      }
+    }
+    Collections.sort(sections, new MostSpecificComparator(getRefName()));
+
+    Set<SeenRule> seen = new HashSet<SeenRule>();
+    Set<String> exclusiveGroupPermissions = new HashSet<String>();
+
+    permissions = new HashMap<String, List<PermissionRule>>();
+    for (AccessSection section : sections) {
+      for (Permission permission : section.getPermissions()) {
+        if (exclusiveGroupPermissions.contains(permission.getName())) {
+          continue;
+        }
+
+        for (PermissionRule rule : permission.getRules()) {
+          if (matchGroup(rule.getGroup().getUUID())) {
+            SeenRule s = new SeenRule(section, permission, rule);
+            if (seen.add(s) && !rule.getDeny()) {
+              List<PermissionRule> r = permissions.get(permission.getName());
+              if (r == null) {
+                r = new ArrayList<PermissionRule>(2);
+                permissions.put(permission.getName(), r);
+              }
+              r.add(rule);
+            }
           }
+        }
+
+        if (permission.getExclusiveGroup()) {
+          exclusiveGroupPermissions.add(permission.getName());
         }
       }
     }

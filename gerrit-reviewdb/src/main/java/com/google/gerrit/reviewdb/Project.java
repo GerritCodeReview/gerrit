@@ -17,6 +17,9 @@ package com.google.gerrit.reviewdb;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /** Projects match a source code repository managed by Gerrit */
 public final class Project {
   /** Project name key */
@@ -77,7 +80,7 @@ public final class Project {
 
   protected SubmitType submitType;
 
-  protected NameKey parent;
+  protected Set<Project.NameKey> parents;
 
   protected boolean requireChangeID;
 
@@ -156,15 +159,34 @@ public final class Project {
     submitType = update.submitType;
   }
 
-  public Project.NameKey getParent() {
-    return parent;
+  public Set<Project.NameKey> getParents() {
+    if (parents == null) {
+      parents = new HashSet<Project.NameKey>(2);
+    }
+    return parents;
   }
 
-  public String getParentName() {
-    return parent != null ? parent.get() : null;
+  public void setParents(final Set<Project.NameKey> ps) {
+    parents = ps;
   }
 
-  public void setParentName(String n) {
-    parent = n != null ? new NameKey(n) : null;
+  public Set<String> getParentNames() {
+    Set<String> ps = new HashSet<String>(getParents().size());
+    for (Project.NameKey p : getParents()) {
+      ps.add(p.get());
+    }
+    return ps;
   }
+
+  public void setParentNames(final Set<String> ps) {
+    Set<Project.NameKey> parents = new HashSet<Project.NameKey>(ps.size());
+    for (String p : ps) {
+      parents.add(new Project.NameKey(p));
+    }
+    setParents(parents);
+  }
+
+  public void addParentName(final String p) {
+     getParents().add(new Project.NameKey(p));
+   }
 }

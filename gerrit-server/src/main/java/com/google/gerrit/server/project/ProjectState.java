@@ -51,21 +51,28 @@ public class ProjectState {
    */
   private static class AccessSections {
     final Set<ObjectId> configRevisionSet;
-    final List<AccessSection> allAccessSections;
+    final Set<List<AccessSection>> accessSectionLines;
 
     public AccessSections(final Set<ObjectId> configRevisionSet,
-        final List<AccessSection> allAccessSections) {
+        final Set<List<AccessSection>> accessSectionLines) {
       this.configRevisionSet = configRevisionSet;
-      this.allAccessSections = allAccessSections;
+      this.accessSectionLines = accessSectionLines;
     }
   }
 
-  /** Read Only Version */
   private static class ROAccessSections extends AccessSections {
     public ROAccessSections(AccessSections as) {
       super(as.configRevisionSet == null ? null :
           Collections.unmodifiableSet(as.configRevisionSet),
-          Collections.unmodifiableList(as.allAccessSections));
+          Collections.unmodifiableSet(unmodifiableLists(as.accessSectionLines)));
+    }
+
+    private static Set<List<AccessSection>> unmodifiableLists(Set<List<AccessSection>> lists) {
+      Set<List<AccessSection>> roLists = new HashSet<List<AccessSection>>();
+      for (final List<AccessSection> l: lists) {
+        roLists.add(Collections.unmodifiableList(l));
+      }
+      return roLists;
     }
   }
 
@@ -129,18 +136,26 @@ public class ProjectState {
      * at a previous level (to prevent looping).
      */
     public T walkAncestors(ProjectState child) {
-      if (! abort) {
-        Project.NameKey parent = child.getProject().getParent();
-        if (parent == null && ! child.isWildProject()) {
-          parent = wildProject;
-        }
+      Set<Project.NameKey> parents = child.getProject().getParents();
+      if (parents.isEmpty() && ! child.isWildProject()) {
+        parents = new HashSet();
+        parents.add(wildProject);
+      }
 
+      for (final Project.NameKey parent: parents) {
+        if (abort) {
+          break;
+        }
+        Set<Project.NameKey> previous = seen;
+        seen = new HashSet<Project.NameKey>();
+        seen.addAll(previous);
         if (seen.add(parent)) {
           final ProjectState s = projectCache.get(parent);
           if (s != null) {
             walkParent(child, s);
           }
         }
+        seen = previous;
       }
       return get();
     }
@@ -274,7 +289,7 @@ public class ProjectState {
     return walker[0].walkAncestors(this);
   }
 
-  /** @param seen is the parents seen so far, used to detect loops */
+  /** @param walker Omit. Only used internally when recursing */
   protected AccessSections getAccessSections(Walker<AccessSections>... walker) {
     Set<ObjectId> configRevisionSet = getConfigRevisionSet();
     AccessSections as = accessSections;
@@ -294,11 +309,15 @@ public class ProjectState {
           public void walkParent(ProjectState child, ProjectState parent) {
             AccessSections as = get();
             AccessSections pas = parent.getAccessSections(this);
-            as.allAccessSections.addAll(pas.allAccessSections);
             if (as.configRevisionSet != null && pas.configRevisionSet != null) {
               as.configRevisionSet.addAll(pas.configRevisionSet);
-            } else {
-              set(new AccessSections(null, as.allAccessSections));
+            }
+
+            for (final List<AccessSection> l: pas.accessSectionLines) {
+              List<AccessSection> subSections = new ArrayList<AccessSection>();
+              subSections.addAll(child.getConfig().getAccessSections());
+              subSections.addAll(l);
+              as.accessSectionLines.add(subSections);
             }
           }
         });
@@ -311,69 +330,100 @@ public class ProjectState {
       revisions.add(revision);
     }
 
-    List<AccessSection> accessSections = new ArrayList<AccessSection>(
-        getConfig().getAccessSections());
+    Set<List<AccessSection>> accessSectionLines = new HashSet<List<AccessSection>>();
 
-    AccessSections as = new AccessSections(revisions, accessSections);
-    walker[0].set(as);
+    AccessSections as = new AccessSections(revisions, accessSectionLines);
 
-    if (! isWildProject()) {
+    if (isWildProject()) {
+      List<AccessSection> subSections = new ArrayList<AccessSection>();
+      subSections.addAll(getConfig().getAccessSections());
+      accessSectionLines.add(subSections);
+    } else {
       walker[0].walkAncestors(this, as);
     }
-    return new ROAccessSections(walker[0].get());
+    return new ROAccessSections(as);
   }
 
 
   /** Get both local and inherited access sections. */
-  public Collection<AccessSection> getAllAccessSections() {
-    return getAccessSections().allAccessSections;
+  public Set<List<AccessSection>> getAccessSectionLines() {
+    return getAccessSections().accessSectionLines;
   }
 
   /**
+   * @param walker Omit. Only used internally when recursing
    * @return all {@link AccountGroup}'s to which the owner privilege for
    *         'refs/*' is assigned for this project (the local owners), if there
-   *         are no local owners the local owners of the nearest parent project
-   *         that has local owners are returned
+   *         are no local owners the local owners of the nearest parent projects
+   *         that have local owners are returned
    */
-  public Set<AccountGroup.UUID> getOwners() {
-    Project.NameKey parentName = getProject().getParent();
-    if (!localOwners.isEmpty() || parentName == null || isWildProject()) {
+  public Set<AccountGroup.UUID> getOwners(Walker<Set<AccountGroup.UUID>>... walker) {
+    if (!localOwners.isEmpty() || isWildProject()) {
       return localOwners;
     }
+    if (walker.length == 0) {
+      return getOwners(this.new MyWalker<Set<AccountGroup.UUID>>() {
+          {
+            set(new HashSet<AccountGroup.UUID>());
+          }
 
-    ProjectState parent = projectCache.get(parentName);
-    if (parent != null) {
-      return parent.getOwners();
+          @Override
+          public void walkParent(ProjectState child, ProjectState parent) {
+            get().addAll(parent.getOwners(this));
+          }
+        });
     }
 
-    return Collections.emptySet();
+    walker[0].walkAncestors(this);
+    return walker[0].get();
   }
 
   /**
+   * @param walker Omit. Only used internally when recursing
    * @return all {@link AccountGroup}'s that are allowed to administrate the
    *         complete project. This includes all groups to which the owner
    *         privilege for 'refs/*' is assigned for this project (the local
    *         owners) and all groups to which the owner privilege for 'refs/*' is
    *         assigned for one of the parent projects (the inherited owners).
    */
-  public Set<AccountGroup.UUID> getAllOwners() {
-    HashSet<AccountGroup.UUID> owners = new HashSet<AccountGroup.UUID>();
-    owners.addAll(localOwners);
+  public Set<AccountGroup.UUID> getAllOwners(Walker<Set<AccountGroup.UUID>>... walker) {
+    if (walker.length == 0) {
+      return getAllOwners(this.new MyWalker<Set<AccountGroup.UUID>>() {
+          {
+            set(new HashSet<AccountGroup.UUID>());
+          }
 
-    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
-    Project.NameKey parent = getProject().getParent();
-
-    while (parent != null && seen.add(parent)) {
-      ProjectState s = projectCache.get(parent);
-      if (s != null) {
-        owners.addAll(s.localOwners);
-        parent = s.getProject().getParent();
-      } else {
-        break;
-      }
+          @Override
+          public void walkParent(ProjectState child, ProjectState parent) {
+            parent.getAllOwners(this);
+          }
+        });
     }
 
-    return Collections.unmodifiableSet(owners);
+    walker[0].get().addAll(localOwners);
+    return Collections.unmodifiableSet(walker[0].walkAncestors(this));
+  }
+
+  /**
+   * @param walker Omit. Only used internally when recursing
+   * @return all {@link Project.NameKey}'s that are ancestors of this project.
+   */
+  public Set<Project.NameKey> getAncestors(Walker<Set<Project.NameKey>>... walker) {
+    if (walker.length == 0) {
+      return getAncestors(this.new MyWalker<Set<Project.NameKey>>() {
+          {
+            set(new HashSet<Project.NameKey>());
+          }
+
+          @Override
+          public void walkParent(ProjectState child, ProjectState parent) {
+            parent.getAncestors(this);
+          }
+        });
+    }
+
+    walker[0].get().addAll(getProject().getParents());
+    return walker[0].walkAncestors(this);
   }
 
   public ProjectControl controlForAnonymousUser() {

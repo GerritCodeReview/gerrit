@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 
 final class ListProjects extends BaseCommand {
@@ -127,13 +128,15 @@ final class ListProjects extends BaseCommand {
         // Builds the inheritance tree using a list.
         //
         for (final TreeNode key : treeMap.values()) {
-          final String parentName = key.getParentName();
-          if (parentName != null) {
-            final TreeNode node = treeMap.get(parentName);
-            if (node != null) {
-              node.addChild(key);
-            } else {
-              sortedNodes.add(key);
+          final Set<String> parentNames = key.getProject().getParentNames();
+          if (parentNames.size() > 0) {
+            for (String parentName : parentNames) {
+              final TreeNode node = treeMap.get(parentName);
+              if (node != null) {
+                node.addChild(key);
+              } else {
+                sortedNodes.add(key);
+              }
             }
           } else {
             sortedNodes.add(key);
@@ -197,18 +200,6 @@ final class ListProjects extends BaseCommand {
      */
     public boolean isLeaf() {
       return children.size() == 0;
-    }
-
-    /**
-     * Returns the project parent name
-     * @return Project parent name
-     */
-    public String getParentName() {
-      if (project.getParent() != null) {
-        return project.getParent().get();
-      }
-
-      return null;
     }
 
     /**

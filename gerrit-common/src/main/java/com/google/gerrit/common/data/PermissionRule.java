@@ -93,8 +93,8 @@ public class PermissionRule implements Comparable<PermissionRule> {
     group = newGroup;
   }
 
-  void mergeFrom(PermissionRule src) {
-    setDeny(getDeny() || src.getDeny());
+  public void mergeFrom(PermissionRule src) {
+    setDeny(getDeny() && src.getDeny());
     setForce(getForce() || src.getForce());
     setRange(Math.min(getMin(), src.getMin()), Math.max(getMax(), src.getMax()));
   }

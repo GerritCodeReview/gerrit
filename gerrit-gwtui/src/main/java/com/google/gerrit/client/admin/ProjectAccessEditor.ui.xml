@@ -45,7 +45,7 @@ limitations under the License.
 <g:HTMLPanel>
   <div ui:field='inheritsFrom' class='{style.inheritsFrom}'>
     <span class='{style.parentTitle}'><ui:msg>Rights Inherit From:</ui:msg></span>
-    <q:Hyperlink ui:field='parentProject' styleName='{style.parentLink}'/>
+    <g:FlexTable ui:field='parentTable' styleName='{style.parentLink}'/>
   </div>
 
   <g:FlowPanel ui:field='localContainer'/>

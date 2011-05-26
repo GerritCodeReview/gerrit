@@ -35,6 +35,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -209,7 +210,7 @@ public class ProjectConfig extends VersionedMetaData {
     if (p.getDescription() == null) {
       p.setDescription("");
     }
-    p.setParentName(rc.getString(ACCESS, null, KEY_INHERIT_FROM));
+    p.setParentNames(new HashSet(Arrays.asList(rc.getStringList(ACCESS, null, KEY_INHERIT_FROM))));
 
     p.setUseContributorAgreements(getBoolean(rc, RECEIVE, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, false));
     p.setUseSignedOffBy(getBoolean(rc, RECEIVE, KEY_REQUIRE_SIGNED_OFF_BY, false));
@@ -311,7 +312,7 @@ public class ProjectConfig extends VersionedMetaData {
     } else {
       rc.unset(PROJECT, null, KEY_DESCRIPTION);
     }
-    set(rc, ACCESS, null, KEY_INHERIT_FROM, p.getParentName());
+    rc.setStringList(ACCESS, null, KEY_INHERIT_FROM, new ArrayList(p.getParentNames()));
 
     set(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, p.isUseContributorAgreements());
     set(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, p.isUseSignedOffBy());

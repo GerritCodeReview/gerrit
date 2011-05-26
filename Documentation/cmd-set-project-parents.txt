@@ -1,0 +1,74 @@
+gerrit set-project-parents
+==========================
+
+NAME
+----
+gerrit set-project-parents - Changes the project(s) that permissions are inherited through.
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit set-project-parents' \
+[\--clear] [\--set <NAME>] [\--remove <NAME>] [\--add <NAME>] \
+<NAME> ...
+
+DESCRIPTION
+-----------
+Changes the project(s) that permissions are inherited through.
+Every project inherits permissions from at least one other project,
+by default this is `\-- All Projects \--`.  This command sets
+the project to inherit through other projects.  Options for this
+command are processed one project at a time in the following order:
+`--clear`, then `--set`, then `--delete`, and finally `--add`.  All
+the operations will modify every project.  After altering the
+parent set of a project, if the set is to become null for that
+project, the parent set will be reset to `\-- All Projects \--`.
+
+ACCESS
+------
+Caller must be a member of the privileged 'Administrators' group.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+OPTIONS
+-------
+\--clear::
+  Clear all project parents, the parent is set back to the
+  default `\-- All Projects \--`.
+
+\--set::
+  Name of the parent(s) to inherit through.  This is an exact
+  list.  Current parents not in the list will be deleted.
+
+\--remove::
+  Name of the parent(s) to no longer inherit through.
+
+\--parent::
+  Name of the parent(s) to additionally inherit through.
+
+EXAMPLES
+--------
+Configure `kernel/omap` to inherit permissions only from `kernel/common`:
+
+====
+	$ ssh -p 29418 review.example.com gerrit set-project-parents --set kernel/common kernel/omap
+====
+
+
+Configure `kernel/omap` to no longer inherit permissions from `kernel/common`,
+but to additionally inherit permissions from kernel/msm:
+
+====
+  $ ssh -p 29418 review.example.com gerrit set-project-parents -r kernel/common -a kernel/msm kernel/omap
+====
+
+SEE ALSO
+--------
+
+* link:access-control.html[Access Controls]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

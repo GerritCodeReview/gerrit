@@ -236,6 +236,48 @@ public class RefControlTest extends TestCase {
         u.controlForRef("refs/heads/master").canUpload());
   }
 
+  public void testMultiRead_FromSingleParent() {
+    grant(parentA, READ, devs, "refs/*");
+    grant(parentB, READ, fixers, "refs/*");
+
+    ProjectControl uDev = multi(devs);
+    ProjectControl uFix = multi(fixers);
+    assertTrue("can read A", uDev.isVisible());
+    assertTrue("can read B", uFix.isVisible());
+  }
+
+  public void testMultiRead_HighestOfSiblings() {
+    grant(parentA, READ, devs, "refs/*").setDeny(true);
+    grant(parentB, READ, devs, "refs/*");
+    grant(parentA, READ, fixers, "refs/*").setDeny(true);
+    grant(parentB, READ, fixers, "refs/*");
+
+    ProjectControl uDev = multi(devs);
+    ProjectControl uFix = multi(fixers);
+    assertTrue("can read from B", uDev.isVisible());
+    assertTrue("can read from A", uFix.isVisible());
+  }
+
+  public void testMultiRead_SingleParentDoesNotOverrideGParent() {
+    grant(wild, READ, devs, "refs/*");
+    grant(parentA, READ, devs, "refs/*").setDeny(true);
+    grant(wild, READ, fixers, "refs/*");
+    grant(parentB, READ, fixers, "refs/*").setDeny(true);
+
+    ProjectControl uDev = multi(devs);
+    ProjectControl uFix = multi(fixers);
+    assertTrue("can read A", uDev.isVisible());
+    assertTrue("can read B", uFix.isVisible());
+  }
+
+  public void testMultiRead_GParentOverridenByParents() {
+    grant(wild, READ, registered, "refs/*");
+    grant(parentA, READ, registered, "refs/*").setDeny(true);
+    grant(parentB, READ, registered, "refs/*").setDeny(true);
+
+    ProjectControl u = multi();
+    assertFalse("can't read", u.isVisible());
+  }
 
   // -----------------------------------------------------------------------
 
@@ -244,6 +286,11 @@ public class RefControlTest extends TestCase {
   private ProjectConfig wild;
   private ProjectConfig local;
   private ProjectConfig parent;
+
+  private ProjectConfig multi;
+  private ProjectConfig parentA;
+  private ProjectConfig parentB;
+
   private final AccountGroup.UUID admin = new AccountGroup.UUID("test.admin");
   private final AccountGroup.UUID anonymous = AccountGroup.ANONYMOUS_USERS;
   private final AccountGroup.UUID registered = AccountGroup.REGISTERED_USERS;
@@ -294,7 +341,19 @@ public class RefControlTest extends TestCase {
 
     local = new ProjectConfig(new Project.NameKey("local"));
     local.createInMemory();
-    local.getProject().setParentName(parent.getProject().getName());
+    local.getProject().addParentName(parent.getProject().getName());
+
+
+    parentA = new ProjectConfig(new Project.NameKey("parentA"));
+    parentA.createInMemory();
+
+    parentB = new ProjectConfig(new Project.NameKey("parentB"));
+    parentB.createInMemory();
+
+    multi = new ProjectConfig(new Project.NameKey("multi"));
+    multi.createInMemory();
+    multi.getProject().addParentName(parentA.getProject().getName());
+    multi.getProject().addParentName(parentB.getProject().getName());
   }
 
   private static void assertOwner(String ref, ProjectControl u) {
@@ -329,6 +388,14 @@ public class RefControlTest extends TestCase {
   }
 
   private ProjectControl user(AccountGroup.UUID... memberOf) {
+    return createProjectControl(local.getProject().getNameKey(), memberOf);
+  }
+
+  private ProjectControl multi(AccountGroup.UUID... memberOf) {
+    return createProjectControl(multi.getProject().getNameKey(), memberOf);
+  }
+
+  private ProjectControl createProjectControl(Project.NameKey project, AccountGroup.UUID... memberOf) {
     RefControl.Factory refControlFactory = new RefControl.Factory() {
       @Override
       public RefControl create(final ProjectControl projectControl, final String ref) {
@@ -337,10 +404,10 @@ public class RefControlTest extends TestCase {
     };
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), refControlFactory,
-        new MockUser(memberOf), newProjectState());
+        new MockUser(memberOf), newProjectState(project));
   }
 
-  private ProjectState newProjectState() {
+  private ProjectState newProjectState(Project.NameKey project) {
     final Map<Project.NameKey, ProjectState> all =
         new HashMap<Project.NameKey, ProjectState>();
     final ProjectCache projectCache = new ProjectCache() {
@@ -377,11 +444,22 @@ public class RefControlTest extends TestCase {
     all.put(parent.getProject().getNameKey(), new ProjectState(anonymousUser,
         projectCache, wildProject, projectControlFactory,
         envFactory, mgr, parent));
+
+    all.put(multi.getProject().getNameKey(), new ProjectState(anonymousUser,
+        projectCache, wildProject, projectControlFactory,
+        envFactory, mgr, multi));
+    all.put(parentA.getProject().getNameKey(), new ProjectState(anonymousUser,
+        projectCache, wildProject, projectControlFactory,
+        envFactory, mgr, parentA));
+    all.put(parentB.getProject().getNameKey(), new ProjectState(anonymousUser,
+        projectCache, wildProject, projectControlFactory,
+        envFactory, mgr, parentB));
+
     all.put(wild.getProject().getNameKey(), new ProjectState(anonymousUser,
         projectCache, wildProject, projectControlFactory,
         envFactory, mgr, wild));
 
-    return all.get(local.getProject().getNameKey());
+    return all.get(project);
   }
 
   private class MockUser extends CurrentUser {

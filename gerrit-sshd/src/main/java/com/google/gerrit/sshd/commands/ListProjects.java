@@ -37,7 +37,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 
 final class ListProjects extends BaseCommand {
@@ -202,22 +204,25 @@ final class ListProjects extends BaseCommand {
 
     // Builds the inheritance tree using a list.
     //
-    for (TreeNode key : treeMap.values()) {
+    for (final TreeNode key : treeMap.values()) {
       if (allProjectsName.equals(key.getProject().getNameKey())) {
         sortedNodes.add(key);
         continue;
       }
 
-      String parentName = key.getParentName();
-      if (parentName == null) {
-        parentName = allProjectsName.get();
+      Set<String> parentNames = key.getProject().getParentNames();
+      if (parentNames.isEmpty()) {
+        parentNames = new HashSet<String>(1);
+        parentNames.add(allProjectsName.get());
       }
 
-      TreeNode node = treeMap.get(parentName);
-      if (node != null) {
-        node.addChild(key);
-      } else {
-        sortedNodes.add(key);
+      for (String parentName : parentNames) {
+        final TreeNode node = treeMap.get(parentName);
+        if (node != null) {
+          node.addChild(key);
+        } else {
+          sortedNodes.add(key);
+        }
       }
     }
 
@@ -293,18 +298,6 @@ final class ListProjects extends BaseCommand {
      */
     public boolean isLeaf() {
       return children.size() == 0;
-    }
-
-    /**
-     * Returns the project parent name
-     * @return Project parent name
-     */
-    public String getParentName() {
-      if (project.getParent() != null) {
-        return project.getParent().get();
-      }
-
-      return null;
     }
 
     /**

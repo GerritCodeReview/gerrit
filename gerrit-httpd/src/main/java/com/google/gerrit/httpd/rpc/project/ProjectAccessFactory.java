@@ -173,12 +173,12 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     detail.setLocal(local);
     detail.setOwnerOf(ownerOf);
 
-    if (projectName.equals(wildProject)) {
-      detail.setInheritsFrom(null);
-    } else if (config.getProject().getParent() != null) {
-      detail.setInheritsFrom(config.getProject().getParent());
-    } else {
-      detail.setInheritsFrom(wildProject);
+    detail.setInheritsFrom(new HashSet<Project.NameKey>(2));
+    if (!projectName.equals(wildProject)) {
+      detail.setInheritsFrom(config.getProject().getParents());
+      if (detail.getInheritsFrom().isEmpty()) {
+        detail.getInheritsFrom().add(wildProject);
+      }
     }
 
     return detail;

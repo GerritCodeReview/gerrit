@@ -224,7 +224,7 @@ class Schema_53 extends SchemaVersion {
     project.setUseSignedOffBy("Y".equals(rs.getString("use_signed_off_by")));
     project.setRequireChangeID("Y".equals(rs.getString("require_change_id")));
     project.setUseContentMerge("Y".equals(rs.getString("use_content_merge")));
-    project.setParentName(rs.getString("parent_name"));
+    project.addParentName(rs.getString("parent_name"));
   }
 
   private void readOldRefRights(ReviewDb db) throws SQLException {
@@ -406,10 +406,7 @@ class Schema_53 extends SchemaVersion {
     String category = old.category;
     AccountGroup.UUID group = old.group.getUUID();
 
-    Project.NameKey project = config.getProject().getParent();
-    if (project == null) {
-      project = systemConfig.wildProjectName;
-    }
+    Project.NameKey project = parentsByProject.get(config.getProject().getNameKey());
     do {
       List<OldRefRight> rights = rightsByProject.get(project);
       if (rights != null) {

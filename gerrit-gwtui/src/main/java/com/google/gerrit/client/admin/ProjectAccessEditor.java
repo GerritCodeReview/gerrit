@@ -33,11 +33,13 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ProjectAccessEditor extends Composite implements
     Editor<ProjectAccess>, ValueAwareEditor<ProjectAccess> {
@@ -50,7 +52,7 @@ public class ProjectAccessEditor extends Composite implements
   DivElement inheritsFrom;
 
   @UiField
-  Hyperlink parentProject;
+  FlexTable parentTable;
 
   @UiField
   FlowPanel localContainer;
@@ -82,14 +84,18 @@ public class ProjectAccessEditor extends Composite implements
   public void setValue(ProjectAccess value) {
     this.value = value;
 
-    Project.NameKey parent = value.getInheritsFrom();
-    if (parent != null) {
-      inheritsFrom.getStyle().setDisplay(Display.BLOCK);
-      parentProject.setText(parent.get());
-      parentProject.setTargetHistoryToken( //
-          Dispatcher.toProjectAdmin(parent, ProjectScreen.ACCESS));
-    } else {
-      inheritsFrom.getStyle().setDisplay(Display.NONE);
+    Set<Project.NameKey> parents = value.getInheritsFrom();
+    while (parentTable.getRowCount() > 0) {
+      parentTable.removeRow(0);
+    }
+
+    inheritsFrom.getStyle().setDisplay(parents.isEmpty() ? Display.NONE : Display.BLOCK);
+    for (Project.NameKey parent : parents) {
+      int r = parentTable.getRowCount();
+      parentTable.insertRow(r);
+      parentTable.insertCell(r, 0);
+      parentTable.setWidget(r, 0, new Hyperlink(parent.get(),
+          Dispatcher.toProjectAdmin(parent, ProjectScreen.ACCESS)));
     }
 
     addSection.setVisible(value != null && editing && !value.getOwnerOf().isEmpty());

@@ -33,7 +33,7 @@ public class MasterCommandModule extends CommandModule {
     command(gerrit, "modify-reviewers").to(ModifyReviewersCommand.class);
     command(gerrit, "receive-pack").to(Receive.class);
     command(gerrit, "replicate").to(AdminReplicate.class);
-    command(gerrit, "set-project-parent").to(AdminSetParent.class);
+    command(gerrit, "set-project-parents").to(AdminSetParents.class);
     command(gerrit, "review").to(ReviewCommand.class);
   }
 }

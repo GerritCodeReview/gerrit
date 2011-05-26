@@ -34,6 +34,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /** Access control management for a user accessing a project's data. */
@@ -111,8 +112,6 @@ public class ProjectControl {
   private final RefControl.Factory refControlFactory;
   private final CurrentUser user;
   private final ProjectState state;
-
-  private Collection<AccessSection> access;
 
   @Inject
   ProjectControl(@GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
@@ -218,24 +217,26 @@ public class ProjectControl {
   private boolean canPerformOnAnyRef(String permissionName) {
     final Set<AccountGroup.UUID> groups = getEffectiveUserGroups();
 
-    for (AccessSection section : access()) {
-      Permission permission = section.getPermission(permissionName);
-      if (permission == null) {
-        continue;
-      }
-
-      for (PermissionRule rule : permission.getRules()) {
-        if (rule.getDeny()) {
+    for (List<AccessSection> line : getAccessSectionLines()) {
+      for (AccessSection section : line) {
+        Permission permission = section.getPermission(permissionName);
+        if (permission == null) {
           continue;
         }
 
-        // Being in a group that was granted this permission is only an
-        // approximation.  There might be overrides and doNotInherit
-        // that would render this to be false.
-        //
-        if (groups.contains(rule.getGroup().getUUID())
-            && controlForRef(section.getRefPattern()).canPerform(permissionName)) {
-          return true;
+        for (PermissionRule rule : permission.getRules()) {
+          if (rule.getDeny()) {
+            continue;
+          }
+
+          // Being in a group that was granted this permission is only an
+          // approximation.  There might be overrides and doNotInherit
+          // that would render this to be false.
+          //
+          if (groups.contains(rule.getGroup().getUUID())
+              && controlForRef(section.getRefPattern()).canPerform(permissionName)) {
+            return true;
+          }
         }
       }
     }
@@ -264,20 +265,19 @@ public class ProjectControl {
 
   private Set<String> allRefPatterns(String permissionName) {
     Set<String> all = new HashSet<String>();
-    for (AccessSection section : access()) {
-      Permission permission = section.getPermission(permissionName);
-      if (permission != null) {
-        all.add(section.getRefPattern());
+    for (List<AccessSection> line : getAccessSectionLines()) {
+      for (AccessSection section : line) {
+        Permission permission = section.getPermission(permissionName);
+        if (permission != null) {
+          all.add(section.getRefPattern());
+        }
       }
     }
     return all;
   }
 
-  Collection<AccessSection> access() {
-    if (access == null) {
-      access = state.getAllAccessSections();
-    }
-    return access;
+  Set<List<AccessSection>> getAccessSectionLines() {
+    return state.getAccessSectionLines();
   }
 
   public boolean canRunUploadPack() {

@@ -74,8 +74,8 @@ final class CreateProject extends BaseCommand {
   @Option(name = "--owner", aliases = {"-o"}, usage = "owner(s) of project")
   private List<AccountGroup.UUID> ownerIds;
 
-  @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "parent project")
-  private ProjectControl newParent;
+  @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "parent project(s)")
+  private List<ProjectControl> parents = new ArrayList<ProjectControl>();
 
   @Option(name = "--permissions-only", usage = "create project for use only as parent")
   private boolean permissionsOnly;
@@ -243,8 +243,8 @@ final class CreateProject extends BaseCommand {
       newProject.setUseSignedOffBy(signedOffBy);
       newProject.setUseContentMerge(contentMerge);
       newProject.setRequireChangeID(requireChangeID);
-      if (newParent != null) {
-        newProject.setParentName(newParent.getProject().getName());
+      if (!parents.isEmpty()) {
+        newProject.setParents(getKeySet(parents));
       }
 
       if (!ownerIds.isEmpty()) {
@@ -299,5 +299,13 @@ final class CreateProject extends BaseCommand {
     if (!Repository.isValidRefName(branch)) {
       throw new Failure(1, "--branch \"" + branch + "\" is not a valid name");
     }
+  }
+
+  private Set<Project.NameKey> getKeySet(List<ProjectControl> controls) {
+    Set<Project.NameKey> keys = new HashSet<Project.NameKey>(controls.size());
+    for (final ProjectControl ctrl : controls) {
+      keys.add(ctrl.getProject().getNameKey());
+    }
+    return keys;
   }
 }

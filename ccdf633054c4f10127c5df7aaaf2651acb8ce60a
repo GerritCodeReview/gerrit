@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAABBn///bk\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-05-27T14:58:17Z",
+      "side": 1,
+      "message": "I thought again about the usage of the git-store topic format and now\nI am less convinced that it is a good idea to use the git-store topic\nformat.\n\nThe main reason is that the mapping between the existing and the git-store\nformat is relatively complex. The Schema-53.convertRights shows the complexity.\nA Gerrit administrator would have to keep this method in mind whenever a new\naccess restriction would need to be configured.\n\nFor example: to limit the \"Forge Identity\" to 0..+2 one would have\nto remember that this category is split into 3 categories in the git-store\ntopic (forgeAuthor, forgeCommitter and forgeServerAsCommitter) and then\nenable the first two and disable the third.\nTo do that a Gerrit admin would have to refer the the master branch\nin order to look at the new Permission class for the new permission keys\nbecause this code is not part of the stable branch.\n\nOn the other side the implementation we have done until now matches 1 to 1\nwhat we see in the \"old\" access permission screen. It is easy to understand\nhow to restrict something.\nYes, this format would require a migration to the git-store like format once\nthis change is merged into master. However, the Schema_53 is a very good\nreference to look into for implementing the migration.\n\nMy proposal would be to use the existing format for the stable branch with\nremark that we want to use readable names instead of ApprovalCategory.Id\nin the config file.",
+      "parentUuid": "AAABAn///Vc\u003d",
+      "revId": "ccdf633054c4f10127c5df7aaaf2651acb8ce60a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAA/n///ZE\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/ForbiddenRefRightException.java",
         "patchSetId": 2

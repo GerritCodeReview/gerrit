@@ -50,7 +50,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -531,8 +533,11 @@ public class PushReplication implements ReplicationQueue {
       final List<URIish> r = new ArrayList<URIish>(remote.getURIs().size());
       for (URIish uri : remote.getURIs()) {
         if (matches(uri, urlMatch)) {
-          final String replacedPath =
-              replace(uri.getPath(), "name", project.get());
+          String name = project.get();
+          if (needsUrlEncoding(uri)) {
+            name = encode(name);
+          }
+          String replacedPath = replace(uri.getPath(), "name", name);
           if (replacedPath != null) {
             uri = uri.setPath(replacedPath);
             r.add(uri);
@@ -540,6 +545,27 @@ public class PushReplication implements ReplicationQueue {
         }
       }
       return r;
+    }
+
+    static boolean needsUrlEncoding(URIish uri) {
+      return "http".equalsIgnoreCase(uri.getScheme())
+        || "https".equalsIgnoreCase(uri.getScheme())
+        || "amazon-s3".equalsIgnoreCase(uri.getScheme());
+    }
+
+    static String encode(String str) {
+      try {
+        // Some cleanup is required. The '/' character is always encoded as %2F
+        // however remote servers will expect it to be not encoded as part of the
+        // path used to the repository. Space is incorrectly encoded as '+' for this
+        // context. In the path part of a URI space should be %20, but in form data
+        // space is '+'. Our cleanup replace fixes these two issues.
+        return URLEncoder.encode(str, "UTF-8")
+          .replaceAll("%2[fF]", "/")
+          .replace("+", "%20");
+      } catch (UnsupportedEncodingException e) {
+        throw new RuntimeException(e);
+      }
     }
 
     String[] getAdminUrls() {

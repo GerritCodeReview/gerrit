@@ -1,0 +1,65 @@
+Release notes for Gerrit 2.2.0
+==============================
+
+Gerrit 2.2.0 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.2.0.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.2.0.war]
+
+Schema Change
+-------------
+*WARNING:* Upgrading to 2.2.0 requires the server be first upgraded
+to 2.1.7, and then to 2.2.0.
+
+*WARNING:* This release contains schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+*WARNING:* The "projects" and "ref_rights" tables are no longer
+stored in the SQL database. The tables have been moved to Git
+storage, inside of the `refs/meta/config` branch of each managed
+Git repository. The init based upgrade tool will automatically
+export the current table contents and create the Git data.
+
+New Features
+------------
+
+Project Administration
+~~~~~~~~~~~~~~~~~~~~~~
+* issue 436 List projects by scanning the managed Git directory
++
+Instead of generating the list of projects from SQL database, the
+project list is obtained by recursively scanning the Git directory.
+Adding new projects is now simply a matter of creating the Git
+repository under the directory and flushing the "projects" cache
+to force the server to rescan the directory. Administrators may
+also continue to use `gerrit create-project`.
+
+* Move "projects" table into Git
++
+The projects table columns are now stored in the `project.config`
+file of the `refs/meta/config` branch of each managed Git repository.
+
+* Move "ref_rights" table into Git
++
+The "ref_rights" table is now stored in the "access" sections of
+the `project.config` file on the `refs/meta/config` branch of each
+managed Git repository. This brings version control auditing to the
+access data of each project.
+
+* New project Access screen to edit access controls
++
+The Access panel of the project administration has been rewritten
+with a new UI that reflects the new Git based storage format.
+
+Bug Fixes
+---------
+
+Project Administration
+~~~~~~~~~~~~~~~~~~~~~~
+* Avoid unnecessary updates to $GIT_DIR/description
++
+Gerrit always tried to rewrite the gitweb "description" file when the
+project was modified. This lead to unnecessary changes in the local
+filesystem, leading to more data to rsync to backups than necessary.
+Fixed to only update the file if the content changes.

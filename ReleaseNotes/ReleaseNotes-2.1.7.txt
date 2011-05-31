@@ -12,6 +12,12 @@ Schema Change
   java -jar gerrit.war init -d site_path
 ----
 
+To export prior review information into `refs/notes/review` branches
+within each Git repository:
+----
+  java -jar gerrit.war ExportReviewNotes -d site_path
+----
+
 Memory Usage Increase
 ---------------------
 *WARNING* The JGit delta base cache, whose size is controlled by
@@ -23,6 +29,12 @@ change improves performance on big repositories, but may need a larger
 
 New Features
 ------------
+
+Change Data
+~~~~~~~~~~~
+* issue 64 Create Git notes for submitted changes
++
+Git notes are automatically added to the `refs/notes/review`.
 
 Query
 ~~~~~
@@ -46,9 +58,58 @@ can now optionally display the name of the reviewer or verifier who
 gave the score being shown in the summary column. This is an optional
 per-user preference that can be enabled in the Settings screen.
 
+* Add a "revert change"-button to a submitted patchset
++
+Clicking "Revert Change" creates a new change with the inverse of
+the submitted patch set ready for review and submission. This makes
+it easy to undo a build-breaking change right from the web UI.
+
+* issue 194 Diff patch sets
++
+Change pages now offer a selection box, "Old Version History",
+to compare patch sets against one another and view only the files
+that differ between two patch sets. This new feature can speed up
+re-reviewing a change.
+
+* issue 913 Support different color pallete when not signed in
++
+Site administrators can configure a different theme in gerrit.config for
+the signed-in and signed-out states, making it more obvious to site users
+they are currently signed-in (or not).
+
+* Add parent info to each change screen Patch Set
++
+This mirrors the data shown in the 'Commit Message' file, making
+it easy to identify the parent(s) of the commit without opening
+up the Commit Message or gitweb.
+
+* Remove the SSH key loading applet
++
+The Java based SSH key loading applet is no longer included as part of
+the Gerrit Code Review interface. Users need to copy and paste their
+SSH public key files by hand.
+
+
 SSH Commands
 ~~~~~~~~~~~~
 * issue 674 Add abandon/restore to `gerrit review`
+* Add `gerrit version` command
+
+Change Upload
+~~~~~~~~~~~~~
+* Display a more verbose "you are not author/committer" message
+
+Documentation
+~~~~~~~~~~~~~
+* Detailed error message explanations
++
+Most common error messages are now described in detail in the
+documentation under 'User Guide', 'Error Messages'.  Each error is
+explained, along with possible courses of action for an end-user to
+resolve the issue.
+
+* issue 905 Document reverse proxy using Nginx
+* Updated system scaling data in 'System Design'
 
 Outgoing Mail
 ~~~~~~~~~~~~~
@@ -75,6 +136,18 @@ A new group option causes all users who are a member of that group to
 only send email notifications to change authors, excluding reviewers
 and watchers. This can be useful for automated build and testing users
 to reduce the amount of email sent to reviewers.
+
+* Hide non-visible groups from suggestion service
++
+Groups that are not visible to a user are not shown as suggestions in
+contexts where a group name completion is supported.  The previously
+mentioned 'make group visible to all users' flag can be used on a
+per-group basis to expose groups to everyone.
+
+* Use suggest.accounts to control user completion suggestions
++
+The new `suggest.accounts` configuration variable in gerrit.config
+can control how suggestions for users are offered.
 
 * Permit groups to be members of other groups
 +
@@ -108,20 +181,8 @@ Site administrators can now set `auth.cookiePath` to override the
 path used for the authentication cookie, which may be necessary if
 a reverse proxy maps requests to the managed gitweb.
 
-Documentation
-~~~~~~~~~~~~~
-* Detailed error message explanations
-+
-Most common error messages are now described in detail in the
-documentation under 'User Guide', 'Error Messages'.  Each error is
-explained, along with possible courses of action for an end-user to
-resolve the issue.
-
-* issue 905 Document reverse proxy using Nginx
-* Updated system scaling data in 'System Design'
-
-Misc.
-~~~~~
+Replication
+~~~~~~~~~~~
 * Add adminUrl to replication for repository creation
 +
 Replication remotes can be configured with `remote.name.adminUrl` to
@@ -130,6 +191,13 @@ the normal push URL in `remote.name.url`. The adminUrl can be used by
 Gerrit to create a new repository when the normal URL is a non-SSH
 URL, such as git:// or http://.
 
+* Support HTTP authentication for replication
++
+Replication can now be performed over an authenticated smart HTTP
+transport, in addition to anonymous Git and authenticated SSH.
+
+Misc.
+~~~~~
 * Alternative URL for Gerrit's managed Gitweb
 +
 The internal gitweb served from `/gitweb` can now appear to be from a
@@ -147,6 +215,13 @@ Bug Fixes
 
 Web UI
 ~~~~~~
+* issue 853 Incorrect side-by-side display of modified lines
++
+A bug in JGit lead to the side-by-side view displaying wrong and
+confusing output of modified lines. This bug also caused some
+automatic merges to be carried out incorrectly, usually resulting in
+compile failures. Fixed.
+
 * Disallow negative/zero columns in difference views
 +
 Previously a negative or zero value in the number of columns field
@@ -176,6 +251,9 @@ instead of a scary generic "Application Error, Server Error".
 
 * issue 822 Up To Change link activates last browsed patch set
 * issue 846 Disable buttons during RPCs
+* issue 915 Always display button text in black
+* issue 946 Make sure that ENTER works in all text fields
+* issue 963 Go back to change screen if 'Publish and Submit' fails
 * Enable "Sign Out" when auth.type = CLIENT_SSL_CERT_LDAP.
 * Fix handling of "Session Expired" with SSL certificates.
 * Fix compatibility with recent releases of Gitweb.
@@ -183,8 +261,24 @@ instead of a scary generic "Application Error, Server Error".
 * Always display button text in black
 * Always disable content merge option if user can't change project
 
+commit-msg Hook
+~~~~~~~~~~~~~~~
+* issue 922 Fix commit-msg hook to run on Solaris
+
 Outgoing Mail
 ~~~~~~~~~~~~~
+* issue 780 E-mail about failed merge should not use Anonymous Coward
++
+Some email was sent as Anonymous Coward, even when the user had a
+configured name and email address. Fixed.
+
+* Fix calculation of project owners
++
+When sending out new changes for review, Gerrit automatically
+tries to address the project owners on the To line of the outgoing
+message. This sometimes included the owner of a branch. Fixed.
+
+* Do not email reviewers adding themselves as reviewers
 * Fix comma/space separation in email templates
 
 Pushing Changes
@@ -206,11 +300,36 @@ they have the same Change-Id, the push is now rejected.  Within
 a project, the Change-Id should be unique and users should either
 squash the commits, or modify them to use unique Change-Ids.
 
+* issue 635 Match Change-Id by project and branch combination
+* issue 635 Auto close changes by Change-Id on same branch only
++
+Changes are automatically closed during direct push to branch only if
+the Change-Id line matches and the branch name matches. Previously
+changes were closed automatically if only the Change-Id matched,
+making it difficult to cherry-pick changes across branches.
+
+* issue 947 Disallow to push to non-connected target
++
+If a repository stores disconnected history graphs on different
+branches, changes may only be pushed to the correct branch.
+
 * Always do Change-Id checks on receiving commits
 +
 Ensure Change-Ids aren't incorrectly used, even if the project does
 not require them to be present.  Previously some validity checks were
 only performed if the project required Change-Id lines.
+
+* Make Change-Id requirement applicable only to reviews
++
+Change-Ids are not required when directly pushing to a branch. This
+permits projects that normally require Change-Ids to still perform
+direct branch pushes for updates received from an upstream project
+that does not use Change-Ids.
+
+* Reject invalid Change-Id lines
++
+Severly malformed Change-Id lines were previously accepted by the
+server. These are now rejected.
 
 * Fix error message returned on push to closed change
 +
@@ -225,6 +344,12 @@ Instead of saying 'change not found' when pushing to a commit to
 a refs/changes/NNNN reference that belongs in another project, the
 error now indicates the change belongs to another project.
 
+* Better help message when commit message is malformed
++
+If the commit message is badly formatted Gerrit displays an error
+message to the client. This message has been extended to offer
+suggestions on how to correct the commit message.
+
 * Log warning on 'change state corrupt' error
 +
 If a change state corrupt error is reported to a client, there was
@@ -233,8 +358,12 @@ site administrator also knows about it.
 
 SSH Commands
 ~~~~~~~~~~~~
+* issue 755 Send new patchset event after its available
 * issue 814 Evict initial members of group created by SSH
 * issue 879 Fix replication of initial empty commit in new project
+* Disallow setting a project as parent for itself
+* Autoamtically create user account(s) as necessary
+* Move SSH command creation off NioProcessor threads
 
 Administration
 ~~~~~~~~~~~~~~
@@ -248,23 +377,24 @@ projects created by gerrit create-project. Fixed.
 +
 An invalid username is now always reported in UTF-8.
 
-* gerrit.sh: Support spaces in JAVA_HOME
+* PostgreSQL: conditional installation of PL/pgSQL.
 +
-Mac OS X may need spaces in the path to the JRE.
+Conditional installation is needed to install Gerrit on PostgreSQL 9.
 
+* issue 961 Fix NPE on Gerrit startup if mail.from is invalid
+* issue 966 Enable git:// download URLs if canonicalGitUrl set
 * Stop logging 'keepalive@jcraft.com' errors in error_log
+* gerrit.sh: Fix issues on SuSE Linux
+* gerrit.sh: Fix issues on Solaris
+* gerrit.sh: Support spaces in JAVA_HOME
 
 Documentation
 ~~~~~~~~~~~~~
 * issue 800 documentation: Show example of review -m
-* issue 896 Clarify that ${name} is required for replication.
+* issue 896 Clarify that $\{name\} is required for replication.
 * Fix spelling mistake in 'Searching Changes' documentation
 * Fix spelling mistake in user-upload documentation
 * Document cache diff_intraline
 * Document change set dependencies and cherry-pick
 * Include user in scp commands to copy commit hook
 * Adjust documentation to build with current AsciiDoc version
-
-Version
--------
-a1b59472d207054ff635636807c943c0b14aae58

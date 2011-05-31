@@ -158,5 +158,10 @@ limitations under the License.
       <groupId>dk.brics.automaton</groupId>
       <artifactId>automaton</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>com.googlecode.prolog-cafe</groupId>
+      <artifactId>PrologCafe</artifactId>
+    </dependency>
   </dependencies>
 </project>

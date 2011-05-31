@@ -63,7 +63,7 @@ import java.util.Map.Entry;
 /** Export review notes for all submitted changes in all projects. */
 public class ExportReviewNotes extends SiteProgram {
   @Option(name = "--threads", usage = "Number of concurrent threads to run")
-  private int threads = 2 * Runtime.getRuntime().availableProcessors();
+  private int threads = 2;
 
   private final LifecycleManager manager = new LifecycleManager();
   private final TextProgressMonitor textMonitor = new TextProgressMonitor();

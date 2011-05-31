@@ -29,8 +29,7 @@ OPTIONS
 	configuration data, supporting libaries and log files.
 
 \--threads::
-	Number of threads to perform the scan work with.  Defaults to
-	twice the number of CPUs available.
+	Number of threads to perform the scan work with.  Default: 2.
 
 CONTEXT
 -------

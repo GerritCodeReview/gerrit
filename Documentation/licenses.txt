@@ -36,6 +36,7 @@ Included Components
 |Ehcache                    | <<apache2,Apache License 2.0>>
 |mime-util                  | <<apache2,Apache License 2.0>>
 |Jetty                      | <<apache2,Apache License 2.0>>, or link:http://www.eclipse.org/legal/epl-v10.html[EPL]
+|Prolog Cafe                | <<prolog_cafe,EPL or GPL>>
 |Google Code Prettify       | <<apache2,Apache License 2.0>>
 |JGit                       | <<jgit,New-Style BSD>>
 |JSch                       | <<sshd,New-Style BSD>>
@@ -398,6 +399,23 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 ----
+
+[[prolog_cafe]]
+Prolog Cafe - EPL or GPL
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Originally developed by Mutsunori BANBARA and Naoyuki TAMURA at the
+Kobe University, JAPAN. Gerrit Code Review uses a fork derived from
+the 1.2.5 release.
+
+Prolog Cafe is dual licensed and available under either the
+link:http://opensource.org/licenses/eclipse-1.0.php[Eclipse Public License],
+or the
+link:http://www.gnu.org/licenses/gpl-2.0.html[GPL version 2.0 (or later)].
+
+In the context of Gerrit Code Review, Prolog Cafe is consumed
+under either the EPL or GPL version 3.0 as GPL version 2.0 is
+not compatible with Apache License 2.0.
 
 [[h2]]
 H2 Database - EPL or modified MPL

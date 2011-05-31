@@ -44,6 +44,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.mail.CreateChangeSender;
+import com.google.gerrit.server.mail.BranchEmail;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -139,6 +140,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final ApprovalTypes approvalTypes;
   private final AccountResolver accountResolver;
   private final CreateChangeSender.Factory createChangeSenderFactory;
+  private final BranchEmail.Factory branchEmailFactory;
   private final MergedSender.Factory mergedSenderFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ReplicationQueue replication;
@@ -176,6 +178,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   ReceiveCommits(final ReviewDb db, final ApprovalTypes approvalTypes,
       final AccountResolver accountResolver,
       final CreateChangeSender.Factory createChangeSenderFactory,
+      final BranchEmail.Factory branchEmailFactory,
       final MergedSender.Factory mergedSenderFactory,
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
       final ReplicationQueue replication,
@@ -195,6 +198,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.approvalTypes = approvalTypes;
     this.accountResolver = accountResolver;
     this.createChangeSenderFactory = createChangeSenderFactory;
+    this.branchEmailFactory = branchEmailFactory;
     this.mergedSenderFactory = mergedSenderFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.replication = replication;
@@ -375,6 +379,24 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     for (final ReceiveCommand c : commands) {
       if (c.getResult() == Result.OK) {
         if (isHead(c)) {
+          try {
+            sendBypassEmail(c);
+          } catch (EmailException e) {
+            String error_head = "";
+            switch (c.getType()) {
+              case CREATE:
+                error_head = "Create branch email error: ";
+                break;
+              case DELETE:
+                error_head = "Delete branch email error: ";
+                break;
+              case UPDATE:
+                error_head = "Update branch email error: ";
+                break;
+            }
+            log.error(error_head, e);
+          }
+
           switch (c.getType()) {
             case CREATE:
               autoCloseChanges(c);
@@ -692,12 +714,36 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
   }
 
+  private boolean branchExists(final ReceiveCommand cmd) {
+    String branchName = cmd.getRefName();
+
+    if (!isHead(cmd)) {
+      branchName = Constants.R_HEADS + branchName;
+    }
+
+    int split = branchName.length();
+    while (!rp.getAdvertisedRefs().containsKey(branchName)) {
+      split = branchName.lastIndexOf('/', split - 1);
+      if (split <= Constants.R_REFS.length()) {
+        return false;
+      }
+      branchName = branchName.substring(0, split);
+    }
+    return true;
+  }
+
   private void parseDelete(final ReceiveCommand cmd) {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    if (ctl.canDelete()) {
-      // Let the core receive process handle it
+    if (!branchExists(cmd)) {
+      String destBranchName = cmd.getRefName();
+      if (isHead(cmd)) {
+        destBranchName = destBranchName.substring(Constants.R_HEADS.length());
+      }
+      reject(cmd, "delete failed, branch " + destBranchName + " not found");
     } else {
-      reject(cmd);
+      if (!ctl.canDelete()) {
+        reject(cmd);
+      }
     }
   }
 
@@ -727,6 +773,31 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     } else {
       cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD);
     }
+  }
+
+  private void sendBypassEmail(final ReceiveCommand cmd) throws EmailException {
+    final Account.Id me = currentUser.getAccountId();
+    final String destBranchName =
+        cmd.getRefName().substring(Constants.R_HEADS.length());
+    List<String> parameters = new ArrayList<String>(2);
+    BranchEmail bm = null;
+
+    switch (cmd.getType()) {
+      case CREATE:
+        parameters.add("newbranch");
+        break;
+      case UPDATE:
+        parameters.add("modifybranch");
+        break;
+      case DELETE:
+        parameters.add("deleteBranch");
+        ;
+        break;
+    }
+    parameters.add(destBranchName);
+    bm = branchEmailFactory.create(project, parameters, cmd.getType());
+    bm.setFrom(me);
+    bm.send();
   }
 
   private void parseNewChangeCommand(final ReceiveCommand cmd) {

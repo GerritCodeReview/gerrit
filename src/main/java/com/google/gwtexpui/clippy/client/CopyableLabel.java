@@ -144,6 +144,7 @@ public class CopyableLabel extends Composite implements HasText {
       h.openElement("embed");
       h.setWidth(SWF_WIDTH);
       h.setHeight(SWF_HEIGHT);
+      h.setAttribute("wmode", "transparent");
       h.setAttribute("type", "application/x-shockwave-flash");
       h.setAttribute("src", swfUrl());
       h.setAttribute("FlashVars", flashVars);

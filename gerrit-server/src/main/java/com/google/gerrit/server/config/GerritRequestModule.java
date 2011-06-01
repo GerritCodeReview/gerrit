@@ -24,6 +24,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.MergeOpFactory;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.mail.AbandonedSender;
@@ -60,7 +61,9 @@ public class GerritRequestModule extends FactoryModule {
 
     factory(ChangeQueryBuilder.Factory.class);
     factory(ReceiveCommits.Factory.class);
-    factory(MergeOp.Factory.class);
+
+    bind(MergeOp.Factory.class).to(MergeOpFactory.class);
+
     factory(CreateCodeReviewNotes.Factory.class);
 
     // Not really per-request, but dammit, I don't know where else to

@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
+import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReplicationUser;
 import com.google.gerrit.server.config.GitReceivePackGroups;
@@ -29,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -101,6 +103,7 @@ public class ProjectControl {
     ProjectControl create(CurrentUser who, ProjectState ps);
   }
 
+  private final SystemConfig systemConfig;
   private final Set<AccountGroup.Id> uploadGroups;
   private final Set<AccountGroup.Id> receiveGroups;
 
@@ -109,10 +112,12 @@ public class ProjectControl {
   private final ProjectState state;
 
   @Inject
-  ProjectControl(@GitUploadPackGroups Set<AccountGroup.Id> uploadGroups,
+  ProjectControl(final SystemConfig systemConfig,
+      @GitUploadPackGroups Set<AccountGroup.Id> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.Id> receiveGroups,
       final RefControl.Factory refControlFactory,
       @Assisted CurrentUser who, @Assisted ProjectState ps) {
+    this.systemConfig = systemConfig;
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.refControlFactory = refControlFactory;
@@ -197,7 +202,7 @@ public class ProjectControl {
   // TODO (anatol.pomazau): Try to merge this method with similar RefRightsForPattern#canPerform
   private boolean canPerformOnAnyRef(ApprovalCategory.Id actionId,
       short requireValue) {
-    final Set<AccountGroup.Id> groups = user.getEffectiveGroups();
+    final Set<AccountGroup.Id> groups = getEffectiveUserGroups();
 
     for (final RefRight pr : state.getAllRights(actionId, true)) {
       if (groups.contains(pr.getAccountGroupId())
@@ -207,6 +212,22 @@ public class ProjectControl {
     }
 
     return false;
+  }
+
+  /**
+   * @return the effective groups of the current user for this project
+   */
+  private Set<AccountGroup.Id> getEffectiveUserGroups() {
+    final Set<AccountGroup.Id> userGroups = user.getEffectiveGroups();
+    if (isOwner()) {
+      final Set<AccountGroup.Id> userGroupsOnProject =
+          new HashSet<AccountGroup.Id>(userGroups.size() + 1);
+      userGroupsOnProject.addAll(userGroups);
+      userGroupsOnProject.add(systemConfig.ownerGroupId);
+      return Collections.unmodifiableSet(userGroupsOnProject);
+    } else {
+      return userGroups;
+    }
   }
 
   private boolean canPerformOnAllRefs(ApprovalCategory.Id actionId,
@@ -238,10 +259,10 @@ public class ProjectControl {
   }
 
   public boolean canRunUploadPack() {
-    return isAnyIncludedIn(uploadGroups, user.getEffectiveGroups());
+    return isAnyIncludedIn(uploadGroups, getEffectiveUserGroups());
   }
 
   public boolean canRunReceivePack() {
-    return isAnyIncludedIn(receiveGroups, user.getEffectiveGroups());
+    return isAnyIncludedIn(receiveGroups, getEffectiveUserGroups());
   }
 }

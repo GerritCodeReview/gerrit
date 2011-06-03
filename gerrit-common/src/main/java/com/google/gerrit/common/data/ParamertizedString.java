@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /** Performs replacements on strings such as <code>Hello ${user}</code>. */
 public class ParamertizedString {
@@ -47,6 +48,7 @@ public class ParamertizedString {
     final StringBuilder raw = new StringBuilder();
     final List<Parameter> prs = new ArrayList<Parameter>(4);
     final List<Format> ops = new ArrayList<Format>(4);
+    final List<Function> functions = new ArrayList<Function>();
 
     int i = 0;
     while (i < pattern.length()) {
@@ -63,20 +65,27 @@ public class ParamertizedString {
       ops.add(new Constant(pattern.substring(i, b)));
 
       String expr = pattern.substring(b + 2, e);
-      Function function;
-      int lastDot = expr.lastIndexOf('.');
-      if (lastDot < 0) {
-        function = NOOP;
+      String parameterName = "";
+      if (!expr.contains(".")) {
+        parameterName = expr;
       } else {
-        function = FUNCTIONS.get(expr.substring(lastDot + 1));
-        if (function == null) {
-          function = NOOP;
-        } else {
-          expr = expr.substring(0, lastDot);
+        int firstDot = expr.indexOf('.');
+        parameterName = expr.substring(0, firstDot);
+        String actionsStr = expr.substring(firstDot + 1);
+        String[] actions = actionsStr.split("\\.");
+
+        for (String action : actions) {
+          Function function = FUNCTIONS.get(action);
+          if (function == null) {
+            function = NOOP;
+          }
+          functions.add(function);
         }
       }
+      functions.add(NOOP);
 
-      final Parameter p = new Parameter(expr, function);
+      final Parameter p =
+          new Parameter(parameterName, Collections.unmodifiableList(functions));
       raw.append("{" + prs.size() + "}");
       prs.add(p);
       ops.add(p);
@@ -175,11 +184,11 @@ public class ParamertizedString {
 
   private static class Parameter extends Format {
     private final String name;
-    private final Function function;
+    private final List<Function> functions;
 
-    Parameter(final String name, final Function function) {
+    Parameter(final String name, final List<Function> functions) {
       this.name = name;
-      this.function = function;
+      this.functions = functions;
     }
 
     @Override
@@ -188,7 +197,10 @@ public class ParamertizedString {
       if (v == null) {
         v = "";
       }
-      b.append(function.apply(v));
+      for (Function function : functions) {
+        v = function.apply(v);
+      }
+      b.append(v);
     }
   }
 
@@ -227,4 +239,5 @@ public class ParamertizedString {
     });
     return Collections.unmodifiableMap(m);
   }
+
 }

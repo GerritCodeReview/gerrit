@@ -479,6 +479,9 @@ public abstract class PatchScreen extends Screen implements
   public void setSideA(PatchSet.Id patchSetId) {
     idSideA = patchSetId;
     diffSideA = patchSetId;
+    if (fileList != null) {
+      fileList.setPatchSetIdToCompareWith(patchSetId);
+    }
   }
 
   public void setSideB(PatchSet.Id patchSetId) {

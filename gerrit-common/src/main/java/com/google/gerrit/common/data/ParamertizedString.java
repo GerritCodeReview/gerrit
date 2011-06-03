@@ -225,6 +225,22 @@ public class ParamertizedString {
         return at < 0 ? a : a.substring(0, at);
       }
     });
+    m.put("localPartLowerCase", new Function() {
+      @Override
+      String apply(String a) {
+        String s = a.toLowerCase();
+        int at = s.indexOf('@');
+        return at < 0 ? s : s.substring(0, at);
+      }
+    });
+    m.put("localPartUpperCase", new Function() {
+      @Override
+      String apply(String a) {
+        String s = a.toUpperCase();
+        int at = s.indexOf('@');
+        return at < 0 ? s : s.substring(0, at);
+      }
+    });
     return Collections.unmodifiableMap(m);
   }
 }

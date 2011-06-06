@@ -14,27 +14,39 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.rules.PrologEnvironment;
+import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.workflow.CategoryFunction;
-import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import com.googlecode.prolog_cafe.lang.IntegerTerm;
+import com.googlecode.prolog_cafe.lang.PrologException;
+import com.googlecode.prolog_cafe.lang.StructureTerm;
+import com.googlecode.prolog_cafe.lang.SymbolTerm;
+import com.googlecode.prolog_cafe.lang.Term;
+import com.googlecode.prolog_cafe.lang.VariableTerm;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
 /** Access control management for a user accessing a single change. */
 public class ChangeControl {
+  private static final Logger log = LoggerFactory
+      .getLogger(ChangeControl.class);
+
   public static class GenericFactory {
     private final ProjectControl.GenericFactory projectControl;
 
@@ -234,29 +246,95 @@ public class ChangeControl {
   }
 
   /** @return {@link CanSubmitResult#OK}, or a result with an error message. */
-  public CanSubmitResult canSubmit(final PatchSet.Id patchSetId, final ReviewDb db,
-        final ApprovalTypes approvalTypes,
-        FunctionState.Factory functionStateFactory)
-         throws OrmException {
-
+  public CanSubmitResult canSubmit(ReviewDb db, PatchSet.Id patchSetId) {
     CanSubmitResult result = canSubmit(patchSetId);
     if (result != CanSubmitResult.OK) {
       return result;
     }
 
-    final List<PatchSetApproval> all =
-        db.patchSetApprovals().byPatchSet(patchSetId).toList();
+    PrologEnvironment env = getProjectControl().getProjectState().newPrologEnvironment();
+    env.set(StoredValues.REVIEW_DB, db);
+    env.set(StoredValues.CHANGE, change);
+    env.set(StoredValues.PATCH_SET_ID, patchSetId);
+    env.set(StoredValues.CHANGE_CONTROL, this);
 
-    final FunctionState fs =
-        functionStateFactory.create(change, patchSetId, all);
+    StructureTerm submitRule = SymbolTerm.makeSymbol(
+        "com.google.gerrit.rules.common", "default_submit", 1);
 
-    for (ApprovalType c : approvalTypes.getApprovalTypes()) {
-      CategoryFunction.forCategory(c.getCategory()).run(c, fs);
+    List<Term> results = new ArrayList<Term>();
+    try {
+      for (Term[] template : env.all(
+              "com.google.gerrit.rules.common", "can_submit",
+              submitRule,
+              new VariableTerm())) {
+          results.add(template[1]);
+        }
+    } catch (PrologException err) {
+      log.error("PrologException calling "+submitRule, err);
+      return new CanSubmitResult("Error in submit rule");
     }
 
-    for (ApprovalType type : approvalTypes.getApprovalTypes()) {
-      if (!fs.isValid(type)) {
-        return new CanSubmitResult("Requires " + type.getCategory().getName());
+    if (results.isEmpty()) {
+      // This should never occur. A well written submit rule will always produce
+      // at least one result informing the caller of the labels that are
+      // required for this change to be submittable. Each label will indicate
+      // whether or not that is actually possible given the permissions.
+      log.error("Submit rule has no solution: " + submitRule);
+      return new CanSubmitResult("Error in submit rule (no solution possible)");
+    }
+
+    // The last result produced will be an "ok(P)" format if submit is possible.
+    // This is always true because can_submit (called above) will cut away all
+    // choice points once a solution is found.
+    Term last = results.get(results.size() - 1);
+    if (last.isStructure() && 1 == last.arity() && "ok".equals(last.name())) {
+      Term solution = last.arg(0);
+      return CanSubmitResult.OK;
+    }
+
+    // For now only process the first result. Later we can examine all of the
+    // results and proposes different alternative paths to a submit solution.
+    Term first = results.get(0);
+    if (!first.isStructure() || 1 != first.arity() || !"not_ready".equals(first.name())) {
+      log.error("Unexpected result from can_submit: " + first);
+      return new CanSubmitResult("Error in submit rule");
+    }
+
+    Term submitRecord = first.arg(0);
+    if (!submitRecord.isStructure()) {
+      log.error("Invalid result from submit rule " + submitRule + ": " + submitRecord);
+      return new CanSubmitResult("Error in submit rule");
+    }
+
+    for (Term state : ((StructureTerm) submitRecord).args()) {
+      if (!state.isStructure() || 2 != state.arity() || !"label".equals(state.name())) {
+        log.error("Invalid result from submit rule " + submitRule + ": " + submitRecord);
+        return new CanSubmitResult("Invalid submit rule result");
+      }
+
+      String label = state.arg(0).name();
+      Term status = state.arg(1);
+
+      if ("ok".equals(status.name())) {
+        continue;
+
+      } else if ("reject".equals(status.name())) {
+        return new CanSubmitResult("Submit blocked by "+ label);
+
+      } else if ("need".equals(status.name())) {
+        if (status.isStructure() && status.arg(0).isInteger()) {
+          IntegerTerm val = (IntegerTerm) status.arg(0);
+          if (1 < val.intValue()) {
+            label += "+" + val.intValue();
+          }
+        }
+        return new CanSubmitResult("Requires " + label);
+
+      } else if ("impossble".equals(status.name())) {
+        return new CanSubmitResult("Requires " + label + " (check permissions)");
+
+      } else {
+        return new CanSubmitResult("Invalid submit rule result");
       }
     }
 

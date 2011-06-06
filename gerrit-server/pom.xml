@@ -164,4 +164,58 @@ limitations under the License.
       <artifactId>PrologCafe</artifactId>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>prolog-to-java</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <property name="gensrc" location="${project.build.directory}/generated-sources"/>
+                <property name="pkg"    location="${gensrc}/prolog-java/com/google/gerrit/rules"/>
+
+                <java classname="com.googlecode.prolog_cafe.compiler.Compiler"
+                    fork="true"
+                    failonerror="true"
+                    classpathref="maven.compile.classpath">
+                  <arg value="--show-stack-trace"/>
+                  <arg value="-O"/>
+                  <arg value="-am"/><arg value="${gensrc}/prolog-am"/>
+                  <arg value="-s" /><arg value="${pkg}/common"/>
+                  <arg value="src/main/prolog/common_rules.pl"/>
+                </java>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}/generated-sources/prolog-java</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

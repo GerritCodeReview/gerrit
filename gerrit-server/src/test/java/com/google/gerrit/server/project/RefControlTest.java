@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.SystemConfig;
+import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -317,13 +318,16 @@ public class RefControlTest extends TestCase {
       }
     };
 
+    PrologEnvironment.Factory envFactory = null;
     GitRepositoryManager mgr = null;
     Project.NameKey wildProject = new Project.NameKey("All-Projects");
     ProjectControl.AssistedFactory projectControlFactory = null;
     all.put(local.getProject().getNameKey(), new ProjectState(anonymousUser,
-        projectCache, wildProject, projectControlFactory, mgr, local));
+        projectCache, wildProject, projectControlFactory,
+        envFactory, mgr, local));
     all.put(parent.getProject().getNameKey(), new ProjectState(anonymousUser,
-        projectCache, wildProject, projectControlFactory, mgr, parent));
+        projectCache, wildProject, projectControlFactory,
+        envFactory, mgr, parent));
     return all.get(local.getProject().getNameKey());
   }
 

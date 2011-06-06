@@ -250,9 +250,7 @@ public class ReviewCommand extends BaseCommand {
     }
 
     if (submitChange) {
-      CanSubmitResult result =
-          changeControl.canSubmit(patchSetId, db, approvalTypes,
-              functionStateFactory);
+      CanSubmitResult result = changeControl.canSubmit(db, patchSetId);
       if (result == CanSubmitResult.OK) {
         toSubmit.add(patchSetId);
       } else {

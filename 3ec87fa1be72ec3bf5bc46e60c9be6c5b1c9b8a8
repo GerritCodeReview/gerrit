@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABB3///Zk\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-06-06T12:12:29Z",
+      "side": 1,
+      "message": "Minor comment: add description text of it.",
+      "revId": "3ec87fa1be72ec3bf5bc46e60c9be6c5b1c9b8a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

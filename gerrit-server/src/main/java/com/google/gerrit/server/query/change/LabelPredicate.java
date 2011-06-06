@@ -146,7 +146,7 @@ class LabelPredicate extends OperatorPredicate<ChangeData> {
   @Override
   public boolean match(final ChangeData object) throws OrmException {
     for (PatchSetApproval p : object.currentApprovals(dbProvider)) {
-      if (p.getCategoryId().equals(category)) {
+      if (p.getCategoryId().equals(category.getId())) {
         int psVal = p.getValue();
         if (test.match(psVal, expVal)) {
           // Double check the value is still permitted for the user.

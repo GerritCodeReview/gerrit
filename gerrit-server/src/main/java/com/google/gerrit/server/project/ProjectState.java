@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.WildProjectName;
@@ -49,6 +50,7 @@ public class ProjectState {
   private final Project.NameKey wildProject;
   private final ProjectCache projectCache;
   private final ProjectControl.AssistedFactory projectControlFactory;
+  private final PrologEnvironment.Factory envFactory;
   private final GitRepositoryManager gitMgr;
 
   private final ProjectConfig config;
@@ -62,12 +64,14 @@ public class ProjectState {
       final ProjectCache projectCache,
       @WildProjectName final Project.NameKey wildProject,
       final ProjectControl.AssistedFactory projectControlFactory,
+      final PrologEnvironment.Factory envFactory,
       final GitRepositoryManager gitMgr,
       @Assisted final ProjectConfig config) {
     this.anonymousUser = anonymousUser;
     this.projectCache = projectCache;
     this.wildProject = wildProject;
     this.projectControlFactory = projectControlFactory;
+    this.envFactory = envFactory;
     this.gitMgr = gitMgr;
     this.config = config;
     this.lastCheckTime = System.currentTimeMillis();
@@ -114,6 +118,12 @@ public class ProjectState {
     } catch (IOException gone) {
       return true;
     }
+  }
+
+  /** @return Construct a new PrologEnvironment for the calling thread. */
+  public PrologEnvironment newPrologEnvironment() {
+    // TODO Replace this with a per-project ClassLoader to isolate rules.
+    return envFactory.create(getClass().getClassLoader());
   }
 
   public Project getProject() {

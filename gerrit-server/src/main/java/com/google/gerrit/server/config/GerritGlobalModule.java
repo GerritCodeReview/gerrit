@@ -21,6 +21,7 @@ import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.IdentifiedUser;
@@ -149,6 +150,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(ProjectCacheImpl.module());
     install(new AccessControlModule());
     install(new GitModule());
+    install(new PrologModule());
 
     factory(AccountInfoCacheFactory.Factory.class);
     factory(GroupInfoCacheFactory.Factory.class);

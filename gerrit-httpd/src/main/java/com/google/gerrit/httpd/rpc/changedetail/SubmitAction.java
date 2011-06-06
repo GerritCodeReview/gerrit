@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
-import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -29,7 +28,6 @@ import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -41,8 +39,6 @@ class SubmitAction extends Handler<ChangeDetail> {
 
   private final ReviewDb db;
   private final MergeQueue merger;
-  private final ApprovalTypes approvalTypes;
-  private final FunctionState.Factory functionState;
   private final IdentifiedUser user;
   private final ChangeDetailFactory.Factory changeDetailFactory;
   private final ChangeControl.Factory changeControlFactory;
@@ -51,16 +47,14 @@ class SubmitAction extends Handler<ChangeDetail> {
   private final PatchSet.Id patchSetId;
 
   @Inject
-  SubmitAction(final ReviewDb db, final MergeQueue mq, final ApprovalTypes at,
-      final FunctionState.Factory fs, final IdentifiedUser user,
+  SubmitAction(final ReviewDb db, final MergeQueue mq,
+      final IdentifiedUser user,
       final ChangeDetailFactory.Factory changeDetailFactory,
       final ChangeControl.Factory changeControlFactory,
       final MergeOp.Factory opFactory,
       @Assisted final PatchSet.Id patchSetId) {
     this.db = db;
     this.merger = mq;
-    this.approvalTypes = at;
-    this.functionState = fs;
     this.user = user;
     this.changeControlFactory = changeControlFactory;
     this.changeDetailFactory = changeDetailFactory;
@@ -78,8 +72,7 @@ class SubmitAction extends Handler<ChangeDetail> {
     final ChangeControl changeControl =
         changeControlFactory.validateFor(changeId);
 
-    CanSubmitResult err =
-        changeControl.canSubmit(patchSetId, db, approvalTypes, functionState);
+    CanSubmitResult err = changeControl.canSubmit(db, patchSetId);
     if (err == CanSubmitResult.OK) {
       ChangeUtil.submit(patchSetId, user, db, opFactory, merger);
       return changeDetailFactory.create(changeId).call();

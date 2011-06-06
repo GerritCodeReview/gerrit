@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABB3///R8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-06T21:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABB3///n4\u003d",
+      "revId": "b8a631e94f791f868546f8f4d5de4d0def6e835e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABB3///n0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/InvalidChangeOperationException.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAABB3///SA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/InvalidChangeOperationException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-06T21:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABB3///n0\u003d",
+      "revId": "b8a631e94f791f868546f8f4d5de4d0def6e835e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABB3///nw\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/InvalidChangeOperationException.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2011-06-03T13:14:14Z",
       "side": 1,
       "message": "[optional] do we need to store the message on our own? Why not to use getMessage() from the Exception class to access the message?",
+      "revId": "b8a631e94f791f868546f8f4d5de4d0def6e835e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///SE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/InvalidChangeOperationException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-06T21:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABB3///nw\u003d",
       "revId": "b8a631e94f791f868546f8f4d5de4d0def6e835e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABB3///YY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-06T13:56:42Z",
+      "side": 1,
+      "message": "*sigh*. I hate Java.\n\nThanks for the fix.",
+      "revId": "3cd9de924ee41754d8ac5129f62c212c5cf740f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

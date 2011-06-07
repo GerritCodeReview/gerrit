@@ -49,8 +49,9 @@ final class ListProjects extends BaseCommand {
   @Inject
   private GitRepositoryManager repoManager;
 
-  @Option(name = "--show-branch", aliases = {"-b"}, usage = "displays the sha of each project in the specified branch")
-  private String showBranch;
+  @Option(name = "--show-branch", aliases = {"-b"}, multiValued = true,
+      usage = "displays the sha of each project in the specified branch")
+  private List<String> showBranch;
 
   @Option(name = "--tree", aliases = {"-t"}, usage = "displays project inheritance in a tree-like format\n" +
       "this option does not work together with the show-branch option")
@@ -102,16 +103,37 @@ final class ListProjects extends BaseCommand {
           }
 
           if (showBranch != null) {
-            final Ref ref = getBranchRef(projectName);
-            if (ref == null || ref.getObjectId() == null
-                || !pctl.controlForRef(ref.getLeaf().getName()).isVisible()) {
-              // No branch, or the user can't see this branch, so skip it.
-              //
+            final List<Ref> refs = getBranchRefs(projectName);
+            if (refs == null) {
               continue;
             }
 
-            stdout.print(ref.getObjectId().name());
-            stdout.print(' ');
+            boolean hasVisibleRefs = false;
+            for (int i = 0; i < refs.size(); i++) {
+              Ref ref = refs.get(i);
+              if (ref == null
+                || ref.getObjectId() == null
+                || !pctl.controlForRef(ref.getLeaf().getName()).isVisible()) {
+                // No branch, or the user can't see this branch, so remove it.
+                refs.set(i, null);
+              } else {
+                hasVisibleRefs = true;
+              }
+            }
+
+            if (!hasVisibleRefs) {
+             continue;
+            }
+
+            for (Ref ref : refs) {
+              if (ref == null) {
+                // Print stub (forty '-' symbols)
+                stdout.print("----------------------------------------");
+              } else {
+                stdout.print(ref.getObjectId().name());
+              }
+              stdout.print(' ');
+            }
           }
 
           stdout.print(projectName.get() + "\n");
@@ -151,11 +173,15 @@ final class ListProjects extends BaseCommand {
     }
   }
 
-  private Ref getBranchRef(Project.NameKey projectName) {
+  private List<Ref> getBranchRefs(Project.NameKey projectName) {
     try {
       final Repository r = repoManager.openRepository(projectName);
       try {
-        return r.getRef(showBranch);
+        final List<Ref> result = new ArrayList<Ref>(showBranch.size());
+        for (String branch : showBranch) {
+          result.add(r.getRef(branch));
+        }
+        return result;
       } finally {
         r.close();
       }

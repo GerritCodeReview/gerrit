@@ -53,7 +53,7 @@ public class ProjectAccess {
   }
 
   public boolean isOwnerOf(AccessSection section) {
-    return getOwnerOf().contains(section.getRefPattern());
+    return RefUtil.isAnySuperSet(getOwnerOf(), section.getRefPattern());
   }
 
   public Set<String> getOwnerOf() {

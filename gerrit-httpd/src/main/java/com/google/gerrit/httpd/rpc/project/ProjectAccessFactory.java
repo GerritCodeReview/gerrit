@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -25,14 +26,17 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,6 +51,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   private final ProjectControl.Factory projectControlFactory;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final Project.NameKey wildProject;
+  private final Provider<CurrentUser> currentUser;
 
   private final Project.NameKey projectName;
   private ProjectControl pc;
@@ -57,14 +62,14 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       final ProjectControl.Factory projectControlFactory,
       final MetaDataUpdate.Server metaDataUpdateFactory,
       @WildProjectName final Project.NameKey wildProject,
-
-
+      final Provider<CurrentUser> currentUser,
       @Assisted final Project.NameKey name) {
     this.groupCache = groupCache;
     this.projectCache = projectCache;
     this.projectControlFactory = projectControlFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.wildProject = wildProject;
+    this.currentUser = currentUser;
 
     this.projectName = name;
   }
@@ -100,13 +105,9 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     }
 
     List<AccessSection> local = new ArrayList<AccessSection>();
-    Set<String> ownerOf = new HashSet<String>();
     for (AccessSection section : config.getAccessSections()) {
       RefControl rc = pc.controlForRef(section.getRefPattern());
-      if (rc.isOwner()) {
-        local.add(section);
-        ownerOf.add(section.getRefPattern());
-      } else if (rc.isVisible()) {
+      if (rc.isVisible() || rc.isOwner()) {
         local.add(section);
       }
     }
@@ -114,7 +115,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     final ProjectAccess detail = new ProjectAccess();
     detail.setRevision(config.getRevision().name());
     detail.setLocal(local);
-    detail.setOwnerOf(ownerOf);
+    detail.setOwnerOf(getOwnedRefs());
 
     if (projectName.equals(wildProject)) {
       detail.setInheritsFrom(null);
@@ -125,6 +126,22 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     }
 
     return detail;
+  }
+
+  private Set<String> getOwnedRefs() {
+    final Set<String> ownedRefs = new HashSet<String>();
+    if (currentUser.get().isAdministrator()) {
+      ownedRefs.add(AccessSection.ALL);
+    } else {
+      final ProjectState project = projectCache.get(projectName);
+      for (final AccessSection section : project.getAllAccessSections()) {
+        final RefControl rc = pc.controlForRef(section.getRefPattern());
+        if (rc.isOwner()) {
+          ownedRefs.add(section.getRefPattern());
+        }
+      }
+    }
+    return Collections.unmodifiableSet(ownedRefs);
   }
 
   private ProjectControl open() throws NoSuchProjectException {

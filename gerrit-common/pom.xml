@@ -61,6 +61,12 @@ limitations under the License.
       <artifactId>gerrit-patch-jgit</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>dk.brics.automaton</groupId>
+      <artifactId>automaton</artifactId>
+      <version>1.11.2</version>
+    </dependency>
   </dependencies>
 
   <build>

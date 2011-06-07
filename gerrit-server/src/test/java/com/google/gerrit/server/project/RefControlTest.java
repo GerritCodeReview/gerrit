@@ -277,7 +277,8 @@ public class RefControlTest extends TestCase {
         return new RefControl(systemConfig, projectControl, ref);
       }
     };
-    return new ProjectControl(Collections.<AccountGroup.Id> emptySet(),
+    return new ProjectControl(systemConfig,
+        Collections.<AccountGroup.Id> emptySet(),
         Collections.<AccountGroup.Id> emptySet(), refControlFactory,
         new MockUser(memberOf), newProjectState());
   }

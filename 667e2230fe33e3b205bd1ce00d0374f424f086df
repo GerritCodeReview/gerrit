@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABB3//+9I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T21:52:09Z",
+      "side": 1,
+      "message": "Is this refactoring tied to your change?  If not, perhaps it should be a small separate change which this one depends on instead (or independent if no obvious tie)?",
+      "revId": "667e2230fe33e3b205bd1ce00d0374f424f086df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3//+9c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AccountAndAccountGroupSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T21:52:09Z",
+      "side": 1,
+      "message": "To save an RPC roundtrip, could you create a new suggestservice that does both of these queries and returns the combined results instead?  I think that it is important to ensure a single RPC for an oracle since it needs to respond quickly while users are typing.\n\nAdditonnaly, such an oracle could perhaps already filter groups which are larger than maxAllowed?  It could also filter out the Registered and Anonymous User groups?",
+      "revId": "667e2230fe33e3b205bd1ce00d0374f424f086df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3//+9M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/AddReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T21:52:09Z",
+      "side": 1,
+      "message": "Typo Nit: s/reviewer/reviewers",
+      "revId": "667e2230fe33e3b205bd1ce00d0374f424f086df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3//+9U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/AddReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T21:52:09Z",
+      "side": 1,
+      "message": "If this can actually be null, then the new on line 256 will fail.",
+      "revId": "667e2230fe33e3b205bd1ce00d0374f424f086df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3//+9Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/AddReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T21:52:09Z",
+      "side": 1,
+      "message": "Should there be some sanity check to detect and abort loops if they can slip in somehow?",
+      "revId": "667e2230fe33e3b205bd1ce00d0374f424f086df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

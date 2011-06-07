@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABB3///MY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-07T02:10:20Z",
+      "side": 1,
+      "message": "Does this really help? IIRC it doesn\u0027t, but you were doing this work to set the stage for other caching, right?",
+      "revId": "e3927d0d77be82c7a6db59bc961e7bbbcd80c27d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///Mg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-07T02:10:20Z",
+      "side": 1,
+      "message": "I would prefer using the wildProject only if getParent().getParent() is null. Using it with a null cache lookup result is... odd. I don\u0027t want to have to think about the cases where the parent is defined, but the cache lookup fails, and results in the wildProject inheriting at the wrong place.",
+      "revId": "e3927d0d77be82c7a6db59bc961e7bbbcd80c27d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///Mc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-07T02:10:20Z",
+      "side": 1,
+      "message": "We should be evaluating seen.add() before we look at projectCache.get().\n\nBut you also have a bug here, you are adding \"THIS\" project\u0027s name to the collection on every iteration, not the parent\u0027s. Shouldn\u0027t we add the parent\u0027s and not recurse into the parent if its already added to the set?\n\nWhich implies we add ourselves to the set above when we add ourself to the revisions set.\n\nI think the code would be cleaner if the code used two Set parameters, one for revisions (as an output) and the other for the seen names.",
+      "revId": "e3927d0d77be82c7a6db59bc961e7bbbcd80c27d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///Mk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-07T02:10:20Z",
+      "side": 1,
+      "message": "Since accessSections is volatile, be more careful about reads and writes:\n\n  AccessSections s \u003d accessSections;\n  if (s \u003d\u003d null || configRevisionSet \u003d ...) {\n   s \u003d calculateAccessSections(seen);\n   accessSections \u003d s;\n  }\n  return s;",
+      "revId": "e3927d0d77be82c7a6db59bc961e7bbbcd80c27d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///MU\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-07T02:10:20Z",
+      "side": 1,
+      "message": "Why did we need to change this from emptySet() to null?",
+      "revId": "e3927d0d77be82c7a6db59bc961e7bbbcd80c27d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

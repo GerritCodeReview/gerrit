@@ -155,6 +155,10 @@ public class PatchScript {
     return intralineFailure;
   }
 
+  public boolean isExpandAllComments() {
+    return diffPrefs.isExpandAllComments();
+  }
+
   public SparseFileContent getA() {
     return a;
   }

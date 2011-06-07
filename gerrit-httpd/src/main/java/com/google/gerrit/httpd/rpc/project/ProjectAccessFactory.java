@@ -111,6 +111,13 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       }
     }
 
+    if (ownerOf.isEmpty() && pc.isOwnerAnyRef()) {
+      // Special case: If the section list is empty, this project has no current
+      // access control information. Rely on what ProjectControl determines
+      // is ownership, which probably means falling back to site administrators.
+      ownerOf.add(AccessSection.ALL);
+    }
+
     final ProjectAccess detail = new ProjectAccess();
     detail.setRevision(config.getRevision().name());
     detail.setLocal(local);

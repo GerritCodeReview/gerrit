@@ -104,6 +104,57 @@
     },
     {
       "key": {
+        "uuid": "AAABB3///Oo\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T22:40:45Z",
+      "side": 1,
+      "message": "Nit: Suggestion, great refactoring, buy maybe simplify more?  Eliminate ok here, put call directly in test?",
+      "revId": "6a7d922bb44173a8d34e2eb5699b3620cc55559e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///Os\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T22:40:45Z",
+      "side": 1,
+      "message": "Make private?\n\nSee my comment on submitPatchSets() about refactoring.",
+      "revId": "6a7d922bb44173a8d34e2eb5699b3620cc55559e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///OI\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T22:40:45Z",
+      "side": 1,
+      "message": "Maybe name this comment to avoid confusion with message from Review?",
+      "revId": "6a7d922bb44173a8d34e2eb5699b3620cc55559e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABB3///FQ\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 2
@@ -138,6 +189,40 @@
     },
     {
       "key": {
+        "uuid": "AAABB3///OA\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T22:40:45Z",
+      "side": 1,
+      "message": "Single quotes around the commit in the error messages here might help a user debug their potential typos.",
+      "revId": "6a7d922bb44173a8d34e2eb5699b3620cc55559e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///Nw\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T22:40:45Z",
+      "side": 1,
+      "message": "I am not sure what is appropriate above, but I suspect that for both exceptions you want to either continue or interrupt flow?  Currently, the first continues and the second interrupts flow.",
+      "revId": "6a7d922bb44173a8d34e2eb5699b3620cc55559e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABB3///E0\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 2
@@ -166,6 +251,23 @@
       "writtenOn": "2011-06-07T14:18:49Z",
       "side": 1,
       "message": "Style-nit: Do not assign a value here. Its assigned by the try portion of the next block, and if the exception occurs, it won\u0027t be assigned and the method throws so it doesn\u0027t matter.",
+      "revId": "6a7d922bb44173a8d34e2eb5699b3620cc55559e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///O0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T22:40:45Z",
+      "side": 1,
+      "message": "Should this be private?\n\nIt might also be a bit nicer to separate this refactor as a separate change and simply depend on it from this feature change.  If refactor only changes are kept separate, it makes it easier to review and later to test if there is a problem with either one.  I am trying to remember to do that. ;)",
       "revId": "6a7d922bb44173a8d34e2eb5699b3620cc55559e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

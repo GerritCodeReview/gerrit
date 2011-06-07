@@ -57,7 +57,7 @@ import java.util.Collections;
 /** Creates the current database schema and populates initial code rows. */
 public class SchemaCreator {
   private static final Project.NameKey DEFAULT_WILD_NAME =
-      new Project.NameKey("-- All Projects --");
+      new Project.NameKey("All-Projects");
 
   private final @SitePath
   File site_path;
@@ -216,7 +216,7 @@ public class SchemaCreator {
       git = mgr.openRepository(DEFAULT_WILD_NAME);
     } catch (RepositoryNotFoundException notFound) {
       // A repository may be missing if this project existed only to store
-      // inheritable permissions. For example '-- All Projects --'.
+      // inheritable permissions. For example 'All-Projects'.
       try {
         git = mgr.createRepository(DEFAULT_WILD_NAME);
       } catch (RepositoryNotFoundException err) {

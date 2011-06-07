@@ -155,7 +155,7 @@ class Schema_53 extends SchemaVersion {
         git = mgr.openRepository(nameKey);
       } catch (RepositoryNotFoundException notFound) {
         // A repository may be missing if this project existed only to store
-        // inheritable permissions. For example '-- All Projects --'.
+        // inheritable permissions. For example 'All-Projects'.
         try {
           git = mgr.createRepository(nameKey);
         } catch (RepositoryNotFoundException err) {

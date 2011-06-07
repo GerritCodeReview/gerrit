@@ -318,7 +318,7 @@ public class RefControlTest extends TestCase {
     };
 
     GitRepositoryManager mgr = null;
-    Project.NameKey wildProject = new Project.NameKey("-- All Projects --");
+    Project.NameKey wildProject = new Project.NameKey("All-Projects");
     ProjectControl.AssistedFactory projectControlFactory = null;
     all.put(local.getProject().getNameKey(), new ProjectState(anonymousUser,
         projectCache, wildProject, projectControlFactory, mgr, local));

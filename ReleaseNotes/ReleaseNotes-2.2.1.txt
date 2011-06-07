@@ -1,0 +1,79 @@
+Release notes for Gerrit 2.2.1
+==============================
+
+Gerrit 2.2.1 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.2.1.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.2.1.war]
+
+Schema Change
+-------------
+*WARNING:* This release contains schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+*WARNING:* Upgrading to 2.2.x requires the server be first upgraded
+to 2.1.7, and then to 2.2.x.
+
+New Features
+------------
+* Add 'Expand All Comments' checkbox in PatchScreen
++
+Allows users to save a user preference that automatically expands
+any inline comment boxes when a page displays.
+
+* Multiple branches in ls-project
++
+The -b option may be supplied multiple times to ls-project, each
+usage adds a new column of output per project line listing the
+current value of that branch.
+
+Bug Fixes
+---------
+* issue 994 Rename "-- All Projects --" to "All-Projects"
++
+The name "-- All Projects --.git" is difficult to work with on
+the UNIX command line, due to tools assuming the name is actually
+part of a long option. The project has been renamed to remove these
+leading hypens, and remove spaces, making it more friendly to work
+with on the command line.
+
+* issue 997 Resolve Project Owners when checking access rights
++
+Members of the 'Project Owners' magical group did not always have
+their project owner privileges when Gerrit Code Review was looking
+for "access to any ref" at the project level. This was caused by
+not expanding the 'Project Owner's group to the actual ownership
+list. Fixed.
+
+* issue 999 Do not reset Patch History selection on navigation
++
+Navigating to the next/previous file lost the setting of the
+"Old Version" made under the "Patch History" expandable control
+on a specific file view. This was accidentally broken when the
+"Old Version History" control was added to the change page. Fixed.
+
+* issue 1001 Fix search by codereview status
++
+Searching for labels (or any approval scores) was broken due to an
+incorrect usage of the Java "equals()" method. Fixed.
+
+* issue 1000 Fix administration of projects with no access controls
++
+Projects that had no access sections could not have additional
+sections added to them, due to a bug in the web UI. Fixed.
+
+* Fix API breakage on ChangeDetailService
++
+Version 2.1.7 broke the Gerrit Code Review plugin for Mylyn Reviews
+due to an accidential signature change of one of the remote JSON
+APIs. The ChangeDetailService.patchSetDetail() method is back to the
+old signature and a new patchSetDetail2() method has been added to
+handle the newer calling convention used in some contexts of the
+web UI.
+
+* Add error messages for abandon and restore when in bad state
++
+Instead of crashing with internal NullPointerExceptions, report
+a better error message to clients when a change is being moved
+between states.

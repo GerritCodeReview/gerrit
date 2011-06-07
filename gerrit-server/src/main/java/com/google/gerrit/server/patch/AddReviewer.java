@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.rpc.patch;
+
+package com.google.gerrit.server.patch;
 
 import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.httpd.rpc.changedetail.ChangeDetailFactory;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
@@ -33,21 +32,27 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
-class AddReviewer extends Handler<ReviewerResult> {
-  interface Factory {
+public class AddReviewer implements Callable<ReviewerResult> {
+  private static final Logger log =
+      LoggerFactory.getLogger(AddReviewer.class);
+
+  public interface Factory {
     AddReviewer create(Change.Id changeId, Collection<String> nameOrEmails);
   }
 
   private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final AccountResolver accountResolver;
   private final ChangeControl.Factory changeControlFactory;
-  private final ChangeDetailFactory.Factory changeDetailFactory;
   private final ReviewDb db;
   private final IdentifiedUser currentUser;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -62,7 +67,6 @@ class AddReviewer extends Handler<ReviewerResult> {
       final ChangeControl.Factory changeControlFactory, final ReviewDb db,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       final IdentifiedUser currentUser, final ApprovalTypes approvalTypes,
-      final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final Change.Id changeId,
       @Assisted final Collection<String> nameOrEmails) {
     this.addReviewerSenderFactory = addReviewerSenderFactory;
@@ -71,7 +75,6 @@ class AddReviewer extends Handler<ReviewerResult> {
     this.changeControlFactory = changeControlFactory;
     this.identifiedUserFactory = identifiedUserFactory;
     this.currentUser = currentUser;
-    this.changeDetailFactory = changeDetailFactory;
 
     final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
     addReviewerCategoryId =
@@ -143,7 +146,6 @@ class AddReviewer extends Handler<ReviewerResult> {
       cm.send();
     }
 
-    result.setChange(changeDetailFactory.create(changeId).call());
     return result;
   }
 

@@ -35,7 +35,9 @@ import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.RevertedSender;
+import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.patch.PublishComments;
+import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -66,11 +68,13 @@ public class GerritRequestModule extends FactoryModule {
     // Not really per-request, but dammit, I don't know where else to
     // easily park this stuff.
     //
+    factory(AddReviewer.Factory.class);
     factory(AddReviewerSender.Factory.class);
     factory(CreateChangeSender.Factory.class);
     factory(PublishComments.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
     factory(AbandonedSender.Factory.class);
+    factory(RemoveReviewer.Factory.class);
     factory(RevertedSender.Factory.class);
     factory(CommentSender.Factory.class);
     factory(MergedSender.Factory.class);

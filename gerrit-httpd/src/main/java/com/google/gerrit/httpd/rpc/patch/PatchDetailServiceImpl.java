@@ -58,9 +58,9 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final ApprovalTypes approvalTypes;
 
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
-  private final AddReviewer.Factory addReviewerFactory;
+  private final AddReviewerHandler.Factory addReviewerHandlerFactory;
   private final ChangeControl.Factory changeControlFactory;
-  private final RemoveReviewer.Factory removeReviewerFactory;
+  private final RemoveReviewerHandler.Factory removeReviewerHandlerFactory;
   private final FunctionState.Factory functionStateFactory;
   private final PublishComments.Factory publishCommentsFactory;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
@@ -71,8 +71,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final Provider<CurrentUser> currentUser,
       final ApprovalTypes approvalTypes,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
-      final AddReviewer.Factory addReviewerFactory,
-      final RemoveReviewer.Factory removeReviewerFactory,
+      final AddReviewerHandler.Factory addReviewerHandlerFactory,
+      final RemoveReviewerHandler.Factory removeReviewerHandlerFactory,
       final ChangeControl.Factory changeControlFactory,
       final FunctionState.Factory functionStateFactory,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
@@ -82,8 +82,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     this.approvalTypes = approvalTypes;
 
     this.accountInfoCacheFactory = accountInfoCacheFactory;
-    this.addReviewerFactory = addReviewerFactory;
-    this.removeReviewerFactory = removeReviewerFactory;
+    this.addReviewerHandlerFactory = addReviewerHandlerFactory;
+    this.removeReviewerHandlerFactory = removeReviewerHandlerFactory;
     this.changeControlFactory = changeControlFactory;
     this.functionStateFactory = functionStateFactory;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
@@ -156,12 +156,12 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
   public void addReviewers(final Change.Id id, final List<String> reviewers,
       final AsyncCallback<ReviewerResult> callback) {
-    addReviewerFactory.create(id, reviewers).to(callback);
+    addReviewerHandlerFactory.create(id, reviewers).to(callback);
   }
 
   public void removeReviewer(final Change.Id id, final Account.Id reviewerId,
       final AsyncCallback<ReviewerResult> callback) {
-    removeReviewerFactory.create(id, reviewerId).to(callback);
+    removeReviewerHandlerFactory.create(id, reviewerId).to(callback);
   }
 
   public void userApprovals(final Set<Change.Id> cids, final Account.Id aid,

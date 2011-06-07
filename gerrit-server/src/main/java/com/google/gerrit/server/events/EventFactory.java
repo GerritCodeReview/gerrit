@@ -27,13 +27,14 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.google.inject.internal.Nullable;
 
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+
+import javax.annotation.Nullable;
 
 @Singleton
 public class EventFactory {

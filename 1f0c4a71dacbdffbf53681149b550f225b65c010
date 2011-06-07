@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABB3///Cs\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-07T15:01:57Z",
+      "side": 1,
+      "message": "I\u0027m not really sure this much accuracy is necessary on the web UI side. We just need to know if the user is an owner of a local section in order to let them edit.",
+      "revId": "1f0c4a71dacbdffbf53681149b550f225b65c010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///Cw\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RefUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-07T15:01:57Z",
+      "side": 1,
+      "message": "We can\u0027t use the Automaton code on the client side:\n\n [INFO]       [ERROR] Errors in \u0027jar:file:/usr/local/google/users/sop/gerrit2/gerrit/gerrit-common/target/gerrit-common-2.2-SNAPSHOT-sources.jar!/com/google/gerrit/common/data/RefUtil.java\u0027\n [INFO]          [ERROR] Line 137: No source code is available for type dk.brics.automaton.Automaton; did you forget to inherit a required module?",
+      "revId": "1f0c4a71dacbdffbf53681149b550f225b65c010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///C0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAccessFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-07T15:01:57Z",
+      "side": 1,
+      "message": "Don\u0027t use Provider\u003cCurrentUser\u003e, just use CurrentUser here. This is a web request object, there is always a user available, even if its the AnonymousUser.",
+      "revId": "1f0c4a71dacbdffbf53681149b550f225b65c010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///Co\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAccessFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-07T15:01:57Z",
+      "side": 1,
+      "message": "I think the better fix is something more like:\n\n  if (ownerOf.isEmpty() \u0026\u0026 pc.isOwner()) {\n    ownerOf.add(AccessSection.ALL);\n  }",
+      "revId": "1f0c4a71dacbdffbf53681149b550f225b65c010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///DI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAccessFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-07T15:01:57Z",
+      "side": 1,
+      "message": "This set is incomplete. Although technically correct to own \"ALL\" here, the web UI wants each section\u0027s own pattern in this set, otherwise it won\u0027t enable editing. This is because the web UI cannot actually run the patterns to see if \"refs/*\" matches \"refs/heads/[a-z]\" for example, and it cannot do that because Automaton isn\u0027t available on the client.\n\nSo here you need to instead do:\n\n  if (currentUser.get().isAdministrator()) {\n    ownedRefs.add(AccessSection.ALL);\n    for (AccessSection section : config.getAccessSections()) {\n      ownedRefs.add(section.getRefPattern());\n    }\n  }",
+      "revId": "1f0c4a71dacbdffbf53681149b550f225b65c010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

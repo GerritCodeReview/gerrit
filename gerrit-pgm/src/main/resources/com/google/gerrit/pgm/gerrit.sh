@@ -54,70 +54,22 @@ running() {
 
 get_config() {
   if test -f "$GERRIT_CONFIG" ; then
-    if type git >/dev/null 2>&1 ; then
-      if test "x$1" = x--int ; then
-        # Git might not be able to expand "8g" properly.  If it gives
-        # us 0 back retry for the raw string and expand ourselves.
-        #
-        n=`git config --file "$GERRIT_CONFIG" --int "$2"`
-        if test x0 = "x$n" ; then
-          n=`git config --file "$GERRIT_CONFIG" --get "$2"`
-          case "$n" in
-          *g) n=`expr ${n%%g} \* 1024`m ;;
-          *k) n=`expr ${n%%k} \* 1024` ;;
-          *)  : ;;
-          esac
-        fi
-        echo "$n"
-      else
-        git config --file "$GERRIT_CONFIG" $1 "$2"
-      fi
-
-    else
-      # This is a very crude parser for the git configuration file.
-      # Its not perfect but it can at least pull some basic values
-      # from a reasonably standard format.
+    if test "x$1" = x--int ; then
+      # Git might not be able to expand "8g" properly.  If it gives
+      # us 0 back retry for the raw string and expand ourselves.
       #
-      s=`echo "$2" | cut -d. -f1`
-      k=`echo "$2" | cut -d. -f2`
-      i=0
-      while read n ; do
+      n=`git config --file "$GERRIT_CONFIG" --int "$2"`
+      if test x0 = "x$n" ; then
+        n=`git config --file "$GERRIT_CONFIG" --get "$2"`
         case "$n" in
-        '['$s']') i=1 ;;
-        '['*']' ) i=0 ;;
+        *g) n=`expr ${n%%g} \* 1024`m ;;
+        *k) n=`expr ${n%%k} \* 1024` ;;
+        *)  : ;;
         esac
-        test $i || continue
-
-        case "$n" in
-        *[' 	']$k[' 	']*=*) : ;;
-        [' 	']$k=*) : ;;
-        $k[' 	']*=*) : ;;
-        $k=*) : ;;
-        *) continue ;;
-        esac
-
-        n=${n#*=}
-
-        if test "x$1" = x--bool ; then
-          case "$n" in
-          true|on|1|yes) n=true ;;
-          false|off|0|no) n=false ;;
-          *)
-            echo >&2 "error: $2=$n not supported, assuming false."
-            n=false
-            ;;
-          esac
-        fi
-
-        if test "x$1" = x--int ; then
-          case "$n" in
-          *g) n=`expr ${n%%g} \* 1024`m ;;
-          *k) n=`expr ${n%%k} \* 1024` ;;
-          *)  : ;;
-          esac
-        fi
-        echo "$n" 
-      done <"$GERRIT_CONFIG"
+      fi
+      echo "$n"
+    else
+      git config --file "$GERRIT_CONFIG" $1 "$2"
     fi
   fi
 }
@@ -172,6 +124,16 @@ TMPJ=$TMP/j$$
 # Reasonable guess marker for a Gerrit site path.
 ##################################################
 GERRIT_INSTALL_TRACE_FILE=etc/gerrit.config
+
+##################################################
+# No git in PATH? Needed for gerrit.confg parsing
+##################################################
+if type git >/dev/null 2>&1 ; then
+  : OK
+else
+  echo >&2 "** ERROR: Cannot find git in PATH"
+  exit 1
+fi
 
 ##################################################
 # Try to determine GERRIT_SITE if not set

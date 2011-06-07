@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABB3///AY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T16:56:32Z",
+      "side": 1,
+      "message": "I used this approach in the multi inheritance change also.  As for helping, I does help with some caching, and could even be used to cache more still later, but no, it does not cache as much as we originally hopped it would.\n\nI would consider this a step toward multi inheritance, but I am not sure I would bother applying it on its own.  It could also be used to make other minor improvements and potential bug fixes before multi inheritance, but again, I wouldn\u0027t bother submitting it until you submit one of its dependencies.",
+      "parentUuid": "AAABB3///MY\u003d",
+      "revId": "e3927d0d77be82c7a6db59bc961e7bbbcd80c27d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABB3///Mg\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-06-07T02:10:20Z",
       "side": 1,
       "message": "I would prefer using the wildProject only if getParent().getParent() is null. Using it with a null cache lookup result is... odd. I don\u0027t want to have to think about the cases where the parent is defined, but the cache lookup fails, and results in the wildProject inheriting at the wrong place.",
+      "revId": "e3927d0d77be82c7a6db59bc961e7bbbcd80c27d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///Bs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T16:56:32Z",
+      "side": 1,
+      "message": "Done (gotcha, now in Walker)",
+      "parentUuid": "AAABB3///Mg\u003d",
       "revId": "e3927d0d77be82c7a6db59bc961e7bbbcd80c27d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABB3///B8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T16:56:32Z",
+      "side": 1,
+      "message": "Agreed, that is a bug.\n\nI backported (and fixed) the Walker from the multi inheritance change to deal with some of these issues.  Hopefully the Walker makes sense as a mechanism to get this right everywhere it is used.  Let me know if it does not take care of clarifying your last concern.",
+      "parentUuid": "AAABB3///Mc\u003d",
+      "revId": "e3927d0d77be82c7a6db59bc961e7bbbcd80c27d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABB3///Mk\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAABB3///B4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T16:56:32Z",
+      "side": 1,
+      "message": "Done (ah yes, that makes sense)",
+      "parentUuid": "AAABB3///Mk\u003d",
+      "revId": "e3927d0d77be82c7a6db59bc961e7bbbcd80c27d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABB3///MU\u003d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2011-06-07T02:10:20Z",
       "side": 1,
       "message": "Why did we need to change this from emptySet() to null?",
+      "revId": "e3927d0d77be82c7a6db59bc961e7bbbcd80c27d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABB3///CA\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-07T16:56:32Z",
+      "side": 1,
+      "message": "Done  (no clue why I did that)",
+      "parentUuid": "AAABB3///MU\u003d",
       "revId": "e3927d0d77be82c7a6db59bc961e7bbbcd80c27d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

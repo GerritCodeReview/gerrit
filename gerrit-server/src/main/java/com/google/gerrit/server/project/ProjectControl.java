@@ -32,6 +32,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -198,8 +199,24 @@ public class ProjectControl {
         || canPerformOnAnyRef(Permission.PUSH_TAG);
   }
 
+  /**
+   * @return the effective groups of the current user for this project
+   */
+  private Set<AccountGroup.UUID> getEffectiveUserGroups() {
+    final Set<AccountGroup.UUID> userGroups = user.getEffectiveGroups();
+    if (isOwner()) {
+      final Set<AccountGroup.UUID> userGroupsOnProject =
+          new HashSet<AccountGroup.UUID>(userGroups.size() + 1);
+      userGroupsOnProject.addAll(userGroups);
+      userGroupsOnProject.add(AccountGroup.PROJECT_OWNERS);
+      return Collections.unmodifiableSet(userGroupsOnProject);
+    } else {
+      return userGroups;
+    }
+  }
+
   private boolean canPerformOnAnyRef(String permissionName) {
-    final Set<AccountGroup.UUID> groups = user.getEffectiveGroups();
+    final Set<AccountGroup.UUID> groups = getEffectiveUserGroups();
 
     for (AccessSection section : access()) {
       Permission permission = section.getPermission(permissionName);
@@ -264,10 +281,10 @@ public class ProjectControl {
   }
 
   public boolean canRunUploadPack() {
-    return isAnyIncludedIn(uploadGroups, user.getEffectiveGroups());
+    return isAnyIncludedIn(uploadGroups, getEffectiveUserGroups());
   }
 
   public boolean canRunReceivePack() {
-    return isAnyIncludedIn(receiveGroups, user.getEffectiveGroups());
+    return isAnyIncludedIn(receiveGroups, getEffectiveUserGroups());
   }
 }

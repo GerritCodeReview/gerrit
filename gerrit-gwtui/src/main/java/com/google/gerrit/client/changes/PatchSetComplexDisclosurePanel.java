@@ -533,7 +533,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       diffPrefs = patchTable.getPreferences().get();
     }
 
-    Util.DETAIL_SVC.patchSetDetail(patchSet.getId(), diffBaseId, diffPrefs,
+    Util.DETAIL_SVC.patchSetDetail2(diffBaseId, patchSet.getId(), diffPrefs,
         new GerritCallback<PatchSetDetail>() {
           @Override
           public void onSuccess(PatchSetDetail result) {
@@ -569,7 +569,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         diffPrefs = new ListenableAccountDiffPreference().get();
       }
 
-      Util.DETAIL_SVC.patchSetDetail(patchSet.getId(), diffBaseId, diffPrefs,
+      Util.DETAIL_SVC.patchSetDetail2(diffBaseId, patchSet.getId(), diffPrefs,
           new GerritCallback<PatchSetDetail>() {
             public void onSuccess(final PatchSetDetail result) {
               ensureLoaded(result);

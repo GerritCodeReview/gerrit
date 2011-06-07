@@ -187,7 +187,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       NoSuchEntityException, PatchSetInfoNotAvailableException,
       NoSuchChangeException {
     final PatchSet.Id psId = detail.getChange().currentPatchSetId();
-    final PatchSetDetailFactory loader = patchSetDetail.create(psId, null, null);
+    final PatchSetDetailFactory loader = patchSetDetail.create(null, psId, null);
     loader.patchSet = detail.getCurrentPatchSet();
     loader.control = control;
     detail.setCurrentPatchSetDetail(loader.call());

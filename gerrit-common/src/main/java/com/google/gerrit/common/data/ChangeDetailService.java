@@ -29,7 +29,9 @@ public interface ChangeDetailService extends RemoteJsonService {
 
   void includedInDetail(Change.Id id, AsyncCallback<IncludedInDetail> callback);
 
-  void patchSetDetail(PatchSet.Id keyA, PatchSet.Id keyB,
+  void patchSetDetail(PatchSet.Id key, AsyncCallback<PatchSetDetail> callback);
+
+  void patchSetDetail2(PatchSet.Id baseId, PatchSet.Id key,
       AccountDiffPreference diffPrefs, AsyncCallback<PatchSetDetail> callback);
 
   @SignInRequired

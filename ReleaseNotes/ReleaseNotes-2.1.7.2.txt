@@ -1,0 +1,32 @@
+Release notes for Gerrit 2.1.7.1
+================================
+
+Gerrit 2.1.7.1 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.7.1.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.7.1.war]
+
+Bug Fixes
+---------
+* issue 997 Resolve Project Owners when checking access rights
++
+Members of the 'Project Owners' magical group did not always have
+their project owner privileges when Gerrit Code Review was looking
+for "access to any ref" at the project level. This was caused by
+not expanding the 'Project Owner's group to the actual ownership
+list. Fixed.
+
+* issue 999 Do not reset Patch History selection on navigation
++
+Navigating to the next/previous file lost the setting of the
+"Old Version" made under the "Patch History" expandable control
+on a specific file view. This was accidentally broken when the
+"Old Version History" control was added to the change page. Fixed.
+
+* Fix API breakage on ChangeDetailService
++
+Version 2.1.7 broke the Gerrit Code Review plugin for Mylyn Reviews
+due to an accidential signature change of one of the remote JSON
+APIs. The ChangeDetailService.patchSetDetail() method is back to the
+old signature and a new patchSetDetail2() method has been added to
+handle the newer calling convention used in some contexts of the
+web UI.

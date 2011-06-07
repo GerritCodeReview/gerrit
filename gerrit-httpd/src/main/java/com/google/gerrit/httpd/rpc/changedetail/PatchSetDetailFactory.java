@@ -56,8 +56,10 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     LoggerFactory.getLogger(PatchSetDetailFactory.class);
 
   interface Factory {
-    PatchSetDetailFactory create(@Assisted("psIdNew") PatchSet.Id psIdA,
-        @Assisted("psIdOld") PatchSet.Id psIdB, AccountDiffPreference diffPrefs);
+    PatchSetDetailFactory create(
+        @Assisted("psIdBase") @Nullable PatchSet.Id psIdBase,
+        @Assisted("psIdNew") PatchSet.Id psIdNew,
+        @Nullable AccountDiffPreference diffPrefs);
   }
 
   private final PatchSetInfoFactory infoFactory;
@@ -66,8 +68,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final ChangeControl.Factory changeControlFactory;
 
   private Project.NameKey projectKey;
+  private final PatchSet.Id psIdBase;
   private final PatchSet.Id psIdNew;
-  private final PatchSet.Id psIdOld;
   private final AccountDiffPreference diffPrefs;
   private ObjectId oldId;
   private ObjectId newId;
@@ -80,16 +82,16 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   PatchSetDetailFactory(final PatchSetInfoFactory psif, final ReviewDb db,
       final PatchListCache patchListCache,
       final ChangeControl.Factory changeControlFactory,
+      @Assisted("psIdBase") @Nullable final PatchSet.Id psIdBase,
       @Assisted("psIdNew") final PatchSet.Id psIdNew,
-      @Assisted("psIdOld") @Nullable final PatchSet.Id psIdOld,
       @Assisted @Nullable final AccountDiffPreference diffPrefs) {
     this.infoFactory = psif;
     this.db = db;
     this.patchListCache = patchListCache;
     this.changeControlFactory = changeControlFactory;
 
+    this.psIdBase = psIdBase;
     this.psIdNew = psIdNew;
-    this.psIdOld = psIdOld;
     this.diffPrefs = diffPrefs;
   }
 
@@ -106,9 +108,9 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
     final PatchList list;
 
-    if (psIdOld != null) {
+    if (psIdBase != null) {
+      oldId = toObjectId(psIdBase);
       newId = toObjectId(psIdNew);
-      oldId = psIdOld != null ? toObjectId(psIdOld) : null;
 
       projectKey = control.getProject().getNameKey();
 

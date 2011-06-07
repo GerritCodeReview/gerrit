@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABB3///GI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-07T14:07:07Z",
+      "side": 1,
+      "message": "Typo on abandoned.",
+      "revId": "2c2e9e59c3f414e5fe62ac1313fc4a689252ecaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

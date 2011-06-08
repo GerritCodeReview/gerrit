@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCH///2c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-06-08T14:52:18Z",
+      "side": 1,
+      "message": "I\u0027m not confident this is the smarter way to handle all these parameters from here to MergeOp. The best option would be make guice inject them directly into MergeOp through its subclasses. But I haven\u0027t found a way to do so.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

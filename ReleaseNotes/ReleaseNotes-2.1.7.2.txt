@@ -1,9 +1,9 @@
-Release notes for Gerrit 2.1.7.1
+Release notes for Gerrit 2.1.7.2
 ================================
 
-Gerrit 2.1.7.1 is now available:
+Gerrit 2.1.7.2 is now available:
 
-link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.7.1.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.7.1.war]
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.7.2.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.7.2.war]
 
 Bug Fixes
 ---------

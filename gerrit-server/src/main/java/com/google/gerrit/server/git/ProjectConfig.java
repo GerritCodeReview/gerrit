@@ -72,6 +72,7 @@ public class ProjectConfig extends VersionedMetaData {
   private Map<AccountGroup.UUID, GroupReference> groupsByUUID;
   private Map<String, AccessSection> accessSections;
   private List<ValidationError> validationErrors;
+  private String prologRules;
 
   public static ProjectConfig read(MetaDataUpdate update) throws IOException,
       ConfigInvalidException {
@@ -149,6 +150,17 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   /**
+   * @return the project's Prolog based rules.pl script,
+   *    if present in the branch. Null if there are no rules.
+   */
+  public String getPrologRules() {
+    if (prologRules.equals("")) {
+      return null;
+    }
+    return prologRules;
+  }
+
+  /**
    * Check all GroupReferences use current group name, repairing stale ones.
    *
    * @param groupCache cache to use when looking up group information by UUID.
@@ -188,6 +200,7 @@ public class ProjectConfig extends VersionedMetaData {
   protected void onLoad() throws IOException, ConfigInvalidException {
     Map<String, GroupReference> groupsByName = readGroupList();
 
+    prologRules = readUTF8("rules.pl");
     Config rc = readConfig(PROJECT_CONFIG);
     project = new Project(projectName);
 

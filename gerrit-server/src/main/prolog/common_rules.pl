@@ -143,7 +143,7 @@ not_same(_, _).
 %%
 %% can_submit/2:
 %%
-%%   Execute the SubmitRule for each solution until one where all of the
+%%   Executes the SubmitRule for each solution until one where all of the
 %%   states has the format label(_, ok(_)) is found, then cut away any
 %%   remaining choice points leaving this as the last solution.
 %%
@@ -160,6 +160,30 @@ call_submit_rule(X, Arg) :- !, F =.. [X, Arg], F.
 is_all_ok([]).
 is_all_ok([label(_, ok(__)) | Ls]) :- is_all_ok(Ls).
 is_all_ok(_) :- fail.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% locate_submit_rule/1:
+%%
+%%   Finds a submit_rule depending on what rules are available.
+%%   If none are available, use default_submit/1.
+%%
+:- public locate_submit_rule/1.
+%%
+
+locate_submit_rule(RuleName) :-
+  clause(user:submit_rule(_), _),
+  !,
+  RuleName = user:submit_rule
+  .
+locate_submit_rule(RuleName) :-
+  '$compiled_predicate'(user, submit_rule, 1),
+  !,
+  RuleName = user:submit_rule
+  .
+locate_submit_rule(RuleName) :-
+  RuleName = 'com.google.gerrit.rules.common':default_submit.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

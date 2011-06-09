@@ -29,10 +29,18 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
+import com.googlecode.prolog_cafe.lang.Prolog;
+import com.googlecode.prolog_cafe.lang.SymbolTerm;
+
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.io.PushbackReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -121,9 +129,29 @@ public class ProjectState {
   }
 
   /** @return Construct a new PrologEnvironment for the calling thread. */
-  public PrologEnvironment newPrologEnvironment() {
+  public PrologEnvironment newPrologEnvironment() throws CompileException {
     // TODO Replace this with a per-project ClassLoader to isolate rules.
-    return envFactory.create(getClass().getClassLoader());
+    PrologEnvironment env = envFactory.create(getClass().getClassLoader());
+
+    //consult rules.pl at refs/meta/config branch for custom submit rules
+    String rules;
+    try {
+      rules = getPrologRules();
+    } catch (RepositoryNotFoundException err) {
+      throw new CompileException("Local repository does not exist ", err);
+    }
+    if (rules != null) {
+      PushbackReader in =
+          new PushbackReader(new StringReader(rules), Prolog.PUSHBACK_SIZE);
+      JavaObjectTerm streamObject = new JavaObjectTerm(in);
+      if (!env.execute(Prolog.BUILTIN, "consult_stream",
+          SymbolTerm.makeSymbol("rules.pl"), streamObject)) {
+        throw new CompileException("Cannot consult rules.pl " +
+            getProject().getName() + " " + getConfig().getRevision());
+      }
+    }
+
+    return env;
   }
 
   public Project getProject() {
@@ -235,5 +263,19 @@ public class ProjectState {
 
   private boolean isWildProject() {
     return wildProject.equals(getProject().getNameKey());
+  }
+
+  /**
+   * @return String of the prolog rules in rules.pl in
+   *         refs/meta/config if it exists, null otherwise
+   * @throws RepositoryNotFoundException
+   */
+  private String getPrologRules() throws RepositoryNotFoundException {
+    Repository git = gitMgr.openRepository(getProject().getNameKey());
+    ProjectConfig config = getConfig();
+    if (config == null) {
+      return null;
+    }
+    return config.getPrologRules();
   }
 }

@@ -28,10 +28,10 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
-import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 
@@ -252,25 +252,38 @@ public class ChangeControl {
       return result;
     }
 
-    PrologEnvironment env = getProjectControl().getProjectState().newPrologEnvironment();
+    PrologEnvironment env;
+    try {
+      env = getProjectControl().getProjectState().newPrologEnvironment();
+    } catch (CompileException err) {
+      log.error("cannot consult rules.pl", err);
+      return new CanSubmitResult("Error reading submit rule");
+    }
+
     env.set(StoredValues.REVIEW_DB, db);
     env.set(StoredValues.CHANGE, change);
     env.set(StoredValues.PATCH_SET_ID, patchSetId);
     env.set(StoredValues.CHANGE_CONTROL, this);
 
-    StructureTerm submitRule = SymbolTerm.makeSymbol(
-        "com.google.gerrit.rules.common", "default_submit", 1);
+    Term submitRule = env.once("com.google.gerrit.rules.common", "locate_submit_rule",
+        new VariableTerm());
+
+    if (submitRule == null)
+    {
+      log.error("Error in locate_submit_rule: no submit_rule found");
+      return new CanSubmitResult("Error in finding submit rule");
+    }
 
     List<Term> results = new ArrayList<Term>();
     try {
       for (Term[] template : env.all(
-              "com.google.gerrit.rules.common", "can_submit",
-              submitRule,
-              new VariableTerm())) {
-          results.add(template[1]);
-        }
+          "com.google.gerrit.rules.common", "can_submit",
+          submitRule,
+          new VariableTerm())) {
+        results.add(template[1]);
+      }
     } catch (PrologException err) {
-      log.error("PrologException calling "+submitRule, err);
+      log.error("PrologException calling " + submitRule, err);
       return new CanSubmitResult("Error in submit rule");
     }
 
@@ -319,7 +332,7 @@ public class ChangeControl {
         continue;
 
       } else if ("reject".equals(status.name())) {
-        return new CanSubmitResult("Submit blocked by "+ label);
+        return new CanSubmitResult("Submit blocked by " + label);
 
       } else if ("need".equals(status.name())) {
         if (status.isStructure() && status.arg(0).isInteger()) {

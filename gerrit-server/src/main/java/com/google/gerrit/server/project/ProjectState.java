@@ -29,6 +29,10 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -65,8 +69,7 @@ public class ProjectState {
       @WildProjectName final Project.NameKey wildProject,
       final ProjectControl.AssistedFactory projectControlFactory,
       final PrologEnvironment.Factory envFactory,
-      final GitRepositoryManager gitMgr,
-      @Assisted final ProjectConfig config) {
+      final GitRepositoryManager gitMgr, @Assisted final ProjectConfig config) {
     this.anonymousUser = anonymousUser;
     this.projectCache = projectCache;
     this.wildProject = wildProject;
@@ -235,5 +238,28 @@ public class ProjectState {
 
   private boolean isWildProject() {
     return wildProject.equals(getProject().getNameKey());
+  }
+
+  /**
+   * @return ObjectStream of the prolog rules in submit_rules.pl in
+   *         refs/meta/config if it exists, null otherwise
+   */
+  public ObjectStream getPrologRules() {
+    try {
+      Repository git = gitMgr.openRepository(getProject().getNameKey());
+      try {
+        ObjectId config = git.resolve(GitRepositoryManager.REF_CONFIG);
+        ObjectId rules = git.resolve(config.getName() + ":submit_rules.pl");
+        if (rules == null) return null;
+        ObjectLoader ldr = git.open(rules);
+        if (ldr.getType() != Constants.OBJ_BLOB) return null;
+
+        return ldr.openStream();
+      } finally {
+        git.close();
+      }
+    } catch (IOException gone) {
+      return null;
+    }
   }
 }

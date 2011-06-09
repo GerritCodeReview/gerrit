@@ -29,10 +29,27 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
+import com.googlecode.prolog_cafe.lang.Prolog;
+import com.googlecode.prolog_cafe.lang.StructureTerm;
+import com.googlecode.prolog_cafe.lang.SymbolTerm;
+import com.googlecode.prolog_cafe.lang.Term;
+import com.googlecode.prolog_cafe.lang.VariableTerm;
+
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PushbackReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,6 +59,8 @@ import java.util.Set;
 
 /** Cached information on a project. */
 public class ProjectState {
+  private static final Logger log = LoggerFactory.getLogger(ProjectState.class);
+
   public interface Factory {
     ProjectState create(ProjectConfig config);
   }
@@ -123,7 +142,41 @@ public class ProjectState {
   /** @return Construct a new PrologEnvironment for the calling thread. */
   public PrologEnvironment newPrologEnvironment() {
     // TODO Replace this with a per-project ClassLoader to isolate rules.
-    return envFactory.create(getClass().getClassLoader());
+    PrologEnvironment env = envFactory.create(getClass().getClassLoader());
+
+    //consult submit_rules.pl at refs/meta/config branch for custom submit rules
+    ObjectStream ruleStream = getPrologRules();
+    if (ruleStream != null) {
+      try {
+        PushbackReader in =
+            new PushbackReader(new InputStreamReader(ruleStream,
+                Charset.forName("UTF-8")), Prolog.PUSHBACK_SIZE);
+        JavaObjectTerm streamObject = new JavaObjectTerm(in);
+        if (!env.execute(Prolog.BUILTIN, "consult_stream",
+            SymbolTerm.makeSymbol("submitrules"), streamObject)) {
+          throw new CompileException("Cannot consult" + streamObject.toString());
+        }
+      } catch (CompileException err) {
+        log.error("Cannot consult provided submit_rules.pl", err);
+      } finally {
+        try {
+          ruleStream.close();
+        } catch (IOException err) {
+          log.error("Close of ruleStream failed", err);
+        }
+      }
+    } else {
+      //assert submit_rule predicate to be default_submit if submit_rule doesn't exist
+      VariableTerm var = new VariableTerm();
+      StructureTerm head = new StructureTerm("submit_rule", var);
+      StructureTerm defaultRule= new StructureTerm(":",
+          SymbolTerm.makeSymbol("com.google.gerrit.rules.common"),
+          new StructureTerm("default_submit", var));
+      StructureTerm clause = new StructureTerm(":-", head, defaultRule);
+      env.execute(Prolog.BUILTIN, "assertz", clause);
+    }
+
+    return env;
   }
 
   public Project getProject() {
@@ -235,5 +288,32 @@ public class ProjectState {
 
   private boolean isWildProject() {
     return wildProject.equals(getProject().getNameKey());
+  }
+
+  /**
+   * @return ObjectStream of the prolog rules in submit_rules.pl in
+   *         refs/meta/config if it exists, null otherwise
+   */
+  private ObjectStream getPrologRules() {
+    try {
+      Repository git = gitMgr.openRepository(getProject().getNameKey());
+      try {
+        ObjectId config = git.resolve(GitRepositoryManager.REF_CONFIG);
+        ObjectId rules = git.resolve(config.getName() + ":submit_rules.pl");
+        if (rules == null) {
+          return null;
+        }
+        ObjectLoader ldr = git.open(rules);
+        if (ldr.getType() != Constants.OBJ_BLOB) {
+          return null;
+        }
+
+        return ldr.openStream();
+      } finally {
+        git.close();
+      }
+    } catch (IOException gone) {
+      return null;
+    }
   }
 }

@@ -258,19 +258,18 @@ public class ChangeControl {
     env.set(StoredValues.PATCH_SET_ID, patchSetId);
     env.set(StoredValues.CHANGE_CONTROL, this);
 
-    StructureTerm submitRule = SymbolTerm.makeSymbol(
-        "com.google.gerrit.rules.common", "default_submit", 1);
+    StructureTerm submitRule = SymbolTerm.makeSymbol("user", "submit_rule", 1);
 
     List<Term> results = new ArrayList<Term>();
     try {
       for (Term[] template : env.all(
-              "com.google.gerrit.rules.common", "can_submit",
-              submitRule,
-              new VariableTerm())) {
-          results.add(template[1]);
-        }
+          "com.google.gerrit.rules.common", "can_submit",
+          submitRule,
+          new VariableTerm())) {
+        results.add(template[1]);
+      }
     } catch (PrologException err) {
-      log.error("PrologException calling "+submitRule, err);
+      log.error("PrologException calling " + submitRule, err);
       return new CanSubmitResult("Error in submit rule");
     }
 
@@ -319,7 +318,7 @@ public class ChangeControl {
         continue;
 
       } else if ("reject".equals(status.name())) {
-        return new CanSubmitResult("Submit blocked by "+ label);
+        return new CanSubmitResult("Submit blocked by " + label);
 
       } else if ("need".equals(status.name())) {
         if (status.isStructure() && status.arg(0).isInteger()) {
@@ -340,4 +339,5 @@ public class ChangeControl {
 
     return CanSubmitResult.OK;
   }
+
 }

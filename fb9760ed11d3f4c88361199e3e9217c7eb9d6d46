@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCH///qM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/AddReviewerHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T18:11:39Z",
+      "side": 1,
+      "message": "Renaming this to AddReviewHandler makes sense, thanks.",
+      "revId": "fb9760ed11d3f4c88361199e3e9217c7eb9d6d46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///qE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/RemoveReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T18:11:39Z",
+      "side": 1,
+      "message": "As you pointed out, this takes a single id. Lets change it to take a Set\u003cAccount.Id\u003e so multiple reviewers can be removed at once. But I would do that after the refactoring is complete, so lets just submit this as-is and extend Remove to handle multiple in a later change.",
+      "revId": "fb9760ed11d3f4c88361199e3e9217c7eb9d6d46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

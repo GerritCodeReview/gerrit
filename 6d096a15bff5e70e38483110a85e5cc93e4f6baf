@@ -1,0 +1,276 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCH///gs\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "Please line wrap your commit message manually at ~70 columns.\n\nA good message also starts with a shorter subject line that is by itself, at under 60 characters.  See `git log` in this project for some examples of message formatting.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///hg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "Please undo this reformatting change.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///hc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "Please undo this reformatting change.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///hA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "The code to do the consult should be in ProjectState.newPrologEnvironment().",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///gw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "Lets just say the PrologEnvironment from ProjectState always declares \"user:submit_rule/1\".\n\nIf there was no user rules, ProjectState can do a dynamic assert to define the clause on the fly to be \"submit_rule(P) :- \u0027com.google.gerrit.rules.common\u0027:default_submit(P)\" and then this code never needs to worry about what it should execute.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///hY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "Please undo this reformatting change.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///hU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "Please undo this reformatting change.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///hQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "Please undo this reformatting change.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///hM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "Please undo this reformatting change.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///hI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "Please undo this reformatting change.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///hE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "Please remove this unnecessary blank line.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///h4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "I would have preferred to avoid this reformatting, as it is unrelated to the code you are changing.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///h0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "I don\u0027t think this should be public here. Instead we should have the newPrologEnvironment method automatically load these rules into the interpreter for us. That way they are just \"there\".\n\nLater when we have compiled Java rules, loading them into the environment will be virtually free.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///hs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "Instead of resolving the branch live, resolve the version that the ProjectConfig uses:  getConfig().getRevision(). If the branch changes *this* ProjectState object will be discarded and a new one created with an updated revision.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///ho\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "Style-nit: Put curly braces around the return so it formats correctly.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///hk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-09T23:43:19Z",
+      "side": 1,
+      "message": "Style-nit: Put curly braces around the return.",
+      "revId": "6d096a15bff5e70e38483110a85e5cc93e4f6baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

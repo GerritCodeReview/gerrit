@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.rpc.patch;
+
+package com.google.gerrit.server.patch;
 
 import com.google.gerrit.common.data.ReviewerResult;
-import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.httpd.rpc.changedetail.ChangeDetailFactory;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -26,14 +25,18 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
-/**
- * Implement the remote logic that removes a reviewer from a change.
- */
-class RemoveReviewer extends Handler<ReviewerResult> {
-  interface Factory {
+public class RemoveReviewer implements Callable<ReviewerResult> {
+  private static final Logger log =
+      LoggerFactory.getLogger(RemoveReviewer.class);
+
+  public interface Factory {
     RemoveReviewer create(Change.Id changeId, Account.Id reviewerId);
   }
 
@@ -41,17 +44,14 @@ class RemoveReviewer extends Handler<ReviewerResult> {
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
   private final Change.Id changeId;
-  private final ChangeDetailFactory.Factory changeDetailFactory;
 
   @Inject
   RemoveReviewer(final ReviewDb db, final ChangeControl.Factory changeControlFactory,
-      final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted Change.Id changeId, @Assisted Account.Id reviewerId) {
     this.db = db;
     this.changeControlFactory = changeControlFactory;
     this.changeId = changeId;
     this.reviewerId = reviewerId;
-    this.changeDetailFactory = changeDetailFactory;
   }
 
   @Override
@@ -86,10 +86,6 @@ class RemoveReviewer extends Handler<ReviewerResult> {
           "Not allowed to remove reviewer " + reviewerId));
     }
 
-    // Note: call setChange() after the deletion has been made or it will still
-    // contain the reviewer we want to delete.
-    result.setChange(changeDetailFactory.create(changeId).call());
     return result;
   }
-
 }

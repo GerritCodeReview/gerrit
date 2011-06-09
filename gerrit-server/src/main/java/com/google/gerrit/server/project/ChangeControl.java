@@ -28,16 +28,24 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
+import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
+import com.googlecode.prolog_cafe.lang.Prolog;
 
+import org.eclipse.jgit.lib.ObjectStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PushbackReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -171,7 +179,8 @@ public class ChangeControl {
 
   /** Can this user restore this change? */
   public boolean canRestore() {
-    return canAbandon(); // Anyone who can abandon the change can restore it back
+    return canAbandon(); // Anyone who can abandon the change can restore it
+                         // back
   }
 
   /** All value ranges of any allowed label permission. */
@@ -252,25 +261,51 @@ public class ChangeControl {
       return result;
     }
 
-    PrologEnvironment env = getProjectControl().getProjectState().newPrologEnvironment();
+    PrologEnvironment env =
+        getProjectControl().getProjectState().newPrologEnvironment();
     env.set(StoredValues.REVIEW_DB, db);
     env.set(StoredValues.CHANGE, change);
     env.set(StoredValues.PATCH_SET_ID, patchSetId);
     env.set(StoredValues.CHANGE_CONTROL, this);
 
-    StructureTerm submitRule = SymbolTerm.makeSymbol(
-        "com.google.gerrit.rules.common", "default_submit", 1);
+    StructureTerm submitRule =
+        SymbolTerm.makeSymbol("com.google.gerrit.rules.common",
+            "default_submit", 1);
+
+    ObjectStream ruleStream =
+        getProjectControl().getProjectState().getPrologRules();
+    if (ruleStream != null) {
+      try {
+        PushbackReader in =
+            new PushbackReader(new InputStreamReader(ruleStream,
+                Charset.forName("UTF-8")), Prolog.PUSHBACK_SIZE);
+        JavaObjectTerm streamObject = new JavaObjectTerm(in);
+        if (!env.execute(Prolog.BUILTIN, "consultStream",
+            SymbolTerm.makeSymbol("submitrules"), streamObject)) {
+          throw new CompileException("Cannot consult" + streamObject.toString());
+        }
+        // Replaces default_submit predicate with the submit_rule predicate in
+        // the refs/meta/config:submit_rules.pl (if it exists)
+        submitRule = SymbolTerm.makeSymbol("user", "submit_rule", 1);
+      } catch (CompileException err) {
+        log.error("Cannot consult provided submit_rules.pl", err);
+      } finally {
+        try {
+          ruleStream.close();
+        } catch (IOException err) {
+          log.error("Close of ruleStream failed", err);
+        }
+      }
+    }
 
     List<Term> results = new ArrayList<Term>();
     try {
-      for (Term[] template : env.all(
-              "com.google.gerrit.rules.common", "can_submit",
-              submitRule,
-              new VariableTerm())) {
-          results.add(template[1]);
-        }
+      for (Term[] template : env.all("com.google.gerrit.rules.common",
+          "can_submit", submitRule, new VariableTerm())) {
+        results.add(template[1]);
+      }
     } catch (PrologException err) {
-      log.error("PrologException calling "+submitRule, err);
+      log.error("PrologException calling " + submitRule, err);
       return new CanSubmitResult("Error in submit rule");
     }
 
@@ -295,20 +330,24 @@ public class ChangeControl {
     // For now only process the first result. Later we can examine all of the
     // results and proposes different alternative paths to a submit solution.
     Term first = results.get(0);
-    if (!first.isStructure() || 1 != first.arity() || !"not_ready".equals(first.name())) {
+    if (!first.isStructure() || 1 != first.arity()
+        || !"not_ready".equals(first.name())) {
       log.error("Unexpected result from can_submit: " + first);
       return new CanSubmitResult("Error in submit rule");
     }
 
     Term submitRecord = first.arg(0);
     if (!submitRecord.isStructure()) {
-      log.error("Invalid result from submit rule " + submitRule + ": " + submitRecord);
+      log.error("Invalid result from submit rule " + submitRule + ": "
+          + submitRecord);
       return new CanSubmitResult("Error in submit rule");
     }
 
     for (Term state : ((StructureTerm) submitRecord).args()) {
-      if (!state.isStructure() || 2 != state.arity() || !"label".equals(state.name())) {
-        log.error("Invalid result from submit rule " + submitRule + ": " + submitRecord);
+      if (!state.isStructure() || 2 != state.arity()
+          || !"label".equals(state.name())) {
+        log.error("Invalid result from submit rule " + submitRule + ": "
+            + submitRecord);
         return new CanSubmitResult("Invalid submit rule result");
       }
 
@@ -319,7 +358,7 @@ public class ChangeControl {
         continue;
 
       } else if ("reject".equals(status.name())) {
-        return new CanSubmitResult("Submit blocked by "+ label);
+        return new CanSubmitResult("Submit blocked by " + label);
 
       } else if ("need".equals(status.name())) {
         if (status.isStructure() && status.arg(0).isInteger()) {
@@ -340,4 +379,5 @@ public class ChangeControl {
 
     return CanSubmitResult.OK;
   }
+
 }

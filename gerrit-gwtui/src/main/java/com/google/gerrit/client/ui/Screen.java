@@ -127,6 +127,7 @@ public abstract class Screen extends View {
     if (windowTitle != null) {
       Gerrit.setWindowTitle(this, windowTitle);
     }
+    Gerrit.updateMenus(this);
     registerKeys();
   }
 }

@@ -16,6 +16,24 @@
       "revId": "1aa537582bf5e7291261812a3f9719cad1213478",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///YY\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/rules/common/CommonRulesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-10T18:28:13Z",
+      "side": 1,
+      "message": "Probably not. SchemaCreator will most likely go away. The common_rules_test.pl code is hard-coded to these values, so I want to make sure they exist in the test itself.",
+      "parentUuid": "AAABCH///lo\u003d",
+      "revId": "1aa537582bf5e7291261812a3f9719cad1213478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

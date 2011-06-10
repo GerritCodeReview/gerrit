@@ -342,7 +342,10 @@ public class SideBySideTable extends AbstractPatchContentTable {
       final boolean fullBlock) {
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.openAnchor();
+    m.setAttribute("href", "");
     m.append(lineNumberMinusOne + 1);
+    m.closeAnchor();
     m.closeTd();
 
     m.openTd();

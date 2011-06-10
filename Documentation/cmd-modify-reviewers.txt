@@ -1,0 +1,62 @@
+gerrit modify-reviewers
+=======================
+
+NAME
+----
+gerrit modify-reviewers - Add or remove reviewers to a change
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit modify-reviewers'
+  [--project <PROJECT>]
+  {COMMIT | CHANGE-ID}...
+  [--]
+  {+EMAIL | -EMAIL}...
+
+DESCRIPTION
+-----------
+Adds or removes reviewers to the specified change, sending email
+notifications when changes are made.
+
+Changes should be specified as complete or abbreviated Change-Ids
+such as 'Iac6b2ac2'.  They may also be specified by numeric change
+identifiers, such as '8242' or by complete or abbreviated commit
+SHA-1s.
+
+OPTIONS
+-------
+
+--project::
+-p::
+	Name of the project the intended change is contained within.  This
+	option must be supplied before Change-ID in order to take effect.
+
+--help::
+-h::
+	Display site-specific usage information
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+EXAMPLES
+--------
+
+Add reviewers alice and bob, but remove eve from change Iac6b2ac2.
+=====
+	$ ssh -p 29418 review.example.com gerrit modify-reviewers Iac6b2ac2 -- +alice@example.com +bob@example.com -eve@example.com
+=====
+
+Add reviewer elvis to old-style change id 1935 specifying that the change is in project "graceland"
+=====
+	$ ssh -p 29418 review.example.com gerrit modify-reviewers --project graceland 1935 +elvis@example.com
+=====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

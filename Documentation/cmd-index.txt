@@ -66,6 +66,9 @@ link:cmd-review.html[gerrit approve]::
 link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 
+link:cmd-modify-reviewers.html[gerrit modify-reviewers]::
+        Add or remove reviewers on a change.
+
 link:cmd-query.html[gerrit query]::
 	Query the change database.
 

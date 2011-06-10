@@ -395,8 +395,8 @@ public abstract class PatchScreen extends Screen implements
       fileName = fileName.substring(last + 1);
     }
 
-    setWindowTitle(PatchUtil.M.patchWindowTitle(cid.abbreviate(), fileName));
-    setPageTitle(PatchUtil.M.patchPageTitle(cid.abbreviate(), path));
+    setWindowTitle(fileName);
+    setPageTitle(path);
 
     if (idSideB.equals(patchSetDetail.getPatchSet().getId())) {
       commitMessageBlock.setVisible(true);

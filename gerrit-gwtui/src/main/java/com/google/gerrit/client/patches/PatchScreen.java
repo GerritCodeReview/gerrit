@@ -70,7 +70,7 @@ public abstract class PatchScreen extends Screen implements
     }
 
     @Override
-    protected PatchScreen.Type getPatchScreenType() {
+    public PatchScreen.Type getPatchScreenType() {
       return PatchScreen.Type.SIDE_BY_SIDE;
     }
   }
@@ -87,7 +87,7 @@ public abstract class PatchScreen extends Screen implements
     }
 
     @Override
-    protected PatchScreen.Type getPatchScreenType() {
+    public PatchScreen.Type getPatchScreenType() {
       return PatchScreen.Type.UNIFIED;
     }
   }
@@ -352,7 +352,11 @@ public abstract class PatchScreen extends Screen implements
 
   protected abstract AbstractPatchContentTable createContentTable();
 
-  protected abstract PatchScreen.Type getPatchScreenType();
+  public abstract PatchScreen.Type getPatchScreenType();
+
+  public Patch.Key getPatchKey() {
+    return patchKey;
+  }
 
   protected void refresh(final boolean isFirst) {
     final int rpcseq = ++rpcSequence;

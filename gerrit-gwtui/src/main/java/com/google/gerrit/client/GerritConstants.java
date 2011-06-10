@@ -62,7 +62,6 @@ public interface GerritConstants extends Constants {
   String menuMyStarredChanges();
 
   String menuDiff();
-  String menuDiffMain();
   String menuDiffCommit();
   String menuDiffPreferences();
   String menuDiffPatchSets();

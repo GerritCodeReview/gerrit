@@ -16,6 +16,7 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
+import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -33,6 +34,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.AuthType;
+import com.google.gerrit.reviewdb.Patch;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -66,6 +68,7 @@ import java.util.ArrayList;
 
 public class Gerrit implements EntryPoint {
   public static final GerritConstants C = GWT.create(GerritConstants.class);
+  public static final ChangeConstants CC = GWT.create(ChangeConstants.class);
   public static final GerritMessages M = GWT.create(GerritMessages.class);
   public static final GerritResources RESOURCES =
       GWT.create(GerritResources.class);
@@ -491,7 +494,8 @@ public class Gerrit implements EntryPoint {
     patchScreen = null;
     diffBar = new LinkMenuBar();
     menuLeft.addInvisible(diffBar, C.menuDiff());
-    addDiffLink(diffBar, C.menuDiffMain(), PatchScreen.TopView.MAIN);
+    addDiffLink(diffBar, CC.patchTableDiffSideBySide(), PatchScreen.Type.SIDE_BY_SIDE);
+    addDiffLink(diffBar, CC.patchTableDiffUnified(), PatchScreen.Type.UNIFIED);
     addDiffLink(diffBar, C.menuDiffCommit(), PatchScreen.TopView.COMMIT);
     addDiffLink(diffBar, C.menuDiffPreferences(), PatchScreen.TopView.PREFERENCES);
     addDiffLink(diffBar, C.menuDiffPatchSets(), PatchScreen.TopView.PATCH_SETS);
@@ -601,6 +605,25 @@ public class Gerrit implements EntryPoint {
             patchScreen.setTopView(tv);
           }
           AnchorElement.as(getElement()).blur();
+        }
+      });
+  }
+
+  private static void addDiffLink(final LinkMenuBar m, final String text,
+      final PatchScreen.Type type) {
+    m.addItem(new LinkMenuItem(text, "") {
+        @Override
+        public void go() {
+          if (patchScreen != null) {
+            if (type == patchScreen.getPatchScreenType()) {
+              patchScreen.setTopView(PatchScreen.TopView.MAIN);
+              AnchorElement.as(getElement()).blur();
+            } else {
+              final Patch.Key id = patchScreen.getPatchKey();
+              setTargetHistoryToken(Dispatcher.toPatch(type, id));
+              super.go();
+            }
+          }
         }
       });
   }

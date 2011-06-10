@@ -64,6 +64,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
   }
 
   @Override
+  protected void onCellSingleClick(final int row, int column) {
+    if (column == 1 || column == 3) {
+      onCellDoubleClick(row, column);
+    }
+  }
+
+  @Override
   protected void onInsertComment(final PatchLine line) {
     final int row = getCurrentRow();
     createCommentEditor(row + 1, 4, line.getLineB(), (short) 1);
@@ -335,7 +342,9 @@ public class SideBySideTable extends AbstractPatchContentTable {
       final boolean fullBlock) {
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.openAnchor();
     m.append(lineNumberMinusOne + 1);
+    m.closeAnchor();
     m.closeTd();
 
     m.openTd();

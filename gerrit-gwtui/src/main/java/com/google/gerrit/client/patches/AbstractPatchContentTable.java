@@ -331,8 +331,11 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     return getRowItem(row) instanceof CommentList;
   }
 
-  /** Invoked when the user clicks on a table cell. */
+  /** Invoked when the user double clicks on a table cell. */
   protected abstract void onCellDoubleClick(int row, int column);
+
+  /** Invoked when the user clicks on a table cell. */
+  protected abstract void onCellSingleClick(int row, int column);
 
   /**
    * Invokes createCommentEditor() with an empty string as value for the comment
@@ -620,6 +623,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
           final int row = rowOf(td);
           if (getRowItem(row) != null) {
             movePointerTo(row);
+            onCellSingleClick(rowOf(td), columnOf(td));
             return;
           }
           break;

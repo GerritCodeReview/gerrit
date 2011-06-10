@@ -65,6 +65,13 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   }
 
   @Override
+  protected void onCellSingleClick(int row, int column) {
+    if (column == 2) {
+      onCellDoubleClick(row, column);
+    }
+  }
+
+  @Override
   protected void onInsertComment(final PatchLine pl) {
     final int row = getCurrentRow();
     switch (pl.getType()) {

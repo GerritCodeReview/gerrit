@@ -64,6 +64,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
   }
 
   @Override
+  protected void onCellSingleClick(int row, int column) {
+    if (column == 1 || column == 3) {
+      onCellDoubleClick(row, column);
+    }
+  }
+
+  @Override
   protected void onInsertComment(final PatchLine line) {
     final int row = getCurrentRow();
     createCommentEditor(row + 1, 4, line.getLineB(), (short) 1);

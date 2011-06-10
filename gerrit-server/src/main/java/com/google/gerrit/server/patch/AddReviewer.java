@@ -97,16 +97,19 @@ public class AddReviewer implements Callable<ReviewerResult> {
             ReviewerResult.Error.Type.ACCOUNT_NOT_FOUND, nameOrEmail));
         continue;
       }
+
       if (!account.isActive()) {
         result.addError(new ReviewerResult.Error(
-            ReviewerResult.Error.Type.ACCOUNT_INACTIVE, nameOrEmail));
+            ReviewerResult.Error.Type.ACCOUNT_INACTIVE,
+            formatUser(account, nameOrEmail)));
         continue;
       }
 
       final IdentifiedUser user = identifiedUserFactory.create(account.getId());
       if (!control.forUser(user).isVisible()) {
         result.addError(new ReviewerResult.Error(
-            ReviewerResult.Error.Type.CHANGE_NOT_VISIBLE, nameOrEmail));
+            ReviewerResult.Error.Type.CHANGE_NOT_VISIBLE,
+            formatUser(account, nameOrEmail)));
         continue;
       }
 
@@ -147,6 +150,14 @@ public class AddReviewer implements Callable<ReviewerResult> {
     }
 
     return result;
+  }
+
+  private String formatUser(Account account, String nameOrEmail) {
+    if (nameOrEmail.matches("^[1-9][0-9]*$")) {
+      return RemoveReviewer.formatUser(account, nameOrEmail);
+    } else {
+      return nameOrEmail;
+    }
   }
 
   private boolean exists(final PatchSet.Id patchSetId,

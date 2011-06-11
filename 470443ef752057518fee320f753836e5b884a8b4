@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABCH///Pc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-11T03:59:41Z",
+      "side": 1,
+      "message": "Style nit: extra line.",
+      "revId": "470443ef752057518fee320f753836e5b884a8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///QM\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 3
@@ -98,6 +115,24 @@
       "writtenOn": "2011-06-11T01:07:10Z",
       "side": 1,
       "message": "Log this exception with the new logger you added.",
+      "revId": "470443ef752057518fee320f753836e5b884a8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///Pk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-11T03:59:41Z",
+      "side": 1,
+      "message": "Returning null here will cause the default rules to execute?  I think it might be better to throw an exception than to potentially subvert the defined rules for this project.",
+      "parentUuid": "AAABCH///QQ\u003d",
       "revId": "470443ef752057518fee320f753836e5b884a8b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

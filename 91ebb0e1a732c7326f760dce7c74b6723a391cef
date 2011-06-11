@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABCH///PQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/FastForwardOnly.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-11T05:24:40Z",
+      "side": 1,
+      "message": "Maybe put this for loop in a function in parent (or a new \"Merger\" parent) since it is used by two subclasses.  Same goes for the merge loop in the other two classes.\n\nAnother approach would be to only have two subclasses: one for cherrypick, and one for the other 3 cases since they share so much.  A third even simpler approach might be to just leave the three similar approaches in the parent and only override with the really big one.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///PM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-11T05:24:40Z",
+      "side": 1,
+      "message": "Erroneous wrap?",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///PU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-11T05:24:40Z",
+      "side": 1,
+      "message": "I think that new classes get 2011 even if copied from old classes?",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///2c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
         "patchSetId": 1
@@ -13,6 +64,23 @@
       "writtenOn": "2011-06-08T14:52:18Z",
       "side": 1,
       "message": "I\u0027m not confident this is the smarter way to handle all these parameters from here to MergeOp. The best option would be make guice inject them directly into MergeOp through its subclasses. But I haven\u0027t found a way to do so.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///z8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-11T05:24:40Z",
+      "side": 1,
+      "message": "Style nit:  I suspect that these types of trailing blank lines should go away.",
       "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

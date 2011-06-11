@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCH///QM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-11T01:07:10Z",
+      "side": 1,
+      "message": "Lets call this \"rules.pl\" here instead of \"submitrules\". That way it matches the name of the file the user creates, and the name we put into warning/error log statements.",
+      "revId": "470443ef752057518fee320f753836e5b884a8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///QE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-11T01:07:10Z",
+      "side": 1,
+      "message": "Missing a space before the double quote.\n\nI\u0027m not sure there is any value in this streamObject.toString() right here. Its just going to say \"java.io.PushbackReader(0x....)\". That doesn\u0027t tell us much. It would be better to give the user the project name from getProject().getName() and the version from getConfig().getRevision().",
+      "revId": "470443ef752057518fee320f753836e5b884a8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///P0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-11T01:07:10Z",
+      "side": 1,
+      "message": "Style-nit: Space before \u003d.",
+      "revId": "470443ef752057518fee320f753836e5b884a8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///QU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-11T01:07:10Z",
+      "side": 1,
+      "message": "Use instead getConfig().getRevision().",
+      "revId": "470443ef752057518fee320f753836e5b884a8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///P8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-11T01:07:10Z",
+      "side": 1,
+      "message": "Lets just call this \"rules.pl\". We will want to do more than just submit rules for a project.",
+      "revId": "470443ef752057518fee320f753836e5b884a8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///QQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-11T01:07:10Z",
+      "side": 1,
+      "message": "Log this exception with the new logger you added.",
+      "revId": "470443ef752057518fee320f753836e5b884a8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,23 @@
       "revId": "8bc9f216e831010ae1b5bdb31438e42116cb913e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///PE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-11T05:35:02Z",
+      "side": 1,
+      "message": "In light of the recent change to add the project Owners group to users in that group for individual projects, might someone now expect that to happen here with respect to GlobalCapabilities since they are defined at a project level (at least in git) albeit only on this special project?",
+      "revId": "8bc9f216e831010ae1b5bdb31438e42116cb913e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

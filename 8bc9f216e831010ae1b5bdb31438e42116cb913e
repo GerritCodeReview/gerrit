@@ -69,6 +69,24 @@
       "revId": "8bc9f216e831010ae1b5bdb31438e42116cb913e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///Ls\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-13T17:59:53Z",
+      "side": 1,
+      "message": "I was only asking if it might be confusing to someone if we do not do this piece: \"Or only to owners of the All-Projects that this capability data resides in?\"\n\nBut, it does seem strange to do that piece, since despite the global limits being stored in All-Projects, it isn\u0027t really a feature of the \"project\" All-Projects (and thus meriting owners evaluation) so much as it is a feature of a global config.  So, ideally, if we care about this potential confusion (I am not sure we even do) I would almost suggest having a different place besides All-Projects to add things which are not \"project like\" so that this \"owners\" with respect to All-Projects question never comes up again.",
+      "parentUuid": "AAABCH///MI\u003d",
+      "revId": "8bc9f216e831010ae1b5bdb31438e42116cb913e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

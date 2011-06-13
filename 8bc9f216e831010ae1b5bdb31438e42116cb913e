@@ -33,6 +33,24 @@
       "revId": "8bc9f216e831010ae1b5bdb31438e42116cb913e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///MI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T17:47:00Z",
+      "side": 1,
+      "message": "Are you suggesting that we expand \"Project Owner\" to be anyone who is an owner of any project? Or only to owners of the All-Projects that this capability data resides in?\n\nIf the former (expand to anyone who is an owner of any project), should we only grant them \"Project Owner\" right if the query predicate involved is constrained to a project they own? Otherwise we grant them more general limits?\n\nIts ugly to limit things by the predicate of the query.",
+      "parentUuid": "AAABCH///PE\u003d",
+      "revId": "8bc9f216e831010ae1b5bdb31438e42116cb913e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

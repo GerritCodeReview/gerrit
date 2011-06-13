@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCH///Ds\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T23:14:39Z",
+      "side": 1,
+      "message": "These should go into a constants interface, like ChangeConstants, and the property file ChangeConstants.properties.",
+      "revId": "a612616770faecc3203520290a58534e2c25ab2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

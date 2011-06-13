@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCH///KM\u003d",
+        "filename": "Documentation/cmd-modify-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T19:13:52Z",
+      "side": 1,
+      "message": "This might just be the browser tricking me, but I think you have an extra \u003d on this line. The length of the line should match the length of the prior line.",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///KI\u003d",
+        "filename": "Documentation/cmd-modify-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T19:13:52Z",
+      "side": 1,
+      "message": "Why can\u0027t we have {CHANGE}... {EMAIL}... ? That is, we should be able to support adding multiple reviewers to multiple changes at once.\n\nIts easy to tell these apart, the {EMAIL} should always start with + or -, otherwise we consider it to be a {CHANGE} specification.",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///KE\u003d",
+        "filename": "Documentation/cmd-modify-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T19:13:52Z",
+      "side": 1,
+      "message": "I think we should also support commit SHA-1s. This way we can do things like:\n\n  gerrit modify-reviewers +sop@google.com $(git rev-list pub/master..)\n\nand have Gerrit automatically add me as a reviewer to all changes that have a commit between pub/master and HEAD.",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///KA\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T19:13:52Z",
+      "side": 1,
+      "message": "Copyright 2011.",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///J8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T19:13:52Z",
+      "side": 1,
+      "message": "Why is add a String but remove an Account.Id?",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///J4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T19:13:52Z",
+      "side": 1,
+      "message": "Log before writeError().",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///J0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T19:13:52Z",
+      "side": 1,
+      "message": "It might be cleaner to refactor ReviewerResult to store the Account.Id outside of the message string, so we don\u0027t have to play these regex games here.",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///Jw\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T19:13:52Z",
+      "side": 1,
+      "message": "This comment disagrees with the code below in the loop. Below the loop prints every error message, which is acceptable. We should let the end-user know that their preferred reviewer cannot see the change, and thus cannot do the review. Its better than silently failing.",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///Jk\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T19:13:52Z",
+      "side": 1,
+      "message": "Why no \"error: \" prefix here? Elsewhere you do that.",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///Js\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T19:13:52Z",
+      "side": 1,
+      "message": "We should be able to remove an inactive user from an existing review. Let this fall through and be handled by the addReviewerFactory when you are actually adding the user.",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///Jo\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T19:13:52Z",
+      "side": 1,
+      "message": "This isn\u0027t a fatal error, unless the action is different. If both mentions of the same user are \"+\" or both are \"-\" action then do nothing. If however they disagree, you have a problem and need to fail.",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

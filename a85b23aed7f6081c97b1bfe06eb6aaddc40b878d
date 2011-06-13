@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCH///EY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T23:07:35Z",
+      "side": 1,
+      "message": "Do we really need anchors on the line numbers in order to support clicking on the cell? Shouldn\u0027t the table already be getting the click event and dispatching it?",
+      "revId": "a85b23aed7f6081c97b1bfe06eb6aaddc40b878d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///EU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T23:07:35Z",
+      "side": 1,
+      "message": "Same remark as SideBySideTable.",
+      "revId": "a85b23aed7f6081c97b1bfe06eb6aaddc40b878d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

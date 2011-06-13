@@ -615,6 +615,17 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
             try {
               ProjectConfig cfg = new ProjectConfig(project.getNameKey());
               cfg.load(repo, cmd.getNewId());
+              if (!cfg.getValidationErrors().isEmpty()) {
+                rp.sendError("Invalid project configuration:");
+                for (ValidationError err : cfg.getValidationErrors()) {
+                  rp.sendError("  " + err.getMessage());
+                }
+                reject(cmd, "invalid project configuration");
+                log.error("User " + currentUser.getUserName()
+                    + " tried to push invalid project configuration "
+                    + cmd.getNewId().name() + " for " + project.getName());
+                continue;
+              }
             } catch (Exception e) {
               reject(cmd, "invalid project configuration");
               log.error("User " + currentUser.getUserName()
@@ -1693,8 +1704,33 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     // Check for banned commits to prevent them from entering the tree again.
     if (rejectCommits.contains(c)) {
-      reject(newChange, "contains banned commit " + c.getName());
+      reject(cmd, "contains banned commit " + c.getName());
       return false;
+    }
+
+    // If this is the special project configuration branch, validate the config.
+    if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
+      try {
+        ProjectConfig cfg = new ProjectConfig(project.getNameKey());
+        cfg.load(repo, cmd.getNewId());
+        if (!cfg.getValidationErrors().isEmpty()) {
+          rp.sendError("Invalid project configuration:");
+          for (ValidationError err : cfg.getValidationErrors()) {
+            rp.sendError("  " + err.getMessage());
+          }
+          reject(cmd, "invalid project configuration");
+          log.error("User " + currentUser.getUserName()
+              + " tried to push invalid project configuration "
+              + cmd.getNewId().name() + " for " + project.getName());
+          return false;
+        }
+      } catch (Exception e) {
+        reject(cmd, "invalid project configuration");
+        log.error("User " + currentUser.getUserName()
+            + " tried to push invalid project configuration "
+            + cmd.getNewId().name() + " for " + project.getName(), e);
+        return false;
+      }
     }
 
     return true;

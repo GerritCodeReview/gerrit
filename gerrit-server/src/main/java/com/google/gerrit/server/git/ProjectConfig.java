@@ -71,6 +71,7 @@ public class ProjectConfig extends VersionedMetaData {
   private Project project;
   private Map<AccountGroup.UUID, GroupReference> groupsByUUID;
   private Map<String, AccessSection> accessSections;
+  private List<ValidationError> validationErrors;
 
   public static ProjectConfig read(MetaDataUpdate update) throws IOException,
       ConfigInvalidException {
@@ -165,6 +166,19 @@ public class ProjectConfig extends VersionedMetaData {
     return dirty;
   }
 
+  /**
+   * Get the validation errors, if any were discovered during load.
+   *
+   * @return list of errors; empty list if there are no errors.
+   */
+  public List<ValidationError> getValidationErrors() {
+    if (validationErrors != null) {
+      return Collections.unmodifiableList(validationErrors);
+    } else {
+      return Collections.emptyList();
+    }
+  }
+
   @Override
   protected String getRefName() {
     return GitRepositoryManager.REF_CONFIG;
@@ -172,7 +186,7 @@ public class ProjectConfig extends VersionedMetaData {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
-    Map<String,GroupReference> groupsByName = readGroupList();
+    Map<String, GroupReference> groupsByName = readGroupList();
 
     Config rc = readConfig(PROJECT_CONFIG);
     project = new Project(projectName);
@@ -184,12 +198,12 @@ public class ProjectConfig extends VersionedMetaData {
     }
     p.setParentName(rc.getString(ACCESS, null, KEY_INHERIT_FROM));
 
-    p.setUseContributorAgreements(rc.getBoolean(RECEIVE, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, false));
-    p.setUseSignedOffBy(rc.getBoolean(RECEIVE, KEY_REQUIRE_SIGNED_OFF_BY, false));
-    p.setRequireChangeID(rc.getBoolean(RECEIVE, KEY_REQUIRE_CHANGE_ID, false));
+    p.setUseContributorAgreements(getBoolean(rc, RECEIVE, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, false));
+    p.setUseSignedOffBy(getBoolean(rc, RECEIVE, KEY_REQUIRE_SIGNED_OFF_BY, false));
+    p.setRequireChangeID(getBoolean(rc, RECEIVE, KEY_REQUIRE_CHANGE_ID, false));
 
-    p.setSubmitType(rc.getEnum(SUBMIT, null, KEY_ACTION, defaultSubmitAction));
-    p.setUseContentMerge(rc.getBoolean(SUBMIT, null, KEY_MERGE_CONTENT, false));
+    p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
+    p.setUseContentMerge(getBoolean(rc, SUBMIT, KEY_MERGE_CONTENT, false));
 
     accessSections = new HashMap<String, AccessSection>();
     for (String refName : rc.getSubsections(ACCESS)) {
@@ -214,9 +228,10 @@ public class ProjectConfig extends VersionedMetaData {
               try {
                 rule = PermissionRule.fromString(ruleString, useRange);
               } catch (IllegalArgumentException notRule) {
-                throw new ConfigInvalidException("Invalid rule in " + ACCESS
+                error(new ValidationError(PROJECT_CONFIG, "Invalid rule in " + ACCESS
                     + "." + refName + "." + varName + ": "
-                    + notRule.getMessage(), notRule);
+                    + notRule.getMessage()));
+                continue;
               }
 
               GroupReference ref = groupsByName.get(rule.getGroup().getName());
@@ -227,6 +242,8 @@ public class ProjectConfig extends VersionedMetaData {
                 //
                 ref = rule.getGroup();
                 groupsByName.put(ref.getName(), ref);
+                error(new ValidationError(PROJECT_CONFIG, "group \""
+                    + rule.getGroup().getName() + "\" not in " + GROUP_LIST));
               }
 
               rule.setGroup(ref);
@@ -238,22 +255,22 @@ public class ProjectConfig extends VersionedMetaData {
     }
   }
 
-  private Map<String, GroupReference> readGroupList() throws IOException,
-      ConfigInvalidException {
+  private Map<String, GroupReference> readGroupList() throws IOException {
     groupsByUUID = new HashMap<AccountGroup.UUID, GroupReference>();
     Map<String, GroupReference> groupsByName =
         new HashMap<String, GroupReference>();
 
     BufferedReader br = new BufferedReader(new StringReader(readUTF8(GROUP_LIST)));
     String s;
-    while ((s = br.readLine()) != null) {
+    for (int lineNumber = 1; (s = br.readLine()) != null; lineNumber++) {
       if (s.isEmpty() || s.startsWith("#")) {
         continue;
       }
 
       int tab = s.indexOf('\t');
       if (tab < 0) {
-        throw new ConfigInvalidException("Invalid group line: " + s);
+        error(new ValidationError(GROUP_LIST, lineNumber, "missing tab delimiter"));
+        continue;
       }
 
       AccountGroup.UUID uuid = new AccountGroup.UUID(s.substring(0, tab).trim());
@@ -368,6 +385,33 @@ public class ProjectConfig extends VersionedMetaData {
       }
     }
     saveUTF8(GROUP_LIST, buf.toString());
+  }
+
+  private boolean getBoolean(Config rc, String section, String name,
+      boolean defaultValue) {
+    try {
+      return rc.getBoolean(section, name, defaultValue);
+    } catch (IllegalArgumentException err) {
+      error(new ValidationError(PROJECT_CONFIG, err.getMessage()));
+      return defaultValue;
+    }
+  }
+
+  private <E extends Enum<?>> E getEnum(Config rc, String section,
+      String subsection, String name, E defaultValue) {
+    try {
+      return rc.getEnum(section, subsection, name, defaultValue);
+    } catch (IllegalArgumentException err) {
+      error(new ValidationError(PROJECT_CONFIG, err.getMessage()));
+      return defaultValue;
+    }
+  }
+
+  private void error(ValidationError error) {
+    if (validationErrors == null) {
+      validationErrors = new ArrayList<ValidationError>(4);
+    }
+    validationErrors.add(error);
   }
 
   private static String pad(int len, String src) {

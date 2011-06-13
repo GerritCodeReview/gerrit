@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH///Fg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/RemoveReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-13T21:34:59Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "AAABCH///Fw\u003d",
+      "revId": "0fb80b51338fcdaba6276c5a2ffb6955e0b7c920",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///Fs\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/RemoveReviewer.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-06-13T21:00:59Z",
       "side": 0,
       "message": "See line 307 of ApprovalTable.java:\n\n  new ErrorDialog(result.getErrors().get(0).toString()).center();\n\nIts relying on this text to explain the problem to the user. You need to also update the UI code to move these strings into the UI, so the end-user knows what is wrong. \"COULD_NOT_REMOVE 1234\" won\u0027t be sufficient description of the problem for most people.",
+      "revId": "0fb80b51338fcdaba6276c5a2ffb6955e0b7c920",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///FQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/RemoveReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-13T21:34:59Z",
+      "side": 0,
+      "message": "Done.\n\nFigured that was used somewhere, but I couldn\u0027t figure it out.  Thanks.",
+      "parentUuid": "AAABCH///Fs\u003d",
       "revId": "0fb80b51338fcdaba6276c5a2ffb6955e0b7c920",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

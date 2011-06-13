@@ -24,7 +24,6 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.transport.UploadPack;
 
 import java.io.IOException;
-import java.io.InterruptedIOException;
 
 /** Publishes Git repositories over SSH using the Git upload-pack protocol. */
 final class Upload extends AbstractGitCommand {
@@ -46,10 +45,6 @@ final class Upload extends AbstractGitCommand {
     }
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
-    try {
-      up.upload(in, out, err);
-    } catch (InterruptedIOException err) {
-      throw new Failure(128, "fatal: client IO read/write timeout", err);
-    }
+    up.upload(in, out, err);
   }
 }

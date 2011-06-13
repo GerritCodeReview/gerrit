@@ -34,16 +34,14 @@ import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.StringReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -55,8 +53,6 @@ import java.util.Set;
 
 /** Cached information on a project. */
 public class ProjectState {
-  private static final Logger log = LoggerFactory.getLogger(ProjectState.class);
-
   public interface Factory {
     ProjectState create(ProjectConfig config);
   }
@@ -144,10 +140,19 @@ public class ProjectState {
     File jarFile = new File("rules.jar");
     ClassLoader defaultLoader = getClass().getClassLoader();
     if(jarFile.exists()) {
-      URL url = jarFile.toURI().toURL();
+      URL url;
+      try {
+        url = jarFile.toURI().toURL();
+      } catch (MalformedURLException e) {
+        throw new CompileException("File path not valid", e);
+      }
       URL[] urls = new URL[]{url};
       ClassLoader cl = new URLClassLoader(urls, defaultLoader);
-      cl.loadClass("user.PRED_submit_rule_1.class");
+      try {
+        cl.loadClass("user.PRED_submit_rule_1.class");
+      } catch (ClassNotFoundException e) {
+        throw new CompileException("Compiled prolog class not found", e);
+      }
       env = envFactory.create(cl);
       return env;
     }
@@ -156,12 +161,7 @@ public class ProjectState {
     }
 
     //consult rules.pl at refs/meta/config branch for custom submit rules
-    String rules;
-    try {
-      rules = getPrologRules();
-    } catch (RepositoryNotFoundException err) {
-      throw new CompileException("Local repository does not exist ", err);
-    }
+    String rules = getConfig().getPrologRules();
     if (rules != null) {
       PushbackReader in =
           new PushbackReader(new StringReader(rules), Prolog.PUSHBACK_SIZE);
@@ -285,19 +285,5 @@ public class ProjectState {
 
   private boolean isWildProject() {
     return wildProject.equals(getProject().getNameKey());
-  }
-
-  /**
-   * @return String of the prolog rules in rules.pl in
-   *         refs/meta/config if it exists, null otherwise
-   * @throws RepositoryNotFoundException
-   */
-  private String getPrologRules() throws RepositoryNotFoundException {
-    Repository git = gitMgr.openRepository(getProject().getNameKey());
-    ProjectConfig config = getConfig();
-    if (config == null) {
-      return null;
-    }
-    return config.getPrologRules();
   }
 }

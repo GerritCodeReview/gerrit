@@ -267,9 +267,7 @@ public class ChangeControl {
 
     Term submitRule = env.once("com.google.gerrit.rules.common", "locate_submit_rule",
         new VariableTerm());
-
-    if (submitRule == null)
-    {
+    if (submitRule == null) {
       log.error("Error in locate_submit_rule: no submit_rule found");
       return new CanSubmitResult("Error in finding submit rule");
     }

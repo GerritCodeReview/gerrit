@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCH///EM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T23:12:26Z",
+      "side": 1,
+      "message": "s/submit_rules.pl/rules.pl/",
+      "revId": "4bab2bb428303fa1329575e8cfb9f3ee8f2b60e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///D4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T23:12:26Z",
+      "side": 1,
+      "message": "I would drop this blank line.",
+      "revId": "4bab2bb428303fa1329575e8cfb9f3ee8f2b60e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///D8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T23:12:26Z",
+      "side": 1,
+      "message": "Style-nit: Curly brace should be on prior line.",
+      "revId": "4bab2bb428303fa1329575e8cfb9f3ee8f2b60e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///EA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T23:12:26Z",
+      "side": 1,
+      "message": "Just say: getConfig().getPrologRules().  (See below for why.)",
+      "revId": "4bab2bb428303fa1329575e8cfb9f3ee8f2b60e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///EI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T23:12:26Z",
+      "side": 1,
+      "message": "This isn\u0027t necessary anymore.",
+      "revId": "4bab2bb428303fa1329575e8cfb9f3ee8f2b60e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///EE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T23:12:26Z",
+      "side": 1,
+      "message": "I don\u0027t think config can be null.\n\nSo now you can drop the method. :-)",
+      "revId": "4bab2bb428303fa1329575e8cfb9f3ee8f2b60e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

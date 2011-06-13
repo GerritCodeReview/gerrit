@@ -16,6 +16,24 @@
       "revId": "a612616770faecc3203520290a58534e2c25ab2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///C0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-13T23:39:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCH///Ds\u003d",
+      "revId": "a612616770faecc3203520290a58534e2c25ab2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

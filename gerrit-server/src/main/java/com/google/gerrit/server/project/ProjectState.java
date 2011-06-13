@@ -32,14 +32,9 @@ import com.google.inject.assistedinject.Assisted;
 import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
-import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
-import com.googlecode.prolog_cafe.lang.VariableTerm;
 
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.ObjectStream;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -47,11 +42,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PushbackReader;
+import java.io.StringReader;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -142,7 +136,7 @@ public class ProjectState {
   }
 
   /** @return Construct a new PrologEnvironment for the calling thread. */
-  public PrologEnvironment newPrologEnvironment() throws CompileException, IOException, ClassNotFoundException{
+  public PrologEnvironment newPrologEnvironment() throws CompileException{
     // TODO Replace this with a per-project ClassLoader to isolate rules.
 
     PrologEnvironment env;
@@ -161,31 +155,22 @@ public class ProjectState {
       env = envFactory.create(defaultLoader);
     }
 
-    //consult submit_rules.pl at refs/meta/config branch for custom submit rules
-    ObjectStream ruleStream = getPrologRules();
-    if (ruleStream != null) {
-      try {
-        PushbackReader in =
-            new PushbackReader(new InputStreamReader(ruleStream,
-                Charset.forName("UTF-8")), Prolog.PUSHBACK_SIZE);
-        JavaObjectTerm streamObject = new JavaObjectTerm(in);
-        if (!env.execute(Prolog.BUILTIN, "consult_stream",
-            SymbolTerm.makeSymbol("rules.pl"), streamObject)) {
-          throw new CompileException("Cannot consult " +
-              getProject().getName() + " " + getConfig().getRevision());
-        }
-      } finally {
-        ruleStream.close();
+    //consult rules.pl at refs/meta/config branch for custom submit rules
+    String rules;
+    try {
+      rules = getPrologRules();
+    } catch (RepositoryNotFoundException err) {
+      throw new CompileException("Local repository does not exist ", err);
+    }
+    if (rules != null) {
+      PushbackReader in =
+          new PushbackReader(new StringReader(rules), Prolog.PUSHBACK_SIZE);
+      JavaObjectTerm streamObject = new JavaObjectTerm(in);
+      if (!env.execute(Prolog.BUILTIN, "consult_stream",
+          SymbolTerm.makeSymbol("rules.pl"), streamObject)) {
+        throw new CompileException("Cannot consult rules.pl " +
+            getProject().getName() + " " + getConfig().getRevision());
       }
-    } else {
-      //assert submit_rule predicate to be default_submit if submit_rule doesn't exist
-      VariableTerm var = new VariableTerm();
-      StructureTerm head = new StructureTerm("submit_rule", var);
-      StructureTerm defaultRule = new StructureTerm(":",
-          SymbolTerm.makeSymbol("com.google.gerrit.rules.common"),
-          new StructureTerm("default_submit", var));
-      StructureTerm clause = new StructureTerm(":-", head, defaultRule);
-      env.execute(Prolog.BUILTIN, "assertz", clause);
     }
 
     return env;
@@ -303,25 +288,16 @@ public class ProjectState {
   }
 
   /**
-   * @return ObjectStream of the prolog rules in submit_rules.pl in
+   * @return String of the prolog rules in rules.pl in
    *         refs/meta/config if it exists, null otherwise
+   * @throws RepositoryNotFoundException
    */
-  private ObjectStream getPrologRules() throws IOException{
+  private String getPrologRules() throws RepositoryNotFoundException {
     Repository git = gitMgr.openRepository(getProject().getNameKey());
-    try {
-      ObjectId config = getConfig().getRevision();
-      ObjectId rules = git.resolve(config.getName() + ":rules.pl");
-      if (rules == null) {
-        return null;
-      }
-      ObjectLoader ldr = git.open(rules);
-      if (ldr.getType() != Constants.OBJ_BLOB) {
-        return null;
-      }
-
-      return ldr.openStream();
-    } finally {
-      git.close();
+    ProjectConfig config = getConfig();
+    if (config == null) {
+      return null;
     }
+    return config.getPrologRules();
   }
 }

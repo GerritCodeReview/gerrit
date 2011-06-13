@@ -48,8 +48,8 @@ limitations under the License.
   <properties>
     <jgitVersion>0.12.1.53-g5ec4977</jgitVersion>
     <gwtormVersion>1.1.4</gwtormVersion>
-    <gwtjsonrpcVersion>1.2.3</gwtjsonrpcVersion>
-    <gwtexpuiVersion>1.2.2</gwtexpuiVersion>
+    <gwtjsonrpcVersion>1.2.4</gwtjsonrpcVersion>
+    <gwtexpuiVersion>1.2.3</gwtexpuiVersion>
     <gwtVersion>2.1.1</gwtVersion>
     <slf4jVersion>1.6.1</slf4jVersion>
     <guiceVersion>2.0</guiceVersion>
@@ -523,12 +523,6 @@ limitations under the License.
         <groupId>aopalliance</groupId>
         <artifactId>aopalliance</artifactId>
         <version>1.0</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.google.code.gson</groupId>
-        <artifactId>gson</artifactId>
-        <version>1.6</version>
       </dependency>
 
       <dependency>

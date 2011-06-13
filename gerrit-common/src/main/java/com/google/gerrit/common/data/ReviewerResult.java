@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,8 +56,11 @@ public class ReviewerResult {
       /** The account is not permitted to see the change. */
       CHANGE_NOT_VISIBLE,
 
-      /** Could not remove this reviewer from the change. */
-      COULD_NOT_REMOVE
+      /** Could not remove this reviewer from the change due to ORMException. */
+      COULD_NOT_REMOVE,
+
+      /** Not permitted to remove this reviewer from the change. */
+      REMOVE_NOT_PERMITTED
     }
 
     protected Type type;

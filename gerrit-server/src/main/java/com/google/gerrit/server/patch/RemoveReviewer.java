@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -78,12 +78,12 @@ public class RemoveReviewer implements Callable<ReviewerResult> {
       } catch (OrmException ex) {
         result.addError(new ReviewerResult.Error(
             ReviewerResult.Error.Type.COULD_NOT_REMOVE,
-            "Could not remove reviewer " + reviewerId));
+            reviewerId.toString()));
       }
     } else {
       result.addError(new ReviewerResult.Error(
-          ReviewerResult.Error.Type.COULD_NOT_REMOVE,
-          "Not allowed to remove reviewer " + reviewerId));
+          ReviewerResult.Error.Type.REMOVE_NOT_PERMITTED,
+          reviewerId.toString()));
     }
 
     return result;

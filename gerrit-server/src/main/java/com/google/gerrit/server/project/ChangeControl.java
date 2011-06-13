@@ -263,6 +263,9 @@ public class ChangeControl {
     } catch (IOException err) {
       log.error("IOException for object stream", err);
       return new CanSubmitResult("Error reading submit rule");
+    } catch (ClassNotFoundException err) {
+      log.error("Submit rule class not found in jar file", err);
+      return new CanSubmitResult("Error reading submit rule");
     }
 
     env.set(StoredValues.REVIEW_DB, db);

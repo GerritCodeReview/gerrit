@@ -34,7 +34,6 @@ import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
-import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 
 import org.eclipse.jgit.lib.Constants;
@@ -46,9 +45,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PushbackReader;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -140,9 +142,24 @@ public class ProjectState {
   }
 
   /** @return Construct a new PrologEnvironment for the calling thread. */
-  public PrologEnvironment newPrologEnvironment() throws CompileException, IOException{
+  public PrologEnvironment newPrologEnvironment() throws CompileException, IOException, ClassNotFoundException{
     // TODO Replace this with a per-project ClassLoader to isolate rules.
-    PrologEnvironment env = envFactory.create(getClass().getClassLoader());
+
+    PrologEnvironment env;
+    //read jar from local filesystem if it exists
+    File jarFile = new File("rules.jar");
+    ClassLoader defaultLoader = getClass().getClassLoader();
+    if(jarFile.exists()) {
+      URL url = jarFile.toURI().toURL();
+      URL[] urls = new URL[]{url};
+      ClassLoader cl = new URLClassLoader(urls, defaultLoader);
+      cl.loadClass("user.PRED_submit_rule_1.class");
+      env = envFactory.create(cl);
+      return env;
+    }
+    else {
+      env = envFactory.create(defaultLoader);
+    }
 
     //consult submit_rules.pl at refs/meta/config branch for custom submit rules
     ObjectStream ruleStream = getPrologRules();

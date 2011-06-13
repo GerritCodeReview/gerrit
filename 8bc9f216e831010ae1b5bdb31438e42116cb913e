@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH///MA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-13T17:48:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABAn//+58\u003d",
+      "revId": "8bc9f216e831010ae1b5bdb31438e42116cb913e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///PE\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
         "patchSetId": 1

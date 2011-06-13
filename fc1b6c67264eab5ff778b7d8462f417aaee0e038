@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCH///Mo\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-06-13T17:24:41Z",
+      "side": 1,
+      "message": "s/Correct/Correctly/",
+      "revId": "fc1b6c67264eab5ff778b7d8462f417aaee0e038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///Mc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-06-13T17:24:41Z",
+      "side": 1,
+      "message": "s/does/branch does/\n\ns/throw/throws a/",
+      "revId": "fc1b6c67264eab5ff778b7d8462f417aaee0e038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

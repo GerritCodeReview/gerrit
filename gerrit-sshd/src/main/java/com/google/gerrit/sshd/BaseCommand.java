@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InterruptedIOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -285,17 +286,13 @@ public abstract class BaseCommand implements Command {
   }
 
   private int handleError(final Throwable e) {
-    if (e.getClass() == IOException.class
-        && "Pipe closed".equals(e.getMessage())) {
-      // This is sshd telling us the client just dropped off while
-      // we were waiting for a read or a write to complete. Either
-      // way its not really a fatal error. Don't log it.
-      //
-      return 127;
-    }
-
-    if (e.getClass() == SshException.class
-        && "Already closed".equals(e.getMessage())) {
+    if ((e.getClass() == IOException.class
+         && "Pipe closed".equals(e.getMessage()))
+        || //
+        (e.getClass() == SshException.class
+         && "Already closed".equals(e.getMessage()))
+        || //
+        e.getClass() == InterruptedIOException.class) {
       // This is sshd telling us the client just dropped off while
       // we were waiting for a read or a write to complete. Either
       // way its not really a fatal error. Don't log it.

@@ -29,7 +29,6 @@ import org.eclipse.jgit.transport.RefFilter;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -88,9 +87,6 @@ final class Receive extends AbstractGitCommand {
     try {
       receive.advertiseHistory();
       rp.receive(in, out, err);
-    } catch (InterruptedIOException err) {
-      throw new Failure(128, "fatal: client IO read/write timeout", err);
-
     } catch (UnpackException badStream) {
       // This may have been triggered by branch level access controls.
       // Log what the heck is going on, as detailed as we can.

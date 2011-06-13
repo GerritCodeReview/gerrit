@@ -66,7 +66,7 @@ public abstract class VersionedMetaData {
 
   /** @return revision of the metadata that was loaded. */
   public ObjectId getRevision() {
-    return revision.copy();
+    return revision != null ? revision.copy() : null;
   }
 
   /** Initialize in-memory as though the repository branch doesn't exist. */

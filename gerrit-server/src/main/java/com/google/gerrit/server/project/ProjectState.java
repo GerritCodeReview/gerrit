@@ -140,7 +140,7 @@ public class ProjectState {
   }
 
   /** @return Construct a new PrologEnvironment for the calling thread. */
-  public PrologEnvironment newPrologEnvironment() {
+  public PrologEnvironment newPrologEnvironment() throws CompileException, IOException{
     // TODO Replace this with a per-project ClassLoader to isolate rules.
     PrologEnvironment env = envFactory.create(getClass().getClassLoader());
 
@@ -153,23 +153,18 @@ public class ProjectState {
                 Charset.forName("UTF-8")), Prolog.PUSHBACK_SIZE);
         JavaObjectTerm streamObject = new JavaObjectTerm(in);
         if (!env.execute(Prolog.BUILTIN, "consult_stream",
-            SymbolTerm.makeSymbol("submitrules"), streamObject)) {
-          throw new CompileException("Cannot consult" + streamObject.toString());
+            SymbolTerm.makeSymbol("rules.pl"), streamObject)) {
+          throw new CompileException("Cannot consult " +
+              getProject().getName() + " " + getConfig().getRevision());
         }
-      } catch (CompileException err) {
-        log.error("Cannot consult provided submit_rules.pl", err);
       } finally {
-        try {
-          ruleStream.close();
-        } catch (IOException err) {
-          log.error("Close of ruleStream failed", err);
-        }
+        ruleStream.close();
       }
     } else {
       //assert submit_rule predicate to be default_submit if submit_rule doesn't exist
       VariableTerm var = new VariableTerm();
       StructureTerm head = new StructureTerm("submit_rule", var);
-      StructureTerm defaultRule= new StructureTerm(":",
+      StructureTerm defaultRule = new StructureTerm(":",
           SymbolTerm.makeSymbol("com.google.gerrit.rules.common"),
           new StructureTerm("default_submit", var));
       StructureTerm clause = new StructureTerm(":-", head, defaultRule);
@@ -294,26 +289,22 @@ public class ProjectState {
    * @return ObjectStream of the prolog rules in submit_rules.pl in
    *         refs/meta/config if it exists, null otherwise
    */
-  private ObjectStream getPrologRules() {
+  private ObjectStream getPrologRules() throws IOException{
+    Repository git = gitMgr.openRepository(getProject().getNameKey());
     try {
-      Repository git = gitMgr.openRepository(getProject().getNameKey());
-      try {
-        ObjectId config = git.resolve(GitRepositoryManager.REF_CONFIG);
-        ObjectId rules = git.resolve(config.getName() + ":submit_rules.pl");
-        if (rules == null) {
-          return null;
-        }
-        ObjectLoader ldr = git.open(rules);
-        if (ldr.getType() != Constants.OBJ_BLOB) {
-          return null;
-        }
-
-        return ldr.openStream();
-      } finally {
-        git.close();
+      ObjectId config = getConfig().getRevision();
+      ObjectId rules = git.resolve(config.getName() + ":rules.pl");
+      if (rules == null) {
+        return null;
       }
-    } catch (IOException gone) {
-      return null;
+      ObjectLoader ldr = git.open(rules);
+      if (ldr.getType() != Constants.OBJ_BLOB) {
+        return null;
+      }
+
+      return ldr.openStream();
+    } finally {
+      git.close();
     }
   }
 }

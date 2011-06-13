@@ -28,6 +28,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
@@ -38,6 +39,7 @@ import com.googlecode.prolog_cafe.lang.VariableTerm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -252,7 +254,17 @@ public class ChangeControl {
       return result;
     }
 
-    PrologEnvironment env = getProjectControl().getProjectState().newPrologEnvironment();
+    PrologEnvironment env;
+    try {
+      env = getProjectControl().getProjectState().newPrologEnvironment();
+    } catch (CompileException err) {
+      log.error("cannot consult rules.pl", err);
+      return new CanSubmitResult("Error reading submit rule");
+    } catch (IOException err) {
+      log.error("IOException for object stream", err);
+      return new CanSubmitResult("Error reading submit rule");
+    }
+
     env.set(StoredValues.REVIEW_DB, db);
     env.set(StoredValues.CHANGE, change);
     env.set(StoredValues.PATCH_SET_ID, patchSetId);
@@ -339,5 +351,4 @@ public class ChangeControl {
 
     return CanSubmitResult.OK;
   }
-
 }

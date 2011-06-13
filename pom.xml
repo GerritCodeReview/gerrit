@@ -253,7 +253,7 @@ limitations under the License.
   </licenses>
 
   <properties>
-    <gwtVersion>2.0.0</gwtVersion>
+    <gwtVersion>2.1.1</gwtVersion>
     <project.build.sourceEncoding>
       UTF-8
     </project.build.sourceEncoding>

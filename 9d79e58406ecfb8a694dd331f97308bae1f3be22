@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH///JU\u003d",
+        "filename": "Documentation/cmd-modify-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-13T23:22:20Z",
+      "side": 1,
+      "message": "Done.\n\nSorry, I was just copying what cmd-review did.",
+      "parentUuid": "AAABCH///KM\u003d",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///KI\u003d",
         "filename": "Documentation/cmd-modify-reviewers.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-06-13T19:13:52Z",
       "side": 1,
       "message": "Why can\u0027t we have {CHANGE}... {EMAIL}... ? That is, we should be able to support adding multiple reviewers to multiple changes at once.\n\nIts easy to tell these apart, the {EMAIL} should always start with + or -, otherwise we consider it to be a {CHANGE} specification.",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///JQ\u003d",
+        "filename": "Documentation/cmd-modify-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-13T23:22:20Z",
+      "side": 1,
+      "message": "I originally had it that way, but I couldn\u0027t figure out how to get args4j to do that.  I guess in args4j I would just make I single repeated argument and parse it either way?  I\u0027ll do it that way.  Let me know if you have a better way.",
+      "parentUuid": "AAABCH///KI\u003d",
       "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH///JM\u003d",
+        "filename": "Documentation/cmd-modify-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-13T23:22:20Z",
+      "side": 1,
+      "message": "Done.  What do you think about the numeric change id?  should I leave support for that or remove it?",
+      "parentUuid": "AAABCH///KE\u003d",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///KA\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2011-06-13T19:13:52Z",
       "side": 1,
       "message": "Copyright 2011.",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///Es\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-13T23:22:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCH///KA\u003d",
       "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH///JE\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-13T23:22:20Z",
+      "side": 1,
+      "message": "Because AddReviewer takes a collection of strings, but RemoveReviewer takes a single ID.  However, due to some of the changes below it makes more sense now to wait until the actual call to get Ids.",
+      "parentUuid": "AAABCH///J8\u003d",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///J4\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2011-06-13T19:13:52Z",
       "side": 1,
       "message": "Log before writeError().",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///JA\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-13T23:22:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCH///J4\u003d",
       "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH///H4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-13T23:22:20Z",
+      "side": 1,
+      "message": "We could do this by splitting COULD_NOT_REMOVE into different specific error types, getting rid of the need to hide a message inside the `name` property.  See https://review.source.android.com//#change,23705",
+      "parentUuid": "AAABCH///J0\u003d",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///Jw\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2011-06-13T19:13:52Z",
       "side": 1,
       "message": "This comment disagrees with the code below in the loop. Below the loop prints every error message, which is acceptable. We should let the end-user know that their preferred reviewer cannot see the change, and thus cannot do the review. Its better than silently failing.",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///II\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-13T23:22:20Z",
+      "side": 1,
+      "message": "Done.\n\nWhen I said \"directly\", I meant the specific message.  The loop below does not print the specific error messages.  Unlike RemoveReviewer, getName() here actually does get the name/email we were trying to add so what this prints is an abstract \u0027\"bob@example.com\" could not be added\u0027 message.\n\nYour example makes sense, but I was thinking of a situation where someone could use this as a tool to discover invisible changes by trying different prefixes.  However I guess this message is just as telling since it doesn\u0027t say \"this change does not exist\" as it would if the change actually didn\u0027t exist.  Also, now that I\u0027m looking at the AddReviewer code, I\u0027m not sure it even prevents adding reviewers to changes that are invisible to the user doing the adding.",
+      "parentUuid": "AAABCH///Jw\u003d",
       "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH///Iw\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-13T23:22:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCH///Jk\u003d",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///Js\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
         "patchSetId": 2
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH///H0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-13T23:22:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCH///Js\u003d",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///Jo\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
         "patchSetId": 2
@@ -183,6 +363,24 @@
       "writtenOn": "2011-06-13T19:13:52Z",
       "side": 1,
       "message": "This isn\u0027t a fatal error, unless the action is different. If both mentions of the same user are \"+\" or both are \"-\" action then do nothing. If however they disagree, you have a problem and need to fail.",
+      "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///Hw\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-13T23:22:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCH///Jo\u003d",
       "revId": "9d79e58406ecfb8a694dd331f97308bae1f3be22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

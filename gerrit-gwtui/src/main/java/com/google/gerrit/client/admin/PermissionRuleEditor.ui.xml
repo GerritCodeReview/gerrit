@@ -78,7 +78,9 @@ limitations under the License.
     <g:ValueListBox ui:field='max' styleName='{style.minmax}'/>
   </span>
 
-  <q:Hyperlink ui:field='normalGroupName' styleName='{style.groupName}'/>
+  <q:Hyperlink ui:field='groupNameLink' styleName='{style.groupName}'/>
+  <span ui:field='groupNameSpan' styleName='{style.groupName}'/>
+
   <g:CheckBox
       ui:field='force'
       addStyleNames='{style.forcePush}'

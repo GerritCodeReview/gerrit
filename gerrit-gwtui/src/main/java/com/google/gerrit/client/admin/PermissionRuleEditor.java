@@ -41,6 +41,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.ValueListBox;
 
 import java.io.IOException;
@@ -66,7 +67,9 @@ public class PermissionRuleEditor extends Composite implements
   CheckBox force;
 
   @UiField
-  Hyperlink normalGroupName;
+  Hyperlink groupNameLink;
+  @UiField
+  SpanElement groupNameSpan;
   @UiField
   SpanElement deletedGroupName;
 
@@ -147,9 +150,16 @@ public class PermissionRuleEditor extends Composite implements
   @Override
   public void setValue(PermissionRule value) {
     GroupReference ref = value.getGroup();
-    normalGroupName.setTargetHistoryToken(Dispatcher.toGroup(ref.getUUID()));
-    normalGroupName.setText(ref.getName());
+    if (ref.getUUID() != null) {
+      groupNameLink.setTargetHistoryToken(Dispatcher.toGroup(ref.getUUID()));
+    }
+
+    groupNameLink.setText(ref.getName());
+    groupNameSpan.setInnerText(ref.getName());
     deletedGroupName.setInnerText(ref.getName());
+
+    groupNameLink.setVisible(ref.getUUID() != null);
+    UIObject.setVisible(groupNameSpan, ref.getUUID() == null);
   }
 
   @Override

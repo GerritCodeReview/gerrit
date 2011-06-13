@@ -304,7 +304,18 @@ public class ApprovalTable extends Composite {
               final ChangeDetail r = result.getChange();
               display(r.getChange(), r.getMissingApprovals(), r.getApprovals());
             } else {
-              new ErrorDialog(result.getErrors().get(0).toString()).center();
+              final ReviewerResult.Error resultError =
+                  result.getErrors().get(0);
+              String message;
+              switch (resultError.getType()) {
+                case REMOVE_NOT_PERMITTED:
+                  message = "Not allowed to remove reviewer";
+                  break;
+                case COULD_NOT_REMOVE:
+                default:
+                  message = "Could not remove reviewer";
+              }
+              new ErrorDialog(message + " " + resultError.getName()).center();
             }
           }
 

@@ -18,6 +18,7 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -86,7 +87,9 @@ public class GroupControl {
 
   /** Can this user see this group exists? */
   public boolean isVisible() {
-    return group.isVisibleToAll() || isOwner();
+    return group.isVisibleToAll()
+      || user.getEffectiveGroups().contains(group.getGroupUUID())
+      || isOwner();
   }
 
   public boolean isOwner() {
@@ -99,27 +102,35 @@ public class GroupControl {
     return isOwner;
   }
 
-  public boolean canAddMember(final Account.Id id) {
+  public boolean canAddMember(Account.Id id) {
     return isOwner();
   }
 
-  public boolean canRemoveMember(final Account.Id id) {
+  public boolean canRemoveMember(Account.Id id) {
     return isOwner();
   }
 
   public boolean canSeeMember(Account.Id id) {
-    return isVisible();
+    if (user instanceof IdentifiedUser
+        && ((IdentifiedUser) user).getAccountId().equals(id)) {
+      return true;
+    }
+    return canSeeMembers();
   }
 
-  public boolean canAddGroup(final AccountGroup.Id id) {
+  public boolean canAddGroup(AccountGroup.Id id) {
     return isOwner();
   }
 
-  public boolean canRemoveGroup(final AccountGroup.Id id) {
+  public boolean canRemoveGroup(AccountGroup.Id id) {
     return isOwner();
   }
 
   public boolean canSeeGroup(AccountGroup.Id id) {
-    return isVisible();
+    return canSeeMembers();
+  }
+
+  private boolean canSeeMembers() {
+    return group.isVisibleToAll() || isOwner();
   }
 }

@@ -15,10 +15,15 @@
 package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.ProjectAccess;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -33,8 +38,10 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 class ProjectAccessFactory extends Handler<ProjectAccess> {
@@ -45,6 +52,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   private final GroupCache groupCache;
   private final ProjectCache projectCache;
   private final ProjectControl.Factory projectControlFactory;
+  private final GroupControl.Factory groupControlFactory;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final Project.NameKey wildProject;
 
@@ -55,6 +63,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   ProjectAccessFactory(final GroupCache groupCache,
       final ProjectCache projectCache,
       final ProjectControl.Factory projectControlFactory,
+      final GroupControl.Factory groupControlFactory,
       final MetaDataUpdate.Server metaDataUpdateFactory,
       @WildProjectName final Project.NameKey wildProject,
 
@@ -63,6 +72,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     this.groupCache = groupCache;
     this.projectCache = projectCache;
     this.projectControlFactory = projectControlFactory;
+    this.groupControlFactory = groupControlFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.wildProject = wildProject;
 
@@ -101,13 +111,53 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
     List<AccessSection> local = new ArrayList<AccessSection>();
     Set<String> ownerOf = new HashSet<String>();
+    Map<AccountGroup.UUID, Boolean> visibleGroups =
+        new HashMap<AccountGroup.UUID, Boolean>();
+
     for (AccessSection section : config.getAccessSections()) {
       RefControl rc = pc.controlForRef(section.getRefPattern());
       if (rc.isOwner()) {
         local.add(section);
         ownerOf.add(section.getRefPattern());
+
       } else if (rc.isVisible()) {
-        local.add(section);
+        // Filter the section to only add rules describing groups that
+        // are visible to the current-user. This includes any group the
+        // user is a member of, as well as groups they own or that
+        // are visible to all users.
+
+        AccessSection dst = null;
+        for (Permission srcPerm : section.getPermissions()) {
+          Permission dstPerm = null;
+
+          for (PermissionRule srcRule : srcPerm.getRules()) {
+            AccountGroup.UUID group = srcRule.getGroup().getUUID();
+            if (group == null) {
+              continue;
+            }
+
+            Boolean canSeeGroup = visibleGroups.get(group);
+            if (canSeeGroup == null) {
+              try {
+                canSeeGroup = groupControlFactory.controlFor(group).isVisible();
+              } catch (NoSuchGroupException e) {
+                canSeeGroup = Boolean.FALSE;
+              }
+              visibleGroups.put(group, canSeeGroup);
+            }
+
+            if (canSeeGroup) {
+              if (dstPerm == null) {
+                if (dst == null) {
+                  dst = new AccessSection(section.getRefPattern());
+                  local.add(dst);
+                }
+                dstPerm = dst.getPermission(srcPerm.getName(), true);
+              }
+              dstPerm.add(srcRule);
+            }
+          }
+        }
       }
     }
 

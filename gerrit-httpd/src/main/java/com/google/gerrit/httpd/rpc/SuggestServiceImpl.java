@@ -216,8 +216,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         for (AccountGroupName group : db.accountGroupNames()
               .suggestByName(a, b, n)) {
           try {
-            if (memberOf.contains(group.getId())
-                || groupControlFactory.controlFor(group.getId()).isVisible()) {
+            if (groupControlFactory.controlFor(group.getId()).isVisible()) {
               AccountGroup g = groupCache.get(group.getId());
               if (g != null && g.getGroupUUID() != null) {
                 r.add(GroupReference.forGroup(g));

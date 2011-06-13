@@ -149,7 +149,7 @@ public class ProjectState {
       URL[] urls = new URL[]{url};
       ClassLoader cl = new URLClassLoader(urls, defaultLoader);
       try {
-        cl.loadClass("user.PRED_submit_rule_1.class");
+        cl.loadClass("PRED_submit_rule_1.class");
       } catch (ClassNotFoundException e) {
         throw new CompileException("Compiled prolog class not found", e);
       }

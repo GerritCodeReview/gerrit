@@ -168,8 +168,9 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
         continue;
       }
 
-      for (int prior = 0, r = initialRow; prior < i; prior++) {
+      for (int prior = 0; prior < i; prior++) {
         if (KeyCommand.same(keys.get(prior), k)) {
+          final int r = initialRow + prior;
           final SafeHtmlBuilder b = new SafeHtmlBuilder();
           b.append(SafeHtml.get(lists, r, col + 0));
           b.append(" ");

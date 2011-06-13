@@ -83,6 +83,14 @@ public class Dispatcher {
     return "patch," + type + "," + id.toString();
   }
 
+  public static String toPatch(final PatchScreen.Type type, final Patch.Key id) {
+    if (type == PatchScreen.Type.SIDE_BY_SIDE) {
+      return toPatchSideBySide(id);
+    } else {
+      return toPatchUnified(id);
+    }
+  }
+
   public static String toAccountGroup(final AccountGroup.Id id) {
     return "admin,group," + id.toString();
   }

@@ -70,7 +70,7 @@ public abstract class PatchScreen extends Screen implements
     }
 
     @Override
-    protected PatchScreen.Type getPatchScreenType() {
+    public PatchScreen.Type getPatchScreenType() {
       return PatchScreen.Type.SIDE_BY_SIDE;
     }
   }
@@ -87,7 +87,7 @@ public abstract class PatchScreen extends Screen implements
     }
 
     @Override
-    protected PatchScreen.Type getPatchScreenType() {
+    public PatchScreen.Type getPatchScreenType() {
       return PatchScreen.Type.UNIFIED;
     }
   }
@@ -112,6 +112,13 @@ public abstract class PatchScreen extends Screen implements
         }
       };
 
+  /**
+   * What should be displayed in the top of the screen
+   */
+  public static enum TopView {
+    MAIN, COMMIT, PREFERENCES, PATCH_SETS, FILES
+  }
+
   protected final Patch.Key patchKey;
   protected PatchSetDetail patchSetDetail;
   protected PatchTable fileList;
@@ -119,8 +126,8 @@ public abstract class PatchScreen extends Screen implements
   protected PatchSet.Id idSideB;
   protected PatchScriptSettingsPanel settingsPanel;
 
-  private DisclosurePanel historyPanel;
   private HistoryTable historyTable;
+  private FlowPanel topPanel;
   private FlowPanel contentPanel;
   private Label noDifference;
   private AbstractPatchContentTable contentTable;
@@ -251,26 +258,11 @@ public abstract class PatchScreen extends Screen implements
     keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));
 
     historyTable = new HistoryTable(this);
-    historyPanel = new DisclosurePanel(PatchUtil.C.patchHistoryTitle());
-    historyPanel.setContent(historyTable);
-    historyPanel.setVisible(false);
-    // If the user selected a different patch set than the default for either
-    // side, expand the history panel
-    historyPanel.setOpen(diffSideA != null || diffSideB != null
-        || (historyOpen != null && historyOpen));
-    historyPanel.addOpenHandler(cacheOpenState);
-    historyPanel.addCloseHandler(cacheCloseState);
 
-
-    VerticalPanel vp = new VerticalPanel();
-    vp.add(historyPanel);
-    vp.add(settingsPanel);
     commitMessageBlock = new CommitMessageBlock("6em");
-    HorizontalPanel hp = new HorizontalPanel();
-    hp.setWidth("100%");
-    hp.add(vp);
-    hp.add(commitMessageBlock);
-    add(hp);
+
+    topPanel = new FlowPanel();
+    add(topPanel);
 
     noDifference = new Label(PatchUtil.C.noDifference());
     noDifference.setStyleName(Gerrit.RESOURCES.css().patchNoDifference());
@@ -360,7 +352,11 @@ public abstract class PatchScreen extends Screen implements
 
   protected abstract AbstractPatchContentTable createContentTable();
 
-  protected abstract PatchScreen.Type getPatchScreenType();
+  public abstract PatchScreen.Type getPatchScreenType();
+
+  public Patch.Key getPatchKey() {
+    return patchKey;
+  }
 
   protected void refresh(final boolean isFirst) {
     final int rpcseq = ++rpcSequence;
@@ -414,7 +410,6 @@ public abstract class PatchScreen extends Screen implements
     }
 
     historyTable.display(script.getHistory());
-    historyPanel.setVisible(true);
 
     // True if there are differences between the two patch sets
     boolean hasEdits = !script.getEdits().isEmpty();
@@ -487,6 +482,20 @@ public abstract class PatchScreen extends Screen implements
   public void setSideB(PatchSet.Id patchSetId) {
     idSideB = patchSetId;
     diffSideB = patchSetId;
+  }
+
+  public void setTopView(TopView tv) {
+    topPanel.clear();
+    switch(tv) {
+      case COMMIT:      topPanel.add(commitMessageBlock);
+        break;
+      case PREFERENCES: topPanel.add(settingsPanel);
+        break;
+      case PATCH_SETS:  topPanel.add(historyTable);
+        break;
+      case FILES:       topPanel.add(fileList);
+        break;
+    }
   }
 
   public class FileListCmd extends KeyCommand {

@@ -70,6 +70,9 @@ final class CreateProject extends BaseCommand {
   @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "parent project")
   private ProjectControl newParent;
 
+  @Option(name = "--permissions-only", usage = "create project for use only as parent")
+  private boolean permissionsOnly;
+
   @Option(name = "--description", aliases = {"-d"}, metaVar = "DESC", usage = "description of project")
   private String projectDescription = "";
 
@@ -141,20 +144,21 @@ final class CreateProject extends BaseCommand {
           validateParameters();
           nameKey = new Project.NameKey(projectName);
 
+          String head = permissionsOnly ? GitRepositoryManager.REF_CONFIG : branch;
           final Repository repo = repoManager.createRepository(nameKey);
           try {
             RefUpdate u = repo.updateRef(Constants.HEAD);
             u.disableRefLog();
-            u.link(branch);
+            u.link(head);
 
             createProject();
             repoManager.setProjectDescription(nameKey, projectDescription);
 
-            if (createEmptyCommit) {
+            if (!permissionsOnly && createEmptyCommit) {
               createEmptyCommit(repo, nameKey, branch);
             }
 
-            rq.replicateNewProject(nameKey, branch);
+            rq.replicateNewProject(nameKey, head);
           } finally {
             repo.close();
           }

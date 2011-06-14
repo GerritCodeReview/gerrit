@@ -173,12 +173,12 @@ is_all_ok(_) :- fail.
 %%
 
 locate_submit_rule(RuleName) :-
-  clause(user:submit_rule(_), _),
+  '$compiled_predicate'(user, submit_rule, 1),
   !,
   RuleName = user:submit_rule
   .
 locate_submit_rule(RuleName) :-
-  '$compiled_predicate'(user, submit_rule, 1),
+  clause(user:submit_rule(_), _),
   !,
   RuleName = user:submit_rule
   .

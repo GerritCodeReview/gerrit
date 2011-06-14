@@ -23,6 +23,8 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -34,12 +36,17 @@ import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -62,6 +69,8 @@ public class ProjectState {
 
   private final ProjectConfig config;
   private final Set<AccountGroup.UUID> localOwners;
+  private final Config serverConfig;
+  private final SitePaths site;
 
   /** Last system time the configuration's revision was examined. */
   private transient long lastCheckTime;
@@ -73,7 +82,9 @@ public class ProjectState {
       final ProjectControl.AssistedFactory projectControlFactory,
       final PrologEnvironment.Factory envFactory,
       final GitRepositoryManager gitMgr,
-      @Assisted final ProjectConfig config) {
+      @Assisted final ProjectConfig config,
+      @GerritServerConfig Config serverConfig,
+      SitePaths site) {
     this.anonymousUser = anonymousUser;
     this.projectCache = projectCache;
     this.wildProject = wildProject;
@@ -81,6 +92,8 @@ public class ProjectState {
     this.envFactory = envFactory;
     this.gitMgr = gitMgr;
     this.config = config;
+    this.serverConfig = serverConfig;
+    this.site = site;
     this.lastCheckTime = System.currentTimeMillis();
 
     HashSet<AccountGroup.UUID> groups = new HashSet<AccountGroup.UUID>();
@@ -130,7 +143,45 @@ public class ProjectState {
   /** @return Construct a new PrologEnvironment for the calling thread. */
   public PrologEnvironment newPrologEnvironment() throws CompileException {
     // TODO Replace this with a per-project ClassLoader to isolate rules.
-    PrologEnvironment env = envFactory.create(getClass().getClassLoader());
+
+    PrologEnvironment env;
+    //get rules.pl's sha1, if it exists
+    String filePath = "";
+    File cacheFolder = site.resolve(
+        serverConfig.getString("cache", null, "directory"));
+    if (cacheFolder != null) {
+      filePath = cacheFolder.getPath();
+    }
+    String ruleId = getConfig().getRulesId();
+    //read jar from (site)/cache/rules
+    //the included jar file should be in format:
+    //rules-(rules.pl's sha1).jar
+    File jarFile = null;
+    if (ruleId != null) {
+      jarFile = new File(filePath + "/rules/rules-" + ruleId + ".jar");
+    }
+    ClassLoader defaultLoader = getClass().getClassLoader();
+    if(cacheFolder != null && jarFile != null && jarFile.exists()) {
+      URL url;
+      try {
+        url = jarFile.toURI().toURL();
+      } catch (MalformedURLException e) {
+        throw new CompileException("File path not valid", e);
+      }
+      URL[] urls = new URL[]{url};
+      URLClassLoader cl = new URLClassLoader(urls, defaultLoader);
+      env = envFactory.create(cl);
+      try {
+        env.getPrologClassLoader().loadPredicateClass("user",
+            "submit_rule", 1, true);
+      } catch (ClassNotFoundException e) {
+        throw new CompileException("Compiled prolog class not found", e);
+      }
+      return env;
+    }
+    else {
+      env = envFactory.create(defaultLoader);
+    }
 
     //consult rules.pl at refs/meta/config branch for custom submit rules
     String rules = getConfig().getPrologRules();

@@ -76,6 +76,7 @@ public class ProjectConfig extends VersionedMetaData {
   private Map<String, AccessSection> accessSections;
   private List<ValidationError> validationErrors;
   private String prologRules;
+  private ObjectId rulesId;
 
   public static ProjectConfig read(MetaDataUpdate update) throws IOException,
       ConfigInvalidException {
@@ -164,6 +165,14 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   /**
+   * @return the project's rules.pl ObjectId, if present in the branch.
+   *    Null if it doesn't exist.
+   */
+  public ObjectId getRulesId() {
+    return rulesId;
+  }
+
+  /**
    * Check all GroupReferences use current group name, repairing stale ones.
    *
    * @param groupCache cache to use when looking up group information by UUID.
@@ -204,6 +213,7 @@ public class ProjectConfig extends VersionedMetaData {
     Map<String, GroupReference> groupsByName = readGroupList();
 
     prologRules = readUTF8("rules.pl");
+    rulesId = getObjectId("rules.pl");
     Config rc = readConfig(PROJECT_CONFIG);
     project = new Project(projectName);
 

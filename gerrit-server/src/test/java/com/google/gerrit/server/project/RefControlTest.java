@@ -322,12 +322,13 @@ public class RefControlTest extends TestCase {
     GitRepositoryManager mgr = null;
     Project.NameKey wildProject = new Project.NameKey("All-Projects");
     ProjectControl.AssistedFactory projectControlFactory = null;
+    RulesCache rulesCache = null;
     all.put(local.getProject().getNameKey(), new ProjectState(anonymousUser,
         projectCache, wildProject, projectControlFactory,
-        envFactory, mgr, local));
+        envFactory, mgr, local, rulesCache));
     all.put(parent.getProject().getNameKey(), new ProjectState(anonymousUser,
         projectCache, wildProject, projectControlFactory,
-        envFactory, mgr, parent));
+        envFactory, mgr, parent, rulesCache));
     return all.get(local.getProject().getNameKey());
   }
 

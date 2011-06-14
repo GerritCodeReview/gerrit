@@ -69,7 +69,7 @@ repository.*.createGroup will be used. If they don't exist,
 \--parent::
 	Name of the parent project to inherit access rights
 	through. If not specified, the parent is set to the default
-	project `\-- All Projects \--`.
+	project `All-Projects`.
 
 \--permissions-only::
 	Create the project only to serve as a parent for other

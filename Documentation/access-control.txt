@@ -120,7 +120,7 @@ Project Access Control Lists
 ----------------------------
 
 A system wide access control list affecting all projects is stored in
-project "`\-- All Projects \--`".  This inheritance can be configured
+project "`All-Projects`".  This inheritance can be configured
 through link:cmd-set-project-parent.html[gerrit set-project-parent].
 
 Per-project access control lists are also supported.
@@ -237,13 +237,13 @@ in the `auth.trustedOpenID` list from `gerrit.config`.
 All Projects
 ~~~~~~~~~~~~
 
-Any access right granted to a group within `\-- All Projects \--`
+Any access right granted to a group within `All-Projects`
 is automatically inherited by every other project in the same
 Gerrit instance.  These rights can be seen, but not modified,
 in any other project's `Access` administration tab.
 
 Only members of the group `Administrators` may edit the access
-control list for `\-- All Projects \--`.
+control list for `All-Projects`.
 
 Ownership of this project cannot be delegated to another group.
 This restriction is by design.  Granting ownership to another
@@ -255,7 +255,7 @@ Per-Project
 ~~~~~~~~~~~
 
 The per-project ACL is evaluated before the global
-`\-- All Projects \--` ACL, permitting some limited override
+`All-Projects` ACL, permitting some limited override
 capability to project owners.  This behavior is generally only
 useful on the `Read Access` category when granting `-1 No Access`
 within a specific project to deny access to a group.

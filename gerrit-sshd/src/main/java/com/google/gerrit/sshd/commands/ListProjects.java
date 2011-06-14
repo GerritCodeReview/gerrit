@@ -31,6 +31,7 @@ import org.kohsuke.args4j.Option;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -100,25 +101,8 @@ final class ListProjects extends BaseCommand {
         }
 
         if (showBranch != null) {
-          final List<Ref> refs = getBranchRefs(projectName);
-          if (refs == null) {
-            continue;
-          }
-
-          boolean hasVisibleRefs = false;
-          for (int i = 0; i < refs.size(); i++) {
-            Ref ref = refs.get(i);
-            if (ref == null
-              || ref.getObjectId() == null
-              || !pctl.controlForRef(ref.getLeaf().getName()).isVisible()) {
-              // No branch, or the user can't see this branch, so remove it.
-              refs.set(i, null);
-            } else {
-              hasVisibleRefs = true;
-            }
-          }
-
-          if (!hasVisibleRefs) {
+          List<Ref> refs = getBranchRefs(projectName, pctl);
+          if (!hasValidRef(refs)) {
            continue;
           }
 
@@ -171,21 +155,36 @@ final class ListProjects extends BaseCommand {
     stdout.flush();
   }
 
-  private List<Ref> getBranchRefs(Project.NameKey projectName) {
-    try {
-      final Repository r = repoManager.openRepository(projectName);
+  private List<Ref> getBranchRefs(Project.NameKey projectName,
+      ProjectControl projectControl) {
+  Ref[] result = new Ref[showBranch.size()];
+  try {
+      Repository git = repoManager.openRepository(projectName);
       try {
-        final List<Ref> result = new ArrayList<Ref>(showBranch.size());
-        for (String branch : showBranch) {
-          result.add(r.getRef(branch));
+        for (int i = 0; i < showBranch.size(); i++) {
+          Ref ref = git.getRef(showBranch.get(i));
+          if (ref != null
+            && ref.getObjectId() != null
+            && projectControl.controlForRef(ref.getLeaf().getName()).isVisible()) {
+            result[i] = ref;
+          }
         }
-        return result;
       } finally {
-        r.close();
+        git.close();
       }
     } catch (IOException ioe) {
-      return null;
+      // Fall through and return what is available.
     }
+    return Arrays.asList(result);
+  }
+
+  private static boolean hasValidRef(List<Ref> refs) {
+    for (int i = 0; i < refs.size(); i++) {
+      if (refs.get(i) != null) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /** Class created to manipulate the nodes of the project inheritance tree **/

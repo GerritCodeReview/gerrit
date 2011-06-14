@@ -34,6 +34,24 @@
       "revId": "8b962b12e94d5bab15f68ee14a1843c60d3861f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+3g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T22:01:44Z",
+      "side": 0,
+      "message": "There may not be a better way to do it.  :-(\n\nI think I\u0027ll take this as-is, and we\u0027ll see what happens.",
+      "parentUuid": "AAABCH//+4s\u003d",
+      "revId": "8b962b12e94d5bab15f68ee14a1843c60d3861f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

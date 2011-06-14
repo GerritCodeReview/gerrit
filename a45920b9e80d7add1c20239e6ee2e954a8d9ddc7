@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCH///AY\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T00:16:44Z",
+      "side": 1,
+      "message": "Missing an LF here. See my comment about making writeError() handle that for you.",
+      "revId": "a45920b9e80d7add1c20239e6ee2e954a8d9ddc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///Ac\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T00:16:44Z",
+      "side": 1,
+      "message": "Isn\u0027t there another valid error type? REMOVE_NOT_PERMITTED?",
+      "revId": "a45920b9e80d7add1c20239e6ee2e954a8d9ddc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///Ak\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T00:16:44Z",
+      "side": 1,
+      "message": "This regex work isn\u0027t required anymore with your other change, right?",
+      "revId": "a45920b9e80d7add1c20239e6ee2e954a8d9ddc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///Ag\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T00:16:44Z",
+      "side": 1,
+      "message": "Since all of the writeError calls are using \"error: \" as a prefix and \"\\n\" as a suffix, does it make sense to move this code into the writeError utility method?",
+      "revId": "a45920b9e80d7add1c20239e6ee2e954a8d9ddc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///AQ\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T00:16:44Z",
+      "side": 1,
+      "message": "Before you do this, you need to verify the user can see this change. If the change is not visible to them, you should use the \"no such change\" message below rather than \"not in project\".",
+      "revId": "a45920b9e80d7add1c20239e6ee2e954a8d9ddc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

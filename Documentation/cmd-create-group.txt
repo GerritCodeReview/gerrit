@@ -8,12 +8,12 @@ gerrit create-group - Create a new account group.
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit create-group' \
-[\--owner <GROUP>] \
-[\--description <DESC>] \
-[\--member <USERNAME>] \
-[\--group <GROUP>] \
-<GROUP>
+'ssh' -p <port> <host> 'gerrit create-group'
+  [--owner <GROUP>]
+  [--description <DESC>]
+  [--member <USERNAME>]
+  [--group <GROUP>]
+  <GROUP>
 
 DESCRIPTION
 -----------
@@ -37,22 +37,22 @@ OPTIONS
 <GROUP>::
 	Required; name of the new group.
 
-\--owner, -o::
+--owner, -o::
 	Name of the owning group. If not specified the group will be self-owning.
 
-\--description, -d::
+--description, -d::
 	Description of group.
 +
 Description values containing spaces should be quoted in single quotes
-(\').  This most likely requires double quoting the value, for example
-`\--description "\'A description string\'"`.
+(').  This most likely requires double quoting the value, for example
+`--description "'A description string'"`.
 
-\--member::
-	User name to become initial member of the group.  Multiple \--member
+--member::
+	User name to become initial member of the group.  Multiple --member
 	options may be specified to add more initial members.
 
-\--group::
-	Group name to include in the group.  Multiple \--group options may
+--group::
+	Group name to include in the group.  Multiple --group options may
 	be specified to include more initial groups.
 
 EXAMPLES

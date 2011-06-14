@@ -8,28 +8,38 @@ suexec - Execute a command as any registered user account
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> 'Gerrit Code Review'@localhost -i <private host key> 'suexec' \--as <EMAIL> [\--from HOST:PORT] [\--] [COMMAND]
+'ssh' -p <port>
+  -i SITE_PATH/etc/ssh_host_rsa_key
+  '"Gerrit Code Review@localhost"'
+  'suexec'
+  --as <EMAIL>
+  [--from HOST:PORT]
+  [--]
+  [COMMAND]
 
 DESCRIPTION
 -----------
-The suexec command can only be invoked by the magic user Gerrit Code Review
-and permits executing any other command as any other registered user account.
+The suexec command can only be invoked by the magic user `Gerrit
+Code Review` and permits executing any other command as any other
+registered user account.
 
 OPTIONS
 -------
 
-\--as::
+--as::
 	Email address of the user you want to impersonate.
-\--from::
-	Hostname and port of the machine you want to impersonate the command
-	coming from.
+
+--from::
+	Hostname and port of the machine you want to impersonate
+	the command coming from.
+
 COMMAND::
 	Gerrit command you want to run.
 
 ACCESS
 ------
-Caller must be the magic user Gerrit Code Review using the SSH daemon's host key
-or a key on this daemon's peer host key ring.
+Caller must be the magic user Gerrit Code Review using the SSH
+daemon's host key or a key on this daemon's peer host key ring.
 
 SCRIPTING
 ---------
@@ -40,9 +50,13 @@ EXAMPLES
 
 Approve the change with commit c0ff33 as "Verified +1" as user bob@example.com
 =====
-	$ sudo -u gerrit ssh -p 29418 -i site_path/etc/ssh_host_rsa_key \
-	'Gerrit Code Review'@localhost suexec --as bob@example.com -- \
-	gerrit approve --verified=+1 c0ff33
+  $ sudo -u gerrit ssh -p 29418 \
+    -i site_path/etc/ssh_host_rsa_key \
+    "Gerrit Code Review@localhost" \
+    suexec \
+    --as bob@example.com \
+    -- \
+    gerrit approve --verified +1 c0ff33
 =====
 
 GERRIT

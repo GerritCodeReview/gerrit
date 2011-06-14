@@ -51,6 +51,24 @@ see link:user-upload.html#test_ssh[Testing Your SSH Connection].
 [[user_commands]]User Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+'gerrit approve'::
+	'Deprecated alias for `gerrit review`.'
+
+link:cmd-ls-projects.html[gerrit ls-projects]::
+	List projects visible to the caller.
+
+link:cmd-query.html[gerrit query]::
+	Query the change database.
+
+'gerrit receive-pack'::
+	'Depreated alias for `git receive-pack`.'
+
+link:cmd-review.html[gerrit review]::
+	Verify, approve and/or submit a patch set from the command line.
+
+link:cmd-stream-events.html[gerrit stream-events]::
+	Monitor events occuring in real time.
+
 git upload-pack::
 	Standard Git server side command for client side `git fetch`.
 
@@ -59,24 +77,6 @@ link:cmd-receive-pack.html[git receive-pack]::
 +
 Also implements the magic associated with uploading commits for
 review.  See link:user-upload.html#push_create[Creating Changes].
-
-link:cmd-review.html[gerrit approve]::
-	Alias for 'gerrit review'.
-
-link:cmd-ls-projects.html[gerrit ls-projects]::
-	List projects visible to the caller.
-
-link:cmd-query.html[gerrit query]::
-	Query the change database.
-
-link:cmd-review.html[gerrit review]::
-	Verify, approve and/or submit a patch set from the command line.
-
-link:cmd-stream-events.html[gerrit stream-events]::
-	Monitor events occuring in real time.
-
-gerrit receive-pack::
-	Legacy alias for `git receive-pack`.
 
 [[admin_commands]]Adminstrator Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -96,6 +96,9 @@ link:cmd-flush-caches.html[gerrit flush-caches]::
 link:cmd-gsql.html[gerrit gsql]::
 	Administrative interface to active database.
 
+link:cmd-replicate.html[gerrit replicate]::
+	Manually trigger replication, to recover a node.
+
 link:cmd-set-project-parent.html[gerrit set-project-parent]::
 	Change the project permissions are inherited from.
 
@@ -107,9 +110,6 @@ link:cmd-show-connections.html[gerrit show-connections]::
 
 link:cmd-show-queue.html[gerrit show-queue]::
 	Display the background work queues, including replication.
-
-link:cmd-replicate.html[gerrit replicate]::
-	Manually trigger replication, to recover a node.
 
 link:cmd-kill.html[kill]::
 	Kills a scheduled or running task.

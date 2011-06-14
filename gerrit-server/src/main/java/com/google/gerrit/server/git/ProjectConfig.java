@@ -32,7 +32,6 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -73,6 +72,7 @@ public class ProjectConfig extends VersionedMetaData {
   private Map<AccountGroup.UUID, GroupReference> groupsByUUID;
   private Map<String, AccessSection> accessSections;
   private String prologRules;
+  private ObjectId rulesId;
 
   public static ProjectConfig read(MetaDataUpdate update) throws IOException,
       ConfigInvalidException {
@@ -161,6 +161,17 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   /**
+   * @return the project's rules.pl SHA1, if present in the branch.
+   *    Null if it doesn't exist.
+   */
+  public String getRulesId() {
+    if (rulesId == null) {
+      return null;
+    }
+    return rulesId.getName();
+  }
+
+  /**
    * Check all GroupReferences use current group name, repairing stale ones.
    *
    * @param groupCache cache to use when looking up group information by UUID.
@@ -188,6 +199,7 @@ public class ProjectConfig extends VersionedMetaData {
     Map<String,GroupReference> groupsByName = readGroupList();
 
     prologRules = readUTF8("rules.pl");
+    rulesId = getObjectId("rules.pl");
     Config rc = readConfig(PROJECT_CONFIG);
     project = new Project(projectName);
 

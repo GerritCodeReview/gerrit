@@ -264,6 +264,19 @@ public abstract class VersionedMetaData {
     }
   }
 
+  protected ObjectId getObjectId(String fileName) throws IOException {
+    if (revision == null) {
+      return null;
+    }
+
+    TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree());
+    if (tw != null) {
+     return tw.getObjectId(0);
+    }
+
+    return null;
+  }
+
   protected static void set(Config rc, String section, String subsection,
       String name, String value) {
     if (value != null) {

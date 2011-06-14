@@ -87,6 +87,24 @@
       "revId": "8bc9f216e831010ae1b5bdb31438e42116cb913e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+2g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T22:19:03Z",
+      "side": 1,
+      "message": "Storing global limits in All-Projects was a hack. The other place to put this stuff is in gerrit.config... but you cannot edit that from the web UI.\n\nAs part of the \"git-store\" stuff, I\u0027m thinking about moving a lot of the contents of $site_dir/etc into All-Projects.git\u0027s refs/meta/config branch. That is, put the server configuration data directly into All-Projects.\n\nSo this is already leaning in that direction.",
+      "parentUuid": "AAABCH///Ls\u003d",
+      "revId": "8bc9f216e831010ae1b5bdb31438e42116cb913e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

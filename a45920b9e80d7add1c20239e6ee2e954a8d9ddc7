@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH///AA\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-14T01:39:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCH///AY\u003d",
+      "revId": "a45920b9e80d7add1c20239e6ee2e954a8d9ddc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///Ac\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2011-06-14T00:16:44Z",
       "side": 1,
       "message": "Isn\u0027t there another valid error type? REMOVE_NOT_PERMITTED?",
+      "revId": "a45920b9e80d7add1c20239e6ee2e954a8d9ddc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+/8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-14T01:39:13Z",
+      "side": 1,
+      "message": "Yes, I was just going to continue operating as though they were independent changes until the other one got submitted.  I can make this one dependent on the other though.",
+      "parentUuid": "AAABCH///Ac\u003d",
       "revId": "a45920b9e80d7add1c20239e6ee2e954a8d9ddc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH//+/4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-14T01:39:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCH///Ak\u003d",
+      "revId": "a45920b9e80d7add1c20239e6ee2e954a8d9ddc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///Ag\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
         "patchSetId": 3
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH//+/0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-14T01:39:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCH///Ag\u003d",
+      "revId": "a45920b9e80d7add1c20239e6ee2e954a8d9ddc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///AQ\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
         "patchSetId": 3
@@ -81,6 +153,24 @@
       "writtenOn": "2011-06-14T00:16:44Z",
       "side": 1,
       "message": "Before you do this, you need to verify the user can see this change. If the change is not visible to them, you should use the \"no such change\" message below rather than \"not in project\".",
+      "revId": "a45920b9e80d7add1c20239e6ee2e954a8d9ddc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//++4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-06-14T01:39:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCH///AQ\u003d",
       "revId": "a45920b9e80d7add1c20239e6ee2e954a8d9ddc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

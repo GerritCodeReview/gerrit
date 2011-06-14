@@ -8,14 +8,14 @@ gerrit query - Query the change database
 SYNOPSIS
 --------
 [verse]
- 'ssh' -p <port> <host> 'gerrit query' \
- [\--format {TEXT | JSON}] \
- [\--current-patch-set] \
- [\--patch-sets|--all-approvals] \
- [\--] \
- <query> \
- [limit:<n>] \
- [resume\_sortkey:<sortKey>]
+'ssh' -p <port> <host> 'gerrit query'
+  [--format {TEXT | JSON}]
+  [--current-patch-set]
+  [--patch-sets | --all-approvals]
+  [--]
+  <query>
+  [limit:<n>]
+  [resume_sortkey:<sortKey>]
 
 DESCRIPTION
 -----------
@@ -39,18 +39,23 @@ multiple levels of quoting required.
 
 OPTIONS
 -------
-\--current-patch-set::
+--format::
+	Formatting method for the results. TEXT is the default,
+	presenting a human readable display. JSON creates one line
+	per matching record, with embedded LFs escaped.
+
+--current-patch-set::
 	Include information about the current patch set in the results.
 
-\--patch-sets::
+--patch-sets::
 	Include information about all patch sets.  If combined with
-	the \--current-patch-set flag then the current patch set
+	the --current-patch-set flag then the current patch set
 	information will be output twice, once in each field.
 
-\--all-approvals::
+--all-approvals::
 	Include information about all patch sets along with the
 	approval information for each patch set.  If combined with
-	the \--current-patch-set flag then the current patch set
+	the --current-patch-set flag then the current patch set
 	information will be output twice, once in each field.
 
 limit:<n>::
@@ -59,7 +64,7 @@ limit:<n>::
 	than one limit: operator is provided, the smallest limit
 	will be used to cut the result set.
 
-resume\_sortkey:<sortKey>::
+resume_sortkey:<sortKey>::
 	Resume results from this sort key.  Callers should pass
 	the sortKey of the last change of the prior result set to
 	resume a prior query.  This is actually a query operator,
@@ -77,20 +82,20 @@ EXAMPLES
 --------
 
 Find the 2 most recent open changes in the tools/gerrit project:
------
+====
   $ ssh -p 29418 review.example.com gerrit query --format=JSON status:open project:tools/gerrit limit:2
   {"project":"tools/gerrit", ...}
   {"project":"tools/gerrit", ..., sortKey:"000e6aee00003e26", ...}
   {"type":"stats","rowCount":2,"runningTimeMilliseconds:15}
------
+====
 
 Resume the same query and obtain the final results:
------
+====
   $ ssh -p 29418 review.example.com gerrit query --format=JSON status:open project:tools/gerrit limit:2 resume_sortkey:000e6aee00003e26
   {"project":"tools/gerrit", ...}
   {"project":"tools/gerrit", ...}
   {"type":"stats","rowCount":1,"runningTimeMilliseconds:15}
------
+====
 
 
 SCHEMA

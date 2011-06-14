@@ -46,12 +46,12 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -61,8 +61,14 @@ import java.util.Set;
 final class CreateProject extends BaseCommand {
   private static final Logger log = LoggerFactory.getLogger(CreateProject.class);
 
-  @Option(name = "--name", required = true, aliases = {"-n"}, metaVar = "NAME", usage = "name of project to be created")
-  private String projectName;
+  @Option(name = "--name", aliases = {"-n"}, metaVar = "NAME", usage = "name of project to be created (deprecated option)")
+  void setProjectNameFromOption(String name) {
+    if (projectName != null) {
+      throw new IllegalArgumentException("NAME already supplied");
+    } else {
+      projectName = name;
+    }
+  }
 
   @Option(name = "--owner", aliases = {"-o"}, usage = "owner(s) of project")
   private List<AccountGroup.UUID> ownerIds;
@@ -73,7 +79,7 @@ final class CreateProject extends BaseCommand {
   @Option(name = "--permissions-only", usage = "create project for use only as parent")
   private boolean permissionsOnly;
 
-  @Option(name = "--description", aliases = {"-d"}, metaVar = "DESC", usage = "description of project")
+  @Option(name = "--description", aliases = {"-d"}, metaVar = "DESCRIPTION", usage = "description of project")
   private String projectDescription = "";
 
   @Option(name = "--submit-type", aliases = {"-t"}, usage = "project submit type\n"
@@ -98,6 +104,16 @@ final class CreateProject extends BaseCommand {
 
   @Option(name = "--empty-commit", usage = "to create initial empty commit")
   private boolean createEmptyCommit;
+
+  private String projectName;
+  @Argument(index = 0, metaVar="NAME", usage="name of project to be created")
+  void setProjectNameFromArgument(String name) {
+    if (projectName != null) {
+      throw new IllegalArgumentException("--name already supplied");
+    } else {
+      projectName = name;
+    }
+  }
 
   @Inject
   private GitRepositoryManager repoManager;
@@ -242,6 +258,10 @@ final class CreateProject extends BaseCommand {
   }
 
   private void validateParameters() throws Failure {
+    if (projectName == null || projectName.isEmpty()) {
+      throw new Failure(1, "fatal: Argument NAME is required");
+    }
+
     if (projectName.endsWith(Constants.DOT_GIT_EXT)) {
       projectName = projectName.substring(0, //
           projectName.length() - Constants.DOT_GIT_EXT.length());

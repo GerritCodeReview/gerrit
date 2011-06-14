@@ -8,8 +8,9 @@ gerrit flush-caches - Flush some/all server caches from memory
 SYNOPSIS
 --------
 [verse]
- 'ssh' -p <port> <host> 'gerrit flush-caches' \
- [\--all | \--list | \--cache <NAME> ...]
+'ssh' -p <port> <host> 'gerrit flush-caches' --all
+'ssh' -p <port> <host> 'gerrit flush-caches' --list
+'ssh' -p <port> <host> 'gerrit flush-caches' --cache <NAME> ...
 
 DESCRIPTION
 -----------
@@ -32,19 +33,19 @@ This command is intended to be used in scripts.
 
 OPTIONS
 -------
-\--all::
+--all::
 	Flush all known caches.  This is like applying a big hammer,
 	it will force everything out, potentially more than was
 	necessary for the change made.	This option automatically
 	skips flushing potentially dangerous caches such as
 	"web_sessions".  To flush one of these caches, the caller
 	must specifically name them on the command line, e.g. pass
-	`\--cache=web_sessions`.
+	`--cache web_sessions`.
 
-\--list::
+--list::
 	Show a list of the caches.
 
-\--cache=<NAME>::
+--cache <NAME>::
 	Flush only the cache called <NAME>.  May be supplied more
 	than once to flush multiple caches in a single command
 	execution.

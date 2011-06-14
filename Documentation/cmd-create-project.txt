@@ -8,18 +8,19 @@ gerrit create-project - Create a new hosted project
 SYNOPSIS
 --------
 [verse]
- 'ssh' -p <port> <host> 'gerrit create-project' \
- --name <NAME> \
- [--branch <REF>] \
- [\--owner <GROUP> ...] \
- [\--parent <NAME>] \
- [\--permissions-only] \
- [\--description <DESC>] \
- [\--submit-type <TYPE>] \
- [\--use-content-merge] \
- [\--use-contributor-agreements] \
- [\--use-signed-off-by] \
- [\--empty-commit]
+'ssh' -p <port> <host> 'gerrit create-project'
+  [--owner <GROUP> ... | -o <GROUP> ...]
+  [--parent <NAME> | -p <NAME> ]
+  [--permissions-only]
+  [--description <DESC> | -d <DESC>]
+  [--submit-type <TYPE> |  -t <TYPE>]
+  [--use-contributor-agreements | --ca]
+  [--use-signed-off-by | --so]
+  [--use-content-merge]
+  [--require-change-id | --id]
+  [--branch <REF> | -b <REF>]
+  [--empty-commit]
+  { <NAME> | --name <NAME> }
 
 DESCRIPTION
 -----------
@@ -37,7 +38,7 @@ on the remote system to create the empty repository.
 ACCESS
 ------
 Caller must be a member of any of the groups defined by
-repository.*.createGroup in gerrit.config.
+`repository.*.createGroup` in gerrit.config.
 
 If there is no such declaration, caller is required to be a member
 of the privileged 'Administrators' group.
@@ -48,43 +49,53 @@ This command is intended to be used in scripts.
 
 OPTIONS
 -------
-\--name::
-	Required; name of the project to create.  If name ends with
-	`.git` the suffix will be automatically removed.
+<NAME>::
+	Required; name of the new project to create.  If name ends
+	with `.git` the suffix will be automatically removed.
+	
+--name::
+-n::
+	Deprecated alias for the <NAME> argument. This option may
+	be removed in a future release.
 
-\--branch::
+--branch::
+-b::
 	Name of the initial branch in the newly created project.
 	Defaults to 'master'.
 
-\--owner::
+--owner::
+-o::
 	Name of the group(s) which will initially own this repository.
 	The specified group(s) must already be defined within Gerrit.
 	Several groups can be specified on the command line.
 +
-Defaults to what is specified by repository.*.ownerGroup
+Defaults to what is specified by `repository.*.ownerGroup`
 in gerrit.config. If no such declaration(s) exist,
-repository.*.createGroup will be used. If they don't exist,
+`repository.*.createGroup` will be used. If they don't exist,
 `Administrators` will be used.
 
-\--parent::
+--parent::
+-p::
 	Name of the parent project to inherit access rights
 	through. If not specified, the parent is set to the default
 	project `All-Projects`.
 
-\--permissions-only::
+--permissions-only::
 	Create the project only to serve as a parent for other
 	projects.  The new project's Git repository will be
 	initialized to have 'HEAD' point to 'refs/meta/config'.
 
-\--description::
+--description::
+-d::
 	Initial description of the project.  If not specified,
 	no description is stored.
 +
 Description values containing spaces should be quoted in single quotes
-(\').  This most likely requires double quoting the value, for example
-`\--description "\'A description string\'"`.
+(').  This most likely requires double quoting the value, for example
+`--description "'A description string'"`.
 
-\--submit-type::
+--submit-type::
+-t::
 	Action used by Gerrit to submit an approved change to its
 	destination branch.  Supported options are:
 +
@@ -97,24 +108,32 @@ Description values containing spaces should be quoted in single quotes
 Defaults to MERGE_IF_NECESSARY.  For more details see
 link:project-setup.html#submit_type[Change Submit Actions].
 
-\--use-content-merge::
+--use-content-merge::
 	If enabled, Gerrit will try to perform a 3-way merge of text
 	file content when a file has been modified by both the
 	destination branch and the change being submitted.  This
 	option only takes effect if submit type is not
 	FAST_FORWARD_ONLY.  Disabled by default.
 
-\--use-contributor-agreements::
+--use-contributor-agreements::
+--ca::
 	If enabled, authors must complete a contributor agreement
 	on the site before pushing any commits or changes to this
 	project.  Disabled by default.
 
-\--use-signed-off-by::
+--use-signed-off-by::
+--so:
 	If enabled, each change must contain a Signed-off-by line
 	from either the author or the uploader in the commit message.
 	Disabled by default.
 
-\--empty-commit:
+--require-change-id::
+--id::
+	Require a valid link:user-changeid.html[Change-Id] footer
+	in any commit uploaded for review. This does not apply to
+	commits pushed directly to a branch or tag.
+
+--empty-commit::
 	Creates an initial empty commit for the Git repository of the
 	project that is newly created.
 
@@ -124,13 +143,13 @@ EXAMPLES
 Create a new project called `tools/gerrit`:
 
 ====
-	$ ssh -p 29418 review.example.com gerrit create-project --name tools/gerrit.git
+	$ ssh -p 29418 review.example.com gerrit create-project tools/gerrit.git
 ====
 
 Create a new project with a description:
 
 ====
-	$ ssh -p 29418 review.example.com gerrit create-project --name tool.git --description "'Tools used by build system'"
+	$ ssh -p 29418 review.example.com gerrit create-project tool.git --description "'Tools used by build system'"
 ====
 
 Note that it is necessary to quote the description twice.  The local

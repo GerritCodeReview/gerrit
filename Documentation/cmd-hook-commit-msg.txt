@@ -56,9 +56,11 @@ OBTAINING
 To obtain the 'commit-msg' script use scp, wget or curl to copy it
 to your local system:
 
+====
   $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg .git/hooks/
 
   $ curl http://review.example.com/tools/hooks/commit-msg
+====
 
 SEE ALSO
 --------

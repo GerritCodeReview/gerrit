@@ -8,10 +8,10 @@ gerrit ls-projects - List projects visible to caller
 SYNOPSIS
 --------
 [verse]
- 'ssh' -p <port> <host> 'gerrit ls-projects'
- [--show-branch <BRANCH1> ...]
- [--tree]
- [--type {code | permissions | all}]
+'ssh' -p <port> <host> 'gerrit ls-projects'
+  [--show-branch <BRANCH> ...]
+  [--tree]
+  [--type {code | permissions | all}]
 
 DESCRIPTION
 -----------
@@ -31,27 +31,30 @@ This command is intended to be used in scripts.
 
 OPTIONS
 -------
-\--show-branch::
-\-b::
+--show-branch::
+-b::
 	Branch for which the command will display the sha of each project.
-	The command may have multiple \--show-branch parameters, in this case
+	The command may have multiple --show-branch parameters, in this case
 	sha will be shown for each of the branches.
 	If the user does not have READ access to some branch or the branch does not
-	exist then stub (forty '\-' symbols) is shown.
+	exist then stub (40 `-` symbols) is shown.
 	If the user does not have access to any branch in the project then the
 	whole project is not shown.
 
-\--tree::
-\-t::
+--tree::
+-t::
 	Displays project inheritance in a tree-like format.
 	This option does not work together with the show-branch option.
 
 --type::
-	Display only projects of the specified type. Supported
-	types are `code` (any project likely to contain user files),
-	`permissions` (projects created with the --permissions-only
-	flag), `all` (any type of project).  If not specified,
-	defaults to `code`.
+	Display only projects of the specified type.  If not
+	specified, defaults to `code`.	Supported types:
++
+--
+`code`:: Any project likely to contain user files.
+`permissions`:: Projects created with the `--permissions-only` flag.
+`all`:: Any type of project.
+--
 
 EXAMPLES
 --------

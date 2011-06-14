@@ -8,12 +8,12 @@ gerrit create-account - Create a new batch/role account.
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit create-account' \
-[\--group <GROUP>] \
-[\--full-name <FULLNAME>] \
-[\--email <EMAIL>] \
-[\--ssh-key -|<KEY>] \
-<USERNAME>
+'ssh' -p <port> <host> 'gerrit create-account'
+  [--group <GROUP>]
+  [--full-name <FULLNAME>]
+  [--email <EMAIL>]
+  [--ssh-key - | <KEY>]
+  <USERNAME>
 
 DESCRIPTION
 -----------
@@ -38,23 +38,23 @@ OPTIONS
 <USERNAME>::
 	Required; SSH username of the user account.
 
-\--ssh-key::
+--ssh-key::
 	Content of the public SSH key to load into the account's
 	keyring.  If `-` the key is read from stdin, rather than
 	from the command line.
 
-\--group::
-	Name of the group to put the user into.  Multiple \--group
+--group::
+	Name of the group to put the user into.  Multiple --group
 	options may be specified to add the user to multiple groups.
 
-\--full-name::
+--full-name::
 	Display name of the user account.
 +
-Names containing spaces should be quoted in single quotes (\').
+Names containing spaces should be quoted in single quotes (').
 This most likely requires double quoting the value, for example
-`\--full-name "\'A description string\'"`.
+`--full-name "'A description string'"`.
 
-\--email::
+--email::
 	Preferred email address for the user account.
 
 EXAMPLES

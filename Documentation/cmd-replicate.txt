@@ -8,9 +8,9 @@ gerrit replicate - Manually trigger replication, to recover a node
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit replicate' \
-[\--url <PATTERN>] \
-\{\--all | <PROJECT> ...}
+'ssh' -p <port> <host> 'gerrit replicate'
+  [--url <PATTERN>]
+  {--all | <PROJECT> ...}
 
 DESCRIPTION
 -----------
@@ -32,13 +32,13 @@ replication run for all projects against that URL will update it.
   pack files to the destinations.
 +
 If the local server is repacked, and then the resulting pack files
-are sent to remote peers using `rsync -a \--delete-after`, there
+are sent to remote peers using `rsync -a --delete-after`, there
 is a chance that the rsync missed a change that was added during
 the rsync data transfer, and the rsync will remove that changes's
 data from the remote, even though the automatic replication pushed
 it there in parallel to the rsync.
 +
-Its a good idea to run replicate with `\--all` to ensure all
+Its a good idea to run replicate with `--all` to ensure all
 projects are consistent after the rsync is complete.
 
 * After deleting a ref by hand.
@@ -60,10 +60,10 @@ This command is intended to be used in scripts.
 
 OPTIONS
 -------
-\--all::
+--all::
 	Schedule replicating for all projects.
 
-\--url=<PATTERN>::
+--url <PATTERN>::
 	Replicate only to replication destinations whose URL
 	contains the substring <PATTERN>.  This can be useful to
 	replicate only to a previously down node, which has been
@@ -74,21 +74,21 @@ EXAMPLES
 Replicate every project, to every configured remote:
 
 ====
-	$ ssh -p 29418 review.example.com gerrit replicate --all
+  $ ssh -p 29418 review.example.com gerrit replicate --all
 ====
 
 Replicate only to `srv2` now that it is back online:
 
 ====
-	$ ssh -p 29418 review.example.com gerrit replicate --url=srv2 --all
+  $ ssh -p 29418 review.example.com gerrit replicate --url srv2 --all
 ====
 
 Replicate only the `tools/gerrit` project, after deleting a ref
 locally by hand:
 
 ====
-	$ git --git-dir=/home/git/tools/gerrit.git update-ref -d refs/changes/00/100/1
-	$ ssh -p 29418 review.example.com gerrit replicate tools/gerrit
+  $ git --git-dir=/home/git/tools/gerrit.git update-ref -d refs/changes/00/100/1
+  $ ssh -p 29418 review.example.com gerrit replicate tools/gerrit
 ====
 
 SEE ALSO

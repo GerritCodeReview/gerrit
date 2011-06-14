@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCH//+7I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T18:13:12Z",
+      "side": 0,
+      "message": "Hmm, I added this catch block in commit 6e4dfddf when we added transfer.timeout. The idea behind the logging was to let the site administrator know a transfer.timeout had expired, and where it triggered, because I wanted to know if we had problems with the code.\n\nAre you using transfer.timeout? Does it seem save to ignore the stack traces? :-)",
+      "revId": "8b962b12e94d5bab15f68ee14a1843c60d3861f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

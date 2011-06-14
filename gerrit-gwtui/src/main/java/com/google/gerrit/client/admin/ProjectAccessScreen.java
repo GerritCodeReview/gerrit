@@ -51,7 +51,10 @@ public class ProjectAccessScreen extends ProjectScreen {
   Button edit;
 
   @UiField
-  Button cancel;
+  Button cancel1;
+
+  @UiField
+  Button cancel2;
 
   @UiField
   ProjectAccessEditor accessEditor;
@@ -90,31 +93,31 @@ public class ProjectAccessScreen extends ProjectScreen {
         new ScreenLoadCallback<ProjectAccess>(this) {
           @Override
           public void preDisplay(ProjectAccess access) {
-            edit(access);
+            displayReadOnly(access);
           }
         });
   }
 
-  void edit(ProjectAccess access) {
+  private void displayReadOnly(ProjectAccess access) {
     this.access = access;
-    final boolean editing = !edit.isEnabled();
-    accessEditor.setEditing(editing);
+    accessEditor.setEditing(false);
     UIObject.setVisible(editTools, !access.getOwnerOf().isEmpty());
-    cancel.setVisible(editing);
-    UIObject.setVisible(commitTools, editing);
+    edit.setEnabled(!access.getOwnerOf().isEmpty());
+    cancel1.setVisible(false);
+    UIObject.setVisible(commitTools, false);
     driver.edit(access);
   }
 
   @UiHandler("edit")
   void onEdit(ClickEvent event) {
     edit.setEnabled(false);
-    cancel.setVisible(true);
+    cancel1.setVisible(true);
     UIObject.setVisible(commitTools, true);
     accessEditor.setEditing(true);
     driver.edit(access);
   }
 
-  @UiHandler(value={"cancel", "cancel2"})
+  @UiHandler(value={"cancel1", "cancel2"})
   void onCancel(ClickEvent event) {
     Gerrit.display(PageLinks.toProjectAcceess(getProjectKey()));
   }
@@ -142,9 +145,9 @@ public class ProjectAccessScreen extends ProjectScreen {
         new GerritCallback<ProjectAccess>() {
           @Override
           public void onSuccess(ProjectAccess access) {
-            commitMessage.setText("");
-            edit(access);
             enable(true);
+            commitMessage.setText("");
+            displayReadOnly(access);
           }
 
           @Override
@@ -158,5 +161,7 @@ public class ProjectAccessScreen extends ProjectScreen {
   private void enable(boolean enabled) {
     commitMessage.setEnabled(enabled);
     commit.setEnabled(enabled);
+    cancel1.setEnabled(enabled);
+    cancel2.setEnabled(enabled);
   }
 }

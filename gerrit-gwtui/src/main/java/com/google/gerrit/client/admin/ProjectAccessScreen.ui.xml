@@ -42,7 +42,7 @@ limitations under the License.
       <ui:attribute name='text'/>
     </g:Button>
     <g:Button
-        ui:field='cancel'
+        ui:field='cancel1'
         text='Cancel'>
       <ui:attribute name='text'/>
     </g:Button>

@@ -38,6 +38,7 @@ import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -152,12 +153,10 @@ final class CreateProject extends BaseCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
-        PrintWriter p = toPrintWriter(out);
-
         parseCommandLine();
+        validateParameters();
 
         try {
-          validateParameters();
           nameKey = new Project.NameKey(projectName);
 
           String head = permissionsOnly ? GitRepositoryManager.REF_CONFIG : branch;
@@ -177,10 +176,23 @@ final class CreateProject extends BaseCommand {
           } finally {
             repo.close();
           }
-        } catch (Exception e) {
-          p.print("Error when trying to create project: " + e.getMessage()
-              + "\n");
-          p.flush();
+        } catch (IllegalStateException err) {
+          try {
+            Repository repo = repoManager.openRepository(nameKey);
+            try {
+              if (repo.getObjectDatabase().exists()) {
+                throw new UnloggedFailure(1, "fatal: project \"" + projectName + "\" exists");
+              }
+            } finally {
+              repo.close();
+            }
+          } catch (RepositoryNotFoundException doesNotExist) {
+            throw new Failure(1, "fatal: Cannot create " + projectName, err);
+          }
+        } catch (RepositoryNotFoundException badName) {
+          throw new UnloggedFailure(1, "fatal: " + badName.getMessage());
+        } catch (Exception err) {
+          throw new Failure(1, "fatal: Cannot create " + projectName, err);
         }
       }
     });

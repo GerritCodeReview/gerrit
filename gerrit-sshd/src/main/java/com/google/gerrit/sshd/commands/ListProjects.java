@@ -76,13 +76,7 @@ final class ListProjects extends BaseCommand {
     }
 
     final PrintWriter stdout = toPrintWriter(out);
-
-    TreeMap<String, TreeNode> treeMap = null;
-
-    if (showTree) {
-      treeMap = new TreeMap<String, TreeNode>();
-    }
-
+    final TreeMap<String, TreeNode> treeMap = new TreeMap<String, TreeNode>();
     try {
       for (final Project.NameKey projectName : projectCache.all()) {
         final ProjectState e = projectCache.get(projectName);
@@ -93,84 +87,88 @@ final class ListProjects extends BaseCommand {
         }
 
         final ProjectControl pctl = e.controlFor(currentUser);
+        final boolean isVisible = pctl.isVisible();
+        if (showTree) {
+          treeMap.put(projectName.get(), new TreeNode(pctl.getProject(), isVisible));
+          continue;
+        }
 
-        if (!showTree) {
+        if (!isVisible) {
+          // Require the project itself to be visible to the user.
+          //
+          continue;
+        }
 
-          if (!pctl.isVisible()) {
-            // Require the project itself to be visible to the user.
-            //
+        if (showBranch != null) {
+          final List<Ref> refs = getBranchRefs(projectName);
+          if (refs == null) {
             continue;
           }
 
-          if (showBranch != null) {
-            final List<Ref> refs = getBranchRefs(projectName);
-            if (refs == null) {
-              continue;
-            }
-
-            boolean hasVisibleRefs = false;
-            for (int i = 0; i < refs.size(); i++) {
-              Ref ref = refs.get(i);
-              if (ref == null
-                || ref.getObjectId() == null
-                || !pctl.controlForRef(ref.getLeaf().getName()).isVisible()) {
-                // No branch, or the user can't see this branch, so remove it.
-                refs.set(i, null);
-              } else {
-                hasVisibleRefs = true;
-              }
-            }
-
-            if (!hasVisibleRefs) {
-             continue;
-            }
-
-            for (Ref ref : refs) {
-              if (ref == null) {
-                // Print stub (forty '-' symbols)
-                stdout.print("----------------------------------------");
-              } else {
-                stdout.print(ref.getObjectId().name());
-              }
-              stdout.print(' ');
+          boolean hasVisibleRefs = false;
+          for (int i = 0; i < refs.size(); i++) {
+            Ref ref = refs.get(i);
+            if (ref == null
+              || ref.getObjectId() == null
+              || !pctl.controlForRef(ref.getLeaf().getName()).isVisible()) {
+              // No branch, or the user can't see this branch, so remove it.
+              refs.set(i, null);
+            } else {
+              hasVisibleRefs = true;
             }
           }
 
-          stdout.print(projectName.get() + "\n");
-        } else {
-          treeMap.put(projectName.get(),
-              new TreeNode(pctl.getProject(), pctl.isVisible()));
+          if (!hasVisibleRefs) {
+           continue;
+          }
+
+          for (Ref ref : refs) {
+            if (ref == null) {
+              // Print stub (forty '-' symbols)
+              stdout.print("----------------------------------------");
+            } else {
+              stdout.print(ref.getObjectId().name());
+            }
+            stdout.print(' ');
+          }
         }
+
+        stdout.print(projectName.get() + "\n");
       }
 
       if (showTree && treeMap.size() > 0) {
-        final List<TreeNode> sortedNodes = new ArrayList<TreeNode>();
-
-        // Builds the inheritance tree using a list.
-        //
-        for (final TreeNode key : treeMap.values()) {
-          final String parentName = key.getParentName();
-          if (parentName != null) {
-            final TreeNode node = treeMap.get(parentName);
-            if (node != null) {
-              node.addChild(key);
-            } else {
-              sortedNodes.add(key);
-            }
-          } else {
-            sortedNodes.add(key);
-          }
-        }
-
-        // Builds a fake root node, which contains the sorted projects.
-        //
-        final TreeNode fakeRoot = new TreeNode(null, sortedNodes, false);
-        printElement(stdout, fakeRoot, -1, false, sortedNodes.get(sortedNodes.size() - 1));
-        stdout.flush();
+        printProjectTree(stdout, treeMap);
       }
     } finally {
       stdout.flush();
     }
+  }
+
+  private void printProjectTree(final PrintWriter stdout,
+      final TreeMap<String, TreeNode> treeMap) {
+    final List<TreeNode> sortedNodes = new ArrayList<TreeNode>();
+
+    // Builds the inheritance tree using a list.
+    //
+    for (final TreeNode key : treeMap.values()) {
+      final String parentName = key.getParentName();
+      if (parentName != null) {
+        final TreeNode node = treeMap.get(parentName);
+        if (node != null) {
+          node.addChild(key);
+        } else {
+          sortedNodes.add(key);
+        }
+      } else {
+        sortedNodes.add(key);
+      }
+    }
+
+    // Builds a fake root node, which contains the sorted projects.
+    //
+    final TreeNode fakeRoot = new TreeNode(null, sortedNodes, false);
+    printElement(stdout, fakeRoot, -1, false, sortedNodes.get(sortedNodes.size() - 1));
+    stdout.flush();
   }
 
   private List<Ref> getBranchRefs(Project.NameKey projectName) {

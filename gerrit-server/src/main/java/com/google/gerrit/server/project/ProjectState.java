@@ -62,6 +62,7 @@ public class ProjectState {
 
   private final ProjectConfig config;
   private final Set<AccountGroup.UUID> localOwners;
+  private final ClassLoader ruleLoader;
 
   /** Last system time the configuration's revision was examined. */
   private transient long lastCheckTime;
@@ -73,7 +74,8 @@ public class ProjectState {
       final ProjectControl.AssistedFactory projectControlFactory,
       final PrologEnvironment.Factory envFactory,
       final GitRepositoryManager gitMgr,
-      @Assisted final ProjectConfig config) {
+      @Assisted final ProjectConfig config,
+      final RulesCache rulesCache) {
     this.anonymousUser = anonymousUser;
     this.projectCache = projectCache;
     this.wildProject = wildProject;
@@ -82,6 +84,7 @@ public class ProjectState {
     this.gitMgr = gitMgr;
     this.config = config;
     this.lastCheckTime = System.currentTimeMillis();
+    this.ruleLoader = rulesCache.getClassLoader(config.getRulesId());
 
     HashSet<AccountGroup.UUID> groups = new HashSet<AccountGroup.UUID>();
     AccessSection all = config.getAccessSection(AccessSection.ALL);
@@ -129,9 +132,10 @@ public class ProjectState {
 
   /** @return Construct a new PrologEnvironment for the calling thread. */
   public PrologEnvironment newPrologEnvironment() throws CompileException {
-    // TODO Replace this with a per-project ClassLoader to isolate rules.
+    if (ruleLoader != null) {
+      return envFactory.create(ruleLoader);
+    }
     PrologEnvironment env = envFactory.create(getClass().getClassLoader());
-
     //consult rules.pl at refs/meta/config branch for custom submit rules
     String rules = getConfig().getPrologRules();
     if (rules != null) {

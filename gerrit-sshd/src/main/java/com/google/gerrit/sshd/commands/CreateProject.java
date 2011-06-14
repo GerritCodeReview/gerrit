@@ -147,18 +147,17 @@ final class CreateProject extends BaseCommand {
           String head = permissionsOnly ? GitRepositoryManager.REF_CONFIG : branch;
           final Repository repo = repoManager.createRepository(nameKey);
           try {
+            rq.replicateNewProject(nameKey, head);
+
             RefUpdate u = repo.updateRef(Constants.HEAD);
             u.disableRefLog();
             u.link(head);
 
-            createProject();
-            repoManager.setProjectDescription(nameKey, projectDescription);
+            createProjectConfig();
 
             if (!permissionsOnly && createEmptyCommit) {
               createEmptyCommit(repo, nameKey, branch);
             }
-
-            rq.replicateNewProject(nameKey, head);
           } finally {
             repo.close();
           }
@@ -203,7 +202,7 @@ final class CreateProject extends BaseCommand {
     }
   }
 
-  private void createProject() throws IOException, ConfigInvalidException {
+  private void createProjectConfig() throws IOException, ConfigInvalidException {
     MetaDataUpdate md = metaDataUpdateFactory.create(nameKey);
     try {
       ProjectConfig config = ProjectConfig.read(md);
@@ -238,6 +237,8 @@ final class CreateProject extends BaseCommand {
       md.close();
     }
     projectCache.onCreateProject(nameKey);
+    repoManager.setProjectDescription(nameKey, projectDescription);
+    rq.scheduleUpdate(nameKey, GitRepositoryManager.REF_CONFIG);
   }
 
   private void validateParameters() throws Failure {

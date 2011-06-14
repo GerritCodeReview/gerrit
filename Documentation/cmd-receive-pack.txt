@@ -8,7 +8,7 @@ git-receive-pack - Receive what is pushed into the repository
 SYNOPSIS
 --------
 [verse]
-git receive-pack [\--reviewer <address>] [\--cc <address>] <project>
+'git receive-pack' [--reviewer <address>] [--cc <address>] <project>
 
 DESCRIPTION
 -----------
@@ -24,11 +24,11 @@ OPTIONS
 <project>::
 	The remote repository that will receive the pushed objects,
 	and create (or update) changes.  Within Gerrit Code Review
-	this is the name of a project.	The optional leading `/`
+	this is the name of a project.  The optional leading `/`
 	and or trailing `.git` suffix will be removed, if supplied.
 
-\--re <address>::
-\--reviewer <address>::
+--reviewer <address>::
+--re <address>::
 	Automatically add <address> as a reviewer to any change
 	created or updated by the pushed commit objects.  These
 	changes will appear in the reviewer's dashboard, and will
@@ -38,10 +38,10 @@ May be specified more than once to request multiple reviewers.
 +
 This is a Gerrit Code Review specific extension.
 
-\--cc <address>::
+--cc <address>::
 	Carbon-copy <address> on the created or updated changes,
 	but don't request them to perform a review.  Like with
-	\--reviewer the changes will appear in the CC'd user's
+	--reviewer the changes will appear in the CC'd user's
 	dashboard, and will be emailed to them.
 +
 May be specified more than once to specify multiple CCs.
@@ -82,12 +82,12 @@ Configure a push macro to perform the last action:
 ====
 
 afterwards `.git/config` contains the following:
-====
-	[remote "charlie"]
-		url = ssh://review.example.com:29418/project
-		push = HEAD:refs/for/master
-		receivepack = git receive-pack --reviewer charlie@example.com --cc alice@example.com --cc bob@example.com
-====
+----
+[remote "charlie"]
+  url = ssh://review.example.com:29418/project
+  push = HEAD:refs/for/master
+  receivepack = git receive-pack --reviewer charlie@example.com --cc alice@example.com --cc bob@example.com
+----
 
 and now sending a new change for review to charlie, CC'ing both
 alice and bob is much easier:

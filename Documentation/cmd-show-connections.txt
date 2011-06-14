@@ -26,8 +26,8 @@ Intended for interactive use only.
 
 OPTIONS
 -------
+--numeric::
 -n::
-\--numeric::
 	Show client hostnames as IP addresses instead of DNS hostname.
 
 DISPLAY
@@ -35,7 +35,7 @@ DISPLAY
 
 Session::
 	Unique session identifier on this server.  Session
-	identifiers have a period of 2\^32-1 and start from a
+	identifiers have a period of 2^32-1 and start from a
 	random value.
 
 Start::

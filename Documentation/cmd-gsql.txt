@@ -8,9 +8,9 @@ gerrit gsql - Administrative interface to active database
 SYNOPSIS
 --------
 [verse]
- 'ssh' -p <port> <host> 'gerrit gsql' \
- [\--format \{PRETTY | JSON\}] \
- [\-c QUERY]
+'ssh' -p <port> <host> 'gerrit gsql'
+  [--format {PRETTY | JSON}]
+  [-c QUERY]
 
 DESCRIPTION
 -----------
@@ -20,7 +20,7 @@ are supported, including SELECT, UPDATE, INSERT, DELETE and ALTER.
 
 OPTIONS
 -------
-\--format::
+--format::
 	Set the format records are output in.  In PRETTY (the
 	default) records are displayed in a tabular output suitable
 	for reading by a human on a sufficiently wide terminal.

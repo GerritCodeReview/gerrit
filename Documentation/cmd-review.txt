@@ -8,8 +8,13 @@ gerrit review - Verify, approve and/or submit one or more patch sets
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit approve' [\--project <PROJECT>] [\--message <MESSAGE>] [\--verified <N>] [\--code-review <N>] [\--abandon] [\--restore] [\--submit]  {COMMIT | CHANGEID,PATCHSET}...
-'ssh' -p <port> <host> 'gerrit review' [\--project <PROJECT>] [\--message <MESSAGE>] [\--verified <N>] [\--code-review <N>] [\--abandon] [\--restore] [\--submit]  {COMMIT | CHANGEID,PATCHSET}...
+'ssh' -p <port> <host> 'gerrit review'
+  [--project <PROJECT>]
+  [--message <MESSAGE>]
+  [--submit]
+  [--abandon | --restore]
+  [--verified <N>] [--code-review <N>]
+  {COMMIT | CHANGEID,PATCHSET}...
 
 DESCRIPTION
 -----------
@@ -19,7 +24,7 @@ notifications and updating the database.
 
 Patch sets should be specified as complete or abbreviated commit
 SHA-1s.  If the same commit is available in multiple projects the
-\--project option may be used to limit where Gerrit searches for
+--project option may be used to limit where Gerrit searches for
 the change to only the contents of the specified project.
 
 For current backward compatibility with user tools patch sets may
@@ -31,41 +36,41 @@ is strongly encouraged.
 OPTIONS
 -------
 
-\--project::
+--project::
 -p::
 	Name of the project the intended changes are contained
 	within.  This option must be supplied before the commit
 	SHA-1 in order to take effect.
 
-\--message::
+--message::
 -m::
 	Optional cover letter to include as part of the message
 	sent to reviewers when the approval states are updated.
 
-\--help::
+--help::
 -h::
 	Display site-specific usage information, including the
 	complete listing of supported approval categories and values.
 
-\--code-review::
-\--verified::
-	Set the approval category to the value 'N'.  The exact
-	option names supported and the range of values permitted
-	differs per site, check the output of \--help, or contact
-	your site administrator for further details.
-
-\--abandon::
+--abandon::
 	Abandon the specified patch set(s).
 	(option is mutually exclusive with --submit and --restore)
 
-\--restore::
+--restore::
 	Restore the specified abandonned patch set(s).
 	(option is mutually exclusive with --abandon)
 
-\--submit::
+--submit::
 -s::
 	Submit the specified patch set(s) for merging.
 	(option is mutually exclusive with --abandon)
+
+--code-review::
+--verified::
+	Set the approval category to the value 'N'.  The exact
+	option names supported and the range of values permitted
+	differs per site, check the output of --help, or contact
+	your site administrator for further details.
 
 ACCESS
 ------
@@ -80,25 +85,25 @@ EXAMPLES
 
 Approve the change with commit c0ff33 as "Verified +1"
 =====
-	$ ssh -p 29418 review.example.com gerrit review --verified=+1 c0ff33
+	$ ssh -p 29418 review.example.com gerrit review --verified +1 c0ff33
 =====
 
 Append the message "Build Successful". Notice two levels of quoting is
 required, one for the local shell, and another for the argument parser
 inside the Gerrit server:
 =====
-	$ ssh -p 29418 review.example.com gerrit review -m '"Build Successful"'
+	$ ssh -p 29418 review.example.com gerrit review -m '"Build Successful"' c0ff33
 =====
 
 Mark the unmerged commits both "Verified +1" and "Code Review +2" and
 submit them for merging:
 ====
-	$ ssh -p 29418 review.example.com gerrit review \
-	--verified=+1 \
-	--code-review=+2 \
-	--submit \
-	--project=this/project \
-	$(git rev-list origin/master..HEAD)
+  $ ssh -p 29418 review.example.com gerrit review \
+    --verified +1 \
+    --code-review +2 \
+    --submit \
+    --project this/project \
+    $(git rev-list origin/master..HEAD)
 ====
 
 SEE ALSO

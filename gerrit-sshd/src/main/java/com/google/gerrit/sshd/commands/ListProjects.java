@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -81,6 +82,10 @@ final class ListProjects extends BaseCommand {
 
   @Inject
   private GitRepositoryManager repoManager;
+
+  @Inject
+  @WildProjectName
+  private Project.NameKey allProjectsName;
 
   @Option(name = "--show-branch", aliases = {"-b"}, multiValued = true,
       usage = "displays the sha of each project in the specified branch")
@@ -197,15 +202,20 @@ final class ListProjects extends BaseCommand {
 
     // Builds the inheritance tree using a list.
     //
-    for (final TreeNode key : treeMap.values()) {
-      final String parentName = key.getParentName();
-      if (parentName != null) {
-        final TreeNode node = treeMap.get(parentName);
-        if (node != null) {
-          node.addChild(key);
-        } else {
-          sortedNodes.add(key);
-        }
+    for (TreeNode key : treeMap.values()) {
+      if (allProjectsName.equals(key.getProject().getNameKey())) {
+        sortedNodes.add(key);
+        continue;
+      }
+
+      String parentName = key.getParentName();
+      if (parentName == null) {
+        parentName = allProjectsName.get();
+      }
+
+      TreeNode node = treeMap.get(parentName);
+      if (node != null) {
+        node.addChild(key);
       } else {
         sortedNodes.add(key);
       }

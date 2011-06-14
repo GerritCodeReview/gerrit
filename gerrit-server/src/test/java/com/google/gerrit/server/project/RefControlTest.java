@@ -317,12 +317,13 @@ public class RefControlTest extends TestCase {
     PrologEnvironment.Factory envFactory = null;
     GitRepositoryManager mgr = null;
     ProjectControl.AssistedFactory projectControlFactory = null;
+    RulesCache rulesCache = null;
     all.put(local.getProject().getNameKey(), new ProjectState(
         projectCache, allProjectsName, projectControlFactory,
-        envFactory, mgr, local));
+        envFactory, mgr, rulesCache, local));
     all.put(parent.getProject().getNameKey(), new ProjectState(
         projectCache, allProjectsName, projectControlFactory,
-        envFactory, mgr, parent));
+        envFactory, mgr, rulesCache, parent));
     return all.get(local.getProject().getNameKey());
   }
 

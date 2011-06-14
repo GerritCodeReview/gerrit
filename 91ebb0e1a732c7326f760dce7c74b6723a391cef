@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABCH//+9M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T14:21:27Z",
+      "side": 1,
+      "message": "These implementations don\u0027t need to be public.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+9I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T14:21:27Z",
+      "side": 1,
+      "message": "Style-nit: Please declare the logger before every other member of the class.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+9E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T14:21:27Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///PQ\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/FastForwardOnly.java",
         "patchSetId": 1
@@ -19,6 +70,74 @@
     },
     {
       "key": {
+        "uuid": "AAABCH//+80\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeIfNecessary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T14:21:27Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+84\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeIfNecessary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T14:21:27Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+9A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeIfNecessary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T14:21:27Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+88\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeIfNecessary.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T14:21:27Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH//+/A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -30,6 +149,23 @@
       "writtenOn": "2011-06-14T00:45:30Z",
       "side": 1,
       "message": "This factory can probably be dropped since you have MergeOpFactory now to do the same thing.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+8w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T14:21:27Z",
+      "side": 1,
+      "message": "Make a new intermediate base class for MergeAlways and MergeIfNecessary, and move this method there.",
       "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -116,6 +252,92 @@
       "writtenOn": "2011-06-14T00:45:30Z",
       "side": 1,
       "message": "Use a factory for each of the subclass types.\n\nThat way each subclass can take the arguments it needs via its own @Inject constructor, and arguments can be passed along via the @Assisted injection parameter. We have many examples of this in our code base, just search for @Assisted.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+9g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T14:21:27Z",
+      "side": 1,
+      "message": "Another way to do this is to use an Arguments class. Look at the email delivery code; we create an Arguments class that contains all of the injected values required by the base email code, and then put only that Arguments object into the constructor.\n\nThis is a bit of a change because you need to go around and update all field references to be \"args.thing\" rather than just \"thing\" within MergeOp. However it makes it easier to add additional injections when necessary, because the subclass constructors don\u0027t need to be modified to carry the argument into the base class constructor.",
+      "parentUuid": "AAABCH//+/I\u003d",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+9Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T14:21:27Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+9c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T14:21:27Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+9U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T14:21:27Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+9Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T14:21:27Z",
+      "side": 1,
+      "message": "Declare this where its first assigned, which is currently at line 105 (below).",
       "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

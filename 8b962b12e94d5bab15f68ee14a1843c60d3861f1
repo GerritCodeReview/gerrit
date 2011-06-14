@@ -16,6 +16,24 @@
       "revId": "8b962b12e94d5bab15f68ee14a1843c60d3861f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+4s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-06-14T20:19:28Z",
+      "side": 0,
+      "message": "We\u0027re not using transfer.timeout, but we\u0027re trying to get rid of the effectively useless messages telling me that the client disconnected. Why log a server-side message when I as a user kill my fetch? Maybe this isn\u0027t the right way to squelch that, but this is the goal.",
+      "parentUuid": "AAABCH//+7I\u003d",
+      "revId": "8b962b12e94d5bab15f68ee14a1843c60d3861f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -8,7 +8,10 @@ gerrit ls-projects - List projects visible to caller
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit ls-projects' [\--show-branch <BRANCH1> ...]
+ 'ssh' -p <port> <host> 'gerrit ls-projects'
+ [--show-branch <BRANCH1> ...]
+ [--tree]
+ [--type {code | permissions | all}]
 
 DESCRIPTION
 -----------
@@ -42,6 +45,13 @@ OPTIONS
 \-t::
 	Displays project inheritance in a tree-like format.
 	This option does not work together with the show-branch option.
+
+--type::
+	Display only projects of the specified type. Supported
+	types are `code` (any project likely to contain user files),
+	`permissions` (projects created with the --permissions-only
+	flag), `all` (any type of project).  If not specified,
+	defaults to `code`.
 
 EXAMPLES
 --------

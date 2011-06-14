@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAABCH//+/A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T00:45:30Z",
+      "side": 1,
+      "message": "This factory can probably be dropped since you have MergeOpFactory now to do the same thing.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///PM\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -53,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH//+/M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T00:45:30Z",
+      "side": 1,
+      "message": "Eh, it depends on how much survives... and how interesting that code is. Here I would argue the date should be 2011. My old code they copied isn\u0027t really copyrightable as its small and the only way to write this code in this language.\n\nThe new code is clearly 2011 stuff, and is what is relevant to this new class. So I would say 2011 here.",
+      "parentUuid": "AAABCH///PU\u003d",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///2c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
         "patchSetId": 1
@@ -70,6 +105,23 @@
     },
     {
       "key": {
+        "uuid": "AAABCH//+/I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T00:45:30Z",
+      "side": 1,
+      "message": "Use a factory for each of the subclass types.\n\nThat way each subclass can take the arguments it needs via its own @Inject constructor, and arguments can be passed along via the @Assisted injection parameter. We have many examples of this in our code base, just search for @Assisted.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///z8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
         "patchSetId": 1
@@ -81,6 +133,23 @@
       "writtenOn": "2011-06-11T05:24:40Z",
       "side": 1,
       "message": "Style nit:  I suspect that these types of trailing blank lines should go away.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+/E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-14T00:45:30Z",
+      "side": 1,
+      "message": "Yes, please remove the trailing blank lines.",
       "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

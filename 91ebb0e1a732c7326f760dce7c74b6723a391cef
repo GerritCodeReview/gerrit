@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH//+5Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/FastForwardOnly.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-06-14T20:25:02Z",
+      "side": 1,
+      "message": "I have considered about doing like your first suggestion, but I decided for as I did because:\n1 - Despite a bit redundant, it\u0027s more didactic have one implementor for each strategy.\n2 - Easier to mantain; \n3 - I didn\u0027t find a meaninful name for a class containing those 3 cases.\n4 - They don\u0027t share everything and I would have to include \"ifs\".",
+      "parentUuid": "AAABCH///PQ\u003d",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH//+80\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeIfNecessary.java",
         "patchSetId": 1
@@ -155,6 +173,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH//+5M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-06-14T20:25:02Z",
+      "side": 1,
+      "message": "well, I was trying to avoid changing the current clients of MergeOp. But maybe I don\u0027t really need to prevent it...rrsrs",
+      "parentUuid": "AAABCH//+/A\u003d",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH//+8w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -166,6 +202,24 @@
       "writtenOn": "2011-06-14T14:21:27Z",
       "side": 1,
       "message": "Make a new intermediate base class for MergeAlways and MergeIfNecessary, and move this method there.",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+5I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-06-14T20:25:02Z",
+      "side": 1,
+      "message": "ok, it will be tough to find a proper name",
+      "parentUuid": "AAABCH//+8w\u003d",
       "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -269,6 +323,42 @@
       "writtenOn": "2011-06-14T14:21:27Z",
       "side": 1,
       "message": "Another way to do this is to use an Arguments class. Look at the email delivery code; we create an Arguments class that contains all of the injected values required by the base email code, and then put only that Arguments object into the constructor.\n\nThis is a bit of a change because you need to go around and update all field references to be \"args.thing\" rather than just \"thing\" within MergeOp. However it makes it easier to add additional injections when necessary, because the subclass constructors don\u0027t need to be modified to carry the argument into the base class constructor.",
+      "parentUuid": "AAABCH//+/I\u003d",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+4w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-06-14T20:25:02Z",
+      "side": 1,
+      "message": "I understood you prefer this second option, right?",
+      "parentUuid": "AAABCH//+9g\u003d",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH//+4g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-06-14T20:25:02Z",
+      "side": 1,
+      "message": "Yeah, removing the mergeOp factory and changing client\u0027s code make it easier.",
       "parentUuid": "AAABCH//+/I\u003d",
       "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

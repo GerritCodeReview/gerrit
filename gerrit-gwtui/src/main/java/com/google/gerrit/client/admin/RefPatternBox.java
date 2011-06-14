@@ -48,9 +48,10 @@ public class RefPatternBox extends ValueBox<String> {
         throw new ParseException(Util.C.refErrorBeginSlash(), 0);
       }
 
-      final boolean re = ref.charAt(0) == '^';
-      if (re && !ref.startsWith("^refs/")) {
-        ref = "^refs/heads/" + ref.substring(1);
+      if (ref.charAt(0) == '^') {
+        if (!ref.startsWith("^refs/")) {
+          ref = "^refs/heads/" + ref.substring(1);
+        }
       } else if (!ref.startsWith("refs/")) {
         ref = "refs/heads/" + ref;
       }

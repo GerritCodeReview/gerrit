@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCX///64\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T01:42:36Z",
+      "side": 1,
+      "message": "Do we need this !\"\".equals() check? onCellDoubleClick will already validate the row can have comments added to it, so we don\u0027t need to perform that validation here, do we?",
+      "revId": "0b30d72230d8dc1feaebb9b5120da0d6d3d3b010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

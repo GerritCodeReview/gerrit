@@ -18,7 +18,6 @@ import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.httpd.rpc.changedetail.ChangeDetailFactory;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.patch.AddReviewer;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -32,23 +31,17 @@ class AddReviewerHandler extends Handler<ReviewerResult> {
 
   private final AddReviewer.Factory addReviewerFactory;
   private final ChangeDetailFactory.Factory changeDetailFactory;
-  private final IdentifiedUser currentUser;
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
   private final Change.Id changeId;
   private final Collection<String> reviewers;
 
   @Inject
   AddReviewerHandler(final AddReviewer.Factory addReviewerFactory,
-      final IdentifiedUser.GenericFactory identifiedUserFactory,
-      final IdentifiedUser currentUser,
       final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final Change.Id changeId,
       @Assisted final Collection<String> nameOrEmails) {
 
     this.addReviewerFactory = addReviewerFactory;
-    this.identifiedUserFactory = identifiedUserFactory;
-    this.currentUser = currentUser;
     this.changeDetailFactory = changeDetailFactory;
 
     this.changeId = changeId;

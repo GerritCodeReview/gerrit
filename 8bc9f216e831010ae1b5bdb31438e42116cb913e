@@ -105,6 +105,24 @@
       "revId": "8bc9f216e831010ae1b5bdb31438e42116cb913e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///6A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/CapabilityControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T02:14:34Z",
+      "side": 1,
+      "message": "Given this idea about moving most of site_path/etc to All-Projects.git (is that even a good idea?!) is this change otherwise acceptable? I had another user ask me today about a higher query result limit.",
+      "parentUuid": "AAABCH//+2g\u003d",
+      "revId": "8bc9f216e831010ae1b5bdb31438e42116cb913e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

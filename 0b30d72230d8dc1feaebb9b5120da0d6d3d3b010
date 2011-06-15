@@ -16,6 +16,24 @@
       "revId": "0b30d72230d8dc1feaebb9b5120da0d6d3d3b010",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///4U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-15T03:52:34Z",
+      "side": 1,
+      "message": "Actually, this is to check whether the correct column was clicked since sometimes the numbers are in column one, and sometimes in column two.  Without this, it would respond even if someone clicked in the blank column next to a number (same row).  It is not critical, since it would still work fine, but it might confuse someone and would appear less like it was the number that was a link.",
+      "parentUuid": "AAABCX///64\u003d",
+      "revId": "0b30d72230d8dc1feaebb9b5120da0d6d3d3b010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

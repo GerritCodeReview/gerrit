@@ -1,0 +1,497 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCX///wI\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Rulec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Please correct the copyright header to be the standard Android Open Source Project one used elsewhere in Gerrit.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///vo\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Rulec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Add to this:\n\n  required \u003d true, metaVar \u003d \"PROJECT\"\n\nAnd change the usage to be:\n\n  usage \u003d \"project to compile rules for\"",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///v0\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Rulec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Style-nit: Setting to null is not necessary.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///vc\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Rulec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Remove this, you shouldn\u0027t need it.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///vU\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Rulec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Wrap the rest of the method in a try finally:\n\n  try {\n    ...\n    return 0;\n  } finally {\n    git.close();\n  }\n\nTo ensure the Repository is closed when you are done.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///vQ\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Rulec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "You don\u0027t use success. You should use it:\n\n  return jarMaker.run() ? 0 : 1;",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///vY\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Rulec.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Don\u0027t do this. You should always have projectName !\u003d null, and thus can always do:\n\n  return new Project.NameKey(projectName);",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///v8\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Please correct the copyright header to be the standard Android Open Source Project one used elsewhere in Gerrit.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///vM\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "You should probably just let this pop up the stack. The caller will print it, and fail for you.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///vI\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "I would re-word as: \"error: no rules.pl in \" + git.getDirectory()",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///vE\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "You shouldn\u0027t rely on this. Use the same computation you use with the PrologEnvironment to read cache.directory from gerrit.config.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///u8\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Don\u0027t compile in cache directory, use proper temporary space:\n\n  File tmpdir \u003d File.createTempFile(\"GerritCodeReview_\", \".rulec\");\n  if (!tmpdir.delete() || !tmpdir.mkdir())\n    throw new IOException(\"Cannot create temporary directory \" + tmpdir);\n\nOn most systems this will be /tmp, which is in RAM and backed by swap if it overflows. That will be faster disk to access than using the cache directory.\n\nIf we want to be super-paranoid about things, we could then modify this directory to be readable only by its owner and always use it for all operations below.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///u4\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Like above, let this throw to the caller.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///us\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Why not put this rules.pl into tempDir?",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///u0\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Use getCachedBytes(Integer.MAX_VALUE) here.\n\nBut since all you are doing is copying the stream to an output file, use this instead:\n\n  OutputStream out \u003d new FileOutputStream(tempRules);\n  try {\n    git.open(prolog).copyTo(out);\n  } finally {\n    out.close();\n  }",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///uw\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Wrap the entire method into a try/finally so you ensure tempRules.delete() is always invoked.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///uo\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "I recently made a change to PrologCafe that you don\u0027t have yet in your environment. It now outputs things in subdirectories below the tempDir, so listFiles() isn\u0027t sufficient. You need to do a recursive listing to find all \".java\" files.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///uk\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Probably should wrap everything in a try/finally to ensure this runs?",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///to\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Don\u0027t output directly to the result archive, *ESPECIALLY* if it already exists. A server may be running and this would confuse or corrupt it.\n\nInstead you want to write to a temporary file in that directory and rename onto the target only once its done:\n\n  File tmpjar \u003d File.createTempFile(\".rulec_\", \".jar\", archiveFile.getParentFile());\n  ... jar to tmpjar ...\n\n  out.close();\n  if (!tmpjar.renameTo(archiveFile)) {\n    throw new IOExeption(\"Cannot replace archiveFile\");\n  }\n\nAnd wrap the whole thing in a try/finally to ensure tmpjar is deleted once its created.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///uI\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "How is it possible for either of these conditions to be true?",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///uE\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "A cleaner approach would be to have the toBeJared list be List\u003cString\u003e with the paths relative to the input temp directory. In getAllClassFiles(), compute things relative to the input directory rather than using the File object.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///uA\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "You don\u0027t really need to put directories into JARs.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///t8\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Fix the modification time once at the start of this to be the time you are building the JAR. That is:\n\n  long now \u003d System.currentTimeMillis();\n\nAnd use that for the time of each entry.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///t4\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "This should be wrapped in a try/finally to ensure in is always closed.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///tw\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Wrap the whole thing in a try/finally to ensure this close occurs.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///t0\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "This should be unnecessary, the JarOutputStream should be closing the underlying FileOutputStream.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///uc\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "Why not have this method be:\n\n  getAllClassFiles(File dir) {\n    for (File f : dir.listFiles())\n\nThen the recursive step below (as well as the calling step above) doesn\u0027t need to do the listFiles itself, its done in one place by the method itself.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///ug\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "There is no need to add a directory to the JAR.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///uQ\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T23:08:08Z",
+      "side": 1,
+      "message": "The recursive step already deleted the directory.",
+      "revId": "9a89b40f7dd1bf7da912293fc826df9891535ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

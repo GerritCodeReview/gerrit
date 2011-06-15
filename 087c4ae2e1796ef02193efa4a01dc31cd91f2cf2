@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCX///6s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T02:08:56Z",
+      "side": 1,
+      "message": "This is stale, I\u0027ve already fixed this bug about getRevision(). Please rebase your change.\n\nNote that the Javadoc comment wasn\u0027t really updated as well by me as you have done above, so when you rebase, I would prefer it if you kept your own Javadoc over the one that is in master. :-)",
+      "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///6g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T02:08:56Z",
+      "side": 1,
+      "message": "Why is this public? Are you expecting to need this outside of the ProjectState class?",
+      "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///6c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T02:08:56Z",
+      "side": 1,
+      "message": "Should be private.",
+      "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///6Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T02:08:56Z",
+      "side": 1,
+      "message": "Declare package access.",
+      "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///6o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T02:08:56Z",
+      "side": 1,
+      "message": "Make this version private, and declare a public no-arg version that calls the private one with the single new MyWalker.",
+      "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///6k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T02:08:56Z",
+      "side": 1,
+      "message": "You call the param seen in the Javadoc, but its walker in the code.",
+      "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///6U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T02:08:56Z",
+      "side": 1,
+      "message": "This should be private, its only used by getAllAccessSections() below.",
+      "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -32,7 +32,7 @@ public abstract class AbstractProgram {
   private boolean running = true;
 
   @Option(name = "--show-stack-trace", usage = "display stack trace on failure")
-  private boolean showStackTrace;
+  protected boolean showStackTrace;
 
   @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
   private boolean help;

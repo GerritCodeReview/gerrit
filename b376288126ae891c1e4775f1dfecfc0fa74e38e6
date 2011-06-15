@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCX///yA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T22:31:03Z",
+      "side": 1,
+      "message": "Return the ObjectId rather than the String name. Let the caller convert it to String if they want it that way.",
+      "revId": "b376288126ae891c1e4775f1dfecfc0fa74e38e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///x8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T22:31:03Z",
+      "side": 1,
+      "message": "Pointless edit. Please drop this file from the change.",
+      "revId": "b376288126ae891c1e4775f1dfecfc0fa74e38e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///x4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T22:31:03Z",
+      "side": 1,
+      "message": "Instead of caching these, cache the URLClassLoader... which you should create in the constructor.\n\nThis way the JIT can actually optimize the classes to native code and benefit from that. Loading the URLClassLoader on every execution prevents the JIT from being able see the code is identical to what it ran before, and cannot convert to good native machine code.",
+      "revId": "b376288126ae891c1e4775f1dfecfc0fa74e38e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///xg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T22:31:03Z",
+      "side": 1,
+      "message": "This isn\u0027t cheap. Lets move this into a new RulesCache class that is marked as a @Singleton and can give us the ClassLoader for a given rules ObjectId.",
+      "revId": "b376288126ae891c1e4775f1dfecfc0fa74e38e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///xc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T22:31:03Z",
+      "side": 1,
+      "message": "Don\u0027t require this predicate, users might define other rules.",
+      "revId": "b376288126ae891c1e4775f1dfecfc0fa74e38e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

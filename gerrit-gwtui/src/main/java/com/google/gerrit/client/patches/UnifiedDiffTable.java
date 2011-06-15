@@ -66,8 +66,10 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   @Override
   protected void onCellSingleClick(int row, int column) {
-    if (column == 2) {
-      onCellDoubleClick(row, column);
+    if (column == 1 || column == 2) {
+      if (!"".equals(table.getText(row, column))) {
+        onCellDoubleClick(row, column);
+      }
     }
   }
 
@@ -381,7 +383,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   private void appendLineNumber(final SafeHtmlBuilder m, final int idx) {
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
-    m.append(idx + 1);
+    m.append(SafeHtml.asis("<a href=\"javascript:void(0)\">"+ (idx + 1) + "</a>"));
     m.closeTd();
   }
 }

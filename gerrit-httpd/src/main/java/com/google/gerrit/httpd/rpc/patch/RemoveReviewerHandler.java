@@ -23,6 +23,8 @@ import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.Collections;
+
 /**
  * Implement the remote logic that removes a reviewer from a change.
  */
@@ -48,7 +50,8 @@ class RemoveReviewerHandler extends Handler<ReviewerResult> {
 
   @Override
   public ReviewerResult call() throws Exception {
-    ReviewerResult result = removeReviewerFactory.create(changeId, reviewerId).call();
+    ReviewerResult result = removeReviewerFactory.create(
+        changeId, Collections.singleton(reviewerId)).call();
     result.setChange(changeDetailFactory.create(changeId).call());
     return result;
   }

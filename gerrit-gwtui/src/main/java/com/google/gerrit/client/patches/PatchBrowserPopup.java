@@ -26,38 +26,46 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.HidePopupPanelCommand;
 import com.google.gwtexpui.user.client.PluginSafeDialogBox;
 
 class PatchBrowserPopup extends PluginSafeDialogBox implements
     PositionCallback, ResizeHandler {
-  private final Patch.Key callerKey;
-  private final PatchTable fileList;
+  private Patch.Key callerKey = null;
+  private PatchTable fileList = null;
+  private Widget widget;
   private final ScrollPanel sp;
   private HandlerRegistration regWindowResize;
 
-  PatchBrowserPopup(final Patch.Key pk, final PatchTable fl) {
-    super(true/* autohide */, false/* modal */);
-
+  PatchBrowserPopup(final Patch.Key pk, PatchTable fl) {
+    this(Util.M.patchSetHeader(pk.getParentKey().get()), fl);
     callerKey = pk;
     fileList = fl;
-    sp = new ScrollPanel(fileList);
+  }
+
+  PatchBrowserPopup(String header, Widget w) {
+    super(false/* autohide */, false/* modal */);
+
+    widget = w;
+    sp = new ScrollPanel(widget);
 
     final FlowPanel body = new FlowPanel();
     body.setStyleName(Gerrit.RESOURCES.css().patchBrowserPopupBody());
     body.add(sp);
 
-    setText(Util.M.patchSetHeader(callerKey.getParentKey().get()));
+    setText(header);
     setWidget(body);
     addStyleName(Gerrit.RESOURCES.css().patchBrowserPopup());
   }
+
 
   @Override
   public void setPosition(final int myWidth, int myHeight) {
     final int dLeft = (Window.getClientWidth() - myWidth) >> 1;
     final int cHeight = Window.getClientHeight();
-    final int cHeight2 = 2 * cHeight / 3;
+    final int cHeight2 = cHeight / 3;
     final int sLeft = Window.getScrollLeft();
     final int sTop = Window.getScrollTop();
 
@@ -93,7 +101,7 @@ class PatchBrowserPopup extends PluginSafeDialogBox implements
     GlobalKey.dialog(this);
     GlobalKey.addApplication(this, new HidePopupPanelCommand(0, 'f', this));
 
-    if (!fileList.isLoaded()) {
+    if (fileList != null && !fileList.isLoaded()) {
       fileList.onTableLoaded(new Command() {
         @Override
         public void execute() {
@@ -107,12 +115,12 @@ class PatchBrowserPopup extends PluginSafeDialogBox implements
   }
 
   public void open() {
-    if (!fileList.isLoaded()) {
+    if (fileList != null && !fileList.isLoaded()) {
       sp.setHeight("22px");
     }
     sp.setWidth((Window.getClientWidth() - 60) + "px");
     setPopupPositionAndShow(this);
-    if (fileList.isLoaded()) {
+    if (fileList != null && fileList.isLoaded()) {
       fileList.setRegisterKeys(true);
       fileList.movePointerTo(callerKey);
     }

@@ -17,6 +17,7 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GerritConstants;
 import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.changes.CommitMessageBlock;
 import com.google.gerrit.client.changes.PatchTable;
@@ -32,6 +33,7 @@ import com.google.gerrit.prettify.common.PrettyFactory;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -41,6 +43,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -52,8 +55,9 @@ public abstract class PatchScreen extends Screen implements
 
   public static class SideBySide extends PatchScreen {
     public SideBySide(final Patch.Key id, final int patchIndex,
-        final PatchSetDetail patchSetDetail, final PatchTable patchTable) {
-      super(id, patchIndex, patchSetDetail, patchTable);
+        final PatchSetDetail patchSetDetail, final PatchTable patchTable,
+        final View popupView) {
+      super(id, patchIndex, patchSetDetail, patchTable, popupView);
     }
 
     @Override
@@ -69,8 +73,9 @@ public abstract class PatchScreen extends Screen implements
 
   public static class Unified extends PatchScreen {
     public Unified(final Patch.Key id, final int patchIndex,
-        final PatchSetDetail patchSetDetail, final PatchTable patchTable) {
-      super(id, patchIndex, patchSetDetail, patchTable);
+        final PatchSetDetail patchSetDetail, final PatchTable patchTable,
+        final View popupView) {
+      super(id, patchIndex, patchSetDetail, patchTable, popupView);
     }
 
     @Override
@@ -84,6 +89,8 @@ public abstract class PatchScreen extends Screen implements
     }
   }
 
+  public static final GerritConstants C = GWT.create(GerritConstants.class);
+
   // Which patch set id's are being diff'ed
   private static PatchSet.Id diffSideA = null;
   private static PatchSet.Id diffSideB = null;
@@ -91,8 +98,18 @@ public abstract class PatchScreen extends Screen implements
   /**
    * What should be displayed in the top of the screen
    */
-  public static enum TopView {
-    MAIN, COMMIT, PREFERENCES, PATCH_SETS, FILES
+  public static enum View {
+    MAIN (""),
+    COMMIT(C.menuDiffCommit()),
+    PREFERENCES(C.menuDiffPreferences()),
+    PATCH_SETS(C.menuDiffPatchSets()),
+    FILES(C.menuDiffFiles());
+
+    public final String title;
+
+    View(String title) {
+      this.title = title;
+    }
   }
 
   protected final Patch.Key patchKey;
@@ -110,9 +127,12 @@ public abstract class PatchScreen extends Screen implements
   private CommitMessageBlock commitMessageBlock;
   private NavLinks topNav;
   private NavLinks bottomNav;
+  private PatchBrowserPopup popup;
 
   private int rpcSequence;
   private PatchScript lastScript;
+  private View topView;
+  private View popupView;
 
   /** The index of the file we are currently looking at among the fileList */
   private int patchIndex;
@@ -131,7 +151,7 @@ public abstract class PatchScreen extends Screen implements
   }
 
   protected PatchScreen(final Patch.Key id, final int patchIndex,
-      final PatchSetDetail detail, final PatchTable patchTable) {
+      final PatchSetDetail detail, final PatchTable patchTable, View popupView) {
     patchKey = id;
     patchSetDetail = detail;
     fileList = patchTable;
@@ -164,6 +184,8 @@ public abstract class PatchScreen extends Screen implements
             setReviewedByCurrentUser(event.getValue());
           }
         });
+
+    this.popupView = popupView;
   }
 
   @Override
@@ -446,6 +468,7 @@ public abstract class PatchScreen extends Screen implements
       intralineFailure = false;
       new ErrorDialog(PatchUtil.C.intralineFailure()).show();
     }
+    setPopupView(popupView);
   }
 
   private void showPatch(final boolean showPatch) {
@@ -467,18 +490,78 @@ public abstract class PatchScreen extends Screen implements
     diffSideB = patchSetId;
   }
 
-  public void setTopView(TopView tv) {
-    topPanel.clear();
-    switch(tv) {
-      case COMMIT:      topPanel.add(commitMessageBlock);
-        break;
-      case PREFERENCES: topPanel.add(settingsPanel);
-        break;
-      case PATCH_SETS:  topPanel.add(historyTable);
-        break;
-      case FILES:       topPanel.add(fileList);
-        break;
+  public void setView(View v) {
+    if (v != topView || v == View.MAIN) {
+      setTopView(v);
+      if (v == popupView) {
+        setPopupView(null);
+      }
+    } else if (v != popupView) {
+      setTopView(View.MAIN);
+      setPopupView(v);
     }
+  }
+
+  public void setTopView(View v) {
+    Widget w = getViewWidget(v);
+    topPanel.clear();
+
+    if (w != null) {
+      topPanel.add(w);
+    }
+    topView = v;
+  }
+
+  public View getPopupView() {
+    return popupView;
+  }
+
+  public void setPopupView(View v) {
+    if (popup != null) {
+      popup.hide(false);
+    }
+
+    if (v != null) {
+      Widget w = getViewWidget(v);
+      if (w != null) {
+        if (w == fileList) {
+          popup = new PatchBrowserPopup(patchKey, fileList);
+        } else {
+          popup = new PatchBrowserPopup(v.title, w);
+        }
+        popup.open();
+      } else {
+        v = null;
+      }
+    }
+    popupView = v;
+  }
+
+  public Widget getViewWidget(View tv) {
+    switch(tv) {
+      case COMMIT:      return commitMessageBlock;
+      case PREFERENCES: return settingsPanel;
+      case PATCH_SETS:  return historyTable;
+      case FILES:       return fileList;
+    }
+    return null;
+  }
+
+  private void popUpFileList() {
+    if (fileList == null || fileList.isAttached()) {
+      final PatchSet.Id psid = patchKey.getParentKey();
+      fileList = new PatchTable(prefs);
+      fileList.setSavePointerId("PatchTable " + psid);
+      Util.DETAIL_SVC.patchSetDetail(psid,
+          new GerritCallback<PatchSetDetail>() {
+            public void onSuccess(final PatchSetDetail result) {
+              fileList.display(result);
+            }
+          });
+    }
+
+    final PatchBrowserPopup p = new PatchBrowserPopup(patchKey, fileList);
+    p.open();
   }
 
   public class FileListCmd extends KeyCommand {

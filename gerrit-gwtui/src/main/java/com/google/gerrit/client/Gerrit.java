@@ -497,10 +497,10 @@ public class Gerrit implements EntryPoint {
     menuLeft.addInvisible(diffBar, C.menuDiff());
     addDiffLink(diffBar, CC.patchTableDiffSideBySide(), PatchScreen.Type.SIDE_BY_SIDE);
     addDiffLink(diffBar, CC.patchTableDiffUnified(), PatchScreen.Type.UNIFIED);
-    addDiffLink(diffBar, C.menuDiffCommit(), PatchScreen.TopView.COMMIT);
-    addDiffLink(diffBar, C.menuDiffPreferences(), PatchScreen.TopView.PREFERENCES);
-    addDiffLink(diffBar, C.menuDiffPatchSets(), PatchScreen.TopView.PATCH_SETS);
-    addDiffLink(diffBar, C.menuDiffFiles(), PatchScreen.TopView.FILES);
+    addDiffLink(diffBar, C.menuDiffCommit(), PatchScreen.View.COMMIT);
+    addDiffLink(diffBar, C.menuDiffPreferences(), PatchScreen.View.PREFERENCES);
+    addDiffLink(diffBar, C.menuDiffPatchSets(), PatchScreen.View.PATCH_SETS);
+    addDiffLink(diffBar, C.menuDiffFiles(), PatchScreen.View.FILES);
 
     if (signedIn) {
       m = new LinkMenuBar();
@@ -598,12 +598,12 @@ public class Gerrit implements EntryPoint {
   }
 
   private static void addDiffLink(final LinkMenuBar m, final String text,
-      final PatchScreen.TopView tv) {
+      final PatchScreen.View tv) {
     m.addItem(new LinkMenuItem(text, "") {
         @Override
         public void go() {
           if (patchScreen != null) {
-            patchScreen.setTopView(tv);
+            patchScreen.setView(tv);
           }
           AnchorElement.as(getElement()).blur();
         }
@@ -617,10 +617,11 @@ public class Gerrit implements EntryPoint {
         public void go() {
           if (patchScreen != null) {
             if (type == patchScreen.getPatchScreenType()) {
-              patchScreen.setTopView(PatchScreen.TopView.MAIN);
+              patchScreen.setView(PatchScreen.View.MAIN);
               AnchorElement.as(getElement()).blur();
             } else {
               new PatchLink("", type, patchScreen).go();
+              patchScreen.setPopupView(null);
             }
           }
         }

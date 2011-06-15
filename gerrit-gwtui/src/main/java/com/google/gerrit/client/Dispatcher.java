@@ -126,7 +126,7 @@ public class Dispatcher {
 
   private static void select(final String token) {
     if (token.startsWith("patch,")) {
-      patch(token, null, 0, null, null);
+      patch(token, null, 0, null, null, null);
 
     } else if (token.startsWith("change,publish,")) {
       publish(token);
@@ -285,7 +285,7 @@ public class Dispatcher {
 
   public static void patch(String token, final Patch.Key id,
       final int patchIndex, final PatchSetDetail patchSetDetail,
-      final PatchTable patchTable) {
+      final PatchTable patchTable, final PatchScreen.View popupView) {
     GWT.runAsync(new AsyncSplit(token) {
       public void onSuccess() {
         Gerrit.display(token, select());
@@ -300,7 +300,8 @@ public class Dispatcher {
               id != null ? id : Patch.Key.parse(skip(p, token)), //
               patchIndex, //
               patchSetDetail, //
-              patchTable //
+              patchTable, //
+              popupView //
           );
         }
 
@@ -310,7 +311,8 @@ public class Dispatcher {
               id != null ? id : Patch.Key.parse(skip(p, token)), //
               patchIndex, //
               patchSetDetail, //
-              patchTable //
+              patchTable, //
+              popupView //
           );
         }
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCX///0s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-15T18:27:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCX///6s\u003d",
+      "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCX///6g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2011-06-15T02:08:56Z",
       "side": 1,
       "message": "Why is this public? Are you expecting to need this outside of the ProjectState class?",
+      "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///2A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-15T18:27:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCX///6g\u003d",
       "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCX///18\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-15T18:27:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCX///6c\u003d",
+      "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCX///6Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2011-06-15T02:08:56Z",
       "side": 1,
       "message": "Declare package access.",
+      "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///14\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-15T18:27:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCX///6Y\u003d",
       "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCX///1g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-15T18:27:06Z",
+      "side": 1,
+      "message": "Actually, for now there is no need for the public version.\n\nI simplified all the Walker calls and go rid of the ... invocations since all the functions will only be called internally, I figured that calling with a null for the first invocation is simple enough.  I will port forward this to the multi inheritance patch and make public/private pairs where needed.",
+      "parentUuid": "AAABCX///6o\u003d",
+      "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCX///6k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 3
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCX///10\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-15T18:27:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCX///6k\u003d",
+      "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCX///6U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 3
@@ -115,6 +223,24 @@
       "writtenOn": "2011-06-15T02:08:56Z",
       "side": 1,
       "message": "This should be private, its only used by getAllAccessSections() below.",
+      "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///1w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-15T18:27:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABCX///6U\u003d",
       "revId": "087c4ae2e1796ef02193efa4a01dc31cd91f2cf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCX///34\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-15T21:02:15Z",
+      "side": 1,
+      "message": "Is this accurate?  From the code, it looks like it should say \"...for every change with the same destination branch as the new patch which came in.\"",
+      "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///30\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeTestMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-15T21:02:15Z",
+      "side": 1,
+      "message": "Is this queue persistent?  Will it remember unfinished tasks if the server dies?  If not, perhaps it should be run on startup? That could be rather CPU intensive with hundreds of projects with several branches each!  Another idea would be to add a testedAgainst field to the change object which would contain the last ref this change was tested against (the head of the branch).  Then, on startup, only out of date changes could be added to the queue.  This would also allow several other things to be done, for one: it would allow for a changes mergeability status to be verified on display (a follow on optimisation perhaps)",
+      "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///y8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeTestMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-15T21:02:15Z",
+      "side": 1,
+      "message": "I cannot tell, but is there some mechanism to make the queue a singleton so that there aren\u0027t new queues for every change merged even if on the same branch as a currently running queue/  If not, it seems like it could potentially waste many cycles repeating the same comparisons?  This, again might be easily fixed with the addition of a testesAgainst field and a simple check in the queue to discard changes with an uptodate testedAgainst field.",
+      "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///4I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-15T21:02:15Z",
+      "side": 1,
+      "message": "Is there a query involving the branch?  If not, add one to ProjectAccess?  Perhaps even include status?",
+      "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///4E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/TestMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-15T21:02:15Z",
+      "side": 1,
+      "message": "If this is a command, it should likely be consumeQueue, the extra \u0027s\u0027 makes it sound like a question.  Also, I think that \u0027queue\u0027 is redundant on all these methods since the object is a queue.",
+      "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

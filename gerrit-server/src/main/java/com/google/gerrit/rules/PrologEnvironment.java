@@ -34,7 +34,7 @@ import com.googlecode.prolog_cafe.lang.Term;
 public class PrologEnvironment extends BufferingPrologControl {
   private static final String[] PACKAGE_LIST = {
       Prolog.BUILTIN,
-      "com.google.gerrit.rules.common",
+      "gerrit",
     };
 
   public static interface Factory {

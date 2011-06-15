@@ -12,10 +12,7 @@
 %% See the License for the specific language governing permissions and
 %% limitations under the License.
 
-:- op(1150, fx, (package)).
-:- op(1150, fx, (public)).
-
-:- package 'com.google.gerrit.rules.common'.
+:- package 'gerrit'.
 '$init' :- init.
 
 

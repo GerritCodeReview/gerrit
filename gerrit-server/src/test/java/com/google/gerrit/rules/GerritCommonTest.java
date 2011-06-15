@@ -12,20 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.rules.common;
+package com.google.gerrit.rules;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
-import com.google.gerrit.rules.PrologTestCase;
 import com.google.inject.AbstractModule;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CommonRulesTest extends PrologTestCase {
+public class GerritCommonTest extends PrologTestCase {
   @Override
   public void setUp() throws Exception {
     super.setUp();
@@ -35,7 +34,7 @@ public class CommonRulesTest extends PrologTestCase {
         verifiedCategory()
     ));
 
-    load("common_rules_test.pl", new AbstractModule() {
+    load("gerrit_common_test.pl", new AbstractModule() {
       @Override
       protected void configure() {
         bind(ApprovalTypes.class).toInstance(types);

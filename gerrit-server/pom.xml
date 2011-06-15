@@ -180,7 +180,6 @@ limitations under the License.
             <configuration>
               <target>
                 <property name="gensrc" location="${project.build.directory}/generated-sources"/>
-                <property name="pkg"    location="${gensrc}/prolog-java/com/google/gerrit/rules"/>
 
                 <java classname="com.googlecode.prolog_cafe.compiler.Compiler"
                     fork="true"
@@ -189,8 +188,8 @@ limitations under the License.
                   <arg value="--show-stack-trace"/>
                   <arg value="-O"/>
                   <arg value="-am"/><arg value="${gensrc}/prolog-am"/>
-                  <arg value="-s" /><arg value="${pkg}/common"/>
-                  <arg value="src/main/prolog/common_rules.pl"/>
+                  <arg value="-s" /><arg value="${gensrc}/prolog-java"/>
+                  <arg value="src/main/prolog/gerrit_common.pl"/>
                 </java>
               </target>
             </configuration>

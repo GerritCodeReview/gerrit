@@ -68,14 +68,14 @@ class PRED_get_legacy_approval_types_1 extends Predicate.P1 {
     return cont;
   }
 
-  static final SymbolTerm symApprovalType = SymbolTerm.makeSymbol(
+  static final SymbolTerm symApprovalType = SymbolTerm.intern(
       "approval_type", 5);
 
   static Term export(ApprovalType type) {
     return new StructureTerm(symApprovalType,
-        SymbolTerm.makeSymbol(type.getCategory().getLabelName()),
-        SymbolTerm.makeSymbol(type.getCategory().getId().get()),
-        SymbolTerm.makeSymbol(type.getCategory().getFunctionName()),
+        SymbolTerm.intern(type.getCategory().getLabelName()),
+        SymbolTerm.intern(type.getCategory().getId().get()),
+        SymbolTerm.intern(type.getCategory().getFunctionName()),
         new IntegerTerm(type.getMin().getValue()),
         new IntegerTerm(type.getMax().getValue()));
   }

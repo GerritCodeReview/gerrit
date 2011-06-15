@@ -30,12 +30,13 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 
 
 /** Base class for any tests written in Prolog. */
 public abstract class PrologTestCase extends TestCase {
-  private static final SymbolTerm test_1 = SymbolTerm.makeSymbol("test", 1);
+  private static final SymbolTerm test_1 = SymbolTerm.intern("test", 1);
 
   private String pkg;
   private boolean hasSetup;
@@ -54,6 +55,7 @@ public abstract class PrologTestCase extends TestCase {
             PrologEnvironment.Factory.class);
     env = factory.create(getClass().getClassLoader());
     env.setMaxDatabaseSize(16 * 1024);
+    env.setEnabled(Prolog.Feature.IO, true);
 
     consult(getClass(), prologResource);
 
@@ -62,7 +64,7 @@ public abstract class PrologTestCase extends TestCase {
     hasTeardown = has("teardown");
 
     StructureTerm head = new StructureTerm(":",
-        SymbolTerm.makeSymbol(pkg),
+        SymbolTerm.intern(pkg),
         new StructureTerm(test_1, new VariableTerm()));
 
     tests = new ArrayList<Term>();
@@ -79,7 +81,7 @@ public abstract class PrologTestCase extends TestCase {
     }
 
     String path = url.getPath();
-    if (!env.execute(Prolog.BUILTIN, "consult", SymbolTerm.makeSymbol(path))) {
+    if (!env.execute(Prolog.BUILTIN, "consult", SymbolTerm.intern(path))) {
       throw new CompileException("Cannot consult" + path);
     }
   }
@@ -90,7 +92,7 @@ public abstract class PrologTestCase extends TestCase {
   }
 
   private boolean has(String name) {
-    StructureTerm head = SymbolTerm.makeSymbol(pkg, name, 0);
+    StructureTerm head = SymbolTerm.create(pkg, name, 0);
     return env.execute(Prolog.BUILTIN, "clause", head, new VariableTerm());
   }
 
@@ -145,7 +147,7 @@ public abstract class PrologTestCase extends TestCase {
   }
 
   private void call(String name) {
-    StructureTerm head = SymbolTerm.makeSymbol(pkg, name, 0);
+    StructureTerm head = SymbolTerm.create(pkg, name, 0);
     if (!env.execute(Prolog.BUILTIN, "call", head)) {
       fail("Cannot invoke " + pkg + ":" + name);
     }

@@ -24,9 +24,9 @@ import com.googlecode.prolog_cafe.lang.Term;
 
 /** Exports list of {@code commit_label( label('Code-Review', 2), user(12345789) )}. */
 class PRED_$load_commit_labels_1 extends Predicate.P1 {
-  private static final SymbolTerm sym_commit_label = SymbolTerm.makeSymbol("commit_label", 2);
-  private static final SymbolTerm sym_label = SymbolTerm.makeSymbol("label", 2);
-  private static final SymbolTerm sym_user = SymbolTerm.makeSymbol("user", 1);
+  private static final SymbolTerm sym_commit_label = SymbolTerm.intern("commit_label", 2);
+  private static final SymbolTerm sym_label = SymbolTerm.intern("label", 2);
+  private static final SymbolTerm sym_user = SymbolTerm.intern("user", 1);
 
   PRED_$load_commit_labels_1(Term a1, Operation n) {
     arg1 = a1;
@@ -57,7 +57,7 @@ class PRED_$load_commit_labels_1 extends Predicate.P1 {
 
         StructureTerm labelTerm = new StructureTerm(
             sym_label,
-            SymbolTerm.makeSymbol(t.getCategory().getLabelName()),
+            SymbolTerm.intern(t.getCategory().getLabelName()),
             new IntegerTerm(a.getValue()));
 
         StructureTerm userTerm = new StructureTerm(

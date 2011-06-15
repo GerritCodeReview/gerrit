@@ -139,7 +139,7 @@ public class ProjectState {
           new PushbackReader(new StringReader(rules), Prolog.PUSHBACK_SIZE);
       JavaObjectTerm streamObject = new JavaObjectTerm(in);
       if (!env.execute(Prolog.BUILTIN, "consult_stream",
-          SymbolTerm.makeSymbol("rules.pl"), streamObject)) {
+          SymbolTerm.intern("rules.pl"), streamObject)) {
         throw new CompileException("Cannot consult rules.pl " +
             getProject().getName() + " " + getConfig().getRevision());
       }

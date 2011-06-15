@@ -24,6 +24,8 @@ import com.googlecode.prolog_cafe.lang.PrologClassLoader;
 import com.googlecode.prolog_cafe.lang.SystemException;
 import com.googlecode.prolog_cafe.lang.Term;
 
+import java.util.EnumSet;
+
 /**
  * Per-thread Prolog interpreter.
  * <p>
@@ -56,7 +58,7 @@ public class PrologEnvironment extends BufferingPrologControl {
     setPrologClassLoader(new PrologClassLoader(newCL));
     setMaxArity(8);
     setMaxDatabaseSize(64);
-    setEnableReflection(false);
+    setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
   }
 
   /** Get the global Guice Injector that configured the environment. */

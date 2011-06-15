@@ -15,11 +15,12 @@
 package com.google.gerrit.sshd.args4j;
 
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -34,16 +35,19 @@ import org.kohsuke.args4j.spi.Setter;
 public class AccountIdHandler extends OptionHandler<Account.Id> {
   private final AccountResolver accountResolver;
   private final AccountManager accountManager;
+  private final AuthType authType;
 
   @SuppressWarnings({"unchecked", "rawtypes"})
   @Inject
   public AccountIdHandler(final AccountResolver accountResolver,
       final AccountManager accountManager,
+      final AuthConfig authConfig,
       @Assisted final CmdLineParser parser, @Assisted final OptionDef option,
       @Assisted final Setter setter) {
     super(parser, option, setter);
     this.accountResolver = accountResolver;
     this.accountManager = accountManager;
+    this.authType = authConfig.getAuthType();
   }
 
   @Override
@@ -56,7 +60,15 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
       if (a != null) {
         accountId = a.getId();
       } else {
-        accountId = createAccountIfUserCanBeAuthenticated(token);
+        switch (authType) {
+          case HTTP_LDAP:
+          case CLIENT_SSL_CERT_LDAP:
+          case LDAP:
+            accountId = createAccountByLdap(token);
+            break;
+          default:
+            throw new CmdLineException(owner, "user \"" + token + "\" not found");
+        }
       }
     } catch (OrmException e) {
       throw new CmdLineException(owner, "database is down");
@@ -65,15 +77,18 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
     return 1;
   }
 
-  private Account.Id createAccountIfUserCanBeAuthenticated(final String username)
+  private Account.Id createAccountByLdap(String user)
       throws CmdLineException {
+    if (!user.matches(Account.USER_NAME_PATTERN)) {
+      throw new CmdLineException(owner, "user \"" + user + "\" not found");
+    }
+
     try {
-      final AuthRequest areq = AuthRequest.forUser(username);
-      final AuthResult arsp = accountManager.authenticate(areq);
-      return arsp.getAccountId();
+      AuthRequest req = AuthRequest.forUser(user);
+      req.setSkipAuthentication(true);
+      return accountManager.authenticate(req).getAccountId();
     } catch (AccountException e) {
-      throw new CmdLineException(owner, "Unable to authenticate user \""
-          + username + "\"", e);
+      throw new CmdLineException(owner, "user \"" + user + "\" not found");
     }
   }
 

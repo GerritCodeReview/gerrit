@@ -57,6 +57,7 @@ public class AuthRequest {
   private String displayName;
   private String emailAddress;
   private String userName;
+  private boolean skipAuthentication;
 
   public AuthRequest(final String externalId) {
     this.externalId = externalId;
@@ -107,5 +108,13 @@ public class AuthRequest {
 
   public void setUserName(final String user) {
     userName = user;
+  }
+
+  public boolean isSkipAuthentication() {
+    return skipAuthentication;
+  }
+
+  public void setSkipAuthentication(boolean skip) {
+    skipAuthentication = skip;
   }
 }

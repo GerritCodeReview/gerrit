@@ -24,6 +24,9 @@ link:pgm-ExportReviewNotes.html[ExportReviewNotes]::
 link:pgm-ScanTrackingIds.html[ScanTrackingIds]::
 	Rescan all changes after configuring trackingids.
 
+link:pgm-rulec.html[rulec]::
+	Compiles prolog rules into jar files
+
 version::
   Display the release version of Gerrit Code Review.
 

@@ -34,6 +34,24 @@
       "revId": "0b30d72230d8dc1feaebb9b5120da0d6d3d3b010",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///28\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T14:14:46Z",
+      "side": 1,
+      "message": "Oh, right. Thanks for being patient and explaining it to me. :-)",
+      "parentUuid": "AAABCX///4U\u003d",
+      "revId": "0b30d72230d8dc1feaebb9b5120da0d6d3d3b010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

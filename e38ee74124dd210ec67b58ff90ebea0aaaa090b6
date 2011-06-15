@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABCX///+E\u003d",
+        "filename": "Documentation/cmd-modify-reviewers.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T01:16:32Z",
+      "side": 1,
+      "message": "This should be {+EMAIL | -EMAIL} ... to show the + and - formats.",
+      "revId": "e38ee74124dd210ec67b58ff90ebea0aaaa090b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///+I\u003d",
+        "filename": "Documentation/cmd-modify-reviewers.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T01:16:32Z",
+      "side": 1,
+      "message": "FYI, the \\ here isn\u0027t necessary with our newer version of AsciiDoc. I just fixed all of our other documentation.",
+      "revId": "e38ee74124dd210ec67b58ff90ebea0aaaa090b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///+Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T01:16:32Z",
+      "side": 1,
+      "message": "Unused import.",
+      "revId": "e38ee74124dd210ec67b58ff90ebea0aaaa090b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///+M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T01:16:32Z",
+      "side": 1,
+      "message": "Unused import.",
+      "revId": "e38ee74124dd210ec67b58ff90ebea0aaaa090b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///94\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T01:16:32Z",
+      "side": 1,
+      "message": "These throws are unnecessary since you also throw Exception.",
+      "revId": "e38ee74124dd210ec67b58ff90ebea0aaaa090b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///+A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T01:16:32Z",
+      "side": 1,
+      "message": "A break is missing on the line above, causing REMOVE_NOT_PERMITTED to fall through.",
+      "revId": "e38ee74124dd210ec67b58ff90ebea0aaaa090b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///90\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T01:16:32Z",
+      "side": 1,
+      "message": "writeError already adds the LF for us.",
+      "revId": "e38ee74124dd210ec67b58ff90ebea0aaaa090b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCX///9o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-15T01:16:32Z",
+      "side": 1,
+      "message": "validateFor already does the forUser().isVisible() for us.",
+      "revId": "e38ee74124dd210ec67b58ff90ebea0aaaa090b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -144,8 +144,14 @@ public class AccessSectionEditor extends Composite implements
   }
 
   void onAddPermission(String varName) {
+    int idx = permissions.getList().size();
+
     Permission p = value.getPermission(varName, true);
     permissions.getList().add(p);
+
+    PermissionEditor e = permissions.getEditors().get(idx);
+    e.beginAddRule();
+
     rebuildPermissionSelector();
   }
 

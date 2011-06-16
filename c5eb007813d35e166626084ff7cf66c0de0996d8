@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDH///3E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:05:21Z",
+      "side": 1,
+      "message": "s/cLoader/ruleLoader/",
+      "revId": "c5eb007813d35e166626084ff7cf66c0de0996d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///3A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:05:21Z",
+      "side": 1,
+      "message": "Move this declaration down, after the if. Its not needed if you have a ClassLoader.",
+      "revId": "c5eb007813d35e166626084ff7cf66c0de0996d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///3k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:05:21Z",
+      "side": 1,
+      "message": "referMap is a bad name. How about classLoaderCache?\n\nUse just Map for the type here.",
+      "revId": "c5eb007813d35e166626084ff7cf66c0de0996d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///3g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:05:21Z",
+      "side": 1,
+      "message": "Style-nit: No space after (",
+      "revId": "c5eb007813d35e166626084ff7cf66c0de0996d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///3c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:05:21Z",
+      "side": 1,
+      "message": "Style-nit: We avoid \"this.\" unless there is an ambiguous name in the local scope from a parameter or local variable. There isn\u0027t one here, so don\u0027t use it.",
+      "revId": "c5eb007813d35e166626084ff7cf66c0de0996d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///3U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:05:21Z",
+      "side": 1,
+      "message": "You need to grab the lock to read the map. Given that, maybe its cleanest to just mark the method itself synchronized and have \"this\" be the object you lock on to protect the map. Then you can drop that lock object declaration.",
+      "revId": "c5eb007813d35e166626084ff7cf66c0de0996d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///3M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:05:21Z",
+      "side": 1,
+      "message": "This test should be before you even look at the map.",
+      "revId": "c5eb007813d35e166626084ff7cf66c0de0996d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///3Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:05:21Z",
+      "side": 1,
+      "message": "Style-nit: Insert a blank line here between a closing curly brace and a large block of comments.",
+      "revId": "c5eb007813d35e166626084ff7cf66c0de0996d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///24\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:05:21Z",
+      "side": 1,
+      "message": "Insert a blank line before here. The above block is about looking to see if the file exists.",
+      "revId": "c5eb007813d35e166626084ff7cf66c0de0996d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///3I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:05:21Z",
+      "side": 1,
+      "message": "Add a logger and log this exception. Admins should never see it occur. If it does, it means we have somehow broken the path code and should know about it rather than silently falling back to the slower consult code path.",
+      "revId": "c5eb007813d35e166626084ff7cf66c0de0996d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///28\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:05:21Z",
+      "side": 1,
+      "message": "Insert a blank line before here. The above block is pretty large relatively speaking, and is doing one thing, constructing that url variable.",
+      "revId": "c5eb007813d35e166626084ff7cf66c0de0996d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

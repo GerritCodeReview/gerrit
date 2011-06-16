@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDH///2A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:27:24Z",
+      "side": 1,
+      "message": "The tests don\u0027t pass. You pas in null for rulesCache in the RefControlTest. Try running the tests next time. :-)",
+      "revId": "b65f1a79ac981aa8a77a0109b076556a09c1352c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///2Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:27:24Z",
+      "side": 1,
+      "message": "I would prefer a blank line after this block.",
+      "revId": "b65f1a79ac981aa8a77a0109b076556a09c1352c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///2Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:27:24Z",
+      "side": 1,
+      "message": "Doesn\u0027t this all fit on one line now?",
+      "revId": "b65f1a79ac981aa8a77a0109b076556a09c1352c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///2E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:27:24Z",
+      "side": 1,
+      "message": "Eh, this variable is pointless. Just inline it into the URLClassLoader constructor.",
+      "revId": "b65f1a79ac981aa8a77a0109b076556a09c1352c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///2M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T23:27:24Z",
+      "side": 1,
+      "message": "To avoid old items from killing new ones, lets verify its the same reference coming back in the cache first:\n\n  ObjectId key \u003d ((LoaderRef) ref).key;\n  if (classLoaderCache.get(key) \u003d\u003d ref) {\n    classLoaderCache.remove(key);\n  }",
+      "revId": "b65f1a79ac981aa8a77a0109b076556a09c1352c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

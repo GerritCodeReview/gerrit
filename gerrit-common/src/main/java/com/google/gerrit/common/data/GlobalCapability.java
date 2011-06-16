@@ -19,13 +19,46 @@ import java.util.List;
 
 /** Server wide capabilities. Represented as {@link Permission} objects. */
 public class GlobalCapability {
+  /** Can create any group on the server. */
+  public static final String CREATE_GROUP = "createGroup";
+
+  /** Can create any account on the server. */
+  public static final String CREATE_ACCOUNT = "createAccount";
+
+  /** Can flush any cache except the active web_sessions cache. */
+  public static final String FLUSH_CACHES = "flushCaches";
+
+  /** Can terminate any task using the kill command. */
+  public static final String KILL_TASK = "killTask";
+
+  /** Maximum result limit per executed query. */
   public static final String QUERY_LIMIT = "queryLimit";
+
+  /** Forcefully restart replication to any configured destination. */
+  public static final String START_REPLICATION = "startReplication";
+
+  /** Can view the server's current cache states. */
+  public static final String VIEW_CACHES = "viewCaches";
+
+  /** Can view open connections to the server's SSH port. */
+  public static final String VIEW_CONNECTIONS = "viewConnections";
+
+  /** Can view all pending tasks in the queue (not just the filtered set). */
+  public static final String VIEW_QUEUE = "viewQueue";
 
   private static final List<String> NAMES_LC;
 
   static {
     NAMES_LC = new ArrayList<String>();
+    NAMES_LC.add(CREATE_GROUP.toLowerCase());
+    NAMES_LC.add(CREATE_ACCOUNT.toLowerCase());
+    NAMES_LC.add(FLUSH_CACHES.toLowerCase());
+    NAMES_LC.add(KILL_TASK.toLowerCase());
     NAMES_LC.add(QUERY_LIMIT.toLowerCase());
+    NAMES_LC.add(START_REPLICATION.toLowerCase());
+    NAMES_LC.add(VIEW_CACHES.toLowerCase());
+    NAMES_LC.add(VIEW_CONNECTIONS.toLowerCase());
+    NAMES_LC.add(VIEW_QUEUE.toLowerCase());
   }
 
   /** @return true if the name is recognized as a capability name. */

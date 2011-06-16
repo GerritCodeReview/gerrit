@@ -15,7 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.ProjectTask;
 import com.google.gerrit.server.git.WorkQueue.Task;
@@ -50,7 +50,7 @@ final class ShowQueue extends BaseCommand {
   private ProjectCache projectCache;
 
   @Inject
-  private CurrentUser userProvider;
+  private IdentifiedUser currentUser;
 
   private PrintWriter p;
   private int columns = 80;
@@ -110,7 +110,7 @@ final class ShowQueue extends BaseCommand {
 
     int numberOfPendingTasks = 0;
     final long now = System.currentTimeMillis();
-    final boolean isAdministrator = userProvider.isAdministrator();
+    final boolean viewAll = currentUser.getCapabilities().canViewQueue();
 
     for (final Task<?> task : pending) {
       final long delay = task.getDelay(TimeUnit.MILLISECONDS);
@@ -137,7 +137,7 @@ final class ShowQueue extends BaseCommand {
       Project.NameKey projectName = null;
       String remoteName = null;
 
-      if (!isAdministrator) {
+      if (!viewAll) {
         if (task instanceof ProjectTask<?>) {
           projectName = ((ProjectTask<?>)task).getProjectNameKey();
           remoteName = ((ProjectTask<?>)task).getRemoteName();
@@ -149,7 +149,7 @@ final class ShowQueue extends BaseCommand {
           e = projectCache.get(projectName);
         }
 
-        regularUserCanSee = e != null && e.controlFor(userProvider).isVisible();
+        regularUserCanSee = e != null && e.controlFor(currentUser).isVisible();
 
         if (regularUserCanSee) {
           numberOfPendingTasks++;
@@ -157,7 +157,7 @@ final class ShowQueue extends BaseCommand {
       }
 
       // Shows information about tasks depending on the user rights
-      if (isAdministrator || (!hasCustomizedPrint && regularUserCanSee)) {
+      if (viewAll || (!hasCustomizedPrint && regularUserCanSee)) {
         p.print(String.format("%8s %-12s %-8s %s\n", //
             id(task.getTaskId()), start, "", format(task)));
       } else if (regularUserCanSee) {
@@ -174,7 +174,7 @@ final class ShowQueue extends BaseCommand {
     p.print("----------------------------------------------"
         + "--------------------------------\n");
 
-    if (isAdministrator) {
+    if (viewAll) {
       numberOfPendingTasks = pending.size();
     }
 

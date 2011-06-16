@@ -14,7 +14,9 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.sshd.AdminCommand;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.sshd.BaseCommand;
+import com.google.inject.Inject;
 
 import net.sf.ehcache.Ehcache;
 
@@ -27,8 +29,9 @@ import java.util.List;
 import java.util.SortedSet;
 
 /** Causes the caches to purge all entries and reload. */
-@AdminCommand
-final class AdminFlushCaches extends CacheCommand {
+final class FlushCaches extends CacheCommand {
+  private static final String WEB_SESSIONS = "web_sessions";
+
   @Option(name = "--cache", usage = "flush named cache", metaVar = "NAME")
   private List<String> caches = new ArrayList<String>();
 
@@ -38,6 +41,9 @@ final class AdminFlushCaches extends CacheCommand {
   @Option(name = "--list", usage = "list available caches")
   private boolean list;
 
+  @Inject
+  IdentifiedUser currentUser;
+
   private PrintWriter p;
 
   @Override
@@ -45,6 +51,13 @@ final class AdminFlushCaches extends CacheCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
+        if (!currentUser.getCapabilities().canFlushCaches()) {
+          String msg = String.format(
+            "fatal: %s does not have \"Flush Caches\" capability.",
+            currentUser.getUserName());
+          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
+        }
+
         parseCommandLine();
         flush();
       }
@@ -52,6 +65,13 @@ final class AdminFlushCaches extends CacheCommand {
   }
 
   private void flush() throws Failure {
+    if (caches.contains(WEB_SESSIONS) && !currentUser.isAdministrator()) {
+      String msg = String.format(
+          "fatal: only site administrators can flush %s",
+          WEB_SESSIONS);
+      throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
+    }
+
     p = toPrintWriter(err);
     if (list) {
       if (all || caches.size() > 0) {
@@ -113,7 +133,7 @@ final class AdminFlushCaches extends CacheCommand {
       return true;
 
     } else if (all) {
-      if ("web_sessions".equals(cacheName)) {
+      if (WEB_SESSIONS.equals(cacheName)) {
         return false;
       }
       return true;

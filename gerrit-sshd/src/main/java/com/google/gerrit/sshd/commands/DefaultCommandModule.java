@@ -34,11 +34,11 @@ public class DefaultCommandModule extends CommandModule {
     // SlaveCommandModule.
 
     command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
-    command(gerrit, "flush-caches").to(AdminFlushCaches.class);
+    command(gerrit, "flush-caches").to(FlushCaches.class);
     command(gerrit, "ls-projects").to(ListProjects.class);
     command(gerrit, "query").to(Query.class);
-    command(gerrit, "show-caches").to(AdminShowCaches.class);
-    command(gerrit, "show-connections").to(AdminShowConnections.class);
+    command(gerrit, "show-caches").to(ShowCaches.class);
+    command(gerrit, "show-connections").to(ShowConnections.class);
     command(gerrit, "show-queue").to(ShowQueue.class);
     command(gerrit, "stream-events").to(StreamEvents.class);
     command(gerrit, "version").to(VersionCommand.class);
@@ -48,7 +48,7 @@ public class DefaultCommandModule extends CommandModule {
     command(git, "upload-pack").to(Upload.class);
 
     command("ps").to(ShowQueue.class);
-    command("kill").to(AdminKill.class);
+    command("kill").to(KillCommand.class);
     command("scp").to(ScpCommand.class);
 
     // Honor the legacy hyphenated forms as aliases for the non-hyphenated forms

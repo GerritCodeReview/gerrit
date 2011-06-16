@@ -58,7 +58,7 @@ public abstract class BaseCommand implements Command {
   private static final int PRIVATE_STATUS = 1 << 30;
   static final int STATUS_CANCEL = PRIVATE_STATUS | 1;
   static final int STATUS_NOT_FOUND = PRIVATE_STATUS | 2;
-  static final int STATUS_NOT_ADMIN = PRIVATE_STATUS | 3;
+  public static final int STATUS_NOT_ADMIN = PRIVATE_STATUS | 3;
 
   @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
   private boolean help;

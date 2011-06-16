@@ -21,8 +21,8 @@ import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.RpcImpl;
-import com.google.gwtjsonrpc.client.RpcImpl.Version;
 import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
 import java.util.List;
 import java.util.Set;
@@ -30,7 +30,7 @@ import java.util.Set;
 @RpcImpl(version = Version.V2_0)
 public interface GroupAdminService extends RemoteJsonService {
   @SignInRequired
-  void visibleGroups(AsyncCallback<List<AccountGroup>> callback);
+  void visibleGroups(AsyncCallback<GroupList> callback);
 
   @SignInRequired
   void createGroup(String newName, AsyncCallback<AccountGroup.Id> callback);

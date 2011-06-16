@@ -26,13 +26,13 @@ public class MasterCommandModule extends CommandModule {
     final CommandName gerrit = Commands.named("gerrit");
 
     command(gerrit, "approve").to(ReviewCommand.class);
-    command(gerrit, "create-account").to(AdminCreateAccount.class);
-    command(gerrit, "create-group").to(AdminCreateGroup.class);
+    command(gerrit, "create-account").to(CreateAccountCommand.class);
+    command(gerrit, "create-group").to(CreateGroupCommand.class);
     command(gerrit, "create-project").to(CreateProject.class);
     command(gerrit, "gsql").to(AdminQueryShell.class);
     command(gerrit, "modify-reviewers").to(ModifyReviewersCommand.class);
     command(gerrit, "receive-pack").to(Receive.class);
-    command(gerrit, "replicate").to(AdminReplicate.class);
+    command(gerrit, "replicate").to(Replicate.class);
     command(gerrit, "set-project-parent").to(AdminSetParent.class);
     command(gerrit, "review").to(ReviewCommand.class);
   }

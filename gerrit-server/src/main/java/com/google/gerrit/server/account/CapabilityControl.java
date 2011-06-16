@@ -64,6 +64,46 @@ public class CapabilityControl {
     return user;
   }
 
+  /** @return true if the user can create an account for another user. */
+  public boolean canCreateAccount() {
+    return canPerform(GlobalCapability.CREATE_ACCOUNT) || user.isAdministrator();
+  }
+
+  /** @return true if the user can create a group. */
+  public boolean canCreateGroup() {
+    return canPerform(GlobalCapability.CREATE_GROUP) || user.isAdministrator();
+  }
+
+  /** @return true if the user can kill any running task. */
+  public boolean canKillTask() {
+    return canPerform(GlobalCapability.KILL_TASK) || user.isAdministrator();
+  }
+
+  /** @return true if the user can view the server caches. */
+  public boolean canViewCaches() {
+    return canPerform(GlobalCapability.VIEW_CACHES) || user.isAdministrator();
+  }
+
+  /** @return true if the user can flush the server's caches. */
+  public boolean canFlushCaches() {
+    return canPerform(GlobalCapability.FLUSH_CACHES) || user.isAdministrator();
+  }
+
+  /** @return true if the user can view open connections. */
+  public boolean canViewConnections() {
+    return canPerform(GlobalCapability.VIEW_CONNECTIONS) || user.isAdministrator();
+  }
+
+  /** @return true if the user can view the entire queue. */
+  public boolean canViewQueue() {
+    return canPerform(GlobalCapability.VIEW_QUEUE) || user.isAdministrator();
+  }
+
+  /** @return true if the user can force replication to any configured destination. */
+  public boolean canStartReplication() {
+    return canPerform(GlobalCapability.START_REPLICATION) || user.isAdministrator();
+  }
+
   /** True if the user has this permission. Works only for non labels. */
   public boolean canPerform(String permissionName) {
     return !access(permissionName).isEmpty();

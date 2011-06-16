@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc.account;
 
 import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.GroupDetail;
+import com.google.gerrit.common.data.GroupList;
 import com.google.gerrit.common.data.GroupOptions;
 import com.google.gerrit.common.errors.InactiveAccountException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
@@ -88,28 +89,32 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     this.groupDetailFactory = groupDetailFactory;
   }
 
-  public void visibleGroups(final AsyncCallback<List<AccountGroup>> callback) {
-    run(callback, new Action<List<AccountGroup>>() {
-      public List<AccountGroup> run(ReviewDb db) throws OrmException {
+  public void visibleGroups(final AsyncCallback<GroupList> callback) {
+    run(callback, new Action<GroupList>() {
+      public GroupList run(ReviewDb db) throws OrmException {
         final IdentifiedUser user = identifiedUser.get();
-        final List<AccountGroup> result;
+        final List<AccountGroup> list;
         if (user.isAdministrator()) {
-          result = db.accountGroups().all().toList();
+          list = db.accountGroups().all().toList();
         } else {
-          result = new ArrayList<AccountGroup>();
+          list = new ArrayList<AccountGroup>();
           for(final AccountGroup group : db.accountGroups().all().toList()) {
             final GroupControl c = groupControlFactory.controlFor(group);
             if (c.isVisible()) {
-              result.add(c.getAccountGroup());
+              list.add(c.getAccountGroup());
             }
           }
         }
-        Collections.sort(result, new Comparator<AccountGroup>() {
+        Collections.sort(list, new Comparator<AccountGroup>() {
           public int compare(final AccountGroup a, final AccountGroup b) {
             return a.getName().compareTo(b.getName());
           }
         });
-        return result;
+
+        GroupList res = new GroupList();
+        res.setGroups(list);
+        res.setCanCreateGroup(user.getCapabilities().canCreateGroup());
+        return res;
       }
     });
   }

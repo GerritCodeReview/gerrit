@@ -17,7 +17,6 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.util.IdGenerator;
-import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.SshDaemon;
 import com.google.gerrit.sshd.SshSession;
@@ -41,12 +40,14 @@ import java.util.Date;
 import java.util.List;
 
 /** Show the current SSH connections. */
-@AdminCommand
-final class AdminShowConnections extends BaseCommand {
+final class ShowConnections extends BaseCommand {
   @Option(name = "--numeric", aliases = {"-n"}, usage = "don't resolve names")
   private boolean numeric;
 
   private PrintWriter p;
+
+  @Inject
+  IdentifiedUser currentUser;
 
   @Inject
   private SshDaemon daemon;
@@ -56,8 +57,15 @@ final class AdminShowConnections extends BaseCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
+        if (!currentUser.getCapabilities().canViewConnections()) {
+          String msg = String.format(
+            "fatal: %s does not have \"View Connections\" capability.",
+            currentUser.getUserName());
+          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
+        }
+
         parseCommandLine();
-        AdminShowConnections.this.display();
+        ShowConnections.this.display();
       }
     });
   }

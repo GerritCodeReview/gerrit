@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDH///6U\u003d",
+        "filename": "gerrit-patch-jgit/src/main/java/org/eclipse/jgit/revwalk/RevCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:34:07Z",
+      "side": 1,
+      "message": "We\u0027re not going to shadow the RevCommit class in JGit. This should be submitted to JGit itself.",
+      "revId": "ca73b3f860a8ce954005bb7c6b2c33d919af5716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

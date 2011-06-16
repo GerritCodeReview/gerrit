@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDH///6o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:33:23Z",
+      "side": 1,
+      "message": "Style-nit: Closing curly brace goes on the next line, even if the block is empty.",
+      "revId": "7e4f3be15a824dec86ffcec1da269b2147fe3fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///6k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:33:23Z",
+      "side": 1,
+      "message": "Style-nit: Closing curly brace goes on the next line, even if the block is empty.",
+      "revId": "7e4f3be15a824dec86ffcec1da269b2147fe3fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///6g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:33:23Z",
+      "side": 1,
+      "message": "Style-nit: Closing curly brace goes on the next line, even if the block is empty.",
+      "revId": "7e4f3be15a824dec86ffcec1da269b2147fe3fbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

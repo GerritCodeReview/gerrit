@@ -120,6 +120,13 @@ public final class AccountGeneralPreferences {
   @Column(id = 11)
   protected boolean displayPersonNameInReviewCategory;
 
+  /**
+   * If true patch publishing would be explicitly required. Emails will only
+   * get sent when the user publishes through the interface.
+   */
+  @Column(id = 12)
+  protected boolean requireExplicitPatchPublishing;
+
   public AccountGeneralPreferences() {
   }
 
@@ -201,6 +208,14 @@ public final class AccountGeneralPreferences {
     this.displayPersonNameInReviewCategory = displayPersonNameInReviewCategory;
   }
 
+  public boolean isRequireExplicitPatchPublishing() {
+    return requireExplicitPatchPublishing;
+  }
+
+  public void setRequireExplicitPatchPublishing(final boolean requireExplicitPatchPublishing) {
+    this.requireExplicitPatchPublishing = requireExplicitPatchPublishing;
+  }
+
   public DateFormat getDateFormat() {
     if (dateFormat == null) {
       return DateFormat.STD;
@@ -230,6 +245,7 @@ public final class AccountGeneralPreferences {
     copySelfOnEmail = false;
     displayPatchSetsInReverseOrder = false;
     displayPersonNameInReviewCategory = false;
+    requireExplicitPatchPublishing = false;
     downloadUrl = null;
     downloadCommand = null;
     dateFormat = null;

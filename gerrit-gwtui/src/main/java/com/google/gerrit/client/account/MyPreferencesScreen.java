@@ -43,6 +43,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox copySelfOnEmails;
   private CheckBox displayPatchSetsInReverseOrder;
   private CheckBox displayPersonNameInReviewCategory;
+  private CheckBox requireExplicitPatchPublishing;
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
@@ -79,6 +80,9 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     displayPersonNameInReviewCategory = new CheckBox(Util.C.displayPersonNameInReviewCategory());
     displayPersonNameInReviewCategory.addClickHandler(onClickSave);
+
+    requireExplicitPatchPublishing = new CheckBox(Util.C.requireExplicitPatchPublishing());
+    requireExplicitPatchPublishing.addClickHandler(onClickSave);
 
     maximumPageSize = new ListBox();
     for (final short v : PAGESIZE_CHOICES) {
@@ -121,7 +125,7 @@ public class MyPreferencesScreen extends SettingsScreen {
       dateTimePanel.add(dateFormat);
       dateTimePanel.add(timeFormat);
     }
-    final Grid formGrid = new Grid(7, 2);
+    final Grid formGrid = new Grid(8, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -142,6 +146,10 @@ public class MyPreferencesScreen extends SettingsScreen {
 
     formGrid.setText(row, labelIdx, "");
     formGrid.setWidget(row, fieldIdx, displayPersonNameInReviewCategory);
+    row++;
+
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, requireExplicitPatchPublishing);
     row++;
 
     formGrid.setText(row, labelIdx, Util.C.maximumPageSizeFieldLabel());
@@ -181,6 +189,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     copySelfOnEmails.setEnabled(on);
     displayPatchSetsInReverseOrder.setEnabled(on);
     displayPersonNameInReviewCategory.setEnabled(on);
+    requireExplicitPatchPublishing.setEnabled(on);
     maximumPageSize.setEnabled(on);
     dateFormat.setEnabled(on);
     timeFormat.setEnabled(on);
@@ -192,6 +201,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     copySelfOnEmails.setValue(p.isCopySelfOnEmails());
     displayPatchSetsInReverseOrder.setValue(p.isDisplayPatchSetsInReverseOrder());
     displayPersonNameInReviewCategory.setValue(p.isDisplayPersonNameInReviewCategory());
+    requireExplicitPatchPublishing.setValue(p.isRequireExplicitPatchPublishing());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.getMaximumPageSize());
     setListBox(dateFormat, AccountGeneralPreferences.DateFormat.STD, //
         p.getDateFormat());
@@ -253,6 +263,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setCopySelfOnEmails(copySelfOnEmails.getValue());
     p.setDisplayPatchSetsInReverseOrder(displayPatchSetsInReverseOrder.getValue());
     p.setDisplayPersonNameInReviewCategory(displayPersonNameInReviewCategory.getValue());
+    p.setRequireExplicitPatchPublishing(requireExplicitPatchPublishing.getValue());
     p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
     p.setDateFormat(getListBox(dateFormat,
         AccountGeneralPreferences.DateFormat.STD,

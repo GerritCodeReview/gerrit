@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDH///5k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:45:25Z",
+      "side": 1,
+      "message": "I got asked about this yesterday actually, nice to see someone has already done the work for me!",
+      "revId": "d4e4a45b529fed22f2962b13ef689ffe32d45ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///5o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:45:25Z",
+      "side": 1,
+      "message": "We should fix this FIXME.",
+      "revId": "d4e4a45b529fed22f2962b13ef689ffe32d45ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///5Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:45:25Z",
+      "side": 1,
+      "message": "I would prefer to call this advertisedAddresses.",
+      "revId": "d4e4a45b529fed22f2962b13ef689ffe32d45ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///5g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:45:25Z",
+      "side": 1,
+      "message": "Style-nit: We always wrap statements in curly braces.",
+      "revId": "d4e4a45b529fed22f2962b13ef689ffe32d45ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///5c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:45:25Z",
+      "side": 1,
+      "message": "Style-nit: We useCamelCaseNamesInJava",
+      "revId": "d4e4a45b529fed22f2962b13ef689ffe32d45ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

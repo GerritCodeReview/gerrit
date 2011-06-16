@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ssh.SshInfo;
 
 import com.jcraft.jsch.HostKey;
@@ -38,7 +39,11 @@ public abstract class NewChangeSender extends ChangeEmail {
   }
 
   public void addReviewers(final Collection<Account.Id> cc) {
-    reviewers.addAll(cc);
+    for (Account.Id id : cc) {
+      final IdentifiedUser user =  args.identifiedUserFactory.create(id);
+      if (user.getAccount().getGeneralPreferences().isEmailOnFirstPatchSetOfChange())
+        reviewers.add(id);
+    }
   }
 
   public void addExtraCC(final Collection<Account.Id> cc) {

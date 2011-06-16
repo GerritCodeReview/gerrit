@@ -32,6 +32,7 @@ public interface AccountConstants extends Constants {
   String copySelfOnEmails();
   String displayPatchSetsInReverseOrder();
   String displayPersonNameInReviewCategory();
+  String emailOnFirstPatchSetOfChange();
   String buttonSaveChanges();
 
   String tabAccountSummary();

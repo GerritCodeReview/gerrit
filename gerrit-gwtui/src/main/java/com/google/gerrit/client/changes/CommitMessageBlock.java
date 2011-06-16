@@ -26,20 +26,9 @@ public class CommitMessageBlock extends Composite {
   private final HTML description;
 
   public CommitMessageBlock() {
-    this(null);
-  }
-
-  public CommitMessageBlock(String height) {
     description = new HTML();
     description.setStyleName(Gerrit.RESOURCES.css().changeScreenDescription());
-    if (height != null) {
-      ScrollPanel scrollPanel = new ScrollPanel();
-      scrollPanel.setHeight(height);
-      scrollPanel.add(description);
-      initWidget(scrollPanel);
-    } else {
-      initWidget(description);
-    }
+    initWidget(description);
   }
 
   public void display(final String commitMessage) {

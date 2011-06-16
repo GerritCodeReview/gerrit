@@ -259,7 +259,7 @@ public abstract class PatchScreen extends Screen implements
 
     historyTable = new HistoryTable(this);
 
-    commitMessageBlock = new CommitMessageBlock("6em");
+    commitMessageBlock = new CommitMessageBlock();
 
     topPanel = new FlowPanel();
     add(topPanel);

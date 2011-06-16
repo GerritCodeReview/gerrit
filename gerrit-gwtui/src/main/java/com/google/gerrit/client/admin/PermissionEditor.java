@@ -114,6 +114,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
     rules = ListEditor.of(new RuleEditorSource());
 
     exclusiveGroup.setEnabled(!readOnly);
+    exclusiveGroup.setVisible(AccessSection.isAccessSection(section.getName()));
 
     if (readOnly) {
       addContainer.removeFromParent();

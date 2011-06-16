@@ -14,7 +14,6 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.CollectionsUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
@@ -25,7 +24,6 @@ import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.config.ProjectCreatorGroups;
 import com.google.gerrit.server.config.ProjectOwnerGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -126,10 +124,6 @@ final class CreateProject extends BaseCommand {
   private GroupCache groupCache;
 
   @Inject
-  @ProjectCreatorGroups
-  private Set<AccountGroup.UUID> projectCreatorGroups;
-
-  @Inject
   @ProjectOwnerGroups
   private Set<AccountGroup.UUID> projectOwnerGroups;
 
@@ -153,6 +147,13 @@ final class CreateProject extends BaseCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
+        if (!currentUser.getCapabilities().canCreateProject()) {
+          String msg = String.format(
+            "fatal: %s does not have \"Create Project\" capability.",
+            currentUser.getUserName());
+          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
+        }
+
         parseCommandLine();
         validateParameters();
 
@@ -277,10 +278,6 @@ final class CreateProject extends BaseCommand {
     if (projectName.endsWith(Constants.DOT_GIT_EXT)) {
       projectName = projectName.substring(0, //
           projectName.length() - Constants.DOT_GIT_EXT.length());
-    }
-
-    if (!CollectionsUtil.isAnyIncludedIn(currentUser.getEffectiveGroups(), projectCreatorGroups)) {
-      throw new Failure(1, "fatal: Not permitted to create " + projectName);
     }
 
     if (ownerIds != null && !ownerIds.isEmpty()) {

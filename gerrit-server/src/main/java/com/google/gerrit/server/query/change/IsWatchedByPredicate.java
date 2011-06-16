@@ -79,7 +79,7 @@ class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
     Project.NameKey project = change.getDest().getParentKey();
     List<Predicate<ChangeData>> list = rules.get(project);
     if (list == null) {
-      list = rules.get(args.wildProjectName);
+      list = rules.get(args.allProjectsName);
     }
     if (list != null) {
       for (Predicate<ChangeData> p : list) {

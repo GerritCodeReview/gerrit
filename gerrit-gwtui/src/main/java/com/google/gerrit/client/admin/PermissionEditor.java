@@ -151,6 +151,10 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
 
   @UiHandler("beginAddRule")
   void onBeginAddRule(ClickEvent event) {
+    beginAddRule();
+  }
+
+  void beginAddRule() {
     addStage1.getStyle().setDisplay(Display.NONE);
     addStage2.getStyle().setDisplay(Display.BLOCK);
 

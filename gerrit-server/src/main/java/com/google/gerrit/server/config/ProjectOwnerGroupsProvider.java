@@ -14,14 +14,11 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
-
-import java.util.Set;
 
 /**
  * Provider of the group(s) which should become owners of a newly created
@@ -37,12 +34,7 @@ import java.util.Set;
 public class ProjectOwnerGroupsProvider extends GroupSetProvider {
   @Inject
   public ProjectOwnerGroupsProvider(
-      @ProjectCreatorGroups final Set<AccountGroup.UUID> creatorGroups,
       @GerritServerConfig final Config config, final SchemaFactory<ReviewDb> db) {
     super(config, db, "repository", "*", "ownerGroup");
-
-    if (groupIds.isEmpty()) {
-      groupIds = creatorGroups;
-    }
   }
 }

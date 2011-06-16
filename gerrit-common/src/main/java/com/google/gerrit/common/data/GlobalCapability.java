@@ -19,11 +19,25 @@ import java.util.List;
 
 /** Server wide capabilities. Represented as {@link Permission} objects. */
 public class GlobalCapability {
-  /** Can create any group on the server. */
-  public static final String CREATE_GROUP = "createGroup";
+  /**
+   * Denotes the server's administrators.
+   * <p>
+   * This is similar to UNIX root, or Windows SYSTEM account. Any user that
+   * has this capability can perform almost any other action, or can grant
+   * themselves the power to perform any other action on the site. Most of
+   * the other capabilities and permissions fall-back to the predicate
+   * "OR user has capablity ADMINISTRATE_SERVER".
+   */
+  public static final String ADMINISTRATE_SERVER = "administrateServer";
 
   /** Can create any account on the server. */
   public static final String CREATE_ACCOUNT = "createAccount";
+
+  /** Can create any group on the server. */
+  public static final String CREATE_GROUP = "createGroup";
+
+  /** Can create any project on the server. */
+  public static final String CREATE_PROJECT = "createProject";
 
   /** Can flush any cache except the active web_sessions cache. */
   public static final String FLUSH_CACHES = "flushCaches";
@@ -50,8 +64,10 @@ public class GlobalCapability {
 
   static {
     NAMES_LC = new ArrayList<String>();
-    NAMES_LC.add(CREATE_GROUP.toLowerCase());
+    NAMES_LC.add(ADMINISTRATE_SERVER.toLowerCase());
     NAMES_LC.add(CREATE_ACCOUNT.toLowerCase());
+    NAMES_LC.add(CREATE_GROUP.toLowerCase());
+    NAMES_LC.add(CREATE_PROJECT.toLowerCase());
     NAMES_LC.add(FLUSH_CACHES.toLowerCase());
     NAMES_LC.add(KILL_TASK.toLowerCase());
     NAMES_LC.add(QUERY_LIMIT.toLowerCase());

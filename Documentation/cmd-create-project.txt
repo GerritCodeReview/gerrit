@@ -37,11 +37,8 @@ on the remote system to create the empty repository.
 
 ACCESS
 ------
-Caller must be a member of any of the groups defined by
-`repository.*.createGroup` in gerrit.config.
-
-If there is no such declaration, caller is required to be a member
-of the privileged 'Administrators' group.
+Caller must be a member of the privileged 'Administrators' group,
+or have been granted the 'Create Project' global capability.
 
 SCRIPTING
 ---------
@@ -70,9 +67,7 @@ OPTIONS
 	Several groups can be specified on the command line.
 +
 Defaults to what is specified by `repository.*.ownerGroup`
-in gerrit.config. If no such declaration(s) exist,
-`repository.*.createGroup` will be used. If they don't exist,
-`Administrators` will be used.
+in gerrit.config.
 
 --parent::
 -p::

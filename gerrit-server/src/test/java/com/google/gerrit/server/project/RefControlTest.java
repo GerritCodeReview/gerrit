@@ -29,6 +29,8 @@ import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -36,6 +38,7 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.assistedinject.FactoryProvider;
 
 import junit.framework.TestCase;
 
@@ -194,6 +197,10 @@ public class RefControlTest extends TestCase {
 
   // -----------------------------------------------------------------------
 
+  private final Map<Project.NameKey, ProjectState> all;
+  private final AllProjectsName allProjectsName = new AllProjectsName("parent");
+  private final ProjectCache projectCache;
+
   private ProjectConfig local;
   private ProjectConfig parent;
   private final AccountGroup.UUID admin = new AccountGroup.UUID("test.admin");
@@ -205,10 +212,10 @@ public class RefControlTest extends TestCase {
 
   private final SystemConfig systemConfig;
   private final AuthConfig authConfig;
+  private final CapabilityControl.Factory capabilityControlFactory;
 
   public RefControlTest() {
     systemConfig = SystemConfig.create();
-    systemConfig.adminGroupUUID = admin;
     systemConfig.batchUsersGroupUUID = anonymous;
     try {
       byte[] bin = "abcdefghijklmnopqrstuvwxyz".getBytes("UTF-8");
@@ -217,6 +224,37 @@ public class RefControlTest extends TestCase {
       throw new RuntimeException("Cannot encode key", err);
     }
 
+    all = new HashMap<Project.NameKey, ProjectState>();
+    projectCache = new ProjectCache() {
+      @Override
+      public ProjectState getAllProjects() {
+        return get(allProjectsName);
+      }
+
+      @Override
+      public ProjectState get(Project.NameKey projectName) {
+        return all.get(projectName);
+      }
+
+      @Override
+      public void evict(Project p) {
+      }
+
+      @Override
+      public Iterable<Project.NameKey> all() {
+        return Collections.emptySet();
+      }
+
+      @Override
+      public Iterable<Project.NameKey> byName(String prefix) {
+        return Collections.emptySet();
+      }
+
+      @Override
+      public void onCreateProject(Project.NameKey newProjectName) {
+      }
+    };
+
     Injector injector = Guice.createInjector(new AbstractModule() {
       @Override
       protected void configure() {
@@ -224,11 +262,18 @@ public class RefControlTest extends TestCase {
             .annotatedWith(GerritServerConfig.class) //
             .toInstance(new Config());
 
+        bind(CapabilityControl.Factory.class)
+            .toProvider(FactoryProvider.newFactory(
+              CapabilityControl.Factory.class,
+              CapabilityControl.class));
+
+        bind(ProjectCache.class).toInstance(projectCache);
         bind(SystemConfig.class).toInstance(systemConfig);
         bind(AuthConfig.class);
       }
     });
     authConfig = injector.getInstance(AuthConfig.class);
+    capabilityControlFactory = injector.getInstance(CapabilityControl.Factory.class);
   }
 
   @Override
@@ -287,42 +332,14 @@ public class RefControlTest extends TestCase {
   }
 
   private ProjectState newProjectState() {
-    final Map<Project.NameKey, ProjectState> all =
-        new HashMap<Project.NameKey, ProjectState>();
-    final ProjectCache projectCache = new ProjectCache() {
-      @Override
-      public ProjectState get(Project.NameKey projectName) {
-        return all.get(projectName);
-      }
-
-      @Override
-      public void evict(Project p) {
-      }
-
-      @Override
-      public Iterable<Project.NameKey> all() {
-        return Collections.emptySet();
-      }
-
-      @Override
-      public Iterable<Project.NameKey> byName(String prefix) {
-        return Collections.emptySet();
-      }
-
-      @Override
-      public void onCreateProject(Project.NameKey newProjectName) {
-      }
-    };
-
     PrologEnvironment.Factory envFactory = null;
     GitRepositoryManager mgr = null;
-    Project.NameKey wildProject = new Project.NameKey("All-Projects");
     ProjectControl.AssistedFactory projectControlFactory = null;
     all.put(local.getProject().getNameKey(), new ProjectState(
-        projectCache, wildProject, projectControlFactory,
+        projectCache, allProjectsName, projectControlFactory,
         envFactory, mgr, local));
     all.put(parent.getProject().getNameKey(), new ProjectState(
-        projectCache, wildProject, projectControlFactory,
+        projectCache, allProjectsName, projectControlFactory,
         envFactory, mgr, parent));
     return all.get(local.getProject().getNameKey());
   }
@@ -331,7 +348,9 @@ public class RefControlTest extends TestCase {
     private final Set<AccountGroup.UUID> groups;
 
     MockUser(AccountGroup.UUID[] groupId) {
-      super(null, AccessPath.UNKNOWN, RefControlTest.this.authConfig);
+      super(RefControlTest.this.capabilityControlFactory,
+           AccessPath.UNKNOWN,
+          RefControlTest.this.authConfig);
       groups = new HashSet<AccountGroup.UUID>(Arrays.asList(groupId));
       groups.add(registered);
       groups.add(anonymous);
@@ -350,11 +369,6 @@ public class RefControlTest extends TestCase {
     @Override
     public Collection<AccountProjectWatch> getNotificationFilters() {
       return Collections.emptySet();
-    }
-
-    @Override
-    public boolean isAdministrator() {
-      return false;
     }
   }
 }

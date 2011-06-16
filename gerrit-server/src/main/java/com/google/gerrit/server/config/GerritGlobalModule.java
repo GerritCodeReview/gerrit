@@ -133,8 +133,6 @@ public class GerritGlobalModule extends FactoryModule {
         break;
     }
 
-    bind(Project.NameKey.class).annotatedWith(WildProjectName.class)
-        .toProvider(WildProjectNameProvider.class).in(SINGLETON);
     bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
         SINGLETON);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(

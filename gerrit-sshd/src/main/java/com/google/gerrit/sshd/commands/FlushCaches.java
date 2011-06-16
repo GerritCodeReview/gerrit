@@ -65,7 +65,8 @@ final class FlushCaches extends CacheCommand {
   }
 
   private void flush() throws Failure {
-    if (caches.contains(WEB_SESSIONS) && !currentUser.isAdministrator()) {
+    if (caches.contains(WEB_SESSIONS)
+        && !currentUser.getCapabilities().canAdministrateServer()) {
       String msg = String.format(
           "fatal: only site administrators can flush %s",
           WEB_SESSIONS);

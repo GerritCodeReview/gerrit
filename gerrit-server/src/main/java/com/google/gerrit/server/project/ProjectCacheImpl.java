@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -66,6 +67,7 @@ public class ProjectCacheImpl implements ProjectCache {
     };
   }
 
+  private final AllProjectsName allProjectsName;
   private final Cache<Project.NameKey, ProjectState> byName;
   private final Cache<ListKey,SortedSet<Project.NameKey>> list;
   private final Lock listLock;
@@ -73,9 +75,11 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Inject
   ProjectCacheImpl(
+      final AllProjectsName allProjectsName,
       @Named(CACHE_NAME) final Cache<Project.NameKey, ProjectState> byName,
       @Named(CACHE_LIST) final Cache<ListKey, SortedSet<Project.NameKey>> list,
       @GerritServerConfig final Config serverConfig) {
+    this.allProjectsName = allProjectsName;
     this.byName = byName;
     this.list = list;
     this.listLock = new ReentrantLock(true /* fair */);
@@ -100,6 +104,17 @@ public class ProjectCacheImpl implements ProjectCache {
       // check on each needsRefresh() request we make to it.
       generation = 0;
     }
+  }
+
+  @Override
+  public ProjectState getAllProjects() {
+    ProjectState state = get(allProjectsName);
+    if (state == null) {
+      // This should never occur, the server must have this
+      // project to process anything.
+      throw new IllegalStateException("Missing project " + allProjectsName);
+    }
+    return state;
   }
 
   /**

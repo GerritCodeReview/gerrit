@@ -77,10 +77,6 @@ public abstract class CurrentUser {
     return getEffectiveGroups().contains(authConfig.getBatchUsersGroup());
   }
 
-  public boolean isAdministrator() {
-    return getEffectiveGroups().contains(authConfig.getAdministratorsGroup());
-  }
-
   /** Capabilities available to this user account. */
   public CapabilityControl getCapabilities() {
     CapabilityControl ctl = capabilities;

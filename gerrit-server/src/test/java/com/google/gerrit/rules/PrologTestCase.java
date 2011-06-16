@@ -43,7 +43,7 @@ public abstract class PrologTestCase extends TestCase {
   private List<Term> tests;
   protected PrologEnvironment env;
 
-  protected void load(String prologResource, Module... modules)
+  protected void load(String pkg, String prologResource, Module... modules)
       throws FileNotFoundException, CompileException {
     ArrayList<Module> moduleList = new ArrayList<Module>();
     moduleList.add(new PrologModule());
@@ -58,7 +58,7 @@ public abstract class PrologTestCase extends TestCase {
 
     consult(getClass(), prologResource);
 
-    pkg = myPackage();
+    this.pkg = pkg;
     hasSetup = has("setup");
     hasTeardown = has("teardown");
 
@@ -70,6 +70,7 @@ public abstract class PrologTestCase extends TestCase {
     for (Term[] pair : env.all(Prolog.BUILTIN, "clause", head, new VariableTerm())) {
       tests.add(pair[0]);
     }
+    assertTrue("has tests", tests.size() > 0);
   }
 
   protected void consult(Class<?> clazz, String prologResource)
@@ -83,11 +84,6 @@ public abstract class PrologTestCase extends TestCase {
     if (!env.execute(Prolog.BUILTIN, "consult", SymbolTerm.intern(path))) {
       throw new CompileException("Cannot consult" + path);
     }
-  }
-
-  private String myPackage() {
-    String pkg = getClass().getName();
-    return pkg.substring(0, pkg.lastIndexOf('.'));
   }
 
   private boolean has(String name) {

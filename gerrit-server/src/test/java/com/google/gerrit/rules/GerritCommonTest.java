@@ -34,7 +34,7 @@ public class GerritCommonTest extends PrologTestCase {
         verifiedCategory()
     ));
 
-    load("gerrit_common_test.pl", new AbstractModule() {
+    load("gerrit", "gerrit_common_test.pl", new AbstractModule() {
       @Override
       protected void configure() {
         bind(ApprovalTypes.class).toInstance(types);

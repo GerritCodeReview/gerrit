@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAABDH///7U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-16T22:14:50Z",
+      "side": 1,
+      "message": "Yes, much better, thanks.  Minor quip:\ns/patch set incoming/incoming patch set/",
+      "parentUuid": "AAABC3////I\u003d",
+      "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCX///30\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeTestMergeQueue.java",
         "patchSetId": 1
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AAABDH///7Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeTestMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-16T22:14:50Z",
+      "side": 1,
+      "message": "Right, the testedAgainst was just one way to prevent every change from having to be retested on startup if the queue is not persistent.",
+      "parentUuid": "AAABC3///+0\u003d",
+      "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCX///y8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeTestMergeQueue.java",
         "patchSetId": 1
@@ -101,6 +137,41 @@
       "side": 1,
       "message": "Martin, please, I would need your help on clarifying it :-(\n\nIt seems for our team it behaves as a singleton. ChangeTestMergeQueue is bound in GerritGlobalModule as one instance per injector. A WorkQueue instance is received (injected) in ChangeTestMergeQueue constructor. Are we right about it or are we missing something on this?",
       "parentUuid": "AAABCX///y8\u003d",
+      "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///6Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeTestMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-16T22:14:50Z",
+      "side": 1,
+      "message": "I think you answered my question, thanks, it looks good.",
+      "parentUuid": "AAABC3///+4\u003d",
+      "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///5s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeTestMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-16T22:14:50Z",
+      "side": 1,
+      "message": "Could you explain why you have separated adding to the queue from consuming it?  If you were worried about blocking during the adds, it appears that you have just delayed the block until you consume it here (the synchronized above still blocks until all the changes have been scheduled)?\n\n\nI don\u0027t know if scheduleJob() blocks until an entry is tested (I assume not).  However, if it does not block until the entry is tested, then it looks like the entry is not removed from the queue until right before it is tested.  In that case, it seems like any time another user calls consumesQueue (which is likely since this class is a shared Singleton), it will reschedule everything still in the queue?  It seems like that means that an entry could get scheduled multiple times until it is finally tested, causing the entry to be inadvertently tested unnecessarily more than once?",
       "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

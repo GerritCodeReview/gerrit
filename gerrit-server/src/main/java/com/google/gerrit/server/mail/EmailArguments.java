@@ -14,15 +14,14 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -45,7 +44,7 @@ class EmailArguments {
   final PatchSetInfoFactory patchSetInfoFactory;
   final IdentifiedUser.GenericFactory identifiedUserFactory;
   final Provider<String> urlProvider;
-  final Project.NameKey wildProject;
+  final AllProjectsName allProjectsName;
 
   final ChangeQueryBuilder.Factory queryBuilder;
   final Provider<ChangeQueryRewriter> queryRewriter;
@@ -59,7 +58,7 @@ class EmailArguments {
       EmailSender emailSender, PatchSetInfoFactory patchSetInfoFactory,
       GenericFactory identifiedUserFactory,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      @WildProjectName Project.NameKey wildProject,
+      AllProjectsName allProjectsName,
       ChangeQueryBuilder.Factory queryBuilder,
       Provider<ChangeQueryRewriter> queryRewriter, Provider<ReviewDb> db,
       SitePaths site) {
@@ -73,7 +72,7 @@ class EmailArguments {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.identifiedUserFactory = identifiedUserFactory;
     this.urlProvider = urlProvider;
-    this.wildProject = wildProject;
+    this.allProjectsName = allProjectsName;
     this.queryBuilder = queryBuilder;
     this.queryRewriter = queryRewriter;
     this.db = db;

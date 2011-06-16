@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SystemConfigProvider;
@@ -144,7 +145,11 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
       final ReviewDb c = open();
       try {
         try {
-          new SchemaCreator(new File("."), schemaVersion, null,
+          new SchemaCreator(
+              new File("."),
+              schemaVersion,
+              null,
+              new AllProjectsName("Test-Projects"),
               new PersonIdent("name", "email@site")).create(c);
         } catch (IOException e) {
           throw new OrmException("Cannot create in-memory database", e);

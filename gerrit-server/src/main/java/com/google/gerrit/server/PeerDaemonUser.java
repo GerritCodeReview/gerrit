@@ -25,7 +25,6 @@ import com.google.inject.assistedinject.Assisted;
 import java.net.SocketAddress;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 /** Identity of a peer daemon process that isn't this JVM. */
@@ -37,23 +36,18 @@ public class PeerDaemonUser extends CurrentUser {
     PeerDaemonUser create(@Assisted SocketAddress peer);
   }
 
-  private final Set<AccountGroup.UUID> effectiveGroups;
   private final SocketAddress peer;
 
   @Inject
   protected PeerDaemonUser(CapabilityControl.Factory capabilityControlFactory,
       AuthConfig authConfig, @Assisted SocketAddress peer) {
     super(capabilityControlFactory, AccessPath.SSH_COMMAND, authConfig);
-
-    final HashSet<AccountGroup.UUID> g = new HashSet<AccountGroup.UUID>();
-    g.add(authConfig.getAdministratorsGroup());
-    this.effectiveGroups = Collections.unmodifiableSet(g);
     this.peer = peer;
   }
 
   @Override
   public Set<AccountGroup.UUID> getEffectiveGroups() {
-    return effectiveGroups;
+    return Collections.emptySet();
   }
 
   @Override

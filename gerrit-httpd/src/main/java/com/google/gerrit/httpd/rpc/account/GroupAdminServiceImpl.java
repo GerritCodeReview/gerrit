@@ -94,7 +94,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public GroupList run(ReviewDb db) throws OrmException {
         final IdentifiedUser user = identifiedUser.get();
         final List<AccountGroup> list;
-        if (user.isAdministrator()) {
+        if (user.getCapabilities().canAdministrateServer()) {
           list = db.accountGroups().all().toList();
         } else {
           list = new ArrayList<AccountGroup>();

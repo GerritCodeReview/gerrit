@@ -33,6 +33,7 @@ public class Permission implements Comparable<Permission> {
   public static final String SUBMIT = "submit";
 
   private static final List<String> NAMES_LC;
+  private static final int labelIndex;
 
   static {
     NAMES_LC = new ArrayList<String>();
@@ -47,6 +48,8 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(PUSH_TAG.toLowerCase());
     NAMES_LC.add(LABEL.toLowerCase());
     NAMES_LC.add(SUBMIT.toLowerCase());
+
+    labelIndex = NAMES_LC.indexOf(Permission.LABEL);
   }
 
   /** @return true if the name is recognized as a permission name. */
@@ -189,13 +192,18 @@ public class Permission implements Comparable<Permission> {
   @Override
   public int compareTo(Permission b) {
     int cmp = index(this) - index(b);
-    if (cmp == 0) getName().compareTo(b.getName());
+    if (cmp == 0) {
+      cmp = getName().compareTo(b.getName());
+    }
     return cmp;
   }
 
   private static int index(Permission a) {
-    String lc = a.isLabel() ? Permission.LABEL : a.getName().toLowerCase();
-    int index = NAMES_LC.indexOf(lc);
+    if (a.isLabel()) {
+      return labelIndex;
+    }
+
+    int index = NAMES_LC.indexOf(a.getName().toLowerCase());
     return 0 <= index ? index : NAMES_LC.size();
   }
 }

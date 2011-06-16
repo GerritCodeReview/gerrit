@@ -900,6 +900,15 @@ the path string `"$\{basePath}/$\{project_name}.git"`.
 +
 If relative, the path is resolved relative to `'$site_path'`.
 
+[[gerrit.allProjects]]gerrit.allProjects::
++
+Name of the permissions-only project defining global server
+access controls and settings. These are inherited into every
+other project managed by the running server. The name is
+relative to `gerrit.basePath`.
++
+Defaults to `All-Projects` if not set.
+
 [[gerrit.canonicalWebUrl]]gerrit.canonicalWebUrl::
 +
 The default URL for Gerrit to be accessed through.
@@ -1498,15 +1507,11 @@ If no groups are added, any user will be allowed to execute
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Repositories in this sense are the same as projects.
 
-In the following example configuration the `Administrators` and the
-`Registered Users` groups are set to be the ones to be allowed to
-create projects matching `*` (any project).  `Registered Users` is
-set to be the default owner of new projects.
+In the following example configuration `Registered Users` is set
+to be the default owner of new projects.
 
 ----
 [repository "*"]
-  createGroup = Administrators
-  createGroup = Registered Users
   ownerGroup = Registered Users
 ----
 
@@ -1514,24 +1519,11 @@ set to be the default owner of new projects.
 Currently only the repository name `*` is supported.
 This is a wildcard designating all repositories.
 
-[[repository.name.createGroup]]repository.<name>.createGroup::
-+
-A name of a group which exists in the database. Zero, one or many
-groups are allowed.  Each on its own line.  Groups which don't exist
-in the database are ignored.
-+
-If no groups are declared (or only non-existing ones), the default
-value `Administrators` is used.
-
 [[repository.name.ownerGroup]]repository.<name>.ownerGroup::
 +
 A name of a group which exists in the database. Zero, one or many
 groups are allowed.  Each on its own line.  Groups which don't exist
 in the database are ignored.
-+
-If no groups are declared (or only non-existing ones), it defaults
-to whatever is declared by `repository.<name>.createGroup` (including
-any fallback to `Administrators`.)
 
 [[sendemail]]Section sendemail
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -15,6 +15,9 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
+import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.errors.InvalidUserNameException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.Account;
@@ -25,6 +28,7 @@ import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -51,6 +55,7 @@ public class AccountManager {
   private final Realm realm;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeUserName.Factory changeUserNameFactory;
+  private final ProjectCache projectCache;
   private final AtomicBoolean firstAccount;
 
   @Inject
@@ -58,7 +63,8 @@ public class AccountManager {
       final AccountCache byIdCache, final AccountByEmailCache byEmailCache,
       final AuthConfig authConfig, final Realm accountMapper,
       final IdentifiedUser.GenericFactory userFactory,
-      final ChangeUserName.Factory changeUserNameFactory) throws OrmException {
+      final ChangeUserName.Factory changeUserNameFactory,
+      final ProjectCache projectCache) throws OrmException {
     this.schema = schema;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
@@ -66,6 +72,7 @@ public class AccountManager {
     this.realm = accountMapper;
     this.userFactory = userFactory;
     this.changeUserNameFactory = changeUserNameFactory;
+    this.projectCache = projectCache;
 
     firstAccount = new AtomicBoolean();
     final ReviewDb db = schema.open();
@@ -275,11 +282,16 @@ public class AccountManager {
       // is going to be the site's administrator and just make them that
       // to bootstrap the authentication database.
       //
-      final AccountGroup.UUID uuid = authConfig.getAdministratorsGroup();
+      Permission admin = projectCache.getAllProjects()
+          .getConfig()
+          .getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
+          .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
+
+      final AccountGroup.UUID uuid = admin.getRules().get(0).getGroup().getUUID();
       final AccountGroup g = db.accountGroups().byUUID(uuid).iterator().next();
-      final AccountGroup.Id admin = g.getId();
+      final AccountGroup.Id adminId = g.getId();
       final AccountGroupMember m =
-          new AccountGroupMember(new AccountGroupMember.Key(newId, admin));
+          new AccountGroupMember(new AccountGroupMember.Key(newId, adminId));
       db.accountGroupMembersAudit().insert(
           Collections.singleton(new AccountGroupMemberAudit(m, newId)));
       db.accountGroupMembers().insert(Collections.singleton(m));

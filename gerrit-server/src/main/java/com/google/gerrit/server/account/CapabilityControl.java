@@ -21,10 +21,8 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.config.WildProjectName;
-import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -47,15 +45,11 @@ public class CapabilityControl {
   private final CurrentUser user;
   private Map<String, List<PermissionRule>> permissions;
 
+  private Boolean canAdministrateServer;
+
   @Inject
-  CapabilityControl(
-      @WildProjectName Project.NameKey wp,
-      ProjectCache projectCache,
-      @Assisted CurrentUser currentUser) throws NoSuchProjectException {
-    state = projectCache.get(wp);
-    if (state == null) {
-      throw new NoSuchProjectException(wp);
-    }
+  CapabilityControl(ProjectCache projectCache, @Assisted CurrentUser currentUser) {
+    state = projectCache.getAllProjects();
     user = currentUser;
   }
 
@@ -64,44 +58,67 @@ public class CapabilityControl {
     return user;
   }
 
+  /** @return true if the user can administer this server. */
+  public boolean canAdministrateServer() {
+    if (canAdministrateServer == null) {
+      canAdministrateServer = user instanceof PeerDaemonUser
+          || canPerform(GlobalCapability.ADMINISTRATE_SERVER);
+    }
+    return canAdministrateServer;
+  }
+
   /** @return true if the user can create an account for another user. */
   public boolean canCreateAccount() {
-    return canPerform(GlobalCapability.CREATE_ACCOUNT) || user.isAdministrator();
+    return canPerform(GlobalCapability.CREATE_ACCOUNT)
+      || canAdministrateServer();
   }
 
   /** @return true if the user can create a group. */
   public boolean canCreateGroup() {
-    return canPerform(GlobalCapability.CREATE_GROUP) || user.isAdministrator();
+    return canPerform(GlobalCapability.CREATE_GROUP)
+      || canAdministrateServer();
+  }
+
+  /** @return true if the user can create a group. */
+  public boolean canCreateProject() {
+    return canPerform(GlobalCapability.CREATE_PROJECT)
+      || canAdministrateServer();
   }
 
   /** @return true if the user can kill any running task. */
   public boolean canKillTask() {
-    return canPerform(GlobalCapability.KILL_TASK) || user.isAdministrator();
+    return canPerform(GlobalCapability.KILL_TASK)
+      || canAdministrateServer();
   }
 
   /** @return true if the user can view the server caches. */
   public boolean canViewCaches() {
-    return canPerform(GlobalCapability.VIEW_CACHES) || user.isAdministrator();
+    return canPerform(GlobalCapability.VIEW_CACHES)
+      || canAdministrateServer();
   }
 
   /** @return true if the user can flush the server's caches. */
   public boolean canFlushCaches() {
-    return canPerform(GlobalCapability.FLUSH_CACHES) || user.isAdministrator();
+    return canPerform(GlobalCapability.FLUSH_CACHES)
+      || canAdministrateServer();
   }
 
   /** @return true if the user can view open connections. */
   public boolean canViewConnections() {
-    return canPerform(GlobalCapability.VIEW_CONNECTIONS) || user.isAdministrator();
+    return canPerform(GlobalCapability.VIEW_CONNECTIONS)
+        || canAdministrateServer();
   }
 
   /** @return true if the user can view the entire queue. */
   public boolean canViewQueue() {
-    return canPerform(GlobalCapability.VIEW_QUEUE) || user.isAdministrator();
+    return canPerform(GlobalCapability.VIEW_QUEUE)
+      || canAdministrateServer();
   }
 
   /** @return true if the user can force replication to any configured destination. */
   public boolean canStartReplication() {
-    return canPerform(GlobalCapability.START_REPLICATION) || user.isAdministrator();
+    return canPerform(GlobalCapability.START_REPLICATION)
+        || canAdministrateServer();
   }
 
   /** True if the user has this permission. Works only for non labels. */

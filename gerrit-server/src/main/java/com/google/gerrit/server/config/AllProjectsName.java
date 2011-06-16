@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,17 +14,12 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.inject.BindingAnnotation;
+import com.google.gerrit.reviewdb.Project;
 
-import java.lang.annotation.Retention;
-
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-/**
- * Marker on a {@code Set&lt;AccountGroup.Id>} for the configured groups with
- * permission to create projects.
- */
-@Retention(RUNTIME)
-@BindingAnnotation
-public @interface ProjectCreatorGroups {
+/** Special name of the project that all projects derive from. */
+@SuppressWarnings("serial")
+public class AllProjectsName extends Project.NameKey {
+  public AllProjectsName(String name) {
+    super(name);
+  }
 }

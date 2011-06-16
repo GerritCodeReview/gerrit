@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -71,9 +70,6 @@ public class SchemaCreatorTest extends TestCase {
     db.assertSchemaVersion();
     final SystemConfig config = db.getSystemConfig();
     assertNotNull(config);
-    assertNotNull(config.adminGroupId);
-    assertNotNull(config.anonymousGroupId);
-    assertNotNull(config.registeredGroupId);
 
     // By default sitePath is set to the current working directory.
     //
@@ -95,56 +91,8 @@ public class SchemaCreatorTest extends TestCase {
     final SystemConfig act = db.getSystemConfig();
 
     assertNotSame(exp, act);
-    assertEquals(exp.adminGroupId, act.adminGroupId);
-    assertEquals(exp.anonymousGroupId, act.anonymousGroupId);
-    assertEquals(exp.registeredGroupId, act.registeredGroupId);
     assertEquals(exp.sitePath, act.sitePath);
     assertEquals(exp.registerEmailPrivateKey, act.registerEmailPrivateKey);
-  }
-
-  public void testCreateSchema_Group_Administrators() throws OrmException {
-    db.create();
-    final SystemConfig config = db.getSystemConfig();
-    final ReviewDb c = db.open();
-    try {
-      final AccountGroup admin = c.accountGroups().get(config.adminGroupId);
-      assertNotNull(admin);
-      assertEquals(config.adminGroupId, admin.getId());
-      assertEquals("Administrators", admin.getName());
-      assertSame(AccountGroup.Type.INTERNAL, admin.getType());
-    } finally {
-      c.close();
-    }
-  }
-
-  public void testCreateSchema_Group_AnonymousUsers() throws OrmException {
-    db.create();
-    final SystemConfig config = db.getSystemConfig();
-    final ReviewDb c = db.open();
-    try {
-      final AccountGroup anon = c.accountGroups().get(config.anonymousGroupId);
-      assertNotNull(anon);
-      assertEquals(config.anonymousGroupId, anon.getId());
-      assertEquals("Anonymous Users", anon.getName());
-      assertSame(AccountGroup.Type.SYSTEM, anon.getType());
-    } finally {
-      c.close();
-    }
-  }
-
-  public void testCreateSchema_Group_RegisteredUsers() throws OrmException {
-    db.create();
-    final SystemConfig config = db.getSystemConfig();
-    final ReviewDb c = db.open();
-    try {
-      final AccountGroup reg = c.accountGroups().get(config.registeredGroupId);
-      assertNotNull(reg);
-      assertEquals(config.registeredGroupId, reg.getId());
-      assertEquals("Registered Users", reg.getName());
-      assertSame(AccountGroup.Type.SYSTEM, reg.getType());
-    } finally {
-      c.close();
-    }
   }
 
   public void testCreateSchema_ApprovalCategory_CodeReview()

@@ -49,6 +49,19 @@ public final class Project {
       return get().compareTo(other.get());
     }
 
+    @Override
+    public int hashCode() {
+      return get().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object b) {
+      if (b instanceof NameKey) {
+        return get().equals(((NameKey) b).get());
+      }
+      return false;
+    }
+
     /** Parse a Project.NameKey out of a string representation. */
     public static NameKey parse(final String str) {
       final NameKey r = new NameKey();

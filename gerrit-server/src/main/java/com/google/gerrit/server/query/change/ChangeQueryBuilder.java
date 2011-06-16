@@ -24,8 +24,9 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.project.ChangeControl;
@@ -98,12 +99,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<ReviewDb> dbProvider;
     final Provider<ChangeQueryRewriter> rewriter;
     final IdentifiedUser.GenericFactory userFactory;
+    final CapabilityControl.Factory capabilityControlFactory;
     final ChangeControl.Factory changeControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
     final AccountResolver accountResolver;
     final GroupCache groupCache;
     final ApprovalTypes approvalTypes;
-    final Project.NameKey wildProjectName;
+    final AllProjectsName allProjectsName;
     final PatchListCache patchListCache;
     final GitRepositoryManager repoManager;
     final ProjectCache projectCache;
@@ -112,23 +114,25 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     Arguments(Provider<ReviewDb> dbProvider,
         Provider<ChangeQueryRewriter> rewriter,
         IdentifiedUser.GenericFactory userFactory,
+        CapabilityControl.Factory capabilityControlFactory,
         ChangeControl.Factory changeControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
         AccountResolver accountResolver, GroupCache groupCache,
         ApprovalTypes approvalTypes,
-        @WildProjectName Project.NameKey wildProjectName,
+        AllProjectsName allProjectsName,
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
         ProjectCache projectCache) {
       this.dbProvider = dbProvider;
       this.rewriter = rewriter;
       this.userFactory = userFactory;
+      this.capabilityControlFactory = capabilityControlFactory;
       this.changeControlFactory = changeControlFactory;
       this.changeControlGenericFactory = changeControlGenericFactory;
       this.accountResolver = accountResolver;
       this.groupCache = groupCache;
       this.approvalTypes = approvalTypes;
-      this.wildProjectName = wildProjectName;
+      this.allProjectsName = allProjectsName;
       this.patchListCache = patchListCache;
       this.repoManager = repoManager;
       this.projectCache = projectCache;
@@ -341,7 +345,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     //
     AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(who));
     if (g != null) {
-      return visibleto(new SingleGroupUser(g.getGroupUUID()));
+      return visibleto(new SingleGroupUser(args.capabilityControlFactory,
+          g.getGroupUUID()));
     }
 
     Collection<AccountGroup> matches =
@@ -351,7 +356,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       for (AccountGroup group : matches) {
         ids.add(group.getGroupUUID());
       }
-      return visibleto(new SingleGroupUser(ids));
+      return visibleto(new SingleGroupUser(args.capabilityControlFactory, ids));
     }
 
     throw error("No user or group matches \"" + who + "\".");

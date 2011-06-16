@@ -180,13 +180,13 @@ public class ProjectControl {
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
   public boolean isOwner() {
     return controlForRef(AccessSection.ALL).isOwner()
-        || getCurrentUser().isAdministrator();
+        || getCurrentUser().getCapabilities().canAdministrateServer();
   }
 
   /** Does this user have ownership on at least one reference name? */
   public boolean isOwnerAnyRef() {
     return canPerformOnAnyRef(Permission.OWNER)
-        || getCurrentUser().isAdministrator();
+        || getCurrentUser().getCapabilities().canAdministrateServer();
   }
 
   /** @return true if the user can upload to at least one reference */

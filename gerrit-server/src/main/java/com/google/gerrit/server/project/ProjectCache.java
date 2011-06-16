@@ -18,6 +18,9 @@ import com.google.gerrit.reviewdb.Project;
 
 /** Cache of project information, including access rights. */
 public interface ProjectCache {
+  /** @return the parent state for all projects on this server. */
+  public ProjectState getAllProjects();
+
   /**
    * Get the cached data for a project by its unique name.
    *

@@ -22,6 +22,7 @@ import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.GroupList;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -42,6 +43,7 @@ import java.util.List;
 public class GroupListScreen extends AccountScreen {
   private GroupTable groups;
 
+  private VerticalPanel addPanel;
   private NpTextBox addTxt;
   private Button addNew;
 
@@ -49,10 +51,11 @@ public class GroupListScreen extends AccountScreen {
   protected void onLoad() {
     super.onLoad();
     Util.GROUP_SVC
-        .visibleGroups(new ScreenLoadCallback<List<AccountGroup>>(this) {
+        .visibleGroups(new ScreenLoadCallback<GroupList>(this) {
           @Override
-          protected void preDisplay(final List<AccountGroup> result) {
-            groups.display(result);
+          protected void preDisplay(GroupList result) {
+            addPanel.setVisible(result.isCanCreateGroup());
+            groups.display(result.getGroups());
             groups.finishDisplay();
           }
         });
@@ -66,9 +69,9 @@ public class GroupListScreen extends AccountScreen {
     groups = new GroupTable(true /* hyperlink to admin */, PageLinks.ADMIN_GROUPS);
     add(groups);
 
-    final VerticalPanel fp = new VerticalPanel();
-    fp.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
-    fp.add(new SmallHeading(Util.C.headingCreateGroup()));
+    addPanel = new VerticalPanel();
+    addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
+    addPanel.add(new SmallHeading(Util.C.headingCreateGroup()));
 
     addTxt = new NpTextBox();
     addTxt.setVisibleLength(60);
@@ -80,7 +83,7 @@ public class GroupListScreen extends AccountScreen {
         }
       }
     });
-    fp.add(addTxt);
+    addPanel.add(addTxt);
 
     addNew = new Button(Util.C.buttonCreateGroup());
     addNew.setEnabled(false);
@@ -109,8 +112,8 @@ public class GroupListScreen extends AccountScreen {
         groups.setRegisterKeys(true);
       }
     });
-    fp.add(addNew);
-    add(fp);
+    addPanel.add(addNew);
+    add(addPanel);
 
     new OnEditEnabler(addNew, addTxt);
   }

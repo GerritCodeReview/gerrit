@@ -27,7 +27,8 @@ created in Gerrit that do not exist in the underlying LDAP directory.
 
 ACCESS
 ------
-Caller must be a member of the privileged 'Administrators' group.
+Caller must be a member of the privileged 'Administrators' group,
+or have been granted the 'Create Account' global capability.
 
 SCRIPTING
 ---------

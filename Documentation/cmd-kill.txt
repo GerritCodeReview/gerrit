@@ -18,7 +18,8 @@ its next cancellation point (which is usually blocking IO).
 
 ACCESS
 ------
-Caller must be a member of the privileged 'Administrators' group.
+Caller must be a member of the privileged 'Administrators' group,
+or have been granted the 'Kill Task' global capability.
 
 SCRIPTING
 ---------

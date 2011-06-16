@@ -15,10 +15,10 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.PushAllProjectsOp;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
@@ -31,8 +31,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /** Force a project to replicate, again. */
-@AdminCommand
-final class AdminReplicate extends BaseCommand {
+final class Replicate extends BaseCommand {
   @Option(name = "--all", usage = "push all known projects")
   private boolean all;
 
@@ -41,6 +40,9 @@ final class AdminReplicate extends BaseCommand {
 
   @Argument(index = 0, multiValued = true, metaVar = "PROJECT", usage = "project name")
   private List<String> projectNames = new ArrayList<String>(2);
+
+  @Inject
+  IdentifiedUser currentUser;
 
   @Inject
   private PushAllProjectsOp.Factory pushAllOpFactory;
@@ -56,8 +58,15 @@ final class AdminReplicate extends BaseCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
+        if (!currentUser.getCapabilities().canStartReplication()) {
+          String msg = String.format(
+            "fatal: %s does not have \"Start Replication\" capability.",
+            currentUser.getUserName());
+          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
+        }
+
         parseCommandLine();
-        AdminReplicate.this.schedule();
+        Replicate.this.schedule();
       }
     });
   }

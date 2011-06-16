@@ -17,8 +17,8 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PerformCreateGroup;
-import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -27,7 +27,6 @@ import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,8 +35,7 @@ import java.util.Set;
  * <p>
  * Optionally, puts an initial set of user in the newly created group.
  */
-@AdminCommand
-public class AdminCreateGroup extends BaseCommand {
+final class CreateGroupCommand extends BaseCommand {
   @Option(name = "--owner", aliases = {"-o"}, metaVar = "GROUP", usage = "owning group, if not specified the group will be self-owning")
   private AccountGroup.Id ownerGroupId;
 
@@ -65,13 +63,23 @@ public class AdminCreateGroup extends BaseCommand {
   }
 
   @Inject
+  private IdentifiedUser currentUser;
+
+  @Inject
   private PerformCreateGroup.Factory performCreateGroupFactory;
 
   @Override
-  public void start(Environment env) throws IOException {
+  public void start(Environment env) {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
+        if (!currentUser.getCapabilities().canCreateGroup()) {
+          String msg = String.format(
+            "fatal: %s does not have \"Create Group\" capability.",
+            currentUser.getUserName());
+          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
+        }
+
         parseCommandLine();
         createGroup();
       }

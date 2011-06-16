@@ -26,7 +26,8 @@ becomes a member of the newly created group.
 
 ACCESS
 ------
-Caller must be a member of the privileged 'Administrators' group.
+Caller must be a member of the privileged 'Administrators' group,
+or have been granted the 'Create Group' global capability.
 
 SCRIPTING
 ---------

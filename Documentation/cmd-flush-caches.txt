@@ -25,7 +25,8 @@ If no options are supplied, defaults to `--all`.
 
 ACCESS
 ------
-Caller must be a member of the privileged 'Administrators' group.
+Caller must be a member of the privileged 'Administrators' group,
+or have granted the 'Flush Caches' global capability.
 
 SCRIPTING
 ---------

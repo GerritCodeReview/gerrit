@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc.account;
 
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
+import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -44,7 +45,14 @@ class CreateGroup extends Handler<AccountGroup.Id> {
   }
 
   @Override
-  public AccountGroup.Id call() throws OrmException, NameAlreadyUsedException {
+  public AccountGroup.Id call() throws OrmException, NameAlreadyUsedException,
+      PermissionDeniedException {
+    if (!user.getCapabilities().canCreateGroup()) {
+      throw new PermissionDeniedException(String.format(
+        "%s does not have \"Create Group\" capability.",
+        user.getUserName()));
+    }
+
     final PerformCreateGroup performCreateGroup = performCreateGroupFactory.create();
     final Account.Id me = user.getAccountId();
     return performCreateGroup.createGroup(groupName, null, false, null, Collections.singleton(me), null);

@@ -24,7 +24,12 @@ in these states.
 
 ACCESS
 ------
-Caller must be a member of the privileged 'Administrators' group.
+End-users may see a task in the queue only if they can also see
+the project the task is associated with. Tasks operating on other
+projects, or that do not have a specific project are hidden.
+
+Members of the group 'Administrators', or any group that has been
+granted the 'View Queue' capability can see all queue entries.
 
 SCRIPTING
 ---------

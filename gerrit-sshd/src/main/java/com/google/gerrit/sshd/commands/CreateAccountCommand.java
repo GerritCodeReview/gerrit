@@ -26,7 +26,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
-import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
@@ -46,8 +45,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /** Create a new user account. **/
-@AdminCommand
-final class AdminCreateAccount extends BaseCommand {
+final class CreateAccountCommand extends BaseCommand {
   @Option(name = "--group", aliases = {"-g"}, metaVar = "GROUP", usage = "groups to add account to")
   private List<AccountGroup.Id> groups = new ArrayList<AccountGroup.Id>();
 
@@ -83,6 +81,13 @@ final class AdminCreateAccount extends BaseCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
+        if (!currentUser.getCapabilities().canCreateAccount()) {
+          String msg = String.format(
+            "fatal: %s does not have \"Create Account\" capability.",
+            currentUser.getUserName());
+          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
+        }
+
         parseCommandLine();
         createAccount();
       }

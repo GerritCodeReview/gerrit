@@ -14,7 +14,9 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.sshd.AdminCommand;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.sshd.BaseCommand;
+import com.google.inject.Inject;
 
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Statistics;
@@ -26,8 +28,10 @@ import org.eclipse.jgit.storage.file.WindowCacheStatAccessor;
 import java.io.PrintWriter;
 
 /** Show the current cache states. */
-@AdminCommand
-final class AdminShowCaches extends CacheCommand {
+final class ShowCaches extends CacheCommand {
+  @Inject
+  IdentifiedUser currentUser;
+
   private PrintWriter p;
 
   @Override
@@ -35,6 +39,13 @@ final class AdminShowCaches extends CacheCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
+        if (!currentUser.getCapabilities().canViewCaches()) {
+          String msg = String.format(
+            "fatal: %s does not have \"View Caches\" capability.",
+            currentUser.getUserName());
+          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
+        }
+
         parseCommandLine();
         display();
       }

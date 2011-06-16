@@ -14,10 +14,10 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.util.IdGenerator;
-import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
@@ -29,8 +29,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /** Kill a task in the work queue. */
-@AdminCommand
-final class AdminKill extends BaseCommand {
+final class KillCommand extends BaseCommand {
+  @Inject
+  private IdentifiedUser currentUser;
+
   @Inject
   private WorkQueue workQueue;
 
@@ -50,8 +52,15 @@ final class AdminKill extends BaseCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
+        if (!currentUser.getCapabilities().canKillTask()) {
+          String msg = String.format(
+            "fatal: %s does not have \"Kill Task\" capability.",
+            currentUser.getUserName());
+          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
+        }
+
         parseCommandLine();
-        AdminKill.this.commitMurder();
+        KillCommand.this.commitMurder();
       }
     });
   }

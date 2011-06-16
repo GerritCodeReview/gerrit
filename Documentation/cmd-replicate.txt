@@ -52,7 +52,8 @@ just the affected project can update the mirrors.
 
 ACCESS
 ------
-Caller must be a member of the privileged 'Administrators' group.
+Caller must be a member of the privileged 'Administrators' group,
+or have been granted the 'Start Replication' global capability.
 
 SCRIPTING
 ---------

@@ -16,7 +16,8 @@ Display statistics about the size and hit ratio of in-memory caches.
 
 ACCESS
 ------
-Caller must be a member of the privileged 'Administrators' group.
+Caller must be a member of the privileged 'Administrators' group,
+or have been granted the 'View Caches' global capability.
 
 SCRIPTING
 ---------

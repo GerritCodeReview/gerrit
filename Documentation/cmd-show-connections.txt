@@ -18,7 +18,8 @@ an activity.
 
 ACCESS
 ------
-Caller must be a member of the privileged 'Administrators' group.
+Caller must be a member of the privileged 'Administrators' group,
+or have been granted the 'View Connections' global capability.
 
 SCRIPTING
 ---------

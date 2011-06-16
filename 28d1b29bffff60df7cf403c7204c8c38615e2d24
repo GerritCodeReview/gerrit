@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDH///5Q\u003d",
+        "filename": "gerrit-prettify/src/main/resources/com/google/gerrit/prettify/client/lang-lisp.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:46:51Z",
+      "side": 1,
+      "message": "We should make this change upstream in the prettify package.\n\nhttp://code.google.com/p/google-code-prettify/",
+      "revId": "28d1b29bffff60df7cf403c7204c8c38615e2d24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

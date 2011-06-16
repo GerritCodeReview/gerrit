@@ -16,6 +16,24 @@
       "revId": "ca73b3f860a8ce954005bb7c6b2c33d919af5716",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///3w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-16T22:53:17Z",
+      "side": 0,
+      "message": "Sounds like a great suggestion for an explanation comment (after restoring). :)  That kind of info sounds very valuable and I suspect hard to deduce.",
+      "parentUuid": "AAABDH///50\u003d",
+      "revId": "ca73b3f860a8ce954005bb7c6b2c33d919af5716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

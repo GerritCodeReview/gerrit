@@ -15,7 +15,6 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
@@ -23,7 +22,6 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -196,20 +194,16 @@ public class ProjectCacheImpl implements ProjectCache {
 
   static class Loader extends EntryCreator<Project.NameKey, ProjectState> {
     private final ProjectState.Factory projectStateFactory;
-    private final SchemaFactory<ReviewDb> schema;
     private final GitRepositoryManager mgr;
 
     @Inject
-    Loader(ProjectState.Factory psf, SchemaFactory<ReviewDb> sf,
-        GitRepositoryManager g) {
+    Loader(ProjectState.Factory psf, GitRepositoryManager g) {
       projectStateFactory = psf;
-      schema = sf;
       mgr = g;
     }
 
     @Override
     public ProjectState createEntry(Project.NameKey key) throws Exception {
-      final ReviewDb db = schema.open();
       try {
         Repository git = mgr.openRepository(key);
         try {
@@ -222,9 +216,6 @@ public class ProjectCacheImpl implements ProjectCache {
 
       } catch (RepositoryNotFoundException notFound) {
         return null;
-
-      } finally {
-        db.close();
       }
     }
   }

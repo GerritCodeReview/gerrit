@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
@@ -56,6 +57,7 @@ public class GerritRequestModule extends FactoryModule {
     bind(AccountResolver.class);
     bind(ChangeQueryRewriter.class);
 
+    bind(CapabilityControl.Factory.class).in(SINGLETON);
     bind(ChangeControl.Factory.class).in(SINGLETON);
     bind(GroupControl.Factory.class).in(SINGLETON);
     bind(ProjectControl.Factory.class).in(SINGLETON);

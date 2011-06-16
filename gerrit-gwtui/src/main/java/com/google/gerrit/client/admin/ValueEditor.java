@@ -64,6 +64,8 @@ public class ValueEditor<T> extends Composite implements HasEditorErrors<T>,
 
   private ValueBoxBase<T> editChild;
   private ValueBoxEditor<T> editProxy;
+  private boolean ignoreEditorValue;
+  private T value;
 
   public ValueEditor() {
     startHandlers = new StartEditHandlers();
@@ -93,12 +95,17 @@ public class ValueEditor<T> extends Composite implements HasEditorErrors<T>,
 
   @Override
   public T getValue() {
-    return asEditor().getValue();
+    return ignoreEditorValue ? value : asEditor().getValue();
   }
 
   @Override
   public void setValue(T value) {
+    this.value = value;
     asEditor().setValue(value);
+  }
+
+  void setIgnoreEditorValue(boolean off) {
+    ignoreEditorValue = off;
   }
 
   public void setEditTitle(String title) {

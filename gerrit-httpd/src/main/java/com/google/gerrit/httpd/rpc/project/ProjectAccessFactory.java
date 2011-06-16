@@ -115,46 +115,55 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
         new HashMap<AccountGroup.UUID, Boolean>();
 
     for (AccessSection section : config.getAccessSections()) {
-      RefControl rc = pc.controlForRef(section.getRefPattern());
-      if (rc.isOwner()) {
-        local.add(section);
-        ownerOf.add(section.getRefPattern());
+      String name = section.getName();
+      if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
+        if (pc.isOwner()) {
+          local.add(section);
+          ownerOf.add(name);
+        }
 
-      } else if (rc.isVisible()) {
-        // Filter the section to only add rules describing groups that
-        // are visible to the current-user. This includes any group the
-        // user is a member of, as well as groups they own or that
-        // are visible to all users.
+      } else if (AccessSection.isAccessSection(name)) {
+        RefControl rc = pc.controlForRef(name);
+        if (rc.isOwner()) {
+          local.add(section);
+          ownerOf.add(name);
 
-        AccessSection dst = null;
-        for (Permission srcPerm : section.getPermissions()) {
-          Permission dstPerm = null;
+        } else if (rc.isVisible()) {
+          // Filter the section to only add rules describing groups that
+          // are visible to the current-user. This includes any group the
+          // user is a member of, as well as groups they own or that
+          // are visible to all users.
 
-          for (PermissionRule srcRule : srcPerm.getRules()) {
-            AccountGroup.UUID group = srcRule.getGroup().getUUID();
-            if (group == null) {
-              continue;
-            }
+          AccessSection dst = null;
+          for (Permission srcPerm : section.getPermissions()) {
+            Permission dstPerm = null;
 
-            Boolean canSeeGroup = visibleGroups.get(group);
-            if (canSeeGroup == null) {
-              try {
-                canSeeGroup = groupControlFactory.controlFor(group).isVisible();
-              } catch (NoSuchGroupException e) {
-                canSeeGroup = Boolean.FALSE;
+            for (PermissionRule srcRule : srcPerm.getRules()) {
+              AccountGroup.UUID group = srcRule.getGroup().getUUID();
+              if (group == null) {
+                continue;
               }
-              visibleGroups.put(group, canSeeGroup);
-            }
 
-            if (canSeeGroup) {
-              if (dstPerm == null) {
-                if (dst == null) {
-                  dst = new AccessSection(section.getRefPattern());
-                  local.add(dst);
+              Boolean canSeeGroup = visibleGroups.get(group);
+              if (canSeeGroup == null) {
+                try {
+                  canSeeGroup = groupControlFactory.controlFor(group).isVisible();
+                } catch (NoSuchGroupException e) {
+                  canSeeGroup = Boolean.FALSE;
                 }
-                dstPerm = dst.getPermission(srcPerm.getName(), true);
+                visibleGroups.put(group, canSeeGroup);
               }
-              dstPerm.add(srcRule);
+
+              if (canSeeGroup) {
+                if (dstPerm == null) {
+                  if (dst == null) {
+                    dst = new AccessSection(name);
+                    local.add(dst);
+                  }
+                  dstPerm = dst.getPermission(srcPerm.getName(), true);
+                }
+                dstPerm.add(srcRule);
+              }
             }
           }
         }
@@ -170,17 +179,22 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
     final ProjectAccess detail = new ProjectAccess();
     detail.setRevision(config.getRevision().name());
-    detail.setLocal(local);
-    detail.setOwnerOf(ownerOf);
 
     if (projectName.equals(wildProject)) {
+      if (pc.isOwner()) {
+        ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
+      }
       detail.setInheritsFrom(null);
+
     } else if (config.getProject().getParent() != null) {
       detail.setInheritsFrom(config.getProject().getParent());
+
     } else {
       detail.setInheritsFrom(wildProject);
     }
 
+    detail.setLocal(local);
+    detail.setOwnerOf(ownerOf);
     return detail;
   }
 

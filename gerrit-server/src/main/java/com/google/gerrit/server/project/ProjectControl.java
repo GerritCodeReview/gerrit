@@ -234,7 +234,7 @@ public class ProjectControl {
         // that would render this to be false.
         //
         if (groups.contains(rule.getGroup().getUUID())
-            && controlForRef(section.getRefPattern()).canPerform(permissionName)) {
+            && controlForRef(section.getName()).canPerform(permissionName)) {
           return true;
         }
       }
@@ -267,7 +267,7 @@ public class ProjectControl {
     for (AccessSection section : access()) {
       Permission permission = section.getPermission(permissionName);
       if (permission != null) {
-        all.add(section.getRefPattern());
+        all.add(section.getName());
       }
     }
     return all;

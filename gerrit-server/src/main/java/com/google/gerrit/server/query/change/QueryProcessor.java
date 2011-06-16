@@ -14,13 +14,17 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.events.ChangeAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.QueryStats;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gson.Gson;
@@ -65,7 +69,7 @@ public class QueryProcessor {
   private final ChangeQueryRewriter queryRewriter;
   private final Provider<ReviewDb> db;
 
-  private int defaultLimit = 500;
+  private int defaultLimit;
   private OutputFormat outputFormat = OutputFormat.TEXT;
   private boolean includePatchSets;
   private boolean includeCurrentPatchSet;
@@ -77,11 +81,19 @@ public class QueryProcessor {
   @Inject
   QueryProcessor(EventFactory eventFactory,
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
-      ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db) {
+      ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db,
+      CapabilityControl.Factory ctl) throws NoSuchProjectException {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
     this.db = db;
+
+    PermissionRange range = ctl.controlFor().getRange(GlobalCapability.QUERY_LIMIT);
+    if (range != null) {
+      defaultLimit = range.getMax();
+    } else {
+      defaultLimit = GlobalCapability.getRange(GlobalCapability.QUERY_LIMIT).getDefaultMax();
+    }
   }
 
   public void setIncludePatchSets(boolean on) {
@@ -106,6 +118,13 @@ public class QueryProcessor {
         new BufferedWriter( //
             new OutputStreamWriter(outputStream, "UTF-8")));
     try {
+      if (defaultLimit == 0) {
+        ErrorMessage m = new ErrorMessage();
+        m.message = "query disabled";
+        show(m);
+        return;
+      }
+
       try {
         final QueryStats stats = new QueryStats();
         stats.runTimeMilliseconds = System.currentTimeMillis();

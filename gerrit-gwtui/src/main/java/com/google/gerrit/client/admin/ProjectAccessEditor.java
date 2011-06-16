@@ -80,6 +80,15 @@ public class ProjectAccessEditor extends Composite implements
 
   @Override
   public void setValue(ProjectAccess value) {
+    // If the owner can edit the Global Capabilities but they don't exist in this
+    // project, create an empty one at the beginning of the list making it
+    // possible to add permissions to it.
+    if (editing
+        && value.isOwnerOf(AccessSection.GLOBAL_CAPABILITIES)
+        && value.getLocal(AccessSection.GLOBAL_CAPABILITIES) == null) {
+      value.getLocal().add(0, new AccessSection(AccessSection.GLOBAL_CAPABILITIES));
+    }
+
     this.value = value;
 
     Project.NameKey parent = value.getInheritsFrom();
@@ -102,7 +111,7 @@ public class ProjectAccessEditor extends Composite implements
 
     for (int i = 0; i < src.size(); i++) {
       AccessSectionEditor e = (AccessSectionEditor) localContainer.getWidget(i);
-      if (!e.isDeleted()) {
+      if (!e.isDeleted() && !src.get(i).getPermissions().isEmpty()) {
         keep.add(src.get(i));
       }
     }

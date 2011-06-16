@@ -18,6 +18,10 @@ package com.google.gerrit.common.errors;
 public class InvalidQueryException extends Exception {
   private static final long serialVersionUID = 1L;
 
+  public InvalidQueryException(String message) {
+    super(message);
+  }
+
   public InvalidQueryException(String message, String query) {
     super("Invalid query: " + query + "\n\n" + message);
   }

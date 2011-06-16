@@ -24,7 +24,19 @@ import java.util.Map;
 class PermissionNameRenderer implements Renderer<String> {
   static final PermissionNameRenderer INSTANCE = new PermissionNameRenderer();
 
-  private static Map<String, String> LC;
+  private static final Map<String, String> all;
+
+  static {
+    all = new HashMap<String, String>();
+    for (Map.Entry<String, String> e : Util.C.capabilityNames().entrySet()) {
+      all.put(e.getKey(), e.getValue());
+      all.put(e.getKey().toLowerCase(), e.getValue());
+    }
+    for (Map.Entry<String, String> e : Util.C.permissionNames().entrySet()) {
+      all.put(e.getKey(), e.getValue());
+      all.put(e.getKey().toLowerCase(), e.getValue());
+    }
+  }
 
   @Override
   public String render(String varName) {
@@ -32,16 +44,9 @@ class PermissionNameRenderer implements Renderer<String> {
       return Util.M.label(new Permission(varName).getLabel());
     }
 
-    Map<String, String> m = Util.C.permissionNames();
-    String desc = m.get(varName);
+    String desc = all.get(varName);
     if (desc == null) {
-      if (LC == null) {
-        LC = new HashMap<String, String>();
-        for (Map.Entry<String, String> e : m.entrySet()) {
-          LC.put(e.getKey().toLowerCase(), e.getValue());
-        }
-      }
-      desc = LC.get(varName.toLowerCase());
+      desc = all.get(varName.toLowerCase());
     }
     return desc != null ? desc : varName;
   }

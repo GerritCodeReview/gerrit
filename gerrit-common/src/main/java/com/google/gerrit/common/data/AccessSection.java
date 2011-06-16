@@ -24,6 +24,9 @@ import java.util.Set;
 
 /** Portion of a {@link Project} describing access rules. */
 public class AccessSection implements Comparable<AccessSection> {
+  /** Special name given to the global capabilities; not a valid reference. */
+  public static final String GLOBAL_CAPABILITIES = "GLOBAL_CAPABILITIES";
+
   /** Pattern that matches all references in a project. */
   public static final String ALL = "refs/*";
 
@@ -38,22 +41,22 @@ public class AccessSection implements Comparable<AccessSection> {
     return name.startsWith("refs/") || name.startsWith("^refs/");
   }
 
-  protected String refPattern;
+  protected String name;
   protected List<Permission> permissions;
 
   protected AccessSection() {
   }
 
   public AccessSection(String refPattern) {
-    setRefPattern(refPattern);
+    setName(refPattern);
   }
 
-  public String getRefPattern() {
-    return refPattern;
+  public String getName() {
+    return name;
   }
 
-  public void setRefPattern(String refPattern) {
-    this.refPattern = refPattern;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public List<Permission> getPermissions() {
@@ -127,14 +130,14 @@ public class AccessSection implements Comparable<AccessSection> {
   }
 
   private String comparePattern() {
-    if (getRefPattern().startsWith(REGEX_PREFIX)) {
-      return getRefPattern().substring(REGEX_PREFIX.length());
+    if (getName().startsWith(REGEX_PREFIX)) {
+      return getName().substring(REGEX_PREFIX.length());
     }
-    return getRefPattern();
+    return getName();
   }
 
   @Override
   public String toString() {
-    return "AccessSection[" + getRefPattern() + "]";
+    return "AccessSection[" + getName() + "]";
   }
 }

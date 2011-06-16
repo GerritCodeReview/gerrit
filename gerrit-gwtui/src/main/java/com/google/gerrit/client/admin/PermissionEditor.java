@@ -19,8 +19,10 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SuggestUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -98,7 +100,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   private final boolean readOnly;
   private final AccessSection section;
   private Permission value;
-  private ApprovalType rangeType;
+  private PermissionRange.WithDefaults validRange;
   private boolean isDeleted;
 
   public PermissionEditor(boolean readOnly, AccessSection section) {
@@ -196,9 +198,9 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
     if (ref.getUUID() != null) {
       if (value.getRule(ref) == null) {
         PermissionRule newRule = value.getRule(ref, true);
-        if (rangeType != null) {
-          int min = rangeType.getMin().getValue();
-          int max = rangeType.getMax().getValue();
+        if (validRange != null) {
+          int min = validRange.getDefaultMin();
+          int max = validRange.getDefaultMax();
           newRule.setRange(min, max);
         }
         rules.getList().add(newRule);
@@ -238,11 +240,20 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   @Override
   public void setValue(Permission value) {
     this.value = value;
+
     if (value.isLabel()) {
-      rangeType =
-          Gerrit.getConfig().getApprovalTypes().byLabel(value.getLabel());
+      ApprovalType at = Gerrit.getConfig().getApprovalTypes().byLabel(value.getLabel());
+      if (at != null) {
+        validRange = new PermissionRange.WithDefaults(
+            value.getName(),
+            at.getMin().getValue(), at.getMax().getValue(),
+            at.getMin().getValue(), at.getMax().getValue());
+      }
+    } else if (GlobalCapability.isCapability(value.getName())) {
+      validRange = GlobalCapability.getRange(value.getName());
+
     } else {
-      rangeType = null;
+      validRange = null;
     }
 
     if (value != null && Permission.OWNER.equals(value.getName())) {
@@ -279,7 +290,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
     @Override
     public PermissionRuleEditor create(int index) {
       PermissionRuleEditor subEditor =
-          new PermissionRuleEditor(readOnly, section, value, rangeType);
+          new PermissionRuleEditor(readOnly, section, value, validRange);
       ruleContainer.insert(subEditor, index);
       return subEditor;
     }

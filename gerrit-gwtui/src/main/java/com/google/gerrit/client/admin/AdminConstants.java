@@ -113,4 +113,10 @@ public interface AdminConstants extends Constants {
   String refErrorNoSpace();
   String refErrorPrintable();
   String errorsMustBeFixed();
+
+  Map<String, String> capabilityNames();
+
+  String sectionTypeReference();
+  String sectionTypeSection();
+  Map<String, String> sectionNames();
 }

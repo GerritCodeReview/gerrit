@@ -55,7 +55,7 @@ public class AccessSectionEditor extends Composite implements
   private static final Binder uiBinder = GWT.create(Binder.class);
 
   @UiField
-  ValueEditor<String> refPattern;
+  ValueEditor<String> name;
 
   @UiField
   FlowPanel permissionContainer;
@@ -77,6 +77,11 @@ public class AccessSectionEditor extends Composite implements
   DivElement normal;
   @UiField
   DivElement deleted;
+
+  @UiField
+  SpanElement sectionType;
+  @UiField
+  SpanElement sectionName;
 
   private final ProjectAccess projectAccess;
   private AccessSection value;
@@ -115,7 +120,18 @@ public class AccessSectionEditor extends Composite implements
   @UiHandler("deleteSection")
   void onDeleteSection(ClickEvent event) {
     isDeleted = true;
-    deletedName.setInnerText(refPattern.getValue());
+
+    if (name.isVisible() && AccessSection.isAccessSection(name.getValue())){
+      deletedName.setInnerText(Util.M.deletedReference(name.getValue()));
+
+    } else {
+      String name = Util.C.sectionNames().get(value.getName());
+      if (name == null) {
+        name = value.getName();
+      }
+      deletedName.setInnerText(Util.M.deletedSection(name));
+    }
+
     normal.getStyle().setDisplay(Display.NONE);
     deleted.getStyle().setDisplay(Display.BLOCK);
   }
@@ -134,11 +150,11 @@ public class AccessSectionEditor extends Composite implements
   }
 
   void editRefPattern() {
-    refPattern.edit();
+    name.edit();
     Scheduler.get().scheduleDeferred(new ScheduledCommand() {
       @Override
       public void execute() {
-        refPattern.setFocus(true);
+        name.setFocus(true);
       }});
   }
 
@@ -157,8 +173,28 @@ public class AccessSectionEditor extends Composite implements
     this.value = value;
     this.readOnly = !editing || !projectAccess.isOwnerOf(value);
 
-    refPattern.setEnabled(!readOnly);
+    name.setEnabled(!readOnly);
     deleteSection.setVisible(!readOnly);
+
+    if (AccessSection.isAccessSection(value.getName())) {
+      name.setVisible(true);
+      name.setIgnoreEditorValue(false);
+      sectionType.setInnerText(Util.C.sectionTypeReference());
+
+    } else {
+      name.setVisible(false);
+      name.setIgnoreEditorValue(true);
+
+      String name = Util.C.sectionNames().get(value.getName());
+      if (name != null) {
+        sectionType.setInnerText(name);
+        sectionName.getStyle().setDisplay(Display.NONE);
+      } else {
+        sectionType.setInnerText(Util.C.sectionTypeSection());
+        sectionName.setInnerText(value.getName());
+        sectionName.getStyle().clearDisplay();
+      }
+    }
 
     if (readOnly) {
       addContainer.getStyle().setDisplay(Display.NONE);
@@ -173,16 +209,24 @@ public class AccessSectionEditor extends Composite implements
 
   private void rebuildPermissionSelector() {
     List<String> perms = new ArrayList<String>();
-    for (ApprovalType t : Gerrit.getConfig().getApprovalTypes()
-        .getApprovalTypes()) {
-      String varName = Permission.LABEL + t.getCategory().getLabelName();
-      if (value.getPermission(varName) == null) {
-        perms.add(varName);
+
+    if (AccessSection.GLOBAL_CAPABILITIES.equals(value.getName())) {
+      for (String varName : Util.C.capabilityNames().keySet()) {
+        if (value.getPermission(varName) == null) {
+          perms.add(varName);
+        }
       }
-    }
-    for (String varName : Util.C.permissionNames().keySet()) {
-      if (value.getPermission(varName) == null) {
-        perms.add(varName);
+    } else if (AccessSection.isAccessSection(value.getName())) {
+      for (ApprovalType t : Gerrit.getConfig().getApprovalTypes().getApprovalTypes()) {
+        String varName = Permission.LABEL + t.getCategory().getLabelName();
+        if (value.getPermission(varName) == null) {
+          perms.add(varName);
+        }
+      }
+      for (String varName : Util.C.permissionNames().keySet()) {
+        if (value.getPermission(varName) == null) {
+          perms.add(varName);
+        }
       }
     }
     if (perms.isEmpty()) {

@@ -74,8 +74,8 @@ limitations under the License.
 <div ui:field='normal' class='{style.normal}'>
   <g:ValueListBox ui:field='action' styleName='{style.actionList}'/>
   <span ui:field='rangeEditor'>
-    <g:ValueListBox ui:field='min' styleName='{style.minmax}'/>
-    <g:ValueListBox ui:field='max' styleName='{style.minmax}'/>
+    <g:Widget ui:field='min' styleName='{style.minmax}'/>
+    <g:Widget ui:field='max' styleName='{style.minmax}'/>
   </span>
 
   <q:Hyperlink ui:field='groupNameLink' styleName='{style.groupName}'/>

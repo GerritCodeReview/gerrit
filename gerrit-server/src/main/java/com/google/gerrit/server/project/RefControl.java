@@ -389,7 +389,7 @@ public class RefControl {
   }
 
   private boolean appliesToRef(AccessSection section) {
-    String refPattern = section.getRefPattern();
+    String refPattern = section.getName();
 
     if (isTemplate(refPattern)) {
       ParamertizedString template = new ParamertizedString(refPattern);
@@ -476,7 +476,7 @@ public class RefControl {
     final AccountGroup.UUID group;
 
     SeenRule(AccessSection section, Permission permission, PermissionRule rule) {
-      refPattern = section.getRefPattern();
+      refPattern = section.getName();
       permissionName = permission.getName();
       group = rule.getGroup().getUUID();
     }
@@ -540,7 +540,7 @@ public class RefControl {
     }
 
     public int compare(AccessSection a, AccessSection b) {
-      return compare(a.getRefPattern(), b.getRefPattern());
+      return compare(a.getName(), b.getName());
     }
 
     private int compare(final String pattern1, final String pattern2) {

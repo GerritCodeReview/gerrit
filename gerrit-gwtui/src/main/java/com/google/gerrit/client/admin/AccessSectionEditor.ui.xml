@@ -66,10 +66,10 @@ limitations under the License.
     background-color: selectionColor;
   }
 
-  .refName {
+  .name {
     width: 100%;
   }
-  .refNameEdit {
+  .nameEdit {
     width: 100%;
   }
 
@@ -107,17 +107,20 @@ limitations under the License.
 <div ui:field='normal' class='{style.normal} {style.content}'>
   <div class='{style.header}'>
     <table class='{style.headerTable}'><tr>
-      <td class='{style.headerText}'><ui:msg>Reference:</ui:msg></td>
+      <td class='{style.headerText}'>
+        <span ui:field='sectionType'/>
+      </td>
       <td width='100%'>
         <my:ValueEditor
-            ui:field='refPattern'
-            addStyleNames='{style.refName}'
+            ui:field='name'
+            addStyleNames='{style.name}'
             editTitle='Edit reference pattern'>
           <ui:attribute name='editTitle'/>
           <my:editor>
-            <my:RefPatternBox styleName='{style.refNameEdit}'/>
+            <my:RefPatternBox styleName='{style.nameEdit}'/>
           </my:editor>
         </my:ValueEditor>
+        <span ui:field='sectionName' class='{style.name}'/>
       </td>
     </tr></table>
 
@@ -144,7 +147,7 @@ limitations under the License.
     ui:field='deleted'
     class='{style.deleted} {res.css.deleted}'
     style='display: none'>
-  <ui:msg>Reference <span ui:field='deletedName'/> was deleted</ui:msg>
+  <span ui:field='deletedName'/>
   <g:Anchor
       ui:field='undoDelete'
       href='javascript:void'

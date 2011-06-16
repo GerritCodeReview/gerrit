@@ -16,7 +16,9 @@ package com.google.gerrit.server.schema;
 
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupName;
@@ -235,6 +237,11 @@ public class SchemaCreator {
       p.setDescription("Rights inherited by all other projects");
       p.setUseContributorAgreements(false);
 
+      AccessSection capabilities = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
+      PermissionRange.WithDefaults queryLimit = GlobalCapability.getRange(GlobalCapability.QUERY_LIMIT);
+      capabilities.getPermission(GlobalCapability.QUERY_LIMIT, true)
+        .add(rule(config, anonymous, queryLimit.getDefaultMax(), queryLimit.getDefaultMax()));
+
       AccessSection all = config.getAccessSection(AccessSection.ALL, true);
       AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
       AccessSection meta = config.getAccessSection(GitRepositoryManager.REF_CONFIG, true);
@@ -268,6 +275,13 @@ public class SchemaCreator {
 
   private PermissionRule rule(ProjectConfig config, AccountGroup group) {
     return new PermissionRule(config.resolve(group));
+  }
+
+  private PermissionRule rule(ProjectConfig config, AccountGroup group,
+      int min, int max) {
+    PermissionRule rule = new PermissionRule(config.resolve(group));
+    rule.setRange(min, max);
+    return rule;
   }
 
   private void initVerifiedCategory(final ReviewDb c) throws OrmException {

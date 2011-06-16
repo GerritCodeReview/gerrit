@@ -107,41 +107,48 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
       Set<String> toDelete = scanSectionNames(config);
 
       for (AccessSection section : mergeSections(sectionList)) {
-        final String name = section.getRefPattern();
-        if (!projectControl.controlForRef(name).isOwner()) {
-          continue;
-        }
+        String name = section.getName();
 
-        if (name.startsWith(AccessSection.REGEX_PREFIX)) {
-          if (!Repository.isValidRefName(RefControl.shortestExample(name))) {
+        if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
+          if (!projectControl.isOwner()) {
+            continue;
+          }
+          replace(config, toDelete, section);
+
+        } else if (AccessSection.isAccessSection(name)) {
+          if (!projectControl.controlForRef(name).isOwner()) {
+            continue;
+          }
+
+          if (name.startsWith(AccessSection.REGEX_PREFIX)) {
+            if (!Repository.isValidRefName(RefControl.shortestExample(name))) {
+              throw new InvalidNameException();
+            }
+
+          } else if (name.equals(AccessSection.ALL)) {
+            // This is a special case we have to allow, it fails below.
+
+          } else if (name.endsWith("/*")) {
+            String prefix = name.substring(0, name.length() - 2);
+            if (!Repository.isValidRefName(prefix)) {
+              throw new InvalidNameException();
+            }
+
+          } else if (!Repository.isValidRefName(name)) {
             throw new InvalidNameException();
           }
 
-        } else if (name.equals(AccessSection.ALL)) {
-          // This is a special case we have to allow, it fails below.
-
-        } else if (name.endsWith("/*")) {
-          String prefix = name.substring(0, name.length() - 2);
-          if (!Repository.isValidRefName(prefix)) {
-            throw new InvalidNameException();
-          }
-
-        } else if (!Repository.isValidRefName(name)) {
-          throw new InvalidNameException();
+          replace(config, toDelete, section);
         }
-
-        for (Permission permission : section.getPermissions()) {
-          for (PermissionRule rule : permission.getRules()) {
-            lookupGroup(rule);
-          }
-        }
-
-        config.replace(section);
-        toDelete.remove(section.getRefPattern());
       }
 
       for (String name : toDelete) {
-        if (projectControl.controlForRef(name).isOwner()) {
+        if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
+          if (projectControl.isOwner()) {
+            config.remove(config.getAccessSection(name));
+          }
+
+        } else if (projectControl.controlForRef(name).isOwner()) {
           config.remove(config.getAccessSection(name));
         }
       }
@@ -167,6 +174,17 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
     }
   }
 
+  private void replace(ProjectConfig config, Set<String> toDelete,
+      AccessSection section) throws NoSuchGroupException {
+    for (Permission permission : section.getPermissions()) {
+      for (PermissionRule rule : permission.getRules()) {
+        lookupGroup(rule);
+      }
+    }
+    config.replace(section);
+    toDelete.remove(section.getName());
+  }
+
   private static List<AccessSection> mergeSections(List<AccessSection> src) {
     Map<String, AccessSection> map = new LinkedHashMap<String, AccessSection>();
     for (AccessSection section : src) {
@@ -174,11 +192,11 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
         continue;
       }
 
-      AccessSection prior = map.get(section.getRefPattern());
+      AccessSection prior = map.get(section.getName());
       if (prior != null) {
         prior.mergeFrom(section);
       } else {
-        map.put(section.getRefPattern(), section);
+        map.put(section.getName(), section);
       }
     }
     return new ArrayList<AccessSection>(map.values());
@@ -187,7 +205,7 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
   private static Set<String> scanSectionNames(ProjectConfig config) {
     Set<String> names = new HashSet<String>();
     for (AccessSection section : config.getAccessSections()) {
-      names.add(section.getRefPattern());
+      names.add(section.getName());
     }
     return names;
   }

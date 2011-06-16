@@ -14,7 +14,50 @@
 
 package com.google.gerrit.common.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PermissionRange implements Comparable<PermissionRange> {
+  public static class WithDefaults extends PermissionRange {
+    protected int defaultMin;
+    protected int defaultMax;
+
+    protected WithDefaults() {
+    }
+
+    public WithDefaults(String name, int min, int max, int defMin, int defMax) {
+      super(name, min, max);
+      setDefaultRange(defMin, defMax);
+    }
+
+    public int getDefaultMin() {
+      return defaultMin;
+    }
+
+    public int getDefaultMax() {
+      return defaultMax;
+    }
+
+    public void setDefaultRange(int min, int max) {
+      defaultMin = min;
+      defaultMax = max;
+    }
+
+    /** @return all values between {@link #getMin()} and {@link #getMax()} */
+    public List<Integer> getValuesAsList() {
+      ArrayList<Integer> r = new ArrayList<Integer>(getRangeSize());
+      for (int i = min; i <= max; i++) {
+        r.add(i);
+      }
+      return r;
+    }
+
+    /** @return number of values between {@link #getMin()} and {@link #getMax()} */
+    public int getRangeSize() {
+      return max - min;
+    }
+  }
+
   protected String name;
   protected int min;
   protected int max;

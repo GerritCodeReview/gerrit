@@ -17,6 +17,8 @@ package com.google.gerrit.httpd.rpc;
 import com.google.gerrit.common.data.AccountDashboardInfo;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.ChangeListService;
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SingleListChangeInfo;
 import com.google.gerrit.common.data.ToggleStarRequest;
 import com.google.gerrit.common.errors.InvalidQueryException;
@@ -29,8 +31,10 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -79,15 +83,10 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         }
       };
 
-  private static final int MAX_PER_PAGE = 100;
-
-  private static int safePageSize(final int pageSize) {
-    return 0 < pageSize && pageSize <= MAX_PER_PAGE ? pageSize : MAX_PER_PAGE;
-  }
-
   private final Provider<CurrentUser> currentUser;
   private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
+  private final CapabilityControl.Factory capabilityControlFactory;
 
   private final ChangeQueryBuilder.Factory queryBuilder;
   private final Provider<ChangeQueryRewriter> queryRewriter;
@@ -97,12 +96,14 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final Provider<CurrentUser> currentUser,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
+      final CapabilityControl.Factory capabilityControlFactory,
       final ChangeQueryBuilder.Factory queryBuilder,
       final Provider<ChangeQueryRewriter> queryRewriter) {
     super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
     this.accountInfoCacheFactory = accountInfoCacheFactory;
+    this.capabilityControlFactory = capabilityControlFactory;
     this.queryBuilder = queryBuilder;
     this.queryRewriter = queryRewriter;
   }
@@ -118,25 +119,33 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   @Override
   public void allQueryPrev(final String query, final String pos,
       final int pageSize, final AsyncCallback<SingleListChangeInfo> callback) {
-    run(callback, new QueryPrev(pageSize, pos) {
-      @Override
-      ResultSet<Change> query(ReviewDb db, int lim, String key)
-          throws OrmException, InvalidQueryException {
-        return searchQuery(db, query, lim, key, QUERY_PREV);
-      }
-    });
+    try {
+      run(callback, new QueryPrev(pageSize, pos) {
+        @Override
+        ResultSet<Change> query(ReviewDb db, int lim, String key)
+            throws OrmException, InvalidQueryException {
+          return searchQuery(db, query, lim, key, QUERY_PREV);
+        }
+      });
+    } catch (InvalidQueryException e) {
+      callback.onFailure(e);
+    }
   }
 
   @Override
   public void allQueryNext(final String query, final String pos,
       final int pageSize, final AsyncCallback<SingleListChangeInfo> callback) {
-    run(callback, new QueryNext(pageSize, pos) {
-      @Override
-      ResultSet<Change> query(ReviewDb db, int lim, String key)
-          throws OrmException, InvalidQueryException {
-        return searchQuery(db, query, lim, key, QUERY_NEXT);
-      }
-    });
+    try {
+      run(callback, new QueryNext(pageSize, pos) {
+        @Override
+        ResultSet<Change> query(ReviewDb db, int lim, String key)
+            throws OrmException, InvalidQueryException {
+          return searchQuery(db, query, lim, key, QUERY_NEXT);
+        }
+      });
+    } catch (InvalidQueryException e) {
+      callback.onFailure(e);
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -290,6 +299,26 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     callback.onSuccess(currentUser.get().getStarredChanges());
   }
 
+  private int safePageSize(final int pageSize) throws InvalidQueryException {
+    int maxLimit;
+    try {
+      PermissionRange range = capabilityControlFactory.controlFor()
+          .getRange(GlobalCapability.QUERY_LIMIT);
+      if (range != null) {
+        maxLimit = range.getMax();
+      } else {
+        maxLimit = GlobalCapability.getRange(GlobalCapability.QUERY_LIMIT)
+            .getDefaultMax();
+      }
+    } catch (NoSuchProjectException noConfig) {
+      maxLimit = 0;
+    }
+    if (maxLimit == 0) {
+      throw new InvalidQueryException("Search Disabled");
+    }
+    return 0 < pageSize && pageSize <= maxLimit ? pageSize : maxLimit;
+  }
+
   private List<ChangeInfo> filter(final ResultSet<Change> rs,
       final Set<Change.Id> starred, final AccountInfoCacheFactory accts) {
     final ArrayList<ChangeInfo> r = new ArrayList<ChangeInfo>();
@@ -309,7 +338,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     protected final int limit;
     protected final int slim;
 
-    QueryNext(final int pageSize, final String pos) {
+    QueryNext(final int pageSize, final String pos) throws InvalidQueryException {
       this.pos = pos;
       this.limit = safePageSize(pageSize);
       this.slim = limit + 1;
@@ -353,7 +382,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   }
 
   private abstract class QueryPrev extends QueryNext {
-    QueryPrev(int pageSize, String pos) {
+    QueryPrev(int pageSize, String pos) throws InvalidQueryException {
       super(pageSize, pos);
     }
 

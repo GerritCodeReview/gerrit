@@ -52,8 +52,21 @@ public class ProjectAccess {
     local = as;
   }
 
+  public AccessSection getLocal(String name) {
+    for (AccessSection s : local) {
+      if (s.getName().equals(name)) {
+        return s;
+      }
+    }
+    return null;
+  }
+
   public boolean isOwnerOf(AccessSection section) {
-    return getOwnerOf().contains(section.getRefPattern());
+    return isOwnerOf(section.getName());
+  }
+
+  public boolean isOwnerOf(String name) {
+    return ownerOf.contains(name);
   }
 
   public Set<String> getOwnerOf() {

@@ -170,7 +170,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
       int sp = src.indexOf(' ');
       String range = src.substring(0, sp);
 
-      if (range.matches("^([+-]\\d+)\\.\\.([+-]\\d)$")) {
+      if (range.matches("^([+-]?\\d+)\\.\\.([+-]?\\d+)$")) {
         int dotdot = range.indexOf("..");
         int min = parseInt(range.substring(0, dotdot));
         int max = parseInt(range.substring(dotdot + 2));

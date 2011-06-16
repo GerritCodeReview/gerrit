@@ -331,6 +331,18 @@ public abstract class PatchScreen extends Screen implements
     return patchKey;
   }
 
+  public int getPatchIndex() {
+    return patchIndex;
+  }
+
+  public PatchSetDetail getPatchSetDetail() {
+    return patchSetDetail;
+  }
+
+  public PatchTable getFileList() {
+    return fileList;
+  }
+
   protected void refresh(final boolean isFirst) {
     final int rpcseq = ++rpcSequence;
     lastScript = null;

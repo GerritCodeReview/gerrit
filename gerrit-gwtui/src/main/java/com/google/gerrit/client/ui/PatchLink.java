@@ -16,10 +16,11 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.changes.PatchTable;
+import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Patch;
 
-public abstract class PatchLink extends InlineHyperlink {
+public class PatchLink extends InlineHyperlink {
   protected Patch.Key patchKey;
   protected int patchIndex;
   protected PatchSetDetail patchSetDetail;
@@ -30,10 +31,10 @@ public abstract class PatchLink extends InlineHyperlink {
    * @param patchKey The key for this patch
    * @param patchIndex The index of the current patch in the patch set
    * @param historyToken The history token
-   * @parma patchSetDetail Detailed information about the patch set.
+   * @param patchSetDetail Detailed information about the patch set.
    * @param parentPatchTable The table used to display this link
    */
-  public PatchLink(final String text, final Patch.Key patchKey,
+  protected PatchLink(final String text, final Patch.Key patchKey,
       final int patchIndex, final String historyToken,
       final PatchSetDetail patchSetDetail,
       final PatchTable parentPatchTable) {
@@ -42,6 +43,22 @@ public abstract class PatchLink extends InlineHyperlink {
     this.patchIndex = patchIndex;
     this.patchSetDetail = patchSetDetail;
     this.parentPatchTable = parentPatchTable;
+  }
+
+  /**
+   * @param text The text of this link
+   * @param type The type of the link to create (unified/side-by-side)
+   * @param patchScreen The patchScreen to grab contents to link to from
+   */
+  public PatchLink(final String text, final PatchScreen.Type type,
+      final PatchScreen patchScreen) {
+    this(text, //
+        patchScreen.getPatchKey(), //
+        patchScreen.getPatchIndex(), //
+        Dispatcher.toPatch(type, patchScreen.getPatchKey()), //
+        patchScreen.getPatchSetDetail(), //
+        patchScreen.getFileList() //
+        );
   }
 
   @Override

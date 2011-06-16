@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDH///8M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:09:39Z",
+      "side": 1,
+      "message": "Drop the URL prefix and just use the type ClassLoader right here. We should be as generic as reasonably possible.\n\nThis should be final. The value should not be modified once its assigned in the constructor. The ProjectState object is thread-safe and cannot tolerate one thread changing the urlLoader while another thread was trying to access it.",
+      "revId": "67992d673a859cf93c7ce69e0dfed4457d467867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///8E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:09:39Z",
+      "side": 1,
+      "message": "Drop this TODO, you have done it.",
+      "revId": "67992d673a859cf93c7ce69e0dfed4457d467867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///8A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:09:39Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "67992d673a859cf93c7ce69e0dfed4457d467867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///8I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:09:39Z",
+      "side": 1,
+      "message": "Style-nit: Space after \"if\" before \"(\"",
+      "revId": "67992d673a859cf93c7ce69e0dfed4457d467867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///74\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:09:39Z",
+      "side": 1,
+      "message": "Drop the else. Let the code fall through to the rest of the method:\n\n  if (urlLoader !\u003d null) {\n    return envFactory.create(urlLoader);\n  }\n\n  PrologEnvironment env \u003d envFactory.create(getClass().getClassLoader());\n  // Consult rules.pl ...\n\nThe first time I read this block I missed the return, and assumed you were always consulting the rules.pl file. I read code fast, so I try to use a style that makes it more obvious when there is a hidden return.",
+      "revId": "67992d673a859cf93c7ce69e0dfed4457d467867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///70\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:09:39Z",
+      "side": 1,
+      "message": "Style-nit: Space after \"(\".",
+      "revId": "67992d673a859cf93c7ce69e0dfed4457d467867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///7k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:09:39Z",
+      "side": 1,
+      "message": "Declare the return type to be just ClassLoader. Try to stay generic when possible.",
+      "revId": "67992d673a859cf93c7ce69e0dfed4457d467867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///7w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:09:39Z",
+      "side": 1,
+      "message": "This cacheFolder needs to be computed in the constructor. Its expensive to compute and part of the reason we have RulesCache is to compute this once in the constructor and be able to reuse it during future calls.",
+      "revId": "67992d673a859cf93c7ce69e0dfed4457d467867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///7s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:09:39Z",
+      "side": 1,
+      "message": "Instead I would prefer:\n\n  File rulesDir \u003d new File(cacheDir, \"rules\");\n  File jarFile \u003d new File(rulesDir, \"rules-\" + rulesId.name() + \".jar\");\n\nHowever, since rulesDir is constant you can also compute that in your constructor.",
+      "revId": "67992d673a859cf93c7ce69e0dfed4457d467867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///7o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:09:39Z",
+      "side": 1,
+      "message": "Style-nit: Space after \"if\".\n\nA cleaner way to write this is probably:\n\n  if (rulesDir \u003d\u003d null) {\n    return null;\n  }\n\n  File jarFile \u003d new File(rulesDir, \"rules-\" + rulesId.name() + \".jar\");\n  if (!jarFile.isFile()) {\n    return null;\n  }\n\n  ClassLoader defaultLoader \u003d getClass().getClassLoader();",
+      "revId": "67992d673a859cf93c7ce69e0dfed4457d467867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///7g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RulesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:09:39Z",
+      "side": 1,
+      "message": "Since ProjectState gets rebuilt anytime the access controls change, but the rules.pl is less likely to change, we may want to actually cache the URLClassLoaders in this RulesCache:\n\nTake a look at what I did in the top of SymbolTerm with a WeakReference and a ReferenceQueue called DEAD. We can implement a weak reference map of ClassLoaders keyed by ObjectId and recycle one if it already exists.\n\nThe WeakReference\u003cClassLoader\u003e will allow the ClassLoader to be GCed when it is actually no longer used, but if a ProjectState is just being cycled out to update its access controls we are likely to get a valid hit and be able to reuse the prior ClassLoader. This allows the JVM to continue to use the previously already loaded bytecode, and the JITed version of that, without missing a step.",
+      "revId": "67992d673a859cf93c7ce69e0dfed4457d467867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -46,14 +46,21 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
     final String token = params.getParameter(0);
     String projectName = token;
 
+    while (projectName.endsWith("/")) {
+      projectName = projectName.substring(0, projectName.length() - 1);
+    }
+
     if (projectName.endsWith(".git")) {
       // Be nice and drop the trailing ".git" suffix, which we never keep
       // in our database, but clients might mistakenly provide anyway.
       //
       projectName = projectName.substring(0, projectName.length() - 4);
+      while (projectName.endsWith("/")) {
+        projectName = projectName.substring(0, projectName.length() - 1);
+      }
     }
 
-    if (projectName.startsWith("/")) {
+    while (projectName.startsWith("/")) {
       // Be nice and drop the leading "/" if supplied by an absolute path.
       // We don't have a file system hierarchy, just a flat namespace in
       // the database's Project entities. We never encode these with a
@@ -64,8 +71,8 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
 
     final ProjectControl control;
     try {
-      control =
-          projectControlFactory.validateFor(new Project.NameKey(projectName));
+      Project.NameKey nameKey = new Project.NameKey(projectName);
+      control = projectControlFactory.validateFor(nameKey);
     } catch (NoSuchProjectException e) {
       throw new CmdLineException(owner, "'" + token + "': not a Gerrit project");
     }

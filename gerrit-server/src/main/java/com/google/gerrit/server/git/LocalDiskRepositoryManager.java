@@ -225,6 +225,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     final String name = nameKey.get();
 
     if (name.length() == 0) return true; // no empty paths
+    if (name.charAt(name.length() -1) == '/') return true; // no suffix
 
     if (name.indexOf('\\') >= 0) return true; // no windows/dos stlye paths
     if (name.charAt(0) == '/') return true; // no absolute paths

@@ -171,14 +171,21 @@ public class ProjectServlet extends GitServlet {
     public Repository open(HttpServletRequest req, String projectName)
         throws RepositoryNotFoundException, ServiceNotAuthorizedException,
         ServiceNotEnabledException {
+      while (projectName.endsWith("/")) {
+        projectName = projectName.substring(0, projectName.length() - 1);
+      }
+
       if (projectName.endsWith(".git")) {
         // Be nice and drop the trailing ".git" suffix, which we never keep
         // in our database, but clients might mistakenly provide anyway.
         //
         projectName = projectName.substring(0, projectName.length() - 4);
+        while (projectName.endsWith("/")) {
+          projectName = projectName.substring(0, projectName.length() - 1);
+        }
       }
 
-      if (projectName.startsWith("/")) {
+      while (projectName.startsWith("/")) {
         // Be nice and drop the leading "/" if supplied by an absolute path.
         // We don't have a file system hierarchy, just a flat namespace in
         // the database's Project entities. We never encode these with a

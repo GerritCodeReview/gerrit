@@ -90,10 +90,6 @@ public class RefControl {
     return getProjectControl().getCurrentUser();
   }
 
-  public RefControl forAnonymousUser() {
-    return getProjectControl().forAnonymousUser().controlForRef(getRefName());
-  }
-
   public RefControl forUser(final CurrentUser who) {
     return getProjectControl().forUser(who).controlForRef(getRefName());
   }

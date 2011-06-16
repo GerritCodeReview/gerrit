@@ -126,10 +126,6 @@ public class ProjectControl {
     state = ps;
   }
 
-  public ProjectControl forAnonymousUser() {
-    return state.controlForAnonymousUser();
-  }
-
   public ProjectControl forUser(final CurrentUser who) {
     return state.controlFor(who);
   }

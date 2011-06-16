@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -40,8 +41,9 @@ public class PeerDaemonUser extends CurrentUser {
   private final SocketAddress peer;
 
   @Inject
-  protected PeerDaemonUser(AuthConfig authConfig, @Assisted SocketAddress peer) {
-    super(AccessPath.SSH_COMMAND, authConfig);
+  protected PeerDaemonUser(CapabilityControl.Factory capabilityControlFactory,
+      AuthConfig authConfig, @Assisted SocketAddress peer) {
+    super(capabilityControlFactory, AccessPath.SSH_COMMAND, authConfig);
 
     final HashSet<AccountGroup.UUID> g = new HashSet<AccountGroup.UUID>();
     g.add(authConfig.getAdministratorsGroup());

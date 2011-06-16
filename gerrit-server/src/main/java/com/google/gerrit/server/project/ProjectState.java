@@ -21,7 +21,6 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.rules.PrologEnvironment;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -53,7 +52,6 @@ public class ProjectState {
     ProjectState create(ProjectConfig config);
   }
 
-  private final AnonymousUser anonymousUser;
   private final Project.NameKey wildProject;
   private final ProjectCache projectCache;
   private final ProjectControl.AssistedFactory projectControlFactory;
@@ -67,14 +65,13 @@ public class ProjectState {
   private transient long lastCheckTime;
 
   @Inject
-  protected ProjectState(final AnonymousUser anonymousUser,
+  protected ProjectState(
       final ProjectCache projectCache,
       @WildProjectName final Project.NameKey wildProject,
       final ProjectControl.AssistedFactory projectControlFactory,
       final PrologEnvironment.Factory envFactory,
       final GitRepositoryManager gitMgr,
       @Assisted final ProjectConfig config) {
-    this.anonymousUser = anonymousUser;
     this.projectCache = projectCache;
     this.wildProject = wildProject;
     this.projectControlFactory = projectControlFactory;
@@ -245,10 +242,6 @@ public class ProjectState {
     }
 
     return Collections.unmodifiableSet(owners);
-  }
-
-  public ProjectControl controlForAnonymousUser() {
-    return controlFor(anonymousUser);
   }
 
   public ProjectControl controlFor(final CurrentUser user) {

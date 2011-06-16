@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.config.AuthConfig;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -28,12 +27,12 @@ import java.util.Set;
 final class SingleGroupUser extends CurrentUser {
   private final Set<AccountGroup.UUID> groups;
 
-  SingleGroupUser(AuthConfig authConfig, AccountGroup.UUID groupId) {
-    this(authConfig, Collections.singleton(groupId));
+  SingleGroupUser(AccountGroup.UUID groupId) {
+    this(Collections.singleton(groupId));
   }
 
-  SingleGroupUser(AuthConfig authConfig, Set<AccountGroup.UUID> groups) {
-    super(AccessPath.UNKNOWN, authConfig);
+  SingleGroupUser(Set<AccountGroup.UUID> groups) {
+    super(null, AccessPath.UNKNOWN, null);
     this.groups = groups;
   }
 
@@ -50,5 +49,15 @@ final class SingleGroupUser extends CurrentUser {
   @Override
   public Collection<AccountProjectWatch> getNotificationFilters() {
     return Collections.emptySet();
+  }
+
+  @Override
+  public boolean isBatchUser() {
+    return false;
+  }
+
+  @Override
+  public boolean isAdministrator() {
+    return false;
   }
 }

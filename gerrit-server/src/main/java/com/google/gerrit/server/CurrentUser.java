@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.servlet.RequestScoped;
 
@@ -32,10 +33,17 @@ import java.util.Set;
  * @see IdentifiedUser
  */
 public abstract class CurrentUser {
+  private final CapabilityControl.Factory capabilityControlFactory;
   private final AccessPath accessPath;
   protected final AuthConfig authConfig;
 
-  protected CurrentUser(final AccessPath accessPath, final AuthConfig authConfig) {
+  private CapabilityControl capabilities;
+
+  protected CurrentUser(
+      CapabilityControl.Factory capabilityControlFactory,
+      AccessPath accessPath,
+      AuthConfig authConfig) {
+    this.capabilityControlFactory = capabilityControlFactory;
     this.accessPath = accessPath;
     this.authConfig = authConfig;
   }
@@ -69,7 +77,17 @@ public abstract class CurrentUser {
     return getEffectiveGroups().contains(authConfig.getBatchUsersGroup());
   }
 
-  public final boolean isAdministrator() {
+  public boolean isAdministrator() {
     return getEffectiveGroups().contains(authConfig.getAdministratorsGroup());
+  }
+
+  /** Capabilities available to this user account. */
+  public CapabilityControl getCapabilities() {
+    CapabilityControl ctl = capabilities;
+    if (ctl == null) {
+      ctl = capabilityControlFactory.create(this);
+      capabilities = ctl;
+    }
+    return ctl;
   }
 }

@@ -33,12 +33,14 @@ import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.httpd.GitWebConfig;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -83,15 +85,19 @@ class GitWebServlet extends HttpServlet {
   private final URI gitwebUrl;
   private final LocalDiskRepositoryManager repoManager;
   private final ProjectControl.Factory projectControl;
+  private final Provider<AnonymousUser> anonymousUserProvider;
   private final EnvList _env;
 
   @Inject
   GitWebServlet(final LocalDiskRepositoryManager repoManager,
-      final ProjectControl.Factory projectControl, final SitePaths site,
+      final ProjectControl.Factory projectControl,
+      final Provider<AnonymousUser> anonymousUserProvider,
+      final SitePaths site,
       final GerritConfig gerritConfig, final GitWebConfig gitWebConfig)
       throws IOException {
     this.repoManager = repoManager;
     this.projectControl = projectControl;
+    this.anonymousUserProvider = anonymousUserProvider;
     this.gitwebCgi = gitWebConfig.getGitwebCGI();
     this.deniedActions = new HashSet<String>();
 
@@ -507,7 +513,7 @@ class GitWebServlet extends HttpServlet {
     env.set("GERRIT_CONTEXT_PATH", req.getContextPath() + "/");
     env.set("GERRIT_PROJECT_NAME", project.getProject().getName());
 
-    if (project.forAnonymousUser().isVisible()) {
+    if (project.forUser(anonymousUserProvider.get()).isVisible()) {
       env.set("GERRIT_ANONYMOUS_READ", "1");
     }
 

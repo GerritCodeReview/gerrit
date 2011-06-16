@@ -28,7 +28,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,34 +39,23 @@ import java.util.Set;
 
 /** Access control management for server-wide capabilities. */
 public class CapabilityControl {
-  public static class Factory {
-    private final Project.NameKey wildProject;
-    private final ProjectCache projectCache;
-    private final Provider<CurrentUser> user;
-
-    @Inject
-    Factory(@WildProjectName Project.NameKey wp, ProjectCache pc,
-        Provider<CurrentUser> cu) {
-      wildProject = wp;
-      projectCache = pc;
-      user = cu;
-    }
-
-    public CapabilityControl controlFor() throws NoSuchProjectException {
-      final ProjectState p = projectCache.get(wildProject);
-      if (p == null) {
-        throw new NoSuchProjectException(wildProject);
-      }
-      return new CapabilityControl(p, user.get());
-    }
+  public static interface Factory {
+    public CapabilityControl create(CurrentUser user);
   }
 
   private final ProjectState state;
   private final CurrentUser user;
   private Map<String, List<PermissionRule>> permissions;
 
-  private CapabilityControl(ProjectState p, CurrentUser currentUser) {
-    state = p;
+  @Inject
+  CapabilityControl(
+      @WildProjectName Project.NameKey wp,
+      ProjectCache projectCache,
+      @Assisted CurrentUser currentUser) throws NoSuchProjectException {
+    state = projectCache.get(wp);
+    if (state == null) {
+      throw new NoSuchProjectException(wp);
+    }
     user = currentUser;
   }
 

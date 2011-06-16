@@ -25,7 +25,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -103,7 +102,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ChangeControl.GenericFactory changeControlGenericFactory;
     final AccountResolver accountResolver;
     final GroupCache groupCache;
-    final AuthConfig authConfig;
     final ApprovalTypes approvalTypes;
     final Project.NameKey wildProjectName;
     final PatchListCache patchListCache;
@@ -117,7 +115,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         ChangeControl.Factory changeControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
         AccountResolver accountResolver, GroupCache groupCache,
-        AuthConfig authConfig, ApprovalTypes approvalTypes,
+        ApprovalTypes approvalTypes,
         @WildProjectName Project.NameKey wildProjectName,
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
@@ -129,7 +127,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.changeControlGenericFactory = changeControlGenericFactory;
       this.accountResolver = accountResolver;
       this.groupCache = groupCache;
-      this.authConfig = authConfig;
       this.approvalTypes = approvalTypes;
       this.wildProjectName = wildProjectName;
       this.patchListCache = patchListCache;
@@ -344,7 +341,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     //
     AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(who));
     if (g != null) {
-      return visibleto(new SingleGroupUser(args.authConfig, g.getGroupUUID()));
+      return visibleto(new SingleGroupUser(g.getGroupUUID()));
     }
 
     Collection<AccountGroup> matches =
@@ -354,7 +351,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       for (AccountGroup group : matches) {
         ids.add(group.getGroupUUID());
       }
-      return visibleto(new SingleGroupUser(args.authConfig, ids));
+      return visibleto(new SingleGroupUser(ids));
     }
 
     throw error("No user or group matches \"" + who + "\".");

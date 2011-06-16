@@ -31,6 +31,7 @@ import com.google.gerrit.server.cache.EvictionPolicy;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.RequestScoped;
 
@@ -64,7 +65,7 @@ public final class WebSession {
   private final HttpServletResponse response;
   private final WebSessionManager manager;
   private final AuthConfig authConfig;
-  private final AnonymousUser anonymous;
+  private final Provider<AnonymousUser> anonymousProvider;
   private final IdentifiedUser.RequestFactory identified;
   private AccessPath accessPath = AccessPath.WEB_UI;
   private Cookie outCookie;
@@ -75,13 +76,14 @@ public final class WebSession {
   @Inject
   WebSession(final HttpServletRequest request,
       final HttpServletResponse response, final WebSessionManager manager,
-      final AuthConfig authConfig, final AnonymousUser anonymous,
+      final AuthConfig authConfig,
+      final Provider<AnonymousUser> anonymousProvider,
       final IdentifiedUser.RequestFactory identified) {
     this.request = request;
     this.response = response;
     this.manager = manager;
     this.authConfig = authConfig;
-    this.anonymous = anonymous;
+    this.anonymousProvider = anonymousProvider;
     this.identified = identified;
 
     final String cookie = readCookie();
@@ -138,7 +140,7 @@ public final class WebSession {
     if (isSignedIn()) {
       return identified.create(accessPath, val.getAccountId());
     }
-    return anonymous;
+    return anonymousProvider.get();
   }
 
   public void login(final AuthResult res, final boolean rememberMe) {

@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
@@ -63,6 +64,7 @@ public class IdentifiedUser extends CurrentUser {
   /** Create an IdentifiedUser, ignoring any per-request state. */
   @Singleton
   public static class GenericFactory {
+    private final CapabilityControl.Factory capabilityControlFactory;
     private final AuthConfig authConfig;
     private final Provider<String> canonicalUrl;
     private final Realm realm;
@@ -70,10 +72,13 @@ public class IdentifiedUser extends CurrentUser {
     private final GroupIncludeCache groupIncludeCache;
 
     @Inject
-    GenericFactory(final AuthConfig authConfig,
+    GenericFactory(
+        CapabilityControl.Factory capabilityControlFactory,
+        final AuthConfig authConfig,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
         final Realm realm, final AccountCache accountCache,
         final GroupIncludeCache groupIncludeCache) {
+      this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
@@ -86,14 +91,16 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
-      return new IdentifiedUser(AccessPath.UNKNOWN, authConfig, canonicalUrl,
-          realm, accountCache, groupIncludeCache, null, db, id);
+      return new IdentifiedUser(capabilityControlFactory, AccessPath.UNKNOWN,
+          authConfig, canonicalUrl, realm, accountCache, groupIncludeCache,
+          null, db, id);
     }
 
     public IdentifiedUser create(AccessPath accessPath,
         Provider<SocketAddress> remotePeerProvider, Account.Id id) {
-      return new IdentifiedUser(accessPath, authConfig, canonicalUrl, realm,
-          accountCache, groupIncludeCache, remotePeerProvider, null, id);
+      return new IdentifiedUser(capabilityControlFactory, accessPath,
+          authConfig, canonicalUrl, realm, accountCache, groupIncludeCache,
+          remotePeerProvider, null, id);
     }
   }
 
@@ -105,6 +112,7 @@ public class IdentifiedUser extends CurrentUser {
    */
   @Singleton
   public static class RequestFactory {
+    private final CapabilityControl.Factory capabilityControlFactory;
     private final AuthConfig authConfig;
     private final Provider<String> canonicalUrl;
     private final Realm realm;
@@ -115,13 +123,16 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<ReviewDb> dbProvider;
 
     @Inject
-    RequestFactory(final AuthConfig authConfig,
+    RequestFactory(
+        CapabilityControl.Factory capabilityControlFactory,
+        final AuthConfig authConfig,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
         final Realm realm, final AccountCache accountCache,
         final GroupIncludeCache groupIncludeCache,
 
         final @RemotePeer Provider<SocketAddress> remotePeerProvider,
         final Provider<ReviewDb> dbProvider) {
+      this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
@@ -134,8 +145,9 @@ public class IdentifiedUser extends CurrentUser {
 
     public IdentifiedUser create(final AccessPath accessPath,
         final Account.Id id) {
-      return new IdentifiedUser(accessPath, authConfig, canonicalUrl, realm,
-          accountCache, groupIncludeCache, remotePeerProvider, dbProvider, id);
+      return new IdentifiedUser(capabilityControlFactory, accessPath,
+          authConfig, canonicalUrl, realm, accountCache, groupIncludeCache,
+          remotePeerProvider, dbProvider, id);
     }
   }
 
@@ -183,13 +195,15 @@ public class IdentifiedUser extends CurrentUser {
   private Set<Change.Id> starredChanges;
   private Collection<AccountProjectWatch> notificationFilters;
 
-  private IdentifiedUser(final AccessPath accessPath,
+  private IdentifiedUser(
+      CapabilityControl.Factory capabilityControlFactory,
+      final AccessPath accessPath,
       final AuthConfig authConfig, final Provider<String> canonicalUrl,
       final Realm realm, final AccountCache accountCache,
       final GroupIncludeCache groupIncludeCache,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
-    super(accessPath, authConfig);
+    super(capabilityControlFactory, accessPath, authConfig);
     this.canonicalUrl = canonicalUrl;
     this.realm = realm;
     this.accountCache = accountCache;

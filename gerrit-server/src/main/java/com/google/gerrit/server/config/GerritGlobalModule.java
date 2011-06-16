@@ -30,6 +30,7 @@ import com.google.gerrit.server.ReplicationUser;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.DefaultRealm;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCacheImpl;
@@ -138,7 +139,6 @@ public class GerritGlobalModule extends FactoryModule {
         SINGLETON);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
         SINGLETON);
-    bind(AnonymousUser.class);
 
     bind(IdGenerator.class);
     bind(CachePool.class);
@@ -153,6 +153,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new PrologModule());
 
     factory(AccountInfoCacheFactory.Factory.class);
+    factory(CapabilityControl.Factory.class);
     factory(GroupInfoCacheFactory.Factory.class);
     factory(ProjectState.Factory.class);
     factory(RefControl.Factory.class);

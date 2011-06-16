@@ -33,7 +33,6 @@ import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -85,7 +84,6 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   private final Provider<CurrentUser> currentUser;
   private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
-  private final CapabilityControl.Factory capabilityControlFactory;
 
   private final ChangeQueryBuilder.Factory queryBuilder;
   private final Provider<ChangeQueryRewriter> queryRewriter;
@@ -95,14 +93,12 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final Provider<CurrentUser> currentUser,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
-      final CapabilityControl.Factory capabilityControlFactory,
       final ChangeQueryBuilder.Factory queryBuilder,
       final Provider<ChangeQueryRewriter> queryRewriter) {
     super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
     this.accountInfoCacheFactory = accountInfoCacheFactory;
-    this.capabilityControlFactory = capabilityControlFactory;
     this.queryBuilder = queryBuilder;
     this.queryRewriter = queryRewriter;
   }
@@ -299,14 +295,9 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   }
 
   private int safePageSize(final int pageSize) throws InvalidQueryException {
-    int maxLimit;
-    try {
-      maxLimit = capabilityControlFactory.controlFor()
-          .getRange(GlobalCapability.QUERY_LIMIT)
-          .getMax();
-    } catch (NoSuchProjectException e) {
-      throw new InvalidQueryException("Search Disabled");
-    }
+    int maxLimit = currentUser.get().getCapabilities()
+      .getRange(GlobalCapability.QUERY_LIMIT)
+      .getMax();
     if (maxLimit == 0) {
       throw new InvalidQueryException("Search Disabled");
     }

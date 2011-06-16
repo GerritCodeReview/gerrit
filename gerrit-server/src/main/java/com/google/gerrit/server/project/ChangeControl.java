@@ -127,10 +127,6 @@ public class ChangeControl {
     this.change = c;
   }
 
-  public ChangeControl forAnonymousUser() {
-    return new ChangeControl(getRefControl().forAnonymousUser(), getChange());
-  }
-
   public ChangeControl forUser(final CurrentUser who) {
     return new ChangeControl(getRefControl().forUser(who), getChange());
   }

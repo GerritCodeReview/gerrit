@@ -19,11 +19,9 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.events.ChangeAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.QueryStats;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gson.Gson;
@@ -67,8 +65,8 @@ public class QueryProcessor {
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryRewriter queryRewriter;
   private final Provider<ReviewDb> db;
+  private final int maxLimit;
 
-  private int defaultLimit;
   private OutputFormat outputFormat = OutputFormat.TEXT;
   private boolean includePatchSets;
   private boolean includeCurrentPatchSet;
@@ -80,14 +78,14 @@ public class QueryProcessor {
   @Inject
   QueryProcessor(EventFactory eventFactory,
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
-      ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db,
-      CapabilityControl.Factory ctl) throws NoSuchProjectException {
+      ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db) {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
     this.db = db;
-
-    defaultLimit = ctl.controlFor().getRange(GlobalCapability.QUERY_LIMIT).getMax();
+    this.maxLimit = currentUser.getCapabilities()
+      .getRange(GlobalCapability.QUERY_LIMIT)
+      .getMax();
   }
 
   public void setIncludePatchSets(boolean on) {
@@ -112,7 +110,7 @@ public class QueryProcessor {
         new BufferedWriter( //
             new OutputStreamWriter(outputStream, "UTF-8")));
     try {
-      if (defaultLimit == 0) {
+      if (maxLimit == 0) {
         ErrorMessage m = new ErrorMessage();
         m.message = "query disabled";
         show(m);
@@ -211,7 +209,7 @@ public class QueryProcessor {
   }
 
   private int limit(Predicate<ChangeData> s) {
-    return queryBuilder.hasLimit(s) ? queryBuilder.getLimit(s) : defaultLimit;
+    return queryBuilder.hasLimit(s) ? queryBuilder.getLimit(s) : maxLimit;
   }
 
   @SuppressWarnings("unchecked")
@@ -220,7 +218,7 @@ public class QueryProcessor {
 
     Predicate<ChangeData> q = queryBuilder.parse(queryString);
     if (!queryBuilder.hasLimit(q)) {
-      q = Predicate.and(q, queryBuilder.limit(defaultLimit));
+      q = Predicate.and(q, queryBuilder.limit(maxLimit));
     }
     if (!queryBuilder.hasSortKey(q)) {
       q = Predicate.and(q, queryBuilder.sortkey_before("z"));

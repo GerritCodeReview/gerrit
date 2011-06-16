@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.server.AccessPath;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -206,7 +205,6 @@ public class RefControlTest extends TestCase {
 
   private final SystemConfig systemConfig;
   private final AuthConfig authConfig;
-  private final AnonymousUser anonymousUser;
 
   public RefControlTest() {
     systemConfig = SystemConfig.create();
@@ -228,11 +226,9 @@ public class RefControlTest extends TestCase {
 
         bind(SystemConfig.class).toInstance(systemConfig);
         bind(AuthConfig.class);
-        bind(AnonymousUser.class);
       }
     });
     authConfig = injector.getInstance(AuthConfig.class);
-    anonymousUser = injector.getInstance(AnonymousUser.class);
   }
 
   @Override
@@ -322,10 +318,10 @@ public class RefControlTest extends TestCase {
     GitRepositoryManager mgr = null;
     Project.NameKey wildProject = new Project.NameKey("All-Projects");
     ProjectControl.AssistedFactory projectControlFactory = null;
-    all.put(local.getProject().getNameKey(), new ProjectState(anonymousUser,
+    all.put(local.getProject().getNameKey(), new ProjectState(
         projectCache, wildProject, projectControlFactory,
         envFactory, mgr, local));
-    all.put(parent.getProject().getNameKey(), new ProjectState(anonymousUser,
+    all.put(parent.getProject().getNameKey(), new ProjectState(
         projectCache, wildProject, projectControlFactory,
         envFactory, mgr, parent));
     return all.get(local.getProject().getNameKey());
@@ -335,7 +331,7 @@ public class RefControlTest extends TestCase {
     private final Set<AccountGroup.UUID> groups;
 
     MockUser(AccountGroup.UUID[] groupId) {
-      super(AccessPath.UNKNOWN, RefControlTest.this.authConfig);
+      super(null, AccessPath.UNKNOWN, RefControlTest.this.authConfig);
       groups = new HashSet<AccountGroup.UUID>(Arrays.asList(groupId));
       groups.add(registered);
       groups.add(anonymous);
@@ -354,6 +350,11 @@ public class RefControlTest extends TestCase {
     @Override
     public Collection<AccountProjectWatch> getNotificationFilters() {
       return Collections.emptySet();
+    }
+
+    @Override
+    public boolean isAdministrator() {
+      return false;
     }
   }
 }

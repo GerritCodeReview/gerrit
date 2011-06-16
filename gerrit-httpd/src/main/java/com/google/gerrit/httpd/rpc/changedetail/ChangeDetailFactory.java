@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.PatchSetAncestor;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -62,6 +63,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   private final FunctionState.Factory functionState;
   private final PatchSetDetailFactory.Factory patchSetDetail;
   private final AccountInfoCacheFactory aic;
+  private final AnonymousUser anonymousUser;
   private final ReviewDb db;
 
   private final Change.Id changeId;
@@ -75,12 +77,14 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       final PatchSetDetailFactory.Factory patchSetDetail, final ReviewDb db,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
+      final AnonymousUser anonymousUser,
       @Assisted final Change.Id id) {
     this.approvalTypes = approvalTypes;
     this.functionState = functionState;
     this.patchSetDetail = patchSetDetail;
     this.db = db;
     this.changeControlFactory = changeControlFactory;
+    this.anonymousUser = anonymousUser;
     this.aic = accountInfoCacheFactory.create();
 
     this.changeId = id;
@@ -101,7 +105,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     detail = new ChangeDetail();
     detail.setChange(change);
-    detail.setAllowsAnonymous(control.forAnonymousUser().isVisible());
+    detail.setAllowsAnonymous(control.forUser(anonymousUser).isVisible());
 
     detail.setCanAbandon(change.getStatus().isOpen() && control.canAbandon());
     detail.setCanRestore(change.getStatus() == Change.Status.ABANDONED && control.canRestore());

@@ -265,8 +265,9 @@ public class ChangeControl {
     env.set(StoredValues.PATCH_SET_ID, patchSetId);
     env.set(StoredValues.CHANGE_CONTROL, this);
 
-    Term submitRule = env.once("com.google.gerrit.rules.common", "locate_submit_rule",
-        new VariableTerm());
+    Term submitRule = env.once(
+      "gerrit", "locate_submit_rule",
+      new VariableTerm());
     if (submitRule == null) {
       log.error("Error in locate_submit_rule: no submit_rule found");
       return new CanSubmitResult("Error in finding submit rule");
@@ -275,7 +276,7 @@ public class ChangeControl {
     List<Term> results = new ArrayList<Term>();
     try {
       for (Term[] template : env.all(
-          "com.google.gerrit.rules.common", "can_submit",
+          "gerrit", "can_submit",
           submitRule,
           new VariableTerm())) {
         results.add(template[1]);

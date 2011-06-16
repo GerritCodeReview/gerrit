@@ -76,13 +76,13 @@ test(can_submit_ok) :-
     commit_label( label('Code-Review', 2), test_user(alice) ),
     commit_label( label('Verified', 1), test_user(builder) )
   ]),
-  can_submit('com.google.gerrit.rules.common':default_submit, S),
+  can_submit(gerrit:default_submit, S),
   S = ok(submit(C, V)),
   C = label('Code-Review', ok(test_user(alice))),
   V = label('Verified', ok(test_user(builder))).
 
 test(can_submit_not_ready) :-
-  can_submit('com.google.gerrit.rules.common':default_submit, S),
+  can_submit(gerrit:default_submit, S),
   S = not_ready(submit(C, V)),
   C = label('Code-Review', ok(test_user(alice))),
   V = label('Verified', need(1)).

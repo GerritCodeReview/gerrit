@@ -262,6 +262,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCn///9U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-06-16T17:56:24Z",
+      "side": 1,
+      "message": "No, I can\u0027t do what I was trying... not possible to move this method out of mergeOp only for MergeAlways and MergeIf",
+      "parentUuid": "AAABCX///zM\u003d",
+      "revId": "91ebb0e1a732c7326f760dce7c74b6723a391cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCH///PM\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1

@@ -67,11 +67,10 @@ import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -656,30 +655,15 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       return;
     }
 
-    // Validate that the new commits are connected with the target branch.
-    // If they aren't, we want to abort. We do this check by coloring the
-    // tip CONNECTED and letting a RevWalk push that color through the graph
-    // until it reaches the head of the target branch. We then test to see
-    // if that color made it back onto that set.
+    // Validate that the new commits are connected with the target
+    // branch.  If they aren't, we want to abort. We do this check by
+    // looking to see if we can compute a merge base between the new
+    // commits and the target branch head.
     //
     try {
       final RevWalk walk = rp.getRevWalk();
 
-      final RevFlag SIDE_NEW = walk.newFlag("NEW");
-      final RevFlag SIDE_HAVE = walk.newFlag("HAVE");
-      final RevFlagSet COMMON = new RevFlagSet();
-      COMMON.add(SIDE_NEW);
-      COMMON.add(SIDE_HAVE);
-      walk.carry(COMMON);
-
-      walk.reset();
-      walk.sort(RevSort.TOPO);
-      walk.sort(RevSort.REVERSE, true);
-
       final RevCommit tip = walk.parseCommit(newChange.getNewId());
-      tip.add(SIDE_NEW);
-      walk.markStart(tip);
-
       Ref targetRef = rp.getAdvertisedRefs().get(destBranchName);
       if (targetRef == null || targetRef.getObjectId() == null) {
         // The destination branch does not yet exist. Assume the
@@ -687,21 +671,20 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         // is "connected" to the branch.
         return;
       }
-
       final RevCommit h = walk.parseCommit(targetRef.getObjectId());
-      h.add(SIDE_HAVE);
-      walk.markStart(h);
-      boolean isConnected = false;
-      RevCommit c;
-      while ((c = walk.next()) != null) {
-        if (c.hasAll(COMMON)) {
-          isConnected = true;
-          break;
+
+      final RevFilter oldRevFilter = walk.getRevFilter();
+      try {
+        walk.reset();
+        walk.setRevFilter(RevFilter.MERGE_BASE);
+        walk.markStart(tip);
+        walk.markStart(h);
+        if (walk.next() == null) {
+          reject(newChange, "no common ancestry");
+          return;
         }
-      }
-      if (!isConnected) {
-        reject(newChange, "no common ancestry");
-        return;
+      } finally {
+        walk.setRevFilter(oldRevFilter);
       }
     } catch (IOException e) {
       newChange.setResult(Result.REJECTED_MISSING_OBJECT);

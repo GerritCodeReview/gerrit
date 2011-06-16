@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDH///5A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:50:13Z",
+      "side": 1,
+      "message": "I would really prefer to keep the old logic as the default and require the admin to set an option in gerrit.config if he/she wants to serve from a subdirectory under static. Most servers don\u0027t want to, and there are plenty of brain-damaged ways that access to the local filesystem might be granted accidentally if we allow either / or \\ in the path here.\n\nOne of them is Windows UNC paths. There are so many ways those behave funny that I just don\u0027t want to trust Java\u0027s getCanonicalFile to save me from them. Not in a default installation anyway.",
+      "revId": "828e1fa1b7459224a4395e1771899987d039d128",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

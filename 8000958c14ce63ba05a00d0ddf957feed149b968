@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDH///4o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T22:00:01Z",
+      "side": 1,
+      "message": "You don\u0027t need to set this, the TreeFilter is TreeFilter.ALL by default in this class and isn\u0027t modified away from it. RevWalk\u0027s use where you copied this from was just being paranoid and protecting itself from any usage.",
+      "revId": "8000958c14ce63ba05a00d0ddf957feed149b968",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///4k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T22:00:01Z",
+      "side": 1,
+      "message": "You also don\u0027t need to screw with setRetainBody.",
+      "revId": "8000958c14ce63ba05a00d0ddf957feed149b968",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///4g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T22:00:01Z",
+      "side": 1,
+      "message": "I would just inline this and say:\n\n  if (walk.next() \u003d\u003d null) {\n    reject(newChange, \"no common ancestry\");\n  }",
+      "revId": "8000958c14ce63ba05a00d0ddf957feed149b968",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///4s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1270,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T22:00:01Z",
+      "side": 1,
+      "message": "This is about pushes made directly to a change branch. E.g. if you push some SHA1 to refs/changes/nnnn and SHA1 is already merged into the branch, Gerrit closes the change for you, after updating the change with SHA1 as the latest and most recent patch set.\n\nI propose we delete support for that entirely... which then allows us to remove this check. So I think you are right, its reverting the fix for issue GERRIT-54. But I don\u0027t think anyone really uses Gerrit like that anymore. Not since we really started pushing people to use the Change-Id footers.",
+      "revId": "8000958c14ce63ba05a00d0ddf957feed149b968",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -43,6 +43,8 @@ import java.util.List;
  * </ul>
  */
 class PRED_get_legacy_approval_types_1 extends Predicate.P1 {
+  private static final long serialVersionUID = 1L;
+
   PRED_get_legacy_approval_types_1(Term a1, Operation n) {
     arg1 = a1;
     cont = n;

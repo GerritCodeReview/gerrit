@@ -15,9 +15,9 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
@@ -32,9 +32,6 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -43,9 +40,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 public class AddReviewer implements Callable<ReviewerResult> {
-  private static final Logger log =
-      LoggerFactory.getLogger(AddReviewer.class);
-
   public interface Factory {
     AddReviewer create(Change.Id changeId, Collection<String> nameOrEmails);
   }

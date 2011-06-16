@@ -211,7 +211,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         final String b = a + MAX_SUFFIX;
         final int max = 10;
         final int n = limit <= 0 ? max : Math.min(limit, max);
-        Set<AccountGroup.UUID> memberOf = currentUser.get().getEffectiveGroups();
         List<GroupReference> r = new ArrayList<GroupReference>(n);
         for (AccountGroupName group : db.accountGroupNames()
               .suggestByName(a, b, n)) {

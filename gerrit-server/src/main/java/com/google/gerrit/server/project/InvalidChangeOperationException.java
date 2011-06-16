@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.reviewdb.Change;
 
 /** Indicates the change operation is not currently valid. */
 public class InvalidChangeOperationException extends Exception {

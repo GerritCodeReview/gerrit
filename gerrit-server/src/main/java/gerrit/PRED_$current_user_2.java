@@ -40,6 +40,8 @@ import com.googlecode.prolog_cafe.lang.Term;
  * </pre>
  */
 class PRED_$current_user_2 extends Predicate.P2 {
+  private static final long serialVersionUID = 1L;
+
   PRED_$current_user_2(Term a1, Term a2, Operation n) {
     arg1 = a1;
     arg2 = a2;

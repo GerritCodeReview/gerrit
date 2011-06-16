@@ -30,9 +30,7 @@ import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.EditorDelegate;
-import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.ValueAwareEditor;
-import com.google.gwt.editor.client.adapters.TakesValueEditor;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -43,7 +41,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.ValueListBox;
 

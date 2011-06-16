@@ -30,25 +30,17 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.common.PrettyFactory;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
-import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.OpenEvent;
-import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -95,22 +87,6 @@ public abstract class PatchScreen extends Screen implements
   // Which patch set id's are being diff'ed
   private static PatchSet.Id diffSideA = null;
   private static PatchSet.Id diffSideB = null;
-
-  private static Boolean historyOpen = null;
-  private static final OpenHandler<DisclosurePanel> cacheOpenState =
-      new OpenHandler<DisclosurePanel>() {
-        @Override
-        public void onOpen(OpenEvent<DisclosurePanel> event) {
-          historyOpen = true;
-        }
-      };
-  private static final CloseHandler<DisclosurePanel> cacheCloseState =
-      new CloseHandler<DisclosurePanel>() {
-        @Override
-        public void onClose(CloseEvent<DisclosurePanel> event) {
-          historyOpen = false;
-        }
-      };
 
   /**
    * What should be displayed in the top of the screen
@@ -164,9 +140,6 @@ public abstract class PatchScreen extends Screen implements
       diffSideA = patchTable.getPatchSetIdToCompareWith();
     } else {
       diffSideA = null;
-    }
-    if (diffSideA == null) {
-      historyOpen = null;
     }
 
     idSideA = diffSideA; // null here means we're diff'ing from the Base
@@ -382,8 +355,6 @@ public abstract class PatchScreen extends Screen implements
   }
 
   private void onResult(final PatchScript script, final boolean isFirst) {
-
-    final Change.Key cid = script.getChangeId();
     final String path = PatchTable.getDisplayFileName(patchKey);
     String fileName = path;
     final int last = fileName.lastIndexOf('/');

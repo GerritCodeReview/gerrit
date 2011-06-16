@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDH///6M\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitwebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:42:49Z",
+      "side": 1,
+      "message": "Are two different values really necessary here?\n\ngitweb should be OK with \"/\" instead of %2F in the project name even in the non-path link format. Which means you don\u0027t need this extra variable and we can just always replace %2F with / when setting up the \"project\" and \"branch\" values.",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///6I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitWebConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:42:49Z",
+      "side": 1,
+      "message": "Probably a good idea to change the default, but this may break existing installations. I\u0027ll have to make sure we make a note of it in the ReleaseNotes.",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///6E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:42:49Z",
+      "side": 1,
+      "message": "We need to finish this FIXME before we can submit this change.",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDH///54\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-16T21:42:49Z",
+      "side": 1,
+      "message": "I would prefer to use a StringBuilder here over +\u003d.",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

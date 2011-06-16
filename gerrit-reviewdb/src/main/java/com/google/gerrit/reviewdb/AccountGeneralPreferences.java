@@ -120,6 +120,9 @@ public final class AccountGeneralPreferences {
   @Column(id = 11)
   protected boolean displayPersonNameInReviewCategory;
 
+  @Column(id = 12)
+  protected boolean emailOnFirstPatchSetOfChange;
+
   public AccountGeneralPreferences() {
   }
 
@@ -201,6 +204,14 @@ public final class AccountGeneralPreferences {
     this.displayPersonNameInReviewCategory = displayPersonNameInReviewCategory;
   }
 
+  public boolean isEmailOnFirstPatchSetOfChange() {
+    return emailOnFirstPatchSetOfChange;
+  }
+
+  public void setEmailOnFirstPatchSetOfChange(final boolean emailOnFirstPatchSetOfChange) {
+    this.emailOnFirstPatchSetOfChange = emailOnFirstPatchSetOfChange;
+  }
+
   public DateFormat getDateFormat() {
     if (dateFormat == null) {
       return DateFormat.STD;
@@ -230,6 +241,7 @@ public final class AccountGeneralPreferences {
     copySelfOnEmail = false;
     displayPatchSetsInReverseOrder = false;
     displayPersonNameInReviewCategory = false;
+    emailOnFirstPatchSetOfChange = true;
     downloadUrl = null;
     downloadCommand = null;
     dateFormat = null;

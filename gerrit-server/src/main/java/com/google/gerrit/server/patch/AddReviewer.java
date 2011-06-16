@@ -140,7 +140,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
     //
     // The user knows they added themselves, don't bother emailing them.
     added.remove(currentUser.getAccountId());
-    if (!added.isEmpty()) {
+    if (!added.isEmpty() && currentUser.getAccount().getGeneralPreferences().isEmailOnFirstPatchSetOfChange()) {
       final AddReviewerSender cm;
 
       cm = addReviewerSenderFactory.create(control.getChange());

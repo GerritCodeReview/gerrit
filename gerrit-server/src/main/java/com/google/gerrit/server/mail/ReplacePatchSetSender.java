@@ -94,4 +94,12 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     }
     return host;
   }
+
+  @Override
+  public void send() throws EmailException {
+    final Account fromUser = args.accountCache.get(fromId).getAccount();
+    if (!fromUser.getGeneralPreferences().isRequireExplicitPatchPublishing()) {
+      super.send();
+    }
+  }
 }

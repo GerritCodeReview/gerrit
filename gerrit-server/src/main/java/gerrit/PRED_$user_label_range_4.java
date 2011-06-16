@@ -38,6 +38,8 @@ import com.googlecode.prolog_cafe.lang.Term;
  * </pre>
  */
 class PRED_$user_label_range_4 extends Predicate.P4 {
+  private static final long serialVersionUID = 1L;
+
   PRED_$user_label_range_4(Term a1, Term a2, Term a3, Term a4, Operation n) {
     arg1 = a1;
     arg2 = a2;

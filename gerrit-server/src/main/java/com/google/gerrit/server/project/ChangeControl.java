@@ -299,7 +299,7 @@ public class ChangeControl {
     // choice points once a solution is found.
     Term last = results.get(results.size() - 1);
     if (last.isStructure() && 1 == last.arity() && "ok".equals(last.name())) {
-      Term solution = last.arg(0);
+      // Term solution = last.arg(0);
       return CanSubmitResult.OK;
     }
 

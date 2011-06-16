@@ -111,7 +111,8 @@ public class ModifyReviewersCommand extends BaseCommand {
   }
 
   private boolean modifyOne(Change.Id changeId) throws Exception {
-    ChangeControl changeControl = changeControlFactory.validateFor(changeId);
+    changeControlFactory.validateFor(changeId);
+
     ReviewerResult result;
     boolean ok = true;
 

@@ -20,7 +20,6 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.AuthType;
-import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.FileTypeRegistry;

@@ -180,7 +180,7 @@ locate_submit_rule(RuleName) :-
   RuleName = user:submit_rule
   .
 locate_submit_rule(RuleName) :-
-  RuleName = 'com.google.gerrit.rules.common':default_submit.
+  RuleName = gerrit:default_submit.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

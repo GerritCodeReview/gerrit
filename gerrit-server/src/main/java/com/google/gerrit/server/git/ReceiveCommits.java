@@ -74,11 +74,13 @@ import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -738,30 +740,15 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       return;
     }
 
-    // Validate that the new commits are connected with the target branch.
-    // If they aren't, we want to abort. We do this check by coloring the
-    // tip CONNECTED and letting a RevWalk push that color through the graph
-    // until it reaches the head of the target branch. We then test to see
-    // if that color made it back onto that set.
+    // Validate that the new commits are connected with the target
+    // branch.  If they aren't, we want to abort. We do this check by
+    // looking to see if we can compute a merge base between the new
+    // commits and the target branch head.
     //
     try {
       final RevWalk walk = rp.getRevWalk();
 
-      final RevFlag SIDE_NEW = walk.newFlag("NEW");
-      final RevFlag SIDE_HAVE = walk.newFlag("HAVE");
-      final RevFlagSet COMMON = new RevFlagSet();
-      COMMON.add(SIDE_NEW);
-      COMMON.add(SIDE_HAVE);
-      walk.carry(COMMON);
-
-      walk.reset();
-      walk.sort(RevSort.TOPO);
-      walk.sort(RevSort.REVERSE, true);
-
       final RevCommit tip = walk.parseCommit(newChange.getNewId());
-      tip.add(SIDE_NEW);
-      walk.markStart(tip);
-
       Ref targetRef = rp.getAdvertisedRefs().get(destBranchName);
       if (targetRef == null || targetRef.getObjectId() == null) {
         // The destination branch does not yet exist. Assume the
@@ -769,21 +756,30 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         // is "connected" to the branch.
         return;
       }
-
       final RevCommit h = walk.parseCommit(targetRef.getObjectId());
-      h.add(SIDE_HAVE);
-      walk.markStart(h);
-      boolean isConnected = false;
-      RevCommit c;
-      while ((c = walk.next()) != null) {
-        if (c.hasAll(COMMON)) {
-          isConnected = true;
-          break;
+
+      TreeFilter oldTF = walk.getTreeFilter();
+      RevFilter oldRF = walk.getRevFilter();
+      boolean oldRB = walk.isRetainBody();
+      try {
+        walk.reset();
+        walk.setTreeFilter(TreeFilter.ALL);
+        walk.setRevFilter(RevFilter.MERGE_BASE);
+        walk.setRetainBody(false);
+
+        walk.markStart(tip);
+        walk.markStart(h);
+        ObjectId commonAncestor = walk.next();
+
+        if (commonAncestor == null) {
+          reject(newChange, "no common ancestry");
+          return;
         }
-      }
-      if (!isConnected) {
-        reject(newChange, "no common ancestry");
-        return;
+      } finally {
+        walk.reset();
+        walk.setTreeFilter(oldTF);
+        walk.setRevFilter(oldRF);
+        walk.setRetainBody(oldRB);
       }
     } catch (IOException e) {
       newChange.setResult(Result.REJECTED_MISSING_OBJECT);
@@ -1270,7 +1266,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     insertAncestors(ps.getId(), c);
     db.patchSets().insert(Collections.singleton(ps));
 
-    final Ref mergedInto = findMergedInto(change.getDest().get(), c);
+    // FIXME: why is this mergedInto detection even needed? was done
+    // for issue GERRIT-54, but still unclear (to me) what it's for.
+    // Disable it for now...
+    final Ref mergedInto = null; //findMergedInto(change.getDest().get(), c);
     result.mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
     result.change = change;
     result.patchSet = ps;

@@ -16,9 +16,7 @@ package com.google.gerrit.server.schema;
 
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupName;
@@ -236,11 +234,6 @@ public class SchemaCreator {
       Project p = config.getProject();
       p.setDescription("Rights inherited by all other projects");
       p.setUseContributorAgreements(false);
-
-      AccessSection capabilities = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
-      PermissionRange.WithDefaults queryLimit = GlobalCapability.getRange(GlobalCapability.QUERY_LIMIT);
-      capabilities.getPermission(GlobalCapability.QUERY_LIMIT, true)
-        .add(rule(config, anonymous, queryLimit.getDefaultMax(), queryLimit.getDefaultMax()));
 
       AccessSection all = config.getAccessSection(AccessSection.ALL, true);
       AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);

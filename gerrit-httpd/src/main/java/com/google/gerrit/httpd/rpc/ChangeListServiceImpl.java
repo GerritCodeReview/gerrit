@@ -18,7 +18,6 @@ import com.google.gerrit.common.data.AccountDashboardInfo;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.ChangeListService;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SingleListChangeInfo;
 import com.google.gerrit.common.data.ToggleStarRequest;
 import com.google.gerrit.common.errors.InvalidQueryException;
@@ -302,16 +301,11 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   private int safePageSize(final int pageSize) throws InvalidQueryException {
     int maxLimit;
     try {
-      PermissionRange range = capabilityControlFactory.controlFor()
-          .getRange(GlobalCapability.QUERY_LIMIT);
-      if (range != null) {
-        maxLimit = range.getMax();
-      } else {
-        maxLimit = GlobalCapability.getRange(GlobalCapability.QUERY_LIMIT)
-            .getDefaultMax();
-      }
-    } catch (NoSuchProjectException noConfig) {
-      maxLimit = 0;
+      maxLimit = capabilityControlFactory.controlFor()
+          .getRange(GlobalCapability.QUERY_LIMIT)
+          .getMax();
+    } catch (NoSuchProjectException e) {
+      throw new InvalidQueryException("Search Disabled");
     }
     if (maxLimit == 0) {
       throw new InvalidQueryException("Search Disabled");

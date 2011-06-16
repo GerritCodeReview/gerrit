@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -107,29 +108,64 @@ public class CapabilityControl {
   /** All rules that pertain to this user. */
   private Map<String, List<PermissionRule>> permissions() {
     if (permissions == null) {
-      permissions = new HashMap<String, List<PermissionRule>>();
-      AccessSection section =
-          state.getConfig().getAccessSection(AccessSection.GLOBAL_CAPABILITIES);
-      for (Permission permission : section.getPermissions()) {
-        for (PermissionRule rule : permission.getRules()) {
-          if (matchGroup(rule.getGroup().getUUID())) {
-            if (!rule.getDeny()) {
-              List<PermissionRule> r = permissions.get(permission.getName());
-              if (r == null) {
-                r = new ArrayList<PermissionRule>(2);
-                permissions.put(permission.getName(), r);
-              }
-              r.add(rule);
+      permissions = indexPermissions();
+    }
+    return permissions;
+  }
+
+  private Map<String, List<PermissionRule>> indexPermissions() {
+    Map<String, List<PermissionRule>> res =
+        new HashMap<String, List<PermissionRule>>();
+
+    AccessSection section = state.getConfig()
+      .getAccessSection(AccessSection.GLOBAL_CAPABILITIES);
+    if (section == null) {
+      section = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
+    }
+
+    for (Permission permission : section.getPermissions()) {
+      for (PermissionRule rule : permission.getRules()) {
+        if (matchGroup(rule.getGroup().getUUID())) {
+          if (!rule.getDeny()) {
+            List<PermissionRule> r = res.get(permission.getName());
+            if (r == null) {
+              r = new ArrayList<PermissionRule>(2);
+              res.put(permission.getName(), r);
             }
+            r.add(rule);
           }
         }
       }
     }
-    return permissions;
+
+    configureDefaults(res, section);
+    return res;
   }
 
   private boolean matchGroup(AccountGroup.UUID uuid) {
     Set<AccountGroup.UUID> userGroups = getCurrentUser().getEffectiveGroups();
     return userGroups.contains(uuid);
+  }
+
+  private static final GroupReference anonymous = new GroupReference(
+      AccountGroup.ANONYMOUS_USERS,
+      "Anonymous Users");
+
+  private static void configureDefaults(
+      Map<String, List<PermissionRule>> res,
+      AccessSection section) {
+    configureDefault(res, section, GlobalCapability.QUERY_LIMIT, anonymous);
+  }
+
+  private static void configureDefault(Map<String, List<PermissionRule>> res,
+      AccessSection section, String capName, GroupReference group) {
+    if (section.getPermission(capName) == null) {
+      PermissionRange.WithDefaults range = GlobalCapability.getRange(capName);
+      if (range != null) {
+        PermissionRule rule = new PermissionRule(group);
+        rule.setRange(range.getDefaultMin(), range.getDefaultMax());
+        res.put(capName, Collections.singletonList(rule));
+      }
+    }
   }
 }

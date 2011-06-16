@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -88,12 +87,7 @@ public class QueryProcessor {
     this.queryRewriter = queryRewriter;
     this.db = db;
 
-    PermissionRange range = ctl.controlFor().getRange(GlobalCapability.QUERY_LIMIT);
-    if (range != null) {
-      defaultLimit = range.getMax();
-    } else {
-      defaultLimit = GlobalCapability.getRange(GlobalCapability.QUERY_LIMIT).getDefaultMax();
-    }
+    defaultLimit = ctl.controlFor().getRange(GlobalCapability.QUERY_LIMIT).getMax();
   }
 
   public void setIncludePatchSets(boolean on) {

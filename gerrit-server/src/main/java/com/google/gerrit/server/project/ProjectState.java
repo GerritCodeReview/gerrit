@@ -22,7 +22,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
@@ -52,7 +52,7 @@ public class ProjectState {
     ProjectState create(ProjectConfig config);
   }
 
-  private final Project.NameKey wildProject;
+  private final boolean isAllProjects;
   private final ProjectCache projectCache;
   private final ProjectControl.AssistedFactory projectControlFactory;
   private final PrologEnvironment.Factory envFactory;
@@ -67,13 +67,13 @@ public class ProjectState {
   @Inject
   protected ProjectState(
       final ProjectCache projectCache,
-      @WildProjectName final Project.NameKey wildProject,
+      final AllProjectsName allProjectsName,
       final ProjectControl.AssistedFactory projectControlFactory,
       final PrologEnvironment.Factory envFactory,
       final GitRepositoryManager gitMgr,
       @Assisted final ProjectConfig config) {
     this.projectCache = projectCache;
-    this.wildProject = wildProject;
+    this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
     this.projectControlFactory = projectControlFactory;
     this.envFactory = envFactory;
     this.gitMgr = gitMgr;
@@ -160,7 +160,7 @@ public class ProjectState {
 
   /** Get the rights this project inherits. */
   public Collection<AccessSection> getInheritedAccessSections() {
-    if (isWildProject()) {
+    if (isAllProjects) {
       return Collections.emptyList();
     }
 
@@ -178,12 +178,9 @@ public class ProjectState {
       }
     }
 
-    // Wild project is the parent, or the root of the tree
+    // The root of the tree is the special "All-Projects" case.
     if (parent == null) {
-      ProjectState s = projectCache.get(wildProject);
-      if (s != null) {
-        inherited.addAll(s.getLocalAccessSections());
-      }
+      inherited.addAll(projectCache.getAllProjects().getLocalAccessSections());
     }
 
     return inherited;
@@ -205,7 +202,7 @@ public class ProjectState {
    */
   public Set<AccountGroup.UUID> getOwners() {
     Project.NameKey parentName = getProject().getParent();
-    if (!localOwners.isEmpty() || parentName == null || isWildProject()) {
+    if (!localOwners.isEmpty() || parentName == null || isAllProjects) {
       return localOwners;
     }
 
@@ -246,9 +243,5 @@ public class ProjectState {
 
   public ProjectControl controlFor(final CurrentUser user) {
     return projectControlFactory.create(user, this);
-  }
-
-  private boolean isWildProject() {
-    return wildProject.equals(getProject().getNameKey());
   }
 }

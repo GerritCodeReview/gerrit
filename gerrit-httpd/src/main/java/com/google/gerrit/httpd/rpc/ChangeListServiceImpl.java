@@ -298,7 +298,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     int maxLimit = currentUser.get().getCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)
       .getMax();
-    if (maxLimit == 0) {
+    if (maxLimit <= 0) {
       throw new InvalidQueryException("Search Disabled");
     }
     return 0 < pageSize && pageSize <= maxLimit ? pageSize : maxLimit;

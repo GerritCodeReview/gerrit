@@ -16,7 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -84,8 +84,7 @@ final class ListProjects extends BaseCommand {
   private GitRepositoryManager repoManager;
 
   @Inject
-  @WildProjectName
-  private Project.NameKey allProjectsName;
+  private AllProjectsName allProjectsName;
 
   @Option(name = "--show-branch", aliases = {"-b"}, multiValued = true,
       usage = "displays the sha of each project in the specified branch")

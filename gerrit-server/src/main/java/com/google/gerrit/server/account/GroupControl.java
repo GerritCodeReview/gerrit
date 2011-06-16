@@ -97,7 +97,7 @@ public class GroupControl {
       AccountGroup g = groupCache.get(group.getOwnerGroupId());
       AccountGroup.UUID ownerUUID = g != null ? g.getGroupUUID() : null;
       isOwner = getCurrentUser().getEffectiveGroups().contains(ownerUUID)
-             || getCurrentUser().isAdministrator();
+             || getCurrentUser().getCapabilities().canAdministrateServer();
     }
     return isOwner;
   }

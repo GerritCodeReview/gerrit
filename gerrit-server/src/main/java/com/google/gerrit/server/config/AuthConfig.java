@@ -43,7 +43,6 @@ public class AuthConfig {
   private final boolean cookieSecure;
   private final SignedToken emailReg;
 
-  private final AccountGroup.UUID administratorGroup;
   private final AccountGroup.UUID batchUsersGroup;
 
   private final boolean allowGoogleAccountUpgrade;
@@ -60,7 +59,6 @@ public class AuthConfig {
     cookieSecure = cfg.getBoolean("auth", "cookiesecure", false);
     emailReg = new SignedToken(5 * 24 * 60 * 60, s.registerEmailPrivateKey);
 
-    administratorGroup = s.adminGroupUUID;
     batchUsersGroup = s.batchUsersGroupUUID;
 
     if (authType == AuthType.OPENID) {
@@ -115,11 +113,6 @@ public class AuthConfig {
 
   public boolean isAllowGoogleAccountUpgrade() {
     return allowGoogleAccountUpgrade;
-  }
-
-  /** Identity of the magic group with full powers. */
-  public AccountGroup.UUID getAdministratorsGroup() {
-    return administratorGroup;
   }
 
   /** Identity of the group whose service is degraded to lower priority. */

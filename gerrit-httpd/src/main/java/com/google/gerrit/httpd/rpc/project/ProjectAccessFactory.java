@@ -24,7 +24,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -54,7 +54,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   private final ProjectControl.Factory projectControlFactory;
   private final GroupControl.Factory groupControlFactory;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
-  private final Project.NameKey wildProject;
+  private final AllProjectsName allProjectsName;
 
   private final Project.NameKey projectName;
   private ProjectControl pc;
@@ -65,8 +65,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       final ProjectControl.Factory projectControlFactory,
       final GroupControl.Factory groupControlFactory,
       final MetaDataUpdate.Server metaDataUpdateFactory,
-      @WildProjectName final Project.NameKey wildProject,
-
+      final AllProjectsName allProjectsName,
 
       @Assisted final Project.NameKey name) {
     this.groupCache = groupCache;
@@ -74,7 +73,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     this.projectControlFactory = projectControlFactory;
     this.groupControlFactory = groupControlFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
-    this.wildProject = wildProject;
+    this.allProjectsName = allProjectsName;
 
     this.projectName = name;
   }
@@ -180,7 +179,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     final ProjectAccess detail = new ProjectAccess();
     detail.setRevision(config.getRevision().name());
 
-    if (projectName.equals(wildProject)) {
+    if (projectName.equals(allProjectsName)) {
       if (pc.isOwner()) {
         ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
       }
@@ -190,7 +189,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       detail.setInheritsFrom(config.getProject().getParent());
 
     } else {
-      detail.setInheritsFrom(wildProject);
+      detail.setInheritsFrom(allProjectsName);
     }
 
     detail.setLocal(local);

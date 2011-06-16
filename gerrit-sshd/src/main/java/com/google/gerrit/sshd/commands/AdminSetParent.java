@@ -15,7 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
@@ -52,8 +52,7 @@ final class AdminSetParent extends BaseCommand {
   private MetaDataUpdate.User metaDataUpdateFactory;
 
   @Inject
-  @WildProjectName
-  private Project.NameKey wildProject;
+  private AllProjectsName allProjectsName;
 
   @Override
   public void start(final Environment env) {
@@ -71,7 +70,7 @@ final class AdminSetParent extends BaseCommand {
     final Set<Project.NameKey> grandParents = new HashSet<Project.NameKey>();
     Project.NameKey newParentKey;
 
-    grandParents.add(wildProject);
+    grandParents.add(allProjectsName);
 
     if (newParent != null) {
       newParentKey = newParent.getProject().getNameKey();
@@ -98,7 +97,7 @@ final class AdminSetParent extends BaseCommand {
       final Project.NameKey key = pc.getProject().getNameKey();
       final String name = pc.getProject().getName();
 
-      if (wildProject.equals(key)) {
+      if (allProjectsName.equals(key)) {
         // Don't allow the wild card project to have a parent.
         //
         err.append("error: Cannot set parent of '" + name + "'\n");
@@ -109,7 +108,7 @@ final class AdminSetParent extends BaseCommand {
         // Try to avoid creating a cycle in the parent pointers.
         //
         err.append("error: Cycle exists between '" + name + "' and '"
-            + (newParentKey != null ? newParentKey.get() : wildProject.get())
+            + (newParentKey != null ? newParentKey.get() : allProjectsName.get())
             + "'\n");
         continue;
       }

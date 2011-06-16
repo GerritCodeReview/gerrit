@@ -16,6 +16,7 @@ package com.google.gerrit.server.schema;
 
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -28,6 +29,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupUUID;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -56,13 +58,11 @@ import java.util.Collections;
 
 /** Creates the current database schema and populates initial code rows. */
 public class SchemaCreator {
-  private static final Project.NameKey DEFAULT_WILD_NAME =
-      new Project.NameKey("All-Projects");
-
   private final @SitePath
   File site_path;
 
   private final GitRepositoryManager mgr;
+  private final AllProjectsName allProjectsName;
   private final PersonIdent serverUser;
 
   private final int versionNbr;
@@ -76,17 +76,22 @@ public class SchemaCreator {
   private AccountGroup owners;
 
   @Inject
-  public SchemaCreator(final SitePaths site,
-      @Current final SchemaVersion version, final GitRepositoryManager mgr,
-      @GerritPersonIdent final PersonIdent au) {
-    this(site.site_path, version, mgr, au);
+  public SchemaCreator(SitePaths site,
+      @Current SchemaVersion version,
+      GitRepositoryManager mgr,
+      AllProjectsName allProjectsName,
+      @GerritPersonIdent PersonIdent au) {
+    this(site.site_path, version, mgr, allProjectsName, au);
   }
 
-  public SchemaCreator(final @SitePath File site,
-      @Current final SchemaVersion version, final GitRepositoryManager gitMgr,
-      final @GerritPersonIdent PersonIdent au) {
+  public SchemaCreator(@SitePath File site,
+      @Current SchemaVersion version,
+      GitRepositoryManager gitMgr,
+      AllProjectsName ap,
+      @GerritPersonIdent PersonIdent au) {
     site_path = site;
     mgr = gitMgr;
+    allProjectsName = ap;
     serverUser = au;
     versionNbr = version.getVersionNbr();
     index_generic = new ScriptRunner("index_generic.sql");
@@ -189,18 +194,9 @@ public class SchemaCreator {
     final SystemConfig s = SystemConfig.create();
     s.registerEmailPrivateKey = SignedToken.generateRandomKey();
 
-    s.adminGroupId = admin.getId();
-    s.adminGroupUUID = admin.getGroupUUID();
-
-    s.anonymousGroupId = anonymous.getId();
-
-    s.registeredGroupId = registered.getId();
-
     s.batchUsersGroupId = batchUsers.getId();
     s.batchUsersGroupUUID = batchUsers.getGroupUUID();
 
-    s.ownerGroupId = owners.getId();
-    s.wildProjectName = DEFAULT_WILD_NAME;
     try {
       s.sitePath = site_path.getCanonicalPath();
     } catch (IOException e) {
@@ -213,20 +209,19 @@ public class SchemaCreator {
   private void initWildCardProject() throws IOException, ConfigInvalidException {
     Repository git;
     try {
-      git = mgr.openRepository(DEFAULT_WILD_NAME);
+      git = mgr.openRepository(allProjectsName);
     } catch (RepositoryNotFoundException notFound) {
       // A repository may be missing if this project existed only to store
       // inheritable permissions. For example 'All-Projects'.
       try {
-        git = mgr.createRepository(DEFAULT_WILD_NAME);
+        git = mgr.createRepository(allProjectsName);
       } catch (RepositoryNotFoundException err) {
-        final String name = DEFAULT_WILD_NAME.get();
+        final String name = allProjectsName.get();
         throw new IOException("Cannot create repository " + name, err);
       }
     }
     try {
-      MetaDataUpdate md =
-          new MetaDataUpdate(new NoReplication(), DEFAULT_WILD_NAME, git);
+      MetaDataUpdate md = new MetaDataUpdate(new NoReplication(), allProjectsName, git);
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);
 
@@ -235,9 +230,13 @@ public class SchemaCreator {
       p.setDescription("Rights inherited by all other projects");
       p.setUseContributorAgreements(false);
 
+      AccessSection cap = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
       AccessSection all = config.getAccessSection(AccessSection.ALL, true);
       AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
       AccessSection meta = config.getAccessSection(GitRepositoryManager.REF_CONFIG, true);
+
+      cap.getPermission(GlobalCapability.ADMINISTRATE_SERVER, true)
+        .add(rule(config, admin));
 
       PermissionRule review = rule(config, registered);
       review.setRange(-1, 1);
@@ -259,7 +258,7 @@ public class SchemaCreator {
 
       md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
       if (!config.commit(md)) {
-        throw new IOException("Cannot create " + DEFAULT_WILD_NAME.get());
+        throw new IOException("Cannot create " + allProjectsName.get());
       }
     } finally {
       git.close();

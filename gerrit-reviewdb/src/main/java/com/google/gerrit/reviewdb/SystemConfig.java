@@ -62,32 +62,32 @@ public final class SystemConfig {
   @Column(id = 3, notNull = false)
   public transient String sitePath;
 
-  /** Identity of the administration group; those with full access. */
-  @Column(id = 4)
-  public AccountGroup.Id adminGroupId;
-  @Column(id = 10)
-  public AccountGroup.UUID adminGroupUUID;
-
-  /** Identity of the anonymous group, which permits anyone. */
-  @Column(id = 5)
-  public AccountGroup.Id anonymousGroupId;
-
-  /** Identity of the registered users group, which permits anyone. */
-  @Column(id = 6)
-  public AccountGroup.Id registeredGroupId;
-
-  /** Identity of the project  */
-  @Column(id = 7)
-  public Project.NameKey wildProjectName;
-
-  /** Identity of the batch users group */
   @Column(id = 8)
   public AccountGroup.Id batchUsersGroupId;
   @Column(id = 11)
   public AccountGroup.UUID batchUsersGroupUUID;
 
-  /** Identity of the owner group, which permits any project owner. */
-  @Column(id = 9)
+
+  // DO NOT LOOK BELOW THIS LINE. These fields have all been deleted,
+  // but survive to support schema upgrade code.
+
+  /** DEPRECATED DO NOT USE */
+  @Column(id = 4, notNull = false)
+  public AccountGroup.Id adminGroupId;
+  /** DEPRECATED DO NOT USE */
+  @Column(id = 10, notNull = false)
+  public AccountGroup.UUID adminGroupUUID;
+  /** DEPRECATED DO NOT USE */
+  @Column(id = 5, notNull = false)
+  public AccountGroup.Id anonymousGroupId;
+  /** DEPRECATED DO NOT USE */
+  @Column(id = 6, notNull = false)
+  public AccountGroup.Id registeredGroupId;
+  /** DEPRECATED DO NOT USE */
+  @Column(id = 7, notNull = false)
+  public Project.NameKey wildProjectName;
+  /** DEPRECATED DO NOT USE */
+  @Column(id = 9, notNull = false)
   public AccountGroup.Id ownerGroupId;
 
   protected SystemConfig() {

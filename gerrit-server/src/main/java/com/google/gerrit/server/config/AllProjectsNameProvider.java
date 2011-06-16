@@ -14,20 +14,26 @@
 
 package com.google.gerrit.server.config;
 
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-import com.google.gerrit.reviewdb.Project;
-import com.google.inject.BindingAnnotation;
+import org.eclipse.jgit.lib.Config;
 
-import java.lang.annotation.Retention;
+public class AllProjectsNameProvider implements Provider<AllProjectsName> {
+  public static final String DEFAULT = "All-Projects";
 
-/**
- * Marker on a {@link Project.NameKey} for the current wildcard project.
- * <p>
- * This is the name of the project whose rights inherit into every other project
- * in the system.
- */
-@Retention(RUNTIME)
-@BindingAnnotation
-public @interface WildProjectName {
+  private final AllProjectsName name;
+
+  @Inject
+  AllProjectsNameProvider(@GerritServerConfig Config cfg) {
+    String n = cfg.getString("gerrit", null, "allProjects");
+    if (n == null || n.isEmpty()) {
+      n = DEFAULT;
+    }
+    name = new AllProjectsName(n);
+  }
+
+  public AllProjectsName get() {
+    return name;
+  }
 }

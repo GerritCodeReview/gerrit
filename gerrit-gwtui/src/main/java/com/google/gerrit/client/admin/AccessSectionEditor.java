@@ -45,6 +45,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ValueListBox;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AccessSectionEditor extends Composite implements
@@ -170,6 +171,8 @@ public class AccessSectionEditor extends Composite implements
 
   @Override
   public void setValue(AccessSection value) {
+    Collections.sort(value.getPermissions());
+
     this.value = value;
     this.readOnly = !editing || !projectAccess.isOwnerOf(value);
 

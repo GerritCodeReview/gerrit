@@ -108,18 +108,20 @@ public class CapabilityControl {
   private Map<String, List<PermissionRule>> permissions() {
     if (permissions == null) {
       permissions = new HashMap<String, List<PermissionRule>>();
-      AccessSection section =
-          state.getConfig().getAccessSection(AccessSection.GLOBAL_CAPABILITIES);
-      for (Permission permission : section.getPermissions()) {
-        for (PermissionRule rule : permission.getRules()) {
-          if (matchGroup(rule.getGroup().getUUID())) {
-            if (!rule.getDeny()) {
-              List<PermissionRule> r = permissions.get(permission.getName());
-              if (r == null) {
-                r = new ArrayList<PermissionRule>(2);
-                permissions.put(permission.getName(), r);
+      AccessSection section = state.getConfig()
+        .getAccessSection(AccessSection.GLOBAL_CAPABILITIES);
+      if (section != null) {
+        for (Permission permission : section.getPermissions()) {
+          for (PermissionRule rule : permission.getRules()) {
+            if (matchGroup(rule.getGroup().getUUID())) {
+              if (!rule.getDeny()) {
+                List<PermissionRule> r = permissions.get(permission.getName());
+                if (r == null) {
+                  r = new ArrayList<PermissionRule>(2);
+                  permissions.put(permission.getName(), r);
+                }
+                r.add(rule);
               }
-              r.add(rule);
             }
           }
         }

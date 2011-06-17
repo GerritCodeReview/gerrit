@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDX///4g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-17T17:35:26Z",
+      "side": 1,
+      "message": "Could you make a super class:\n\nclass LocalPartFunction extends Function {\n     @Override\n     String apply(String a) {\n        int at \u003d a.indexOf(\u0027@\u0027);\n        return at \u003c 0 ? a : a.substring(0, at);\n     }\n}\n\nthen it could be reused below?",
+      "revId": "29583cb6db11e76f035e97223168291c2fec5991",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///4Y\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-17T17:35:26Z",
+      "side": 1,
+      "message": "Now you could extend it:\n\nnew LocalPartFunction() {\n  @Override\n  String apply(String a) {\n     return super.apply(a);\n  }\n}\n\nwhich has the optimisation of only converting the substring.",
+      "revId": "29583cb6db11e76f035e97223168291c2fec5991",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///4M\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-17T17:35:26Z",
+      "side": 1,
+      "message": "Similar to above.",
+      "revId": "29583cb6db11e76f035e97223168291c2fec5991",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

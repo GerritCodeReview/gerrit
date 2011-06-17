@@ -18,6 +18,7 @@ import com.google.inject.Guice;
 import com.google.inject.Module;
 
 import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
@@ -26,8 +27,12 @@ import com.googlecode.prolog_cafe.lang.VariableTerm;
 
 import junit.framework.TestCase;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.net.URL;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PushbackReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +49,7 @@ public abstract class PrologTestCase extends TestCase {
   protected PrologEnvironment env;
 
   protected void load(String pkg, String prologResource, Module... modules)
-      throws FileNotFoundException, CompileException {
+      throws CompileException, IOException {
     ArrayList<Module> moduleList = new ArrayList<Module>();
     moduleList.add(new PrologModule());
     moduleList.addAll(Arrays.asList(modules));
@@ -74,15 +79,21 @@ public abstract class PrologTestCase extends TestCase {
   }
 
   protected void consult(Class<?> clazz, String prologResource)
-      throws FileNotFoundException, CompileException {
-    URL url = clazz.getResource(prologResource);
-    if (url == null) {
+      throws CompileException, IOException {
+    InputStream in = clazz.getResourceAsStream(prologResource);
+    if (in == null) {
       throw new FileNotFoundException(prologResource);
     }
-
-    String path = url.getPath();
-    if (!env.execute(Prolog.BUILTIN, "consult", SymbolTerm.intern(path))) {
-      throw new CompileException("Cannot consult" + path);
+    try {
+      SymbolTerm pathTerm = SymbolTerm.create(prologResource);
+      JavaObjectTerm inTerm =
+          new JavaObjectTerm(new PushbackReader(new BufferedReader(
+              new InputStreamReader(in, "UTF-8")), Prolog.PUSHBACK_SIZE));
+      if (!env.execute(Prolog.BUILTIN, "consult_stream", pathTerm, inTerm)) {
+        throw new CompileException("Cannot consult " + prologResource);
+      }
+    } finally {
+      in.close();
     }
   }
 

@@ -15,12 +15,11 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
+import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.sshd.BaseCommand;
-import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
@@ -63,9 +62,6 @@ final class CreateGroupCommand extends BaseCommand {
   }
 
   @Inject
-  private IdentifiedUser currentUser;
-
-  @Inject
   private PerformCreateGroup.Factory performCreateGroupFactory;
 
   @Override
@@ -73,27 +69,21 @@ final class CreateGroupCommand extends BaseCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
-        if (!currentUser.getCapabilities().canCreateGroup()) {
-          String msg = String.format(
-            "fatal: %s does not have \"Create Group\" capability.",
-            currentUser.getUserName());
-          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
-        }
-
         parseCommandLine();
-        createGroup();
+        try {
+          performCreateGroupFactory.create().createGroup(groupName,
+              groupDescription,
+              visibleToAll,
+              ownerGroupId,
+              initialMembers,
+              initialGroups);
+        } catch (PermissionDeniedException e) {
+          throw die(e);
+
+        } catch (NameAlreadyUsedException e) {
+          throw die(e);
+        }
       }
     });
-  }
-
-  private void createGroup() throws OrmException, UnloggedFailure {
-    final PerformCreateGroup performCreateGroup =
-        performCreateGroupFactory.create();
-    try {
-      performCreateGroup.createGroup(groupName, groupDescription, visibleToAll,
-          ownerGroupId, initialMembers, initialGroups);
-    } catch (NameAlreadyUsedException e) {
-      throw die(e);
-    }
   }
 }

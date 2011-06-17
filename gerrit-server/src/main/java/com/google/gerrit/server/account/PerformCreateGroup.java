@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
+import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupInclude;
@@ -79,13 +80,20 @@ public class PerformCreateGroup {
    *         error
    * @throws NameAlreadyUsedException is thrown in case a group with the given
    *         name already exists
+   * @throws PermissionDeniedException user cannot create a group.
    */
   public AccountGroup.Id createGroup(final String groupName,
       final String groupDescription, final boolean visibleToAll,
       final AccountGroup.Id ownerGroupId,
       final Collection<? extends Account.Id> initialMembers,
       final Collection<? extends AccountGroup.Id> initialGroups)
-      throws OrmException, NameAlreadyUsedException {
+      throws OrmException, NameAlreadyUsedException, PermissionDeniedException {
+    if (!currentUser.getCapabilities().canCreateGroup()) {
+      throw new PermissionDeniedException(String.format(
+        "%s does not have \"Create Group\" capability.",
+        currentUser.getUserName()));
+    }
+
     final AccountGroup.Id groupId =
         new AccountGroup.Id(db.nextAccountGroupId());
     final AccountGroup.NameKey nameKey = new AccountGroup.NameKey(groupName);

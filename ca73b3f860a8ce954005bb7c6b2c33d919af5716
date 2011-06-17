@@ -52,6 +52,24 @@
       "revId": "ca73b3f860a8ce954005bb7c6b2c33d919af5716",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///8E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-17T14:41:48Z",
+      "side": 0,
+      "message": "Not true. It depends on the vintage of gitweb.cgi. This code supports versions that predate the export_auth_hook.\n\nIf we are going to remove this code and only support newer versions of gitweb.cgi with export_auth_hook support, we should be doing a feature test on the CGI during server startup to make sure the CGI supports the export_auth_hook feature. If it doesn\u0027t, we wouldn\u0027t want to support gitweb because it might allow access to something that shouldn\u0027t be exported.\n\nI agree that the export_auth_hook is the right way to integrate with current versions of gitweb, and that is why its here, but I don\u0027t think we can trust only that feature yet.",
+      "parentUuid": "AAABDX///+s\u003d",
+      "revId": "ca73b3f860a8ce954005bb7c6b2c33d919af5716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

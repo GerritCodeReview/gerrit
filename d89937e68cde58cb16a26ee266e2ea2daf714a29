@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABDX///8I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-17T14:41:48Z",
+      "side": 1,
+      "message": "It will change the style of link that gitweb creates when it outputs HTML to the client. If a site wants the non path-info style, leaving this enabled would defeat that setting.",
+      "parentUuid": "AAABDX///+k\u003d",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDH///54\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
         "patchSetId": 1

@@ -80,7 +80,6 @@ public class ProjectState {
     this.envFactory = envFactory;
     this.gitMgr = gitMgr;
     this.config = config;
-    this.lastCheckTime = System.currentTimeMillis();
     if (rulesCache != null) {
       ruleLoader = rulesCache.getClassLoader(config.getRulesId());
     } else {

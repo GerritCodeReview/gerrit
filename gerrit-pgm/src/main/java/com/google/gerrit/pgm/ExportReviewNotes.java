@@ -28,7 +28,6 @@ import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.config.ApprovalTypesProvider;
-import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.FactoryModule;
@@ -36,6 +35,7 @@ import com.google.gerrit.server.git.CodeReviewNoteCreationException;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.AbstractModule;
@@ -91,6 +91,7 @@ public class ExportReviewNotes extends SiteProgram {
     gitInjector = dbInjector.createChildInjector(new AbstractModule() {
       @Override
       protected void configure() {
+        install(SchemaVersionCheck.module());
         bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
             Scopes.SINGLETON);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)
@@ -99,7 +100,6 @@ public class ExportReviewNotes extends SiteProgram {
 
         install(AccountCacheImpl.module());
         install(GroupCacheImpl.module());
-        install(new AuthConfigModule());
         install(new FactoryModule() {
           @Override
           protected void configure() {

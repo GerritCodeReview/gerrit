@@ -16,14 +16,12 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.inject.AbstractModule;
 
 /** Creates {@link AuthConfig} from {@link GerritServerConfig}. */
 public class AuthConfigModule extends AbstractModule {
   @Override
   protected void configure() {
-    bind(SystemConfig.class).toProvider(SystemConfigProvider.class).in(SINGLETON);
     bind(AuthConfig.class).in(SINGLETON);
   }
 }

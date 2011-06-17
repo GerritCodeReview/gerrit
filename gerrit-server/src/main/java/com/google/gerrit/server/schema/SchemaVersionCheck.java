@@ -12,37 +12,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.schema;
 
+import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.SystemConfig;
-import com.google.gerrit.server.schema.Current;
-import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
-import java.util.List;
+/** Validates the current schema version. */
+public class SchemaVersionCheck implements LifecycleListener {
+  public static Module module () {
+    return new LifecycleModule() {
+      @Override
+      protected void configure() {
+        listener().to(SchemaVersionCheck.class);
+      }
+    };
+  }
 
-/** Loads the {@link SystemConfig} from the database. */
-public class SystemConfigProvider implements Provider<SystemConfig> {
   private final SchemaFactory<ReviewDb> schema;
 
   @Current
   private final Provider<SchemaVersion> version;
 
   @Inject
-  public SystemConfigProvider(final SchemaFactory<ReviewDb> schemaFactory,
-      @Current final Provider<SchemaVersion> version) {
+  public SchemaVersionCheck(SchemaFactory<ReviewDb> schemaFactory,
+      @Current Provider<SchemaVersion> version) {
     this.schema = schemaFactory;
     this.version = version;
   }
 
-  @Override
-  public SystemConfig get() {
+  public void start() {
     try {
       final ReviewDb db = schema.open();
       try {
@@ -50,31 +56,23 @@ public class SystemConfigProvider implements Provider<SystemConfig> {
         final int eVer = version.get().getVersionNbr();
 
         if (sVer == null) {
-          throw new OrmException("Schema not yet initialized."
+          throw new ProvisionException("Schema not yet initialized."
               + "  Run init to initialize the schema.");
         }
         if (sVer.versionNbr != eVer) {
-          throw new OrmException("Unsupported schema version "
+          throw new ProvisionException("Unsupported schema version "
               + sVer.versionNbr + "; expected schema version " + eVer
               + ".  Run init to upgrade.");
-        }
-
-        final List<SystemConfig> all = db.systemConfig().all().toList();
-        switch (all.size()) {
-          case 1:
-            return all.get(0);
-          case 0:
-            throw new OrmException("system_config table is empty");
-          default:
-            throw new OrmException("system_config must have exactly 1 row;"
-                + " found " + all.size() + " rows instead");
         }
       } finally {
         db.close();
       }
     } catch (OrmException e) {
-      throw new ProvisionException("Cannot read system_config", e);
+      throw new ProvisionException("Cannot read schema_version", e);
     }
+  }
+
+  public void stop() {
   }
 
   private CurrentSchemaVersion getSchemaVersion(final ReviewDb db) {

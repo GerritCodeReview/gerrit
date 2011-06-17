@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -71,7 +72,9 @@ public class ScanTrackingIds extends SiteProgram {
     }
 
     dbInjector = createDbInjector(MULTI_USER);
-    manager.add(dbInjector);
+    manager.add(
+        dbInjector,
+        dbInjector.createChildInjector(SchemaVersionCheck.module()));
     manager.start();
     dbInjector.injectMembers(this);
 

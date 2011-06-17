@@ -28,6 +28,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
+import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
 import com.google.inject.AbstractModule;
@@ -167,6 +168,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
       modules.add(new GerritServerConfigModule());
     }
     modules.add(new SchemaModule());
+    modules.add(SchemaVersionCheck.module());
     modules.add(new AuthConfigModule());
     return dbInjector.createChildInjector(modules);
   }

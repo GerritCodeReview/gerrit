@@ -22,7 +22,6 @@ import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
-import com.google.gerrit.server.config.SystemConfigProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.schema.Current;
@@ -35,7 +34,6 @@ import com.google.gwtorm.jdbc.SimpleDataSource;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Key;
-import com.google.inject.Provider;
 
 import junit.framework.TestCase;
 
@@ -177,12 +175,13 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
     }
   }
 
-  public SystemConfig getSystemConfig() {
-    return new SystemConfigProvider(this, new Provider<SchemaVersion>() {
-      public SchemaVersion get() {
-        return schemaVersion;
-      }
-    }).get();
+  public SystemConfig getSystemConfig() throws OrmException {
+    final ReviewDb c = open();
+    try {
+      return c.systemConfig().get(new SystemConfig.Key());
+    } finally {
+      c.close();
+    }
   }
 
   public CurrentSchemaVersion getSchemaVersion() throws OrmException {

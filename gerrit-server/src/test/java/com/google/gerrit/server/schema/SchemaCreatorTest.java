@@ -68,8 +68,6 @@ public class SchemaCreatorTest extends TestCase {
     //
     db.create();
     db.assertSchemaVersion();
-    final SystemConfig config = db.getSystemConfig();
-    assertNotNull(config);
 
     // By default sitePath is set to the current working directory.
     //
@@ -77,16 +75,7 @@ public class SchemaCreatorTest extends TestCase {
     if (sitePath.getName().equals(".")) {
       sitePath = sitePath.getParentFile();
     }
-    assertEquals(sitePath.getAbsolutePath(), config.sitePath);
-  }
-
-  public void testSubsequentGetReads() throws OrmException {
-    db.create();
-    final SystemConfig exp = db.getSystemConfig();
-    final SystemConfig act = db.getSystemConfig();
-
-    assertNotSame(exp, act);
-    assertEquals(exp.sitePath, act.sitePath);
+    assertEquals(sitePath.getAbsolutePath(), db.getSystemConfig().sitePath);
   }
 
   public void testCreateSchema_ApprovalCategory_CodeReview()

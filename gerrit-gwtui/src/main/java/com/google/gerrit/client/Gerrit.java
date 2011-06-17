@@ -97,7 +97,7 @@ public class Gerrit implements EntryPoint {
     JsonUtil.bind(SYSTEM_SVC, "rpc/SystemInfoService");
   }
 
-  static void upgradeUI(String token) {
+  static public void upgradeUI(String token) {
     History.newItem(Dispatcher.RELOAD_UI + token, false);
     Window.Location.reload();
   }

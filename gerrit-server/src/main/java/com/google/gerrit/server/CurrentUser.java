@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.server.account.CapabilityControl;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.servlet.RequestScoped;
 
 import java.util.Collection;
@@ -35,17 +34,14 @@ import java.util.Set;
 public abstract class CurrentUser {
   private final CapabilityControl.Factory capabilityControlFactory;
   private final AccessPath accessPath;
-  protected final AuthConfig authConfig;
 
   private CapabilityControl capabilities;
 
   protected CurrentUser(
       CapabilityControl.Factory capabilityControlFactory,
-      AccessPath accessPath,
-      AuthConfig authConfig) {
+      AccessPath accessPath) {
     this.capabilityControlFactory = capabilityControlFactory;
     this.accessPath = accessPath;
-    this.authConfig = authConfig;
   }
 
   /** How this user is accessing the Gerrit Code Review application. */
@@ -71,11 +67,6 @@ public abstract class CurrentUser {
 
   /** Filters selecting changes the user wants to monitor. */
   public abstract Collection<AccountProjectWatch> getNotificationFilters();
-
-  /** Is the user a non-interactive user? */
-  public boolean isBatchUser() {
-    return getEffectiveGroups().contains(authConfig.getBatchUsersGroup());
-  }
 
   /** Capabilities available to this user account. */
   public CapabilityControl getCapabilities() {

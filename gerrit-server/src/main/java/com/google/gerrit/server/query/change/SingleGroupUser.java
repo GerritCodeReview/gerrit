@@ -35,7 +35,7 @@ final class SingleGroupUser extends CurrentUser {
 
   SingleGroupUser(CapabilityControl.Factory capabilityControlFactory,
       Set<AccountGroup.UUID> groups) {
-    super(capabilityControlFactory, AccessPath.UNKNOWN, null);
+    super(capabilityControlFactory, AccessPath.UNKNOWN);
     this.groups = groups;
   }
 
@@ -52,10 +52,5 @@ final class SingleGroupUser extends CurrentUser {
   @Override
   public Collection<AccountProjectWatch> getNotificationFilters() {
     return Collections.emptySet();
-  }
-
-  @Override
-  public boolean isBatchUser() {
-    return false;
   }
 }

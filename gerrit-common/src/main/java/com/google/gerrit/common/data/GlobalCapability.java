@@ -45,6 +45,9 @@ public class GlobalCapability {
   /** Can terminate any task using the kill command. */
   public static final String KILL_TASK = "killTask";
 
+  /** Queue a user can access to submit their tasks to. */
+  public static final String PRIORITY = "priority";
+
   /** Maximum result limit per executed query. */
   public static final String QUERY_LIMIT = "queryLimit";
 
@@ -70,6 +73,7 @@ public class GlobalCapability {
     NAMES_LC.add(CREATE_PROJECT.toLowerCase());
     NAMES_LC.add(FLUSH_CACHES.toLowerCase());
     NAMES_LC.add(KILL_TASK.toLowerCase());
+    NAMES_LC.add(PRIORITY.toLowerCase());
     NAMES_LC.add(QUERY_LIMIT.toLowerCase());
     NAMES_LC.add(START_REPLICATION.toLowerCase());
     NAMES_LC.add(VIEW_CACHES.toLowerCase());

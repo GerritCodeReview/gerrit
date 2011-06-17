@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PeerDaemonUser;
+import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -121,6 +122,44 @@ public class CapabilityControl {
         || canAdministrateServer();
   }
 
+  /** @return which priority queue the user's tasks should be submitted to. */
+  public QueueProvider.QueueType getQueueType() {
+    // If a non-generic group (that is not Anonymous Users or Registered Users)
+    // grants us INTERACTIVE permission, use the INTERACTIVE queue even if
+    // BATCH was otherwise granted. This allows site administrators to grant
+    // INTERACTIVE to Registered Users, and BATCH to 'CI Servers' and have
+    // the 'CI Servers' actually use the BATCH queue while everyone else gets
+    // to use the INTERACTIVE queue without additional grants.
+    //
+    List<PermissionRule> rules = access(GlobalCapability.PRIORITY);
+    boolean batch = false;
+    for (PermissionRule r : rules) {
+      switch (r.getAction()) {
+        case INTERACTIVE:
+          if (!isGenericGroup(r.getGroup())) {
+            return QueueProvider.QueueType.INTERACTIVE;
+          }
+          break;
+
+        case BATCH:
+          batch = true;
+          break;
+      }
+    }
+
+    if (batch) {
+      // If any of our groups matched to the BATCH queue, use it.
+      return QueueProvider.QueueType.BATCH;
+    } else {
+      return QueueProvider.QueueType.INTERACTIVE;
+    }
+  }
+
+  private static boolean isGenericGroup(GroupReference group) {
+    return AccountGroup.ANONYMOUS_USERS.equals(group.getUUID())
+        || AccountGroup.REGISTERED_USERS.equals(group.getUUID());
+  }
+
   /** True if the user has this permission. Works only for non labels. */
   public boolean canPerform(String permissionName) {
     return !access(permissionName).isEmpty();
@@ -172,7 +211,7 @@ public class CapabilityControl {
     for (Permission permission : section.getPermissions()) {
       for (PermissionRule rule : permission.getRules()) {
         if (matchGroup(rule.getGroup().getUUID())) {
-          if (!rule.getDeny()) {
+          if (rule.getAction() != PermissionRule.Action.DENY) {
             List<PermissionRule> r = res.get(permission.getName());
             if (r == null) {
               r = new ArrayList<PermissionRule>(2);

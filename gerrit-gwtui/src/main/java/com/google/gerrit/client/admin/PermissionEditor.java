@@ -207,7 +207,11 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
           int min = validRange.getDefaultMin();
           int max = validRange.getDefaultMax();
           newRule.setRange(min, max);
+
+        } else if (GlobalCapability.PRIORITY.equals(value.getName())) {
+          newRule.setAction(PermissionRule.Action.BATCH);
         }
+
         rules.getList().add(newRule);
       }
       groupToAdd.setValue(null);

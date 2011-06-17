@@ -25,13 +25,11 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -42,10 +40,8 @@ import com.google.inject.assistedinject.FactoryProvider;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -210,20 +206,9 @@ public class RefControlTest extends TestCase {
   private final AccountGroup.UUID devs = new AccountGroup.UUID("test.devs");
   private final AccountGroup.UUID fixers = new AccountGroup.UUID("test.fixers");
 
-  private final SystemConfig systemConfig;
-  private final AuthConfig authConfig;
   private final CapabilityControl.Factory capabilityControlFactory;
 
   public RefControlTest() {
-    systemConfig = SystemConfig.create();
-    systemConfig.batchUsersGroupUUID = anonymous;
-    try {
-      byte[] bin = "abcdefghijklmnopqrstuvwxyz".getBytes("UTF-8");
-      systemConfig.registerEmailPrivateKey = Base64.encodeBase64String(bin);
-    } catch (UnsupportedEncodingException err) {
-      throw new RuntimeException("Cannot encode key", err);
-    }
-
     all = new HashMap<Project.NameKey, ProjectState>();
     projectCache = new ProjectCache() {
       @Override
@@ -268,11 +253,8 @@ public class RefControlTest extends TestCase {
               CapabilityControl.class));
 
         bind(ProjectCache.class).toInstance(projectCache);
-        bind(SystemConfig.class).toInstance(systemConfig);
-        bind(AuthConfig.class);
       }
     });
-    authConfig = injector.getInstance(AuthConfig.class);
     capabilityControlFactory = injector.getInstance(CapabilityControl.Factory.class);
   }
 
@@ -348,9 +330,7 @@ public class RefControlTest extends TestCase {
     private final Set<AccountGroup.UUID> groups;
 
     MockUser(AccountGroup.UUID[] groupId) {
-      super(RefControlTest.this.capabilityControlFactory,
-           AccessPath.UNKNOWN,
-          RefControlTest.this.authConfig);
+      super(RefControlTest.this.capabilityControlFactory, AccessPath.UNKNOWN);
       groups = new HashSet<AccountGroup.UUID>(Arrays.asList(groupId));
       groups.add(registered);
       groups.add(anonymous);

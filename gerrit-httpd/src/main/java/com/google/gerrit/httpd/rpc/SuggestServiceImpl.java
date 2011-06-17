@@ -27,10 +27,9 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -53,7 +52,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {
   private static final String MAX_SUFFIX = "\u9fa5";
 
-  private final AuthConfig authConfig;
   private final ProjectControl.Factory projectControlFactory;
   private final ProjectCache projectCache;
   private final AccountCache accountCache;
@@ -65,7 +63,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
   @Inject
   SuggestServiceImpl(final Provider<ReviewDb> schema,
-      final AuthConfig authConfig,
       final ProjectControl.Factory projectControlFactory,
       final ProjectCache projectCache, final AccountCache accountCache,
       final GroupControl.Factory groupControlFactory,
@@ -74,7 +71,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       @GerritServerConfig final Config cfg,
       final GroupCache groupCache) {
     super(schema, currentUser);
-    this.authConfig = authConfig;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
     this.accountCache = accountCache;
@@ -165,7 +161,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         Set<AccountGroup.UUID> usersGroups = groupsOf(account);
         usersGroups.remove(AccountGroup.ANONYMOUS_USERS);
         usersGroups.remove(AccountGroup.REGISTERED_USERS);
-        usersGroups.remove(authConfig.getBatchUsersGroup());
         for (AccountGroup.UUID myGroup : currentUser.get().getEffectiveGroups()) {
           if (usersGroups.contains(myGroup)) {
             map.put(account.getId(), info);
@@ -178,7 +173,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         Set<AccountGroup.UUID> usersGroups = groupsOf(account);
         usersGroups.remove(AccountGroup.ANONYMOUS_USERS);
         usersGroups.remove(AccountGroup.REGISTERED_USERS);
-        usersGroups.remove(authConfig.getBatchUsersGroup());
         for (AccountGroup.UUID usersGroup : usersGroups) {
           try {
             if (groupControlFactory.controlFor(usersGroup).isVisible()) {

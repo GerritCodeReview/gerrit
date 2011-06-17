@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.server.account.CapabilityControl;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -40,8 +39,8 @@ public class ReplicationUser extends CurrentUser {
 
   @Inject
   protected ReplicationUser(CapabilityControl.Factory capabilityControlFactory,
-      AuthConfig authConfig, @Assisted Set<AccountGroup.UUID> authGroups) {
-    super(capabilityControlFactory, AccessPath.REPLICATION, authConfig);
+      @Assisted Set<AccountGroup.UUID> authGroups) {
+    super(capabilityControlFactory, AccessPath.REPLICATION);
 
     if (authGroups == EVERYTHING_VISIBLE) {
       effectiveGroups = EVERYTHING_VISIBLE;

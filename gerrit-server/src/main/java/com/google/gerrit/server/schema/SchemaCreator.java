@@ -194,9 +194,6 @@ public class SchemaCreator {
     final SystemConfig s = SystemConfig.create();
     s.registerEmailPrivateKey = SignedToken.generateRandomKey();
 
-    s.batchUsersGroupId = batchUsers.getId();
-    s.batchUsersGroupUUID = batchUsers.getGroupUUID();
-
     try {
       s.sitePath = site_path.getCanonicalPath();
     } catch (IOException e) {
@@ -267,13 +264,6 @@ public class SchemaCreator {
 
   private PermissionRule rule(ProjectConfig config, AccountGroup group) {
     return new PermissionRule(config.resolve(group));
-  }
-
-  private PermissionRule rule(ProjectConfig config, AccountGroup group,
-      int min, int max) {
-    PermissionRule rule = new PermissionRule(config.resolve(group));
-    rule.setRange(min, max);
-    return rule;
   }
 
   private void initVerifiedCategory(final ReviewDb c) throws OrmException {

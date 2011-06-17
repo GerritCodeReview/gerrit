@@ -20,6 +20,7 @@ import static com.google.gerrit.common.data.Permission.PUSH_TAG;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
@@ -112,8 +113,19 @@ public class PermissionRuleEditor extends Composite implements
     } else {
       min = new RangeBox.Box();
       max = new RangeBox.Box();
-      action.setValue(PermissionRule.Action.ALLOW);
-      action.setAcceptableValues(Arrays.asList(PermissionRule.Action.values()));
+
+      if (GlobalCapability.PRIORITY.equals(permission.getName())) {
+        action.setValue(PermissionRule.Action.INTERACTIVE);
+        action.setAcceptableValues(Arrays.asList(
+            PermissionRule.Action.INTERACTIVE,
+            PermissionRule.Action.BATCH));
+
+      } else {
+        action.setValue(PermissionRule.Action.ALLOW);
+        action.setAcceptableValues(Arrays.asList(
+            PermissionRule.Action.ALLOW,
+            PermissionRule.Action.DENY));
+      }
     }
 
     initWidget(uiBinder.createAndBindUi(this));

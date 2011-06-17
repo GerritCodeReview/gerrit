@@ -62,11 +62,6 @@ public final class SystemConfig {
   @Column(id = 3, notNull = false)
   public transient String sitePath;
 
-  @Column(id = 8)
-  public AccountGroup.Id batchUsersGroupId;
-  @Column(id = 11)
-  public AccountGroup.UUID batchUsersGroupUUID;
-
 
   // DO NOT LOOK BELOW THIS LINE. These fields have all been deleted,
   // but survive to support schema upgrade code.
@@ -89,6 +84,12 @@ public final class SystemConfig {
   /** DEPRECATED DO NOT USE */
   @Column(id = 9, notNull = false)
   public AccountGroup.Id ownerGroupId;
+  /** DEPRECATED DO NOT USE */
+  @Column(id = 8, notNull = false)
+  public AccountGroup.Id batchUsersGroupId;
+  /** DEPRECATED DO NOT USE */
+  @Column(id = 11, notNull = false)
+  public AccountGroup.UUID batchUsersGroupUUID;
 
   protected SystemConfig() {
   }

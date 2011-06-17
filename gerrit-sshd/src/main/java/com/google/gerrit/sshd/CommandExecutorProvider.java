@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -33,12 +34,6 @@ class CommandExecutorProvider implements Provider<WorkQueue.Executor> {
 
   @Override
   public WorkQueue.Executor get() {
-    WorkQueue.Executor executor;
-    if (user.isBatchUser()) {
-      executor = queues.getBatchQueue();
-    } else {
-      executor = queues.getInteractiveQueue();
-    }
-    return executor;
+    return queues.getQueue(user.getCapabilities().getQueueType());
   }
 }

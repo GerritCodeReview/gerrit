@@ -180,6 +180,7 @@ public class IdentifiedUser extends CurrentUser {
   private final Realm realm;
   private final AccountCache accountCache;
   private final GroupIncludeCache groupIncludeCache;
+  private final AuthConfig authConfig;
 
   @Nullable
   private final Provider<SocketAddress> remotePeerProvider;
@@ -203,11 +204,12 @@ public class IdentifiedUser extends CurrentUser {
       final GroupIncludeCache groupIncludeCache,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
-    super(capabilityControlFactory, accessPath, authConfig);
+    super(capabilityControlFactory, accessPath);
     this.canonicalUrl = canonicalUrl;
     this.realm = realm;
     this.accountCache = accountCache;
     this.groupIncludeCache = groupIncludeCache;
+    this.authConfig = authConfig;
     this.remotePeerProvider = remotePeerProvider;
     this.dbProvider = dbProvider;
     this.accountId = id;

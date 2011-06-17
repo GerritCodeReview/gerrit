@@ -16,7 +16,6 @@ package com.google.gerrit.server.config;
 
 import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.reviewdb.AccountExternalId;
-import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gwtjsonrpc.server.SignedToken;
@@ -43,8 +42,6 @@ public class AuthConfig {
   private final boolean cookieSecure;
   private final SignedToken emailReg;
 
-  private final AccountGroup.UUID batchUsersGroup;
-
   private final boolean allowGoogleAccountUpgrade;
 
   @Inject
@@ -58,8 +55,6 @@ public class AuthConfig {
     cookiePath = cfg.getString("auth", null, "cookiepath");
     cookieSecure = cfg.getBoolean("auth", "cookiesecure", false);
     emailReg = new SignedToken(5 * 24 * 60 * 60, s.registerEmailPrivateKey);
-
-    batchUsersGroup = s.batchUsersGroupUUID;
 
     if (authType == AuthType.OPENID) {
       allowGoogleAccountUpgrade =
@@ -113,11 +108,6 @@ public class AuthConfig {
 
   public boolean isAllowGoogleAccountUpgrade() {
     return allowGoogleAccountUpgrade;
-  }
-
-  /** Identity of the group whose service is degraded to lower priority. */
-  public AccountGroup.UUID getBatchUsersGroup() {
-    return batchUsersGroup;
   }
 
   /** OpenID identities which the server permits for authentication. */

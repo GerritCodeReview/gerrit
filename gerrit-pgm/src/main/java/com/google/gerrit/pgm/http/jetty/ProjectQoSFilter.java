@@ -22,10 +22,10 @@ import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.sshd.CommandExecutorQueueProvider;
-import com.google.gerrit.sshd.QueueProvider;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -142,13 +142,7 @@ public class ProjectQoSFilter implements Filter {
   }
 
   private WorkQueue.Executor getExecutor() {
-    WorkQueue.Executor executor;
-    if (userProvider.get().isBatchUser()) {
-      executor = queue.getBatchQueue();
-    } else {
-      executor = queue.getInteractiveQueue();
-    }
-    return executor;
+    return queue.getQueue(userProvider.get().getCapabilities().getQueueType());
   }
 
   @Override

@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.Project;
@@ -115,20 +116,21 @@ public class Schema_57 extends SchemaVersion {
         }
 
         AccountGroup batch = db.accountGroups().get(sc.batchUsersGroupId);
-        if (db.accountGroupMembers().byGroup(sc.batchUsersGroupId).toList().isEmpty() &&
-            db.accountGroupIncludes().byGroup(sc.batchUsersGroupId).toList().isEmpty()) {
+        if (batch != null
+            && db.accountGroupMembers().byGroup(sc.batchUsersGroupId).toList().isEmpty()
+            &&  db.accountGroupIncludes().byGroup(sc.batchUsersGroupId).toList().isEmpty()) {
           // If the batch user group is not used, delete it.
           //
-          if (batch != null) {
-            db.accountGroups().delete(Collections.singleton(batch));
+          db.accountGroups().delete(Collections.singleton(batch));
 
-            AccountGroupName name = db.accountGroupNames().get(batch.getNameKey());
-            if (name != null) {
-              db.accountGroupNames().delete(Collections.singleton(name));
-            }
+          AccountGroupName name = db.accountGroupNames().get(batch.getNameKey());
+          if (name != null) {
+            db.accountGroupNames().delete(Collections.singleton(name));
           }
-        } else {
-          // FIXME Assign low priority to this group.
+        } else if (batch != null) {
+          cap.getPermission(GlobalCapability.PRIORITY, true)
+              .getRule(config.resolve(batch), true)
+              .setAction(Action.BATCH);
         }
 
         md.setMessage("Upgrade to Gerrit Code Review schema 57\n");
@@ -159,6 +161,8 @@ public class Schema_57 extends SchemaVersion {
     sc.registeredGroupId = new AccountGroup.Id(0);
     sc.wildProjectName = new Project.NameKey("DELETED");
     sc.ownerGroupId = new AccountGroup.Id(0);
+    sc.batchUsersGroupId = new AccountGroup.Id(0);
+    sc.batchUsersGroupUUID = new AccountGroup.UUID("DELETED");
 
     db.systemConfig().update(Collections.singleton(sc));
   }

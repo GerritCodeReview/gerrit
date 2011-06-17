@@ -16,10 +16,12 @@ package com.google.gerrit.common.data;
 
 public class PermissionRule implements Comparable<PermissionRule> {
   public static enum Action {
-    ALLOW, DENY;
+    ALLOW, DENY,
+
+    INTERACTIVE, BATCH;
   }
 
-  protected boolean deny;
+  protected Action action = Action.ALLOW;
   protected boolean force;
   protected int min;
   protected int max;
@@ -33,22 +35,22 @@ public class PermissionRule implements Comparable<PermissionRule> {
   }
 
   public Action getAction() {
-    return deny ? Action.DENY : Action.ALLOW;
+    return action;
   }
 
   public void setAction(Action action) {
     if (action == null) {
       throw new NullPointerException("action");
     }
-    setDeny(action == Action.DENY);
+    this.action = action;
   }
 
   public boolean getDeny() {
-    return deny;
+    return action == Action.DENY;
   }
 
   public void setDeny(boolean newDeny) {
-    deny = newDeny;
+    action = Action.DENY;
   }
 
   public Boolean getForce() {
@@ -94,21 +96,35 @@ public class PermissionRule implements Comparable<PermissionRule> {
   }
 
   void mergeFrom(PermissionRule src) {
-    setDeny(getDeny() || src.getDeny());
+    if (getAction() != src.getAction()) {
+      if (getAction() == Action.DENY || src.getAction() == Action.DENY) {
+        setAction(Action.DENY);
+
+      } else if (getAction() == Action.BATCH || src.getAction() == Action.BATCH) {
+        setAction(Action.BATCH);
+
+      }
+    }
+
     setForce(getForce() || src.getForce());
     setRange(Math.min(getMin(), src.getMin()), Math.max(getMax(), src.getMax()));
   }
 
   @Override
   public int compareTo(PermissionRule o) {
-    int cmp = deny(this) - deny(o);
+    int cmp = action(this) - action(o);
     if (cmp == 0) cmp = range(o) - range(this);
     if (cmp == 0) cmp = group(this).compareTo(group(o));
     return cmp;
   }
 
-  private static int deny(PermissionRule a) {
-    return a.getDeny() ? 1 : 0;
+  private static int action(PermissionRule a) {
+    switch (a.getAction()) {
+      case DENY:
+        return 0;
+      default:
+        return 1 + a.getAction().ordinal();
+    }
   }
 
   private static int range(PermissionRule a) {
@@ -127,8 +143,21 @@ public class PermissionRule implements Comparable<PermissionRule> {
   public String asString(boolean canUseRange) {
     StringBuilder r = new StringBuilder();
 
-    if (getDeny()) {
-      r.append("deny ");
+    switch (getAction()) {
+      case ALLOW:
+        break;
+
+      case DENY:
+        r.append("deny ");
+        break;
+
+      case INTERACTIVE:
+        r.append("interactive ");
+        break;
+
+      case BATCH:
+        r.append("batch ");
+        break;
     }
 
     if (getForce()) {
@@ -157,8 +186,16 @@ public class PermissionRule implements Comparable<PermissionRule> {
     src = src.trim();
 
     if (src.startsWith("deny ")) {
-      rule.setDeny(true);
-      src = src.substring(5).trim();
+      rule.setAction(Action.DENY);
+      src = src.substring("deny ".length()).trim();
+
+    } else if (src.startsWith("interactive ")) {
+      rule.setAction(Action.INTERACTIVE);
+      src = src.substring("interactive ".length()).trim();
+
+    } else if (src.startsWith("batch ")) {
+      rule.setAction(Action.BATCH);
+      src = src.substring("batch ".length()).trim();
     }
 
     if (src.startsWith("+force ")) {

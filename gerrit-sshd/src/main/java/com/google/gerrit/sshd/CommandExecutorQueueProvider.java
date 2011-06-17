@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 
@@ -64,13 +65,13 @@ public class CommandExecutorQueueProvider implements QueueProvider {
   }
 
   @Override
-  public WorkQueue.Executor getInteractiveQueue() {
-    return interactiveExecutor;
+  public WorkQueue.Executor getQueue(QueueType type) {
+    switch (type) {
+      case INTERACTIVE:
+        return interactiveExecutor;
+      case BATCH:
+      default:
+        return batchExecutor;
+    }
   }
-
-  @Override
-  public WorkQueue.Executor getBatchQueue() {
-    return batchExecutor;
-  }
-
 }

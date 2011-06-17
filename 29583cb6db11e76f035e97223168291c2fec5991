@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABDX///2E\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-17T19:59:31Z",
+      "side": 1,
+      "message": "What if we instead change this to be List\u003cFunction\u003e and have the code below run in a loop until the last function added was NOOP?\n\nThis would enable a pattern like ${foo.localPart.toLowerCase} rather than needing additional functions defined for localPartToLowerCase.",
+      "revId": "29583cb6db11e76f035e97223168291c2fec5991",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDX///4g\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
         "patchSetId": 1

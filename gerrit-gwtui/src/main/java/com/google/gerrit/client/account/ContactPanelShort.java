@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
@@ -21,6 +22,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ContactInformation;
 import com.google.gerrit.reviewdb.Account.FieldName;
+import com.google.gerrit.reviewdb.AuthType;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -38,7 +40,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
-import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -205,30 +206,7 @@ class ContactPanelShort extends Composite {
 
   private void postLoad() {
     if (haveAccount && haveEmails) {
-      if (currentEmail != null) {
-        boolean found = false;
-        for (int i = 0; i < emailPick.getItemCount(); i++) {
-          if (currentEmail.equals(emailPick.getValue(i))) {
-            emailPick.setSelectedIndex(i);
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
-          emailPick.addItem(currentEmail);
-          emailPick.setSelectedIndex(emailPick.getItemCount() - 1);
-        }
-      }
-      if (emailPick.getItemCount() > 0) {
-        emailPick.setVisible(true);
-        emailPick.setEnabled(true);
-        if (canRegisterNewEmail()) {
-          final String t = Util.C.buttonOpenRegisterNewEmail();
-          emailPick.addItem("... " + t + "  ", t);
-        }
-      } else {
-        emailPick.setVisible(false);
-      }
+      updateEmailList();
       registerNewEmail.setEnabled(true);
     }
     display();
@@ -270,14 +248,20 @@ class ContactPanelShort extends Composite {
         event.cancel();
         final String addr = inEmail.getText().trim();
         if (!addr.contains("@")) {
+          new ErrorDialog(Util.C.invalidUserEmail()).center();
           return;
         }
 
         inEmail.setEnabled(false);
         register.setEnabled(false);
-        Util.ACCOUNT_SEC.registerEmail(addr, new GerritCallback<VoidResult>() {
-          public void onSuccess(VoidResult result) {
+        Util.ACCOUNT_SEC.registerEmail(addr, new GerritCallback<Account>() {
+          public void onSuccess(Account currentUser) {
             box.hide();
+            if (Gerrit.getConfig().getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+              currentEmail = addr;
+              onSaveSuccess(currentUser);
+              updateEmailList();
+            }
           }
 
           @Override
@@ -309,7 +293,9 @@ class ContactPanelShort extends Composite {
     buttons.add(register);
     buttons.add(cancel);
 
-    body.add(new HTML(Util.C.descRegisterNewEmail()));
+    if (Gerrit.getConfig().getAuthType() != AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+      body.add(new HTML(Util.C.descRegisterNewEmail()));
+    }
     body.add(inEmail);
     body.add(buttons);
 
@@ -366,5 +352,40 @@ class ContactPanelShort extends Composite {
 
   ContactInformation toContactInformation() {
     return null;
+  }
+
+  private int emailListIndexOf(String value) {
+    for (int i = 0; i < emailPick.getItemCount(); i++) {
+      if (value.equalsIgnoreCase(emailPick.getValue(i))) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  private void updateEmailList() {
+    if (currentEmail != null) {
+      int index = emailListIndexOf(currentEmail);
+      if (index == -1) {
+        emailPick.addItem(currentEmail);
+        emailPick.setSelectedIndex(emailPick.getItemCount() - 1);
+      } else {
+        emailPick.setSelectedIndex(index);
+      }
+    }
+    if (emailPick.getItemCount() > 0) {
+      emailPick.setVisible(true);
+      emailPick.setEnabled(true);
+      if (canRegisterNewEmail()) {
+        final String t = Util.C.buttonOpenRegisterNewEmail();
+        int index = emailListIndexOf(t);
+        if (index != -1) {
+          emailPick.removeItem(index);
+        }
+        emailPick.addItem("... " + t + "  ", t);
+      }
+    } else {
+      emailPick.setVisible(false);
+    }
   }
 }

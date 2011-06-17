@@ -20,7 +20,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
 import com.googlecode.prolog_cafe.lang.Prolog;
-import com.googlecode.prolog_cafe.lang.PrologClassLoader;
+import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 import com.googlecode.prolog_cafe.lang.SystemException;
 import com.googlecode.prolog_cafe.lang.Term;
 
@@ -34,6 +34,8 @@ import java.util.EnumSet;
  * A single copy of the Prolog interpreter, for the current thread.
  */
 public class PrologEnvironment extends BufferingPrologControl {
+  static final int MAX_ARITY = 8;
+
   private static final String[] PACKAGE_LIST = {
       Prolog.BUILTIN,
       "gerrit",
@@ -43,21 +45,20 @@ public class PrologEnvironment extends BufferingPrologControl {
     /**
      * Construct a new Prolog interpreter.
      *
-     * @param cl ClassLoader to dynamically load predicates from.
+     * @param src the machine to template the new environment from.
      * @return the new interpreter.
      */
-    PrologEnvironment create(ClassLoader cl);
+    PrologEnvironment create(PrologMachineCopy src);
   }
 
   private final Injector injector;
   private boolean intialized;
 
   @Inject
-  PrologEnvironment(Injector i, @Assisted ClassLoader newCL) {
+  PrologEnvironment(Injector i, @Assisted PrologMachineCopy src) {
+    super(src);
     injector = i;
-    setPrologClassLoader(new PrologClassLoader(newCL));
-    setMaxArity(8);
-    setMaxDatabaseSize(64);
+    setMaxArity(MAX_ARITY);
     setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
   }
 

@@ -30,16 +30,12 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import com.googlecode.prolog_cafe.compiler.CompileException;
-import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
-import com.googlecode.prolog_cafe.lang.Prolog;
-import com.googlecode.prolog_cafe.lang.SymbolTerm;
+import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
-import java.io.PushbackReader;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -58,10 +54,13 @@ public class ProjectState {
   private final ProjectControl.AssistedFactory projectControlFactory;
   private final PrologEnvironment.Factory envFactory;
   private final GitRepositoryManager gitMgr;
+  private final RulesCache rulesCache;
 
   private final ProjectConfig config;
   private final Set<AccountGroup.UUID> localOwners;
-  private final ClassLoader ruleLoader;
+
+  /** Prolog rule state. */
+  private transient PrologMachineCopy rulesMachine;
 
   /** Last system time the configuration's revision was examined. */
   private transient long lastCheckTime;
@@ -80,12 +79,8 @@ public class ProjectState {
     this.projectControlFactory = projectControlFactory;
     this.envFactory = envFactory;
     this.gitMgr = gitMgr;
+    this.rulesCache = rulesCache;
     this.config = config;
-    if (rulesCache != null) {
-      ruleLoader = rulesCache.getClassLoader(config.getRulesId());
-    } else {
-      ruleLoader = null;
-    }
 
     HashSet<AccountGroup.UUID> groups = new HashSet<AccountGroup.UUID>();
     AccessSection all = config.getAccessSection(AccessSection.ALL);
@@ -133,26 +128,14 @@ public class ProjectState {
 
   /** @return Construct a new PrologEnvironment for the calling thread. */
   public PrologEnvironment newPrologEnvironment() throws CompileException {
-    if (ruleLoader != null) {
-      return envFactory.create(ruleLoader);
+    PrologMachineCopy pmc = rulesMachine;
+    if (pmc == null) {
+      pmc = rulesCache.loadMachine(
+          getProject().getNameKey(),
+          getConfig().getRulesId());
+      rulesMachine = pmc;
     }
-
-    PrologEnvironment env = envFactory.create(getClass().getClassLoader());
-
-    //consult rules.pl at refs/meta/config branch for custom submit rules
-    String rules = getConfig().getPrologRules();
-    if (rules != null) {
-      PushbackReader in =
-          new PushbackReader(new StringReader(rules), Prolog.PUSHBACK_SIZE);
-      JavaObjectTerm streamObject = new JavaObjectTerm(in);
-      if (!env.execute(Prolog.BUILTIN, "consult_stream",
-          SymbolTerm.intern("rules.pl"), streamObject)) {
-        throw new CompileException("Cannot consult rules.pl " +
-            getProject().getName() + " " + getConfig().getRevision());
-      }
-    }
-
-    return env;
+    return envFactory.create(pmc);
   }
 
   public Project getProject() {

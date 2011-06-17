@@ -232,6 +232,24 @@
     },
     {
       "key": {
+        "uuid": "AAABDX///4c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeTestMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-06-17T17:54:50Z",
+      "side": 1,
+      "message": "What we thought about it is to have a boolean field (scheduleJobs) in TestMergeEntry. ChangeTestMergeQueue.scheduleJob method would only schedule an entry if the boolean field is false, and, after scheduling it, it would set the field to true. It is something like the mechanism of scheduling jobs in ChangeMergeQueue.\n\nHowever, your suggestion seems more reasonable than mine, I agree with you. I talked to Carlos (code author) to confirm if am I missing something about the way the code was written. He also agrees with your suggestion. We will address it. Thanks for the suggestion.",
+      "parentUuid": "AAABDX///4w\u003d",
+      "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCX///4I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1

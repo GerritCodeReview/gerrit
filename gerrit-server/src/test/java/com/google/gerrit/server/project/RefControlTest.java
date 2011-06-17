@@ -19,17 +19,20 @@ import static com.google.gerrit.common.data.Permission.PUSH;
 import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.common.data.Permission.SUBMIT;
 
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -114,7 +117,7 @@ public class RefControlTest extends TestCase {
     doNotInherit(local, PUSH, "refs/for/refs/heads/foobar");
 
     ProjectControl u = user();
-    assertTrue("can upload", u.canPushToAtLeastOneRef());
+    assertTrue("can upload", u.canPushToAtLeastOneRef() == Capable.OK);
 
     assertTrue("can upload refs/heads/master", //
         u.controlForRef("refs/heads/master").canUpload());
@@ -129,7 +132,7 @@ public class RefControlTest extends TestCase {
     grant(local, READ, registered, "refs/heads/foobar");
 
     ProjectControl u = user();
-    assertTrue("can upload", u.canPushToAtLeastOneRef());
+    assertTrue("can upload", u.canPushToAtLeastOneRef() == Capable.OK);
 
     assertTrue("can upload refs/heads/master", //
         u.controlForRef("refs/heads/master").canUpload());
@@ -186,7 +189,7 @@ public class RefControlTest extends TestCase {
     grant(local, PUSH, devs, "refs/for/refs/heads/*");
 
     ProjectControl u = user();
-    assertFalse("cannot upload", u.canPushToAtLeastOneRef());
+    assertFalse("cannot upload", u.canPushToAtLeastOneRef() == Capable.OK);
     assertFalse("cannot upload refs/heads/master", //
         u.controlForRef("refs/heads/master").canUpload());
   }
@@ -303,6 +306,10 @@ public class RefControlTest extends TestCase {
   }
 
   private ProjectControl user(AccountGroup.UUID... memberOf) {
+    ReviewDb db = null;
+    GroupCache groupCache = null;
+    String canonicalWebUrl = "http://localhost";
+
     RefControl.Factory refControlFactory = new RefControl.Factory() {
       @Override
       public RefControl create(final ProjectControl projectControl, final String ref) {
@@ -310,8 +317,9 @@ public class RefControlTest extends TestCase {
       }
     };
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
-        Collections.<AccountGroup.UUID> emptySet(), refControlFactory,
-        new MockUser(memberOf), newProjectState());
+        Collections.<AccountGroup.UUID> emptySet(), db, groupCache,
+        canonicalWebUrl, refControlFactory, new MockUser(memberOf),
+        newProjectState());
   }
 
   private ProjectState newProjectState() {

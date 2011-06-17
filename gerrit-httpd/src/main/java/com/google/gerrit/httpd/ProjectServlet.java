@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -262,8 +263,8 @@ public class ProjectServlet extends GitServlet {
       if (pc.getCurrentUser() instanceof IdentifiedUser) {
         final IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
         final ReceiveCommits rc = factory.create(pc, db);
-        final ReceiveCommits.Capable s = rc.canUpload();
-        if (s != ReceiveCommits.Capable.OK) {
+        final Capable s = rc.canUpload();
+        if (s != Capable.OK) {
           // TODO We should alert the user to this message on the HTTP
           // response channel, assuming Git will even report it to them.
           //

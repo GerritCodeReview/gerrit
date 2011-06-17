@@ -214,6 +214,24 @@
     },
     {
       "key": {
+        "uuid": "AAABDX///4w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeTestMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-17T17:17:47Z",
+      "side": 1,
+      "message": "But, why are you trying to prevent blocking during the adds only to block as soon as you have finished the adds in the same function in MergeOp?\n\n\t959\t      for (Change change : changes) {\n\t960\t        if ((destBranch.equals(change.getDest()))\n\t961\t            \u0026\u0026 (change.getStatus() \u003d\u003d Change.Status.NEW)) {\n\t962\t          // add to queue\n\t963\t          testMergeQueue.addToQueue(change);\n\t964\t        }\n\t965\t\n\t966\t      }\n\t967\t      // consumes queue\n\t968\t      testMergeQueue.consumesQueue();\n\nOnce you have added the Change.equals(), the Map will prevent duplicate entries, but I don\u0027t see what will prevent duplicate schedulings from alternate calls to consumesQueue()?\n\nIt almost seems like the addQueue() function should try adding to the Map, and if successful, to schedule it right then and there.  That would prevent duplicate schedulings and prevent the need to call consumeQueue() and avoid its long blocking.",
+      "parentUuid": "AAABDX///8Y\u003d",
+      "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCX///4I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1

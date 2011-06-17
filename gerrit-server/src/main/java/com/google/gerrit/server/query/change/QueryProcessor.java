@@ -110,7 +110,7 @@ public class QueryProcessor {
         new BufferedWriter( //
             new OutputStreamWriter(outputStream, "UTF-8")));
     try {
-      if (maxLimit == 0) {
+      if (maxLimit <= 0) {
         ErrorMessage m = new ErrorMessage();
         m.message = "query disabled";
         show(m);
@@ -217,13 +217,10 @@ public class QueryProcessor {
       final Predicate<ChangeData> visibleToMe) throws QueryParseException {
 
     Predicate<ChangeData> q = queryBuilder.parse(queryString);
-    if (!queryBuilder.hasLimit(q)) {
-      q = Predicate.and(q, queryBuilder.limit(maxLimit));
-    }
     if (!queryBuilder.hasSortKey(q)) {
       q = Predicate.and(q, queryBuilder.sortkey_before("z"));
     }
-    q = Predicate.and(q, visibleToMe);
+    q = Predicate.and(q, queryBuilder.limit(maxLimit), visibleToMe);
 
     Predicate<ChangeData> s = queryRewriter.rewrite(q);
     if (!(s instanceof ChangeDataSource)) {

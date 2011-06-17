@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAABDX///8U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-06-17T13:52:57Z",
+      "side": 1,
+      "message": "Thanks for the correction :-)",
+      "parentUuid": "AAABDH///7U\u003d",
+      "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABCX///30\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeTestMergeQueue.java",
         "patchSetId": 1
@@ -172,6 +190,24 @@
       "writtenOn": "2011-06-16T22:14:50Z",
       "side": 1,
       "message": "Could you explain why you have separated adding to the queue from consuming it?  If you were worried about blocking during the adds, it appears that you have just delayed the block until you consume it here (the synchronized above still blocks until all the changes have been scheduled)?\n\n\nI don\u0027t know if scheduleJob() blocks until an entry is tested (I assume not).  However, if it does not block until the entry is tested, then it looks like the entry is not removed from the queue until right before it is tested.  In that case, it seems like any time another user calls consumesQueue (which is likely since this class is a shared Singleton), it will reschedule everything still in the queue?  It seems like that means that an entry could get scheduled multiple times until it is finally tested, causing the entry to be inadvertently tested unnecessarily more than once?",
+      "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///8Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeTestMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-06-17T13:52:57Z",
+      "side": 1,
+      "message": "About first questions, yes, the reason is to not block during the adds. However, I detected an error on it. There is no implementation of Change.equals, it is needed to avoid same change appear twice or more in queue.\n\nAbout scheduleJobs you are right. We should include a scheduled boolean field in TestMergeEntry to avoid it.",
+      "parentUuid": "AAABDH///5s\u003d",
       "revId": "caa1f9e989532e4335c79a479d5e64d9590a2612",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

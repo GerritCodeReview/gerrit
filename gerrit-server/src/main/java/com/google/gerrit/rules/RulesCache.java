@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.rules;
 
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -34,6 +35,13 @@ import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Manages a cache of compiled Prolog rules.
+ * <p>
+ * Rules are loaded from the {@code site_path/cache/rules/rules-SHA1.jar}, where
+ * {@code SHA1} is the SHA1 of the Prolog {@code rules.pl} in a project's
+ * {@link GitRepositoryManager#REF_CONFIG} branch.
+ */
 @Singleton
 public class RulesCache {
   private static final Logger log = LoggerFactory.getLogger(RulesCache.class);
@@ -58,15 +66,12 @@ public class RulesCache {
   @Inject
   protected RulesCache (@GerritServerConfig Config config, SitePaths site) {
     cacheDir = site.resolve(config.getString("cache", null, "directory"));
-    if (cacheDir != null) {
-      rulesDir = new File(cacheDir, "rules");
-    } else {
-      rulesDir = null;
-    }
+    rulesDir = cacheDir != null ? new File(cacheDir, "rules") : null;
   }
 
-  /** @return URLClassLoader with precompiled rules jar from rules.pl if it exists,
-   *  null otherwise
+  /**
+   * @return ClassLoader with compiled rules jar from rules.pl if it exists;
+   *         null otherwise.
    */
   public synchronized ClassLoader getClassLoader(ObjectId rulesId) {
     if (rulesId == null || rulesDir == null) {

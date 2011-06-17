@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABDX///+o\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitwebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006697
+      },
+      "writtenOn": "2011-06-17T04:05:57Z",
+      "side": 1,
+      "message": "Sounds like a good idea.",
+      "parentUuid": "AAABDH///6M\u003d",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDH///6I\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitWebConfig.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2011-06-16T21:42:49Z",
       "side": 1,
       "message": "We need to finish this FIXME before we can submit this change.",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///+k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1006697
+      },
+      "writtenOn": "2011-06-17T04:05:57Z",
+      "side": 1,
+      "message": "I wasn\u0027t really sure that it actually needed to be changed; does it do harm to leave path_info enabled in gitweb even if gerrit is generating urls that don\u0027t use path_info style urls?",
+      "parentUuid": "AAABDH///6E\u003d",
       "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

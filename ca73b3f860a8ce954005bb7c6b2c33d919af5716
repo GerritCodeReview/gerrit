@@ -34,6 +34,24 @@
       "revId": "ca73b3f860a8ce954005bb7c6b2c33d919af5716",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///+s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1006697
+      },
+      "writtenOn": "2011-06-17T04:05:57Z",
+      "side": 0,
+      "message": "I believe it is still prevented, because project_list/etc observe export_auth_hook, which gerrit sets up to tell gitweb to only show the one project we just authenticated access to.\n\nSo yes, the user can now construct a url like \"?p\u003dsome/project/i/can/see;a\u003dproject_list\", but it\u0027ll only show them  the single project \"some/project/i/can/see\".\n\nThat also is a very useful property to have in case gitweb and gerrit disagree about which project the URL is asking for, for whatever reason. If gerrit authenticates access to a different project than gitweb eventually decides the user asked for, gitweb will simply deny access.",
+      "parentUuid": "AAABDH///3w\u003d",
+      "revId": "ca73b3f860a8ce954005bb7c6b2c33d919af5716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

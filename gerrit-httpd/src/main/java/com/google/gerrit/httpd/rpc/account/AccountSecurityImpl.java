@@ -52,11 +52,10 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
+import com.google.inject.ProvisionException;
 import org.eclipse.jgit.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
@@ -272,16 +271,50 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   public void registerEmail(final String address,
       final AsyncCallback<VoidResult> cb) {
     try {
-      final RegisterNewEmailSender sender;
-      sender = registerNewEmailFactory.create(address);
-      sender.send();
-      cb.onSuccess(VoidResult.INSTANCE);
+      switch (authConfig.getAuthType()) {
+        case OPENID:
+        case HTTP:
+        case HTTP_LDAP:
+        case CLIENT_SSL_CERT_LDAP:
+        case LDAP:
+        case LDAP_BIND:
+          final RegisterNewEmailSender sender;
+          sender = registerNewEmailFactory.create(address);
+          sender.send();
+          cb.onSuccess(VoidResult.INSTANCE);
+          break;
+        case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+          registerMail(address, cb);
+          break;
+        default:
+          log.error(
+              "Unsupported loginType: " + authConfig.getAuthType(),
+              new ProvisionException("Unsupported loginType: "
+                  + authConfig.getAuthType()));
+          throw new ProvisionException("Unsupported loginType: "
+              + authConfig.getAuthType());
+      }
     } catch (EmailException e) {
       log.error("Cannot send email verification message to " + address, e);
       cb.onFailure(e);
     } catch (RuntimeException e) {
       log.error("Cannot send email verification message to " + address, e);
       cb.onFailure(e);
+    }
+  }
+
+  private void registerMail(final String newEmail,
+      final AsyncCallback<VoidResult> callback) {
+    if (!newEmail.contains("@")) {
+      callback.onFailure(new IllegalStateException("Invalid token"));
+      return;
+    }
+    try {
+      accountManager.link(user.get().getAccountId(),
+          AuthRequest.forEmail(newEmail));
+      callback.onSuccess(VoidResult.INSTANCE);
+    } catch (AccountException e) {
+      callback.onFailure(e);
     }
   }
 
@@ -295,18 +328,10 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         return;
       }
       final String newEmail = new String(Base64.decode(t.getData()), "UTF-8");
-      if (!newEmail.contains("@")) {
-        callback.onFailure(new IllegalStateException("Invalid token"));
-        return;
-      }
-      accountManager.link(user.get().getAccountId(), AuthRequest
-          .forEmail(newEmail));
-      callback.onSuccess(VoidResult.INSTANCE);
+      registerMail(newEmail, callback);
     } catch (XsrfException e) {
       callback.onFailure(e);
     } catch (UnsupportedEncodingException e) {
-      callback.onFailure(e);
-    } catch (AccountException e) {
       callback.onFailure(e);
     }
   }

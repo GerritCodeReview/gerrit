@@ -17,6 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ContactInformation;
@@ -39,7 +40,6 @@ import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 import com.google.gwtjsonrpc.client.VoidResult;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -278,6 +278,18 @@ class ContactPanelShort extends Composite {
         Util.ACCOUNT_SEC.registerEmail(addr, new GerritCallback<VoidResult>() {
           public void onSuccess(VoidResult result) {
             box.hide();
+            switch (Gerrit.getConfig().getAuthType()) {
+              case HTTP:
+              case HTTP_LDAP:
+              case CLIENT_SSL_CERT_LDAP:
+              case OPENID:
+              case LDAP:
+              case LDAP_BIND:
+                break;
+              case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+                Gerrit.upgradeUI(PageLinks.SETTINGS_CONTACT);
+                break;
+            }
           }
 
           @Override

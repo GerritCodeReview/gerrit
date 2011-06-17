@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.AccountAgreement;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountSshKey;
+import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.ContactInformation;
 import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -52,11 +53,9 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import org.eclipse.jgit.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
@@ -271,17 +270,36 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
   public void registerEmail(final String address,
       final AsyncCallback<VoidResult> cb) {
+    if (authConfig.getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+      checkFormatAndSaveEmail(address, cb);
+    } else {
+      try {
+        final RegisterNewEmailSender sender;
+        sender = registerNewEmailFactory.create(address);
+        sender.send();
+        cb.onSuccess(VoidResult.INSTANCE);
+      } catch (EmailException e) {
+        log.error("Cannot send email verification message to " + address, e);
+        cb.onFailure(e);
+      } catch (RuntimeException e) {
+        log.error("Cannot send email verification message to " + address, e);
+        cb.onFailure(e);
+      }
+    }
+  }
+
+  private void checkFormatAndSaveEmail(final String newEmail,
+      final AsyncCallback<VoidResult> callback) {
+    if (!newEmail.contains("@")) {
+      callback.onFailure(new IllegalStateException("Invalid Email Format"));
+      return;
+    }
     try {
-      final RegisterNewEmailSender sender;
-      sender = registerNewEmailFactory.create(address);
-      sender.send();
-      cb.onSuccess(VoidResult.INSTANCE);
-    } catch (EmailException e) {
-      log.error("Cannot send email verification message to " + address, e);
-      cb.onFailure(e);
-    } catch (RuntimeException e) {
-      log.error("Cannot send email verification message to " + address, e);
-      cb.onFailure(e);
+      accountManager.link(user.get().getAccountId(),
+          AuthRequest.forEmail(newEmail));
+      callback.onSuccess(VoidResult.INSTANCE);
+    } catch (AccountException e) {
+      callback.onFailure(e);
     }
   }
 
@@ -295,18 +313,10 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         return;
       }
       final String newEmail = new String(Base64.decode(t.getData()), "UTF-8");
-      if (!newEmail.contains("@")) {
-        callback.onFailure(new IllegalStateException("Invalid token"));
-        return;
-      }
-      accountManager.link(user.get().getAccountId(), AuthRequest
-          .forEmail(newEmail));
-      callback.onSuccess(VoidResult.INSTANCE);
+      checkFormatAndSaveEmail(newEmail, callback);
     } catch (XsrfException e) {
       callback.onFailure(e);
     } catch (UnsupportedEncodingException e) {
-      callback.onFailure(e);
-    } catch (AccountException e) {
       callback.onFailure(e);
     }
   }

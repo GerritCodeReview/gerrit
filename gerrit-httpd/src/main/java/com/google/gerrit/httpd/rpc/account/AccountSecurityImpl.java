@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.AccountAgreement;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountSshKey;
+import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.ContactInformation;
 import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -270,19 +271,36 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   }
 
   public void registerEmail(final String address,
-      final AsyncCallback<VoidResult> cb) {
-    try {
-      final RegisterNewEmailSender sender;
-      sender = registerNewEmailFactory.create(address);
-      sender.send();
-      cb.onSuccess(VoidResult.INSTANCE);
-    } catch (EmailException e) {
-      log.error("Cannot send email verification message to " + address, e);
-      cb.onFailure(e);
-    } catch (RuntimeException e) {
-      log.error("Cannot send email verification message to " + address, e);
-      cb.onFailure(e);
+      final AsyncCallback<Account> cb) {
+    if (authConfig.getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+      try {
+        checkFormatAndSaveEmail(address);
+        cb.onSuccess(user.get().getAccount());
+      } catch (AccountException e) {
+        cb.onFailure(e);
+      }
+    } else {
+      try {
+        final RegisterNewEmailSender sender;
+        sender = registerNewEmailFactory.create(address);
+        sender.send();
+      } catch (EmailException e) {
+        log.error("Cannot send email verification message to " + address, e);
+        cb.onFailure(e);
+      } catch (RuntimeException e) {
+        log.error("Cannot send email verification message to " + address, e);
+        cb.onFailure(e);
+      }
     }
+  }
+
+  private void checkFormatAndSaveEmail(final String newEmail)
+      throws AccountException {
+    if (!newEmail.contains("@")) {
+      throw new IllegalStateException("Invalid Email Format");
+    }
+    accountManager.link(user.get().getAccountId(),
+        AuthRequest.forEmail(newEmail));
   }
 
   public void validateEmail(final String token,
@@ -295,12 +313,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         return;
       }
       final String newEmail = new String(Base64.decode(t.getData()), "UTF-8");
-      if (!newEmail.contains("@")) {
-        callback.onFailure(new IllegalStateException("Invalid token"));
-        return;
-      }
-      accountManager.link(user.get().getAccountId(), AuthRequest
-          .forEmail(newEmail));
+      checkFormatAndSaveEmail(newEmail);
       callback.onSuccess(VoidResult.INSTANCE);
     } catch (XsrfException e) {
       callback.onFailure(e);

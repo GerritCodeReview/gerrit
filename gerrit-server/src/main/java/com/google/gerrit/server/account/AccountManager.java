@@ -402,10 +402,8 @@ public class AccountManager {
 
           if (who.getEmailAddress() != null) {
             final Account a = db.accounts().get(to);
-            if (a.getPreferredEmail() == null) {
-              a.setPreferredEmail(who.getEmailAddress());
-              db.accounts().update(Collections.singleton(a));
-            }
+            a.setPreferredEmail(who.getEmailAddress());
+            db.accounts().update(Collections.singleton(a));
           }
 
           if (who.getEmailAddress() != null) {

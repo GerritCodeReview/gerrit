@@ -165,6 +165,22 @@ to express their setting:
 +
 Default is -1, permitting infinite time between authentications.
 
+[[auth.maxRegisterEmailTokenAge]]auth.maxRegisterEmailTokenAge::
++
+Time in seconds before an email verification token sent to a user in
+order to validate their email address expires.
++
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
+* d, day, days
+* w, week, weeks (`1 week` is treated as `7 days`)
+* mon, month, months (`1 month` is treated as `30 days`)
+* y, year, years (`1 year` is treated as `365 days`)
+
++
+Default is 5 days.
+
 [[auth.httpHeader]]auth.httpHeader::
 +
 HTTP header to trust the username from, or unset to select HTTP basic
@@ -1971,6 +1987,9 @@ be exposed to everyone.
 
 Sample `etc/secure.config`:
 ----
+[auth]
+  registerEmailPrivateKey = 2zHNrXE2bsoylzUqDxZp0H1cqUmjgWb6
+
 [database]
   username = webuser
   password = s3kr3t
@@ -2023,64 +2042,6 @@ Other files support site customization.
 +
 * link:config-headerfooter.html[Site Header/Footer]
 * link:config-replication.html[Git Replication/Mirroring]
-
-Not User Serviceable
-~~~~~~~~~~~~~~~~~~~~
-
-These fields generally shouldn't be modified.
-
-register_email_private_key::
-+
-Private key used to sign the links emailed to users when they
-request to register a new email address on their user account.
-When the link is activated, the private key authenticates the link
-was created and sent by this Gerrit server, proving that the user
-can receive email at the address they are registering.
-+
-This column is automatically generated when the database is
-initialized.  Changing it to a new value would cause all current
-links to be invalidated.
-+
-Changing it is not recommended.
-
-admin_group_id::
-+
-Unique identity of the group with full privileges.  Any user who
-is a member of this group may manage any other group, any project,
-and other system settings over the web.
-+
-This is initialized by Gerrit to be the "Administrators" group.
-+
-Changing it is not recommended.
-
-anonymous_group_id::
-+
-Unique identity of the group for anonymous (not authenticated) users.
-+
-All users are a member of this group, whether or not they are
-actually signed in to Gerrit.  Any access rights assigned to
-this group are inherited by all users.
-+
-This is initialized by Gerrit to be the "Anonymous Users" group.
-+
-Changing it is not recommended.
-
-registered_group_id::
-+
-Unique identity of the group for all authenticated users.
-+
-All signed-in users are a member of this group.  Any access rights
-assigned to this group are inherited by all users once they have
-authenticated to Gerrit.
-+
-Since account registration is open and fairly easy to obtain,
-moving from the "Anonymous Users" group to this group is not
-very difficult.  Caution should be taken when assigning any
-permissions to this group.
-+
-This is initialized by Gerrit to be the "Registered Users" group.
-+
-Changing it is not recommended.
 
 GERRIT
 ------

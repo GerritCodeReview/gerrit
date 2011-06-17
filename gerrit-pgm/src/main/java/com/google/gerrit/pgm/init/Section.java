@@ -126,7 +126,7 @@ class Section {
   }
 
   String password(final String username, final String password) {
-    final String ov = flags.sec.getString(section, null, password);
+    final String ov = getSecure(password);
 
     String user = flags.sec.getString(section, null, username);
     if (user == null) {
@@ -149,13 +149,21 @@ class Section {
 
     final String nv = ui.password("%s's password", user);
     if (!eq(ov, nv)) {
-      if (nv != null) {
-        flags.sec.setString(section, null, password, nv);
-      } else {
-        flags.sec.unset(section, null, password);
-      }
+      setSecure(password, nv);
     }
     return nv;
+  }
+
+  String getSecure(String name) {
+    return flags.sec.getString(section, null, name);
+  }
+
+  void setSecure(String name, String value) {
+    if (value != null) {
+      flags.sec.setString(section, null, name, value);
+    } else {
+      flags.sec.unset(section, null, name);
+    }
   }
 
   private static boolean eq(final String a, final String b) {

@@ -18,6 +18,7 @@ import static com.google.gerrit.pgm.init.InitUtil.dnOf;
 
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.reviewdb.AuthType;
+import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -79,6 +80,10 @@ class InitAuth implements InitStep {
         ldap.string("Group BaseDN", "groupBase", aBase);
         break;
       }
+    }
+
+    if (auth.getSecure("registerEmailPrivateKey") == null) {
+      auth.setSecure("registerEmailPrivateKey", SignedToken.generateRandomKey());
     }
   }
 }

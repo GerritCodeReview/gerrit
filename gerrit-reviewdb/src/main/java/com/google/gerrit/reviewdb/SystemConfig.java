@@ -52,10 +52,6 @@ public final class SystemConfig {
   @Column(id = 1)
   protected Key singleton;
 
-  /** Private key to sign account identification cookies. */
-  @Column(id = 2, length = 36)
-  public transient String registerEmailPrivateKey;
-
   /**
    * Local filesystem location of header/footer/CSS configuration files
    */
@@ -66,6 +62,9 @@ public final class SystemConfig {
   // DO NOT LOOK BELOW THIS LINE. These fields have all been deleted,
   // but survive to support schema upgrade code.
 
+  /** DEPRECATED DO NOT USE */
+  @Column(id = 2, length = 36, notNull = false)
+  public transient String registerEmailPrivateKey;
   /** DEPRECATED DO NOT USE */
   @Column(id = 4, notNull = false)
   public AccountGroup.Id adminGroupId;

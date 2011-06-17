@@ -78,11 +78,6 @@ public class SchemaCreatorTest extends TestCase {
       sitePath = sitePath.getParentFile();
     }
     assertEquals(sitePath.getAbsolutePath(), config.sitePath);
-
-    // This is randomly generated and should be at least 20 bytes long.
-    //
-    assertNotNull(config.registerEmailPrivateKey);
-    assertTrue(20 < config.registerEmailPrivateKey.length());
   }
 
   public void testSubsequentGetReads() throws OrmException {
@@ -92,7 +87,6 @@ public class SchemaCreatorTest extends TestCase {
 
     assertNotSame(exp, act);
     assertEquals(exp.sitePath, act.sitePath);
-    assertEquals(exp.registerEmailPrivateKey, act.registerEmailPrivateKey);
   }
 
   public void testCreateSchema_ApprovalCategory_CodeReview()

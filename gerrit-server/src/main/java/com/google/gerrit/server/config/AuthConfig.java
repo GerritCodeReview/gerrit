@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
@@ -54,7 +55,17 @@ public class AuthConfig {
     allowedOpenIDs = toPatterns(cfg, "allowedOpenID");
     cookiePath = cfg.getString("auth", null, "cookiepath");
     cookieSecure = cfg.getBoolean("auth", "cookiesecure", false);
-    emailReg = new SignedToken(5 * 24 * 60 * 60, s.registerEmailPrivateKey);
+
+    String key = cfg.getString("auth", null, "registerEmailPrivateKey");
+    if (key != null && !key.isEmpty()) {
+      int age = (int) ConfigUtil.getTimeUnit(cfg,
+          "auth", null, "maxRegisterEmailTokenAge",
+          TimeUnit.SECONDS.convert(5, TimeUnit.DAYS),
+          TimeUnit.SECONDS);
+      emailReg = new SignedToken(age, key);
+    } else {
+      emailReg = null;
+    }
 
     if (authType == AuthType.OPENID) {
       allowGoogleAccountUpgrade =

@@ -36,7 +36,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.NoReplication;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -192,8 +191,6 @@ public class SchemaCreator {
         Collections.singleton(new AccountGroupName(owners)));
 
     final SystemConfig s = SystemConfig.create();
-    s.registerEmailPrivateKey = SignedToken.generateRandomKey();
-
     try {
       s.sitePath = site_path.getCanonicalPath();
     } catch (IOException e) {

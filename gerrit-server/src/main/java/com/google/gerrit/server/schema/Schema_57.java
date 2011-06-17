@@ -163,6 +163,7 @@ public class Schema_57 extends SchemaVersion {
     sc.ownerGroupId = new AccountGroup.Id(0);
     sc.batchUsersGroupId = new AccountGroup.Id(0);
     sc.batchUsersGroupUUID = new AccountGroup.UUID("DELETED");
+    sc.registerEmailPrivateKey = "DELETED";
 
     db.systemConfig().update(Collections.singleton(sc));
   }

@@ -38,7 +38,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
-import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -275,9 +274,26 @@ class ContactPanelShort extends Composite {
 
         inEmail.setEnabled(false);
         register.setEnabled(false);
-        Util.ACCOUNT_SEC.registerEmail(addr, new GerritCallback<VoidResult>() {
-          public void onSuccess(VoidResult result) {
+        Util.ACCOUNT_SEC.registerEmail(addr, new GerritCallback<Account>() {
+          public void onSuccess(Account result) {
             box.hide();
+            if (result != null) {
+              haveAccount = true;
+              haveEmails = true;
+              currentEmail = addr;
+              if (emailPick.getItemCount() > 0) {
+                emailPick.removeItem(emailPick.getItemCount() - 1);
+                // an additional e-mail address was registered,
+                // the user has to click on 'Save Changes' to make it the
+                // preferred one
+                save.setEnabled(true);
+              } else {
+                // the first e-mail address that is registered automatically
+                // becomes the preferred e-mail address
+                onSaveSuccess(result);
+              }
+              postLoad();
+            }
           }
 
           @Override

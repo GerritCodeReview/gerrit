@@ -38,8 +38,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
-import java.util.List;
-
 public class GroupListScreen extends AccountScreen {
   private GroupTable groups;
 

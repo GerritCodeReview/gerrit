@@ -18,17 +18,14 @@ import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.errors.NoSuchAccountException;
-import com.google.gerrit.reviewdb.AbstractAgreement;
 import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountAgreement;
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountGroupAgreement;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
-import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetAncestor;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -40,7 +37,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.mail.CreateChangeSender;
@@ -117,20 +113,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     ReceiveCommits create(ProjectControl projectControl, Repository repository);
   }
 
-  public static class Capable {
-    public static final Capable OK = new Capable("OK");
-
-    private final String message;
-
-    Capable(String msg) {
-      message = msg;
-    }
-
-    public String getMessage() {
-      return message;
-    }
-  }
-
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
 
@@ -146,7 +128,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final ChangeHookRunner hooks;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
-  private final GroupCache groupCache;
   private final String canonicalWebUrl;
   private final PersonIdent gerritIdent;
   private final TrackingFooters trackingFooters;
@@ -183,7 +164,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final ChangeHookRunner hooks,
       final ProjectCache projectCache,
       final GitRepositoryManager repoManager,
-      final GroupCache groupCache,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
@@ -202,7 +182,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.hooks = hooks;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
-    this.groupCache = groupCache;
     this.canonicalWebUrl = canonicalWebUrl;
     this.gerritIdent = gerritIdent;
     this.trackingFooters = trackingFooters;
@@ -319,9 +298,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   /** Determine if the user can upload commits. */
   public Capable canUpload() {
-    if (!projectControl.canPushToAtLeastOneRef()) {
-      String reqName = project.getName();
-      return new Capable("Upload denied for project '" + reqName + "'");
+    Capable result = projectControl.canPushToAtLeastOneRef();
+    if (result != Capable.OK) {
+      return result;
     }
 
     // Don't permit receive-pack to be executed if a refs/for/branch_name
@@ -346,16 +325,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       return new Capable("One or more refs/for/ names blocks change upload");
     }
 
-    if (project.isUseContributorAgreements()) {
-      try {
-        return verifyActiveContributorAgreement();
-      } catch (OrmException e) {
-        log.error("Cannot query database for agreements", e);
-        return new Capable("Cannot verify contribution agreement");
-      }
-    } else {
-      return Capable.OK;
-    }
+    return Capable.OK;
   }
 
   @Override
@@ -415,127 +385,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       }
       rp.sendMessage("");
     }
-  }
-
-  private Capable verifyActiveContributorAgreement() throws OrmException {
-    AbstractAgreement bestAgreement = null;
-    ContributorAgreement bestCla = null;
-
-    OUTER: for (AccountGroup.UUID groupUUID : currentUser.getEffectiveGroups()) {
-      AccountGroup group = groupCache.get(groupUUID);
-      if (group == null) {
-        continue;
-      }
-
-      final List<AccountGroupAgreement> temp =
-          db.accountGroupAgreements().byGroup(group.getId()).toList();
-
-      Collections.reverse(temp);
-
-      for (final AccountGroupAgreement a : temp) {
-        final ContributorAgreement cla =
-            db.contributorAgreements().get(a.getAgreementId());
-        if (cla == null) {
-          continue;
-        }
-
-        bestAgreement = a;
-        bestCla = cla;
-        break OUTER;
-      }
-    }
-
-    if (bestAgreement == null) {
-      final List<AccountAgreement> temp =
-          db.accountAgreements().byAccount(currentUser.getAccountId()).toList();
-
-      Collections.reverse(temp);
-
-      for (final AccountAgreement a : temp) {
-        final ContributorAgreement cla =
-            db.contributorAgreements().get(a.getAgreementId());
-        if (cla == null) {
-          continue;
-        }
-
-        bestAgreement = a;
-        bestCla = cla;
-        break;
-      }
-    }
-
-    if (bestCla != null && !bestCla.isActive()) {
-      final StringBuilder msg = new StringBuilder();
-      msg.append(bestCla.getShortName());
-      msg.append(" contributor agreement is expired.\n");
-      if (canonicalWebUrl != null) {
-        msg.append("\nPlease complete a new agreement");
-        msg.append(":\n\n  ");
-        msg.append(canonicalWebUrl);
-        msg.append("#");
-        msg.append(PageLinks.SETTINGS_AGREEMENTS);
-        msg.append("\n");
-      }
-      msg.append("\n");
-      return new Capable(msg.toString());
-    }
-
-    if (bestCla != null && bestCla.isRequireContactInformation()) {
-      boolean fail = false;
-      fail |= missing(currentUser.getAccount().getFullName());
-      fail |= missing(currentUser.getAccount().getPreferredEmail());
-      fail |= !currentUser.getAccount().isContactFiled();
-
-      if (fail) {
-        final StringBuilder msg = new StringBuilder();
-        msg.append(bestCla.getShortName());
-        msg.append(" contributor agreement requires");
-        msg.append(" current contact information.\n");
-        if (canonicalWebUrl != null) {
-          msg.append("\nPlease review your contact information");
-          msg.append(":\n\n  ");
-          msg.append(canonicalWebUrl);
-          msg.append("#");
-          msg.append(PageLinks.SETTINGS_CONTACT);
-          msg.append("\n");
-        }
-        msg.append("\n");
-        return new Capable(msg.toString());
-      }
-    }
-
-    if (bestAgreement != null) {
-      switch (bestAgreement.getStatus()) {
-        case VERIFIED:
-          return Capable.OK;
-        case REJECTED:
-          return new Capable(bestCla.getShortName()
-              + " contributor agreement was rejected."
-              + "\n       (rejected on " + bestAgreement.getReviewedOn()
-              + ")\n");
-        case NEW:
-          return new Capable(bestCla.getShortName()
-              + " contributor agreement is still pending review.\n");
-      }
-    }
-
-    final StringBuilder msg = new StringBuilder();
-    msg.append(" A Contributor Agreement must be completed before uploading");
-    if (canonicalWebUrl != null) {
-      msg.append(":\n\n  ");
-      msg.append(canonicalWebUrl);
-      msg.append("#");
-      msg.append(PageLinks.SETTINGS_AGREEMENTS);
-      msg.append("\n");
-    } else {
-      msg.append(".");
-    }
-    msg.append("\n");
-    return new Capable(msg.toString());
-  }
-
-  private static boolean missing(final String value) {
-    return value == null || value.trim().equals("");
   }
 
   private Account.Id toAccountId(final String nameOrEmail) throws OrmException,
@@ -2031,5 +1880,4 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private static boolean isConfig(final ReceiveCommand cmd) {
     return cmd.getRefName().equals(GitRepositoryManager.REF_CONFIG);
   }
-
 }

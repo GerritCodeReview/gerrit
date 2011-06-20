@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.ReceiveCommits;
@@ -70,8 +71,8 @@ final class Receive extends AbstractGitCommand {
 
     final ReceiveCommits receive = factory.create(projectControl, repo);
 
-    ReceiveCommits.Capable r = receive.canUpload();
-    if (r != ReceiveCommits.Capable.OK) {
+    Capable r = receive.canUpload();
+    if (r != Capable.OK) {
       throw new UnloggedFailure(1, "\nfatal: " + r.getMessage());
     }
 

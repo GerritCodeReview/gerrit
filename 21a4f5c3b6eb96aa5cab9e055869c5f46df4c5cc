@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDX///j8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T22:48:27Z",
+      "side": 1,
+      "message": "This doesn\u0027t actually work, even though I submitted it and said it does. :-)\n\nThe problem here is the ReviewDb isn\u0027t available in all contexts we use the ProjectControl in. Sometimes a ProjectControl is used outside of a scope that has a request active, and thus an available ReviewDb.",
+      "revId": "21a4f5c3b6eb96aa5cab9e055869c5f46df4c5cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

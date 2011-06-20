@@ -14,9 +14,11 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
-import com.google.gerrit.common.data.AccountInfoCache;
+import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.PatchSetPublishDetail;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchLineComment;
@@ -28,7 +30,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.OrmException;
@@ -37,7 +38,9 @@ import com.google.inject.assistedinject.Assisted;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> {
   interface Factory {
@@ -47,12 +50,12 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   private final PatchSetInfoFactory infoFactory;
   private final ReviewDb db;
   private final ChangeControl.Factory changeControlFactory;
+  private final ApprovalTypes approvalTypes;
   private final AccountInfoCacheFactory aic;
   private final IdentifiedUser user;
 
   private final PatchSet.Id patchSetId;
 
-  private AccountInfoCache accounts;
   private PatchSetInfo patchSetInfo;
   private Change change;
   private List<PatchLineComment> drafts;
@@ -62,10 +65,12 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       final ReviewDb db,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final ChangeControl.Factory changeControlFactory,
+      final ApprovalTypes approvalTypes,
       final IdentifiedUser user, @Assisted final PatchSet.Id patchSetId) {
     this.infoFactory = infoFactory;
     this.db = db;
     this.changeControlFactory = changeControlFactory;
+    this.approvalTypes = approvalTypes;
     this.aic = accountInfoCacheFactory.create();
     this.user = user;
 
@@ -81,32 +86,92 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     patchSetInfo = infoFactory.get(patchSetId);
     drafts = db.patchComments().draft(patchSetId, user.getAccountId()).toList();
 
+    aic.want(change.getOwner());
+
+    PatchSetPublishDetail detail = new PatchSetPublishDetail();
+    detail.setPatchSetInfo(patchSetInfo);
+    detail.setChange(change);
+    detail.setDrafts(drafts);
+
     List<PermissionRange> allowed = Collections.emptyList();
     List<PatchSetApproval> given = Collections.emptyList();
 
     if (change.getStatus().isOpen()
         && patchSetId.equals(change.currentPatchSetId())) {
-      allowed = new ArrayList<PermissionRange>(control.getLabelRanges());
-      Collections.sort(allowed);
+      // TODO Push this selection of labels down into the Prolog interpreter.
+      // Ideally we discover the labels the user can apply here based on doing
+      // a findall() over the space of labels they can apply combined against
+      // the submit rule, thereby skipping any mutually exclusive cases. However
+      // those are not common, so it might just be reasonable to take this
+      // simple approach.
+
+      Map<String, PermissionRange> rangeByName =
+          new HashMap<String, PermissionRange>();
+      for (PermissionRange r : control.getLabelRanges()) {
+        if (r.isLabel()) {
+          rangeByName.put(r.getLabel(), r);
+        }
+      }
+      allowed = new ArrayList<PermissionRange>();
 
       given = db.patchSetApprovals() //
           .byPatchSetUser(patchSetId, user.getAccountId()) //
           .toList();
+
+      boolean couldSubmit = false;
+      List<SubmitRecord> submitRecords = control.canSubmit(db, patchSetId);
+      for (SubmitRecord rec : submitRecords) {
+        if (rec.status == SubmitRecord.Status.OK) {
+          couldSubmit = true;
+        }
+
+        if (rec.labels != null) {
+          int ok = 0;
+
+          for (SubmitRecord.Label lbl : rec.labels) {
+            boolean canMakeOk = false;
+            PermissionRange range = rangeByName.get(lbl.label);
+            if (range != null) {
+              if (!allowed.contains(range)) {
+                allowed.add(range);
+              }
+
+              ApprovalType at = approvalTypes.byLabel(lbl.label);
+              if (at != null && at.getMax().getValue() == range.getMax()) {
+                canMakeOk = true;
+              } else if (at == null) {
+                canMakeOk = true;
+              }
+            }
+
+            switch (lbl.status) {
+              case OK:
+                ok++;
+                break;
+
+              case NEED:
+                if (canMakeOk) {
+                  ok++;
+                }
+                break;
+            }
+          }
+
+          if (rec.status == SubmitRecord.Status.NOT_READY
+              && ok == rec.labels.size()) {
+            couldSubmit = true;
+          }
+        }
+      }
+
+      if (couldSubmit && control.getRefControl().canSubmit()) {
+        detail.setCanSubmit(true);
+      }
     }
 
-    aic.want(change.getOwner());
-    accounts = aic.create();
-
-    PatchSetPublishDetail detail = new PatchSetPublishDetail();
-    detail.setAccounts(accounts);
-    detail.setPatchSetInfo(patchSetInfo);
-    detail.setChange(change);
-    detail.setDrafts(drafts);
     detail.setLabels(allowed);
     detail.setGiven(given);
-
-    final CanSubmitResult canSubmitResult = control.canSubmit(patchSetId);
-    detail.setCanSubmit(canSubmitResult == CanSubmitResult.OK);
+    detail.setAccounts(aic.create());
 
     return detail;
   }

@@ -24,11 +24,11 @@ import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ApprovalDetail;
 import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ReviewerResult;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -46,13 +46,15 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /** Displays a table of {@link ApprovalDetail} objects for a change record. */
 public class ApprovalTable extends Composite {
-  private final List<ApprovalType> types;
+  private final ApprovalTypes types;
   private final Grid table;
   private final Widget missing;
   private final Panel addReviewer;
@@ -61,10 +63,9 @@ public class ApprovalTable extends Composite {
   private AccountInfoCache accountCache = AccountInfoCache.empty();
 
   public ApprovalTable() {
-    types = Gerrit.getConfig().getApprovalTypes().getApprovalTypes();
-    table = new Grid(1, 3 + types.size());
+    types = Gerrit.getConfig().getApprovalTypes();
+    table = new Grid(1, 3);
     table.addStyleName(Gerrit.RESOURCES.css().infoTable());
-    displayHeader();
 
     missing = new Widget() {
       {
@@ -95,7 +96,9 @@ public class ApprovalTable extends Composite {
     setStyleName(Gerrit.RESOURCES.css().approvalTable());
   }
 
-  private void displayHeader() {
+  private void displayHeader(List<String> labels) {
+    table.resizeColumns(2 + labels.size());
+
     final CellFormatter fmt = table.getCellFormatter();
     int col = 0;
 
@@ -107,16 +110,12 @@ public class ApprovalTable extends Composite {
     fmt.setStyleName(0, col, Gerrit.RESOURCES.css().header());
     col++;
 
-    for (final ApprovalType t : types) {
-      table.setText(0, col, t.getCategory().getName());
+    for (String name : labels) {
+      table.setText(0, col, name);
       fmt.setStyleName(0, col, Gerrit.RESOURCES.css().header());
       col++;
     }
-
-    table.clearCell(0, col);
-    fmt.setStyleName(0, col, Gerrit.RESOURCES.css().header());
-    fmt.addStyleName(0, col, Gerrit.RESOURCES.css().rightmost());
-    col++;
+    fmt.addStyleName(0, col - 1, Gerrit.RESOURCES.css().rightmost());
   }
 
   public void setAccountInfoCache(final AccountInfoCache aic) {
@@ -128,40 +127,115 @@ public class ApprovalTable extends Composite {
     return AccountDashboardLink.link(accountCache, id);
   }
 
-  public void display(final Change change, final Set<ApprovalCategory.Id> need,
-      final List<ApprovalDetail> rows) {
-    changeId = change.getId();
+  void display(ChangeDetail detail) {
+    List<String> columns = new ArrayList<String>();
+    List<ApprovalDetail> rows = detail.getApprovals();
 
-    if (rows.isEmpty()) {
-      table.setVisible(false);
-    } else {
-      table.resizeRows(1 + rows.size());
-      for (int i = 0; i < rows.size(); i++) {
-        displayRow(i + 1, rows.get(i), change);
-      }
-      table.setVisible(true);
-    }
+    changeId = detail.getChange().getId();
 
     final Element missingList = missing.getElement();
     while (DOM.getChildCount(missingList) > 0) {
       DOM.removeChild(missingList, DOM.getChild(missingList, 0));
     }
-
     missing.setVisible(false);
-    if (need != null) {
-      for (final ApprovalType at : types) {
-        if (need.contains(at.getCategory().getId())) {
-          final Element li = DOM.createElement("li");
-          li.setClassName(Gerrit.RESOURCES.css().missingApproval());
-          DOM.setInnerText(li, Util.M.needApproval(at.getCategory().getName(),
-              at.getMax().formatValue(), at.getMax().getName()));
-          DOM.appendChild(missingList, li);
-          missing.setVisible(true);
+
+    if (detail.getSubmitRecords() != null) {
+      HashSet<String> reportedMissing = new HashSet<String>();
+
+      HashMap<Account.Id, ApprovalDetail> byUser =
+          new HashMap<Account.Id, ApprovalDetail>();
+      for (ApprovalDetail ad : detail.getApprovals()) {
+        byUser.put(ad.getAccount(), ad);
+      }
+
+      for (SubmitRecord rec : detail.getSubmitRecords()) {
+        if (rec.labels == null) {
+          continue;
         }
+
+        for (SubmitRecord.Label lbl : rec.labels) {
+          if (!columns.contains(lbl.label)) {
+            columns.add(lbl.label);
+          }
+
+          switch (lbl.status) {
+            case OK: {
+              ApprovalDetail ad = byUser.get(lbl.appliedBy);
+              if (ad != null) {
+                ad.approved(lbl.label);
+              }
+              break;
+            }
+
+            case REJECT: {
+              ApprovalDetail ad = byUser.get(lbl.appliedBy);
+              if (ad != null) {
+                ad.rejected(lbl.label);
+              }
+              break;
+            }
+
+            case NEED:
+            case IMPOSSIBLE:
+              if (reportedMissing.add(lbl.label)) {
+                Element li = DOM.createElement("li");
+                li.setClassName(Gerrit.RESOURCES.css().missingApproval());
+                DOM.setInnerText(li, Util.M.needApproval(lbl.label));
+                DOM.appendChild(missingList, li);
+              }
+              break;
+          }
+        }
+      }
+      missing.setVisible(!reportedMissing.isEmpty());
+
+    } else {
+      for (ApprovalDetail ad : rows) {
+        for (PatchSetApproval psa : ad.getPatchSetApprovals()) {
+          ApprovalType legacyType = types.byId(psa.getCategoryId());
+          if (legacyType == null) {
+            continue;
+          }
+          String labelName = legacyType.getCategory().getLabelName();
+          if (psa.getValue() == legacyType.getMax().getValue()) {
+            ad.approved(labelName);
+          } else if (psa.getValue() == legacyType.getMin().getValue()) {
+            ad.rejected(labelName);
+          }
+          if (!columns.contains(labelName)) {
+            columns.add(labelName);
+          }
+        }
+        Collections.sort(columns, new Comparator<String>() {
+          @Override
+          public int compare(String o1, String o2) {
+            ApprovalType a = types.byLabel(o1);
+            ApprovalType b = types.byLabel(o2);
+            int cmp = 0;
+            if (a != null && b != null) {
+              cmp = a.getCategory().getPosition() - b.getCategory().getPosition();
+            }
+            if (cmp == 0) {
+              cmp = o1.compareTo(o2);
+            }
+            return cmp;
+          }
+        });
       }
     }
 
-    addReviewer.setVisible(Gerrit.isSignedIn() && change.getStatus().isOpen());
+    if (rows.isEmpty()) {
+      table.setVisible(false);
+    } else {
+      displayHeader(columns);
+      table.resizeRows(1 + rows.size());
+      for (int i = 0; i < rows.size(); i++) {
+        displayRow(i + 1, rows.get(i), detail.getChange(), columns);
+      }
+      table.setVisible(true);
+    }
+
+    addReviewer.setVisible(Gerrit.isSignedIn() && detail.getChange().getStatus().isOpen());
   }
 
   private void doAddReviewer() {
@@ -210,9 +284,10 @@ public class ApprovalTable extends Composite {
             final ChangeDetail r = result.getChange();
             if (r != null) {
               setAccountInfoCache(r.getAccounts());
-              display(r.getChange(), r.getMissingApprovals(), r.getApprovals());
+              display(r);
             }
           }
+
 
           @Override
           public void onFailure(final Throwable caught) {
@@ -223,10 +298,8 @@ public class ApprovalTable extends Composite {
   }
 
   private void displayRow(final int row, final ApprovalDetail ad,
-      final Change change) {
+      final Change change, List<String> columns) {
     final CellFormatter fmt = table.getCellFormatter();
-    final Map<ApprovalCategory.Id, PatchSetApproval> am = ad.getApprovalMap();
-    final StringBuilder hint = new StringBuilder();
     int col = 0;
 
     table.setWidget(row, col++, link(ad.getAccount()));
@@ -250,31 +323,30 @@ public class ApprovalTable extends Composite {
     }
     fmt.setStyleName(row, col++, Gerrit.RESOURCES.css().removeReviewerCell());
 
-    for (final ApprovalType type : types) {
+    for (String labelName : columns) {
       fmt.setStyleName(row, col, Gerrit.RESOURCES.css().approvalscore());
 
-      final PatchSetApproval ca = am.get(type.getCategory().getId());
-      if (ca == null || ca.getValue() == 0) {
-        table.clearCell(row, col);
-        col++;
-        continue;
-      }
-
-      final ApprovalCategoryValue acv = type.getValue(ca);
-      if (acv != null) {
-        if (hint.length() > 0) {
-          hint.append("; ");
-        }
-        hint.append(acv.getName());
-      }
-
-      if (type.isMaxNegative(ca)) {
+      if (ad.isRejected(labelName)) {
         table.setWidget(row, col, new Image(Gerrit.RESOURCES.redNot()));
 
-      } else if (type.isMaxPositive(ca)) {
+      } else if (ad.isApproved(labelName)) {
         table.setWidget(row, col, new Image(Gerrit.RESOURCES.greenCheck()));
 
       } else {
+        ApprovalType legacyType = types.byLabel(labelName);
+        if (legacyType == null) {
+          table.clearCell(row, col);
+          col++;
+          continue;
+        }
+
+        PatchSetApproval ca = ad.getPatchSetApproval(legacyType.getCategory().getId());
+        if (ca == null || ca.getValue() == 0) {
+          table.clearCell(row, col);
+          col++;
+          continue;
+        }
+
         String vstr = String.valueOf(ca.getValue());
         if (ca.getValue() > 0) {
           vstr = "+" + vstr;
@@ -288,10 +360,7 @@ public class ApprovalTable extends Composite {
       col++;
     }
 
-    table.setText(row, col, hint.toString());
-    fmt.setStyleName(row, col, Gerrit.RESOURCES.css().rightmost());
-    fmt.addStyleName(row, col, Gerrit.RESOURCES.css().approvalhint());
-    col++;
+    fmt.addStyleName(row, col - 1, Gerrit.RESOURCES.css().rightmost());
   }
 
   private void doRemove(final ApprovalDetail ad, final PushButton remove) {
@@ -302,7 +371,7 @@ public class ApprovalTable extends Composite {
           public void onSuccess(ReviewerResult result) {
             if (result.getErrors().isEmpty()) {
               final ChangeDetail r = result.getChange();
-              display(r.getChange(), r.getMissingApprovals(), r.getApprovals());
+              display(r);
             } else {
               final ReviewerResult.Error resultError =
                   result.getErrors().get(0);

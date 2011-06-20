@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 /** Detail necessary to display a change. */
 public class ChangeDetail {
@@ -38,7 +36,7 @@ public class ChangeDetail {
   protected List<ChangeInfo> neededBy;
   protected List<PatchSet> patchSets;
   protected List<ApprovalDetail> approvals;
-  protected Set<ApprovalCategory.Id> missingApprovals;
+  protected List<SubmitRecord> submitRecords;
   protected boolean canSubmit;
   protected List<ChangeMessage> messages;
   protected PatchSet.Id currentPatchSetId;
@@ -153,12 +151,12 @@ public class ChangeDetail {
     Collections.sort(approvals, ApprovalDetail.SORT);
   }
 
-  public Set<ApprovalCategory.Id> getMissingApprovals() {
-    return missingApprovals;
+  public void setSubmitRecords(List<SubmitRecord> all) {
+    submitRecords = all;
   }
 
-  public void setMissingApprovals(Set<ApprovalCategory.Id> a) {
-    missingApprovals = a;
+  public List<SubmitRecord> getSubmitRecords() {
+    return submitRecords;
   }
 
   public boolean isCurrentPatchSet(final PatchSetDetail detail) {

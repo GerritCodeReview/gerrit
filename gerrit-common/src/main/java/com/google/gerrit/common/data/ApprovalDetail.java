@@ -21,9 +21,9 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 public class ApprovalDetail {
   public static final Comparator<ApprovalDetail> SORT =
@@ -43,6 +43,8 @@ public class ApprovalDetail {
   protected List<PatchSetApproval> approvals;
   protected boolean canRemove;
 
+  private transient Set<String> approved;
+  private transient Set<String> rejected;
   private transient int hasNonZero;
   private transient Timestamp sortOrder = EG_D;
 
@@ -66,13 +68,17 @@ public class ApprovalDetail {
     canRemove = removeable;
   }
 
-  public Map<ApprovalCategory.Id, PatchSetApproval> getApprovalMap() {
-    final HashMap<ApprovalCategory.Id, PatchSetApproval> r;
-    r = new HashMap<ApprovalCategory.Id, PatchSetApproval>();
-    for (final PatchSetApproval ca : approvals) {
-      r.put(ca.getCategoryId(), ca);
+  public List<PatchSetApproval> getPatchSetApprovals() {
+    return approvals;
+  }
+
+  public PatchSetApproval getPatchSetApproval(ApprovalCategory.Id category) {
+    for (PatchSetApproval psa : approvals) {
+      if (psa.getCategoryId().equals(category)) {
+        return psa;
+      }
     }
-    return r;
+    return null;
   }
 
   public void sortFirst() {
@@ -90,5 +96,27 @@ public class ApprovalDetail {
     if (ca.getValue() != 0) {
       hasNonZero = 1;
     }
+  }
+
+  public void approved(String label) {
+    if (approved == null) {
+      approved = new HashSet<String>();
+    }
+    approved.add(label);
+  }
+
+  public void rejected(String label) {
+    if (rejected == null) {
+      rejected = new HashSet<String>();
+    }
+    rejected.add(label);
+  }
+
+  public boolean isApproved(String label) {
+    return approved != null && approved.contains(label);
+  }
+
+  public boolean isRejected(String label) {
+    return rejected != null && rejected.contains(label);
   }
 }

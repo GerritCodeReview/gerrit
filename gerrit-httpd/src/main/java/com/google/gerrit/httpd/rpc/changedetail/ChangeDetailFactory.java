@@ -19,10 +19,10 @@ import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -34,7 +34,6 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.workflow.CategoryFunction;
@@ -99,7 +98,6 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     if (patch == null) {
       throw new NoSuchEntityException();
     }
-    final CanSubmitResult canSubmitResult = control.canSubmit(patch.getId());
 
     aic.want(change.getOwner());
 
@@ -109,11 +107,25 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     detail.setCanAbandon(change.getStatus().isOpen() && control.canAbandon());
     detail.setCanRestore(change.getStatus() == Change.Status.ABANDONED && control.canRestore());
-    detail.setCanSubmit(canSubmitResult == CanSubmitResult.OK);
     detail.setStarred(control.getCurrentUser().getStarredChanges().contains(
         changeId));
 
     detail.setCanRevert(change.getStatus() == Change.Status.MERGED && control.canAddPatchSet());
+
+    if (detail.getChange().getStatus().isOpen()) {
+      List<SubmitRecord> submitRecords = control.canSubmit(db, patch.getId());
+      for (SubmitRecord rec : submitRecords) {
+        if (rec.labels != null) {
+          for (SubmitRecord.Label lbl : rec.labels) {
+            aic.want(lbl.appliedBy);
+          }
+        }
+        if (rec.status == SubmitRecord.Status.OK && control.getRefControl().canSubmit()) {
+          detail.setCanSubmit(true);
+        }
+      }
+      detail.setSubmitRecords(submitRecords);
+    }
 
     loadPatchSets();
     loadMessages();
@@ -145,16 +157,9 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       final FunctionState fs =
           functionState.create(detail.getChange(), psId, allApprovals);
 
-      final Set<ApprovalCategory.Id> missingApprovals =
-          new HashSet<ApprovalCategory.Id>();
-
       for (final ApprovalType at : approvalTypes.getApprovalTypes()) {
         CategoryFunction.forCategory(at.getCategory()).run(at, fs);
-        if (!fs.isValid(at)) {
-          missingApprovals.add(at.getCategory().getId());
-        }
       }
-      detail.setMissingApprovals(missingApprovals);
     }
 
     final boolean canRemoveReviewers = detail.getChange().getStatus().isOpen() //

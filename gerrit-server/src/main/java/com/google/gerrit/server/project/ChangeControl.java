@@ -15,6 +15,8 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -39,6 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -224,36 +227,29 @@ public class ChangeControl {
     return false;
   }
 
-  /** @return {@link CanSubmitResult#OK}, or a result with an error message. */
-  public CanSubmitResult canSubmit(final PatchSet.Id patchSetId) {
+  public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet.Id patchSetId) {
     if (change.getStatus().isClosed()) {
-      return new CanSubmitResult("Change " + change.getId() + " is closed");
+      SubmitRecord rec = new SubmitRecord();
+      rec.status = SubmitRecord.Status.CLOSED;
+      return Collections.singletonList(rec);
     }
-    if (!patchSetId.equals(change.currentPatchSetId())) {
-      return new CanSubmitResult("Patch set " + patchSetId + " is not current");
-    }
-    if (!getRefControl().canSubmit()) {
-      return new CanSubmitResult("User does not have permission to submit");
-    }
-    if (!(getCurrentUser() instanceof IdentifiedUser)) {
-      return new CanSubmitResult("User is not signed-in");
-    }
-    return CanSubmitResult.OK;
-  }
 
-  /** @return {@link CanSubmitResult#OK}, or a result with an error message. */
-  public CanSubmitResult canSubmit(ReviewDb db, PatchSet.Id patchSetId) {
-    CanSubmitResult result = canSubmit(patchSetId);
-    if (result != CanSubmitResult.OK) {
-      return result;
+    if (!patchSetId.equals(change.currentPatchSetId())) {
+      SubmitRecord rec = new SubmitRecord();
+      rec.status = SubmitRecord.Status.RULE_ERROR;
+      rec.errorMessage = "Patch set " + patchSetId + " is not current";
+      return Collections.singletonList(rec);
     }
 
     PrologEnvironment env;
     try {
       env = getProjectControl().getProjectState().newPrologEnvironment();
     } catch (CompileException err) {
-      log.error("cannot consult rules.pl", err);
-      return new CanSubmitResult("Error reading submit rule");
+      log.error("Cannot consult rules.pl for " + getProject().getName(), err);
+      SubmitRecord rec = new SubmitRecord();
+      rec.status = SubmitRecord.Status.RULE_ERROR;
+      rec.errorMessage = "Error loading project rules, check server log";
+      return Collections.singletonList(rec);
     }
 
     env.set(StoredValues.REVIEW_DB, db);
@@ -265,8 +261,11 @@ public class ChangeControl {
       "gerrit", "locate_submit_rule",
       new VariableTerm());
     if (submitRule == null) {
-      log.error("Error in locate_submit_rule: no submit_rule found");
-      return new CanSubmitResult("Error in finding submit rule");
+      log.error("No user:submit_rule found for " + getProject().getName());
+      SubmitRecord rec = new SubmitRecord();
+      rec.status = SubmitRecord.Status.RULE_ERROR;
+      rec.errorMessage = "Error loading project rules, check server log";
+      return Collections.singletonList(rec);
     }
 
     List<Term> results = new ArrayList<Term>();
@@ -278,8 +277,19 @@ public class ChangeControl {
         results.add(template[1]);
       }
     } catch (PrologException err) {
-      log.error("PrologException calling " + submitRule, err);
-      return new CanSubmitResult("Error in submit rule");
+      log.error("Exception calling " + submitRule + " on change "
+          + change.getId() + " of " + getProject().getName(), err);
+      SubmitRecord rec = new SubmitRecord();
+      rec.status = SubmitRecord.Status.RULE_ERROR;
+      rec.errorMessage = "Error evaluating project rules, check server log";
+      return Collections.singletonList(rec);
+    } catch (RuntimeException err) {
+      log.error("Exception calling " + submitRule + " on change "
+          + change.getId() + " of " + getProject().getName(), err);
+      SubmitRecord rec = new SubmitRecord();
+      rec.status = SubmitRecord.Status.RULE_ERROR;
+      rec.errorMessage = "Error evaluating project rules, check server log";
+      return Collections.singletonList(rec);
     }
 
     if (results.isEmpty()) {
@@ -287,65 +297,133 @@ public class ChangeControl {
       // at least one result informing the caller of the labels that are
       // required for this change to be submittable. Each label will indicate
       // whether or not that is actually possible given the permissions.
-      log.error("Submit rule has no solution: " + submitRule);
-      return new CanSubmitResult("Error in submit rule (no solution possible)");
+      log.error("Submit rule " + submitRule + " for change " + change.getId()
+          + " of " + getProject().getName() + " has no solution.");
+      SubmitRecord rec = new SubmitRecord();
+      rec.status = SubmitRecord.Status.RULE_ERROR;
+      rec.errorMessage = "Project submit rule has no solution";
+      return Collections.singletonList(rec);
     }
 
-    // The last result produced will be an "ok(P)" format if submit is possible.
-    // This is always true because can_submit (called above) will cut away all
-    // choice points once a solution is found.
-    Term last = results.get(results.size() - 1);
-    if (last.isStructure() && 1 == last.arity() && "ok".equals(last.name())) {
-      // Term solution = last.arg(0);
-      return CanSubmitResult.OK;
-    }
+    // Convert the results from Prolog Cafe's format to Gerrit's common format.
+    // can_submit/1 terminates when an ok(P) record is found. Therefore walk
+    // the results backwards, using only that ok(P) record if it exists. This
+    // skips partial results that occur early in the output. Later after the loop
+    // the out collection is reversed to restore it to the original ordering.
+    //
+    List<SubmitRecord> out = new ArrayList<SubmitRecord>(results.size());
+    for (int resultIdx = results.size() - 1; 0 <= resultIdx; resultIdx--) {
+      Term submitRecord = results.get(resultIdx);
+      SubmitRecord rec = new SubmitRecord();
+      out.add(rec);
 
-    // For now only process the first result. Later we can examine all of the
-    // results and proposes different alternative paths to a submit solution.
-    Term first = results.get(0);
-    if (!first.isStructure() || 1 != first.arity() || !"not_ready".equals(first.name())) {
-      log.error("Unexpected result from can_submit: " + first);
-      return new CanSubmitResult("Error in submit rule");
-    }
-
-    Term submitRecord = first.arg(0);
-    if (!submitRecord.isStructure()) {
-      log.error("Invalid result from submit rule " + submitRule + ": " + submitRecord);
-      return new CanSubmitResult("Error in submit rule");
-    }
-
-    for (Term state : ((StructureTerm) submitRecord).args()) {
-      if (!state.isStructure() || 2 != state.arity() || !"label".equals(state.name())) {
-        log.error("Invalid result from submit rule " + submitRule + ": " + submitRecord);
-        return new CanSubmitResult("Invalid submit rule result");
+      if (!submitRecord.isStructure() || 1 != submitRecord.arity()) {
+        log.error("Submit rule " + submitRule + " for change " + change.getId()
+            + " of " + getProject().getName() + " output invalid result: "
+            + submitRecord);
+        SubmitRecord err = new SubmitRecord();
+        err.status = SubmitRecord.Status.RULE_ERROR;
+        rec.errorMessage = "Error evaluating project rules, check server log";
+        return Collections.singletonList(err);
       }
 
-      String label = state.arg(0).name();
-      Term status = state.arg(1);
+      if ("ok".equals(submitRecord.name())) {
+        rec.status = SubmitRecord.Status.OK;
 
-      if ("ok".equals(status.name())) {
-        continue;
-
-      } else if ("reject".equals(status.name())) {
-        return new CanSubmitResult("Submit blocked by " + label);
-
-      } else if ("need".equals(status.name())) {
-        if (status.isStructure() && status.arg(0).isInteger()) {
-          IntegerTerm val = (IntegerTerm) status.arg(0);
-          if (1 < val.intValue()) {
-            label += "+" + val.intValue();
-          }
-        }
-        return new CanSubmitResult("Requires " + label);
-
-      } else if ("impossble".equals(status.name())) {
-        return new CanSubmitResult("Requires " + label + " (check permissions)");
+      } else if ("not_ready".equals(submitRecord.name())) {
+        rec.status = SubmitRecord.Status.NOT_READY;
 
       } else {
-        return new CanSubmitResult("Invalid submit rule result");
+        log.error("Submit rule " + submitRule + " for change " + change.getId()
+            + " of " + getProject().getName() + " output invalid result: "
+            + submitRecord);
+        SubmitRecord err = new SubmitRecord();
+        err.status = SubmitRecord.Status.RULE_ERROR;
+        rec.errorMessage = "Error evaluating project rules, check server log";
+        return Collections.singletonList(err);
+      }
+
+      // Unpack the one argument. This should also be a structure with one
+      // argument per label that needs to be reported on to the caller.
+      //
+      submitRecord = submitRecord.arg(0);
+
+      if (!submitRecord.isStructure()) {
+        log.error("Submit rule " + submitRule + " for change " + change.getId()
+            + " of " + getProject().getName() + " output invalid result: "
+            + submitRecord);
+        SubmitRecord err = new SubmitRecord();
+        err.status = SubmitRecord.Status.RULE_ERROR;
+        rec.errorMessage = "Error evaluating project rules, check server log";
+        return Collections.singletonList(err);
+      }
+
+      rec.labels = new ArrayList<SubmitRecord.Label> (submitRecord.arity());
+
+      for (Term state : ((StructureTerm) submitRecord).args()) {
+        if (!state.isStructure() || 2 != state.arity() || !"label".equals(state.name())) {
+          log.error("Submit rule " + submitRule + " for change " + change.getId()
+              + " of " + getProject().getName() + " output invalid result: "
+              + submitRecord);
+          SubmitRecord err = new SubmitRecord();
+          err.status = SubmitRecord.Status.RULE_ERROR;
+          rec.errorMessage = "Error evaluating project rules, check server log";
+          return Collections.singletonList(err);
+        }
+
+        SubmitRecord.Label lbl = new SubmitRecord.Label();
+        rec.labels.add(lbl);
+
+        lbl.label = state.arg(0).name();
+        Term status = state.arg(1);
+
+        if ("ok".equals(status.name())) {
+          lbl.status = SubmitRecord.Label.Status.OK;
+          appliedBy(lbl, status);
+
+        } else if ("reject".equals(status.name())) {
+          lbl.status = SubmitRecord.Label.Status.REJECT;
+          appliedBy(lbl, status);
+
+        } else if ("need".equals(status.name())) {
+          lbl.status = SubmitRecord.Label.Status.NEED;
+
+        } else if ("impossible".equals(status.name())) {
+          lbl.status = SubmitRecord.Label.Status.IMPOSSIBLE;
+
+        } else {
+          log.error("Submit rule " + submitRule + " for change " + change.getId()
+              + " of " + getProject().getName() + " output invalid result: "
+              + submitRecord);
+          SubmitRecord err = new SubmitRecord();
+          err.status = SubmitRecord.Status.RULE_ERROR;
+          rec.errorMessage = "Error evaluating project rules, check server log";
+          return Collections.singletonList(err);
+        }
+      }
+
+      if (rec.status == SubmitRecord.Status.OK) {
+        break;
       }
     }
+    Collections.reverse(out);
 
-    return CanSubmitResult.OK;
+    return out;
+  }
+
+  private void appliedBy(SubmitRecord.Label label, Term status) {
+    if (status.isStructure() && status.arity() == 1) {
+      Term who = status.arg(0);
+      if (isUser(who)) {
+        label.appliedBy = new Account.Id(((IntegerTerm) who.arg(0)).intValue());
+      }
+    }
+  }
+
+  private static boolean isUser(Term who) {
+    return who.isStructure()
+        && who.arity() == 1
+        && who.name().equals("user")
+        && who.arg(0).isInteger();
   }
 }

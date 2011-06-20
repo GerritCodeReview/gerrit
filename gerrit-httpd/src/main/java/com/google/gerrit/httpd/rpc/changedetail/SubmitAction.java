@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc.changedetail;
 
 import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Change;
@@ -25,12 +26,13 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import java.util.List;
 
 class SubmitAction extends Handler<ChangeDetail> {
   interface Factory {
@@ -72,12 +74,51 @@ class SubmitAction extends Handler<ChangeDetail> {
     final ChangeControl changeControl =
         changeControlFactory.validateFor(changeId);
 
-    CanSubmitResult err = changeControl.canSubmit(db, patchSetId);
-    if (err == CanSubmitResult.OK) {
-      ChangeUtil.submit(patchSetId, user, db, opFactory, merger);
-      return changeDetailFactory.create(changeId).call();
-    } else {
-      throw new IllegalStateException(err.getMessage());
+    List<SubmitRecord> result = changeControl.canSubmit(db, patchSetId);
+    if (result.isEmpty()) {
+      throw new IllegalStateException("Cannot submit");
+    }
+
+    switch (result.get(0).status) {
+      case OK:
+        ChangeUtil.submit(patchSetId, user, db, opFactory, merger);
+        return changeDetailFactory.create(changeId).call();
+
+      case NOT_READY: {
+        StringBuilder msg = new StringBuilder();
+        for (SubmitRecord.Label lbl : result.get(0).labels) {
+          switch (lbl.status) {
+            case OK:
+              break;
+
+            case REJECT:
+              throw new IllegalStateException("Blocked by " + lbl.label);
+
+            case NEED:
+              throw new IllegalStateException("Needs " + lbl.label);
+
+            case IMPOSSIBLE:
+              throw new IllegalStateException("Cannnot submit, check project access");
+
+            default:
+              throw new IllegalArgumentException("Unknown status " + lbl.status);
+          }
+        }
+        throw new IllegalStateException("Cannot submit");
+      }
+
+      case CLOSED:
+        throw new IllegalStateException("Change is closed");
+
+      case RULE_ERROR:
+        if (result.get(0).errorMessage != null) {
+          throw new IllegalStateException(result.get(0).errorMessage);
+        } else {
+          throw  new IllegalStateException("Internal rule error");
+        }
+
+      default:
+        throw new IllegalStateException("Uknown status " + result.get(0).status);
     }
   }
 }

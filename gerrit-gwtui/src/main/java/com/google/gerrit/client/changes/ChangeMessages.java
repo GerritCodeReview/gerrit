@@ -43,7 +43,7 @@ public interface ChangeMessages extends Messages {
   String copiedFrom(String sourcePath);
   String otherFrom(String sourcePath);
 
-  String needApproval(String categoryName, String value, String valueName);
+  String needApproval(String labelName);
   String publishComments(String changeId, int ps);
   String lineHeader(int line);
 

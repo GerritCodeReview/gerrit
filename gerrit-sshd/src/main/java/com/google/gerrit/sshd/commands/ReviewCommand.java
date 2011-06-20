@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Branch;
@@ -32,7 +33,6 @@ import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PublishComments;
-import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -204,7 +204,7 @@ public class ReviewCommand extends BaseCommand {
   }
 
   private void approveOne(final PatchSet.Id patchSetId) throws
-      NoSuchChangeException, UnloggedFailure, OrmException, EmailException {
+      NoSuchChangeException, OrmException, EmailException, Failure {
 
     final Change.Id changeId = patchSetId.getParentKey();
     ChangeControl changeControl = changeControlFactory.validateFor(changeId);
@@ -250,11 +250,61 @@ public class ReviewCommand extends BaseCommand {
     }
 
     if (submitChange) {
-      CanSubmitResult result = changeControl.canSubmit(db, patchSetId);
-      if (result == CanSubmitResult.OK) {
-        toSubmit.add(patchSetId);
-      } else {
-        throw error(result.getMessage());
+      List<SubmitRecord> result = changeControl.canSubmit(db, patchSetId);
+      if (result.isEmpty()) {
+        throw new Failure(1, "ChangeControl.canSubmit returned empty list");
+      }
+      switch (result.get(0).status) {
+        case OK:
+          if (changeControl.getRefControl().canSubmit()) {
+            toSubmit.add(patchSetId);
+          } else {
+            throw error("change " + changeId + ": you do not have submit permission");
+          }
+          break;
+
+        case NOT_READY: {
+          StringBuilder msg = new StringBuilder();
+          for (SubmitRecord.Label lbl : result.get(0).labels) {
+            switch (lbl.status) {
+              case OK:
+                break;
+
+              case REJECT:
+                if (msg.length() > 0) msg.append("\n");
+                msg.append("change " + changeId + ": blocked by " + lbl.label);
+                break;
+
+              case NEED:
+                if (msg.length() > 0) msg.append("\n");
+                msg.append("change " + changeId + ": needs " + lbl.label);
+                break;
+
+              case IMPOSSIBLE:
+                if (msg.length() > 0) msg.append("\n");
+                msg.append("change " + changeId + ": needs " + lbl.label
+                    + " (check project access)");
+                break;
+
+              default:
+                throw new Failure(1, "Unsupported label status " + lbl.status);
+            }
+          }
+          throw error(msg.toString());
+        }
+
+        case CLOSED:
+          throw error("change " + changeId + " is closed");
+
+        case RULE_ERROR:
+          if (result.get(0).errorMessage != null) {
+            throw error("change " + changeId + ": " + result.get(0).errorMessage);
+          } else {
+            throw error("change " + changeId + ": internal rule error");
+          }
+
+        default:
+          throw new Failure(1, "Unsupported status " + result.get(0).status);
       }
     }
   }

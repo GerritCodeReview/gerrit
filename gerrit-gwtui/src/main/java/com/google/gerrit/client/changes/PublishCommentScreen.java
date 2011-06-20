@@ -28,7 +28,6 @@ import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetPublishDetail;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
@@ -221,18 +220,13 @@ public class PublishCommentScreen extends AccountScreen implements
 
   private void initApprovals(final PatchSetPublishDetail r, final Panel body) {
     ApprovalTypes types = Gerrit.getConfig().getApprovalTypes();
-
-    for (ApprovalType type : types.getApprovalTypes()) {
-      String permission = Permission.forLabel(type.getCategory().getLabelName());
-      PermissionRange range = r.getRange(permission);
-      if (range != null && !range.isEmpty()) {
-        initApprovalType(r, body, type, range);
-      }
-    }
-
     for (PermissionRange range : r.getLabels()) {
-      if (!range.isEmpty() && types.byLabel(range.getLabel()) == null) {
-        // TODO: this is a non-standard label. Offer it without the type.
+      ApprovalType type = types.byLabel(range.getLabel());
+      if (type != null) {
+        // Legacy type, use radio buttons.
+        initApprovalType(r, body, type, range);
+      } else {
+        // TODO Newer style label.
       }
     }
   }

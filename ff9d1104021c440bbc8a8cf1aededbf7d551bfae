@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDX///rY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-06-20T19:00:05Z",
+      "side": 1,
+      "message": "Is it possible for rulesMachine to be not null? Or rather, can newPrologEnvironment be called multiple times?",
+      "revId": "ff9d1104021c440bbc8a8cf1aededbf7d551bfae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -71,6 +71,8 @@ public class RefControl {
   private final SystemConfig systemConfig;
   private final ProjectControl projectControl;
   private final String refName;
+  final static HashMap<String, String> regExpLookup = new HashMap<String, String>();
+  private final RegExpCache reCache;
 
   private Boolean canForgeAuthor;
   private Boolean canForgeCommitter;
@@ -78,8 +80,10 @@ public class RefControl {
   @Inject
   protected RefControl(final SystemConfig systemConfig,
       @Assisted final ProjectControl projectControl,
-      @Assisted String ref) {
+      @Assisted String ref,
+      RegExpCache reCache) {
     this.systemConfig = systemConfig;
+    this.reCache = reCache;
     if (isRE(ref)) {
       ref = shortestExample(ref);
 
@@ -614,7 +618,14 @@ public class RefControl {
     return refPattern.startsWith(RefRight.REGEX_PREFIX);
   }
 
-  public static String shortestExample(String pattern) {
+  public String shortestExample(String pattern) {
+    if (reCache != null) {
+      return reCache.get(pattern);
+    }
+    return shortestExampleCalc(pattern);
+  }
+
+  public static String shortestExampleCalc(String pattern) {
     if (isRE(pattern)) {
       return toRegExp(pattern).toAutomaton().getShortestExample(true);
     } else if (pattern.endsWith("/*")) {

@@ -146,12 +146,12 @@ class AddRefRight extends Handler<ProjectDetail> {
     }
 
     if (refPattern.startsWith(RefRight.REGEX_PREFIX)) {
-      String example = RefControl.shortestExample(refPattern);
+      String example = RefControl.shortestExampleCalc(refPattern);
 
       if (!example.startsWith(Constants.R_REFS)) {
         refPattern = RefRight.REGEX_PREFIX + Constants.R_HEADS
                 + refPattern.substring(RefRight.REGEX_PREFIX.length());
-        example = RefControl.shortestExample(refPattern);
+        example = RefControl.shortestExampleCalc(refPattern);
       }
 
       if (!Repository.isValidRefName(example)) {

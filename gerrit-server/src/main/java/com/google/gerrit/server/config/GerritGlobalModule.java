@@ -42,10 +42,12 @@ import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.GitTagCacheImpl;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.PushAllProjectsOp;
 import com.google.gerrit.server.git.PushReplication;
+import com.google.gerrit.server.git.RegExpCacheImpl;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.git.SecureCredentialsProvider;
@@ -154,6 +156,8 @@ public class GerritGlobalModule extends FactoryModule {
     install(GroupIncludeCacheImpl.module());
     install(PatchListCacheImpl.module());
     install(ProjectCacheImpl.module());
+    install(GitTagCacheImpl.module());
+    install(RegExpCacheImpl.module());
     install(new AccessControlModule());
 
     factory(AccountInfoCacheFactory.Factory.class);

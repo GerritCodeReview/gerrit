@@ -31,11 +31,15 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.RegExpCacheImpl;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import junit.framework.TestCase;
+
+import net.sf.ehcache.Cache;
+
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
@@ -274,7 +278,7 @@ public class RefControlTest extends TestCase {
     RefControl.Factory refControlFactory = new RefControl.Factory() {
       @Override
       public RefControl create(final ProjectControl projectControl, final String ref) {
-        return new RefControl(systemConfig, projectControl, ref);
+        return new RefControl(systemConfig, projectControl, ref, null);
       }
     };
     return new ProjectControl(Collections.<AccountGroup.Id> emptySet(),

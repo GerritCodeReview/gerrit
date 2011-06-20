@@ -150,6 +150,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final Repository repo;
   private final ReceivePack rp;
   private final NoteMap rejectCommits;
+  private final GitTagCache tagCache;
 
   private ReceiveCommand newChange;
   private Branch.NameKey destBranch;
@@ -180,7 +181,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final TrackingFooters trackingFooters,
 
       @Assisted final ProjectControl projectControl,
-      @Assisted final Repository repo) throws IOException {
+      @Assisted final Repository repo, final GitTagCache tagCache)
+      throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.approvalTypes = approvalTypes;
@@ -200,6 +202,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.repo = repo;
     this.rp = new ReceivePack(repo);
     this.rejectCommits = loadRejectCommitsMap();
+    this.tagCache = tagCache;
 
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
@@ -208,7 +211,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     if (!projectControl.allRefsAreVisible()) {
       rp.setCheckReferencedObjectsAreReachable(true);
-      rp.setRefFilter(new VisibleRefFilter(repo, projectControl, db, false));
+      rp.setRefFilter(new VisibleRefFilter(repo, projectControl, db, false,
+          tagCache));
     }
     rp.setRefFilter(new ReceiveCommitsRefFilter(rp.getRefFilter()));
 
@@ -594,6 +598,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canCreate(rp.getRevWalk(), obj)) {
       validateNewCommits(ctl, cmd);
+      evictTagCache(cmd);
+
       // Let the core receive process handle it
     } else {
       reject(cmd);
@@ -636,9 +642,16 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private void parseDelete(final ReceiveCommand cmd) {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canDelete()) {
+      evictTagCache(cmd);
       // Let the core receive process handle it
     } else {
       reject(cmd);
+    }
+  }
+
+  private void evictTagCache(final ReceiveCommand cmd) {
+    if (cmd.getRefName().startsWith(Constants.R_TAGS)) {
+      tagCache.evict(rp.getRepository());
     }
   }
 
@@ -664,6 +677,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     if (ctl.canForceUpdate()) {
+      evictTagCache(cmd);
       // Let the core receive process handle it
     } else {
       cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD);

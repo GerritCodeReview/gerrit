@@ -24,6 +24,7 @@ import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.GitTagCache;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
@@ -210,11 +211,14 @@ public class ProjectServlet extends GitServlet {
   static class Upload implements UploadPackFactory<HttpServletRequest> {
     private final Provider<ReviewDb> db;
     private final PackConfig packConfig;
+    private final GitTagCache tagCache;
 
     @Inject
-    Upload(final Provider<ReviewDb> db, final TransferConfig tc) {
+    Upload(final Provider<ReviewDb> db, final TransferConfig tc,
+        final GitTagCache tagCache) {
       this.db = db;
       this.packConfig = tc.getPackConfig();
+      this.tagCache = tagCache;
     }
 
     @Override
@@ -230,7 +234,7 @@ public class ProjectServlet extends GitServlet {
       UploadPack up = new UploadPack(repo);
       up.setPackConfig(packConfig);
       if (!pc.allRefsAreVisible()) {
-        up.setRefFilter(new VisibleRefFilter(repo, pc, db.get(), true));
+        up.setRefFilter(new VisibleRefFilter(repo, pc, db.get(), true, tagCache));
       }
       return up;
     }

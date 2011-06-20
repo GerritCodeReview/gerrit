@@ -18,8 +18,11 @@ import com.google.inject.Guice;
 import com.google.inject.Module;
 
 import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
+import com.googlecode.prolog_cafe.lang.PrologClassLoader;
+import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
@@ -46,7 +49,8 @@ public abstract class PrologTestCase extends TestCase {
   private boolean hasSetup;
   private boolean hasTeardown;
   private List<Term> tests;
-  protected PrologEnvironment env;
+  private PrologMachineCopy machine;
+  private PrologEnvironment.Factory envFactory;
 
   protected void load(String pkg, String prologResource, Module... modules)
       throws CompileException, IOException {
@@ -54,18 +58,14 @@ public abstract class PrologTestCase extends TestCase {
     moduleList.add(new PrologModule());
     moduleList.addAll(Arrays.asList(modules));
 
-    PrologEnvironment.Factory factory =
-        Guice.createInjector(moduleList).getInstance(
-            PrologEnvironment.Factory.class);
-    env = factory.create(getClass().getClassLoader());
-    env.setMaxDatabaseSize(16 * 1024);
-    env.setEnabled(Prolog.Feature.IO, true);
-
-    consult(getClass(), prologResource);
+    envFactory = Guice.createInjector(moduleList)
+        .getInstance(PrologEnvironment.Factory.class);
+    PrologEnvironment env = envFactory.create(newMachine());
+    consult(env, getClass(), prologResource);
 
     this.pkg = pkg;
-    hasSetup = has("setup");
-    hasTeardown = has("teardown");
+    hasSetup = has(env, "setup");
+    hasTeardown = has(env, "teardown");
 
     StructureTerm head = new StructureTerm(":",
         SymbolTerm.intern(pkg),
@@ -76,10 +76,19 @@ public abstract class PrologTestCase extends TestCase {
       tests.add(pair[0]);
     }
     assertTrue("has tests", tests.size() > 0);
+    machine = PrologMachineCopy.save(env);
   }
 
-  protected void consult(Class<?> clazz, String prologResource)
-      throws CompileException, IOException {
+  private PrologMachineCopy newMachine() {
+    BufferingPrologControl ctl = new BufferingPrologControl();
+    ctl.setMaxDatabaseSize(16 * 1024);
+    ctl.setPrologClassLoader(new PrologClassLoader(getClass().getClassLoader()));
+    return PrologMachineCopy.save(ctl);
+  }
+
+  protected void consult(BufferingPrologControl env,
+      Class<?> clazz,
+      String prologResource) throws CompileException, IOException {
     InputStream in = clazz.getResourceAsStream(prologResource);
     if (in == null) {
       throw new FileNotFoundException(prologResource);
@@ -97,7 +106,7 @@ public abstract class PrologTestCase extends TestCase {
     }
   }
 
-  private boolean has(String name) {
+  private boolean has(BufferingPrologControl env, String name) {
     StructureTerm head = SymbolTerm.create(pkg, name, 0);
     return env.execute(Prolog.BUILTIN, "clause", head, new VariableTerm());
   }
@@ -107,17 +116,20 @@ public abstract class PrologTestCase extends TestCase {
     long start = System.currentTimeMillis();
 
     for (Term test : tests) {
+      PrologEnvironment env = envFactory.create(machine);
+      env.setEnabled(Prolog.Feature.IO, true);
+
       System.out.format("Prolog %-60s ...", removePackage(test));
       System.out.flush();
 
       if (hasSetup) {
-        call("setup");
+        call(env, "setup");
       }
 
       List<Term> all = env.all(Prolog.BUILTIN, "call", test);
 
       if (hasTeardown) {
-        call("teardown");
+        call(env, "teardown");
       }
 
       System.out.println(all.size() == 1 ? "OK" : "FAIL");
@@ -152,7 +164,7 @@ public abstract class PrologTestCase extends TestCase {
     assertEquals("No Errors", 0, errors);
   }
 
-  private void call(String name) {
+  private void call(BufferingPrologControl env, String name) {
     StructureTerm head = SymbolTerm.create(pkg, name, 0);
     if (!env.execute(Prolog.BUILTIN, "call", head)) {
       fail("Cannot invoke " + pkg + ":" + name);

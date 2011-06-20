@@ -14,24 +14,43 @@
 
 package com.google.gerrit.rules;
 
+import static com.googlecode.prolog_cafe.lang.PrologMachineCopy.save;
+
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
+import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
+import com.googlecode.prolog_cafe.lang.Prolog;
+import com.googlecode.prolog_cafe.lang.PrologClassLoader;
+import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
+import com.googlecode.prolog_cafe.lang.SymbolTerm;
+
+import org.eclipse.jgit.errors.LargeObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.RawParseUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PushbackReader;
+import java.io.StringReader;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,83 +63,155 @@ import java.util.Map;
  */
 @Singleton
 public class RulesCache {
-  private static final Logger log = LoggerFactory.getLogger(RulesCache.class);
+  /** Maximum size of a dynamic Prolog script, in bytes. */
+  private static final int SRC_LIMIT = 128 * 1024;
 
-  private final Map<ObjectId, LoaderRef> classLoaderCache =
-    new HashMap<ObjectId, LoaderRef>();
+  /** Default size of the internal Prolog database within each interpreter. */
+  private static final int DB_MAX = 64;
 
-  private final ReferenceQueue<ClassLoader> DEAD = new ReferenceQueue<ClassLoader>();
+  private final Map<ObjectId, MachineRef> machineCache =
+      new HashMap<ObjectId, MachineRef>();
 
-  private final File cacheDir;
-  private final File rulesDir;
+  private final ReferenceQueue<PrologMachineCopy> dead =
+      new ReferenceQueue<PrologMachineCopy>();
 
-  private final class LoaderRef extends WeakReference<ClassLoader> {
+  private static final class MachineRef extends WeakReference<PrologMachineCopy> {
     final ObjectId key;
 
-    LoaderRef(ObjectId key, ClassLoader loader) {
-      super(loader, DEAD);
+    MachineRef(ObjectId key, PrologMachineCopy pcm,
+        ReferenceQueue<PrologMachineCopy> queue) {
+      super(pcm, queue);
       this.key = key;
     }
   }
 
+  private final File cacheDir;
+  private final File rulesDir;
+  private final GitRepositoryManager gitMgr;
+  private final ClassLoader systemLoader;
+  private final PrologMachineCopy defaultMachine;
+
   @Inject
-  protected RulesCache (@GerritServerConfig Config config, SitePaths site) {
+  protected RulesCache(@GerritServerConfig Config config, SitePaths site,
+      GitRepositoryManager gm) {
     cacheDir = site.resolve(config.getString("cache", null, "directory"));
     rulesDir = cacheDir != null ? new File(cacheDir, "rules") : null;
+    gitMgr = gm;
+
+    systemLoader = getClass().getClassLoader();
+    defaultMachine = save(newEmptyMachine(systemLoader));
   }
 
   /**
-   * @return ClassLoader with compiled rules jar from rules.pl if it exists;
-   *         null otherwise.
+   * Locate a cached Prolog machine state, or create one if not available.
+   *
+   * @return a Prolog machine, after loading the specified rules.
+   * @throws CompileException the machine cannot be created.
    */
-  public synchronized ClassLoader getClassLoader(ObjectId rulesId) {
-    if (rulesId == null || rulesDir == null) {
-      return null;
+  public synchronized PrologMachineCopy loadMachine(
+      Project.NameKey project,
+      ObjectId rulesId)
+      throws CompileException {
+    if (project == null || rulesId == null) {
+      return defaultMachine;
     }
 
-    Reference<? extends ClassLoader> ref = classLoaderCache.get(rulesId);
+    Reference<? extends PrologMachineCopy> ref = machineCache.get(rulesId);
     if (ref != null) {
-      ClassLoader cl = ref.get();
-      if (cl != null) {
-        return cl;
+      PrologMachineCopy pmc = ref.get();
+      if (pmc != null) {
+        return pmc;
       }
-      classLoaderCache.remove(rulesId);
+
+      machineCache.remove(rulesId);
       ref.enqueue();
     }
 
-    cleanCache();
+    gc();
 
-    //read jar from (site)/cache/rules
-    //the included jar file should be in format:
-    //rules-(rules.pl's sha1).jar
-    File jarFile = new File(rulesDir, "rules-" + rulesId.getName() + ".jar");
-    if (!jarFile.isFile()) {
-      return null;
-    }
-
-    ClassLoader defaultLoader = getClass().getClassLoader();
-    URL url;
-    try {
-      url = jarFile.toURI().toURL();
-    } catch (MalformedURLException e) {
-      log.error("Path to rules jar is broken", e);
-      return null;
-    }
-
-    ClassLoader urlLoader = new URLClassLoader(new URL[]{url}, defaultLoader);
-
-    LoaderRef lRef = new LoaderRef(rulesId, urlLoader);
-    classLoaderCache.put(rulesId, lRef);
-    return urlLoader;
+    PrologMachineCopy pcm = createMachine(project, rulesId);
+    MachineRef newRef = new MachineRef(rulesId, pcm, dead);
+    machineCache.put(rulesId, newRef);
+    return pcm;
   }
 
-  private void cleanCache() {
-    Reference<? extends ClassLoader> ref;
-    while ((ref = DEAD.poll()) != null) {
-      ObjectId key = ((LoaderRef) ref).key;
-      if (classLoaderCache.get(key) == ref) {
-        classLoaderCache.remove(key);
+  private void gc() {
+    Reference<?> ref;
+    while ((ref = dead.poll()) != null) {
+      ObjectId key = ((MachineRef) ref).key;
+      if (machineCache.get(key) == ref) {
+        machineCache.remove(key);
       }
+    }
+  }
+
+  private PrologMachineCopy createMachine(Project.NameKey project,
+      ObjectId rulesId) throws CompileException {
+    // If the rules are available as a complied JAR on local disk, prefer
+    // that over dynamic consult as the bytecode will be faster.
+    //
+    if (rulesDir != null) {
+      File jarFile = new File(rulesDir, "rules-" + rulesId.getName() + ".jar");
+      if (jarFile.isFile()) {
+        URL[] cp = new URL[] {toURL(jarFile)};
+        return save(newEmptyMachine(new URLClassLoader(cp, systemLoader)));
+      }
+    }
+
+    // Dynamically consult the rules into the machine's internal database.
+    //
+    String rules = read(project, rulesId);
+    BufferingPrologControl ctl = newEmptyMachine(systemLoader);
+    PushbackReader in = new PushbackReader(
+        new StringReader(rules),
+        Prolog.PUSHBACK_SIZE);
+
+    if (!ctl.execute(
+        Prolog.BUILTIN, "consult_stream",
+        SymbolTerm.intern("rules.pl"),
+        new JavaObjectTerm(in))) {
+      throw new CompileException("Cannot consult rules of " + project);
+    }
+    return save(ctl);
+  }
+
+  private String read(Project.NameKey project, ObjectId rulesId)
+      throws CompileException {
+    Repository git;
+    try {
+      git = gitMgr.openRepository(project);
+    } catch (RepositoryNotFoundException e) {
+      throw new CompileException("Cannot open repository " + project, e);
+    }
+    try {
+      ObjectLoader ldr = git.open(rulesId, Constants.OBJ_BLOB);
+      byte[] raw = ldr.getCachedBytes(SRC_LIMIT);
+      return RawParseUtils.decode(raw);
+    } catch (LargeObjectException e) {
+      throw new CompileException("rules of " + project + " are too large", e);
+    } catch (RuntimeException e) {
+      throw new CompileException("Cannot load rules of " + project, e);
+    } catch (IOException e) {
+      throw new CompileException("Cannot load rules of " + project, e);
+    } finally {
+      git.close();
+    }
+  }
+
+  private static BufferingPrologControl newEmptyMachine(ClassLoader cl) {
+    BufferingPrologControl ctl = new BufferingPrologControl();
+    ctl.setMaxArity(PrologEnvironment.MAX_ARITY);
+    ctl.setMaxDatabaseSize(DB_MAX);
+    ctl.setPrologClassLoader(new PrologClassLoader(cl));
+    ctl.setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
+    return ctl;
+  }
+
+  private static URL toURL(File jarFile) throws CompileException {
+    try {
+      return jarFile.toURI().toURL();
+    } catch (MalformedURLException e) {
+      throw new CompileException("Cannot create URL for " + jarFile, e);
     }
   }
 }

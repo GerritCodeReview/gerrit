@@ -15,6 +15,7 @@
 package com.google.gwtexpui.clippy.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,7 +25,6 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -128,7 +128,7 @@ public class CopyableLabel extends Composite implements HasText {
 
   private void embedMovie() {
     if (flashEnabled && UserAgent.hasFlash) {
-      final String flashVars = "text=" + URL.encodeComponent(getText());
+      final String flashVars = "text=" + URL.encodeQueryString(getText());
       final SafeHtmlBuilder h = new SafeHtmlBuilder();
 
       h.openElement("span");
@@ -189,7 +189,7 @@ public class CopyableLabel extends Composite implements HasText {
             switch (event.getCharCode()) {
               case 'c':
               case 'x':
-                DeferredCommand.addCommand(new Command() {
+                Scheduler.get().scheduleDeferred(new Command() {
                   public void execute() {
                     hideTextBox();
                   }
@@ -210,7 +210,7 @@ public class CopyableLabel extends Composite implements HasText {
 
     textLabel.setVisible(false);
     textBox.setVisible(true);
-    DeferredCommand.addCommand(new Command() {
+    Scheduler.get().scheduleDeferred(new Command() {
       @Override
       public void execute() {
         textBox.selectAll();

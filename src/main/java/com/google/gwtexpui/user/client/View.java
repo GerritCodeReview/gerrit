@@ -40,7 +40,7 @@ public abstract class View extends Composite {
   public final boolean isCurrentView() {
     Widget p = getParent();
     while (p != null) {
-      if (p instanceof ViewSite) {
+      if (p instanceof ViewSite<?>) {
         return ((ViewSite<?>) p).getView() == this;
       }
       p = p.getParent();

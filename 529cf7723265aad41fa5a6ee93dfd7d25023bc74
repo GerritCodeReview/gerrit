@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDX///nM\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Rulec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T21:42:36Z",
+      "side": 1,
+      "message": "Please add a Documentation/pgm-rulec.txt to describe this command.",
+      "revId": "529cf7723265aad41fa5a6ee93dfd7d25023bc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///nQ\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Rulec.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T21:42:36Z",
+      "side": 1,
+      "message": "s/MULTI_USER/SINGLE_USER/",
+      "revId": "529cf7723265aad41fa5a6ee93dfd7d25023bc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///nI\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T21:42:36Z",
+      "side": 1,
+      "message": "This line is unused.",
+      "revId": "529cf7723265aad41fa5a6ee93dfd7d25023bc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///mg\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T21:42:36Z",
+      "side": 1,
+      "message": "Style-nit: Space before {",
+      "revId": "529cf7723265aad41fa5a6ee93dfd7d25023bc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///m0\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T21:42:36Z",
+      "side": 1,
+      "message": "Change this to throw CompileException instead.",
+      "revId": "529cf7723265aad41fa5a6ee93dfd7d25023bc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///mw\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T21:42:36Z",
+      "side": 1,
+      "message": "Change this to throw CompileException instead. Elsewhere on failure you throw IOException or CompileException.",
+      "revId": "529cf7723265aad41fa5a6ee93dfd7d25023bc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///nE\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T21:42:36Z",
+      "side": 1,
+      "message": "Use instead: new File(cacheDir, \"rules\");",
+      "revId": "529cf7723265aad41fa5a6ee93dfd7d25023bc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///nA\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T21:42:36Z",
+      "side": 1,
+      "message": "Use: new File(ruleDir, \"rules-\" + rulesId.getName() + \".jar\")",
+      "revId": "529cf7723265aad41fa5a6ee93dfd7d25023bc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///mc\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T21:42:36Z",
+      "side": 1,
+      "message": "I\u0027m not sure its worth returning a boolean anymore from this class. You either succeed, or throw.",
+      "revId": "529cf7723265aad41fa5a6ee93dfd7d25023bc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///m8\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T21:42:36Z",
+      "side": 1,
+      "message": "This doesn\u0027t ensure the file was flushed. Which means it may be stuck in a buffer and isn\u0027t shared with the other open file handle created by the Compiler. It also might not work on Windows, where files cannot be open for both writing and reading at the same time.\n\nYou need to ensure the file is written and closed before you call the Prolog Compiler.",
+      "revId": "529cf7723265aad41fa5a6ee93dfd7d25023bc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///mo\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T21:42:36Z",
+      "side": 1,
+      "message": "You need to close the JarOutputStream before you rename it. Windows won\u0027t let you rename the open file. And JarOutputStream won\u0027t write the critical ZIP directory at the end of the stream until close() is called. So your rename is a bit too early still. :-)",
+      "revId": "529cf7723265aad41fa5a6ee93dfd7d25023bc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///mk\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T21:42:36Z",
+      "side": 1,
+      "message": "Wouldn\u0027t extension be a better name for this variable?",
+      "revId": "529cf7723265aad41fa5a6ee93dfd7d25023bc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///mU\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T21:42:36Z",
+      "side": 1,
+      "message": "See note below about the recursive additions.",
+      "revId": "529cf7723265aad41fa5a6ee93dfd7d25023bc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///mY\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/util/PrologJar.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T21:42:36Z",
+      "side": 1,
+      "message": "What is the running time complexity for adding a directory recursively like this? (Hint: its not pretty.)\n\nUsually you build the pathList accumulator in the initial entry method and then pass it through to the recursive helper, so the recursive helper doesn\u0027t have to copy its results into its parent\u0027s list.. which is copied into its parent\u0027s list, etc.",
+      "revId": "529cf7723265aad41fa5a6ee93dfd7d25023bc74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

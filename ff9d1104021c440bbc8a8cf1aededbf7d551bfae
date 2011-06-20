@@ -16,6 +16,24 @@
       "revId": "ff9d1104021c440bbc8a8cf1aededbf7d551bfae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///qI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T19:09:54Z",
+      "side": 1,
+      "message": "Yes, but that is the entire point of this code.\n\nA lot of ProjectState objects don\u0027t actually need the PrologMachineCopy to be available when the ProjectState is created, so we let rulesMachine initialize to null.\n\nLater during newPrologEnvironment() we check to see if the field is still null, indicating it hasn\u0027t been initialized. If its still null we construct a copy of the machine from the rules cache, and save it in rulesMachine. Future invocations will see rulesMachine !\u003d null and avoid calling into the rulesCache again.\n\nIts possible for two different threads to come into this method at the same time and both observe rulesMachine \u003d\u003d null. In this case both threads will call into rulesCache to construct the PrologMachineCopy. The cache has a lock, so the two threads will synchronize on that lock. One will build the machine copy, store it in the cache, and return it. The other will wake up, observe the machine copy already in the cache, and return the same one.\n\nAs they come out, they both will set rulesMachine to the same object instance. But that\u0027s OK, its the same object.",
+      "parentUuid": "AAABDX///rY\u003d",
+      "revId": "ff9d1104021c440bbc8a8cf1aededbf7d551bfae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

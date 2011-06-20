@@ -32,7 +32,7 @@ import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 
 public abstract class CommentedChangeActionDialog extends AutoCenterDialogBox implements CloseHandler<PopupPanel>{
-  private final FlowPanel panel;
+  protected final FlowPanel panel;
   private final NpTextArea message;
   private final Button sendButton;
   private final Button cancelButton;

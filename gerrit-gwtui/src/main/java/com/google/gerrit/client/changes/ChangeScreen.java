@@ -207,7 +207,13 @@ public class ChangeScreen extends Screen {
       setTitleWest(starChange);
     }
 
-    descriptionBlock = new ChangeDescriptionBlock();
+    descriptionBlock = new ChangeDescriptionBlock() {
+      @Override
+      public void onChangeUpdate(ChangeDetail detail) {
+        update(detail);
+      }
+    };
+
     add(descriptionBlock);
 
     approvals = new ApprovalTable();

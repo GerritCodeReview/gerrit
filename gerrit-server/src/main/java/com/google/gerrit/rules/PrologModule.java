@@ -19,7 +19,6 @@ import com.google.gerrit.server.config.FactoryModule;
 public class PrologModule extends FactoryModule {
   @Override
   protected void configure() {
-    bind(RulesCache.class);
     factory(PrologEnvironment.Factory.class);
   }
 }

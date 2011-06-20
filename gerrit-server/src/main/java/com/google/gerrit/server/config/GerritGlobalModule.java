@@ -21,6 +21,7 @@ import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.rules.PrologModule;
+import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
@@ -138,6 +139,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(IdGenerator.class);
     bind(CachePool.class);
+    bind(RulesCache.class);
     install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());
     install(GroupCacheImpl.module());

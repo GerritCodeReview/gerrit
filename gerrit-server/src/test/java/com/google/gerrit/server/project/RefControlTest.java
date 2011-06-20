@@ -37,6 +37,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -306,7 +307,7 @@ public class RefControlTest extends TestCase {
   }
 
   private ProjectControl user(AccountGroup.UUID... memberOf) {
-    ReviewDb db = null;
+    SchemaFactory<ReviewDb> schema = null;
     GroupCache groupCache = null;
     String canonicalWebUrl = "http://localhost";
 
@@ -317,7 +318,7 @@ public class RefControlTest extends TestCase {
       }
     };
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
-        Collections.<AccountGroup.UUID> emptySet(), db, groupCache,
+        Collections.<AccountGroup.UUID> emptySet(), schema, groupCache,
         canonicalWebUrl, refControlFactory, new MockUser(memberOf),
         newProjectState());
   }

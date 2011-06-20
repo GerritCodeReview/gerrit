@@ -38,6 +38,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -130,7 +131,7 @@ public class ProjectControl {
 
   private final String canonicalWebUrl;
   private final RefControl.Factory refControlFactory;
-  private final ReviewDb db;
+  private final SchemaFactory<ReviewDb> schema;
   private final CurrentUser user;
   private final ProjectState state;
   private final GroupCache groupCache;
@@ -141,13 +142,13 @@ public class ProjectControl {
   @Inject
   ProjectControl(@GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
-      final ReviewDb db, final GroupCache groupCache,
+      final SchemaFactory<ReviewDb> schema, final GroupCache groupCache,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       final RefControl.Factory refControlFactory,
       @Assisted CurrentUser who, @Assisted ProjectState ps) {
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
-    this.db = db;
+    this.schema = schema;
     this.groupCache = groupCache;
     this.canonicalWebUrl = canonicalWebUrl;
     this.refControlFactory = refControlFactory;
@@ -241,53 +242,59 @@ public class ProjectControl {
     if (! (user instanceof IdentifiedUser)) {
       return new Capable("Must be logged in to verify Contributor Agreement");
     }
-    IdentifiedUser iUser = (IdentifiedUser) user;
+    final IdentifiedUser iUser = (IdentifiedUser) user;
+    final ReviewDb db = schema.open();
 
     AbstractAgreement bestAgreement = null;
     ContributorAgreement bestCla = null;
+    try {
 
-    OUTER: for (AccountGroup.UUID groupUUID : iUser.getEffectiveGroups()) {
-      AccountGroup group = groupCache.get(groupUUID);
-      if (group == null) {
-        continue;
-      }
-
-      final List<AccountGroupAgreement> temp =
-          db.accountGroupAgreements().byGroup(group.getId()).toList();
-
-      Collections.reverse(temp);
-
-      for (final AccountGroupAgreement a : temp) {
-        final ContributorAgreement cla =
-            db.contributorAgreements().get(a.getAgreementId());
-        if (cla == null) {
+      OUTER: for (AccountGroup.UUID groupUUID : iUser.getEffectiveGroups()) {
+        AccountGroup group = groupCache.get(groupUUID);
+        if (group == null) {
           continue;
         }
 
-        bestAgreement = a;
-        bestCla = cla;
-        break OUTER;
-      }
-    }
+        final List<AccountGroupAgreement> temp =
+            db.accountGroupAgreements().byGroup(group.getId()).toList();
 
-    if (bestAgreement == null) {
-      final List<AccountAgreement> temp =
-          db.accountAgreements().byAccount(iUser.getAccountId()).toList();
+        Collections.reverse(temp);
 
-      Collections.reverse(temp);
+        for (final AccountGroupAgreement a : temp) {
+          final ContributorAgreement cla =
+              db.contributorAgreements().get(a.getAgreementId());
+          if (cla == null) {
+            continue;
+          }
 
-      for (final AccountAgreement a : temp) {
-        final ContributorAgreement cla =
-            db.contributorAgreements().get(a.getAgreementId());
-        if (cla == null) {
-          continue;
+          bestAgreement = a;
+          bestCla = cla;
+          break OUTER;
         }
-
-        bestAgreement = a;
-        bestCla = cla;
-        break;
       }
+
+      if (bestAgreement == null) {
+        final List<AccountAgreement> temp =
+            db.accountAgreements().byAccount(iUser.getAccountId()).toList();
+
+        Collections.reverse(temp);
+
+        for (final AccountAgreement a : temp) {
+          final ContributorAgreement cla =
+              db.contributorAgreements().get(a.getAgreementId());
+          if (cla == null) {
+            continue;
+          }
+
+          bestAgreement = a;
+          bestCla = cla;
+          break;
+        }
+      }
+    } finally {
+      db.close();
     }
+
 
     if (bestCla != null && !bestCla.isActive()) {
       final StringBuilder msg = new StringBuilder();

@@ -111,7 +111,7 @@ public abstract class SafeHtml {
   /** Convert bare http:// and https:// URLs into &lt;a href&gt; tags. */
   public SafeHtml linkify() {
     final String part = "(?:" +
-		"[a-zA-Z0-9$_.+!*',%;:@=?#/-]" +
+		"[a-zA-Z0-9$_.+!*',%;:@=?#/-~]" +
 		"|&(?!lt;|gt;)" +
 		")";
     return replaceAll(

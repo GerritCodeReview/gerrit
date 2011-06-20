@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABDX///i0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-20T23:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABDX///jA\u003d",
+      "revId": "140dd5368abf76f8fca3c20513ceadf4ec8d9ed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDX///i8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-06-20T23:17:27Z",
       "side": 1,
       "message": "This needs to be in a try/finally. If you don\u0027t close the ReviewDb we leak handles and the server locks up.",
+      "revId": "140dd5368abf76f8fca3c20513ceadf4ec8d9ed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///iw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-20T23:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABDX///i8\u003d",
       "revId": "140dd5368abf76f8fca3c20513ceadf4ec8d9ed8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

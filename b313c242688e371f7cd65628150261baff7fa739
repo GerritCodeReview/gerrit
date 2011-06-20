@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDX///lU\u003d",
+        "filename": "Documentation/pgm-rulec.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T22:39:37Z",
+      "side": 1,
+      "message": "The number of \u003d on this line should match the number of characters on the prior line (5).",
+      "revId": "b313c242688e371f7cd65628150261baff7fa739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///lQ\u003d",
+        "filename": "Documentation/pgm-rulec.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T22:39:37Z",
+      "side": 1,
+      "message": "Add this to pgm-index.txt.",
+      "revId": "b313c242688e371f7cd65628150261baff7fa739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///lk\u003d",
+        "filename": "Documentation/pgm-rulec.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T22:39:37Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace.",
+      "revId": "b313c242688e371f7cd65628150261baff7fa739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///lc\u003d",
+        "filename": "Documentation/pgm-rulec.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T22:39:37Z",
+      "side": 1,
+      "message": "We don\u0027t use \\-- anymore, just --.",
+      "revId": "b313c242688e371f7cd65628150261baff7fa739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///lY\u003d",
+        "filename": "Documentation/pgm-rulec.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T22:39:37Z",
+      "side": 1,
+      "message": "No \\--, just --.",
+      "revId": "b313c242688e371f7cd65628150261baff7fa739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///lg\u003d",
+        "filename": "Documentation/pgm-rulec.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-20T22:39:37Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace.",
+      "revId": "b313c242688e371f7cd65628150261baff7fa739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

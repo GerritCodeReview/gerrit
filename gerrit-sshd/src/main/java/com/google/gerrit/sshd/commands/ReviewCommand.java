@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Branch;
@@ -32,7 +33,6 @@ import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PublishComments;
-import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -250,8 +250,8 @@ public class ReviewCommand extends BaseCommand {
     }
 
     if (submitChange) {
-      CanSubmitResult result = changeControl.canSubmit(db, patchSetId);
-      if (result == CanSubmitResult.OK) {
+      Capable result = changeControl.canSubmit(db, patchSetId);
+      if (result == Capable.OK) {
         toSubmit.add(patchSetId);
       } else {
         throw error(result.getMessage());

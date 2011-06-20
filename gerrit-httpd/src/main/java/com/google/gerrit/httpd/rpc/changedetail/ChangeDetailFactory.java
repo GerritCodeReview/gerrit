@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.rpc.changedetail;
 import com.google.gerrit.common.data.ApprovalDetail;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.errors.NoSuchEntityException;
@@ -34,7 +35,6 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.workflow.CategoryFunction;
@@ -99,7 +99,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     if (patch == null) {
       throw new NoSuchEntityException();
     }
-    final CanSubmitResult canSubmitResult = control.canSubmit(patch.getId());
+    final Capable canSubmit = control.canSubmit(patch.getId());
 
     aic.want(change.getOwner());
 
@@ -109,7 +109,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     detail.setCanAbandon(change.getStatus().isOpen() && control.canAbandon());
     detail.setCanRestore(change.getStatus() == Change.Status.ABANDONED && control.canRestore());
-    detail.setCanSubmit(canSubmitResult == CanSubmitResult.OK);
+    detail.setCanSubmit(canSubmit == Capable.OK);
     detail.setStarred(control.getCurrentUser().getStarredChanges().contains(
         changeId));
 

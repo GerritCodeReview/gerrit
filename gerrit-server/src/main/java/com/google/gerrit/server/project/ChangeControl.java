@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -225,26 +226,26 @@ public class ChangeControl {
   }
 
   /** @return {@link CanSubmitResult#OK}, or a result with an error message. */
-  public CanSubmitResult canSubmit(final PatchSet.Id patchSetId) {
+  public Capable canSubmit(final PatchSet.Id patchSetId) {
     if (change.getStatus().isClosed()) {
-      return new CanSubmitResult("Change " + change.getId() + " is closed");
+      return new Capable("Change " + change.getId() + " is closed");
     }
     if (!patchSetId.equals(change.currentPatchSetId())) {
-      return new CanSubmitResult("Patch set " + patchSetId + " is not current");
+      return new Capable("Patch set " + patchSetId + " is not current");
     }
     if (!getRefControl().canSubmit()) {
-      return new CanSubmitResult("User does not have permission to submit");
+      return new Capable("User does not have permission to submit");
     }
     if (!(getCurrentUser() instanceof IdentifiedUser)) {
-      return new CanSubmitResult("User is not signed-in");
+      return new Capable("User is not signed-in");
     }
-    return CanSubmitResult.OK;
+    return Capable.OK;
   }
 
   /** @return {@link CanSubmitResult#OK}, or a result with an error message. */
-  public CanSubmitResult canSubmit(ReviewDb db, PatchSet.Id patchSetId) {
-    CanSubmitResult result = canSubmit(patchSetId);
-    if (result != CanSubmitResult.OK) {
+  public Capable canSubmit(ReviewDb db, PatchSet.Id patchSetId) {
+    Capable result = canSubmit(patchSetId);
+    if (result != Capable.OK) {
       return result;
     }
 
@@ -253,7 +254,7 @@ public class ChangeControl {
       env = getProjectControl().getProjectState().newPrologEnvironment();
     } catch (CompileException err) {
       log.error("cannot consult rules.pl", err);
-      return new CanSubmitResult("Error reading submit rule");
+      return new Capable("Error reading submit rule");
     }
 
     env.set(StoredValues.REVIEW_DB, db);
@@ -266,7 +267,7 @@ public class ChangeControl {
       new VariableTerm());
     if (submitRule == null) {
       log.error("Error in locate_submit_rule: no submit_rule found");
-      return new CanSubmitResult("Error in finding submit rule");
+      return new Capable("Error in finding submit rule");
     }
 
     List<Term> results = new ArrayList<Term>();
@@ -279,7 +280,7 @@ public class ChangeControl {
       }
     } catch (PrologException err) {
       log.error("PrologException calling " + submitRule, err);
-      return new CanSubmitResult("Error in submit rule");
+      return new Capable("Error in submit rule");
     }
 
     if (results.isEmpty()) {
@@ -288,7 +289,7 @@ public class ChangeControl {
       // required for this change to be submittable. Each label will indicate
       // whether or not that is actually possible given the permissions.
       log.error("Submit rule has no solution: " + submitRule);
-      return new CanSubmitResult("Error in submit rule (no solution possible)");
+      return new Capable("Error in submit rule (no solution possible)");
     }
 
     // The last result produced will be an "ok(P)" format if submit is possible.
@@ -297,7 +298,7 @@ public class ChangeControl {
     Term last = results.get(results.size() - 1);
     if (last.isStructure() && 1 == last.arity() && "ok".equals(last.name())) {
       // Term solution = last.arg(0);
-      return CanSubmitResult.OK;
+      return Capable.OK;
     }
 
     // For now only process the first result. Later we can examine all of the
@@ -305,19 +306,19 @@ public class ChangeControl {
     Term first = results.get(0);
     if (!first.isStructure() || 1 != first.arity() || !"not_ready".equals(first.name())) {
       log.error("Unexpected result from can_submit: " + first);
-      return new CanSubmitResult("Error in submit rule");
+      return new Capable("Error in submit rule");
     }
 
     Term submitRecord = first.arg(0);
     if (!submitRecord.isStructure()) {
       log.error("Invalid result from submit rule " + submitRule + ": " + submitRecord);
-      return new CanSubmitResult("Error in submit rule");
+      return new Capable("Error in submit rule");
     }
 
     for (Term state : ((StructureTerm) submitRecord).args()) {
       if (!state.isStructure() || 2 != state.arity() || !"label".equals(state.name())) {
         log.error("Invalid result from submit rule " + submitRule + ": " + submitRecord);
-        return new CanSubmitResult("Invalid submit rule result");
+        return new Capable("Invalid submit rule result");
       }
 
       String label = state.arg(0).name();
@@ -327,7 +328,7 @@ public class ChangeControl {
         continue;
 
       } else if ("reject".equals(status.name())) {
-        return new CanSubmitResult("Submit blocked by " + label);
+        return new Capable("Submit blocked by " + label);
 
       } else if ("need".equals(status.name())) {
         if (status.isStructure() && status.arg(0).isInteger()) {
@@ -336,16 +337,16 @@ public class ChangeControl {
             label += "+" + val.intValue();
           }
         }
-        return new CanSubmitResult("Requires " + label);
+        return new Capable("Requires " + label);
 
       } else if ("impossble".equals(status.name())) {
-        return new CanSubmitResult("Requires " + label + " (check permissions)");
+        return new Capable("Requires " + label + " (check permissions)");
 
       } else {
-        return new CanSubmitResult("Invalid submit rule result");
+        return new Capable("Invalid submit rule result");
       }
     }
 
-    return CanSubmitResult.OK;
+    return Capable.OK;
   }
 }

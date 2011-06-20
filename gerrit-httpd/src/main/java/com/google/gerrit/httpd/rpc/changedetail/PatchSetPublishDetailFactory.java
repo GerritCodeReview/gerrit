@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc.changedetail;
 
 import com.google.gerrit.common.data.AccountInfoCache;
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.PatchSetPublishDetail;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -28,7 +29,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.CanSubmitResult;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.OrmException;
@@ -105,8 +105,8 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     detail.setLabels(allowed);
     detail.setGiven(given);
 
-    final CanSubmitResult canSubmitResult = control.canSubmit(patchSetId);
-    detail.setCanSubmit(canSubmitResult == CanSubmitResult.OK);
+    final Capable canSubmit = control.canSubmit(patchSetId);
+    detail.setCanSubmit(canSubmit == Capable.OK);
 
     return detail;
   }

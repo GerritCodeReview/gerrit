@@ -20,12 +20,15 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
+import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -246,10 +249,20 @@ public class ChangeControl {
           + getProject().getName(), err);
     }
 
+    PatchSetInfoFactory patchInfoFactory =
+      env.getInjector().getInstance(PatchSetInfoFactory.class);
+    PatchSetInfo psInfo;
+    try {
+      psInfo = patchInfoFactory.get(patchSetId);
+    } catch (PatchSetInfoNotAvailableException err) {
+      return ruleError("Patch set info for " + patchSetId + " not available");
+    }
+
     env.set(StoredValues.REVIEW_DB, db);
     env.set(StoredValues.CHANGE, change);
     env.set(StoredValues.PATCH_SET_ID, patchSetId);
     env.set(StoredValues.CHANGE_CONTROL, this);
+    env.set(StoredValues.PATCH_SET_INFO, psInfo);
 
     Term submitRule = env.once(
       "gerrit", "locate_submit_rule",

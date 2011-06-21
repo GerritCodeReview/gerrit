@@ -113,6 +113,21 @@ public interface ReviewDb extends Schema {
   @Relation
   TrackingIdAccess trackingIds();
 
+  @Relation
+  TopicAccess topics();
+
+  @Relation
+  TopicMessageAccess topicMessages();
+
+  @Relation
+  ChangeSetAccess changeSets();
+
+  @Relation
+  ChangeSetApprovalAccess changeSetApprovals();
+
+  @Relation
+  ChangeSetElementAccess changeSetElements();
+
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)
   int nextAccountId() throws OrmException;
@@ -136,4 +151,8 @@ public interface ReviewDb extends Schema {
    */
   @Sequence
   int nextChangeMessageId() throws OrmException;
+
+  /** Next unique id for a {@link Topic}. */
+  @Sequence
+  int nextTopicId() throws OrmException;
 }

@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,32 +16,33 @@ package com.google.gerrit.reviewdb;
 
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
+import com.google.gerrit.reviewdb.Topic.Id;
 
 import java.sql.Timestamp;
 
-/** A message attached to a {@link Change}. */
-public final class ChangeMessage extends AbstractMessage {
-  public static class Key extends StringKey<Change.Id> {
+/** A message attached to a {@link Topic}. */
+public final class TopicMessage extends AbstractMessage {
+  public static class Key extends StringKey<Id> {
     private static final long serialVersionUID = 1L;
 
     @Column(id = 1)
-    protected Change.Id changeId;
+    protected Id topicId;
 
     @Column(id = 2, length = 40)
     protected String uuid;
 
     protected Key() {
-      changeId = new Change.Id();
+      topicId = new Id();
     }
 
-    public Key(final Change.Id change, final String uuid) {
-      this.changeId = change;
+    public Key(final Id topic, final String uuid) {
+      this.topicId = topic;
       this.uuid = uuid;
     }
 
     @Override
-    public Change.Id getParentKey() {
-      return changeId;
+    public Id getParentKey() {
+      return topicId;
     }
 
     @Override
@@ -58,21 +59,21 @@ public final class ChangeMessage extends AbstractMessage {
   @Column(id = 1, name = Column.NONE)
   protected Key key;
 
-  protected ChangeMessage() {
+  protected TopicMessage() {
   }
 
-  public ChangeMessage(final ChangeMessage.Key k, final Account.Id a) {
+  public TopicMessage(final TopicMessage.Key k, final Account.Id a) {
     this(k, a, new Timestamp(System.currentTimeMillis()));
   }
 
-  public ChangeMessage(final ChangeMessage.Key k, final Account.Id a,
+  public TopicMessage(final TopicMessage.Key k, final Account.Id a,
       final Timestamp wo) {
     key = k;
     author = a;
     writtenOn = wo;
   }
 
-  public ChangeMessage.Key getKey() {
+  public TopicMessage.Key getKey() {
     return key;
   }
 }

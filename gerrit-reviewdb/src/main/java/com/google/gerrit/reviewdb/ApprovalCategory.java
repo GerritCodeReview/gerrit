@@ -18,7 +18,7 @@ import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.Key;
 import com.google.gwtorm.client.StringKey;
 
-/** Types of approvals that can be associated with a {@link Change}. */
+/** Types of approvals that can be associated with a {@link Change} and/or a {@link Topic}}. */
 public final class ApprovalCategory {
   /** Id of the special "Submit" action (and category). */
   public static final ApprovalCategory.Id SUBMIT =

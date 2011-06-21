@@ -444,7 +444,7 @@ public class ProjectControl {
     return all;
   }
 
-  Collection<AccessSection> access() {
+  private Collection<AccessSection> access() {
     if (access == null) {
       access = state.getAllAccessSections();
     }

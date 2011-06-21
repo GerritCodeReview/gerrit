@@ -83,5 +83,18 @@ limitations under the License.
       <version>140</version>
       <scope>provided</scope>
     </dependency>
+
+    <!-- GWT should require these itself, but doesn't. -->
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 </project>

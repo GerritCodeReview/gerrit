@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,26 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.rpc.changedetail;
+package com.google.gerrit.httpd.rpc.topic;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.common.data.PatchSetPublishDetail;
+import com.google.gerrit.common.data.ChangeSetPublishDetail;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.PatchLineComment;
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gerrit.reviewdb.PatchSetInfo;
+import com.google.gerrit.reviewdb.ChangeSet;
+import com.google.gerrit.reviewdb.ChangeSetApproval;
+import com.google.gerrit.reviewdb.ChangeSetInfo;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Topic;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchTopicException;
+import com.google.gerrit.server.project.TopicControl;
+import com.google.gerrit.server.workflow.TopicFunctionState;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -42,71 +43,68 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> {
+final class ChangeSetPublishDetailFactory extends Handler<ChangeSetPublishDetail> {
   interface Factory {
-    PatchSetPublishDetailFactory create(PatchSet.Id patchSetId);
+    ChangeSetPublishDetailFactory create(ChangeSet.Id changeSetId);
   }
 
-  private final PatchSetInfoFactory infoFactory;
+  private final ChangeSetInfoFactory infoFactory;
   private final ReviewDb db;
   private final ChangeControl.Factory changeControlFactory;
+  private final TopicControl.Factory topicControlFactory;
+  private final TopicFunctionState.Factory topicFunctionState;
   private final ApprovalTypes approvalTypes;
   private final AccountInfoCacheFactory aic;
   private final IdentifiedUser user;
 
-  private final PatchSet.Id patchSetId;
+  private final ChangeSet.Id changeSetId;
 
-  private PatchSetInfo patchSetInfo;
-  private Change change;
-  private List<PatchLineComment> drafts;
+  private ChangeSetInfo changeSetInfo;
+  private Topic topic;
 
   @Inject
-  PatchSetPublishDetailFactory(final PatchSetInfoFactory infoFactory,
+  ChangeSetPublishDetailFactory(final ChangeSetInfoFactory infoFactory,
       final ReviewDb db,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final ChangeControl.Factory changeControlFactory,
+      final TopicControl.Factory topicControlFactory,
+      final TopicFunctionState.Factory topicFunctionState,
       final ApprovalTypes approvalTypes,
-      final IdentifiedUser user, @Assisted final PatchSet.Id patchSetId) {
+      final IdentifiedUser user, @Assisted final ChangeSet.Id changeSetId) {
     this.infoFactory = infoFactory;
     this.db = db;
     this.changeControlFactory = changeControlFactory;
+    this.topicControlFactory = topicControlFactory;
+    this.topicFunctionState = topicFunctionState;
     this.approvalTypes = approvalTypes;
     this.aic = accountInfoCacheFactory.create();
     this.user = user;
 
-    this.patchSetId = patchSetId;
+    this.changeSetId = changeSetId;
   }
 
   @Override
-  public PatchSetPublishDetail call() throws OrmException,
-      PatchSetInfoNotAvailableException, NoSuchChangeException {
-    final Change.Id changeId = patchSetId.getParentKey();
-    final ChangeControl control = changeControlFactory.validateFor(changeId);
-    change = control.getChange();
-    patchSetInfo = infoFactory.get(patchSetId);
-    drafts = db.patchComments().draft(patchSetId, user.getAccountId()).toList();
+  public ChangeSetPublishDetail call() throws OrmException,
+      ChangeSetInfoNotAvailableException, NoSuchTopicException,
+      NoSuchEntityException, NoSuchChangeException {
+    final Topic.Id topicId = changeSetId.getParentKey();
+    final TopicControl control = topicControlFactory.validateFor(topicId);
+    topic = control.getTopic();
+    changeSetInfo = infoFactory.get(changeSetId);
 
-    aic.want(change.getOwner());
+    aic.want(topic.getOwner());
 
-    PatchSetPublishDetail detail = new PatchSetPublishDetail();
-    detail.setPatchSetInfo(patchSetInfo);
-    detail.setChange(change);
-    detail.setDrafts(drafts);
+    ChangeSetPublishDetail detail = new ChangeSetPublishDetail();
+    detail.setChangeSetInfo(changeSetInfo);
+    detail.setTopic(topic);
 
     List<PermissionRange> allowed = Collections.emptyList();
-    List<PatchSetApproval> given = Collections.emptyList();
+    List<ChangeSetApproval> given = Collections.emptyList();
 
-    if (change.getStatus().isOpen()
-        && patchSetId.equals(change.currentPatchSetId())) {
-      // TODO Push this selection of labels down into the Prolog interpreter.
-      // Ideally we discover the labels the user can apply here based on doing
-      // a findall() over the space of labels they can apply combined against
-      // the submit rule, thereby skipping any mutually exclusive cases. However
-      // those are not common, so it might just be reasonable to take this
-      // simple approach.
-
+    if (topic.getStatus().isOpen()
+        && changeSetId.equals(topic.currentChangeSetId())) {
       Map<String, PermissionRange> rangeByName =
-          new HashMap<String, PermissionRange>();
+        new HashMap<String, PermissionRange>();
       for (PermissionRange r : control.getLabelRanges()) {
         if (r.isLabel()) {
           rangeByName.put(r.getLabel(), r);
@@ -114,12 +112,13 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       }
       allowed = new ArrayList<PermissionRange>();
 
-      given = db.patchSetApprovals() //
-          .byPatchSetUser(patchSetId, user.getAccountId()) //
+      given = db.changeSetApprovals() //
+          .byChangeSetUser(changeSetId, user.getAccountId()) //
           .toList();
 
       boolean couldSubmit = false;
-      List<SubmitRecord> submitRecords = control.canSubmit(db, patchSetId);
+      List<SubmitRecord> submitRecords = control.canSubmit(db, changeSetId,
+          changeControlFactory, approvalTypes, topicFunctionState);
       for (SubmitRecord rec : submitRecords) {
         if (rec.status == SubmitRecord.Status.OK) {
           couldSubmit = true;
@@ -137,7 +136,9 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
               }
 
               ApprovalType at = approvalTypes.byLabel(lbl.label);
-              if (at == null || at.getMax().getValue() == range.getMax()) {
+              if (at != null && at.getMax().getValue() == range.getMax()) {
+                canMakeOk = true;
+              } else if (at == null) {
                 canMakeOk = true;
               }
             }
@@ -162,8 +163,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
         }
       }
 
-      if (couldSubmit && control.getRefControl().canSubmit()
-          && (change.getTopicId() == null)) {
+      if (couldSubmit && control.getRefControl().canSubmit()) {
         detail.setCanSubmit(true);
       }
     }

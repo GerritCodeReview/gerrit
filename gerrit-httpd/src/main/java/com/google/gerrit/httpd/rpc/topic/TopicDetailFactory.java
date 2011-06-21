@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,40 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.rpc.changedetail;
+package com.google.gerrit.httpd.rpc.topic;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.common.data.ChangeSetApprovalDetail;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.common.data.PatchSetApprovalDetail;
+import com.google.gerrit.common.data.TopicDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.httpd.rpc.topic.ChangeSetDetailFactory;
+import com.google.gerrit.reviewdb.AbstractEntity;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.ChangeMessage;
+import com.google.gerrit.reviewdb.ChangeSet;
+import com.google.gerrit.reviewdb.ChangeSetApproval;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetAncestor;
-import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Topic;
+import com.google.gerrit.reviewdb.TopicMessage;
 import com.google.gerrit.server.AnonymousUser;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.MergeOp;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.workflow.CategoryFunction;
-import com.google.gerrit.server.workflow.FunctionState;
+import com.google.gerrit.server.project.NoSuchTopicException;
+import com.google.gerrit.server.project.TopicControl;
+import com.google.gerrit.server.workflow.TopicCategoryFunction;
+import com.google.gerrit.server.workflow.TopicFunctionState;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,77 +57,73 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/** Creates a {@link ChangeDetail} from a {@link Change}. */
-public class ChangeDetailFactory extends Handler<ChangeDetail> {
+/** Creates a {@link TopicDetail} from a {@link Topic}. */
+public class TopicDetailFactory extends Handler<TopicDetail> {
   public interface Factory {
-    ChangeDetailFactory create(Change.Id id);
+    TopicDetailFactory create(Topic.Id id);
   }
 
   private final ApprovalTypes approvalTypes;
   private final ChangeControl.Factory changeControlFactory;
-  private final FunctionState.Factory functionState;
-  private final PatchSetDetailFactory.Factory patchSetDetail;
+  private final TopicControl.Factory topicControlFactory;
+  private final TopicFunctionState.Factory functionState;
+  private final ChangeSetDetailFactory.Factory changeSetDetail;
   private final AccountInfoCacheFactory aic;
   private final AnonymousUser anonymousUser;
   private final ReviewDb db;
 
-  private final Change.Id changeId;
+  private final Topic.Id topicId;
 
-  private ChangeDetail detail;
-  private ChangeControl control;
-
-  private final MergeOp.Factory opFactory;
-  private boolean testMerge;
+  private TopicDetail detail;
+  private TopicControl control;
 
   @Inject
-  ChangeDetailFactory(final ApprovalTypes approvalTypes,
-      final FunctionState.Factory functionState,
-      final PatchSetDetailFactory.Factory patchSetDetail, final ReviewDb db,
+  TopicDetailFactory(final ApprovalTypes approvalTypes,
+      final TopicFunctionState.Factory functionState,
+      final ChangeSetDetailFactory.Factory changeSetDetail, final ReviewDb db,
       final ChangeControl.Factory changeControlFactory,
+      final TopicControl.Factory topicControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final AnonymousUser anonymousUser,
-      final MergeOp.Factory opFactory,
-      @GerritServerConfig final Config cfg,
-      @Assisted final Change.Id id) {
+      @Assisted final Topic.Id id) {
     this.approvalTypes = approvalTypes;
     this.functionState = functionState;
-    this.patchSetDetail = patchSetDetail;
+    this.changeSetDetail = changeSetDetail;
     this.db = db;
     this.changeControlFactory = changeControlFactory;
+    this.topicControlFactory = topicControlFactory;
     this.anonymousUser = anonymousUser;
     this.aic = accountInfoCacheFactory.create();
 
-    this.opFactory = opFactory;
-    this.testMerge = cfg.getBoolean("changeMerge", "test", false);
-
-    this.changeId = id;
+    this.topicId = id;
   }
 
   @Override
-  public ChangeDetail call() throws OrmException, NoSuchEntityException,
-      PatchSetInfoNotAvailableException, NoSuchChangeException {
-    control = changeControlFactory.validateFor(changeId);
-    final Change change = control.getChange();
-    final PatchSet patch = db.patchSets().get(change.currentPatchSetId());
-    if (patch == null) {
+  public TopicDetail call() throws OrmException, NoSuchEntityException,
+      ChangeSetInfoNotAvailableException, NoSuchTopicException, NoSuchChangeException {
+    control = topicControlFactory.validateFor(topicId);
+    final Topic topic= control.getTopic();
+    final ChangeSet changeSet = db.changeSets().get(topic.currentChangeSetId());
+    if (changeSet == null) {
       throw new NoSuchEntityException();
     }
 
-    aic.want(change.getOwner());
+    aic.want(topic.getOwner());
 
-    detail = new ChangeDetail();
-    detail.setChange(change);
+    detail = new TopicDetail();
+    detail.setTopic(topic);
     detail.setAllowsAnonymous(control.forUser(anonymousUser).isVisible());
 
-    detail.setCanAbandon(change.getStatus().isOpen() && control.canAbandon());
-    detail.setCanRestore(change.getStatus() == Change.Status.ABANDONED && control.canRestore());
+    detail.setCanAbandon(topic.getStatus().isOpen() && control.canAbandon());
+    detail.setCanRestore(topic.getStatus() == AbstractEntity.Status.ABANDONED && control.canRestore());
     detail.setStarred(control.getCurrentUser().getStarredChanges().contains(
-        changeId));
+        topicId));
 
-    detail.setCanRevert(change.getStatus() == Change.Status.MERGED && control.canAddPatchSet() && (change.getTopicId() == null));
+    detail.setCanRevert(topic.getStatus() == AbstractEntity.Status.MERGED && control.canAddChangeSet());
 
-    if (detail.getChange().getStatus().isOpen()) {
-      List<SubmitRecord> submitRecords = control.canSubmit(db, patch.getId());
+    if (detail.getTopic().getStatus().isOpen()) {
+      List<SubmitRecord> submitRecords = control.canSubmit(db, changeSet.getId(),
+          changeControlFactory, approvalTypes, functionState);
       for (SubmitRecord rec : submitRecords) {
         if (rec.labels != null) {
           for (SubmitRecord.Label lbl : rec.labels) {
@@ -140,70 +137,68 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       detail.setSubmitRecords(submitRecords);
     }
 
-    loadPatchSets();
+    loadChangeSets();
     loadMessages();
-    if (change.currentPatchSetId() != null) {
-      loadCurrentPatchSet();
+    if (topic.currentChangeSetId() != null) {
+      loadCurrentChangeSet();
     }
     load();
     detail.setAccounts(aic.create());
-    if (change.getTopicId() != null) {
-      detail.setTopicId(change.getTopicId().get());
-    } else {
-      detail.setTopicId(-1);
-    }
-
     return detail;
   }
 
-  private void loadPatchSets() throws OrmException {
-    detail.setPatchSets(db.patchSets().byChange(changeId).toList());
+  private void loadChangeSets() throws OrmException {
+    detail.setChangeSets(db.changeSets().byTopic(topicId).toList());
   }
 
   private void loadMessages() throws OrmException {
-    detail.setMessages(db.changeMessages().byChange(changeId).toList());
-    for (final ChangeMessage m : detail.getMessages()) {
+    detail.setMessages(db.topicMessages().byTopic(topicId).toList());
+    for (final TopicMessage m : detail.getMessages()) {
       aic.want(m.getAuthor());
     }
   }
 
-  private void load() throws OrmException, NoSuchChangeException {
-    if (detail.getChange().getStatus().equals(Change.Status.NEW) && testMerge) {
-      ChangeUtil.testMerge(opFactory, detail.getChange());
-    }
+  private void load() throws OrmException {
+    final ChangeSet.Id csId = detail.getTopic().currentChangeSetId();
+    final List<ChangeSetApproval> allApprovals =
+        db.changeSetApprovals().byTopic(topicId).toList();
 
-    final PatchSet.Id psId = detail.getChange().currentPatchSetId();
-    final List<PatchSetApproval> allApprovals =
-        db.patchSetApprovals().byChange(changeId).toList();
+    if (detail.getTopic().getStatus().isOpen()) {
+      final TopicFunctionState fs =
+          functionState.create(detail.getTopic(), csId, allApprovals);
 
-    if (detail.getChange().getStatus().isOpen()) {
-      final FunctionState fs = functionState.create(control, psId, allApprovals);
+      final Set<ApprovalCategory.Id> missingApprovals =
+          new HashSet<ApprovalCategory.Id>();
 
       for (final ApprovalType at : approvalTypes.getApprovalTypes()) {
-        CategoryFunction.forCategory(at.getCategory()).run(at, fs);
+        TopicCategoryFunction.forCategory(at.getCategory()).run(at, fs);
+        if (!fs.isValid(at)) {
+          missingApprovals.add(at.getCategory().getId());
+        }
       }
+      detail.setMissingApprovals(missingApprovals);
     }
 
-    final boolean canRemoveReviewers = detail.getChange().getStatus().isOpen() //
+    final boolean canRemoveReviewers = detail.getTopic().getStatus().isOpen() //
         && control.getCurrentUser() instanceof IdentifiedUser;
-    final HashMap<Account.Id, PatchSetApprovalDetail> ad =
-        new HashMap<Account.Id, PatchSetApprovalDetail>();
-    for (PatchSetApproval ca : allApprovals) {
-      PatchSetApprovalDetail d = ad.get(ca.getAccountId());
+    final HashMap<Account.Id, ChangeSetApprovalDetail> ad =
+        new HashMap<Account.Id, ChangeSetApprovalDetail>();
+    for (ChangeSetApproval ca : allApprovals) {
+      ChangeSetApprovalDetail d = ad.get(ca.getAccountId());
       if (d == null) {
-        d = new PatchSetApprovalDetail(ca.getAccountId());
+        d = new ChangeSetApprovalDetail(ca.getAccountId());
         d.setCanRemove(canRemoveReviewers);
         ad.put(d.getAccount(), d);
       }
       if (d.canRemove()) {
         d.setCanRemove(control.canRemoveReviewer(ca));
       }
-      if (ca.getPatchSetId().equals(psId)) {
+      if (ca.getChangeSetId().equals(csId)) {
         d.add(ca);
       }
     }
 
-    final Account.Id owner = detail.getChange().getOwner();
+    final Account.Id owner = detail.getTopic().getOwner();
     if (ad.containsKey(owner)) {
       // Ensure the owner always sorts to the top of the table
       //
@@ -214,30 +209,38 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail.setApprovals(ad.values());
   }
 
-  private void loadCurrentPatchSet() throws OrmException,
-      NoSuchEntityException, PatchSetInfoNotAvailableException,
-      NoSuchChangeException {
-    final PatchSet.Id psId = detail.getChange().currentPatchSetId();
-    final PatchSetDetailFactory loader = patchSetDetail.create(null, psId, null);
-    loader.patchSet = detail.getCurrentPatchSet();
+  private void loadCurrentChangeSet() throws OrmException,
+      NoSuchEntityException, ChangeSetInfoNotAvailableException,
+      NoSuchTopicException {
+    final ChangeSet.Id csId = detail.getTopic().currentChangeSetId();
+    final ChangeSetDetailFactory loader = changeSetDetail.create(csId);
+    loader.changeSet = detail.getCurrentChangeSet();
     loader.control = control;
-    detail.setCurrentPatchSetDetail(loader.call());
+    detail.setCurrentChangeSetDetail(loader.call());
+
+    // We need to know the last patchSet of the first change in the current ChangeSet
+    // in order to find the dependency of this topic.
+    // Also, we need to know the last patchSet of the last change in order to
+    // find the dependent changes.
+    final List<Change> cList = detail.getCurrentChangeSetDetail().getChanges();
+    final Change firstChange = cList.get(0);
+    final Change lastChange = cList.get(cList.size() - 1);
+    PatchSet.Id psId = firstChange.currentPatchSetId();
 
     final HashSet<Change.Id> changesToGet = new HashSet<Change.Id>();
-    final HashMap<Change.Id,PatchSet.Id> ancestorPatchIds =
-        new HashMap<Change.Id,PatchSet.Id>();
     final List<Change.Id> ancestorOrder = new ArrayList<Change.Id>();
+
     for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(psId)) {
       for (PatchSet p : db.patchSets().byRevision(a.getAncestorRevision())) {
         final Change.Id ck = p.getId().getParentKey();
         if (changesToGet.add(ck)) {
-          ancestorPatchIds.put(ck, p.getId());
           ancestorOrder.add(ck);
         }
       }
     }
+    psId = lastChange.currentPatchSetId();
 
-    final RevId cprev = loader.patchSet.getRevision();
+    final RevId cprev = db.patchSets().get(psId).getRevision();
     final Set<Change.Id> descendants = new HashSet<Change.Id>();
     if (cprev != null) {
       for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(cprev)) {
@@ -254,7 +257,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     for (final Change.Id a : ancestorOrder) {
       final Change ac = m.get(a);
       if (ac != null) {
-        dependsOn.add(newChangeInfo(ac, ancestorPatchIds));
+        dependsOn.add(newChangeInfo(ac));
       }
     }
 
@@ -262,7 +265,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     for (final Change.Id a : descendants) {
       final Change ac = m.get(a);
       if (ac != null) {
-        neededBy.add(newChangeInfo(ac, null));
+        neededBy.add(newChangeInfo(ac));
       }
     }
 
@@ -276,15 +279,9 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail.setNeededBy(neededBy);
   }
 
-  private ChangeInfo newChangeInfo(final Change ac,
-      Map<Change.Id,PatchSet.Id> ancestorPatchIds) {
+  private ChangeInfo newChangeInfo(final Change ac) {
     aic.want(ac.getOwner());
-    ChangeInfo ci;
-    if (ancestorPatchIds == null) {
-      ci = new ChangeInfo(ac);
-    } else {
-      ci = new ChangeInfo(ac, ancestorPatchIds.get(ac.getId()));
-    }
+    ChangeInfo ci = new ChangeInfo(ac);
     ci.setStarred(isStarred(ac));
     return ci;
   }

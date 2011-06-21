@@ -69,6 +69,10 @@ public class RulesCache {
   /** Default size of the internal Prolog database within each interpreter. */
   private static final int DB_MAX = 256;
 
+  private static final String[] PACKAGE_LIST = {
+      Prolog.BUILTIN,
+      "gerrit",
+    };
 
   private final Map<ObjectId, MachineRef> machineCache =
       new HashMap<ObjectId, MachineRef>();
@@ -205,6 +209,9 @@ public class RulesCache {
     ctl.setMaxDatabaseSize(DB_MAX);
     ctl.setPrologClassLoader(new PrologClassLoader(cl));
     ctl.setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
+
+    // Bootstrap the interpreter and ensure there is clean state.
+    ctl.initialize(PACKAGE_LIST);
     return ctl;
   }
 

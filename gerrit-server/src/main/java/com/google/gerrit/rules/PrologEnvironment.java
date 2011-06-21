@@ -21,8 +21,6 @@ import com.google.inject.assistedinject.Assisted;
 import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
-import com.googlecode.prolog_cafe.lang.SystemException;
-import com.googlecode.prolog_cafe.lang.Term;
 
 import java.util.EnumSet;
 
@@ -36,11 +34,6 @@ import java.util.EnumSet;
 public class PrologEnvironment extends BufferingPrologControl {
   static final int MAX_ARITY = 8;
 
-  private static final String[] PACKAGE_LIST = {
-      Prolog.BUILTIN,
-      "gerrit",
-    };
-
   public static interface Factory {
     /**
      * Construct a new Prolog interpreter.
@@ -52,7 +45,6 @@ public class PrologEnvironment extends BufferingPrologControl {
   }
 
   private final Injector injector;
-  private boolean intialized;
 
   @Inject
   PrologEnvironment(Injector i, @Assisted PrologMachineCopy src) {
@@ -87,20 +79,5 @@ public class PrologEnvironment extends BufferingPrologControl {
    */
   public <T> void set(StoredValue<T> sv, T obj) {
     sv.set(engine, obj);
-  }
-
-  @Override
-  public void setPredicate(String pkg, String functor, Term... args) {
-    init();
-    super.setPredicate(pkg, functor, args);
-  }
-
-  private void init() {
-    if (!intialized) {
-      intialized = true;
-      if (!initialize(PACKAGE_LIST)) {
-        throw new SystemException("Prolog initialization failed");
-      }
-    }
   }
 }

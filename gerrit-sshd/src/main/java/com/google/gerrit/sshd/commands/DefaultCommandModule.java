@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.CommandName;
 import com.google.gerrit.sshd.Commands;
@@ -58,5 +59,12 @@ public class DefaultCommandModule extends CommandModule {
     command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
 
     command("suexec").to(SuExec.class);
+
+    install(new LifecycleModule() {
+      @Override
+      protected void configure() {
+        listener().to(ShowCaches.StartupListener.class);
+      }
+    });
   }
 }

@@ -8,11 +8,22 @@ gerrit show-caches - Display current cache statistics
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit show-caches'
+'ssh' -p <port> <host> 'gerrit show-caches' [--gc] [--show-jvm]
 
 DESCRIPTION
 -----------
 Display statistics about the size and hit ratio of in-memory caches.
+
+OPTIONS
+-------
+--gc::
+	Request Java garbage collection before displaying information
+	about the Java memory heap.
+
+--show-jvm::
+	List the name and version of the Java virtual machine, host
+	operating system, and other details about the environment
+	that Gerrit Code Review is running in.
 
 ACCESS
 ------
@@ -28,27 +39,33 @@ EXAMPLES
 
 ====
 	$ ssh -p 29418 review.example.com gerrit show-caches
+	Gerrit Code Review        2.2.2                     now    10:03:34   PDT
+	                                                 uptime     1 min 39 sec
+	
 	  Name               Max |Object Count        |  AvgGet  |Hit Ratio     |
 	                     Age |  Disk    Mem    Cnt|          |Disk Mem  Agg |
 	-------------------------+--------------------+----------+--------------+
-	  accounts           90d |                 295|          |           99%|
-	  accounts_byemail   90d |                 109|          |           97%|
-	D diff               90d |  2695    128   2707|   0.4ms  | 11%  86%  98%|
-	  groups             90d |                  94|          |           80%|
-	  openid             5m  |                  30|   0.4ms  |            9%|
-	  projects           90d |                 188|          |           99%|
-	  sshkeys            90d |                   9|          |           94%|
-	D web_sessions       12h |           30     30|          |  0%  99%  99%|
-
-	JGit Buffer Cache:
-	  open files  :              23
-	  loaded      :   6.82 mb
-	  mem%        :   2%
-
-	JVM Heap:
-	  max         : 880.00 mb
-	  inuse       : 136.57 mb
-	  mem%        :  44%
+	  accounts           90d |                   1|          |           95%|
+	  accounts_byemail   90d |                    |          |              |
+	  accounts_byname    90d |                   1|          |              |
+	  adv_bases          10m |                    |          |              |
+	D diff               90d |     8             8|          |              |
+	D diff_intraline     90d |     1             1|          |              |
+	  groups             90d |                  19|          |            0%|
+	  groups_byext       90d |                    |          |              |
+	  groups_byinclude   90d |                  21|          |           80%|
+	  groups_byname      90d |                    |          |              |
+	  groups_byuuid      90d |                    |          |              |
+	  project_list       90d |                    |          |              |
+	  projects           90d |                   1|          |           80%|
+	  sshkeys            90d |                   1|          |           90%|
+	D web_sessions       12h |                    |          |              |
+	
+	SSH:      1  users, oldest session started 782 ms ago
+	Tasks:    2  total =    1 running +      0 ready +    1 sleeping
+	Mem:  46.13m total =  16.17m used +  29.96m free +   0.00k buffers
+	     246.56m max
+	           0 open files,        6 cpus available,       23 threads
 ====
 
 SEE ALSO

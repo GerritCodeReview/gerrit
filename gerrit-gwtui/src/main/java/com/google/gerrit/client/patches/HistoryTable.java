@@ -21,9 +21,9 @@ import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,40 +66,50 @@ class HistoryTable extends FancyFlexTable<Patch> {
 
   void display(final List<Patch> result) {
     all.clear();
+    final FlexCellFormatter fmt = table.getFlexCellFormatter();
+    table.setText(1, 0, PatchUtil.C.patchHeaderOld());
+    fmt.setStyleName(1, 0, Gerrit.RESOURCES.css().dataHeader());
+    table.setText(2, 0, PatchUtil.C.patchHeaderNew());
+    fmt.setStyleName(2, 0, Gerrit.RESOURCES.css().dataHeader());
+    table.setText(3, 0, Util.C.patchTableColumnComments());
+    fmt.setStyleName(3, 0, Gerrit.RESOURCES.css().dataHeader());
 
-    final SafeHtmlBuilder nc = new SafeHtmlBuilder();
-    appendHeader(nc);
-    appendRow(nc, null);
-    for (final Patch k : result) {
-      appendRow(nc, k);
-    }
-    resetHtml(nc);
+    table.setText(0, 1, "Base");
+    fmt.setStyleName(0, 1, Gerrit.RESOURCES.css().dataCell());
+    fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().topMostCell());
+    fmt.setStyleName(1, 1, Gerrit.RESOURCES.css().dataCell());
+    fmt.setStyleName(2, 1, Gerrit.RESOURCES.css().dataCell());
+    fmt.setStyleName(3, 1, Gerrit.RESOURCES.css().dataCell());
 
-    int row = 1;
-    {
-      final Patch k = new Patch(new Patch.Key(null, ""));
-      setRowItem(row, k);
-      installRadio(row, k, 0, screen.idSideA);
-      row++;
-    }
+    installRadio(1, 1, null, screen.idSideA, 0);
+
+    int col=2;
     for (final Patch k : result) {
-      setRowItem(row, k);
-      installRadio(row, k, 0, screen.idSideA);
-      installRadio(row, k, 1, screen.idSideB);
-      row++;
+      final PatchSet.Id psId = k.getKey().getParentKey();
+      table.setText(0, col, Util.M.patchSetHeader(psId.get()));
+      fmt.setStyleName(0, col, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(0, col, Gerrit.RESOURCES.css().topMostCell());
+
+      installRadio(1, col, psId, screen.idSideA, 0);
+      installRadio(2, col, psId, screen.idSideB, 1);
+
+      fmt.setStyleName(3, col, Gerrit.RESOURCES.css().dataCell());
+      if (k.getCommentCount() > 0) {
+        table.setText(3, col, Util.M.patchTableComments(k.getCommentCount()));
+      }
+      col++;
     }
   }
 
-  private void installRadio(final int row, final Patch k, final int file,
-      final PatchSet.Id cur) {
-    final PatchSet.Id psid = k.getKey().getParentKey();
-    final HistoryRadio b = new HistoryRadio(psid, file);
-    b.setValue(eq(cur, psid));
+  private void installRadio(final int row, final int col, final PatchSet.Id psId,
+      final PatchSet.Id cur, final int file) {
+    final HistoryRadio b = new HistoryRadio(psId, file);
+    b.setValue(eq(cur, psId));
 
-    final int cell = radioCell(file);
-    table.setWidget(row, cell, b);
-    table.getCellFormatter().setHorizontalAlignment(row, cell,
-        HasHorizontalAlignment.ALIGN_CENTER);
+    table.setWidget(row, col, b);
+    final FlexCellFormatter fmt = table.getFlexCellFormatter();
+    fmt.setHorizontalAlignment(row, col, HasHorizontalAlignment.ALIGN_CENTER);
+    fmt.setStyleName(row, col, Gerrit.RESOURCES.css().dataCell());
     all.add(b);
   }
 
@@ -108,84 +118,6 @@ class HistoryTable extends FancyFlexTable<Patch> {
       return true;
     }
     return psid != null && psid.equals(cur);
-  }
-
-  private int radioCell(final int file) {
-    return 2 + file;
-  }
-
-  private void appendHeader(final SafeHtmlBuilder m) {
-    m.openTr();
-
-    m.openTd();
-    m.addStyleName(Gerrit.RESOURCES.css().iconHeader());
-    m.addStyleName(Gerrit.RESOURCES.css().leftMostCell());
-    m.nbsp();
-    m.closeTd();
-
-    m.openTd();
-    m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
-    m.nbsp();
-    m.closeTd();
-
-    m.openTd();
-    m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
-    m.append(PatchUtil.C.patchHeaderOld());
-    m.closeTd();
-
-    m.openTd();
-    m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
-    m.append(PatchUtil.C.patchHeaderNew());
-    m.closeTd();
-
-    m.openTd();
-    m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
-    m.append(Util.C.patchTableColumnComments());
-    m.closeTd();
-
-    m.closeTr();
-  }
-
-  private void appendRow(final SafeHtmlBuilder m, final Patch k) {
-    m.openTr();
-
-    m.openTd();
-    m.addStyleName(Gerrit.RESOURCES.css().iconCell());
-    m.addStyleName(Gerrit.RESOURCES.css().leftMostCell());
-    m.nbsp();
-    m.closeTd();
-
-    m.openTd();
-    m.setStyleName(Gerrit.RESOURCES.css().dataCell());
-    m.setAttribute("align", "right");
-    if (k != null) {
-      final PatchSet.Id psId = k.getKey().getParentKey();
-      m.append(Util.M.patchSetHeader(psId.get()));
-    } else {
-      m.append("Base");
-    }
-    m.closeTd();
-
-    m.openTd();
-    m.setStyleName(Gerrit.RESOURCES.css().dataCell());
-    m.nbsp();
-    m.closeTd();
-
-    m.openTd();
-    m.setStyleName(Gerrit.RESOURCES.css().dataCell());
-    m.nbsp();
-    m.closeTd();
-
-    m.openTd();
-    m.setStyleName(Gerrit.RESOURCES.css().dataCell());
-    if (k != null && k.getCommentCount() > 0) {
-      m.append(Util.M.patchTableComments(k.getCommentCount()));
-    } else {
-      m.nbsp();
-    }
-    m.closeTd();
-
-    m.closeTr();
   }
 
   private class HistoryRadio extends RadioButton {

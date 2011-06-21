@@ -187,6 +187,7 @@ public interface GerritCss extends CssResource {
   String topmenuTDglue();
   String topmenuTDmenu();
   String topmost();
+  String topMostCell();
   String useridentity();
   String usernameField();
   String version();

@@ -454,6 +454,10 @@
   border-left: 1px solid trimColor;
 }
 
+.changeTable .topMostCell {
+  border-top: 1px solid trimColor;
+}
+
 .changeTable .dataCell {
   padding-left: 5px;
   padding-right: 5px;

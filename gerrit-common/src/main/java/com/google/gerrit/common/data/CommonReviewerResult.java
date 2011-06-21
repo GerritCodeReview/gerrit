@@ -14,8 +14,38 @@
 
 package com.google.gerrit.common.data;
 
+import java.util.List;
 
-public abstract class ReviewerResultError {
+
+public abstract class CommonReviewerResult {
+  protected List<Error> errors;
+  protected int memberCount;
+  protected boolean askForConfirmation;
+
+  public void addError(final Error e) {
+    errors.add(e);
+  }
+
+  public List<Error> getErrors() {
+    return errors;
+  }
+
+  public int getMemberCount() {
+    return memberCount;
+  }
+
+  public void setMemberCount(final int memberCount) {
+    this.memberCount = memberCount;
+  }
+
+  public boolean askForConfirmation() {
+    return askForConfirmation;
+  }
+
+  public void setAskForConfirmation(final boolean askForConfirmation) {
+    this.askForConfirmation = askForConfirmation;
+  }
+
   public static class Error {
     public static enum Type {
       /** Name supplied does not match to a registered account or account group. */

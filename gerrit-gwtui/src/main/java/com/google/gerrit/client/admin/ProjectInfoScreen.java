@@ -38,6 +38,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private Panel projectOptionsPanel;
   private CheckBox requireChangeID;
+  private CheckBox allowTopicReview;
   private ListBox submitType;
   private CheckBox useContentMerge;
 
@@ -138,6 +139,10 @@ public class ProjectInfoScreen extends ProjectScreen {
     saveEnabler.listenTo(requireChangeID);
     projectOptionsPanel.add(requireChangeID);
 
+    allowTopicReview = new CheckBox(Util.C.allowTopicReview(), true);
+    saveEnabler.listenTo(allowTopicReview);
+    projectOptionsPanel.add(allowTopicReview);
+
     add(projectOptionsPanel);
   }
 
@@ -201,6 +206,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     useSignedOffBy.setValue(project.isUseSignedOffBy());
     useContentMerge.setValue(project.isUseContentMerge());
     requireChangeID.setValue(project.isRequireChangeID());
+    allowTopicReview.setValue(project.isAllowTopicReview());
     setSubmitType(project.getSubmitType());
 
     saveProject.setEnabled(false);
@@ -211,7 +217,10 @@ public class ProjectInfoScreen extends ProjectScreen {
     project.setUseContributorAgreements(useContributorAgreements.getValue());
     project.setUseSignedOffBy(useSignedOffBy.getValue());
     project.setUseContentMerge(useContentMerge.getValue());
-    project.setRequireChangeID(requireChangeID.getValue());
+    // The requireChangeId setting is needed when you use the topic review feature
+    //
+    project.setRequireChangeID(requireChangeID.getValue() || allowTopicReview.getValue());
+    project.setAllowTopicReview(allowTopicReview.getValue());
     if (submitType.getSelectedIndex() >= 0) {
       project.setSubmitType(Project.SubmitType.valueOf(submitType
           .getValue(submitType.getSelectedIndex())));

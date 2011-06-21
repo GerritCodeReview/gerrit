@@ -17,7 +17,9 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.common.data.ChangeDetailService;
 import com.google.gerrit.common.data.ChangeListService;
 import com.google.gerrit.common.data.ChangeManageService;
-import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.common.data.TopicDetailService;
+import com.google.gerrit.common.data.TopicManageService;
+import com.google.gerrit.reviewdb.AbstractEntity.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
@@ -26,9 +28,15 @@ public class Util {
   public static final ChangeMessages M = GWT.create(ChangeMessages.class);
   public static final ChangeResources R = GWT.create(ChangeResources.class);
 
+  public static final TopicMessages TM = GWT.create(TopicMessages.class);
+  public static final TopicConstants TC = GWT.create(TopicConstants.class);
+
   public static final ChangeDetailService DETAIL_SVC;
   public static final ChangeListService LIST_SVC;
   public static final ChangeManageService MANAGE_SVC;
+
+  public static final TopicDetailService T_DETAIL_SVC;
+  public static final TopicManageService T_MANAGE_SVC;
 
   static {
     DETAIL_SVC = GWT.create(ChangeDetailService.class);
@@ -39,9 +47,15 @@ public class Util {
 
     MANAGE_SVC = GWT.create(ChangeManageService.class);
     JsonUtil.bind(MANAGE_SVC, "rpc/ChangeManageService");
+
+    T_DETAIL_SVC = GWT.create(TopicDetailService.class);
+    JsonUtil.bind(T_DETAIL_SVC, "rpc/TopicDetailService");
+
+    T_MANAGE_SVC = GWT.create(TopicManageService.class);
+    JsonUtil.bind(T_MANAGE_SVC, "rpc/TopicManageService");
   }
 
-  public static String toLongString(final Change.Status status) {
+  public static String toLongString(final Status status) {
     if (status == null) {
       return "";
     }

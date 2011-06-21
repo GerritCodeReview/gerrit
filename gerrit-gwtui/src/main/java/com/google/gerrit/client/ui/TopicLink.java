@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,25 +15,22 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.QueryScreen;
+import com.google.gerrit.client.changes.TopicScreen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.AbstractEntity.Status;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Topic;
+import com.google.gwt.core.client.GWT;
 
-/** Link to the open changes of a project. */
-public class ProjectLink extends InlineHyperlink {
-  private Project.NameKey project;
-  private Status status;
+/** Link to the open changes of a topic. */
+public class TopicLink extends InlineHyperlink {
+  private final Topic.Id topicId;
 
-  public ProjectLink(final Project.NameKey proj, Status stat) {
-    this(proj.get(), proj, stat);
+  public static String permalink(final Topic.Id t) {
+    return GWT.getHostPageBaseURL() + "/t/" + t.get() + "/";
   }
 
-  public ProjectLink(final String text, final Project.NameKey proj,
-      Status stat) {
-    super(text, PageLinks.toChangeQuery(PageLinks.projectQuery(proj, stat)));
-    status = stat;
-    project = proj;
+  public TopicLink(String topic, Topic.Id topicId) {
+    super(topic, PageLinks.toTopic(topicId));
+    this.topicId = topicId;
   }
 
   @Override
@@ -42,6 +39,6 @@ public class ProjectLink extends InlineHyperlink {
   }
 
   private Screen createScreen() {
-    return QueryScreen.forQuery(PageLinks.projectQuery(project, status));
+    return new TopicScreen(topicId);
   }
 }

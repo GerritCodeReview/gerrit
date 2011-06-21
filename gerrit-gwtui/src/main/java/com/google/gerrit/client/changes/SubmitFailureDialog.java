@@ -16,11 +16,18 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.common.data.TopicDetail;
 import com.google.gerrit.reviewdb.ChangeMessage;
+import com.google.gerrit.reviewdb.TopicMessage;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class SubmitFailureDialog extends ErrorDialog {
   SubmitFailureDialog(final ChangeDetail result, final ChangeMessage msg) {
+    super(new SafeHtmlBuilder().append(msg.getMessage().trim()).wikify());
+    setText(Util.C.submitFailed());
+  }
+
+  SubmitFailureDialog(final TopicDetail result, final TopicMessage msg) {
     super(new SafeHtmlBuilder().append(msg.getMessage().trim()).wikify());
     setText(Util.C.submitFailed());
   }

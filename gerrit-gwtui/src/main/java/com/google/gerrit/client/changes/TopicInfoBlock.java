@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,12 +19,10 @@ import static com.google.gerrit.client.FormatUtil.mediumFormat;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.BranchLink;
-import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.client.ui.TopicLink;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.Branch;
-import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Topic;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -32,48 +30,36 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
-public class ChangeInfoBlock extends Composite {
-  private static final int R_CHANGE_ID = 0;
+public class TopicInfoBlock extends Composite {
+  private static final int R_TOPIC_ID = 0;
   private static final int R_OWNER = 1;
   private static final int R_PROJECT = 2;
   private static final int R_BRANCH = 3;
-  private static final int R_TOPIC = 4;
-  private static final int R_UPLOADED = 5;
-  private static final int R_UPDATED = 6;
-  private static final int R_STATUS = 7;
-  private static final int R_MERGE_TEST = 8;
-  private final int R_PERMALINK;
-  private static final int R_CNT = 10;
+  private static final int R_UPLOADED = 4;
+  private static final int R_UPDATED = 5;
+  private static final int R_STATUS = 6;
+  private static final int R_PERMALINK = 7;
+  private static final int R_CNT = 8;
 
   private final Grid table;
 
-  public ChangeInfoBlock() {
-    if (Gerrit.getConfig().testChangeMerge()) {
-      table = new Grid(R_CNT, 2);
-      R_PERMALINK = 9;
-    } else {
-      table = new Grid(R_CNT - 1, 2);
-      R_PERMALINK = 8;
-    }
+  public TopicInfoBlock() {
+    table = new Grid(R_CNT, 2);
     table.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     table.addStyleName(Gerrit.RESOURCES.css().changeInfoBlock());
 
-    initRow(R_CHANGE_ID, "Change-Id: ");
+    initRow(R_TOPIC_ID, "Topic-Id: ");
     initRow(R_OWNER, Util.C.changeInfoBlockOwner());
     initRow(R_PROJECT, Util.C.changeInfoBlockProject());
     initRow(R_BRANCH, Util.C.changeInfoBlockBranch());
-    initRow(R_TOPIC, Util.C.changeInfoBlockTopic());
     initRow(R_UPLOADED, Util.C.changeInfoBlockUploaded());
     initRow(R_UPDATED, Util.C.changeInfoBlockUpdated());
     initRow(R_STATUS, Util.C.changeInfoBlockStatus());
-    if (Gerrit.getConfig().testChangeMerge()) {
-      initRow(R_MERGE_TEST, Util.C.changeInfoBlockCanMerge());
-    }
 
     final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
     fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
-    fmt.addStyleName(R_CHANGE_ID, 1, Gerrit.RESOURCES.css().changeid());
+    fmt.addStyleName(R_TOPIC_ID, 1, Gerrit.RESOURCES.css().changeid());
     fmt.addStyleName(R_CNT - 2, 0, Gerrit.RESOURCES.css().bottomheader());
     fmt.addStyleName(R_PERMALINK, 0, Gerrit.RESOURCES.css().permalink());
     fmt.addStyleName(R_PERMALINK, 1, Gerrit.RESOURCES.css().permalink());
@@ -86,43 +72,30 @@ public class ChangeInfoBlock extends Composite {
     table.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
   }
 
-  public void display(final Change chg, final AccountInfoCache acc) {
-    final Branch.NameKey dst = chg.getDest();
-    final String sTopic = chg.getTopic();
-    final Topic.Id topicId = chg.getTopicId();
+  public void display(final Topic topic, final AccountInfoCache acc) {
+    final Branch.NameKey dst = topic.getDest();
 
     CopyableLabel changeIdLabel =
-        new CopyableLabel("Change-Id: " + chg.getKey().get());
-    changeIdLabel.setPreviewText(chg.getKey().get());
-    table.setWidget(R_CHANGE_ID, 1, changeIdLabel);
+        new CopyableLabel("Topic-Id: " + topic.getKey().get());
+    changeIdLabel.setPreviewText(topic.getKey().get());
+    table.setWidget(R_TOPIC_ID, 1, changeIdLabel);
 
-    table.setWidget(R_OWNER, 1, AccountDashboardLink.link(acc, chg.getOwner()));
-    table.setWidget(R_PROJECT, 1, new ProjectLink(chg.getProject(), chg.getStatus()));
-    table.setWidget(R_BRANCH, 1, new BranchLink(dst.getShortName(), chg
-        .getProject(), chg.getStatus(), dst.get(), null));
-    if (topicId == null) {
-      table.setWidget(R_TOPIC, 1, new BranchLink(sTopic, chg
-          .getProject(), chg.getStatus(), dst.get(), sTopic));
-    } else {
-      table.setWidget(R_TOPIC, 1, new TopicLink(sTopic, topicId));
-    }
-    table.setText(R_UPLOADED, 1, mediumFormat(chg.getCreatedOn()));
-    table.setText(R_UPDATED, 1, mediumFormat(chg.getLastUpdatedOn()));
-    table.setText(R_STATUS, 1, Util.toLongString(chg.getStatus()));
-    if (Gerrit.getConfig().testChangeMerge()) {
-      table.setText(R_MERGE_TEST, 1, chg.isMergeable() ? Util.C
-          .changeInfoBlockCanMergeYes() : Util.C.changeInfoBlockCanMergeNo());
-    }
+    table.setWidget(R_OWNER, 1, AccountDashboardLink.link(acc, topic.getOwner()));
+    table.setWidget(R_PROJECT, 1, new ProjectLink(topic.getProject(), topic.getStatus()));
+    table.setWidget(R_BRANCH, 1, new BranchLink(dst.getShortName(), topic.getProject(), topic.getStatus(), dst.get(), null));
+    table.setText(R_UPLOADED, 1, mediumFormat(topic.getCreatedOn()));
+    table.setText(R_UPDATED, 1, mediumFormat(topic.getLastUpdatedOn()));
+    table.setText(R_STATUS, 1, Util.toLongString(topic.getStatus()));
 
-    if (chg.getStatus().isClosed()) {
+    if (topic.getStatus().isClosed()) {
       table.getCellFormatter().addStyleName(R_STATUS, 1, Gerrit.RESOURCES.css().closedstate());
     } else {
       table.getCellFormatter().removeStyleName(R_STATUS, 1, Gerrit.RESOURCES.css().closedstate());
     }
 
     final FlowPanel fp = new FlowPanel();
-    fp.add(new ChangeLink(Util.C.changePermalink(), chg.getId()));
-    fp.add(new CopyableLabel(ChangeLink.permalink(chg.getId()), false));
+    fp.add(new TopicLink(Util.C.changePermalink(), topic.getId()));
+    fp.add(new CopyableLabel(TopicLink.permalink(topic.getId()), false));
     table.setWidget(R_PERMALINK, 1, fp);
   }
 }

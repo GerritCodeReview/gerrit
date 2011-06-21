@@ -16,7 +16,8 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SmallHeading;
-import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.common.data.CommonDetail;
+import com.google.gerrit.reviewdb.ChangeSet;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -31,26 +32,51 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 
-public abstract class CommentedChangeActionDialog extends AutoCenterDialogBox implements CloseHandler<PopupPanel>{
+public abstract class CommentedChangeActionDialog<T extends CommonDetail> extends AutoCenterDialogBox implements CloseHandler<PopupPanel>{
   private final FlowPanel panel;
   private final NpTextArea message;
   private final Button sendButton;
   private final Button cancelButton;
+  private final ChangeSet.Id csid;
   private final PatchSet.Id psid;
-  private final AsyncCallback<ChangeDetail> callback;
+  private final AsyncCallback<T> callback;
 
   private boolean buttonClicked = false;
 
   public CommentedChangeActionDialog(final PatchSet.Id psi,
-      final AsyncCallback<ChangeDetail> callback, final String dialogTitle,
+      final AsyncCallback<T> callback, final String dialogTitle,
       final String dialogHeading, final String buttonSend,
       final String buttonCancel, final String dialogStyle,
       final String messageStyle) {
-     this(psi, callback, dialogTitle, dialogHeading, buttonSend, buttonCancel, dialogStyle, messageStyle, null);
+     this(psi, null, callback, dialogTitle, dialogHeading, buttonSend, buttonCancel, dialogStyle, messageStyle, null);
   }
 
   public CommentedChangeActionDialog(final PatchSet.Id psi,
-      final AsyncCallback<ChangeDetail> callback, final String dialogTitle,
+      final AsyncCallback<T> callback, final String dialogTitle,
+      final String dialogHeading, final String buttonSend,
+      final String buttonCancel, final String dialogStyle,
+      final String messageStyle, final String defaultMessage) {
+     this(psi, null, callback, dialogTitle, dialogHeading, buttonSend, buttonCancel, dialogStyle, messageStyle, defaultMessage);
+  }
+
+  public CommentedChangeActionDialog(final ChangeSet.Id csi,
+      final AsyncCallback<T> callback, final String dialogTitle,
+      final String dialogHeading, final String buttonSend,
+      final String buttonCancel, final String dialogStyle,
+      final String messageStyle) {
+     this(null, csi, callback, dialogTitle, dialogHeading, buttonSend, buttonCancel, dialogStyle, messageStyle, null);
+  }
+
+  public CommentedChangeActionDialog(final ChangeSet.Id csi,
+      final AsyncCallback<T> callback, final String dialogTitle,
+      final String dialogHeading, final String buttonSend,
+      final String buttonCancel, final String dialogStyle,
+      final String messageStyle, final String defaultMessage) {
+     this(null, csi, callback, dialogTitle, dialogHeading, buttonSend, buttonCancel, dialogStyle, messageStyle, defaultMessage);
+  }
+
+  public CommentedChangeActionDialog(final PatchSet.Id psi, final ChangeSet.Id csi,
+      final AsyncCallback<T> callback, final String dialogTitle,
       final String dialogHeading, final String buttonSend,
       final String buttonCancel, final String dialogStyle,
       final String messageStyle, final String defaultMessage) {
@@ -58,6 +84,7 @@ public abstract class CommentedChangeActionDialog extends AutoCenterDialogBox im
     setGlassEnabled(true);
 
     psid = psi;
+    csid = csi;
     this.callback = callback;
     addStyleName(dialogStyle);
     setText(dialogTitle);
@@ -132,14 +159,18 @@ public abstract class CommentedChangeActionDialog extends AutoCenterDialogBox im
     return psid;
   }
 
+  public ChangeSet.Id getChangeSetId() {
+    return csid;
+  }
+
   public String getMessageText() {
     return message.getText().trim();
   }
 
-  public GerritCallback<ChangeDetail> createCallback() {
-    return new GerritCallback<ChangeDetail>(){
+  public GerritCallback<T> createCallback() {
+    return new GerritCallback<T>(){
       @Override
-      public void onSuccess(ChangeDetail result) {
+      public void onSuccess(T result) {
         buttonClicked = true;
         if (callback != null) {
           callback.onSuccess(result);

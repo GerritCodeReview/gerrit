@@ -17,20 +17,20 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.AbstractEntity.Status;
 import com.google.gerrit.reviewdb.Branch;
-import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 
 /** Link to the open changes of a project. */
 public class BranchLink extends InlineHyperlink {
   private final String query;
 
-  public BranchLink(Project.NameKey project, Change.Status status,
+  public BranchLink(Project.NameKey project, Status status,
       String branch, String topic) {
-    this(text(branch, topic), query(project, status, branch, topic));
+    this(branch + " ", query(project, status, branch, topic));
   }
 
-  public BranchLink(String text, Project.NameKey project, Change.Status status,
+  public BranchLink(String text, Project.NameKey project, Status status,
       String branch, String topic) {
     this(text, query(project, status, branch, topic));
   }
@@ -49,15 +49,7 @@ public class BranchLink extends InlineHyperlink {
     return QueryScreen.forQuery(query);
   }
 
-  private static String text(String branch, String topic) {
-    if (topic != null && !topic.isEmpty()) {
-      return branch + " (" + topic + ")";
-    } else {
-      return branch;
-    }
-  }
-
-  private static String query(Project.NameKey project, Change.Status status,
+  private static String query(Project.NameKey project, Status status,
       String branch, String topic) {
     String query = PageLinks.projectQuery(project, status);
 

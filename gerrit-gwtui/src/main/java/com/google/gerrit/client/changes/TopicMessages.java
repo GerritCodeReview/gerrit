@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,26 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.data;
+package com.google.gerrit.client.changes;
 
+import com.google.gwt.i18n.client.Messages;
 
-import java.util.ArrayList;
+public interface TopicMessages extends Messages {
+  String changeSetHeader(int id);
+  String topicScreenTitleId(String topicId);
+  String submitChangeSet(int id);
 
-/**
- * Result from adding or removing a reviewer from a change.
- */
-public class ReviewerResult extends CommonReviewerResult {
-  protected ChangeDetail change;
+  String publishCommentsOnSet(String commitSetId, String topicName);
 
-  public ReviewerResult() {
-    errors = new ArrayList<Error>();
-  }
-
-  public ChangeDetail getChange() {
-    return change;
-  }
-
-  public void setChange(final ChangeDetail d) {
-    change = d;
-  }
+  String revertTopicDefaultMessage(String topic, int id, int changesetid);
 }

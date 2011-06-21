@@ -16,25 +16,15 @@ package com.google.gerrit.common.data;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Result from adding or removing a reviewer from a change.
+ * Result from adding or removing a reviewer from a topic.
  */
-public class TopicReviewerResult extends ReviewerResultError {
-  protected List<Error> errors;
+public class TopicReviewerResult extends CommonReviewerResult {
   protected TopicDetail topic;
 
   public TopicReviewerResult() {
     errors = new ArrayList<Error>();
-  }
-
-  public void addError(final Error e) {
-    errors.add(e);
-  }
-
-  public List<Error> getErrors() {
-    return errors;
   }
 
   public TopicDetail getTopic() {

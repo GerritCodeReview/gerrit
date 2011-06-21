@@ -20,7 +20,7 @@ import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.data.AccountProjectWatchInfo;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
-import com.google.gerrit.reviewdb.Change.Status;
+import com.google.gerrit.reviewdb.AbstractEntity.Status;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;

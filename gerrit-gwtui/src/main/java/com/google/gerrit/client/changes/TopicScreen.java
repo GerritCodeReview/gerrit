@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,68 +14,58 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.CommentPanel;
-import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ExpandAllCommand;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
-import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
-import com.google.gerrit.common.data.ToggleStarRequest;
+import com.google.gerrit.common.data.TopicDetail;
+import com.google.gerrit.common.data.TopicInfo;
 import com.google.gerrit.reviewdb.AbstractEntity.Status;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.ChangeMessage;
-import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.ChangeSet;
+import com.google.gerrit.reviewdb.Topic;
+import com.google.gerrit.reviewdb.TopicMessage;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
-import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.sql.Timestamp;
 import java.util.List;
 
 
-public class ChangeScreen extends Screen {
-  private final Change.Id changeId;
-  private final PatchSet.Id openPatchSetId;
+public class TopicScreen extends Screen {
+  private final Topic.Id topicId;
+  private final ChangeSet.Id openChangeSetId;
 
-  private Image starChange;
-  private boolean starred;
-  private ChangeDescriptionBlock descriptionBlock;
+  private TopicDescriptionBlock descriptionBlock;
   private ApprovalTable approvals;
 
   private IncludedInTable includedInTable;
   private DisclosurePanel includedInPanel;
-  private ComplexDisclosurePanel dependenciesPanel;
+  private DisclosurePanel dependenciesPanel;
   private ChangeTable dependencies;
   private ChangeTable.Section dependsOn;
   private ChangeTable.Section neededBy;
 
-  private PatchSetsBlock patchSetsBlock;
+  private ChangeSetsBlock changeSetsBlock;
 
   private Panel comments;
 
@@ -84,47 +74,43 @@ public class ChangeScreen extends Screen {
   private HandlerRegistration regNavigation;
   private HandlerRegistration regAction;
 
-  private Grid patchesGrid;
-  private ListBox patchesList;
+  private ListBox changesList;
 
   /**
-   * The change id for which the old version history is valid.
+   * The topic id for which the old version history is valid.
    */
-  private static Change.Id currentChangeId;
+  private static Topic.Id currentTopicId;
 
   /**
-   * Which patch set id is the diff base.
+   * Which change set id is the diff base.
    */
-  private static PatchSet.Id diffBaseId;
+  private static ChangeSet.Id diffBaseId;
 
-  public ChangeScreen(final Change.Id toShow) {
-    changeId = toShow;
-    openPatchSetId = null;
+  public TopicScreen(final Topic.Id toShow) {
+    topicId = toShow;
+    openChangeSetId = null;
 
     // If we have any diff stored, make sure they are applicable to the
     // current change, discard them otherwise.
     //
-    if (currentChangeId != null && !currentChangeId.equals(toShow)) {
+    if (currentTopicId != null && !currentTopicId.equals(toShow)) {
       diffBaseId = null;
     }
-    currentChangeId = toShow;
+    currentTopicId = toShow;
   }
 
-  public ChangeScreen(final PatchSet.Id toShow) {
-    changeId = toShow.getParentKey();
-    openPatchSetId = toShow;
+  public TopicScreen(final ChangeSet.Id toShow) {
+    topicId = toShow.getParentKey();
+    openChangeSetId = toShow;
   }
 
-  public ChangeScreen(final ChangeInfo c) {
-    this(c.getId());
+  public TopicScreen(final TopicInfo t) {
+    this(t.getId());
   }
 
   @Override
   public void onSignOut() {
     super.onSignOut();
-    if (starChange != null) {
-      starChange.setVisible(false);
-    }
   }
 
   @Override
@@ -151,36 +137,24 @@ public class ChangeScreen extends Screen {
     super.registerKeys();
     regNavigation = GlobalKey.add(this, keysNavigation);
     regAction = GlobalKey.add(this, keysAction);
-    if (openPatchSetId != null) {
-      patchSetsBlock.activate(openPatchSetId);
+    if (openChangeSetId != null) {
+      changeSetsBlock.activate(openChangeSetId);
     }
   }
 
   public void refresh() {
-    Util.DETAIL_SVC.changeDetail(changeId,
-        new ScreenLoadCallback<ChangeDetail>(this) {
+    Util.T_DETAIL_SVC.topicDetail(topicId,
+        new ScreenLoadCallback<TopicDetail>(this) {
           @Override
-          protected void preDisplay(final ChangeDetail r) {
-            if (r.getTopicId() != -1) {
-              keysNavigation.add(new UpToTopicKeyCommand(0, 't', Util.C.upToTopic(), r.getTopicId()));
-            }
+          protected void preDisplay(final TopicDetail r) {
             display(r);
           }
 
           @Override
           protected void postDisplay() {
-            patchSetsBlock.setRegisterKeys(true);
+            changeSetsBlock.setRegisterKeys(true);
           }
         });
-  }
-
-  private void setStarred(final boolean s) {
-    if (s) {
-      starChange.setResource(Gerrit.RESOURCES.starFilled());
-    } else {
-      starChange.setResource(Gerrit.RESOURCES.starOpen());
-    }
-    starred = s;
   }
 
   @Override
@@ -194,30 +168,18 @@ public class ChangeScreen extends Screen {
     keysNavigation.add(new ExpandCollapseDependencySectionKeyCommand(0, 'd', Util.C.expandCollapseDependencies()));
 
     if (Gerrit.isSignedIn()) {
-      keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));
       keysAction.add(new PublishCommentsKeyCommand(0, 'r', Util.C
           .keyPublishComments()));
-
-      starChange = new Image(Gerrit.RESOURCES.starOpen());
-      starChange.setStyleName(Gerrit.RESOURCES.css().changeScreenStarIcon());
-      starChange.setVisible(Gerrit.isSignedIn());
-      starChange.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(final ClickEvent event) {
-          toggleStar();
-        }
-      });
-      insertTitleWidget(starChange);
     }
 
-    descriptionBlock = new ChangeDescriptionBlock();
+    descriptionBlock = new TopicDescriptionBlock();
     add(descriptionBlock);
 
     approvals = new ApprovalTable();
     add(approvals);
 
     includedInPanel = new DisclosurePanel(Util.C.changeScreenIncludedIn());
-    includedInTable = new IncludedInTable(changeId);
+    includedInTable = new IncludedInTable(topicId);
 
     includedInPanel.setContent(includedInTable);
     add(includedInPanel);
@@ -232,53 +194,46 @@ public class ChangeScreen extends Screen {
     dependencies.addSection(dependsOn);
     dependencies.addSection(neededBy);
 
-    dependenciesPanel = new ComplexDisclosurePanel(
-        Util.C.changeScreenDependencies(), false);
+    dependenciesPanel = new DisclosurePanel(Util.C.changeScreenDependencies());
     dependenciesPanel.setContent(dependencies);
     add(dependenciesPanel);
 
-    patchesList = new ListBox();
-    patchesList.addChangeHandler(new ChangeHandler() {
+    changesList = new ListBox();
+    changesList.addChangeHandler(new ChangeHandler() {
       @Override
       public void onChange(ChangeEvent event) {
-        final int index = patchesList.getSelectedIndex();
-        final String selectedPatchSet = patchesList.getValue(index);
+        final int index = changesList.getSelectedIndex();
+        final String selectedChangeSet = changesList.getValue(index);
         if (index == 0) {
           diffBaseId = null;
         } else {
-          diffBaseId = PatchSet.Id.parse(selectedPatchSet);
+          diffBaseId = ChangeSet.Id.parse(selectedChangeSet);
         }
-        if (patchSetsBlock != null) {
-          patchSetsBlock.refresh(diffBaseId);
+        if (changeSetsBlock != null) {
+          changeSetsBlock.refresh(diffBaseId);
         }
       }
     });
-    patchesList.addItem(Util.C.baseDiffItem());
+    changesList.addItem(Util.C.baseDiffItem());
 
-    patchesGrid = new Grid(1, 2);
-    patchesGrid.setStyleName(Gerrit.RESOURCES.css().selectPatchSetOldVersion());
-    patchesGrid.setText(0, 0, Util.C.oldVersionHistory());
-    patchesGrid.setWidget(0, 1, patchesList);
-    add(patchesGrid);
-
-    patchSetsBlock = new PatchSetsBlock(this);
-    add(patchSetsBlock);
+    changeSetsBlock = new ChangeSetsBlock(this);
+    add(changeSetsBlock);
 
     comments = new FlowPanel();
     comments.setStyleName(Gerrit.RESOURCES.css().changeComments());
     add(comments);
   }
 
-  private void displayTitle(final Change.Key changeId, final String subject) {
+  private void displayTitle(final Topic.Key topicId, final String subject) {
     final StringBuilder titleBuf = new StringBuilder();
     if (LocaleInfo.getCurrentLocale().isRTL()) {
       if (subject != null) {
         titleBuf.append(subject);
         titleBuf.append(" :");
       }
-      titleBuf.append(Util.M.changeScreenTitleId(changeId.abbreviate()));
+      titleBuf.append(Util.TM.topicScreenTitleId(topicId.abbreviate()));
     } else {
-      titleBuf.append(Util.M.changeScreenTitleId(changeId.abbreviate()));
+      titleBuf.append(Util.TM.topicScreenTitleId(topicId.abbreviate()));
       if (subject != null) {
         titleBuf.append(": ");
         titleBuf.append(subject);
@@ -287,19 +242,15 @@ public class ChangeScreen extends Screen {
     setPageTitle(titleBuf.toString());
   }
 
-  void update(final ChangeDetail detail) {
+  void update(final TopicDetail detail) {
     display(detail);
-    patchSetsBlock.setRegisterKeys(true);
+    changeSetsBlock.setRegisterKeys(true);
   }
 
-  private void display(final ChangeDetail detail) {
-    displayTitle(detail.getChange().getKey(), detail.getChange().getSubject());
+  private void display(final TopicDetail detail) {
+    displayTitle(detail.getTopic().getKey(), detail.getTopic().getSubject());
 
-    if (starChange != null) {
-      setStarred(detail.isStarred());
-    }
-
-    if (Status.MERGED == detail.getChange().getStatus()) {
+    if (Status.MERGED == detail.getTopic().getStatus()) {
       includedInPanel.setVisible(true);
       includedInPanel.addOpenHandler(includedInTable);
     } else {
@@ -309,55 +260,49 @@ public class ChangeScreen extends Screen {
     dependencies.setAccountInfoCache(detail.getAccounts());
     approvals.setAccountInfoCache(detail.getAccounts());
 
-    descriptionBlock.display(detail.getChange(), detail
-        .getCurrentPatchSetDetail().getInfo(), detail.getAccounts());
+    descriptionBlock.display(detail.getTopic(),
+        detail.getCurrentChangeSetDetail().getInfo(),detail.getAccounts());
+
     dependsOn.display(detail.getDependsOn());
     neededBy.display(detail.getNeededBy());
+
     approvals.display(detail);
 
-    for (PatchSet pId : detail.getPatchSets()) {
-      if (patchesList != null) {
-        patchesList.addItem(Util.M.patchSetHeader(pId.getPatchSetId()), pId
+    for (ChangeSet cId : detail.getChangeSets()) {
+      if (changesList != null) {
+        changesList.addItem(Util.TM.changeSetHeader(cId.getChangeSetId()), cId
             .getId().toString());
       }
     }
 
-    if (diffBaseId != null && patchesList != null) {
-      patchesList.setSelectedIndex(diffBaseId.get());
+    if (diffBaseId != null && changesList != null) {
+      changesList.setSelectedIndex(diffBaseId.get());
     }
 
-    patchSetsBlock.display(detail, diffBaseId);
+    changeSetsBlock.display(detail, diffBaseId);
     addComments(detail);
 
-    // If any dependency change is still open, or is outdated,
-    // show our dependency list.
+    // If any dependency change is still open, show our dependency list.
     //
     boolean depsOpen = false;
-    int outdated = 0;
-    if (!detail.getChange().getStatus().isClosed()
+    if (!detail.getTopic().getStatus().isClosed()
         && detail.getDependsOn() != null) {
-      for (final ChangeInfo ci : detail.getDependsOn()) {
-        if (! ci.isLatest()) {
+      for (final ChangeInfo ti : detail.getDependsOn()) {
+        if (ti.getStatus() != Change.Status.MERGED) {
           depsOpen = true;
-          outdated++;
-        } else if (ci.getStatus() != Change.Status.MERGED) {
-          depsOpen = true;
+          break;
         }
       }
     }
 
     dependenciesPanel.setOpen(depsOpen);
-    if (outdated > 0) {
-      dependenciesPanel.getHeader().add(new InlineLabel(
-        Util.M.outdatedHeader(outdated)));
-    }
   }
 
-  private void addComments(final ChangeDetail detail) {
+  private void addComments(final TopicDetail detail) {
     comments.clear();
 
     final AccountInfoCache accts = detail.getAccounts();
-    final List<ChangeMessage> msgList = detail.getMessages();
+    final List<TopicMessage> msgList = detail.getMessages();
 
     HorizontalPanel title = new HorizontalPanel();
     title.setWidth("100%");
@@ -372,7 +317,7 @@ public class ChangeScreen extends Screen {
     final Timestamp aged = new Timestamp(System.currentTimeMillis() - AGE);
 
     for (int i = 0; i < msgList.size(); i++) {
-      final ChangeMessage msg = msgList.get(i);
+      final TopicMessage msg = msgList.get(i);
 
       final AccountInfo author;
       if (msg.getAuthor() != null) {
@@ -420,24 +365,6 @@ public class ChangeScreen extends Screen {
     return menuBar;
   }
 
-  private void toggleStar() {
-    final boolean prior = starred;
-    setStarred(!prior);
-
-    final ToggleStarRequest req = new ToggleStarRequest();
-    req.toggle(changeId, starred);
-    Util.LIST_SVC.toggleStars(req, new GerritCallback<VoidResult>() {
-      public void onSuccess(final VoidResult result) {
-      }
-
-      @Override
-      public void onFailure(final Throwable caught) {
-        super.onFailure(caught);
-        setStarred(prior);
-      }
-    });
-  }
-
   public class UpToListKeyCommand extends KeyCommand {
     public UpToListKeyCommand(int mask, char key, String help) {
       super(mask, key, help);
@@ -446,19 +373,6 @@ public class ChangeScreen extends Screen {
     @Override
     public void onKeyPress(final KeyPressEvent event) {
       Gerrit.displayLastChangeList();
-    }
-  }
-
-  public class UpToTopicKeyCommand extends KeyCommand {
-    final private int topic;
-    public UpToTopicKeyCommand(int mask, char key, String help, int topic) {
-      super(mask, key, help);
-      this.topic = topic;
-    }
-
-    @Override
-    public void onKeyPress(final KeyPressEvent event) {
-      Gerrit.display("/t/" + topic + "/");
     }
   }
 
@@ -473,17 +387,6 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  public class StarKeyCommand extends NeedsSignInKeyCommand {
-    public StarKeyCommand(int mask, char key, String help) {
-      super(mask, key, help);
-    }
-
-    @Override
-    public void onKeyPress(final KeyPressEvent event) {
-      toggleStar();
-    }
-  }
-
   public class PublishCommentsKeyCommand extends NeedsSignInKeyCommand {
     public PublishCommentsKeyCommand(int mask, char key, String help) {
       super(mask, key, help);
@@ -491,8 +394,9 @@ public class ChangeScreen extends Screen {
 
     @Override
     public void onKeyPress(final KeyPressEvent event) {
-      PatchSet.Id currentPatchSetId = patchSetsBlock.getCurrentPatchSet().getId();
-      Gerrit.display(Dispatcher.toPublish(currentPatchSetId));
+      ChangeSet.Id currentChangeSetId = changeSetsBlock.getCurrentChangeSetId();
+      Gerrit.display("change,publish," + currentChangeSetId.toString(),
+          new PublishTopicCommentScreen(currentChangeSetId));
     }
   }
 }

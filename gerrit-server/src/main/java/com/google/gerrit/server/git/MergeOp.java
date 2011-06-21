@@ -26,14 +26,17 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
+import com.google.gerrit.reviewdb.ChangeSetElement;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Topic;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.TopicUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.mail.EmailException;
@@ -1237,6 +1240,7 @@ public class MergeOp {
   }
 
   private void setMerged(Change c, ChangeMessage msg) {
+    final Topic.Id topicId = c.getTopicId();
     final Change.Id changeId = c.getId();
     final PatchSet.Id merged = c.currentPatchSetId();
 
@@ -1266,6 +1270,38 @@ public class MergeOp {
     } catch (OrmConcurrencyException err) {
     } catch (OrmException err) {
       log.warn("Cannot update change status", err);
+    }
+
+    // If the merged change belongs to a Topic, we need to check if we have to change
+    // the topic status to Merged
+    //
+    if (topicId != null) {
+        try {
+          final Topic topic = schema.topics().get(topicId);
+          final List<ChangeSetElement> cseList= schema.changeSetElements().byChangeSet(topic.currentChangeSetId()).toList();
+          final int csLastElement = cseList.size() - 1;
+          // Find the last element belonging to a topic
+          //
+          Collections.reverse(cseList);
+          for (ChangeSetElement cse : cseList) {
+            if ((cse.getPosition() == csLastElement) &&
+                (cse.getChangeId().get() == changeId.get())) {
+              // If it is the last element belonging to the topic
+              //
+              schema.topics().atomicUpdate(topicId, new AtomicUpdate<Topic>() {
+                @Override
+                public Topic update(Topic t) {
+                  t.setStatus(Topic.Status.MERGED);
+                  TopicUtil.updated(t);
+                  return t;
+                }
+              });
+              break;
+            }
+          }
+        } catch (OrmException err) {
+          log.warn("Cannot update topic status", err);
+        }
     }
 
     // Flatten out all existing approvals based upon the current

@@ -20,11 +20,16 @@ import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.errors.NoSuchAccountException;
+import com.google.gerrit.reviewdb.AbstractEntity;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
+import com.google.gerrit.reviewdb.ChangeSet;
+import com.google.gerrit.reviewdb.ChangeSetApproval;
+import com.google.gerrit.reviewdb.ChangeSetElement;
+import com.google.gerrit.reviewdb.ChangeSetInfo;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetAncestor;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -32,9 +37,11 @@ import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Topic;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.TopicUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -44,6 +51,8 @@ import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -142,6 +151,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private RefControl destBranchCtl;
 
   private final List<Change.Id> allNewChanges = new ArrayList<Change.Id>();
+  private final List<Change.Id> replacementOrder = new ArrayList<Change.Id>();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
       new HashMap<Change.Id, ReplaceRequest>();
   private final Map<RevCommit, ReplaceRequest> replaceByCommit =
@@ -758,24 +768,38 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       reject(cmd, "change " + changeId + " not found");
       return;
     }
+    if (changeEnt.getTopicId() != null) {
+      reject(cmd, "change " + changeId + " belongs to the topic " + changeEnt.getTopicId().get());
+      return;
+    }
     if (!project.getNameKey().equals(changeEnt.getProject())) {
       reject(cmd, "change " + changeId + " does not belong to project " + project.getName());
       return;
     }
 
-    requestReplace(cmd, true, changeEnt, newCommit);
+    requestReplace(cmd, true, changeEnt, newCommit, null, 0);
   }
 
   private boolean requestReplace(final ReceiveCommand cmd,
       final boolean checkMergedInto, final Change change,
-      final RevCommit newCommit) {
-    if (change.getStatus().isClosed()) {
+      final RevCommit newCommit, final Topic topic,
+      final int pos) {
+    if (change.getStatus().equals(AbstractEntity.Status.MERGED)) {
+      reject(cmd, "change " + change.getId() + " closed");
+      return false;
+    }
+    if (change.getStatus().equals(AbstractEntity.Status.ABANDONED) &&
+        topic == null) {
       reject(cmd, "change " + change.getId() + " closed");
       return false;
     }
 
+    Topic.Id topicId = topic != null ? topic.getId() : null;
+    ChangeSet.Id csId = topic != null ? topic.currentChangeSetId() : null;
+
     final ReplaceRequest req =
-        new ReplaceRequest(change.getId(), newCommit, cmd, checkMergedInto);
+        new ReplaceRequest(change.getId(), newCommit, cmd, checkMergedInto,
+            topicId, csId, pos);
     if (replaceByChange.containsKey(req.ontoChange)) {
       reject(cmd, "duplicate request");
       return false;
@@ -784,14 +808,58 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       reject(cmd, "duplicate request");
       return false;
     }
+    replacementOrder.add(req.ontoChange);
     replaceByChange.put(req.ontoChange, req);
     replaceByCommit.put(req.newCommit, req);
     return true;
   }
 
+  private boolean requestReplaceCheck(final ReceiveCommand cmd,
+      final Change change, final RevCommit newCommit,
+      final Map<Change, RevCommit> toReplace, final boolean topic) {
+    if (change.getStatus().equals(AbstractEntity.Status.MERGED)) {
+      reject(cmd, "change " + change.getId() + " closed");
+      return false;
+    }
+    if (change.getStatus().equals(AbstractEntity.Status.ABANDONED) &&
+        !topic) {
+      reject(cmd, "change " + change.getId() + " closed");
+      return false;
+    }
+    if (toReplace.containsKey(change.getId())) {
+      reject(cmd, "duplicate request");
+      return false;
+    }
+
+    return true;
+  }
+
+  private boolean checkSameTopic(final Map<Change, RevCommit> toReplace,
+      final Topic.Id topicId) {
+    if (toReplace.isEmpty()) return true;
+    for (Change c : toReplace.keySet()) {
+      final Topic.Id cTopicId = c.getTopicId();
+      if (cTopicId == null) {
+        return topicId == null ? true : false;
+      } else if (topicId == null) return false;
+      if (cTopicId.get() != topicId.get()) return false;
+    }
+    return true;
+  }
+
   private void createNewChanges() {
+    final String abandonMessage = "This Change doesn't belong any more to the topic ";
     final List<RevCommit> toCreate = new ArrayList<RevCommit>();
+    final Map<Change, RevCommit> toReplace = new HashMap<Change, RevCommit>();
+    final Map<Change.Id, Change> byChangeId = new HashMap<Change.Id, Change>();
     final RevWalk walk = rp.getRevWalk();
+    final ObjectId lastIncluded = newChange.getNewId();
+    final RevCommit firstIncluded;
+    final boolean topicSetting = project.isAllowTopicReview() && project.isRequireChangeID() && (destTopicName != null);
+    List<Change> toAbandon = new ArrayList<Change>();
+    List<Change> toUpdate = new ArrayList<Change>();
+    List<RevCommit> cOrder = new ArrayList<RevCommit>();
+
     walk.reset();
     walk.sort(RevSort.TOPO);
     walk.sort(RevSort.REVERSE, true);
@@ -811,6 +879,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         if (c == null) {
           break;
         }
+        cOrder.add(c);
         if (replaceByCommit.containsKey(c)) {
           // This commit was already scheduled to replace an existing PatchSet.
           //
@@ -852,9 +921,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           }
 
           if (changes.size() == 1) {
-            // Schedule as a replacement to this one matching change.
-            //
-            if (requestReplace(newChange, false, changes.get(0), c)) {
+            toReplace.put(changes.get(0), c);
+            byChangeId.put(changes.get(0).getId(), changes.get(0));
+            if (requestReplaceCheck(newChange, changes.get(0), c, toReplace, topicSetting)) {
               continue;
             } else {
               return;
@@ -886,32 +955,280 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       return;
     }
 
-    if (toCreate.isEmpty() && replaceByChange.isEmpty()) {
+    // When working with topics, even if there are no replacements, or new
+    // elements, we can have some deletions
+    //
+    if (toCreate.isEmpty() && toReplace.isEmpty() && (!topicSetting)) {
       reject(newChange, "no new changes");
       return;
     }
 
+    Topic t = null;
+    Topic.Id topicId = null;
+    if (topicSetting) {
+      try {
+        // TODO need a message source
+        // For example, adding a --description option from the command line
+        //
+        final String message = "";
+        final ChangeSet.Id previousCs;
+
+        List<ChangeSetElement> currentChangeSetElements = new ArrayList<ChangeSetElement>();
+        List<Change> currentChanges = new ArrayList<Change>();
+        Set<String> revIdAncestors = new HashSet<String>();
+        if (cOrder.isEmpty()) firstIncluded = null;
+        else {
+          firstIncluded = cOrder.get(0);
+          for (RevCommit r : firstIncluded.getParents())
+            revIdAncestors.add(r.getName());
+        }
+
+        t = TopicUtil.findActiveTopic(destTopicName, db, destBranch,
+            project.getNameKey());
+        if (t != null) {
+          if (t.getStatus().equals(AbstractEntity.Status.SUBMITTED)) {
+            reject(newChange, "There is a topic with the same topic name in SUBMITTED status");
+            return;
+          }
+          topicId = t.getId();
+          previousCs = new ChangeSet.Id(topicId, t.currChangeSetId().get());
+          currentChangeSetElements = db.changeSetElements().byChangeSet(previousCs).toList();
+        }
+
+        // Check if the replacement Changes belongs to this topic
+        //
+        if (!checkSameTopic(toReplace, topicId)) {
+          reject(newChange, "The modified changes doesn't belong to the same topic.");
+          return;
+        }
+
+        // Identify previous elements and common elements
+        //
+        for (ChangeSetElement cse : currentChangeSetElements) {
+          final Change c = db.changes().get(cse.getChangeId());
+          final PatchSet.Id psId = c.currentPatchSetId();
+          final RevId rId = db.patchSets().get(psId).getRevision();
+          currentChanges.add(c);
+          if (revIdAncestors.contains(rId.get())) {
+            toUpdate = new ArrayList<Change>(currentChanges);
+          }
+        }
+
+        if (firstIncluded != null) {
+          // Identify deleted elements
+          //
+          if (!currentChanges.isEmpty()) {
+            for (Change c : currentChanges.subList(toUpdate.size(), currentChanges.size())) {
+              if (!byChangeId.containsKey(c.getId())) toAbandon.add(c);
+            }
+          }
+          if (t == null) {
+            // This is the first push to this topic, we need to create it
+            //
+            t = TopicUtil.createTopic(currentUser.getAccountId(), db, destTopicName, destBranch, message);
+            topicId = t.getId();
+
+            // Show info in the command line
+            //
+            rp.sendMessage("");
+            rp.sendMessage("Created new topic with ID: " + topicId.get());
+          } else {
+            // This is a security check. If everything is toCreate
+            // and currentChanges == toAbandon, is the user referring to
+            // the same topic ? - Don't allow to do that, maybe he is wrong
+            //
+            if ((toCreate.size() == cOrder.size()) && (toAbandon.equals(currentChanges))) {
+              reject(newChange, "This new push has nothing in common with the previous one. " +
+                      "Please, abandon this topic or create a new one");
+              return;
+            }
+            t = TopicUtil.setUpTopic(t, db, currentUser.getAccountId());
+
+            // Show info in the command line
+            //
+            rp.sendMessage("");
+            rp.sendMessage("New ChangeSet (" + t.currentChangeSetId().get() + ") in topic " + topicId);
+          }
+        } else {
+          // That means that there were no additions or replacements
+          // Need to check deletions in the last element(s)
+          //
+          Collections.reverse(currentChanges);
+          for (Change c : currentChanges) {
+            final RevId currentRevId = db.patchSets().get(c.currentPatchSetId()).getRevision();
+            final RevId last = new RevId(lastIncluded.name());
+            if (currentRevId.get().equals(last.get())) {
+              toAbandon = new ArrayList<Change>(currentChanges.subList(0, currentChanges.indexOf(c)));
+              toUpdate = new ArrayList<Change>(currentChanges.subList(currentChanges.indexOf(c), currentChanges.size()));
+              break;
+            }
+          }
+          Collections.reverse(toUpdate);
+          Collections.reverse(toAbandon);
+          if (!toAbandon.isEmpty()) {
+            t = TopicUtil.setUpTopic(t, db, currentUser.getAccountId());
+            topicId = t.getId();
+          } else {
+            reject(newChange, "No new changes");
+            return;
+          }
+        }
+        if (!toUpdate.isEmpty())
+          updateChangeSetId(toUpdate, t.currentChangeSetId());
+      } catch (OrmException e) {
+        log.error("Error creating Topic " + destTopicName + " for commit set.", e);
+        reject(newChange, "database error");
+        return;
+      }
+    }
+
+    // Schedule as a replacement the ones we had identified
+    // to preserve the order, we need to provide a position
+    //
+    for (Change c : toReplace.keySet()) {
+      final int position = cOrder.indexOf(toReplace.get(c)) + toUpdate.size();
+      if (requestReplace(newChange, false, c, toReplace.get(c), t, position)) {
+        continue;
+      } else {
+        if (t != null) restoreOnTopicError(t);
+        return;
+      }
+    }
+
     for (final RevCommit c : toCreate) {
       try {
-        createChange(walk, c);
+        final int position = cOrder.indexOf(c) + toUpdate.size();
+        createChange(walk, c, topicId, position);
       } catch (IOException e) {
         log.error("Error computing patch of commit " + c.name(), e);
         reject(newChange, "diff error");
+        if (t != null) restoreOnTopicError(t);
         return;
       } catch (OrmException e) {
         log.error("Error creating change for commit " + c.name(), e);
         reject(newChange, "database error");
+        if (t != null) restoreOnTopicError(t);
+        return;
+      }
+    }
+
+    if (!toAbandon.isEmpty()) rp.sendMessage("");
+    for (final Change c : toAbandon) {
+      try {
+        ChangeUtil.abandon(c.currentPatchSetId(), currentUser,
+            abandonMessage + topicId.get(), db, null, hooks, false);
+
+        // Show info in the command line
+        //
+        rp.sendMessage("Change " + c.getId().get() +
+            " (belonging to the changeset " + t.currentChangeSetId().get() +
+            ") in topic " + topicId + " abandoned");
+      } catch (NoSuchChangeException e) {
+        reject(newChange, "Problem when abandoning change " + c.getId());
+        restoreOnTopicError(t);
+        return;
+      } catch (InvalidChangeOperationException e) {
+        reject(newChange, "Problem when abandoning change " + c.getId());
+        restoreOnTopicError(t);
+        return;
+      } catch (EmailException e) {
+        // This must never happen as it will not send any mail notification
+        //
+        return;
+      } catch (OrmException e) {
+        reject(newChange, "Problem when abandoning change " + c.getId());
+        restoreOnTopicError(t);
+        return;
+      }
+    }
+
+    // Create the topic reference
+    //
+    if (t != null) {
+      try {
+        final ChangeSet cs = db.changeSets().get(t.currChangeSetId());
+        final RefUpdate ru = repo.updateRef(cs.getRefName());
+        ru.setNewObjectId(lastIncluded);
+        ru.disableRefLog();
+        if (ru.update(walk) != RefUpdate.Result.NEW) {
+          reject(newChange, "Failed to create ref " + cs.getRefName() + " in "
+              + repo.getDirectory() + ": " + ru.getResult());
+          return;
+        }
+        replication.scheduleUpdate(project.getNameKey(), ru.getName());
+      } catch (IOException e) {
+        reject(newChange, "Failed to create new ref for the topic");
+        return;
+      } catch (OrmException e) {
+        reject(newChange, "ChangeSet not found");
         return;
       }
     }
     newChange.setResult(ReceiveCommand.Result.OK);
   }
 
+  private void restoreOnTopicError(final Topic t) {
+    if (t == null) return;
+    final ChangeSet.Id csi = t.currentChangeSetId();
+    // Clear staged changes
+    //
+    replacementOrder.clear();
+    replaceByChange.clear();
+    replaceByCommit.clear();
+
+    try {
+      final List<ChangeSetElement> toDelete = db.changeSetElements().byChangeSet(csi).toList();
+      db.changeSetElements().delete(toDelete);
+    } catch (OrmException e) {
+      log.error("Cannot delete ChangeSet elements when recovering from an error " + e);
+      return;
+    }
+
+    if (t.currentChangeSetId().get() > 1) {
+      final ChangeSet.Id previousCSId = new ChangeSet.Id(t.getId(), csi.get() - 1);
+      final ChangeSetInfo csInfo = new ChangeSetInfo(previousCSId);
+      t.setCurrentChangeSet(csInfo);
+      try {
+        final ChangeSet toDeleteCS = db.changeSets().get(csi);
+        db.topics().update(Collections.singleton(t));
+        if (toDeleteCS != null) db.changeSets().delete(Collections.singleton(toDeleteCS));
+      } catch (OrmException e) {
+        log.error("Cannot recover previous state of a topic when recovering from an error " + e);
+        return;
+      }
+    } else {
+      try {
+        final ChangeSet toDeleteCS = db.changeSets().get(csi);
+        db.topics().delete(Collections.singleton(t));
+        if (toDeleteCS != null) db.changeSets().delete(Collections.singleton(toDeleteCS));
+      } catch (OrmException e) {
+        log.error("Cannot delete topic when recovering from an error " + e);
+        return;
+      }
+    }
+  }
+
+  private void updateChangeSetId(List<Change> currentChanges,
+      final ChangeSet.Id csId) {
+    for (Change c : currentChanges) {
+      try {
+        ChangeSetElement.Key cseKey = new ChangeSetElement.Key(c.getId(), csId);
+        ChangeSetElement cse = new ChangeSetElement(cseKey, currentChanges.indexOf(c));
+
+        db.changeSetElements().insert(Collections.singleton(cse));
+      } catch (OrmException e) {
+        reject(newChange, "Cannot update the change set element");
+        return;
+      }
+    }
+  }
+
   private static boolean isValidChangeId(String idStr) {
     return idStr.matches("^I[0-9a-fA-F]{40}$") && !idStr.matches("^I00*$");
   }
 
-  private void createChange(final RevWalk walk, final RevCommit c)
+  private void createChange(final RevWalk walk, final RevCommit c,
+      final Topic.Id topicId, final int pos)
       throws OrmException, IOException {
     walk.parseBody(c);
     warnMalformedMessage(c);
@@ -943,6 +1260,16 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     final Change change =
         new Change(changeKey, new Change.Id(db.nextChangeId()), me, destBranch);
+
+    if (topicId != null) {
+      Topic topic = db.topics().get(topicId);
+      ChangeSet.Id currentChangeSetId = topic.currentChangeSetId();
+      change.setTopicId(topicId);
+
+      final ChangeSetElement.Key cseKey = new ChangeSetElement.Key(change.getId(), currentChangeSetId);
+      final ChangeSetElement cse = new ChangeSetElement(cseKey, pos);
+      db.changeSetElements().insert(Collections.singleton(cse));
+    }
     change.setTopic(destTopicName);
     change.nextPatchSetId();
 
@@ -962,6 +1289,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
     haveApprovals.add(me);
 
+    // TODO topic approvals should be inserted in other place
+    //
     if (allTypes.size() > 0) {
       final Account.Id authorId =
           info.getAuthor() != null ? info.getAuthor().getAccount() : null;
@@ -971,13 +1300,25 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           allTypes.get(allTypes.size() - 1).getCategory().getId();
       if (authorId != null && haveApprovals.add(authorId)) {
         insertDummyApproval(change, ps.getId(), authorId, catId, db);
+        if (topicId != null) {
+          insertDummyApproval(db.topics().get(topicId), db.topics().get(topicId).currentChangeSetId(),
+              authorId, catId, db);
+        }
       }
       if (committerId != null && haveApprovals.add(committerId)) {
         insertDummyApproval(change, ps.getId(), committerId, catId, db);
+        if (topicId != null) {
+          insertDummyApproval(db.topics().get(topicId), db.topics().get(topicId).currentChangeSetId(),
+              committerId, catId, db);
+        }
       }
       for (final Account.Id reviewer : reviewers) {
         if (haveApprovals.add(reviewer)) {
           insertDummyApproval(change, ps.getId(), reviewer, catId, db);
+          if (topicId != null) {
+            insertDummyApproval(db.topics().get(topicId), db.topics().get(topicId).currentChangeSetId(),
+                reviewer, catId, db);
+          }
         }
       }
     }
@@ -1017,7 +1358,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   }
 
   private void doReplaces() {
-    for (final ReplaceRequest request : replaceByChange.values()) {
+    for (final Change.Id id : replacementOrder) {
+      ReplaceRequest request = replaceByChange.get(id);
       try {
         doReplace(request);
       } catch (IOException err) {
@@ -1040,7 +1382,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private PatchSet.Id doReplace(final ReplaceRequest request)
       throws IOException, OrmException {
+    final String restoreMessage = "This change has been restored to be reviewed in topic ";
     final RevCommit c = request.newCommit;
+    final boolean fromTopic = request.csId != null;
     rp.getRevWalk().parseBody(c);
     warnMalformedMessage(c);
 
@@ -1072,9 +1416,31 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       reject(request.cmd, "change " + request.ontoChange + " not found");
       return null;
     }
-    if (change.getStatus().isClosed()) {
+    if (change.getStatus().equals(AbstractEntity.Status.MERGED)) {
       reject(request.cmd, "change " + request.ontoChange + " closed");
       return null;
+    }
+    if (change.getStatus().equals(AbstractEntity.Status.ABANDONED)) {
+      // It is needed a special behavior in case we are working with topics
+      //
+      if (!fromTopic) {
+        reject(request.cmd, "change " + request.ontoChange + " closed");
+        return null;
+      }
+      try {
+        ChangeUtil.restore(change.currentPatchSetId(), currentUser,
+            restoreMessage + request.topicId.get(), db, null, hooks, false);
+      } catch (NoSuchChangeException e) {
+        reject(request.cmd, "change " + request.ontoChange + " not found");
+        return null;
+      } catch (InvalidChangeOperationException e) {
+        reject(request.cmd, "error when restoring the abandoned change " + request.ontoChange);
+        return null;
+      } catch (EmailException e) {
+        // This should never happen, as it will never send any email
+        //
+        return null;
+      }
     }
 
     final ChangeControl changeCtl = projectControl.controlFor(change);
@@ -1134,7 +1500,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           final boolean parentsEq = parentsEqual(c, prior);
           final boolean authorEq = authorEqual(c, prior);
 
-          if (messageEq && parentsEq && authorEq) {
+          // There is an special case, that is when the change belongs
+          // to a Topic. In this case, we should be able to restore
+          // the change
+          //
+          if (messageEq && parentsEq && authorEq && !fromTopic) {
             reject(request.cmd, "no changes made");
             return null;
           } else {
@@ -1170,6 +1540,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
             if (change.getStatus().isOpen()) {
               change.nextPatchSetId();
               change.setLastSha1MergeTested(null);
+              change.setTopicId(request.topicId);
               return change;
             } else {
               return null;
@@ -1278,6 +1649,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         db.changeMessages().delete(Collections.singleton(msg));
         reject(request.cmd, "change is closed");
         return null;
+      }  else if (request.csId != null) {
+        final ChangeSetElement.Key cseKey = new ChangeSetElement.Key(change.getId(), request.csId);
+        final ChangeSetElement cse = new ChangeSetElement(cseKey, request.position);
+        db.changeSetElements().insert(Collections.singleton(cse));
       }
     }
 
@@ -1382,6 +1757,16 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     db.patchSetApprovals().insert(Collections.singleton(ca));
   }
 
+  private void insertDummyApproval(final Topic topic, final ChangeSet.Id csId,
+      final Account.Id forAccount, final ApprovalCategory.Id catId,
+      final ReviewDb db) throws OrmException {
+    final ChangeSetApproval ca =
+      new ChangeSetApproval(new ChangeSetApproval.Key(csId, forAccount, catId),
+          (short) 0);
+    ca.cache(topic);
+    db.changeSetApprovals().insert(Collections.singleton(ca));
+  }
+
   private Ref findMergedInto(final String first, final RevCommit commit) {
     try {
       final Map<String, Ref> all = repo.getAllRefs();
@@ -1414,13 +1799,21 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     final RevCommit newCommit;
     final ReceiveCommand cmd;
     final boolean checkMergedInto;
+    final Topic.Id topicId;
+    final ChangeSet.Id csId;
+    final int position;
 
     ReplaceRequest(final Change.Id toChange, final RevCommit newCommit,
-        final ReceiveCommand cmd, final boolean checkMergedInto) {
+        final ReceiveCommand cmd, final boolean checkMergedInto,
+        final Topic.Id topicId, final ChangeSet.Id csId,
+        final int position) {
       this.ontoChange = toChange;
       this.newCommit = newCommit;
       this.cmd = cmd;
       this.checkMergedInto = checkMergedInto;
+      this.topicId = topicId;
+      this.csId = csId;
+      this.position = position;
     }
   }
 
@@ -1711,7 +2104,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         for (final String changeId : c.getFooterLines(CHANGE_ID)) {
           final Change.Id onto = byKey.get(new Change.Key(changeId.trim()));
           if (onto != null) {
-            toClose.add(new ReplaceRequest(onto, c, cmd, false));
+            toClose.add(new ReplaceRequest(onto, c, cmd, false, null, null, 0));
             break;
           }
         }

@@ -17,13 +17,18 @@ package com.google.gerrit.server;
 import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
 
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
+import com.google.gerrit.reviewdb.ChangeSet;
+import com.google.gerrit.reviewdb.ChangeSetElement;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Topic;
 import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
@@ -218,6 +223,14 @@ public class ChangeUtil {
       final AbandonedSender.Factory senderFactory,
       final ChangeHookRunner hooks) throws NoSuchChangeException,
       InvalidChangeOperationException, EmailException, OrmException {
+    abandon(patchSetId, user, message, db, senderFactory, hooks, true);
+  }
+
+  public static void abandon(final PatchSet.Id patchSetId,
+      final IdentifiedUser user, final String message, final ReviewDb db,
+      final AbandonedSender.Factory senderFactory,
+      final ChangeHookRunner hooks, final boolean sendMail) throws NoSuchChangeException,
+      InvalidChangeOperationException, EmailException, OrmException {
     final Change.Id changeId = patchSetId.getParentKey();
     final PatchSet patch = db.patchSets().get(patchSetId);
     if (patch == null) {
@@ -251,7 +264,7 @@ public class ChangeUtil {
     });
 
     updatedChange(db, user, updatedChange, cmsg, senderFactory,
-        "Change is no longer open or patchset is not latest");
+        sendMail, "Change is no longer open or patchset is not latest");
 
     hooks.doChangeAbandonedHook(updatedChange, user.getAccount(), message);
   }
@@ -265,6 +278,22 @@ public class ChangeUtil {
       throws NoSuchChangeException, EmailException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       PatchSetInfoNotAvailableException {
+    revert(patchSetId, user, message, db, revertedSenderFactory, hooks,
+        gitManager, patchSetInfoFactory, replication, myIdent, true,
+        null, null, null, 0);
+  }
+
+  public static void revert(final PatchSet.Id patchSetId,
+      final IdentifiedUser user, final String message, final ReviewDb db,
+      final RevertedSender.Factory revertedSenderFactory,
+      final ChangeHookRunner hooks, GitRepositoryManager gitManager,
+      final PatchSetInfoFactory patchSetInfoFactory,
+      final ReplicationQueue replication, PersonIdent myIdent,
+      final boolean sendmail, final ChangeSet.Id csi,
+      final String topic, final Topic.Id tId,
+      final int position) throws NoSuchChangeException,
+      EmailException, OrmException, MissingObjectException,
+      IncorrectObjectTypeException, IOException, PatchSetInfoNotAvailableException {
 
     final Change.Id changeId = patchSetId.getParentKey();
     final PatchSet patch = db.patchSets().get(patchSetId);
@@ -311,6 +340,14 @@ public class ChangeUtil {
           new Change(changeKey, new Change.Id(db.nextChangeId()),
               user.getAccountId(), db.changes().get(changeId).getDest());
       change.nextPatchSetId();
+      if (csi != null) {
+        change.setTopic(topic);
+        change.setTopicId(tId);
+
+        final ChangeSetElement.Key cseKey = new ChangeSetElement.Key(change.getId(), csi);
+        final ChangeSetElement cse = new ChangeSetElement(cseKey, position);
+        db.changeSetElements().insert(Collections.singleton(cse));
+      }
 
       final PatchSet ps = new PatchSet(change.currPatchSetId());
       ps.setCreatedOn(change.getCreatedOn());
@@ -346,10 +383,12 @@ public class ChangeUtil {
       cmsg.setMessage(msgBuf.toString());
       db.changeMessages().insert(Collections.singleton(cmsg));
 
-      final RevertedSender cm = revertedSenderFactory.create(change);
-      cm.setFrom(user.getAccountId());
-      cm.setChangeMessage(cmsg);
-      cm.send();
+      if (sendmail) {
+        final RevertedSender cm = revertedSenderFactory.create(change);
+        cm.setFrom(user.getAccountId());
+        cm.setChangeMessage(cmsg);
+        cm.send();
+      }
 
       hooks.doPatchsetCreatedHook(change, ps);
     } finally {
@@ -362,6 +401,14 @@ public class ChangeUtil {
       final IdentifiedUser user, final String message, final ReviewDb db,
       final RestoredSender.Factory senderFactory,
       final ChangeHookRunner hooks) throws NoSuchChangeException,
+      InvalidChangeOperationException, EmailException, OrmException {
+    restore(patchSetId, user, message, db, senderFactory, hooks, true);
+  }
+
+  public static void restore(final PatchSet.Id patchSetId,
+      final IdentifiedUser user, final String message, final ReviewDb db,
+      final RestoredSender.Factory senderFactory,
+      final ChangeHookRunner hooks, final boolean sendMail) throws NoSuchChangeException,
       InvalidChangeOperationException, EmailException, OrmException {
     final Change.Id changeId = patchSetId.getParentKey();
     final PatchSet patch = db.patchSets().get(patchSetId);
@@ -396,14 +443,15 @@ public class ChangeUtil {
     });
 
     updatedChange(db, user, updatedChange, cmsg, senderFactory,
-       "Change is not abandoned or patchset is not latest");
+        sendMail, "Change is not abandoned or patchset is not latest");
 
     hooks.doChangeRestoreHook(updatedChange, user.getAccount(), message);
   }
 
   private static void updatedChange(final ReviewDb db, final IdentifiedUser user,
       final Change change, final ChangeMessage cmsg,
-      ReplyToChangeSender.Factory senderFactory, final String err)
+      ReplyToChangeSender.Factory senderFactory,
+      final boolean sendMail, final String err)
       throws NoSuchChangeException, InvalidChangeOperationException,
       EmailException, OrmException {
     if (change == null) {
@@ -419,10 +467,45 @@ public class ChangeUtil {
     db.patchSetApprovals().update(approvals);
 
     // Email the reviewers
-    final ReplyToChangeSender cm = senderFactory.create(change);
-    cm.setFrom(user.getAccountId());
-    cm.setChangeMessage(cmsg);
-    cm.send();
+    if (sendMail) {
+      final ReplyToChangeSender cm = senderFactory.create(change);
+      cm.setFrom(user.getAccountId());
+      cm.setChangeMessage(cmsg);
+      cm.send();
+    }
+  }
+
+  public static Set<Account.Id> addReviewers(final Set<Account.Id> reviewerIds, final ReviewDb db,
+      final PatchSet.Id psid, final ApprovalCategory.Id addReviewerCategoryId,
+      final IdentifiedUser currentUser) throws OrmException {
+    // Add the reviewers to the database
+    //
+    final Set<Account.Id> added = new HashSet<Account.Id>();
+    final List<PatchSetApproval> toInsert = new ArrayList<PatchSetApproval>();
+
+    for (final Account.Id reviewer : reviewerIds) {
+      if (!exists(psid, reviewer, db)) {
+        // This reviewer has not entered an approval for this topic yet.
+        //
+        final PatchSetApproval myca = dummyApproval(psid, reviewer, addReviewerCategoryId);
+        toInsert.add(myca);
+        added.add(reviewer);
+      }
+    }
+    db.patchSetApprovals().insert(toInsert);
+    return added;
+  }
+
+  private static boolean exists(final PatchSet.Id patchSetId,
+      final Account.Id reviewerId, final ReviewDb db) throws OrmException {
+    return db.patchSetApprovals().byPatchSetUser(patchSetId, reviewerId)
+        .iterator().hasNext();
+  }
+
+  private static PatchSetApproval dummyApproval(final PatchSet.Id patchSetId,
+      final Account.Id reviewerId, ApprovalCategory.Id addReviewerCategoryId) {
+    return new PatchSetApproval(new PatchSetApproval.Key(patchSetId,
+        reviewerId, addReviewerCategoryId), (short) 0);
   }
 
   public static String sortKey(long lastUpdated, int id){

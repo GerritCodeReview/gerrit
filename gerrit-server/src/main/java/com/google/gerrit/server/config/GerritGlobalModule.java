@@ -66,6 +66,7 @@ import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.workflow.FunctionState;
+import com.google.gerrit.server.workflow.TopicFunctionState;
 import com.google.inject.Inject;
 
 import org.apache.velocity.app.Velocity;
@@ -183,6 +184,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ProjectControl.GenericFactory.class);
     factory(FunctionState.Factory.class);
     factory(ReplicationUser.Factory.class);
+    factory(TopicFunctionState.Factory.class);
 
     install(new LifecycleModule() {
       @Override

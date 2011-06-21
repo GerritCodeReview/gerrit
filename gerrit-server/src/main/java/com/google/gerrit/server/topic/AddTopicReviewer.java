@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,46 +12,42 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.topic;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ReviewerResult;
+import com.google.gerrit.common.data.TopicReviewerResult;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.reviewdb.Topic;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.TopicUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupMembersFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.AddReviewerSender;
-import com.google.gerrit.server.project.ChangeControl;
-import com.google.gwtorm.client.OrmException;
+import com.google.gerrit.server.project.TopicControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.Config;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
-public class AddReviewer implements Callable<ReviewerResult> {
+public class AddTopicReviewer implements Callable<TopicReviewerResult> {
   public final static int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public final static int DEFAULT_MAX_REVIEWERS = 20;
 
   public interface Factory {
-    AddReviewer create(Change.Id changeId,
+    AddTopicReviewer create(Topic.Id topicId,
         Collection<String> userNameOrEmailOrGroupNames, boolean confirmed);
   }
 
@@ -59,25 +55,25 @@ public class AddReviewer implements Callable<ReviewerResult> {
   private final AccountResolver accountResolver;
   private final GroupCache groupCache;
   private final GroupMembersFactory.Factory groupMembersFactory;
-  private final ChangeControl.Factory changeControlFactory;
+  private final TopicControl.Factory topicControlFactory;
   private final ReviewDb db;
   private final IdentifiedUser currentUser;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final ApprovalCategory.Id addReviewerCategoryId;
   private final Config cfg;
 
-  private final Change.Id changeId;
+  private final Topic.Id topicId;
   private final Collection<String> reviewers;
   private final boolean confirmed;
 
   @Inject
-  AddReviewer(final AddReviewerSender.Factory addReviewerSenderFactory,
+  AddTopicReviewer(final AddReviewerSender.Factory addReviewerSenderFactory,
       final AccountResolver accountResolver, final GroupCache groupCache,
       final GroupMembersFactory.Factory groupMembersFactory,
-      final ChangeControl.Factory changeControlFactory, final ReviewDb db,
+      final TopicControl.Factory topicControlFactory, final ReviewDb db,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       final IdentifiedUser currentUser, final ApprovalTypes approvalTypes,
-      final @GerritServerConfig Config cfg, @Assisted final Change.Id changeId,
+      final @GerritServerConfig Config cfg, @Assisted final Topic.Id topicId,
       @Assisted final Collection<String> reviewers,
       @Assisted final boolean confirmed) {
     this.addReviewerSenderFactory = addReviewerSenderFactory;
@@ -85,7 +81,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
     this.groupCache = groupCache;
     this.groupMembersFactory = groupMembersFactory;
     this.db = db;
-    this.changeControlFactory = changeControlFactory;
+    this.topicControlFactory = topicControlFactory;
     this.identifiedUserFactory = identifiedUserFactory;
     this.currentUser = currentUser;
     this.cfg = cfg;
@@ -94,17 +90,17 @@ public class AddReviewer implements Callable<ReviewerResult> {
     addReviewerCategoryId =
         allTypes.get(allTypes.size() - 1).getCategory().getId();
 
-    this.changeId = changeId;
+    this.topicId = topicId;
     this.reviewers = reviewers;
     this.confirmed = confirmed;
   }
 
   @Override
-  public ReviewerResult call() throws Exception {
+  public TopicReviewerResult call() throws Exception {
     final Set<Account.Id> reviewerIds = new HashSet<Account.Id>();
-    final ChangeControl control = changeControlFactory.validateFor(changeId);
+    final TopicControl control = topicControlFactory.validateFor(topicId);
 
-    final ReviewerResult result = new ReviewerResult();
+    final TopicReviewerResult result = new TopicReviewerResult();
     for (final String reviewer : reviewers) {
       final Account account = accountResolver.find(reviewer);
       if (account == null) {
@@ -190,43 +186,17 @@ public class AddReviewer implements Callable<ReviewerResult> {
       return result;
     }
 
-    final Set<Account.Id> added = ChangeUtil.addReviewers(reviewerIds, db, control.getChange().currentPatchSetId(),
-        addReviewerCategoryId, currentUser);
-
-    // Email the reviewers
-    //
-    // The user knows they added themselves, don't bother emailing them.
-    added.remove(currentUser.getAccountId());
-    if (!added.isEmpty()) {
-      final AddReviewerSender cm;
-
-      cm = addReviewerSenderFactory.create(control.getChange());
-      cm.setFrom(currentUser.getAccountId());
-      cm.addReviewers(added);
-      cm.send();
-    }
+    TopicUtil.addReviewers(reviewerIds, db, control, addReviewerCategoryId, currentUser, addReviewerSenderFactory);
 
     return result;
   }
 
   private String formatUser(Account account, String nameOrEmail) {
     if (nameOrEmail.matches("^[1-9][0-9]*$")) {
-      return RemoveReviewer.formatUser(account, nameOrEmail);
+      return RemoveTopicReviewer.formatUser(account, nameOrEmail);
     } else {
       return nameOrEmail;
     }
-  }
-
-  private boolean exists(final PatchSet.Id patchSetId,
-      final Account.Id reviewerId) throws OrmException {
-    return db.patchSetApprovals().byPatchSetUser(patchSetId, reviewerId)
-        .iterator().hasNext();
-  }
-
-  private PatchSetApproval dummyApproval(final PatchSet.Id patchSetId,
-      final Account.Id reviewerId) {
-    return new PatchSetApproval(new PatchSetApproval.Key(patchSetId,
-        reviewerId, addReviewerCategoryId), (short) 0);
   }
 
   public static boolean isLegalReviewerGroup(final AccountGroup.UUID groupUUID) {

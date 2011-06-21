@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,13 +21,11 @@ import java.util.List;
 /**
  * Result from adding or removing a reviewer from a change.
  */
-public class ReviewerResult extends ReviewerResultError {
+public class TopicReviewerResult extends ReviewerResultError {
   protected List<Error> errors;
-  protected ChangeDetail change;
-  protected int memberCount;
-  protected boolean askForConfirmation;
+  protected TopicDetail topic;
 
-  public ReviewerResult() {
+  public TopicReviewerResult() {
     errors = new ArrayList<Error>();
   }
 
@@ -39,27 +37,11 @@ public class ReviewerResult extends ReviewerResultError {
     return errors;
   }
 
-  public ChangeDetail getChange() {
-    return change;
+  public TopicDetail getTopic() {
+    return topic;
   }
 
-  public void setChange(final ChangeDetail d) {
-    change = d;
-  }
-
-  public int getMemberCount() {
-    return memberCount;
-  }
-
-  public void setMemberCount(final int memberCount) {
-    this.memberCount = memberCount;
-  }
-
-  public boolean askForConfirmation() {
-    return askForConfirmation;
-  }
-
-  public void setAskForConfirmation(final boolean askForConfirmation) {
-    this.askForConfirmation = askForConfirmation;
+  public void setTopic(final TopicDetail d) {
+    topic = d;
   }
 }

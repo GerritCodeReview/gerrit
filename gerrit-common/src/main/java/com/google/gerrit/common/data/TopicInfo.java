@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,57 +14,46 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.reviewdb.AbstractEntity.Status;
 import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Topic;
 
 import java.sql.Timestamp;
 
-public class ChangeInfo {
-  protected Change.Id id;
-  protected Change.Key key;
+public class TopicInfo {
+  protected Topic.Id id;
+  protected Topic.Key key;
   protected Account.Id owner;
   protected String subject;
-  protected Change.Status status;
+  protected Status status;
   protected ProjectInfo project;
   protected String branch;
   protected String topic;
-  protected Topic.Id topicId;
   protected boolean starred;
   protected Timestamp lastUpdatedOn;
   protected String sortKey;
-  protected PatchSet.Id patchSetId;
-  protected boolean latest;
 
-  protected ChangeInfo() {
+  protected TopicInfo() {
   }
 
-  public ChangeInfo(final Change c, final PatchSet.Id patchId) {
-    id = c.getId();
-    key = c.getKey();
-    owner = c.getOwner();
-    subject = c.getSubject();
-    status = c.getStatus();
-    project = new ProjectInfo(c.getProject());
-    branch = c.getDest().getShortName();
-    topic = c.getTopic();
-    topicId = c.getTopicId();
-    lastUpdatedOn = c.getLastUpdatedOn();
-    sortKey = c.getSortKey();
-    patchSetId = patchId;
-    latest = patchSetId == null || c.currPatchSetId().equals(patchSetId);
+  public TopicInfo(final Topic t) {
+    id = t.getId();
+    key = t.getKey();
+    owner = t.getOwner();
+    subject = t.getSubject();
+    status = t.getStatus();
+    project = new ProjectInfo(t.getProject());
+    branch = t.getDest().getShortName();
+    topic = t.getTopic();
+    lastUpdatedOn = t.getLastUpdatedOn();
+    sortKey = t.getSortKey();
   }
 
-  public ChangeInfo(final Change c) {
-    this(c, null);
-  }
-
-  public Change.Id getId() {
+  public Topic.Id getId() {
     return id;
   }
 
-  public Change.Key getKey() {
+  public Topic.Key getKey() {
     return key;
   }
 
@@ -76,7 +65,7 @@ public class ChangeInfo {
     return subject;
   }
 
-  public Change.Status getStatus() {
+  public Status getStatus() {
     return status;
   }
 
@@ -92,24 +81,12 @@ public class ChangeInfo {
     return topic;
   }
 
-  public Topic.Id getTopicId() {
-    return topicId;
-  }
-
   public boolean isStarred() {
     return starred;
   }
 
   public void setStarred(final boolean s) {
     starred = s;
-  }
-
-  public PatchSet.Id getPatchSetId() {
-    return patchSetId;
-  }
-
-  public boolean isLatest() {
-    return latest;
   }
 
   public java.sql.Timestamp getLastUpdatedOn() {

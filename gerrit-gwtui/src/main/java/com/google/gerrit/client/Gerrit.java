@@ -23,6 +23,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.MorphingTabPanel;
+import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.ClientVersion;
 import com.google.gerrit.common.PageLinks;
@@ -619,9 +620,7 @@ public class Gerrit implements EntryPoint {
               patchScreen.setTopView(PatchScreen.TopView.MAIN);
               AnchorElement.as(getElement()).blur();
             } else {
-              final Patch.Key id = patchScreen.getPatchKey();
-              setTargetHistoryToken(Dispatcher.toPatch(type, id));
-              super.go();
+              new PatchLink("", type, patchScreen).go();
             }
           }
         }

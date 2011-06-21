@@ -30,6 +30,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -104,7 +105,8 @@ public class PublishComments implements Callable<VoidResult> {
   }
 
   @Override
-  public VoidResult call() throws NoSuchChangeException, OrmException {
+  public VoidResult call() throws NoSuchChangeException,
+      InvalidChangeOperationException, OrmException {
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl ctl = changeControlFactory.validateFor(changeId);
     change = ctl.getChange();
@@ -119,6 +121,8 @@ public class PublishComments implements Callable<VoidResult> {
     final boolean isCurrent = patchSetId.equals(change.currentPatchSetId());
     if (isCurrent && change.getStatus().isOpen()) {
       publishApprovals();
+    } else if (! approvals.isEmpty()) {
+      throw new InvalidChangeOperationException("Change is closed");
     } else {
       publishMessageOnly();
     }

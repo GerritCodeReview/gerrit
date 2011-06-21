@@ -222,9 +222,9 @@ public class ReviewCommand extends BaseCommand {
       }
     }
 
-    publishCommentsFactory.create(patchSetId, changeComment, aps).call();
-
     try {
+      publishCommentsFactory.create(patchSetId, changeComment, aps).call();
+
       if (abandonChange) {
         if (changeControl.canAbandon()) {
           ChangeUtil.abandon(patchSetId, currentUser, changeComment, db,

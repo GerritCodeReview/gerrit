@@ -137,9 +137,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
               }
 
               ApprovalType at = approvalTypes.byLabel(lbl.label);
-              if (at != null && at.getMax().getValue() == range.getMax()) {
-                canMakeOk = true;
-              } else if (at == null) {
+              if (at == null || at.getMax().getValue() == range.getMax()) {
                 canMakeOk = true;
               }
             }

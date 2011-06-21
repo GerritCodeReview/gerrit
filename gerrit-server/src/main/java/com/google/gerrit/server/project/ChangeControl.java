@@ -235,21 +235,15 @@ public class ChangeControl {
     }
 
     if (!patchSetId.equals(change.currentPatchSetId())) {
-      SubmitRecord rec = new SubmitRecord();
-      rec.status = SubmitRecord.Status.RULE_ERROR;
-      rec.errorMessage = "Patch set " + patchSetId + " is not current";
-      return Collections.singletonList(rec);
+      return ruleError("Patch set " + patchSetId + " is not current");
     }
 
     PrologEnvironment env;
     try {
       env = getProjectControl().getProjectState().newPrologEnvironment();
     } catch (CompileException err) {
-      log.error("Cannot consult rules.pl for " + getProject().getName(), err);
-      SubmitRecord rec = new SubmitRecord();
-      rec.status = SubmitRecord.Status.RULE_ERROR;
-      rec.errorMessage = "Error loading project rules, check server log";
-      return Collections.singletonList(rec);
+      return logRuleError("Cannot consult rules.pl for "
+          + getProject().getName(), err);
     }
 
     env.set(StoredValues.REVIEW_DB, db);
@@ -261,11 +255,8 @@ public class ChangeControl {
       "gerrit", "locate_submit_rule",
       new VariableTerm());
     if (submitRule == null) {
-      log.error("No user:submit_rule found for " + getProject().getName());
-      SubmitRecord rec = new SubmitRecord();
-      rec.status = SubmitRecord.Status.RULE_ERROR;
-      rec.errorMessage = "Error loading project rules, check server log";
-      return Collections.singletonList(rec);
+      return logRuleError("No user:submit_rule found for "
+          + getProject().getName());
     }
 
     List<Term> results = new ArrayList<Term>();
@@ -277,19 +268,11 @@ public class ChangeControl {
         results.add(template[1]);
       }
     } catch (PrologException err) {
-      log.error("Exception calling " + submitRule + " on change "
+      return logRuleError("Exception calling " + submitRule + " on change "
           + change.getId() + " of " + getProject().getName(), err);
-      SubmitRecord rec = new SubmitRecord();
-      rec.status = SubmitRecord.Status.RULE_ERROR;
-      rec.errorMessage = "Error evaluating project rules, check server log";
-      return Collections.singletonList(rec);
     } catch (RuntimeException err) {
-      log.error("Exception calling " + submitRule + " on change "
+      return logRuleError("Exception calling " + submitRule + " on change "
           + change.getId() + " of " + getProject().getName(), err);
-      SubmitRecord rec = new SubmitRecord();
-      rec.status = SubmitRecord.Status.RULE_ERROR;
-      rec.errorMessage = "Error evaluating project rules, check server log";
-      return Collections.singletonList(rec);
     }
 
     if (results.isEmpty()) {
@@ -299,10 +282,7 @@ public class ChangeControl {
       // whether or not that is actually possible given the permissions.
       log.error("Submit rule " + submitRule + " for change " + change.getId()
           + " of " + getProject().getName() + " has no solution.");
-      SubmitRecord rec = new SubmitRecord();
-      rec.status = SubmitRecord.Status.RULE_ERROR;
-      rec.errorMessage = "Project submit rule has no solution";
-      return Collections.singletonList(rec);
+      return ruleError("Project submit rule has no solution");
     }
 
     // Convert the results from Prolog Cafe's format to Gerrit's common format.
@@ -318,13 +298,7 @@ public class ChangeControl {
       out.add(rec);
 
       if (!submitRecord.isStructure() || 1 != submitRecord.arity()) {
-        log.error("Submit rule " + submitRule + " for change " + change.getId()
-            + " of " + getProject().getName() + " output invalid result: "
-            + submitRecord);
-        SubmitRecord err = new SubmitRecord();
-        err.status = SubmitRecord.Status.RULE_ERROR;
-        rec.errorMessage = "Error evaluating project rules, check server log";
-        return Collections.singletonList(err);
+        return logInvalidResult(submitRule, submitRecord);
       }
 
       if ("ok".equals(submitRecord.name())) {
@@ -334,13 +308,7 @@ public class ChangeControl {
         rec.status = SubmitRecord.Status.NOT_READY;
 
       } else {
-        log.error("Submit rule " + submitRule + " for change " + change.getId()
-            + " of " + getProject().getName() + " output invalid result: "
-            + submitRecord);
-        SubmitRecord err = new SubmitRecord();
-        err.status = SubmitRecord.Status.RULE_ERROR;
-        rec.errorMessage = "Error evaluating project rules, check server log";
-        return Collections.singletonList(err);
+        return logInvalidResult(submitRule, submitRecord);
       }
 
       // Unpack the one argument. This should also be a structure with one
@@ -349,26 +317,14 @@ public class ChangeControl {
       submitRecord = submitRecord.arg(0);
 
       if (!submitRecord.isStructure()) {
-        log.error("Submit rule " + submitRule + " for change " + change.getId()
-            + " of " + getProject().getName() + " output invalid result: "
-            + submitRecord);
-        SubmitRecord err = new SubmitRecord();
-        err.status = SubmitRecord.Status.RULE_ERROR;
-        rec.errorMessage = "Error evaluating project rules, check server log";
-        return Collections.singletonList(err);
+        return logInvalidResult(submitRule, submitRecord);
       }
 
       rec.labels = new ArrayList<SubmitRecord.Label> (submitRecord.arity());
 
       for (Term state : ((StructureTerm) submitRecord).args()) {
         if (!state.isStructure() || 2 != state.arity() || !"label".equals(state.name())) {
-          log.error("Submit rule " + submitRule + " for change " + change.getId()
-              + " of " + getProject().getName() + " output invalid result: "
-              + submitRecord);
-          SubmitRecord err = new SubmitRecord();
-          err.status = SubmitRecord.Status.RULE_ERROR;
-          rec.errorMessage = "Error evaluating project rules, check server log";
-          return Collections.singletonList(err);
+          return logInvalidResult(submitRule, submitRecord);
         }
 
         SubmitRecord.Label lbl = new SubmitRecord.Label();
@@ -392,13 +348,7 @@ public class ChangeControl {
           lbl.status = SubmitRecord.Label.Status.IMPOSSIBLE;
 
         } else {
-          log.error("Submit rule " + submitRule + " for change " + change.getId()
-              + " of " + getProject().getName() + " output invalid result: "
-              + submitRecord);
-          SubmitRecord err = new SubmitRecord();
-          err.status = SubmitRecord.Status.RULE_ERROR;
-          rec.errorMessage = "Error evaluating project rules, check server log";
-          return Collections.singletonList(err);
+          return logInvalidResult(submitRule, submitRecord);
         }
       }
 
@@ -409,6 +359,28 @@ public class ChangeControl {
     Collections.reverse(out);
 
     return out;
+  }
+
+  private List<SubmitRecord> logInvalidResult(Term rule, Term record) {
+    return logRuleError("Submit rule " + rule + " for change " + change.getId()
+        + " of " + getProject().getName() + " output invalid result: " + record);
+  }
+
+  private List<SubmitRecord> logRuleError(String err, Exception e) {
+    log.error(err, e);
+    return ruleError("Error evaluating project rules, check server log");
+  }
+
+  private List<SubmitRecord> logRuleError(String err) {
+    log.error(err);
+    return ruleError("Error evaluating project rules, check server log");
+  }
+
+  private List<SubmitRecord> ruleError(String err) {
+    SubmitRecord rec = new SubmitRecord();
+    rec.status = SubmitRecord.Status.RULE_ERROR;
+    rec.errorMessage = err;
+    return Collections.singletonList(rec);
   }
 
   private void appliedBy(SubmitRecord.Label label, Term status) {

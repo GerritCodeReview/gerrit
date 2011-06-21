@@ -25,7 +25,7 @@ link:pgm-ScanTrackingIds.html[ScanTrackingIds]::
 	Rescan all changes after configuring trackingids.
 
 link:pgm-rulec.html[rulec]::
-	Compiles prolog rules into jar files
+	Compile project-specific Prolog rules to JARs
 
 version::
   Display the release version of Gerrit Code Review.

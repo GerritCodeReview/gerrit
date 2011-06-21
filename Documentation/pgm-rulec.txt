@@ -3,31 +3,34 @@ rulec
 
 NAME
 ----
-rulec - Compiles prolog rules into jar files
+rulec - Compile project-specific Prolog rules to JARs
 
 SYNOPSIS
 --------
 [verse]
-'java' -jar gerrit.war 'rulec' -d <SITE_PATH> --name <PROJECT_NAME>
+'java' -jar gerrit.war 'rulec' -d <SITE_PATH> [--all | <PROJECT>...]
 
 DESCRIPTION
 -----------
-Looks for a prolog rule file named rules.pl in the repository in the
-refs/meta/config branch. If it exists, creates a jar file named
-rules-`$sha1_of_rules.pl`.jar in `$site_path`/cache/rules. Caching needs
-to be enabled on the server.
+Looks for a Prolog rule file named `rules.pl` on the repository's
+`refs/meta/config` branch. If rules.pl exists, creates a JAR file
+named `rules-'SHA1'.jar` in `'$site_path'/cache/rules`.
 
 OPTIONS
 -------
-
 -d::
 --site-path::
 	Location of the gerrit.config file, and all other per-site
 	configuration data, supporting libaries and log files.
 
---name::
-	Number of threads to perform the scan work with.  Defaults to
-	twice the number of CPUs available.
+--all::
+	Compile rules for all projects.
+
+--quiet::
+	Suppress non-error output messages.
+
+<PROJECT>:
+	Compile rules for the specified project.
 
 CONTEXT
 -------
@@ -35,12 +38,15 @@ This command can only be run on a server which has direct
 connectivity to the metadata database, and local access to the
 managed Git repositories.
 
+Caching needs to be enabled. See
+link:config-gerrit.html#cache.directory[cache.directory].
+
 EXAMPLES
 --------
-To create a jar file for test/project:
+To compile a rule JAR file for test/project:
 
 ====
-	$ java -jar gerrit.war rulec -d site_path --name test/project
+	$ java -jar gerrit.war rulec -d site_path test/project
 ====
 
 GERRIT

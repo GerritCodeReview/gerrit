@@ -10,7 +10,7 @@ through the Java command line.  For example:
 --------------------
 
 link:pgm-init.html[init]::
-  Initialize a new Gerrit server installation
+  Initialize a new Gerrit server installation.
 
 link:pgm-daemon.html[daemon]::
   Gerrit HTTP, SSH network server.
@@ -18,17 +18,23 @@ link:pgm-daemon.html[daemon]::
 link:pgm-gsql.html[gsql]::
 	Administrative interface to idle database.
 
+link:pgm-rulec.html[rulec]::
+	Compile project-specific Prolog rules to JARs.
+
+version::
+  Display the release version of Gerrit Code Review.
+
+Transition Utilities
+--------------------
+
+link:pgm-prolog-shell.html[prolog-shell]::
+	Simple interactive Prolog interpreter.
+
 link:pgm-ExportReviewNotes.html[ExportReviewNotes]::
 	Export submitted review information to refs/notes/review.
 
 link:pgm-ScanTrackingIds.html[ScanTrackingIds]::
 	Rescan all changes after configuring trackingids.
-
-link:pgm-rulec.html[rulec]::
-	Compile project-specific Prolog rules to JARs
-
-version::
-  Display the release version of Gerrit Code Review.
 
 GERRIT
 ------

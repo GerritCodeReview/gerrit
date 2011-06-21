@@ -1,10 +1,6 @@
 Gerrit Code Review - Project Configuration
 ==========================================
 
-All Git repositories under gerrit.basePath must be registered in
-the Gerrit database in order to be accessed through SSH, or through
-the web interface.
-
 Create Through SSH
 ------------------
 
@@ -22,7 +18,7 @@ details.
 Manual Creation
 ---------------
 
-Projects may also be manually registered with the database.
+Projects may also be manually created.
 
 Create Git Repository
 ~~~~~~~~~~~~~~~~~~~~~
@@ -47,23 +43,10 @@ protocol, don't forget to create a `git-daemon-export-ok` file:
 Register Project
 ~~~~~~~~~~~~~~~~
 
-One insert is needed to register a project with Gerrit.
-
-[NOTE]
-Note that the `.git` suffix is not typically included in the
-project name, as it looks cleaner in the web when not shown.
-Gerrit automatically assumes that `project.git` is the Git repository
-for a project named `project`.
+Either restart the server, or flush the `project_list` cache:
 
 ====
-  INSERT INTO projects
-  (use_contributor_agreements
-   ,submit_type
-   ,name)
-  VALUES
-  ('N'
-  ,'M'
-  ,'new/project');
+  ssh -p 29418 localhost gerrit flush-caches --cache project_list
 ====
 
 [[submit_type]]

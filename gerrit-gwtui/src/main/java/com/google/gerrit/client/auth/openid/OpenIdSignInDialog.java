@@ -347,10 +347,15 @@ public class OpenIdSignInDialog extends SignInDialog implements
   public void onSubmit(final SubmitEvent event) {
     event.cancel();
 
-    final String openidIdentifier = providerId.getText();
+    String openidIdentifier = providerId.getText();
     if (openidIdentifier == null || openidIdentifier.equals("")) {
       enable(true);
       return;
+    }
+
+    if (!openidIdentifier.startsWith("http://")
+        && !openidIdentifier.startsWith("https://")) {
+      openidIdentifier = "http://" + openidIdentifier;
     }
 
     if (!isAllowedProvider(openidIdentifier)) {

@@ -226,6 +226,8 @@ legacy_submit_rule(Fun, Label, Id, Min, Max, T) :- T = impossible(unsupported(Fu
 %% - The minimum is never used.
 %% - At least one maximum is used.
 %%
+:- public max_with_block/4.
+%%
 max_with_block(Label, Min, Max, reject(Who)) :-
   check_label_range_permission(Label, Min, ok(Who)),
   !

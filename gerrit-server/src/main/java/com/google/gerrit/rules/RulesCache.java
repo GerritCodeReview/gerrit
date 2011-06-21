@@ -67,7 +67,8 @@ public class RulesCache {
   private static final int SRC_LIMIT = 128 * 1024;
 
   /** Default size of the internal Prolog database within each interpreter. */
-  private static final int DB_MAX = 64;
+  private static final int DB_MAX = 256;
+
 
   private final Map<ObjectId, MachineRef> machineCache =
       new HashMap<ObjectId, MachineRef>();

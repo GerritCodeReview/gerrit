@@ -70,6 +70,24 @@
       "revId": "ca73b3f860a8ce954005bb7c6b2c33d919af5716",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///d4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1006697
+      },
+      "writtenOn": "2011-06-21T04:07:03Z",
+      "side": 0,
+      "message": "I\u0027d prefer to not re-add the url blacklist. In particular, I\u0027d prefer to not add the support for blacklisting request types in PATH_INFO style urls. It makes me feel a lot less comfortable about the complex url parsing if the failure mode is \"gets access to everything\" instead of nothing.\n\nSo, I\u0027d really like to rely on export_auth_hook. Support for that was added in git 1.6.1, which seems sufficiently old that it can be required (with verification) by now. Is it OK to add verification of export_auth_hook presence and rely on it?",
+      "parentUuid": "AAABDX///8E\u003d",
+      "revId": "ca73b3f860a8ce954005bb7c6b2c33d919af5716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

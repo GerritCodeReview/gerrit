@@ -18,6 +18,9 @@ link:pgm-daemon.html[daemon]::
 link:pgm-gsql.html[gsql]::
 	Administrative interface to idle database.
 
+link:pgm-prolog-shell.html[prolog-shell]::
+	Simple interactive Prolog interpreter.
+
 link:pgm-rulec.html[rulec]::
 	Compile project-specific Prolog rules to JARs.
 

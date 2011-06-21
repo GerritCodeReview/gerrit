@@ -282,3 +282,19 @@ check_label_range_permission(Label, ExpValue, ok(Who)) :-
 %  grant_range(Label, Group, Min, Max),
 %  Min @=< ExpValue, ExpValue @=< Max
 %  .
+
+
+%% commit_author/1:
+%%
+:- public commit_author/1.
+%%
+commit_author(Author) :-
+  commit_author(Author, _, _).
+
+
+%% commit_committer/1:
+%%
+:- public commit_committer/1.
+%%
+commit_committer(Committer) :-
+  commit_committer(Committer, _, _).

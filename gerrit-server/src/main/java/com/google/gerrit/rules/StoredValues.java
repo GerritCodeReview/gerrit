@@ -18,6 +18,7 @@ import static com.google.gerrit.rules.StoredValue.create;
 
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.project.ChangeControl;
 
@@ -26,6 +27,7 @@ public final class StoredValues {
   public static final StoredValue<Change> CHANGE = create(Change.class);
   public static final StoredValue<PatchSet.Id> PATCH_SET_ID = create(PatchSet.Id.class);
   public static final StoredValue<ChangeControl> CHANGE_CONTROL = create(ChangeControl.class);
+  public static final StoredValue<PatchSetInfo> PATCH_SET_INFO = create(PatchSetInfo.class);
 
   private StoredValues() {
   }

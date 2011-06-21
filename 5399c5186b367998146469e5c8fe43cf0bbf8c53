@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDX///eI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-21T02:16:56Z",
+      "side": 1,
+      "message": "Instead of putting this in gerrit.config, I think it belongs in All-Projects, as part of the project.config.\n\nWe could add another Permission.Action alongside ALLOW, DENY as BLOCK. When looking to see if we can perform a given permission in RefControl / ProjectControl, we look to see if any of the parents has defined a section matching this reference with BLOCK for the permission\u0027s action. If so, we are forbidden from using the permission, even if there is an ALLOW. This searching for BLOCK ignores the Exclusive flag that is normally applied to sections.\n\nA BLOCK-ing push rule blocks any type of push, force or not. A BLOCK-ing force push rule blocks only force pushes, but allows non-forced pushes if an ALLOW rule would have permitted it.\n\nSite administrators that need to deny tag updates can thus put into their All-Projects.git:\n\n  [access \"refs/tags/*\"]\n    push \u003d block group Anonymous Users",
+      "revId": "5399c5186b367998146469e5c8fe43cf0bbf8c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///eg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritMessages.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-21T02:16:56Z",
+      "side": 1,
+      "message": "Does \"{0}\" work? Every time I have tried this the {0} comes through literally.\n\nChangeMessages.properties uses: Revert \\\"{0}\\\"",
+      "revId": "5399c5186b367998146469e5c8fe43cf0bbf8c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX///ec\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-21T02:16:56Z",
+      "side": 1,
+      "message": "This isn\u0027t sufficient. Project owners can submit changes to refs/meta/config by direct push if they give themselves access to do that. A direct push will bypass this logic, and your new check.\n\nWe may need to consider pulling a lot of this logic out and doing it during a push to refs/meta/config. For one thing it would help us to support cases of branch owners being safely given push access to refs/meta/config *and* being limited to only impacting their own branch. But that is a lot of refactoring work, and may not be something you want to take on for this feature.\n\nAlternatively, check the restrictions when a ProjectControl is being evaluated. This way we even handle the case of an older grant that predates the restriction still honoring the restriction.",
+      "revId": "5399c5186b367998146469e5c8fe43cf0bbf8c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

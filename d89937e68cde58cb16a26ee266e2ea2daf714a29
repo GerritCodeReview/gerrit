@@ -54,6 +54,23 @@
     },
     {
       "key": {
+        "uuid": "AAABDX///dY\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-06-21T09:14:39Z",
+      "side": 1,
+      "message": "This change will break \"review\" link for everything that you didn\u0027t account for (blobdiff, history, etc). Is this really necessary?",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDH///6E\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
         "patchSetId": 1

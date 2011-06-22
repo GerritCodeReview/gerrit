@@ -115,6 +115,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
 
       manager = new LifecycleManager();
       manager.add(dbInjector);
+      manager.add(cfgInjector);
       manager.add(sysInjector);
       manager.add(sshInjector);
       manager.add(webInjector);

@@ -228,6 +228,7 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   /** @return the user's user name; null if one has not been selected/assigned. */
+  @Override
   public String getUserName() {
     return state().getUserName();
   }

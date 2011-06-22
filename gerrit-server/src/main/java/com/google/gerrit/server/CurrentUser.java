@@ -68,6 +68,11 @@ public abstract class CurrentUser {
   /** Filters selecting changes the user wants to monitor. */
   public abstract Collection<AccountProjectWatch> getNotificationFilters();
 
+  /** Unique name of the user on this server, if one has been assigned. */
+  public String getUserName() {
+    return null;
+  }
+
   /** Capabilities available to this user account. */
   public CapabilityControl getCapabilities() {
     CapabilityControl ctl = capabilities;

@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -65,6 +66,8 @@ public class ProjectState {
   /** Last system time the configuration's revision was examined. */
   private volatile long lastCheckTime;
 
+  /** If this is all projects, the capabilities used by the server. */
+  private final CapabilityCollection capabilities;
 
   @Inject
   protected ProjectState(
@@ -82,6 +85,9 @@ public class ProjectState {
     this.gitMgr = gitMgr;
     this.rulesCache = rulesCache;
     this.config = config;
+    this.capabilities = isAllProjects
+      ? new CapabilityCollection(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
+      : null;
 
     HashSet<AccountGroup.UUID> groups = new HashSet<AccountGroup.UUID>();
     AccessSection all = config.getAccessSection(AccessSection.ALL);
@@ -125,6 +131,15 @@ public class ProjectState {
     } catch (IOException gone) {
       return true;
     }
+  }
+
+  /**
+   * @return cached computation of all global capabilities. This should only be
+   *         invoked on the state from {@link ProjectCache#getAllProjects()}.
+   *         Null on any other project.
+   */
+  public CapabilityCollection getCapabilityCollection() {
+    return capabilities;
   }
 
   /** @return Construct a new PrologEnvironment for the calling thread. */

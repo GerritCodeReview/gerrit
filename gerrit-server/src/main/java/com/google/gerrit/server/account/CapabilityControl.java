@@ -14,10 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -25,7 +23,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -42,16 +39,17 @@ public class CapabilityControl {
     public CapabilityControl create(CurrentUser user);
   }
 
-  private final ProjectState state;
+  private final CapabilityCollection capabilities;
   private final CurrentUser user;
-  private Map<String, List<PermissionRule>> permissions;
+  private final Map<String, List<PermissionRule>> effective;
 
   private Boolean canAdministrateServer;
 
   @Inject
   CapabilityControl(ProjectCache projectCache, @Assisted CurrentUser currentUser) {
-    state = projectCache.getAllProjects();
+    capabilities = projectCache.getAllProjects().getCapabilityCollection();
     user = currentUser;
+    effective = new HashMap<String, List<PermissionRule>>();
   }
 
   /** Identity of the user the control will compute for. */
@@ -63,7 +61,7 @@ public class CapabilityControl {
   public boolean canAdministrateServer() {
     if (canAdministrateServer == null) {
       canAdministrateServer = user instanceof PeerDaemonUser
-          || canPerform(GlobalCapability.ADMINISTRATE_SERVER);
+          || matchAny(capabilities.administrateServer);
     }
     return canAdministrateServer;
   }
@@ -131,19 +129,21 @@ public class CapabilityControl {
     // the 'CI Servers' actually use the BATCH queue while everyone else gets
     // to use the INTERACTIVE queue without additional grants.
     //
-    List<PermissionRule> rules = access(GlobalCapability.PRIORITY);
+    Set<AccountGroup.UUID> groups = user.getEffectiveGroups();
     boolean batch = false;
-    for (PermissionRule r : rules) {
-      switch (r.getAction()) {
-        case INTERACTIVE:
-          if (!isGenericGroup(r.getGroup())) {
-            return QueueProvider.QueueType.INTERACTIVE;
-          }
-          break;
+    for (PermissionRule r : capabilities.priority) {
+      if (match(groups, r)) {
+        switch (r.getAction()) {
+          case INTERACTIVE:
+            if (!isGenericGroup(r.getGroup())) {
+              return QueueProvider.QueueType.INTERACTIVE;
+            }
+            break;
 
-        case BATCH:
-          batch = true;
-          break;
+          case BATCH:
+            batch = true;
+            break;
+        }
       }
     }
 
@@ -186,71 +186,53 @@ public class CapabilityControl {
 
   /** Rules for the given permission, or the empty list. */
   private List<PermissionRule> access(String permissionName) {
-    List<PermissionRule> r = permissions().get(permissionName);
-    return r != null ? r : Collections.<PermissionRule> emptyList();
-  }
-
-  /** All rules that pertain to this user. */
-  private Map<String, List<PermissionRule>> permissions() {
-    if (permissions == null) {
-      permissions = indexPermissions();
-    }
-    return permissions;
-  }
-
-  private Map<String, List<PermissionRule>> indexPermissions() {
-    Map<String, List<PermissionRule>> res =
-        new HashMap<String, List<PermissionRule>>();
-
-    AccessSection section = state.getConfig()
-      .getAccessSection(AccessSection.GLOBAL_CAPABILITIES);
-    if (section == null) {
-      section = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
+    List<PermissionRule> rules = effective.get(permissionName);
+    if (rules != null) {
+      return rules;
     }
 
-    for (Permission permission : section.getPermissions()) {
-      for (PermissionRule rule : permission.getRules()) {
-        if (matchGroup(rule.getGroup().getUUID())) {
-          if (rule.getAction() != PermissionRule.Action.DENY) {
-            List<PermissionRule> r = res.get(permission.getName());
-            if (r == null) {
-              r = new ArrayList<PermissionRule>(2);
-              res.put(permission.getName(), r);
-            }
-            r.add(rule);
-          }
-        }
+    rules = capabilities.getPermission(permissionName);
+
+    if (rules.isEmpty()) {
+      effective.put(permissionName, rules);
+      return rules;
+    }
+
+    Set<AccountGroup.UUID> groups = user.getEffectiveGroups();
+    if (rules.size() == 1) {
+      if (!match(groups, rules.get(0))) {
+        rules = Collections.emptyList();
+      }
+      effective.put(permissionName, rules);
+      return rules;
+    }
+
+    List<PermissionRule> mine = new ArrayList<PermissionRule>(rules.size());
+    for (PermissionRule rule : rules) {
+      if (match(groups, rule)) {
+        mine.add(rule);
       }
     }
 
-    configureDefaults(res, section);
-    return res;
+    if (mine.isEmpty()) {
+      mine = Collections.emptyList();
+    }
+    effective.put(permissionName, mine);
+    return mine;
   }
 
-  private boolean matchGroup(AccountGroup.UUID uuid) {
-    Set<AccountGroup.UUID> userGroups = getCurrentUser().getEffectiveGroups();
-    return userGroups.contains(uuid);
-  }
-
-  private static final GroupReference anonymous = new GroupReference(
-      AccountGroup.ANONYMOUS_USERS,
-      "Anonymous Users");
-
-  private static void configureDefaults(
-      Map<String, List<PermissionRule>> res,
-      AccessSection section) {
-    configureDefault(res, section, GlobalCapability.QUERY_LIMIT, anonymous);
-  }
-
-  private static void configureDefault(Map<String, List<PermissionRule>> res,
-      AccessSection section, String capName, GroupReference group) {
-    if (section.getPermission(capName) == null) {
-      PermissionRange.WithDefaults range = GlobalCapability.getRange(capName);
-      if (range != null) {
-        PermissionRule rule = new PermissionRule(group);
-        rule.setRange(range.getDefaultMin(), range.getDefaultMax());
-        res.put(capName, Collections.singletonList(rule));
+  private boolean matchAny(List<PermissionRule> rules) {
+    Set<AccountGroup.UUID> groups = user.getEffectiveGroups();
+    for (PermissionRule rule : rules) {
+      if (match(groups, rule)) {
+        return true;
       }
     }
+    return false;
+  }
+
+  private static boolean match(Set<AccountGroup.UUID> groups,
+      PermissionRule rule) {
+    return groups.contains(rule.getGroup().getUUID());
   }
 }

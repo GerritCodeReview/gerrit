@@ -60,10 +60,11 @@ public class ProjectState {
   private final Set<AccountGroup.UUID> localOwners;
 
   /** Prolog rule state. */
-  private transient PrologMachineCopy rulesMachine;
+  private volatile PrologMachineCopy rulesMachine;
 
   /** Last system time the configuration's revision was examined. */
-  private transient long lastCheckTime;
+  private volatile long lastCheckTime;
+
 
   @Inject
   protected ProjectState(

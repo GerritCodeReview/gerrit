@@ -28,26 +28,31 @@ public class ChangeLink extends InlineHyperlink {
     return GWT.getHostPageBaseURL() + c.get();
   }
 
-  protected Change.Id id;
-  protected PatchSet.Id ps;
-  private ChangeInfo info;
+  protected Change.Id cid;
+  protected PatchSet.Id psid;
 
   public ChangeLink(final String text, final Change.Id c) {
     super(text, PageLinks.toChange(c));
     DOM.setElementProperty(getElement(), "href", permalink(c));
-    id = c;
-    ps = null;
+    cid = c;
+    psid = null;
   }
 
   public ChangeLink(final String text, final PatchSet.Id ps) {
     super(text, PageLinks.toChange(ps));
-    id = ps.getParentKey();
-    this.ps = ps;
+    cid = ps.getParentKey();
+    psid = ps;
   }
 
-  public ChangeLink(final String text, final ChangeInfo c) {
-    this(text, c.getId());
-    info = c;
+  public ChangeLink(final String text, final ChangeInfo info) {
+    super(text, getTarget(info));
+    cid = info.getId();
+    psid = info.getPatchSetId();
+  }
+
+  public static String getTarget(final ChangeInfo info) {
+    PatchSet.Id ps = info.getPatchSetId();
+    return (ps == null) ? PageLinks.toChange(info) : PageLinks.toChange(ps);
   }
 
   @Override
@@ -56,12 +61,10 @@ public class ChangeLink extends InlineHyperlink {
   }
 
   private Screen createScreen() {
-    if (info != null) {
-      return new ChangeScreen(info);
-    } else if (ps != null) {
-      return new ChangeScreen(ps);
+    if (psid != null) {
+      return new ChangeScreen(psid);
     } else {
-      return new ChangeScreen(id);
+      return new ChangeScreen(cid);
     }
   }
 }

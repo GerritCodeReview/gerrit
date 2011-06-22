@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.CommentPanel;
+import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ExpandAllCommand;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
@@ -44,6 +45,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
@@ -67,7 +69,7 @@ public class ChangeScreen extends Screen {
 
   private IncludedInTable includedInTable;
   private DisclosurePanel includedInPanel;
-  private DisclosurePanel dependenciesPanel;
+  private ComplexDisclosurePanel dependenciesPanel;
   private ChangeTable dependencies;
   private ChangeTable.Section dependsOn;
   private ChangeTable.Section neededBy;
@@ -226,7 +228,8 @@ public class ChangeScreen extends Screen {
     dependencies.addSection(dependsOn);
     dependencies.addSection(neededBy);
 
-    dependenciesPanel = new DisclosurePanel(Util.C.changeScreenDependencies());
+    dependenciesPanel = new ComplexDisclosurePanel(
+        Util.C.changeScreenDependencies(), false);
     dependenciesPanel.setContent(dependencies);
     add(dependenciesPanel);
 
@@ -322,20 +325,28 @@ public class ChangeScreen extends Screen {
     patchSetsBlock.display(detail, diffBaseId);
     addComments(detail);
 
-    // If any dependency change is still open, show our dependency list.
+    // If any dependency change is still open, or is outdated,
+    // show our dependency list.
     //
     boolean depsOpen = false;
+    int outdated = 0;
     if (!detail.getChange().getStatus().isClosed()
         && detail.getDependsOn() != null) {
       for (final ChangeInfo ci : detail.getDependsOn()) {
-        if (ci.getStatus() != Change.Status.MERGED) {
+        if (! ci.isLatest()) {
           depsOpen = true;
-          break;
+          outdated++;
+        } else if (ci.getStatus() != Change.Status.MERGED) {
+          depsOpen = true;
         }
       }
     }
 
     dependenciesPanel.setOpen(depsOpen);
+    if (outdated > 0) {
+      dependenciesPanel.getHeader().add(new InlineLabel(
+        Util.M.outdatedHeader(outdated)));
+    }
   }
 
   private void addComments(final ChangeDetail detail) {

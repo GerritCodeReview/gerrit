@@ -61,6 +61,25 @@ public final class PatchSet {
       patchSetId = newValue;
     }
 
+    @Override
+    public boolean equals(Object o) {
+      if (! (o instanceof Id)) {
+        return false;
+      }
+      Id id = (Id) o;
+
+      if (get() != id.get()) {
+        return false;
+      }
+      if (getParentKey() == null && id.getParentKey() == null) {
+        return true;
+      }
+      if (getParentKey() == null) {
+        return false;
+      }
+      return getParentKey().equals(id.getParentKey());
+    }
+
     /** Parse a PatchSet.Id out of a string representation. */
     public static Id parse(final String str) {
       final Id r = new Id();

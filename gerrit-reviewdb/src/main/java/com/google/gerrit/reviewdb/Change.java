@@ -121,6 +121,16 @@ public final class Change {
       id = newValue;
     }
 
+    @Override
+    public boolean equals(Object o) {
+      if (! (o instanceof Id)) {
+        return false;
+      }
+      Id id = (Id) o;
+
+      return get() == id.get();
+    }
+
     /** Parse a Change.Id out of a string representation. */
     public static Id parse(final String str) {
       final Id r = new Id();

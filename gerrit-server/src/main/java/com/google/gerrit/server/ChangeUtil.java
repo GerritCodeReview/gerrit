@@ -246,19 +246,8 @@ public class ChangeUtil {
       }
     });
 
-    if (updatedChange == null) {
-      throw new InvalidChangeOperationException(
-          "Change is no longer open or patchset is not latest");
-    }
-
-    db.changeMessages().insert(Collections.singleton(cmsg));
-
-    final List<PatchSetApproval> approvals =
-        db.patchSetApprovals().byChange(changeId).toList();
-    for (PatchSetApproval a : approvals) {
-      a.cache(updatedChange);
-    }
-    db.patchSetApprovals().update(approvals);
+    updatedChange(db, updatedChange, cmsg,
+        "Change is no longer open or patchset is not latest");
 
     // Email the reviewers
     final AbandonedSender cm = abandonedSenderFactory.create(updatedChange);
@@ -408,19 +397,8 @@ public class ChangeUtil {
       }
     });
 
-    if (updatedChange == null) {
-      throw new InvalidChangeOperationException(
-          "Change is not abandoned or patchset is not latest");
-    }
-
-    db.changeMessages().insert(Collections.singleton(cmsg));
-
-    final List<PatchSetApproval> approvals =
-        db.patchSetApprovals().byChange(changeId).toList();
-    for (PatchSetApproval a : approvals) {
-      a.cache(updatedChange);
-    }
-    db.patchSetApprovals().update(approvals);
+    updatedChange(db, updatedChange, cmsg,
+       "Change is not abandoned or patchset is not latest");
 
     // Email the reviewers
     final AbandonedSender cm = abandonedSenderFactory.create(updatedChange);
@@ -429,6 +407,23 @@ public class ChangeUtil {
     cm.send();
 
     hooks.doChangeRestoreHook(updatedChange, user.getAccount(), message);
+  }
+
+  private static void updatedChange(final ReviewDb db, final Change change,
+      final ChangeMessage cmsg, final String err) throws NoSuchChangeException,
+      InvalidChangeOperationException, OrmException {
+    if (change == null) {
+      throw new InvalidChangeOperationException(err);
+    }
+
+    db.changeMessages().insert(Collections.singleton(cmsg));
+
+    final List<PatchSetApproval> approvals =
+        db.patchSetApprovals().byChange(change.getId()).toList();
+    for (PatchSetApproval a : approvals) {
+      a.cache(change);
+    }
+    db.patchSetApprovals().update(approvals);
   }
 
   public static String sortKey(long lastUpdated, int id){

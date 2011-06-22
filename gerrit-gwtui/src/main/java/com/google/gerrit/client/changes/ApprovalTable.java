@@ -235,7 +235,7 @@ public class ApprovalTable extends Composite {
       table.setVisible(true);
     }
 
-    addReviewer.setVisible(Gerrit.isSignedIn() && detail.getChange().getStatus().isOpen());
+    addReviewer.setVisible(Gerrit.isSignedIn());
   }
 
   private void doAddReviewer() {

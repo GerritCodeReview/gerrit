@@ -202,11 +202,14 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail.setCurrentPatchSetDetail(loader.call());
 
     final HashSet<Change.Id> changesToGet = new HashSet<Change.Id>();
+    final HashMap<Change.Id,PatchSet.Id> ancestorPatchIds =
+        new HashMap<Change.Id,PatchSet.Id>();
     final List<Change.Id> ancestorOrder = new ArrayList<Change.Id>();
     for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(psId)) {
       for (PatchSet p : db.patchSets().byRevision(a.getAncestorRevision())) {
         final Change.Id ck = p.getId().getParentKey();
         if (changesToGet.add(ck)) {
+          ancestorPatchIds.put(ck, p.getId());
           ancestorOrder.add(ck);
         }
       }
@@ -229,7 +232,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     for (final Change.Id a : ancestorOrder) {
       final Change ac = m.get(a);
       if (ac != null) {
-        dependsOn.add(newChangeInfo(ac));
+        dependsOn.add(newChangeInfo(ac, ancestorPatchIds));
       }
     }
 
@@ -237,7 +240,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     for (final Change.Id a : descendants) {
       final Change ac = m.get(a);
       if (ac != null) {
-        neededBy.add(newChangeInfo(ac));
+        neededBy.add(newChangeInfo(ac, null));
       }
     }
 
@@ -251,9 +254,15 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail.setNeededBy(neededBy);
   }
 
-  private ChangeInfo newChangeInfo(final Change ac) {
+  private ChangeInfo newChangeInfo(final Change ac,
+      Map<Change.Id,PatchSet.Id> ancestorPatchIds) {
     aic.want(ac.getOwner());
-    ChangeInfo ci = new ChangeInfo(ac);
+    ChangeInfo ci;
+    if (ancestorPatchIds == null) {
+      ci = new ChangeInfo(ac);
+    } else {
+      ci = new ChangeInfo(ac, ancestorPatchIds.get(ac.getId()));
+    }
     ci.setStarred(isStarred(ac));
     return ci;
   }

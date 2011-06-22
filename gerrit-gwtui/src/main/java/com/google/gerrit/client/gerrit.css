@@ -396,6 +396,10 @@
   border-spacing: 0;
 }
 
+.changeTable .outdated {
+  background: red;
+}
+
 .changeTable .iconCell {
   width: 1px;
   padding: 0px;

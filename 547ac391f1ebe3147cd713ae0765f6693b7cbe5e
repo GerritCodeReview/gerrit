@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDX//+7s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006697
+      },
+      "writtenOn": "2011-06-23T02:59:59Z",
+      "side": 1,
+      "message": "I\u0027m not sure why I used getCanonicalFile/getAbsoluteFile instead of getCanonicalPath/getAbsolutePath, which are equivalent but give back a String instead of a File. Doesn\u0027t make sense since a String is what\u0027s wanted. :)",
+      "revId": "547ac391f1ebe3147cd713ae0765f6693b7cbe5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+7w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006697
+      },
+      "writtenOn": "2011-06-23T02:59:59Z",
+      "side": 1,
+      "message": "Typo, extraneous \"l\" before \"..\" in comment.",
+      "revId": "547ac391f1ebe3147cd713ae0765f6693b7cbe5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

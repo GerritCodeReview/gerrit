@@ -380,7 +380,7 @@ public class ReviewCommand extends BaseCommand {
         new PatchSetApproval(new PatchSetApproval.Key(patchSetId, currentUser
             .getAccountId(), ao.getCategoryId()), v);
     final FunctionState fs =
-        functionStateFactory.create(changeControl.getChange(), patchSetId,
+        functionStateFactory.create(changeControl, patchSetId,
             Collections.<PatchSetApproval> emptyList());
     psa.setValue(v);
     fs.normalize(approvalTypes.byId(psa.getCategoryId()), psa);

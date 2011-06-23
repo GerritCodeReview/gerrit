@@ -80,22 +80,16 @@ public class ProjectControl {
   }
 
   public static class Factory {
-    private final ProjectCache projectCache;
-    private final Provider<CurrentUser> user;
+    private final Provider<PerRequestProjectControlCache> userCache;
 
     @Inject
-    Factory(final ProjectCache pc, final Provider<CurrentUser> cu) {
-      projectCache = pc;
-      user = cu;
+    Factory(Provider<PerRequestProjectControlCache> uc) {
+      userCache = uc;
     }
 
     public ProjectControl controlFor(final Project.NameKey nameKey)
         throws NoSuchProjectException {
-      final ProjectState p = projectCache.get(nameKey);
-      if (p == null) {
-        throw new NoSuchProjectException(nameKey);
-      }
-      return p.controlFor(user.get());
+      return userCache.get().get(nameKey);
     }
 
     public ProjectControl validateFor(final Project.NameKey nameKey)

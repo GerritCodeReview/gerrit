@@ -40,6 +40,8 @@ import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.workflow.CategoryFunction;
@@ -137,6 +139,7 @@ public class MergeOp {
   private final ApprovalTypes approvalTypes;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
+  private final ChangeControl.GenericFactory changeControlFactory;
   private final MergeQueue mergeQueue;
 
   private final PersonIdent myIdent;
@@ -166,6 +169,7 @@ public class MergeOp {
       @CanonicalWebUrl @Nullable final Provider<String> cwu,
       final ApprovalTypes approvalTypes, final PatchSetInfoFactory psif,
       final IdentifiedUser.GenericFactory iuf,
+      final ChangeControl.GenericFactory changeControlFactory,
       @GerritPersonIdent final PersonIdent myIdent,
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
       final ChangeHookRunner hooks, final AccountCache accountCache,
@@ -181,6 +185,7 @@ public class MergeOp {
     this.approvalTypes = approvalTypes;
     patchSetInfoFactory = psif;
     identifiedUserFactory = iuf;
+    this.changeControlFactory = changeControlFactory;
     this.mergeQueue = mergeQueue;
     this.hooks = hooks;
     this.accountCache = accountCache;
@@ -1230,7 +1235,11 @@ public class MergeOp {
       c.setStatus(Change.Status.MERGED);
       final List<PatchSetApproval> approvals =
           schema.patchSetApprovals().byChange(changeId).toList();
-      final FunctionState fs = functionState.create(c, merged, approvals);
+      final FunctionState fs = functionState.create(
+          changeControlFactory.controlFor(
+              c,
+              identifiedUserFactory.create(c.getOwner())),
+              merged, approvals);
       for (ApprovalType at : approvalTypes.getApprovalTypes()) {
         CategoryFunction.forCategory(at.getCategory()).run(at, fs);
       }
@@ -1246,6 +1255,8 @@ public class MergeOp {
         a.cache(c);
       }
       schema.patchSetApprovals().update(approvals);
+    } catch (NoSuchChangeException err) {
+      log.warn("Cannot normalize approvals for change " + changeId, err);
     } catch (OrmException err) {
       log.warn("Cannot normalize approvals for change " + changeId, err);
     }

@@ -21,7 +21,6 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;

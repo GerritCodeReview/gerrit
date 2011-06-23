@@ -33,6 +33,24 @@
       "revId": "547ac391f1ebe3147cd713ae0765f6693b7cbe5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+x0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:36:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABDX//+7w\u003d",
+      "revId": "547ac391f1ebe3147cd713ae0765f6693b7cbe5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

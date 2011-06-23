@@ -1,0 +1,514 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDX//+0U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "You based this on 2.1.7... Are you looking for me to make a 2.1.8 release with this change?",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+04\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "This part of the change is unrelated to the caching of advertising of tags. Please break it out into its own change. Its smaller and easier to submit on its own, and if its as useful as you are suggesting I would like to get it in sooner.\n\nThe tag stuff is more complex, and may take longer to get right. So I would prefer the regexp stuff to be by itself so it can go soon.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+0k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "How much of an improvement is this regexp cache? Did you measure the improvement?",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+0Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Should we use the RegExpCache here?",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+0E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitTagCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary line.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+0A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitTagCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary line.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+0I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitTagCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+z8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitTagCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Please don\u0027t return HashMap. Instead return Map.\n\nUsing Ref as a Map key won\u0027t work. The Ref type and its implementations do not implement hashCode() or equals(). So you get only Java object identity. Object identity works only so long as JGit keeps the same Ref for the tag in memory, which it does only so long as the tag is stored the same way on disk in the repository... and the repository stays in the repository cache and doesn\u0027t get evicted.\n\nI think you need to use a different type here. I would just use the ObjectId of the tag. The name is irrelevant.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+z4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitTagCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "I think would prefer \"git_tags\".",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+z0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitTagCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+y8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitTagCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Instead of evict, I would call this update().\n\nAnd instead of doing a cache.remove(), I would try to update the entry. A cache.remove() is expensive because everything has to be recomputed from scratch. For linux kernel this is 45 seconds of CPU time.\n\nAn incremental update could be performed in \u003c1 second, even for the linux kernel, and isn\u0027t that hard. Look at the safeTag() code I wrote in VisibleRefFilter. I think you can use that here to help you correct the currently cached data, and then do cache.put(gitRepo, updatedData) to update the entry.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+zw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitTagCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Replace this loop with peel:\n\n  return rw.peel(rw.parseAny(target));",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+zc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitTagCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "You can replace this entire loop with just getLeaf():\n\n  refsReach.add(ref.getLeaf());",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+zA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitTagCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "*ALWAYS* make sure you put a List\u003cRef\u003e for every tag in the repository. This allows us to determine if the cached tag data is stale in VisibleRefFilter and cause an eviction and recomputation on demand.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+zg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitTagCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Usually when dealing with Ref objects that have a MissingObjectException... we skip over them. That means moving the try/catch block to be inside of the for loop above and not adding the tag to the output. The VisibleRefFilter will then skip the tag, since it has no branches listed for it.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+zo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitTagCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Please include the stack trace in the log:\n\n  log.error(\"Repository \" + gitRepo.getDirectory() +\" is corrupt\", e);",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+zk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitTagCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Please include the stack trace in the log:\n\n  log.error(\"Repository \" + gitRepo.getDirectory() +\" is corrupt\", e);",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+zE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Given the checks we have in VisibleRefFilter, maybe it isn\u0027t worth evicting here. We can instead evict on the fly in VisibleRefFilter. See my notes there for comments on that.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+0w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RegExpCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Missing copyright header.\n\nPlease declare this in the same package as the interface it implements.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+0o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RegExpCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Please add this cache to the Documentation/config-gerrit page. We keep forgetting to document our caches. :-)",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+0s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RegExpCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+zQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Instead of this loop I would use the deferredTags from above:\n\n  for (Ref tag : deferredTags) {\n    List\u003cRef\u003e reachableFrom \u003d reachableTags.get(tag.getObjectId());\n    if (reachableFrom \u003d\u003d null \u0026\u0026 !updated) {\n      // The reachableTag data is stale. Try to update it once.\n      reachableTags \u003d tagCache.update(gitRepo);\n      reachableFrom \u003d reachableTags.get(tag.getObjectId());\n    }\n    if (reachableFrom \u003d\u003d null) {\n      continue;\n    }\n\n    for (Ref ref : reachableFrom) {\n\nThis way if a tag was deleted since the cache was built we won\u0027t advertise it to the client. It may be slightly faster than your current code, because iterating an ArrayList is faster than a HashMap.\n\nIt also removes all of the cache eviction code from ReceiveCommits. Performing an update on the cache when a new tag is discovered allows the server to always react to new tags correctly, no matter how they got put into the repository.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+zM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "You can do this faster; the reference name is in the result map and was only added if this condition was true earlier.\n\nSo instead say:\n\n  if (result.containsKey(ref.getName())) {\n    result.put(tag.getName(), tag);\n  }\n\nHowever... what happens if the branch moves in the interim between when the value was cached and now? I think we should be a bit more paranoid given this is part of the security solution.\n\nI would change this check to be:\n\n  Ref head \u003d result.get(ref.getName());\n  if (head !\u003d null \u0026\u0026 safeTag(rw, tag, ref, head)) {\n    result.put(tag.getName(), tag);\n    break;\n  }\n\nThen you need to write a safeTag method:\n\n  private boolean safeTag(RevWalk rw, Ref tagRef, Ref cachedHead, Ref currentHead) {\n    if (cachedHead.getObjectId().equals(currentHead.getObjectId()) {\n      return true;\n    }\n\n    // At this point, consider cache eviction. The tag reachable data is stale.\n    evict \u003d true;\n\n    // Check on-the-fly to see if the branch still reaches the tag. We assume\n    // yes first if the old cached head is merged into the current head. This is\n    // attempted because a fast-forward update of a branch head is common,\n    // and likely to be only a few commits, so very fast to scan.\n    try {\n      RevCommit base \u003d rw.parseCommit(cachedHead.getObjectId());\n      RevCommit tip \u003d rw.parseCommit(currentHead.getObjectId());\n      if (rw.isMergedInto(base, tip)) {\n        return true;\n      }\n\n      // Try the tag itself. This is slower, but handles the case of a branch\n      // being rewound.\n      RevCommit tag \u003d rw.parseCommit(tagRef.getObjectId());\n      if (rw.isMergedInto(tag, tip)) {\n        return true;\n      }\n\n      // Absolutely not reachable from here.\n      return false;\n    } catch (IOExeption err) {\n      return false;\n    }\n  }",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+zI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Before returning, check your evict flag from the safeTag method:\n\n  if (evict) {\n    tagCache.evict(db);\n  }",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+1E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Delete this. It looks to be unused.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+08\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Style-nit: Please put non-assisted arguments before the assisted ones.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+1A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "This cannot be null. Guice won\u0027t allow the constructor to be called if the reCache arguement is null, as the argument is not marked with @Nullable.\n\nOr is this null because of unit tests? If that is the case I would prefer to define a mock cache in the unit test since at runtime we always have the cache.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+00\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RegExpCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Please call this shortestExample instead of get.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+0g\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Unnecessary import.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+0c\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T17:23:12Z",
+      "side": 1,
+      "message": "Please implement a mock version of the RegExpCache using a normal HashMap.",
+      "revId": "06265789528198aa237e7270472d09c1e6600fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

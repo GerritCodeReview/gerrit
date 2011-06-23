@@ -861,10 +861,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       return;
     }
 
-    requestReplace(cmd, changeEnt, newCommit);
+    requestReplace(cmd, true, changeEnt, newCommit);
   }
 
-  private boolean requestReplace(final ReceiveCommand cmd, final Change change,
+  private boolean requestReplace(final ReceiveCommand cmd,
+      final boolean checkMergedInto, final Change change,
       final RevCommit newCommit) {
     if (change.getStatus().isClosed()) {
       reject(cmd, "change " + change.getId() + " closed");
@@ -872,7 +873,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     final ReplaceRequest req =
-        new ReplaceRequest(change.getId(), newCommit, cmd);
+        new ReplaceRequest(change.getId(), newCommit, cmd, checkMergedInto);
     if (replaceByChange.containsKey(req.ontoChange)) {
       reject(cmd, "duplicate request");
       return false;
@@ -951,7 +952,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           if (changes.size() == 1) {
             // Schedule as a replacement to this one matching change.
             //
-            if (requestReplace(newChange, changes.get(0), c)) {
+            if (requestReplace(newChange, false, changes.get(0), c)) {
               continue;
             } else {
               return;
@@ -1284,8 +1285,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     insertAncestors(ps.getId(), c);
     db.patchSets().insert(Collections.singleton(ps));
 
-    final Ref mergedInto = findMergedInto(change.getDest().get(), c);
-    result.mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
+    if (request.checkMergedInto) {
+      final Ref mergedInto = findMergedInto(change.getDest().get(), c);
+      result.mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
+    }
     result.change = change;
     result.patchSet = ps;
     result.info = patchSetInfoFactory.get(c, ps.getId());
@@ -1504,12 +1507,14 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     final Change.Id ontoChange;
     final RevCommit newCommit;
     final ReceiveCommand cmd;
+    final boolean checkMergedInto;
 
     ReplaceRequest(final Change.Id toChange, final RevCommit newCommit,
-        final ReceiveCommand cmd) {
+        final ReceiveCommand cmd, final boolean checkMergedInto) {
       this.ontoChange = toChange;
       this.newCommit = newCommit;
       this.cmd = cmd;
+      this.checkMergedInto = checkMergedInto;
     }
   }
 
@@ -1775,7 +1780,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         for (final String changeId : c.getFooterLines(CHANGE_ID)) {
           final Change.Id onto = byKey.get(new Change.Key(changeId.trim()));
           if (onto != null) {
-            toClose.add(new ReplaceRequest(onto, c, cmd));
+            toClose.add(new ReplaceRequest(onto, c, cmd, false));
             break;
           }
         }

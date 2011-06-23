@@ -76,11 +76,4 @@ public abstract class CategoryFunction {
    *        the valid status into.
    */
   public abstract void run(ApprovalType at, FunctionState state);
-
-  public boolean isValid(final CurrentUser user, final ApprovalType at,
-      final FunctionState state) {
-    return !state.controlFor(user) //
-        .getRange(Permission.forLabel(at.getCategory().getLabelName())) //
-        .isEmpty();
-  }
 }

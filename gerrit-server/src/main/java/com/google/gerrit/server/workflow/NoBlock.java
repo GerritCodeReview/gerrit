@@ -15,7 +15,6 @@
 package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.server.CurrentUser;
 
 /** A function that does nothing. */
 public class NoBlock extends CategoryFunction {
@@ -24,11 +23,5 @@ public class NoBlock extends CategoryFunction {
   @Override
   public void run(final ApprovalType at, final FunctionState state) {
     state.valid(at, true);
-  }
-
-  @Override
-  public boolean isValid(final CurrentUser user, final ApprovalType at,
-      final FunctionState state) {
-    return true;
   }
 }

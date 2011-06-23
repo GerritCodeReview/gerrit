@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDX//+tI\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_branch_1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T19:34:13Z",
+      "side": 1,
+      "message": "Don\u0027t use intern. Use create instead.\n\nIntern pins the string in memory forever. If its a constant declared in code, that is fine. However for dynamic data like a branch name that would be bad, as the memory would almost never get released.",
+      "revId": "83840c584b87d7a3d576c4999b761b739d5600df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+tE\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_project_1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T19:34:13Z",
+      "side": 1,
+      "message": "Use create instead.",
+      "revId": "83840c584b87d7a3d576c4999b761b739d5600df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+tA\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_topic_1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T19:34:13Z",
+      "side": 1,
+      "message": "Use create instead.",
+      "revId": "83840c584b87d7a3d576c4999b761b739d5600df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+s8\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_author_3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T19:34:13Z",
+      "side": 1,
+      "message": "Please define commit_author/1 in gerrit_common.pl:\n\n  commit_author(Author) :-\n    commit_author(Author, _, _).",
+      "revId": "83840c584b87d7a3d576c4999b761b739d5600df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+s4\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_author_3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T19:34:13Z",
+      "side": 1,
+      "message": "psiFactory.get(id) is somewhat costly. We should make this a StoredValue and only create it once per PrologEnvironment.",
+      "revId": "83840c584b87d7a3d576c4999b761b739d5600df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+s0\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_author_3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T19:34:13Z",
+      "side": 1,
+      "message": "Declare this as a private static final.",
+      "revId": "83840c584b87d7a3d576c4999b761b739d5600df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+ss\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_author_3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T19:34:13Z",
+      "side": 1,
+      "message": "Use create.",
+      "revId": "83840c584b87d7a3d576c4999b761b739d5600df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+so\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_author_3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T19:34:13Z",
+      "side": 1,
+      "message": "Use create.",
+      "revId": "83840c584b87d7a3d576c4999b761b739d5600df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+sk\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_committer_3.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T19:34:13Z",
+      "side": 1,
+      "message": "Since this code is so similar to PRED_commit_author_3, define a common base class: AbstractCommitUserIdentityPredicate that does most of the work. Have the subclass implement a method to return to the base class the correct identity from the PatchSetInfo.",
+      "revId": "83840c584b87d7a3d576c4999b761b739d5600df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+tc\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_get_current_user_1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T19:34:13Z",
+      "side": 1,
+      "message": "Lets just call this current_user/1.",
+      "revId": "83840c584b87d7a3d576c4999b761b739d5600df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+tY\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_get_current_user_1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T19:34:13Z",
+      "side": 1,
+      "message": "Do not assign a value to this variable. That way the compiler ensures we set it below.",
+      "revId": "83840c584b87d7a3d576c4999b761b739d5600df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+tQ\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_get_current_user_1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T19:34:13Z",
+      "side": 1,
+      "message": "Declare these as private static finals in the class.",
+      "revId": "83840c584b87d7a3d576c4999b761b739d5600df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+tM\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_get_current_user_1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T19:34:13Z",
+      "side": 1,
+      "message": "I would use peer_daemon instead.",
+      "revId": "83840c584b87d7a3d576c4999b761b739d5600df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+tU\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_get_current_user_1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-23T19:34:13Z",
+      "side": 1,
+      "message": "Remove dead code.",
+      "revId": "83840c584b87d7a3d576c4999b761b739d5600df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

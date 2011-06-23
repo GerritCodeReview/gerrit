@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAABDX///ao\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1006697
+      },
+      "writtenOn": "2011-06-23T03:42:05Z",
+      "side": 1,
+      "message": "Absolutely unnecessary to break.That was the behavior of the /old/ code I replaced, and I didn\u0027t really notice the change in functionality which is so plainly obvious looking at the diff. Oops.",
+      "parentUuid": "AAABDX///dY\u003d",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDH///6E\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
         "patchSetId": 1

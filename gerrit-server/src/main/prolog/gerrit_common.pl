@@ -93,36 +93,18 @@ index_commit_labels([_ | Rs]) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
-%% current_user/2:
-%%
-%%   Locate the CurrentUser object caching group memberships, account data.
-%%
-current_user(user(AccountId), User) :-
-  hash_get(current_user, AccountId, User),
-  User \== [],
-  !
-  .
-current_user(user(AccountId), User) :-
-  integer(AccountId),
-  '$current_user'(AccountId, User),
-  hash_put(current_user, AccountId, User).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
 %% user_label_range/4:
 %%
 %%   Lookup the range allowed to be used.
 %%
-user_label_range(Label, test_user(Name), Min, Max) :-
-  % TODO Replace this hack clause when RefControl is rewritten.
-  !,
-  clause(user:test_grant(Label, test_user(Name), range(Min, Max)), _)
-  .
 user_label_range(Label, Who, Min, Max) :-
+  Who = user(_), !,
   atom(Label),
   current_user(Who, User),
   '$user_label_range'(Label, User, Min, Max).
+user_label_range(Label, test_user(Name), Min, Max) :-
+  clause(user:test_grant(Label, test_user(Name), range(Min, Max)), _)
+  .
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

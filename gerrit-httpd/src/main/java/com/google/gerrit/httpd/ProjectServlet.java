@@ -25,6 +25,8 @@ import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.HeadRefFilter;
+import com.google.gerrit.server.git.NoRefsChangesFilter;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
@@ -44,6 +46,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.RefFilter;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
 import org.eclipse.jgit.transport.resolver.RepositoryResolver;
@@ -236,10 +239,21 @@ public class ProjectServlet extends GitServlet {
       // The Resolver above already checked READ access for us.
       //
       UploadPack up = new UploadPack(repo);
-      up.setPackConfig(packConfig);
-      if (!pc.allRefsAreVisible()) {
-        up.setRefFilter(new VisibleRefFilter(repo, pc, db.get(), true));
+      RefFilter filter = up.getRefFilter();
+      String head = req.getParameter("HEAD");
+      VisibleRefFilter.ChangeMode changeMode;
+      if (head != null) {
+        filter = new HeadRefFilter(filter, head);
+        changeMode = VisibleRefFilter.ChangeMode.ONE;
+      } else {
+        filter = new NoRefsChangesFilter(filter);
+        changeMode = VisibleRefFilter.ChangeMode.NONE;
       }
+      if (!pc.allRefsAreVisible()) {
+        filter = new VisibleRefFilter(filter, repo, pc, db.get(), changeMode);
+      }
+      up.setRefFilter(filter);
+      up.setPackConfig(packConfig);
       return up;
     }
   }

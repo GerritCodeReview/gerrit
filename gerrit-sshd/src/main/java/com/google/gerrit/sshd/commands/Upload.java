@@ -15,18 +15,25 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.git.HeadRefFilter;
+import com.google.gerrit.server.git.NoRefsChangesFilter;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.transport.RefFilter;
 import org.eclipse.jgit.transport.UploadPack;
+import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 
 /** Publishes Git repositories over SSH using the Git upload-pack protocol. */
 final class Upload extends AbstractGitCommand {
+  @Option(name = "--HEAD", metaVar = "REF", usage = "advertise only HEAD as REF")
+  private String head;
+
   @Inject
   private Provider<ReviewDb> db;
 
@@ -40,9 +47,20 @@ final class Upload extends AbstractGitCommand {
     }
 
     final UploadPack up = new UploadPack(repo);
-    if (!projectControl.allRefsAreVisible()) {
-      up.setRefFilter(new VisibleRefFilter(repo, projectControl, db.get(), true));
+    RefFilter filter = up.getRefFilter();
+    VisibleRefFilter.ChangeMode changeMode;
+    if (head != null) {
+      filter = new HeadRefFilter(filter, head);
+      changeMode = VisibleRefFilter.ChangeMode.ONE;
+    } else {
+      filter = new NoRefsChangesFilter(filter);
+      changeMode = VisibleRefFilter.ChangeMode.NONE;
     }
+    if (!projectControl.allRefsAreVisible()) {
+      filter = new VisibleRefFilter(filter, repo, projectControl,
+          db.get(), changeMode);
+    }
+    up.setRefFilter(filter);
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());
     up.upload(in, out, err);

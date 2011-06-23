@@ -49,14 +49,20 @@ public class VisibleRefFilter implements RefFilter {
   private static final Logger log =
       LoggerFactory.getLogger(VisibleRefFilter.class);
 
+  public static enum ChangeMode {
+    NONE, ONE, ALL;
+  }
+
+  private final RefFilter next;
   private final Repository db;
   private final ProjectControl projectCtl;
   private final ReviewDb reviewDb;
-  private final boolean showChanges;
+  private final ChangeMode showChanges;
 
-  public VisibleRefFilter(final Repository db,
+  public VisibleRefFilter(final RefFilter next, final Repository db,
       final ProjectControl projectControl, final ReviewDb reviewDb,
-      final boolean showChanges) {
+      final ChangeMode showChanges) {
+    this.next = next;
     this.db = db;
     this.projectCtl = projectControl;
     this.reviewDb = reviewDb;
@@ -65,7 +71,9 @@ public class VisibleRefFilter implements RefFilter {
 
   @Override
   public Map<String, Ref> filter(Map<String, Ref> refs) {
-    final Set<Change.Id> visibleChanges = visibleChanges();
+    refs = next.filter(refs);
+
+    final Set<Change.Id> visibleChanges = visibleChanges(refs);
     final Map<String, Ref> result = new HashMap<String, Ref>();
     final List<Ref> deferredTags = new ArrayList<Ref>();
 
@@ -101,21 +109,46 @@ public class VisibleRefFilter implements RefFilter {
     return result;
   }
 
-  private Set<Change.Id> visibleChanges() {
-    if (!showChanges) {
-      return Collections.emptySet();
-    }
-
-    final Project project = projectCtl.getProject();
+  private Set<Change.Id> visibleChanges(Map<String, Ref> refs) {
     try {
-      final Set<Change.Id> visibleChanges = new HashSet<Change.Id>();
-      for (Change change : reviewDb.changes().byProject(project.getNameKey())) {
-        if (projectCtl.controlFor(change).isVisible()) {
-          visibleChanges.add(change.getId());
+      switch (showChanges) {
+        default:
+        case NONE:
+          return Collections.emptySet();
+
+        case ONE: {
+          Set<Change.Id> read = new HashSet<Change.Id>();
+          for (String ref : refs.keySet()) {
+            if (PatchSet.isRef(ref)) {
+              read.add(Change.Id.fromRef(ref));
+            }
+          }
+          if (read.isEmpty()) {
+            return Collections.emptySet();
+          }
+
+          Set<Change.Id> visibleChanges = new HashSet<Change.Id>();
+          for (Change change : reviewDb.changes().get(read)) {
+            if (projectCtl.controlFor(change).isVisible()) {
+              visibleChanges.add(change.getId());
+            }
+          }
+          return visibleChanges;
+        }
+
+        case ALL: {
+          Project.NameKey project = projectCtl.getProject().getNameKey();
+          Set<Change.Id> visibleChanges = new HashSet<Change.Id>();
+          for (Change change : reviewDb.changes().byProject(project)) {
+            if (projectCtl.controlFor(change).isVisible()) {
+              visibleChanges.add(change.getId());
+            }
+          }
+          return visibleChanges;
         }
       }
-      return visibleChanges;
     } catch (OrmException e) {
+      Project project = projectCtl.getProject();
       log.error("Cannot load changes for project " + project.getName()
           + ", assuming no changes are visible", e);
       return Collections.emptySet();

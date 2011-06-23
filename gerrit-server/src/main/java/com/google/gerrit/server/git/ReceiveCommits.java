@@ -75,8 +75,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
+import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.RefFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -198,7 +199,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     if (!projectControl.allRefsAreVisible()) {
       rp.setCheckReferencedObjectsAreReachable(true);
-      rp.setRefFilter(new VisibleRefFilter(repo, projectControl, db, false));
+      rp.setRefFilter(new VisibleRefFilter(RefFilter.DEFAULT, repo,
+          projectControl, db, VisibleRefFilter.ChangeMode.NONE));
     }
     rp.setRefFilter(new ReceiveCommitsRefFilter(rp.getRefFilter()));
 

@@ -207,8 +207,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       r.append(GWT.getHostPageBaseURL());
       r.append("p/");
       r.append(projectName);
+      r.append("?HEAD=").append(patchSet.getRefName());
       r.append(" ");
-      r.append(patchSet.getRefName());
+      r.append("HEAD");
       urls.add(new DownloadUrlLink(DownloadScheme.ANON_HTTP, Util.M
           .anonymousDownload("HTTP"), r.toString()));
     }
@@ -220,6 +221,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
             allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
       String sshAddr = Gerrit.getConfig().getSshdAddress();
       final StringBuilder r = new StringBuilder();
+      r.append("--upload-pack='git upload-pack --HEAD=");
+      r.append(patchSet.getRefName());
+      r.append("' ");
       r.append("ssh://");
       r.append(Gerrit.getUserAccount().getUserName());
       r.append("@");
@@ -233,7 +237,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       r.append("/");
       r.append(projectName);
       r.append(" ");
-      r.append(patchSet.getRefName());
+      r.append("HEAD");
       urls.add(new DownloadUrlLink(DownloadScheme.SSH, "SSH", r.toString()));
     }
 
@@ -260,8 +264,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       r.append(base.substring(s));
       r.append("p/");
       r.append(projectName);
+      r.append("?HEAD=").append(patchSet.getRefName());
       r.append(" ");
-      r.append(patchSet.getRefName());
+      r.append("HEAD");
       urls.add(new DownloadUrlLink(DownloadScheme.HTTP, "HTTP", r.toString()));
     }
 

@@ -37,6 +37,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.FetchConnection;
 import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RefFilter;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -301,7 +302,8 @@ class PushOp implements ProjectRunnable {
         return Collections.emptyList();
       }
       try {
-        local = new VisibleRefFilter(db, pc, meta, true).filter(local);
+        local = new VisibleRefFilter(RefFilter.DEFAULT, db,
+            pc, meta, VisibleRefFilter.ChangeMode.ALL).filter(local);
       } finally {
         meta.close();
       }

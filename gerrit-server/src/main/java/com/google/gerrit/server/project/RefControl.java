@@ -14,22 +14,16 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.common.CollectionsUtil;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.ParamertizedString;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import dk.brics.automaton.RegExp;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -39,43 +33,32 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 
 /** Manages access control for Git references (aka branches, tags). */
 public class RefControl {
-  public interface Factory {
-    RefControl create(ProjectControl projectControl, String ref);
-  }
-
   private final ProjectControl projectControl;
   private final String refName;
 
-  private Map<String, List<PermissionRule>> permissions;
+  /** All permissions that apply to this reference. */
+  private final PermissionCollection relevant;
+
+  /** Cached set of permissions matching this user. */
+  private final Map<String, List<PermissionRule>> effective;
 
   private Boolean owner;
   private Boolean canForgeAuthor;
   private Boolean canForgeCommitter;
 
-  @Inject
-  protected RefControl(@Assisted final ProjectControl projectControl,
-      @Assisted String ref) {
-    if (isRE(ref)) {
-      ref = shortestExample(ref);
-
-    } else if (ref.endsWith("/*")) {
-      ref = ref.substring(0, ref.length() - 1);
-
-    }
-
+  RefControl(ProjectControl projectControl, String ref,
+      PermissionCollection relevant) {
     this.projectControl = projectControl;
     this.refName = ref;
+    this.relevant = relevant;
+    this.effective = new HashMap<String, List<PermissionRule>>();
   }
 
   public String getRefName() {
@@ -87,11 +70,16 @@ public class RefControl {
   }
 
   public CurrentUser getCurrentUser() {
-    return getProjectControl().getCurrentUser();
+    return projectControl.getCurrentUser();
   }
 
-  public RefControl forUser(final CurrentUser who) {
-    return getProjectControl().forUser(who).controlForRef(getRefName());
+  public RefControl forUser(CurrentUser who) {
+    ProjectControl newCtl = projectControl.forUser(who);
+    if (relevant.isUserSpecific()) {
+      return newCtl.controlForRef(getRefName());
+    } else {
+      return new RefControl(newCtl, getRefName(), relevant);
+    }
   }
 
   /** Is this user a ref owner? */
@@ -100,16 +88,8 @@ public class RefControl {
       if (canPerform(Permission.OWNER)) {
         owner = true;
 
-      } else if (getRefName().equals(
-          AccessSection.ALL.substring(0, AccessSection.ALL.length() - 1))) {
-        // We have to prevent infinite recursion here, the project control
-        // calls us to find out if there is ownership of all references in
-        // order to determine project level ownership.
-        //
-        owner = getCurrentUser().getCapabilities().canAdministrateServer();
-
       } else {
-        owner = getProjectControl().isOwner();
+        owner = projectControl.isOwner();
       }
     }
     return owner;
@@ -117,7 +97,7 @@ public class RefControl {
 
   /** Can this user see this reference exists? */
   public boolean isVisible() {
-    return getProjectControl().visibleForReplication()
+    return projectControl.visibleForReplication()
         || canPerform(Permission.READ);
   }
 
@@ -129,14 +109,14 @@ public class RefControl {
    *         ref
    */
   public boolean canUpload() {
-    return getProjectControl()
-        .controlForRef("refs/for/" + getRefName())
-        .canPerform(Permission.PUSH);
+    return projectControl
+      .controlForRef("refs/for/" + getRefName())
+      .canPerform(Permission.PUSH);
   }
 
   /** @return true if this user can submit merge patch sets to this ref */
   public boolean canUploadMerges() {
-    return getProjectControl()
+    return projectControl
       .controlForRef("refs/for/" + getRefName())
       .canPerform(Permission.PUSH_MERGE);
   }
@@ -149,7 +129,7 @@ public class RefControl {
       // rules. Allowing this to be done by a non-project-owner opens
       // a security hole enabling editing of access rules, and thus
       // granting of powers beyond submitting to the configuration.
-      return getProjectControl().isOwner();
+      return projectControl.isOwner();
     }
     return canPerform(Permission.SUBMIT);
   }
@@ -157,7 +137,7 @@ public class RefControl {
   /** @return true if the user can update the reference as a fast-forward. */
   public boolean canUpdate() {
     if (GitRepositoryManager.REF_CONFIG.equals(refName)
-        && !getProjectControl().isOwner()) {
+        && !projectControl.isOwner()) {
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
       // rules. Allowing this to be done by a non-project-owner opens
@@ -175,7 +155,7 @@ public class RefControl {
 
   private boolean canPushWithForce() {
     if (GitRepositoryManager.REF_CONFIG.equals(refName)
-        && !getProjectControl().isOwner()) {
+        && !projectControl.isOwner()) {
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
       // rules. Allowing this to be done by a non-project-owner opens
@@ -303,9 +283,19 @@ public class RefControl {
   /** All value ranges of any allowed label permission. */
   public List<PermissionRange> getLabelRanges() {
     List<PermissionRange> r = new ArrayList<PermissionRange>();
-    for (Map.Entry<String, List<PermissionRule>> e : permissions().entrySet()) {
+    for (Map.Entry<String, List<PermissionRule>> e : relevant.getDeclaredPermissions()) {
       if (Permission.isLabel(e.getKey())) {
-        r.add(toRange(e.getKey(), e.getValue()));
+        int min = 0;
+        int max = 0;
+        for (PermissionRule rule : e.getValue()) {
+          if (projectControl.match(rule)) {
+            min = Math.min(min, rule.getMin());
+            max = Math.max(max, rule.getMax());
+          }
+        }
+        if (min != 0 || max != 0) {
+          r.add(new PermissionRange(e.getKey(), min, max));
+        }
       }
     }
     return r;
@@ -319,7 +309,8 @@ public class RefControl {
     return null;
   }
 
-  private static PermissionRange toRange(String permissionName, List<PermissionRule> ruleList) {
+  private static PermissionRange toRange(String permissionName,
+      List<PermissionRule> ruleList) {
     int min = 0;
     int max = 0;
     for (PermissionRule rule : ruleList) {
@@ -336,115 +327,41 @@ public class RefControl {
 
   /** Rules for the given permission, or the empty list. */
   private List<PermissionRule> access(String permissionName) {
-    List<PermissionRule> r = permissions().get(permissionName);
-    return r != null ? r : Collections.<PermissionRule> emptyList();
-  }
-
-  /** All rules that pertain to this user, on this reference. */
-  private Map<String, List<PermissionRule>> permissions() {
-    if (permissions == null) {
-      List<AccessSection> sections = new ArrayList<AccessSection>();
-      for (AccessSection section : projectControl.access()) {
-        if (appliesToRef(section)) {
-          sections.add(section);
-        }
-      }
-      Collections.sort(sections, new MostSpecificComparator(getRefName()));
-
-      Set<SeenRule> seen = new HashSet<SeenRule>();
-      Set<String> exclusiveGroupPermissions = new HashSet<String>();
-
-      permissions = new HashMap<String, List<PermissionRule>>();
-      for (AccessSection section : sections) {
-        for (Permission permission : section.getPermissions()) {
-          if (exclusiveGroupPermissions.contains(permission.getName())) {
-            continue;
-          }
-
-          for (PermissionRule rule : permission.getRules()) {
-            if (matchGroup(rule.getGroup().getUUID())) {
-              SeenRule s = new SeenRule(section, permission, rule);
-              if (seen.add(s) && !rule.getDeny()) {
-                List<PermissionRule> r = permissions.get(permission.getName());
-                if (r == null) {
-                  r = new ArrayList<PermissionRule>(2);
-                  permissions.put(permission.getName(), r);
-                }
-                r.add(rule);
-              }
-            }
-          }
-
-          if (permission.getExclusiveGroup()) {
-            exclusiveGroupPermissions.add(permission.getName());
-          }
-        }
-      }
-    }
-    return permissions;
-  }
-
-  private boolean appliesToRef(AccessSection section) {
-    String refPattern = section.getName();
-
-    if (isTemplate(refPattern)) {
-      ParamertizedString template = new ParamertizedString(refPattern);
-      HashMap<String, String> p = new HashMap<String, String>();
-
-      if (getCurrentUser() instanceof IdentifiedUser) {
-        p.put("username", ((IdentifiedUser) getCurrentUser()).getUserName());
-      } else {
-        // Right now we only template the username. If not available
-        // this rule cannot be matched at all.
-        //
-        return false;
-      }
-
-      if (isRE(refPattern)) {
-        for (Map.Entry<String, String> ent : p.entrySet()) {
-          ent.setValue(escape(ent.getValue()));
-        }
-      }
-
-      refPattern = template.replace(p);
+    List<PermissionRule> rules = effective.get(permissionName);
+    if (rules != null) {
+      return rules;
     }
 
-    if (isRE(refPattern)) {
-      return Pattern.matches(refPattern, getRefName());
+    rules = relevant.getPermission(permissionName);
 
-    } else if (refPattern.endsWith("/*")) {
-      String prefix = refPattern.substring(0, refPattern.length() - 1);
-      return getRefName().startsWith(prefix);
-
-    } else {
-      return getRefName().equals(refPattern);
+    if (rules.isEmpty()) {
+      effective.put(permissionName, rules);
+      return rules;
     }
-  }
 
-  private boolean matchGroup(AccountGroup.UUID uuid) {
-    Set<AccountGroup.UUID> userGroups = getCurrentUser().getEffectiveGroups();
-
-    if (AccountGroup.PROJECT_OWNERS.equals(uuid)) {
-      ProjectState state = projectControl.getProjectState();
-      return CollectionsUtil.isAnyIncludedIn(state.getAllOwners(), userGroups);
-
-    } else {
-      return userGroups.contains(uuid);
+    if (rules.size() == 1) {
+      if (!projectControl.match(rules.get(0))) {
+        rules = Collections.emptyList();
+      }
+      effective.put(permissionName, rules);
+      return rules;
     }
+
+    List<PermissionRule> mine = new ArrayList<PermissionRule>(rules.size());
+    for (PermissionRule rule : rules) {
+      if (projectControl.match(rule)) {
+        mine.add(rule);
+      }
+    }
+
+    if (mine.isEmpty()) {
+      mine = Collections.emptyList();
+    }
+    effective.put(permissionName, mine);
+    return mine;
   }
 
-  private static boolean isTemplate(String refPattern) {
-    return 0 <= refPattern.indexOf("${");
-  }
-
-  private static String escape(String value) {
-    // Right now the only special character allowed in a
-    // variable value is a . in the username.
-    //
-    return value.replace(".", "\\.");
-  }
-
-  private static boolean isRE(String refPattern) {
+  static boolean isRE(String refPattern) {
     return refPattern.startsWith(AccessSection.REGEX_PREFIX);
   }
 
@@ -458,149 +375,10 @@ public class RefControl {
     }
   }
 
-  private static RegExp toRegExp(String refPattern) {
+  static RegExp toRegExp(String refPattern) {
     if (isRE(refPattern)) {
       refPattern = refPattern.substring(1);
     }
     return new RegExp(refPattern, RegExp.NONE);
-  }
-
-  /** Tracks whether or not a permission has been overridden. */
-  private static class SeenRule {
-    final String refPattern;
-    final String permissionName;
-    final AccountGroup.UUID group;
-
-    SeenRule(AccessSection section, Permission permission, PermissionRule rule) {
-      refPattern = section.getName();
-      permissionName = permission.getName();
-      group = rule.getGroup().getUUID();
-    }
-
-    @Override
-    public int hashCode() {
-      int hc = refPattern.hashCode();
-      hc = hc * 31 + permissionName.hashCode();
-      if (group != null) {
-        hc = hc * 31 + group.hashCode();
-      }
-      return hc;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-      if (other instanceof SeenRule) {
-        SeenRule a = this;
-        SeenRule b = (SeenRule) other;
-        return a.refPattern.equals(b.refPattern) //
-            && a.permissionName.equals(b.permissionName) //
-            && eq(a.group, b.group);
-      }
-      return false;
-    }
-
-    private boolean eq(AccountGroup.UUID a, AccountGroup.UUID b) {
-      return a != null && b != null && a.equals(b);
-    }
-  }
-
-  /**
-   * Order the Ref Pattern by the most specific. This sort is done by:
-   * <ul>
-   * <li>1 - The minor value of Levenshtein string distance between the branch
-   * name and the regex string shortest example. A shorter distance is a more
-   * specific match.
-   * <li>2 - Finites first, infinities after.
-   * <li>3 - Number of transitions.
-   * <li>4 - Length of the expression text.
-   * </ul>
-   *
-   * Levenshtein distance is a measure of the similarity between two strings.
-   * The distance is the number of deletions, insertions, or substitutions
-   * required to transform one string into another.
-   *
-   * For example, if given refs/heads/m* and refs/heads/*, the distances are 5
-   * and 6. It means that refs/heads/m* is more specific because it's closer to
-   * refs/heads/master than refs/heads/*.
-   *
-   * Another example could be refs/heads/* and refs/heads/[a-zA-Z]*, the
-   * distances are both 6. Both are infinite, but refs/heads/[a-zA-Z]* has more
-   * transitions, which after all turns it more specific.
-   */
-  private static final class MostSpecificComparator implements
-      Comparator<AccessSection> {
-    private final String refName;
-
-    MostSpecificComparator(String refName) {
-      this.refName = refName;
-    }
-
-    public int compare(AccessSection a, AccessSection b) {
-      return compare(a.getName(), b.getName());
-    }
-
-    private int compare(final String pattern1, final String pattern2) {
-      int cmp = distance(pattern1) - distance(pattern2);
-      if (cmp == 0) {
-        boolean p1_finite = finite(pattern1);
-        boolean p2_finite = finite(pattern2);
-
-        if (p1_finite && !p2_finite) {
-          cmp = -1;
-        } else if (!p1_finite && p2_finite) {
-          cmp = 1;
-        } else /* if (f1 == f2) */{
-          cmp = 0;
-        }
-      }
-      if (cmp == 0) {
-        cmp = transitions(pattern1) - transitions(pattern2);
-      }
-      if (cmp == 0) {
-        cmp = pattern2.length() - pattern1.length();
-      }
-      return cmp;
-    }
-
-    private int distance(String pattern) {
-      String example;
-      if (isRE(pattern)) {
-        example = shortestExample(pattern);
-
-      } else if (pattern.endsWith("/*")) {
-        example = pattern.substring(0, pattern.length() - 1) + '1';
-
-      } else if (pattern.equals(refName)) {
-        return 0;
-
-      } else {
-        return Math.max(pattern.length(), refName.length());
-      }
-      return StringUtils.getLevenshteinDistance(example, refName);
-    }
-
-    private boolean finite(String pattern) {
-      if (isRE(pattern)) {
-        return toRegExp(pattern).toAutomaton().isFinite();
-
-      } else if (pattern.endsWith("/*")) {
-        return false;
-
-      } else {
-        return true;
-      }
-    }
-
-    private int transitions(String pattern) {
-      if (isRE(pattern)) {
-        return toRegExp(pattern).toAutomaton().getNumberOfTransitions();
-
-      } else if (pattern.endsWith("/*")) {
-        return pattern.length();
-
-      } else {
-        return pattern.length();
-      }
-    }
   }
 }

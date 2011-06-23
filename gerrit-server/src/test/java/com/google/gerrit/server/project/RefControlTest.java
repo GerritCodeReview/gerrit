@@ -195,6 +195,21 @@ public class RefControlTest extends TestCase {
         u.controlForRef("refs/heads/master").canUpload());
   }
 
+  public void testUsernamePatternNonRegex() {
+    grant(local, READ, devs, "refs/sb/${username}/heads/*");
+
+    ProjectControl u = user("u", devs), d = user("d", devs);
+    assertFalse("u can't read", u.controlForRef("refs/sb/d/heads/foobar").isVisible());
+    assertTrue("d can read", d.controlForRef("refs/sb/d/heads/foobar").isVisible());
+  }
+
+  public void testUsernamePatternWithRegex() {
+    grant(local, READ, devs, "^refs/sb/${username}/heads/.*");
+
+    ProjectControl u = user("d.v", devs), d = user("dev", devs);
+    assertFalse("u can't read", u.controlForRef("refs/sb/dev/heads/foobar").isVisible());
+    assertTrue("d can read", d.controlForRef("refs/sb/dev/heads/foobar").isVisible());
+  }
 
   // -----------------------------------------------------------------------
 
@@ -307,19 +322,17 @@ public class RefControlTest extends TestCase {
   }
 
   private ProjectControl user(AccountGroup.UUID... memberOf) {
+    return user(null, memberOf);
+  }
+
+  private ProjectControl user(String name, AccountGroup.UUID... memberOf) {
     SchemaFactory<ReviewDb> schema = null;
     GroupCache groupCache = null;
     String canonicalWebUrl = "http://localhost";
 
-    RefControl.Factory refControlFactory = new RefControl.Factory() {
-      @Override
-      public RefControl create(final ProjectControl projectControl, final String ref) {
-        return new RefControl(projectControl, ref);
-      }
-    };
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), schema, groupCache,
-        canonicalWebUrl, refControlFactory, new MockUser(memberOf),
+        canonicalWebUrl, new MockUser(name, memberOf),
         newProjectState());
   }
 
@@ -338,10 +351,12 @@ public class RefControlTest extends TestCase {
   }
 
   private class MockUser extends CurrentUser {
+    private final String username;
     private final Set<AccountGroup.UUID> groups;
 
-    MockUser(AccountGroup.UUID[] groupId) {
+    MockUser(String name, AccountGroup.UUID[] groupId) {
       super(RefControlTest.this.capabilityControlFactory, AccessPath.UNKNOWN);
+      username = name;
       groups = new HashSet<AccountGroup.UUID>(Arrays.asList(groupId));
       groups.add(registered);
       groups.add(anonymous);
@@ -350,6 +365,11 @@ public class RefControlTest extends TestCase {
     @Override
     public Set<AccountGroup.UUID> getEffectiveGroups() {
       return groups;
+    }
+
+    @Override
+    public String getUserName() {
+      return username;
     }
 
     @Override

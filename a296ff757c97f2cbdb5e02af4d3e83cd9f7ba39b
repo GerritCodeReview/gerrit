@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDX//+lM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-24T12:29:19Z",
+      "side": 1,
+      "message": "I think we want to support two use-cases with the additional views:\n\n1. The user wants to shortly lookup something (e.g. commit message) but when navigating to the previous/next file diff the view should automatically disappear.\n\n2. The user wants to have the context information (e.g. commit message) displayed during the complete review, means the view should stay open when navigating to the previous/next file diff.\n\nHow should those 2 use-cases be supported. Use top view for use case 1 and popup for use case 2? \n\nNot sure, but maybe the top view should have a \u0027keep open\u0027 checkbox, which prevents auto-close on navigation to previous/next file diff? (if we find a good place to position such a checkbox...)",
+      "revId": "a296ff757c97f2cbdb5e02af4d3e83cd9f7ba39b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+lc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-24T12:29:19Z",
+      "side": 1,
+      "message": "1. I think it\u0027s not very intuitive that clicking on the menu entry a second time converts the top view into a popup. However I have to admit, that I\u0027m not having any good idea how to provide this functionality in a more intuitive way. In Eclipse they also provide this functionality (convert view to popup) and here it\u0027s done by right-clicking on the view header and selecting \u0027Detached\u0027 from the context menu. Not sure if we could do something similar...\n\n2. Clicking on the menu entry again after having the popup opened, hides the popup only if you was not navigating to the next/previous file diff in between. E.g. if you open the popup for the commit message, navigate the next file diff by clicking on the corresponding navigation link and then click on the commit message menu entry again, you will have the commit message both as top view and as popup. Even worse you can then create a second commit message popup by clicking once again on the commit message menu entry (move the popup to see the second popup). You can repeat this to have even more commit message popups.",
+      "revId": "a296ff757c97f2cbdb5e02af4d3e83cd9f7ba39b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+lY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-24T12:29:19Z",
+      "side": 1,
+      "message": "1. I think having a key binding to open and close the popups is a good idea. I would propose \u0027m\u0027 for commit message, \u0027p\u0027 for preferences and \u0027h\u0027 for patch sets / patch history and of course \u0027f\u0027 for the file list.\n\n2. Yeah it would be great, if we could make ESC work to close the popup. However I guess this is not that easy. Right now when you open the file list popup by pressing \u0027f\u0027 and then you press \u0027?\u0027 to get the help for the bindings displayed, it already claims that ESC would close the dialog, but for me this not working (only checked in Firefox). I guess there is a conflict with ESC also being used to cancel the editing of a comment. I would be fine with pressing the same key that opens the popup a second time to close it again.\n\n3. The popups should get automatically closed, when navigating away from the file diff screen, e.g. when clicking on the \u0027Up to Change\u0027 link or when clicking on \u0027All\u0027 -\u003e \u0027Open\u0027. With th file list popup this was working earlier.",
+      "revId": "a296ff757c97f2cbdb5e02af4d3e83cd9f7ba39b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+lU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-24T12:29:19Z",
+      "side": 1,
+      "message": "An x icon to close the popup would be very useful. Alternatively we could display a \u0027close\u0027 link in the right upper corner as it\u0027s currently done in the popup that shows the help for the key bindings (press \u0027?\u0027 to see it).",
+      "revId": "a296ff757c97f2cbdb5e02af4d3e83cd9f7ba39b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+lQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-24T12:29:19Z",
+      "side": 1,
+      "message": "+1 for 1/3 max",
+      "revId": "a296ff757c97f2cbdb5e02af4d3e83cd9f7ba39b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

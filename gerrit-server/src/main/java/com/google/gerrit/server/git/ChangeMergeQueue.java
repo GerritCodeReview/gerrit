@@ -22,16 +22,13 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
-import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
-import com.google.inject.Scope;
 import com.google.inject.servlet.RequestScoped;
 
 import com.jcraft.jsch.HostKey;
@@ -65,7 +62,7 @@ public class ChangeMergeQueue implements MergeQueue {
     Injector child = parent.createChildInjector(new AbstractModule() {
       @Override
       protected void configure() {
-        bindScope(RequestScoped.class, MyScope.REQUEST);
+        bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
         install(new GerritRequestModule());
 
         bind(CurrentUser.class).to(IdentifiedUser.class);
@@ -186,8 +183,8 @@ public class ChangeMergeQueue implements MergeQueue {
 
   private void mergeImpl(Branch.NameKey branch) {
     try {
-      MyScope ctx = new MyScope();
-      MyScope old = MyScope.set(ctx);
+      PerThreadRequestScope ctx = new PerThreadRequestScope();
+      PerThreadRequestScope old = PerThreadRequestScope.set(ctx);
       try {
         try {
           bgFactory.get().create(branch).merge();
@@ -195,7 +192,7 @@ public class ChangeMergeQueue implements MergeQueue {
           ctx.cleanup.run();
         }
       } finally {
-        MyScope.set(old);
+        PerThreadRequestScope.set(old);
       }
     } catch (Throwable e) {
       log.error("Merge attempt for " + branch + " failed", e);
@@ -259,67 +256,6 @@ public class ChangeMergeQueue implements MergeQueue {
     public String toString() {
       final Project.NameKey project = dest.getParentKey();
       return "recheck " + project.get() + " " + dest.getShortName();
-    }
-  }
-
-  private static class MyScope {
-    private static final ThreadLocal<MyScope> current =
-        new ThreadLocal<MyScope>();
-
-    private static MyScope getContext() {
-      final MyScope ctx = current.get();
-      if (ctx == null) {
-        throw new OutOfScopeException("Not in command/request");
-      }
-      return ctx;
-    }
-
-    static MyScope set(MyScope ctx) {
-      MyScope old = current.get();
-      current.set(ctx);
-      return old;
-    }
-
-    static final Scope REQUEST = new Scope() {
-      public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
-        return new Provider<T>() {
-          public T get() {
-            return getContext().get(key, creator);
-          }
-
-          @Override
-          public String toString() {
-            return String.format("%s[%s]", creator, REQUEST);
-          }
-        };
-      }
-
-      @Override
-      public String toString() {
-        return "MergeQueue.REQUEST";
-      }
-    };
-
-    private static final Key<RequestCleanup> RC_KEY =
-        Key.get(RequestCleanup.class);
-
-    private final RequestCleanup cleanup;
-    private final Map<Key<?>, Object> map;
-
-    MyScope() {
-      cleanup = new RequestCleanup();
-      map = new HashMap<Key<?>, Object>();
-      map.put(RC_KEY, cleanup);
-    }
-
-    synchronized <T> T get(Key<T> key, Provider<T> creator) {
-      @SuppressWarnings("unchecked")
-      T t = (T) map.get(key);
-      if (t == null) {
-        t = creator.get();
-        map.put(key, t);
-      }
-      return t;
     }
   }
 }

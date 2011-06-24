@@ -20,8 +20,10 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReplicationUser;
 import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.AbstractModule;
@@ -29,6 +31,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryProvider;
+import com.google.inject.servlet.RequestScoped;
 
 import com.jcraft.jsch.Session;
 
@@ -373,6 +376,8 @@ public class PushReplication implements ReplicationQueue {
           injector.createChildInjector(new AbstractModule() {
             @Override
             protected void configure() {
+              bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
+              bind(PerRequestProjectControlCache.class).in(RequestScoped.class);
               bind(CurrentUser.class).toInstance(remoteUser);
             }
           }).getInstance(ProjectControl.Factory.class);

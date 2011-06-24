@@ -155,6 +155,16 @@ class PushOp implements ProjectRunnable {
   }
 
   public void run() {
+    PerThreadRequestScope ctx = new PerThreadRequestScope();
+    PerThreadRequestScope old = PerThreadRequestScope.set(ctx);
+    try {
+      runPushOperation();
+    } finally {
+      PerThreadRequestScope.set(old);
+    }
+  }
+
+  private void runPushOperation() {
     // Lock the queue, and remove ourselves, so we can't be modified once
     // we start replication (instead a new instance, with the same URI, is
     // created and scheduled for a future point in time.)

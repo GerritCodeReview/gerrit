@@ -22,6 +22,7 @@ import com.google.gerrit.server.ReplicationUser;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.AbstractModule;
@@ -29,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryProvider;
+import com.google.inject.servlet.RequestScoped;
 
 import com.jcraft.jsch.Session;
 
@@ -373,6 +375,8 @@ public class PushReplication implements ReplicationQueue {
           injector.createChildInjector(new AbstractModule() {
             @Override
             protected void configure() {
+              bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
+              bind(PerRequestProjectControlCache.class).in(RequestScoped.class);
               bind(CurrentUser.class).toInstance(remoteUser);
             }
           }).getInstance(ProjectControl.Factory.class);
@@ -396,15 +400,22 @@ public class PushReplication implements ReplicationQueue {
 
     void schedule(final Project.NameKey project, final String ref,
         final URIish uri) {
+      PerThreadRequestScope ctx = new PerThreadRequestScope();
+      PerThreadRequestScope old = PerThreadRequestScope.set(ctx);
       try {
-        if (!controlFor(project).isVisible()) {
+        try {
+          if (!controlFor(project).isVisible()) {
+            return;
+          }
+        } catch (NoSuchProjectException e1) {
+          log.error("Internal error: project " + project
+              + " not found during replication");
           return;
         }
-      } catch (NoSuchProjectException e1) {
-        log.error("Internal error: project " + project
-            + " not found during replication");
-        return;
+      } finally {
+        PerThreadRequestScope.set(old);
       }
+
       synchronized (pending) {
         PushOp e = pending.get(uri);
         if (e == null) {
@@ -443,16 +454,6 @@ public class PushReplication implements ReplicationQueue {
      * @param pushOp The PushOp instance to be scheduled.
      */
     void reschedule(final PushOp pushOp) {
-      try {
-        if (!controlFor(pushOp.getProjectNameKey()).isVisible()) {
-          return;
-        }
-      } catch (NoSuchProjectException e1) {
-        log.error("Internal error: project " + pushOp.getProjectNameKey()
-            + " not found during replication");
-        return;
-      }
-
       // It locks access to pending variable.
       synchronized (pending) {
         URIish uri = pushOp.getURI();

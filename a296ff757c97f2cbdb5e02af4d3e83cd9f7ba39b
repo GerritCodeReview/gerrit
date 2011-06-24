@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABDX//+ik\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T17:08:09Z",
+      "side": 1,
+      "message": "Good points raised by Edwin here. I agree, sometimes I want a thing to stick around, and other times I want it to go away as it was a quick \"let me see that again\" thing.\n\nActually, I just clicked \"Files\" in the menu to get the file list at the top of the page. OK. Then I clicked \"Files\" again expecting it to disappear. It did nothing, it just mocked me until I clicked \"Side-by-Side\" again.\n\nIntuitively, I just expected clicking \"Files\" again to make it go away.\n\nMaybe instead clicking the thing you have open makes it go away, and we add a little \"pop-out\" icon to the top right of the header that makes it pop into a popup box. Similar to the Gmail \"new window\" icon in the top right of a message or draft editor.",
+      "parentUuid": "AAABDX//+lM\u003d",
+      "revId": "a296ff757c97f2cbdb5e02af4d3e83cd9f7ba39b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDX//+lc\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -81,6 +99,24 @@
       "writtenOn": "2011-06-24T12:29:19Z",
       "side": 1,
       "message": "+1 for 1/3 max",
+      "revId": "a296ff757c97f2cbdb5e02af4d3e83cd9f7ba39b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+io\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T17:08:09Z",
+      "side": 1,
+      "message": "I really like the \"f\" key popup on the file list being 2/3rds. Its how I jump around a review. Please don\u0027t make that file list 1/3 when the \"f\" key is used.  :-)",
+      "parentUuid": "AAABDX//+lQ\u003d",
       "revId": "a296ff757c97f2cbdb5e02af4d3e83cd9f7ba39b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,57 @@
+Release notes for Gerrit 2.1.8
+==============================
+
+Gerrit 2.1.8 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.8.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.1.8.war]
+
+New Features
+------------
+* Add cache for tag advertisements
++
+When READ level access controls are used on references/branches, this
+cache provides a massive performance boost. On some repositories,
+no-op Git client requests can go from 7.910s to 0.550s.  Since all
+of the time reduction is server CPU, this is a major performance
+improvement for busy servers.
+
+* Substantially speed up pushing changes for review
++
+Pushing changes to big projects was very slow, for similar issues
+as the READ level access controls. Push checks have been improved,
+reducing the amount of server CPU required to validate a push for
+review is connected to the branch its intended for.
+
+* Avoid costly findMergedInto during push to refs/for/*
++
+Checking to see if a new commit uploaded for review has already been
+merged into a branch turns out to be expensive, and not very useful.
+Since the commit is brand new to the server, it cannot possibly ever
+have been merged. Skip the merge check to get a major performance
+improvement on upload to big projects.
+
+* Allow serving static files in subdirectories
++
+The /static/ subdirectory can now serve static files contained within
+subdirectories. This change also patches the code to perform better
+checks to ensure the requested URL is actually in the subdirectory.
+These additional checks are only relevant on Windows servers, where
+MS-DOS compatibility may have permitted access to special device
+files in any directory, rather than just the "\\.\" device namespace.
+
+Bug Fixes
+---------
+* issue 518 Fix MySQL counter resets
++
+MySQL databases lost their change_id, account_id counters after
+server restarts, causing duplicate key insertion errors. Fixed.
+
+* issue 1019 Normalize OpenID URLs with http:// prefix
++
+OpenID standards require sites to add "http://" to an OpenID
+identifier if the user did not enter it themselves.
+
+* Ignore PartialResultException from LDAP.
++
+Instead of crashing with an exception, partial results are ignored
+when configured to be ignored.

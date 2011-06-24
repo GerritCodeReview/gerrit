@@ -28,12 +28,22 @@ import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.HistogramDiff;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
+import org.eclipse.jgit.diff.Sequence;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeFormatter;
+import org.eclipse.jgit.merge.MergeResult;
+import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ResolveMerger;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.patch.FileHeader.PatchType;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -42,11 +52,15 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
+import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 class PatchListLoader extends EntryCreator<PatchListKey, PatchList> {
   private final GitRepositoryManager repoManager;
@@ -85,8 +99,6 @@ class PatchListLoader extends EntryCreator<PatchListKey, PatchList> {
 
   private PatchList readPatchList(final PatchListKey key,
       final Repository repo) throws IOException {
-    // TODO(jeffschu) correctly handle merge commits
-
     final RawTextComparator cmp = comparatorFor(key.getWhitespace());
     final ObjectReader reader = repo.newObjectReader();
     try {
@@ -95,6 +107,7 @@ class PatchListLoader extends EntryCreator<PatchListKey, PatchList> {
       final RevObject a = aFor(key, repo, rw, b);
 
       if (a == null) {
+        // TODO(sop) Remove this case.
         // This is a merge commit, compared to its ancestor.
         //
         final PatchListEntry[] entries = new PatchListEntry[1];
@@ -216,10 +229,126 @@ class PatchListLoader extends EntryCreator<PatchListKey, PatchList> {
         rw.parseBody(r);
         return r;
       }
+      case 2:
+        return automerge(repo, rw, b);
       default:
-        // merge commit, return null to force combined diff behavior
+        // TODO(sop) handle an octopus merge.
         return null;
     }
+  }
+
+  private static RevObject automerge(Repository repo, RevWalk rw, RevCommit b)
+      throws IOException {
+    String hash = b.name();
+    String refName = GitRepositoryManager.REFS_CACHE_AUTOMERGE
+        + hash.substring(0, 2)
+        + "/"
+        + hash.substring(2);
+    Ref ref = repo.getRef(refName);
+    if (ref != null && ref.getObjectId() != null) {
+      return rw.parseTree(ref.getObjectId());
+    }
+
+    ObjectId treeId;
+    ResolveMerger m = (ResolveMerger) MergeStrategy.RESOLVE.newMerger(repo, true);
+    ObjectInserter ins = m.getObjectInserter();
+    try {
+      DirCache dc = DirCache.newInCore();
+      m.setDirCache(dc);
+
+      if (m.merge(b.getParents())) {
+        treeId = m.getResultTreeId();
+
+      } else {
+        RevCommit ours = b.getParent(0);
+        RevCommit theirs = b.getParent(1);
+        rw.parseBody(ours);
+        rw.parseBody(theirs);
+        String oursMsg = ours.getShortMessage();
+        String theirsMsg = theirs.getShortMessage();
+
+        String oursName = String.format("HEAD   (%s %s)",
+            ours.abbreviate(6).name(),
+            oursMsg.substring(0, Math.min(oursMsg.length(), 60)));
+        String theirsName = String.format("BRANCH (%s %s)",
+            theirs.abbreviate(6).name(),
+            theirsMsg.substring(0, Math.min(theirsMsg.length(), 60)));
+
+        MergeFormatter fmt = new MergeFormatter();
+        Map<String, MergeResult<? extends Sequence>> r = m.getMergeResults();
+        Map<String, ObjectId> resolved = new HashMap<String, ObjectId>();
+        for (String path : r.keySet()) {
+          MergeResult<? extends Sequence> p = r.get(path);
+          TemporaryBuffer buf = new TemporaryBuffer.LocalFile(10 * 1024 * 1024);
+          try {
+            fmt.formatMerge(buf, p, "BASE", oursName, theirsName, "UTF-8");
+            buf.close();
+
+            InputStream in = buf.openInputStream();
+            try {
+              resolved.put(path, ins.insert(Constants.OBJ_BLOB, buf.length(), in));
+            } finally {
+              in.close();
+            }
+          } finally {
+            buf.destroy();
+          }
+        }
+
+        DirCacheBuilder builder = dc.builder();
+        int cnt = dc.getEntryCount();
+        for (int i = 0; i < cnt;) {
+          DirCacheEntry entry = dc.getEntry(i);
+          if (entry.getStage() == 0) {
+            builder.add(entry);
+            i++;
+            continue;
+          }
+
+          int next = dc.nextEntry(i);
+          String path = entry.getPathString();
+          DirCacheEntry res = new DirCacheEntry(path);
+          if (resolved.containsKey(path)) {
+            // For a file with content merge conflict that we produced a result
+            // above on, collapse the file down to a single stage 0 with just
+            // the blob content, and a randomly selected mode (the lowest stage,
+            // which should be the merge base, or ours).
+            res.setFileMode(entry.getFileMode());
+            res.setObjectId(resolved.get(path));
+
+          } else if (next == i + 1) {
+            // If there is exactly one stage present, shouldn't be a conflict...
+            res.setFileMode(entry.getFileMode());
+            res.setObjectId(entry.getObjectId());
+
+          } else if (next == i + 2) {
+            // Two stages suggests a delete/modify conflict. Pick the higher
+            // stage as the automatic result.
+            entry = dc.getEntry(i + 1);
+            res.setFileMode(entry.getFileMode());
+            res.setObjectId(entry.getObjectId());
+
+          } else { // 3 stage conflict, no resolve above
+            // Punt on the 3-stage conflict and show the base, for now.
+            res.setFileMode(entry.getFileMode());
+            res.setObjectId(entry.getObjectId());
+          }
+          builder.add(res);
+          i = next;
+        }
+        builder.finish();
+        treeId = dc.writeTree(ins);
+      }
+      ins.flush();
+    } finally {
+      ins.release();
+    }
+
+    RefUpdate update = repo.updateRef(refName);
+    update.setNewObjectId(treeId);
+    update.disableRefLog();
+    update.forceUpdate();
+    return rw.parseTree(treeId);
   }
 
   private static ObjectId emptyTree(final Repository repo) throws IOException {

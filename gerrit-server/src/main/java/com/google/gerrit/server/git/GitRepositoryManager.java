@@ -41,6 +41,18 @@ public interface GitRepositoryManager {
   public static final String REF_CONFIG = "refs/meta/config";
 
   /**
+   * Prefix applied to merge commit base nodes.
+   * <p>
+   * References in this directory should take the form
+   * {@code refs/cache-automerge/xx/yyyy...} where xx is
+   * the first two digits of the merge commit's object
+   * name, and yyyyy... is the remaining 38. The reference
+   * should point to a treeish that is the automatic merge
+   * result of the merge commit's parents.
+   */
+  public static final String REFS_CACHE_AUTOMERGE = "refs/cache-automerge/";
+
+  /**
    * Get (or open) a repository by name.
    *
    * @param name the repository name, relative to the base directory.

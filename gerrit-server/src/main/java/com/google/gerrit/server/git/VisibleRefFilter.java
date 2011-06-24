@@ -21,22 +21,13 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmException;
 
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevFlag;
-import org.eclipse.jgit.revwalk.RevObject;
-import org.eclipse.jgit.revwalk.RevTag;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -49,15 +40,19 @@ public class VisibleRefFilter implements RefFilter {
   private static final Logger log =
       LoggerFactory.getLogger(VisibleRefFilter.class);
 
+  private final TagCache tagCache;
   private final Repository db;
+  private final Project.NameKey projectName;
   private final ProjectControl projectCtl;
   private final ReviewDb reviewDb;
   private final boolean showChanges;
 
-  public VisibleRefFilter(final Repository db,
+  public VisibleRefFilter(final TagCache tagCache, final Repository db,
       final ProjectControl projectControl, final ReviewDb reviewDb,
       final boolean showChanges) {
+    this.tagCache = tagCache;
     this.db = db;
+    this.projectName = projectControl.getProject().getNameKey();
     this.projectCtl = projectControl;
     this.reviewDb = reviewDb;
     this.showChanges = showChanges;
@@ -80,7 +75,9 @@ public class VisibleRefFilter implements RefFilter {
       } else if (isTag(ref)) {
         // If its a tag, consider it later.
         //
-        deferredTags.add(ref);
+        if (ref.getObjectId() != null) {
+          deferredTags.add(ref);
+        }
 
       } else if (projectCtl.controlForRef(ref.getLeaf().getName()).isVisible()) {
         // Use the leaf to lookup the control data. If the reference is
@@ -95,7 +92,12 @@ public class VisibleRefFilter implements RefFilter {
     // to identify what tags we can actually reach, and what we cannot.
     //
     if (!deferredTags.isEmpty() && !result.isEmpty()) {
-      addVisibleTags(result, deferredTags);
+      TagMatcher tags = tagCache.get(projectName).matcher(db, result.values());
+      for (Ref tag : deferredTags) {
+        if (tags.isReachable(tag)) {
+          result.put(tag.getName(), tag);
+        }
+      }
     }
 
     return result;
@@ -119,112 +121,6 @@ public class VisibleRefFilter implements RefFilter {
       log.error("Cannot load changes for project " + project.getName()
           + ", assuming no changes are visible", e);
       return Collections.emptySet();
-    }
-  }
-
-  private void addVisibleTags(final Map<String, Ref> result,
-      final List<Ref> tags) {
-    final RevWalk rw = new RevWalk(db);
-    try {
-      final RevFlag VISIBLE = rw.newFlag("VISIBLE");
-      final List<RevCommit> starts;
-
-      rw.carry(VISIBLE);
-      starts = lookupVisibleCommits(result, rw, VISIBLE);
-
-      for (Ref tag : tags) {
-        if (isTagVisible(rw, VISIBLE, starts, tag)) {
-          result.put(tag.getName(), tag);
-        }
-      }
-    } finally {
-      rw.release();
-    }
-  }
-
-  private List<RevCommit> lookupVisibleCommits(final Map<String, Ref> result,
-      final RevWalk rw, final RevFlag VISIBLE) {
-    // Lookup and cache the roots of the graph that we know we can see.
-    //
-    final List<RevCommit> roots = new ArrayList<RevCommit>(result.size());
-    for (Ref ref : result.values()) {
-      try {
-        RevObject c = rw.parseAny(ref.getObjectId());
-        c.add(VISIBLE);
-        if (c instanceof RevCommit) {
-          roots.add((RevCommit) c);
-        } else if (c instanceof RevTag) {
-          roots.add(rw.parseCommit(c));
-        }
-      } catch (IOException e) {
-      }
-    }
-    return roots;
-  }
-
-  private boolean isTagVisible(final RevWalk rw, final RevFlag VISIBLE,
-      final List<RevCommit> starts, Ref tag) {
-    try {
-      final RevObject obj = peelTag(rw, tag);
-      if (obj.has(VISIBLE)) {
-        // If the target is immediately visible, continue on. This case
-        // is quite common as tags are often sorted alphabetically by the
-        // version number, so earlier tags usually compute the data needed
-        // to answer later tags with no additional effort.
-        //
-        return true;
-      }
-
-      if (obj instanceof RevCommit) {
-        // Cast to a commit and traverse the history to determine if
-        // the commit is reachable through one or more references.
-        //
-        final RevCommit c = (RevCommit) obj;
-        walk(rw, VISIBLE, c, starts);
-        return c.has(VISIBLE);
-      }
-
-      return false;
-    } catch (IOException e) {
-      return false;
-    }
-  }
-
-  private RevObject peelTag(final RevWalk rw, final Ref tag)
-      throws MissingObjectException, IOException {
-    // Try to use the peeled object identity, because it may be
-    // able to save us from parsing the tag object itself.
-    //
-    ObjectId target = tag.getPeeledObjectId();
-    if (target == null) {
-      target = tag.getObjectId();
-    }
-    RevObject o = rw.parseAny(target);
-    while (o instanceof RevTag) {
-      o = ((RevTag) o).getObject();
-      rw.parseHeaders(o);
-    }
-    return o;
-  }
-
-  private void walk(final RevWalk rw, final RevFlag VISIBLE,
-      final RevCommit tagged, final List<RevCommit> starts)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException {
-    // Reset the traversal, but keep VISIBLE flags live as they aren't
-    // invalidated by the change in starting points.
-    //
-    rw.resetRetain(VISIBLE);
-    for (RevCommit o : starts) {
-      try {
-        rw.markStart(o);
-      } catch (IOException e) {
-      }
-    }
-
-    // Traverse the history until the tag is found.
-    //
-    rw.markUninteresting(tagged);
-    while (rw.next() != null) {
     }
   }
 

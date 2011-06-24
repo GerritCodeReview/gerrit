@@ -1,0 +1,327 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDX//+p4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "This isn\u0027t always going to be required. You should load it on demand in the first predicate that needs it, not on every operation.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+p0\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/AbstractCommitUserIdentityPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be public, nobody except your subclass will call it. Use protected instead.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+pU\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_branch_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+pQ\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_branch_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+pM\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_owner_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+pI\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_owner_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+pE\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_project_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+pA\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_project_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+o8\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_topic_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+o4\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_topic_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+o0\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_author_3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+ow\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_author_3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+po\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_author_3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "You setB0() twice, once here and again in super.exec(). Only set it once per predicate.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+oo\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_committer_3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+ok\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_committer_3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+pg\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_committer_3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "You set B0 twice (see PRED_commit_author_3).",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+og\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_current_user_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+oc\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_current_user_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+pY\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T00:11:32Z",
+      "side": 1,
+      "message": "These should be public:\n\n  :- public commit_author/1.",
+      "revId": "b11d05807672bdf82da1f886faf347a3187f9339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

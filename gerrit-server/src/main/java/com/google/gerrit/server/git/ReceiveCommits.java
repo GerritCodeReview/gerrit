@@ -684,6 +684,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           return;
         }
       } finally {
+        walk.reset();
         walk.setRevFilter(oldRevFilter);
       }
     } catch (IOException e) {

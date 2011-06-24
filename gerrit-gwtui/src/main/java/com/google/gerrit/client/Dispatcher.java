@@ -42,6 +42,8 @@ import com.google.gerrit.client.account.MyWatchedProjectsScreen;
 import com.google.gerrit.client.account.NewAgreementScreen;
 import com.google.gerrit.client.account.RegisterScreen;
 import com.google.gerrit.client.account.ValidateEmailScreen;
+import com.google.gerrit.client.admin.AccountGroupInfoScreen;
+import com.google.gerrit.client.admin.AccountGroupMembersScreen;
 import com.google.gerrit.client.admin.AccountGroupScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
 import com.google.gerrit.client.admin.ProjectAccessScreen;
@@ -49,6 +51,7 @@ import com.google.gerrit.client.admin.ProjectBranchesScreen;
 import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
+import com.google.gerrit.client.admin.Util;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
@@ -57,8 +60,10 @@ import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.patches.PatchScreen;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.auth.SignInMode;
+import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -95,8 +100,16 @@ public class Dispatcher {
     return "admin,group," + id.toString();
   }
 
+  public static String toAccountGroup(final AccountGroup.Id id, final String tab) {
+    return "admin,group," + id.toString() + "," + tab;
+  }
+
   public static String toGroup(final AccountGroup.UUID uuid) {
     return "admin,group,uuid-" + uuid.toString();
+  }
+
+  public static String toGroup(final AccountGroup.UUID uuid, final String tab) {
+    return "admin,group,uuid-" + uuid.toString() + "," + tab;
   }
 
   public static String toProjectAdmin(final Project.NameKey n, final String tab) {
@@ -417,21 +430,81 @@ public class Dispatcher {
   private static void admin(String token) {
     GWT.runAsync(new AsyncSplit(token) {
       public void onSuccess() {
-        Gerrit.display(token, select());
+        if (token.startsWith("admin,group,")) {
+          group();
+        } else if (token.startsWith("admin,project,")) {
+          Gerrit.display(token, selectProject());
+        } else if (ADMIN_GROUPS.equals(token)) {
+          Gerrit.display(token, new GroupListScreen());
+        } else if (ADMIN_PROJECTS.equals(token)) {
+          Gerrit.display(token, new ProjectListScreen());
+        } else {
+          Gerrit.display(token, new NotFoundScreen());
+        }
       }
 
-      private Screen select() {
+      private void group() {
         String p;
+        final String tabToken;
+        AccountGroup.Id groupId = null;
+        AccountGroup.UUID groupUUID = null;
 
         p = "admin,group,uuid-";
-        if (token.startsWith(p))
-          return new AccountGroupScreen(AccountGroup.UUID.parse(skip(p, token)));
+        if (token.startsWith(p)) {
+          p = skip(p, token);
+          final int c = p.indexOf(',');
+          if (c < 0) {
+            groupUUID = AccountGroup.UUID.parse(p);
+            tabToken = null;
+          } else {
+            groupUUID = AccountGroup.UUID.parse(p.substring(0, c));
+            tabToken = p.substring(c + 1);
+          }
+        } else {
+          p = skip("admin,group,", token);
+          final int c = p.indexOf(',');
+          if (c < 0) {
+            groupId = AccountGroup.Id.parse(p);
+            tabToken = null;
+          } else {
+            groupId = AccountGroup.Id.parse(p.substring(0, c));
+            tabToken = p.substring(c + 1);
+          }
+        }
 
-        p = "admin,group,";
-        if (token.startsWith(p))
-          return new AccountGroupScreen(AccountGroup.Id.parse(skip(p, token)));
+        Util.GROUP_SVC.groupDetail(groupId, groupUUID,
+            new GerritCallback<GroupDetail>() {
+              @Override
+              public void onSuccess(final GroupDetail groupDetail) {
+                if (tabToken == null) {
+                  // the token does not say which group screen should be shown,
+                  // as default for internal groups show the
+                  // AccountGroupMembersScreen,
+                  // as default for external and system groups show the
+                  // AccountGroupInfoScreen (since for external and system
+                  // groups the members cannot be shown)
+                  if (groupDetail.group.getType() == AccountGroup.Type.INTERNAL) {
+                    Gerrit.display(token + "," + AccountGroupScreen.MEMBERS,
+                        new AccountGroupMembersScreen(groupDetail, token));
+                  } else {
+                    Gerrit.display(token + "," + AccountGroupScreen.INFO,
+                        new AccountGroupInfoScreen(groupDetail, token));
+                  }
+                } else if (AccountGroupScreen.INFO.equals(tabToken)) {
+                  Gerrit.display(token, new AccountGroupInfoScreen(groupDetail,
+                      token));
+                } else if (AccountGroupScreen.MEMBERS.equals(tabToken)) {
+                  Gerrit.display(token, new AccountGroupMembersScreen(
+                      groupDetail, token));
+                } else {
+                  Gerrit.display(token, new NotFoundScreen());
+                }
+              }
+            });
+      }
 
-        p = "admin,project,";
+      private Screen selectProject() {
+        String p = "admin,project,";
         if (token.startsWith(p)) {
           p = skip(p, token);
           final int c = p.indexOf(',');
@@ -452,14 +525,6 @@ public class Dispatcher {
           }
 
           return new NotFoundScreen();
-        }
-
-        if (ADMIN_GROUPS.equals(token)) {
-          return new GroupListScreen();
-        }
-
-        if (ADMIN_PROJECTS.equals(token)) {
-          return new ProjectListScreen();
         }
 
         return new NotFoundScreen();

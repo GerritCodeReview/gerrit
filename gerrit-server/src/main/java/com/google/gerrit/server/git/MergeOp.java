@@ -156,6 +156,7 @@ public class MergeOp {
 
   private final ChangeHookRunner hooks;
   private final AccountCache accountCache;
+  private final TagCache tagCache;
   private final CreateCodeReviewNotes.Factory codeReviewNotesFactory;
 
   @Inject
@@ -169,6 +170,7 @@ public class MergeOp {
       @GerritPersonIdent final PersonIdent myIdent,
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
       final ChangeHookRunner hooks, final AccountCache accountCache,
+      final TagCache tagCache,
       final CreateCodeReviewNotes.Factory crnf) {
     repoManager = grm;
     schemaFactory = sf;
@@ -184,6 +186,7 @@ public class MergeOp {
     this.mergeQueue = mergeQueue;
     this.hooks = hooks;
     this.accountCache = accountCache;
+    this.tagCache = tagCache;
     codeReviewNotesFactory = crnf;
 
     this.myIdent = myIdent;
@@ -900,6 +903,13 @@ public class MergeOp {
         switch (branchUpdate.update(rw)) {
           case NEW:
           case FAST_FORWARD:
+            if (branchUpdate.getResult() == RefUpdate.Result.FAST_FORWARD) {
+              tagCache.updateFastForward(destBranch.getParentKey(),
+                  branchUpdate.getName(),
+                  branchUpdate.getOldObjectId(),
+                  mergeTip);
+            }
+
             if (GitRepositoryManager.REF_CONFIG.equals(branchUpdate.getName())) {
               projectCache.evict(destProject);
               ProjectState ps = projectCache.get(destProject.getNameKey());

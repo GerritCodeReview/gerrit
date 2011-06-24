@@ -47,6 +47,7 @@ import com.google.gerrit.server.git.PushReplication;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.git.SecureCredentialsProvider;
+import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSender;
@@ -146,6 +147,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(GroupIncludeCacheImpl.module());
     install(PatchListCacheImpl.module());
     install(ProjectCacheImpl.module());
+    install(TagCache.module());
     install(new AccessControlModule());
     install(new GitModule());
     install(new PrologModule());

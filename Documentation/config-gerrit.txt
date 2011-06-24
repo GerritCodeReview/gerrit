@@ -393,6 +393,18 @@ Keeping entries for 90 days gives sufficient time for most changes
 to be submitted or abandoned before their relevant difference items
 expire out.
 
+cache `"git_tags"`::
++
+If branch or reference level READ access controls are used, this
+cache tracks which tags are reachable from the branch tips of a
+repository.  Gerrit uses this information to determine the set
+of tags that a client may access, derived from which tags are
+part of the history of a visible branch.
++
+The cache is persisted to disk across server restarts as it can
+be expensive to compute (60 or more seconds for a large history
+like the Linux kernel repository).
+
 cache `"groups"`::
 +
 Caches the basic group information from the `account_groups` table,

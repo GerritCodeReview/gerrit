@@ -129,6 +129,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final String canonicalWebUrl;
   private final PersonIdent gerritIdent;
   private final TrackingFooters trackingFooters;
+  private final TagCache tagCache;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -162,6 +163,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final ChangeHookRunner hooks,
       final ProjectCache projectCache,
       final GitRepositoryManager repoManager,
+      final TagCache tagCache,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
@@ -183,6 +185,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.canonicalWebUrl = canonicalWebUrl;
     this.gerritIdent = gerritIdent;
     this.trackingFooters = trackingFooters;
+    this.tagCache = tagCache;
 
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
@@ -197,7 +200,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     if (!projectControl.allRefsAreVisible()) {
       rp.setCheckReferencedObjectsAreReachable(true);
-      rp.setRefFilter(new VisibleRefFilter(repo, projectControl, db, false));
+      rp.setRefFilter(new VisibleRefFilter(tagCache, repo, projectControl, db, false));
     }
     rp.setRefFilter(new ReceiveCommitsRefFilter(rp.getRefFilter()));
 
@@ -342,18 +345,28 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final Collection<ReceiveCommand> commands) {
     for (final ReceiveCommand c : commands) {
       if (c.getResult() == Result.OK) {
-        if (isHead(c)) {
-          switch (c.getType()) {
-            case CREATE:
+        switch (c.getType()) {
+          case CREATE:
+            if (isHead(c)) {
               autoCloseChanges(c);
-              break;
-            case DELETE:
-              break;
-            case UPDATE:
-            case UPDATE_NONFASTFORWARD:
+            }
+            break;
+
+          case UPDATE: // otherwise known as a fast-forward
+            tagCache.updateFastForward(project.getNameKey(),
+                c.getRefName(),
+                c.getOldId(),
+                c.getNewId());
+            if (isHead(c)) {
               autoCloseChanges(c);
-              break;
-          }
+            }
+            break;
+
+          case UPDATE_NONFASTFORWARD:
+            if (isHead(c)) {
+              autoCloseChanges(c);
+            }
+            break;
         }
 
         if (isConfig(c)) {
@@ -511,6 +524,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canCreate(rp.getRevWalk(), obj)) {
       validateNewCommits(ctl, cmd);
+
       // Let the core receive process handle it
     } else {
       reject(cmd);

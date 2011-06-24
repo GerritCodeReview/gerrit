@@ -85,7 +85,6 @@ class SubmitAction extends Handler<ChangeDetail> {
         return changeDetailFactory.create(changeId).call();
 
       case NOT_READY: {
-        StringBuilder msg = new StringBuilder();
         for (SubmitRecord.Label lbl : result.get(0).labels) {
           switch (lbl.status) {
             case OK:

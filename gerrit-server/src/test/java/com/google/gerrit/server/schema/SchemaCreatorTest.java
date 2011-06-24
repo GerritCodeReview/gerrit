@@ -17,7 +17,6 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.testutil.InMemoryDatabase;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.jdbc.JdbcSchema;

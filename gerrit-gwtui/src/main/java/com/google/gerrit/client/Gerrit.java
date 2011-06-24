@@ -35,7 +35,6 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.AuthType;
-import com.google.gerrit.reviewdb.Patch;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;

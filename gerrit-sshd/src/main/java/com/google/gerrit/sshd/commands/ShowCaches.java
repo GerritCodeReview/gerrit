@@ -241,7 +241,6 @@ final class ShowCaches extends CacheCommand {
     long now = System.currentTimeMillis();
     Collection<IoSession> list = acceptor.getManagedSessions().values();
     long oldest = now;
-    double writeThroughput = 0.0;
     for (IoSession s : list) {
       oldest = Math.min(oldest, s.getCreationTime());
     }

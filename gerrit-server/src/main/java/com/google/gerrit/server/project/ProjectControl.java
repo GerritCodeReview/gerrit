@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.gerrit.common.CollectionsUtil.isAnyIncludedIn;
-
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Capable;
@@ -46,10 +44,11 @@ import com.google.inject.assistedinject.Assisted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -81,22 +80,16 @@ public class ProjectControl {
   }
 
   public static class Factory {
-    private final ProjectCache projectCache;
-    private final Provider<CurrentUser> user;
+    private final Provider<PerRequestProjectControlCache> userCache;
 
     @Inject
-    Factory(final ProjectCache pc, final Provider<CurrentUser> cu) {
-      projectCache = pc;
-      user = cu;
+    Factory(Provider<PerRequestProjectControlCache> uc) {
+      userCache = uc;
     }
 
     public ProjectControl controlFor(final Project.NameKey nameKey)
         throws NoSuchProjectException {
-      final ProjectState p = projectCache.get(nameKey);
-      if (p == null) {
-        throw new NoSuchProjectException(nameKey);
-      }
-      return p.controlFor(user.get());
+      return userCache.get().get(nameKey);
     }
 
     public ProjectControl validateFor(final Project.NameKey nameKey)
@@ -130,34 +123,38 @@ public class ProjectControl {
   private final Set<AccountGroup.UUID> receiveGroups;
 
   private final String canonicalWebUrl;
-  private final RefControl.Factory refControlFactory;
   private final SchemaFactory<ReviewDb> schema;
   private final CurrentUser user;
   private final ProjectState state;
   private final GroupCache groupCache;
+  private final PermissionCollection.Factory permissionFilter;
 
-
-  private Collection<AccessSection> access;
+  private List<SectionMatcher> allSections;
+  private Map<String, RefControl> refControls;
+  private Boolean declaredOwner;
 
   @Inject
   ProjectControl(@GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
       final SchemaFactory<ReviewDb> schema, final GroupCache groupCache,
+      final PermissionCollection.Factory permissionFilter,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
-      final RefControl.Factory refControlFactory,
       @Assisted CurrentUser who, @Assisted ProjectState ps) {
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.schema = schema;
     this.groupCache = groupCache;
+    this.permissionFilter = permissionFilter;
     this.canonicalWebUrl = canonicalWebUrl;
-    this.refControlFactory = refControlFactory;
     user = who;
     state = ps;
   }
 
-  public ProjectControl forUser(final CurrentUser who) {
-    return state.controlFor(who);
+  public ProjectControl forUser(CurrentUser who) {
+    ProjectControl r = state.controlFor(who);
+    // Not per-user, and reusing saves lookup time.
+    r.allSections = allSections;
+    return r;
   }
 
   public ChangeControl controlFor(final Change change) {
@@ -169,7 +166,17 @@ public class ProjectControl {
   }
 
   public RefControl controlForRef(String refName) {
-    return refControlFactory.create(this, refName);
+    if (refControls == null) {
+      refControls = new HashMap<String, RefControl>();
+    }
+    RefControl ctl = refControls.get(refName);
+    if (ctl == null) {
+      PermissionCollection relevant =
+          permissionFilter.filter(access(), refName, user.getUserName());
+      ctl = new RefControl(this, refName, relevant);
+      refControls.put(refName, ctl);
+    }
+    return ctl;
   }
 
   public CurrentUser getCurrentUser() {
@@ -181,7 +188,7 @@ public class ProjectControl {
   }
 
   public Project getProject() {
-    return getProjectState().getProject();
+    return state.getProject();
   }
 
   /** Can this user see this project exists? */
@@ -203,20 +210,27 @@ public class ProjectControl {
 
   /** Is this project completely visible for replication? */
   boolean visibleForReplication() {
-    return getCurrentUser() instanceof ReplicationUser
-        && ((ReplicationUser) getCurrentUser()).isEverythingVisible();
+    return user instanceof ReplicationUser
+        && ((ReplicationUser) user).isEverythingVisible();
   }
 
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
   public boolean isOwner() {
-    return controlForRef(AccessSection.ALL).isOwner()
-        || getCurrentUser().getCapabilities().canAdministrateServer();
+    return isDeclaredOwner()
+      || user.getCapabilities().canAdministrateServer();
+  }
+
+  private boolean isDeclaredOwner() {
+    if (declaredOwner == null) {
+      declaredOwner = state.isOwner(user.getEffectiveGroups());
+    }
+    return declaredOwner;
   }
 
   /** Does this user have ownership on at least one reference name? */
   public boolean isOwnerAnyRef() {
     return canPerformOnAnyRef(Permission.OWNER)
-        || getCurrentUser().getCapabilities().canAdministrateServer();
+        || user.getCapabilities().canAdministrateServer();
   }
 
   /** @return true if the user can upload to at least one reference */
@@ -370,33 +384,16 @@ public class ProjectControl {
     return value == null || value.trim().equals("");
   }
 
-  /**
-   * @return the effective groups of the current user for this project
-   */
-  private Set<AccountGroup.UUID> getEffectiveUserGroups() {
-    final Set<AccountGroup.UUID> userGroups = user.getEffectiveGroups();
-    if (isOwner()) {
-      final Set<AccountGroup.UUID> userGroupsOnProject =
-          new HashSet<AccountGroup.UUID>(userGroups.size() + 1);
-      userGroupsOnProject.addAll(userGroups);
-      userGroupsOnProject.add(AccountGroup.PROJECT_OWNERS);
-      return Collections.unmodifiableSet(userGroupsOnProject);
-    } else {
-      return userGroups;
-    }
-  }
-
   private boolean canPerformOnAnyRef(String permissionName) {
-    final Set<AccountGroup.UUID> groups = getEffectiveUserGroups();
-
-    for (AccessSection section : access()) {
+    for (SectionMatcher matcher : access()) {
+      AccessSection section = matcher.section;
       Permission permission = section.getPermission(permissionName);
       if (permission == null) {
         continue;
       }
 
       for (PermissionRule rule : permission.getRules()) {
-        if (rule.getDeny()) {
+        if (rule.getDeny() || !match(rule)) {
           continue;
         }
 
@@ -404,9 +401,10 @@ public class ProjectControl {
         // approximation.  There might be overrides and doNotInherit
         // that would render this to be false.
         //
-        if (groups.contains(rule.getGroup().getUUID())
-            && controlForRef(section.getName()).canPerform(permissionName)) {
+        if (controlForRef(section.getName()).canPerform(permissionName)) {
           return true;
+        } else {
+          break;
         }
       }
     }
@@ -435,7 +433,8 @@ public class ProjectControl {
 
   private Set<String> allRefPatterns(String permissionName) {
     Set<String> all = new HashSet<String>();
-    for (AccessSection section : access()) {
+    for (SectionMatcher matcher : access()) {
+      AccessSection section = matcher.section;
       Permission permission = section.getPermission(permissionName);
       if (permission != null) {
         all.add(section.getName());
@@ -444,18 +443,40 @@ public class ProjectControl {
     return all;
   }
 
-  Collection<AccessSection> access() {
-    if (access == null) {
-      access = state.getAllAccessSections();
+  private List<SectionMatcher> access() {
+    if (allSections == null) {
+      allSections = state.getAllSections();
     }
-    return access;
+    return allSections;
+  }
+
+  boolean match(PermissionRule rule) {
+    return match(rule.getGroup().getUUID());
+  }
+
+  boolean match(AccountGroup.UUID uuid) {
+    if (AccountGroup.PROJECT_OWNERS.equals(uuid)) {
+      return isDeclaredOwner();
+    } else {
+      return user.getEffectiveGroups().contains(uuid);
+    }
   }
 
   public boolean canRunUploadPack() {
-    return isAnyIncludedIn(uploadGroups, getEffectiveUserGroups());
+    for (AccountGroup.UUID group : uploadGroups) {
+      if (match(group)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public boolean canRunReceivePack() {
-    return isAnyIncludedIn(receiveGroups, getEffectiveUserGroups());
+    for (AccountGroup.UUID group : receiveGroups) {
+      if (match(group)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

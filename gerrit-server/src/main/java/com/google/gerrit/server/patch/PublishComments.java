@@ -120,7 +120,7 @@ public class PublishComments implements Callable<VoidResult> {
 
     final boolean isCurrent = patchSetId.equals(change.currentPatchSetId());
     if (isCurrent && change.getStatus().isOpen()) {
-      publishApprovals();
+      publishApprovals(ctl);
     } else if (! approvals.isEmpty()) {
       throw new InvalidChangeOperationException("Change is closed");
     } else {
@@ -141,7 +141,7 @@ public class PublishComments implements Callable<VoidResult> {
     db.patchComments().update(drafts);
   }
 
-  private void publishApprovals() throws OrmException {
+  private void publishApprovals(ChangeControl ctl) throws OrmException {
     ChangeUtil.updated(change);
 
     final Set<ApprovalCategory.Id> dirty = new HashSet<ApprovalCategory.Id>();
@@ -169,7 +169,7 @@ public class PublishComments implements Callable<VoidResult> {
     // Normalize all of the items the user is changing.
     //
     final FunctionState functionState =
-        functionStateFactory.create(change, patchSetId, all);
+        functionStateFactory.create(ctl, patchSetId, all);
     for (final ApprovalCategoryValue.Id want : approvals) {
       final PatchSetApproval a = mine.get(want.getParentKey());
       final short o = a.getValue();

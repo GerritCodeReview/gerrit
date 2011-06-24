@@ -27,10 +27,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory.Id;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -44,7 +41,7 @@ import java.util.Map;
 /** State passed through to a {@link CategoryFunction}. */
 public class FunctionState {
   public interface Factory {
-    FunctionState create(Change c, PatchSet.Id psId,
+    FunctionState create(ChangeControl c, PatchSet.Id psId,
         Collection<PatchSetApproval> all);
   }
 
@@ -55,20 +52,19 @@ public class FunctionState {
       new HashMap<ApprovalCategory.Id, Collection<PatchSetApproval>>();
   private final Map<ApprovalCategory.Id, Boolean> valid =
       new HashMap<ApprovalCategory.Id, Boolean>();
+  private final ChangeControl callerChangeControl;
   private final Change change;
-  private final ProjectState project;
 
   @Inject
   FunctionState(final ApprovalTypes approvalTypes,
-      final ProjectCache projectCache,
       final IdentifiedUser.GenericFactory userFactory, final GroupCache egc,
-      @Assisted final Change c, @Assisted final PatchSet.Id psId,
+      @Assisted final ChangeControl c, @Assisted final PatchSet.Id psId,
       @Assisted final Collection<PatchSetApproval> all) {
     this.approvalTypes = approvalTypes;
     this.userFactory = userFactory;
 
-    change = c;
-    project = projectCache.get(change.getProject());
+    callerChangeControl = c;
+    change = c.getChange();
 
     for (final PatchSetApproval ca : all) {
       if (psId.equals(ca.getPatchSetId())) {
@@ -147,10 +143,8 @@ public class FunctionState {
     a.setValue((short) range.squash(a.getValue()));
   }
 
-  RefControl controlFor(final CurrentUser user) {
-    ProjectControl pc = project.controlFor(user);
-    RefControl rc = pc.controlForRef(change.getDest().get());
-    return rc;
+  private ChangeControl controlFor(CurrentUser user) {
+    return callerChangeControl.forUser(user);
   }
 
   /** Run <code>applyTypeFloor</code>, <code>applyRightFloor</code>. */

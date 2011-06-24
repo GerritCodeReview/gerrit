@@ -33,6 +33,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.cache.ConcurrentHashMapCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -195,6 +196,30 @@ public class RefControlTest extends TestCase {
         u.controlForRef("refs/heads/master").canUpload());
   }
 
+  public void testUsernamePatternNonRegex() {
+    grant(local, READ, devs, "refs/sb/${username}/heads/*");
+
+    ProjectControl u = user("u", devs), d = user("d", devs);
+    assertFalse("u can't read", u.controlForRef("refs/sb/d/heads/foobar").isVisible());
+    assertTrue("d can read", d.controlForRef("refs/sb/d/heads/foobar").isVisible());
+  }
+
+  public void testUsernamePatternWithRegex() {
+    grant(local, READ, devs, "^refs/sb/${username}/heads/.*");
+
+    ProjectControl u = user("d.v", devs), d = user("dev", devs);
+    assertFalse("u can't read", u.controlForRef("refs/sb/dev/heads/foobar").isVisible());
+    assertTrue("d can read", d.controlForRef("refs/sb/dev/heads/foobar").isVisible());
+  }
+
+  public void testSortWithRegex() {
+    grant(local, READ, devs, "^refs/heads/.*");
+    grant(parent, READ, anonymous, "^refs/heads/.*-QA-.*");
+
+    ProjectControl u = user(devs), d = user(devs);
+    assertTrue("u can read", u.controlForRef("refs/heads/foo-QA-bar").isVisible());
+    assertTrue("d can read", d.controlForRef("refs/heads/foo-QA-bar").isVisible());
+  }
 
   // -----------------------------------------------------------------------
 
@@ -204,6 +229,8 @@ public class RefControlTest extends TestCase {
 
   private ProjectConfig local;
   private ProjectConfig parent;
+  private PermissionCollection.Factory sectionSorter;
+
   private final AccountGroup.UUID admin = new AccountGroup.UUID("test.admin");
   private final AccountGroup.UUID anonymous = AccountGroup.ANONYMOUS_USERS;
   private final AccountGroup.UUID registered = AccountGroup.REGISTERED_USERS;
@@ -273,6 +300,11 @@ public class RefControlTest extends TestCase {
     local = new ProjectConfig(new Project.NameKey("local"));
     local.createInMemory();
     local.getProject().setParentName(parent.getProject().getName());
+
+    sectionSorter =
+        new PermissionCollection.Factory(
+            new SectionSortCache(
+                new ConcurrentHashMapCache<SectionSortCache.EntryKey, SectionSortCache.EntryVal>()));
   }
 
   private static void assertOwner(String ref, ProjectControl u) {
@@ -307,19 +339,18 @@ public class RefControlTest extends TestCase {
   }
 
   private ProjectControl user(AccountGroup.UUID... memberOf) {
+    return user(null, memberOf);
+  }
+
+  private ProjectControl user(String name, AccountGroup.UUID... memberOf) {
     SchemaFactory<ReviewDb> schema = null;
     GroupCache groupCache = null;
     String canonicalWebUrl = "http://localhost";
 
-    RefControl.Factory refControlFactory = new RefControl.Factory() {
-      @Override
-      public RefControl create(final ProjectControl projectControl, final String ref) {
-        return new RefControl(projectControl, ref);
-      }
-    };
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), schema, groupCache,
-        canonicalWebUrl, refControlFactory, new MockUser(memberOf),
+        sectionSorter,
+        canonicalWebUrl, new MockUser(name, memberOf),
         newProjectState());
   }
 
@@ -338,10 +369,12 @@ public class RefControlTest extends TestCase {
   }
 
   private class MockUser extends CurrentUser {
+    private final String username;
     private final Set<AccountGroup.UUID> groups;
 
-    MockUser(AccountGroup.UUID[] groupId) {
+    MockUser(String name, AccountGroup.UUID[] groupId) {
       super(RefControlTest.this.capabilityControlFactory, AccessPath.UNKNOWN);
+      username = name;
       groups = new HashSet<AccountGroup.UUID>(Arrays.asList(groupId));
       groups.add(registered);
       groups.add(anonymous);
@@ -350,6 +383,11 @@ public class RefControlTest extends TestCase {
     @Override
     public Set<AccountGroup.UUID> getEffectiveGroups() {
       return groups;
+    }
+
+    @Override
+    public String getUserName() {
+      return username;
     }
 
     @Override

@@ -58,10 +58,11 @@ import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.AccessControlModule;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.PermissionCollection;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.workflow.FunctionState;
@@ -147,6 +148,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(GroupIncludeCacheImpl.module());
     install(PatchListCacheImpl.module());
     install(ProjectCacheImpl.module());
+    install(SectionSortCache.module());
     install(TagCache.module());
     install(new AccessControlModule());
     install(new GitModule());
@@ -156,7 +158,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(CapabilityControl.Factory.class);
     factory(GroupInfoCacheFactory.Factory.class);
     factory(ProjectState.Factory.class);
-    factory(RefControl.Factory.class);
+    bind(PermissionCollection.Factory.class);
 
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(WorkQueue.class);

@@ -154,8 +154,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
         db.patchSetApprovals().byChange(changeId).toList();
 
     if (detail.getChange().getStatus().isOpen()) {
-      final FunctionState fs =
-          functionState.create(detail.getChange(), psId, allApprovals);
+      final FunctionState fs = functionState.create(control, psId, allApprovals);
 
       for (final ApprovalType at : approvalTypes.getApprovalTypes()) {
         CategoryFunction.forCategory(at.getCategory()).run(at, fs);

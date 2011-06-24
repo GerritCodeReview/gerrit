@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.common.CollectionsUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
@@ -23,6 +24,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -65,6 +67,11 @@ public class ProjectState {
   /** Last system time the configuration's revision was examined. */
   private volatile long lastCheckTime;
 
+  /** Local access sections, wrapped in SectionMatchers for faster evaluation. */
+  private volatile List<SectionMatcher> localAccessSections;
+
+  /** If this is all projects, the capabilities used by the server. */
+  private final CapabilityCollection capabilities;
 
   @Inject
   protected ProjectState(
@@ -82,6 +89,9 @@ public class ProjectState {
     this.gitMgr = gitMgr;
     this.rulesCache = rulesCache;
     this.config = config;
+    this.capabilities = isAllProjects
+      ? new CapabilityCollection(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
+      : null;
 
     HashSet<AccountGroup.UUID> groups = new HashSet<AccountGroup.UUID>();
     AccessSection all = config.getAccessSection(AccessSection.ALL);
@@ -127,64 +137,77 @@ public class ProjectState {
     }
   }
 
+  /**
+   * @return cached computation of all global capabilities. This should only be
+   *         invoked on the state from {@link ProjectCache#getAllProjects()}.
+   *         Null on any other project.
+   */
+  public CapabilityCollection getCapabilityCollection() {
+    return capabilities;
+  }
+
   /** @return Construct a new PrologEnvironment for the calling thread. */
   public PrologEnvironment newPrologEnvironment() throws CompileException {
     PrologMachineCopy pmc = rulesMachine;
     if (pmc == null) {
       pmc = rulesCache.loadMachine(
           getProject().getNameKey(),
-          getConfig().getRulesId());
+          config.getRulesId());
       rulesMachine = pmc;
     }
     return envFactory.create(pmc);
   }
 
   public Project getProject() {
-    return getConfig().getProject();
+    return config.getProject();
   }
 
   public ProjectConfig getConfig() {
     return config;
   }
 
-  /** Get the rights that pertain only to this project. */
-  public Collection<AccessSection> getLocalAccessSections() {
-    return getConfig().getAccessSections();
+  /** Get the sections that pertain only to this project. */
+  private List<SectionMatcher> getLocalAccessSections() {
+    List<SectionMatcher> sm = localAccessSections;
+    if (sm == null) {
+      Collection<AccessSection> fromConfig = config.getAccessSections();
+      sm = new ArrayList<SectionMatcher>(fromConfig.size());
+      for (AccessSection section : fromConfig) {
+        SectionMatcher matcher = SectionMatcher.wrap(section);
+        if (matcher != null) {
+          sm.add(matcher);
+        }
+      }
+      localAccessSections = sm;
+    }
+    return sm;
   }
 
-  /** Get the rights this project inherits. */
-  public Collection<AccessSection> getInheritedAccessSections() {
+  /**
+   * Obtain all local and inherited sections. This collection is looked up
+   * dynamically and is not cached. Callers should try to cache this result
+   * per-request as much as possible.
+   */
+  List<SectionMatcher> getAllSections() {
     if (isAllProjects) {
-      return Collections.emptyList();
+      return getLocalAccessSections();
     }
 
-    List<AccessSection> inherited = new ArrayList<AccessSection>();
+    List<SectionMatcher> all = new ArrayList<SectionMatcher>();
     Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
-    Project.NameKey parent = getProject().getParent();
+    seen.add(getProject().getNameKey());
 
-    while (parent != null && seen.add(parent)) {
-      ProjectState s = projectCache.get(parent);
-      if (s != null) {
-        inherited.addAll(s.getLocalAccessSections());
-        parent = s.getProject().getParent();
-      } else {
+    ProjectState s = this;
+    do {
+      all.addAll(s.getLocalAccessSections());
+
+      Project.NameKey parent = s.getProject().getParent();
+      if (parent == null || !seen.add(parent)) {
         break;
       }
-    }
-
-    // The root of the tree is the special "All-Projects" case.
-    if (parent == null) {
-      inherited.addAll(projectCache.getAllProjects().getLocalAccessSections());
-    }
-
-    return inherited;
-  }
-
-  /** Get both local and inherited access sections. */
-  public Collection<AccessSection> getAllAccessSections() {
-    List<AccessSection> all = new ArrayList<AccessSection>();
-    all.addAll(getLocalAccessSections());
-    all.addAll(getInheritedAccessSections());
+      s = projectCache.get(parent);
+    } while (s != null);
+    all.addAll(projectCache.getAllProjects().getLocalAccessSections());
     return all;
   }
 
@@ -209,30 +232,26 @@ public class ProjectState {
   }
 
   /**
-   * @return all {@link AccountGroup}'s that are allowed to administrate the
-   *         complete project. This includes all groups to which the owner
-   *         privilege for 'refs/*' is assigned for this project (the local
-   *         owners) and all groups to which the owner privilege for 'refs/*' is
-   *         assigned for one of the parent projects (the inherited owners).
+   * @return true if any of the groups listed in {@code groups} was declared to
+   *         be an owner of this project, or one of its parent projects..
    */
-  public Set<AccountGroup.UUID> getAllOwners() {
-    HashSet<AccountGroup.UUID> owners = new HashSet<AccountGroup.UUID>();
-    owners.addAll(localOwners);
-
+  boolean isOwner(Set<AccountGroup.UUID> groups) {
     Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
-    Project.NameKey parent = getProject().getParent();
+    seen.add(getProject().getNameKey());
 
-    while (parent != null && seen.add(parent)) {
-      ProjectState s = projectCache.get(parent);
-      if (s != null) {
-        owners.addAll(s.localOwners);
-        parent = s.getProject().getParent();
-      } else {
+    ProjectState s = this;
+    do {
+      if (CollectionsUtil.isAnyIncludedIn(s.localOwners, groups)) {
+        return true;
+      }
+
+      Project.NameKey parent = s.getProject().getParent();
+      if (parent == null || !seen.add(parent)) {
         break;
       }
-    }
-
-    return Collections.unmodifiableSet(owners);
+      s = projectCache.get(parent);
+    } while (s != null);
+    return false;
   }
 
   public ProjectControl controlFor(final CurrentUser user) {

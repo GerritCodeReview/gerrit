@@ -432,6 +432,13 @@ Caches a mapping of LDAP username to Gerrit account identity.  The
 cache automatically updates when a user first creates their account
 within Gerrit, so the cache expire time is largely irrelevant.
 
+cache `"permission_sort"`::
++
+Caches the order access control sections must be applied to a
+reference.  Sorting the sections can be expensive when regular
+expressions are used, so this cache remembers the ordering for
+each branch.
+
 cache `"projects"`::
 +
 Caches the project description records, from the `projects` table

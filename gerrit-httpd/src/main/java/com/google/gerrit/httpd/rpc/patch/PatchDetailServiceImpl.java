@@ -182,7 +182,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
             final Map<ApprovalCategory.Id, PatchSetApproval> psas =
                 new HashMap<ApprovalCategory.Id, PatchSetApproval>();
             final FunctionState fs =
-                functionStateFactory.create(change, ps_id, psas.values());
+                functionStateFactory.create(cc, ps_id, psas.values());
 
             for (final PatchSetApproval ca : db.patchSetApprovals()
                 .byPatchSetUser(ps_id, aid)) {
@@ -229,7 +229,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
             final Map<ApprovalCategory.Id, PatchSetApproval> psas =
                 new HashMap<ApprovalCategory.Id, PatchSetApproval>();
             final FunctionState fs =
-                functionStateFactory.create(change, ps_id, psas.values());
+                functionStateFactory.create(cc, ps_id, psas.values());
 
             for (PatchSetApproval ca : db.patchSetApprovals().byPatchSet(ps_id)) {
               final ApprovalCategory.Id category = ca.getCategoryId();

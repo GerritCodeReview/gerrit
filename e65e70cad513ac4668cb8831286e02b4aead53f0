@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABDX//+jA\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T16:59:51Z",
+      "side": 1,
+      "message": "Since this is in our JSON and is sort-of a public API, I would prefer a more descriptive name than just \"psId\".\n\nHow about \"patchSetOtherChangeDependsOn\"?",
+      "revId": "e65e70cad513ac4668cb8831286e02b4aead53f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+jM\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T16:59:51Z",
+      "side": 1,
+      "message": "Uhm. IntKey already defines hashCode() and equals(). Why did you need to override equals() here?",
+      "revId": "e65e70cad513ac4668cb8831286e02b4aead53f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+jI\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/PatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-24T16:59:51Z",
+      "side": 1,
+      "message": "Base class IntKey already defines hashCode and equals(). Why did you override it?",
+      "revId": "e65e70cad513ac4668cb8831286e02b4aead53f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

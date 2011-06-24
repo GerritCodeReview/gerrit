@@ -178,6 +178,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
+      final TagCache tagCache,
 
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo) throws IOException {
@@ -208,7 +209,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     if (!projectControl.allRefsAreVisible()) {
       rp.setCheckReferencedObjectsAreReachable(true);
-      rp.setRefFilter(new VisibleRefFilter(repo, projectControl, db, false));
+      rp.setRefFilter(new VisibleRefFilter(tagCache, repo, projectControl, db, false));
     }
     rp.setRefFilter(new ReceiveCommitsRefFilter(rp.getRefFilter()));
 
@@ -594,6 +595,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canCreate(rp.getRevWalk(), obj)) {
       validateNewCommits(ctl, cmd);
+
       // Let the core receive process handle it
     } else {
       reject(cmd);

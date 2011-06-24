@@ -435,6 +435,10 @@ public class Dispatcher {
         if (token.startsWith(p)) {
           p = skip(p, token);
           final int c = p.indexOf(',');
+          if (c < 0) {
+            final Project.NameKey k = Project.NameKey.parse(p);
+            return new ProjectInfoScreen(k);
+          }
           final Project.NameKey k = Project.NameKey.parse(p.substring(0, c));
           final boolean isWild = k.equals(Gerrit.getConfig().getWildProject());
           p = p.substring(c + 1);

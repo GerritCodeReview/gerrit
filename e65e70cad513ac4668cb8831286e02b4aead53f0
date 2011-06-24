@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABDX//+h0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-24T17:35:53Z",
+      "side": 1,
+      "message": "Having a better name for JSON api makes sense, but I didn\u0027t want to freeze the utility of that field for only \"patchSetOtherChangeDependsOn\".  In other words, I figured any time someone wanted to refer to another patchset they could.  So I did make it nicer, but not quite as specific.",
+      "parentUuid": "AAABDX//+jA\u003d",
+      "revId": "e65e70cad513ac4668cb8831286e02b4aead53f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDX//+jM\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAABDX//+iU\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-24T17:35:53Z",
+      "side": 1,
+      "message": "My bad. Done.  (Doesn\u0027t make sense that you would have missed it on Change.Id!)",
+      "parentUuid": "AAABDX//+jM\u003d",
+      "revId": "e65e70cad513ac4668cb8831286e02b4aead53f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDX//+jI\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/PatchSet.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2011-06-24T16:59:51Z",
       "side": 1,
       "message": "Base class IntKey already defines hashCode and equals(). Why did you override it?",
+      "revId": "e65e70cad513ac4668cb8831286e02b4aead53f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABDX//+iY\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/PatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-06-24T17:35:53Z",
+      "side": 1,
+      "message": "My bad, I didn\u0027t check.  Learned a lot from reading IntKey.equals() and KeyUtil.eq() (which I wonder why it uses T extends Key\u003c?\u003e, it seems valuable for other object types too!)",
+      "parentUuid": "AAABDX//+jI\u003d",
       "revId": "e65e70cad513ac4668cb8831286e02b4aead53f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

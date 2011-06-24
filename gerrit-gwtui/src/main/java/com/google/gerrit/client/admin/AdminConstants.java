@@ -54,6 +54,7 @@ public interface AdminConstants extends Constants {
   String headingGroupType();
   String headingMembers();
   String headingIncludedGroups();
+  String noMembersInfo();
   String headingExternalGroup();
   String headingCreateGroup();
   String headingAccessRights();
@@ -95,6 +96,8 @@ public interface AdminConstants extends Constants {
   String groupListOpen();
 
   String groupListTitle();
+  String groupTabGeneral();
+  String groupTabMembers();
   String projectListTitle();
   String projectAdminTabGeneral();
   String projectAdminTabBranches();

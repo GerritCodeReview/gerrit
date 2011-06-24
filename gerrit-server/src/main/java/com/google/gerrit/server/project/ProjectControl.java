@@ -127,6 +127,7 @@ public class ProjectControl {
   private final CurrentUser user;
   private final ProjectState state;
   private final GroupCache groupCache;
+  private final PermissionCollection.Factory permissionFilter;
 
   private List<SectionMatcher> allSections;
   private Map<String, RefControl> refControls;
@@ -136,12 +137,14 @@ public class ProjectControl {
   ProjectControl(@GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
       final SchemaFactory<ReviewDb> schema, final GroupCache groupCache,
+      final PermissionCollection.Factory permissionFilter,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @Assisted CurrentUser who, @Assisted ProjectState ps) {
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
     this.schema = schema;
     this.groupCache = groupCache;
+    this.permissionFilter = permissionFilter;
     this.canonicalWebUrl = canonicalWebUrl;
     user = who;
     state = ps;
@@ -169,7 +172,7 @@ public class ProjectControl {
     RefControl ctl = refControls.get(refName);
     if (ctl == null) {
       PermissionCollection relevant =
-          PermissionCollection.filter(access(), refName, user.getUserName());
+          permissionFilter.filter(access(), refName, user.getUserName());
       ctl = new RefControl(this, refName, relevant);
       refControls.put(refName, ctl);
     }

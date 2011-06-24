@@ -33,6 +33,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.cache.ConcurrentHashMapCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -211,6 +212,15 @@ public class RefControlTest extends TestCase {
     assertTrue("d can read", d.controlForRef("refs/sb/dev/heads/foobar").isVisible());
   }
 
+  public void testSortWithRegex() {
+    grant(local, READ, devs, "^refs/heads/.*");
+    grant(parent, READ, anonymous, "^refs/heads/.*-QA-.*");
+
+    ProjectControl u = user(devs), d = user(devs);
+    assertTrue("u can read", u.controlForRef("refs/heads/foo-QA-bar").isVisible());
+    assertTrue("d can read", d.controlForRef("refs/heads/foo-QA-bar").isVisible());
+  }
+
   // -----------------------------------------------------------------------
 
   private final Map<Project.NameKey, ProjectState> all;
@@ -219,6 +229,8 @@ public class RefControlTest extends TestCase {
 
   private ProjectConfig local;
   private ProjectConfig parent;
+  private PermissionCollection.Factory sectionSorter;
+
   private final AccountGroup.UUID admin = new AccountGroup.UUID("test.admin");
   private final AccountGroup.UUID anonymous = AccountGroup.ANONYMOUS_USERS;
   private final AccountGroup.UUID registered = AccountGroup.REGISTERED_USERS;
@@ -288,6 +300,11 @@ public class RefControlTest extends TestCase {
     local = new ProjectConfig(new Project.NameKey("local"));
     local.createInMemory();
     local.getProject().setParentName(parent.getProject().getName());
+
+    sectionSorter =
+        new PermissionCollection.Factory(
+            new SectionSortCache(
+                new ConcurrentHashMapCache<SectionSortCache.EntryKey, SectionSortCache.EntryVal>()));
   }
 
   private static void assertOwner(String ref, ProjectControl u) {
@@ -332,6 +349,7 @@ public class RefControlTest extends TestCase {
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
         Collections.<AccountGroup.UUID> emptySet(), schema, groupCache,
+        sectionSorter,
         canonicalWebUrl, new MockUser(name, memberOf),
         newProjectState());
   }

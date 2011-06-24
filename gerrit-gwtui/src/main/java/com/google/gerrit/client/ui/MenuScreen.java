@@ -53,9 +53,20 @@ public abstract class MenuScreen extends Screen {
     body.add(w);
   }
 
-  protected void link(String text, String target) {
+  protected void link(final String text, final String target) {
+    link(text, target, true);
+  }
+
+  protected void link(final String text, final String target,
+      final boolean visible) {
     final LinkMenuItem item = new LinkMenuItem(text, target);
     item.setStyleName(Gerrit.RESOURCES.css().menuItem());
+    item.setVisible(visible);
     menu.add(item);
+  }
+
+  protected void setLinkVisible(final String token, final boolean visible) {
+    final LinkMenuItem item = menu.find(token);
+    item.setVisible(visible);
   }
 }

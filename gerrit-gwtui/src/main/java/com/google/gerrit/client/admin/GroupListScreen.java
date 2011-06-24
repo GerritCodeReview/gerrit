@@ -131,7 +131,7 @@ public class GroupListScreen extends AccountScreen {
     addNew.setEnabled(false);
     Util.GROUP_SVC.createGroup(newName, new GerritCallback<AccountGroup.Id>() {
       public void onSuccess(final AccountGroup.Id result) {
-        History.newItem(Dispatcher.toAccountGroup(result));
+        History.newItem(Dispatcher.toGroup(result));
       }
 
       @Override

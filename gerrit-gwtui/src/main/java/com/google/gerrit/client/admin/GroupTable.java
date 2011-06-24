@@ -71,7 +71,7 @@ public class GroupTable extends NavigationTable<AccountGroup> {
 
   @Override
   protected void onOpenRow(final int row) {
-    History.newItem(Dispatcher.toAccountGroup(getRowItem(row).getId()));
+    History.newItem(Dispatcher.toGroup(getRowItem(row).getId()));
   }
 
   public void display(final List<AccountGroup> result) {
@@ -88,8 +88,8 @@ public class GroupTable extends NavigationTable<AccountGroup> {
 
   void populate(final int row, final AccountGroup k) {
     if (enableLink) {
-      table.setWidget(row, 1, new Hyperlink(k.getName(), Dispatcher.toAccountGroup(k
-          .getId())));
+      table.setWidget(row, 1, new Hyperlink(k.getName(),
+          Dispatcher.toGroup(k.getId())));
     } else {
       table.setText(row, 1, k.getName());
     }

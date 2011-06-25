@@ -16,7 +16,6 @@ package gerrit;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -42,7 +41,6 @@ public class PRED_change_owner_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    PrologEnvironment env = (PrologEnvironment) engine.control;
     Change change = StoredValues.CHANGE.get(engine);
     Account.Id ownerId = change.getOwner();
 

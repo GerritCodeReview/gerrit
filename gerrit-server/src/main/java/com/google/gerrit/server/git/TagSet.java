@@ -348,6 +348,8 @@ class TagSet {
   }
 
   private static final class CachedRef extends AtomicReference<ObjectId> {
+    private static final long serialVersionUID = 1L;
+
     final int flag;
 
     CachedRef(Ref ref, int flag) {

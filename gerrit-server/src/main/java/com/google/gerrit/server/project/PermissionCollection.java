@@ -127,17 +127,15 @@ public class PermissionCollection {
         }
       }
 
-      return new PermissionCollection(ref, permissions, perUser ? username : null);
+      return new PermissionCollection(permissions, perUser ? username : null);
     }
   }
 
-  private final String ref;
   private final Map<String, List<PermissionRule>> rules;
   private final String username;
 
-  private PermissionCollection(String ref,
-      Map<String, List<PermissionRule>> rules, String username) {
-    this.ref = ref;
+  private PermissionCollection(Map<String, List<PermissionRule>> rules,
+      String username) {
     this.rules = rules;
     this.username = username;
   }

@@ -15,7 +15,6 @@
 package gerrit;
 
 import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -51,7 +50,6 @@ public class PRED_current_user_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    PrologEnvironment env = (PrologEnvironment) engine.control;
     ChangeControl cControl = StoredValues.CHANGE_CONTROL.get(engine);
     CurrentUser curUser = cControl.getCurrentUser();
     Term resultTerm;

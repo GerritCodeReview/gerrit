@@ -15,7 +15,6 @@
 package gerrit;
 
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 
 import com.googlecode.prolog_cafe.lang.Operation;
@@ -38,7 +37,6 @@ public class PRED_change_topic_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    PrologEnvironment env = (PrologEnvironment) engine.control;
     Term topicTerm = Prolog.Nil;
     Change change = StoredValues.CHANGE.get(engine);
     String topic = change.getTopic();

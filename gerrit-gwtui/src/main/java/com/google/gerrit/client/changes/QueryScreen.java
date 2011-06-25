@@ -37,7 +37,7 @@ public class QueryScreen extends PagedSingleListScreen implements
   private final String query;
 
   public QueryScreen(final String encQuery, final String positionToken) {
-    super("q," + encQuery, positionToken);
+    super("/q/" + encQuery, positionToken);
     query = KeyUtil.decode(encQuery);
   }
 

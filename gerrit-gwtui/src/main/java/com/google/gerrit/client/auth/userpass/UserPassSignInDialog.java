@@ -201,7 +201,7 @@ public class UserPassSignInDialog extends SignInDialog {
       public void onSuccess(final LoginResult result) {
         if (result.success) {
           String to = token;
-          if (result.isNew && !to.startsWith(PageLinks.REGISTER + ",")) {
+          if (result.isNew && !to.startsWith(PageLinks.REGISTER + "/")) {
             to = PageLinks.REGISTER + "," + to;
           }
 

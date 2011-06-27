@@ -201,16 +201,13 @@ public class UserPassSignInDialog extends SignInDialog {
       public void onSuccess(final LoginResult result) {
         if (result.success) {
           String to = token;
-          if (result.isNew && !to.startsWith(PageLinks.REGISTER + ",")) {
-            to = PageLinks.REGISTER + "," + to;
+          if (!to.startsWith("/")) {
+            to = "/" + to;
           }
-
-          // Unfortunately we no longer support updating the web UI when the
-          // user signs in. Instead we must force a reload of the page, but
-          // that isn't easy because we might need to change the anchor. So
-          // we bounce through a little redirection servlet on the server.
-          //
-          Location.replace(Location.getPath() + "login/" + to);
+          if (result.isNew && !token.startsWith(PageLinks.REGISTER + "/")) {
+            to = PageLinks.REGISTER + to;
+          }
+          Location.replace(Location.getPath() + "login" + to);
         } else {
           showError(Util.C.invalidLogin());
           enable(true);

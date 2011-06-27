@@ -23,6 +23,7 @@ import com.google.gerrit.httpd.raw.LegacyGerritServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.StaticServlet;
 import com.google.gerrit.httpd.raw.ToolServlet;
+import com.google.gerrit.reviewdb.Change;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -63,14 +64,13 @@ class UrlModule extends ServletModule {
     serve("/all").with(query("status:merged"));
     serve("/mine").with(screen(PageLinks.MINE));
     serve("/open").with(query("status:open"));
-    serve("/settings").with(screen(PageLinks.SETTINGS));
     serve("/watched").with(query("is:watched status:open"));
     serve("/starred").with(query("is:starred"));
 
-    serveRegex( //
-        "^/([1-9][0-9]*)/?$", //
-        "^/r/(.+)/?$" //
-    ).with(changeQuery());
+    serveRegex("^/settings/?$").with(screen(PageLinks.SETTINGS));
+    serveRegex("^/register/?$").with(screen(PageLinks.REGISTER + "/"));
+    serveRegex("^/([1-9][0-9]*)/?$").with(directChangeById());
+    serveRegex("^/r/(.+)/?$").with(DirectChangeByCommit.class);
   }
 
   private Key<HttpServlet> notFound() {
@@ -110,14 +110,19 @@ class UrlModule extends ServletModule {
     });
   }
 
-  private Key<HttpServlet> changeQuery() {
+  private Key<HttpServlet> directChangeById() {
     return key(new HttpServlet() {
       private static final long serialVersionUID = 1L;
 
       @Override
       protected void doGet(final HttpServletRequest req,
           final HttpServletResponse rsp) throws IOException {
-        toGerrit(PageLinks.toChangeQuery(req.getPathInfo()), req, rsp);
+        try {
+          Change.Id id = Change.Id.parse(req.getPathInfo());
+          toGerrit(PageLinks.toChange(id), req, rsp);
+        } catch (IllegalArgumentException err) {
+          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
       }
     });
   }
@@ -146,7 +151,7 @@ class UrlModule extends ServletModule {
     return srv;
   }
 
-  private void toGerrit(final String target, final HttpServletRequest req,
+  static void toGerrit(final String target, final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     final StringBuilder url = new StringBuilder();
     url.append(req.getContextPath());

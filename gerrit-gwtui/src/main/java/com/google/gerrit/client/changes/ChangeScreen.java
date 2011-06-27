@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -475,8 +476,7 @@ public class ChangeScreen extends Screen {
     @Override
     public void onKeyPress(final KeyPressEvent event) {
       PatchSet.Id currentPatchSetId = patchSetsBlock.getCurrentPatchSet().getId();
-      Gerrit.display("change,publish," + currentPatchSetId.toString(),
-          new PublishCommentScreen(currentPatchSetId));
+      Gerrit.display(Dispatcher.toPublish(currentPatchSetId));
     }
   }
 }

@@ -24,38 +24,38 @@ import com.google.gerrit.reviewdb.Change.Status;
 import com.google.gwtorm.client.KeyUtil;
 
 public class PageLinks {
-  public static final String SETTINGS = "settings";
-  public static final String SETTINGS_PREFERENCES = "settings,preferences";
-  public static final String SETTINGS_SSHKEYS = "settings,ssh-keys";
-  public static final String SETTINGS_HTTP_PASSWORD = "settings,http-password";
-  public static final String SETTINGS_WEBIDENT = "settings,web-identities";
-  public static final String SETTINGS_MYGROUPS = "settings,group-memberships";
-  public static final String SETTINGS_AGREEMENTS = "settings,agreements";
-  public static final String SETTINGS_CONTACT = "settings,contact";
-  public static final String SETTINGS_PROJECTS = "settings,projects";
-  public static final String SETTINGS_NEW_AGREEMENT = "settings,new-agreement";
-  public static final String REGISTER = "register";
+  public static final String SETTINGS = "/settings/";
+  public static final String SETTINGS_PREFERENCES = "/settings/preferences";
+  public static final String SETTINGS_SSHKEYS = "/settings/ssh-keys";
+  public static final String SETTINGS_HTTP_PASSWORD = "/settings/http-password";
+  public static final String SETTINGS_WEBIDENT = "/settings/web-identities";
+  public static final String SETTINGS_MYGROUPS = "/settings/group-memberships";
+  public static final String SETTINGS_AGREEMENTS = "/settings/agreements";
+  public static final String SETTINGS_CONTACT = "/settings/contact";
+  public static final String SETTINGS_PROJECTS = "/settings/projects";
+  public static final String SETTINGS_NEW_AGREEMENT = "/settings/new-agreement";
+  public static final String REGISTER = "/register";
 
   public static final String TOP = "n,z";
 
-  public static final String MINE = "mine";
-  public static final String ADMIN_GROUPS = "admin,groups";
-  public static final String ADMIN_PROJECTS = "admin,projects";
+  public static final String MINE = "/";
+  public static final String ADMIN_GROUPS = "/admin/groups/";
+  public static final String ADMIN_PROJECTS = "/admin/projects/";
 
   public static String toChange(final ChangeInfo c) {
     return toChange(c.getId());
   }
 
   public static String toChange(final Change.Id c) {
-    return "change," + c.toString();
+    return "/c/" + c + "/";
   }
 
   public static String toChange(final PatchSet.Id ps) {
-    return "change," + ps.getParentKey().toString() + ",patchset=" + ps.get();
+    return "/c/" + ps.getParentKey() + "/" + ps.get();
   }
 
   public static String toProjectAcceess(final Project.NameKey p) {
-    return "admin,project," + p.get() + ",access";
+    return "/admin/projects/" + p.get() + ",access";
   }
 
   public static String toAccountDashboard(final AccountInfo acct) {
@@ -63,11 +63,16 @@ public class PageLinks {
   }
 
   public static String toAccountDashboard(final Account.Id acct) {
-    return "dashboard," + acct.toString();
+    return "/dashboard/" + acct.toString();
   }
 
   public static String toChangeQuery(final String query) {
-    return "q," + KeyUtil.encode(query) + "," + TOP;
+    return toChangeQuery(query, TOP);
+  }
+
+  public static String toChangeQuery(String query, String page) {
+    query = KeyUtil.encode(query).replaceAll("%3[Aa]", ":");
+    return "/q/" + query + "," + page;
   }
 
   public static String projectQuery(Project.NameKey proj, Status status) {

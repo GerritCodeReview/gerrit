@@ -462,16 +462,15 @@ class OpenIdServiceImpl implements OpenIdService {
   private void callback(final boolean isNew, final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     String token = req.getParameter(P_TOKEN);
-    if (token == null || token.isEmpty() || token.startsWith("SignInFailure,")) {
+    if (token == null || token.isEmpty() || token.startsWith("/SignInFailure,")) {
       token = PageLinks.MINE;
     }
 
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get());
     rdr.append('#');
-    if (isNew && !token.startsWith(PageLinks.REGISTER + ",")) {
+    if (isNew && !token.startsWith(PageLinks.REGISTER + "/")) {
       rdr.append(PageLinks.REGISTER);
-      rdr.append(',');
     }
     rdr.append(token);
     rsp.sendRedirect(rdr.toString());

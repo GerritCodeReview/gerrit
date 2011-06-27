@@ -14,9 +14,9 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.PatchTable;
-import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentPanel;
@@ -682,8 +682,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     @Override
     public void onKeyPress(final KeyPressEvent event) {
       final PatchSet.Id id = patchKey.getParentKey();
-      Gerrit.display("change,publish," + id.toString(),
-          new PublishCommentScreen(id));
+      Gerrit.display(Dispatcher.toPublish(id));
     }
   }
 

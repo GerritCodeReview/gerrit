@@ -139,7 +139,6 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       rdr.append('#');
       if (res.isNew()) {
         rdr.append(PageLinks.REGISTER);
-        rdr.append(',');
       }
       rdr.append(PageLinks.MINE);
       rsp.sendRedirect(rdr.toString());

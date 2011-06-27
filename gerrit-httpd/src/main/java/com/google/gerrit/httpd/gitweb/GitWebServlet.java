@@ -265,9 +265,9 @@ class GitWebServlet extends HttpServlet {
       p.print("+branch:$1,n,z};\n"); // wrapped
       p.print("  } elsif ($h =~ /^refs\\/changes\\/\\d{2}\\/(\\d+)\\/\\d+$/) ");
       p.print("{\n"); // wrapped
-      p.print("    $q = qq{#change,$1};\n");
+      p.print("    $q = qq{#/c/$1};\n");
       p.print("  } else {\n");
-      p.print("    $q = qq{#q,$h,n,z};\n");
+      p.print("    $q = qq{#/q/$h,n,z};\n");
       p.print("  }\n");
       p.print("  my $r = qq{$ENV{'GERRIT_CONTEXT_PATH'}$q};\n");
       p.print("  push @{$feature{'actions'}{'default'}},\n");

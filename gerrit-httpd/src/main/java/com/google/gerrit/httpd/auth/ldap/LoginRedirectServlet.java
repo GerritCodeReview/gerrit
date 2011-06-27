@@ -59,7 +59,7 @@ class LoginRedirectServlet extends HttpServlet {
       token = getToken(req);
     } else {
       final String msg = "Session cookie not available.";
-      token = "SignInFailure," + SignInMode.SIGN_IN + "," + msg;
+      token = "/SignInFailure," + SignInMode.SIGN_IN + "," + msg;
     }
 
     final StringBuilder rdr = new StringBuilder();
@@ -75,9 +75,6 @@ class LoginRedirectServlet extends HttpServlet {
 
   private String getToken(final HttpServletRequest req) {
     String token = req.getPathInfo();
-    if (token != null && token.startsWith("/")) {
-      token = token.substring(1);
-    }
     if (token == null || token.isEmpty()) {
       token = PageLinks.MINE;
     }

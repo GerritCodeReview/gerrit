@@ -63,9 +63,6 @@ public class HttpsClientSslCertLoginServlet extends HttpServlet {
 
   private String getToken(final HttpServletRequest req) {
     String token = req.getPathInfo();
-    if (token != null && token.startsWith("/")) {
-      token = token.substring(1);
-    }
     if (token == null || token.isEmpty()) {
       token = PageLinks.MINE;
     }

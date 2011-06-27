@@ -130,9 +130,8 @@ class HttpLoginServlet extends HttpServlet {
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get());
     rdr.append('#');
-    if (arsp.isNew() && !token.startsWith(PageLinks.REGISTER + ",")) {
+    if (arsp.isNew() && !token.startsWith(PageLinks.REGISTER + "/")) {
       rdr.append(PageLinks.REGISTER);
-      rdr.append(',');
     }
     rdr.append(token);
 
@@ -165,9 +164,6 @@ class HttpLoginServlet extends HttpServlet {
 
   private String getToken(final HttpServletRequest req) {
     String token = req.getPathInfo();
-    if (token != null && token.startsWith("/")) {
-      token = token.substring(1);
-    }
     if (token == null || token.isEmpty()) {
       token = PageLinks.MINE;
     }

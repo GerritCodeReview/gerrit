@@ -518,8 +518,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     b.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
-        Gerrit.display("change,publish," + patchSet.getId().toString(),
-            new PublishCommentScreen(patchSet.getId()));
+        Gerrit.display(Dispatcher.toPublish(patchSet.getId()));
       }
     });
     actionsPanel.add(b);

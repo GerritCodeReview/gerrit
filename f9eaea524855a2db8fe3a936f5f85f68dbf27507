@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX////Y\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-27T19:31:51Z",
+      "side": 1,
+      "message": "See note about Type being the 2nd arg rather than 3rd.",
+      "revId": "f9eaea524855a2db8fe3a936f5f85f68dbf27507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX////U\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-27T19:31:51Z",
+      "side": 1,
+      "message": "Author shouldn\u0027t be necessary here.",
+      "revId": "f9eaea524855a2db8fe3a936f5f85f68dbf27507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX////Q\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-27T19:31:51Z",
+      "side": 1,
+      "message": "Can\u0027t you just say:\n\n  PatchList pl \u003d plCache.get(plKey);\n  List\u003cPatchListEntry\u003e patches \u003d new ArrayList\u003cPatchListEntry\u003e(pl.getPatches());",
+      "revId": "f9eaea524855a2db8fe3a936f5f85f68dbf27507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX////I\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-27T19:31:51Z",
+      "side": 1,
+      "message": "Style-nit: I would prefer to set this before areg2.  So do:\n\n  Term a1 \u003d arg1.dereference();\n  engine.areg1 \u003d a1;",
+      "revId": "f9eaea524855a2db8fe3a936f5f85f68dbf27507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX////A\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-27T19:31:51Z",
+      "side": 1,
+      "message": "Can\u0027t you inline the initial jtry5?\n\n  return engine.jtry5(commit_delta_check, commit_delta_next);\n\nThen you don\u0027t need that PRED_commit_delta_4_top class.",
+      "revId": "f9eaea524855a2db8fe3a936f5f85f68dbf27507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX////E\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-27T19:31:51Z",
+      "side": 1,
+      "message": "The method is pointless if you ignore its return value. Since the registers aren\u0027t really changing, do all of your dereference calls in the main predicate\u0027s execute method above.",
+      "revId": "f9eaea524855a2db8fe3a936f5f85f68dbf27507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///+8\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-27T19:31:51Z",
+      "side": 1,
+      "message": "Don\u0027t use toString(). Use name().",
+      "revId": "f9eaea524855a2db8fe3a936f5f85f68dbf27507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///+4\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-27T19:31:51Z",
+      "side": 1,
+      "message": "newName is more common. Put that first in the conditional.\n\nAlso, the regex cannot change during execution. So instead of using String.matches(String) use Pattern.compile() in the main predicate\u0027s execute method and make engine.areg1 a JavaObjectTerm that wraps a java.util.regex.Pattern. Then here you can use a Matcher to match the string:\n\n  pattern.matcher(newName).matches()\n\nIts faster.",
+      "revId": "f9eaea524855a2db8fe3a936f5f85f68dbf27507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///+0\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-27T19:31:51Z",
+      "side": 1,
+      "message": "Please use a switch and define your own constants for these. I think our names of ADDED, MODIFIED, DELETED, RENAMED, COPIED are hideous. I would prefer to export to the rules: add, modify, delete, rename, copy.",
+      "revId": "f9eaea524855a2db8fe3a936f5f85f68dbf27507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///+w\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-27T19:31:51Z",
+      "side": 1,
+      "message": "Does nothing unless you use its return value.",
+      "revId": "f9eaea524855a2db8fe3a936f5f85f68dbf27507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///+s\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-27T19:31:51Z",
+      "side": 1,
+      "message": "remove(0) on an ArrayList is expensive.\n\nInstead of modifying the ArrayList, why not store an Iterator\u003cPatchListEntry\u003e and just advance it to the next item?",
+      "revId": "f9eaea524855a2db8fe3a936f5f85f68dbf27507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX////k\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-27T19:31:51Z",
+      "side": 1,
+      "message": "Instead of naming the vars, just say _. And the true is redundant, so you can write:\n\n  once(commit_delta(Regex, _, _, _)).",
+      "revId": "f9eaea524855a2db8fe3a936f5f85f68dbf27507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX////g\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-27T19:31:51Z",
+      "side": 1,
+      "message": "I think I would prefer the type first, so:\n\n  commit_delta(Regex, Type, Path)\n\nThis matches `git show --name-status` sort of output.",
+      "revId": "f9eaea524855a2db8fe3a936f5f85f68dbf27507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX////c\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-27T19:31:51Z",
+      "side": 1,
+      "message": "Use lowercase for Prolog style, so just rename.\n\nI think this implies the commit_delta/4 predicate produces a delete result on renames? I had hoped to avoid that. Instead you should be able to write the split like this:\n\n  commit_delta(Regex, Type, Path) :-\n    commit_delta(Regex, TmpType, NewPath, OldPath),\n    split_commit_delta(TmpType, NewPath, OldPath, Type, Path).\n\n  split_commit_delta(rename, NewPath, OldPath, add, NewPath).\n  split_commit_delta(rename, NewPath, OldPath, delete, OldPath), !.\n  split_commit_delta(copy, NewPath, OldPath, add, NewPath), !.\n  split_commit_delta(Type, Path, _, Type, Path).",
+      "revId": "f9eaea524855a2db8fe3a936f5f85f68dbf27507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

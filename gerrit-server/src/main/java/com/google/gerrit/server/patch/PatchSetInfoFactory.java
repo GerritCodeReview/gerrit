@@ -67,6 +67,7 @@ public class PatchSetInfoFactory {
     info.setMessage(src.getFullMessage());
     info.setAuthor(toUserIdentity(src.getAuthorIdent()));
     info.setCommitter(toUserIdentity(src.getCommitterIdent()));
+    info.setRevId(src.getName());
 
     return info;
   }

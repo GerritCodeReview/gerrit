@@ -43,7 +43,7 @@ class AbandonChange extends Handler<ChangeDetail> {
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
   private final IdentifiedUser currentUser;
-  private final AbandonedSender.Factory abandonedSenderFactory;
+  private final AbandonedSender.Factory senderFactory;
   private final ChangeDetailFactory.Factory changeDetailFactory;
 
   private final PatchSet.Id patchSetId;
@@ -55,14 +55,14 @@ class AbandonChange extends Handler<ChangeDetail> {
   @Inject
   AbandonChange(final ChangeControl.Factory changeControlFactory,
       final ReviewDb db, final IdentifiedUser currentUser,
-      final AbandonedSender.Factory abandonedSenderFactory,
+      final AbandonedSender.Factory senderFactory,
       final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final PatchSet.Id patchSetId,
       @Assisted @Nullable final String message, final ChangeHookRunner hooks) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.currentUser = currentUser;
-    this.abandonedSenderFactory = abandonedSenderFactory;
+    this.senderFactory = senderFactory;
     this.changeDetailFactory = changeDetailFactory;
 
     this.patchSetId = patchSetId;
@@ -81,8 +81,8 @@ class AbandonChange extends Handler<ChangeDetail> {
       throw new NoSuchChangeException(changeId);
     }
 
-    ChangeUtil.abandon(patchSetId, currentUser, message, db,
-       abandonedSenderFactory, hooks);
+    ChangeUtil.abandon(patchSetId, currentUser, message, db, senderFactory,
+        hooks);
 
     return changeDetailFactory.create(changeId).call();
   }

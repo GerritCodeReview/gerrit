@@ -38,6 +38,8 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.EmailException;
+import com.google.gerrit.server.mail.ReplyToChangeSender;
+import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmConcurrencyException;
@@ -211,7 +213,7 @@ public class ChangeUtil {
 
   public static void abandon(final PatchSet.Id patchSetId,
       final IdentifiedUser user, final String message, final ReviewDb db,
-      final AbandonedSender.Factory abandonedSenderFactory,
+      final AbandonedSender.Factory senderFactory,
       final ChangeHookRunner hooks) throws NoSuchChangeException,
       InvalidChangeOperationException, EmailException, OrmException {
     final Change.Id changeId = patchSetId.getParentKey();
@@ -246,14 +248,8 @@ public class ChangeUtil {
       }
     });
 
-    updatedChange(db, updatedChange, cmsg,
+    updatedChange(db, user, updatedChange, cmsg, senderFactory,
         "Change is no longer open or patchset is not latest");
-
-    // Email the reviewers
-    final AbandonedSender cm = abandonedSenderFactory.create(updatedChange);
-    cm.setFrom(user.getAccountId());
-    cm.setChangeMessage(cmsg);
-    cm.send();
 
     hooks.doChangeAbandonedHook(updatedChange, user.getAccount(), message);
   }
@@ -362,7 +358,7 @@ public class ChangeUtil {
 
   public static void restore(final PatchSet.Id patchSetId,
       final IdentifiedUser user, final String message, final ReviewDb db,
-      final AbandonedSender.Factory abandonedSenderFactory,
+      final RestoredSender.Factory senderFactory,
       final ChangeHookRunner hooks) throws NoSuchChangeException,
       InvalidChangeOperationException, EmailException, OrmException {
     final Change.Id changeId = patchSetId.getParentKey();
@@ -397,25 +393,20 @@ public class ChangeUtil {
       }
     });
 
-    updatedChange(db, updatedChange, cmsg,
+    updatedChange(db, user, updatedChange, cmsg, senderFactory,
        "Change is not abandoned or patchset is not latest");
-
-    // Email the reviewers
-    final AbandonedSender cm = abandonedSenderFactory.create(updatedChange);
-    cm.setFrom(user.getAccountId());
-    cm.setChangeMessage(cmsg);
-    cm.send();
 
     hooks.doChangeRestoreHook(updatedChange, user.getAccount(), message);
   }
 
-  private static void updatedChange(final ReviewDb db, final Change change,
-      final ChangeMessage cmsg, final String err) throws NoSuchChangeException,
-      InvalidChangeOperationException, OrmException {
+  private static void updatedChange(final ReviewDb db, final IdentifiedUser user,
+      final Change change, final ChangeMessage cmsg,
+      ReplyToChangeSender.Factory senderFactory, final String err)
+      throws NoSuchChangeException, InvalidChangeOperationException,
+      EmailException, OrmException {
     if (change == null) {
       throw new InvalidChangeOperationException(err);
     }
-
     db.changeMessages().insert(Collections.singleton(cmsg));
 
     final List<PatchSetApproval> approvals =
@@ -424,6 +415,12 @@ public class ChangeUtil {
       a.cache(change);
     }
     db.patchSetApprovals().update(approvals);
+
+    // Email the reviewers
+    final ReplyToChangeSender cm = senderFactory.create(change);
+    cm.setFrom(user.getAccountId());
+    cm.setChangeMessage(cmsg);
+    cm.send();
   }
 
   public static String sortKey(long lastUpdated, int id){

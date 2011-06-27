@@ -191,7 +191,8 @@ public class Dispatcher {
     } else if (/* LEGACY URL */matchPrefix("admin,", token)) {
       redirectFromLegacyToken(token, legacyAdmin(token));
     } else if (/* LEGACY URL */matchPrefix("settings,", token)
-        || matchPrefix("register,", token)) {
+        || matchPrefix("register,", token)
+        || matchPrefix("q,", token)) {
       redirectFromLegacyToken(token, legacySettings(token));
 
     } else {

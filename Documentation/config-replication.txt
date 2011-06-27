@@ -193,6 +193,14 @@ remote.
 By default, replicates without group control, i.e replicates
 everything to all remotes.
 
+[[remote.name.replicatePermissions]]remote.<name>.replicatePermissions::
++
+If true, permissions-only projects and the refs/meta/config branch
+will also be replicated to the remote site.  These projects and
+branches may be needed to keep a backup or slave server current.
++
+By default, true, replicating everything.
+
 
 [[secure_config]]File `secure.config`
 -----------------------------------------------

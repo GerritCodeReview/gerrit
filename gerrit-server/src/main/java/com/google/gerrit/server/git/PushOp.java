@@ -320,11 +320,16 @@ class PushOp implements ProjectRunnable {
       }
     }
 
+    final boolean noPerms = !pool.isReplicatePermissions();
     final List<RemoteRefUpdate> cmds = new ArrayList<RemoteRefUpdate>();
     if (mirror) {
       final Map<String, Ref> remote = listRemote(tn);
 
       for (final Ref src : local.values()) {
+        if (noPerms && GitRepositoryManager.REF_CONFIG.equals(src.getName())) {
+          continue;
+        }
+
         final RefSpec spec = matchSrc(src.getName());
         if (spec != null) {
           final Ref dst = remote.get(spec.getDestination());
@@ -337,6 +342,10 @@ class PushOp implements ProjectRunnable {
       }
 
       for (final Ref ref : remote.values()) {
+        if (noPerms && GitRepositoryManager.REF_CONFIG.equals(ref.getName())) {
+          continue;
+        }
+
         if (!Constants.HEAD.equals(ref.getName())) {
           final RefSpec spec = matchDst(ref.getName());
           if (spec != null && !local.containsKey(spec.getSource())) {
@@ -349,6 +358,10 @@ class PushOp implements ProjectRunnable {
 
     } else {
       for (final String src : delta) {
+        if (noPerms && GitRepositoryManager.REF_CONFIG.equals(src)) {
+          continue;
+        }
+
         final RefSpec spec = matchSrc(src);
         if (spec != null) {
           // If the ref still exists locally, send it, otherwise delete it.

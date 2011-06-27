@@ -35,7 +35,11 @@ import com.google.inject.servlet.RequestScoped;
 import com.jcraft.jsch.Session;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.JschConfigSessionFactory;
 import org.eclipse.jgit.transport.OpenSshConfig;
@@ -85,15 +89,18 @@ public class PushReplication implements ReplicationQueue {
   private final List<ReplicationConfig> configs;
   private final SchemaFactory<ReviewDb> database;
   private final ReplicationUser.Factory replicationUserFactory;
+  private final GitRepositoryManager gitRepositoryManager;
 
   @Inject
   PushReplication(final Injector i, final WorkQueue wq, final SitePaths site,
-      final ReplicationUser.Factory ruf, final SchemaFactory<ReviewDb> db)
+      final ReplicationUser.Factory ruf, final SchemaFactory<ReviewDb> db,
+      final GitRepositoryManager grm)
       throws ConfigInvalidException, IOException {
     injector = i;
     workQueue = wq;
     database = db;
     replicationUserFactory = ruf;
+    gitRepositoryManager = grm;
     configs = allConfigs(site);
   }
 
@@ -188,7 +195,7 @@ public class PushReplication implements ReplicationQueue {
       }
 
       r.add(new ReplicationConfig(injector, workQueue, c, cfg, database,
-          replicationUserFactory));
+          replicationUserFactory, gitRepositoryManager));
     }
     return Collections.unmodifiableList(r);
   }
@@ -343,10 +350,13 @@ public class PushReplication implements ReplicationQueue {
     private final Map<URIish, PushOp> pending = new HashMap<URIish, PushOp>();
     private final PushOp.Factory opFactory;
     private final ProjectControl.Factory projectControlFactory;
+    private final GitRepositoryManager mgr;
+    private final boolean replicatePermissions;
 
     ReplicationConfig(final Injector injector, final WorkQueue workQueue,
         final RemoteConfig rc, final Config cfg, SchemaFactory<ReviewDb> db,
-        final ReplicationUser.Factory replicationUserFactory) {
+        final ReplicationUser.Factory replicationUserFactory,
+        final GitRepositoryManager gitRepositoryManager) {
 
       remote = rc;
       delay = Math.max(0, getInt(rc, cfg, "replicationdelay", 15));
@@ -367,6 +377,9 @@ public class PushReplication implements ReplicationQueue {
       }
 
       adminUrls = cfg.getStringList("remote", rc.getName(), "adminUrl");
+      replicatePermissions = cfg.getBoolean("remote", rc.getName(),
+              "replicatePermissions", true);
+      mgr = gitRepositoryManager;
 
       final ReplicationUser remoteUser =
           replicationUserFactory.create(authGroups);
@@ -414,6 +427,37 @@ public class PushReplication implements ReplicationQueue {
         }
       } finally {
         PerThreadRequestScope.set(old);
+      }
+
+      if (!replicatePermissions) {
+        PushOp e;
+        synchronized (pending) {
+          e = pending.get(uri);
+        }
+        if (e == null) {
+          Repository git;
+          try {
+            git = mgr.openRepository(project);
+          } catch (RepositoryNotFoundException err) {
+            log.error("Internal error: project " + project
+                + " not found during replication", err);
+            return;
+          }
+          try {
+            Ref head = git.getRef(Constants.HEAD);
+            if (head != null
+                && head.isSymbolic()
+                && GitRepositoryManager.REF_CONFIG.equals(head.getLeaf().getName())) {
+              return;
+            }
+          } catch (IOException err) {
+            log.error("Internal error: cannot check type of project " + project
+                + " during replication", err);
+            return;
+          } finally {
+            git.close();
+          }
+        }
       }
 
       synchronized (pending) {
@@ -522,12 +566,19 @@ public class PushReplication implements ReplicationQueue {
     }
 
     boolean wouldPushRef(final String ref) {
+      if (!replicatePermissions && GitRepositoryManager.REF_CONFIG.equals(ref)) {
+        return false;
+      }
       for (final RefSpec s : remote.getPushRefSpecs()) {
         if (s.matchSource(ref)) {
           return true;
         }
       }
       return false;
+    }
+
+    boolean isReplicatePermissions() {
+      return replicatePermissions;
     }
 
     List<URIish> getURIs(final Project.NameKey project, final String urlMatch) {

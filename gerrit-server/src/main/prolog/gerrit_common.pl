@@ -280,3 +280,25 @@ commit_author(Author) :-
 %%
 commit_committer(Committer) :-
   commit_committer(Committer, _, _).
+
+
+%% commit_delta/1:
+%%
+:- public commit_delta/1.
+%%
+commit_delta(Regex) :-
+  once(commit_delta(Regex, _, _, _)).
+
+
+%% commit_delta/3:
+%%
+:- public commit_delta/3.
+%%
+commit_delta(Regex, Type, Path) :-
+  commit_delta(Regex, TmpType, NewPath, OldPath),
+  split_commit_delta(TmpType, NewPath, OldPath, Type, Path).
+
+split_commit_delta(rename, NewPath, OldPath, add, NewPath).
+split_commit_delta(rename, NewPath, OldPath, delete, OldPath) :- !.
+split_commit_delta(copy, NewPath, OldPath, add, NewPath) :- !.
+split_commit_delta(Type, Path, _, Type, Path).

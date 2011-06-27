@@ -221,7 +221,7 @@ Optional format string to construct user email addresses out of
 user login names.  Only used if auth.type is `HTTP`, `HTTP_LDAP`
 or `LDAP`.
 +
-This value can be set to a format string, where `\{0\}` is replaced
+This value can be set to a format string, where `{0}` is replaced
 with the login name.  E.g. "\{0\}+gerrit@example.com" with a user
 login name of "foo" will produce "foo+gerrit@example.com" during
 the first time user "foo" registers.

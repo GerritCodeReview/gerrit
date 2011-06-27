@@ -49,6 +49,7 @@ import com.google.gerrit.client.admin.ProjectBranchesScreen;
 import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
+import com.google.gerrit.client.admin.RefMergeStrategyScreen;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
@@ -449,6 +450,10 @@ public class Dispatcher {
 
           if (ProjectScreen.ACCESS.equals(p)) {
             return new ProjectAccessScreen(k);
+          }
+
+          if (ProjectScreen.REF_MERGE_STRATEGY_TAB.equals(p)) {
+            return new RefMergeStrategyScreen(k);
           }
 
           return new NotFoundScreen();

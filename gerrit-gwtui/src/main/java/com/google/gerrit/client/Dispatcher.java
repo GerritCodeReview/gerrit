@@ -52,6 +52,7 @@ import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.admin.Util;
+import com.google.gerrit.client.admin.MergeStrategyScreen;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
@@ -277,7 +278,6 @@ public class Dispatcher {
 
   private static String legacyChange(final String token) {
     final String s = skip(token);
-    final String q = "patchset=";
     final String t[] = s.split(",", 2);
     if (t.length > 1 && matchPrefix("patchset=", t[1])) {
       return PageLinks.toChange(PatchSet.Id.parse(t[0] + "," + skip(t[1])));
@@ -672,6 +672,10 @@ public class Dispatcher {
 
           if (ProjectScreen.ACCESS.equals(panel)) {
             return new ProjectAccessScreen(k);
+          }
+
+          if (ProjectScreen.MERGE_STRATEGY.equals(panel)) {
+            return new MergeStrategyScreen(k);
           }
         }
         return new NotFoundScreen();

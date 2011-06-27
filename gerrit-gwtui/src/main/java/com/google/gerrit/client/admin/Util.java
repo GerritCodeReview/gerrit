@@ -15,8 +15,8 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.common.data.GroupAdminService;
+import com.google.gerrit.common.data.MergeStrategySection;
 import com.google.gerrit.common.data.ProjectAdminService;
-import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
@@ -36,7 +36,7 @@ public class Util {
     AdminResources.I.css().ensureInjected();
   }
 
-  public static String toLongString(final Project.SubmitType type) {
+  public static String toLongString(final MergeStrategySection.SubmitType type) {
     if (type == null) {
       return "";
     }

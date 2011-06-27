@@ -58,6 +58,10 @@ public class PageLinks {
     return "/admin/projects/" + p.get() + ",access";
   }
 
+  public static String toProjectMergeStrategies(final Project.NameKey p) {
+    return "admin,project," + p.get() + ",merge_strategies";
+  }
+
   public static String toAccountDashboard(final AccountInfo acct) {
     return toAccountDashboard(acct.getId());
   }

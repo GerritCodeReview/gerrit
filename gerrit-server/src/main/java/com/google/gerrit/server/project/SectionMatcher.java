@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 abstract class SectionMatcher {
   static SectionMatcher wrap(AccessSection section) {
     String ref = section.getName();
-    if (AccessSection.isAccessSection(ref)) {
+    if (AccessSection.isValidReferenceSection(ref)) {
       return wrap(ref, section);
     } else {
       return null;

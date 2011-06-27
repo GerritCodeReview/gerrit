@@ -14,18 +14,20 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.common.data.AccessSection.isAccessSection;
 import static com.google.gerrit.common.data.Permission.isPermission;
+import static com.google.gerrit.common.data.ProjectConfigSection.isValidReferenceSection;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.MergeStrategySection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.MergeStrategySection.SubmitType;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.config.AllProjectsNameProvider;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -45,7 +47,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class ProjectConfig extends VersionedMetaData {
-  private static final String PROJECT_CONFIG = "project.config";
+  protected static final String PROJECT_CONFIG = "project.config";
   private static final String GROUP_LIST = "groups";
 
   private static final String PROJECT = "project";
@@ -63,17 +65,20 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_REQUIRE_CONTRIBUTOR_AGREEMENT =
       "requireContributorAgreement";
 
-  private static final String SUBMIT = "submit";
-  private static final String KEY_ACTION = "action";
-  private static final String KEY_MERGE_CONTENT = "mergeContent";
+  protected static final String SUBMIT = "submit";
+  protected static final String KEY_MERGE_CONTENT = "mergeContent";
 
-  private static final SubmitType defaultSubmitAction =
+  protected static final String MERGE_STRATEGY = "mergeStrategy";
+  protected static final String KEY_STRATEGY = "strategy";
+
+  protected static final SubmitType defaultMergeStrategy =
       SubmitType.MERGE_IF_NECESSARY;
 
   private Project.NameKey projectName;
   private Project project;
   private Map<AccountGroup.UUID, GroupReference> groupsByUUID;
   private Map<String, AccessSection> accessSections;
+  private Map<String, MergeStrategySection> mergeStrategySection;
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
 
@@ -132,6 +137,34 @@ public class ProjectConfig extends VersionedMetaData {
     accessSections.put(section.getName(), section);
   }
 
+  public MergeStrategySection getMergeStrategySection(final String name,
+      final boolean create) {
+    MergeStrategySection mss = mergeStrategySection.get(name);
+    if (mss == null && create) {
+      mss = new MergeStrategySection(name);
+      mergeStrategySection.put(name, mss);
+    }
+    return mss;
+  }
+
+  public Collection<MergeStrategySection> getMergeStrategySections() {
+    return mergeStrategySection.values();
+  }
+
+  public MergeStrategySection getMergeStrategySection(final String name) {
+    return getMergeStrategySection(name, false);
+  }
+
+  public void remove(final MergeStrategySection section) {
+    if (section != null) {
+      mergeStrategySection.remove(section.getName());
+    }
+  }
+
+  public void replace(final MergeStrategySection section) {
+    mergeStrategySection.put(section.getName(), section);
+  }
+
   public GroupReference resolve(AccountGroup group) {
     return resolve(GroupReference.forGroup(group));
   }
@@ -154,7 +187,7 @@ public class ProjectConfig extends VersionedMetaData {
 
   /**
    * @return the project's rules.pl ObjectId, if present in the branch.
-   *    Null if it doesn't exist.
+   * Null if it doesn't exist.
    */
   public ObjectId getRulesId() {
     return rulesId;
@@ -215,12 +248,11 @@ public class ProjectConfig extends VersionedMetaData {
     p.setUseSignedOffBy(getBoolean(rc, RECEIVE, KEY_REQUIRE_SIGNED_OFF_BY, false));
     p.setRequireChangeID(getBoolean(rc, RECEIVE, KEY_REQUIRE_CHANGE_ID, false));
 
-    p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
     p.setUseContentMerge(getBoolean(rc, SUBMIT, KEY_MERGE_CONTENT, false));
 
     accessSections = new HashMap<String, AccessSection>();
     for (String refName : rc.getSubsections(ACCESS)) {
-      if (isAccessSection(refName)) {
+      if (isValidReferenceSection(refName)) {
         AccessSection as = getAccessSection(refName, true);
 
         for (String varName : rc.getStringList(ACCESS, refName, KEY_GROUP_PERMISSIONS)) {
@@ -252,6 +284,25 @@ public class ProjectConfig extends VersionedMetaData {
         loadPermissionRules(rc, CAPABILITY, null, varName, groupsByName, perm,
             GlobalCapability.hasRange(varName));
       }
+    }
+
+    mergeStrategySection = new HashMap<String, MergeStrategySection>();
+
+    if (rc.getSubsections(MERGE_STRATEGY).size() > 0) {
+      for (final String refName : rc.getSubsections(MERGE_STRATEGY)) {
+        if (isValidReferenceSection(refName)) {
+          final MergeStrategySection mss =
+              getMergeStrategySection(refName, true);
+
+          mss.setSubmitType(getEnum(rc, MERGE_STRATEGY, refName, KEY_STRATEGY,
+              defaultMergeStrategy));
+        }
+      }
+    } else if (projectName.equals(AllProjectsNameProvider.DEFAULT)) {
+      final MergeStrategySection mss =
+          getMergeStrategySection(MergeStrategySection.ALL, true);
+
+      mss.setSubmitType(defaultMergeStrategy);
     }
   }
 
@@ -338,7 +389,6 @@ public class ProjectConfig extends VersionedMetaData {
     set(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, p.isUseSignedOffBy());
     set(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, p.isRequireChangeID());
 
-    set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), defaultSubmitAction);
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.isUseContentMerge());
 
     Set<AccountGroup.UUID> keepGroups = new HashSet<AccountGroup.UUID>();
@@ -414,11 +464,23 @@ public class ProjectConfig extends VersionedMetaData {
     }
 
     for (String name : rc.getSubsections(ACCESS)) {
-      if (isAccessSection(name) && !accessSections.containsKey(name)) {
+      if (isValidReferenceSection(name) && !accessSections.containsKey(name)) {
         rc.unsetSection(ACCESS, name);
       }
     }
     groupsByUUID.keySet().retainAll(keepGroups);
+
+    for (String name : rc.getSubsections(MERGE_STRATEGY)) {
+      if (isValidReferenceSection(name)
+          && !mergeStrategySection.containsKey(name)) {
+        rc.unsetSection(MERGE_STRATEGY, name);;
+      }
+    }
+
+    for (final MergeStrategySection mss : mergeStrategySection.values()) {
+      final String refName = mss.getName();
+      set(rc, MERGE_STRATEGY, refName, KEY_STRATEGY, mss.getSubmitType().name());
+    }
 
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();

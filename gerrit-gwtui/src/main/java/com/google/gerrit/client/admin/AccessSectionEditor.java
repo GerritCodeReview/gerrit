@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.ProjectAccess;
+import com.google.gerrit.common.data.ProjectConfigSection;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -122,7 +123,8 @@ public class AccessSectionEditor extends Composite implements
   void onDeleteSection(ClickEvent event) {
     isDeleted = true;
 
-    if (name.isVisible() && AccessSection.isAccessSection(name.getValue())){
+    if (name.isVisible()
+        && ProjectConfigSection.isValidReferenceSection(name.getValue())) {
       deletedName.setInnerText(Util.M.deletedReference(name.getValue()));
 
     } else {
@@ -185,7 +187,7 @@ public class AccessSectionEditor extends Composite implements
     name.setEnabled(!readOnly);
     deleteSection.setVisible(!readOnly);
 
-    if (AccessSection.isAccessSection(value.getName())) {
+    if (ProjectConfigSection.isValidReferenceSection(value.getName())) {
       name.setVisible(true);
       name.setIgnoreEditorValue(false);
       sectionType.setInnerText(Util.C.sectionTypeReference());
@@ -225,8 +227,9 @@ public class AccessSectionEditor extends Composite implements
           perms.add(varName);
         }
       }
-    } else if (AccessSection.isAccessSection(value.getName())) {
-      for (ApprovalType t : Gerrit.getConfig().getApprovalTypes().getApprovalTypes()) {
+    } else if (ProjectConfigSection.isValidReferenceSection(value.getName())) {
+      for (ApprovalType t : Gerrit.getConfig().getApprovalTypes()
+          .getApprovalTypes()) {
         String varName = Permission.LABEL + t.getCategory().getLabelName();
         if (value.getPermission(varName) == null) {
           perms.add(varName);

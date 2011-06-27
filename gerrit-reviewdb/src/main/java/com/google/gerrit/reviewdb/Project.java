@@ -70,16 +70,6 @@ public final class Project {
     }
   }
 
-  public static enum SubmitType {
-    FAST_FORWARD_ONLY,
-
-    MERGE_IF_NECESSARY,
-
-    MERGE_ALWAYS,
-
-    CHERRY_PICK;
-  }
-
   protected NameKey name;
 
   protected String description;
@@ -87,8 +77,6 @@ public final class Project {
   protected boolean useContributorAgreements;
 
   protected boolean useSignedOffBy;
-
-  protected SubmitType submitType;
 
   protected NameKey parent;
 
@@ -101,7 +89,6 @@ public final class Project {
 
   public Project(Project.NameKey nameKey) {
     name = nameKey;
-    submitType = SubmitType.MERGE_IF_NECESSARY;
   }
 
   public Project.NameKey getNameKey() {
@@ -152,21 +139,12 @@ public final class Project {
     requireChangeID = cid;
   }
 
-  public SubmitType getSubmitType() {
-    return submitType;
-  }
-
-  public void setSubmitType(final SubmitType type) {
-    submitType = type;
-  }
-
   public void copySettingsFrom(final Project update) {
     description = update.description;
     useContributorAgreements = update.useContributorAgreements;
     useSignedOffBy = update.useSignedOffBy;
     useContentMerge = update.useContentMerge;
     requireChangeID = update.requireChangeID;
-    submitType = update.submitType;
   }
 
   public Project.NameKey getParent() {

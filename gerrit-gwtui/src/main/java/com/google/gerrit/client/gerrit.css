@@ -1297,3 +1297,12 @@ a:hover.downloadLink {
   margin: 4px;
   opacity: 0.90;
 }
+
+.editMergeStrategiesPanel {
+  margin-bottom: 10px;
+}
+
+.commitMessagePanel {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

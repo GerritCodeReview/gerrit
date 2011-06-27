@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.MergeStrategySection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -50,6 +51,7 @@ public class ProjectState {
   }
 
   private final boolean isAllProjects;
+  private final AllProjectsName allProjectsName;
   private final ProjectCache projectCache;
   private final ProjectControl.AssistedFactory projectControlFactory;
   private final PrologEnvironment.Factory envFactory;
@@ -76,6 +78,7 @@ public class ProjectState {
       @Assisted final ProjectConfig config) {
     this.projectCache = projectCache;
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
+    this.allProjectsName = allProjectsName;
     this.projectControlFactory = projectControlFactory;
     this.envFactory = envFactory;
     this.gitMgr = gitMgr;
@@ -184,6 +187,51 @@ public class ProjectState {
     List<AccessSection> all = new ArrayList<AccessSection>();
     all.addAll(getLocalAccessSections());
     all.addAll(getInheritedAccessSections());
+    return all;
+  }
+
+  /** Get the merge strategies that pertain only to this project. */
+  public Collection<MergeStrategySection> getLocalMergeStrategySections() {
+    return getConfig().getMergeStrategySections();
+  }
+
+  /** Get the merge strategies this project inherits. */
+  public Collection<MergeStrategySection> getInheritedMergeStrategySections() {
+    if (isAllProjects) {
+      return Collections.emptyList();
+    }
+
+    List<MergeStrategySection> inherited =
+        new ArrayList<MergeStrategySection>();
+    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
+    Project.NameKey parent = getProject().getParent();
+
+    while (parent != null && seen.add(parent)) {
+      ProjectState s = projectCache.get(parent);
+      if (s != null) {
+        inherited.addAll(s.getLocalMergeStrategySections());
+        parent = s.getProject().getParent();
+      } else {
+        break;
+      }
+    }
+
+    // Wild project is the parent, or the root of the tree
+    if (parent == null) {
+      ProjectState s = projectCache.get(allProjectsName);
+      if (s != null) {
+        inherited.addAll(s.getLocalMergeStrategySections());
+      }
+    }
+
+    return inherited;
+  }
+
+  /** Get both local and inherited merge strategies sections. */
+  public Collection<MergeStrategySection> getAllMergeStrategySections() {
+    List<MergeStrategySection> all = new ArrayList<MergeStrategySection>();
+    all.addAll(getLocalMergeStrategySections());
+    all.addAll(getInheritedMergeStrategySections());
     return all;
   }
 

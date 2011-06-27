@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.ProjectAccess;
+import com.google.gerrit.common.data.ProjectConfigSection;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -121,7 +122,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
           ownerOf.add(name);
         }
 
-      } else if (AccessSection.isAccessSection(name)) {
+      } else if (ProjectConfigSection.isValidReferenceSection(name)) {
         RefControl rc = pc.controlForRef(name);
         if (rc.isOwner()) {
           local.add(section);

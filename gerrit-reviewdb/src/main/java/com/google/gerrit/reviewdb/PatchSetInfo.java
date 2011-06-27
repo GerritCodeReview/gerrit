@@ -51,6 +51,9 @@ public final class PatchSetInfo {
   /** List of parents of the patch set. */
   protected List<ParentInfo> parents;
 
+  /** SHA-1 of commit */
+  protected String revId;
+
   protected PatchSetInfo() {
   }
 
@@ -104,5 +107,13 @@ public final class PatchSetInfo {
 
   public List<ParentInfo> getParents() {
     return parents;
+  }
+
+  public void setRevId(final String s) {
+    revId = s;
+  }
+
+  public String getRevId() {
+    return revId;
   }
 }

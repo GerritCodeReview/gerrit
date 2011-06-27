@@ -280,3 +280,21 @@ commit_author(Author) :-
 %%
 commit_committer(Committer) :-
   commit_committer(Committer, _, _).
+
+
+%% commit_delta/1:
+%%
+:- public commit_delta/1.
+%%
+commit_delta(Regex) :-
+  once(commit_delta(Regex, NewPath, ChangeType, _)),
+  true.
+
+
+%% commit_delta/3:
+%%
+:- public commit_delta/3.
+%%
+commit_delta(Regex, ReturnPath, ChangeType) :-
+  commit_delta(Regex, ReturnPath, ChangeType, _) ;
+  ( ChangeType = 'RENAMED' -> commit_delta(Regex, _, ChangeType, ReturnPath) ).

@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
 
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -161,6 +162,14 @@ public class ChangeUtil {
 
     db.trackingIds().insert(toInsert);
     db.trackingIds().delete(toDelete);
+  }
+
+  public static void mergeTestChangesByBranch(MergeOp.Factory opFactory, Branch.NameKey branch) {
+    opFactory.create(branch).testMergeabilityOfChangesbyBranch();
+  }
+
+  public static void testMerge(MergeOp.Factory opFactory, Change change) {
+    opFactory.create(change.getDest()).runTestMerge(change);
   }
 
   public static void submit(final PatchSet.Id patchSetId,

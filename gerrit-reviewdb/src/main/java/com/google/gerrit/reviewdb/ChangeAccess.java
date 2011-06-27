@@ -38,6 +38,18 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE dest.projectName = ?")
   ResultSet<Change> byProject(Project.NameKey p) throws OrmException;
 
+  @Query("WHERE dest = ? AND status = '" + Change.STATUS_NEW + "'")
+  ResultSet<Change> allNew(Branch.NameKey dest) throws OrmException;
+
+  @Query("WHERE dest = ? AND status = '" + Change.STATUS_NEW
+      + "' AND mergeTestStatus != '" + Change.TESTED_IS_MERGEABLE + "'")
+  ResultSet<Change> allNewNotMergeable(Branch.NameKey dest)
+      throws OrmException;
+
+  @Query("WHERE status = '" + Change.STATUS_NEW + "' AND mergeTestStatus = '"
+      + Change.MERGE_TEST_PENDING + "'")
+  ResultSet<Change> allNewMergeNotTested() throws OrmException;
+
   @Query("WHERE owner = ? AND open = true ORDER BY createdOn, changeId")
   ResultSet<Change> byOwnerOpen(Account.Id id) throws OrmException;
 

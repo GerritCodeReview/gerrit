@@ -295,6 +295,35 @@ public final class Change {
     }
   }
 
+  protected static final char MERGE_TEST_PENDING = 'P';
+  protected static final char TESTED_IS_MERGEABLE = 'Y';
+  protected static final char TESTED_NOT_MERGEABLE = 'N';
+
+  public static enum TestMergeStatus {
+    TEST_PENDING(MERGE_TEST_PENDING),
+    IS_MERGEABLE(TESTED_IS_MERGEABLE),
+    NOT_MERGEABLE(TESTED_NOT_MERGEABLE);
+
+    private char code;
+
+    private TestMergeStatus(char c) {
+      code = c;
+    }
+
+    public char getCode() {
+      return code;
+    }
+
+    public static TestMergeStatus forCode(final char c) {
+      for (final TestMergeStatus s : TestMergeStatus.values()) {
+        if (s.code == c) {
+          return s;
+        }
+      }
+      return null;
+    }
+  }
+
   /** Locally assigned unique identifier of the change */
   @Column(id = 1)
   protected Id changeId;
@@ -355,6 +384,10 @@ public final class Change {
   @Column(id = 14, notNull = false)
   protected String topic;
 
+  /** Current merge test status; see{@link TestMergeStatus}. */
+  @Column(id = 15)
+  protected char mergeTestStatus;
+
   protected Change() {
   }
 
@@ -367,6 +400,7 @@ public final class Change {
     owner = ownedBy;
     dest = forBranch;
     setStatus(Status.NEW);
+    setMergeTestStatus(TestMergeStatus.TEST_PENDING);
   }
 
   /** Legacy 32 bit integer identity for a change. */
@@ -465,5 +499,32 @@ public final class Change {
 
   public void setTopic(String topic) {
     this.topic = topic;
+  }
+
+  public TestMergeStatus getMergeTestStatus() {
+    return TestMergeStatus.forCode(mergeTestStatus);
+  }
+
+  public void setMergeTestStatus(TestMergeStatus mergeTestStatus) {
+    this.mergeTestStatus = mergeTestStatus.getCode();
+  }
+
+  @Override
+  public int hashCode() {
+    return changeKey.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean result = false;
+
+    if (obj instanceof Change) {
+      final Change other = (Change) obj;
+      if (other.changeKey.equals(other.changeKey)) {
+        return result;
+      }
+    }
+
+    return result;
   }
 }

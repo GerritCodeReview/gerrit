@@ -42,6 +42,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -72,6 +73,7 @@ public class PublishCommentScreen extends AccountScreen implements
   private Button cancel;
   private boolean saveStateOnUnload = true;
   private List<CommentEditorPanel> commentEditors;
+  private Label errorlabel;
 
   public PublishCommentScreen(final PatchSet.Id psi) {
     patchSetId = psi;
@@ -119,6 +121,10 @@ public class PublishCommentScreen extends AccountScreen implements
     cancel = new Button(Util.C.buttonPublishCommentsCancel());
     cancel.addClickHandler(this);
     buttonRow.add(cancel);
+
+    errorlabel = new Label();
+    errorlabel.setText(Util.C.messageMergeFail());
+    body.add(errorlabel);
   }
 
   private void enableForm(final boolean enabled) {
@@ -311,6 +317,10 @@ public class PublishCommentScreen extends AccountScreen implements
     }
 
     submit.setVisible(r.canSubmit());
+    submit
+        .setEnabled(r.getChange().getMergeTestStatus() != Change.TestMergeStatus.NOT_MERGEABLE);
+    errorlabel
+        .setVisible(r.getChange().getMergeTestStatus() == Change.TestMergeStatus.NOT_MERGEABLE);
   }
 
   private void onSend(final boolean submit) {

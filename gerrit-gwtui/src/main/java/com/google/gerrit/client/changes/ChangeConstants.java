@@ -97,6 +97,7 @@ public interface ChangeConstants extends Constants {
   String messageExpandRecent();
   String messageExpandAll();
   String messageCollapseAll();
+  String messageMergeFail();
 
   String patchSetInfoAuthor();
   String patchSetInfoCommitter();

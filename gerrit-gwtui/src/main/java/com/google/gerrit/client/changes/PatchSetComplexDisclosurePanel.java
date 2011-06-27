@@ -48,6 +48,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
@@ -73,6 +74,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
   private Panel actionsPanel;
   private PatchTable patchTable;
   private final Set<ClickHandler> registeredClickHandler =  new HashSet<ClickHandler>();
+  private Change.TestMergeStatus changeMergeStatus;
 
   private PatchSet.Id diffBaseId;
 
@@ -101,6 +103,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     changeScreen = parent;
     changeDetail = detail;
     patchSet = ps;
+    changeMergeStatus = changeDetail.getChange().getMergeTestStatus();
     body = new FlowPanel();
     setContent(body);
 
@@ -170,6 +173,11 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       }
       populateDiffAllActions(detail);
       body.add(patchTable);
+      if (changeMergeStatus == Change.TestMergeStatus.NOT_MERGEABLE) {
+        final Label lbl = new Label();
+        lbl.setText(Util.C.messageMergeFail());
+        actionsPanel.add(lbl);
+      }
 
       for(ClickHandler clickHandler : registeredClickHandler) {
         patchTable.addClickHandler(clickHandler);
@@ -405,6 +413,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       final Button b =
           new Button(Util.M
               .submitPatchSet(detail.getPatchSet().getPatchSetId()));
+      b.setEnabled(changeMergeStatus != Change.TestMergeStatus.NOT_MERGEABLE);
       b.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {

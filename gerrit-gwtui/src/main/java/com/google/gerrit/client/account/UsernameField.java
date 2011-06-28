@@ -138,7 +138,8 @@ class UsernameField extends Composite {
     @Override
     public void onKeyPress(final KeyPressEvent event) {
       final char code = event.getCharCode();
-      switch (code) {
+      final int nativeCode = event.getNativeEvent().getKeyCode();
+      switch (nativeCode) {
         case KeyCodes.KEY_ALT:
         case KeyCodes.KEY_BACKSPACE:
         case KeyCodes.KEY_CTRL:

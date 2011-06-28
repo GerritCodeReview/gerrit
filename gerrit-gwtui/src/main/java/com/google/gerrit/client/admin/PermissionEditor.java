@@ -35,9 +35,6 @@ import com.google.gwt.editor.client.ValueAwareEditor;
 import com.google.gwt.editor.client.adapters.EditorSource;
 import com.google.gwt.editor.client.adapters.ListEditor;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -126,15 +123,6 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
       deletePermission.removeFromParent();
       deletePermission = null;
     }
-
-    groupToAdd.addHandler(new KeyPressHandler() {
-      @Override
-      public void onKeyPress(KeyPressEvent event) {
-        if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          addGroup();
-        }
-      }
-    }, KeyPressEvent.getType());
   }
 
   @UiHandler("deletePermission")
@@ -180,10 +168,6 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
 
   @UiHandler("addRule")
   void onAddGroupByClick(ClickEvent event) {
-    addGroup();
-  }
-
-  private void addGroup() {
     GroupReference ref = groupToAdd.getValue();
     if (ref != null) {
       addGroup(ref);

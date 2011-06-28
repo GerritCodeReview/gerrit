@@ -41,7 +41,7 @@ class MyGroupsFactory extends Handler<List<AccountGroup>> {
   }
 
   @Override
-  public List<AccountGroup> call() throws Exception {
+  public List<AccountGroup> call() {
     final Set<AccountGroup.UUID> effective = user.getEffectiveGroups();
     final int cnt = effective.size();
     final List<AccountGroup> groupList = new ArrayList<AccountGroup>(cnt);

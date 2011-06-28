@@ -14,19 +14,19 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.common.data.GroupDetail;
 
 import java.util.List;
 
 public class GroupList {
-  protected List<AccountGroup> groups;
+  protected List<GroupDetail> groups;
   protected boolean canCreateGroup;
 
-  public List<AccountGroup> getGroups() {
+  public List<GroupDetail> getGroups() {
     return groups;
   }
 
-  public void setGroups(List<AccountGroup> groups) {
+  public void setGroups(List<GroupDetail> groups) {
     this.groups = groups;
   }
 

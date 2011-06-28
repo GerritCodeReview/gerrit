@@ -15,10 +15,12 @@
 package com.google.gerrit.httpd.rpc.account;
 
 import com.google.gerrit.common.data.AccountSecurity;
+import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.ContactInformationStoreException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
@@ -39,6 +41,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.ClearPassword;
 import com.google.gerrit.server.account.GeneratePassword;
+import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.contact.ContactStore;
@@ -58,6 +61,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -82,6 +86,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final DeleteExternalIds.Factory deleteExternalIdsFactory;
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
   private final MyGroupsFactory.Factory myGroupsFactory;
+  private final GroupDetailFactory.Factory groupDetailFactory;
 
   @Inject
   AccountSecurityImpl(final Provider<ReviewDb> schema,
@@ -95,7 +100,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final ChangeUserName.CurrentUser changeUserNameFactory,
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
-      final MyGroupsFactory.Factory myGroupsFactory) {
+      final MyGroupsFactory.Factory myGroupsFactory,
+      final GroupDetailFactory.Factory groupDetailFactory) {
     super(schema, currentUser);
     contactStore = cs;
     authConfig = ac;
@@ -115,6 +121,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     this.deleteExternalIdsFactory = deleteExternalIdsFactory;
     this.externalIdDetailFactory = externalIdDetailFactory;
     this.myGroupsFactory = myGroupsFactory;
+    this.groupDetailFactory = groupDetailFactory;
   }
 
   public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
@@ -198,8 +205,17 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   }
 
   @Override
-  public void myGroups(final AsyncCallback<List<AccountGroup>> callback) {
-    myGroupsFactory.create().to(callback);
+  public void myGroups(final AsyncCallback<List<GroupDetail>> callback) {
+    run(callback, new Action<List<GroupDetail>>() {
+      public List<GroupDetail> run(final ReviewDb db) throws OrmException,
+          NoSuchGroupException, Failure {
+        List<GroupDetail> groupDetails = new ArrayList<GroupDetail>();
+        for(AccountGroup group : myGroupsFactory.create().call()) {
+          groupDetails.add(groupDetailFactory.create(group.getId()).call());
+        }
+        return groupDetails;
+      }
+    });
   }
 
   public void deleteExternalIds(final Set<AccountExternalId.Key> keys,

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX///7o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-28T00:35:17Z",
+      "side": 1,
+      "message": "Add a note here describing how renames are split:\n\n  if the change type is rename, it returns a delete for oldpath\n  and an add for newpath.",
+      "revId": "5aed9490f93bfdb8a15f396cfc50c5fad788d6b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///7w\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-28T00:35:17Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "5aed9490f93bfdb8a15f396cfc50c5fad788d6b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///7s\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-28T00:35:17Z",
+      "side": 1,
+      "message": "Should be public.",
+      "revId": "5aed9490f93bfdb8a15f396cfc50c5fad788d6b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///7k\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-06-28T00:35:17Z",
+      "side": 1,
+      "message": "I got the order wrong here. Lets invert these and put delete, then add:\n\n  split_commit_delta(rename, NewPath, OldPath, delete, OldPath).\n  split_commit_delta(rename, NewPath, OldPath, add, NewPath), !.\n\nThat way its a delete/add pair. We often speak about it this way because it makes sense, what if I rename \"src\" to \"src/foo.c\"? I want to see src delete before I add src/foo.c, because now src needs to convert from being a file to being a directory.",
+      "revId": "5aed9490f93bfdb8a15f396cfc50c5fad788d6b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

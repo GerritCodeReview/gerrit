@@ -91,7 +91,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
   public void visibleGroups(final AsyncCallback<GroupList> callback) {
     run(callback, new Action<GroupList>() {
-      public GroupList run(ReviewDb db) throws OrmException {
+      public GroupList run(ReviewDb db) throws OrmException,
+          NoSuchGroupException {
         final IdentifiedUser user = identifiedUser.get();
         final List<AccountGroup> list;
         if (user.getCapabilities().canAdministrateServer()) {
@@ -111,8 +112,12 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
           }
         });
 
+        List<GroupDetail> l = new ArrayList<GroupDetail>();
+        for(AccountGroup group : list) {
+          l.add(groupDetailFactory.create(group.getId()).call());
+        }
         GroupList res = new GroupList();
-        res.setGroups(list);
+        res.setGroups(l);
         res.setCanCreateGroup(user.getCapabilities().canCreateGroup());
         return res;
       }

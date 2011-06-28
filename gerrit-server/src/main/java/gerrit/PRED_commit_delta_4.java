@@ -100,16 +100,7 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
       throw new JavaException(this, 1, err);
     }
 
-    PatchListCache plCache = env.getInjector().getInstance(PatchListCache.class);
-    Change change = StoredValues.CHANGE.get(engine);
-
-    Project.NameKey projectKey = change.getProject();
-    ObjectId a = null;
-    ObjectId b = ObjectId.fromString(psInfo.getRevId());
-    Whitespace ws = Whitespace.IGNORE_NONE;
-    PatchListKey plKey = new PatchListKey(projectKey, a, b, ws);
-
-    PatchList pl = plCache.get(plKey);
+    PatchList pl = getPatchList(env, psInfo);
     Iterator<PatchListEntry> iter = pl.getPatches().iterator();
 
     engine.areg5 = new JavaObjectTerm(iter);
@@ -210,5 +201,22 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
     }
 
     return psInfo;
+  }
+
+  protected PatchList getPatchList(PrologEnvironment env, PatchSetInfo psInfo) {
+    PatchList patchList = env.get(StoredValues.PATCH_LIST);
+    if (patchList == null) {
+      PatchListCache plCache = env.getInjector().getInstance(PatchListCache.class);
+      Change change = env.get(StoredValues.CHANGE);
+      Project.NameKey projectKey = change.getProject();
+      ObjectId a = null;
+      ObjectId b = ObjectId.fromString(psInfo.getRevId());
+      Whitespace ws = Whitespace.IGNORE_NONE;
+      PatchListKey plKey = new PatchListKey(projectKey, a, b, ws);
+      patchList = plCache.get(plKey);
+      env.set(StoredValues.PATCH_LIST, patchList);
+    }
+
+    return patchList;
   }
 }

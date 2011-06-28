@@ -80,6 +80,9 @@ public interface AdminConstants extends Constants {
   String columnApprovalCategory();
   String columnRightRange();
   String columnRefName();
+  String columnGroupType();
+  String columnGroupNotifications();
+  String columnGroupVisibleToAll();
 
   String columnBranchName();
   String columnBranchRevision();

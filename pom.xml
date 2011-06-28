@@ -54,6 +54,7 @@ limitations under the License.
     <slf4jVersion>1.6.1</slf4jVersion>
     <guiceVersion>2.0</guiceVersion>
     <jettyVersion>7.2.1.v20101111</jettyVersion>
+    <luceneVersion>3.2.0</luceneVersion>
 
     <gwt.compileReport>false</gwt.compileReport>
 
@@ -486,6 +487,24 @@ limitations under the License.
         <groupId>org.apache.velocity</groupId>
         <artifactId>velocity</artifactId>
         <version>1.6.4</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-core</artifactId>
+        <version>${luceneVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-misc</artifactId>
+        <version>${luceneVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-queries</artifactId>
+        <version>${luceneVersion}</version>
       </dependency>
 
       <dependency>

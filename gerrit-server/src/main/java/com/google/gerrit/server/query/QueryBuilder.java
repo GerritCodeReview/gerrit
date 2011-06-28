@@ -14,9 +14,6 @@
 
 package com.google.gerrit.server.query;
 
-import static com.google.gerrit.server.query.Predicate.and;
-import static com.google.gerrit.server.query.Predicate.not;
-import static com.google.gerrit.server.query.Predicate.or;
 import static com.google.gerrit.server.query.QueryParser.AND;
 import static com.google.gerrit.server.query.QueryParser.DEFAULT_FIELD;
 import static com.google.gerrit.server.query.QueryParser.EXACT_PHRASE;
@@ -35,9 +32,7 @@ import java.lang.annotation.Target;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -166,6 +161,7 @@ public abstract class QueryBuilder<T> {
     }
   }
 
+  @SuppressWarnings("unchecked")
   private Predicate<T> operator(final String name, final Tree val)
       throws QueryParseException {
     switch (val.getType()) {
@@ -174,13 +170,13 @@ public abstract class QueryBuilder<T> {
       //
       case AND:
       case OR: {
-        List<Predicate<T>> p = new ArrayList<Predicate<T>>(val.getChildCount());
+        Predicate<T>[] p = new Predicate[val.getChildCount()];
         for (int i = 0; i < val.getChildCount(); i++) {
           final Tree c = val.getChild(i);
           if (c.getType() != DEFAULT_FIELD) {
             throw error("Nested operator not expected: " + c);
           }
-          p.add(operator(name, onlyChildOf(c)));
+          p[i] = operator(name, onlyChildOf(c));
         }
         return val.getType() == AND ? and(p) : or(p);
       }
@@ -236,6 +232,18 @@ public abstract class QueryBuilder<T> {
   protected Predicate<T> defaultField(final String value)
       throws QueryParseException {
     throw error("Unsupported query:" + value);
+  }
+
+  protected Predicate<T> and(Predicate<T>... that) {
+    return Predicate.and(that);
+  }
+
+  protected Predicate<T> or(Predicate<T>... that) {
+    return Predicate.or(that);
+  }
+
+  protected Predicate<T> not(Predicate<T> that) {
+    return Predicate.not(that);
   }
 
   /**

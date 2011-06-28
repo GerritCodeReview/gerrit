@@ -25,7 +25,6 @@ import com.google.gerrit.server.query.RewritePredicate;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
-import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
 
@@ -34,12 +33,7 @@ import java.util.Collection;
 public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   private static final QueryRewriter.Definition<ChangeData, ChangeQueryRewriter> mydef =
       new QueryRewriter.Definition<ChangeData, ChangeQueryRewriter>(
-          ChangeQueryRewriter.class, new ChangeQueryBuilder(
-              new ChangeQueryBuilder.Arguments( //
-                  new InvalidProvider<ReviewDb>(), //
-                  new InvalidProvider<ChangeQueryRewriter>(), //
-                  null, null, null, null, null, null, null, //
-                  null, null, null, null), null));
+          ChangeQueryRewriter.class, ChangeQueryBuilder.DUMMY_BUILDER);
 
   private final Provider<ReviewDb> dbProvider;
 
@@ -625,12 +619,5 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
 
     abstract ResultSet<Change> scan(ChangeAccess a, String key, int limit)
         throws OrmException;
-  }
-
-  private static final class InvalidProvider<T> implements Provider<T> {
-    @Override
-    public T get() {
-      throw new OutOfScopeException("Not available at init");
-    }
   }
 }

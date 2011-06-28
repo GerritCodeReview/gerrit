@@ -30,12 +30,13 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.index.LuceneIndex;
+import com.google.gerrit.server.index.LuceneQueryBuilder;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -86,6 +87,8 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
   private final ChangeQueryBuilder.Factory queryBuilder;
   private final Provider<ChangeQueryRewriter> queryRewriter;
+  private final Provider<LuceneQueryBuilder> queryParser;
+  private final LuceneIndex index;
 
   @Inject
   ChangeListServiceImpl(final Provider<ReviewDb> schema,
@@ -93,13 +96,17 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final ChangeQueryBuilder.Factory queryBuilder,
-      final Provider<ChangeQueryRewriter> queryRewriter) {
+      final Provider<ChangeQueryRewriter> queryRewriter,
+      final Provider<LuceneQueryBuilder> queryParser,
+      final LuceneIndex index) {
     super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
     this.accountInfoCacheFactory = accountInfoCacheFactory;
     this.queryBuilder = queryBuilder;
     this.queryRewriter = queryRewriter;
+    this.queryParser = queryParser;
+    this.index = index;
   }
 
   private boolean canRead(final Change c) {
@@ -118,7 +125,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         @Override
         ResultSet<Change> query(ReviewDb db, int lim, String key)
             throws OrmException, InvalidQueryException {
-          return searchQuery(db, query, lim, key, QUERY_PREV);
+          return searchQuery(db, query, lim, key);
         }
       });
     } catch (InvalidQueryException e) {
@@ -134,7 +141,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         @Override
         ResultSet<Change> query(ReviewDb db, int lim, String key)
             throws OrmException, InvalidQueryException {
-          return searchQuery(db, query, lim, key, QUERY_NEXT);
+          return searchQuery(db, query, lim, key);
         }
       });
     } catch (InvalidQueryException e) {
@@ -144,60 +151,36 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
   @SuppressWarnings("unchecked")
   private ResultSet<Change> searchQuery(final ReviewDb db, String query,
-      final int limit, final String key, final Comparator<Change> cmp)
+      final int limit, final String key)
       throws OrmException, InvalidQueryException {
     try {
-      final ChangeQueryBuilder builder = queryBuilder.create(currentUser.get());
-      final Predicate<ChangeData> visibleToMe = builder.is_visible();
-      Predicate<ChangeData> q = builder.parse(query);
-      q = Predicate.and(q, //
-          cmp == QUERY_PREV //
-              ? builder.sortkey_after(key) //
-              : builder.sortkey_before(key), //
-          builder.limit(limit), //
-          visibleToMe //
-          );
-
-      ChangeQueryRewriter rewriter = queryRewriter.get();
-      Predicate<ChangeData> s = rewriter.rewrite(q);
-      if (!(s instanceof ChangeDataSource)) {
-        s = rewriter.rewrite(Predicate.and(builder.status_open(), q));
+      LuceneQueryBuilder parser = queryParser.get();
+      Predicate<ChangeData> q = parser.and(
+          parser.parse(query),
+          parser.is_visible());
+      ArrayList<Change> r = new ArrayList<Change>();
+      HashSet<Change.Id> want = new HashSet<Change.Id>();
+      for (ChangeData d : index.scan(q, limit, key)) {
+        if (d.hasChange()) {
+          r.add(d.getChange());
+        } else {
+          want.add(d.getId());
+        }
       }
 
-      if (s instanceof ChangeDataSource) {
-        ArrayList<Change> r = new ArrayList<Change>();
-        HashSet<Change.Id> want = new HashSet<Change.Id>();
-        for (ChangeData d : ((ChangeDataSource) s).read()) {
-          if (d.hasChange()) {
-            // Checking visibleToMe here should be unnecessary, the
-            // query should have already performed it.  But we don't
-            // want to trust the query rewriter that much yet.
-            //
-            if (visibleToMe.match(d)) {
-              r.add(d.getChange());
-            }
-          } else {
-            want.add(d.getId());
+      // Here we have to check canRead. Its impossible to
+      // do that test without the change object, and it being
+      // missing above means we have to compute it ourselves.
+      //
+      if (!want.isEmpty()) {
+        for (Change c : db.changes().get(want)) {
+          if (canRead(c)) {
+            r.add(c);
           }
         }
-
-        // Here we have to check canRead. Its impossible to
-        // do that test without the change object, and it being
-        // missing above means we have to compute it ourselves.
-        //
-        if (!want.isEmpty()) {
-          for (Change c : db.changes().get(want)) {
-            if (canRead(c)) {
-              r.add(c);
-            }
-          }
-        }
-
-        Collections.sort(r, cmp);
-        return new ListResultSet<Change>(r);
-      } else {
-        throw new InvalidQueryException("Not Supported", s.toString());
       }
+
+      return new ListResultSet<Change>(r);
     } catch (QueryParseException e) {
       throw new InvalidQueryException(e.getMessage(), query);
     }

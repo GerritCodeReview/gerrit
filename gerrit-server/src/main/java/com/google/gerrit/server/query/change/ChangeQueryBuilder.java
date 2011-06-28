@@ -37,6 +37,7 @@ import com.google.gerrit.server.query.QueryBuilder;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
@@ -94,6 +95,20 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
       new QueryBuilder.Definition<ChangeData, ChangeQueryBuilder>(
           ChangeQueryBuilder.class);
+
+  public static final ChangeQueryBuilder DUMMY_BUILDER =
+      new ChangeQueryBuilder(new ChangeQueryBuilder.Arguments( //
+          new InvalidProvider<ReviewDb>(), //
+          new InvalidProvider<ChangeQueryRewriter>(), //
+          null, null, null, null, null, null, null, //
+          null, null, null, null), null);
+
+  private static final class InvalidProvider<T> implements Provider<T> {
+    @Override
+    public T get() {
+      throw new OutOfScopeException("Not available at init");
+    }
+  }
 
   static class Arguments {
     final Provider<ReviewDb> dbProvider;

@@ -25,15 +25,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-final class SingleGroupUser extends CurrentUser {
+public final class SingleGroupUser extends CurrentUser {
   private final Set<AccountGroup.UUID> groups;
 
-  SingleGroupUser(CapabilityControl.Factory capabilityControlFactory,
+  public SingleGroupUser(CapabilityControl.Factory capabilityControlFactory,
       AccountGroup.UUID groupId) {
     this(capabilityControlFactory, Collections.singleton(groupId));
   }
 
-  SingleGroupUser(CapabilityControl.Factory capabilityControlFactory,
+  public SingleGroupUser(CapabilityControl.Factory capabilityControlFactory,
       Set<AccountGroup.UUID> groups) {
     super(capabilityControlFactory, AccessPath.UNKNOWN);
     this.groups = groups;

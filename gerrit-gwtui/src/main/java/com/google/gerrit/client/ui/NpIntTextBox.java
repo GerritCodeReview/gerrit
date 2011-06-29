@@ -47,6 +47,7 @@ public class NpIntTextBox extends NpTextBox {
             case KeyCodes.KEY_HOME:
             case KeyCodes.KEY_END:
             case KeyCodes.KEY_TAB:
+            case KeyCodes.KEY_DELETE:
               break;
 
             default:

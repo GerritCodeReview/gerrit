@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX///pk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PermissionCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-06-29T15:10:48Z",
+      "side": 1,
+      "message": "This means that DENY rules are skipped and will not be included in the\nreturned PermissionCollection.\n\nHowever, a skipped DENY rule is added to the seen set.  Since\nSeenRule.equals is based on equality of (refPattern, permissionName, group)\nthis means that an ALLOW rule with the same (refPattern, permissionName,\ngroup) will also be skipped and not included in the returned\nPermissionCollection.\n\nSo far so good. This is how DENY rule overrides an ALLOW rule.\n\nI assume it is ensured that project local access sections are processed\nbefore inherited sections so that local DENY rules have chance to be seen before\ninherited ALLOW rules.\n\nThis logic however, leaves an interesting question open: what if in\n--AllProjects-- we have something like:\n\n [access \"refs/heads/*\"]\n \tpush \u003d group Y\n\nand in a projects Hello, which inherits from --AllProjects--, we have:\n\n [access \"refs/heads/*\"]\n \tpush \u003d deny group X\n\nwhere group X is a subset of the group Y.\nA member of group X will still be able to push to refs/heads/* because:\n- the DENY rule is skipped adding the (refs/heads/*, push, X) to the seen rules set\n- the ALLOW rule (refs/heads/*, push, Y) is included as the seen rules set doesn\u0027t contain it according to SeenRule.equals\n\nIs this intended or is this a bug?\n\nIntuitively, the DENY rule above is more specific to the project Hello\nthan the inherited ALLOW rule because it is project local and should\nhave precedence for users that belong to the group X.",
+      "revId": "bee0aeafa1ca9552e4caf82ae0cbf7adaf71c4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEH///6E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SectionMatcher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-06-29T15:10:48Z",
+      "side": 1,
+      "message": "The\n\n wrap(String pattern, AccessSection section)\n\nmethod never returns NULL. This check seems unnecessary.",
+      "revId": "bee0aeafa1ca9552e4caf82ae0cbf7adaf71c4cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

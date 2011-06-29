@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
+import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 public class AddMemberBox extends Composite {
@@ -37,14 +38,20 @@ public class AddMemberBox extends Composite {
   private boolean submitOnSelection;
 
   public AddMemberBox() {
+    this(Util.C.buttonAddGroupMember(), Util.C.defaultAccountName(),
+        new AccountSuggestOracle());
+  }
+
+  public AddMemberBox(final String buttonLabel, final String hint,
+      final SuggestOracle suggestOracle) {
     addPanel = new FlowPanel();
-    addMember = new Button(Util.C.buttonAddGroupMember());
+    addMember = new Button(buttonLabel);
     nameTxtBox = new HintTextBox();
     nameTxt = new SuggestBox(new RPCSuggestOracle(
-        new AccountSuggestOracle()), nameTxtBox);
+        suggestOracle), nameTxtBox);
 
     nameTxtBox.setVisibleLength(50);
-    nameTxtBox.setHintText(Util.C.defaultAccountName());
+    nameTxtBox.setHintText(hint);
     nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
@@ -74,10 +81,6 @@ public class AddMemberBox extends Composite {
     addPanel.add(addMember);
 
     initWidget(addPanel);
-  }
-
-  public void setAddButtonText(final String text) {
-    addMember.setText(text);
   }
 
   public void addClickHandler(final ClickHandler handler) {

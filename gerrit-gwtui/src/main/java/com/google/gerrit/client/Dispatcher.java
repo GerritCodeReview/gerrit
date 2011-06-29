@@ -416,14 +416,25 @@ public class Dispatcher {
 
   public static void patch(String token, final Patch.Key id,
       final int patchIndex, final PatchSetDetail patchSetDetail,
-      final PatchTable patchTable) {
-    patch(token, id, patchIndex, patchSetDetail, patchTable, null);
+      final PatchTable patchTable, final PatchScreen.TopView topView) {
+    patch(token, id, patchIndex, patchSetDetail, patchTable, topView, null);
   }
 
   public static void patch(String token, final Patch.Key id,
       final int patchIndex, final PatchSetDetail patchSetDetail,
-      final PatchTable patchTable,
+      final PatchTable patchTable, final String panelType) {
+    patch(token, id, patchIndex, patchSetDetail, patchTable,
+        null, panelType);
+  }
+
+  public static void patch(String token, final Patch.Key id,
+      final int patchIndex, final PatchSetDetail patchSetDetail,
+      final PatchTable patchTable, final PatchScreen.TopView topView,
       final String panelType) {
+
+    final PatchScreen.TopView top =  topView == null ?
+        Gerrit.getPatchScreenTopView() : topView;
+
     GWT.runAsync(new AsyncSplit(token) {
       public void onSuccess() {
         Gerrit.display(token, select());
@@ -442,14 +453,16 @@ public class Dispatcher {
                 id, //
                 patchIndex, //
                 patchSetDetail, //
-                patchTable //
+                patchTable, //
+                top //
             );
           } else if ("unified".equals(panel)) {
             return new PatchScreen.Unified( //
                 id, //
                 patchIndex, //
                 patchSetDetail, //
-                patchTable //
+                patchTable, //
+                top //
             );
           }
         }

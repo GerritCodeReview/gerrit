@@ -20,6 +20,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
+import com.google.gerrit.client.ui.AccountSuggestOracle;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ApprovalDetail;
@@ -76,8 +77,10 @@ public class ApprovalTable extends Composite {
 
     addReviewer = new FlowPanel();
     addReviewer.setStyleName(Gerrit.RESOURCES.css().addReviewer());
-    addMemberBox = new AddMemberBox();
-    addMemberBox.setAddButtonText(Util.C.approvalTableAddReviewer());
+    addMemberBox =
+      new AddMemberBox(Util.C.approvalTableAddReviewer(),
+          Util.C.approvalTableAddReviewerHint(),
+          new AccountSuggestOracle());
     addMemberBox.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {

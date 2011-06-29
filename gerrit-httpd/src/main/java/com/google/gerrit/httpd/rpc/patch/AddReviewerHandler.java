@@ -26,7 +26,8 @@ import java.util.Collection;
 
 class AddReviewerHandler extends Handler<ReviewerResult> {
   interface Factory {
-    AddReviewerHandler create(Change.Id changeId, Collection<String> nameOrEmails);
+    AddReviewerHandler create(Change.Id changeId,
+        Collection<String> userNameOrEmailOrGroupNames, boolean confirmed);
   }
 
   private final AddReviewer.Factory addReviewerFactory;
@@ -34,23 +35,26 @@ class AddReviewerHandler extends Handler<ReviewerResult> {
 
   private final Change.Id changeId;
   private final Collection<String> reviewers;
+  private final boolean confirmed;
 
   @Inject
   AddReviewerHandler(final AddReviewer.Factory addReviewerFactory,
       final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final Change.Id changeId,
-      @Assisted final Collection<String> nameOrEmails) {
+      @Assisted final Collection<String> userNameOrEmailOrGroupNames,
+      @Assisted final boolean confirmed) {
 
     this.addReviewerFactory = addReviewerFactory;
     this.changeDetailFactory = changeDetailFactory;
 
     this.changeId = changeId;
-    this.reviewers = nameOrEmails;
+    this.reviewers = userNameOrEmailOrGroupNames;
+    this.confirmed = confirmed;
   }
 
   @Override
   public ReviewerResult call() throws Exception {
-    ReviewerResult result = addReviewerFactory.create(changeId, reviewers).call();
+    ReviewerResult result = addReviewerFactory.create(changeId, reviewers, confirmed).call();
     result.setChange(changeDetailFactory.create(changeId).call());
     return result;
   }

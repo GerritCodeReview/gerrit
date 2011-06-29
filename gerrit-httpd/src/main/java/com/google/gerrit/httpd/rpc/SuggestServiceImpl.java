@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc;
 
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.ReviewerInfo;
 import com.google.gerrit.common.data.SuggestService;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.Account;
@@ -29,7 +30,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.account.GroupMembersFactory;
+import com.google.gerrit.server.account.GroupMembersFactory.Factory;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -56,29 +60,34 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private final ProjectCache projectCache;
   private final AccountCache accountCache;
   private final GroupControl.Factory groupControlFactory;
+  private final Factory groupMembersFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<CurrentUser> currentUser;
   private final SuggestAccountsEnum suggestAccounts;
+  private final Config cfg;
   private final GroupCache groupCache;
+
 
   @Inject
   SuggestServiceImpl(final Provider<ReviewDb> schema,
       final ProjectControl.Factory projectControlFactory,
       final ProjectCache projectCache, final AccountCache accountCache,
       final GroupControl.Factory groupControlFactory,
+      final GroupMembersFactory.Factory groupMembersFactory,
       final IdentifiedUser.GenericFactory userFactory,
       final Provider<CurrentUser> currentUser,
-      @GerritServerConfig final Config cfg,
-      final GroupCache groupCache) {
+      @GerritServerConfig final Config cfg, final GroupCache groupCache) {
     super(schema, currentUser);
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
     this.accountCache = accountCache;
     this.groupControlFactory = groupControlFactory;
+    this.groupMembersFactory = groupMembersFactory;
     this.userFactory = userFactory;
     this.currentUser = currentUser;
     this.suggestAccounts =
         cfg.getEnum("suggest", null, "accounts", SuggestAccountsEnum.ALL);
+    this.cfg = cfg;
     this.groupCache = groupCache;
   }
 
@@ -106,43 +115,48 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
   public void suggestAccount(final String query, final Boolean active,
       final int limit, final AsyncCallback<List<AccountInfo>> callback) {
-    if (suggestAccounts == SuggestAccountsEnum.OFF) {
-      callback.onSuccess(Collections.<AccountInfo> emptyList());
-      return;
-    }
-
     run(callback, new Action<List<AccountInfo>>() {
       public List<AccountInfo> run(final ReviewDb db) throws OrmException {
-        final String a = query;
-        final String b = a + MAX_SUFFIX;
-        final int max = 10;
-        final int n = limit <= 0 ? max : Math.min(limit, max);
-
-        final LinkedHashMap<Account.Id, AccountInfo> r =
-            new LinkedHashMap<Account.Id, AccountInfo>();
-        for (final Account p : db.accounts().suggestByFullName(a, b, n)) {
-          addSuggestion(r, p, new AccountInfo(p), active);
-        }
-        if (r.size() < n) {
-          for (final Account p : db.accounts().suggestByPreferredEmail(a, b,
-              n - r.size())) {
-            addSuggestion(r, p, new AccountInfo(p), active);
-          }
-        }
-        if (r.size() < n) {
-          for (final AccountExternalId e : db.accountExternalIds()
-              .suggestByEmailAddress(a, b, n - r.size())) {
-            if (!r.containsKey(e.getAccountId())) {
-              final Account p = accountCache.get(e.getAccountId()).getAccount();
-              final AccountInfo info = new AccountInfo(p);
-              info.setPreferredEmail(e.getEmailAddress());
-              addSuggestion(r, p, info, active);
-            }
-          }
-        }
-        return new ArrayList<AccountInfo>(r.values());
+        return suggestAccount(db, query, active, limit);
       }
     });
+  }
+
+  private List<AccountInfo> suggestAccount(final ReviewDb db,
+      final String query, final Boolean active, final int limit)
+      throws OrmException {
+    if (suggestAccounts == SuggestAccountsEnum.OFF) {
+      return Collections.<AccountInfo> emptyList();
+    }
+
+    final String a = query;
+    final String b = a + MAX_SUFFIX;
+    final int max = 10;
+    final int n = limit <= 0 ? max : Math.min(limit, max);
+
+    final LinkedHashMap<Account.Id, AccountInfo> r =
+        new LinkedHashMap<Account.Id, AccountInfo>();
+    for (final Account p : db.accounts().suggestByFullName(a, b, n)) {
+      addSuggestion(r, p, new AccountInfo(p), active);
+    }
+    if (r.size() < n) {
+      for (final Account p : db.accounts().suggestByPreferredEmail(a, b,
+          n - r.size())) {
+        addSuggestion(r, p, new AccountInfo(p), active);
+      }
+    }
+    if (r.size() < n) {
+      for (final AccountExternalId e : db.accountExternalIds()
+          .suggestByEmailAddress(a, b, n - r.size())) {
+        if (!r.containsKey(e.getAccountId())) {
+          final Account p = accountCache.get(e.getAccountId()).getAccount();
+          final AccountInfo info = new AccountInfo(p);
+          info.setPreferredEmail(e.getEmailAddress());
+          addSuggestion(r, p, info, active);
+        }
+      }
+    }
+    return new ArrayList<AccountInfo>(r.values());
   }
 
   private void addSuggestion(Map<Account.Id, AccountInfo> map, Account account,
@@ -201,26 +215,90 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<List<GroupReference>> callback) {
     run(callback, new Action<List<GroupReference>>() {
       public List<GroupReference> run(final ReviewDb db) throws OrmException {
-        final String a = query;
-        final String b = a + MAX_SUFFIX;
-        final int max = 10;
-        final int n = limit <= 0 ? max : Math.min(limit, max);
-        List<GroupReference> r = new ArrayList<GroupReference>(n);
-        for (AccountGroupName group : db.accountGroupNames()
-              .suggestByName(a, b, n)) {
-          try {
-            if (groupControlFactory.controlFor(group.getId()).isVisible()) {
-              AccountGroup g = groupCache.get(group.getId());
-              if (g != null && g.getGroupUUID() != null) {
-                r.add(GroupReference.forGroup(g));
-              }
-            }
-          } catch (NoSuchGroupException e) {
-            continue;
-          }
-        }
-        return r;
+        return suggestAccountGroup(db, query, limit);
       }
     });
+  }
+
+  private List<GroupReference> suggestAccountGroup(final ReviewDb db,
+      final String query, final int limit) throws OrmException {
+    final String a = query;
+    final String b = a + MAX_SUFFIX;
+    final int max = 10;
+    final int n = limit <= 0 ? max : Math.min(limit, max);
+    List<GroupReference> r = new ArrayList<GroupReference>(n);
+    for (AccountGroupName group : db.accountGroupNames().suggestByName(a, b, n)) {
+      try {
+        if (groupControlFactory.controlFor(group.getId()).isVisible()) {
+          AccountGroup g = groupCache.get(group.getId());
+          if (g != null && g.getGroupUUID() != null) {
+            r.add(GroupReference.forGroup(g));
+          }
+        }
+      } catch (NoSuchGroupException e) {
+        continue;
+      }
+    }
+    return r;
+  }
+
+  @Override
+  public void suggestReviewer(final Project.NameKey project,
+      final String query, final int limit,
+      final AsyncCallback<List<ReviewerInfo>> callback) {
+    run(callback, new Action<List<ReviewerInfo>>() {
+      public List<ReviewerInfo> run(final ReviewDb db) throws OrmException {
+        final List<AccountInfo> suggestedAccounts =
+            suggestAccount(db, query, Boolean.TRUE, limit);
+        final List<ReviewerInfo> reviewer =
+            new ArrayList<ReviewerInfo>(suggestedAccounts.size());
+        for (final AccountInfo a : suggestedAccounts) {
+          reviewer.add(new ReviewerInfo(a));
+        }
+        final List<GroupReference> suggestedAccountGroups =
+            suggestAccountGroup(db, query, limit);
+        for (final GroupReference g : suggestedAccountGroups) {
+          if (suggestGroupAsReviewer(project, g)) {
+            reviewer.add(new ReviewerInfo(g));
+          }
+        }
+
+        Collections.sort(reviewer);
+        if (reviewer.size() <= limit) {
+          return reviewer;
+        } else {
+          return reviewer.subList(0, limit);
+        }
+      }
+    });
+  }
+
+  private boolean suggestGroupAsReviewer(final Project.NameKey project,
+      final GroupReference group) throws OrmException {
+    if (!AddReviewer.isLegalReviewerGroup(group.getUUID())) {
+      return false;
+    }
+
+    try {
+      final Set<Account> members =
+          groupMembersFactory.create(project, group.getUUID()).call();
+
+      if (members.isEmpty()) {
+        return false;
+      }
+
+      final int maxAllowed =
+          cfg.getInt("addreviewer", "maxAllowed",
+              AddReviewer.DEFAULT_MAX_REVIEWERS);
+      if (maxAllowed > 0 && members.size() > maxAllowed) {
+        return false;
+      }
+    } catch (NoSuchGroupException e) {
+      return false;
+    } catch (NoSuchProjectException e) {
+      return false;
+    }
+
+    return true;
   }
 }

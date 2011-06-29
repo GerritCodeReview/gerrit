@@ -92,6 +92,9 @@ public class PatchScriptSettingsPanel extends Composite implements
 
 
   @UiField
+  Button apply;
+
+  @UiField
   Button update;
 
   /**
@@ -115,6 +118,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     initContext(context);
     if (!Gerrit.isSignedIn()) {
       reviewed.setVisible(false);
+      update.setVisible(false);
     }
 
     KeyPressHandler onEnter = new KeyPressHandler() {
@@ -220,7 +224,19 @@ public class PatchScriptSettingsPanel extends Composite implements
     update();
   }
 
+  @UiHandler("apply")
+  void onApply(ClickEvent event) {
+    apply();
+  }
+
   private void update() {
+    apply();
+    if (Gerrit.isSignedIn()) {
+      persistDiffPreferences();
+    }
+  }
+
+  private void apply() {
     if (colWidth.getIntValue() <= 0) {
       new ErrorDialog(PatchUtil.C.illegalNumberOfColumns()).center();
       return;
@@ -240,19 +256,13 @@ public class PatchScriptSettingsPanel extends Composite implements
     dp.setExpandAllComments(expandAllComments.getValue());
 
     listenablePrefs.set(dp);
-
-    if (Gerrit.isSignedIn()) {
-      persistDiffPreferences();
-    }
   }
 
   private void persistDiffPreferences() {
     setEnabled(false);
-    Util.ACCOUNT_SVC.changeDiffPreferences(getValue(),
-        new GerritCallback<VoidResult>() {
+    listenablePrefs.save(new GerritCallback<VoidResult>() {
       @Override
       public void onSuccess(VoidResult result) {
-        Gerrit.setAccountDiffPreference(getValue());
         setEnabled(true);
       }
 

@@ -15,12 +15,37 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.account.Util;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
+import com.google.gwtjsonrpc.client.VoidResult;
 
 public class ListenableAccountDiffPreference
     extends ListenableValue<AccountDiffPreference> {
 
   public ListenableAccountDiffPreference() {
+    reset();
+  }
+
+  public void save(final GerritCallback<VoidResult> cb) {
+    if (Gerrit.isSignedIn()) {
+      Util.ACCOUNT_SVC.changeDiffPreferences(get(),
+          new GerritCallback<VoidResult>() {
+        @Override
+        public void onSuccess(VoidResult result) {
+          Gerrit.setAccountDiffPreference(get());
+          cb.onSuccess(result);
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+          cb.onFailure(caught);
+        }
+      });
+    }
+  }
+
+  public void reset() {
     if (Gerrit.isSignedIn() && Gerrit.getAccountDiffPreference() != null) {
       set(Gerrit.getAccountDiffPreference());
     } else {

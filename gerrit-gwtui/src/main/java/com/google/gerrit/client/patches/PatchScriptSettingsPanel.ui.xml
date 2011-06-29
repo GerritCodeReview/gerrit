@@ -115,37 +115,42 @@ limitations under the License.
       </g:CheckBox>
     </td>
 
-    <td>
-      <g:CheckBox
-          ui:field='expandAllComments'
-          text='Expand All Comments'
-          tabIndex='9'>
-        <ui:attribute name='text'/>
-      </g:CheckBox>
-    </td>
-
     <td rowspan='2'>
       <g:CheckBox
           ui:field='skipUncommented'
           text='Skip Uncommented Files'
-          tabIndex='10'>
+          tabIndex='9'>
         <ui:attribute name='text'/>
       </g:CheckBox>
       <br/>
       <g:CheckBox
           ui:field='skipDeleted'
           text='Skip Deleted Files'
-          tabIndex='11'>
+          tabIndex='10'>
         <ui:attribute name='text'/>
       </g:CheckBox>
     </td>
 
-    <td valign='bottom' rowspan='2'>
+    <td rowspan='2'>
+      <g:CheckBox
+          ui:field='expandAllComments'
+          text='Expand All Comments'
+          tabIndex='11'>
+        <ui:attribute name='text'/>
+      </g:CheckBox>
+      <br/>
       <g:Button
-          ui:field='update'
-          text='Update'
+          ui:field='apply'
+          text='Apply'
           styleName='{style.updateButton}'
           tabIndex='12'>
+        <ui:attribute name='text'/>
+      </g:Button>
+      <g:Button
+          ui:field='update'
+          text='Save'
+          styleName='{style.updateButton}'
+          tabIndex='13'>
         <ui:attribute name='text'/>
       </g:Button>
     </td>
@@ -154,7 +159,7 @@ limitations under the License.
       <g:CheckBox
           ui:field='reviewed'
           text='Reviewed'
-          tabIndex='13'>
+          tabIndex='14'>
         <ui:attribute name='text'/>
       </g:CheckBox>
     </td>

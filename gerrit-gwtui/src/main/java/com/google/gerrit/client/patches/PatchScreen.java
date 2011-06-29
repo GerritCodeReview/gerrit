@@ -148,6 +148,9 @@ public abstract class PatchScreen extends Screen implements
 
     prefs = fileList != null ? fileList.getPreferences() :
                                new ListenableAccountDiffPreference();
+    if (Gerrit.isSignedIn()) {
+      prefs.reset();
+    }
     prefs.addValueChangeHandler(
         new ValueChangeHandler<AccountDiffPreference>() {
           @Override

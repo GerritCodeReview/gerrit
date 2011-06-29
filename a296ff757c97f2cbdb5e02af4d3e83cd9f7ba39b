@@ -37,6 +37,42 @@
     },
     {
       "key": {
+        "uuid": "AAABEX///qE\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2011-06-29T14:44:53Z",
+      "side": 1,
+      "message": "I would favor such a \"pop-out\" icon.",
+      "parentUuid": "AAABDX//+ik\u003d",
+      "revId": "a296ff757c97f2cbdb5e02af4d3e83cd9f7ba39b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///p0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2011-06-29T14:44:53Z",
+      "side": 1,
+      "message": "For me it does not feel right that the top view vanishes when I navigate to the previous/next file diff. Once I decided to display e.g. the patch sets there I normally want to still see them after changing the file. In case I\u0027m not interested into it anymore I can safely ignore it.\n\nIf there was such a behavior (that the top view stays on file change), the pop up would then just add the possibility to not only have one but two such areas which stay when I change the file.",
+      "parentUuid": "AAABDX//+lM\u003d",
+      "revId": "a296ff757c97f2cbdb5e02af4d3e83cd9f7ba39b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDX//+lc\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX///qc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2011-06-29T14:44:53Z",
+      "side": 1,
+      "message": "1. I also do not find it intuitive that I have to click on the menu entry to convert the upper part into a popup. Would it be feasible to add a small button with an icon or the label \"Detach\" resp. \"Attach\"?\n\n2. I cannot reproduce on Firefox 5.0 the issue that there is more than one popup. However, in my case, when opening a popup and then navigating to another file the popup stays and nothing happens when I want to open another popup by clicking to a menu entry.",
+      "parentUuid": "AAABDX//+lc\u003d",
+      "revId": "a296ff757c97f2cbdb5e02af4d3e83cd9f7ba39b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDX//+lY\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -65,6 +119,24 @@
       "writtenOn": "2011-06-24T12:29:19Z",
       "side": 1,
       "message": "1. I think having a key binding to open and close the popups is a good idea. I would propose \u0027m\u0027 for commit message, \u0027p\u0027 for preferences and \u0027h\u0027 for patch sets / patch history and of course \u0027f\u0027 for the file list.\n\n2. Yeah it would be great, if we could make ESC work to close the popup. However I guess this is not that easy. Right now when you open the file list popup by pressing \u0027f\u0027 and then you press \u0027?\u0027 to get the help for the bindings displayed, it already claims that ESC would close the dialog, but for me this not working (only checked in Firefox). I guess there is a conflict with ESC also being used to cancel the editing of a comment. I would be fine with pressing the same key that opens the popup a second time to close it again.\n\n3. The popups should get automatically closed, when navigating away from the file diff screen, e.g. when clicking on the \u0027Up to Change\u0027 link or when clicking on \u0027All\u0027 -\u003e \u0027Open\u0027. With th file list popup this was working earlier.",
+      "revId": "a296ff757c97f2cbdb5e02af4d3e83cd9f7ba39b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///qo\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2011-06-29T14:44:53Z",
+      "side": 1,
+      "message": "I fully agree with all the three suggestions of Edwin, especially with #3.\n\nRegarding #2 I could imagine that pressing the same key again (m, p, f or h) could close the popup. This already works now for the file list.",
+      "parentUuid": "AAABDX//+lY\u003d",
       "revId": "a296ff757c97f2cbdb5e02af4d3e83cd9f7ba39b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

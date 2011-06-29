@@ -14,13 +14,15 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.ConfirmationCallback;
+import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.ReviewerSuggestOracle;
 import com.google.gerrit.client.ui.AccountDashboardLink;
-import com.google.gerrit.client.ui.AccountSuggestOracle;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ApprovalDetail;
@@ -39,11 +41,12 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
@@ -59,6 +62,7 @@ public class ApprovalTable extends Composite {
   private final Grid table;
   private final Widget missing;
   private final Panel addReviewer;
+  private final ReviewerSuggestOracle reviewerSuggestOracle;
   private final AddMemberBox addMemberBox;
   private Change.Id changeId;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
@@ -77,10 +81,10 @@ public class ApprovalTable extends Composite {
 
     addReviewer = new FlowPanel();
     addReviewer.setStyleName(Gerrit.RESOURCES.css().addReviewer());
+    reviewerSuggestOracle = new ReviewerSuggestOracle();
     addMemberBox =
-      new AddMemberBox(Util.C.approvalTableAddReviewer(),
-          Util.C.approvalTableAddReviewerHint(),
-          new AccountSuggestOracle());
+        new AddMemberBox(Util.C.approvalTableAddReviewer(),
+            Util.C.approvalTableAddReviewerHint(), reviewerSuggestOracle);
     addMemberBox.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
@@ -131,6 +135,8 @@ public class ApprovalTable extends Composite {
   }
 
   void display(ChangeDetail detail) {
+    reviewerSuggestOracle.setProject(detail.getChange().getProject());
+
     List<String> columns = new ArrayList<String>();
     List<ApprovalDetail> rows = detail.getApprovals();
 
@@ -242,27 +248,38 @@ public class ApprovalTable extends Composite {
   }
 
   private void doAddReviewer() {
-    final String nameEmail = addMemberBox.getText();
-    if (nameEmail.length() == 0) {
+    final String userNameOrEmailOrGroupName = addMemberBox.getText();
+    if (userNameOrEmailOrGroupName.length() == 0) {
       return;
     }
 
     addMemberBox.setEnabled(false);
     final List<String> reviewers = new ArrayList<String>();
-    reviewers.add(nameEmail);
+    reviewers.add(userNameOrEmailOrGroupName);
 
-    PatchUtil.DETAIL_SVC.addReviewers(changeId, reviewers,
+    addReviewers(reviewers, false);
+  }
+
+  private void addReviewers(final List<String> reviewers,
+      final boolean confirmed) {
+    PatchUtil.DETAIL_SVC.addReviewers(changeId, reviewers, confirmed,
         new GerritCallback<ReviewerResult>() {
           public void onSuccess(final ReviewerResult result) {
             addMemberBox.setEnabled(true);
             addMemberBox.setText("");
 
+            final ChangeDetail changeDetail = result.getChange();
+            if (changeDetail != null) {
+              setAccountInfoCache(changeDetail.getAccounts());
+              display(changeDetail);
+            }
+
             if (!result.getErrors().isEmpty()) {
               final SafeHtmlBuilder r = new SafeHtmlBuilder();
               for (final ReviewerResult.Error e : result.getErrors()) {
                 switch (e.getType()) {
-                  case ACCOUNT_NOT_FOUND:
-                    r.append(Util.M.accountNotFound(e.getName()));
+                  case REVIEWER_NOT_FOUND:
+                    r.append(Util.M.reviewerNotFound(e.getName()));
                     break;
 
                   case ACCOUNT_INACTIVE:
@@ -271,6 +288,38 @@ public class ApprovalTable extends Composite {
 
                   case CHANGE_NOT_VISIBLE:
                     r.append(Util.M.changeNotVisibleTo(e.getName()));
+                    break;
+
+                  case GROUP_EMPTY:
+                    r.append(Util.M.groupIsEmpty(e.getName()));
+                    break;
+
+                  case GROUP_HAS_TOO_MANY_MEMBERS:
+                    if (result.askForConfirmation() && !confirmed) {
+                      StringBuilder message = new StringBuilder();
+                      message.append("<b>");
+                      message.append(Util.M.groupManyMembersConfirmation(
+                          e.getName(), result.getMemberCount()));
+                      message.append("</b>");
+                      ConfirmationDialog confirmationDialog =
+                          new ConfirmationDialog(Util.C
+                              .approvalTableAddManyReviewersConfirmationDialogTitle(),
+                              new HTML(message.toString()),
+                              new ConfirmationCallback() {
+                                @Override
+                                public void onOk() {
+                                  addReviewers(reviewers, true);
+                                }
+                              });
+                      confirmationDialog.center();
+                      return;
+                    } else {
+                      r.append(Util.M.groupHasTooManyMembers(e.getName()));
+                    }
+                    break;
+
+                  case GROUP_NOT_ALLOWED:
+                    r.append(Util.M.groupIsNotAllowed(e.getName()));
                     break;
 
                   default:
@@ -282,12 +331,6 @@ public class ApprovalTable extends Composite {
                 }
               }
               new ErrorDialog(r).center();
-            }
-
-            final ChangeDetail r = result.getChange();
-            if (r != null) {
-              setAccountInfoCache(r.getAccounts());
-              display(r);
             }
           }
 

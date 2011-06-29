@@ -12,20 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.rpc.account;
+package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupInclude;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.account.AccountInfoCacheFactory;
-import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.account.GroupInfoCacheFactory;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -34,9 +29,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.Callable;
 
-class GroupDetailFactory extends Handler<GroupDetail> {
-  interface Factory {
+public class GroupDetailFactory implements Callable<GroupDetail> {
+  public interface Factory {
     GroupDetailFactory create(AccountGroup.Id groupId);
   }
 

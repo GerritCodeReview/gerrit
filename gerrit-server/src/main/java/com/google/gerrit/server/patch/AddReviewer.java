@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 package com.google.gerrit.server.patch;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -26,11 +26,16 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupMembersFactory;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,42 +45,56 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 public class AddReviewer implements Callable<ReviewerResult> {
+  public final static int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
+  public final static int DEFAULT_MAX_REVIEWERS = 20;
+
   public interface Factory {
-    AddReviewer create(Change.Id changeId, Collection<String> nameOrEmails);
+    AddReviewer create(Change.Id changeId,
+        Collection<String> userNameOrEmailOrGroupNames, boolean confirmed);
   }
 
   private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final AccountResolver accountResolver;
+  private final GroupCache groupCache;
+  private final GroupMembersFactory.Factory groupMembersFactory;
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
   private final IdentifiedUser currentUser;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final ApprovalCategory.Id addReviewerCategoryId;
+  private final Config cfg;
 
   private final Change.Id changeId;
   private final Collection<String> reviewers;
+  private final boolean confirmed;
 
   @Inject
   AddReviewer(final AddReviewerSender.Factory addReviewerSenderFactory,
-      final AccountResolver accountResolver,
+      final AccountResolver accountResolver, final GroupCache groupCache,
+      final GroupMembersFactory.Factory groupMembersFactory,
       final ChangeControl.Factory changeControlFactory, final ReviewDb db,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       final IdentifiedUser currentUser, final ApprovalTypes approvalTypes,
-      @Assisted final Change.Id changeId,
-      @Assisted final Collection<String> nameOrEmails) {
+      final @GerritServerConfig Config cfg, @Assisted final Change.Id changeId,
+      @Assisted final Collection<String> userNameOrEmailOrGroupNames,
+      @Assisted final boolean confirmed) {
     this.addReviewerSenderFactory = addReviewerSenderFactory;
     this.accountResolver = accountResolver;
+    this.groupCache = groupCache;
+    this.groupMembersFactory = groupMembersFactory;
     this.db = db;
     this.changeControlFactory = changeControlFactory;
     this.identifiedUserFactory = identifiedUserFactory;
     this.currentUser = currentUser;
+    this.cfg = cfg;
 
     final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
     addReviewerCategoryId =
         allTypes.get(allTypes.size() - 1).getCategory().getId();
 
     this.changeId = changeId;
-    this.reviewers = nameOrEmails;
+    this.reviewers = userNameOrEmailOrGroupNames;
+    this.confirmed = confirmed;
   }
 
   @Override
@@ -84,18 +103,92 @@ public class AddReviewer implements Callable<ReviewerResult> {
     final ChangeControl control = changeControlFactory.validateFor(changeId);
 
     final ReviewerResult result = new ReviewerResult();
-    for (final String nameOrEmail : reviewers) {
-      final Account account = accountResolver.find(nameOrEmail);
+    for (final String userNameOrEmailOrGroupName : reviewers) {
+      final Account account = accountResolver.find(userNameOrEmailOrGroupName);
       if (account == null) {
-        result.addError(new ReviewerResult.Error(
-            ReviewerResult.Error.Type.ACCOUNT_NOT_FOUND, nameOrEmail));
+        AccountGroup group =
+            groupCache
+                .get(new AccountGroup.NameKey(userNameOrEmailOrGroupName));
+
+        if (group == null) {
+          result.addError(new ReviewerResult.Error(
+              ReviewerResult.Error.Type.ACCOUNT_OR_GROUP_NOT_FOUND,
+              userNameOrEmailOrGroupName));
+          continue;
+        }
+
+        if (AccountGroup.ANONYMOUS_USERS.equals(group.getGroupUUID())
+            || AccountGroup.REGISTERED_USERS.equals(group.getGroupUUID())) {
+          result.addError(new ReviewerResult.Error(
+              ReviewerResult.Error.Type.GROUP_NOT_ALLOWED,
+              userNameOrEmailOrGroupName));
+          continue;
+        }
+
+        final Set<Account> members;
+        if (AccountGroup.PROJECT_OWNERS.equals(group.getGroupUUID())) {
+          final Set<AccountGroup.UUID> ownerGroups =
+              control.getProjectControl().getProjectState().getOwners();
+
+          members = new HashSet<Account>();
+          for (AccountGroup.UUID ownerGroup : ownerGroups) {
+            members.addAll(groupMembersFactory.create(ownerGroup).call());
+          }
+        } else {
+          members = groupMembersFactory.create(group.getGroupUUID()).call();
+        }
+
+        if (members == null || members.size() == 0) {
+          result
+              .addError(new ReviewerResult.Error(
+                  ReviewerResult.Error.Type.GROUP_EMPTY,
+                  userNameOrEmailOrGroupName));
+          continue;
+        }
+
+        // if maxAllowed is set to 0, it is allowed to add any number of
+        // reviewers
+        final int maxAllowed =
+            cfg.getInt("addreviewer", "maxAllowed", DEFAULT_MAX_REVIEWERS);
+        if (maxAllowed > 0 && members.size() > maxAllowed) {
+          result.setMemberCount(members.size());
+          result.setAskForConfirmation(false);
+          result.addError(new ReviewerResult.Error(
+              ReviewerResult.Error.Type.GROUP_HAS_TOO_MANY_MEMBERS,
+              userNameOrEmailOrGroupName));
+          continue;
+        }
+
+        // if maxWithoutCheck is set to 0, we never ask for confirmation
+        final int maxWithoutConfirmation =
+            cfg.getInt("addreviewer", "maxWithoutConfirmation",
+                DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
+        if (!confirmed && maxWithoutConfirmation > 0
+            && members.size() > maxWithoutConfirmation) {
+          result.setMemberCount(members.size());
+          result.setAskForConfirmation(true);
+          result.addError(new ReviewerResult.Error(
+              ReviewerResult.Error.Type.GROUP_HAS_TOO_MANY_MEMBERS,
+              userNameOrEmailOrGroupName));
+          continue;
+        }
+
+        for (Account member : members) {
+          if (member.isActive()) {
+            final IdentifiedUser user =
+                identifiedUserFactory.create(member.getId());
+            if (control.forUser(user).isVisible()) {
+              reviewerIds.add(member.getId());
+            }
+          }
+        }
         continue;
       }
 
       if (!account.isActive()) {
         result.addError(new ReviewerResult.Error(
             ReviewerResult.Error.Type.ACCOUNT_INACTIVE,
-            formatUser(account, nameOrEmail)));
+            formatUser(account, userNameOrEmailOrGroupName)));
         continue;
       }
 
@@ -103,7 +196,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
       if (!control.forUser(user).isVisible()) {
         result.addError(new ReviewerResult.Error(
             ReviewerResult.Error.Type.CHANGE_NOT_VISIBLE,
-            formatUser(account, nameOrEmail)));
+            formatUser(account, userNameOrEmailOrGroupName)));
         continue;
       }
 

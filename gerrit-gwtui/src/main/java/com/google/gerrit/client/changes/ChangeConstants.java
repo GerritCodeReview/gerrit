@@ -81,6 +81,7 @@ public interface ChangeConstants extends Constants {
   String approvalTableRemoveNotPermitted();
   String approvalTableCouldNotRemove();
   String approvalTableAddReviewerHint();
+  String approvalTableAddManyReviewersConfirmationDialogTitle();
 
   String changeInfoBlockOwner();
   String changeInfoBlockProject();

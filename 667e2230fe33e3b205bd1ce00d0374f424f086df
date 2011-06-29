@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX///qM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-29T14:02:48Z",
+      "side": 1,
+      "message": "Done.\n\nThis refactoring is now done in an own change: \n https://review.source.android.com/24219",
+      "parentUuid": "AAABB3//+9I\u003d",
+      "revId": "667e2230fe33e3b205bd1ce00d0374f424f086df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABB3//+9c\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AccountAndAccountGroupSuggestOracle.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-06-07T21:52:09Z",
       "side": 1,
       "message": "To save an RPC roundtrip, could you create a new suggestservice that does both of these queries and returns the combined results instead?  I think that it is important to ensure a single RPC for an oracle since it needs to respond quickly while users are typing.\n\nAdditonnaly, such an oracle could perhaps already filter groups which are larger than maxAllowed?  It could also filter out the Registered and Anonymous User groups?",
+      "revId": "667e2230fe33e3b205bd1ce00d0374f424f086df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEH///7c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AccountAndAccountGroupSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-29T14:02:48Z",
+      "side": 1,
+      "message": "All done.",
+      "parentUuid": "AAABB3//+9c\u003d",
       "revId": "667e2230fe33e3b205bd1ce00d0374f424f086df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH///68\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/AddReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-29T14:02:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABB3//+9M\u003d",
+      "revId": "667e2230fe33e3b205bd1ce00d0374f424f086df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABB3//+9U\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/AddReviewer.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAABCH///6g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/AddReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-29T14:02:48Z",
+      "side": 1,
+      "message": "Ups. \n\nYes, groupDetail.members is null for the system groups (e.g. \u0027Registered Users\u0027). Since for these groups this code isn\u0027t reached I wasn\u0027t hitting this NPE during my testing.\n\nDone, but this code was moved into GroupMembersFactory.",
+      "parentUuid": "AAABB3//+9U\u003d",
+      "revId": "667e2230fe33e3b205bd1ce00d0374f424f086df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABB3//+9Q\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/AddReviewer.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2011-06-07T21:52:09Z",
       "side": 1,
       "message": "Should there be some sanity check to detect and abort loops if they can slip in somehow?",
+      "revId": "667e2230fe33e3b205bd1ce00d0374f424f086df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABCH///4M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/AddReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-29T14:02:48Z",
+      "side": 1,
+      "message": "Yes, this is actually important since there can be a recursion of group memberships (e.g. a group may contain itself as member). Good catch.\n\nDone, but this code was moved into GroupMembersFactory.",
+      "parentUuid": "AAABB3//+9Q\u003d",
       "revId": "667e2230fe33e3b205bd1ce00d0374f424f086df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

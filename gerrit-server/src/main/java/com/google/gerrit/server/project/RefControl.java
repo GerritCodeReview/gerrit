@@ -163,12 +163,16 @@ public class RefControl {
       // granting of powers beyond pushing to the configuration.
       return false;
     }
+    boolean result = false;
     for (PermissionRule rule : access(Permission.PUSH)) {
+      if (rule.isBlock()) {
+        return false;
+      }
       if (rule.getForce()) {
-        return true;
+        result = true;
       }
     }
-    return false;
+    return result;
   }
 
   /**
@@ -313,16 +317,35 @@ public class RefControl {
       List<PermissionRule> ruleList) {
     int min = 0;
     int max = 0;
+    int blockMin = Integer.MIN_VALUE;
+    int blockMax = Integer.MAX_VALUE;
     for (PermissionRule rule : ruleList) {
-      min = Math.min(min, rule.getMin());
-      max = Math.max(max, rule.getMax());
+      if (rule.isBlock()) {
+        blockMin = Math.max(blockMin, rule.getMin());
+        blockMax = Math.min(blockMax, rule.getMax());
+      } else {
+        min = Math.min(min, rule.getMin());
+        max = Math.max(max, rule.getMax());
+      }
+    }
+    if (blockMin > Integer.MIN_VALUE) {
+      min = Math.max(min, blockMin + 1);
+    }
+    if (blockMax < Integer.MAX_VALUE) {
+      max = Math.min(max, blockMax - 1);
     }
     return new PermissionRange(permissionName, min, max);
   }
 
   /** True if the user has this permission. Works only for non labels. */
   boolean canPerform(String permissionName) {
-    return !access(permissionName).isEmpty();
+    List<PermissionRule> access = access(permissionName);
+    for (PermissionRule rule : access) {
+      if (rule.isBlock() && !rule.getForce()) {
+        return false;
+      }
+    }
+    return !access.isEmpty();
   }
 
   /** Rules for the given permission, or the empty list. */

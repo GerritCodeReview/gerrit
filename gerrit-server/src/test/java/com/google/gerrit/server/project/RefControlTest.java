@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.common.data.Permission.LABEL;
 import static com.google.gerrit.common.data.Permission.OWNER;
 import static com.google.gerrit.common.data.Permission.PUSH;
 import static com.google.gerrit.common.data.Permission.READ;
@@ -21,6 +22,7 @@ import static com.google.gerrit.common.data.Permission.SUBMIT;
 
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
@@ -221,6 +223,26 @@ public class RefControlTest extends TestCase {
     assertTrue("d can read", d.controlForRef("refs/heads/foo-QA-bar").isVisible());
   }
 
+  public void testBlockRule_ParentBlocksChild() {
+    grant(local, PUSH, devs, "refs/tags/*");
+    grant(parent, PUSH, anonymous, "refs/tags/*").setBlock();
+
+    ProjectControl u = user(devs);
+    assertFalse("u can't force update tag", u.controlForRef("refs/tags/V10").canForceUpdate());
+  }
+
+  public void testBlockLabelRange_ParentBlocksChild() {
+    grant(local, LABEL + "Code-Review", -2, +2, devs, "refs/heads/*");
+    grant(parent, LABEL + "Code-Review", -2, +2, devs, "refs/heads/*").setBlock();
+
+    ProjectControl u = user(devs);
+
+    PermissionRange range = u.controlForRef("refs/heads/master").getRange(LABEL + "Code-Review");
+    assertTrue("u can vote -1", range.contains(-1));
+    assertTrue("u can vote +1", range.contains(1));
+    assertFalse("u can't vote -2", range.contains(-2));
+    assertFalse("u can't vote 2", range.contains(2));
+  }
   // -----------------------------------------------------------------------
 
   private final Map<Project.NameKey, ProjectState> all;
@@ -317,7 +339,20 @@ public class RefControlTest extends TestCase {
 
   private PermissionRule grant(ProjectConfig project, String permissionName,
       AccountGroup.UUID group, String ref) {
+    return grant(project, permissionName, newRule(project, group), ref);
+  }
+
+  private PermissionRule grant(ProjectConfig project, String permissionName,
+      int min, int max, AccountGroup.UUID group, String ref) {
     PermissionRule rule = newRule(project, group);
+    rule.setMin(min);
+    rule.setMax(max);
+    return grant(project, permissionName, rule, ref);
+  }
+
+
+  private PermissionRule grant(ProjectConfig project, String permissionName,
+      PermissionRule rule, String ref) {
     project.getAccessSection(ref, true) //
         .getPermission(permissionName, true) //
         .add(rule);

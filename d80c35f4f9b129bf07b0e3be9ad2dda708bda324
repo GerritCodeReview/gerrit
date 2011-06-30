@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX///WE\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-30T05:52:05Z",
+      "side": 1,
+      "message": "[optional] Maybe you can include the motivation for this change into the commit message? I guess it\u0027s to save vertical screen space so that more space is available for showing the file diff and rather use the empty horizontal space for displaying the patch sets.",
+      "revId": "d80c35f4f9b129bf07b0e3be9ad2dda708bda324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

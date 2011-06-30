@@ -110,6 +110,7 @@ user_label_range(Label, test_user(Name), Min, Max) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
 %% not_same/2:
+
 %%
 :- public not_same/2.
 %%
@@ -264,6 +265,44 @@ check_label_range_permission(Label, ExpValue, ok(Who)) :-
 %  grant_range(Label, Group, Min, Max),
 %  Min @=< ExpValue, ExpValue @=< Max
 %  .
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% filter_results/2:
+%%
+%%   Executes the FilterRule against the given list of results
+%%
+:- public filter_results/3.
+%%
+filter_results(FilterRule, Results, S) :-
+  call_filter(FilterRule, Results, Ls),
+  Tmp =.. [submit | Ls],
+  ( is_all_ok(Ls) -> S = ok(Tmp), ! ; S = not_ready(Tmp) ).
+
+call_filter(P:X, R, S) :- !, F =.. [X, R, S], P:F.
+call_filter(X, R, S) :- !, F =.. [X, R, S], F.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% locate_filter/1:
+%%
+%%   Finds a filter if available.
+%%
+:- public locate_filter/1.
+%%
+
+locate_filter(FilterName) :-
+  '$compiled_predicate'(user, filter, 2),
+  !,
+  FilterName = user:filter
+  .
+locate_filter(FilterName) :-
+  clause(user:filter(_,_), _),
+  !,
+  FilterName = user:filter
+  .
 
 
 %% commit_author/1:

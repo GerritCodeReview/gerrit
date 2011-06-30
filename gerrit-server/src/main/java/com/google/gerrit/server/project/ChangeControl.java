@@ -32,6 +32,8 @@ import com.google.inject.Provider;
 
 import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
+import com.googlecode.prolog_cafe.lang.ListTerm;
+import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.Term;
@@ -238,9 +240,10 @@ public class ChangeControl {
       return ruleError("Patch set " + patchSetId + " is not current");
     }
 
+    ProjectState projectState = getProjectControl().getProjectState();
     PrologEnvironment env;
     try {
-      env = getProjectControl().getProjectState().newPrologEnvironment();
+      env = projectState.newPrologEnvironment();
     } catch (CompileException err) {
       return logRuleError("Cannot consult rules.pl for "
           + getProject().getName(), err);
@@ -273,6 +276,45 @@ public class ChangeControl {
     } catch (RuntimeException err) {
       return logRuleError("Exception calling " + submitRule + " on change "
           + change.getId() + " of " + getProject().getName(), err);
+    }
+
+    ProjectState parentState = projectState.getParentState();
+    PrologEnvironment parentEnv;
+    PrologEnvironment childEnv = env;
+
+    while (parentState != null) {
+      try {
+        parentEnv = parentState.newPrologEnvironment();
+      } catch (CompileException err) {
+        return logRuleError("Cannot consult rules.pl for "
+            + parentState.getProject().getName(), err);
+      }
+      parentEnv.copyStoredValues(childEnv);
+      Term filterRule =
+          parentEnv.once("gerrit", "locate_filter", new VariableTerm());
+      if (filterRule != null) {
+        try {
+          Term resultsTerm = toListTerm(results);
+          results.clear();
+          List<Term> filtered = new ArrayList<Term>();
+          for (Term[] template : parentEnv.all(
+              "gerrit", "filter_results",
+              filterRule,
+              resultsTerm,
+              new VariableTerm())) {
+            results.add(template[2]);
+          }
+        } catch (PrologException err) {
+          return logRuleError("Exception calling " + filterRule + " on change "
+              + change.getId() + " of " + parentState.getProject().getName(), err);
+        } catch (RuntimeException err) {
+          return logRuleError("Exception calling " + filterRule + " on change "
+              + change.getId() + " of " + parentState.getProject().getName(), err);
+        }
+      }
+
+      parentState = parentState.getParentState();
+      childEnv = parentEnv;
     }
 
     if (results.isEmpty()) {
@@ -397,5 +439,13 @@ public class ChangeControl {
         && who.arity() == 1
         && who.name().equals("user")
         && who.arg(0).isInteger();
+  }
+
+  private Term toListTerm(List<Term> terms) {
+    Term list = Prolog.Nil;
+    for (Term term : terms) {
+      list = new ListTerm(term, list);
+    }
+    return list;
   }
 }

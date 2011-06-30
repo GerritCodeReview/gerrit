@@ -145,7 +145,7 @@ public class RefControlTest extends TestCase {
 
   public void testInheritRead_OverrideWithDeny() {
     grant(parent, READ, registered, "refs/*");
-    grant(local, READ, registered, "refs/*").setDeny(true);
+    grant(local, READ, registered, "refs/*").setDeny();
 
     ProjectControl u = user();
     assertFalse("can't read", u.isVisible());
@@ -153,7 +153,7 @@ public class RefControlTest extends TestCase {
 
   public void testInheritRead_AppendWithDenyOfRef() {
     grant(parent, READ, registered, "refs/*");
-    grant(local, READ, registered, "refs/heads/*").setDeny(true);
+    grant(local, READ, registered, "refs/heads/*").setDeny();
 
     ProjectControl u = user();
     assertTrue("can read", u.isVisible());
@@ -164,7 +164,7 @@ public class RefControlTest extends TestCase {
 
   public void testInheritRead_OverridesAndDeniesOfRef() {
     grant(parent, READ, registered, "refs/*");
-    grant(local, READ, registered, "refs/*").setDeny(true);
+    grant(local, READ, registered, "refs/*").setDeny();
     grant(local, READ, registered, "refs/heads/*");
 
     ProjectControl u = user();
@@ -176,7 +176,7 @@ public class RefControlTest extends TestCase {
 
   public void testInheritSubmit_OverridesAndDeniesOfRef() {
     grant(parent, SUBMIT, registered, "refs/*");
-    grant(local, SUBMIT, registered, "refs/*").setDeny(true);
+    grant(local, SUBMIT, registered, "refs/*").setDeny();
     grant(local, SUBMIT, registered, "refs/heads/*");
 
     ProjectControl u = user();

@@ -49,7 +49,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
     return action == Action.DENY;
   }
 
-  public void setDeny(boolean newDeny) {
+  public void setDeny() {
     action = Action.DENY;
   }
 

@@ -30,6 +30,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
@@ -281,7 +282,9 @@ class Schema_53 extends SchemaVersion {
 
       if (OLD_SUBMIT.equals(old.category)) {
         PermissionRule submit = rule(group);
-        submit.setDeny(old.max_value <= 0);
+        if (old.max_value <= 0) {
+          submit.setDeny();
+        }
         add(section, SUBMIT, old.exclusive, submit);
 
       } else if (OLD_READ.equals(old.category)) {
@@ -291,7 +294,9 @@ class Schema_53 extends SchemaVersion {
         }
 
         PermissionRule read = rule(group);
-        read.setDeny(old.max_value <= 0);
+        if (old.max_value <= 0) {
+          read.setDeny();
+        }
         add(section, READ, old.exclusive, read);
 
         if (3 <= old.max_value) {
@@ -311,7 +316,9 @@ class Schema_53 extends SchemaVersion {
 
       } else if (OLD_PUSH_TAG.equals(old.category)) {
         PermissionRule push = rule(group);
-        push.setDeny(old.max_value <= 0);
+        if (old.max_value <= 0) {
+          push.setDeny();
+        }
         add(section, PUSH_TAG, old.exclusive, push);
 
       } else if (OLD_PUSH_HEAD.equals(old.category)) {
@@ -321,7 +328,9 @@ class Schema_53 extends SchemaVersion {
         }
 
         PermissionRule push = rule(group);
-        push.setDeny(old.max_value <= 0);
+        if (old.max_value <= 0) {
+          push.setDeny();
+        }
         push.setForce(3 <= old.max_value);
         add(section, PUSH, old.exclusive, push);
 
@@ -358,7 +367,7 @@ class Schema_53 extends SchemaVersion {
         PermissionRule rule = rule(group);
         rule.setRange(old.min_value, old.max_value);
         if (old.min_value == 0 && old.max_value == 0) {
-          rule.setDeny(true);
+          rule.setDeny();
         }
         add(section, LABEL + varNameOf(old.category), old.exclusive, rule);
       }
@@ -395,7 +404,7 @@ class Schema_53 extends SchemaVersion {
 
   private static PermissionRule deny(GroupReference group) {
     PermissionRule rule = rule(group);
-    rule.setDeny(true);
+    rule.setDeny();
     return rule;
   }
 

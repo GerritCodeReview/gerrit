@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -163,12 +164,16 @@ public class RefControl {
       // granting of powers beyond pushing to the configuration.
       return false;
     }
+    boolean result = false;
     for (PermissionRule rule : access(Permission.PUSH)) {
+      if (rule.isBlock()) {
+        return false;
+      }
       if (rule.getForce()) {
-        return true;
+        result = true;
       }
     }
-    return false;
+    return result;
   }
 
   /**
@@ -322,6 +327,12 @@ public class RefControl {
 
   /** True if the user has this permission. Works only for non labels. */
   boolean canPerform(String permissionName) {
+    List<PermissionRule> access = access(permissionName);
+    for (PermissionRule rule : access) {
+      if (rule.isBlock() && !rule.getForce()) {
+        return false;
+      }
+    }
     return !access(permissionName).isEmpty();
   }
 

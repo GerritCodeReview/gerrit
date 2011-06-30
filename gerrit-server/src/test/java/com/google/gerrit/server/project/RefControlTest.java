@@ -221,6 +221,14 @@ public class RefControlTest extends TestCase {
     assertTrue("d can read", d.controlForRef("refs/heads/foo-QA-bar").isVisible());
   }
 
+  public void testBlockRule_ParentBlocksChild() {
+    grant(local, PUSH, devs, "refs/tags/*");
+    grant(parent, PUSH, anonymous, "refs/tags/*").setBlock();
+
+    ProjectControl u = user(devs);
+    assertFalse("u can't force update tag", u.controlForRef("refs/tags/V10").canForceUpdate());
+  }
+
   // -----------------------------------------------------------------------
 
   private final Map<Project.NameKey, ProjectState> all;

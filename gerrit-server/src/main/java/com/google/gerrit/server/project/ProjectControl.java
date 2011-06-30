@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.AbstractAgreement;
 import com.google.gerrit.reviewdb.AccountAgreement;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -393,7 +394,7 @@ public class ProjectControl {
       }
 
       for (PermissionRule rule : permission.getRules()) {
-        if (rule.isDeny() || !match(rule)) {
+        if (rule.isBlock() || rule.isDeny() || !match(rule)) {
           continue;
         }
 

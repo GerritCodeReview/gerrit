@@ -124,7 +124,8 @@ public class PermissionRuleEditor extends Composite implements
         action.setValue(PermissionRule.Action.ALLOW);
         action.setAcceptableValues(Arrays.asList(
             PermissionRule.Action.ALLOW,
-            PermissionRule.Action.DENY));
+            PermissionRule.Action.DENY,
+            PermissionRule.Action.BLOCK));
       }
     }
 

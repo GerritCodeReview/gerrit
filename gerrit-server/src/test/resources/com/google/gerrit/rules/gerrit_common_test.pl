@@ -87,6 +87,57 @@ test(can_submit_not_ready) :-
   C = label('Code-Review', ok(test_user(alice))),
   V = label('Verified', need(1)).
 
+test(can_submit_only_verified_not_ready) :-
+  can_submit(submit_only_verified, S),
+  S = not_ready(submit(V)),
+  V = label('Verified', need(1)).
+
+
+%% filter_submit_results
+%%
+test(filter_submit_remove_verified) :-
+  can_submit(gerrit:default_submit, R),
+  filter_submit_results(filter_out_v, [R], S),
+  S = [ok(submit(C))],
+  C = label('Code-Review', ok(test_user(alice))).
+
+test(filter_submit_add_code_review) :-
+  set_commit_labels([
+    commit_label( label('Code-Review', 2), test_user(alice) ),
+    commit_label( label('Verified', 1), test_user(builder) )
+  ]),
+  can_submit(submit_only_verified, R),
+  filter_submit_results(filter_in_cr, [R], S),
+  S = [ok(submit(C, V))],
+  C = label('Code-Review', ok(test_user(alice))),
+  V = label('Verified', ok(test_user(builder))).
+
+
+%% find_label
+%%
+test(find_default_code_review) :-
+  can_submit(gerrit:default_submit, R),
+  arg(1, R, S),
+  find_label(S, 'Code-Review', L),
+  L = label('Code-Review', ok(test_user(alice))).
+
+test(find_default_verified) :-
+  can_submit(gerrit:default_submit, R),
+  arg(1, R, S),
+  find_label(S, 'Verified', L),
+  L = label('Verified', need(1)).
+
+
+%% remove_label
+%%
+test(remove_default_code_review) :-
+  can_submit(gerrit:default_submit, R),
+  arg(1, R, S),
+  C = label('Code-Review', ok(test_user(alice))),
+  remove_label(S, C, Out),
+  Out = submit(V),
+  V = label('Verified', need(1)).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
@@ -106,6 +157,21 @@ all_commit_labels(Ls) :-
     commit_label( label('You-Fail', -1), test_user(failer) ),
     commit_label( label('You-Fail', -1), test_user(alice) )
   ].
+
+submit_only_verified(P) :-
+  max_with_block('Verified', -1, 1, Status),
+  P = submit(label('Verified', Status)).
+
+filter_out_v(R, S) :-
+  find_label(R, 'Verified', Verified), !,
+  remove_label(R, Verified, S).
+filter_out_v(R, S).
+
+filter_in_cr(R, S) :-
+  R =.. [submit | Labels],
+  max_with_block('Code-Review', -2, 2, Status),
+  CR = label('Code-Review', Status),
+  S =.. [submit , CR | Labels].
 
 :- package user.
 test_grant('Code-Review', test_user(alice), range(-2, 2)).

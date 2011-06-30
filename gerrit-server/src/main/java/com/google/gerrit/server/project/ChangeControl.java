@@ -32,6 +32,8 @@ import com.google.inject.Provider;
 
 import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
+import com.googlecode.prolog_cafe.lang.ListTerm;
+import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.Term;
@@ -42,7 +44,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /** Access control management for a user accessing a single change. */
@@ -238,9 +242,10 @@ public class ChangeControl {
       return ruleError("Patch set " + patchSetId + " is not current");
     }
 
+    ProjectState projectState = getProjectControl().getProjectState();
     PrologEnvironment env;
     try {
-      env = getProjectControl().getProjectState().newPrologEnvironment();
+      env = projectState.newPrologEnvironment();
     } catch (CompileException err) {
       return logRuleError("Cannot consult rules.pl for "
           + getProject().getName(), err);
@@ -273,6 +278,51 @@ public class ChangeControl {
     } catch (RuntimeException err) {
       return logRuleError("Exception calling " + submitRule + " on change "
           + change.getId() + " of " + getProject().getName(), err);
+    }
+
+    ProjectState parentState = projectState.getParentState();
+    PrologEnvironment childEnv = env;
+    Set<Project.NameKey> projectsSeen = new HashSet<Project.NameKey>();
+    projectsSeen.add(getProject().getNameKey());
+    projectsSeen.add(parentState.getProject().getNameKey());
+
+    while (parentState != null) {
+      PrologEnvironment parentEnv;
+      try {
+        parentEnv = parentState.newPrologEnvironment();
+      } catch (CompileException err) {
+        return logRuleError("Cannot consult rules.pl for "
+            + parentState.getProject().getName(), err);
+      }
+      parentEnv.copyStoredValues(childEnv);
+      Term filterRule =
+          parentEnv.once("gerrit", "locate_submit_filter", new VariableTerm());
+      if (filterRule != null) {
+        try {
+          Term resultsTerm = toListTerm(results);
+          results.clear();
+          Term[] template = parentEnv.once(
+              "gerrit", "filter_submit_results",
+              filterRule,
+              resultsTerm,
+              new VariableTerm());
+          results.addAll(((ListTerm) template[2]).toJava());
+        } catch (PrologException err) {
+          return logRuleError("Exception calling " + filterRule + " on change "
+              + change.getId() + " of " + parentState.getProject().getName(), err);
+        } catch (RuntimeException err) {
+          return logRuleError("Exception calling " + filterRule + " on change "
+              + change.getId() + " of " + parentState.getProject().getName(), err);
+        }
+      }
+
+      parentState = parentState.getParentState();
+      if (parentState != null &&
+          !projectsSeen.add(parentState.getProject().getNameKey())) {
+        //parent has been seen before, stop walk up inheritance tree
+        break;
+      }
+      childEnv = parentEnv;
     }
 
     if (results.isEmpty()) {
@@ -397,5 +447,13 @@ public class ChangeControl {
         && who.arity() == 1
         && who.name().equals("user")
         && who.arg(0).isInteger();
+  }
+
+  private static Term toListTerm(List<Term> terms) {
+    Term list = Prolog.Nil;
+    for (Term term : terms) {
+      list = new ListTerm(term, list);
+    }
+    return list;
   }
 }

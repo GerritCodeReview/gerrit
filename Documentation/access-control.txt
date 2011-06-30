@@ -1,6 +1,17 @@
 Gerrit Code Review - Access Controls
 ====================================
 
+.Disclaimer
+****
+This documentation is outdated.
+
+In Gerrit 2.2.x the way how the access rights are configured has
+changed, but this documentation was not updated yet.
+
+This documentation still describes the access rights configuration as
+it was in Gerrit 2.1.8 and before.
+****
+
 Access controls in Gerrit are group based.  Every user account is a
 member of one or more groups, and access and privileges are granted
 to those groups.  Access rights cannot be granted to individual

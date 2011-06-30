@@ -266,6 +266,98 @@ check_label_range_permission(Label, ExpValue, ok(Who)) :-
 %  .
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% filter_submit_results/3:
+%%
+%%   Executes the submit_filter against the given list of results,
+%%   returns a list of filtered results.
+%%
+:- public filter_submit_results/3.
+%%
+filter_submit_results(Filter, In, Out) :-
+    filter_submit_results(Filter, In, [], Tmp),
+    reverse(Tmp, Out).
+filter_submit_results(Filter, [I | In], Tmp, Out) :-
+    arg(1, I, R),
+    call_submit_filter(Filter, R, S),
+    !,
+    S =.. [submit | Ls],
+    ( is_all_ok(Ls) -> T = ok(S) ; T = not_ready(S) ),
+    filter_submit_results(Filter, In, [T | Tmp], Out).
+filter_submit_results(Filter, [_ | In], Tmp, Out) :-
+   filter_submit_results(Filter, In, Tmp, Out), 
+   !
+   .
+filter_submit_results(Filter, [], Out, Out).
+
+call_submit_filter(P:X, R, S) :- !, F =.. [X, R, S], P:F.
+call_submit_filter(X, R, S) :- F =.. [X, R, S], F.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% locate_submit_filter/1:
+%%
+%%   Finds a submit_filter if available.
+%%
+:- public locate_submit_filter/1.
+%%
+locate_submit_filter(FilterName) :-
+  '$compiled_predicate'(user, submit_filter, 2),
+  !,
+  FilterName = user:submit_filter
+  .
+locate_submit_filter(FilterName) :-
+  clause(user:submit_filter(_,_), _),
+  FilterName = user:submit_filter
+  .
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% find_label/3:
+%%
+%%   Finds labels successively and fails when there are no more results.
+%%
+:- public find_label/3.
+%%
+find_label([], _, _) :- !, fail.
+find_label(List, Name, Label) :-
+  List = [_ | _],
+  !,
+  find_label2(List, Name, Label).
+find_label(S, Name, Label) :-
+  S =.. [submit | Ls],
+  find_label2(Ls, Name, Label).
+
+find_label2([L | _ ], Name, L) :- L = label(Name, _).
+find_label2([_ | Ls], Name, L) :- find_label2(Ls, Name, L).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% remove_label/3:
+%%
+%%   Removes all occurances of label(Name, Status).
+%%
+:- public remove_label/3.
+%%
+remove_label([], _, []) :- !.
+remove_label(List, Label, Out) :-
+  List = [_ | _],
+  !,
+  subtract1(List, Label, Out).
+remove_label(S, Label, Out) :-
+  S =.. [submit | Ls],
+  subtract1(Ls, Label, Tmp),
+  Out =.. [submit | Tmp].
+
+subtract1([], _, []) :- !.
+subtract1([E | L], E, R) :- !, subtract1(L, E, R).
+subtract1([H | L], E, [H | R]) :- subtract1(L, E, R).
+
+
 %% commit_author/1:
 %%
 :- public commit_author/1.

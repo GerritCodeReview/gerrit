@@ -52,6 +52,7 @@ public class ProjectState {
   }
 
   private final boolean isAllProjects;
+  private final AllProjectsName allProjectsName;
   private final ProjectCache projectCache;
   private final ProjectControl.AssistedFactory projectControlFactory;
   private final PrologEnvironment.Factory envFactory;
@@ -84,6 +85,7 @@ public class ProjectState {
       @Assisted final ProjectConfig config) {
     this.projectCache = projectCache;
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
+    this.allProjectsName = allProjectsName;
     this.projectControlFactory = projectControlFactory;
     this.envFactory = envFactory;
     this.gitMgr = gitMgr;
@@ -256,5 +258,22 @@ public class ProjectState {
 
   public ProjectControl controlFor(final CurrentUser user) {
     return projectControlFactory.create(user, this);
+  }
+
+  /**
+   * @return ProjectState of project's parent
+   * if the project does not have a parent, return state of the top level
+   * project, All-Projects
+   * if this project is All-Projects, return null
+   */
+  public ProjectState getParentState() {
+    if (isAllProjects) {
+      return null;
+    }
+    Project.NameKey parentName = getProject().getParent();
+    if (parentName == null) {
+      parentName = allProjectsName;
+    }
+    return projectCache.get(parentName);
   }
 }

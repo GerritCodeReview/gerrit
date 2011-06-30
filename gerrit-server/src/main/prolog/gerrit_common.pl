@@ -266,6 +266,54 @@ check_label_range_permission(Label, ExpValue, ok(Who)) :-
 %  .
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% filter_submit_results/3:
+%%
+%%   Executes the submit_filter against the given list of results,
+%%   returns a list of filtered results.
+%%
+:- public filter_submit_results/3.
+%%
+filter_submit_results(Filter, In, Out) :-
+    filter_submit_results(Filter, In, [], Tmp),
+    reverse(Tmp, Out).
+filter_submit_results(Filter, [I | In], Tmp, Out) :-
+    arg(1, I, R),
+    call_submit_filter(Filter, R, S),
+    !,
+    S =.. [submit | Ls],
+    ( is_all_ok(Ls) -> T = ok(S) ; T = not_ready(S) ),
+    filter_submit_results(Filter, In, [T | Tmp], Out).
+filter_submit_results(Filter, [_ | In], Tmp, Out) :-
+   filter_submit_results(Filter, In, Tmp, Out).
+filter_submit_results(Filter, [], Out, Out).
+
+call_submit_filter(P:X, R, S) :- !, F =.. [X, R, S], P:F.
+call_submit_filter(X, R, S) :- !, F =.. [X, R, S], F.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% locate_submit_filter/1:
+%%
+%%   Finds a submit_filter if available.
+%%
+:- public locate_submit_filter/1.
+%%
+
+locate_submit_filter(FilterName) :-
+  '$compiled_predicate'(user, submit_filter, 2),
+  !,
+  FilterName = user:submit_filter
+  .
+locate_submit_filter(FilterName) :-
+  clause(user:submit_filter(_,_), _),
+  !,
+  FilterName = user:submit_filter
+  .
+
+
 %% commit_author/1:
 %%
 :- public commit_author/1.

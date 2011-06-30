@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX///Vw\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewerInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-30T12:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX///ik\u003d",
+      "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///ig\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewerInfo.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2011-06-29T22:19:32Z",
       "side": 1,
       "message": "My Pref: unneeded else.",
+      "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///Vs\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewerInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-30T12:02:46Z",
+      "side": 1,
+      "message": "Done. Yes, without the 2 else it looks cleaner.",
+      "parentUuid": "AAABEX///ig\u003d",
       "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX///Vk\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewerResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-30T12:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX///ic\u003d",
+      "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///iY\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.properties",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2011-06-29T22:19:32Z",
       "side": 1,
       "message": "s/reviewer?/reviewers?/",
+      "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///Vg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-30T12:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX///iY\u003d",
       "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX///VY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AccountAndAccountGroupSuggestOracle.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-30T12:02:46Z",
+      "side": 1,
+      "message": "Done. This name is much better. I\u0027ve made it \u0027ReviewerSuggestOracle\u0027 to stay consistent with the naming of the other oracles.",
+      "parentUuid": "AAABEX///h4\u003d",
+      "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///hw\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AccountAndAccountGroupSuggestOracle.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2011-06-29T22:19:32Z",
       "side": 1,
       "message": "My Prefs: eliminate elses (return might then fit on one line?)",
+      "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///VU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/AccountAndAccountGroupSuggestOracle.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-30T12:02:46Z",
+      "side": 1,
+      "message": "Done, but return still doesn\u0027t fit into one line :-(",
+      "parentUuid": "AAABEX///hw\u003d",
       "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX///S0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SuggestServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-30T12:02:46Z",
+      "side": 1,
+      "message": "As suggested by your other comment I resolve the Project Owners group now inside the GroupMembersFactory, so that we reuse this functionality from here.\n\nAddReviewer does not only need the count but also the members itself in order to add them as reviewer.",
+      "parentUuid": "AAABEX///k8\u003d",
+      "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///hs\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SuggestServiceImpl.java",
         "patchSetId": 3
@@ -132,6 +258,24 @@
       "writtenOn": "2011-06-29T22:19:32Z",
       "side": 1,
       "message": "Nit: doubled }",
+      "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///VQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SuggestServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-30T12:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX///hs\u003d",
       "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX///VM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/RenameGroup.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-30T12:02:46Z",
+      "side": 1,
+      "message": "No, this import is now needed because the GroupDetailFactory was moved into another package. Before it was just in this package and the import was not needed here.",
+      "parentUuid": "AAABEX///hg\u003d",
+      "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///hQ\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembersFactory.java",
         "patchSetId": 3
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX///S4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembersFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-30T12:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX///hQ\u003d",
+      "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///hI\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
         "patchSetId": 3
@@ -183,6 +363,24 @@
       "writtenOn": "2011-06-29T22:19:32Z",
       "side": 1,
       "message": "Message still accurate?",
+      "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///VA\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-06-30T12:02:46Z",
+      "side": 1,
+      "message": "I think for now the message is still correct, since the modify-reviewers command currently only allows to add users as reviewers, but doesn\u0027t support to add groups. I want to add this support in another change, since I feel that this change already grew quite big.",
+      "parentUuid": "AAABEX///hI\u003d",
       "revId": "03e0e891c16b0564ad9f5bc242fd8da5cea26b28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

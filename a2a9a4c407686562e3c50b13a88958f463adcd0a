@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX///Aw\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-01T23:14:28Z",
+      "side": 1,
+      "message": "I might have just used \"reviewer\" here also (instead of userNameOrEmailOrGroupName)? Or reviewerId?",
+      "revId": "a2a9a4c407686562e3c50b13a88958f463adcd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX///As\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-01T23:14:28Z",
+      "side": 1,
+      "message": "Line 299-314 have the feel of a subfunction?",
+      "revId": "a2a9a4c407686562e3c50b13a88958f463adcd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//++k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SuggestServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-01T23:14:28Z",
+      "side": 1,
+      "message": "Ah, yes, I understand why you simply used the groupMemberFactory now.  I am still concerned with the special group handling above since that is also in common with addReviewer code.  Those probably won\u0027t change, but if they do, we want to be sure that they are handled equivalently.  Perhaps some utility could have a isLegalReviewerGroup() function?",
+      "revId": "a2a9a4c407686562e3c50b13a88958f463adcd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

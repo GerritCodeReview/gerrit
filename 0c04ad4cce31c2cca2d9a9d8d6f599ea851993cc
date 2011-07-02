@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//+64\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-02T18:07:56Z",
+      "side": 1,
+      "message": "Should we also look for block on label ranges in the method above? Does it make sense to say I want to set BLOCK on Code-Review at the All-Projects level and have that work?",
+      "revId": "0c04ad4cce31c2cca2d9a9d8d6f599ea851993cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+68\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-02T18:07:56Z",
+      "side": 1,
+      "message": "You can use access local variable here to prevent looking up the hash entry twice.",
+      "revId": "0c04ad4cce31c2cca2d9a9d8d6f599ea851993cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

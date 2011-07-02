@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,25 +15,32 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.Change;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
-/** Alert a user to a reply to a change, usually commentary made during review. */
-public abstract class ReplyToChangeSender extends ChangeEmail {
-  public static interface Factory<T extends ReplyToChangeSender> {
-    public T create(Change change);
+/** Send notice about a change being restored by its owner. */
+public class RestoredSender extends ReplyToChangeSender {
+  public static interface Factory extends
+      ReplyToChangeSender.Factory<RestoredSender> {
+    RestoredSender create(Change change);
   }
 
-  protected ReplyToChangeSender(EmailArguments ea, Change c, String mc) {
-    super(ea, c, mc);
+  @Inject
+  public RestoredSender(EmailArguments ea, @Assisted Change c) {
+    super(ea, c, "restore");
   }
 
   @Override
   protected void init() throws EmailException {
     super.init();
 
-    final String threadId = getChangeMessageThreadId();
-    setHeader("In-Reply-To", threadId);
-    setHeader("References", threadId);
+    ccAllApprovals();
+    bccStarredBy();
+    bccWatchesNotifyAllComments();
+  }
 
-    rcptToAuthors(RecipientType.TO);
+  @Override
+  protected void formatChange() throws EmailException {
+    appendText(velocifyFile("Restored.vm"));
   }
 }

@@ -83,6 +83,14 @@ The `ReplacePatchSet.vm` template will determine the contents of the email
 related to a user submitting a new patchset for a change.  It is a
 `ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
 
+Restored.vm
+~~~~~~~~~~~
+
+The `Restored.vm` template will determine the contents of the email related
+to a change being restored.  It is a `ChangeEmail`: see `ChangeSubject.vm` and
+`ChangeFooter.vm`.
+
+
 
 Mail Variables and Methods
 --------------------------

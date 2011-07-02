@@ -393,7 +393,7 @@ public class ProjectControl {
       }
 
       for (PermissionRule rule : permission.getRules()) {
-        if (rule.getDeny() || !match(rule)) {
+        if (rule.isDeny() || !match(rule)) {
           continue;
         }
 

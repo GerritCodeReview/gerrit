@@ -45,7 +45,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
     this.action = action;
   }
 
-  public boolean getDeny() {
+  public boolean isDeny() {
     return action == Action.DENY;
   }
 

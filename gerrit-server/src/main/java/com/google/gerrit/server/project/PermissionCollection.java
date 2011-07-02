@@ -111,7 +111,7 @@ public class PermissionCollection {
 
           for (PermissionRule rule : permission.getRules()) {
             SeenRule s = new SeenRule(section, permission, rule);
-            if (seen.add(s) && !rule.getDeny()) {
+            if (seen.add(s) && !rule.isDeny()) {
               List<PermissionRule> r = permissions.get(permission.getName());
               if (r == null) {
                 r = new ArrayList<PermissionRule>(2);

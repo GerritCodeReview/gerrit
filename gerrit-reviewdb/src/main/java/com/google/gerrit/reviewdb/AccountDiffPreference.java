@@ -105,6 +105,9 @@ public class AccountDiffPreference {
   @Column(id = 12)
   protected boolean expandAllComments;
 
+  @Column(id = 13)
+  protected boolean retainHeader;
+
   protected AccountDiffPreference() {
   }
 
@@ -125,6 +128,7 @@ public class AccountDiffPreference {
     this.skipUncommented = p.skipUncommented;
     this.expandAllComments = p.expandAllComments;
     this.context = p.context;
+    this.retainHeader = p.retainHeader;
   }
 
   public Account.Id getAccountId() {
@@ -220,5 +224,13 @@ public class AccountDiffPreference {
 
   public void setExpandAllComments(boolean expand) {
     expandAllComments = expand;
+  }
+
+  public boolean isRetainHeader() {
+    return retainHeader;
+  }
+
+  public void setRetainHeader(boolean retain) {
+    retainHeader = retain;
   }
 }

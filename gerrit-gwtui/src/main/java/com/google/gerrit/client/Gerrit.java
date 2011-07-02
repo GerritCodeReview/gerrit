@@ -102,6 +102,13 @@ public class Gerrit implements EntryPoint {
     Window.Location.reload();
   }
 
+  public static PatchScreen.TopView getPatchScreenTopView() {
+    if (patchScreen == null) {
+      return null;
+    }
+    return patchScreen.getTopView();
+  }
+
   public static void displayLastChangeList() {
     if (lastChangeListToken != null) {
       display(lastChangeListToken);
@@ -615,8 +622,8 @@ public class Gerrit implements EntryPoint {
         @Override
         public void go() {
           if (patchScreen != null) {
+            patchScreen.setTopView(PatchScreen.TopView.MAIN);
             if (type == patchScreen.getPatchScreenType()) {
-              patchScreen.setTopView(PatchScreen.TopView.MAIN);
               AnchorElement.as(getElement()).blur();
             } else {
               new PatchLink("", type, patchScreen).go();

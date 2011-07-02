@@ -25,6 +25,7 @@ public class PatchLink extends InlineHyperlink {
   protected int patchIndex;
   protected PatchSetDetail patchSetDetail;
   protected PatchTable parentPatchTable;
+  protected PatchScreen.TopView topView;
 
   /**
    * @param text The text of this link
@@ -36,13 +37,15 @@ public class PatchLink extends InlineHyperlink {
    */
   protected PatchLink(final String text, final Patch.Key patchKey,
       final int patchIndex, final String historyToken,
-      final PatchSetDetail patchSetDetail,
-      final PatchTable parentPatchTable) {
+      final PatchSetDetail patchSetDetail, final PatchTable parentPatchTable,
+      final PatchScreen.TopView topView) {
     super(text, historyToken);
     this.patchKey = patchKey;
     this.patchIndex = patchIndex;
     this.patchSetDetail = patchSetDetail;
     this.parentPatchTable = parentPatchTable;
+    this.parentPatchTable = parentPatchTable;
+    this.topView = topView;
   }
 
   /**
@@ -57,7 +60,8 @@ public class PatchLink extends InlineHyperlink {
         patchScreen.getPatchIndex(), //
         Dispatcher.toPatch(type, patchScreen.getPatchKey()), //
         patchScreen.getPatchSetDetail(), //
-        patchScreen.getFileList() //
+        patchScreen.getFileList(), //
+        patchScreen.getTopView() //
         );
   }
 
@@ -68,7 +72,8 @@ public class PatchLink extends InlineHyperlink {
         patchKey, //
         patchIndex, //
         patchSetDetail, //
-        parentPatchTable //
+        parentPatchTable,
+        topView //
         );
   }
 
@@ -77,7 +82,7 @@ public class PatchLink extends InlineHyperlink {
         final int patchIndex, PatchSetDetail patchSetDetail,
         PatchTable parentPatchTable) {
       super(text, patchKey, patchIndex, Dispatcher.toPatchSideBySide(patchKey),
-          patchSetDetail, parentPatchTable);
+          patchSetDetail, parentPatchTable, null);
     }
   }
 
@@ -86,7 +91,7 @@ public class PatchLink extends InlineHyperlink {
         final int patchIndex, PatchSetDetail patchSetDetail,
         PatchTable parentPatchTable) {
       super(text, patchKey, patchIndex, Dispatcher.toPatchUnified(patchKey),
-          patchSetDetail, parentPatchTable);
+          patchSetDetail, parentPatchTable, null);
     }
   }
 }

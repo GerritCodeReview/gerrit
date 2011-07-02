@@ -52,8 +52,9 @@ public abstract class PatchScreen extends Screen implements
 
   public static class SideBySide extends PatchScreen {
     public SideBySide(final Patch.Key id, final int patchIndex,
-        final PatchSetDetail patchSetDetail, final PatchTable patchTable) {
-      super(id, patchIndex, patchSetDetail, patchTable);
+        final PatchSetDetail patchSetDetail, final PatchTable patchTable,
+        final TopView topView) {
+      super(id, patchIndex, patchSetDetail, patchTable, topView);
     }
 
     @Override
@@ -69,8 +70,9 @@ public abstract class PatchScreen extends Screen implements
 
   public static class Unified extends PatchScreen {
     public Unified(final Patch.Key id, final int patchIndex,
-        final PatchSetDetail patchSetDetail, final PatchTable patchTable) {
-      super(id, patchIndex, patchSetDetail, patchTable);
+        final PatchSetDetail patchSetDetail, final PatchTable patchTable,
+        final TopView topView) {
+      super(id, patchIndex, patchSetDetail, patchTable, topView);
     }
 
     @Override
@@ -101,6 +103,7 @@ public abstract class PatchScreen extends Screen implements
   protected PatchSet.Id idSideA;
   protected PatchSet.Id idSideB;
   protected PatchScriptSettingsPanel settingsPanel;
+  protected TopView topView;
 
   private HistoryTable historyTable;
   private FlowPanel topPanel;
@@ -131,10 +134,12 @@ public abstract class PatchScreen extends Screen implements
   }
 
   protected PatchScreen(final Patch.Key id, final int patchIndex,
-      final PatchSetDetail detail, final PatchTable patchTable) {
+      final PatchSetDetail detail, final PatchTable patchTable,
+      final TopView top) {
     patchKey = id;
     patchSetDetail = detail;
     fileList = patchTable;
+    topView = top;
 
     if (patchTable != null) {
       diffSideA = patchTable.getPatchSetIdToCompareWith();
@@ -343,6 +348,10 @@ public abstract class PatchScreen extends Screen implements
     return fileList;
   }
 
+  public TopView getTopView() {
+    return topView;
+  }
+
   protected void refresh(final boolean isFirst) {
     final int rpcseq = ++rpcSequence;
     lastScript = null;
@@ -446,6 +455,9 @@ public abstract class PatchScreen extends Screen implements
       intralineFailure = false;
       new ErrorDialog(PatchUtil.C.intralineFailure()).show();
     }
+    if (topView != null && prefs.get().isRetainHeader()) {
+      setTopView(topView);
+    }
   }
 
   private void showPatch(final boolean showPatch) {
@@ -468,6 +480,7 @@ public abstract class PatchScreen extends Screen implements
   }
 
   public void setTopView(TopView tv) {
+    topView = tv;
     topPanel.clear();
     switch(tv) {
       case COMMIT:      topPanel.add(commitMessageBlock);

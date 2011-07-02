@@ -42,46 +42,59 @@ add_ChangeId() {
 	fi
 
 	id=`_gen_ChangeId`
-	perl -e '
-		$MSG = shift;
-		$id = shift;
-		$CHANGE_ID_AFTER = shift;
+	T="$MSG.tmp.$$"
+	AWK=awk
+	if [ -x /usr/xpg4/bin/awk ]; then
+		# Solaris AWK is just too broken
+		AWK=/usr/xpg4/bin/awk
+	fi
+	$AWK '
+	!/^[a-zA-Z0-9-]+:/ {
+		if (caught == 1) {
+			caught = 0
+			print lines
+			lines = ""
+		}
+		if ($0 == "") {
+			lastLineBlank = 1
+		} else {
+			lastLineBlank = 0
+		}
+		print $0
+		next
+	}
 
-		undef $/;
-		open(I, $MSG); $_ = <I>; close I;
-		s|^diff --git a/.*||ms;
-		s|^#.*$||mg;
-		exit unless $_;
+	{
+		caught = 1
+		if (lines != "") {
+			lines = lines "\n";
+		}
+		lines = lines $0
+	}
 
-		@message = split /\n/;
-		$haveFooter = 0;
-		$startFooter = @message;
-		for($line = @message - 1; $line >= 0; $line--) {
-			$_ = $message[$line];
-
-			if (/^[a-zA-Z0-9-]+:/ && !m,^[a-z0-9-]+://,) {
-				$haveFooter++;
-				next;
+	END {
+		unprinted = 1
+		if (lastLineBlank == 0) {
+			if (lines == "") {
+				 print ""
+			} else {
+				print lines "\n"
 			}
-			next if /^[ []/;
-			$startFooter = $line if ($haveFooter && /^\r?$/);
-			last;
+		} else {
+			changeIdAfter = "^(" tolower("'$CHANGE_ID_AFTER'") "):"
+			numlines = split(lines, footer, "\n")
+			for (line = 1; line <= numlines; line++) {
+				if (unprinted && match(tolower(footer[line]), changeIdAfter) != 1) {
+					unprinted = 0
+					print "Change-Id: I'$id'"
+				}
+				print footer[line]
+			}
 		}
-
-		@footer = @message[$startFooter+1..@message];
-		@message = @message[0..$startFooter];
-		push(@footer, "") unless @footer;
-
-		for ($line = 0; $line < @footer; $line++) {
-			$_ = $footer[$line];
-			next if /^($CHANGE_ID_AFTER):/i;
-			last;
+		if (unprinted) {
+			print "Change-Id: I'$id'"
 		}
-		splice(@footer, $line, 0, "Change-Id: I$id");
-
-		$_ = join("\n", @message, @footer);
-		open(O, ">$MSG"); print O; close O;
-	' "$MSG" "$id" "$CHANGE_ID_AFTER"
+	}' "$MSG" > $T && mv $T "$MSG" || rm -f $T
 }
 _gen_ChangeIdInput() {
 	echo "tree `git write-tree`"

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+wg\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Branch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-04T17:13:43Z",
+      "side": 1,
+      "message": "Please look into the StringKey implementation, it likely already compares get() and getParentKey().  If so, then no,you do not need to override it here.",
+      "parentUuid": "AAABEX//+yY\u003d",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///Y0\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "523th line is completely wrong :-( You are right.\n\nI believe a Change instance should have a unique identifier (changeKey field). Shouldn\u0027t it be enough to use in equals so I could have Change as a key object in a Map?",
       "parentUuid": "AAABEX///Y0\u003d",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+wc\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-04T17:13:43Z",
+      "side": 1,
+      "message": "While it would be convenient in some cases, how then could someone compare two changes, say an old one and a new one which may have been edited, both referring to the same change, to see if the new one has had any fields altered, in order to figure out if the change should be updated in the db?  No, the same key means that you are referring to the same change, but it does not mean that they are equal.",
+      "parentUuid": "AAABEX//+yU\u003d",
       "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -171,6 +207,24 @@
       "side": 1,
       "message": "My mistake :-( I should re-test all not closed and having destBranch as target.",
       "parentUuid": "AAABEX//+8g\u003d",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+wY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-04T17:13:43Z",
+      "side": 1,
+      "message": "OK, but also, how will you know when a change is displayed wether it is in the queue (and potentially wrong)?  And what if the server goes down here, the changes will not get retested.  I do not think that waiting for antother change to be merged is acceptable, after all, this feature may prevent that from ever happening (since all changes could erroneously be marked unmergeable).",
+      "parentUuid": "AAABEX//+x0\u003d",
       "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

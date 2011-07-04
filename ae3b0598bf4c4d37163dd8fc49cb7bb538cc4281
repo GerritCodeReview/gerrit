@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//+wQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-04T18:35:48Z",
+      "side": 1,
+      "message": "Doh. I forgot that permissions typically only had an action, or a range, but not both. Even though the PermissionRule class supports parsing both.",
+      "revId": "ae3b0598bf4c4d37163dd8fc49cb7bb538cc4281",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

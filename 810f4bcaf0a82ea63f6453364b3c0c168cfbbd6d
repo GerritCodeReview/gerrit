@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+yY\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Branch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-04T11:44:20Z",
+      "side": 1,
+      "message": "Martin, do you agree equals should be implemented? I agree with your comment considering I should implement 79th and 80th lines as:\n\nreturn this.getParentKey().equals(br.getParentKey()) \u0026\u0026 br.branchName.equals(this.branchName());",
+      "parentUuid": "AAABEX///ZA\u003d",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///Y0\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-02T04:08:44Z",
       "side": 1,
       "message": "Comparing other to other?\n\nI don\u0027t think you want to assume that changes are equal just because the keys are equal.  An equals for a change should likely  compare all the fields.  Those who want to compare just the keys can do so by comparing the keys directly.",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+yU\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-04T11:44:20Z",
+      "side": 1,
+      "message": "523th line is completely wrong :-( You are right.\n\nI believe a Change instance should have a unique identifier (changeKey field). Shouldn\u0027t it be enough to use in equals so I could have Change as a key object in a Map?",
+      "parentUuid": "AAABEX///Y0\u003d",
       "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+yQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeTestMergeQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-04T11:44:20Z",
+      "side": 1,
+      "message": "Yes. It should be fixed. Thanks.",
+      "parentUuid": "AAABEX///XU\u003d",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///eE\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeTestMergeQueue.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2011-07-02T04:08:44Z",
       "side": 1,
       "message": "Why is this needed now that you have a HashMap, won\u0027t that prevent duplicate schedulings?",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+x4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeTestMergeQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-04T11:44:20Z",
+      "side": 1,
+      "message": "Yes, HashMap is enough to prevent it.",
+      "parentUuid": "AAABEX///eE\u003d",
       "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+x0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-04T11:44:20Z",
+      "side": 1,
+      "message": "My mistake :-( I should re-test all not closed and having destBranch as target.",
+      "parentUuid": "AAABEX//+8g\u003d",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///eY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadChangeTestMergeQueue.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2011-07-02T04:08:44Z",
       "side": 1,
       "message": "Logger needs to go first (before interfaces).",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+xw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadChangeTestMergeQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-04T11:44:20Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "AAABEX///eY\u003d",
       "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//+t0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-07-05T14:15:03Z",
+      "side": 1,
+      "message": "Why to have these two elements in the BecomeAnyAccount.html if they are anyway removed? Just creating these elements should not be any more diffucult than cloning them.\n\ne.g.:\nhave in BecomeAnyAccount.html just:\n     \u003ctr\u003e\n        \u003cth\u003eChoose:\u003c/th\u003e\n        \u003ctd id\u003d\"userlist\"/\u003e\n      \u003c/tr\u003e\n\nthen we can add the links like this:\n    Element userlistElement \u003d HtmlDomUtil.find(doc, \"userlist\");\n    ReviewDb db \u003d sf.open();\n    ResultSet\u003cAccount\u003e accounts \u003d db.accounts().firstNById(5);\n    for (Account a : accounts) {\n      AccountState state \u003d accountCache.get(a.getId());\n      String userName \u003d state.getAccount().getUserName();\n      Element linkElement \u003d doc.createElement(\"a\");\n      linkElement.setAttribute(\"href\", \"?user_name\u003d\" + userName);\n      linkElement.setTextContent(userName);\n      userlistElement.appendChild(linkElement);\n      userlistElement.appendChild(doc.createElement(\"br\"));\n    }",
+      "revId": "49c38314e17902c7f41821cfede08372250ed202",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -9,7 +9,7 @@ config file that controls many host specific settings for Gerrit.
 
 [NOTE]
 The contents of the `etc/gerrit.config` file are cached at startup
-by Gerrit.  If you modify any propeties in this file, Gerrit needs
+by Gerrit.  If you modify any properties in this file, Gerrit needs
 to be restarted before it will use the new values.
 
 Sample `etc/gerrit.config`:

@@ -231,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+tE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-05T17:33:23Z",
+      "side": 1,
+      "message": "Ok. \nAFAIU, we just need to atomically reset (set as test_pending) all changes for a branch at the time any is merged.\n\nWhat about reseting all those changes inside block atomicUpdate at line 1278?\n\nIf the server goes down just after a change merge, all changes are re-tested at the startup.\n\nWould it be enough?\n(I have it done, just push pending...)",
+      "parentUuid": "AAABEX//+wY\u003d",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///eY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadChangeTestMergeQueue.java",
         "patchSetId": 2

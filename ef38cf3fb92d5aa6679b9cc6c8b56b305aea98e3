@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//+wI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologEnvironment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-05T03:24:07Z",
+      "side": 1,
+      "message": "Please use the highest type possible, Map is an interface and would be preferred over the concrete HashMap that specifies a particular data structure.\n\nMap/HashMap is also a generic type. Please specify the types of the key and value members.\n\nThe map used by the environment should not be changed once created. So declare the field final.",
+      "revId": "ef38cf3fb92d5aa6679b9cc6c8b56b305aea98e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+wE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologEnvironment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-05T03:24:07Z",
+      "side": 1,
+      "message": "Perhaps drop this line? Rewrite the StoredValue code to only use this storedValues map.",
+      "revId": "ef38cf3fb92d5aa6679b9cc6c8b56b305aea98e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+wA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologEnvironment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-05T03:24:07Z",
+      "side": 1,
+      "message": "Java can do this loop for you:\n\n  storedValues.putAll(child.storedValues);\n\nBut even if you weren\u0027t going to use putAll(), since you need both the key and the value you are better off using the entrySet and iterating over Map.Entry\u003cKey,Value\u003e elements. It saves the code from needing to do a lookup of the value on each iteration.",
+      "revId": "ef38cf3fb92d5aa6679b9cc6c8b56b305aea98e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+vQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-05T03:24:07Z",
+      "side": 1,
+      "message": "Declare this inside of the while loop, unlike parentState and childEnv, its value is only useful during a single iteration.",
+      "revId": "ef38cf3fb92d5aa6679b9cc6c8b56b305aea98e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+vE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-05T03:24:07Z",
+      "side": 1,
+      "message": "Lets call this locate_submit_filter.",
+      "revId": "ef38cf3fb92d5aa6679b9cc6c8b56b305aea98e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+vM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-05T03:24:07Z",
+      "side": 1,
+      "message": "Lets call this submit_filter.",
+      "revId": "ef38cf3fb92d5aa6679b9cc6c8b56b305aea98e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+vU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-05T03:24:07Z",
+      "side": 1,
+      "message": "This should be a static method, since it does not need \"this\".",
+      "revId": "ef38cf3fb92d5aa6679b9cc6c8b56b305aea98e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+vI\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-05T03:24:07Z",
+      "side": 1,
+      "message": "Pointless change, please revert.",
+      "revId": "ef38cf3fb92d5aa6679b9cc6c8b56b305aea98e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+u4\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-05T03:24:07Z",
+      "side": 1,
+      "message": "Lets call this filter_submit_results. filter_results is just too generic of a name and may run into a name collision later.",
+      "revId": "ef38cf3fb92d5aa6679b9cc6c8b56b305aea98e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+u0\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-05T03:24:07Z",
+      "side": 1,
+      "message": "So we pass the filter all results at once and ask it to return a list of the results that are acceptable?\n\nI wonder if we should instead pass one result at a time to the filter, if the filter produces true we include the result, if it produces fail we would not include the result.  That is you write your code more like:\n\n  filter_submit_results(Filter, In, Out) :-\n    filter_submit_results(Filter, In, [], Tmp),\n    reverse(Tmp, Out).\n\n  filter_submit_results(Filter, [I | In], Tmp, Out) :-\n    arg(I, 1, S),\n    call_submit_filter(Filter, S, R),\n    !,\n    R \u003d.. [submit | Ls],\n    ( is_all_ok(Ls) -\u003e T \u003d ok(R) ; T \u003d not_ready(R) ),\n    filter_submit_results(Filter, In, [T | Tmp], Out).\n   filter_submit_results(Filter, [_ | In], Tmp, Out) :-\n    filter_submit_results(Filter, In, Tmp, Out).\n   filter_submit_results(Filter, [], Out, Out).",
+      "revId": "ef38cf3fb92d5aa6679b9cc6c8b56b305aea98e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+u8\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-05T03:24:07Z",
+      "side": 1,
+      "message": "This should be locate_submit_filter,.",
+      "revId": "ef38cf3fb92d5aa6679b9cc6c8b56b305aea98e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+vA\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-05T03:24:07Z",
+      "side": 1,
+      "message": "We should have the filter name be user:submit_filter. That sort of matches with the name user:submit_rule that we have for the rule itself.",
+      "revId": "ef38cf3fb92d5aa6679b9cc6c8b56b305aea98e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

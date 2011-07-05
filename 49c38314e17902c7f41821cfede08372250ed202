@@ -16,6 +16,24 @@
       "revId": "49c38314e17902c7f41821cfede08372250ed202",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+ts\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-05T14:25:42Z",
+      "side": 1,
+      "message": "\u003e Why to have these two elements in the BecomeAnyAccount.html if they are anyway removed? \n\nBecause I didn\u0027t know a better way :-)\n\nDone as you proposed.",
+      "parentUuid": "AAABEX//+t0\u003d",
+      "revId": "49c38314e17902c7f41821cfede08372250ed202",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

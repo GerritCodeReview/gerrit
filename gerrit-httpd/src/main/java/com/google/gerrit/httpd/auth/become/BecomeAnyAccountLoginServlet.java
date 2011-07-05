@@ -22,12 +22,15 @@ import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -35,6 +38,7 @@ import com.google.inject.Singleton;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -58,18 +62,21 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   private final Provider<WebSession> webSession;
   private final Provider<String> urlProvider;
   private final AccountManager accountManager;
+  private final AccountCache accountCache;
   private final byte[] raw;
 
   @Inject
   BecomeAnyAccountLoginServlet(final Provider<WebSession> ws,
       final SchemaFactory<ReviewDb> sf,
       final @CanonicalWebUrl @Nullable Provider<String> up,
-      final AccountManager am, final ServletContext servletContext)
-      throws IOException {
+      final AccountManager am, final AccountCache ac,
+      final ServletContext servletContext)
+      throws IOException, OrmException {
     webSession = ws;
     schema = sf;
     urlProvider = up;
     accountManager = am;
+    accountCache = ac;
 
     final String pageName = "BecomeAnyAccount.html";
     final Document doc = HtmlDomUtil.parseFile(getClass(), pageName);
@@ -82,6 +89,20 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
         devmode.getParentNode().removeChild(devmode);
       }
     }
+
+    Element userlistElement = HtmlDomUtil.find(doc, "userlist");
+    ReviewDb db = sf.open();
+    ResultSet<Account> accounts = db.accounts().firstNById(5);
+    for (Account a : accounts) {
+      AccountState state = accountCache.get(a.getId());
+      String userName = state.getAccount().getUserName();
+      Element linkElement = doc.createElement("a");
+      linkElement.setAttribute("href", "?user_name=" + userName);
+      linkElement.setTextContent(userName);
+      userlistElement.appendChild(linkElement);
+      userlistElement.appendChild(doc.createElement("br"));
+    }
+
     raw = HtmlDomUtil.toUTF8(doc);
   }
 

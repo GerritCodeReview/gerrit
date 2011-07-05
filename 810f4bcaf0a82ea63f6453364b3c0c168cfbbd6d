@@ -249,6 +249,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+s8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-05T17:53:43Z",
+      "side": 1,
+      "message": "\u003e What about reseting all those changes inside block atomicUpdate at line 1278?\n\nThat might work, I am not sure how the atomicUpdate works, does that get run after the repo is updated to the new head though?  Do we already have a bit of a race here?  Can a change be merged to the head and potentially not get recorded in the DB?  that might not be a big deal if the state of the change is off, but if it prevents future merges (with this feature), it could maybe still be a problem?\n\nWould this still be able to deal with changes which are pushed to a repo using cgit (we still have to do that in some cases)?\n\nWhat will happen to the UI when changes are pending?  Anyway to force pending changes to be tested onload (displayed in the UI)?",
+      "parentUuid": "AAABEX//+tE\u003d",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///eY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadChangeTestMergeQueue.java",
         "patchSetId": 2

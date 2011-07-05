@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABEX//+vo\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitWebType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-07-05T01:03:40Z",
+      "side": 1,
+      "message": "What\u0027s the reason for the leading slash?",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDH///6M\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitwebLink.java",
         "patchSetId": 1
@@ -31,6 +48,24 @@
       "side": 1,
       "message": "Sounds like a good idea.",
       "parentUuid": "AAABDH///6M\u003d",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+vg\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitwebLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-07-05T01:03:40Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "AAABDX///+o\u003d",
       "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -83,6 +118,24 @@
       "side": 1,
       "message": "Absolutely unnecessary to break.That was the behavior of the /old/ code I replaced, and I didn\u0027t really notice the change in functionality which is so plainly obvious looking at the diff. Oops.",
       "parentUuid": "AAABDX///dY\u003d",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+vk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-07-05T01:03:40Z",
+      "side": 1,
+      "message": "I was testing this a bit today and I believe that this whole chunk is unnecessary.",
+      "parentUuid": "AAABDX///ao\u003d",
       "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

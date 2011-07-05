@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+uY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-07-05T12:31:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX///Aw\u003d",
+      "revId": "a2a9a4c407686562e3c50b13a88958f463adcd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///As\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+uU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-07-05T12:31:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX///As\u003d",
+      "revId": "a2a9a4c407686562e3c50b13a88958f463adcd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//++k\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SuggestServiceImpl.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2011-07-01T23:14:28Z",
       "side": 1,
       "message": "Ah, yes, I understand why you simply used the groupMemberFactory now.  I am still concerned with the special group handling above since that is also in common with addReviewer code.  Those probably won\u0027t change, but if they do, we want to be sure that they are handled equivalently.  Perhaps some utility could have a isLegalReviewerGroup() function?",
+      "revId": "a2a9a4c407686562e3c50b13a88958f463adcd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+uQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SuggestServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-07-05T12:31:30Z",
+      "side": 1,
+      "message": "Done. Yes, you are right, better to have this only in one place.",
+      "parentUuid": "AAABEX//++k\u003d",
       "revId": "a2a9a4c407686562e3c50b13a88958f463adcd0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

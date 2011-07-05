@@ -16,7 +16,7 @@ package com.google.gerrit.common.data;
 
 public class PermissionRule implements Comparable<PermissionRule> {
   public static enum Action {
-    ALLOW, DENY,
+    ALLOW, DENY, BLOCK,
 
     INTERACTIVE, BATCH;
   }
@@ -51,6 +51,14 @@ public class PermissionRule implements Comparable<PermissionRule> {
 
   public void setDeny() {
     action = Action.DENY;
+  }
+
+  public boolean isBlock() {
+    return action == Action.BLOCK;
+  }
+
+  public void setBlock() {
+    action = Action.BLOCK;
   }
 
   public Boolean getForce() {
@@ -97,7 +105,10 @@ public class PermissionRule implements Comparable<PermissionRule> {
 
   void mergeFrom(PermissionRule src) {
     if (getAction() != src.getAction()) {
-      if (getAction() == Action.DENY || src.getAction() == Action.DENY) {
+      if (getAction() == Action.BLOCK || src.getAction() == Action.BLOCK) {
+        setAction(Action.BLOCK);
+
+      } else if (getAction() == Action.DENY || src.getAction() == Action.DENY) {
         setAction(Action.DENY);
 
       } else if (getAction() == Action.BATCH || src.getAction() == Action.BATCH) {
@@ -151,6 +162,10 @@ public class PermissionRule implements Comparable<PermissionRule> {
         r.append("deny ");
         break;
 
+      case BLOCK:
+        r.append("block ");
+        break;
+
       case INTERACTIVE:
         r.append("interactive ");
         break;
@@ -188,6 +203,10 @@ public class PermissionRule implements Comparable<PermissionRule> {
     if (src.startsWith("deny ")) {
       rule.setAction(Action.DENY);
       src = src.substring("deny ".length()).trim();
+
+    } else if (src.startsWith("block ")) {
+      rule.setAction(Action.BLOCK);
+      src = src.substring("block ".length()).trim();
 
     } else if (src.startsWith("interactive ")) {
       rule.setAction(Action.INTERACTIVE);

@@ -99,19 +99,25 @@ public class PermissionCollection {
       sorter.sort(ref, sections);
 
       Set<SeenRule> seen = new HashSet<SeenRule>();
+      Set<SeenRule> seenBlockingRules = new HashSet<SeenRule>();
       Set<String> exclusiveGroupPermissions = new HashSet<String>();
 
       HashMap<String, List<PermissionRule>> permissions =
           new HashMap<String, List<PermissionRule>>();
       for (AccessSection section : sections) {
         for (Permission permission : section.getPermissions()) {
-          if (exclusiveGroupPermissions.contains(permission.getName())) {
-            continue;
-          }
+          boolean exclusivePermissionExists =
+              exclusiveGroupPermissions.contains(permission.getName());
 
           for (PermissionRule rule : permission.getRules()) {
             SeenRule s = new SeenRule(section, permission, rule);
-            if (seen.add(s) && !rule.isDeny()) {
+            boolean addRule = false;
+            if (rule.isBlock()) {
+              addRule = seenBlockingRules.add(s);
+            } else {
+              addRule = seen.add(s) && !rule.isDeny() && !exclusivePermissionExists;
+            }
+            if (addRule) {
               List<PermissionRule> r = permissions.get(permission.getName());
               if (r == null) {
                 r = new ArrayList<PermissionRule>(2);

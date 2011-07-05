@@ -267,6 +267,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+rs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-05T20:10:41Z",
+      "side": 1,
+      "message": "\u003eThat might work, I am not sure how the atomicUpdate works, does that get run after the repo is updated to the new head though?\n\nI\u0027m not sure either. I assume by the name that all operations whithin the block are atomic. But yes, it runs after the repo is updated.\n\n\u003eDo we already have a bit of a race here?\n\nMaybe we could put the reset in another atomicUpdate call in a new line between 276th and 277th line (just after merge and before db change status update)\n\n\u003eCan a change be merged to the head and potentially not get recorded in the DB?\n\nYes, eventually if server goes down meanwhile. \nThe only way to avoid this is to run atomically the git merge operation and all changes reset.\n\nAnother possibility could be:\nCreate a new status for Change.TestMergeStatus (reset_dest) and assign it to the change being merged (or just before the merge process start); if the server goes down, we will reset all changes for the \"dest\" of the change with TestMergeStatus \u003d RESET_DEST.\n\nA side effect could be if the merge fails, we would have to re-test all changes unnecessarily. However I think this is the best so far, isn\u0027t it?\n\n\u003eWould this still be able to deal with changes which are pushed to a repo using cgit (we still have to do that in some cases)? \n\nI don\u0027t know what cgit is about... but as long as it enters through Receive.java should work.\n\n\u003eWhat will happen to the UI when changes are pending? \n\nNothing. Submit button is normally enabled, but maybe we should change it.\n\n\u003eAnyway to force pending changes to be tested onload (displayed in the UI)?\n\nI have considered it in the beggining, but I\u0027ve given up because it would impact performance. Humm, however, if we test during page rendering only when change is pending_test might be reasonable.",
+      "parentUuid": "AAABEX//+s8\u003d",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///eY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadChangeTestMergeQueue.java",
         "patchSetId": 2

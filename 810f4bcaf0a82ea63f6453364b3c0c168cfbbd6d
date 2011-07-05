@@ -285,6 +285,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+po\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-05T21:48:45Z",
+      "side": 1,
+      "message": "\u003eI don\u0027t know what cgit is about... but as long as it enters through Receive.java should work.\n\nI mean a normal C based git client, so no, it does not go through Receive.java.  Changes could be applied to a repo with a C client even when Gerrit is offline.\n\n\u003e Humm, however, if we test during page rendering only when change is pending_test might be reasonable.\n\nRight, I think that this would be worth the hit.  If a branch has tons of unmerged changes and something is merged, they will all be in the queue.  It may take a while to get them done.  I don\u0027t really see it impacting performance if a change is tested on the fly when loaded if it is pending.  It might delay that change a bit, but the server should be no more impacted since now it need not be tested from the queue.  The benefit of never displaying an outdated result is big.\n\n\u003e A side effect could be if the merge fails, we would have to re-test all changes unnecessarily. However I think this is the best so far, isn\u0027t it?\n\nWell, I still think that recording the latest SHA1 tested against would be better, simpler, and less likely to miss corner cases, and possibly even be a performance improvement.  \n\nIt means that you would never have to update the DB when a change is merged since it would automatically take care of indicating that the merge test is outdated.  It would eliminate the pending state entirely.  \nSince updating the DB to set the pending state needs to be atomic, it will need to delay merges from other threads.  So not only could performance be impacted by the extra work of these constant updates (every time a change is merged: how will that impact the new Lucene caching that Shawn is contemplating?), when there are a lot of unmerged changes for a project, it could also increase the latency of changes being merged.\n\n\nA \"pending\", or \"untested\" check only need compare the sha1 of the HEAD and the sha1 of the unmerged change.  No need to worry about races, no need to be concerned with changes being applied to repos behind Gerrit\u0027s back; even when Gerrit is offline, it would still work!  It makes loading the queue on startup easy, simply query all changes whose lastTested sha1 does not match the HEAD...same thing when a change is merged!\n\nAside from adding another field to a change, is there any other penalty of using the Sha1?  I guess you need to check the head of a repo on every test. I am not sure that this would really impact anything, it is such a minor lookup.",
+      "parentUuid": "AAABEX//+rs\u003d",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///eY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadChangeTestMergeQueue.java",
         "patchSetId": 2

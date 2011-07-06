@@ -31,6 +31,7 @@ public class GitWebType {
       type.setProject("?p=${project}.git;a=summary");
       type.setRevision("?p=${project}.git;a=commit;h=${commit}");
       type.setBranch("?p=${project}.git;a=shortlog;h=${branch}");
+      type.setFileHistory("?p=${project}.git;a=history;hb=${branch};f=${file}");
 
     } else if (name.equalsIgnoreCase("cgit")) {
       type = new GitWebType();
@@ -38,6 +39,7 @@ public class GitWebType {
       type.setProject("${project}/summary");
       type.setRevision("${project}/commit/?id=${commit}");
       type.setBranch("${project}/log/?h=${branch}");
+      type.setFileHistory("${project}/log/${file}?h=${branch}");
 
     } else if (name.equalsIgnoreCase("custom")) {
       type = new GitWebType();
@@ -65,6 +67,9 @@ public class GitWebType {
 
   /** ParamertizedString for branch view url. */
   private String branch;
+
+  /** ParamertizedString for file history view url. */
+  private String fileHistory;
 
   /** Private default constructor for gson. */
   protected GitWebType() {
@@ -104,6 +109,15 @@ public class GitWebType {
    */
   public String getRevision() {
     return revision;
+  }
+
+  /**
+   * Get the String for file history view.
+   *
+   * @return The String for file history view
+   */
+  public String getFileHistory() {
+    return fileHistory;
   }
 
   /**
@@ -147,6 +161,17 @@ public class GitWebType {
   public void setRevision(final String pattern) {
     if (pattern != null && !pattern.isEmpty()) {
       revision = pattern;
+    }
+  }
+
+  /**
+   * Set the pattern for file history view.
+   *
+   * @param pattern The pattern for file history view
+   */
+  public void setFileHistory(final String pattern) {
+    if (pattern != null && !pattern.isEmpty()) {
+      fileHistory = pattern;
     }
   }
 }

@@ -426,6 +426,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+hE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-06T14:37:49Z",
+      "side": 1,
+      "message": "I know you are the guys now (+2) ! congrats by the way :-)\nI need to get it integrated, and I will do the way you guys decide.\nBut I think it would be valuable if we could bring Shawn to the discussion, since he approved first strategy... \nHow hard is that? What do u think?",
+      "parentUuid": "AAABEX//+hM\u003d",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///eY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadChangeTestMergeQueue.java",
         "patchSetId": 2

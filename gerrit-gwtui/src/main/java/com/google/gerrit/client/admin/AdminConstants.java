@@ -34,8 +34,6 @@ public interface AdminConstants extends Constants {
   String buttonChangeGroupOwner();
   String buttonChangeGroupType();
   String buttonSelectGroup();
-  String buttonAddProjectRight();
-  String buttonClearProjectRight();
   String buttonSaveChanges();
   String useContentMerge();
   String useContributorAgreements();
@@ -48,7 +46,6 @@ public interface AdminConstants extends Constants {
   String buttonSaveGroupOptions();
 
   String headingOwner();
-  String headingParentProjectName();
   String headingDescription();
   String headingProjectOptions();
   String headingGroupType();
@@ -57,9 +54,7 @@ public interface AdminConstants extends Constants {
   String noMembersInfo();
   String headingExternalGroup();
   String headingCreateGroup();
-  String headingAccessRights();
   String headingAgreements();
-  String headingShowInherited();
 
   String projectSubmitType_FAST_FORWARD_ONLY();
   String projectSubmitType_MERGE_ALWAYS();
@@ -73,23 +68,13 @@ public interface AdminConstants extends Constants {
   String columnMember();
   String columnEmailAddress();
   String columnGroupName();
-  String columnProjectName();
   String columnGroupDescription();
-  String columnProjectDescription();
-  String columnRightOrigin();
-  String columnApprovalCategory();
-  String columnRightRange();
-  String columnRefName();
 
   String columnBranchName();
   String columnBranchRevision();
   String initialRevision();
   String buttonAddBranch();
   String buttonDeleteBranch();
-
-  String projectListPrev();
-  String projectListNext();
-  String projectListOpen();
 
   String groupListPrev();
   String groupListNext();

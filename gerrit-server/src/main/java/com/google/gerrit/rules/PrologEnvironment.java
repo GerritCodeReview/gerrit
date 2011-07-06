@@ -23,6 +23,8 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Per-thread Prolog interpreter.
@@ -45,6 +47,7 @@ public class PrologEnvironment extends BufferingPrologControl {
   }
 
   private final Injector injector;
+  private final Map<StoredValue<Object>, Object> storedValues;
 
   @Inject
   PrologEnvironment(Injector i, @Assisted PrologMachineCopy src) {
@@ -52,6 +55,7 @@ public class PrologEnvironment extends BufferingPrologControl {
     injector = i;
     setMaxArity(MAX_ARITY);
     setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
+    storedValues = new HashMap<StoredValue<Object>, Object>();
   }
 
   /** Get the global Guice Injector that configured the environment. */
@@ -67,7 +71,7 @@ public class PrologEnvironment extends BufferingPrologControl {
    * @return the value; null if not stored.
    */
   public <T> T get(StoredValue<T> sv) {
-    return sv.getOrNull(engine);
+    return (T) storedValues.get(sv);
   }
 
   /**
@@ -78,6 +82,13 @@ public class PrologEnvironment extends BufferingPrologControl {
    * @param obj the value to store under {@code sv}.
    */
   public <T> void set(StoredValue<T> sv, T obj) {
-    sv.set(engine, obj);
+    storedValues.put((StoredValue<Object>) sv, obj);
+  }
+
+  /**
+   * Copy the stored values from another interpreter to this one.
+   */
+  public void copyStoredValues(PrologEnvironment child) {
+    storedValues.putAll(child.storedValues);
   }
 }

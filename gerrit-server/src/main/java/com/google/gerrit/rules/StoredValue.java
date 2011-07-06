@@ -48,12 +48,9 @@ public class StoredValue<T> {
   }
 
   /** Look up the value in the engine, or return null. */
-  @SuppressWarnings("unchecked")
   public T getOrNull(Prolog engine) {
-    Term r = engine.getHashManager().get(key);
-    return r != null && r.isJavaObject() ? (T) r.toJava() : null;
+    return get((PrologEnvironment) engine.control);
   }
-
   /** Get the value from the engine, or throw SystemException. */
   public T get(Prolog engine) {
     T r = getOrNull(engine);
@@ -70,7 +67,7 @@ public class StoredValue<T> {
   }
 
   public void set(Prolog engine, T obj) {
-    engine.getHashManager().put(key, new JavaObjectTerm(obj));
+    set((PrologEnvironment) engine.control, obj);
   }
 
   /** Perform {@link #getOrNull(Prolog)} on the environment's interpreter. */

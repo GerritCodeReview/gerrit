@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//+Z4\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-06T19:54:42Z",
+      "side": 1,
+      "message": "This line might actually be a bug, perhaps it should be removed?  This will catch Change-Ids which are not in the footer.  I guess if it is removed, the script will not function properly when there is a proper Change-Id.  Maybe this could be a follow on fix...",
+      "revId": "ae2447e11ec331c08103a92149194276ce392a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

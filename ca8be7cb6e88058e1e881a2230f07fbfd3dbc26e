@@ -16,6 +16,24 @@
       "revId": "ca8be7cb6e88058e1e881a2230f07fbfd3dbc26e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+fk\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-06T16:06:31Z",
+      "side": 1,
+      "message": "It can be helpful when administering Gerrit to be able to see all this data at once instead of clicking on each group to see if a certain setting is set.  We were going to propose doing the for the projects table also.  Think of it as the ability to view a report on groups (and projects later).\n\nPerhaps you have concerns with performance?  We could always make this a separate page which shows the report instead of the main page if you want?",
+      "parentUuid": "AAABEX//+f0\u003d",
+      "revId": "ca8be7cb6e88058e1e881a2230f07fbfd3dbc26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

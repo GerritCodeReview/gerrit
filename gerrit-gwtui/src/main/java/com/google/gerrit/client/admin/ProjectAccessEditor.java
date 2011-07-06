@@ -15,9 +15,12 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.ProjectAccess;
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
@@ -51,6 +54,12 @@ public class ProjectAccessEditor extends Composite implements
 
   @UiField
   Hyperlink parentProject;
+
+  @UiField
+  DivElement history;
+
+  @UiField
+  Anchor gitweb;
 
   @UiField
   FlowPanel localContainer;
@@ -99,6 +108,15 @@ public class ProjectAccessEditor extends Composite implements
           Dispatcher.toProjectAdmin(parent, ProjectScreen.ACCESS));
     } else {
       inheritsFrom.getStyle().setDisplay(Display.NONE);
+    }
+
+    final GitwebLink c = Gerrit.getConfig().getGitwebLink();
+    if (value.isOwner() && c != null) {
+      history.getStyle().setDisplay(Display.BLOCK);
+      gitweb.setHref(c.toFileHistory(new Branch.NameKey(
+          value.getInheritsFrom(), "refs/meta/config"), "project.config"));
+    } else {
+      history.getStyle().setDisplay(Display.NONE);
     }
 
     addSection.setVisible(value != null && editing && !value.getOwnerOf().isEmpty());

@@ -20,12 +20,22 @@ import java.util.List;
 import java.util.Set;
 
 public class ProjectAccess {
+  protected Project.NameKey projectName;
   protected String revision;
   protected Project.NameKey inheritsFrom;
   protected List<AccessSection> local;
   protected Set<String> ownerOf;
+  protected boolean isOwner;
 
   public ProjectAccess() {
+  }
+
+  public Project.NameKey getProjectName() {
+    return projectName;
+  }
+
+  public void setProjectName(Project.NameKey projectName) {
+    this.projectName = projectName;
   }
 
   public String getRevision() {
@@ -75,5 +85,13 @@ public class ProjectAccess {
 
   public void setOwnerOf(Set<String> refs) {
     ownerOf = refs;
+  }
+
+  public boolean isOwner() {
+    return isOwner;
+  }
+
+  public void setOwner(boolean isOwner) {
+    this.isOwner = isOwner;
   }
 }

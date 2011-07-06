@@ -104,6 +104,23 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+lg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-06T02:28:36Z",
+      "side": 1,
+      "message": "There should probably be a check to abort inheritance loops.  Perhaps a public \"Walker\" class on the ProjectState as provided in this change would be useful?\n https://review.source.android.com/#/c/23132/",
+      "revId": "ef38cf3fb92d5aa6679b9cc6c8b56b305aea98e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//+vU\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1

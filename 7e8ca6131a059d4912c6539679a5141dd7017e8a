@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+j8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-07-06T05:40:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//+rg\u003d",
+      "revId": "7e8ca6131a059d4912c6539679a5141dd7017e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//+og\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/AddReviewerHandler.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-05T22:31:47Z",
       "side": 1,
       "message": "Nit: use reviewer now also (here and below)?",
+      "revId": "7e8ca6131a059d4912c6539679a5141dd7017e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+j4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/AddReviewerHandler.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-07-06T05:40:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//+og\u003d",
       "revId": "7e8ca6131a059d4912c6539679a5141dd7017e8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+j0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AddReviewer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-07-06T05:40:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//+oc\u003d",
+      "revId": "7e8ca6131a059d4912c6539679a5141dd7017e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//+ok\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AddReviewer.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2011-07-05T22:31:47Z",
       "side": 1,
       "message": "My Nit Pref: eliminate if, just return the boolean evaluation.",
+      "revId": "7e8ca6131a059d4912c6539679a5141dd7017e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+jw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AddReviewer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-07-06T05:40:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//+ok\u003d",
       "revId": "7e8ca6131a059d4912c6539679a5141dd7017e8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

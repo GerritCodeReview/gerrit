@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//+cg\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-06T18:57:58Z",
+      "side": 1,
+      "message": "Does this actually do the same thing?  Since it is hard for me to picture what everything even did in the original script, perhaps since you likely now understand it well, you could add some more explanations as to what certain things match:  a comment with a sample of the input data expected to make each match?  That type of comment alone usually goes a long way to make data parsing scripts be much more maintainable, and the changes more easily reviewed! ;)",
+      "revId": "11c162a322790681a4399c0341835b891542ce1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+cw\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-06T18:57:58Z",
+      "side": 1,
+      "message": "It would probably also be safer to add double quotes around the $CHANGE_ID_AFTER and $id in case some future bug in the script puts spaces in them.",
+      "revId": "11c162a322790681a4399c0341835b891542ce1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

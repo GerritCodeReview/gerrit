@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//+cY\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitWebType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-07-06T18:59:33Z",
+      "side": 1,
+      "message": "Can somebody say whether this is correct for cgit?\n Maybe it must be \u0027${project}/history/?hb\u003d${branch}\u0026f\u003d${file}\u0027 ?",
+      "revId": "0e6d725cccc95247179a7eb53f6260818e6cb31c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

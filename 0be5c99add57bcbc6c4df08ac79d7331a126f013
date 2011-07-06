@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+jE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-06T07:20:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//+lQ\u003d",
+      "revId": "0be5c99add57bcbc6c4df08ac79d7331a126f013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//+lU\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountAccess.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-06T02:47:19Z",
       "side": 1,
       "message": "Maybe suggest() would make this more similar to the methods above?",
+      "revId": "0be5c99add57bcbc6c4df08ac79d7331a126f013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+i0\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-06T07:20:03Z",
+      "side": 1,
+      "message": "Wouldn\u0027t suggest(int n) be a too broad name for this method?\n\nActually, my analogy was with the anyAccounts() method which returns just ANY account whichever comes first from the DB result set.\nThe firstNById returns FIRST N accounts sorted by accountId and the name says exactly that. Maybe something like:\n\n firstNAccounts(int n)\n\nwould look better?\n\nNot sure what is better. Leaving it like it is for now to get another response.",
+      "parentUuid": "AAABEX//+lU\u003d",
       "revId": "0be5c99add57bcbc6c4df08ac79d7331a126f013",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

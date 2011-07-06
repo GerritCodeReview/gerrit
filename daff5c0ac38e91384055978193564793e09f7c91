@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//+l4\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-06T00:08:52Z",
+      "side": 1,
+      "message": "I suspect there are still some OSes without mktemp?",
+      "revId": "daff5c0ac38e91384055978193564793e09f7c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+nU\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-06T00:08:52Z",
+      "side": 1,
+      "message": "How about making \"$MSG\" the first argument to awk?",
+      "revId": "daff5c0ac38e91384055978193564793e09f7c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+nk\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-06T00:08:52Z",
+      "side": 1,
+      "message": "Have you tested this on Solaris (I suspect we care)?  I don\u0027t have the ability to check now, but I believe that REs on olders awks do not support the + operator (it is an extended RE).",
+      "revId": "daff5c0ac38e91384055978193564793e09f7c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+mQ\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-06T00:08:52Z",
+      "side": 1,
+      "message": "How about renaming newline to something like blankline or previousLineBlank, or lastLineBlank?",
+      "revId": "daff5c0ac38e91384055978193564793e09f7c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+mM\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-06T00:08:52Z",
+      "side": 1,
+      "message": "How about renaming pre to something like \u0027unprinted\u0027?",
+      "revId": "daff5c0ac38e91384055978193564793e09f7c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+mw\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-06T00:08:52Z",
+      "side": 1,
+      "message": "I believe split should returns this number.",
+      "revId": "daff5c0ac38e91384055978193564793e09f7c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+mY\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-06T00:08:52Z",
+      "side": 1,
+      "message": "Missing ^ before (\u0027$CHANGE_ID_AFTER\u0027\n\nMatch is not case insensitive, original is.\n\nAlso, the parens here might also be extended REs, I believe they might need to be escaped on some older awks.",
+      "revId": "daff5c0ac38e91384055978193564793e09f7c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+jU\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-06T07:37:49Z",
+      "side": 1,
+      "message": "OS X might have some fancy requirements on its arguments (checking that), but it\u0027s a long time since I\u0027ve seen a system without any mktemp.\nAlternatively, I use \"$MSG.tmp.$$\" now. While this is a guessable name, the context of the script shouldn\u0027t make this an issue.",
+      "parentUuid": "AAABEX//+l4\u003d",
+      "revId": "daff5c0ac38e91384055978193564793e09f7c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//+nU\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-06T00:08:52Z",
       "side": 1,
       "message": "How about making \"$MSG\" the first argument to awk?",
+      "revId": "daff5c0ac38e91384055978193564793e09f7c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+jk\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-06T07:37:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//+nU\u003d",
       "revId": "daff5c0ac38e91384055978193564793e09f7c91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+jg\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-06T07:37:49Z",
+      "side": 1,
+      "message": "Tested on Solaris 10, the + operator works there.\nFor newer awks, POSIX says \"The awk utility shall make use of the extended regular expression notation\"",
+      "parentUuid": "AAABEX//+nk\u003d",
+      "revId": "daff5c0ac38e91384055978193564793e09f7c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//+mQ\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2011-07-06T00:08:52Z",
       "side": 1,
       "message": "How about renaming newline to something like blankline or previousLineBlank, or lastLineBlank?",
+      "revId": "daff5c0ac38e91384055978193564793e09f7c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+i4\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-06T07:37:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//+mQ\u003d",
       "revId": "daff5c0ac38e91384055978193564793e09f7c91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+i8\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-06T07:37:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//+mM\u003d",
+      "revId": "daff5c0ac38e91384055978193564793e09f7c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//+mw\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 3
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+jM\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-06T07:37:49Z",
+      "side": 1,
+      "message": "In fact this fails on Solaris. Using split\u0027s result as proposed.",
+      "parentUuid": "AAABEX//+mw\u003d",
+      "revId": "daff5c0ac38e91384055978193564793e09f7c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//+mY\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 3
@@ -115,6 +223,24 @@
       "writtenOn": "2011-07-06T00:08:52Z",
       "side": 1,
       "message": "Missing ^ before (\u0027$CHANGE_ID_AFTER\u0027\n\nMatch is not case insensitive, original is.\n\nAlso, the parens here might also be extended REs, I believe they might need to be escaped on some older awks.",
+      "revId": "daff5c0ac38e91384055978193564793e09f7c91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+jA\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-06T07:37:49Z",
+      "side": 1,
+      "message": "While solaris awk knows parens, it doesn\u0027t know match(), the \"string ~ regex\" syntax in an expression, or tolower() (for case insensitive tests).\nTo work around that, I now look for /usr/xpg4/bin/awk and prefer that over \"awk\" if it exists (ie. on Solaris) - it knows match and tolower.",
+      "parentUuid": "AAABEX//+mY\u003d",
       "revId": "daff5c0ac38e91384055978193564793e09f7c91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

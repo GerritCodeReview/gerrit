@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+b4\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-06T19:19:29Z",
+      "side": 1,
+      "message": "The original code strips everything starting from the \"^diff --git a/\" line (ie. a patch that might come after the commit message), then strips away all individual lines starting with \"#\".\n\nMy version skips lines starting with #, and on encountering the diff line, prevents the rest of the awk script to see it (by consuming it via getline, then dropping the last line that\u0027s in the buffer using \"next\")\n\nI\u0027ll add some comments in the next patchset",
+      "parentUuid": "AAABEX//+cg\u003d",
+      "revId": "11c162a322790681a4399c0341835b891542ce1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//+cw\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-06T18:57:58Z",
       "side": 1,
       "message": "It would probably also be safer to add double quotes around the $CHANGE_ID_AFTER and $id in case some future bug in the script puts spaces in them.",
+      "revId": "11c162a322790681a4399c0341835b891542ce1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+bw\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-06T19:19:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//+cw\u003d",
       "revId": "11c162a322790681a4399c0341835b891542ce1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

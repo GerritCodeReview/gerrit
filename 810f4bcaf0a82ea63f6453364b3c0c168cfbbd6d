@@ -390,6 +390,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+hU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-06T14:21:29Z",
+      "side": 1,
+      "message": "well..\nthe way we test mergeability is assyncronous... (we put in a queue to be consumed)\nif we request this test when the change page is rendered, it cannot be assync.\nIt\u0027s also possible when considering an atomic group, to start mergeability test. But it also cannot be assync.\n\nSo, what we could do:\n1 - Use Sha1 as Martin suggested; \n2 - Create a sync way to test mergeability (only of those changes with test outdated) to be run at page rendering and when is part of an atomic group. \n3 - I would keep assyncronous way even though to avoid sync tests in advance.\n\nMy concerns:\n1 - Performance. The user will be stuck waiting change page rendering while test is beind done. It is worst when considering atomic, if the user request to merge the atomic group, he will have to wait all changes test inside the group, it may be several...(even more without assync way)",
+      "parentUuid": "AAABEX//+h0\u003d",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///eY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadChangeTestMergeQueue.java",
         "patchSetId": 2

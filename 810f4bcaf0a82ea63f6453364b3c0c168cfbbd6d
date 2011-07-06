@@ -444,6 +444,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+g8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-06T15:02:14Z",
+      "side": 1,
+      "message": "The recently acquired +2 status brought more responsibility and requires to spend more time in the code review than before... this is the reason why I commented on this change... \nNo intention on slowing down the approval.",
+      "parentUuid": "AAABEX//+hE\u003d",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///eY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadChangeTestMergeQueue.java",
         "patchSetId": 2

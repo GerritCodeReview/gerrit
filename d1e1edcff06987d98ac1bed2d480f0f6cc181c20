@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//+gg\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-06T15:39:47Z",
+      "side": 1,
+      "message": "I think you should compute this list on the fly, rather than at constructor time. Initially a site will have no accounts created. After the user creates their first account, they should be able to come back to /become and click on it without restarting the server.\n\nGiven that this is for development purposes only, scanning the first 5 account records on every load of /become is not a performance concern.\n\nI think this implies you need to move the entire processing of the Document object into the doPost() method. But again, this shouldn\u0027t be that much of a problem for development time usage, the HTML document is small and doesn\u0027t take long to parse. Actually, you could defer parsing entirely if the account_id or user_name was present in the request parameters, which would make bookmarks in the browser faster (since we don\u0027t even need to parse the HTML at all during server startup).",
+      "revId": "d1e1edcff06987d98ac1bed2d480f0f6cc181c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+gs\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-06T15:39:47Z",
+      "side": 1,
+      "message": "Accounts aren\u0027t required to have a username set. If it isn\u0027t set yet, we will be dealing with Java null here. For these accounts you shouldn\u0027t try to offer them as clickable links.\n\nAlternatively, use the account_id request parameter to login to the account and try listing the full name and/or email address when the userName is null.",
+      "revId": "d1e1edcff06987d98ac1bed2d480f0f6cc181c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+go\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-06T15:39:47Z",
+      "side": 1,
+      "message": "Use account_id instead of user_name. Its always present, and already works (see below).",
+      "revId": "d1e1edcff06987d98ac1bed2d480f0f6cc181c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+gk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-06T15:39:47Z",
+      "side": 1,
+      "message": "See above about using full name, email address, or account id if username is null.",
+      "revId": "d1e1edcff06987d98ac1bed2d480f0f6cc181c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

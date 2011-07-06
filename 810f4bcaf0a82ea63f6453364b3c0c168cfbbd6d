@@ -372,6 +372,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+h0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-06T13:02:57Z",
+      "side": 1,
+      "message": "The sha1 idea is brilliant!\n\nI\u0027m just not confident about not re-testing all changes everytime a merge is perfomed.\n\nThis strategy was approved by Shawn as you can see here: http://groups.google.com/group/repo-discuss/browse_thread/thread/50c429a2a471b93f/afb35f05f146722f\n\nThe point is this feature is the bottom of atomicity feature and in order to have an atomic group, all changes within the group must be mergeable...\nHumm.. unless we add some extra test in atomicity itself...\nwell, I don\u0027t have all atomic implementation details by heart.. I need to check the impact.\n\nThis feature solves issue 381 and as I already told is part of submodules and atomic commits. See http://groups.google.com/group/repo-discuss/browse_thread/thread/bb2fbbe08a330e92/e96e4cf42ad1a3f1\n\nThis is top high priority for my company!\nI do appreciate your help btw... we really need it integrated",
+      "parentUuid": "AAABEX//+iE\u003d",
+      "revId": "810f4bcaf0a82ea63f6453364b3c0c168cfbbd6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX///eY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReloadChangeTestMergeQueue.java",
         "patchSetId": 2

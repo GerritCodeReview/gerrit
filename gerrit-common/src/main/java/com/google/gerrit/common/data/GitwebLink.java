@@ -61,4 +61,14 @@ public class GitwebLink {
     p.put("branch", URL.encodeQueryString(branch.get()));
     return baseUrl + pattern.replace(p);
   }
+
+  public String toFileHistory(final Branch.NameKey branch, final String file) {
+    ParamertizedString pattern = new ParamertizedString(type.getFileHistory());
+
+    final Map<String, String> p = new HashMap<String, String>();
+    p.put("project", URL.encodeQueryString(branch.getParentKey().get()));
+    p.put("branch", URL.encodeQueryString(branch.get()));
+    p.put("file", URL.encodeQueryString(file));
+    return baseUrl + pattern.replace(p);
+  }
 }

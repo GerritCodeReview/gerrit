@@ -33,6 +33,16 @@ limitations under the License.
     display: inline;
   }
 
+  .history {
+    margin-bottom: 0.5em;
+  }
+  .historyTitle {
+    font-weight: bold;
+  }
+  .gitwebLink {
+    display: inline;
+  }
+
   .addContainer {
     margin-top: 5px;
     font-size: 80%;
@@ -46,6 +56,10 @@ limitations under the License.
   <div ui:field='inheritsFrom' class='{style.inheritsFrom}'>
     <span class='{style.parentTitle}'><ui:msg>Rights Inherit From:</ui:msg></span>
     <q:Hyperlink ui:field='parentProject' styleName='{style.parentLink}'/>
+  </div>
+  <div ui:field='history' class='{style.history}'>
+    <span class='{style.historyTitle}'><ui:msg>History:</ui:msg></span>
+    <g:Anchor ui:field='gitweb' styleName='{style.gitwebLink}'>(gitweb)</g:Anchor>
   </div>
 
   <g:FlowPanel ui:field='localContainer'/>

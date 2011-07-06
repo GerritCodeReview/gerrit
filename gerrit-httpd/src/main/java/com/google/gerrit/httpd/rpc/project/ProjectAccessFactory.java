@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -177,6 +178,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     }
 
     final ProjectAccess detail = new ProjectAccess();
+    detail.setProjectName(projectName);
     detail.setRevision(config.getRevision().name());
 
     if (projectName.equals(allProjectsName)) {
@@ -194,6 +196,8 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
     detail.setLocal(local);
     detail.setOwnerOf(ownerOf);
+    detail.setConfigVisible(pc.isOwner()
+        || pc.controlForRef(GitRepositoryManager.REF_CONFIG).isVisible());
     return detail;
   }
 

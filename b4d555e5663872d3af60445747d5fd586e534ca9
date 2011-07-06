@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+eo\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-06T17:31:00Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "AAABEX//+nQ\u003d",
+      "revId": "b4d555e5663872d3af60445747d5fd586e534ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//+mU\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-06T00:08:52Z",
       "side": 0,
       "message": "It seems like you are not implementing the second half of this if?",
+      "revId": "b4d555e5663872d3af60445747d5fd586e534ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+es\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-06T17:31:00Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "AAABEX//+mU\u003d",
       "revId": "b4d555e5663872d3af60445747d5fd586e534ca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

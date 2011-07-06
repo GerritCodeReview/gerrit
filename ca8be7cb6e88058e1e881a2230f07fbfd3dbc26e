@@ -34,6 +34,41 @@
       "revId": "ca8be7cb6e88058e1e881a2230f07fbfd3dbc26e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+fc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-07-06T16:08:07Z",
+      "side": 1,
+      "message": "Group Type in particular is nice to have on that screen. It\u0027s a pain to figure out which groups are LDAP backed and which aren\u0027t without this change (though we do try to make that easier with naming).",
+      "parentUuid": "AAABEX//+f0\u003d",
+      "revId": "ca8be7cb6e88058e1e881a2230f07fbfd3dbc26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+fY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-07-06T16:08:07Z",
+      "side": 1,
+      "message": "s/Author/Authors/",
+      "revId": "ca8be7cb6e88058e1e881a2230f07fbfd3dbc26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

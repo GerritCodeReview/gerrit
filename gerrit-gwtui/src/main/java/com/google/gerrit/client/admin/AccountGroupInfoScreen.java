@@ -40,6 +40,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -47,6 +48,8 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import java.util.List;
 
 public class AccountGroupInfoScreen extends AccountGroupScreen {
+  private CopyableLabel groupUUIDLabel;
+
   private NpTextBox groupNameTxt;
   private Button saveName;
 
@@ -79,6 +82,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
+    initUUID();
     initName();
     initOwner();
     initDescription();
@@ -97,6 +101,15 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     externalNameSearch.setEnabled(canModify);
     visibleToAllCheckBox.setEnabled(canModify);
     emailOnlyAuthors.setEnabled(canModify);
+  }
+
+  private void initUUID() {
+    final VerticalPanel groupUUIDPanel = new VerticalPanel();
+    groupUUIDPanel.setStyleName(Gerrit.RESOURCES.css().groupUUIDPanel());
+    groupUUIDPanel.add(new SmallHeading(Util.C.headingGroupUUID()));
+    groupUUIDLabel = new CopyableLabel("");
+    groupUUIDPanel.add(groupUUIDLabel);
+    add(groupUUIDPanel);
   }
 
   private void initName() {
@@ -424,6 +437,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   @Override
   protected void display(final GroupDetail groupDetail) {
     final AccountGroup group = groupDetail.group;
+    groupUUIDLabel.setText(group.getGroupUUID().get());
     groupNameTxt.setText(group.getName());
     if (groupDetail.ownerGroup != null) {
       ownerTxt.setText(groupDetail.ownerGroup.getName());

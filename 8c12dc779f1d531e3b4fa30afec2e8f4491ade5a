@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//+LA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "Don\u0027t use ProjectState. Its equality is object identity. If a parent project reloads in the cache, we get a different ProjectState that isn\u0027t equal to the prior one.\n\nUse Project.NameKey instead.",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+K8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "Unlike can_submit, filter_submit_results produces only 1 solution. So we could use once here instead of all, and forgo the loop.",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+K4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "You need to actually add the new parent to the projectsSeen collection. Otherwise an A-B-C-D-A loop isn\u0027t detected.\n\nFWIW we use:\n\n  if (!projectsSeen.add(nextParent)) {\n    break;\n  }\n\nbecause add() returns true if the argument was not already in the set, and false if it was already present. Thus it does both contains and add in a single call.",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+K0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "Style-nit: This formatting is pretty ugly. Highlight the block and use the Eclipse source formatter to reformat the documentation.",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+Kg\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "This cut is unnecessary, its the last clause.",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+Kc\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "This cut is unnecessary, its the last clause.",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+Ko\u003d",
+        "filename": "gerrit-server/src/test/resources/com/google/gerrit/rules/gerrit_common_test.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "R is unused later, but you use S on the next line. This test isn\u0027t right. :-)",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+Kw\u003d",
+        "filename": "gerrit-server/src/test/resources/com/google/gerrit/rules/gerrit_common_test.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace.",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+KY\u003d",
+        "filename": "gerrit-server/src/test/resources/com/google/gerrit/rules/gerrit_common_test.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "Please be a bit more verbose in the test name: filter_submit_remove_verified",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+KU\u003d",
+        "filename": "gerrit-server/src/test/resources/com/google/gerrit/rules/gerrit_common_test.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "filter_submit_add_code_review",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+Ks\u003d",
+        "filename": "gerrit-server/src/test/resources/com/google/gerrit/rules/gerrit_common_test.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "Style-nit: Trailing whitespace.",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+Kk\u003d",
+        "filename": "gerrit-server/src/test/resources/com/google/gerrit/rules/gerrit_common_test.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "There is no point in the cut, there is only one clause.",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+KI\u003d",
+        "filename": "gerrit-server/src/test/resources/com/google/gerrit/rules/gerrit_common_test.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "This is oddly phrased. I would have written:\n\n  filter_out_v([], S, S).\n  filter_out_v([label(\u0027Verified\u0027, _) | Ls], Tmp, S) :- !, filter_out_v(Ls, Tmp, S).\n  filter_out_v([L | Ls], Tmp, S) :- filter_out_v(Ls, [L | Tmp], S).\n\nBut perhaps we should write a few utility functions for rule authors:\n\n  :- public find_label/3.\n\n  find_label([], _, _) :- !, fail.\n  find_label(List, Name, Label) :-\n    List \u003d [_ | _]\n    !,\n    find_label2(List, Name, Label).\n  find_label(S, Name, Label) :-\n    S \u003d.. [submit | Ls],\n    find_label2(Ls, Name, Label).\n\n  find_label2([L | _ ], Name, L) :- L \u003d label(Name, _).\n  find_label2([_ | Ls], Name, L) :- find_label2(Ls, Name, L).\n\n  :- public remove_label/3.\n\n  remove_label([], _, []) :- !.\n  remove_label(List, Label, Out) :-\n    List \u003d [_ | _],\n    !,\n    subtract1(List, Label, Out).\n  remove_label(S, Label, Out) :-\n    S \u003d.. [submit | Ls],\n    subtract1(Ls, Label, Tmp),\n    Out \u003d.. [submit | Tmp].\n\n  subtract1([], _, []) :- !.\n  subtract1([E | L], E, R) :- !, subtract1(L, E, R).\n  subtract1([H | L], E, [H | R]) :- subtract1(L, E, R).\n\nThen in filter_out_v you write:\n\n  filter_out_v(R, S) :-\n    find_label(R, \u0027Verified\u0027, Verified), !,\n    remove_label(R, Verified, S).\n  filter_out_v(R, S).\n\nIf I\u0027m right, find_label/3 matches to each successive label and fails when there are no more results. remove_label/3 kills all occurrences of a label(Name,Status) structure.\n\nI called subtract substract1, because there is a commonly accepted definition of subtract(+Set, +Delete, -Result) where Delete is itself a list of elements to remove from Set[1] and I didn\u0027t want to confuse the slight optimization I have made by making the 2nd argument an element rather than a set/list. The code in substract1/3 should work on PrologCafe, but might be untested. Instead of building up a new list in reverse order and reversing it, the code tries to construct the list in the same order by creating a variable for the tail member of each list cons cell. Those variables are filled in by successive invocations, and should get automatically resolved out when the caller copies the list (e.g. by \u003d../2 or the PrologEnvironment copying a solution). The other way to write this is the more obvious 4 argument form using an intermediate list.\n\n[1] http://www.swi-prolog.org/pldoc/doc/swi/library/lists.pl",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+KQ\u003d",
+        "filename": "gerrit-server/src/test/resources/com/google/gerrit/rules/gerrit_common_test.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "This cut is unnecessary.",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+KM\u003d",
+        "filename": "gerrit-server/src/test/resources/com/google/gerrit/rules/gerrit_common_test.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-07T16:15:52Z",
+      "side": 1,
+      "message": "This is oddly phrased. Another way to write it is:\n\n S \u003d .. [submit, CR | Labels]",
+      "revId": "8c12dc779f1d531e3b4fa30afec2e8f4491ade5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

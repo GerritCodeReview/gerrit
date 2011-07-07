@@ -114,6 +114,7 @@ public interface GerritCss extends CssResource {
   String gerritTopMenu();
   String gerritBody();
   String groupName();
+  String groupUUIDPanel();
   String header();
   String hyperlink();
   String iconCell();

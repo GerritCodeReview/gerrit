@@ -1309,3 +1309,9 @@ a:hover.downloadLink {
   margin: 4px;
   opacity: 0.90;
 }
+
+
+/** AccountGroupInfoScreen **/
+.groupUUIDPanel {
+  margin-bottom: 10px;
+}

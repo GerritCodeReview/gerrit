@@ -138,12 +138,13 @@ public class ModifyReviewersCommand extends BaseCommand {
 
     // Add reviewers
     //
-    result = addReviewerFactory.create(changeId, stringSet(toAdd)).call();
+    result =
+        addReviewerFactory.create(changeId, stringSet(toAdd), false).call();
     ok &= result.getErrors().isEmpty();
     for (ReviewerResult.Error resultError : result.getErrors()) {
       String message;
       switch (resultError.getType()) {
-        case ACCOUNT_NOT_FOUND:
+        case REVIEWER_NOT_FOUND:
           message = "account {0} not found";
           break;
         case ACCOUNT_INACTIVE:

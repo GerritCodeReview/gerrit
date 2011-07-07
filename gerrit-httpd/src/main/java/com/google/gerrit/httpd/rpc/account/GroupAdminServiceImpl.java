@@ -63,7 +63,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
   private final CreateGroup.Factory createGroupFactory;
   private final RenameGroup.Factory renameGroupFactory;
-  private final GroupDetailFactory.Factory groupDetailFactory;
+  private final GroupDetailHandler.Factory groupDetailFactory;
 
   @Inject
   GroupAdminServiceImpl(final Provider<ReviewDb> schema,
@@ -75,7 +75,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final GroupControl.Factory groupControlFactory,
       final CreateGroup.Factory createGroupFactory,
       final RenameGroup.Factory renameGroupFactory,
-      final GroupDetailFactory.Factory groupDetailFactory) {
+      final GroupDetailHandler.Factory groupDetailFactory) {
     super(schema, currentUser);
     this.identifiedUser = currentUser;
     this.accountCache = accountCache;

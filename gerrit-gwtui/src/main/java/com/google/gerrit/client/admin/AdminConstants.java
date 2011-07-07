@@ -44,6 +44,7 @@ public interface AdminConstants extends Constants {
   String emailOnlyAuthors();
   String descriptionNotifications();
   String buttonSaveGroupOptions();
+  String suggestedGroupLabel();
 
   String headingOwner();
   String headingDescription();

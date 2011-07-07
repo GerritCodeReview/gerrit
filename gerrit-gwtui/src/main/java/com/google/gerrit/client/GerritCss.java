@@ -30,6 +30,7 @@ public interface GerritCss extends CssResource {
   String accountUsername();
   String accountPassword();
   String activeRow();
+  String addMemberTextBox();
   String addReviewer();
   String removeReviewer();
   String removeReviewerCell();
@@ -113,7 +114,19 @@ public interface GerritCss extends CssResource {
   String filePathCell();
   String gerritTopMenu();
   String gerritBody();
+  String groupDescriptionPanel();
+  String groupExternalNameFilterTextBox();
+  String groupIncludesTable();
+  String groupMembersTable();
   String groupName();
+  String groupNamePanel();
+  String groupNameTextBox();
+  String groupOptionsPanel();
+  String groupOptionsNotificationsDescriptionPanel();
+  String groupOwnerPanel();
+  String groupOwnerTextBox();
+  String groupTypePanel();
+  String groupTypeSelectListBox();
   String groupUUIDPanel();
   String header();
   String hyperlink();

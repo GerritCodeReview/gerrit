@@ -91,6 +91,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     });
 
     members = new MemberTable();
+    members.addStyleName(Gerrit.RESOURCES.css().groupMembersTable());
 
     delMember = new Button(Util.C.buttonDeleteGroupMembers());
     delMember.addClickHandler(new ClickHandler() {
@@ -121,6 +122,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     });
 
     includes = new IncludeTable();
+    includes.addStyleName(Gerrit.RESOURCES.css().groupIncludesTable());
 
     delInclude = new Button(Util.C.buttonDeleteIncludedGroup());
     delInclude.addClickHandler(new ClickHandler() {

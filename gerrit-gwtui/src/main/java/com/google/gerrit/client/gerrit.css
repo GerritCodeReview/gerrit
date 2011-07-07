@@ -1315,3 +1315,50 @@ a:hover.downloadLink {
 .groupUUIDPanel {
   margin-bottom: 10px;
 }
+.groupDescriptionPanel {
+  margin-bottom: 3px;
+}
+.groupExternalNameFilterTextBox {
+  margin-right: 2px;
+  margin-bottom: 2px;
+}
+.groupNamePanel {
+  margin-bottom: 3px;
+}
+.groupNameTextBox {
+  margin-bottom: 2px;
+}
+.groupOptionsPanel {
+  margin-bottom: 3px;
+}
+.groupOptionsNotificationsDescriptionPanel {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.groupOwnerPanel {
+  margin-bottom: 3px;
+}
+.groupOwnerTextBox {
+  margin-bottom: 2px;
+}
+.groupTypePanel {
+  margin-bottom: 3px;
+}
+.groupTypeSelectListBox {
+  margin-bottom: 2px;
+}
+
+
+/** AccountGroupMembersScreen **/
+.groupMembersTable {
+  margin-bottom: 2px;
+}
+.groupIncludesTable {
+  margin-bottom: 2px;
+}
+
+
+/** AddMemberBox **/
+.addMemberTextBox {
+  margin-right: 2px;
+  margin-bottom: 2px;

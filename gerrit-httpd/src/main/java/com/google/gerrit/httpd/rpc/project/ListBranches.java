@@ -130,7 +130,8 @@ class ListBranches extends Handler<ListBranchesResult> {
 
         RefControl refControl = pctl.controlForRef(ref.getName());
 
-        if (ref.getName().startsWith(Constants.R_HEADS)
+        if ((ref.getName().startsWith(Constants.R_HEADS) //
+            || GitRepositoryManager.REF_CONFIG.equals(ref.getName()))
             && refControl.isVisible()) {
           final Branch b = createBranch(ref.getName());
           if (ref.getObjectId() != null) {

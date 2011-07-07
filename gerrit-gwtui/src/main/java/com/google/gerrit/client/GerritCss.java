@@ -145,6 +145,7 @@ public interface GerritCss extends CssResource {
   String patchComments();
   String patchContentTable();
   String patchHistoryTable();
+  String patchHistoryTablePatchSetHeader();
   String patchNoDifference();
   String patchScreenDisplayControls();
   String patchSetActions();
@@ -187,6 +188,7 @@ public interface GerritCss extends CssResource {
   String topmenuTDglue();
   String topmenuTDmenu();
   String topmost();
+  String topMostCell();
   String useridentity();
   String usernameField();
   String version();

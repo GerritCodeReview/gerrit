@@ -69,6 +69,7 @@ class ListBranches extends Handler<ListBranchesResult> {
 
     final List<Branch> branches = new ArrayList<Branch>();
     Branch headBranch = null;
+    Branch configBranch = null;
     final Set<String> targets = new HashSet<String>();
 
     final Repository db;
@@ -128,18 +129,13 @@ class ListBranches extends Handler<ListBranchesResult> {
           continue;
         }
 
-        RefControl refControl = pctl.controlForRef(ref.getName());
-
-        if (ref.getName().startsWith(Constants.R_HEADS)
-            && refControl.isVisible()) {
-          final Branch b = createBranch(ref.getName());
-          if (ref.getObjectId() != null) {
-            b.setRevision(new RevId(ref.getObjectId().name()));
+        final RefControl refControl = pctl.controlForRef(ref.getName());
+        if (refControl.isVisible()) {
+          if (ref.getName().startsWith(Constants.R_HEADS)) {
+            branches.add(createBranch(ref, refControl, targets));
+          } else if (GitRepositoryManager.REF_CONFIG.equals(ref.getName())) {
+            configBranch = createBranch(ref, refControl, targets);
           }
-
-          b.setCanDelete(!targets.contains(ref.getName()) && refControl.canDelete());
-
-          branches.add(b);
         }
       }
     } finally {
@@ -151,10 +147,23 @@ class ListBranches extends Handler<ListBranchesResult> {
         return a.getName().compareTo(b.getName());
       }
     });
+    if (configBranch != null) {
+      branches.add(0, configBranch);
+    }
     if (headBranch != null) {
       branches.add(0, headBranch);
     }
     return new ListBranchesResult(branches, pctl.canAddRefs(), false);
+  }
+
+  private Branch createBranch(final Ref ref, final RefControl refControl,
+      final Set<String> targets) {
+    final Branch b = createBranch(ref.getName());
+    if (ref.getObjectId() != null) {
+      b.setRevision(new RevId(ref.getObjectId().name()));
+    }
+    b.setCanDelete(!targets.contains(ref.getName()) && refControl.canDelete());
+    return b;
   }
 
   private Branch createBranch(final String name) {

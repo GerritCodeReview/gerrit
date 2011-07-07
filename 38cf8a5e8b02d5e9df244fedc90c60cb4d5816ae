@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//+Hk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-07T22:34:28Z",
+      "side": 1,
+      "message": "Perhaps this should be put at/near the top always (below HEAD)?  It would also be nice if it were a different styling (color, italics/) than the other branches (so too could HEAD be)?",
+      "revId": "38cf8a5e8b02d5e9df244fedc90c60cb4d5816ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

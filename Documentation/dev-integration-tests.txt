@@ -1,0 +1,327 @@
+Gerrit Integration Tests
+========================
+
+The integration tests check the Gerrit functionality from the user
+interfaces. This can be by accessing the WebUI or by sending commands
+over SSH.
+
+The integration tests are executed during the maven verify build
+phase. To run the integration tests execute the following Maven
+command:
+
+----
+  mvn clean verify
+----
+
+For building Gerrit without running the integration tests execute the
+following Maven command:
+----
+  mvn clean package
+----
+
+By default the integration tests are executed against a
+link:#gerrit-server-start-stop[new Gerrit server that is
+automatically initialized and started]. After the integration tests
+are finished the Gerrit server is stopped again.
+
+To do the integration tests against the WebUI
+link:#selenium[Selenium] is used.
+
+For now there are only a few
+link:#integration-tests[integration tests] and
+link:#pulse-checks[pulse checks] as proof of concept.
+
+
+Motivation
+----------
+
+There are several goals which should be achieved by having
+integration-tests:
+
+* The Gerrit functionality should be tested from the user's
+  perspective so that also the Gerrit Client is covered by tests
+  (see link:#integration-tests[integration tests])
+* permanently check the health of a running Gerrit server
+  (see link:#pulse-checks[pulse checks])
+* link:#load-tests[load tests]
+
+
+Types of integration tests
+--------------------------
+
+[[integration-tests]]
+Integration Tests
+~~~~~~~~~~~~~~~~~
+
+Integration tests check the Gerrit functionality from the user's
+perspective:
+
+* test the user interfaces (WebUI + SSH commands)
+* every test is executed against a freshly initialized Gerrit server
+  (so that there is no existing data that can interfere with the
+  test)
+* `mvn clean verify` by default executes the integration tests
+* base class is `com.google.gerrit.test.integrationtest.AbstractIntegrationTest`
+* to be executed as integration test the test class name must end on
+  `IT`
+
+
+[[pulse-checks]]
+Pulse Checks
+~~~~~~~~~~~~
+Pulse checks permanently check the health of a running Gerrit server:
+
+* run against an existing (productive) Gerrit Server
+  (link:#server-configuration[the Gerrit server must be configured])
+* the Gerrit server must be running before the tests are started
+* pulse checks must be aware of existing data on the Gerrit server
+  that is tested (existing data must not be affected by the pulse
+  checks)
+* `mvn clean verify` executes the pulse checks if
+  link:#server-configuration[a Gerrit server is configured]
+* base class is `com.google.gerrit.test.pulsecheck.AbstractPulseCheck`
+* to be executed as pulse check the test class name must end on `PC`
+
+
+[[load-tests]]
+Load Tests
+~~~~~~~~~~
+
+Load test should test the scalability of a Gerrit server.
+
+* use the link:#pulse-checks[pulse checks] to similate all actions
+  that a typical developer would do, run many 'automated developers'
+  in parallel and see when the system starts failing
+* not yet implemented
+
+
+Test Configuration
+------------------
+
+The tests can be configured by setting system properties. All system
+properties that can be used to configure the tests are defined in
+`com.google.gerrit.test.GerritTestProperty`. In this class every
+system property is explained in details. In this section only the
+most important parameters are explained.
+
+The namespace for all system properties that allow to configure the
+tests is `gerrit.it.`.
+
+[[integration-test-configuration]]
+Integration Test Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The link:#integration-tests[integration tests] need access to the
+Gerrit war file in order to run. The path to the Gerrit war file has
+to be provided by setting the system property `gerrit.it.gerrit-war`.
+When running the integration tests via Maven this system property is
+automatically set.
+
+[[server-configuration]]
+Server Configuration
+~~~~~~~~~~~~~~~~~~~~
+Configure a Gerrit Server against which the
+link:#pulse-checks[pulse checks] should be executed. If a Gerrit
+server is configured the link:#integration-tests[integration-tests]
+are not executed.
+
+* `gerrit.it.gerrit-url`: Web-URL of an existing Gerrit server
+  against which the pulse checks should be executed
+
+In addition the following system properties must be set:
+
+* `gerrit.it.user`: name of the user that should be used to run the
+  pulse checks (must be a Gerrit administrator)
+* `gerrit.it.ssh-key`: path to the private SSH key of the user that
+  should be used to run the pulse checks
+
+Optionally the following system properties can be set addionally:
+
+* `gerrit.it.password`: password of the user that should be used to
+  run the pulse checks (if set it is assumed that LDAP is used for
+  authentication)
+* `gerrit.it.passphrase`: passphrase for the private SSH key of the
+  user that should be used to run the pulse checks
+* `gerrit.it.ssh-port`: SSH port of the Gerrit server against which
+  the pulse checks should be executed (by default 29418 is assumed)
+
+Example:
+
+----
+  mvn clean verify -Dgerrit.it.gerrit-url=http://host:8080/ \\
+  -Dgerrit.it.user=admin -Dgerrit.it.ssh-key=./.ssh/id_rsa
+----
+
+[[configure-web-driver]]
+Configure the Selenium Web Driver
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+It can be configured which Selenium Web Driver is used to run the
+tests. The Web Driver decides which browser is used to access the
+Gerrit WebUI.
+
+* `gerrit.it.webdriver`: Web Driver that should be used to run the
+  test, supported values: `HTMLUNIT`, `CHROME`, `IE`, `FIREFOX`
+  (default `HTMLUNIT`, which means that the tests are run without the
+  browser popping up)
+
+See also link:#web-drivers[Web Drivers].
+
+Timeouts and Polling intervals
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There are several system properties that allow to configure timeouts,
+polling intervals and max retries (for details have a look at the
+class `com.google.gerrit.test.GerritTestProperty`).
+
+Tracing
+~~~~~~~
+There are two system properties to control tracing:
+`gerrit.it.trace-level` and `gerrit.it.ssh-trace-level` (for details
+have a look at the class
+`com.google.gerrit.test.GerritTestProperty`).
+
+
+Supported Login Types
+---------------------
+The link:#pulse-checks[pulse checks] are only able run against Gerrit
+servers that use one of the following methods for authentication:
+
+* `DEVELOPMENT_BECOME_ANY_ACCOUNT`
+* `LDAP`
+
+
+[[gerrit-server-start-stop]]
+Automatic start and stop of Gerrit Server
+-----------------------------------------
+For every link:#integration-tests[integration test] a new Gerrit
+Server is automatically initialized and started. After the test is
+done the Gerrit Server is automatically stopped and cleaned up.
+
+This allows to program each test against a fresh Gerrit server, which
+makes the tests more stable since the data produced by one test has
+no effect on another tests.
+
+The initialization, starting and stopping of the Gerrit server against
+which the integration tests are executed is done from Java by the
+tests. The Gerrit Server is started in an own process. If the
+integration tests are interrupted the process that runs the Gerrit
+Server must be manually killed if it is still running (if this
+process is not terminated all further test runs will fail).
+
+For automatically starting a new Gerrit Server the tests need access
+to the Gerrit war file, see
+link:#integration-test-configuration[integration-test-configuration].
+
+
+[[selenium]]
+Selenium
+--------
+To run tests against the Gerrit WebUI Selenium 2 is used.
+
+[[web-drivers]]
+Web Driver
+~~~~~~~~~~
+Selenium supports several web drivers to access a WebUI with
+different browsers (the browser must be available on the system where
+the tests are executed).
+
+Which Selenium web driver is used to run the tests can be configured,
+see link:#configure-web-driver[configure-web-driver].
+
+The following web drivers exist:
+
+* `HtmlUnitDriver`:
+  Runs without UI, this is the web driver that is used by default to
+  run the tests.
+* `ChromeDriver`:
+  Runs the test with Google Chrome. This only works if a special
+  Selenium Chrome driver is available (which is OS dependent). To
+  make the Selenium Chrome driver available the system property
+  `webdriver.chrome.driver` must be set. When running the tests from
+  Maven this driver is automatically downloaded and privided to the
+  test by Maven and Ant. If you are running the tests behind a
+  firewall you may need to specify your proxy to make the download
+  successful, e.g. `mvn clean verify -Dgerrit.it.webdriver=chrome
+  -Dhttp.proxyHost=proxy -Dhttp.proxyPort=8080`
+* `InternetExplorerDriver`:
+  Runs the test with Internet Explorer. This only works if the
+  Internet Explorer is correctly configured. Make sure that in the
+  Internet Explorer under `Tools` -> `Internet Options` -> `Security`
+  you have either selected or deselected 'Enable Protected Mode' for
+  all zones (`Internet`, `Local intranet`, `Trusted sites`,
+  `Restricted sites`) (all zones must have the same setting!).
+* `FirefoxDriver`:
+  Runs the test with Firefox. At the moment this is not working, but
+  it fails with `400 Bad Request`!
+
+Accessing elements in the WebUI
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Selenium supports different locators to access elements in the WebUI.
+Unfortunately for Gerrit the elements in the WebUI don't have ID's
+which makes accessing the elements a bit more difficult. It is
+important to keep the locators for the different elements as
+independent from each other as possible, so that e.g. repositioning
+an element in a screen doesn't break the tests immediately. This is
+why the usage of full xpath locators should be avoided. To address
+this problem the test framework provides helper methods to locate
+elements (see class `com.google.gerrit.test.pageobjects.PageObject`).
+E.g. these helper methods allow to find elements by their label text
+(e.g. find the button with the text 'submit'). The label texts are
+not hard-coded in the tests but the standard Gerrit interfaces for
+constants are used to retrieve the label texts from the Gerrit
+properties files.
+
+Page Objects
+~~~~~~~~~~~~
+Every screen in the Gerrit WebUI should be represented by a
+link:http://code.google.com/p/selenium/wiki/PageObjects[page object]
+that encapsulates the knowledge about how to read and write data
+from / to this screen. This has the advantage that if a screen gets
+changed only the corresponding page object class has to be adapted to
+make the tests work again.
+
+For the Gerrit tests every page object should inherit from the class
+`com.google.gerrit.test.pageobjects.PageObject`.
+
+Workarounds
+~~~~~~~~~~~
+There are some problems when writing UI tests with Selenium that make
+the tests unstable (e.g. sending a click event to a button is not
+synchronized, which means that the test never knows if the click was
+already processed or not). To solve these issues one needs to apply
+workarounds (e.g. after sending a click event, sleep for a moment to
+be sure that the click event was processed before continueing). For
+the Gerrit tests such workarounds are implemented in a wrapper around
+Selenium, so that they are all in a central place (see class
+`com.google.gerrit.test.WebDriverWrapper` and
+`com.google.gerrit.test.WebElementWrapper`).
+
+
+Running the tests from Eclipse
+------------------------------
+For Eclipse there are different launch configurations for
+link:#integration-tests[integration tests] and
+link:#pulse-checks[pulse checks]. In the pulse check launch
+configuration the properties for the Gerrit server against which the
+pulse checks should be executed have to be adapted before the first
+run.
+
+
+Error Investigation
+-------------------
+* repeat the test execution several times, the tests are still not
+  fully stable and repeating the tests might solve the problem
+* test results for individual tests can be found in the folder
+  `gerrit-integration-tests\target\failsafe-reports`
+* a log file for the test run is written to
+  `gerrit-integration-tests\target\logs\test_log`
+* tracing for the SSH communication may be switched on by setting the
+  `gerrit.it.ssh-trace-level` system property to 'DEBUG'
+* when using HtmlUnitDriver try to reproduce the error with a
+  link:#web-drivers[web driver] that starts a browser
+* some web drivers log errors that do not effect the test (just
+  ignore them)
+* make sure that the Gerrit GWT UI is compiled for all browsers
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

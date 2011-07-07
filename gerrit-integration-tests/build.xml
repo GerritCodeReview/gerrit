@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="download-selenium-driver" basedir=".">
+
+  <condition property="isChrome">
+    <equals arg1="${gerrit.it.webdriver}" arg2="chrome"
+      casesensitive="false"/>
+  </condition>
+
+  <target name="download-selenium-chrome-driver" if="isChrome">
+    <echo>Downloading Selenium Chrome Driver...</echo>
+    <property name="seleniumChromeDriverDir"
+      location="${project.build.directory}/selenium/chrome"/>
+    <mkdir dir="${seleniumChromeDriverDir}"/>
+
+    <condition property="downloadTarget" value="download-for-windows">
+      <os family="windows"/>
+    </condition>
+    <condition property="downloadTarget" value="download-for-mac">
+      <os family="mac"/>
+    </condition>
+    <condition property="downloadTarget" value="download-for-unix">
+      <os family="unix"/>
+    </condition>
+    <antcall target="${downloadTarget}"/>
+  </target>
+
+  <target name="download-for-windows">
+    <antcall target="download-and-unzip">
+      <param name="os" value="win32"/>
+    </antcall>
+  </target>
+
+  <target name="download-for-unix">
+    <exec dir="." executable="/bin/sh" outputproperty="uname.ouput">
+      <arg line="-c uname -m"/>
+    </exec>
+    <condition property="bitness" value="64" else="32">
+      <contains string="${uname.output}" substring="_64" casesensitive="true"/>
+    </condition>
+    <antcall target="download-and-unzip">
+      <param name="os" value="linux${bitness}"/>
+    </antcall>
+  </target>
+
+  <target name="download-for-mac">
+    <antcall target="download-and-unzip">
+      <param name="os" value="mac"/>
+    </antcall>
+  </target>
+
+  <target name="download-and-unzip">
+    <property name="chromeDriverArchive"
+      value="chromedriver_${os}_13.0.775.0.zip"/>
+    <get
+      src="http://selenium.googlecode.com/files/${chromeDriverArchive}"
+      dest="${seleniumChromeDriverDir}"/>
+    <unzip src="${seleniumChromeDriverDir}/${chromeDriverArchive}"
+      dest="${seleniumChromeDriverDir}"/>
+    <delete file="${seleniumChromeDriverDir}/${chromeDriverArchive}"/>
+  </target>
+</project>

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//+B8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/UsernameField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-08T18:01:25Z",
+      "side": 1,
+      "message": "It scares me a bit that this list is still different from the one in NpIntTextBox, which uses\n\n   if (!event.isAnyModifierKeyDown()) {\n  \tevent.preventDefault();\t\n   }\n\ninstead. \n\nIn general, I feel like this is the wrong approach (not your change) to validation and that we should either start using the validators that come with GWT, or we should instead be simply checking to ensure that the username after modification satisfies our username rules using a simple RE.  This way, there is no need to filter bad keys so much as filtering based on valid input.  Such an approach seems more likely to be correct for very limited fields like a username and an int field.  I used this approach on some of the dashboard code, so I might try to do that in a future change.",
+      "revId": "c368d8b881ddda67d6500ed352f7701202a0d656",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

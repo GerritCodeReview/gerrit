@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//94g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-08T23:17:50Z",
+      "side": 1,
+      "message": "Maybe this logic should go into Account, getDisplayName()?",
+      "revId": "cc42a19f41274a055f29c6a8df349fc2f4598823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

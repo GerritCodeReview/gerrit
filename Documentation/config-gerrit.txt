@@ -36,6 +36,10 @@ If set to 0, the user will never be asked to confirm adding a group
 as reviewer.
 +
 Default is 10.
++
+This setting only applies for adding reviewers in the Gerrit WebUI,
+but is ignored when adding reviewers with the
+link:cmd-modify-reviewers.html[modify-reviewers] command.
 
 [[addreviewer.maxAllowed]]addreviewer.maxAllowed::
 +

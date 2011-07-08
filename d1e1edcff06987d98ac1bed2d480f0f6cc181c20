@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+D4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-08T21:04:25Z",
+      "side": 1,
+      "message": "Done.\nHowever, bookmarks like http://../become?account_id\u003d1000000\nwork only every second time. Means, if we keep clicking a bookmark like this then:\n- we become this account if we are signed out when clicking the\nbookmark\n- we get signed out if we are signed in when clicking the bookmark\n\nHowever, this issue is not caused by this change... I tried it also\nwithout this change and the issue is present.\nTherefore, I would try to find the cause of it and fix it in a follow up change.",
+      "parentUuid": "AAABEX//+gg\u003d",
+      "revId": "d1e1edcff06987d98ac1bed2d480f0f6cc181c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//+gs\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-06T15:39:47Z",
       "side": 1,
       "message": "Accounts aren\u0027t required to have a username set. If it isn\u0027t set yet, we will be dealing with Java null here. For these accounts you shouldn\u0027t try to offer them as clickable links.\n\nAlternatively, use the account_id request parameter to login to the account and try listing the full name and/or email address when the userName is null.",
+      "revId": "d1e1edcff06987d98ac1bed2d480f0f6cc181c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+D0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-08T21:04:25Z",
+      "side": 1,
+      "message": "Using account_id is, of course, much better.",
+      "parentUuid": "AAABEX//+gs\u003d",
       "revId": "d1e1edcff06987d98ac1bed2d480f0f6cc181c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+Dw\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-08T21:04:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//+go\u003d",
+      "revId": "d1e1edcff06987d98ac1bed2d480f0f6cc181c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//+gk\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2011-07-06T15:39:47Z",
       "side": 1,
       "message": "See above about using full name, email address, or account id if username is null.",
+      "revId": "d1e1edcff06987d98ac1bed2d480f0f6cc181c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//+Ds\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/become/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-08T21:04:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//+gk\u003d",
       "revId": "d1e1edcff06987d98ac1bed2d480f0f6cc181c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

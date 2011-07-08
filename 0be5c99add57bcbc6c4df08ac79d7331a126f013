@@ -69,6 +69,24 @@
       "revId": "0be5c99add57bcbc6c4df08ac79d7331a126f013",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//94Y\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-08T23:17:32Z",
+      "side": 1,
+      "message": "firstNAccounts(int n) is better.   The problem with byId, is that you are not passing in an id!",
+      "parentUuid": "AAABEX//+i0\u003d",
+      "revId": "0be5c99add57bcbc6c4df08ac79d7331a126f013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

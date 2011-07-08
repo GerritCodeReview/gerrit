@@ -39,7 +39,8 @@ public class NpIntTextBox extends NpTextBox {
       public void onKeyPress(KeyPressEvent event) {
         char c = event.getCharCode();
         if (c < '0' || '9' < c) {
-          switch (c) {
+          final int nativeCode = event.getNativeEvent().getKeyCode();
+          switch (nativeCode) {
             case KeyCodes.KEY_BACKSPACE:
             case KeyCodes.KEY_LEFT:
             case KeyCodes.KEY_RIGHT:

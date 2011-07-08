@@ -31,6 +31,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.security.CodeSource;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -235,6 +237,12 @@ public final class GerritLauncher {
     if (jars.isEmpty()) {
       return GerritLauncher.class.getClassLoader();
     }
+    Collections.sort(jars, new Comparator<URL>() {
+      public int compare(URL o1, URL o2) {
+        return o1.toString().compareTo(o2.toString());
+      }
+    });
+
     return new URLClassLoader(jars.toArray(new URL[jars.size()]));
   }
 

@@ -10,8 +10,8 @@ SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit modify-reviewers'
   [--project <PROJECT>]
-  [--add EMAIL ...]
-  [--remove EMAIL ...]
+  [--add REVIEWER ...]
+  [--remove REVIEWER ...]
   [--]
   {COMMIT | CHANGE-ID}...
 
@@ -35,13 +35,15 @@ OPTIONS
 
 --add::
 -a::
-	Add this reviewer to the change. Multiple reviewers can be
-	added at once by using this option multiple times.
+	Add this user or group as reviewer to the change. Multiple users
+	and groups can be added at once as reviewers by using this option
+	multiple times.
 
 --remove::
 -r::
-	Remove this reviewer to the change. Multiple reviewers can be
-	removed at once by using this option multiple times.
+	Remove this user from the reviewer list of the change. Multiple
+	users can be removed at once from the reviewer list by using this
+	option multiple	times.
 
 --help::
 -h::
@@ -72,6 +74,13 @@ Add reviewer elvis to old-style change id 1935 specifying that the change is in 
 	  --project graceland \
 	  -a elvis@example.com \
 	  1935
+=====
+
+Add all project owners as reviewers to change Iac6b2ac2.
+=====
+	$ ssh -p 29418 review.example.com gerrit modify-reviewers \
+	  -a "'Project Owners'" \
+	  Iac6b2ac2
 =====
 
 GERRIT

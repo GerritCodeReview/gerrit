@@ -44,6 +44,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
+import org.eclipse.jgit.lib.Constants;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -313,11 +315,19 @@ public class ProjectBranchesScreen extends ProjectScreen {
       }
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
-      fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
-      fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
+      String iconCellStyle = Gerrit.RESOURCES.css().iconCell();
+      String dataCellStyle = Gerrit.RESOURCES.css().dataCell();
+      if ("refs/meta/config".equals(k.getShortName())
+          || Constants.HEAD.equals(k.getShortName())) {
+        iconCellStyle = Gerrit.RESOURCES.css().specialBranchIconCell();
+        dataCellStyle = Gerrit.RESOURCES.css().specialBranchDataCell();
+        fmt.setStyleName(row, 0, iconCellStyle);
+      }
+      fmt.addStyleName(row, 1, iconCellStyle);
+      fmt.addStyleName(row, 2, dataCellStyle);
+      fmt.addStyleName(row, 3, dataCellStyle);
       if (c != null) {
-        fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
+        fmt.addStyleName(row, 4, dataCellStyle);
       }
 
       setRowItem(row, k);

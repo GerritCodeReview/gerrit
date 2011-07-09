@@ -1363,3 +1363,17 @@ a:hover.downloadLink {
   margin-right: 2px;
   margin-bottom: 2px;
 }
+
+
+/** ProjectBranchesScreen **/
+.specialBranchIconCell {
+  background: #ECECEC;
+  border-bottom: 1px solid #FFFFFF;
+  border-top: 1px solid #FFFFFF;
+}
+.specialBranchDataCell {
+  background: #ECECEC;
+  border: 1px solid white;
+  font-style: italic;
+  padding: 2px 6px 1px;
+}

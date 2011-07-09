@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+IA\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitWebType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006697
+      },
+      "writtenOn": "2011-07-09T15:50:21Z",
+      "side": 1,
+      "message": "Because otherwise the url path turns into /gitweb$PROJECT without a slash in between.",
+      "parentUuid": "AAABEX//+vo\u003d",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDH///6M\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitwebLink.java",
         "patchSetId": 1
@@ -142,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//+H8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1006697
+      },
+      "writtenOn": "2011-07-09T15:50:21Z",
+      "side": 1,
+      "message": "Really? When path_info format is used, $cgi-\u003eparam(\u0027hb\u0027) will never be set...input_params gets populated from cgi-\u003eparam and from the path_info parsing code.",
+      "parentUuid": "AAABEX//+vk\u003d",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDH///6E\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
         "patchSetId": 1
@@ -213,6 +249,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//9zE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1006697
+      },
+      "writtenOn": "2011-07-09T15:50:21Z",
+      "side": 1,
+      "message": "Done, by having only the type gitweb-pathinfo enable path_info mode.",
+      "parentUuid": "AAABDX///6E\u003d",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABDH///54\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
         "patchSetId": 1
@@ -224,6 +278,24 @@
       "writtenOn": "2011-06-16T21:42:49Z",
       "side": 1,
       "message": "I would prefer to use a StringBuilder here over +\u003d.",
+      "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9zI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1006697
+      },
+      "writtenOn": "2011-07-09T15:50:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABDH///54\u003d",
       "revId": "d89937e68cde58cb16a26ee266e2ea2daf714a29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

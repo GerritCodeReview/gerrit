@@ -190,6 +190,7 @@ public interface GerritCss extends CssResource {
   String skipLine();
   String smallHeading();
   String sourceFilePath();
+  String specialBranch();
   String sshHostKeyPanel();
   String sshHostKeyPanelFingerprintData();
   String sshHostKeyPanelHeading();

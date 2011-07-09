@@ -34,6 +34,24 @@
       "revId": "38cf8a5e8b02d5e9df244fedc90c60cb4d5816ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9zc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-07-09T07:59:55Z",
+      "side": 1,
+      "message": "Done.\n\nWith the new patch set refs/meta/config is now always displayed right below HEAD.\n\nThe different styling I have done in another change [1]. For now I only made the font italic, but we can also think of something else.\n\n[1] https://review.source.android.com/24461",
+      "parentUuid": "AAABEX//+E8\u003d",
+      "revId": "38cf8a5e8b02d5e9df244fedc90c60cb4d5816ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -34,6 +34,24 @@
       "revId": "b90c8d108c8c99af8009c87d62ff539e53e472d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9yU\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-07-10T03:49:40Z",
+      "side": 1,
+      "message": "I wanted different wording, but I thought that you\u0027ve changed default behavior for both internally managed installations (with default and custom URLs). To be honest it\u0027s quite confusing that you\u0027ve changed it for one and not the other... and I didn\u0027t realize that, even thought I had to set \"gitweb-pathinfo\" myself (!).\n\nCould you accent it a bit more clear that \"gitweb-pathinfo\" is only set for default URLs? Maybe:\n\ns/default internally managed installation/internally managed installation with default URL scheme/",
+      "parentUuid": "AAABEX//9yc\u003d",
+      "revId": "b90c8d108c8c99af8009c87d62ff539e53e472d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

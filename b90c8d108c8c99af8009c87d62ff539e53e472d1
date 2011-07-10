@@ -16,6 +16,24 @@
       "revId": "b90c8d108c8c99af8009c87d62ff539e53e472d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9yc\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1006697
+      },
+      "writtenOn": "2011-07-10T03:20:51Z",
+      "side": 1,
+      "message": "Well...having gitweb.url set can mean either completely external, or, if gitweb.cgi is also set, internally managed at a non-default URL (which must be rewritten by an external proxy). Since in both cases, the handling of the gitweb URLs isn\u0027t under Gerrit\u0027s control, I figured it\u0027d be best to leave it as defaulting to non-path-info for both cases.\n\nOr did you just want different wording in the docs, rather than a change in behavior? (and if so, a suggestion as to what?)",
+      "parentUuid": "AAABEX//9ys\u003d",
+      "revId": "b90c8d108c8c99af8009c87d62ff539e53e472d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

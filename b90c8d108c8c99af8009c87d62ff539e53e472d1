@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//9ys\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-07-10T03:03:15Z",
+      "side": 1,
+      "message": "This is incorrect, gitweb.url is also used for \"alternative URL\" for internally managed instalation.\n\nYou should be checking if \"gitweb.cgi\" is set in order to detect if this is internally managed installation or not.",
+      "revId": "b90c8d108c8c99af8009c87d62ff539e53e472d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

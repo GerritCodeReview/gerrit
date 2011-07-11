@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABEX//9vQ\u003d",
+        "filename": "Documentation/cmd-modify-reviewers.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-11T09:27:39Z",
+      "side": 1,
+      "message": "Maybe it should be documented that adding a group actually adds all the members of this group and not the group itself. This is also important in order to understand how adding group X and removing group Y works in case when intersection between X and Y is non-empty.",
+      "revId": "e55e8ee32481b5d882c089a9cfe5854fc7e1cf45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//+Dg\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ModifyReviewersCommand.java",
         "patchSetId": 2

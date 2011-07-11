@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//9ws\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-11T02:44:54Z",
+      "side": 1,
+      "message": "This can NPE when the parentState is null be because projectState is All-Projects.\n\nFind a way to move this into the while loop, e.g.:\n\n while (parentState !\u003d null) {\n    if (!projectsSeen.add(parentState.getProject().getNameKey())) {\n      break;\n    }",
+      "revId": "2fb68a1542621119cefd812fe24fb676ba221e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9wo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-11T02:44:54Z",
+      "side": 1,
+      "message": "This inverts the order of the elements in terms. Maybe we should pass them through in-order to the filter, so it doesn\u0027t keep inverting the order at each level of filtering?\n\nWhen performance isn\u0027t absolutely necessary, I prefer code to be really deterministic so its easy to reproduce problems. :-)",
+      "revId": "2fb68a1542621119cefd812fe24fb676ba221e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9wg\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-11T02:44:54Z",
+      "side": 1,
+      "message": "Add a cut to cut away the remaining end of list choice point during the recursive call, so we don\u0027t collect a bunch of useless choice points on the choice point stack.",
+      "revId": "2fb68a1542621119cefd812fe24fb676ba221e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9wc\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-11T02:44:54Z",
+      "side": 1,
+      "message": "Delete this blank line.",
+      "revId": "2fb68a1542621119cefd812fe24fb676ba221e7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

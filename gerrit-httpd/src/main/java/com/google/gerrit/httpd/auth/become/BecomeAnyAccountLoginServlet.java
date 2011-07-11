@@ -28,6 +28,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,6 +46,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,42 +60,27 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   private final Provider<WebSession> webSession;
   private final Provider<String> urlProvider;
   private final AccountManager accountManager;
-  private final byte[] raw;
 
   @Inject
   BecomeAnyAccountLoginServlet(final Provider<WebSession> ws,
       final SchemaFactory<ReviewDb> sf,
       final @CanonicalWebUrl @Nullable Provider<String> up,
-      final AccountManager am, final ServletContext servletContext)
-      throws IOException {
+      final AccountManager am, final ServletContext servletContext) {
     webSession = ws;
     schema = sf;
     urlProvider = up;
     accountManager = am;
-
-    final String pageName = "BecomeAnyAccount.html";
-    final Document doc = HtmlDomUtil.parseFile(getClass(), pageName);
-    if (doc == null) {
-      throw new FileNotFoundException("No " + pageName + " in webapp");
-    }
-    if (!IS_DEV) {
-      final Element devmode = HtmlDomUtil.find(doc, "gerrit_gwtdevmode");
-      if (devmode != null) {
-        devmode.getParentNode().removeChild(devmode);
-      }
-    }
-    raw = HtmlDomUtil.toUTF8(doc);
   }
 
   @Override
   protected void doGet(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+      final HttpServletResponse rsp) throws IOException, ServletException {
     doPost(req, rsp);
   }
 
   @Override
   protected void doPost(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+      final HttpServletResponse rsp) throws IOException, ServletException {
     rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
     rsp.setHeader("Pragma", "no-cache");
     rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
@@ -112,6 +99,12 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       res = byAccountId(rsp, req.getParameter("account_id"));
 
     } else {
+      byte[] raw;
+      try {
+        raw = prepareHtmlOutput();
+      } catch (OrmException e) {
+        throw new ServletException(e);
+      }
       rsp.setContentType("text/html");
       rsp.setCharacterEncoding(HtmlDomUtil.ENC);
       rsp.setContentLength(raw.length);
@@ -154,6 +147,48 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       out.write("</html>");
       out.close();
     }
+  }
+
+  private byte[] prepareHtmlOutput() throws IOException, OrmException {
+    final String pageName = "BecomeAnyAccount.html";
+    final Document doc = HtmlDomUtil.parseFile(getClass(), pageName);
+    if (doc == null) {
+      throw new FileNotFoundException("No " + pageName + " in webapp");
+    }
+    if (!IS_DEV) {
+      final Element devmode = HtmlDomUtil.find(doc, "gerrit_gwtdevmode");
+      if (devmode != null) {
+        devmode.getParentNode().removeChild(devmode);
+      }
+    }
+
+    Element userlistElement = HtmlDomUtil.find(doc, "userlist");
+    ReviewDb db = schema.open();
+    try {
+      ResultSet<Account> accounts = db.accounts().firstNById(5);
+      for (Account a : accounts) {
+        String displayName;
+        if (a.getUserName() != null) {
+          displayName = a.getUserName();
+        } else if (a.getFullName() != null) {
+          displayName = a.getFullName();
+        } else if (a.getPreferredEmail() != null) {
+          displayName = a.getPreferredEmail();
+        } else {
+          displayName = a.getId().toString();
+        }
+
+        Element linkElement = doc.createElement("a");
+        linkElement.setAttribute("href", "?account_id=" + a.getId().toString());
+        linkElement.setTextContent(displayName);
+        userlistElement.appendChild(linkElement);
+        userlistElement.appendChild(doc.createElement("br"));
+      }
+    } finally {
+      db.close();
+    }
+
+    return HtmlDomUtil.toUTF8(doc);
   }
 
   private AuthResult auth(final Account account) {

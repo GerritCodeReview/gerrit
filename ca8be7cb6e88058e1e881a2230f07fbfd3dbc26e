@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//9xM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-11T02:20:08Z",
+      "side": 1,
+      "message": "It will slow things down to display all of this data, but maybe we don\u0027t really have a choice. The projects page is slow to initially display because it has to populate everything into the project cache, which is forcing a parse of the project.config, and that isn\u0027t very fast. With the plan to also move groups to Git I think we will also have some performance trouble here.\n\nBut... its (mostly) fixable with caching. So I guess we can do this.\n\nI do request that you explain the rationale a bit more in the commit message, the commits above from Martin and Nasser help to justify the change, while Raviteja\u0027s original commit message just says what is being done. The why is also relevant.",
+      "parentUuid": "AAABEX//+fc\u003d",
+      "revId": "ca8be7cb6e88058e1e881a2230f07fbfd3dbc26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//+fY\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

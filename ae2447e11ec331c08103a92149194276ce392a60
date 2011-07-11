@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//9vE\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006531
+      },
+      "writtenOn": "2011-07-11T10:33:24Z",
+      "side": 1,
+      "message": "I didn\u0027t manage to run the official testsuite on my system yet (this will be one of my next steps).\nThe new patch sets fixes these issues (which I replicated in my ad-hoc testsuite) and breaks none of my other tests.",
+      "parentUuid": "AAABEX//9xE\u003d",
+      "revId": "ae2447e11ec331c08103a92149194276ce392a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//9xU\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 6
@@ -66,6 +84,24 @@
       "writtenOn": "2011-07-11T02:16:43Z",
       "side": 1,
       "message": "FWIW, this is why I used perl. :-)",
+      "revId": "ae2447e11ec331c08103a92149194276ce392a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9vA\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006531
+      },
+      "writtenOn": "2011-07-11T10:33:24Z",
+      "side": 1,
+      "message": "This work around is easier (and more reliable) than getting perl to run properly on mingw :-(",
+      "parentUuid": "AAABEX//9xU\u003d",
       "revId": "ae2447e11ec331c08103a92149194276ce392a60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

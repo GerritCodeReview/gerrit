@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//9xE\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-11T02:20:48Z",
+      "side": 1,
+      "message": "I have two test failures on Mac OS X:\n\n  Failed tests: \n    testKernelStyleFooter(com.google.gerrit.server.tools.hooks.CommitMsgHookTest)\n    testCommitDashV(com.google.gerrit.server.tools.hooks.CommitMsgHookTest)",
+      "parentUuid": "AAABEX//9xY\u003d",
+      "revId": "ae2447e11ec331c08103a92149194276ce392a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//9xU\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 6

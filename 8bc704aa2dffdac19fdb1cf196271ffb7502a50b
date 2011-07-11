@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//9tM\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-11T16:44:13Z",
+      "side": 1,
+      "message": "Style Nit: spacing seems inconsistent here.\n\nOr you could make the loop:  for (; blankLines \u003e 0 ; blankLines--)  eliminating the need for this line entirely.",
+      "revId": "8bc704aa2dffdac19fdb1cf196271ffb7502a50b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -43,9 +43,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ModifyReviewersCommand extends BaseCommand {
+public class SetReviewersCommand extends BaseCommand {
   private static final Logger log =
-      LoggerFactory.getLogger(ModifyReviewersCommand.class);
+      LoggerFactory.getLogger(SetReviewersCommand.class);
 
   @Option(name = "--project", aliases = "-p", usage = "project containing the change")
   private ProjectControl projectControl;

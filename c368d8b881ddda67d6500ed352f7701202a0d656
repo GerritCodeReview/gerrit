@@ -16,6 +16,24 @@
       "revId": "c368d8b881ddda67d6500ed352f7701202a0d656",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9vw\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/UsernameField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-07-11T06:56:13Z",
+      "side": 1,
+      "message": "In general I\u0027m also not really happy with the current solution to filter out bad keys. What you propose makes sense to me. However the current solution has the advantage that the save will always succeed (since no invalid input could be done). If we only check the input for validity when the user clicks on save, we need some way to fail and tell the user what is wrong.",
+      "parentUuid": "AAABEX//+B8\u003d",
+      "revId": "c368d8b881ddda67d6500ed352f7701202a0d656",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

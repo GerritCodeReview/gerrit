@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//9og\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-11T19:49:21Z",
+      "side": 1,
+      "message": "Damn, GitRepositoryManager.REF_CONFIG has \u0027refs/meta/config\u0027 defined, but we are in the client here.  Seems like we could use this constant in the \u0027common\u0027 package.",
+      "revId": "dd9130f4152318de6d554533437fc802cf3764af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

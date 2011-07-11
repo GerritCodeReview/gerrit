@@ -16,6 +16,41 @@
       "revId": "ae2447e11ec331c08103a92149194276ce392a60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9xY\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-11T02:16:43Z",
+      "side": 1,
+      "message": "This line has always been there... so its not the change author\u0027s fault and fixing this shouldn\u0027t be a prerequisite to removing the perl dependency.\n\nOur unit tests for commit-msg are actually pretty good, if `mvn clean package` passes with this then its probably OK.",
+      "parentUuid": "AAABEX//+Z4\u003d",
+      "revId": "ae2447e11ec331c08103a92149194276ce392a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9xU\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-11T02:16:43Z",
+      "side": 1,
+      "message": "FWIW, this is why I used perl. :-)",
+      "revId": "ae2447e11ec331c08103a92149194276ce392a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

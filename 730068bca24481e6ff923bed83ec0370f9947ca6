@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//9tc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-11T16:33:49Z",
+      "side": 1,
+      "message": "I don\u0027t think that you should name this after how it displays, but rather after what it is supposed to display.  So, for example, it should be named something like: \u0027specialBranch\u0027.",
+      "revId": "730068bca24481e6ff923bed83ec0370f9947ca6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

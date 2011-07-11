@@ -114,7 +114,9 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
 
   private void initName() {
     final VerticalPanel groupNamePanel = new VerticalPanel();
+    groupNamePanel.setStyleName(Gerrit.RESOURCES.css().groupNamePanel());
     groupNameTxt = new NpTextBox();
+    groupNameTxt.setStyleName(Gerrit.RESOURCES.css().groupNameTextBox());
     groupNameTxt.setVisibleLength(60);
     groupNamePanel.add(groupNameTxt);
 
@@ -141,12 +143,14 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
 
   private void initOwner() {
     final VerticalPanel ownerPanel = new VerticalPanel();
+    ownerPanel.setStyleName(Gerrit.RESOURCES.css().groupOwnerPanel());
     ownerPanel.add(new SmallHeading(Util.C.headingOwner()));
 
     ownerTxtBox = new NpTextBox();
     ownerTxtBox.setVisibleLength(60);
     ownerTxt = new SuggestBox(new RPCSuggestOracle(
         new AccountGroupSuggestOracle()), ownerTxtBox);
+    ownerTxt.setStyleName(Gerrit.RESOURCES.css().groupOwnerTextBox());
     ownerPanel.add(ownerTxt);
 
     saveOwner = new Button(Util.C.buttonChangeGroupOwner());
@@ -173,6 +177,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
 
   private void initDescription() {
     final VerticalPanel vp = new VerticalPanel();
+    vp.setStyleName(Gerrit.RESOURCES.css().groupDescriptionPanel());
     vp.add(new SmallHeading(Util.C.headingDescription()));
 
     descTxt = new NpTextArea();
@@ -202,6 +207,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
 
   private void initGroupOptions() {
     groupOptionsPanel = new VerticalPanel();
+    groupOptionsPanel.setStyleName(Gerrit.RESOURCES.css().groupOptionsPanel());
     groupOptionsPanel.add(new SmallHeading(Util.C.headingGroupOptions()));
 
     visibleToAllCheckBox = new CheckBox(Util.C.isVisibleToAll());
@@ -210,6 +216,8 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     emailOnlyAuthors = new CheckBox(Util.C.emailOnlyAuthors());
 
     final VerticalPanel vp = new VerticalPanel();
+    vp.setStyleName(Gerrit.RESOURCES.css()
+        .groupOptionsNotificationsDescriptionPanel());
     vp.add(new Label(Util.C.descriptionNotifications()));
     vp.add(emailOnlyAuthors);
     groupOptionsPanel.add(vp);
@@ -243,6 +251,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     typeSystem = new Label(Util.C.groupType_SYSTEM());
 
     typeSelect = new ListBox();
+    typeSelect.setStyleName(Gerrit.RESOURCES.css().groupTypeSelectListBox());
     typeSelect.addItem(Util.C.groupType_INTERNAL(), AccountGroup.Type.INTERNAL.name());
     typeSelect.addItem(Util.C.groupType_LDAP(), AccountGroup.Type.LDAP.name());
     typeSelect.addChangeHandler(new ChangeHandler() {
@@ -272,6 +281,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     }
 
     final VerticalPanel fp = new VerticalPanel();
+    fp.setStyleName(Gerrit.RESOURCES.css().groupTypePanel());
     fp.add(new SmallHeading(Util.C.headingGroupType()));
     fp.add(typeSystem);
     fp.add(typeSelect);
@@ -283,6 +293,8 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     externalName = new Label();
 
     externalNameFilter = new NpTextBox();
+    externalNameFilter.setStyleName(Gerrit.RESOURCES.css()
+        .groupExternalNameFilterTextBox());
     externalNameFilter.setVisibleLength(30);
     externalNameFilter.addKeyPressHandler(new KeyPressHandler() {
       @Override

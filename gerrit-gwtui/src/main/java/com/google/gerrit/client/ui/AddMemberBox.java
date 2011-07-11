@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.admin.Util;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -49,6 +50,7 @@ public class AddMemberBox extends Composite {
     nameTxtBox = new HintTextBox();
     nameTxt = new SuggestBox(new RPCSuggestOracle(
         suggestOracle), nameTxtBox);
+    nameTxt.setStyleName(Gerrit.RESOURCES.css().addMemberTextBox());
 
     nameTxtBox.setVisibleLength(50);
     nameTxtBox.setHintText(hint);

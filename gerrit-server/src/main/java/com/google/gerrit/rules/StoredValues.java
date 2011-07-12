@@ -23,6 +23,8 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.project.ChangeControl;
 
+import org.eclipse.jgit.lib.Repository;
+
 public final class StoredValues {
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
   public static final StoredValue<Change> CHANGE = create(Change.class);
@@ -30,6 +32,7 @@ public final class StoredValues {
   public static final StoredValue<ChangeControl> CHANGE_CONTROL = create(ChangeControl.class);
   public static final StoredValue<PatchSetInfo> PATCH_SET_INFO = create(PatchSetInfo.class);
   public static final StoredValue<PatchList> PATCH_LIST = create(PatchList.class);
+  public static final StoredValue<Repository> REPOSITORY = create(Repository.class);
 
   private StoredValues() {
   }

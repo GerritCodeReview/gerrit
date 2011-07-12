@@ -147,12 +147,20 @@ limitations under the License.
       </g:CheckBox>
     </td>
 
-    <td valign='bottom' rowspan='2'>
+    <td rowspan='2'>
+      <br/>
       <g:Button
           ui:field='update'
           text='Update'
           styleName='{style.updateButton}'
           tabIndex='13'>
+        <ui:attribute name='text'/>
+      </g:Button>
+      <g:Button
+          ui:field='save'
+          text='Save'
+          styleName='{style.updateButton}'
+          tabIndex='14'>
         <ui:attribute name='text'/>
       </g:Button>
     </td>
@@ -161,7 +169,7 @@ limitations under the License.
       <g:CheckBox
           ui:field='reviewed'
           text='Reviewed'
-          tabIndex='14'>
+          tabIndex='15'>
         <ui:attribute name='text'/>
       </g:CheckBox>
     </td>

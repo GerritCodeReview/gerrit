@@ -96,6 +96,9 @@ public class PatchScriptSettingsPanel extends Composite implements
   @UiField
   Button update;
 
+  @UiField
+  Button save;
+
   /**
    * Counts +1 for every setEnabled(true) and -1 for every setEnabled(false)
    *
@@ -117,13 +120,14 @@ public class PatchScriptSettingsPanel extends Composite implements
     initContext(context);
     if (!Gerrit.isSignedIn()) {
       reviewed.setVisible(false);
+      save.setVisible(false);
     }
 
     KeyPressHandler onEnter = new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
         if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          update();
+          save();
         }
       }
     };
@@ -162,7 +166,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     } else {
       syntaxHighlighting.setValue(false);
     }
-    toggleEnabledStatus(update.isEnabled());
+    toggleEnabledStatus(save.isEnabled());
   }
 
   public void setEnableIntralineDifference(final boolean on) {
@@ -172,7 +176,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     } else {
       intralineDifference.setValue(false);
     }
-    toggleEnabledStatus(update.isEnabled());
+    toggleEnabledStatus(save.isEnabled());
   }
 
   private void toggleEnabledStatus(final boolean on) {
@@ -223,6 +227,11 @@ public class PatchScriptSettingsPanel extends Composite implements
     update();
   }
 
+  @UiHandler("save")
+  void onSave(ClickEvent event) {
+    save();
+  }
+
   private void update() {
     if (colWidth.getIntValue() <= 0) {
       new ErrorDialog(PatchUtil.C.illegalNumberOfColumns()).center();
@@ -244,7 +253,10 @@ public class PatchScriptSettingsPanel extends Composite implements
     dp.setRetainHeader(retainHeader.getValue());
 
     listenablePrefs.set(dp);
+  }
 
+  private void save() {
+    update();
     if (Gerrit.isSignedIn()) {
       persistDiffPreferences();
     }
@@ -252,11 +264,9 @@ public class PatchScriptSettingsPanel extends Composite implements
 
   private void persistDiffPreferences() {
     setEnabled(false);
-    Util.ACCOUNT_SVC.changeDiffPreferences(getValue(),
-        new GerritCallback<VoidResult>() {
+    listenablePrefs.save(new GerritCallback<VoidResult>() {
       @Override
       public void onSuccess(VoidResult result) {
-        Gerrit.setAccountDiffPreference(getValue());
         setEnabled(true);
       }
 

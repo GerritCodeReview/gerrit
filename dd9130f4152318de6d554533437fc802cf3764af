@@ -16,6 +16,23 @@
       "revId": "dd9130f4152318de6d554533437fc802cf3764af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9ck\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-12T03:10:02Z",
+      "side": 1,
+      "message": "I am finding it hard to even notice the italics. :(\nPerhaps we could have a hint more styling, bg color, or borders? Also, I think whatever we pick that it should probably apply to the entire row, that should make it more obvious.  If we could somehow highlight the border between the special and non special branches, it might help.",
+      "revId": "dd9130f4152318de6d554533437fc802cf3764af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

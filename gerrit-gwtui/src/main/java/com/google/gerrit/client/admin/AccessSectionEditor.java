@@ -17,6 +17,7 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gwt.core.client.GWT;
@@ -194,7 +195,14 @@ public class AccessSectionEditor extends Composite implements
       name.setVisible(false);
       name.setIgnoreEditorValue(true);
 
-      String name = Util.C.sectionNames().get(value.getName());
+      String name;
+      if (projectAccess.getInheritsFrom() != null
+          && value.getName().equals(AccessSection.GLOBAL_CAPABILITIES)) {
+        name = Util.C.localCapability();
+      } else {
+        name = Util.C.sectionNames().get(value.getName());
+      }
+
       if (name != null) {
         sectionType.setInnerText(name);
         sectionName.getStyle().setDisplay(Display.NONE);
@@ -221,8 +229,14 @@ public class AccessSectionEditor extends Composite implements
 
     if (AccessSection.GLOBAL_CAPABILITIES.equals(value.getName())) {
       for (String varName : Util.C.capabilityNames().keySet()) {
-        if (value.getPermission(varName) == null) {
-          perms.add(varName);
+        if (projectAccess.getInheritsFrom() != null) {
+          if (varName.equals(GlobalCapability.CREATE_PROJECT)) {
+            perms.add(varName);
+          }
+        } else {
+          if (value.getPermission(varName) == null) {
+            perms.add(varName);
+          }
         }
       }
     } else if (AccessSection.isAccessSection(value.getName())) {

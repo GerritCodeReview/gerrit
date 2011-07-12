@@ -493,4 +493,10 @@ public class ProjectControl {
     }
     return false;
   }
+
+  public boolean canCreateChildProject() {
+    return user.getCapabilities().canAdministrateServer()
+        || user.getCapabilityByProject(state.getProject().getNameKey())
+            .canCreateProject();
+  }
 }

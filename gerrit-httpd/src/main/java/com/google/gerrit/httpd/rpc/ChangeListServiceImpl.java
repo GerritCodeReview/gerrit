@@ -298,7 +298,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   }
 
   private int safePageSize(final int pageSize) throws InvalidQueryException {
-    int maxLimit = currentUser.get().getCapabilities()
+    int maxLimit = currentUser.get().getGlobalCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)
       .getMax();
     if (maxLimit <= 0) {

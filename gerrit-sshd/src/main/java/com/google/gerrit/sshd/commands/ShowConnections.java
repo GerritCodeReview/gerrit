@@ -57,7 +57,7 @@ final class ShowConnections extends BaseCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
-        if (!currentUser.getCapabilities().canViewConnections()) {
+        if (!currentUser.getGlobalCapabilities().canViewConnections()) {
           String msg = String.format(
             "fatal: %s does not have \"View Connections\" capability.",
             currentUser.getUserName());

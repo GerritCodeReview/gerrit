@@ -92,7 +92,7 @@ public class QueryProcessor {
     this.queryRewriter = queryRewriter;
     this.db = db;
     this.repoManager = repoManager;
-    this.maxLimit = currentUser.getCapabilities()
+    this.maxLimit = currentUser.getGlobalCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)
       .getMax();
   }

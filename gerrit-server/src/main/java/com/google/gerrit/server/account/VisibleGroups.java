@@ -90,7 +90,7 @@ public class VisibleGroups {
   public GroupList get(final IdentifiedUser user) throws OrmException,
       NoSuchGroupException {
     if (identifiedUser.get().getAccountId().equals(user.getAccountId())
-        || identifiedUser.get().getCapabilities().canAdministrateServer()) {
+        || identifiedUser.get().getGlobalCapabilities().canAdministrateServer()) {
       final Set<AccountGroup.UUID> effective =
           user.getEffectiveGroups().getKnownGroups();
       final Set<AccountGroup> groups =
@@ -111,7 +111,7 @@ public class VisibleGroups {
   private List<AccountGroup> filterGroups(final Iterable<AccountGroup> groups) {
     final List<AccountGroup> filteredGroups = new LinkedList<AccountGroup>();
     final boolean isAdmin =
-        identifiedUser.get().getCapabilities().canAdministrateServer();
+        identifiedUser.get().getGlobalCapabilities().canAdministrateServer();
     for (final AccountGroup group : groups) {
       if (!isAdmin) {
         final GroupControl c = groupControlFactory.controlFor(group);
@@ -135,6 +135,6 @@ public class VisibleGroups {
       groupDetailList.add(groupDetailFactory.create(group.getId()).call());
     }
     return new GroupList(groupDetailList, identifiedUser.get()
-        .getCapabilities().canCreateGroup());
+        .getGlobalCapabilities().canCreateGroup());
   }
 }

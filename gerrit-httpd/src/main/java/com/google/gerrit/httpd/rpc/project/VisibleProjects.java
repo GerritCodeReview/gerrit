@@ -49,7 +49,7 @@ class VisibleProjects extends Handler<ProjectList> {
   public ProjectList call() {
     ProjectList result = new ProjectList();
     result.setProjects(getProjects());
-    result.setCanCreateProject(user.getCapabilities().canCreateProject());
+    result.setCanCreateProject(user.getGlobalCapabilities().canCreateProject());
     return result;
   }
 

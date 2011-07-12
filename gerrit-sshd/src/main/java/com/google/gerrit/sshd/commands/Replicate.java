@@ -58,7 +58,7 @@ final class Replicate extends BaseCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
-        if (!currentUser.getCapabilities().canStartReplication()) {
+        if (!currentUser.getGlobalCapabilities().canStartReplication()) {
           String msg = String.format(
             "fatal: %s does not have \"Start Replication\" capability.",
             currentUser.getUserName());

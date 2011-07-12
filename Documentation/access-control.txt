@@ -135,6 +135,36 @@ members of `Foo` have submit rights on a project, and the members of
 `Foo-admin` typically do not need to have such rights.
 
 
+Project Capability
+----------------------------
+
+Capabilities are permissions granted to projects to specific group
+of users. They are permissions of actions applied to a global
+scope of the project (they cannot be specific to ref patterns).
+
+In case of "Create Project" capability, it grants to a specific
+group of users the permission to create child projects.
+
+This permission can be set to a specific project. Most of the
+capabilities can only be set to "All-Projects" project since they
+involve a global scope of acting on any project.
+
+"Create Project" capability can be inherited. This means if a project
+called 'A' has this capability granted to a group 'X' of users, and
+'A' has a child project called 'B', then 'X' group could create
+projects having 'B' as parent. If "Create Project" capability is
+granted to "All-Projects" to a group "Y", this means users of "Y"
+group could create projects and set whatever parent they intend to.
+
+Setting this permission can be done through UI and project.config
+file. In the UI it is in the Access tab of the project and in the
+config file, it can be set adding this permission to the section
+[capabilities] :
+
+[capabilities]
+    createProject = group FOO_LEADERS
+
+
 Project Access Control Lists
 ----------------------------
 

@@ -142,7 +142,8 @@ public class ProjectQoSFilter implements Filter {
   }
 
   private WorkQueue.Executor getExecutor() {
-    return queue.getQueue(userProvider.get().getCapabilities().getQueueType());
+    return queue.getQueue(userProvider.get().getGlobalCapabilities()
+        .getQueueType());
   }
 
   @Override

@@ -284,7 +284,7 @@ public class AccountManager {
       //
       Permission admin = projectCache.getAllProjects()
           .getConfig()
-          .getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
+          .getAccessSection(AccessSection.CAPABILITIES)
           .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
 
       final AccountGroup.UUID uuid = admin.getRules().get(0).getGroup().getUUID();

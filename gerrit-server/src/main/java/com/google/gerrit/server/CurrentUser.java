@@ -16,6 +16,10 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.servlet.RequestScoped;
@@ -73,13 +77,19 @@ public abstract class CurrentUser {
     return null;
   }
 
-  /** Capabilities available to this user account. */
-  public CapabilityControl getCapabilities() {
+  /** Capabilities available to this user account considering "All-Projects". */
+  public CapabilityControl getGlobalCapabilities() {
     CapabilityControl ctl = capabilities;
     if (ctl == null) {
-      ctl = capabilityControlFactory.create(this);
+      ctl = capabilityControlFactory.create(this, null);
       capabilities = ctl;
     }
     return ctl;
+  }
+
+  /** Capabilities available to this user account. */
+  public CapabilityControl getProjectCapabilities(
+      final Project.NameKey projectName) {
+    return capabilityControlFactory.create(this, projectName);
   }
 }

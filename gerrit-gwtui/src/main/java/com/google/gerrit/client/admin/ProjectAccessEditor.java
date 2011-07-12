@@ -93,9 +93,9 @@ public class ProjectAccessEditor extends Composite implements
     // project, create an empty one at the beginning of the list making it
     // possible to add permissions to it.
     if (editing
-        && value.isOwnerOf(AccessSection.GLOBAL_CAPABILITIES)
-        && value.getLocal(AccessSection.GLOBAL_CAPABILITIES) == null) {
-      value.getLocal().add(0, new AccessSection(AccessSection.GLOBAL_CAPABILITIES));
+        && value.isOwnerOf(AccessSection.CAPABILITIES)
+        && value.getLocal(AccessSection.CAPABILITIES) == null) {
+      value.getLocal().add(0, new AccessSection(AccessSection.CAPABILITIES));
     }
 
     this.value = value;

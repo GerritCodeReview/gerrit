@@ -250,8 +250,8 @@ public class ProjectConfig extends VersionedMetaData {
     for (String varName : rc.getNames(CAPABILITY)) {
       if (GlobalCapability.isCapability(varName)) {
         if (capability == null) {
-          capability = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
-          accessSections.put(AccessSection.GLOBAL_CAPABILITIES, capability);
+          capability = new AccessSection(AccessSection.CAPABILITIES);
+          accessSections.put(AccessSection.CAPABILITIES, capability);
         }
         Permission perm = capability.getPermission(varName, true);
         loadPermissionRules(rc, CAPABILITY, null, varName, groupsByName, perm,
@@ -349,7 +349,7 @@ public class ProjectConfig extends VersionedMetaData {
     set(rc, PROJECT, null, KEY_STATE, p.getState(), null);
 
     Set<AccountGroup.UUID> keepGroups = new HashSet<AccountGroup.UUID>();
-    AccessSection capability = accessSections.get(AccessSection.GLOBAL_CAPABILITIES);
+    AccessSection capability = accessSections.get(AccessSection.CAPABILITIES);
     if (capability != null) {
       Set<String> have = new HashSet<String>();
       for (Permission permission : sort(capability.getPermissions())) {
@@ -378,7 +378,7 @@ public class ProjectConfig extends VersionedMetaData {
 
     for (AccessSection as : sort(accessSections.values())) {
       String refName = as.getName();
-      if (AccessSection.GLOBAL_CAPABILITIES.equals(refName)) {
+      if (AccessSection.CAPABILITIES.equals(refName)) {
         continue;
       }
 

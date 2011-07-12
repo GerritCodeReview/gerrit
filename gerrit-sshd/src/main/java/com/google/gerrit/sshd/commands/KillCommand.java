@@ -52,7 +52,7 @@ final class KillCommand extends BaseCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
-        if (!currentUser.getCapabilities().canKillTask()) {
+        if (!currentUser.getGlobalCapabilities().canKillTask()) {
           String msg = String.format(
             "fatal: %s does not have \"Kill Task\" capability.",
             currentUser.getUserName());

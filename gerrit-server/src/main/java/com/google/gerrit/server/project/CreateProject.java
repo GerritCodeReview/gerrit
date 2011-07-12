@@ -186,7 +186,10 @@ public class CreateProject {
                   - Constants.DOT_GIT_EXT.length()));
     }
 
-    if (!currentUser.getCapabilities().canCreateProject()) {
+    if ((createProjectArgs.newParent != null && !createProjectArgs.newParent
+        .canCreateChildProject())
+        || (createProjectArgs.newParent == null && !currentUser
+            .getGlobalCapabilities().canCreateProject())) {
       throw new ProjectCreationFailedException(String.format(
           "%s does not have \"Create Project\" capability.",
           currentUser.getUserName()));

@@ -81,7 +81,7 @@ final class CreateAccountCommand extends BaseCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
-        if (!currentUser.getCapabilities().canCreateAccount()) {
+        if (!currentUser.getGlobalCapabilities().canCreateAccount()) {
           String msg = String.format(
             "fatal: %s does not have \"Create Account\" capability.",
             currentUser.getUserName());

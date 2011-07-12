@@ -26,7 +26,7 @@ import java.util.Set;
 public class AccessSection extends RefConfigSection implements
     Comparable<AccessSection> {
   /** Special name given to the global capabilities; not a valid reference. */
-  public static final String GLOBAL_CAPABILITIES = "GLOBAL_CAPABILITIES";
+  public static final String CAPABILITIES = "CAPABILITIES";
 
   protected List<Permission> permissions;
 

@@ -86,7 +86,7 @@ public class Schema_57 extends SchemaVersion {
         md.getCommitBuilder().setCommitter(serverUser);
 
         ProjectConfig config = ProjectConfig.read(md);
-        AccessSection cap = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
+        AccessSection cap = config.getAccessSection(AccessSection.CAPABILITIES, true);
 
         // Move the Administrators group reference to All-Projects.
         cap.getPermission(GlobalCapability.ADMINISTRATE_SERVER, true)

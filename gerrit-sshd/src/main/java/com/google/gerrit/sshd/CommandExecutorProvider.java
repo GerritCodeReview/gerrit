@@ -34,6 +34,6 @@ class CommandExecutorProvider implements Provider<WorkQueue.Executor> {
 
   @Override
   public WorkQueue.Executor get() {
-    return queues.getQueue(user.getCapabilities().getQueueType());
+    return queues.getQueue(user.getGlobalCapabilities().getQueueType());
   }
 }

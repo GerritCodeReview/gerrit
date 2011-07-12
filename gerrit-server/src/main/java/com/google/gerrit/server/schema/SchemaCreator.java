@@ -228,7 +228,7 @@ public class SchemaCreator {
       p.setDescription("Rights inherited by all other projects");
       p.setUseContributorAgreements(false);
 
-      AccessSection cap = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
+      AccessSection cap = config.getAccessSection(AccessSection.CAPABILITIES, true);
       AccessSection all = config.getAccessSection(AccessSection.ALL, true);
       AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
       AccessSection meta = config.getAccessSection(GitRepositoryManager.REF_CONFIG, true);

@@ -71,9 +71,6 @@ public class ProjectState {
   /** Local access sections, wrapped in SectionMatchers for faster evaluation. */
   private volatile List<SectionMatcher> localAccessSections;
 
-  /** If this is all projects, the capabilities used by the server. */
-  private final CapabilityCollection capabilities;
-
   @Inject
   protected ProjectState(
       final ProjectCache projectCache,
@@ -91,9 +88,6 @@ public class ProjectState {
     this.gitMgr = gitMgr;
     this.rulesCache = rulesCache;
     this.config = config;
-    this.capabilities = isAllProjects
-      ? new CapabilityCollection(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
-      : null;
 
     HashSet<AccountGroup.UUID> groups = new HashSet<AccountGroup.UUID>();
     AccessSection all = config.getAccessSection(AccessSection.ALL);
@@ -109,6 +103,33 @@ public class ProjectState {
       }
     }
     localOwners = Collections.unmodifiableSet(groups);
+  }
+
+  private CapabilityCollection loadAllCapabilities() {
+    final List<AccessSection> allCapabilities = new ArrayList<AccessSection>();
+    ProjectState s = this;
+    final Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
+    do {
+      final AccessSection capabilitiesSection =
+          s.getConfig().getAccessSection(AccessSection.GLOBAL_CAPABILITIES);
+      if (capabilitiesSection != null) {
+        allCapabilities.add(capabilitiesSection);
+      }
+
+      if (s.isAllProjects) {
+        break;
+      }
+
+      final Project.NameKey parent = s.getProject().getParent();
+      seen.add(getProject().getNameKey());
+
+      if (!seen.add(parent)) {
+        break;
+      }
+      s = projectCache.get(parent);
+    } while (s != null);
+
+    return new CapabilityCollection(allCapabilities);
   }
 
   boolean needsRefresh(long generation) {
@@ -140,12 +161,10 @@ public class ProjectState {
   }
 
   /**
-   * @return cached computation of all global capabilities. This should only be
-   *         invoked on the state from {@link ProjectCache#getAllProjects()}.
-   *         Null on any other project.
+   * @return cached computation of all local and inherited capabilities.
    */
   public CapabilityCollection getCapabilityCollection() {
-    return capabilities;
+    return loadAllCapabilities();
   }
 
   /** @return Construct a new PrologEnvironment for the calling thread. */

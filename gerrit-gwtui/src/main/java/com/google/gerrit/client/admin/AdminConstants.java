@@ -105,6 +105,7 @@ public interface AdminConstants extends Constants {
   String errorsMustBeFixed();
 
   Map<String, String> capabilityNames();
+  String localCapability();
 
   String sectionTypeReference();
   String sectionTypeSection();

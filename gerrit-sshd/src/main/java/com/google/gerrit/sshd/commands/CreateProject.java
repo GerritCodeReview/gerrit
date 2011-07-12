@@ -147,14 +147,20 @@ final class CreateProject extends BaseCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
-        if (!currentUser.getCapabilities().canCreateProject()) {
+        parseCommandLine();
+
+        Project.NameKey parentProject = null;
+        if (newParent != null) {
+          parentProject = newParent.getProject().getNameKey();
+        }
+
+        if (!currentUser.getCapabilityByProject(parentProject).canCreateProject()) {
           String msg = String.format(
             "fatal: %s does not have \"Create Project\" capability.",
             currentUser.getUserName());
           throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
         }
 
-        parseCommandLine();
         validateParameters();
 
         try {

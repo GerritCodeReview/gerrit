@@ -37,26 +37,31 @@ public class CapabilityCollection {
   public final List<PermissionRule> priority;
   public final List<PermissionRule> queryLimit;
 
-  public CapabilityCollection(AccessSection section) {
-    if (section == null) {
-      section = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
+  public CapabilityCollection(List<AccessSection> sections) {
+    if (sections.isEmpty()) {
+      sections.add(new AccessSection(AccessSection.GLOBAL_CAPABILITIES));
     }
 
     Map<String, List<PermissionRule>> tmp =
         new HashMap<String, List<PermissionRule>>();
-    for (Permission permission : section.getPermissions()) {
-      for (PermissionRule rule : permission.getRules()) {
-        if (rule.getAction() != PermissionRule.Action.DENY) {
-          List<PermissionRule> r = tmp.get(permission.getName());
-          if (r == null) {
-            r = new ArrayList<PermissionRule>(2);
-            tmp.put(permission.getName(), r);
+    for (AccessSection section : sections) {
+      for (Permission permission : section.getPermissions()) {
+        for (PermissionRule rule : permission.getRules()) {
+          if (rule.getAction() != PermissionRule.Action.DENY) {
+            List<PermissionRule> r = tmp.get(permission.getName());
+            if (r == null) {
+              r = new ArrayList<PermissionRule>(2);
+              tmp.put(permission.getName(), r);
+            }
+            r.add(rule);
           }
-          r.add(rule);
         }
       }
     }
-    configureDefaults(tmp, section);
+
+    for (AccessSection section : sections) {
+      configureDefaults(tmp, section);
+    }
 
     Map<String, List<PermissionRule>> res =
         new HashMap<String, List<PermissionRule>>();

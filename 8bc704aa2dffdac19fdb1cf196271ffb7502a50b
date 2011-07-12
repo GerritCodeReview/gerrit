@@ -16,6 +16,24 @@
       "revId": "8bc704aa2dffdac19fdb1cf196271ffb7502a50b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9Xc\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-12T18:40:36Z",
+      "side": 1,
+      "message": "I\u0027d prefer to keep \"blankLines \u003d 0\" explicit.",
+      "parentUuid": "AAABEX//9tM\u003d",
+      "revId": "8bc704aa2dffdac19fdb1cf196271ffb7502a50b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

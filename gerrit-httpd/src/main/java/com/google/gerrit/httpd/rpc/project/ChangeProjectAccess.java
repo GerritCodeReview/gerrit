@@ -109,7 +109,7 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
       for (AccessSection section : mergeSections(sectionList)) {
         String name = section.getName();
 
-        if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
+        if (AccessSection.CAPABILITIES.equals(name)) {
           if (!projectControl.isOwner()) {
             continue;
           }
@@ -143,7 +143,7 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
       }
 
       for (String name : toDelete) {
-        if (AccessSection.GLOBAL_CAPABILITIES.equals(name)) {
+        if (AccessSection.CAPABILITIES.equals(name)) {
           if (projectControl.isOwner()) {
             config.remove(config.getAccessSection(name));
           }

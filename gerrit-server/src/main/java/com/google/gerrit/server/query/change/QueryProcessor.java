@@ -86,7 +86,7 @@ public class QueryProcessor {
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
     this.db = db;
-    this.maxLimit = currentUser.getCapabilities()
+    this.maxLimit = currentUser.getGlobalCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)
       .getMax();
   }

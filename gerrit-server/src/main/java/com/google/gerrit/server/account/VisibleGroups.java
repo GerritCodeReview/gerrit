@@ -100,7 +100,7 @@ public class VisibleGroups {
   private List<AccountGroup> filterGroups(final Iterable<AccountGroup> groups) {
     final List<AccountGroup> filteredGroups = new LinkedList<AccountGroup>();
     final boolean isAdmin =
-        identifiedUser.get().getCapabilities().canAdministrateServer();
+        identifiedUser.get().getGlobalCapabilities().canAdministrateServer();
     for (final AccountGroup group : groups) {
       if (!isAdmin) {
         final GroupControl c = groupControlFactory.controlFor(group);
@@ -124,6 +124,6 @@ public class VisibleGroups {
       groupDetailList.add(groupDetailFactory.create(group.getId()).call());
     }
     return new GroupList(groupDetailList, identifiedUser.get()
-        .getCapabilities().canCreateGroup());
+        .getGlobalCapabilities().canCreateGroup());
   }
 }

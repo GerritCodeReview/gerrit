@@ -168,7 +168,7 @@ public class ChangeControl {
     return isOwner() // owner (aka creator) of the change can abandon
         || getRefControl().isOwner() // branch owner can abandon
         || getProjectControl().isOwner() // project owner can abandon
-        || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god
+        || getCurrentUser().getGlobalCapabilities().canAdministrateServer() // site administers are god
     ;
   }
 
@@ -223,7 +223,7 @@ public class ChangeControl {
       //
       if (getRefControl().isOwner() // branch owner
           || getProjectControl().isOwner() // project owner
-          || getCurrentUser().getCapabilities().canAdministrateServer()) {
+          || getCurrentUser().getGlobalCapabilities().canAdministrateServer()) {
         return true;
       }
     }

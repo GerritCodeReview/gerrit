@@ -25,7 +25,7 @@ import java.util.Set;
 /** Portion of a {@link Project} describing access rules. */
 public class AccessSection implements Comparable<AccessSection> {
   /** Special name given to the global capabilities; not a valid reference. */
-  public static final String GLOBAL_CAPABILITIES = "GLOBAL_CAPABILITIES";
+  public static final String CAPABILITIES = "CAPABILITIES";
 
   /** Pattern that matches all references in a project. */
   public static final String ALL = "refs/*";

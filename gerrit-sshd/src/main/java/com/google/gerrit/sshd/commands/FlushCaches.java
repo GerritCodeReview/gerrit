@@ -51,7 +51,7 @@ final class FlushCaches extends CacheCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
-        if (!currentUser.getCapabilities().canFlushCaches()) {
+        if (!currentUser.getGlobalCapabilities().canFlushCaches()) {
           String msg = String.format(
             "fatal: %s does not have \"Flush Caches\" capability.",
             currentUser.getUserName());
@@ -66,7 +66,7 @@ final class FlushCaches extends CacheCommand {
 
   private void flush() throws Failure {
     if (caches.contains(WEB_SESSIONS)
-        && !currentUser.getCapabilities().canAdministrateServer()) {
+        && !currentUser.getGlobalCapabilities().canAdministrateServer()) {
       String msg = String.format(
           "fatal: only site administrators can flush %s",
           WEB_SESSIONS);

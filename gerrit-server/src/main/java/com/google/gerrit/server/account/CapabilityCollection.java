@@ -26,8 +26,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /** Caches active {@link GlobalCapability} set for a site. */
 public class CapabilityCollection {
@@ -37,26 +39,51 @@ public class CapabilityCollection {
   public final List<PermissionRule> priority;
   public final List<PermissionRule> queryLimit;
 
-  public CapabilityCollection(AccessSection section) {
-    if (section == null) {
-      section = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
+  public CapabilityCollection(List<AccessSection> sections) {
+    if (sections.isEmpty()) {
+      sections.add(new AccessSection(AccessSection.CAPABILITIES));
     }
 
-    Map<String, List<PermissionRule>> tmp =
+    final Map<String, List<PermissionRule>> tmp =
         new HashMap<String, List<PermissionRule>>();
-    for (Permission permission : section.getPermissions()) {
-      for (PermissionRule rule : permission.getRules()) {
-        if (rule.getAction() != PermissionRule.Action.DENY) {
-          List<PermissionRule> r = tmp.get(permission.getName());
-          if (r == null) {
-            r = new ArrayList<PermissionRule>(2);
-            tmp.put(permission.getName(), r);
+    permissions = new HashMap<String, List<PermissionRule>>();
+
+    final Set<SeenRule> seen = new HashSet<SeenRule>();
+    final Set<SeenRule> seenBlockingRules = new HashSet<SeenRule>();
+    final Set<String> exclusiveGroupPermissions = new HashSet<String>();
+
+    for (AccessSection section : sections) {
+      for (Permission permission : section.getPermissions()) {
+        boolean exclusivePermissionExists =
+            exclusiveGroupPermissions.contains(permission.getName());
+
+        for (PermissionRule rule : permission.getRules()) {
+          SeenRule s = new SeenRule(section, permission, rule);
+          boolean addRule = false;
+          if (rule.isBlock()) {
+            addRule = seenBlockingRules.add(s);
+          } else {
+            addRule = seen.add(s) && !rule.isDeny() && !exclusivePermissionExists;
           }
-          r.add(rule);
+          if (addRule) {
+            List<PermissionRule> r = permissions.get(permission.getName());
+            if (r == null) {
+              r = new ArrayList<PermissionRule>(2);
+              permissions.put(permission.getName(), r);
+            }
+            r.add(rule);
+          }
+        }
+
+        if (permission.getExclusiveGroup()) {
+          exclusiveGroupPermissions.add(permission.getName());
         }
       }
     }
-    configureDefaults(tmp, section);
+
+    for (AccessSection section : sections) {
+      configureDefaults(tmp, section);
+    }
 
     Map<String, List<PermissionRule>> res =
         new HashMap<String, List<PermissionRule>>();
@@ -69,7 +96,6 @@ public class CapabilityCollection {
             Arrays.asList(rules.toArray(new PermissionRule[rules.size()]))));
       }
     }
-    permissions = Collections.unmodifiableMap(res);
 
     administrateServer = getPermission(GlobalCapability.ADMINISTRATE_SERVER);
     priority = getPermission(GlobalCapability.PRIORITY);
@@ -104,5 +130,40 @@ public class CapabilityCollection {
 
   private static boolean doesNotDeclare(AccessSection section, String capName) {
     return section.getPermission(capName) == null;
+  }
+
+  /** Tracks whether or not a permission has been overridden. */
+  private static class SeenRule {
+    final String permissionName;
+    final AccountGroup.UUID group;
+
+    SeenRule(AccessSection section, Permission permission, PermissionRule rule) {
+      permissionName = permission.getName();
+      group = rule.getGroup().getUUID();
+    }
+
+    @Override
+    public int hashCode() {
+      int hc = permissionName.hashCode();
+      if (group != null) {
+        hc = hc * 31 + group.hashCode();
+      }
+      return hc;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+      if (other instanceof SeenRule) {
+        SeenRule a = this;
+        SeenRule b = (SeenRule) other;
+        return a.permissionName.equals(b.permissionName) //
+            && eq(a.group, b.group);
+      }
+      return false;
+    }
+
+    private boolean eq(AccountGroup.UUID a, AccountGroup.UUID b) {
+      return a != null && b != null && a.equals(b);
+    }
   }
 }

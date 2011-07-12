@@ -91,7 +91,7 @@ public class PerformCreateGroup {
       final Collection<? extends Account.Id> initialMembers,
       final Collection<? extends AccountGroup.Id> initialGroups)
       throws OrmException, NameAlreadyUsedException, PermissionDeniedException {
-    if (!currentUser.getCapabilities().canCreateGroup()) {
+    if (!currentUser.getGlobalCapabilities().canCreateGroup()) {
       throw new PermissionDeniedException(String.format(
         "%s does not have \"Create Group\" capability.",
         currentUser.getUserName()));

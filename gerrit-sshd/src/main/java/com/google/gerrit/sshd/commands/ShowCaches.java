@@ -87,7 +87,7 @@ final class ShowCaches extends CacheCommand {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
-        if (!currentUser.getCapabilities().canViewCaches()) {
+        if (!currentUser.getGlobalCapabilities().canViewCaches()) {
           String msg = String.format(
             "fatal: %s does not have \"View Caches\" capability.",
             currentUser.getUserName());

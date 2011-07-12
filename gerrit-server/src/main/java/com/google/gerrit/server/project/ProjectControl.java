@@ -218,7 +218,7 @@ public class ProjectControl {
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
   public boolean isOwner() {
     return isDeclaredOwner()
-      || user.getCapabilities().canAdministrateServer();
+      || user.getGlobalCapabilities().canAdministrateServer();
   }
 
   private boolean isDeclaredOwner() {
@@ -231,7 +231,7 @@ public class ProjectControl {
   /** Does this user have ownership on at least one reference name? */
   public boolean isOwnerAnyRef() {
     return canPerformOnAnyRef(Permission.OWNER)
-        || user.getCapabilities().canAdministrateServer();
+        || user.getGlobalCapabilities().canAdministrateServer();
   }
 
   /** @return true if the user can upload to at least one reference */
@@ -492,5 +492,11 @@ public class ProjectControl {
       }
     }
     return false;
+  }
+
+  public boolean canCreateChildProject() {
+    return user.getGlobalCapabilities().canAdministrateServer()
+        || user.getProjectCapabilities(state.getProject().getNameKey())
+            .canCreateProject();
   }
 }

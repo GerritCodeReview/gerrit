@@ -110,7 +110,7 @@ final class ShowQueue extends BaseCommand {
 
     int numberOfPendingTasks = 0;
     final long now = System.currentTimeMillis();
-    final boolean viewAll = currentUser.getCapabilities().canViewQueue();
+    final boolean viewAll = currentUser.getGlobalCapabilities().canViewQueue();
 
     for (final Task<?> task : pending) {
       final long delay = task.getDelay(TimeUnit.MILLISECONDS);

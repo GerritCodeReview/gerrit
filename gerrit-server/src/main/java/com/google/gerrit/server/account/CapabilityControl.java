@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.git.QueueProvider;
@@ -33,10 +34,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 /** Access control management for server-wide capabilities. */
 public class CapabilityControl {
   public static interface Factory {
-    public CapabilityControl create(CurrentUser user);
+    public CapabilityControl create(CurrentUser user,
+        Project.NameKey projectName);
   }
 
   private final CapabilityCollection capabilities;
@@ -46,8 +50,15 @@ public class CapabilityControl {
   private Boolean canAdministrateServer;
 
   @Inject
-  CapabilityControl(ProjectCache projectCache, @Assisted CurrentUser currentUser) {
-    capabilities = projectCache.getAllProjects().getCapabilityCollection();
+  CapabilityControl(ProjectCache projectCache,
+      @Assisted CurrentUser currentUser,
+      @Assisted @Nullable Project.NameKey projectName) {
+    if (projectName != null) {
+      capabilities = projectCache.get(projectName).getCapabilityCollection();
+    } else {
+      capabilities = projectCache.getAllProjects().getCapabilityCollection();
+    }
+
     user = currentUser;
     effective = new HashMap<String, List<PermissionRule>>();
   }

@@ -38,7 +38,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ModifyReviewersCommand extends BaseCommand {
@@ -48,12 +50,10 @@ public class ModifyReviewersCommand extends BaseCommand {
   @Option(name = "--project", aliases = "-p", usage = "project containing the change")
   private ProjectControl projectControl;
 
-  @Option(name = "--add", aliases = {"-a"}, metaVar = "EMAIL", usage = "reviewer to add")
-  void optionAdd(Account.Id who) {
-    toAdd.add(who);
-  }
+  @Option(name = "--add", aliases = {"-a"}, metaVar = "REVIEWER", usage = "user or group that should be added as reviewer")
+  private List<String> toAdd = new ArrayList<String>();
 
-  @Option(name = "--remove", aliases = {"-r"}, metaVar = "EMAIL", usage = "reviewer to remove")
+  @Option(name = "--remove", aliases = {"-r"}, metaVar = "REVIEWER", usage = "user that should be removed from the reviewer list")
   void optionRemove(Account.Id who) {
     toRemove.add(who);
   }
@@ -81,7 +81,6 @@ public class ModifyReviewersCommand extends BaseCommand {
   @Inject
   private ChangeControl.Factory changeControlFactory;
 
-  private Set<Account.Id> toAdd = new HashSet<Account.Id>();
   private Set<Account.Id> toRemove = new HashSet<Account.Id>();
   private Set<Change.Id> changes = new HashSet<Change.Id>();
 
@@ -139,19 +138,28 @@ public class ModifyReviewersCommand extends BaseCommand {
     // Add reviewers
     //
     result =
-        addReviewerFactory.create(changeId, stringSet(toAdd), false).call();
+        addReviewerFactory.create(changeId, toAdd, true).call();
     ok &= result.getErrors().isEmpty();
     for (ReviewerResult.Error resultError : result.getErrors()) {
       String message;
       switch (resultError.getType()) {
         case REVIEWER_NOT_FOUND:
-          message = "account {0} not found";
+          message = "account or group {0} not found";
           break;
         case ACCOUNT_INACTIVE:
           message = "account {0} inactive";
           break;
         case CHANGE_NOT_VISIBLE:
           message = "change {1} not visible to {0}";
+          break;
+        case GROUP_EMPTY:
+          message = "group {0} is empty";
+          break;
+        case GROUP_HAS_TOO_MANY_MEMBERS:
+          message = "group {0} has too many members";
+          break;
+        case GROUP_NOT_ALLOWED:
+          message = "group {0} is not allowed as reviewer";
           break;
         default:
           message = "could not add {0}: {2}";
@@ -161,14 +169,6 @@ public class ModifyReviewersCommand extends BaseCommand {
     }
 
     return ok;
-  }
-
-  private static Set<String> stringSet(Set<Account.Id> ids) {
-    Set<String> res = new HashSet<String>();
-    for (Account.Id id : ids) {
-      res.add(Integer.toString(id.get()));
-    }
-    return res;
   }
 
   private Set<Change.Id> parseChangeId(String idstr)

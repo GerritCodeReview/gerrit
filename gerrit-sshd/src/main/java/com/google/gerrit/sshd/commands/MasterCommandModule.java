@@ -29,7 +29,7 @@ public class MasterCommandModule extends CommandModule {
     command(gerrit, "create-account").to(CreateAccountCommand.class);
     command(gerrit, "create-group").to(CreateGroupCommand.class);
     command(gerrit, "rename-group").to(RenameGroupCommand.class);
-    command(gerrit, "create-project").to(CreateProject.class);
+    command(gerrit, "create-project").to(CreateProjectCommand.class);
     command(gerrit, "gsql").to(AdminQueryShell.class);
     command(gerrit, "set-reviewers").to(SetReviewersCommand.class);
     command(gerrit, "receive-pack").to(Receive.class);

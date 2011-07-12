@@ -1110,6 +1110,16 @@ a:hover.downloadLink {
   padding: 5px 5px 5px 5px;
 }
 
+.createProjectLink {
+  margin-bottom: 10px;
+}
+
+.createProjectPanel {
+  margin-bottom: 10px;
+  background-color: trimColor;
+  padding: 5px 5px 5px 5px;
+}
+
 .sshHostKeyPanel {
   margin-top: 10px;
   border: 1px solid trimColor;

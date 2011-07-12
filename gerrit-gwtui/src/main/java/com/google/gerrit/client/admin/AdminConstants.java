@@ -31,10 +31,12 @@ public interface AdminConstants extends Constants {
   String buttonSaveDescription();
   String buttonRenameGroup();
   String buttonCreateGroup();
+  String buttonCreateProject();
   String buttonChangeGroupOwner();
   String buttonChangeGroupType();
   String buttonSelectGroup();
   String buttonSaveChanges();
+  String checkBoxEmptyCommit();
   String useContentMerge();
   String useContributorAgreements();
   String useSignedOffBy();
@@ -56,6 +58,9 @@ public interface AdminConstants extends Constants {
   String noMembersInfo();
   String headingExternalGroup();
   String headingCreateGroup();
+  String headingCreateProject();
+  String headingParentProjectName();
+  String columnProjectName();
   String headingAgreements();
 
   String projectSubmitType_FAST_FORWARD_ONLY();
@@ -89,6 +94,7 @@ public interface AdminConstants extends Constants {
   String groupTabGeneral();
   String groupTabMembers();
   String projectListTitle();
+  String createProjectTitle();
   String projectAdminTabGeneral();
   String projectAdminTabBranches();
   String projectAdminTabAccess();

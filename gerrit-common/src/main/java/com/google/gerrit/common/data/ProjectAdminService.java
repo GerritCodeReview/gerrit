@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.RpcImpl;
+import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
 import java.util.List;
@@ -27,10 +28,14 @@ import java.util.Set;
 
 @RpcImpl(version = Version.V2_0)
 public interface ProjectAdminService extends RemoteJsonService {
-  void visibleProjects(AsyncCallback<List<Project>> callback);
+  void visibleProjects(AsyncCallback<ProjectList> callback);
 
   void projectDetail(Project.NameKey projectName,
       AsyncCallback<ProjectDetail> callback);
+
+  @SignInRequired
+  void createNewProject(String projectName, String parentName,
+      boolean emptyCommit, AsyncCallback<VoidResult> callback);
 
   void projectAccess(Project.NameKey projectName,
       AsyncCallback<ProjectAccess> callback);

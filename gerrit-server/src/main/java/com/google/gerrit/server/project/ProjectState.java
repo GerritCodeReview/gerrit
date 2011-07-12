@@ -89,9 +89,8 @@ public class ProjectState {
     this.gitMgr = gitMgr;
     this.rulesCache = rulesCache;
     this.config = config;
-    this.capabilities = isAllProjects
-      ? new CapabilityCollection(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
-      : null;
+
+    this.capabilities = loadAllCapabilities(allProjectsName);
 
     HashSet<AccountGroup.UUID> groups = new HashSet<AccountGroup.UUID>();
     AccessSection all = config.getAccessSection(AccessSection.ALL);
@@ -107,6 +106,34 @@ public class ProjectState {
       }
     }
     localOwners = Collections.unmodifiableSet(groups);
+  }
+
+  private CapabilityCollection loadAllCapabilities(
+      final AllProjectsName allProjectsName) {
+    final List<AccessSection> allCapabilities = new ArrayList<AccessSection>();
+    ProjectState s = this;
+    do {
+      final AccessSection capabilitiesSection =
+          s.getConfig().getAccessSection(AccessSection.GLOBAL_CAPABILITIES);
+      if (capabilitiesSection != null) {
+        allCapabilities.add(capabilitiesSection);
+      }
+
+      Project.NameKey parent = s.getProject().getParent();
+      if (parent == null) {
+        if (s.isAllProjects) {
+          break;
+        } else {
+          parent = allProjectsName;
+        }
+        allCapabilities.add(projectCache.getAllProjects().getConfig()
+            .getAccessSection(AccessSection.GLOBAL_CAPABILITIES));
+        break;
+      }
+      s = projectCache.get(parent);
+    } while (s != null);
+
+    return new CapabilityCollection(allCapabilities);
   }
 
   boolean needsRefresh(long generation) {

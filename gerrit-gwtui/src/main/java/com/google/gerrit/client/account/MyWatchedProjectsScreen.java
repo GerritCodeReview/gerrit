@@ -22,6 +22,7 @@ import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountProjectWatchInfo;
+import com.google.gerrit.common.data.ProjectList;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -362,10 +363,10 @@ public class MyWatchedProjectsScreen extends SettingsScreen implements
 
   protected void populateProjects() {
     Util.PROJECT_SVC.visibleProjects(
-        new GerritCallback<List<Project>>() {
+        new GerritCallback<ProjectList>() {
       @Override
-      public void onSuccess(final List<Project> result) {
-        projectsTab.display(result);
+      public void onSuccess(final ProjectList result) {
+        projectsTab.display(result.getProjects());
         if (firstPopupLoad) { // Display was delayed until table was loaded
           firstPopupLoad = false;
           displayPopup();

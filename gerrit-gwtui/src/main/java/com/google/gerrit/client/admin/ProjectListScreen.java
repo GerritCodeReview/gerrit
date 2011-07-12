@@ -20,24 +20,24 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.ProjectList;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import java.util.List;
-
 public class ProjectListScreen extends Screen {
+  private VerticalPanel createProjectLinkPanel;
   private ProjectsTable projects;
 
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.PROJECT_SVC.visibleProjects(new ScreenLoadCallback<List<Project>>(this) {
+    Util.PROJECT_SVC.visibleProjects(new ScreenLoadCallback<ProjectList>(this) {
       @Override
-      protected void preDisplay(final List<Project> result) {
-        projects.display(result);
+      protected void preDisplay(final ProjectList result) {
+        createProjectLinkPanel.setVisible(result.userCanCreateProject());
+        projects.display(result.getProjects());
         projects.finishDisplay();
       }
     });
@@ -47,6 +47,13 @@ public class ProjectListScreen extends Screen {
   protected void onInitUI() {
     super.onInitUI();
     setPageTitle(Util.C.projectListTitle());
+
+    createProjectLinkPanel = new VerticalPanel();
+    createProjectLinkPanel.setStyleName(Gerrit.RESOURCES.css()
+        .createProjectLink());
+    createProjectLinkPanel.add(new Hyperlink(Util.C.headingCreateProject(),
+        PageLinks.ADMIN_CREATE_PROJECT));
+    add(createProjectLinkPanel);
 
     projects = new ProjectsTable() {
       @Override
@@ -69,10 +76,6 @@ public class ProjectListScreen extends Screen {
     projects.setSavePointerId(PageLinks.ADMIN_PROJECTS);
 
     add(projects);
-
-    final VerticalPanel fp = new VerticalPanel();
-    fp.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
-    fp.add(new SmallHeading(Util.C.headingCreateGroup()));
   }
 
   @Override

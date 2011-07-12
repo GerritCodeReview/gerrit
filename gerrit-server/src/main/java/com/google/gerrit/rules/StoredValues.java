@@ -19,17 +19,100 @@ import static com.google.gerrit.rules.StoredValue.create;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetInfo;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
+
+import com.googlecode.prolog_cafe.lang.Prolog;
+import com.googlecode.prolog_cafe.lang.SystemException;
+
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 
 public final class StoredValues {
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
   public static final StoredValue<Change> CHANGE = create(Change.class);
   public static final StoredValue<PatchSet.Id> PATCH_SET_ID = create(PatchSet.Id.class);
   public static final StoredValue<ChangeControl> CHANGE_CONTROL = create(ChangeControl.class);
-  public static final StoredValue<PatchSetInfo> PATCH_SET_INFO = create(PatchSetInfo.class);
-  public static final StoredValue<PatchList> PATCH_LIST = create(PatchList.class);
+  public static final StoredValue<PatchSetInfo> PATCH_SET_INFO = new StoredValue<PatchSetInfo>(PatchSetInfo.class) {
+    @Override
+    public PatchSetInfo get(Prolog engine) {
+      PatchSetInfo info = getOrNull(engine);
+      if (info == null) {
+        PatchSet.Id patchSetId = StoredValues.PATCH_SET_ID.get(engine);
+        PrologEnvironment env = (PrologEnvironment) engine.control;
+        PatchSetInfoFactory patchInfoFactory =
+            env.getInjector().getInstance(PatchSetInfoFactory.class);
+        try {
+          info = patchInfoFactory.get(patchSetId);
+        } catch (PatchSetInfoNotAvailableException e) {
+          throw new SystemException(e.getMessage());
+        }
+        if (info == null) {
+          String msg = this.toString();
+          throw new SystemException(msg);
+        }
+        StoredValues.PATCH_SET_INFO.set(env, info);
+      }
+      return info;
+    }
+  };
+  public static final StoredValue<PatchList> PATCH_LIST = new StoredValue<PatchList>(PatchList.class) {
+    @Override
+    public PatchList get(Prolog engine) {
+      PatchList patchList = getOrNull(engine);
+      if (patchList == null) {
+        PrologEnvironment env = (PrologEnvironment) engine.control;
+        PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
+        PatchListCache plCache = env.getInjector().getInstance(PatchListCache.class);
+        Change change = StoredValues.CHANGE.get(engine);
+        Project.NameKey projectKey = change.getProject();
+        ObjectId a = null;
+        ObjectId b = ObjectId.fromString(psInfo.getRevId());
+        Whitespace ws = Whitespace.IGNORE_NONE;
+        PatchListKey plKey = new PatchListKey(projectKey, a, b, ws);
+        patchList = plCache.get(plKey);
+        if (patchList == null) {
+          String msg = this.toString();
+          throw new SystemException(msg);
+        }
+       StoredValues.PATCH_LIST.set(env, patchList);
+      }
+      return patchList;
+    }
+  };
+  public static final StoredValue<Repository> REPOSITORY = new StoredValue<Repository>(Repository.class) {
+    @Override
+    public Repository get(Prolog engine) {
+      Repository repo = getOrNull(engine);
+      PrologEnvironment env = (PrologEnvironment) engine.control;
+      if (repo == null) {
+        GitRepositoryManager gitMgr =
+          env.getInjector().getInstance(GitRepositoryManager.class);
+        Change change = StoredValues.CHANGE.get(engine);
+        Project.NameKey projectKey = change.getProject();
+        try {
+          repo = gitMgr.openRepository(projectKey);
+        } catch (RepositoryNotFoundException e) {
+          throw new SystemException(e.getMessage());
+        }
+        if (repo == null) {
+          String msg = this.toString();
+          throw new SystemException(msg);
+        }
+        StoredValues.REPOSITORY.set(env, repo);
+      }
+      return repo;
+    }
+  };
 
   private StoredValues() {
   }

@@ -82,19 +82,4 @@ abstract class AbstractCommitUserIdentityPredicate extends Predicate.P3 {
     }
     return cont;
   }
-
-  protected PatchSetInfo getPatchSetInfo(Prolog engine)
-      throws PatchSetInfoNotAvailableException {
-    PrologEnvironment env = (PrologEnvironment) engine.control;
-    PatchSetInfo psInfo = env.get(StoredValues.PATCH_SET_INFO);
-    if (psInfo == null) {
-      PatchSet.Id patchSetId = env.get(StoredValues.PATCH_SET_ID);
-      PatchSetInfoFactory patchInfoFactory =
-        env.getInjector().getInstance(PatchSetInfoFactory.class);
-      psInfo = patchInfoFactory.get(patchSetId);
-      env.set(StoredValues.PATCH_SET_INFO, psInfo);
-    }
-
-    return psInfo;
-  }
 }

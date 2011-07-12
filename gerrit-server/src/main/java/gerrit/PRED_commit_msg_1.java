@@ -15,25 +15,41 @@
 package gerrit;
 
 import com.google.gerrit.reviewdb.PatchSetInfo;
-import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gerrit.rules.StoredValues;
 
 import com.googlecode.prolog_cafe.lang.Operation;
+import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologException;
+import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
-public class PRED_commit_author_3 extends AbstractCommitUserIdentityPredicate {
+/**
+ * Returns the commit message as a symbol
+ *
+ * <pre>
+ *   'commit_msg'(-Msg)
+ * </pre>
+ */
+public class PRED_commit_msg_1 extends Predicate.P1 {
   private static final long serialVersionUID = 1L;
 
-  public PRED_commit_author_3(Term a1, Term a2, Term a3, Operation n) {
-    super(a1, a2, a3, n);
+  public PRED_commit_msg_1(Term a1, Operation n) {
+    arg1 = a1;
+    cont = n;
   }
 
   @Override
   public Operation exec(Prolog engine) throws PrologException {
+    engine.setB0();
+    Term a1 = arg1.dereference();
+
     PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
-    UserIdentity author = psInfo.getAuthor();
-    return exec(engine, author);
+
+    SymbolTerm msg = SymbolTerm.create(psInfo.getMessage());
+    if (!a1.unify(msg, engine.trail)) {
+      return engine.fail();
+    }
+    return cont;
   }
 }

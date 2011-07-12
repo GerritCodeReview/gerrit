@@ -394,3 +394,12 @@ split_commit_delta(rename, NewPath, OldPath, delete, OldPath).
 split_commit_delta(rename, NewPath, OldPath, add, NewPath) :- !.
 split_commit_delta(copy, NewPath, OldPath, add, NewPath) :- !.
 split_commit_delta(Type, Path, _, Type, Path).
+
+
+%% commit_msg_regex/1:
+%%
+:- public commit_msg_regex/1.
+%%
+commit_msg_regex(Regex) :-
+  commit_msg(Msg),
+  regex(Regex, Msg).

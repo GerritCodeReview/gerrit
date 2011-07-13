@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//9MU\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-13T18:57:35Z",
+      "side": 1,
+      "message": "The use of this class here makes me think it should not really be a subclass of AccountDiffPreference, it may merit a higher status.  It\u0027s not something I would expect your change to fix though...",
+      "revId": "7afc7da2f40dd53c9cdc17fc57c24370ee75d8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9Mk\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-13T18:57:35Z",
+      "side": 1,
+      "message": "The code above and below this line seems mostly like a repeat.  Perhaps a getREParameter() or similar helper method should be used?",
+      "revId": "7afc7da2f40dd53c9cdc17fc57c24370ee75d8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9Mo\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-13T18:57:35Z",
+      "side": 1,
+      "message": "Nit: indent seems wrong for the 4 lines below.",
+      "revId": "7afc7da2f40dd53c9cdc17fc57c24370ee75d8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9Ms\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_edits_2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-13T18:57:35Z",
+      "side": 1,
+      "message": "Could these get..() methods be static functions in a utility class somewhere (perhaps in StoredValues itself), especially since this method is already duplicated in this patch?",
+      "revId": "7afc7da2f40dd53c9cdc17fc57c24370ee75d8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9MQ\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-13T18:57:35Z",
+      "side": 1,
+      "message": "Did you mean to add commit_edits to this file also?",
+      "revId": "7afc7da2f40dd53c9cdc17fc57c24370ee75d8c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

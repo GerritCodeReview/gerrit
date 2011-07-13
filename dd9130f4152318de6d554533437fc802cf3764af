@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//9Lc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-07-13T20:46:25Z",
+      "side": 1,
+      "message": "Yes, I was searching for refs/meta/config as a constant that could be used on client site... in vain.\n\nIt would be good to have it in the common package, but I was not finding any class there to which it would be fitting. Ok, we can have a new class there with just this one constant, but should we then remove GitRepositoryManager.REF_CONFIG to not have this constant twice? Then it would feel strange that some other ref constants are still in GitRepositoryManager... Should we then move all ref constants into a new class in the common package?",
+      "parentUuid": "AAABEX//9og\u003d",
+      "revId": "dd9130f4152318de6d554533437fc802cf3764af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//9ck\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-12T03:10:02Z",
       "side": 1,
       "message": "I am finding it hard to even notice the italics. :(\nPerhaps we could have a hint more styling, bg color, or borders? Also, I think whatever we pick that it should probably apply to the entire row, that should make it more obvious.  If we could somehow highlight the border between the special and non special branches, it might help.",
+      "revId": "dd9130f4152318de6d554533437fc802cf3764af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//9L4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-07-13T20:46:25Z",
+      "side": 1,
+      "message": "Yes, just making the name italic was probably not enough. I\u0027ve done some new style with a background color for the entire row. Let me know if this is better or if we can improve it further.\n\nDone.",
+      "parentUuid": "AAABEX//9ck\u003d",
       "revId": "dd9130f4152318de6d554533437fc802cf3764af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

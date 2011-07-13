@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -97,8 +98,12 @@ public class RefControl {
 
   /** Can this user see this reference exists? */
   public boolean isVisible() {
-    return projectControl.visibleForReplication()
-        || canPerform(Permission.READ);
+    if (isOwner()) {
+      return true;
+    } else {
+      return (projectControl.visibleForReplication()
+          || canPerform(Permission.READ)) && !isHidden();
+    }
   }
 
   /**
@@ -109,16 +114,16 @@ public class RefControl {
    *         ref
    */
   public boolean canUpload() {
-    return projectControl
-      .controlForRef("refs/for/" + getRefName())
-      .canPerform(Permission.PUSH);
+    return projectControl.controlForRef("refs/for/" + getRefName())
+        .canPerform(Permission.PUSH)
+        && isActive();
   }
 
   /** @return true if this user can submit merge patch sets to this ref */
   public boolean canUploadMerges() {
-    return projectControl
-      .controlForRef("refs/for/" + getRefName())
-      .canPerform(Permission.PUSH_MERGE);
+    return projectControl.controlForRef("refs/for/" + getRefName())
+        .canPerform(Permission.PUSH_MERGE)
+        && isActive();
   }
 
   /** @return true if this user can submit patch sets to this ref */
@@ -131,7 +136,8 @@ public class RefControl {
       // granting of powers beyond submitting to the configuration.
       return projectControl.isOwner();
     }
-    return canPerform(Permission.SUBMIT);
+    return canPerform(Permission.SUBMIT)
+        && isActive();
   }
 
   /** @return true if the user can update the reference as a fast-forward. */
@@ -145,17 +151,28 @@ public class RefControl {
       // granting of powers beyond pushing to the configuration.
       return false;
     }
-    return canPerform(Permission.PUSH);
+    return canPerform(Permission.PUSH)
+        && isActive();
   }
 
   /** @return true if the user can rewind (force push) the reference. */
   public boolean canForceUpdate() {
-    return canPushWithForce() || canDelete();
+    return (canPushWithForce() || canDelete()) && isActive();
+  }
+
+  public boolean isActive() {
+    return getProjectControl().getProject().getState().equals(
+        Project.State.ACTIVE);
+  }
+
+  private boolean isHidden() {
+    return getProjectControl().getProject().getState().equals(
+        Project.State.HIDDEN);
   }
 
   private boolean canPushWithForce() {
-    if (GitRepositoryManager.REF_CONFIG.equals(refName)
-        && !projectControl.isOwner()) {
+    if (!isActive() || (GitRepositoryManager.REF_CONFIG.equals(refName)
+        && !projectControl.isOwner())) {
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
       // rules. Allowing this to be done by a non-project-owner opens
@@ -183,6 +200,9 @@ public class RefControl {
    * @return {@code true} if the user specified can create a new Git ref
    */
   public boolean canCreate(RevWalk rw, RevObject object) {
+    if (!isActive()) {
+      return false;
+    }
     boolean owner;
     switch (getCurrentUser().getAccessPath()) {
       case WEB_UI:
@@ -242,7 +262,7 @@ public class RefControl {
    * @return {@code true} if the user specified can delete a Git ref.
    */
   public boolean canDelete() {
-    if (GitRepositoryManager.REF_CONFIG.equals(refName)) {
+    if (!isActive() || (GitRepositoryManager.REF_CONFIG.equals(refName))) {
       // Never allow removal of the refs/meta/config branch.
       // Deleting the branch would destroy all Gerrit specific
       // metadata about the project, including its access rules.

@@ -163,9 +163,11 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       actionsPanel.setStyleName(Gerrit.RESOURCES.css().patchSetActions());
       body.add(actionsPanel);
       if (Gerrit.isSignedIn()) {
-        populateReviewAction();
-        if (changeDetail.isCurrentPatchSet(detail)) {
-          populateActions(detail);
+        if (isEditable()) {
+          populateReviewAction();
+          if (changeDetail.isCurrentPatchSet(detail)) {
+            populateActions(detail);
+          }
         }
       }
       populateDiffAllActions(detail);
@@ -175,6 +177,10 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         patchTable.addClickHandler(clickHandler);
       }
     }
+  }
+
+  private boolean isEditable() {
+    return changeDetail.canEdit();
   }
 
   private void displayDownload() {

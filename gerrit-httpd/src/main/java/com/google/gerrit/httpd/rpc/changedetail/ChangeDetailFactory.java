@@ -112,6 +112,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     detail.setCanRevert(change.getStatus() == Change.Status.MERGED && control.canAddPatchSet());
 
+    detail.setCanEdit(control.getRefControl().isOwner() || control.getRefControl().isActive());
+
     if (detail.getChange().getStatus().isOpen()) {
       List<SubmitRecord> submitRecords = control.canSubmit(db, patch.getId());
       for (SubmitRecord rec : submitRecords) {

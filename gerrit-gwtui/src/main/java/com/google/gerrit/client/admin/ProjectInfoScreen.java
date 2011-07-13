@@ -39,6 +39,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private Panel projectOptionsPanel;
   private CheckBox requireChangeID;
   private ListBox submitType;
+  private ListBox state;
   private CheckBox useContentMerge;
 
   private Panel agreementsPanel;
@@ -79,19 +80,22 @@ public class ProjectInfoScreen extends ProjectScreen {
         new ScreenLoadCallback<ProjectDetail>(this) {
           public void preDisplay(final ProjectDetail result) {
             enableForm(result.canModifyAgreements,
-                result.canModifyDescription, result.canModifyMergeType);
+                result.canModifyDescription, result.canModifyMergeType, result.canModifyState);
             saveProject.setVisible(
                 result.canModifyAgreements ||
                 result.canModifyDescription ||
-                result.canModifyMergeType);
+                result.canModifyMergeType ||
+                result.canModifyState);
             display(result);
           }
         });
   }
 
   private void enableForm(final boolean canModifyAgreements,
-      final boolean canModifyDescription, final boolean canModifyMergeType) {
+      final boolean canModifyDescription, final boolean canModifyMergeType,
+      final boolean canModifyState) {
     submitType.setEnabled(canModifyMergeType);
+    state.setEnabled(canModifyState);
     useContentMerge.setEnabled(canModifyMergeType);
     descTxt.setEnabled(canModifyDescription);
     useContributorAgreements.setEnabled(canModifyAgreements);
@@ -129,6 +133,14 @@ public class ProjectInfoScreen extends ProjectScreen {
     });
     saveEnabler.listenTo(submitType);
     projectOptionsPanel.add(submitType);
+
+    state = new ListBox();
+    for (final Project.State stateValue : Project.State.values()) {
+      state.addItem(Util.toLongString(stateValue), stateValue.name());
+    }
+
+    saveEnabler.listenTo(state);
+    projectOptionsPanel.add(state);
 
     useContentMerge = new CheckBox(Util.C.useContentMerge(), true);
     saveEnabler.listenTo(useContentMerge);
@@ -186,6 +198,17 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
   }
 
+  private void setState(final Project.State newState) {
+    if (state != null) {
+      for (int i = 0; i < state.getItemCount(); i++) {
+        if (newState.name().equals(state.getValue(i))) {
+          state.setSelectedIndex(i);
+          break;
+        }
+      }
+    }
+  }
+
   void display(final ProjectDetail result) {
     project = result.project;
 
@@ -202,6 +225,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     useContentMerge.setValue(project.isUseContentMerge());
     requireChangeID.setValue(project.isRequireChangeID());
     setSubmitType(project.getSubmitType());
+    setState(project.getState());
 
     saveProject.setEnabled(false);
   }
@@ -216,14 +240,18 @@ public class ProjectInfoScreen extends ProjectScreen {
       project.setSubmitType(Project.SubmitType.valueOf(submitType
           .getValue(submitType.getSelectedIndex())));
     }
+    if (state.getSelectedIndex() >= 0) {
+      project.setState(Project.State.valueOf(state
+          .getValue(state.getSelectedIndex())));
+    }
 
-    enableForm(false, false, false);
+    enableForm(false, false, false, false);
 
     Util.PROJECT_SVC.changeProjectSettings(project,
         new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
             enableForm(result.canModifyAgreements,
-                result.canModifyDescription, result.canModifyMergeType);
+                result.canModifyDescription, result.canModifyMergeType, result.canModifyState);
             display(result);
           }
         });

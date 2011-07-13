@@ -192,10 +192,14 @@ public class ProjectControl {
     return state.getProject();
   }
 
+  private boolean isHidden() {
+    return getProject().getState().equals(Project.State.HIDDEN);
+  }
+
   /** Can this user see this project exists? */
   public boolean isVisible() {
-    return visibleForReplication()
-        || canPerformOnAnyRef(Permission.READ);
+    return (visibleForReplication()
+        || canPerformOnAnyRef(Permission.READ)) && !isHidden();
   }
 
   public boolean canAddRefs() {

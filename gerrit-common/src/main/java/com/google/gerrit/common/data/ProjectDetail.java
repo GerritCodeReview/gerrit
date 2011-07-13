@@ -22,6 +22,7 @@ public class ProjectDetail {
   public boolean canModifyMergeType;
   public boolean canModifyAgreements;
   public boolean canModifyAccess;
+  public boolean canModifyState;
 
   public ProjectDetail() {
   }
@@ -36,6 +37,10 @@ public class ProjectDetail {
 
   public void setCanModifyMergeType(final boolean cmmt) {
     canModifyMergeType = cmmt;
+  }
+
+  public void setCanModifyState(final boolean cms) {
+    canModifyState = cms;
   }
 
   public void setCanModifyAgreements(final boolean cma) {

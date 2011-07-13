@@ -16,10 +16,21 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.ssh.SshInfo;
 
 import com.jcraft.jsch.HostKey;
 
+import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.RawParseUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -28,6 +39,9 @@ import java.util.Set;
 
 /** Sends an email alerting a user to a new change for them to review. */
 public abstract class NewChangeSender extends ChangeEmail {
+  private static final Logger log =
+      LoggerFactory.getLogger(NewChangeSender.class);
+
   private final SshInfo sshInfo;
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
@@ -84,5 +98,37 @@ public abstract class NewChangeSender extends ChangeEmail {
       return getGerritHost() + host.substring(1);
     }
     return host;
+  }
+
+  /** Show patch set as unified difference.  */
+  public String getUnifiedDiff() {
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    final Repository repo = getRepository();
+    if (repo != null) {
+      DiffFormatter df = new DiffFormatter(out);
+      try {
+        final PatchList patchList = getPatchList();
+        if (patchList != null) {
+          df.setRepository(repo);
+          df.setDetectRenames(true);
+          df.format(patchList.getOldId(), patchList.getNewId());
+        }
+      } catch (IOException e) {
+        log.error("Cannot format patch", e);
+      } finally {
+        df.release();
+        repo.close();
+      }
+    }
+    return RawParseUtils.decode(out.toByteArray());
+  }
+
+  private Repository getRepository() {
+    try {
+      return args.server.openRepository(change.getProject());
+    } catch (RepositoryNotFoundException e) {
+      log.error("Cannot open repository", e);
+      return null;
+    }
   }
 }

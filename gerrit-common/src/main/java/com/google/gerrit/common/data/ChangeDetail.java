@@ -41,6 +41,7 @@ public class ChangeDetail {
   protected List<ChangeMessage> messages;
   protected PatchSet.Id currentPatchSetId;
   protected PatchSetDetail currentDetail;
+  protected boolean canEdit;
 
   public ChangeDetail() {
   }
@@ -189,5 +190,13 @@ public class ChangeDetail {
 
   public String getDescription() {
     return currentDetail != null ? currentDetail.getInfo().getMessage() : "";
+  }
+
+  public void setCanEdit(boolean a) {
+    canEdit = a;
+  }
+
+  public boolean canEdit() {
+    return canEdit;
   }
 }

@@ -53,4 +53,20 @@ public class Util {
         return type.name();
     }
   }
+
+  public static String toLongString(final Project.State type) {
+    if (type == null) {
+      return "";
+    }
+    switch (type) {
+      case ACTIVE:
+        return C.projectState_ACTIVE();
+      case READ_ONLY:
+        return C.projectState_READ_ONLY();
+      case HIDDEN:
+        return C.projectState_HIDDEN();
+      default:
+        return type.name();
+    }
+  }
 }

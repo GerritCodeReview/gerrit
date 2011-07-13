@@ -19,7 +19,6 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.AbstractAgreement;
 import com.google.gerrit.reviewdb.AccountAgreement;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -192,10 +191,14 @@ public class ProjectControl {
     return state.getProject();
   }
 
+  private boolean isHidden() {
+    return getProject().getState().equals(Project.State.HIDDEN);
+  }
+
   /** Can this user see this project exists? */
   public boolean isVisible() {
-    return visibleForReplication()
-        || canPerformOnAnyRef(Permission.READ);
+    return (visibleForReplication()
+        || canPerformOnAnyRef(Permission.READ)) && !isHidden();
   }
 
   public boolean canAddRefs() {

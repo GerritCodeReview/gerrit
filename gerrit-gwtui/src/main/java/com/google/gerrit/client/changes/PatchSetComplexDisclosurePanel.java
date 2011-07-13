@@ -163,9 +163,11 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       actionsPanel.setStyleName(Gerrit.RESOURCES.css().patchSetActions());
       body.add(actionsPanel);
       if (Gerrit.isSignedIn()) {
-        populateReviewAction();
-        if (changeDetail.isCurrentPatchSet(detail)) {
-          populateActions(detail);
+        if (changeDetail.canEdit()) {
+          populateReviewAction();
+          if (changeDetail.isCurrentPatchSet(detail)) {
+            populateActions(detail);
+          }
         }
       }
       populateDiffAllActions(detail);

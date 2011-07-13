@@ -80,6 +80,14 @@ public final class Project {
     CHERRY_PICK;
   }
 
+  public static enum State {
+    ACTIVE,
+
+    READ_ONLY,
+
+    HIDDEN;
+  }
+
   protected NameKey name;
 
   protected String description;
@@ -89,6 +97,8 @@ public final class Project {
   protected boolean useSignedOffBy;
 
   protected SubmitType submitType;
+
+  protected State state;
 
   protected NameKey parent;
 
@@ -102,6 +112,7 @@ public final class Project {
   public Project(Project.NameKey nameKey) {
     name = nameKey;
     submitType = SubmitType.MERGE_IF_NECESSARY;
+    state = State.ACTIVE;
   }
 
   public Project.NameKey getNameKey() {
@@ -160,6 +171,14 @@ public final class Project {
     submitType = type;
   }
 
+  public State getState() {
+    return state;
+  }
+
+  public void setState(final State newState) {
+    state = newState;
+  }
+
   public void copySettingsFrom(final Project update) {
     description = update.description;
     useContributorAgreements = update.useContributorAgreements;
@@ -167,6 +186,7 @@ public final class Project {
     useContentMerge = update.useContentMerge;
     requireChangeID = update.requireChangeID;
     submitType = update.submitType;
+    state = update.state;
   }
 
   public Project.NameKey getParent() {

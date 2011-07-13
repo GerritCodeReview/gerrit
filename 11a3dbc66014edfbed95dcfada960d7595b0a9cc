@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//9NQ\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-13T18:16:58Z",
+      "side": 1,
+      "message": "I think that this loop would likely be better if it used split()",
+      "revId": "11a3dbc66014edfbed95dcfada960d7595b0a9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

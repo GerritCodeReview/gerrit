@@ -48,6 +48,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
@@ -170,6 +171,10 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       }
       populateDiffAllActions(detail);
       body.add(patchTable);
+      if (Gerrit.getConfig().testChangeMerge()
+          && !changeDetail.getChange().isMergeable()) {
+        actionsPanel.add(new Label(Util.C.messageFailsMergeTest()));
+      }
 
       for(ClickHandler clickHandler : registeredClickHandler) {
         patchTable.addClickHandler(clickHandler);
@@ -405,6 +410,10 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       final Button b =
           new Button(Util.M
               .submitPatchSet(detail.getPatchSet().getPatchSetId()));
+      if (Gerrit.getConfig().testChangeMerge()) {
+        b.setEnabled(changeDetail.getChange().isMergeable());
+      }
+
       b.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {

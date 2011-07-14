@@ -16,6 +16,24 @@
       "revId": "11a3dbc66014edfbed95dcfada960d7595b0a9cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8+s\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-14T13:51:33Z",
+      "side": 1,
+      "message": "good comments!! that will look like easier to understand\r\nonce I get back in office July 20 I will update it ASAP",
+      "parentUuid": "AAABEX//9NQ\u003d",
+      "revId": "11a3dbc66014edfbed95dcfada960d7595b0a9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

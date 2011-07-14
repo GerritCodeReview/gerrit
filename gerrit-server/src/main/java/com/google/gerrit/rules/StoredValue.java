@@ -14,10 +14,8 @@
 
 package com.google.gerrit.rules;
 
-import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.SystemException;
-import com.googlecode.prolog_cafe.lang.Term;
 
 /**
  * Defines a value cached in a {@link PrologEnvironment}.
@@ -27,24 +25,31 @@ import com.googlecode.prolog_cafe.lang.Term;
 public class StoredValue<T> {
   /** Construct a new unique key that does not match any other key. */
   public static <T> StoredValue<T> create() {
-    return new StoredValue<T>(new JavaObjectTerm(new Object()));
+    return new StoredValue<T>();
   }
 
   /** Construct a key based on a Java Class object, useful for singletons. */
   public static <T> StoredValue<T> create(Class<T> clazz) {
-    return new StoredValue<T>(new JavaObjectTerm(clazz));
+    return new StoredValue<T>(clazz);
   }
 
-  private final Term key;
+  private final Object key;
 
   /**
-   * Initialize a stored value key using a Prolog term.
+   * Initialize a stored value key using any Java Object.
    *
    * @param key unique identity of the stored value. This will be the hash key
-   *        in the interpreter's hash manager.
+   *        in the Prolog Environments's hash map.
    */
-  public StoredValue(Term key) {
+  public StoredValue(Object key) {
     this.key = key;
+  }
+
+  /**
+   * Initializes a stored value key with a new unique key.
+   */
+  public StoredValue() {
+    key = this;
   }
 
   /** Look up the value in the engine, or return null. */
@@ -53,17 +58,13 @@ public class StoredValue<T> {
   }
   /** Get the value from the engine, or throw SystemException. */
   public T get(Prolog engine) {
-    T r = getOrNull(engine);
-    if (r == null) {
-      String msg;
-      if (key.isJavaObject() && key.toJava() instanceof Class<?>) {
-        msg = "No " + ((Class<?>) key.toJava()).getName() + " avaliable";
-      } else {
-        msg = key.toString();
-      }
-      throw new SystemException(msg);
+    T obj = getOrNull(engine);
+    if (obj == null) {
+      //unless createValue() is overridden, will throw an exception
+      obj = createValue(engine);
+      set(engine, obj);
     }
-    return r;
+    return obj;
   }
 
   public void set(Prolog engine, T obj) {
@@ -78,5 +79,10 @@ public class StoredValue<T> {
   /** Set the value into the environment's interpreter. */
   public void set(PrologEnvironment env, T obj) {
     env.set(this, obj);
+  }
+
+  /** Creates a value to store, throws an exception by default. */
+  protected T createValue(Prolog engine) {
+    throw new SystemException("No " + key + " available");
   }
 }

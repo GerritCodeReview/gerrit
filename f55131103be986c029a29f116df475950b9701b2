@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//8/c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-14T09:32:48Z",
+      "side": 1,
+      "message": "Why not just:\n\n if (Gerrit.getConfig().getAuthType() \u003d\u003d DEVELOPMENT_BECOME_ANY_ACCOUNT) {\n\tGerrit.upgradeUI(PageLinks.SETTINGS_CONTACT);\n }",
+      "revId": "f55131103be986c029a29f116df475950b9701b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8/Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-14T09:32:48Z",
+      "side": 1,
+      "message": "I would rather propose:\n\n if (authConfig.getAuthType() \u003d\u003d DEVELOPMENT_BECOME_ANY_ACCOUNT) {\n\tregisterMail(address, cb);\n } else {\n\tfinal RegisterNewEmailSender sender;\n\tsender \u003d registerNewEmailFactory.create(address);\n\tsender.send();\n\tcb.onSuccess(VoidResult.INSTANCE);\n }",
+      "revId": "f55131103be986c029a29f116df475950b9701b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8/U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-14T09:32:48Z",
+      "side": 1,
+      "message": "I don\u0027t see much value into performing this check here.\nThe authentication type is not a parameter provided by an RPC call but a global Gerrit configuration parameter. It is reasonable to expect that for all enum constants in AuthType we have appropriate implementation.\nChoosing an unsupported authentication type should cause an error already at gerrit initialization or startup.",
+      "revId": "f55131103be986c029a29f116df475950b9701b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8/Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-14T09:32:48Z",
+      "side": 1,
+      "message": "The indentical ProvisionException instance instantiated 2 times. But, anyway I propose to not perform this check here.",
+      "revId": "f55131103be986c029a29f116df475950b9701b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

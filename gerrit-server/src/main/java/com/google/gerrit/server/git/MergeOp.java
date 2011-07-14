@@ -20,6 +20,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
@@ -174,8 +175,7 @@ public class MergeOp {
       @GerritPersonIdent final PersonIdent myIdent,
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
       final ChangeHookRunner hooks, final AccountCache accountCache,
-      final TagCache tagCache,
-      final CreateCodeReviewNotes.Factory crnf) {
+      final TagCache tagCache, final CreateCodeReviewNotes.Factory crnf) {
     repoManager = grm;
     schemaFactory = sf;
     functionState = fs;
@@ -200,20 +200,76 @@ public class MergeOp {
     commits = new HashMap<Change.Id, CodeReviewCommit>();
   }
 
-  public void merge() throws MergeException {
+  public void verifyMergeability(Change change) {
+    try {
+      setDestProject();
+      openRepository();
+      final Ref destBranchRef = db.getRef(destBranch.get());
+      submitted = new ArrayList<Change>();
+      submitted.add(change);
+
+      // Test mergeability of the change if the last merged sha1
+      // in the branch is different from the last sha1
+      // the change was tested against.
+      if ((destBranchRef == null && change.getLastSha1MergeTested() == null)
+          || change.getLastSha1MergeTested() == null
+          || (destBranchRef != null && !destBranchRef.getObjectId().getName()
+              .equals(change.getLastSha1MergeTested().get()))) {
+        openSchema();
+        preMerge();
+
+        // update sha1 tested merge.
+        if (destBranchRef != null) {
+          change.setLastSha1MergeTested(new RevId(destBranchRef
+              .getObjectId().getName()));
+        } else {
+          change.setLastSha1MergeTested(new RevId(""));
+        }
+        change.setMergeable(isMergeable(change));
+        schema.changes().update(Collections.singleton(change));
+      }
+    } catch (MergeException e) {
+      log.error("Test merge attempt for change: " + change.getId()
+          + " failed", e);
+    } catch (OrmException e) {
+      log.error("Test merge attempt for change: " + change.getId()
+          + " failed: Not able to query the database", e);
+    } catch (IOException e) {
+      log.error("Test merge attempt for change: " + change.getId()
+          + " failed", e);
+    } finally {
+      if (schema != null) {
+        schema.close();
+      }
+      schema = null;
+    }
+  }
+
+  private void setDestProject() throws MergeException {
     final ProjectState pe = projectCache.get(destBranch.getParentKey());
     if (pe == null) {
       throw new MergeException("No such project: " + destBranch.getParentKey());
     }
     destProject = pe.getProject();
+  }
 
-    try {
+  private void openSchema() throws OrmException {
+    if (schema == null) {
       schema = schemaFactory.open();
-    } catch (OrmException e) {
-      throw new MergeException("Cannot open database", e);
     }
+  }
+
+  public void merge() throws MergeException {
+    setDestProject();
     try {
-      mergeImpl();
+      openSchema();
+      openRepository();
+      submitted = schema.changes().submitted(destBranch).toList();
+      preMerge();
+      updateBranch();
+      updateChangeStatus();
+    } catch (OrmException e) {
+      throw new MergeException("Cannot query the database", e);
     } finally {
       if (rw != null) {
         rw.release();
@@ -226,10 +282,8 @@ public class MergeOp {
     }
   }
 
-  private void mergeImpl() throws MergeException {
-    openRepository();
+  private void preMerge() throws MergeException {
     openBranch();
-    listPendingSubmits();
     validateChangeList();
     mergeTip = branchTip;
     switch (destProject.getSubmitType()) {
@@ -246,8 +300,6 @@ public class MergeOp {
         markCleanMerges();
         break;
     }
-    updateBranch();
-    updateChangeStatus();
   }
 
   private void openRepository() throws MergeException {
@@ -295,14 +347,6 @@ public class MergeOp {
       }
     } catch (IOException e) {
       throw new MergeException("Cannot open branch", e);
-    }
-  }
-
-  private void listPendingSubmits() throws MergeException {
-    try {
-      submitted = schema.changes().submitted(destBranch).toList();
-    } catch (OrmException e) {
-      throw new MergeException("Cannot query the database", e);
     }
   }
 
@@ -942,6 +986,20 @@ public class MergeOp {
     }
   }
 
+  private boolean isMergeable(Change c) throws OrmException {
+    final CodeReviewCommit commit = commits.get(c.getId());
+    final CommitMergeStatus s = commit != null ? commit.statusCode : null;
+    boolean isMergeable = false;
+    if (s != null
+        && (s.equals(CommitMergeStatus.CLEAN_MERGE)
+            || s.equals(CommitMergeStatus.CLEAN_PICK) || s
+            .equals(CommitMergeStatus.ALREADY_MERGED))) {
+      isMergeable = true;
+    }
+
+    return isMergeable;
+  }
+
   private void updateChangeStatus() throws MergeException {
     List<CodeReviewCommit> merged = new ArrayList<CodeReviewCommit>();
 
@@ -955,19 +1013,16 @@ public class MergeOp {
         continue;
       }
 
+      final String txt = s.getMessage();
+
       switch (s) {
         case CLEAN_MERGE: {
-          final String txt =
-              "Change has been successfully merged into the git repository.";
           setMerged(c, message(c, txt));
           merged.add(commit);
           break;
         }
 
         case CLEAN_PICK: {
-          final String txt =
-              "Change has been successfully cherry-picked as " + commit.name()
-                  + ".";
           setMerged(c, message(c, txt));
           merged.add(commit);
           break;
@@ -978,44 +1033,19 @@ public class MergeOp {
           merged.add(commit);
           break;
 
-        case PATH_CONFLICT: {
-          final String txt =
-              "Your change could not be merged due to a path conflict.\n"
-                  + "\n"
-                  + "Please merge (or rebase) the change locally and upload the resolution for review.";
-          setNew(c, message(c, txt));
-          break;
-        }
-
-        case CRISS_CROSS_MERGE: {
-          final String txt =
-              "Your change requires a recursive merge to resolve.\n"
-                  + "\n"
-                  + "Please merge (or rebase) the change locally and upload the resolution for review.";
-          setNew(c, message(c, txt));
-          break;
-        }
-
-        case CANNOT_CHERRY_PICK_ROOT: {
-          final String txt =
-              "Cannot cherry-pick an initial commit onto an existing branch.\n"
-                  + "\n"
-                  + "Please merge the change locally and upload the merge commit for review.";
-          setNew(c, message(c, txt));
-          break;
-        }
-
+        case PATH_CONFLICT:
+        case CRISS_CROSS_MERGE:
+        case CANNOT_CHERRY_PICK_ROOT:
         case NOT_FAST_FORWARD: {
-          final String txt =
-              "Project policy requires all submissions to be a fast-forward.\n"
-                  + "\n"
-                  + "Please rebase the change locally and upload again for review.";
           setNew(c, message(c, txt));
           break;
         }
 
         case MISSING_DEPENDENCY: {
-          dependencyError(commit);
+          final Capable capable = isSubmitStillPossible(commit);
+          if (capable != Capable.OK) {
+            sendMergeFail(c, message(c, capable.getMessage()), false);
+          }
           break;
         }
 
@@ -1036,7 +1066,8 @@ public class MergeOp {
         GitRepositoryManager.REFS_NOTES_REVIEW);
   }
 
-  private void dependencyError(final CodeReviewCommit commit) {
+  private Capable isSubmitStillPossible(final CodeReviewCommit commit) {
+    final Capable capable;
     final Change c = commit.change;
     if (commit.missing == null) {
       commit.missing = new ArrayList<CodeReviewCommit>();
@@ -1071,7 +1102,7 @@ public class MergeOp {
       // this change submitted. Reschedule an attempt in a bit.
       //
       mergeQueue.recheckAfter(destBranch, waitUntil - now, MILLISECONDS);
-
+      capable = Capable.OK;
     } else if (submitStillPossible) {
       // It would be possible to submit the change if the missing
       // dependencies are also submitted. Perhaps the user just
@@ -1095,9 +1126,7 @@ public class MergeOp {
         }
         txt = m.toString();
       }
-
-      sendMergeFail(c, message(c, txt), false);
-
+      capable = new Capable(txt);
     } else {
       // It is impossible to submit this change as-is. The author
       // needs to rebase it in order to work around the missing
@@ -1127,9 +1156,10 @@ public class MergeOp {
       }
       m.append("\n");
       m.append("Please rebase the change and upload a replacement commit.");
-
-      setNew(c, message(c, m.toString()));
+      capable = new Capable(m.toString());
     }
+
+    return capable;
   }
 
   private void loadChangeInfo(final CodeReviewCommit commit) {
@@ -1215,6 +1245,10 @@ public class MergeOp {
         @Override
         public Change update(Change c) {
           c.setStatus(Change.Status.MERGED);
+          // It could be possible that the change being merged
+          // has never had its mergeability tested. So we insure
+          // merged changes has mergeable field true.
+          c.setMergeable(true);
           if (!merged.equals(c.currentPatchSetId())) {
             // Uncool; the patch set changed after we merged it.
             // Go back to the patch set that was actually merged.

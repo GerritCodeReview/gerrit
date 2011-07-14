@@ -41,11 +41,11 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -311,6 +311,9 @@ public class PublishCommentScreen extends AccountScreen implements
     }
 
     submit.setVisible(r.canSubmit());
+    if (Gerrit.getConfig().testChangeMerge()) {
+      submit.setEnabled(r.getChange().isMergeable());
+    }
   }
 
   private void onSend(final boolean submit) {

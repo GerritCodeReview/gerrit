@@ -563,6 +563,22 @@ link:cmd-flush-caches.html[gerrit flush-caches].
 Default is 5 minutes.
 
 
+[[changeMerge]]Section changeMerge
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Controls whether or not the mergeability test of changes is
+enabled.  If enabled, when the change page is loaded, the test is
+triggered. The submit button will be enabled or disabled according to
+the result.
+
+----
+[changeMerge]
+  test = true
+----
+
++
+By default this is false (test is not enabled).
+
 [[commentlink]]Section commentlink
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Comment links are find/replace strings applied to change descriptions,

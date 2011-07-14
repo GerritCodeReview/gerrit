@@ -1169,6 +1169,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           public Change update(Change change) {
             if (change.getStatus().isOpen()) {
               change.nextPatchSetId();
+              change.setLastSha1MergeTested(null);
               return change;
             } else {
               return null;

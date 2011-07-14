@@ -39,13 +39,20 @@ public class ChangeInfoBlock extends Composite {
   private static final int R_UPLOADED = 5;
   private static final int R_UPDATED = 6;
   private static final int R_STATUS = 7;
-  private static final int R_PERMALINK = 8;
-  private static final int R_CNT = 9;
+  private static final int R_MERGE_TEST = 8;
+  private final int R_PERMALINK;
+  private static final int R_CNT = 10;
 
   private final Grid table;
 
   public ChangeInfoBlock() {
-    table = new Grid(R_CNT, 2);
+    if (Gerrit.getConfig().testChangeMerge()) {
+      table = new Grid(R_CNT, 2);
+      R_PERMALINK = 9;
+    } else {
+      table = new Grid(R_CNT - 1, 2);
+      R_PERMALINK = 8;
+    }
     table.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     table.addStyleName(Gerrit.RESOURCES.css().changeInfoBlock());
 
@@ -57,6 +64,9 @@ public class ChangeInfoBlock extends Composite {
     initRow(R_UPLOADED, Util.C.changeInfoBlockUploaded());
     initRow(R_UPDATED, Util.C.changeInfoBlockUpdated());
     initRow(R_STATUS, Util.C.changeInfoBlockStatus());
+    if (Gerrit.getConfig().testChangeMerge()) {
+      initRow(R_MERGE_TEST, Util.C.changeInfoBlockCanMerge());
+    }
 
     final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
@@ -91,6 +101,10 @@ public class ChangeInfoBlock extends Composite {
     table.setText(R_UPLOADED, 1, mediumFormat(chg.getCreatedOn()));
     table.setText(R_UPDATED, 1, mediumFormat(chg.getLastUpdatedOn()));
     table.setText(R_STATUS, 1, Util.toLongString(chg.getStatus()));
+    if (Gerrit.getConfig().testChangeMerge()) {
+      table.setText(R_MERGE_TEST, 1, chg.isMergeable() ? Util.C
+          .changeInfoBlockCanMergeYes() : Util.C.changeInfoBlockCanMergeNo());
+    }
 
     if (chg.getStatus().isClosed()) {
       table.getCellFormatter().addStyleName(R_STATUS, 1, Gerrit.RESOURCES.css().closedstate());

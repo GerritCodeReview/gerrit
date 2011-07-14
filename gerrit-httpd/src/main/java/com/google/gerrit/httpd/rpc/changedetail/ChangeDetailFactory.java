@@ -31,8 +31,11 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -41,6 +44,8 @@ import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,6 +75,9 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   private ChangeDetail detail;
   private ChangeControl control;
 
+  private final MergeOp.Factory opFactory;
+  private boolean testMerge;
+
   @Inject
   ChangeDetailFactory(final ApprovalTypes approvalTypes,
       final FunctionState.Factory functionState,
@@ -77,6 +85,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final AnonymousUser anonymousUser,
+      final MergeOp.Factory opFactory,
+      @GerritServerConfig final Config cfg,
       @Assisted final Change.Id id) {
     this.approvalTypes = approvalTypes;
     this.functionState = functionState;
@@ -85,6 +95,9 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     this.changeControlFactory = changeControlFactory;
     this.anonymousUser = anonymousUser;
     this.aic = accountInfoCacheFactory.create();
+
+    this.opFactory = opFactory;
+    this.testMerge = cfg.getBoolean("changeMerge", "test", false);
 
     this.changeId = id;
   }
@@ -148,7 +161,11 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     }
   }
 
-  private void load() throws OrmException {
+  private void load() throws OrmException, NoSuchChangeException {
+    if (detail.getChange().getStatus().equals(Change.Status.NEW) && testMerge) {
+      ChangeUtil.testMerge(opFactory, detail.getChange());
+    }
+
     final PatchSet.Id psId = detail.getChange().currentPatchSetId();
     final List<PatchSetApproval> allApprovals =
         db.patchSetApprovals().byChange(changeId).toList();

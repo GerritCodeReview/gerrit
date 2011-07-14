@@ -16,32 +16,50 @@ package com.google.gerrit.server.git;
 
 enum CommitMergeStatus {
   /** */
-  CLEAN_MERGE,
+  CLEAN_MERGE("Change has been successfully merged into the git repository."),
 
   /** */
-  CLEAN_PICK,
+  CLEAN_PICK("Change has been successfully cherry-picked"),
 
   /** */
-  ALREADY_MERGED,
+  ALREADY_MERGED(""),
 
   /** */
-  PATH_CONFLICT,
+  PATH_CONFLICT("Your change could not be merged due to a path conflict.\n"
+                  + "\n"
+                  + "Please merge (or rebase) the change locally and upload the resolution for review."),
 
   /** */
-  MISSING_DEPENDENCY,
+  MISSING_DEPENDENCY(""),
 
   /** */
-  NO_PATCH_SET,
+  NO_PATCH_SET(""),
 
   /** */
-  REVISION_GONE,
+  REVISION_GONE(""),
 
   /** */
-  CRISS_CROSS_MERGE,
+  CRISS_CROSS_MERGE("Your change requires a recursive merge to resolve.\n"
+                  + "\n"
+                  + "Please merge (or rebase) the change locally and upload the resolution for review."),
 
   /** */
-  CANNOT_CHERRY_PICK_ROOT,
+  CANNOT_CHERRY_PICK_ROOT("Cannot cherry-pick an initial commit onto an existing branch.\n"
+                  + "\n"
+                  + "Please merge the change locally and upload the merge commit for review."),
 
   /** */
-  NOT_FAST_FORWARD;
+  NOT_FAST_FORWARD("Project policy requires all submissions to be a fast-forward.\n"
+                  + "\n"
+                  + "Please rebase the change locally and upload again for review.");
+
+  private String message;
+
+  CommitMergeStatus(String message){
+    this.message = message;
+  }
+
+  public String getMessage(){
+    return message;
+  }
 }

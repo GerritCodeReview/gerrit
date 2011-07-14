@@ -245,6 +245,15 @@ public class ApprovalTable extends Composite {
     }
 
     addReviewer.setVisible(Gerrit.isSignedIn());
+
+    if (Gerrit.getConfig().testChangeMerge()
+        && !detail.getChange().isMergeable()) {
+      Element li = DOM.createElement("li");
+      li.setClassName(Gerrit.RESOURCES.css().missingApproval());
+      DOM.setInnerText(li, Util.C.messageNeedsRebaseOrHasDependency());
+      DOM.appendChild(missingList, li);
+      missing.setVisible(true);
+    }
   }
 
   private void doAddReviewer() {

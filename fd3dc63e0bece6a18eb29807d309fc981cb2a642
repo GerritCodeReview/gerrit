@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//854\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/StoredValue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-14T20:48:46Z",
+      "side": 1,
+      "message": "I think the better thing is to have createValue() return null by default, and have this code check createValue()\u0027s result and throw if null was returned. That way implementors cannot return null and be surprised.",
+      "revId": "fd3dc63e0bece6a18eb29807d309fc981cb2a642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//86c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/StoredValues.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-14T20:48:46Z",
+      "side": 1,
+      "message": "Style-int: Please put a blank line before this line.",
+      "revId": "fd3dc63e0bece6a18eb29807d309fc981cb2a642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//86Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/StoredValues.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-14T20:48:46Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "fd3dc63e0bece6a18eb29807d309fc981cb2a642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//86U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/StoredValues.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-14T20:48:46Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "fd3dc63e0bece6a18eb29807d309fc981cb2a642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//86M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/StoredValues.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-14T20:48:46Z",
+      "side": 1,
+      "message": "Style-nit: Just inline this:\n\n  throw new SystemException(\"Cannot create \" + plKey);",
+      "revId": "fd3dc63e0bece6a18eb29807d309fc981cb2a642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//86E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/StoredValues.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-14T20:48:46Z",
+      "side": 1,
+      "message": "We shouldn\u0027t define this until we have a plan to make sure its closed.",
+      "revId": "fd3dc63e0bece6a18eb29807d309fc981cb2a642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//86Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/StoredValues.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-14T20:48:46Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "fd3dc63e0bece6a18eb29807d309fc981cb2a642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

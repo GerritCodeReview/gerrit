@@ -201,17 +201,34 @@ class GitWebServlet extends HttpServlet {
       // Generate URLs using smart http://
       //
       p.print("{\n");
-      p.print("  my $secure = $ENV{'HTTPS'} =~ /^ON$/i;\n");
-      p.print("  my $http_url = $secure ? 'https://' : 'http://';\n");
-      p.print("  $http_url .= qq{$ENV{'GERRIT_USER_NAME'}@}\n");
-      p.print("    unless $ENV{'GERRIT_ANONYMOUS_READ'};\n");
-      p.print("  $http_url .= $ENV{'SERVER_NAME'};\n");
-      p.print("  $http_url .= qq{:$ENV{'SERVER_PORT'}}\n");
-      p.print("    if (( $secure && $ENV{'SERVER_PORT'} != 443)\n");
-      p.print("     || (!$secure && $ENV{'SERVER_PORT'} != 80)\n");
-      p.print("    );\n");
-      p.print("  $http_url .= qq{$ENV{'GERRIT_CONTEXT_PATH'}p};\n");
-      p.print("  push @git_base_url_list, $http_url;\n");
+      if (gerritConfig.getGitHttpUrl() != null) {
+        String url = gerritConfig.getGitHttpUrl();
+        if (url.endsWith("/")) {
+          url = url.substring(0, url.length() - 1);
+        }
+        String[] url_parts = url.split("://");
+        p.print("  my $http_url = ");
+        p.print(quoteForPerl(url_parts[0] + "://"));
+        p.print(";\n");
+        p.print("  $http_url .= qq{$ENV{'GERRIT_USER_NAME'}@}\n");
+        p.print("    unless $ENV{'GERRIT_ANONYMOUS_READ'};\n");
+        p.print("  $http_url .= ");
+        p.print(quoteForPerl(url_parts[1]));
+        p.print(";\n");
+        p.print("  push @git_base_url_list, $http_url;\n");
+      } else {
+        p.print("  my $secure = $ENV{'HTTPS'} =~ /^ON$/i;\n");
+        p.print("  my $http_url = $secure ? 'https://' : 'http://';\n");
+        p.print("  $http_url .= qq{$ENV{'GERRIT_USER_NAME'}@}\n");
+        p.print("    unless $ENV{'GERRIT_ANONYMOUS_READ'};\n");
+        p.print("  $http_url .= $ENV{'SERVER_NAME'};\n");
+        p.print("  $http_url .= qq{:$ENV{'SERVER_PORT'}}\n");
+        p.print("    if (( $secure && $ENV{'SERVER_PORT'} != 443)\n");
+        p.print("     || (!$secure && $ENV{'SERVER_PORT'} != 80)\n");
+        p.print("    );\n");
+        p.print("  $http_url .= qq{$ENV{'GERRIT_CONTEXT_PATH'}p};\n");
+        p.print("  push @git_base_url_list, $http_url;\n");
+      }
       p.print("}\n");
 
       // Generate URLs using anonymous git://

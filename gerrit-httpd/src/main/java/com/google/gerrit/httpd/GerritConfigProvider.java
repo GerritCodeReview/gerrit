@@ -95,6 +95,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setUseContributorAgreements(cfg.getBoolean("auth",
         "contributoragreements", false));
     config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));
+    config.setGitHttpUrl(cfg.getString("gerrit", null, "canonicalgithttpurl"));
     config.setUseContactInfo(contactStore != null && contactStore.isEnabled());
     config.setDownloadSchemes(schemeConfig.getDownloadScheme());
     config.setAuthType(authConfig.getAuthType());

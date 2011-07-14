@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8+0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-14T13:16:56Z",
+      "side": 1,
+      "message": "looks like more concise!! very good comments.\r\nonce I get back in Office I will update this class ASAP",
+      "parentUuid": "AAABEX//8/c\u003d",
+      "revId": "f55131103be986c029a29f116df475950b9701b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8/Y\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-14T09:32:48Z",
       "side": 1,
       "message": "I would rather propose:\n\n if (authConfig.getAuthType() \u003d\u003d DEVELOPMENT_BECOME_ANY_ACCOUNT) {\n\tregisterMail(address, cb);\n } else {\n\tfinal RegisterNewEmailSender sender;\n\tsender \u003d registerNewEmailFactory.create(address);\n\tsender.send();\n\tcb.onSuccess(VoidResult.INSTANCE);\n }",
+      "revId": "f55131103be986c029a29f116df475950b9701b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8/A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-14T13:16:56Z",
+      "side": 1,
+      "message": "good comments which make code more concise which I like .",
+      "parentUuid": "AAABEX//8/Y\u003d",
       "revId": "f55131103be986c029a29f116df475950b9701b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8+8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-14T13:16:56Z",
+      "side": 1,
+      "message": "right, good comments!\r\nI will check if it is true that Gerrit will check and cause an error if user chooses an unsupported authentication type  at Ggerrit initialization or startup.   if not ,I will apply to add this logic at right place .\r\nanyway I will detele line 290 ~294 as here is not the right place to check above logic.",
+      "parentUuid": "AAABEX//8/U\u003d",
+      "revId": "f55131103be986c029a29f116df475950b9701b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8/Q\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2011-07-14T09:32:48Z",
       "side": 1,
       "message": "The indentical ProvisionException instance instantiated 2 times. But, anyway I propose to not perform this check here.",
+      "revId": "f55131103be986c029a29f116df475950b9701b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8+4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-14T13:16:56Z",
+      "side": 1,
+      "message": "agree !!  once I get back Office I will update this class ASAP",
+      "parentUuid": "AAABEX//8/Q\u003d",
       "revId": "f55131103be986c029a29f116df475950b9701b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

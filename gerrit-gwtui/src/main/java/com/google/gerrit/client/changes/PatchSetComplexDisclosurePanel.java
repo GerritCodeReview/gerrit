@@ -27,8 +27,6 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.Patch;
@@ -36,6 +34,8 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.UserIdentity;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadCommand;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -405,6 +405,10 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       final Button b =
           new Button(Util.M
               .submitPatchSet(detail.getPatchSet().getPatchSetId()));
+      if (Gerrit.getConfig().testChangeMerge()) {
+        b.setEnabled(changeDetail.getChange().isMergeable());
+      }
+
       b.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {

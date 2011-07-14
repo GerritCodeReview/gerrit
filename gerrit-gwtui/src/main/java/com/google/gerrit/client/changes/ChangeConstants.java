@@ -91,6 +91,9 @@ public interface ChangeConstants extends Constants {
   String changeInfoBlockUpdated();
   String changeInfoBlockStatus();
   String changePermalink();
+  String changeInfoBlockCanMerge();
+  String changeInfoBlockCanMergeYes();
+  String changeInfoBlockCanMergeNo();
 
   String includedInTableBranch();
   String includedInTableTag();
@@ -99,6 +102,7 @@ public interface ChangeConstants extends Constants {
   String messageExpandRecent();
   String messageExpandAll();
   String messageCollapseAll();
+  String messageNeedsRebaseOrHasDependency();
 
   String patchSetInfoAuthor();
   String patchSetInfoCommitter();

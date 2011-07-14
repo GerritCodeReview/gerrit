@@ -14,23 +14,13 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
-import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
-import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetInfo;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
-import com.google.gerrit.server.patch.PatchListKey;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 
 import com.googlecode.prolog_cafe.lang.IllegalTypeException;
-import com.googlecode.prolog_cafe.lang.JavaException;
 import com.googlecode.prolog_cafe.lang.JavaObjectTerm;
 import com.googlecode.prolog_cafe.lang.Operation;
 import com.googlecode.prolog_cafe.lang.PInstantiationException;
@@ -39,8 +29,6 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
-
-import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.Iterator;
 import java.util.regex.Pattern;
@@ -92,15 +80,8 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
     engine.areg3 = arg3;
     engine.areg4 = arg4;
 
-    PrologEnvironment env = (PrologEnvironment) engine.control;
-    PatchSetInfo psInfo;
-    try {
-      psInfo = getPatchSetInfo(env);
-    } catch (PatchSetInfoNotAvailableException err) {
-      throw new JavaException(this, 1, err);
-    }
-
-    PatchList pl = getPatchList(env, psInfo);
+    PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
+    PatchList pl = StoredValues.PATCH_LIST.get(engine);
     Iterator<PatchListEntry> iter = pl.getPatches().iterator();
 
     engine.areg5 = new JavaObjectTerm(iter);
@@ -187,36 +168,5 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
         return copy;
     }
     throw new IllegalArgumentException("ChangeType not recognized");
-  }
-
-  protected PatchSetInfo getPatchSetInfo(PrologEnvironment env)
-      throws PatchSetInfoNotAvailableException {
-    PatchSetInfo psInfo = env.get(StoredValues.PATCH_SET_INFO);
-    if (psInfo == null) {
-      PatchSet.Id patchSetId = env.get(StoredValues.PATCH_SET_ID);
-      PatchSetInfoFactory patchInfoFactory =
-        env.getInjector().getInstance(PatchSetInfoFactory.class);
-      psInfo = patchInfoFactory.get(patchSetId);
-      env.set(StoredValues.PATCH_SET_INFO, psInfo);
-    }
-
-    return psInfo;
-  }
-
-  protected PatchList getPatchList(PrologEnvironment env, PatchSetInfo psInfo) {
-    PatchList patchList = env.get(StoredValues.PATCH_LIST);
-    if (patchList == null) {
-      PatchListCache plCache = env.getInjector().getInstance(PatchListCache.class);
-      Change change = env.get(StoredValues.CHANGE);
-      Project.NameKey projectKey = change.getProject();
-      ObjectId a = null;
-      ObjectId b = ObjectId.fromString(psInfo.getRevId());
-      Whitespace ws = Whitespace.IGNORE_NONE;
-      PatchListKey plKey = new PatchListKey(projectKey, a, b, ws);
-      patchList = plCache.get(plKey);
-      env.set(StoredValues.PATCH_LIST, patchList);
-    }
-
-    return patchList;
   }
 }

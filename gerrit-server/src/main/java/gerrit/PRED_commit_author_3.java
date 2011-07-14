@@ -16,9 +16,8 @@ package gerrit;
 
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.UserIdentity;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.rules.StoredValues;
 
-import com.googlecode.prolog_cafe.lang.JavaException;
 import com.googlecode.prolog_cafe.lang.Operation;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologException;
@@ -33,12 +32,7 @@ public class PRED_commit_author_3 extends AbstractCommitUserIdentityPredicate {
 
   @Override
   public Operation exec(Prolog engine) throws PrologException {
-    PatchSetInfo psInfo;
-    try {
-      psInfo = getPatchSetInfo(engine);
-    } catch (PatchSetInfoNotAvailableException err) {
-      throw new JavaException(this, 1, err);
-    }
+    PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
     UserIdentity author = psInfo.getAuthor();
     return exec(engine, author);
   }

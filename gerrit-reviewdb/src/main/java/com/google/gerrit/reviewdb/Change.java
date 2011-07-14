@@ -355,6 +355,12 @@ public final class Change {
   @Column(id = 14, notNull = false)
   protected String topic;
 
+  @Column(id = 15)
+  protected RevId lastSha1MergeTested;
+
+  @Column(id = 16)
+  protected boolean mergeable;
+
   protected Change() {
   }
 
@@ -367,6 +373,7 @@ public final class Change {
     owner = ownedBy;
     dest = forBranch;
     setStatus(Status.NEW);
+    setLastSha1MergeTested(new RevId(""));
   }
 
   /** Legacy 32 bit integer identity for a change. */
@@ -465,5 +472,21 @@ public final class Change {
 
   public void setTopic(String topic) {
     this.topic = topic;
+  }
+
+  public RevId getLastSha1MergeTested() {
+    return lastSha1MergeTested;
+  }
+
+  public void setLastSha1MergeTested(RevId lastSha1MergeTested) {
+    this.lastSha1MergeTested = lastSha1MergeTested;
+  }
+
+  public boolean isMergeable() {
+    return mergeable;
+  }
+
+  public void setMergeable(boolean mergeable) {
+    this.mergeable = mergeable;
   }
 }

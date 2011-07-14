@@ -42,6 +42,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -72,6 +73,7 @@ public class PublishCommentScreen extends AccountScreen implements
   private Button cancel;
   private boolean saveStateOnUnload = true;
   private List<CommentEditorPanel> commentEditors;
+  private Label errorlabel;
 
   public PublishCommentScreen(final PatchSet.Id psi) {
     patchSetId = psi;
@@ -111,6 +113,12 @@ public class PublishCommentScreen extends AccountScreen implements
     send = new Button(Util.C.buttonPublishCommentsSend());
     send.addClickHandler(this);
     buttonRow.add(send);
+
+    if (Gerrit.getConfig().testChangeMerge()) {
+      errorlabel = new Label();
+      errorlabel.setText(Util.C.messageMergeFail());
+      body.add(errorlabel);
+    }
 
     submit = new Button(Util.C.buttonPublishSubmitSend());
     submit.addClickHandler(this);
@@ -311,6 +319,10 @@ public class PublishCommentScreen extends AccountScreen implements
     }
 
     submit.setVisible(r.canSubmit());
+    if (Gerrit.getConfig().testChangeMerge()) {
+      submit.setEnabled(r.getChange().isMergeable());
+      errorlabel.setVisible(r.getChange().isMergeable());
+    }
   }
 
   private void onSend(final boolean submit) {

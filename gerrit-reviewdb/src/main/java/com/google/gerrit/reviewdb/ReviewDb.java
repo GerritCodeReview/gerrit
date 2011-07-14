@@ -113,6 +113,9 @@ public interface ReviewDb extends Schema {
   @Relation
   TrackingIdAccess trackingIds();
 
+  @Relation
+  ChangeLabelAccess changeLabels();
+
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)
   int nextAccountId() throws OrmException;

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//828\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-14T22:49:59Z",
+      "side": 1,
+      "message": "Perhaps use \" instead of `?  The previous sample above do, argh, no, some do, some don\u0027t!",
+      "revId": "47b549cf0f6be180d38c9d6035ac09f38d19be76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//824\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-14T22:49:59Z",
+      "side": 1,
+      "message": "s/alternates/alters/ ?",
+      "revId": "47b549cf0f6be180d38c9d6035ac09f38d19be76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//820\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GerritConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-14T22:49:59Z",
+      "side": 1,
+      "message": "Aren\u0027t you just stripping these off later?",
+      "revId": "47b549cf0f6be180d38c9d6035ac09f38d19be76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

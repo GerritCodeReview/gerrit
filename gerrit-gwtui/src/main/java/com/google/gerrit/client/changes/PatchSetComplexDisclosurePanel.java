@@ -204,8 +204,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         && (allowedSchemes.contains(DownloadScheme.ANON_HTTP) ||
             allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
       StringBuilder r = new StringBuilder();
-      r.append(GWT.getHostPageBaseURL());
-      r.append("p/");
+      if (Gerrit.getConfig().getGitHttpUrl() != null) {
+          r.append(Gerrit.getConfig().getGitHttpUrl());
+      } else {
+          r.append(GWT.getHostPageBaseURL());
+          r.append("p/");
+      }
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
@@ -241,7 +245,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         && Gerrit.getUserAccount().getUserName().length() > 0
         && (allowedSchemes.contains(DownloadScheme.HTTP) ||
             allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
-      String base = GWT.getHostPageBaseURL();
+      String base;
+      if (Gerrit.getConfig().getGitHttpUrl() != null) {
+          base = Gerrit.getConfig().getGitHttpUrl();
+      } else {
+          base = GWT.getHostPageBaseURL();
+      }
       int p = base.indexOf("://");
       int s = base.indexOf('/', p + 3);
       if (s < 0) {
@@ -258,7 +267,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       r.append('@');
       r.append(host);
       r.append(base.substring(s));
-      r.append("p/");
+      if (Gerrit.getConfig().getGitHttpUrl() == null) {
+          r.append("p/");
+      }
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());

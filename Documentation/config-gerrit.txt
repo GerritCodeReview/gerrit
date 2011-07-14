@@ -994,6 +994,19 @@ By default unset, as the git daemon must be configured externally
 by the system administrator, and might not even be running on the
 same host as Gerrit.
 
+[[gerrit.canonicalGitHttpUrl]]gerrit.canonicalGitHttpUrl::
++
+Alternative base URL for repositories available over the git-over-HTTP
+protocol.  For example, set this to "http://review.example.com/repos/"
+to display download URLs starting with it instead of the standard
+"http://review.example.com/p/".
++
+This setting alters only displayed links, so it requires rewriting URLs
+on the reverse-proxy.
++
+By default, Gerrit appends "p/" to
+<<gerrit.canonicalWebUrl,gerrit.canonicalWebUrl>>.
+
 [[gerrit.replicateOnStartup]]gerrit.replicateOnStartup::
 +
 If true, replicates to all remotes on startup to ensure they are

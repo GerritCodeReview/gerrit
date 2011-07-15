@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//8w0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-07-15T12:49:53Z",
+      "side": 1,
+      "message": "[optional] I would prefer to name it \u0027ParameterizedString\u0027",
+      "revId": "a47578cea75b3e9ab357ca06607571a434872c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

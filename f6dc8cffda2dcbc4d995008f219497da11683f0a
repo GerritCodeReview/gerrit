@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//8wg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologEnvironment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-15T14:16:19Z",
+      "side": 1,
+      "message": "Style-nit: Please declare the Logger as the first thing in the class.",
+      "revId": "f6dc8cffda2dcbc4d995008f219497da11683f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8wY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologEnvironment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-15T14:16:19Z",
+      "side": 1,
+      "message": "If your old cleanup list is non-empty, should we copy the elements into the new cleanup list, or simply discard them and let them leak?",
+      "revId": "f6dc8cffda2dcbc4d995008f219497da11683f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8wc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologEnvironment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-15T14:16:19Z",
+      "side": 1,
+      "message": "This isn\u0027t a per-request cleanup, its a cleanup for a PrologEnvironment. Don\u0027t reuse the log message you copied from the other location, it may lead someone looking up a problem to identify the wrong area of code that is involved.",
+      "revId": "f6dc8cffda2dcbc4d995008f219497da11683f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8wU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-15T14:16:19Z",
+      "side": 1,
+      "message": "These lines don\u0027t need to move anymore, do they?",
+      "revId": "f6dc8cffda2dcbc4d995008f219497da11683f0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

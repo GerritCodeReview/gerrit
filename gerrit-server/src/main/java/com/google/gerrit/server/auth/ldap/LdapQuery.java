@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.auth.ldap;
 
-import com.google.gerrit.common.data.ParamertizedString;
+import com.google.gerrit.common.data.ParameterizedString;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,11 +38,11 @@ class LdapQuery {
 
   private final String base;
   private final SearchScope searchScope;
-  private final ParamertizedString pattern;
+  private final ParameterizedString pattern;
   private final String[] returnAttributes;
 
   LdapQuery(final String base, final SearchScope searchScope,
-      final ParamertizedString pattern, final Set<String> returnAttributes) {
+      final ParameterizedString pattern, final Set<String> returnAttributes) {
     this.base = base;
     this.searchScope = searchScope;
 

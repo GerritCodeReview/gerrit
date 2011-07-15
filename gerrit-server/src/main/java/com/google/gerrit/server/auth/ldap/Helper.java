@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.auth.ldap;
 
-import com.google.gerrit.common.data.ParamertizedString;
+import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.GroupCache;
@@ -224,16 +224,16 @@ import javax.net.ssl.SSLSocketFactory;
   class LdapSchema {
     final LdapType type;
 
-    final ParamertizedString accountFullName;
-    final ParamertizedString accountEmailAddress;
-    final ParamertizedString accountSshUserName;
+    final ParameterizedString accountFullName;
+    final ParameterizedString accountEmailAddress;
+    final ParameterizedString accountSshUserName;
     final String accountMemberField;
     final List<LdapQuery> accountQueryList;
 
     boolean groupNeedsAccount;
     final List<String> groupBases;
     final SearchScope groupScope;
-    final ParamertizedString groupPattern;
+    final ParameterizedString groupPattern;
     final List<LdapQuery> groupMemberQueryList;
 
     LdapSchema(final DirContext ctx) {
@@ -255,7 +255,7 @@ import javax.net.ssl.SSLSocketFactory;
       for (String groupBase : groupBases) {
         if (groupMemberPattern != null) {
           final LdapQuery groupMemberQuery =
-              new LdapQuery(groupBase, groupScope, new ParamertizedString(
+              new LdapQuery(groupBase, groupScope, new ParameterizedString(
                   groupMemberPattern), Collections.<String> emptySet());
           if (groupMemberQuery.getParameters().isEmpty()) {
             throw new IllegalArgumentException(
@@ -303,7 +303,7 @@ import javax.net.ssl.SSLSocketFactory;
 
       for (String accountBase : LdapRealm.requiredList(config, "accountBase")) {
         final LdapQuery accountQuery =
-            new LdapQuery(accountBase, accountScope, new ParamertizedString(
+            new LdapQuery(accountBase, accountScope, new ParameterizedString(
                 accountPattern), accountAtts);
         if (accountQuery.getParameters().isEmpty()) {
           throw new IllegalArgumentException(

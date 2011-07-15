@@ -16,7 +16,7 @@ package com.google.gerrit.server.auth.ldap;
 
 import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_GERRIT;
 
-import com.google.gerrit.common.data.ParamertizedString;
+import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -148,14 +148,14 @@ class LdapRealm implements Realm {
     return v;
   }
 
-  static ParamertizedString paramString(Config c, String n, String d) {
+  static ParameterizedString paramString(Config c, String n, String d) {
     String expression = optdef(c, n, d);
     if (expression == null) {
       return null;
     } else if (expression.contains("${")) {
-      return new ParamertizedString(expression);
+      return new ParameterizedString(expression);
     } else {
-      return new ParamertizedString("${" + expression + "}");
+      return new ParameterizedString("${" + expression + "}");
     }
   }
 
@@ -164,7 +164,7 @@ class LdapRealm implements Realm {
     return !readOnlyAccountFields.contains(field);
   }
 
-  private static String apply(ParamertizedString p, LdapQuery.Result m)
+  private static String apply(ParameterizedString p, LdapQuery.Result m)
       throws NamingException {
     if (p == null) {
       return null;
@@ -273,8 +273,8 @@ class LdapRealm implements Realm {
       final DirContext ctx = helper.open();
       try {
         final LdapSchema schema = helper.getSchema(ctx);
-        final ParamertizedString filter =
-            ParamertizedString.asis(schema.groupPattern
+        final ParameterizedString filter =
+            ParameterizedString.asis(schema.groupPattern
                 .replace(GROUPNAME, name).toString());
         for (String groupBase : schema.groupBases) {
           final LdapQuery query =

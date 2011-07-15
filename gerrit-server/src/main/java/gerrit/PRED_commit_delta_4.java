@@ -107,6 +107,10 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
         String oldName = patch.getOldName();
         Patch.ChangeType changeType = patch.getChangeType();
 
+        if (newName.equals("/COMMIT_MSG")) {
+          return engine.fail();
+        }
+
         if (regex.matcher(newName).matches() ||
             (oldName != null && regex.matcher(oldName).matches())) {
           SymbolTerm changeSym = getTypeSymbol(changeType);

@@ -22,8 +22,14 @@ import com.googlecode.prolog_cafe.lang.BufferingPrologControl;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,6 +54,9 @@ public class PrologEnvironment extends BufferingPrologControl {
 
   private final Injector injector;
   private final Map<StoredValue<Object>, Object> storedValues;
+  private List<Runnable> cleanup;
+  private static final Logger log =
+    LoggerFactory.getLogger(PrologEnvironment.class);
 
   @Inject
   PrologEnvironment(Injector i, @Assisted PrologMachineCopy src) {
@@ -56,6 +65,7 @@ public class PrologEnvironment extends BufferingPrologControl {
     setMaxArity(MAX_ARITY);
     setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
     storedValues = new HashMap<StoredValue<Object>, Object>();
+    cleanup = new LinkedList<Runnable>();
   }
 
   /** Get the global Guice Injector that configured the environment. */
@@ -87,8 +97,39 @@ public class PrologEnvironment extends BufferingPrologControl {
 
   /**
    * Copy the stored values from another interpreter to this one.
+   * Also gets the cleanup from the child interpreter
    */
   public void copyStoredValues(PrologEnvironment child) {
     storedValues.putAll(child.storedValues);
+    cleanup = child.cleanup;
+  }
+
+  /**
+   * Assign the environment a cleanup list (in order to use a centralized list)
+   */
+  public void setCleanup(List<Runnable> cleanup) {
+    this.cleanup = cleanup;
+  }
+
+  /**
+   * Adds cleanup task to run when close() is called
+   * @param task is run when close() is called
+   */
+  public void addToCleanup(Runnable task) {
+    cleanup.add(task);
+  }
+
+  /**
+   * Release resources stored in interpreter's hash manager.
+   */
+  public void close() {
+    for (final Iterator<Runnable> i = cleanup.iterator(); i.hasNext();) {
+      try {
+        i.next().run();
+      } catch (Throwable err) {
+        log.error("Failed to execute per-request cleanup", err);
+      }
+      i.remove();
+    }
   }
 }

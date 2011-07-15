@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -243,8 +244,12 @@ public class ChangeControl {
       return ruleError("Patch set " + patchSetId + " is not current");
     }
 
+    List<Runnable> cleanup = new LinkedList<Runnable>();
+    List<Term> results = new ArrayList<Term>();
+    Term submitRule;
     ProjectState projectState = getProjectControl().getProjectState();
     PrologEnvironment env;
+
     try {
       env = projectState.newPrologEnvironment();
     } catch (CompileException err) {
@@ -252,76 +257,82 @@ public class ChangeControl {
           + getProject().getName(), err);
     }
 
-    env.set(StoredValues.REVIEW_DB, db);
-    env.set(StoredValues.CHANGE, change);
-    env.set(StoredValues.PATCH_SET_ID, patchSetId);
-    env.set(StoredValues.CHANGE_CONTROL, this);
+    env.setCleanup(cleanup);
 
-    Term submitRule = env.once(
-      "gerrit", "locate_submit_rule",
-      new VariableTerm());
-    if (submitRule == null) {
-      return logRuleError("No user:submit_rule found for "
-          + getProject().getName());
-    }
-
-    List<Term> results = new ArrayList<Term>();
     try {
-      for (Term[] template : env.all(
-          "gerrit", "can_submit",
-          submitRule,
-          new VariableTerm())) {
-        results.add(template[1]);
-      }
-    } catch (PrologException err) {
-      return logRuleError("Exception calling " + submitRule + " on change "
-          + change.getId() + " of " + getProject().getName(), err);
-    } catch (RuntimeException err) {
-      return logRuleError("Exception calling " + submitRule + " on change "
-          + change.getId() + " of " + getProject().getName(), err);
-    }
+      env.set(StoredValues.REVIEW_DB, db);
+      env.set(StoredValues.CHANGE, change);
+      env.set(StoredValues.PATCH_SET_ID, patchSetId);
+      env.set(StoredValues.CHANGE_CONTROL, this);
 
-    ProjectState parentState = projectState.getParentState();
-    PrologEnvironment childEnv = env;
-    Set<Project.NameKey> projectsSeen = new HashSet<Project.NameKey>();
-    projectsSeen.add(getProject().getNameKey());
-
-    while (parentState != null) {
-      if (!projectsSeen.add(parentState.getProject().getNameKey())) {
-        //parent has been seen before, stop walk up inheritance tree
-        break;
+      submitRule = env.once(
+        "gerrit", "locate_submit_rule",
+        new VariableTerm());
+      if (submitRule == null) {
+        return logRuleError("No user:submit_rule found for "
+            + getProject().getName());
       }
-      PrologEnvironment parentEnv;
+
       try {
-        parentEnv = parentState.newPrologEnvironment();
-      } catch (CompileException err) {
-        return logRuleError("Cannot consult rules.pl for "
-            + parentState.getProject().getName(), err);
-      }
-      parentEnv.copyStoredValues(childEnv);
-      Term filterRule =
-          parentEnv.once("gerrit", "locate_submit_filter", new VariableTerm());
-      if (filterRule != null) {
-        try {
-          Term resultsTerm = toListTerm(results);
-          results.clear();
-          Term[] template = parentEnv.once(
-              "gerrit", "filter_submit_results",
-              filterRule,
-              resultsTerm,
-              new VariableTerm());
-          results.addAll(((ListTerm) template[2]).toJava());
-        } catch (PrologException err) {
-          return logRuleError("Exception calling " + filterRule + " on change "
-              + change.getId() + " of " + parentState.getProject().getName(), err);
-        } catch (RuntimeException err) {
-          return logRuleError("Exception calling " + filterRule + " on change "
-              + change.getId() + " of " + parentState.getProject().getName(), err);
+        for (Term[] template : env.all(
+            "gerrit", "can_submit",
+            submitRule,
+            new VariableTerm())) {
+          results.add(template[1]);
         }
+      } catch (PrologException err) {
+        return logRuleError("Exception calling " + submitRule + " on change "
+            + change.getId() + " of " + getProject().getName(), err);
+      } catch (RuntimeException err) {
+        return logRuleError("Exception calling " + submitRule + " on change "
+            + change.getId() + " of " + getProject().getName(), err);
       }
 
-      parentState = parentState.getParentState();
-      childEnv = parentEnv;
+      Set<Project.NameKey> projectsSeen = new HashSet<Project.NameKey>();
+      projectsSeen.add(getProject().getNameKey());
+      ProjectState parentState = projectState.getParentState();
+      PrologEnvironment childEnv = env;
+
+      while (parentState != null) {
+        if (!projectsSeen.add(parentState.getProject().getNameKey())) {
+          //parent has been seen before, stop walk up inheritance tree
+          break;
+        }
+        PrologEnvironment parentEnv;
+        try {
+          parentEnv = parentState.newPrologEnvironment();
+        } catch (CompileException err) {
+          return logRuleError("Cannot consult rules.pl for "
+              + parentState.getProject().getName(), err);
+        }
+
+        parentEnv.copyStoredValues(childEnv);
+        Term filterRule =
+            parentEnv.once("gerrit", "locate_submit_filter", new VariableTerm());
+        if (filterRule != null) {
+          try {
+            Term resultsTerm = toListTerm(results);
+            results.clear();
+            Term[] template = parentEnv.once(
+                "gerrit", "filter_submit_results",
+                filterRule,
+                resultsTerm,
+                new VariableTerm());
+            results.addAll(((ListTerm) template[2]).toJava());
+          } catch (PrologException err) {
+            return logRuleError("Exception calling " + filterRule + " on change "
+                + change.getId() + " of " + parentState.getProject().getName(), err);
+          } catch (RuntimeException err) {
+            return logRuleError("Exception calling " + filterRule + " on change "
+                + change.getId() + " of " + parentState.getProject().getName(), err);
+          }
+        }
+
+        parentState = parentState.getParentState();
+        childEnv = parentEnv;
+      }
+    } finally {
+      env.close();
     }
 
     if (results.isEmpty()) {

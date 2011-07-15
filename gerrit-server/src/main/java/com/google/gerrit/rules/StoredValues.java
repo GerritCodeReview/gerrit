@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
@@ -32,7 +33,9 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.SystemException;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 
 public final class StoredValues {
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
@@ -72,6 +75,30 @@ public final class StoredValues {
         throw new SystemException("Cannot create " + plKey);
       }
       return patchList;
+    }
+  };
+
+  public static final StoredValue<Repository> REPOSITORY = new StoredValue<Repository>() {
+    @Override
+    public Repository createValue(Prolog engine) {
+      PrologEnvironment env = (PrologEnvironment) engine.control;
+      GitRepositoryManager gitMgr =
+        env.getInjector().getInstance(GitRepositoryManager.class);
+      Change change = StoredValues.CHANGE.get(engine);
+      Project.NameKey projectKey = change.getProject();
+      final Repository repo;
+      try {
+        repo = gitMgr.openRepository(projectKey);
+      } catch (RepositoryNotFoundException e) {
+        throw new SystemException(e.getMessage());
+      }
+      env.addToCleanup(new Runnable() {
+        @Override
+        public void run() {
+          repo.close();
+        }
+      });
+      return repo;
     }
   };
 

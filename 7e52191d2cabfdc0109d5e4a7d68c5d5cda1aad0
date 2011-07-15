@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//8tQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologEnvironment.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-15T17:55:29Z",
+      "side": 1,
+      "message": "So if we have a cleanup, what happens to our clean up list when we just take the child\u0027s one?",
+      "revId": "7e52191d2cabfdc0109d5e4a7d68c5d5cda1aad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8tM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologEnvironment.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-15T17:55:29Z",
+      "side": 1,
+      "message": "addAll(emptyList) is really cheap. Don\u0027t bother with the if ! isEmpty test.",
+      "revId": "7e52191d2cabfdc0109d5e4a7d68c5d5cda1aad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8tI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologEnvironment.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-15T17:55:29Z",
+      "side": 1,
+      "message": "It may be cleaner to name the parameter \"newCleanupList\". That way you don\u0027t have to say \"this.cleanup\" vs. \"cleanup\" in the method, get confused, and accidentally use the wrong one in the wrong place. We don\u0027t want to say \"cleanup.addAll(cleanup)\" (for example).  Using different names helps to make this more clear should it happen by accident.",
+      "revId": "7e52191d2cabfdc0109d5e4a7d68c5d5cda1aad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//80g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PrologEnvironment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-15T01:10:01Z",
+      "side": 1,
+      "message": "Look at RequestCleanup for a safer way to do this. In particular it deletes the items as it goes, making it less likely an exception thrown here followed by another call to close() would cause a duplicate call.\n\nFor that matter, you should wrap the run in a try/catch and log the cleanup error. We don\u0027t want to stop cleaning up other things if just one item failed.",
+      "revId": "fdb7ba94566611721ca914fe7eee4eabab43314a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//80c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-15T01:10:01Z",
+      "side": 1,
+      "message": "This should be indented another level, right?",
+      "revId": "fdb7ba94566611721ca914fe7eee4eabab43314a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//80Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-15T01:10:01Z",
+      "side": 1,
+      "message": "Because you defined the delegation to move everything, and you defined close() to be safe if called twice, isn\u0027t this check unnecessary?",
+      "revId": "fdb7ba94566611721ca914fe7eee4eabab43314a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

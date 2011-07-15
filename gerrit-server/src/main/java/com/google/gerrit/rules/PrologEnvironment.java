@@ -24,6 +24,8 @@ import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,6 +50,7 @@ public class PrologEnvironment extends BufferingPrologControl {
 
   private final Injector injector;
   private final Map<StoredValue<Object>, Object> storedValues;
+  private final List<Runnable> cleanup;
 
   @Inject
   PrologEnvironment(Injector i, @Assisted PrologMachineCopy src) {
@@ -56,6 +59,7 @@ public class PrologEnvironment extends BufferingPrologControl {
     setMaxArity(MAX_ARITY);
     setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
     storedValues = new HashMap<StoredValue<Object>, Object>();
+    cleanup = new LinkedList<Runnable>();
   }
 
   /** Get the global Guice Injector that configured the environment. */
@@ -87,8 +91,38 @@ public class PrologEnvironment extends BufferingPrologControl {
 
   /**
    * Copy the stored values from another interpreter to this one.
+   * Also take on the cleanup duties of the child interpreter.
    */
   public void copyStoredValues(PrologEnvironment child) {
     storedValues.putAll(child.storedValues);
+    child.delegateCleanup(cleanup);
+  }
+
+  /**
+   * child interpreter delegates cleanup duties by copying own cleanup list
+   * to parent and then clearing own list
+   */
+  private void delegateCleanup(List<Runnable> parentList) {
+    parentList.addAll(cleanup);
+    cleanup.clear();
+  }
+
+  /**
+   * Adds cleanup task to run when close() is called
+   * @param task is run when close() is called
+   */
+  public void addToCleanup(Runnable task) {
+    cleanup.add(task);
+  }
+
+  /**
+   * Release resources stored in interpreter's hash manager.
+   */
+  public void close() {
+    for (Runnable task : cleanup) {
+      task.run();
+    }
+    //ensure cleanup tasks run only once, even if close() is called again
+    cleanup.clear();
   }
 }

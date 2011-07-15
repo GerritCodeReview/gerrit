@@ -245,6 +245,8 @@ public class ChangeControl {
 
     ProjectState projectState = getProjectControl().getProjectState();
     PrologEnvironment env;
+    List<Term> results = new ArrayList<Term>();
+    Term submitRule;
     try {
       env = projectState.newPrologEnvironment();
     } catch (CompileException err) {
@@ -252,76 +254,93 @@ public class ChangeControl {
           + getProject().getName(), err);
     }
 
-    env.set(StoredValues.REVIEW_DB, db);
-    env.set(StoredValues.CHANGE, change);
-    env.set(StoredValues.PATCH_SET_ID, patchSetId);
-    env.set(StoredValues.CHANGE_CONTROL, this);
-
-    Term submitRule = env.once(
-      "gerrit", "locate_submit_rule",
-      new VariableTerm());
-    if (submitRule == null) {
-      return logRuleError("No user:submit_rule found for "
-          + getProject().getName());
-    }
-
-    List<Term> results = new ArrayList<Term>();
     try {
-      for (Term[] template : env.all(
-          "gerrit", "can_submit",
-          submitRule,
-          new VariableTerm())) {
-        results.add(template[1]);
-      }
-    } catch (PrologException err) {
-      return logRuleError("Exception calling " + submitRule + " on change "
-          + change.getId() + " of " + getProject().getName(), err);
-    } catch (RuntimeException err) {
-      return logRuleError("Exception calling " + submitRule + " on change "
-          + change.getId() + " of " + getProject().getName(), err);
-    }
+      env.set(StoredValues.REVIEW_DB, db);
+      env.set(StoredValues.CHANGE, change);
+      env.set(StoredValues.PATCH_SET_ID, patchSetId);
+      env.set(StoredValues.CHANGE_CONTROL, this);
 
-    ProjectState parentState = projectState.getParentState();
-    PrologEnvironment childEnv = env;
-    Set<Project.NameKey> projectsSeen = new HashSet<Project.NameKey>();
-    projectsSeen.add(getProject().getNameKey());
-
-    while (parentState != null) {
-      if (!projectsSeen.add(parentState.getProject().getNameKey())) {
-        //parent has been seen before, stop walk up inheritance tree
-        break;
+      submitRule = env.once(
+        "gerrit", "locate_submit_rule",
+        new VariableTerm());
+      if (submitRule == null) {
+        return logRuleError("No user:submit_rule found for "
+            + getProject().getName());
       }
-      PrologEnvironment parentEnv;
+
       try {
-        parentEnv = parentState.newPrologEnvironment();
-      } catch (CompileException err) {
-        return logRuleError("Cannot consult rules.pl for "
-            + parentState.getProject().getName(), err);
-      }
-      parentEnv.copyStoredValues(childEnv);
-      Term filterRule =
-          parentEnv.once("gerrit", "locate_submit_filter", new VariableTerm());
-      if (filterRule != null) {
-        try {
-          Term resultsTerm = toListTerm(results);
-          results.clear();
-          Term[] template = parentEnv.once(
-              "gerrit", "filter_submit_results",
-              filterRule,
-              resultsTerm,
-              new VariableTerm());
-          results.addAll(((ListTerm) template[2]).toJava());
-        } catch (PrologException err) {
-          return logRuleError("Exception calling " + filterRule + " on change "
-              + change.getId() + " of " + parentState.getProject().getName(), err);
-        } catch (RuntimeException err) {
-          return logRuleError("Exception calling " + filterRule + " on change "
-              + change.getId() + " of " + parentState.getProject().getName(), err);
+        for (Term[] template : env.all(
+            "gerrit", "can_submit",
+            submitRule,
+            new VariableTerm())) {
+          results.add(template[1]);
         }
+      } catch (PrologException err) {
+        return logRuleError("Exception calling " + submitRule + " on change "
+            + change.getId() + " of " + getProject().getName(), err);
+      } catch (RuntimeException err) {
+        return logRuleError("Exception calling " + submitRule + " on change "
+            + change.getId() + " of " + getProject().getName(), err);
       }
 
-      parentState = parentState.getParentState();
-      childEnv = parentEnv;
+      Set<Project.NameKey> projectsSeen = new HashSet<Project.NameKey>();
+      projectsSeen.add(getProject().getNameKey());
+      ProjectState parentState = projectState.getParentState();
+      PrologEnvironment childEnv = env;
+
+      try {
+        while (parentState != null) {
+          if (!projectsSeen.add(parentState.getProject().getNameKey())) {
+            //parent has been seen before, stop walk up inheritance tree
+            break;
+          }
+          PrologEnvironment parentEnv;
+          try {
+            parentEnv = parentState.newPrologEnvironment();
+          } catch (CompileException err) {
+            return logRuleError("Cannot consult rules.pl for "
+                + parentState.getProject().getName(), err);
+          }
+          try {
+          parentEnv.copyStoredValues(childEnv);
+          Term filterRule =
+              parentEnv.once("gerrit", "locate_submit_filter", new VariableTerm());
+          if (filterRule != null) {
+            try {
+              Term resultsTerm = toListTerm(results);
+              results.clear();
+              Term[] template = parentEnv.once(
+                  "gerrit", "filter_submit_results",
+                  filterRule,
+                  resultsTerm,
+                  new VariableTerm());
+              results.addAll(((ListTerm) template[2]).toJava());
+            } catch (PrologException err) {
+              return logRuleError("Exception calling " + filterRule + " on change "
+                  + change.getId() + " of " + parentState.getProject().getName(), err);
+            } catch (RuntimeException err) {
+              return logRuleError("Exception calling " + filterRule + " on change "
+                  + change.getId() + " of " + parentState.getProject().getName(), err);
+            }
+          }
+
+          parentState = parentState.getParentState();
+          childEnv = parentEnv;
+          } finally {
+            // When childEnv and parentEnv are the same, don't run close().
+            // At that point, the next parentEnv will need to copy childEnv's
+            // storedValues and if anything bad happens before then,
+            // childEnv.close() below will handle it.
+            if (childEnv != parentEnv) {
+              parentEnv.close();
+            }
+          }
+        }
+      } finally {
+        childEnv.close();
+      }
+    } finally {
+      env.close();
     }
 
     if (results.isEmpty()) {

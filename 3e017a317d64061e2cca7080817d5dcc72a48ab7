@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//8q4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-07-15T19:35:39Z",
+      "side": 1,
+      "message": "Hmm, we don\u0027t actually have to do this do we? The first environment makes its own cleanup list. And then during parentEnv.copyStoredValues(childEnv) below the new parentEnv is given a reference to env\u0027s cleanup list. Later you do env.close(), cleaning up everything.\n\nSo I don\u0027t think we need the code here to create a clenaup list, or set it on the env.",
+      "revId": "3e017a317d64061e2cca7080817d5dcc72a48ab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

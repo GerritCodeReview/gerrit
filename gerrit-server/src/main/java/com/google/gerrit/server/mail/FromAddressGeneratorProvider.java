@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.gerrit.common.data.ParamertizedString;
+import com.google.gerrit.common.data.ParametrizedString;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
@@ -41,7 +41,7 @@ public class FromAddressGeneratorProvider implements
     final Address srvAddr = toAddress(myIdent);
 
     if (from == null || "MIXED".equalsIgnoreCase(from)) {
-      ParamertizedString name = new ParamertizedString("${user} (Code Review)");
+      ParametrizedString name = new ParametrizedString("${user} (Code Review)");
       generator = new PatternGen(srvAddr, accountCache, name, srvAddr.email);
 
     } else if ("USER".equalsIgnoreCase(from)) {
@@ -52,7 +52,7 @@ public class FromAddressGeneratorProvider implements
 
     } else {
       final Address a = Address.parse(from);
-      final ParamertizedString name = a.name != null ? new ParamertizedString(a.name) : null;
+      final ParametrizedString name = a.name != null ? new ParametrizedString(a.name) : null;
       if (name == null || name.getParameterNames().isEmpty()) {
         generator = new ServerGen(a);
       } else {
@@ -118,10 +118,10 @@ public class FromAddressGeneratorProvider implements
     private final String senderEmail;
     private final Address serverAddress;
     private final AccountCache accountCache;
-    private final ParamertizedString namePattern;
+    private final ParametrizedString namePattern;
 
     PatternGen(final Address serverAddress, final AccountCache accountCache,
-        final ParamertizedString namePattern, final String senderEmail) {
+        final ParametrizedString namePattern, final String senderEmail) {
       this.senderEmail = senderEmail;
       this.serverAddress = serverAddress;
       this.accountCache = accountCache;

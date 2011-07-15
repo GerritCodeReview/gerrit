@@ -19,9 +19,9 @@ import junit.framework.TestCase;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParamertizedStringTest extends TestCase {
+public class ParametrizedStringTest extends TestCase {
   public void testEmptyString() {
-    final ParamertizedString p = new ParamertizedString("");
+    final ParametrizedString p = new ParametrizedString("");
     assertEquals("", p.getPattern());
     assertEquals("", p.getRawPattern());
     assertTrue(p.getParameterNames().isEmpty());
@@ -33,7 +33,7 @@ public class ParamertizedStringTest extends TestCase {
   }
 
   public void testAsis1() {
-    final ParamertizedString p = ParamertizedString.asis("${bar}c");
+    final ParametrizedString p = ParametrizedString.asis("${bar}c");
     assertEquals("${bar}c", p.getPattern());
     assertEquals("${bar}c", p.getRawPattern());
     assertTrue(p.getParameterNames().isEmpty());
@@ -46,7 +46,7 @@ public class ParamertizedStringTest extends TestCase {
   }
 
   public void testReplace1() {
-    final ParamertizedString p = new ParamertizedString("${bar}c");
+    final ParametrizedString p = new ParametrizedString("${bar}c");
     assertEquals("${bar}c", p.getPattern());
     assertEquals("{0}c", p.getRawPattern());
     assertEquals(1, p.getParameterNames().size());
@@ -61,7 +61,7 @@ public class ParamertizedStringTest extends TestCase {
   }
 
   public void testReplace2() {
-    final ParamertizedString p = new ParamertizedString("a${bar}c");
+    final ParametrizedString p = new ParametrizedString("a${bar}c");
     assertEquals("a${bar}c", p.getPattern());
     assertEquals("a{0}c", p.getRawPattern());
     assertEquals(1, p.getParameterNames().size());
@@ -76,7 +76,7 @@ public class ParamertizedStringTest extends TestCase {
   }
 
   public void testReplace3() {
-    final ParamertizedString p = new ParamertizedString("a${bar}");
+    final ParametrizedString p = new ParametrizedString("a${bar}");
     assertEquals("a${bar}", p.getPattern());
     assertEquals("a{0}", p.getRawPattern());
     assertEquals(1, p.getParameterNames().size());
@@ -91,7 +91,7 @@ public class ParamertizedStringTest extends TestCase {
   }
 
   public void testReplace4() {
-    final ParamertizedString p = new ParamertizedString("a${bar}c");
+    final ParametrizedString p = new ParametrizedString("a${bar}c");
     assertEquals("a${bar}c", p.getPattern());
     assertEquals("a{0}c", p.getRawPattern());
     assertEquals(1, p.getParameterNames().size());
@@ -105,7 +105,7 @@ public class ParamertizedStringTest extends TestCase {
   }
 
   public void testReplaceToLowerCase() {
-    final ParamertizedString p = new ParamertizedString("${a.toLowerCase}");
+    final ParametrizedString p = new ParametrizedString("${a.toLowerCase}");
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
@@ -125,7 +125,7 @@ public class ParamertizedStringTest extends TestCase {
   }
 
   public void testReplaceToUpperCase() {
-    final ParamertizedString p = new ParamertizedString("${a.toUpperCase}");
+    final ParametrizedString p = new ParametrizedString("${a.toUpperCase}");
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
@@ -145,7 +145,7 @@ public class ParamertizedStringTest extends TestCase {
   }
 
   public void testReplaceLocalName() {
-    final ParamertizedString p = new ParamertizedString("${a.localPart}");
+    final ParametrizedString p = new ParametrizedString("${a.localPart}");
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a"));
 
@@ -165,7 +165,7 @@ public class ParamertizedStringTest extends TestCase {
   }
 
   public void testUndefinedFunctionName() {
-    ParamertizedString p = new ParamertizedString("${a.anUndefinedMethod}");
+    ParametrizedString p = new ParametrizedString("${a.anUndefinedMethod}");
     assertEquals(1, p.getParameterNames().size());
     assertTrue(p.getParameterNames().contains("a.anUndefinedMethod"));
   }

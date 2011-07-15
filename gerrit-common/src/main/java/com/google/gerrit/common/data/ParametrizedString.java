@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 /** Performs replacements on strings such as <code>Hello ${user}</code>. */
-public class ParamertizedString {
+public class ParametrizedString {
   /** Obtain a string which has no parameters and always produces the value. */
-  public static ParamertizedString asis(final String constant) {
-    return new ParamertizedString(new Constant(constant));
+  public static ParametrizedString asis(final String constant) {
+    return new ParametrizedString(new Constant(constant));
   }
 
   private final String pattern;
@@ -32,18 +32,18 @@ public class ParamertizedString {
   private final List<Format> patternOps;
   private final List<Parameter> parameters;
 
-  protected ParamertizedString() {
+  protected ParametrizedString() {
     this(new Constant(""));
   }
 
-  private ParamertizedString(final Constant c) {
+  private ParametrizedString(final Constant c) {
     pattern = c.text;
     rawPattern = c.text;
     patternOps = Collections.<Format> singletonList(c);
     parameters = Collections.emptyList();
   }
 
-  public ParamertizedString(final String pattern) {
+  public ParametrizedString(final String pattern) {
     final StringBuilder raw = new StringBuilder();
     final List<Parameter> prs = new ArrayList<Parameter>(4);
     final List<Format> ops = new ArrayList<Format>(4);
@@ -152,7 +152,7 @@ public class ParamertizedString {
 
     @Override
     public String toString() {
-      return ParamertizedString.this.replace(params);
+      return ParametrizedString.this.replace(params);
     }
   }
 

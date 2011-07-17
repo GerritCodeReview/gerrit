@@ -156,9 +156,10 @@ class OpenIdServiceImpl implements OpenIdService {
     }
 
     final State state;
-    state = init(openidIdentifier, mode, remember, returnToken);
-    if (state == null) {
-      cb.onSuccess(new DiscoveryResult(DiscoveryResult.Status.NO_PROVIDER));
+    try {
+      state = init(openidIdentifier, mode, remember, returnToken);
+    } catch (DiscoveryException e) {
+      cb.onSuccess(new DiscoveryResult(DiscoveryResult.Status.NO_PROVIDER, e.getMessage()));
       return;
     }
 
@@ -246,8 +247,9 @@ class OpenIdServiceImpl implements OpenIdService {
       return;
     }
 
-    state = init(rediscoverIdentifier, mode, remember, returnToken);
-    if (state == null) {
+    try {
+      state = init(rediscoverIdentifier, mode, remember, returnToken);
+    } catch(DiscoveryException e) {
       // Re-discovery must have failed, we can't run a login.
       //
       cancel(req, rsp);
@@ -437,7 +439,9 @@ class OpenIdServiceImpl implements OpenIdService {
       }
     } catch (AccountException e) {
       log.error("OpenID authentication failure", e);
-      cancelWithError(req, rsp, "Contact site administrator");
+      cancelWithError(req, rsp, "OpenID authentication failure: "
+          + e.getMessage()
+          + ". Contact site administrator for more info.");
     }
   }
 
@@ -503,16 +507,18 @@ class OpenIdServiceImpl implements OpenIdService {
   }
 
   private State init(final String openidIdentifier, final SignInMode mode,
-      final boolean remember, final String returnToken) {
+      final boolean remember, final String returnToken)
+      throws DiscoveryException {
     final List<?> list;
     try {
       list = manager.discover(openidIdentifier);
     } catch (DiscoveryException e) {
+      // Intercept exception so the admin gets to see issues, too.
       log.error("Cannot discover OpenID " + openidIdentifier, e);
-      return null;
+      throw e;
     }
     if (list == null || list.isEmpty()) {
-      return null;
+      throw new DiscoveryException("");
     }
 
     final String contextUrl = urlProvider.get();

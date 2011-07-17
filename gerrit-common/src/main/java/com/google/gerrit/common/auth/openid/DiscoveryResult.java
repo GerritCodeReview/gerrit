@@ -32,6 +32,7 @@ public final class DiscoveryResult {
   }
 
   public Status status;
+  public String statusMessage;
   public String providerUrl;
   public Map<String, String> providerArgs;
 
@@ -46,5 +47,10 @@ public final class DiscoveryResult {
 
   public DiscoveryResult(final Status s) {
     status = s;
+  }
+
+  public DiscoveryResult(final Status s, final String message) {
+    status = s;
+    statusMessage = message;
   }
 }

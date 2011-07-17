@@ -325,7 +325,7 @@ public class OpenIdSignInDialog extends SignInDialog implements
         break;
 
       case NO_PROVIDER:
-        showError(OpenIdUtil.C.noProvider());
+        showError(OpenIdUtil.C.noProvider()+": "+result.statusMessage);
         enableRetryDiscovery();
         break;
 

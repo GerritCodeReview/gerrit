@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8gg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-07-18T15:27:39Z",
+      "side": 1,
+      "message": "Oops, true. That makes even more sense.",
+      "parentUuid": "AAABEX//8go\u003d",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8h0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
         "patchSetId": 1

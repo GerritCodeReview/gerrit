@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8g0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-18T15:08:38Z",
+      "side": 1,
+      "message": "The issue is that this change modifies the semantics of init(). Error conditions are exceptions now, compared to \"return null\" earlier.\n\nThe comment isn\u0027t so much about what I changed in this commit, but by what the intent of catching an exception and throwing it again is:\nThe exception makes sure that the user gets to see the message. catch { throw } is done to inject log.error(), which is about telling the admin what\u0027s going on.",
+      "parentUuid": "AAABEX//8hA\u003d",
+      "revId": "a0af8e7519244968a831b7c9ab3c127af87a06c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8jA\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
         "patchSetId": 1

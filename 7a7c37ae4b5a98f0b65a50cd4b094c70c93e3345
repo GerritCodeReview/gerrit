@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//8h4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-07-18T14:39:19Z",
+      "side": 1,
+      "message": "Is \"hidden\" really good name for this property? Wouldn\u0027t \"removed\" or \"decommissioned\" be better here?\n\nAlso, does it imply \"read-only\"?",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8iA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-07-18T14:39:19Z",
+      "side": 1,
+      "message": "Missing \"Bug:\" reference to the mentioned issue.",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8h0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-07-18T14:39:19Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \u0026\u0026?\n\nAnd if not, then does this mean that \"Project Owners\" can review projects in \"read-only\" state?",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8hs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-07-18T14:39:19Z",
+      "side": 1,
+      "message": "You really _need_ to add brackets here.",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

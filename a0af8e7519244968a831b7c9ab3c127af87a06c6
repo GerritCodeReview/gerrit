@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8ic\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/auth/openid/OpenIdSignInDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-18T14:41:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//8i4\u003d",
+      "revId": "a0af8e7519244968a831b7c9ab3c127af87a06c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8i0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-18T12:38:11Z",
       "side": 1,
       "message": "Style-nit: this line is too long. If possible, please wrap it to fit 80 characters.",
+      "revId": "a0af8e7519244968a831b7c9ab3c127af87a06c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8iY\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-18T14:41:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//8i0\u003d",
       "revId": "a0af8e7519244968a831b7c9ab3c127af87a06c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8iU\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-18T14:41:58Z",
+      "side": 1,
+      "message": "Improperly phrased, but I meant the admin. The comment\u0027s intent is to explain why we throw the same exception we caught (instead of not catching it in the first place).\n\nI improved the statement a bit.",
+      "parentUuid": "AAABEX//8i8\u003d",
+      "revId": "a0af8e7519244968a831b7c9ab3c127af87a06c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8jA\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8iE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-18T14:41:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//8jA\u003d",
+      "revId": "a0af8e7519244968a831b7c9ab3c127af87a06c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8jE\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2011-07-18T12:38:11Z",
       "side": 1,
       "message": "Style-nit: should be without parentheses:\n\n throw new DiscoveryException(\"\");",
+      "revId": "a0af8e7519244968a831b7c9ab3c127af87a06c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8iI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-07-18T14:41:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//8jE\u003d",
       "revId": "a0af8e7519244968a831b7c9ab3c127af87a06c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

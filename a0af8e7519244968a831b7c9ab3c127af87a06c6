@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8hA\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-18T15:04:40Z",
+      "side": 1,
+      "message": "I thought you want to provide a better error message to the user who was trying to login through OpenID?\n\nGerrit admin would actually see the error message from the error_log (even without your change). Or?\n\nOr did you mean to provide a better error message to the user so that the user can show it to the admin and the admin doesn\u0027t need to look at the error_log?",
+      "parentUuid": "AAABEX//8iU\u003d",
+      "revId": "a0af8e7519244968a831b7c9ab3c127af87a06c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8jA\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
         "patchSetId": 1

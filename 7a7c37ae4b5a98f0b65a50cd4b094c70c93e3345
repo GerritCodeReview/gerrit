@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8gI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-18T19:55:27Z",
+      "side": 1,
+      "message": "the \"hidden\" name was suggested by Shawn at the issue 349 thread.",
+      "parentUuid": "AAABEX//8h4\u003d",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8iA\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-18T14:39:19Z",
       "side": 1,
       "message": "Missing \"Bug:\" reference to the mentioned issue.",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8gE\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-18T19:55:27Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "AAABEX//8iA\u003d",
       "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -141,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8fU\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-18T19:55:27Z",
+      "side": 1,
+      "message": "Yes.. It was what I considered..!\nOtherwise, we can force the owner to change the project state before editing it.\nWhat do you prefer?",
+      "parentUuid": "AAABEX//8hk\u003d",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8hs\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 1
@@ -169,6 +223,24 @@
       "writtenOn": "2011-07-18T14:55:01Z",
       "side": 1,
       "message": "I also think the brackets are missing here because you wanted to extend the existing isVisible implementation with:\n\n \u0026\u0026 !isHidden()",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8fE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-18T19:55:27Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "AAABEX//8hU\u003d",
       "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8iQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-18T14:55:01Z",
+      "side": 1,
+      "message": "Could it happen that index \u003d\u003d -1 at this place?\nThe setSelectedIndex method expects values starting from zero and doesn\u0027t tell what happens for values lesser than zero.\nI would propose eliminating the index variable and replace the:\n\n index \u003d i;\n\nwithin the for loop, with:\n\n state.setSelectedIndex(i);",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8h0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
         "patchSetId": 1
@@ -53,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8hk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-18T14:55:01Z",
+      "side": 1,
+      "message": "Can an owner edit the change when it is read-only?",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8hs\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 1
@@ -64,6 +98,23 @@
       "writtenOn": "2011-07-18T14:39:19Z",
       "side": 1,
       "message": "You really _need_ to add brackets here.",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8hU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-18T14:55:01Z",
+      "side": 1,
+      "message": "I also think the brackets are missing here because you wanted to extend the existing isVisible implementation with:\n\n \u0026\u0026 !isHidden()",
       "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

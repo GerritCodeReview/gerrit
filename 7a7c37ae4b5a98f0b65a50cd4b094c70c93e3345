@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8go\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-18T15:25:57Z",
+      "side": 1,
+      "message": "Piotr, I wrote \"within the for loop\". So, just to avoid confusion, my complete proposal would be:\n\nif (state !\u003d null) {\n  for (int i \u003d 0; i \u003c state.getItemCount(); i++) {\n    if (newState.name().equals(state.getValue(i))) {\n      state.setSelectedIndex(i);\n      break;\n    }\n  }\n}",
+      "parentUuid": "AAABEX//8hM\u003d",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8h0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
         "patchSetId": 1

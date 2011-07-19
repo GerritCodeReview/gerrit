@@ -177,6 +177,11 @@ public final class Change {
       r.fromString(str);
       return r;
     }
+
+    /** Is the key constructed a valid key? */
+    public boolean isValid() {
+      return id.matches("^I[0-9a-fA-F]{40}$") && !id.matches("^I00*$");
+    }
   }
 
   /** Minimum database status constant for an open change. */

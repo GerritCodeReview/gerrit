@@ -15,7 +15,6 @@
 package gerrit;
 
 import com.google.gerrit.reviewdb.Patch;
-import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -80,7 +79,6 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
     engine.areg3 = arg3;
     engine.areg4 = arg4;
 
-    PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
     PatchList pl = StoredValues.PATCH_LIST.get(engine);
     Iterator<PatchListEntry> iter = pl.getPatches().iterator();
 

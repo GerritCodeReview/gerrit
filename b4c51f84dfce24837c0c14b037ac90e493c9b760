@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8Mg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1644,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-07-19T19:19:23Z",
+      "side": 1,
+      "message": "I\u0027m not sure how I\u0027d combine 1644-45 and 1632-38, since the env is being created and taking in the stored values in 1632-38 and env becomes the child in 1644-45. I could create a newPrologEnvironment(childEnv) in PrologEnvironment that does 1632-38 all in one though.",
+      "parentUuid": "AAABEX//8Sw\u003d",
+      "revId": "b4c51f84dfce24837c0c14b037ac90e493c9b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8Sk\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1

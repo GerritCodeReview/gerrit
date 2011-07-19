@@ -32,6 +32,9 @@ import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.UserIdentity;
+import com.google.gerrit.rules.PrologEnvironment;
+import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -52,6 +55,11 @@ import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import com.googlecode.prolog_cafe.compiler.CompileException;
+import com.googlecode.prolog_cafe.lang.SymbolTerm;
+import com.googlecode.prolog_cafe.lang.Term;
+import com.googlecode.prolog_cafe.lang.VariableTerm;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -74,8 +82,8 @@ import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
+import org.eclipse.jgit.transport.ReceivePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -151,6 +159,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private Map<ObjectId, Ref> refsById;
 
   private String destTopicName;
+  private Change currentChange;
 
   @Inject
   ReceiveCommits(final ReviewDb db, final ApprovalTypes approvalTypes,
@@ -862,7 +871,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           }
 
           if (changes.size() == 0) {
-            if (!isValidChangeId(idStr)) {
+            if (!key.isValid()) {
               reject(newChange, "invalid Change-Id");
               return;
             }
@@ -907,10 +916,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     newChange.setResult(ReceiveCommand.Result.OK);
   }
 
-  private static boolean isValidChangeId(String idStr) {
-    return idStr.matches("^I[0-9a-fA-F]{40}$") && !idStr.matches("^I00*$");
-  }
-
   private void createChange(final RevWalk walk, final RevCommit c)
       throws OrmException, IOException {
     walk.parseBody(c);
@@ -924,9 +929,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     for (final FooterLine footerLine : footerLines) {
       try {
         if (footerLine.matches(CHANGE_ID)) {
-          final String v = footerLine.getValue().trim();
-          if (isValidChangeId(v)) {
-            changeKey = new Change.Key(v);
+          Change.Key newKey = new Change.Key(footerLine.getValue().trim());
+          if (newKey.isValid()) {
+            changeKey = newKey;
           }
         } else if (isReviewer(footerLine)) {
           reviewers.add(toAccountId(footerLine.getValue().trim()));
@@ -1082,6 +1087,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       reject(request.cmd, "cannot replace " + request.ontoChange);
       return null;
     }
+    currentChange = change;
     if (!validCommit(changeCtl.getRefControl(), request.cmd, c)) {
       return null;
     }
@@ -1584,6 +1590,56 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       }
     }
 
+    // Check against commit_check predicate defined in rules.pl for project
+    // and all projects inherited from
+    ProjectState projectState = projectControl.getProjectState();
+    PrologEnvironment env = getPrologEnvironment(projectState, null, cmd);
+    if (env == null) {
+      return false;
+    }
+    // Mock up a change for predicates to use if a current one does not exist.
+    if (currentChange == null) {
+      currentChange = new Change(null, null, currentUser.getAccountId(), destBranch);
+      if (destTopicName != null) {
+        currentChange.setTopic(destTopicName);
+      }
+    }
+    env.set(StoredValues.REV_COMMIT, c);
+    env.set(StoredValues.CURRENT_USER, currentUser);
+    env.set(StoredValues.AUTHOR_IDENT, getUserIdent(author, cmd));
+    env.set(StoredValues.COMMITTER_IDENT, getUserIdent(committer, cmd));
+    env.set(StoredValues.CHANGE, currentChange);
+
+    try {
+      if (!runCommitCheck(env, projectState, cmd)) {
+        return false;
+      }
+      Set<Project.NameKey> projectsSeen = new HashSet<Project.NameKey>();
+      projectsSeen.add(project.getNameKey());
+      projectState = projectState.getParentState();
+      PrologEnvironment childEnv = env;
+
+      while (projectState != null) {
+        if (!projectsSeen.add(projectState.getProject().getNameKey())) {
+          // Project has been seen before, stop walk up inheritance tree.
+          break;
+        }
+        env = getPrologEnvironment(projectState, childEnv, cmd);
+        if (env == null) {
+          return false;
+        }
+
+        if (!runCommitCheck(env, projectState, cmd)) {
+          return false;
+        }
+
+        childEnv = env;
+        projectState = projectState.getParentState();
+      }
+    } finally {
+      env.close();
+    }
+
     return true;
   }
 
@@ -1857,6 +1913,46 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       toInsert.add(a);
     }
     db.patchSetAncestors().insert(toInsert);
+  }
+
+  private PrologEnvironment getPrologEnvironment(ProjectState state,
+      PrologEnvironment childEnv, final ReceiveCommand cmd) {
+    try {
+      return state.newPrologEnvironment(childEnv);
+    } catch (CompileException err) {
+      reject(cmd, "Cannot consult rules.pl for " + project.getName());
+      log.error("Cannot consult rules.pl for " + project.getName(), err);
+      return null;
+    }
+  }
+
+  private UserIdentity getUserIdent(PersonIdent ident, final ReceiveCommand cmd) {
+    UserIdentity userIdent = new UserIdentity();
+    userIdent.setName(ident.getName());
+    userIdent.setEmail(ident.getEmailAddress());
+    Account.Id id;
+    try {
+      userIdent.setAccount(toAccountId(ident.getEmailAddress()));
+    } catch (OrmException err) {
+      reject(cmd, "Error in finding account of " + ident.getName() + " in "+ project.getName());
+      log.error("Error in finding account of " + ident.getName() + " in "+ project.getName(), err);
+    } catch (NoSuchAccountException e) {
+      userIdent.setAccount(null);
+    }
+    return userIdent;
+  }
+
+  private boolean runCommitCheck(PrologEnvironment env,
+      ProjectState projectState, final ReceiveCommand cmd) {
+    Term commitRule = env.once("gerrit", "locate_commit_check", new VariableTerm());
+    if (commitRule != null) {
+      if (!env.execute("gerrit", "run_commit_check", commitRule)) {
+        reject(cmd, "Commit check of " + projectState.getProject().getName()
+            + " failed for " + project.getName());
+        return false;
+      }
+    }
+    return true;
   }
 
   private static RevId toRevId(final RevCommit src) {

@@ -15,7 +15,6 @@
 package gerrit;
 
 import com.google.gerrit.reviewdb.Branch;
-import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.rules.StoredValues;
 
 import com.googlecode.prolog_cafe.lang.Operation;
@@ -38,8 +37,7 @@ public class PRED_change_branch_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    Change change = StoredValues.CHANGE.get(engine);
-    Branch.NameKey name = change.getDest();
+    Branch.NameKey name = StoredValues.CHANGE.get(engine).getDest();
 
     if (!a1.unify(SymbolTerm.create(name.get()), engine.trail)) {
       return engine.fail();

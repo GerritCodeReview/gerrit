@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//8UI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-19T00:07:04Z",
+      "side": 1,
+      "message": "Suggested wording: \"Contact site administrator for more info.\"",
+      "revId": "1f0447353d56eca32b8cabc773dd813310f26256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8T4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-19T00:07:04Z",
+      "side": 1,
+      "message": "Is there anyway to filter out any of the logged messages, I would say particularly if it is user error.  In general, I would like to reduce the amount of things that get logged, hopefully to only bad system stuff, not user errors.",
+      "revId": "1f0447353d56eca32b8cabc773dd813310f26256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//8Rw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-19T00:59:47Z",
+      "side": 1,
+      "message": "How does this affect \"Require Change-Id in commit message\" option in the UI under Admin-\u003eProjects-\u003eGeneral?  Does turning that check on or off affect this check?  Is this check meant to replace that option?",
+      "revId": "b4c51f84dfce24837c0c14b037ac90e493c9b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8Ss\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1599,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-19T00:59:47Z",
+      "side": 1,
+      "message": "These 2 lines would be clearer if they were right before the 1624.",
+      "revId": "b4c51f84dfce24837c0c14b037ac90e493c9b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8Sw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1644,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-19T00:59:47Z",
+      "side": 1,
+      "message": "Perhaps the env could do much of this for us?  What if the env had a getParentState() call which did line 1644-45, 1632-38?",
+      "revId": "b4c51f84dfce24837c0c14b037ac90e493c9b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8Sk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1961,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-19T00:59:47Z",
+      "side": 1,
+      "message": "Should we error out if more than one valid changeId?",
+      "revId": "b4c51f84dfce24837c0c14b037ac90e493c9b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8SM\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_branch_1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-19T00:59:47Z",
+      "side": 1,
+      "message": "There are numerous lazy instantiations of StoredValues in this change.  Could these checks be pushed to StoredValues even if they are not duplicated yet?",
+      "revId": "b4c51f84dfce24837c0c14b037ac90e493c9b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8R4\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_owner_1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-19T00:59:47Z",
+      "side": 1,
+      "message": "The code above (ChangeKey extraction) is duplicated from ReceiveCommits, can it be in common somewhere?",
+      "revId": "b4c51f84dfce24837c0c14b037ac90e493c9b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8SA\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_owner_1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-19T00:59:47Z",
+      "side": 1,
+      "message": "Duplicated from ReceiveCommits, is there a common place we can put this?",
+      "revId": "b4c51f84dfce24837c0c14b037ac90e493c9b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8R8\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_topic_1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-19T00:59:47Z",
+      "side": 1,
+      "message": "This test will NPE if topic is null.",
+      "revId": "b4c51f84dfce24837c0c14b037ac90e493c9b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

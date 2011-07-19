@@ -16,9 +16,13 @@ package gerrit;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.rules.StoredValues;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
+import com.googlecode.prolog_cafe.lang.JavaException;
 import com.googlecode.prolog_cafe.lang.Operation;
 import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
@@ -27,9 +31,15 @@ import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
+import org.eclipse.jgit.revwalk.FooterKey;
+import org.eclipse.jgit.revwalk.RevCommit;
+
+import java.util.Iterator;
+
 public class PRED_change_owner_1 extends Predicate.P1 {
   private static final long serialVersionUID = 1L;
   private static final SymbolTerm user = SymbolTerm.intern("user", 1);
+  private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   public PRED_change_owner_1(Term a1, Operation n) {
     arg1 = a1;
@@ -41,8 +51,40 @@ public class PRED_change_owner_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    Change change = StoredValues.CHANGE.get(engine);
-    Account.Id ownerId = change.getOwner();
+    Change change = StoredValues.CHANGE.getOrNull(engine);
+    if (change == null) {
+      // Attempt to retrieve change from db, if it doesn't exist (change hasn't
+      // been made yet), return patch committer as the owner.
+      Change.Key changeKey = null;
+      RevCommit c = StoredValues.REV_COMMIT.get(engine);
+      for (final String changeId : c.getFooterLines(CHANGE_ID)) {
+        final String v = changeId.trim();
+        if (Change.Id.isValidChangeId(v)) {
+          changeKey = new Change.Key(v);
+        }
+      }
+      if (changeKey != null) {
+        ReviewDb db = StoredValues.REVIEW_DB.get(engine);
+        try {
+          ResultSet<Change> changes = db.changes().byKey(changeKey);
+          Iterator<Change> iter = changes.iterator();
+          if (iter.hasNext()) {
+            // Assuming 0 or 1 changes here.
+            change = iter.next();
+            StoredValues.CHANGE.set(engine, change);
+          }
+        } catch (OrmException err) {
+          throw new JavaException(this, 1, err);
+        }
+      }
+    }
+
+    Account.Id ownerId;
+    if (change == null) {
+      ownerId = StoredValues.COMMITTER_IDENT.get(engine).getAccount();
+    } else {
+      ownerId = change.getOwner();
+    }
 
     if (!a1.unify(new StructureTerm(user, new IntegerTerm(ownerId.get())), engine.trail)) {
       return engine.fail();

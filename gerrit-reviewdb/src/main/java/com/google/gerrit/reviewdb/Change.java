@@ -131,6 +131,10 @@ public final class Change {
     public static Id fromRef(final String ref) {
       return PatchSet.Id.fromRef(ref).getParentKey();
     }
+
+    public static boolean isValidChangeId(String idStr) {
+      return idStr.matches("^I[0-9a-fA-F]{40}$") && !idStr.matches("^I00*$");
+    }
   }
 
   /** Globally unique identification of this change. */

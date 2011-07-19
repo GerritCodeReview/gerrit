@@ -38,9 +38,14 @@ public class PRED_change_topic_1 extends Predicate.P1 {
     Term a1 = arg1.dereference();
 
     Term topicTerm = Prolog.Nil;
-    Change change = StoredValues.CHANGE.get(engine);
-    String topic = change.getTopic();
-    if (topic != null) {
+    String topic = StoredValues.TOPIC.getOrNull(engine);
+    if (topic == null) {
+      Change change = StoredValues.CHANGE.get(engine);
+      topic = change.getTopic();
+    }
+    // Treat empty string as Nil
+    //
+    if (topic != null && !topic.equals("")) {
       topicTerm = SymbolTerm.create(topic);
     }
 

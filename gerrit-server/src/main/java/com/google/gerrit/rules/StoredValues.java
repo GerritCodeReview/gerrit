@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -36,22 +37,37 @@ import com.googlecode.prolog_cafe.lang.SystemException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 public final class StoredValues {
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
   public static final StoredValue<Change> CHANGE = create(Change.class);
   public static final StoredValue<PatchSet.Id> PATCH_SET_ID = create(PatchSet.Id.class);
   public static final StoredValue<ChangeControl> CHANGE_CONTROL = create(ChangeControl.class);
+  public static final StoredValue<RevCommit> REV_COMMIT = create(RevCommit.class);
+
+  public static final StoredValue<CurrentUser> CURRENT_USER = new StoredValue<CurrentUser>() {
+    @Override
+    public CurrentUser createValue(Prolog engine) {
+      return StoredValues.CHANGE_CONTROL.get(engine).getCurrentUser();
+    }
+  };
 
   public static final StoredValue<PatchSetInfo> PATCH_SET_INFO = new StoredValue<PatchSetInfo>() {
     @Override
     public PatchSetInfo createValue(Prolog engine) {
-      PatchSet.Id patchSetId = StoredValues.PATCH_SET_ID.get(engine);
+      PatchSet.Id patchSetId = StoredValues.PATCH_SET_ID.getOrNull(engine);
       PrologEnvironment env = (PrologEnvironment) engine.control;
       PatchSetInfoFactory patchInfoFactory =
           env.getInjector().getInstance(PatchSetInfoFactory.class);
       try {
-        return patchInfoFactory.get(patchSetId);
+        if (patchSetId == null) {
+          // Mocks a PatchSetInfo if the patchset has not been created yet.
+          RevCommit commit = StoredValues.REV_COMMIT.get(engine);
+          return patchInfoFactory.get(commit, null);
+        } else {
+          return patchInfoFactory.get(patchSetId);
+        }
       } catch (PatchSetInfoNotAvailableException e) {
         throw new SystemException(e.getMessage());
       }

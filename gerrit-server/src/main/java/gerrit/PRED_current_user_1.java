@@ -21,7 +21,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.ReplicationUser;
-import com.google.gerrit.server.project.ChangeControl;
 
 import com.googlecode.prolog_cafe.lang.EvaluationException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -50,8 +49,8 @@ public class PRED_current_user_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    ChangeControl cControl = StoredValues.CHANGE_CONTROL.get(engine);
-    CurrentUser curUser = cControl.getCurrentUser();
+    CurrentUser curUser = StoredValues.CURRENT_USER.get(engine);
+
     Term resultTerm;
 
     if (curUser instanceof IdentifiedUser) {

@@ -14,7 +14,6 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.rules.StoredValues;
 
@@ -38,8 +37,7 @@ public class PRED_change_project_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    Change change = StoredValues.CHANGE.get(engine);
-    Project.NameKey name = change.getProject();
+    Project.NameKey name = StoredValues.PROJECT_NAMEKEY.get(engine);
 
     if (!a1.unify(SymbolTerm.create(name.get()), engine.trail)) {
       return engine.fail();

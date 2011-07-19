@@ -14,7 +14,6 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gerrit.rules.StoredValues;
 
@@ -32,8 +31,7 @@ public class PRED_commit_author_3 extends AbstractCommitUserIdentityPredicate {
 
   @Override
   public Operation exec(Prolog engine) throws PrologException {
-    PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
-    UserIdentity author = psInfo.getAuthor();
+    UserIdentity author = StoredValues.AUTHOR_IDENT.get(engine);
     return exec(engine, author);
   }
 }

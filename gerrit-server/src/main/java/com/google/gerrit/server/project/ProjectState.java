@@ -160,6 +160,18 @@ public class ProjectState {
     return envFactory.create(pmc);
   }
 
+  /** @return Constructs a new PrologEnvironment for the calling thread and
+   *          copies the stored values and cleanup list from childEnv.
+   */
+  public PrologEnvironment newPrologEnvironment(PrologEnvironment childEnv)
+      throws CompileException {
+    PrologEnvironment newEnv = newPrologEnvironment();
+    if (childEnv != null) {
+      newEnv.copyStoredValues(childEnv);
+    }
+    return newEnv;
+  }
+
   public Project getProject() {
     return config.getProject();
   }

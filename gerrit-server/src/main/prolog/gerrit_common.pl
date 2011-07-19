@@ -316,6 +316,38 @@ locate_submit_filter(FilterName) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
+%% locate_commit_check/1:
+%%
+%%   Finds and runs a commit_check if available.
+%%
+:- public locate_commit_check/1.
+%%
+locate_commit_check(CheckName) :-
+  '$compiled_predicate'(user, commit_check, 0),
+  !,
+  CheckName = user:commit_check
+  .
+locate_commit_check(CheckName) :-
+  clause(user:commit_check, _),
+  CheckName = user:commit_check
+  .
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% run_commit_check/1:
+%%
+%%   Runs a commit_check if available.
+%%
+:- public run_commit_check/1.
+%%
+
+run_commit_check(P:X) :- !, P:X.
+run_commit_check(X) :- !, X.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
 %% find_label/3:
 %%
 %%   Finds labels successively and fails when there are no more results.

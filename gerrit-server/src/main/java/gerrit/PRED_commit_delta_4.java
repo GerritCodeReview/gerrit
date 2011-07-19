@@ -80,7 +80,6 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
     engine.areg3 = arg3;
     engine.areg4 = arg4;
 
-    PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
     PatchList pl = StoredValues.PATCH_LIST.get(engine);
     Iterator<PatchListEntry> iter = pl.getPatches().iterator();
 

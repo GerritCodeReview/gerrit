@@ -32,8 +32,11 @@ public class PRED_commit_committer_3 extends AbstractCommitUserIdentityPredicate
 
   @Override
   public Operation exec(Prolog engine) throws PrologException {
-    PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
-    UserIdentity committer = psInfo.getCommitter();
+    UserIdentity committer = StoredValues.COMMITTER_IDENT.getOrNull(engine);
+    if (committer == null) {
+      PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
+      committer = psInfo.getCommitter();
+    }
     return exec(engine, committer);
   }
 }

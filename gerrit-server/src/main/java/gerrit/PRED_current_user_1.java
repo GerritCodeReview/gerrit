@@ -50,8 +50,12 @@ public class PRED_current_user_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    ChangeControl cControl = StoredValues.CHANGE_CONTROL.get(engine);
-    CurrentUser curUser = cControl.getCurrentUser();
+    CurrentUser curUser = StoredValues.CURRENT_USER.getOrNull(engine);
+    if (curUser == null) {
+      ChangeControl cControl = StoredValues.CHANGE_CONTROL.get(engine);
+      curUser = cControl.getCurrentUser();
+    }
+
     Term resultTerm;
 
     if (curUser instanceof IdentifiedUser) {

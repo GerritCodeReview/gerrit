@@ -32,8 +32,11 @@ public class PRED_commit_author_3 extends AbstractCommitUserIdentityPredicate {
 
   @Override
   public Operation exec(Prolog engine) throws PrologException {
-    PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
-    UserIdentity author = psInfo.getAuthor();
+    UserIdentity author = StoredValues.AUTHOR_IDENT.getOrNull(engine);
+    if (author == null) {
+      PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
+      author = psInfo.getAuthor();
+    }
     return exec(engine, author);
   }
 }

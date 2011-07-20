@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7/U\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-20T20:36:34Z",
+      "side": 1,
+      "message": "I think that this belongs on the Key, not the Id?\n\nTo be more object oriented, it might be nicer to add a non static isValid() method to the class.  And then create the key from this string using parse().  Then, either in parse(), it could verify the validity (and fail, not sure if that is ok to do?), or it could be done manually after the fact.",
+      "revId": "7a34d271c386e3d56e30cb62a011365a97049112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7/Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/StoredValues.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-20T20:36:34Z",
+      "side": 1,
+      "message": "Suggestion:\n\n  return StoredValues.PATCH_SET_INFO.get(engine).getAuthor(); \n\nwould be simpler (same for many below).",
+      "revId": "7a34d271c386e3d56e30cb62a011365a97049112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7/c\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_topic_1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-20T20:36:34Z",
+      "side": 1,
+      "message": "Nit: Comment is probably not needed.",
+      "revId": "7a34d271c386e3d56e30cb62a011365a97049112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

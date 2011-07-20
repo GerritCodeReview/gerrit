@@ -16,6 +16,24 @@
       "revId": "42f8e1d087fe48703a637cea78a2b611c0b2134f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7+0\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-07-20T20:58:00Z",
+      "side": 1,
+      "message": "Oops, sorry.\ncommit_edits should be accessible to the interpreter even without declaring it in gerrit_common.pl, so that\u0027s why I didn\u0027t add commit_edits to the file.",
+      "parentUuid": "AAABEX//7/M\u003d",
+      "revId": "42f8e1d087fe48703a637cea78a2b611c0b2134f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

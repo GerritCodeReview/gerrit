@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8Hs\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-20T06:03:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//83I\u003d",
+      "revId": "f55131103be986c029a29f116df475950b9701b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8/c\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
         "patchSetId": 1
@@ -65,6 +83,24 @@
       "writtenOn": "2011-07-14T13:16:56Z",
       "side": 1,
       "message": "looks like more concise!! very good comments.\r\nonce I get back in Office I will update this class ASAP",
+      "parentUuid": "AAABEX//8/c\u003d",
+      "revId": "f55131103be986c029a29f116df475950b9701b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8Hw\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-20T06:03:30Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "AAABEX//8/c\u003d",
       "revId": "f55131103be986c029a29f116df475950b9701b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -107,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8HE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-20T06:03:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//8/Y\u003d",
+      "revId": "f55131103be986c029a29f116df475950b9701b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8/U\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
         "patchSetId": 1
@@ -135,6 +189,24 @@
       "writtenOn": "2011-07-14T13:16:56Z",
       "side": 1,
       "message": "right, good comments!\r\nI will check if it is true that Gerrit will check and cause an error if user chooses an unsupported authentication type  at Ggerrit initialization or startup.   if not ,I will apply to add this logic at right place .\r\nanyway I will detele line 290 ~294 as here is not the right place to check above logic.",
+      "parentUuid": "AAABEX//8/U\u003d",
+      "revId": "f55131103be986c029a29f116df475950b9701b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8IA\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-20T06:03:30Z",
+      "side": 1,
+      "message": "I find Gerrit will check the legitimacy of AuthType  just when I \" java -jar gerrit-2.2-SNAPSHOT.war  init -d ...\" , very good !!\n\ndone",
       "parentUuid": "AAABEX//8/U\u003d",
       "revId": "f55131103be986c029a29f116df475950b9701b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -177,6 +249,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8HA\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-20T06:03:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//8/Q\u003d",
+      "revId": "f55131103be986c029a29f116df475950b9701b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//89w\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
         "patchSetId": 1
@@ -205,6 +295,24 @@
       "writtenOn": "2011-07-15T12:34:09Z",
       "side": 1,
       "message": "agree . thank you! once I get back in office on July 20 I will update id ASAP.",
+      "parentUuid": "AAABEX//89w\u003d",
+      "revId": "f55131103be986c029a29f116df475950b9701b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8Ig\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-20T06:03:30Z",
+      "side": 1,
+      "message": "as We have already the registerEmail() method, I rename the \"registerMail\"  to \"checkFormatAndSaveEmail\" according it\u0027s function.",
       "parentUuid": "AAABEX//89w\u003d",
       "revId": "f55131103be986c029a29f116df475950b9701b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8Ds\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-20T16:57:06Z",
+      "side": 1,
+      "message": "This change seems like it is meant to allow each project owner to define what is a valid commit for their project?  Since the setting I mention checks certain requirements (Change-Id), and your new change seems to implement that as a default requirement, I was wondering if the intent of this change was to replace the old mechanism to check for this requirement since project owners could now use your mechanism to do so.  If so, then I was wondering what would happen to the old mechanism.",
+      "parentUuid": "AAABEX//8M4\u003d",
+      "revId": "b4c51f84dfce24837c0c14b037ac90e493c9b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8Ss\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "I\u0027m not sure how I\u0027d combine 1644-45 and 1632-38, since the env is being created and taking in the stored values in 1632-38 and env becomes the child in 1644-45. I could create a newPrologEnvironment(childEnv) in PrologEnvironment that does 1632-38 all in one though.",
       "parentUuid": "AAABEX//8Sw\u003d",
+      "revId": "b4c51f84dfce24837c0c14b037ac90e493c9b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8Dk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1644,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-20T16:57:06Z",
+      "side": 1,
+      "message": "Anything you can do to make walking the inheritance tree easier (and less error prone) would be better.  I suspect that this is going to be a fairly common thing to do.",
+      "parentUuid": "AAABEX//8Mg\u003d",
       "revId": "b4c51f84dfce24837c0c14b037ac90e493c9b760",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -169,6 +205,24 @@
       "side": 1,
       "message": "Any reason I should not just make it public in ReceiveCommits? Otherwise, I\u0027ll just make it public and call it from the predicate. I could do the same for the above ChangeKey extraction code block too.",
       "parentUuid": "AAABEX//8SA\u003d",
+      "revId": "b4c51f84dfce24837c0c14b037ac90e493c9b760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8Do\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_owner_1.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-20T16:57:06Z",
+      "side": 1,
+      "message": "I would almost suggest putting this in Change?\n\nAs for the extraction, since ReceiveCommits is way too big already and Shawn would like to see it refactored, I would think that this method would fit better in a utility class for it to be shared.  Perhaps the ChangeUtil class (not sure if you can depend on server packages here)?",
+      "parentUuid": "AAABEX//8M0\u003d",
       "revId": "b4c51f84dfce24837c0c14b037ac90e493c9b760",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

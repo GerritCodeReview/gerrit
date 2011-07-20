@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//8Fs\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/PatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-20T11:18:50Z",
+      "side": 1,
+      "message": "whitespace error",
+      "revId": "ae8f5f138e4cb4d1642d61f6bd624b7c8ff49d9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8Fo\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/PatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-20T11:18:50Z",
+      "side": 1,
+      "message": "whitespace error",
+      "revId": "ae8f5f138e4cb4d1642d61f6bd624b7c8ff49d9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8Fk\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/PatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-20T11:18:50Z",
+      "side": 1,
+      "message": "whitespace error",
+      "revId": "ae8f5f138e4cb4d1642d61f6bd624b7c8ff49d9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

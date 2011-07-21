@@ -27,6 +27,7 @@ import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -36,7 +37,6 @@ import com.googlecode.prolog_cafe.lang.ListTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
-import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 
@@ -46,7 +46,6 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -165,6 +164,14 @@ public class ChangeControl {
     return getRefControl().isVisible();
   }
 
+  /** Can this user see this change? Accounts for draft status. */
+  public boolean isVisible(ReviewDb db) throws OrmException{
+    if (change.getStatus() == Change.Status.DRAFT && !isOwner() && !isReviewer(db)) {
+      return false;
+    }
+    return isVisible();
+  }
+
   /** Can this user abandon this change? */
   public boolean canAbandon() {
     return isOwner() // owner (aka creator) of the change can abandon
@@ -199,6 +206,21 @@ public class ChangeControl {
     if (getCurrentUser() instanceof IdentifiedUser) {
       final IdentifiedUser i = (IdentifiedUser) getCurrentUser();
       return i.getAccountId().equals(change.getOwner());
+    }
+    return false;
+  }
+
+  /** Is this user a reviewer for the change? */
+  public boolean isReviewer(ReviewDb db) throws OrmException{
+    if (getCurrentUser() instanceof IdentifiedUser) {
+      final IdentifiedUser user = (IdentifiedUser) getCurrentUser();
+      ResultSet<PatchSetApproval> results =
+        db.patchSetApprovals().byChange(change.getId());
+      for (PatchSetApproval approval : results) {
+        if (user.getAccountId().equals(approval.getAccountId())) {
+          return true;
+        }
+      }
     }
     return false;
   }

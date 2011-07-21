@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//71g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-21T18:16:09Z",
+      "side": 1,
+      "message": "Agree... BTW, it would be very nice re-code such things on top of \"MergeOp refactoring\" you tagged +1 :-)",
+      "parentUuid": "AAABEX//718\u003d",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//72g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3

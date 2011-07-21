@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//718\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-21T18:02:20Z",
+      "side": 1,
+      "message": "Would it make more sense to pass this Change around instead of setting a class var?  In general: the less state the class needs to store, the better, and I it doesn\u0027t look like you would need to pass it to too many functions.  Since this class is large enough as is, it would be particularly helpful to avoid adding more state to it.   If possible, it would be nice to do the same with the isMergeable variable (but I haven\u0027t figure out how yet)?\n\nTo support these ideas, perhaps merge() should be refactored to become isMergeable() and merge()?",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//72g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-21T18:02:20Z",
+      "side": 1,
+      "message": "Hmm, if this disables the submit button, then this will have the side-effect that people will no longer be able to submit dependent changes out of order and let the mergequeue work it out by merging the dependencies in order.\n\nThis may be OK, but I figure that this should be pointed out and thought about.\n\nPerhaps changes should be considered mergeable even when they have dependencies which are not merged as long as the dependencies are mergeable? Or perhaps there should be a 3rd state, mergeable_with_dependencies and the submit button would stay enabled in this state?  \n\nThis third state might be what you need for atomic commits anyway?   It would making it possible to eventually add another submit button, \"submit with dependencies\" which would enable atomic commits in a single repo.  With the existence of such a button, the regular \"submit\" button could become disabled in this state, but this new \"submit with dependencies\" button could stay enabled.  This idea is not a suggestion for your change, just a follow on idea for anyone, but it might help you get (or see) one step closer to atomic commit.  \n\nFor now, I think that simply adding the third state and enabling the submit button in that third state may make sense?\n\nNote: I think that this section of the code only applies to a new branch and changes with unmerged dependencies, but I think that my comment applies to all cases where changes have unmerged dependencies.",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//710\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-21T18:02:20Z",
+      "side": 1,
+      "message": "Will all this extra testing without actually merging cause a serious garbage collection problem in repos (or is it all done in memory only)?  Since this merge checking feature is optional, I would think that ignoring this potential problem (if it even is a problem) should not block your change, but it may be something to think about long term and maybe even make a note in the code about?",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//73E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-21T18:02:20Z",
+      "side": 1,
+      "message": "Maybe you can make this:\n\n  private Capable isSubmitStillPossible(...) {...}\n\nThe Capable object allow you to return \"OK\", or an error message.  This way you do not have to store this state at the class level, when really what you are trying to do is return a boolean and an error message in case of false.",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//73Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-21T18:02:20Z",
+      "side": 1,
+      "message": "If this is just a default, maybe it should be set in Change?",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

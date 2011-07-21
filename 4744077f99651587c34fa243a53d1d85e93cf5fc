@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//7zk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-21T19:26:45Z",
+      "side": 1,
+      "message": "Agreed also, but since there was a -1 in that change from someone (Shawn) earlier which has not been turned into a +1...  I would ping him. :)",
+      "parentUuid": "AAABEX//71g\u003d",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//72g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "writtenOn": "2011-07-21T18:02:20Z",
       "side": 1,
       "message": "Hmm, if this disables the submit button, then this will have the side-effect that people will no longer be able to submit dependent changes out of order and let the mergequeue work it out by merging the dependencies in order.\n\nThis may be OK, but I figure that this should be pointed out and thought about.\n\nPerhaps changes should be considered mergeable even when they have dependencies which are not merged as long as the dependencies are mergeable? Or perhaps there should be a 3rd state, mergeable_with_dependencies and the submit button would stay enabled in this state?  \n\nThis third state might be what you need for atomic commits anyway?   It would making it possible to eventually add another submit button, \"submit with dependencies\" which would enable atomic commits in a single repo.  With the existence of such a button, the regular \"submit\" button could become disabled in this state, but this new \"submit with dependencies\" button could stay enabled.  This idea is not a suggestion for your change, just a follow on idea for anyone, but it might help you get (or see) one step closer to atomic commit.  \n\nFor now, I think that simply adding the third state and enabling the submit button in that third state may make sense?\n\nNote: I think that this section of the code only applies to a new branch and changes with unmerged dependencies, but I think that my comment applies to all cases where changes have unmerged dependencies.",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7zY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-21T19:26:45Z",
+      "side": 1,
+      "message": "Another question, are changes are being tested for mergeability along with their dependencies?  In other words, given unmerged changes A \u003c- B, is B being test for mergeability straight to HEAD, or A is being tested and then on a branch with HEAD - A, is B being tested?  Depending on the merge strategy, I think we want to test the later, the first seems only useful for cherry-pick I think.",
+      "parentUuid": "AAABEX//72g\u003d",
       "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -117,6 +153,24 @@
       "side": 1,
       "message": "Hi Martin,\nHere we are receiving a new PatchSet for an existing change so we need to reset the lastSha1MergeTested in order to this change be re-tested because this invalidates the las test executed.",
       "parentUuid": "AAABEX//73Q\u003d",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7zo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-21T19:26:45Z",
+      "side": 1,
+      "message": "Yeah, that makes sense.  I missread where we were, thinking it was a new Change.",
+      "parentUuid": "AAABEX//70U\u003d",
       "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

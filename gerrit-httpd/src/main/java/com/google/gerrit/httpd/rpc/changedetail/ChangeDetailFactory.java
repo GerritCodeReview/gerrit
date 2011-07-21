@@ -192,6 +192,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
         && control.getCurrentUser() instanceof IdentifiedUser;
     final HashMap<Account.Id, ApprovalDetail> ad =
         new HashMap<Account.Id, ApprovalDetail>();
+    final Set<Account.Id> draftAccess = new HashSet<Account.Id>();
     for (PatchSetApproval ca : allApprovals) {
       ApprovalDetail d = ad.get(ca.getAccountId());
       if (d == null) {
@@ -205,6 +206,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       if (ca.getPatchSetId().equals(psId)) {
         d.add(ca);
       }
+      draftAccess.add(ca.getAccountId());
     }
 
     final Account.Id owner = detail.getChange().getOwner();
@@ -213,9 +215,11 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       //
       ad.get(owner).sortFirst();
     }
+    draftAccess.add(owner);
 
     aic.want(ad.keySet());
     detail.setApprovals(ad.values());
+    detail.setDraftAccess(draftAccess);
   }
 
   private void loadCurrentPatchSet() throws OrmException,

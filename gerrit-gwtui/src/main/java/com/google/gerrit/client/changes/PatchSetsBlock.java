@@ -35,6 +35,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -77,12 +78,27 @@ public class PatchSetsBlock extends Composite {
 
     final PatchSet currps = detail.getCurrentPatchSet();
     currentPatchSetId = currps.getId();
-    patchSets = detail.getPatchSets();
+    patchSets = new ArrayList<PatchSet>();
 
-    final List<PatchSet.Id> changePatchSets = new ArrayList<PatchSet.Id>();
-
-    for (final PatchSet ps : patchSets) {
-      changePatchSets.add(ps.getId());
+    for (PatchSet ps : detail.getPatchSets()) {
+      if (!ps.isDraft() ||
+          (Gerrit.isSignedIn() &&
+              detail.hasDraftAccess(Gerrit.getUserAccount().getId()))) {
+        patchSets.add(ps);
+      } else if (currentPatchSetId == ps.getId()) {
+        currentPatchSetId = null;
+      }
+    }
+    // If the current patch set is a draft and user can't see it, set the
+    // current patch set to whatever the latest one is
+    if (currentPatchSetId == null) {
+      if (!patchSets.isEmpty()) {
+        currentPatchSetId = patchSets.get(patchSets.size() - 1).getId();
+      } else {
+        // Shouldn't happen, change shouldn't be visible if all the patchsets
+        // are drafts
+        currentPatchSetId = currps.getId();
+      }
     }
 
     if (Gerrit.isSignedIn()) {
@@ -108,6 +124,11 @@ public class PatchSetsBlock extends Composite {
         p = new PatchSetComplexDisclosurePanel(parent, detail, ps);
         if (diffBaseId != null) {
           p.setDiffBaseId(diffBaseId);
+        }
+        // Current patchset is a draft and not visible to user, so make next
+        // latest patchset open (as if it was the current patchset).
+        if (ps.getId() == currentPatchSetId){
+          p.setOpen(true);
         }
       }
       add(p);

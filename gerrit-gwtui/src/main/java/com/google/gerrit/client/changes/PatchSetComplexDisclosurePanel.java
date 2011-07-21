@@ -116,6 +116,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       revlink.addStyleName(Gerrit.RESOURCES.css().patchSetLink());
       getHeader().add(revlink);
     }
+
+    if (ps.isDraft()) {
+      final InlineLabel draftLabel = new InlineLabel(" (DRAFT) ");
+      draftLabel.addStyleName(Gerrit.RESOURCES.css().patchSetRevision());
+      getHeader().add(draftLabel);
+    }
   }
 
   public void setDiffBaseId(PatchSet.Id diffBaseId) {

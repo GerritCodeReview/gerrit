@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /** Detail necessary to display a change. */
 public class ChangeDetail {
@@ -41,6 +43,7 @@ public class ChangeDetail {
   protected List<ChangeMessage> messages;
   protected PatchSet.Id currentPatchSetId;
   protected PatchSetDetail currentDetail;
+  private Set<Account.Id> draftAccess;
 
   public ChangeDetail() {
   }
@@ -189,5 +192,17 @@ public class ChangeDetail {
 
   public String getDescription() {
     return currentDetail != null ? currentDetail.getInfo().getMessage() : "";
+  }
+
+  /** Checks if user is either the owner or in the approvals list */
+  public boolean hasDraftAccess(Account.Id user) {
+    if (draftAccess.contains(user)) {
+      return true;
+    }
+    return false;
+  }
+
+  public void setDraftAccess(Set<Account.Id> ids) {
+    draftAccess = ids;
   }
 }

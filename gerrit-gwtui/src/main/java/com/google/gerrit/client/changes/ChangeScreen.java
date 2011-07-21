@@ -31,9 +31,9 @@ import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.ToggleStarRequest;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Change.Status;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.Change.Status;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -56,7 +56,11 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 
 public class ChangeScreen extends Screen {
@@ -354,7 +358,25 @@ public class ChangeScreen extends Screen {
     comments.clear();
 
     final AccountInfoCache accts = detail.getAccounts();
-    final List<ChangeMessage> msgList = detail.getMessages();
+    final List<ChangeMessage> msgList = new ArrayList<ChangeMessage>();
+    final Map<PatchSet.Id, PatchSet> patchsets = new HashMap<PatchSet.Id, PatchSet>();
+    for (PatchSet ps : detail.getPatchSets()) {
+      patchsets.put(ps.getId(), ps);
+    }
+
+    for (ChangeMessage msg : detail.getMessages()) {
+      PatchSet.Id id = msg.getPatchSetId();
+      if (id != null) {
+        PatchSet ps = patchsets.get(id);
+        if (ps == null || !ps.isDraft() ||
+            (Gerrit.isSignedIn() &&
+            detail.hasDraftAccess(Gerrit.getUserAccount().getId()))) {
+          msgList.add(msg);
+        }
+      } else {
+        msgList.add(msg);
+      }
+    }
 
     HorizontalPanel title = new HorizontalPanel();
     title.setWidth("100%");

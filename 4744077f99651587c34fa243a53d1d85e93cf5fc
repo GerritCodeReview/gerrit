@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//7yg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-21T20:49:22Z",
+      "side": 1,
+      "message": "Pinged again!",
+      "parentUuid": "AAABEX//7zk\u003d",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//72g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "Another question, are changes are being tested for mergeability along with their dependencies?  In other words, given unmerged changes A \u003c- B, is B being test for mergeability straight to HEAD, or A is being tested and then on a branch with HEAD - A, is B being tested?  Depending on the merge strategy, I think we want to test the later, the first seems only useful for cherry-pick I think.",
       "parentUuid": "AAABEX//72g\u003d",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7yU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-21T20:49:22Z",
+      "side": 1,
+      "message": "Well, the test happens as a normal merge would, but if it\u0027s test we just don\u0027t \"updateBranch\".\nThe change is not mergeable if it has dependencies.\n\nBut considering your previous comment, in the next patch set we will set those changes to the 3rd state if the dependency is mergeable true, if false, those changes will also be false.",
+      "parentUuid": "AAABEX//7zY\u003d",
       "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

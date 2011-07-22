@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7ic\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-22T22:41:29Z",
+      "side": 1,
+      "message": "Summary seems out of date.",
+      "revId": "df591f6a4a79636dc38db4644585580d1787b16a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7ig\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-22T22:41:29Z",
+      "side": 1,
+      "message": "Looks like line 12-14 should now be removed from this message?",
+      "revId": "df591f6a4a79636dc38db4644585580d1787b16a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7ik\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-22T22:41:29Z",
+      "side": 1,
+      "message": "Nit: seems like this should go above NEW?",
+      "revId": "df591f6a4a79636dc38db4644585580d1787b16a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

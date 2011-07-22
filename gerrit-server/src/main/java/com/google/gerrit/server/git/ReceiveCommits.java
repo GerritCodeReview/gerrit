@@ -950,6 +950,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     ps.setCreatedOn(change.getCreatedOn());
     ps.setUploader(me);
     ps.setRevision(toRevId(c));
+    if (isDraft(newChange)) {
+      change.setStatus(Change.Status.DRAFT);
+      ps.setDraft(true);
+    }
     insertAncestors(ps.getId(), c);
     db.patchSets().insert(Collections.singleton(ps));
 
@@ -1184,6 +1188,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
     ps.setUploader(currentUser.getAccountId());
     ps.setRevision(toRevId(c));
+    if (isDraft(request.cmd)) {
+      ps.setDraft(true);
+    }
     insertAncestors(ps.getId(), c);
     db.patchSets().insert(Collections.singleton(ps));
 
@@ -1264,7 +1271,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
                 if (destTopicName != null) {
                   change.setTopic(destTopicName);
                 }
-                change.setStatus(Change.Status.NEW);
+                if(change.getStatus() == Change.Status.DRAFT && ps.isDraft()) {
+                  change.setStatus(Change.Status.DRAFT);
+                } else {
+                  change.setStatus(Change.Status.NEW);
+                }
                 change.setCurrentPatchSet(result.info);
                 ChangeUtil.updated(change);
                 return change;
@@ -1900,6 +1911,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       return true;
     }
     return false;
+  }
+
+  private boolean isDraft(final ReceiveCommand cmd) {
+    return cmd.getRefName().startsWith(NEW_DRAFT_CHANGE);
   }
 
   private static RevId toRevId(final RevCommit src) {

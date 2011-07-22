@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7mg\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/ChangeListServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-22T11:37:00Z",
+      "side": 1,
+      "message": "I believe there should be whitespace before the \u0027{\u0027",
+      "revId": "21ba7b9cdfadacb9b9122eb52f75838dfc67c40b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

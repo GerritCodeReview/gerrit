@@ -12,6 +12,7 @@ SYNOPSIS
   [--format {TEXT | JSON}]
   [--current-patch-set]
   [--patch-sets | --all-approvals]
+  [--comments]
   [--]
   <query>
   [limit:<n>]
@@ -57,6 +58,11 @@ OPTIONS
 	approval information for each patch set.  If combined with
 	the --current-patch-set flag then the current patch set
 	information will be output twice, once in each field.
+
+--comments::
+	Include comments for all changes. If combined with the
+	--patch-sets flag then all in-line comments are included for
+	each patch set.
 
 limit:<n>::
 	Maximum number of results to return.  This is actually a

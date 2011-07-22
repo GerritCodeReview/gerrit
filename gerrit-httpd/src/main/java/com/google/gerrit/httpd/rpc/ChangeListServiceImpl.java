@@ -102,9 +102,9 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     this.queryRewriter = queryRewriter;
   }
 
-  private boolean canRead(final Change c) {
+  private boolean canRead(final Change c, final ReviewDb db) throws OrmException{
     try {
-      return changeControlFactory.controlFor(c).isVisible();
+      return changeControlFactory.controlFor(c).isVisible(db);
     } catch (NoSuchChangeException e) {
       return false;
     }
@@ -187,7 +187,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         //
         if (!want.isEmpty()) {
           for (Change c : db.changes().get(want)) {
-            if (canRead(c)) {
+            if (canRead(c, db)) {
               r.add(c);
             }
           }
@@ -236,20 +236,20 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         }
 
         d = new AccountDashboardInfo(target);
-        d.setByOwner(filter(changes.byOwnerOpen(target), stars, ac));
-        d.setClosed(filter(changes.byOwnerClosed(target), stars, ac));
+        d.setByOwner(filter(changes.byOwnerOpen(target), stars, ac, db));
+        d.setClosed(filter(changes.byOwnerClosed(target), stars, ac, db));
 
         for (final ChangeInfo c : d.getByOwner()) {
           openReviews.remove(c.getId());
         }
-        d.setForReview(filter(changes.get(openReviews), stars, ac));
+        d.setForReview(filter(changes.get(openReviews), stars, ac, db));
         Collections.sort(d.getForReview(), ID_COMP);
 
         for (final ChangeInfo c : d.getClosed()) {
           closedReviews.remove(c.getId());
         }
         if (!closedReviews.isEmpty()) {
-          d.getClosed().addAll(filter(changes.get(closedReviews), stars, ac));
+          d.getClosed().addAll(filter(changes.get(closedReviews), stars, ac, db));
           Collections.sort(d.getClosed(), SORT_KEY_COMP);
         }
 
@@ -304,10 +304,11 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   }
 
   private List<ChangeInfo> filter(final ResultSet<Change> rs,
-      final Set<Change.Id> starred, final AccountInfoCacheFactory accts) {
+      final Set<Change.Id> starred, final AccountInfoCacheFactory accts,
+      final ReviewDb db) throws OrmException {
     final ArrayList<ChangeInfo> r = new ArrayList<ChangeInfo>();
     for (final Change c : rs) {
-      if (canRead(c)) {
+      if (canRead(c, db)) {
         final ChangeInfo ci = new ChangeInfo(c);
         accts.want(ci.getOwner());
         ci.setStarred(starred.contains(ci.getId()));
@@ -337,6 +338,9 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final ArrayList<ChangeInfo> list = new ArrayList<ChangeInfo>();
       final ResultSet<Change> rs = query(db, slim, pos);
       for (final Change c : rs) {
+        if (!canRead(c, db)) {
+          continue;
+        }
         final ChangeInfo ci = new ChangeInfo(c);
         ac.want(ci.getOwner());
         ci.setStarred(starred.contains(ci.getId()));

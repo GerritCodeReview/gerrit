@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7mY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1917,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-22T11:44:22Z",
+      "side": 1,
+      "message": "What about making the method implementation be:\n    return cmd.getRefName().startsWith(NEW_DRAFT_CHANGE);  ?",
+      "revId": "50a20ecb53dce0ceb891e7e4fe303aaf1c22fcec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7mU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-22T11:44:22Z",
+      "side": 1,
+      "message": "suggestion: log error or throw exception instead of returning false if ps could not be found.",
+      "revId": "50a20ecb53dce0ceb891e7e4fe303aaf1c22fcec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

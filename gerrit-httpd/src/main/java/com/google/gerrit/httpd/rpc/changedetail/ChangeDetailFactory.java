@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -39,6 +40,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -69,6 +71,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
   private ChangeDetail detail;
   private ChangeControl control;
+  private Map<PatchSet.Id, PatchSet> patchsetsById;
 
   @Inject
   ChangeDetailFactory(final ApprovalTypes approvalTypes,
@@ -127,6 +130,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       detail.setSubmitRecords(submitRecords);
     }
 
+    patchsetsById = new HashMap<PatchSet.Id, PatchSet>();
     loadPatchSets();
     loadMessages();
     if (change.currentPatchSetId() != null) {
@@ -138,11 +142,34 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   }
 
   private void loadPatchSets() throws OrmException {
-    detail.setPatchSets(db.patchSets().byChange(changeId).toList());
+    ResultSet<PatchSet> source = db.patchSets().byChange(changeId);
+    List<PatchSet> patches = new ArrayList<PatchSet>();
+    CurrentUser user = control.getCurrentUser();
+    for (PatchSet ps : source) {
+      if (!ps.isDraft() || control.isDraftVisible(db)) {
+        patches.add(ps);
+      }
+      patchsetsById.put(ps.getId(), ps);
+    }
+    detail.setPatchSets(patches);
   }
 
   private void loadMessages() throws OrmException {
-    detail.setMessages(db.changeMessages().byChange(changeId).toList());
+    ResultSet<ChangeMessage> source = db.changeMessages().byChange(changeId);
+    List<ChangeMessage> msgList = new ArrayList<ChangeMessage>();
+    for (ChangeMessage msg : source) {
+      PatchSet.Id id = msg.getPatchSetId();
+      if (id != null) {
+        PatchSet ps = patchsetsById.get(msg.getPatchSetId());
+        if (!ps.isDraft() || control.isDraftVisible(db)) {
+          msgList.add(msg);
+        }
+      } else {
+        // Not guaranteed to have a non-null patchset id, so just display it.
+        msgList.add(msg);
+      }
+    }
+    detail.setMessages(msgList);
     for (final ChangeMessage m : detail.getMessages()) {
       aic.want(m.getAuthor());
     }
@@ -194,11 +221,13 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   private void loadCurrentPatchSet() throws OrmException,
       NoSuchEntityException, PatchSetInfoNotAvailableException,
       NoSuchChangeException {
-    final PatchSet.Id psId = detail.getChange().currentPatchSetId();
+    final PatchSet currentPatch = findCurrentOrLatestPatchSet();
+    final PatchSet.Id psId = currentPatch.getId();
     final PatchSetDetailFactory loader = patchSetDetail.create(null, psId, null);
-    loader.patchSet = detail.getCurrentPatchSet();
+    loader.patchSet = currentPatch;
     loader.control = control;
     detail.setCurrentPatchSetDetail(loader.call());
+    detail.setCurrentPatchSetId(psId);
 
     final HashSet<Change.Id> changesToGet = new HashSet<Change.Id>();
     final HashMap<Change.Id,PatchSet.Id> ancestorPatchIds =
@@ -251,6 +280,22 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     detail.setDependsOn(dependsOn);
     detail.setNeededBy(neededBy);
+  }
+
+  private PatchSet findCurrentOrLatestPatchSet() {
+    PatchSet currentPatch = detail.getCurrentPatchSet();
+    // If the current patch set is a draft and user can't see it, set the
+    // current patch set to whatever the latest one is
+    if (currentPatch == null) {
+      List<PatchSet> patchSets = detail.getPatchSets();
+      if (!detail.getPatchSets().isEmpty()) {
+        currentPatch = patchSets.get(patchSets.size() - 1);
+      } else {
+        // Shouldn't happen, change shouldn't be visible if all the patchsets
+        // are drafts
+      }
+    }
+    return currentPatch;
   }
 
   private ChangeInfo newChangeInfo(final Change ac,

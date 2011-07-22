@@ -19,6 +19,8 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ChangeMessage;
+import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.TrackingId;
@@ -128,6 +130,30 @@ public class EventFactory {
     }
   }
 
+  public void addPatchSetComments(PatchSetAttribute patchSetAttribute,
+      Collection<PatchLineComment> patchLineComments) {
+    for (PatchLineComment comment : patchLineComments) {
+      if (comment.getKey().getParentKey().getParentKey().get()
+          == Integer.parseInt(patchSetAttribute.number)) {
+        if (patchSetAttribute.comments == null) {
+          patchSetAttribute.comments =
+            new ArrayList<PatchSetCommentAttribute>();
+        }
+        patchSetAttribute.comments.add(asPatchSetLineAttribute(comment));
+      }
+    }
+  }
+
+  public void addComments(ChangeAttribute ca,
+      Collection<ChangeMessage> messages) {
+    if (!messages.isEmpty()) {
+      ca.comments = new ArrayList<MessageAttribute>();
+      for (ChangeMessage message : messages) {
+        ca.comments.add(asMessageAttribute(message));
+      }
+    }
+  }
+
   public TrackingIdAttribute asTrackingIdAttribute(TrackingId id) {
     TrackingIdAttribute a = new TrackingIdAttribute();
     a.system = id.getSystem();
@@ -217,6 +243,23 @@ public class EventFactory {
     if (at != null) {
       a.description = at.getCategory().getName();
     }
+    return a;
+  }
+
+  public MessageAttribute asMessageAttribute(ChangeMessage message) {
+    MessageAttribute a = new MessageAttribute();
+    a.timestamp = message.getWrittenOn().getTime();
+    a.author = accountCache.get(message.getAuthor()).getAccount().getFullName();
+    a.message = message.getMessage();
+    return a;
+  }
+
+  public PatchSetCommentAttribute asPatchSetLineAttribute(PatchLineComment c) {
+    PatchSetCommentAttribute a = new PatchSetCommentAttribute();
+    a.author = accountCache.get(c.getAuthor()).getAccount().getFullName();
+    a.file = c.getKey().getParentKey().get();
+    a.line = c.getLine();
+    a.message = c.getMessage();
     return a;
   }
 

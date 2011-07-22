@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,9 @@
 
 package com.google.gerrit.server.events;
 
-import java.util.List;
-
-public class PatchSetAttribute {
-    public String number;
-    public String revision;
-    public String ref;
-    public AccountAttribute uploader;
-
-    public List<ApprovalAttribute> approvals;
-    public List<PatchSetCommentAttribute> comments;
+public class PatchSetCommentAttribute {
+    public String author;
+    public String file;
+    public Integer line;
+    public String message;
 }

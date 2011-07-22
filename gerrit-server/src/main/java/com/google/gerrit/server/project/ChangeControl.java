@@ -266,6 +266,18 @@ public class ChangeControl {
       return ruleError("Patch set " + patchSetId + " is not current");
     }
 
+    if (change.getStatus() == Change.Status.DRAFT){
+      return ruleError("Cannot submit draft changes");
+    }
+
+    try {
+      if (isDraftPatchSet(patchSetId, db)) {
+        return ruleError("Cannot submit draft patch sets");
+      }
+    } catch (OrmException err) {
+      return logRuleError("Cannot read patch set " + patchSetId, err);
+    }
+
     List<Term> results = new ArrayList<Term>();
     Term submitRule;
     ProjectState projectState = getProjectControl().getProjectState();
@@ -469,6 +481,14 @@ public class ChangeControl {
         label.appliedBy = new Account.Id(((IntegerTerm) who.arg(0)).intValue());
       }
     }
+  }
+
+  private boolean isDraftPatchSet(PatchSet.Id id, ReviewDb db) throws OrmException {
+    PatchSet ps = db.patchSets().get(id);
+    if (ps == null) {
+      return false;
+    }
+    return ps.isDraft();
   }
 
   private static boolean isUser(Term who) {

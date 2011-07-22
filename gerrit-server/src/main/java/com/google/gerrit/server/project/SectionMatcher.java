@@ -17,7 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.server.project.RefControl.isRE;
 
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.ParamertizedString;
+import com.google.gerrit.common.data.ParameterizedString;
 
 import dk.brics.automaton.Automaton;
 
@@ -106,12 +106,12 @@ abstract class SectionMatcher {
   }
 
   static class ExpandParameters extends SectionMatcher {
-    private final ParamertizedString template;
+    private final ParameterizedString template;
     private final String prefix;
 
     ExpandParameters(String pattern, AccessSection section) {
       super(section);
-      template = new ParamertizedString(pattern);
+      template = new ParameterizedString(pattern);
 
       if (isRE(pattern)) {
         // Replace ${username} with ":USERNAME:" as : is not legal

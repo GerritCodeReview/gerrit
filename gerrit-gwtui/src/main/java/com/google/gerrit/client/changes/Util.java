@@ -54,6 +54,8 @@ public class Util {
         return C.statusLongMerged();
       case ABANDONED:
         return C.statusLongAbandoned();
+      case DRAFT:
+        return C.statusLongDraft();
       default:
         return status.name();
     }

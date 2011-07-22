@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7mM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-22T12:32:03Z",
+      "side": 1,
+      "message": "Once we have refs/draft/ and refs/publish/ what will be the meaning of pushing to refs/for/... ?\nI would like to have this info here in the commit message.",
+      "revId": "c032bf34870514ff22eb1eb8742b09e893f606bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7mI\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeMessage.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-22T12:32:03Z",
+      "side": 1,
+      "message": "It looks to me that adding this field to the ChangeMessage is not related to the main intention of this change i.e. to introduce the draft statuses for Change and PatchSet and introduce the new magic branches.\n\nIf I am not wrong then I would prefer to split this commit into two: one which introduces this field and another which does what this commit message tells.",
+      "revId": "c032bf34870514ff22eb1eb8742b09e893f606bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

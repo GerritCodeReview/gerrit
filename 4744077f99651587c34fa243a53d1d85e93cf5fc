@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//7lg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-22T16:56:10Z",
+      "side": 1,
+      "message": "I think that it is your call either way since if admins don\u0027t like it, they can just disable this feature.\n\nThat being said...  I suspect that if atomic commit is your alterior motive here, you will need to solve the case of testing changes along/ontop of their dependencies too.  Since in some cases their will be changes which people will want to merge atomically with their dependencies.  With approach #1, that will simply be impossible since the dependent change will never be submitable.  But, I see no reason why this can\u0027t be addressed in future changes.  What you have here is a nice infrastructure to build on.",
+      "parentUuid": "AAABEX//7l8\u003d",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//710\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3

@@ -32,6 +32,7 @@ public class ChangeAttribute {
     public String sortKey;
     public Boolean open;
     public Change.Status status;
+    public List<MessageAttribute> comments;
 
     public List<TrackingIdAttribute> trackingIds;
     public PatchSetAttribute currentPatchSet;

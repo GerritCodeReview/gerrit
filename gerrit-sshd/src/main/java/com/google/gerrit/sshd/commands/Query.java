@@ -51,6 +51,11 @@ class Query extends BaseCommand {
     processor.setIncludeApprovals(on);
   }
 
+  @Option(name = "--comments", usage = "Include patch set and inline comments")
+  void setComments(boolean on) {
+    processor.setIncludeComments(on);
+  }
+
   @Argument(index = 0, required = true, multiValued = true, metaVar = "QUERY", usage = "Query to execute")
   private List<String> query;
 

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7oM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-22T03:57:36Z",
+      "side": 1,
+      "message": "I think you should prefilter these messages server side so that you don\u0027t have to trust the browser.",
+      "revId": "109829425e8ca48be63a2f0aef53c5a9bd156271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7oI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetsBlock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-22T03:57:36Z",
+      "side": 1,
+      "message": "I think this too should be filtered server side.",
+      "revId": "109829425e8ca48be63a2f0aef53c5a9bd156271",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -100,6 +100,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       LoggerFactory.getLogger(ReceiveCommits.class);
 
   public static final String NEW_CHANGE = "refs/for/";
+  public static final String NEW_DRAFT_CHANGE = "refs/draft/";
+  public static final String NEW_PUBLISH_CHANGE = "refs/publish/";
+
   private static final Pattern NEW_PATCHSET =
       Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
 
@@ -304,26 +307,23 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       return result;
     }
 
-    // Don't permit receive-pack to be executed if a refs/for/branch_name
+    // Don't permit receive-pack to be executed if a (magic branch)/branch_name
     // reference exists in the destination repository. These block the
     // client from being able to even send us a pack file, as it is very
     // unlikely the user passed the --force flag and the new commit is
     // probably not going to fast-forward the branch.
     //
-    Map<String, Ref> blockingFors;
-    try {
-      blockingFors = repo.getRefDatabase().getRefs("refs/for/");
-    } catch (IOException err) {
-      String projName = project.getName();
-      log.warn("Cannot scan refs in '" + projName + "'", err);
-      return new Capable("Server process cannot read '" + projName + "'");
+    result = checkMagicBranchRef(NEW_CHANGE);
+    if (result != Capable.OK) {
+      return result;
     }
-    if (!blockingFors.isEmpty()) {
-      String projName = project.getName();
-      log.error("Repository '" + projName
-          + "' needs the following refs removed to receive changes: "
-          + blockingFors.keySet());
-      return new Capable("One or more refs/for/ names blocks change upload");
+    result = checkMagicBranchRef(NEW_DRAFT_CHANGE);
+    if (result != Capable.OK) {
+      return result;
+    }
+    result = checkMagicBranchRef(NEW_PUBLISH_CHANGE);
+    if (result != Capable.OK) {
+      return result;
     }
 
     return Capable.OK;
@@ -376,7 +376,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
               ps.getProject().getDescription());
         }
 
-        if (!c.getRefName().startsWith(NEW_CHANGE)) {
+        if (!isMagicBranch(c)) {
           // We only schedule direct refs updates for replication.
           // Change refs are scheduled when they are created.
           //
@@ -422,7 +422,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         continue;
       }
 
-      if (cmd.getRefName().startsWith(NEW_CHANGE)) {
+      if (isMagicBranch(cmd)) {
         parseNewChangeCommand(cmd);
         continue;
       }
@@ -610,7 +610,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     newChange = cmd;
-    String destBranchName = cmd.getRefName().substring(NEW_CHANGE.length());
+    String destBranchName = getDestBranchName(cmd);
     if (!destBranchName.startsWith(Constants.R_REFS)) {
       destBranchName = Constants.R_HEADS + destBranchName;
     }
@@ -1245,6 +1245,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
             .messageUUID(db)), me, ps.getCreatedOn());
     msg.setMessage("Uploaded patch set " + ps.getPatchSetId() + ".");
+    msg.setPatchSetId(ps.getId());
     db.changeMessages().insert(Collections.singleton(msg));
     result.msg = msg;
 
@@ -1533,8 +1534,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     final List<String> idList = c.getFooterLines(CHANGE_ID);
     if (idList.isEmpty()) {
-      if (project.isRequireChangeID() && (cmd.getRefName().startsWith(NEW_CHANGE)
-  || NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
+      if (project.isRequireChangeID() && (isMagicBranch(cmd) ||
+          NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
         String errMsg = "missing Change-Id in commit message";
         reject(cmd, errMsg);
         rp.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
@@ -1812,6 +1813,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
             .messageUUID(db)), currentUser.getAccountId());
     msg.setMessage(msgBuf.toString());
+    msg.setPatchSetId(result.info.getKey());
 
     db.changeMessages().insert(Collections.singleton(msg));
 
@@ -1857,6 +1859,47 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       toInsert.add(a);
     }
     db.patchSetAncestors().insert(toInsert);
+  }
+
+  private Capable checkMagicBranchRef(String branchName) {
+    Map<String, Ref> blockingFors;
+    try {
+      blockingFors = repo.getRefDatabase().getRefs(branchName);
+    } catch (IOException err) {
+      String projName = project.getName();
+      log.warn("Cannot scan refs in '" + projName + "'", err);
+      return new Capable("Server process cannot read '" + projName + "'");
+    }
+    if (!blockingFors.isEmpty()) {
+      String projName = project.getName();
+      log.error("Repository '" + projName
+          + "' needs the following refs removed to receive changes: "
+          + blockingFors.keySet());
+      return new Capable("One or more " + branchName + " names blocks change upload");
+    }
+
+    return Capable.OK;
+  }
+
+  private String getDestBranchName(final ReceiveCommand cmd) {
+    String magicBranch = NEW_CHANGE;
+    String refName = cmd.getRefName();
+    if (refName.startsWith(NEW_DRAFT_CHANGE)) {
+      magicBranch = NEW_DRAFT_CHANGE;
+    } else if (refName.startsWith(NEW_PUBLISH_CHANGE)) {
+      magicBranch = NEW_PUBLISH_CHANGE;
+    }
+    return refName.substring(magicBranch.length());
+  }
+
+  private boolean isMagicBranch(final ReceiveCommand cmd) {
+    String refName = cmd.getRefName();
+    if (refName.startsWith(NEW_DRAFT_CHANGE) ||
+        refName.startsWith(NEW_PUBLISH_CHANGE) ||
+        refName.startsWith(NEW_CHANGE)) {
+      return true;
+    }
+    return false;
   }
 
   private static RevId toRevId(final RevCommit src) {

@@ -187,6 +187,10 @@ public class ChangeDetail {
     currentDetail = d;
   }
 
+  public void setCurrentPatchSetId(final PatchSet.Id id) {
+    currentPatchSetId = id;
+  }
+
   public String getDescription() {
     return currentDetail != null ? currentDetail.getInfo().getMessage() : "";
   }

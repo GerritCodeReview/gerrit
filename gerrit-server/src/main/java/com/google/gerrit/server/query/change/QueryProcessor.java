@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.events.ChangeAttribute;
 import com.google.gerrit.server.events.EventFactory;
+import com.google.gerrit.server.events.PatchSetAttribute;
 import com.google.gerrit.server.events.QueryStats;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -71,6 +72,7 @@ public class QueryProcessor {
   private boolean includePatchSets;
   private boolean includeCurrentPatchSet;
   private boolean includeApprovals;
+  private boolean includeComments;
 
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
@@ -98,6 +100,10 @@ public class QueryProcessor {
 
   public void setIncludeApprovals(boolean on) {
     includeApprovals = on;
+  }
+
+  public void setIncludeComments(boolean on) {
+    includeComments = on;
   }
 
   public void setOutput(OutputStream out, OutputFormat fmt) {
@@ -177,6 +183,15 @@ public class QueryProcessor {
               c.currentPatchSet = eventFactory.asPatchSetAttribute(current);
               eventFactory.addApprovals(c.currentPatchSet, //
                   d.approvalsFor(db, current.getId()));
+            }
+          }
+
+          if (includeComments) {
+            eventFactory.addComments(c, d.messages(db));
+            if (includePatchSets) {
+              for (PatchSetAttribute attribute : c.patchSets) {
+                eventFactory.addPatchSetComments(attribute,  d.comments(db));
+              }
             }
           }
 
@@ -270,32 +285,39 @@ public class QueryProcessor {
         continue;
       }
 
-      indent(depth);
-      out.print(f.getName());
-      out.print(":");
-
-      if (val instanceof Long && isDateField(f.getName())) {
-        out.print(' ');
-        out.print(sdf.format(new Date(((Long) val) * 1000L)));
-        out.print('\n');
-      } else {
-        showTextValue(val, depth);
-      }
+      showTextValue(f.getName(), val, depth);
     }
   }
 
-  private void indent(int depth) {
-    for (int i = 0; i < depth; i++) {
-      out.print("  ");
+  private String indent(int spaces) {
+    String indent = "";
+    for (int i = 0; i < spaces; i++) {
+      indent += " ";
     }
+    return indent;
   }
 
-  private void showTextValue(Object value, int depth) {
-    if (isPrimitive(value)) {
+  private void showTextValue(String field, Object value, int depth) {
+    final int spacesDepthRatio = 2;
+    String indent = indent(depth * spacesDepthRatio);
+    out.print(indent);
+    out.print(field);
+    out.print(':');
+    if (value instanceof String && ((String) value).contains("\n")) {
+      out.print(' ');
+      // Idention for multi-line text is
+      // current depth indetion + length of field + length of ": "
+      indent = indent(indent.length() + field.length() + spacesDepthRatio);
+      out.print(((String) value).replaceAll("\n", "\n" + indent));
+      out.print("\n");
+    } else if (value instanceof Long && isDateField(field)) {
+      out.print(' ');
+      out.print(sdf.format(new Date(((Long) value) * 1000L)));
+      out.print("\n");
+    } else if (isPrimitive(value)) {
       out.print(' ');
       out.print(value);
       out.print('\n');
-
     } else if (value instanceof Collection) {
       out.print('\n');
       for (Object thing : ((Collection<?>) value)) {
@@ -323,7 +345,8 @@ public class QueryProcessor {
 
   private static boolean isDateField(String name) {
     return "lastUpdated".equals(name) //
-        || "grantedOn".equals(name);
+        || "grantedOn".equals(name) //
+        || "timestamp".equals(name);
   }
 
   private List<Field> fieldsOf(Class<?> type) {

@@ -13,6 +13,7 @@ SYNOPSIS
   [--message <MESSAGE>]
   [--submit]
   [--abandon | --restore]
+  [--publish]
   [--verified <N>] [--code-review <N>]
   {COMMIT | CHANGEID,PATCHSET}...
 
@@ -57,13 +58,17 @@ OPTIONS
 	(option is mutually exclusive with --submit and --restore)
 
 --restore::
-	Restore the specified abandonned patch set(s).
+	Restore the specified abandoned patch set(s).
 	(option is mutually exclusive with --abandon)
 
 --submit::
 -s::
 	Submit the specified patch set(s) for merging.
 	(option is mutually exclusive with --abandon)
+
+--publish::
+	Publish the specified draft patch set(s).
+	(option is mutually exclusive with --submit, --restore, and --abandon)
 
 --code-review::
 --verified::

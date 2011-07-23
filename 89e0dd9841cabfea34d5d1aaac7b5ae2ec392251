@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7gM\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1006968
+      },
+      "writtenOn": "2011-07-23T10:06:44Z",
+      "side": 1,
+      "message": "This section will be removed post proofreading as it is yet to be written. It will probably be added back in with detail in a future submission.",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

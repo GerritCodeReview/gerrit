@@ -397,6 +397,44 @@ public class ChangeUtil {
     hooks.doChangeRestoreHook(updatedChange, user.getAccount(), message, db);
   }
 
+  public static void publishDraftPatchSet(final ReviewDb db,
+      final PatchSet.Id patchSetId) throws OrmException, NoSuchChangeException{
+    final Change.Id changeId = patchSetId.getParentKey();
+    final PatchSet patch = db.patchSets().get(patchSetId);
+    if (patch == null || !patch.isDraft()) {
+      throw new NoSuchChangeException(changeId);
+    }
+
+    final PatchSet updatedPatchSet = db.patchSets().atomicUpdate(patchSetId,
+        new AtomicUpdate<PatchSet>() {
+      @Override
+      public PatchSet update(PatchSet patchset) {
+        if (patchset.isDraft()) {
+          patchset.setDraft(false);
+        }
+        return null;
+      }
+    });
+
+    final Change change = db.changes().get(changeId);
+    if (change.getStatus() == Change.Status.DRAFT) {
+      db.changes().atomicUpdate(changeId,
+          new AtomicUpdate<Change>() {
+        @Override
+        public Change update(Change change) {
+          if (change.getStatus() == Change.Status.DRAFT
+              && change.currentPatchSetId().equals(patchSetId)) {
+            change.setStatus(Change.Status.NEW);
+            ChangeUtil.updated(change);
+            return change;
+          } else {
+            return null;
+          }
+        }
+      });
+    }
+  }
+
   private static void updatedChange(final ReviewDb db, final IdentifiedUser user,
       final Change change, final ChangeMessage cmsg,
       ReplyToChangeSender.Factory senderFactory, final String err)

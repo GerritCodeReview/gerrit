@@ -1,0 +1,370 @@
+Gerrit Code Review - A Quick Introduction
+=========================================
+
+Gerrit is a web-based code review tool built on top of the git version
+control system, but if you've got as far as reading this guide then
+you probably already know that. The purpose of this introduction is to
+allow you to answer one question, is Gerrit the right tool for me?
+Will it fit in my work flow and in my organization?
+
+What is Gerrit?
+---------------
+
+I assume that if you're reading this then you're already sold on the
+benefits of code review in general but want some technological support
+to make it easy. Code reviews mean different things to different people.
+To some it's a formal meeting with a projector and an entire team
+going through the code line by line. To others it's getting someone to
+glance over the code before it is committed.
+
+Gerrit is intended to provide a light weight framework for reviewing
+every commit before it is accepted into the code base. Changes are
+submitted to Gerrit but don't actually become a part of the project
+until they've been reviewed and accepted. In many ways this is simply
+tooling to support the standard open source process of submitting
+patches which are then reviewed by the project members before being
+applied to the code base. However Gerrit goes a step further making it
+simple for all committers on a project to ensure that changes are
+checked over before they're actually applied. Because of this Gerrit
+is equally useful where all users are trusted committers such as
+closed-source commercial development. It's still desirable to have code
+reviewed to improve the quality and maintainability of the code. After
+all, if only one person has seen the code it's a little difficult to
+maintain when that person leaves.
+
+Gerrit is firstly a staging area where changes can be checked over
+before becoming a part of the code base. It is also an enabler for
+this review process, capturing notes and comments about the changes to
+enable discussion of the change. This is particularly useful with
+distributed teams where this conversation can't happen face to face.
+But even in co-located teams reviewing through a tool has benefits. By
+decoupling the submitting the change and reviewing it developers are
+able to review at a time convenient to them rather than being
+interrupted to review a change when it's being committed. This also
+creates a lasting record of the conversation which can be useful for
+answering the inevitable "I know we changed this for a reason"
+questions.
+
+Where does Gerrit Fit In?
+-------------------------
+
+Any team with more than one member has a central source repository of
+some kind (or they should). Git can theoretically work without such a
+central location but in practice there is usually a central
+repository. This serves as the source of truth for what is actually in
+the project. This is what everyone fetches from and pulls to and is
+generally where build servers and other such tools get the source
+from.
+
+.Central Source Repository
+image::images/intro-quick-central-repo.png[Source of Truth Source Repository]
+
+Gerrit is deployed in place of this central repository and adds an
+additional concept, a store of pending changes. Everyone still fetches
+from the source of truth repository but instead of pushing back to it
+they push to this pending changes location. Only once the change has
+been reviewed and approved does it get submitted into the source of
+truth repository and become an accepted part of the project.
+
+.Gerrit in place of Central Repository
+image::images/intro-quick-central-gerrit.png[Gerrit in place of Central Repository]
+
+Of course it is still possible for users with sufficient privileges to
+push directly into the central repository if they need to and bypass
+any code review. But generally it's just simpler and safer to go
+through the review process even for users with these permissions
+
+The Life and Times of a Change
+------------------------------
+
+The easiest way to get a feel for how Gerrit works it to follow a
+change through it's entire life cycle. For the purpose of this example
+we'll assume that the Gerrit Server is running on a server called
++gerrithost+ with the HTTP interface on port +8080+ and the SSH
+interface on port +29418+. The project we'll be working on is called
++example+ and we'll be developing a change for the +master+ branch.
+
+Cloning the Repository
+~~~~~~~~~~~~~~~~~~~~~~
+
+Obviously the first thing we need to do is get the source that we're
+going to be modifying. As with any git project you do this by cloning
+the central repository that's Gerrit is hosting. e.g.
+
+----
+$ git clone ssh://gerrithost:29418/example.git example
+----
+
+Then we need to make our actual change and commit it locally. Gerrit
+doesn't really change anything here, this is just the standard editing
+and git. While not strictly required, it's best to include a Change-Id
+in your commit message so that Gerrit can link together different
+versions of the same change being reviewed. Gerrit contains a standard
+link:user-changeid.html[Change-Id commit-msg hook]
+that will generate a unique Change-Id when you commit. If you don't do
+this then Gerrit will generate a Change-Id when you push your change
+for review. But because you don't have the Change-Id in your commit
+message you'll need to manually copy it in if you need to submit
+another version of your change. Because of this it's best to just
+install the hook and forget about it.
+
+Creating the Review
+~~~~~~~~~~~~~~~~~~~
+
+Once you've made your change and committed it locally it's time to
+push it to Gerrit so that it can be reviewed. This is done with a
+normal git push to the Gerrit server. Since we cloned our local
+repository directly from Gerrit it is the origin so we don't have to
+redefine the remote.
+
+----
+$ <work>
+$ git commit
+$ git push origin HEAD:refs/for/master
+Counting objects: 5, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 354 bytes, done.
+Total 3 (delta 0), reused 0 (delta 0)
+remote: 
+remote: New Changes:
+remote:   http://gerrithost:8080/66
+remote: 
+To ssh://gerrithost:29418/example.git
+ * [new branch]      HEAD -> refs/for/master
+----
+
+The only different thing about this is the +refs/for/master+ branch.
+This is a magic branch that creates reviews that target the master
+branch. For every branch Gerrit tracks there is a magic
++refs/for<branch_name>+ that you push to to create reviews.
+
+In the output of this command you'll notice that there is a link to
+the HTTP interface of the Gerrit server we just pushed to. This is the
+web interface where we will review this commit. Lets follow that link
+and see what we get.
+
+.Gerrit Code Review Screen
+image::images/intro-quick-new-review.jpg[Gerrit Review Screen]
+
+This is the Gerrit code review screen where someone will come to
+review the change. There isn't too much to see here yet, you can look
+at the diff of your change, add some comments explaining what you did
+and why and even add a list of people that should review the change.
+Of course the reviewers can just wander around and find things to
+review, adding someone to review is just a recommendation.
+
+At this point the change is available for review and we need to switch
+roles to continuing following the change. Now lets pretend we're the
+reviewer.
+
+Reviewing the Change
+~~~~~~~~~~~~~~~~~~~~
+
+The reviewers life stats at the code review screen shown above. They
+can get here in a number of ways, but for some reason they've decided
+to review this change. There is one thing particularly to note on this
+screen:
+
+----
+* Need Verified
+* Need Code-Review
+----
+
+Gerrit's default work-flow requires to checks before a change is
+accepted. Code-Review is someone looking at the code, ensuring it
+meets the project guidelines, intent etc. Verifying is checking that
+the code actually works, unit tests pass etc. These can be completed
+by different people. Since we're the code reviewer we're going to
+review the code.
+
+To do this we can view it within the Gerrit web interface as either a
+unified or side-by-side diff by selecting the appropriate option. In
+the example below we've selected the side-by-side view. In either of
+these views you can add comments by double clicking on the line that
+you want to comment on. Once saved these comments are viewable to all
+allowing discussion of the change to take place.
+
+.Side By Side Patch View
+image::images/intro-quick-review-line-comment.jpg[Adding a Comment]
+
+Code reviewers end up spending a lot of time navigating these screens
+looking at and commenting on these changes. To make this as efficient
+as possible Gerrit has keyboard shortcuts for most operations (and
+even some operations that are only accessible via the hot-keys). At
+any time you can hit the +?+ key.
+
+.Gerrit Hot Key Help
+image::images/intro-quick-hot-key-help.jpg[Hot Key Help]
+
+Once we've looked over the changes we need to complete reviewing the
+submission. To do this we click the _Review_ button on the change
+screen where we started. This allows us to enter a Code Review label
+and message.
+
+.Reviewing the Change
+image::images/intro-quick-reviewing-the-change.jpg[Reviewing the Change]
+
+The label that the reviewer selects what can happen next. The +1 and
+-1 level are just an opinion where as the +2 and -2 levels are
+allowing or blocking the change. In order for a change to be accepted
+it must have at least one +2 and no -2 votes.
+
+In this case the change was not accepted so the submitter needs to
+rework it. So let us switch roles back to the submitter where we
+started.
+
+Reworking the Change
+~~~~~~~~~~~~~~~~~~~~
+
+As long as we set-up the
+link:user-changeid.html[Change-Id commit-msg hook]
+before we submitted the change then re-working it is easy. All we need
+to do to submit a re-worked change is push another review that has the
+same Change-Id in the message. Since the hook added this in our
+initial commit we can simply amend the commit. Then push it to Gerrit
+in the same way as we did to create the review. E.g.
+
+----
+$ <rework>
+$ git commit --amend
+\$ git push origin HEAD:refs/for/master
+Counting objects: 5, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 354 bytes, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To ssh://gerrithost:29418/example.git
+ * [new branch]      HEAD -> refs/for/master
+----
+
+Note that the output is slightly different this time around. We don't
+get told about the new review because we're adding to an existing
+review. Having submitted the reworked review we can go back into the
+Gerrit web interface and look at our change.
+
+.Reviewing the Rework
+image::images/intro-quick-review-2-patches.jpg[Reviewing the Rework]
+
+If you look closely you'll notice that there are now two patches
+associated with this change. The initial submission and the rework.
+Rather than repeating ourselves lets assume that this time around the
+patch is given a +2 score by the code reviewer.
+
+Verifying the Commit
+~~~~~~~~~~~~~~~~~~~~
+
+With Gerrit's default work-flow there are two sign-offs, code review
+and verify. Verifying means checking that the change actually works.
+This would typically be checking that the code merges cleanly,
+compiles, unit tests pass. Really a project can decide how much or
+little they want to do here. It's also worth noting that this is only
+Gerrit's default work-flow, the verify check can actually be removed
+or others added.
+
+Since verification usually involves some form or compilation or
+testing the verifier needs to get the code into their development
+environment. Gerrit makes this process easy by exposing each change as
+a git branch. So all the verifier needs to do is pull from Gerrit and
+checkout a particular branch and they will have the change.
+
+We don't even need to think about it that hard, if you look at the
+earlier screen shots of the Gerrit Code Review Screen you'll notice a
+_download_ command. All we need to do to get the change is copy
+paste this command and run it in our Gerrit checkout.
+
+----
+$ git fetch http://gerrithost:8080/p/example refs/changes/66/66/2
+From http://gerrithost:8080/p/example
+ * branch            refs/changes/66/66/2 -> FETCH_HEAD
+$ git checkout FETCH_HEAD
+Note: checking out 'FETCH_HEAD'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b new_branch_name
+
+HEAD is now at 9404c8d... Adding more lines of the poem
+----
+
+That's it. We now have the change in our working copy to play with.
+You might be interested in what the numbers of the refspec mean.
+Starting from the end:
+
+* *2* is the patch-set within the change. Because we uploaded some
+fixes we want the second patch set rather than the initial one which
+the reviewer rejected.
+* *66* is the id of the change. You'll notice this in the URL of the
+Gerit review screen
+* *66* the first 66 is simply the id % 100. This is just to limit the
+number of files in the folders within the git repository.
+
+Depending on the installation the verifier may be the same person as
+the code reviewer or a different person entirely, it really depends on
+the size of the project and what works. For this reason verifying and
+code-reviewing are different permissions. Having done the verification
+though, telling Gerrit is similar to the Code Review step above. If
+you have Verify permission then when you click the _Review_ button
+in the Gerrit web interface you'll be presented with a verify score.
+
+.Verifying the Change
+image::images/intro-quick-verifying.jpg[Verifying the Change]
+
+Unlike the code review the verify check doesn't have a +2 or -2 level,
+it's either a pass or fail so all we need for the change to be
+submitted is a +1 score (and no -1's).
+
+Submitting the Change
+~~~~~~~~~~~~~~~~~~~~~
+
+You might have noticed that in the verify screen shot there are two
+buttons for submitting the score `_Publish Comments_ and _Publish
+and Submit_. The new publish and submit operation is available
+because now the change has been both verified and code reviewed so
+meets the criteria for being accepted. If you choose just to publish
+comments at this point then the score will be stored but the change
+won't yet be accepted into the code base. In this case there will be a
+_Submit Patch Set X_ button on the main screen. Just as Code Review
+and Verify are different operations that can be done by different
+users, Submission is a third operation that can be limited down to
+another group of users.
+
+Submitting the change through either of these two options accepts the
+change into the code base. Once this is done the change is merged into
+the git repository and will be a part of the git checkout of the
+project for everyone to work with.
+
+
+Next Steps
+----------
+
+Setup your own repository and try out the above.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7hQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-23T00:24:43Z",
+      "side": 1,
+      "message": "You should probably look at how users were dealt with on line 239.  I believe that additionally prints the email.  Some users may have the same FullName, it helps disambiguate.",
+      "revId": "5bc3692db607507a64b70629ae8a1206fcb5d305",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7hI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-23T00:24:43Z",
+      "side": 1,
+      "message": "Should these get sorted by time?  They seem in order for me, but I suspect that is not reliable.  If so, I would return a sorted List instead.",
+      "revId": "5bc3692db607507a64b70629ae8a1206fcb5d305",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

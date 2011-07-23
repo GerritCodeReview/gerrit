@@ -34,6 +34,24 @@
       "revId": "ae07d45319d01d8dfa45b0ae96fd37be75d11a7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7fs\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-23T17:46:37Z",
+      "side": 1,
+      "message": "The eclipse setup page mentions tools/GoogleFormat.xml.  I admit that since I don\u0027t use eclipse, it doesn\u0027t do me much good.  I would be happy if you could integrate style checking in the build, although I would suggest that it only emit warnings, not errors.\n\nFor somethings, such as spacing between imports, I just get my cues from the patterns that I see in the files that I edit. It would be nice to have additional documentation about stylistic stuff that probably can\u0027t be well described in an xml file, things like function placement in files.  We started something like that at the hack-a-thon, I don\u0027t know what happened to it?",
+      "parentUuid": "AAABEX//7gE\u003d",
+      "revId": "ae07d45319d01d8dfa45b0ae96fd37be75d11a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

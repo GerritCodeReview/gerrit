@@ -25,16 +25,19 @@ class ChangeManageServiceImpl implements ChangeManageService {
   private final AbandonChange.Factory abandonChangeFactory;
   private final RestoreChange.Factory restoreChangeFactory;
   private final RevertChange.Factory revertChangeFactory;
+  private final PublishAction.Factory publishAction;
 
   @Inject
   ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction,
       final AbandonChange.Factory abandonChangeFactory,
       final RestoreChange.Factory restoreChangeFactory,
-      final RevertChange.Factory revertChangeFactory) {
+      final RevertChange.Factory revertChangeFactory,
+      final PublishAction.Factory publishAction) {
     this.submitAction = patchSetAction;
     this.abandonChangeFactory = abandonChangeFactory;
     this.restoreChangeFactory = restoreChangeFactory;
     this.revertChangeFactory = revertChangeFactory;
+    this.publishAction = publishAction;
   }
 
   public void submit(final PatchSet.Id patchSetId,
@@ -55,5 +58,10 @@ class ChangeManageServiceImpl implements ChangeManageService {
   public void restoreChange(final PatchSet.Id patchSetId, final String message,
       final AsyncCallback<ChangeDetail> callback) {
     restoreChangeFactory.create(patchSetId, message).to(callback);
+  }
+
+  public void publish(final PatchSet.Id patchSetId,
+      final AsyncCallback<ChangeDetail> callback) {
+    publishAction.create(patchSetId).to(callback);
   }
 }

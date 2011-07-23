@@ -104,6 +104,9 @@ public class ReviewCommand extends BaseCommand {
       + "even if the label score cannot be applied due to change being closed")
   private boolean forceMessage = false;
 
+  @Option(name = "--publish", usage = "publish a draft patch set")
+  private boolean publishPatchSet;
+
   @Inject
   private ReviewDb db;
 
@@ -154,6 +157,17 @@ public class ReviewCommand extends BaseCommand {
           }
           if (submitChange) {
             throw error("abandon and submit actions are mutually exclusive");
+          }
+          if (publishPatchSet) {
+            throw error("abandon and publish actions are mutually exclusive");
+          }
+        }
+        if (publishPatchSet) {
+          if (restoreChange) {
+            throw error("publish and restore actions are mutually exclusive");
+          }
+          if (submitChange) {
+            throw error("publish and submit actions are mutually exclusive");
           }
         }
 
@@ -313,6 +327,13 @@ public class ReviewCommand extends BaseCommand {
 
         default:
           throw new Failure(1, "Unsupported status " + result.get(0).status);
+      }
+    }
+    if (publishPatchSet) {
+      if (changeControl.isOwner() && changeControl.isVisible(db)) {
+        ChangeUtil.publishDraftPatchSet(db, patchSetId);
+      } else {
+        throw error("Not permitted to publish draft patchset");
       }
     }
   }

@@ -1,6 +1,11 @@
 Gerrit Code Review for Git
 ==========================
 
+Getting Started
+---------------
+
+* link:intro-quick.html[A Quick Introduction To Gerrit]
+
 User Guide
 ----------
 

@@ -16,6 +16,24 @@
       "revId": "ae07d45319d01d8dfa45b0ae96fd37be75d11a7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7gE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-23T15:08:43Z",
+      "side": 1,
+      "message": "Hi, Martin\n thank you for your review. \nand will you please let me know the detail of the reason . \ndo you mean this is the Google code style that require to have one bland line between different import source package?\n\nI often find we cost some time on check code style so I think\nhere is a chance for me to share my idea .I have wanted to ask a question for a long time that \n is it feasible to let google code style format.xml having this restrict ? so that developer can get some hints if there is some code style error  before upload code  and reviewer can save time. \n  \nalso as Gerrit source code structure is maven project, why not introduce checkstyle plugin .and create related configure file and add it to pom.xml, this plugin is really good . reference to  http://maven.apache.org/plugins/maven-checkstyle-plugin/.\n \nthanks in advance",
+      "parentUuid": "AAABEX//7h0\u003d",
+      "revId": "ae07d45319d01d8dfa45b0ae96fd37be75d11a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

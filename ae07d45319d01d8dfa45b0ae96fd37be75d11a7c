@@ -52,6 +52,24 @@
       "revId": "ae07d45319d01d8dfa45b0ae96fd37be75d11a7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7c0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-24T09:01:01Z",
+      "side": 1,
+      "message": "oh surprise to me that you don\u0027t use eclipse. will you please share the name of your IDE?  I have configure tools/GoogleFormat.xml to my eclipse but it did not give me any warnings when I deleted these 2 blank lines, so I want change to other IDE  :)  \nit is really good news that the hack-a-thon is going on , I expect to it\u0027s result. before that I will keep in my mind some code style rules like not delete any existing blank lines :)\n\nthanks a lot again for your giving me  these directions and  information!!",
+      "parentUuid": "AAABEX//7fs\u003d",
+      "revId": "ae07d45319d01d8dfa45b0ae96fd37be75d11a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

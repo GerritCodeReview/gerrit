@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7Zc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/MessageAttribute.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-25T21:03:44Z",
+      "side": 1,
+      "message": "Since author in Gerrit usually refers to the git author, reviewer might work better here.",
+      "revId": "74ca2b71466cc1f6743e3e373403644b5e1e3943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7ZY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/PatchSetCommentAttribute.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-25T21:03:44Z",
+      "side": 1,
+      "message": "Since author in Gerrit usually refers to the git author, reviewer might work better here.",
+      "revId": "74ca2b71466cc1f6743e3e373403644b5e1e3943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7Zg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-25T21:03:44Z",
+      "side": 1,
+      "message": "I realise the original implementation was similar to this, but it places each character in the output stream, so it was likely not constantly copying strings like this implementation is.  Using a StringBuffer would likely be better, or the Formatter (\"$\" + spaces + \"s\", \"\") might work?",
+      "revId": "74ca2b71466cc1f6743e3e373403644b5e1e3943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7Zk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-25T21:03:44Z",
+      "side": 1,
+      "message": "Nit: How about naming this showField?",
+      "revId": "74ca2b71466cc1f6743e3e373403644b5e1e3943",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

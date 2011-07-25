@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7cQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-25T07:14:16Z",
+      "side": 1,
+      "message": "Jason, in my comment here:\n\nhttps://review.source.android.com/#/c/24720/3/gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeMessage.java\n\nI didn\u0027t mean to simply split the schema changes from the rest. There, I asked if addition of PatchSet.Id to the ChangeMessage is related to the introduction of the draft status to the PatchSet and, only in case it isn\u0027t, proposed to split the addition of only the PatchSet.Id from the rest of the change.\n\nOf course, addition of the draft flag to the PatchSet belong to the change:\nhttps://review.source.android.com/#/c/24720\nand it makes no sense to split the schema change for this flag.\n\nIf the addition of PatchSet.Id to the ChangeMessage is also related to the introduction of the draft status then there was no need to split the change at all. It would be enough if you justified that in an answer to my comment.",
+      "revId": "fcef4f39f7e6dab533ff0ce1b9f3c3c795cc7eb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "fcef4f39f7e6dab533ff0ce1b9f3c3c795cc7eb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7bU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-07-25T16:39:33Z",
+      "side": 1,
+      "message": "I agreed that PatchSet.Id in ChangeMessage is not really related specifically to the change of adding a draft status to PatchSet. It\u0027s actually related more to this change: \nhttps://review.source.android.com/#/c/24778/ because when change messages are displayed, they should be hidden if the corresponding patch set is a draft. \n\nInstead of doing 2 separate schema changes, I thought that the easiest thing to do would be to just contain both schema changes in one change and the logic handling draft patchsets and prefiltering change messages in their own changes.",
+      "parentUuid": "AAABEX//7cQ\u003d",
+      "revId": "fcef4f39f7e6dab533ff0ce1b9f3c3c795cc7eb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

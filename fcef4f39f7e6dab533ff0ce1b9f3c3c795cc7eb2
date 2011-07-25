@@ -34,6 +34,24 @@
       "revId": "fcef4f39f7e6dab533ff0ce1b9f3c3c795cc7eb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7bM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-25T17:44:13Z",
+      "side": 1,
+      "message": "OK. In that case please describe that in this commit message i.e. mention that this schema change is a preparation for the two follow-up changes.",
+      "parentUuid": "AAABEX//7bU\u003d",
+      "revId": "fcef4f39f7e6dab533ff0ce1b9f3c3c795cc7eb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -27,4 +27,7 @@ public interface ChangeMessageAccess extends
 
   @Query("WHERE key.changeId = ? ORDER BY writtenOn")
   ResultSet<ChangeMessage> byChange(Change.Id id) throws OrmException;
+
+  @Query
+  ResultSet<ChangeMessage> all() throws OrmException;
 }

@@ -226,7 +226,7 @@ public class ChangeUtil {
 
     final ChangeMessage cmsg =
         new ChangeMessage(new ChangeMessage.Key(changeId, ChangeUtil
-            .messageUUID(db)), user.getAccountId());
+            .messageUUID(db)), user.getAccountId(), patchSetId);
     final StringBuilder msgBuf =
         new StringBuilder("Patch Set " + patchSetId.get() + ": Abandoned");
     if (message != null && message.length() > 0) {
@@ -337,7 +337,7 @@ public class ChangeUtil {
 
       final ChangeMessage cmsg =
           new ChangeMessage(new ChangeMessage.Key(changeId,
-              ChangeUtil.messageUUID(db)), user.getAccountId());
+              ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
       final StringBuilder msgBuf =
           new StringBuilder("Patch Set " + patchSetId.get() + ": Reverted");
       msgBuf.append("\n\n");
@@ -373,7 +373,7 @@ public class ChangeUtil {
 
     final ChangeMessage cmsg =
         new ChangeMessage(new ChangeMessage.Key(changeId, ChangeUtil
-            .messageUUID(db)), user.getAccountId());
+            .messageUUID(db)), user.getAccountId(), patchSetId);
     final StringBuilder msgBuf =
         new StringBuilder("Patch Set " + patchSetId.get() + ": Restored");
     if (message != null && message.length() > 0) {

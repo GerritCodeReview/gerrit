@@ -77,15 +77,17 @@ public final class ChangeMessage {
   protected ChangeMessage() {
   }
 
-  public ChangeMessage(final ChangeMessage.Key k, final Account.Id a) {
-    this(k, a, new Timestamp(System.currentTimeMillis()));
+  public ChangeMessage(final ChangeMessage.Key k, final Account.Id a,
+      final PatchSet.Id psid) {
+    this(k, a, new Timestamp(System.currentTimeMillis()), psid);
   }
 
   public ChangeMessage(final ChangeMessage.Key k, final Account.Id a,
-      final Timestamp wo) {
+      final Timestamp wo, final PatchSet.Id psid) {
     key = k;
     author = a;
     writtenOn = wo;
+    patchset = psid;
   }
 
   public ChangeMessage.Key getKey() {

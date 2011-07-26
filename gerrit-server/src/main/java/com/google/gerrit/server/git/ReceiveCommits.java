@@ -1278,7 +1278,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
       msg =
           new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
-              .messageUUID(db)), me, ps.getCreatedOn());
+              .messageUUID(db)), me, ps.getCreatedOn(), ps.getId());
       msg.setMessage("Uploaded patch set " + ps.getPatchSetId() + ".");
       db.changeMessages().insert(Collections.singleton(msg));
       ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
@@ -1838,7 +1838,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     msgBuf.append(".");
     final ChangeMessage msg =
         new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
-            .messageUUID(db)), currentUser.getAccountId());
+            .messageUUID(db)), currentUser.getAccountId(), result.info.getKey());
     msg.setMessage(msgBuf.toString());
 
     db.changeMessages().insert(Collections.singleton(msg));

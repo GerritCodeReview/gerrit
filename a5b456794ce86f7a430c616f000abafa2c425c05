@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7Ow\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T22:05:21Z",
+      "side": 1,
+      "message": "After playing with this change, I think that \"Merge Test: Passed/Failed\" doesn\u0027t seem right as a user, it sounds like an implementation detail (the user doesn\u0027t care that a test was performed, they only care whether it can be merged or not).  Perhaps instead, \"Mergeable: Yes/No\", OR\n\"Can Merge: Yes/No\", or  \"Will Merge: Yes/No\" would be better?",
+      "revId": "a5b456794ce86f7a430c616f000abafa2c425c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7Os\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T22:05:21Z",
+      "side": 1,
+      "message": "After suggesting to put merge test failure messages in the \"Need\" list, I cannot help but think that this approach is inconsistent with not having approvals where the submit button simply is not displayed instead of disabling it.  \n\nNow perhaps disabling the submit button (but keeping it visible) when a change is not ready to be merged for any of the reasons above as long as the user has the power to correct the situation and then press submit is a good idea (if they never will have the power, then do not show the button).  But, I am not sure that this is the right time to start making that transition (particularly because of the fact that it will be inconsistent with the approvals)?",
+      "revId": "a5b456794ce86f7a430c616f000abafa2c425c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7RI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1007,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T22:05:21Z",
+      "side": 1,
+      "message": "The criteria to set isMergeable looks pretty straight forward.  I think that it would be cleaner to simply abstract it out of this function and avoid having adding an instance variable to the class.  Also, that would avoid overloading a function named updateChangeMessage() with this determination, this function could then do just what it is named.\n\nAlternatively, if named appropriately, this function could return isMergeable instead of setting it.  I am not sure what is best, but as is, it does not feel right.",
+      "revId": "a5b456794ce86f7a430c616f000abafa2c425c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7O0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T22:05:21Z",
+      "side": 1,
+      "message": "These messages don\u0027t seem to show up until the second load of a change.",
+      "revId": "a5b456794ce86f7a430c616f000abafa2c425c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7RE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T22:05:21Z",
+      "side": 1,
+      "message": "I think that these messages should not be comments on the change, rather they should be worded as \"Need ...\" and stuck in the bullet list with \"Need Verified\", \"Need Code-Review.",
+      "revId": "a5b456794ce86f7a430c616f000abafa2c425c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "revId": "360bd56804939800fa004dc89e97a4a953892fb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7T0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_59.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-26T08:30:32Z",
+      "side": 1,
+      "message": "Looking at the data in the change_messages table it looks like it would be\npossible to find the change id for most of the messages, maybe even for all.\n\nMost of the messages are of the following format:\n\n\tPatch Set [0-9]+: ...\t\t(format-A)\n\nor to following format:\n\t\n\tUploaded patch set [0-9]+.\t(format-B)\n\nFor these changes it\u0027s easy to extract the patch set number.\n\nFor those messages which are not in one of the above formats we associate\nthem to the highest patch set number that was existent at the time when the\nmessage was created. This seems reasonable as all change operations that produce\na message without the patch set number are applied on the latest patch set\nexistent at the time when the operation is done. One can still comment on an\nolder patch set but this produces a message in the format-A.\n\nI would use the following query:\n\n\tselect * from change_messages order by message_id, written_on\n\nand then process the result set like:\n\n\tChange.Id currentId \u003d null;\n\tint maxPatchSetId;\n\twhile (row \u003d next(resultSet)) {\n\t\tChange.Id id \u003d row.change_id;\n\t\tif (currentId \u003d null || !currentId.equals(id)) {\n\t\t\tcurrentId \u003d id;\n\t\t\tmaxPatchSetId \u003d 1;\n\t\t}\n\n\t\tint patchSetId;\n\t\tif (row is of format-A OR row is of format-B) {\n\t\t\tpatchSetId \u003d extractPatchSetId(row.message)\n\t\t\tif (maxPatchSetId \u003c patchSetId) {\n\t\t\t\tmaxPatchSetId \u003d patchSetId;\n\t\t\t}\n\t\t} else {\n\t\t\tpatchSetId \u003d maxPatchSetId;\n\t\t}\n\n\t\tUPDATE change_messages SET patch_set_id \u003d \u003cpatchSetId\u003e\n\t\tWHERE change_id \u003d \u003cid\u003e\n\t\tAND uuid \u003d \u003crow.uuid\u003e\n\t}",
+      "parentUuid": "AAABEX//7Uo\u003d",
+      "revId": "360bd56804939800fa004dc89e97a4a953892fb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

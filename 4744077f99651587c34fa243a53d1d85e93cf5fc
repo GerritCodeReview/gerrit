@@ -104,6 +104,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//7Tg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-26T10:16:02Z",
+      "side": 1,
+      "message": "Yes. Fixed in the version we are locally working.",
+      "parentUuid": "AAABEX//7eI\u003d",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//7WI\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
         "patchSetId": 3
@@ -138,6 +156,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//7Tc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-26T10:16:02Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "AAABEX//7dg\u003d",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//7WM\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitMergeStatus.java",
         "patchSetId": 3
@@ -149,6 +185,24 @@
       "writtenOn": "2011-07-26T02:18:41Z",
       "side": 1,
       "message": "Nit: unnecessary this.",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7TY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitMergeStatus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-26T10:16:02Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "AAABEX//7WM\u003d",
       "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -343,6 +397,24 @@
       "writtenOn": "2011-07-26T02:18:41Z",
       "side": 1,
       "message": "I think that you should not make the schema an instance variable, it makes it very hard to track its lifespan.",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7TU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-26T10:16:02Z",
+      "side": 1,
+      "message": "The point is that schema was originally an instance variable in MergeOp. We meant to cause the minimum impact in MergeOp. schema is used for several methods in MergeOp, including some called by runTestMerge.",
+      "parentUuid": "AAABEX//7dA\u003d",
       "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

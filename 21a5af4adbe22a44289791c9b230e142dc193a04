@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7NQ\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T22:58:47Z",
+      "side": 1,
+      "message": "Nit: Using submitter here seems ambiguous, perhaps uploader would be better?",
+      "revId": "21a5af4adbe22a44289791c9b230e142dc193a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

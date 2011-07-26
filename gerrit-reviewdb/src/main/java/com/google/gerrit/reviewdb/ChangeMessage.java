@@ -70,6 +70,10 @@ public final class ChangeMessage {
   @Column(id = 4, notNull = false, length = Integer.MAX_VALUE)
   protected String message;
 
+  /** Which patchset (if any) was this message generated from? */
+  @Column(id = 5, notNull = false)
+  protected PatchSet.Id patchset;
+
   protected ChangeMessage() {
   }
 
@@ -110,5 +114,13 @@ public final class ChangeMessage {
 
   public void setMessage(final String s) {
     message = s;
+  }
+
+  public PatchSet.Id getPatchSetId() {
+    return patchset;
+  }
+
+  public void setPatchSetId(PatchSet.Id id) {
+    patchset = id;
   }
 }

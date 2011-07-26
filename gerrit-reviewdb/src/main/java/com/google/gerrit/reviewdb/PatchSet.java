@@ -97,6 +97,9 @@ public final class PatchSet {
   @Column(id = 4)
   protected Timestamp createdOn;
 
+  @Column(id = 5)
+  protected boolean draft;
+
   protected PatchSet() {
   }
 
@@ -134,6 +137,14 @@ public final class PatchSet {
 
   public void setCreatedOn(final Timestamp ts) {
     createdOn = ts;
+  }
+
+  public boolean isDraft() {
+    return draft;
+  }
+
+  public void setDraft(boolean draftStatus) {
+    draft = draftStatus;
   }
 
   public String getRefName() {

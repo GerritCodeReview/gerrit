@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7OE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T22:29:06Z",
+      "side": 1,
+      "message": "I see now that the db byChange() does order these, but you should return a List here instead; a Collection implies no order.",
+      "revId": "c1c6439f5f7b823016cae90365c05a2e0a812944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

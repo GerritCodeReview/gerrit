@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7Us\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T05:39:32Z",
+      "side": 1,
+      "message": "Would it perhaps be better to require the psid in the message constructor to prevent any future coders from not adding one?",
+      "revId": "f12116d8675e30bda947873535b5e8b23a5c8817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7Ug\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1864,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T05:39:32Z",
+      "side": 1,
+      "message": "In a desperate attempt to keep this class from growing, I would suggest putting the new/refactored code below in a class called MagicBranch, along with their defs.   Perhaps even an enum?",
+      "revId": "f12116d8675e30bda947873535b5e8b23a5c8817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//7So\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/GroupTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-26T14:06:10Z",
+      "side": 1,
+      "message": "correcting: between if and (",
+      "parentUuid": "AAABEX//7S4\u003d",
+      "revId": "0f6f5dcefac406065d2dca6a4aa48d7b56816161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//7S0\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/GroupTable.java",
         "patchSetId": 3
@@ -64,6 +82,41 @@
       "writtenOn": "2011-07-26T13:55:44Z",
       "side": 1,
       "message": "format style: insert whitespace between if and \u0027{\u0027 character.",
+      "revId": "0f6f5dcefac406065d2dca6a4aa48d7b56816161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7Sk\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/GroupTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-26T14:06:10Z",
+      "side": 1,
+      "message": "between if and (",
+      "parentUuid": "AAABEX//7S0\u003d",
+      "revId": "0f6f5dcefac406065d2dca6a4aa48d7b56816161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7Ss\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-07-26T14:06:10Z",
+      "side": 1,
+      "message": "I don\u0027t feel confortable with this exception treatment.. but I don\u0027t see another option unless changing Handler.java to throw a specialized exception instead Exception which is out of this feature scope...",
       "revId": "0f6f5dcefac406065d2dca6a4aa48d7b56816161",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

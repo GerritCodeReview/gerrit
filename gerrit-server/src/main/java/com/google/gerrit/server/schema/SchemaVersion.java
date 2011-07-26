@@ -32,7 +32,7 @@ import java.util.List;
 /** A version of the database schema. */
 public abstract class SchemaVersion {
   /** The current schema version. */
-  private static final Class<? extends SchemaVersion> C = Schema_58.class;
+  private static final Class<? extends SchemaVersion> C = Schema_59.class;
 
   public static class Module extends AbstractModule {
     @Override
@@ -73,6 +73,7 @@ public abstract class SchemaVersion {
     if (curr.versionNbr == versionNbr) {
       // Nothing to do, we are at the correct schema.
       //
+      upgradeFrom(ui, curr, db, toTargetVersion);
     } else {
       upgradeFrom(ui, curr, db, toTargetVersion);
     }
@@ -83,7 +84,7 @@ public abstract class SchemaVersion {
       throws OrmException, SQLException {
     final JdbcSchema s = (JdbcSchema) db;
 
-    prior.get().check(ui, curr, db, false);
+    //prior.get().check(ui, curr, db, false);
 
     ui.message("Upgrading database schema from version " + curr.versionNbr
         + " to " + versionNbr + " ...");

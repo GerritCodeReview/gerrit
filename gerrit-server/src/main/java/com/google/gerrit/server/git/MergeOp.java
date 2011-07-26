@@ -1179,7 +1179,8 @@ public class MergeOp {
       return null;
     }
     final ChangeMessage m =
-        new ChangeMessage(new ChangeMessage.Key(c.getId(), uuid), null);
+        new ChangeMessage(new ChangeMessage.Key(c.getId(), uuid), null,
+            c.currentPatchSetId());
     m.setMessage(body);
     return m;
   }

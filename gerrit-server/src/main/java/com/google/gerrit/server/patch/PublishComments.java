@@ -255,7 +255,7 @@ public class PublishComments implements Callable<VoidResult> {
     msgbuf.append(messageText != null ? messageText : "");
 
     message = new ChangeMessage(new ChangeMessage.Key(change.getId(),//
-        ChangeUtil.messageUUID(db)), user.getAccountId());
+        ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
     message.setMessage(msgbuf.toString());
     db.changeMessages().insert(Collections.singleton(message));
   }

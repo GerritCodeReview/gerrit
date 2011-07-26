@@ -80,6 +80,11 @@ public final class MagicBranch {
     return Capable.OK;
   }
 
+  /** Checks if ref name matches the draft magic branch */
+  public static boolean isDraft(String refName) {
+    return refName.startsWith(MagicBranch.NEW_DRAFT_CHANGE);
+  }
+
   private static Capable checkMagicBranchRef(String branchName, Repository repo,
       Project project) {
     Map<String, Ref> blockingFors;

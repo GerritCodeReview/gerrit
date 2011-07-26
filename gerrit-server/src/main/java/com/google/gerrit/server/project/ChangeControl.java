@@ -274,6 +274,25 @@ public class ChangeControl {
       return ruleError("Patch set " + patchSetId + " is not current");
     }
 
+    try {
+      if (change.getStatus() == Change.Status.DRAFT){
+        if (!isVisible(db)) {
+          return ruleError("Patch set " + patchSetId + " not found");
+        } else {
+          return ruleError("Cannot submit draft changes");
+        }
+      }
+      if (isDraftPatchSet(patchSetId, db)) {
+        if (!isVisible(db)) {
+          return ruleError("Patch set " + patchSetId + " not found");
+        } else {
+          return ruleError("Cannot submit draft patch sets");
+        }
+      }
+    } catch (OrmException err) {
+      return logRuleError("Cannot read patch set " + patchSetId, err);
+    }
+
     List<Term> results = new ArrayList<Term>();
     Term submitRule;
     ProjectState projectState = getProjectControl().getProjectState();
@@ -481,6 +500,14 @@ public class ChangeControl {
 
   private boolean isDraftVisible(ReviewDb db) throws OrmException {
     return isOwner() || isReviewer(db);
+  }
+
+  private boolean isDraftPatchSet(PatchSet.Id id, ReviewDb db) throws OrmException {
+    PatchSet ps = db.patchSets().get(id);
+    if (ps == null) {
+      throw new OrmException("Patch set " + id + " not found");
+    }
+    return ps.isDraft();
   }
 
   private static boolean isUser(Term who) {

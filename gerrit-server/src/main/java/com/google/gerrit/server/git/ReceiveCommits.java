@@ -930,6 +930,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     ps.setCreatedOn(change.getCreatedOn());
     ps.setUploader(me);
     ps.setRevision(toRevId(c));
+    if (MagicBranch.isDraft(newChange.getRefName())) {
+      change.setStatus(Change.Status.DRAFT);
+      ps.setDraft(true);
+    }
     insertAncestors(ps.getId(), c);
     db.patchSets().insert(Collections.singleton(ps));
 
@@ -1164,6 +1168,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
     ps.setUploader(currentUser.getAccountId());
     ps.setRevision(toRevId(c));
+    if (MagicBranch.isDraft(request.cmd.getRefName())) {
+      ps.setDraft(true);
+    }
     insertAncestors(ps.getId(), c);
     db.patchSets().insert(Collections.singleton(ps));
 
@@ -1243,7 +1250,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
                 if (destTopicName != null) {
                   change.setTopic(destTopicName);
                 }
-                change.setStatus(Change.Status.NEW);
+                if(change.getStatus() == Change.Status.DRAFT && ps.isDraft()) {
+                  change.setStatus(Change.Status.DRAFT);
+                } else {
+                  change.setStatus(Change.Status.NEW);
+                }
                 change.setCurrentPatchSet(result.info);
                 ChangeUtil.updated(change);
                 return change;

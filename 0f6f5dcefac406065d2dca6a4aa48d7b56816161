@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7TA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-26T13:55:44Z",
+      "side": 1,
+      "message": "suggestion to modify text to: \"groups having emails scheduled.\"",
+      "revId": "0f6f5dcefac406065d2dca6a4aa48d7b56816161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7S8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountSecurity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-26T13:55:44Z",
+      "side": 1,
+      "message": "It seems AccountGroup import could be removed.",
+      "revId": "0f6f5dcefac406065d2dca6a4aa48d7b56816161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7S4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/GroupTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-26T13:55:44Z",
+      "side": 1,
+      "message": "format style: insert whitespace between if and \u0027{\u0027 character.",
+      "revId": "0f6f5dcefac406065d2dca6a4aa48d7b56816161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7S0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/GroupTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-07-26T13:55:44Z",
+      "side": 1,
+      "message": "format style: insert whitespace between if and \u0027{\u0027 character.",
+      "revId": "0f6f5dcefac406065d2dca6a4aa48d7b56816161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

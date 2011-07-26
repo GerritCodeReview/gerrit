@@ -2,6 +2,176 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABEX//7V8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T02:18:41Z",
+      "side": 1,
+      "message": "To avoid potential confusion with any error message related to an actual merge attempt, I suggest: messageFailsMergeTest.",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7eQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T02:18:41Z",
+      "side": 1,
+      "message": "If we trust the test enough to disable the submit button, let\u0027s be more assertive here, maybe something like: This change will currently fail to merge to the tip.",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7WE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T02:18:41Z",
+      "side": 1,
+      "message": "Nit/suggestion: the above 3 lines would be simpler as one.",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7WA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T02:18:41Z",
+      "side": 1,
+      "message": "Should the config also be checked here?",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7eM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T02:18:41Z",
+      "side": 1,
+      "message": "I am having a hard time understanding the reason for this change?",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7eI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T02:18:41Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this second test be negated?",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7WI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T02:18:41Z",
+      "side": 1,
+      "message": "Nit: this comment just repeats the two lines below.",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7dg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T02:18:41Z",
+      "side": 1,
+      "message": "The merge could still fail below.  Would it not be better to set this on merge?",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7WM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitMergeStatus.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T02:18:41Z",
+      "side": 1,
+      "message": "Nit: unnecessary this.",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7dY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T02:18:41Z",
+      "side": 1,
+      "message": "This doesn\u0027t quite seem named right since it does not always run the merge test.  Perhaps verifyMergeability, or something like that would be clearer?",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//718\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3
@@ -156,6 +326,23 @@
       "side": 1,
       "message": "I think that it is your call either way since if admins don\u0027t like it, they can just disable this feature.\n\nThat being said...  I suspect that if atomic commit is your alterior motive here, you will need to solve the case of testing changes along/ontop of their dependencies too.  Since in some cases their will be changes which people will want to merge atomically with their dependencies.  With approach #1, that will simply be impossible since the dependent change will never be submitable.  But, I see no reason why this can\u0027t be addressed in future changes.  What you have here is a nice infrastructure to build on.",
       "parentUuid": "AAABEX//7l8\u003d",
+      "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7dA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T02:18:41Z",
+      "side": 1,
+      "message": "I think that you should not make the schema an instance variable, it makes it very hard to track its lifespan.",
       "revId": "4744077f99651587c34fa243a53d1d85e93cf5fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

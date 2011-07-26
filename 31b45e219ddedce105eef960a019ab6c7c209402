@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7To\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-07-26T09:17:08Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it make sense to say that merging a change actually means merging its latest patch-set and associate the message to it instead of leaving patchSetId as null?",
+      "revId": "31b45e219ddedce105eef960a019ab6c7c209402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -93,6 +93,9 @@ public interface ReviewDb extends Schema {
   AccountPatchReviewAccess accountPatchReviews();
 
   @Relation
+  SubscriptionAccess subscriptions();
+
+  @Relation
   ChangeAccess changes();
 
   @Relation

@@ -16,6 +16,24 @@
       "revId": "360bd56804939800fa004dc89e97a4a953892fb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7Uo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_59.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-07-26T05:22:52Z",
+      "side": 1,
+      "message": "I\u0027m not really sure what kind of analysis can be done to determine which patchsets existing comments belong to, short of something like a textual analysis (which might be risky in terms of signal-to-noise). That\u0027s why I thought that it would be good to add a PatchSet.Id field to ChangeMessage.",
+      "parentUuid": "AAABEX//7U0\u003d",
+      "revId": "360bd56804939800fa004dc89e97a4a953892fb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

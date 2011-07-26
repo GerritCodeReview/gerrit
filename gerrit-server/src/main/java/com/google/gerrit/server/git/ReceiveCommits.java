@@ -48,6 +48,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -74,8 +75,8 @@ import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
+import org.eclipse.jgit.transport.ReceivePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -99,7 +100,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private static final Logger log =
       LoggerFactory.getLogger(ReceiveCommits.class);
 
-  public static final String NEW_CHANGE = "refs/for/";
   private static final Pattern NEW_PATCHSET =
       Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
 
@@ -304,29 +304,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       return result;
     }
 
-    // Don't permit receive-pack to be executed if a refs/for/branch_name
-    // reference exists in the destination repository. These block the
-    // client from being able to even send us a pack file, as it is very
-    // unlikely the user passed the --force flag and the new commit is
-    // probably not going to fast-forward the branch.
-    //
-    Map<String, Ref> blockingFors;
-    try {
-      blockingFors = repo.getRefDatabase().getRefs("refs/for/");
-    } catch (IOException err) {
-      String projName = project.getName();
-      log.warn("Cannot scan refs in '" + projName + "'", err);
-      return new Capable("Server process cannot read '" + projName + "'");
-    }
-    if (!blockingFors.isEmpty()) {
-      String projName = project.getName();
-      log.error("Repository '" + projName
-          + "' needs the following refs removed to receive changes: "
-          + blockingFors.keySet());
-      return new Capable("One or more refs/for/ names blocks change upload");
-    }
-
-    return Capable.OK;
+    return MagicBranch.checkMagicBranchRefs(repo, project);
   }
 
   @Override
@@ -376,7 +354,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
               ps.getProject().getDescription());
         }
 
-        if (!c.getRefName().startsWith(NEW_CHANGE)) {
+        if (!MagicBranch.isMagicBranch(c.getRefName())) {
           // We only schedule direct refs updates for replication.
           // Change refs are scheduled when they are created.
           //
@@ -422,7 +400,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         continue;
       }
 
-      if (cmd.getRefName().startsWith(NEW_CHANGE)) {
+      if (MagicBranch.isMagicBranch(cmd.getRefName())) {
         parseNewChangeCommand(cmd);
         continue;
       }
@@ -610,7 +588,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     newChange = cmd;
-    String destBranchName = cmd.getRefName().substring(NEW_CHANGE.length());
+    String destBranchName = MagicBranch.getDestBranchName(cmd.getRefName());
     if (!destBranchName.startsWith(Constants.R_REFS)) {
       destBranchName = Constants.R_HEADS + destBranchName;
     }
@@ -1533,8 +1511,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     final List<String> idList = c.getFooterLines(CHANGE_ID);
     if (idList.isEmpty()) {
-      if (project.isRequireChangeID() && (cmd.getRefName().startsWith(NEW_CHANGE)
-  || NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
+      if (project.isRequireChangeID() && (MagicBranch.isMagicBranch(cmd.getRefName()) ||
+          NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
         String errMsg = "missing Change-Id in commit message";
         reject(cmd, errMsg);
         rp.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));

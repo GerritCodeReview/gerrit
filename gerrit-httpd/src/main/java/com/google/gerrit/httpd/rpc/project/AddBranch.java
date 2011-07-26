@@ -23,11 +23,11 @@ import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -106,8 +106,8 @@ class AddBranch extends Handler<ListBranchesResult> {
     if (!Repository.isValidRefName(refname)) {
       throw new InvalidNameException();
     }
-    if (refname.startsWith(ReceiveCommits.NEW_CHANGE)) {
-      throw new BranchCreationNotAllowedException(ReceiveCommits.NEW_CHANGE);
+    if (MagicBranch.isMagicBranch(refname)) {
+      throw new BranchCreationNotAllowedException(refname);
     }
 
     final Branch.NameKey name = new Branch.NameKey(projectName, refname);

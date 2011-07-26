@@ -185,6 +185,8 @@ public final class Change {
   protected static final char STATUS_NEW = 'n';
   /** Database constant for {@link Status#SUBMITTED}. */
   protected static final char STATUS_SUBMITTED = 's';
+  /** Database constant for {@link Status#DRAFT}. */
+  protected static final char STATUS_DRAFT = 'd';
   /** Maximum database status constant for an open change. */
   private static final char MAX_OPEN = 'z';
 
@@ -244,6 +246,24 @@ public final class Change {
      * </ul>
      */
     SUBMITTED(STATUS_SUBMITTED),
+
+    /**
+     * Change is a draft change that only consists of draft patchsets.
+     *
+     * <p>
+     * This is a change that is not meant to be submitted or reviewed yet. If
+     * the uploader publishes the change, it becomes a NEW change.
+     * Publishing is a one-way action, a change cannot return to DRAFT status.
+     * Draft changes are only visible to the uploader and those explicitly
+     * added as reviewers.
+     *
+     * <p>
+     * Changes in the DRAFT state can be moved to:
+     * <ul>
+     * <li>{@link #NEW} - when the change is published, it becomes a new change;
+     * </ul>
+     */
+    DRAFT(STATUS_DRAFT),
 
     /**
      * Change is closed, and submitted to its destination branch.

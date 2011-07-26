@@ -1179,7 +1179,7 @@ public class MergeOp {
       return null;
     }
     final ChangeMessage m =
-        new ChangeMessage(new ChangeMessage.Key(c.getId(), uuid), null);
+        new ChangeMessage(new ChangeMessage.Key(c.getId(), uuid), null, null);
     m.setMessage(body);
     return m;
   }

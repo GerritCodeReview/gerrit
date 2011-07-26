@@ -2,6 +2,329 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABEX//7fk\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "This sentence doesn\u0027t sound right.",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7fg\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "/source of truth/authoritative",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7fc\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "/to/to,",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7fY\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": ".",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7fU\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "Would be nice to give example a fake name.  Examples like that often are clearer to me.",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7fQ\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "...why, and you may even add...",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7fM\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "course,",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7fI\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "Mention searches/by project list links perhaps as a way for project leaders to see which changes need to be reviewed.  Also a word about project watches might be good.",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7fE\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "/lets/let\u0027s",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7fA\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "/stats/starts",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7e8\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "\"Of particular note...\" might sound better.",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7e4\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "/to/two",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7e0\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "A word about using an automation system for verifications would be very worthwhile here.",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7ew\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "/all/all,",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7es\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "/screens/screens,",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7eo\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "/selects/selects determines",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7ek\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "/patches/patch sets",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7eg\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "...change, the initial...",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7ec\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-26T04:10:59Z",
+      "side": 1,
+      "message": "The merge part is not usually checked since the change is rarely based on head.",
+      "revId": "89e0dd9841cabfea34d5d1aaac7b5ae2ec392251",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//7gM\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 1

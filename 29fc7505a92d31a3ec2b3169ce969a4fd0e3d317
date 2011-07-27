@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7BQ\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-27T19:29:10Z",
+      "side": 1,
+      "message": "I don\u0027t think this is used anymore?",
+      "revId": "29fc7505a92d31a3ec2b3169ce969a4fd0e3d317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7BM\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-27T19:29:10Z",
+      "side": 1,
+      "message": "Now that you have a list, I don\u0027t think you need NOOPs anymore, which also means you can reverse the if above too, and not add anything if null.",
+      "revId": "29fc7505a92d31a3ec2b3169ce969a4fd0e3d317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

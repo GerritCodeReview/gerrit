@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -62,28 +63,9 @@ public class ParameterizedString {
       raw.append(pattern.substring(i, b));
       ops.add(new Constant(pattern.substring(i, b)));
 
-      String expr = pattern.substring(b + 2, e);
-      String parameterName = "";
-      List<Function> functions = new ArrayList<Function>();
-      if (!expr.contains(".")) {
-        parameterName = expr;
-      } else {
-        int firstDot = expr.indexOf('.');
-        parameterName = expr.substring(0, firstDot);
-        String actionsStr = expr.substring(firstDot + 1);
-        String[] actions = actionsStr.split("\\.");
+      // "${parameter[.functions...]}" -> "parameter[.functions...]"
+      final Parameter p = new Parameter(pattern.substring(b + 2, e));
 
-        for (String action : actions) {
-          Function function = FUNCTIONS.get(action);
-          if (function == null) {
-            function = NOOP;
-          }
-          functions.add(function);
-        }
-      }
-
-      final Parameter p =
-          new Parameter(parameterName, Collections.unmodifiableList(functions));
       raw.append("{" + prs.size() + "}");
       prs.add(p);
       ops.add(p);
@@ -184,9 +166,26 @@ public class ParameterizedString {
     private final String name;
     private final List<Function> functions;
 
-    Parameter(final String name, final List<Function> functions) {
-      this.name = name;
-      this.functions = functions;
+    Parameter(final String parameter) {
+      // "parameter[.functions...]" -> (parameter, functions...)
+      final List<String> names = Arrays.asList(parameter.split("\\."));
+
+      final List<Function> functs = new ArrayList(names.size());
+
+      if (names.isEmpty()) {
+        name = "";
+      } else {
+        name = names.get(0);
+
+        for (String fname : names.subList(1, names.size())) {
+          final Function function = FUNCTIONS.get(fname);
+          if (function != null) {
+            functs.add(function);
+          }
+        }
+      }
+
+      functions = Collections.unmodifiableList(functs);
     }
 
     @Override

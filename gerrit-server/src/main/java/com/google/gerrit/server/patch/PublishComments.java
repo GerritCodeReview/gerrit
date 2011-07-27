@@ -285,12 +285,14 @@ public class PublishComments implements Callable<VoidResult> {
 
   private void email() {
     try {
-      final CommentSender cm = commentSenderFactory.create(change);
-      cm.setFrom(user.getAccountId());
-      cm.setPatchSet(patchSet, patchSetInfoFactory.get(patchSetId));
-      cm.setChangeMessage(message);
-      cm.setPatchLineComments(drafts);
-      cm.send();
+      if (message != null) {
+        final CommentSender cm = commentSenderFactory.create(change);
+        cm.setFrom(user.getAccountId());
+        cm.setPatchSet(patchSet, patchSetInfoFactory.get(patchSetId));
+        cm.setChangeMessage(message);
+        cm.setPatchLineComments(drafts);
+        cm.send();
+      }
     } catch (EmailException e) {
       log.error("Cannot send comments by email for patch set " + patchSetId, e);
     } catch (PatchSetInfoNotAvailableException e) {

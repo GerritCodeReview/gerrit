@@ -1,14 +1,14 @@
-gerrit modify-reviewers
+gerrit set-reviewers
 =======================
 
 NAME
 ----
-gerrit modify-reviewers - Add or remove reviewers to a change
+gerrit set-reviewers - Add or remove reviewers to a change
 
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit modify-reviewers'
+'ssh' -p <port> <host> 'gerrit set-reviewers'
   [--project <PROJECT>]
   [--add REVIEWER ...]
   [--remove REVIEWER ...]
@@ -63,7 +63,7 @@ EXAMPLES
 
 Add reviewers alice and bob, but remove eve from change Iac6b2ac2.
 =====
-	$ ssh -p 29418 review.example.com gerrit modify-reviewers \
+	$ ssh -p 29418 review.example.com gerrit set-reviewers \
 	  -a alice@example.com -a bob@example.com \
 	  -r eve@example.com \
 	  Iac6b2ac2
@@ -71,7 +71,7 @@ Add reviewers alice and bob, but remove eve from change Iac6b2ac2.
 
 Add reviewer elvis to old-style change id 1935 specifying that the change is in project "graceland"
 =====
-	$ ssh -p 29418 review.example.com gerrit modify-reviewers \
+	$ ssh -p 29418 review.example.com gerrit set-reviewers \
 	  --project graceland \
 	  -a elvis@example.com \
 	  1935
@@ -79,7 +79,7 @@ Add reviewer elvis to old-style change id 1935 specifying that the change is in 
 
 Add all project owners as reviewers to change Iac6b2ac2.
 =====
-	$ ssh -p 29418 review.example.com gerrit modify-reviewers \
+	$ ssh -p 29418 review.example.com gerrit set-reviewers \
 	  -a "'Project Owners'" \
 	  Iac6b2ac2
 =====

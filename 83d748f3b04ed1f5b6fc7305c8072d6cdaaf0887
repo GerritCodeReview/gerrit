@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//65U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T05:21:27Z",
+      "side": 1,
+      "message": "If there is a chance of discrepancy, do we not want it to be a draft?  If change says draft, but not the ps, then not a draft?  This begs the question, should there really be a draft flag on a change, or should the lack of a non-draft ps indicate that the change is still in draft mode?  In other words, what would it mean for a Change to be new, but to not have any published patch sets?",
+      "revId": "83d748f3b04ed1f5b6fc7305c8072d6cdaaf0887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//65Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T05:21:27Z",
+      "side": 1,
+      "message": "I think that these error messages need to take visibility of the drafts into account.  If the user making the submit request cannot see the draft, I am not sure we want to reveal that a ps is indeed a draft?  Or perhaps we don\u0027t care?",
+      "revId": "83d748f3b04ed1f5b6fc7305c8072d6cdaaf0887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

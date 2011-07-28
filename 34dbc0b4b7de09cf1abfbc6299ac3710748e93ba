@@ -1,0 +1,310 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//7IM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "This should probably get stuck in some utility class, it is essential to try and prevent this current class from growing any more.  I would look around, I suspect this might already be done elsewhere.",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//67I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "This change seems unrelated to the emails.  if so, please make it a separate change.",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7H8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "Nit: Combine with 798?",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7GQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "Caps not consistent in line 787,790,793.",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7H4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "?",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7IA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "Nit: Combine with 779?",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7Go\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "I know it says that in ChangeEmail (copied from OutgoingEmail), but we probably want to say a bit more like: \"Sends an email about changes to branches\"",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//68E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "I don\u0027t see this field being set anywhere? (but it does appear used)",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7HM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "Why are you using a list for a fixed size set of unrelated string parameters?  There is no indication of their meaning this way, and there is nothing which enforces the right count.",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7HA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "Why does bn(0) have to be passed in since it derives from type?",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//68U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "Much of the code in this class is blatantly copied from ChangeEmail.  If it truly needs to share this code (that is hard to tell, because much of it appears to be unused here), then I think that you should make a new superclass derived from OutgoingEmail, and inherit from it for ChangeEmail and BranchEmail.  I am not sure what to name it (because I do not know the code you are creating very well), but perhaps something like ProjectEmail would work since both at least have project data in them, but that doesn\u0027t sound great. But, please don\u0027t put code that is not needed by this class into such a shared superclass.",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7Gk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "This does not even appear used?",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7G8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "I don\u0027t think it is a good idea to print the watchers in the emails.  That feels a bit like violating their privacy.  Note, that watchers are normally BCCed so that their name or email does not even showup in the to list.",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7G4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "/Change/Branch ?  Also lines 180,184?",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7Gw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "@override",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7Gs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "BCC watchers.",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7GU\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/BranchFooter.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "Change?",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//7GY\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteBranch.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T00:14:35Z",
+      "side": 1,
+      "message": "You likely need an #else section here or you will get a blank email (or move the #end up).",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

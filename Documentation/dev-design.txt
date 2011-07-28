@@ -87,8 +87,9 @@ and Git's own data integrity checks.
 
 Each Git commit created on the client desktop system is converted
 into a unique change record which can be reviewed independently.
-Change records are stored in PostgreSQL, where they can be queried to
-present customized user dashboards, enumerating any pending changes.
+Change records are stored in a database: PostgreSQL, MySql, or the
+built-in H2, where they can be queried to present customized user
+dashboards, enumerating any pending changes.
 
 A summary of each newly uploaded change is automatically emailed
 to reviewers, so they receive a direct hyperlink to review the
@@ -160,11 +161,11 @@ remote access.
 
 The Gerrit metadata contains a summary of the available changes,
 all comments (published and drafts), and individual user account
-information.  The metadata is housed in a PostgreSQL database,
+information.  The metadata is mostly housed in the database (*1),
 which can be located either on the same server as Gerrit, or on
 a different (but nearby) server.  Most installations would opt to
-install both Gerrit and PostgreSQL on the same server, to reduce
-administration overheads.
+install both Gerrit and the metadata database on the same server,
+to reduce administration overheads.
 
 User authentication is handled by OpenID, and therefore Gerrit
 requires that the OpenID provider selected by a user must be
@@ -174,6 +175,13 @@ online and operating in order to authenticate that user.
 * link:http://www.kernel.org/pub/software/scm/git/docs/gitrepository-layout.html[Git Repository Format]
 * link:http://www.postgresql.org/about/[About PostgreSQL]
 * link:http://openid.net/developers/specs/[OpenID Specifications]
+
+*1  Although an effort is underway to eliminate the use of the
+database altogether, and to store all the metadata directly in
+the git repositories themselves.  So far, as of Gerrit 2.2.1, of
+all Gerrit's metadata, only the project configuration metadata
+has been migrated out of the database and into the git
+repositories for each project.
 
 
 Project Information
@@ -426,7 +434,7 @@ publish that draft is simply too high for a spammer to bother with.
 
 Both of these assumptions are also based upon the idea that Gerrit
 will be a lot less popular than blog software, and thus will be
-running on a lot less websites.  Spammers therefore have very little
+running on a lot fewer websites.  Spammers therefore have very little
 returned benefit for getting over the protocol hurdles.
 
 These assumptions may need to be revisited in the future if any
@@ -438,7 +446,7 @@ Latency
 
 Gerrit targets for sub-250 ms per page request, mostly by using
 very compact JSON payloads bewteen client and server.  However, as
-most of the serving stack (network, hardware, PostgreSQL metadata
+most of the serving stack (network, hardware, metadata
 database) is out of control of the Gerrit developers, no real
 guarantees can be made about latency.
 
@@ -632,19 +640,18 @@ fully written.  If the local filesystem fails to respond to reads
 or becomes corrupt, Gerrit has no provisions to fallback or retry
 and errors will be returned to clients.
 
-Gerrit largely assumes that the metadata PostgreSQL database is
-online and answering both read and write queries.  Query failures
-immediately result in the operation aborting and errors being
-returned to the client, with no retry or fallback provisions.
+Gerrit largely assumes that the metadata database is online and
+answering both read and write queries.  Query failures immediately
+result in the operation aborting and errors being returned to the
+client, with no retry or fallback provisions.
 
 Due to the relatively small scale described above, it is very likely
-that the Git filesystem and PostgreSQL based metadata database
-are all housed on the same server that is running Gerrit.  If any
-failure arises in one of these components, it is likely to manifest
-in the others too.  It is also likely that the administrator cannot
-be bothered to deploy a cluster of load-balanced server hardware,
-as the scale and expected load does not justify the hardware or
-management costs.
+that the Git filesystem and metadata database are all housed on the
+same server that is running Gerrit.  If any failure arises in one of
+these components, it is likely to manifest in the others too.  It is
+also likely that the administrator cannot be bothered to deploy a
+cluster of load-balanced server hardware, as the scale and expected
+load does not justify the hardware or management costs.
 
 Most deployments caring about reliability will setup a warm-spare
 standby system and use a manual fail-over process to switch from the

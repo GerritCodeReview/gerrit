@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//658\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T01:52:57Z",
+      "side": 1,
+      "message": "My magic tool is.....\n\n\n                                                                                          Gerrit!   :)\n \nYes, the green diff highlighting is very telling.  The good news is that Jason is working on making changes and patches have a draft state.  This means that people will be able to upload patches and review them in gerrit before publishing then so that others can see them.",
+      "parentUuid": "AAABEX//66k\u003d",
+      "revId": "29fc7505a92d31a3ec2b3169ce969a4fd0e3d317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//66g\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
         "patchSetId": 3

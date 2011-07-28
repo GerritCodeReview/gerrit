@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//62w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-07-28T20:57:31Z",
+      "side": 1,
+      "message": "The intent is to make it impossible to have a non-draft PS and a draft change. The publishing of a draft PS or submitting a non-draft PS to a draft change irreversibly upgrades the change\u0027s status from draft to new. In other words, draft changes should only consist of draft patchsets.\n\nThe idea of doing a draft change status is to prevent the need to constantly check every single patch set in every single change to see if the change consists of only draft patch sets. That way, it\u0027s easier to hide an entire change from the list of changes if that change consists of only draft patchsets and the user doesn\u0027t have access.",
+      "parentUuid": "AAABEX//65U\u003d",
+      "revId": "83d748f3b04ed1f5b6fc7305c8072d6cdaaf0887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//65Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-28T05:21:27Z",
       "side": 1,
       "message": "I think that these error messages need to take visibility of the drafts into account.  If the user making the submit request cannot see the draft, I am not sure we want to reveal that a ps is indeed a draft?  Or perhaps we don\u0027t care?",
+      "revId": "83d748f3b04ed1f5b6fc7305c8072d6cdaaf0887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//624\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-07-28T20:57:31Z",
+      "side": 1,
+      "message": "If the user cannot see the draft, I don\u0027t think they can actually get to this point because the patchset has been prefiltered out.",
+      "parentUuid": "AAABEX//65Y\u003d",
       "revId": "83d748f3b04ed1f5b6fc7305c8072d6cdaaf0887",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

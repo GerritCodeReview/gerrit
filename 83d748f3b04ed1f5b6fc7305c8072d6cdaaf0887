@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T21:33:34Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s what I figured. Your data is not normalised this way, and I am worried about discrepancies slipping in.  The fact that you are testing both here seems to indicate that you might think so too?  But you don\u0027t really provide a \"fix\" (or workaround) if a discrepancy happens, so why bother testing both?\n\nI guess another question comes up out of this, how will you deal with numbering PSes?  What happens if there are 2 draft PSes, and someone publishes the second one?  Does that PS now become PS1 and the other draft one become PS2?\n\nWhat about currentPatchSetId on a change, when will that get updated? I suspect that should only get updated when a PS is published?  So perhaps that could be your change draft indicator instead?  That might be a bit easier to ensure synchonization since that already needs to stay synced.",
+      "parentUuid": "AAABEX//62w\u003d",
+      "revId": "83d748f3b04ed1f5b6fc7305c8072d6cdaaf0887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//65Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "If the user cannot see the draft, I don\u0027t think they can actually get to this point because the patchset has been prefiltered out.",
       "parentUuid": "AAABEX//65Y\u003d",
+      "revId": "83d748f3b04ed1f5b6fc7305c8072d6cdaaf0887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-28T21:33:34Z",
+      "side": 1,
+      "message": "If they are guessing at IDs, they can likely attempt to submit it (and get this far) from the ssh review command.",
+      "parentUuid": "AAABEX//624\u003d",
       "revId": "83d748f3b04ed1f5b6fc7305c8072d6cdaaf0887",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

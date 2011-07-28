@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//66c\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-28T01:07:24Z",
+      "side": 1,
+      "message": "oh my fault again !! very sorry :(\n\nHi Martin,  can I ask a question :)  \nas you said you do not use IDE, are you using another magic tool for making code review ,can I know the tool name? if not, your eyes are so sharp which I hope my eyes can be that too.  :)\n\ndone.",
+      "parentUuid": "AAABEX//7BQ\u003d",
+      "revId": "29fc7505a92d31a3ec2b3169ce969a4fd0e3d317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//7BM\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
         "patchSetId": 3
@@ -30,6 +48,41 @@
       "writtenOn": "2011-07-27T19:29:10Z",
       "side": 1,
       "message": "Now that you have a list, I don\u0027t think you need NOOPs anymore, which also means you can reverse the if above too, and not add anything if null.",
+      "revId": "29fc7505a92d31a3ec2b3169ce969a4fd0e3d317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//66k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-28T01:07:24Z",
+      "side": 1,
+      "message": "good comment! agree. \n\nit is there only for keeping consistent with the origin idea , reference old version 66 line.\n\nin fact it is really not need, let\u0027s keep code dry and simple.\n\ndone.",
+      "parentUuid": "AAABEX//7BM\u003d",
+      "revId": "29fc7505a92d31a3ec2b3169ce969a4fd0e3d317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//66g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParamertizedString.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-07-28T01:07:24Z",
+      "side": 1,
+      "message": "this  blank line will be deleted in next new patch . sorry for that.\n\ndone.\n\nI will bother my master upload my new patch. \n\nthank you again.",
       "revId": "29fc7505a92d31a3ec2b3169ce969a4fd0e3d317",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

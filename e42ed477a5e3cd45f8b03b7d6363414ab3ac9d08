@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn///4A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-29T17:52:25Z",
+      "side": 1,
+      "message": "I don\u0027t know for sure, but I think that Shawn sorts things that are subpackages like this, but these are not subpackages, they are subclasses.  For subclasses, I believe that they are usually sorted inline (below) the class they subclass from (where they were originally).  I am not sure about this, but that has been my impression.  \n\nI am almost done with the doc I promised, I will add that to it, he can review it and confirm/deny that there at least.",
+      "revId": "e42ed477a5e3cd45f8b03b7d6363414ab3ac9d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

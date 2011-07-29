@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -47,6 +48,7 @@ public class ChangeData {
   private Collection<PatchLineComment> comments;
   private Collection<TrackingId> trackingIds;
   private CurrentUser visibleTo;
+  private List<ChangeMessage> messages;
 
   public ChangeData(final Change.Id id) {
     legacyId = id;
@@ -209,5 +211,13 @@ public class ChangeData {
       trackingIds = db.get().trackingIds().byChange(legacyId).toList();
     }
     return trackingIds;
+  }
+
+  public List<ChangeMessage> messages(Provider<ReviewDb> db)
+      throws OrmException {
+    if (messages == null) {
+      messages = db.get().changeMessages().byChange(legacyId).toList();
+    }
+    return messages;
   }
 }

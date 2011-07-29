@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn///7I\u003d",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-07-29T11:08:38Z",
+      "side": 1,
+      "message": "s/builtin/built-in (or built in)",
+      "revId": "4cc6b09157becebe57ae1334efe20cb753219ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///7E\u003d",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-07-29T11:08:38Z",
+      "side": 1,
+      "message": "each project...each project. A bit redundant.  Perhaps something like: \"..only the projects\u0027 configuration metadata has been migrated out of the database and into respective git repository\".",
+      "revId": "4cc6b09157becebe57ae1334efe20cb753219ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn///9M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-07-29T04:24:33Z",
+      "side": 1,
+      "message": "I think there are two questions here. \n\nThe first one is about this particular check. In this case, checking both is necessary because this is handling the case of adding an additional draft patchset to a draft change. A draft patchset being added to a non-draft change keeps the change in new status. The three other cases (draft patch set + new change and non-draft patch set + draft/new change) result in a new change.\n\nThe second is about discrepancies in general between patchset status and change status. If a non-draft patchset is uploaded to a draft change and the change status does not upgrade to new for whatever reason, then yes, I don\u0027t think there\u0027s a workaround to manually change the status from draft. Should there be? How possible is that situation?\n\nI agree that numbering is a mess. Unfortunately, I don\u0027t really know what to do about it. I chose to ignore it and just let gaps in the numbering appear because when I was talking to Shawn about it he told me that patchset numbering will probably eventually go away as patchsets move towards a more Git-like branching mechanism.\n\nA change sets the current patch set to whatever is the most current, draft or not. My reasoning for this is that a change needs to know what the most current patchset is, draft or not. Otherwise, there might be cases like an admin submitting an older, visible patchset when there\u0027s a newer draft patchset being worked on that the admin cannot see.",
+      "parentUuid": "AAABEn////c\u003d",
+      "revId": "83d748f3b04ed1f5b6fc7305c8072d6cdaaf0887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//65Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3

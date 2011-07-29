@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn///0w\u003d",
+        "filename": "gerrit-antlr/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-07-29T20:54:33Z",
+      "side": 1,
+      "message": "Any reason in particular these are explicitly set to UTF-8?",
+      "revId": "a68b89fd533e5beb7ed71fa198ac543fb3e81cfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

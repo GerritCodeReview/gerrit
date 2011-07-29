@@ -174,6 +174,7 @@ public class EventFactory {
     p.number = Integer.toString(patchSet.getPatchSetId());
     p.ref = patchSet.getRefName();
     p.uploader = asAccountAttribute(patchSet.getUploader());
+    p.createdOn = patchSet.getCreatedOn().getTime() / 1000L;
     return p;
   }
 

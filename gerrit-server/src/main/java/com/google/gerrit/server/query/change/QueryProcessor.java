@@ -345,7 +345,8 @@ public class QueryProcessor {
   private static boolean isDateField(String name) {
     return "lastUpdated".equals(name) //
         || "grantedOn".equals(name) //
-        || "timestamp".equals(name);
+        || "timestamp".equals(name) //
+        || "createdOn".equals(name);
   }
 
   private List<Field> fieldsOf(Class<?> type) {

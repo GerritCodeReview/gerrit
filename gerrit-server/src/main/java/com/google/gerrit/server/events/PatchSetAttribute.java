@@ -21,6 +21,7 @@ public class PatchSetAttribute {
     public String revision;
     public String ref;
     public AccountAttribute uploader;
+    public Long createdOn;
 
     public List<ApprovalAttribute> approvals;
     public List<PatchSetCommentAttribute> comments;

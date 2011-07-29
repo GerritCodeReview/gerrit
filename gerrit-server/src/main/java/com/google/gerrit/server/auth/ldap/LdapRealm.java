@@ -27,6 +27,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.auth.AuthUtils;
 import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.EntryCreator;
@@ -243,19 +244,9 @@ class LdapRealm implements Realm {
   @Override
   public Set<AccountGroup.UUID> groups(final AccountState who) {
     final HashSet<AccountGroup.UUID> r = new HashSet<AccountGroup.UUID>();
-    r.addAll(membershipCache.get(findId(who.getExternalIds())));
+    r.addAll(membershipCache.get(AuthUtils.findUsername(AccountExternalId.SCHEME_GERRIT, who.getExternalIds())));
     r.addAll(who.getInternalGroups());
     return r;
-  }
-
-
-  private static String findId(final Collection<AccountExternalId> ids) {
-    for (final AccountExternalId i : ids) {
-      if (i.isScheme(AccountExternalId.SCHEME_GERRIT)) {
-        return i.getSchemeRest();
-      }
-    }
-    return null;
   }
 
   @Override

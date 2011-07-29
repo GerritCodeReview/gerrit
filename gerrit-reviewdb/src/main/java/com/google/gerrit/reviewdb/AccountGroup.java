@@ -147,7 +147,7 @@ public final class AccountGroup {
      * user account, these groups are automatically handled using specialized
      * branch conditions.
      */
-    SYSTEM,
+    SYSTEM(false),
 
     /**
      * Group defined within our database.
@@ -157,7 +157,7 @@ public final class AccountGroup {
      * who is a member of the owner group. These groups are not treated special
      * in the code.
      */
-    INTERNAL,
+    INTERNAL(false),
 
     /**
      * Group defined by external LDAP database.
@@ -170,7 +170,30 @@ public final class AccountGroup {
      * group requires making edits through the LDAP directory, and cannot be
      * done through our UI.
      */
-    LDAP;
+    LDAP(true),
+
+    /**
+     * Group defined by Atlassian Crowd
+     * <p>
+     * A group whose membership is determined by the external Crowd
+     * Server that we connect to for user and group information. In UI contexts,
+     * the membership of the group is not displayed, as it may be exceedingly large,
+     * or might contain users who have never logged into this server before (and
+     * thus have no matching account record). Adding or removing users from an
+     * LDAP group requires making edits through Atlassian Crowd, and cannot be
+     * done through our UI.
+     */
+    CROWD(true);
+
+    private final boolean externalGroupCapable;
+
+    private Type(boolean externalGroupCapable) {
+      this.externalGroupCapable = externalGroupCapable;
+    }
+
+    public boolean isExternalGroupCapable() {
+      return externalGroupCapable;
+    }
   }
 
   /** Common UUID assigned to the "Project Owners" placeholder group. */

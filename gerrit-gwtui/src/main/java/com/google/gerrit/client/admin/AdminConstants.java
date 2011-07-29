@@ -66,6 +66,7 @@ public interface AdminConstants extends Constants {
   String groupType_SYSTEM();
   String groupType_INTERNAL();
   String groupType_LDAP();
+  String groupType_CROWD();
 
   String columnMember();
   String columnEmailAddress();

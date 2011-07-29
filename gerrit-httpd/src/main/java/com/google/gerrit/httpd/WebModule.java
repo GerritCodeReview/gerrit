@@ -111,6 +111,10 @@ public class WebModule extends FactoryModule {
         install(new UserPasswordAuthModule());
         break;
 
+      case CROWD:
+        install(new UserPasswordAuthModule());
+        break;
+
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
         install(new ServletModule() {
           @Override

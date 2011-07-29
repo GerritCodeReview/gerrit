@@ -163,7 +163,14 @@ limitations under the License.
       <groupId>com.googlecode.prolog-cafe</groupId>
       <artifactId>PrologCafe</artifactId>
     </dependency>
+    
+    <dependency>
+      <groupId>com.atlassian.crowd</groupId>
+      <artifactId>crowd-integration-client-rest</artifactId>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
+
 
   <build>
     <plugins>

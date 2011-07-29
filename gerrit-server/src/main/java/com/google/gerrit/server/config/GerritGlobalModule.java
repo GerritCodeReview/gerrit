@@ -36,6 +36,7 @@ import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.GroupInfoCacheFactory;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.auth.crowd.CrowdModule;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.events.EventFactory;
@@ -127,6 +128,10 @@ public class GerritGlobalModule extends FactoryModule {
       case LDAP_BIND:
       case CLIENT_SSL_CERT_LDAP:
         install(new LdapModule());
+        break;
+
+      case CROWD:
+        install(new CrowdModule());
         break;
 
       default:

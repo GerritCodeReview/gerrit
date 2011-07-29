@@ -538,6 +538,7 @@ public class Dispatcher {
               break;
             case LDAP:
             case LDAP_BIND:
+            case CROWD:
               new UserPassSignInDialog(to, msg).center();
               break;
             default:

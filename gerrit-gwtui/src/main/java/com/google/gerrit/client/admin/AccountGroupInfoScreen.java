@@ -253,7 +253,21 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     typeSelect = new ListBox();
     typeSelect.setStyleName(Gerrit.RESOURCES.css().groupTypeSelectListBox());
     typeSelect.addItem(Util.C.groupType_INTERNAL(), AccountGroup.Type.INTERNAL.name());
-    typeSelect.addItem(Util.C.groupType_LDAP(), AccountGroup.Type.LDAP.name());
+
+    switch (Gerrit.getConfig().getAuthType()) {
+      case HTTP_LDAP:
+      case LDAP:
+      case LDAP_BIND:
+      case CLIENT_SSL_CERT_LDAP:
+        typeSelect.addItem(Util.C.groupType_LDAP(), AccountGroup.Type.LDAP.name());
+        break;
+      case CROWD:
+        typeSelect.addItem(Util.C.groupType_CROWD(), AccountGroup.Type.CROWD.name());
+        break;
+      default:
+        break;
+    }
+
     typeSelect.addChangeHandler(new ChangeHandler() {
       @Override
       public void onChange(ChangeEvent event) {
@@ -275,6 +289,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
       case LDAP:
       case LDAP_BIND:
       case CLIENT_SSL_CERT_LDAP:
+      case CROWD:
         break;
       default:
         return;
@@ -335,7 +350,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     typeSystem.setVisible(system);
     typeSelect.setVisible(!system);
     saveType.setVisible(!system);
-    externalPanel.setVisible(newType == AccountGroup.Type.LDAP);
+    externalPanel.setVisible(newType.isExternalGroupCapable());
     externalNameFilter.setText(groupNameTxt.getText());
 
     if (!system) {
@@ -461,13 +476,10 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     visibleToAllCheckBox.setValue(group.isVisibleToAll());
     emailOnlyAuthors.setValue(group.isEmailOnlyAuthors());
 
-    switch (group.getType()) {
-      case LDAP:
+    if (group.getType().isExternalGroupCapable()) {
         externalName.setText(group.getExternalNameKey() != null ? group
             .getExternalNameKey().get() : Util.C.noGroupSelected());
-        break;
     }
-
     setType(group.getType());
 
     enableForm(groupDetail.canModify);

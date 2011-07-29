@@ -132,6 +132,7 @@ public class AuthConfig {
       case HTTP_LDAP:
       case LDAP:
       case LDAP_BIND:
+      case CROWD:
       case CLIENT_SSL_CERT_LDAP:
         // Its safe to assume yes for an HTTP authentication type, as the
         // only way in is through some external system that the admin trusts

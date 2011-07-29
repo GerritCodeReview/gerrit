@@ -73,6 +73,13 @@ public enum AuthType {
    */
   LDAP_BIND,
 
+
+  /**
+   * Login collects username and password through a web form authenticates
+   * via Atlassian Crowd.
+   */
+  CROWD,
+
   /** Development mode to enable becoming anyone you want. */
   DEVELOPMENT_BECOME_ANY_ACCOUNT;
 }

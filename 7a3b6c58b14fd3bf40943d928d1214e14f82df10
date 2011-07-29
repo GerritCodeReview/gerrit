@@ -16,6 +16,24 @@
       "revId": "7a3b6c58b14fd3bf40943d928d1214e14f82df10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///8I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1006039
+      },
+      "writtenOn": "2011-07-29T06:03:46Z",
+      "side": 1,
+      "message": "Done\n\nHehe, it was already quite late here :)",
+      "parentUuid": "AAABEn////E\u003d",
+      "revId": "7a3b6c58b14fd3bf40943d928d1214e14f82df10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

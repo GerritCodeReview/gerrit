@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn///4k\u003d",
+        "filename": "gerrit-common/src/test/java/com/google/gerrit/common/data/ParamertizedStringTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-29T16:19:19Z",
+      "side": 1,
+      "message": "If you have to rebase, can you also remove all these trailing lines inside you functions and class?",
+      "revId": "4685047130e22dc6b0f12469554d2814276a8aff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

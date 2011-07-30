@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn///uo\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-30T23:57:49Z",
+      "side": 1,
+      "message": "This visibility model seems unintuitive.  I would expect draft patches to not be visible to reviewers.  I would think that part of the motivation to have draft PSes is so that the author can review his new PS and explain it via comments before publishing it.  This way his comments would get aggregated with the new patchset notification email.\n\nThe way I understand your implementation, it just seems like adding an inner circle of visibility to a change: the reviewers.   But this draft mechanism does not seem like it gives an author a chance to verify his submission before publishing it to reviewers. Afterall, I would think that reviewers are the people an author is most likely to want to hide his draft from since they are most likely to go view new patchsets right away.\n\nPerhaps you could explain your motivation for drafts? I may have incorrectly assumed that these submissions came out of the email discussion and proposals for drafts here:\nhttps://review.source.android.com/#/c/23817/\nand so my view has been pre biased towards a certain workflow for drafts.  If this was not at all the motivation, then can you help me see the reasons for your approach?",
+      "revId": "6bb144df0cb05e6dbf4507280e4e780158c9c3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///us\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-30T23:57:49Z",
+      "side": 1,
+      "message": "Why keep the old isVisible?",
+      "revId": "6bb144df0cb05e6dbf4507280e4e780158c9c3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///uw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-30T23:57:49Z",
+      "side": 1,
+      "message": "This seems like it should be private, only to be used by isVisible.",
+      "revId": "6bb144df0cb05e6dbf4507280e4e780158c9c3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

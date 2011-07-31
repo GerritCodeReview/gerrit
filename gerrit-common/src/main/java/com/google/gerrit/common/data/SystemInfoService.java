@@ -34,4 +34,6 @@ public interface SystemInfoService extends RemoteJsonService {
   void contributorAgreements(AsyncCallback<List<ContributorAgreement>> callback);
 
   void clientError(String message, AsyncCallback<VoidResult> callback);
+
+  public abstract void gerritConfig(final AsyncCallback<GerritConfig> callback);
 }

@@ -16,6 +16,24 @@
       "revId": "a68b89fd533e5beb7ed71fa198ac543fb3e81cfb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///0k\u003d",
+        "filename": "gerrit-antlr/.settings/org.eclipse.core.resources.prefs",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1007027
+      },
+      "writtenOn": "2011-07-31T23:36:00Z",
+      "side": 1,
+      "message": "Thats just what Eclipse 3.6 decided to do. The entire project was previously set to UTF-8 so this shouldn\u0027t cause any harm, but since these files are committed, I\u0027d rather not see these changes as dirty 24/7",
+      "parentUuid": "AAABEn///0w\u003d",
+      "revId": "a68b89fd533e5beb7ed71fa198ac543fb3e81cfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

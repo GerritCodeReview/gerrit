@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn///uY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-31T05:44:58Z",
+      "side": 1,
+      "message": "No longer accurate comment? Same for line 168?",
+      "revId": "0359b813359f139dec918cf12248dca8778c9789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///ug\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-31T05:44:58Z",
+      "side": 1,
+      "message": "You need to keep track of the projects which you have already iterated over in case an inheritance loop has slipped in inadvertently.  Look at the \"seen\" pattern on line 224 for an example.",
+      "revId": "0359b813359f139dec918cf12248dca8778c9789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///uU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-31T05:44:58Z",
+      "side": 1,
+      "message": "I don\u0027t believe that this approach will update a projects capabilities when an ancestor changes its capabilities.  Note the comment on line 214.",
+      "revId": "0359b813359f139dec918cf12248dca8778c9789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///uc\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-07-31T05:44:58Z",
+      "side": 1,
+      "message": "It feels like this check should be in a canCreateChildProject() method in projectControl?",
+      "revId": "0359b813359f139dec918cf12248dca8778c9789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

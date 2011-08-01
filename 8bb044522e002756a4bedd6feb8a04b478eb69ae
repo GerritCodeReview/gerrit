@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn///so\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-01T04:38:04Z",
+      "side": 1,
+      "message": "This would probably work better if it were a Set.",
+      "revId": "8bb044522e002756a4bedd6feb8a04b478eb69ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///ss\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-01T04:38:04Z",
+      "side": 1,
+      "message": "I am surprised that gwt does not provide a basic implementation of a suggestoracle.  Perhaps this deserves a generic class like this in the UI util package where othe generic UI classes are stored?  It need not have any mention of labels since it just uses strings.  Perhaps call it SimpleSuggestion, or StringSuggestion?",
+      "revId": "8bb044522e002756a4bedd6feb8a04b478eb69ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

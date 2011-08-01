@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn///pE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-01T21:09:29Z",
+      "side": 1,
+      "message": "That is what I meant.  Although, I am not sure if your solution will be performant enough.  I would go with it for now, and ask Shawn if you need to work around it with caching.",
+      "parentUuid": "AAABEn///pk\u003d",
+      "revId": "0359b813359f139dec918cf12248dca8778c9789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn///uc\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
         "patchSetId": 5

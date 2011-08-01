@@ -1957,7 +1957,9 @@ bug:<tracking id>.
 [[trackingid.name.footer]]trackingid.<name>.footer::
 +
 A prefix tag that identify the footer line to parse for tracking ids.
-Several trakingid entries can have the same footer tag.
+Several trackingid entries can have the same footer tag. A single
+trackingid entry can have multiple footer tags. If multiple footer
+tags are specified, each tag will be parsed separately.
 (the trailing ":" is optional)
 
 [[trackingid.name.match]]trackingid.<name>.match::

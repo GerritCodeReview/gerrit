@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn///p0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-08-01T18:04:25Z",
+      "side": 1,
+      "message": "Sorry, the confusion is probably because I\u0027ve been putting off modifying the notifications for so long.\n\nMy intent was to allow only the uploader and people he/she explicitly defines as reviewers to see the draft patch. That way, drafts can also be used for getting help or just to show code to somebody else, especially with people that are not in the same location.\n\nI plan to modify the notifications to only notify project owners, etc. of a new change/patchset when it\u0027s not a draft.",
+      "parentUuid": "AAABEn///uo\u003d",
+      "revId": "6bb144df0cb05e6dbf4507280e4e780158c9c3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn///us\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn///pw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-08-01T18:04:25Z",
+      "side": 1,
+      "message": "To be honest, I kept the old one because it would require lots of refactoring otherwise, but now that i think about it, I probably should replace the old one.",
+      "parentUuid": "AAABEn///us\u003d",
+      "revId": "6bb144df0cb05e6dbf4507280e4e780158c9c3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn///uw\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2011-07-30T23:57:49Z",
       "side": 1,
       "message": "This seems like it should be private, only to be used by isVisible.",
+      "revId": "6bb144df0cb05e6dbf4507280e4e780158c9c3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///ps\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-08-01T18:04:25Z",
+      "side": 1,
+      "message": "I kept this public because it\u0027s an easy way to check if a user has draft access for patch sets. isVisible() accounts for draft changes but not patch sets.",
+      "parentUuid": "AAABEn///uw\u003d",
       "revId": "6bb144df0cb05e6dbf4507280e4e780158c9c3f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

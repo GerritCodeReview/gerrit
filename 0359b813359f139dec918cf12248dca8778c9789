@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn///q8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2011-08-01T12:19:47Z",
+      "side": 1,
+      "message": "Hi Martin we\u0027ve made the following test:\nAdd capability \u0027CreateProject\u0027 to All-Projects, created the structure bellow:\n\nGrandfather\n   | Parent\n       |Grandson\n            ProjectA\n\nAter that , we removed \u0027CreateProject\u0027 capability from All-Projects and added this to Grandfather project, so we tried to create ProjectX as son of ProjectA and it worked.\nIs that what you mean? If so, even this is working fine do you think it could be implemented in a better way?",
+      "parentUuid": "AAABEn///uU\u003d",
+      "revId": "0359b813359f139dec918cf12248dca8778c9789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn///uc\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
         "patchSetId": 5

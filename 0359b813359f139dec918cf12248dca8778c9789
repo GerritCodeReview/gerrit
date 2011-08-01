@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn///qk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-01T13:23:57Z",
+      "side": 1,
+      "message": "Well, I would expect such a test to pass even if it it broken, since you should get that result if the capabilities were left on all-projects, so that doesn\u0027t seem like a very good test.  What you need to test is wether you can still create projects after you removed the capability from all-projects and before re-adding it to any ancestors!\nAlso you need to ensure that the whole chain of ancestor projects is in the cache still.  Likely they will be, but if they get flushed, then projectStates will be rebuilt.",
+      "parentUuid": "AAABEn///q8\u003d",
+      "revId": "0359b813359f139dec918cf12248dca8778c9789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn///uc\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
         "patchSetId": 5

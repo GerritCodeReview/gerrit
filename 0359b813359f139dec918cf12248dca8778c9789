@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn///pk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2011-08-01T18:47:21Z",
+      "side": 1,
+      "message": "You are right. We tested as you said: tried to create projects after removing the capability from All-Projects and before re-adding it to ancestors. We tried in many levels and in some cases it did not update the capabilities, so we changed the method getCapabilityCollection() (Line 172) to return loadAllCapabilities() (Line 111) instead of the attribute \u0027capabilities\u0027. So, in this way, this is dinamic and then it worked fine. \nWhat do you think? Was really that what you mean?",
+      "parentUuid": "AAABEn///qk\u003d",
+      "revId": "0359b813359f139dec918cf12248dca8778c9789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn///uc\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
         "patchSetId": 5

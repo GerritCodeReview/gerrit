@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc;
 
+import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.SshHostKey;
 import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.reviewdb.ContributorAgreement;
@@ -46,13 +47,15 @@ class SystemInfoServiceImpl implements SystemInfoService {
   private final SchemaFactory<ReviewDb> schema;
   private final List<HostKey> hostKeys;
   private final Provider<HttpServletRequest> httpRequest;
+  private final Provider<GerritConfig> config;
 
   @Inject
   SystemInfoServiceImpl(final SchemaFactory<ReviewDb> sf, final SshInfo daemon,
-      final Provider<HttpServletRequest> hsr) {
+      final Provider<HttpServletRequest> hsr, Provider<GerritConfig> cfg) {
     schema = sf;
     hostKeys = daemon.getHostKeys();
     httpRequest = hsr;
+    config = cfg;
   }
 
   public void contributorAgreements(
@@ -90,5 +93,10 @@ class SystemInfoServiceImpl implements SystemInfoService {
     message = message.replaceAll("\n", "\n  ");
     log.error("Client UI JavaScript error: User-Agent=" + ua + ": " + message);
     callback.onSuccess(VoidResult.INSTANCE);
+  }
+
+  @Override
+  public void gerritConfig(final AsyncCallback<GerritConfig> callback) {
+    callback.onSuccess(config.get());
   }
 }

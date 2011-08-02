@@ -34,6 +34,24 @@
       "revId": "31b45e219ddedce105eef960a019ab6c7c209402",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///ZQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-02T20:40:54Z",
+      "side": 1,
+      "message": "I am not sure I buy that reasoning.  Submit, abandon and restore buttons are all directly on a PS.  The ssh review command does not take changes, it only takes PS ids.  I think that this is likely a call for Shawn, but his design on this so far seems to point toward the idea that he thinks of the actions as being done to PSs, not changes.\n\nAlso, if I were to error one way, I would error on adding the data, it is easier to add it now and remove it later than the other way around.  Do you see anything harmful in adding this data?",
+      "parentUuid": "AAABEn///nU\u003d",
+      "revId": "31b45e219ddedce105eef960a019ab6c7c209402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -252,3 +252,9 @@ ON tracking_ids (tracking_id);
 
 CREATE INDEX starred_changes_byChange
 ON starred_changes (change_id);
+
+-- *********************************************************************
+-- SubscriptionAccess
+
+CREATE INDEX subscription_access_bySource
+ON subscriptions (source_project_name, source_branch_name);

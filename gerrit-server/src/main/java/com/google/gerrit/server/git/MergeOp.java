@@ -162,6 +162,7 @@ public class MergeOp {
   private final AccountCache accountCache;
   private final TagCache tagCache;
   private final CreateCodeReviewNotes.Factory codeReviewNotesFactory;
+  private final SubmoduleOp.Factory subOpFactory;
 
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
@@ -175,7 +176,8 @@ public class MergeOp {
       @GerritPersonIdent final PersonIdent myIdent,
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
       final ChangeHookRunner hooks, final AccountCache accountCache,
-      final TagCache tagCache, final CreateCodeReviewNotes.Factory crnf) {
+      final TagCache tagCache, final CreateCodeReviewNotes.Factory crnf,
+      final SubmoduleOp.Factory subOpFactory) {
     repoManager = grm;
     schemaFactory = sf;
     functionState = fs;
@@ -193,6 +195,7 @@ public class MergeOp {
     this.accountCache = accountCache;
     this.tagCache = tagCache;
     codeReviewNotesFactory = crnf;
+    this.subOpFactory = subOpFactory;
 
     this.myIdent = myIdent;
     destBranch = branch;
@@ -268,6 +271,7 @@ public class MergeOp {
       preMerge();
       updateBranch();
       updateChangeStatus();
+      updateSubscriptions();
     } catch (OrmException e) {
       throw new MergeException("Cannot query the database", e);
     } finally {
@@ -1064,6 +1068,21 @@ public class MergeOp {
     }
     replication.scheduleUpdate(destBranch.getParentKey(),
         GitRepositoryManager.REFS_NOTES_REVIEW);
+  }
+
+  private void updateSubscriptions() throws MergeException {
+    if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
+      SubmoduleOp subOp =
+          subOpFactory.create(destBranch, mergeTip, rw, db, destProject,
+              submitted, commits);
+      try {
+        subOp.update();
+      } catch (SubmoduleException e) {
+        log
+            .error("The gitLinks were not updated according to the subscriptions "
+                + e.getMessage());
+      }
+    }
   }
 
   private Capable isSubmitStillPossible(final CodeReviewCommit commit) {

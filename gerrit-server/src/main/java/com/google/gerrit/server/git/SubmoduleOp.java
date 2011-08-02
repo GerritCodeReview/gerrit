@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Subscription;
+import com.google.gerrit.server.AtomicUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gwtorm.client.OrmException;
@@ -117,7 +118,9 @@ public class SubmoduleOp {
       schema = schemaFactory.open();
 
       updateSubscriptions();
-      updateSubscribers(destBranch, mergeTip.getId().toObjectId(), null);
+      if (!AtomicUtil.isSource(schema, mergeTip.getId())) {
+        updateSubscribers(destBranch, mergeTip.getId().toObjectId(), null);
+      }
     } catch (OrmException e) {
       throw new SubmoduleException("Cannot open database", e);
     } finally {

@@ -20,6 +20,8 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AtomicEntry;
+import com.google.gerrit.reviewdb.AtomicEntryAccess;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
@@ -61,6 +63,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
   private SubscriptionAccess subscriptions;
   private ReviewDb schema;
   private Provider<String> urlProvider;
+  private AtomicEntryAccess atomicEntries;
   private GitRepositoryManager repoManager;
   private ReplicationQueue replication;
 
@@ -73,17 +76,18 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     schema = createStrictMock(ReviewDb.class);
     subscriptions = createStrictMock(SubscriptionAccess.class);
     urlProvider = createStrictMock(Provider.class);
+    atomicEntries = createStrictMock(AtomicEntryAccess.class);
     repoManager = createStrictMock(GitRepositoryManager.class);
     replication = createStrictMock(ReplicationQueue.class);
   }
 
   private void doReplay() {
-    replay(schemaFactory, schema, subscriptions, urlProvider, repoManager,
+    replay(schemaFactory, schema, subscriptions, urlProvider, atomicEntries, repoManager,
         replication);
   }
 
   private void doVerify() {
-    verify(schemaFactory, schema, subscriptions, urlProvider, repoManager,
+    verify(schemaFactory, schema, subscriptions, urlProvider, atomicEntries, repoManager,
         replication);
   }
 
@@ -105,6 +109,11 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
     final Branch.NameKey branchNameKey =
         new Branch.NameKey(new Project.NameKey("test-project"), "test-branch");
+
+    expect(schema.atomicEntries()).andReturn(atomicEntries);
+
+    expect(atomicEntries.bySourceSha1(mergeTip.getId().getName())).andReturn(
+        new ListResultSet<AtomicEntry>(new ArrayList<AtomicEntry>()));
 
     expect(schema.subscriptions()).andReturn(subscriptions);
     final ResultSet<Subscription> emptySubscriptions =
@@ -701,6 +710,11 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
         new Branch.NameKey(new Project.NameKey("target-project"),
             sourceBranchNameKey.get());
 
+    expect(schema.atomicEntries()).andReturn(atomicEntries);
+
+    expect(atomicEntries.bySourceSha1(sourceMergeTip.getId().getName())).andReturn(
+        new ListResultSet<AtomicEntry>(new ArrayList<AtomicEntry>()));
+
     expect(schema.subscriptions()).andReturn(subscriptions);
     final ResultSet<Subscription> subscribers =
         new ListResultSet<Subscription>(Collections
@@ -862,6 +876,11 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
     expect(schema.subscriptions()).andReturn(subscriptions);
     subscriptions.insert(subscriptionsToInsert);
+
+    expect(schema.atomicEntries()).andReturn(atomicEntries);
+
+    expect(atomicEntries.bySourceSha1(mergeTip.getId().getName())).andReturn(
+        new ListResultSet<AtomicEntry>(new ArrayList<AtomicEntry>()));
 
     expect(schema.subscriptions()).andReturn(subscriptions);
     expect(subscriptions.getSubscribers(mergedBranch)).andReturn(

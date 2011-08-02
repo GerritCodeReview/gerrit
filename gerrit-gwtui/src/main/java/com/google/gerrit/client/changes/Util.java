@@ -49,6 +49,7 @@ public class Util {
       case NEW:
         return C.statusLongNew();
       case SUBMITTED:
+      case SUBMITTED_PENDING_ATOMIC:
         return C.statusLongSubmitted();
       case MERGED:
         return C.statusLongMerged();

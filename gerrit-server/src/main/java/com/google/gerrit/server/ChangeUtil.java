@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.TrackingId;
+import com.google.gerrit.server.AtomicUtil;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -176,20 +177,63 @@ public class ChangeUtil {
 
     db.patchSetApprovals().upsert(Collections.singleton(approval));
 
+    final Change chg = db.changes().get(changeId);
+    final Change.Status statusToDefine;
+
+    if (AtomicUtil.isAtomic(db, chg)) {
+      statusToDefine = Change.Status.SUBMITTED_PENDING_ATOMIC;
+    } else {
+      statusToDefine = Change.Status.SUBMITTED;
+    }
+
     final Change updatedChange = db.changes().atomicUpdate(changeId,
         new AtomicUpdate<Change>() {
       @Override
       public Change update(Change change) {
         if (change.getStatus() == Change.Status.NEW) {
-          change.setStatus(Change.Status.SUBMITTED);
+          change.setStatus(statusToDefine);
           ChangeUtil.updated(change);
         }
         return change;
       }
     });
 
-    if (updatedChange.getStatus() == Change.Status.SUBMITTED) {
-      merger.merge(opFactory, updatedChange.getDest());
+    if (statusToDefine == Change.Status.SUBMITTED) {
+      merger.merge(opFactory, chg.getDest());
+    } else {
+      /*
+       * check if all other members of this atomic group are submitted,
+       *   if so,
+       *     check if all changes within this group are mergeable true,
+       *     if so,
+       *       merge a change from atomic group that "is source" and
+       *       it "is not a super" one
+       *     if not,
+       *       inform the user this change is part of an atomic group which is not able to
+       *       merge all atomically because there's one not mergeable change inside
+       *   if not,
+       *     let the change with the status defined
+       */
+
+      if (AtomicUtil.isAllSubmitted(db, chg)) {
+        if (AtomicUtil.isAllMergeable(opFactory, db, chg)) {
+          for (Change c : AtomicUtil.getAtomicGroupByAnyMember(db, chg)) {
+            if (db.atomicEntries().bySuperChangeId(c.getId()).toList()
+                .isEmpty()) {
+              db.changes().atomicUpdate(c.getId(), new AtomicUpdate<Change>() {
+                @Override
+                public Change update(Change change) {
+                  change.setStatus(Change.Status.SUBMITTED);
+                  ChangeUtil.updated(change);
+                  return change;
+                }
+              });
+              merger.merge(opFactory, c.getDest());
+              break;
+            }
+          }
+        }
+      }
     }
   }
 

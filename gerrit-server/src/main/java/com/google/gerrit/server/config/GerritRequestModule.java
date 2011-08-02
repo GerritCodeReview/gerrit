@@ -26,6 +26,7 @@ import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.GroupMembersFactory;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
+import com.google.gerrit.server.git.HandleAtomicCommits;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ReceiveCommits;
@@ -71,6 +72,7 @@ public class GerritRequestModule extends FactoryModule {
     factory(ChangeQueryBuilder.Factory.class);
     factory(ReceiveCommits.Factory.class);
     factory(SubmoduleOp.Factory.class);
+    factory(HandleAtomicCommits.Factory.class);
     factory(MergeOp.Factory.class);
     factory(CreateCodeReviewNotes.Factory.class);
 

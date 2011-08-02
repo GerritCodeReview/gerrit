@@ -185,6 +185,8 @@ public final class Change {
   protected static final char STATUS_NEW = 'n';
   /** Database constant for {@link Status#SUBMITTED}. */
   protected static final char STATUS_SUBMITTED = 's';
+  /** Database constant for {@link Status#SUBMITTED_PENDING_ATOMIC}. */
+  protected static final char STATUS_SUBMITTED_PENDING_ATOMIC = 't';
   /** Maximum database status constant for an open change. */
   private static final char MAX_OPEN = 'z';
 
@@ -246,6 +248,57 @@ public final class Change {
     SUBMITTED(STATUS_SUBMITTED),
 
     /**
+     * Change is open, not submitted to merge queue since it is in atomic group.
+     *
+     * <p>
+     * A change enters the SUBMITTED_PENDING_ATOMIC state when an authorized
+     * user presses the "submit" button, requesting that Gerrit merge the
+     * change's current patch set into the destination branch. But the change
+     * cannot be immediately merged because it is within an atomic group.
+     *
+     * <p>
+     * Imagine git modules structure like a tree having a super project A, two
+     * submodules B and C, and C project having D and E as submodules:
+     *
+     * <pre>
+     *     A
+     *     |
+     *   +---+
+     *   B   C
+     *       |
+     *     +---+
+     *     |   |
+     *     D   E
+     * </pre>
+     *
+     * Considering changes 'a', 'b', 'c', 'd', 'e' of projects A, B, C, D, E
+     * respectively, just after all these changes became
+     * SUBMITTED_PENDING_ATOMIC:
+     * <p>
+     *
+     * <li>Gerrit chooses 'd' or 'e' to move to SUBMITTED state (it should be a
+     * leaf in the tree representing the atomic group), putting the change into
+     * the merge queue. This is important to ensure that super project gitlinks
+     * remains valid when its change is merged.
+     * <li>If 'd' was chosen in previous step, after it is merged, it moves
+     * change e to SUBMITTED state and submit it to merge queue</li>
+     * <li>When 'e' is merged, 'c' is the next one to merge</li>
+     * <li>When 'c' is merged, 'b' is the next one to merge</li>
+     * <li>After merging 'b' change, it finally triggers change 'a' to merge</li>
+     *
+     * <p>
+     * Changes in the SUBMITTED_PENDING_ATOMIC state can be moved to:
+     * <ul>
+     * <li>{@link #NEW} - when a replacement patch set is supplied
+     * <li>{@link #SUBMITTED} - when cascading merge of changes in atomic group
+     * <li>{@link #MERGED} - when the change has been successfully merged into
+     * the destination branch;
+     * <li>{@link #ABANDONED} - when the Abandon action is used.
+     * </ul>
+     */
+    SUBMITTED_PENDING_ATOMIC(STATUS_SUBMITTED_PENDING_ATOMIC),
+
+    /**
      * Change is closed, and submitted to its destination branch.
      *
      * <p>
@@ -292,6 +345,15 @@ public final class Change {
         }
       }
       return null;
+    }
+
+    @Override
+    public String toString() {
+      if (code == STATUS_SUBMITTED_PENDING_ATOMIC) {
+        return SUBMITTED.name();
+      } else {
+        return super.name();
+      }
     }
   }
 

@@ -527,7 +527,8 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus() == Change.Status.SUBMITTED;
+        return cd.change(dbProvider).getStatus() == Change.Status.SUBMITTED
+            || cd.change(dbProvider).getStatus() == Change.Status.SUBMITTED_PENDING_ATOMIC;
       }
     };
   }

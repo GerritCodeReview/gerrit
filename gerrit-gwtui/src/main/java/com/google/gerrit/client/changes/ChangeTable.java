@@ -224,7 +224,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       s = s.substring(0, 80);
     }
     if (c.getStatus() != null && c.getStatus() != Change.Status.NEW) {
-      s += " (" + c.getStatus().name() + ")";
+      s += " (" + c.getStatus().toString() + ")";
     }
     if (! c.isLatest()) {
       s += " [OUTDATED]";

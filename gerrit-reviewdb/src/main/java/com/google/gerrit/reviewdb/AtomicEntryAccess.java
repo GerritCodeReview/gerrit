@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,23 +20,20 @@ import com.google.gwtorm.client.PrimaryKey;
 import com.google.gwtorm.client.Query;
 import com.google.gwtorm.client.ResultSet;
 
-public interface SubscriptionAccess extends
-    Access<Subscription, Subscription.Key> {
-  @PrimaryKey("key")
-  Subscription get(Subscription.Key key) throws OrmException;
+public interface AtomicEntryAccess extends Access<AtomicEntry, AtomicEntry.Id>{
 
-  @Query("ORDER BY key.target.projectName")
-  ResultSet<Subscription> all() throws OrmException;
+  @PrimaryKey("id")
+  AtomicEntry get(AtomicEntry.Id id) throws OrmException;
 
-  @Query("WHERE key.target = ?")
-  ResultSet<Subscription> getSubscription(Branch.NameKey target)
-      throws OrmException;
+  @Query("WHERE id.superChangeId = ?")
+  ResultSet<AtomicEntry> bySuperChangeId(Change.Id id) throws OrmException;
 
-  @Query("WHERE key.source = ?")
-  ResultSet<Subscription> getSubscribers(Branch.NameKey source)
-      throws OrmException;
+  @Query("WHERE id.sourceSha1 = ?")
+  ResultSet<AtomicEntry> bySourceSha1(String sha1) throws OrmException;
 
-  @Query("WHERE key.target = ? AND path = ? LIMIT 1")
-  ResultSet<Subscription> getSubscription(Branch.NameKey target, String path)
-      throws OrmException;
+  @Query("WHERE id.superChangeId = ? AND id.sourceSha1 = ''")
+  ResultSet<AtomicEntry> getNotReceivedSources(Change.Id id) throws OrmException;
+
+  @Query("WHERE sourceChangeId = ? LIMIT 1")
+  ResultSet<AtomicEntry> bySourceChangeId(Change.Id id) throws OrmException;
 }

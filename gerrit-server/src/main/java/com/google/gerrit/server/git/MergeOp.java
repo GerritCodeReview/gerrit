@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
+import com.google.gerrit.reviewdb.AtomicEntry;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
@@ -31,6 +32,7 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.AtomicUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -163,6 +165,7 @@ public class MergeOp {
   private final TagCache tagCache;
   private final CreateCodeReviewNotes.Factory codeReviewNotesFactory;
   private final SubmoduleOp.Factory subOpFactory;
+  private final MergeOp.Factory opFactory;
 
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
@@ -177,7 +180,7 @@ public class MergeOp {
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
       final ChangeHookRunner hooks, final AccountCache accountCache,
       final TagCache tagCache, final CreateCodeReviewNotes.Factory crnf,
-      final SubmoduleOp.Factory subOpFactory) {
+      final SubmoduleOp.Factory subOpFactory, final MergeOp.Factory opFactory) {
     repoManager = grm;
     schemaFactory = sf;
     functionState = fs;
@@ -196,6 +199,7 @@ public class MergeOp {
     this.tagCache = tagCache;
     codeReviewNotesFactory = crnf;
     this.subOpFactory = subOpFactory;
+    this.opFactory = opFactory;
 
     this.myIdent = myIdent;
     destBranch = branch;
@@ -1260,6 +1264,8 @@ public class MergeOp {
     final PatchSet.Id merged = c.currentPatchSetId();
 
     try {
+      cascadeMergeToAtomicGroup(c);
+
       schema.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
         @Override
         public Change update(Change c) {
@@ -1354,6 +1360,52 @@ public class MergeOp {
           schema.patchSets().get(c.currentPatchSetId()));
     } catch (OrmException ex) {
       log.error("Cannot run hook for submitted patch set " + c.getId(), ex);
+    }
+  }
+
+  /**
+   * Supposed to be called when merging a change. It triggers the merge of
+   * another change in the same atomic group. If the change is not involved in
+   * an atomic group, it does nothing.
+   *
+   * @param c The change just merged.
+   */
+  private void cascadeMergeToAtomicGroup(Change c) {
+    try {
+      if (AtomicUtil.isAtomic(schema, c)) {
+        Change nextToMerge = AtomicUtil.getOnePendingSameSuper(schema, c);
+
+        if (nextToMerge == null) {
+          final List<AtomicEntry> entriesAsSource =
+              schema.atomicEntries().bySourceChangeId(c.getId()).toList();
+
+          if (!entriesAsSource.isEmpty()) {
+            // Consider the nextToMerge to be the one registered as
+            // "its super change"
+            final AtomicEntry ae =
+                schema.atomicEntries().bySourceChangeId(c.getId()).toList()
+                    .get(0);
+            nextToMerge = schema.changes().get(ae.getId().getParentKey());
+          }
+        }
+
+        if (nextToMerge != null
+            && nextToMerge.getStatus() == Change.Status.SUBMITTED_PENDING_ATOMIC) {
+          schema.changes().atomicUpdate(nextToMerge.getId(),
+              new AtomicUpdate<Change>() {
+                @Override
+                public Change update(Change change) {
+                  change.setStatus(Change.Status.SUBMITTED);
+                  ChangeUtil.updated(change);
+                  return change;
+                }
+              });
+
+          mergeQueue.merge(opFactory, nextToMerge.getDest());
+        }
+      }
+    } catch (OrmException e) {
+      log.error(e.getMessage());
     }
   }
 

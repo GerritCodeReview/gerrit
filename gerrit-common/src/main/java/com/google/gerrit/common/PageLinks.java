@@ -85,6 +85,7 @@ public class PageLinks {
 
       case NEW:
       case SUBMITTED:
+      case SUBMITTED_PENDING_ATOMIC:
       default:
         return "status:open " + op("project", proj.get());
     }

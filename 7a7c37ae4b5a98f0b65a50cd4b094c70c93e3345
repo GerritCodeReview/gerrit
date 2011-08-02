@@ -384,6 +384,24 @@
       "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///cE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-08-02T20:25:52Z",
+      "side": 1,
+      "message": "I\u0027m not sure I got your point, but those 3 states (read_only, active, hidden) are exclusives, the project can have only one at time. isActive() do not imply !isReadOnly(), because !isReadOnly() may be hidden or active.\n\nPerhaps you are suggesting active as the concatenation of both read_only and hidden false ? In that case, Should we eliminate active state in the UI ?",
+      "parentUuid": "AAABEX//8fI\u003d",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

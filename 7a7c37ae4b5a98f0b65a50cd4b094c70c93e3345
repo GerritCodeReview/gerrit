@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8fs\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-02T15:44:44Z",
+      "side": 1,
+      "message": "Well, I think hidden is more accurate.  Perhaps it is hidden because the admin intends it to be decommissioned, but that would be an assumption.  Perhaps it is hidden for some temporary reason only.  And, since hidden tells the admin what it is actually doing as opposed to why, I think that it is more useful and more fine grained.",
+      "parentUuid": "AAABEX//8h4\u003d",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8iA\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -84,6 +102,23 @@
       "side": 1,
       "message": "Ok.",
       "parentUuid": "AAABEX//8iA\u003d",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8fo\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-02T15:44:44Z",
+      "side": 1,
+      "message": "Nit: I think cmmt stands for \"Can Modify Merge Type\", I suggest something different. :)",
       "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -249,6 +284,23 @@
     },
     {
       "key": {
+        "uuid": "AAABEX//8fg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-02T15:44:44Z",
+      "side": 1,
+      "message": "This is not very clear.  I think that you need something more descriptive for a config file.",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8hs\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
         "patchSetId": 1
@@ -295,6 +347,40 @@
       "side": 1,
       "message": "ok",
       "parentUuid": "AAABEX//8hU\u003d",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8fY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-02T15:44:44Z",
+      "side": 1,
+      "message": "Do you intend to change the semantics here for non hidden projects?  In other words, is it possible that some projects were previously not visible to the owner?",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8fI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-02T15:44:44Z",
+      "side": 1,
+      "message": "I feel like most of the tests in here should be asking isReadOnly() instead of isActive() because that is the question actually being asked in most places.\n\nThe fact that isActive() implies !isReadOnly() is only a matter of policy, but the places where isActive() is being queried is where changing (writing to) the project is possible.  This would put that policy inside of the state questions isReadOnly()/isActive() instead of inside of every other question making it easier to see that policy explicitly and to change it if desired in the future.  \n\nPerhaps isHidden and isReadOnly are the only real questions and perhaps they need not even be tied together (but, a policy that did seems fine too)?",
       "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

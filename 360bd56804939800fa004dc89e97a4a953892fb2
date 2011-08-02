@@ -52,6 +52,24 @@
       "revId": "360bd56804939800fa004dc89e97a4a953892fb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///Zs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_59.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-08-02T20:27:19Z",
+      "side": 1,
+      "message": "I agree with you in how to extract the patch set number except for one little part:\n\nI think that some messages are not necessarily associated with patch sets and the patch set id should be left null in those cases. So I implemented the query and result set processing in my next patch set but I left all messages that don\u0027t fall into format-A or format-B as null.",
+      "parentUuid": "AAABEX//7T0\u003d",
+      "revId": "360bd56804939800fa004dc89e97a4a953892fb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

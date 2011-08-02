@@ -16,6 +16,24 @@
       "revId": "31b45e219ddedce105eef960a019ab6c7c209402",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///nU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-08-02T00:53:18Z",
+      "side": 1,
+      "message": "Personally, I think that change messages don\u0027t necessarily correlate to certain patchsets (which is why I let patchset id be null in the schema change). For instance, the message might be regarding the change itself rather than a certain patchset. I feel that merging changes is one of these cases, even though technically it\u0027s the latest patchset being merged.",
+      "parentUuid": "AAABEX//7To\u003d",
+      "revId": "31b45e219ddedce105eef960a019ab6c7c209402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -115,7 +115,16 @@ public class AccountResolver {
     final int lt = nameOrEmail.indexOf('<');
     final int gt = nameOrEmail.indexOf('>');
     if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {
-      return byEmail.get(nameOrEmail.substring(lt + 1, gt));
+      final String fullName = nameOrEmail.substring(0, lt - 1);
+      final String email = nameOrEmail.substring(lt + 1, gt);
+      List<Account> m = schema.get().accounts().byFullName(fullName).toList();
+      Set<Account.Id> s = new HashSet<Account.Id>();
+      for (Account a : m) {
+        if (a.getPreferredEmail().equals(email)) {
+          s.add(a.getId());
+        }
+      }
+      return s;
     }
 
     if (nameOrEmail.contains("@")) {

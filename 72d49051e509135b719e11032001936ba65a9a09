@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn///g4\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SystemInfoService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-02T16:50:28Z",
+      "side": 1,
+      "message": "Nit: can you make this looks more like the stuff above?  I didn\u0027t even know that you could make an interface method abstract, seems kinda redundant.",
+      "revId": "72d49051e509135b719e11032001936ba65a9a09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///g0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SystemInfoServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-02T16:50:28Z",
+      "side": 1,
+      "message": "Nit: although this style varies throughout gerrit, can you make this more like the lines above?  Perhaps config \u003d cfg ?",
+      "revId": "72d49051e509135b719e11032001936ba65a9a09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

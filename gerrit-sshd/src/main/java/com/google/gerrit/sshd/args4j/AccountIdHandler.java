@@ -67,7 +67,11 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
             accountId = createAccountByLdap(token);
             break;
           default:
-            throw new CmdLineException(owner, "user \"" + token + "\" not found");
+            if (accountResolver.findAll(token).size() > 1) {
+              throw new CmdLineException(owner, "\"" + token + "\" matches multiple users");
+            } else {
+              throw new CmdLineException(owner, "user \"" + token + "\" not found");
+            }
         }
       }
     } catch (OrmException e) {

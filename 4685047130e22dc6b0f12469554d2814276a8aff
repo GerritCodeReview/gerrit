@@ -34,6 +34,24 @@
       "revId": "4685047130e22dc6b0f12469554d2814276a8aff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///kQ\u003d",
+        "filename": "gerrit-common/src/test/java/com/google/gerrit/common/data/ParamertizedStringTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-08-02T05:29:32Z",
+      "side": 1,
+      "message": "Done .\nI will ask our Architect help push the new patch as my master in vacation.",
+      "parentUuid": "AAABEn///4k\u003d",
+      "revId": "4685047130e22dc6b0f12469554d2814276a8aff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

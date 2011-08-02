@@ -52,6 +52,24 @@
       "revId": "31b45e219ddedce105eef960a019ab6c7c209402",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///YQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1182,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-08-02T21:10:12Z",
+      "side": 1,
+      "message": "To be honest, I also don\u0027t think that abandoning and restoring should be on a PS. When the abandon button is clicked, the entire change gets abandoned, not only the PS. That button should be moved to reflect that.\n\nBut I agree on adding the data now, it can\u0027t hurt. I\u0027ll get on that.",
+      "parentUuid": "AAABEn///ZQ\u003d",
+      "revId": "31b45e219ddedce105eef960a019ab6c7c209402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

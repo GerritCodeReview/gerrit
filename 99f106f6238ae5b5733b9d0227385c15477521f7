@@ -16,6 +16,24 @@
       "revId": "99f106f6238ae5b5733b9d0227385c15477521f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+7o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/args4j/AccountIdHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2011-08-03T16:42:00Z",
+      "side": 1,
+      "message": "This is the way I started to write it but findAll returns a set of Ids as opposed to a set of Accounts.  I\u0027d need to have an AccountCache on hand, which I don\u0027t.\n\nShould I pass one in to the AccountIdHandler?  Should I add a method to AccountResolver to return a set of Accounts instead of AccountIds?",
+      "parentUuid": "AAABEn///IA\u003d",
+      "revId": "99f106f6238ae5b5733b9d0227385c15477521f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

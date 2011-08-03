@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//+1M\u003d",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-03T20:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEn///G4\u003d",
+      "revId": "90f1d8c50470534d1f9a573c7c343532f0b87b86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn///G0\u003d",
         "filename": "Documentation/dev-design.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-08-03T05:32:27Z",
       "side": 1,
       "message": "Maybe also remove \u0027PostgreSQL\u0027 from this sentence and just leave it as \u0027metadata database\u0027.",
+      "revId": "90f1d8c50470534d1f9a573c7c343532f0b87b86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+1Q\u003d",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-03T20:55:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEn///G0\u003d",
       "revId": "90f1d8c50470534d1f9a573c7c343532f0b87b86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -34,6 +34,24 @@
       "revId": "99f106f6238ae5b5733b9d0227385c15477521f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+7I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/args4j/AccountIdHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-03T17:32:35Z",
+      "side": 1,
+      "message": "Hmm, I see.   I a not sure, but I can only see two realistic solutions which avoid double calls (although, since they are local, I am not sure how bad that would be). \n\nThe first is to simply define a special Account which signifies conflict.  \n\nThe second, is to define a new find() with a new return type which can contain an Account or null, and a flag on whether the null means not found or conflict.  Or, it could return an error message (inherit from Capable class maybe?).\n\nIf two calls would be OK, you could just add a:  \n\n  public Account find(Account.Id) \n\nto the resolver and call that after the findAll() call.  I am tempted to endorse this solution since it is cleaner.  I just depends on what the policy for making two calls here is, I suspect we might need Shawn\u0027s input.",
+      "parentUuid": "AAABEn//+7o\u003d",
+      "revId": "99f106f6238ae5b5733b9d0227385c15477521f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

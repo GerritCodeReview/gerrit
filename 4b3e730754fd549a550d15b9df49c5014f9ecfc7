@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn///Fs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeArguments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-03T05:51:02Z",
+      "side": 1,
+      "message": "licence header is missing",
+      "revId": "4b3e730754fd549a550d15b9df49c5014f9ecfc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

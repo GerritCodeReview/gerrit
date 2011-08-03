@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//+70\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-08-03T16:39:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//8UI\u003d",
+      "revId": "1f0447353d56eca32b8cabc773dd813310f26256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8T4\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-07-19T00:07:04Z",
       "side": 1,
       "message": "Is there anyway to filter out any of the logged messages, I would say particularly if it is user error.  In general, I would like to reduce the amount of things that get logged, hopefully to only bad system stuff, not user errors.",
+      "revId": "1f0447353d56eca32b8cabc773dd813310f26256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+8I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2011-08-03T16:39:01Z",
+      "side": 1,
+      "message": "As they only differ in strings, only by building a list of strings to match against. I\u0027d rather not do this.\n\nI\u0027m not sure if there are any messages that are relevant for the admin, I mostly made it that way to _not_ change the logging behaviour in this change.",
+      "parentUuid": "AAABEX//8T4\u003d",
       "revId": "1f0447353d56eca32b8cabc773dd813310f26256",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

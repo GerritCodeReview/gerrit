@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn///Gk\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-03T05:42:13Z",
+      "side": 1,
+      "message": "What is the motivation to extract this method into a utility class?",
+      "revId": "005b6c45456a404af270b72e517bdeafc6586771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///Go\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-03T05:42:13Z",
+      "side": 1,
+      "message": "licence header is missing",
+      "revId": "005b6c45456a404af270b72e517bdeafc6586771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn///Gs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-03T05:42:13Z",
+      "side": 1,
+      "message": "style-nit: this line seems to be too long",
+      "revId": "005b6c45456a404af270b72e517bdeafc6586771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

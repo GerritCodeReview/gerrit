@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//+m4\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T04:09:56Z",
+      "side": 1,
+      "message": "2008?",
+      "revId": "c9e3637bed7f323543ca29afc489a8c653caf828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8Q0\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T04:09:56Z",
+      "side": 1,
+      "message": "I would look at the implementation of equals in StringKey.  It deals with some cases which are not dealt with here, such as nulls.\nBut, I am not sure you want to allow capitals at all?  Does gwtorm use equals() to determine uniqueness in keys?",
+      "revId": "c9e3637bed7f323543ca29afc489a8c653caf828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8Qw\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T04:09:56Z",
+      "side": 1,
+      "message": "I think this is supposed to include the changeid?",
+      "revId": "c9e3637bed7f323543ca29afc489a8c653caf828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8Qo\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T04:09:56Z",
+      "side": 1,
+      "message": "No null checks.",
+      "revId": "c9e3637bed7f323543ca29afc489a8c653caf828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8Qs\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T04:09:56Z",
+      "side": 1,
+      "message": "Nit: a few unneeded \"this\"es above.",
+      "revId": "c9e3637bed7f323543ca29afc489a8c653caf828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+mw\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabelAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T04:09:56Z",
+      "side": 1,
+      "message": "2008?",
+      "revId": "c9e3637bed7f323543ca29afc489a8c653caf828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//+lI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T05:14:28Z",
+      "side": 1,
+      "message": "Nit: space",
+      "revId": "51ffc0f095cfbc323815c5ec52b2fdd8ba65e843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+lE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T05:14:28Z",
+      "side": 1,
+      "message": "2008?",
+      "revId": "51ffc0f095cfbc323815c5ec52b2fdd8ba65e843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+kw\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T05:14:28Z",
+      "side": 1,
+      "message": "I would put this criteria in a isValid() method on Label.Key, and perhaps on ChangeLabel (delegated naturally).  Since you have to validate this server side also anyway, you might as well put the validation in a place where it can easily be reused.",
+      "revId": "51ffc0f095cfbc323815c5ec52b2fdd8ba65e843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+ks\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T05:14:28Z",
+      "side": 1,
+      "message": "I suggest preventing illegal character entry instead.  One way to do that which avoids having to black/whitelist characters which is error prone (note the string of fixes which Edwin has submitted to fix issues with this approach, more still lurk in Gerrit), is to use a class like this one: https://review.source.android.com/#/c/21771/1/gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TextBoxBaseListener.java\n\nWhile that class is from a Change which has not been submitted yet, I think it would be OK to use it.  I could submit a Change with just that class if you would feel more comfortable using it that way?  The way to use that class is to simply override its onTextChange method to reset a textboxe\u0027s text to \"oldtext\" if the text does not validate (and is not blank).  You can then additionally use that to enable/disable a submit button accordingly.  See line 140 here for an example of that: https://review.source.android.com/#/c/21771/1/gerrit-gwtui/src/main/java/com/google/gerrit/client/searches/SearchEditor.java",
+      "revId": "51ffc0f095cfbc323815c5ec52b2fdd8ba65e843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

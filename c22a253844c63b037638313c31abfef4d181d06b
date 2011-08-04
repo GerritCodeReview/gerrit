@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn///t4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SuggestServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T04:30:32Z",
+      "side": 1,
+      "message": "You should probably use a HashSet for this test, since looping over a list with a contains will not scale well.",
+      "revId": "c22a253844c63b037638313c31abfef4d181d06b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+mk\u003d",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/SuggestServiceImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T04:30:32Z",
+      "side": 1,
+      "message": "No copyright",
+      "revId": "c22a253844c63b037638313c31abfef4d181d06b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+mQ\u003d",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/SuggestServiceImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T04:30:32Z",
+      "side": 1,
+      "message": "I think there are some unused imports here?",
+      "revId": "c22a253844c63b037638313c31abfef4d181d06b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+mg\u003d",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/SuggestServiceImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T04:30:32Z",
+      "side": 1,
+      "message": "Nit: I don\u0027t think it makes sense to repeat the code in comments.",
+      "revId": "c22a253844c63b037638313c31abfef4d181d06b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+mc\u003d",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/SuggestServiceImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T04:30:32Z",
+      "side": 1,
+      "message": "Why is b in this list if it is already on the change?",
+      "revId": "c22a253844c63b037638313c31abfef4d181d06b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+mU\u003d",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/SuggestServiceImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-04T04:30:32Z",
+      "side": 1,
+      "message": "Nit: no blank lines before closing braces.",
+      "revId": "c22a253844c63b037638313c31abfef4d181d06b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

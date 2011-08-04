@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//+fs\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-04T12:54:11Z",
+      "side": 1,
+      "message": "The reason I implemented equals is to be sure the comparison would not be case sensitive. I mean a label called \"ThisLabel\" should be equals to one called \"thislabel\". Considering this, would you agree having equals implemented?",
+      "parentUuid": "AAABEX//8Q0\u003d",
+      "revId": "c9e3637bed7f323543ca29afc489a8c653caf828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8Qw\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2011-08-04T04:09:56Z",
       "side": 1,
       "message": "I think this is supposed to include the changeid?",
+      "revId": "c9e3637bed7f323543ca29afc489a8c653caf828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+fk\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-04T12:54:11Z",
+      "side": 1,
+      "message": "Martin, I believe the members should return in its array all the fields except the parent key (changeId one). There is an example of it in PatchSetApproval.",
+      "parentUuid": "AAABEX//8Qw\u003d",
       "revId": "c9e3637bed7f323543ca29afc489a8c653caf828",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

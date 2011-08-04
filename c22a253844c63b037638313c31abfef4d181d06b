@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//+fI\u003d",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/SuggestServiceImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-04T13:24:29Z",
+      "side": 1,
+      "message": "Because it appears in change 2. suggestLabel gets the labels associated with all changes except one specified (in this test is the change 1). This way, in UI, it is always checked if a suggested label is already tied to the change (the user could add one suggested or one suggested was previously already tied to the change, the check should be performed and then no need to a rpc call to get suggestions again).",
+      "parentUuid": "AAABEn//+mc\u003d",
+      "revId": "c22a253844c63b037638313c31abfef4d181d06b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//+mU\u003d",
         "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/SuggestServiceImplTest.java",
         "patchSetId": 1

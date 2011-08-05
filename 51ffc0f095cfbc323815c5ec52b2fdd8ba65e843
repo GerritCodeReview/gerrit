@@ -67,6 +67,24 @@
       "revId": "51ffc0f095cfbc323815c5ec52b2fdd8ba65e843",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//9+Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-05T12:52:04Z",
+      "side": 1,
+      "message": "Martin, would you mean to include TextBoxBaseListener.java in this commit as it is in change 21771?",
+      "parentUuid": "AAABEn//+ks\u003d",
+      "revId": "51ffc0f095cfbc323815c5ec52b2fdd8ba65e843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

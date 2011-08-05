@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//+As\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006214
+      },
+      "writtenOn": "2011-08-05T10:16:26Z",
+      "side": 1,
+      "message": "potentiall -\u003e potential",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+BY\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006214
+      },
+      "writtenOn": "2011-08-05T10:16:26Z",
+      "side": 1,
+      "message": "Should we really use the \"submit\" verb here? In Gerrit, submitting a patch means that it\u0027s merged and becomes part of the code base. Perhaps \"upload\" or similar could reduce such confusion?",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+BQ\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006214
+      },
+      "writtenOn": "2011-08-05T10:16:26Z",
+      "side": 1,
+      "message": "Okay so I\u0027m nit-picking here, but is a push to a magic and Gerrit-specific ref really a \"normal git push\"?",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+BU\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006214
+      },
+      "writtenOn": "2011-08-05T10:16:26Z",
+      "side": 1,
+      "message": "Should we perhaps include sample output for this command too? We\u0027re including it for the push command below, and beginner readers might wonder if something\u0027s wrong when their commit command results in output but this command example doesn\u0027t.",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+BI\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1006214
+      },
+      "writtenOn": "2011-08-05T10:16:26Z",
+      "side": 1,
+      "message": "Shouldn\u0027t \"reviewers\" be possessive, i.e. \"reviewer\u0027s\"? Also, this sentence talks about singular reviewers, yet the next sentence uses plural (\"they\").",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+BA\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1006214
+      },
+      "writtenOn": "2011-08-05T10:16:26Z",
+      "side": 1,
+      "message": "In the rest of the document we\u0027re using contractions like \"we\u0027re\", \"they\u0027re\", \"you\u0027ve\" etc, yet here we\u0027re using the full \"let us\" rather than \"let\u0027s\".",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+A4\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1006214
+      },
+      "writtenOn": "2011-08-05T10:16:26Z",
+      "side": 1,
+      "message": "though -\u003e through",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//+A0\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1006214
+      },
+      "writtenOn": "2011-08-05T10:16:26Z",
+      "side": 1,
+      "message": "simplicities -\u003e simplicity\u0027s ?\n\nOr just \"For simplicity we\u0027re just ...\".",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

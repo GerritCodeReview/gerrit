@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//9cU\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006968
+      },
+      "writtenOn": "2011-08-06T04:28:28Z",
+      "side": 1,
+      "message": "Good point. I\u0027ve reworded to \"upload a change\" or \"create a review\" as appropriate",
+      "parentUuid": "AAABEn//+BY\u003d",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//+BQ\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2011-08-05T10:16:26Z",
       "side": 1,
       "message": "Okay so I\u0027m nit-picking here, but is a push to a magic and Gerrit-specific ref really a \"normal git push\"?",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//9cQ\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006968
+      },
+      "writtenOn": "2011-08-06T04:28:28Z",
+      "side": 1,
+      "message": "Yeah I would argue that it is and that is Gerrit\u0027s great strength. Sure magic stuff happens on server side, but from the point of view of the person submitting the review it really is just a push.",
+      "parentUuid": "AAABEn//+BQ\u003d",
       "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//9cM\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006968
+      },
+      "writtenOn": "2011-08-06T04:28:28Z",
+      "side": 1,
+      "message": "Done. I hadn\u0027t bothered as I\u0027m assuming people are already familiar with git, but you;\u0027re right it\u0027s better to be consistent.",
+      "parentUuid": "AAABEn//+BU\u003d",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//+BI\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 3
@@ -81,6 +135,24 @@
       "writtenOn": "2011-08-05T10:16:26Z",
       "side": 1,
       "message": "Shouldn\u0027t \"reviewers\" be possessive, i.e. \"reviewer\u0027s\"? Also, this sentence talks about singular reviewers, yet the next sentence uses plural (\"they\").",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//9cI\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1006968
+      },
+      "writtenOn": "2011-08-06T04:28:28Z",
+      "side": 1,
+      "message": "Regards passive you\u0027re correct. I\u0027ve fixed that. They is being used not as a plural but as a sexless pronoun. I\u0027ll replace with he / him if you feel that is clearer.",
+      "parentUuid": "AAABEn//+BI\u003d",
       "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//9cE\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1006968
+      },
+      "writtenOn": "2011-08-06T04:28:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEn//+BA\u003d",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//+A4\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 3
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//9b4\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1006968
+      },
+      "writtenOn": "2011-08-06T04:28:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEn//+A4\u003d",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//+A0\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 3
@@ -132,6 +240,24 @@
       "writtenOn": "2011-08-05T10:16:26Z",
       "side": 1,
       "message": "simplicities -\u003e simplicity\u0027s ?\n\nOr just \"For simplicity we\u0027re just ...\".",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//9b0\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1006968
+      },
+      "writtenOn": "2011-08-06T04:28:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEn//+A0\u003d",
       "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

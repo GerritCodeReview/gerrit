@@ -16,6 +16,7 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GitwebLink;
@@ -53,7 +54,7 @@ public class ProjectAccessEditor extends Composite implements
   DivElement inheritsFrom;
 
   @UiField
-  Hyperlink parentProject;
+  FlowPanel ancestors;
 
   @UiField
   DivElement history;
@@ -100,14 +101,26 @@ public class ProjectAccessEditor extends Composite implements
 
     this.value = value;
 
-    Project.NameKey parent = value.getInheritsFrom();
-    if (parent != null) {
+    inheritsFrom.getStyle().setDisplay(Display.NONE);
+    Util.PROJECT_SVC.projectAncestors(value.getProjectName(),
+        new GerritCallback<List<Project.NameKey>>() {
+          @Override
+          public void onSuccess(final List<Project.NameKey> result) {
+            populateAncestors(result);
+          }
+        }
+    );
+    addSection.setVisible(value != null && editing && !value.getOwnerOf().isEmpty());
+  }
+
+  private void populateAncestors(List<Project.NameKey> list) {
+    if (list.size() != 0) {
       inheritsFrom.getStyle().setDisplay(Display.BLOCK);
-      parentProject.setText(parent.get());
-      parentProject.setTargetHistoryToken( //
-          Dispatcher.toProjectAdmin(parent, ProjectScreen.ACCESS));
-    } else {
-      inheritsFrom.getStyle().setDisplay(Display.NONE);
+      ancestors.clear();
+      for (Project.NameKey prj : list) {
+        ancestors.add(new Hyperlink(prj.get(),
+            Dispatcher.toProjectAdmin(prj, ProjectScreen.ACCESS)));
+      }
     }
 
     final GitwebLink c = Gerrit.getConfig().getGitwebLink();

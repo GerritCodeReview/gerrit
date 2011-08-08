@@ -36,13 +36,16 @@ public interface ProjectAdminService extends RemoteJsonService {
   void projectDetail(Project.NameKey projectName,
       AsyncCallback<ProjectDetail> callback);
 
+  void projectAncestors(Project.NameKey projectName,
+      AsyncCallback<List<Project.NameKey>> callback);
+
+  void projectAccess(Project.NameKey projectName,
+      AsyncCallback<ProjectAccess> callback);
+
   @SignInRequired
   void createNewProject(String projectName, String parentName,
       boolean emptyCommit, boolean permissionsOnly,
       AsyncCallback<VoidResult> callback);
-
-  void projectAccess(Project.NameKey projectName,
-      AsyncCallback<ProjectAccess> callback);
 
   @SignInRequired
   void changeProjectSettings(Project update,

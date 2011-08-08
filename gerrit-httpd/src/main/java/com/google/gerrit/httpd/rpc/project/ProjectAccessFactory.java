@@ -178,25 +178,10 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     }
 
     final ProjectAccess detail = new ProjectAccess();
-    detail.setProjectName(projectName);
-
+    detail.setProjectName(config.getProject().getNameKey());
     if (config.getRevision() != null) {
       detail.setRevision(config.getRevision().name());
     }
-
-    if (projectName.equals(allProjectsName)) {
-      if (pc.isOwner()) {
-        ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
-      }
-      detail.setInheritsFrom(null);
-
-    } else if (config.getProject().getParent() != null) {
-      detail.setInheritsFrom(config.getProject().getParent());
-
-    } else {
-      detail.setInheritsFrom(allProjectsName);
-    }
-
     detail.setLocal(local);
     detail.setOwnerOf(ownerOf);
     detail.setConfigVisible(pc.isOwner()

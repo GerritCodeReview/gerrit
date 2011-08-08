@@ -402,6 +402,24 @@
       "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//9Qw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-08T23:11:19Z",
+      "side": 1,
+      "message": "Perhaps I am more dense than most, :( but here is how I think when I am reviewing this code.  I look at the modifications you have made to the canUpload(), canUploadMerges(), canSubmit(), canUpdate(), canForceUpdate(), canCreate(), canDelete() methods and I notice that they all now ask isActive().  So, now, I have to think (watch out):  \"what is this code trying to get at with its isActive() question?\" And that makes each one of these \"very tricky and easy to get wrong\" access questions just one step more complicated than I would hope for.  Since access questions are notoriously easy to get wrong, I could not help but think that in reality it seems like the code is really asking \"is anyone allowed to write to this project?\"\n\nSo, instead of obfuscating that question in isActive() which implies understanding the 3 new project states that you have now defined, and how they affect reading and writing, it would be clearer if these methods could just ask the question they care about and call a method named something like canWrite().\n\nNow, canWrite() could contain the policy mapping to the 3 new states which you are now implementing:\n\n Active     canWrite \u003d true      (canRead \u003d true)\n ReadOnly   canWrite \u003d false     (canRead \u003d true)\n Hidden     canWrite \u003d false     (canRead \u003d false)\n\nYes, asking canWrite() will produce the same answer as asking isActive()\ncurrently does, but I feel like asking canWrite() is likely more easier for future reviewers to understand when they are perusing this file than trying to remember what isActive(), isReadOnly() and isHidden() imply (does isHidden imply readOnly...?)\n\nI know it sounds like almost the same thing, but somehow that seemed like it would be clearer to me (and potentially more flexible and less error prone in the future) than the way it currently is.\n\n\u003e Perhaps you are suggesting active as the concatenation of both read_only and hidden false ? In that case, Should we eliminate active state in the UI ?\n\nI am not sure, the thought occurred to me.  But I am not sure it would be very good policy to offer the 4th combo: canWrite \u003d false, canRead \u003d true, but the suggested use of canWrite() above would make that more easily possible if ever desired.  My issue was mostly a pedantic one of layering...",
+      "parentUuid": "AAABEn///cE\u003d",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

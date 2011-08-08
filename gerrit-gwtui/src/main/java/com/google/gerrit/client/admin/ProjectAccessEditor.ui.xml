@@ -29,10 +29,6 @@ limitations under the License.
   .parentTitle {
     font-weight: bold;
   }
-  .parentLink {
-    display: inline;
-  }
-
   .addContainer {
     margin-top: 5px;
     font-size: 80%;
@@ -45,9 +41,9 @@ limitations under the License.
 <g:HTMLPanel>
   <div ui:field='inheritsFrom' class='{style.inheritsFrom}'>
     <span class='{style.parentTitle}'><ui:msg>Rights Inherit From:</ui:msg></span>
-    <q:Hyperlink ui:field='parentProject' styleName='{style.parentLink}'/>
   </div>
 
+  <g:FlowPanel ui:field='ancestors'/>
   <g:FlowPanel ui:field='localContainer'/>
   <div class='{style.addContainer}'>
     <g:Anchor

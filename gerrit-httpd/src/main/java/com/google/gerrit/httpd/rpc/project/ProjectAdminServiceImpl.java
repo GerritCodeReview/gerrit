@@ -38,6 +38,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final VisibleProjects.Factory visibleProjectsFactory;
   private final ProjectAccessFactory.Factory projectAccessFactory;
   private final ProjectDetailFactory.Factory projectDetailFactory;
+  private final ProjectAncestors.Factory projectAncestorsFactory;
 
   @Inject
   ProjectAdminServiceImpl(final AddBranch.Factory addBranchFactory,
@@ -47,7 +48,8 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final ListBranches.Factory listBranchesFactory,
       final VisibleProjects.Factory visibleProjectsFactory,
       final ProjectAccessFactory.Factory projectAccessFactory,
-      final ProjectDetailFactory.Factory projectDetailFactory) {
+      final ProjectDetailFactory.Factory projectDetailFactory,
+      final ProjectAncestors.Factory projectAncestorsFactory) {
     this.addBranchFactory = addBranchFactory;
     this.changeProjectAccessFactory = changeProjectAccessFactory;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
@@ -56,6 +58,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
     this.visibleProjectsFactory = visibleProjectsFactory;
     this.projectAccessFactory = projectAccessFactory;
     this.projectDetailFactory = projectDetailFactory;
+    this.projectAncestorsFactory = projectAncestorsFactory;
   }
 
   @Override
@@ -67,6 +70,12 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   public void projectDetail(final Project.NameKey projectName,
       final AsyncCallback<ProjectDetail> callback) {
     projectDetailFactory.create(projectName).to(callback);
+  }
+
+  @Override
+  public void projectAncestors(final Project.NameKey projectName,
+      final AsyncCallback<List<Project.NameKey>> callback) {
+    projectAncestorsFactory.create(projectName).to(callback);
   }
 
   @Override

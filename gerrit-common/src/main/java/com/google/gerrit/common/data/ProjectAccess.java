@@ -21,7 +21,7 @@ import java.util.Set;
 
 public class ProjectAccess {
   protected String revision;
-  protected Project.NameKey inheritsFrom;
+  protected Project.NameKey projectName;
   protected List<AccessSection> local;
   protected Set<String> ownerOf;
 
@@ -36,12 +36,12 @@ public class ProjectAccess {
     revision = name;
   }
 
-  public Project.NameKey getInheritsFrom() {
-    return inheritsFrom;
+  public Project.NameKey getProjectName() {
+    return projectName;
   }
 
-  public void setInheritsFrom(Project.NameKey name) {
-    inheritsFrom = name;
+  public void setProjectName(Project.NameKey name) {
+    projectName = name;
   }
 
   public List<AccessSection> getLocal() {

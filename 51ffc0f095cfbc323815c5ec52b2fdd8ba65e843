@@ -85,6 +85,24 @@
       "revId": "51ffc0f095cfbc323815c5ec52b2fdd8ba65e843",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//9A8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-09T21:54:19Z",
+      "side": 1,
+      "message": "Sure, I don\u0027t think my change will get merged for a while.",
+      "parentUuid": "AAABEn//9+Y\u003d",
+      "revId": "51ffc0f095cfbc323815c5ec52b2fdd8ba65e843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

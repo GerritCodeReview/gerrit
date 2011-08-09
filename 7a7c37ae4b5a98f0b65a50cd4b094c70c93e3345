@@ -438,6 +438,24 @@
       "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//9Lc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-08-09T13:29:35Z",
+      "side": 1,
+      "message": "Sasa, How would be the UI in that case?\nSo far we have a combo with hidden, readOnly and active values.",
+      "parentUuid": "AAABEn//9YQ\u003d",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

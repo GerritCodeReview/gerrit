@@ -456,6 +456,24 @@
       "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//9Fg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1004010
+      },
+      "writtenOn": "2011-08-09T17:34:04Z",
+      "side": 1,
+      "message": "Martin, I think you are suggesting:\n1 - Renaming isActive for canCreate\n2 - Create new method canRead which returns getProjectControl().getProject().getState().equals(Project.State.READ_ONLY) || canCreate()\n3 - Replace !isHidden call for canRead\n\nRight?\n\n\u003e Yes, asking canWrite() will produce the same answer as asking isActive() currently does, but I feel like asking canWrite() is likely more easier for future reviewers to understand when they are perusing this file than trying to remember what isActive(), isReadOnly() and isHidden() imply (does isHidden imply readOnly...?)\n\nThe way I did, I tied the value chosen in the combo direct to the returns of the methods (isHidden, isActive and isReadOnly).\nSo, I don\u0027t see any reason for someone to ask if one value implies to another because simply their names are clear, read only means read only and not active nor hidden, etc..\n\nBut ok, if I got your point correctly I\u0027ll push like those 3 items above..",
+      "parentUuid": "AAABEn//9Qw\u003d",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

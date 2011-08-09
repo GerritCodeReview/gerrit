@@ -338,6 +338,9 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final ArrayList<ChangeInfo> list = new ArrayList<ChangeInfo>();
       final ResultSet<Change> rs = query(db, slim, pos);
       for (final Change c : rs) {
+        if (!canRead(c, db)) {
+          continue;
+        }
         final ChangeInfo ci = new ChangeInfo(c);
         ac.want(ci.getOwner());
         ci.setStarred(starred.contains(ci.getId()));

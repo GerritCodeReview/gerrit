@@ -420,6 +420,24 @@
       "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//9YQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-08-09T09:44:57Z",
+      "side": 1,
+      "message": "\u003e Perhaps you are suggesting active as the concatenation of both read_only and hidden false ? \n\nThis makes sense for me.\n\nThen a project can have any of the four combination of isReadOnly and isHidden:\n\n isReadOnly isHidden\n ---------- --------\n false      false       (1)\n false      true        (2)\n true       false       (3)\n true       true        (4)\n\nand all four seem to make sense.\n\nAs you wrote, the project is then \"active\" in case (1).\nA writeable (non read only) project can also be hidden, case (2).\nCase (3) is a visible read only project and case (4) is a hidden read only\nproject.\n\nWhat do you think?",
+      "parentUuid": "AAABEn///cE\u003d",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

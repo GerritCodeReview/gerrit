@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//9As\u003d",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/SuggestServiceImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-09T22:06:56Z",
+      "side": 1,
+      "message": "So you would then be doing client side filtering to filter out b?  Does this really reduce the RPCs since the list will need to get refined depending on what the user types, no?",
+      "parentUuid": "AAABEn//+fI\u003d",
+      "revId": "c22a253844c63b037638313c31abfef4d181d06b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//+mU\u003d",
         "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/SuggestServiceImplTest.java",
         "patchSetId": 1

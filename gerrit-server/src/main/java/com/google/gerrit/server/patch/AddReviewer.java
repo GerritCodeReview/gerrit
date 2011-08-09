@@ -159,7 +159,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
           if (member.isActive()) {
             final IdentifiedUser user =
                 identifiedUserFactory.create(member.getId());
-            if (control.forUser(user).isVisible()) {
+            if (control.forUser(user).isVisible(db)) {
               reviewerIds.add(member.getId());
             }
           }
@@ -175,7 +175,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
       }
 
       final IdentifiedUser user = identifiedUserFactory.create(account.getId());
-      if (!control.forUser(user).isVisible()) {
+      if (!control.forUser(user).isVisible(db)) {
         result.addError(new ReviewerResult.Error(
             ReviewerResult.Error.Type.CHANGE_NOT_VISIBLE,
             formatUser(account, reviewer)));

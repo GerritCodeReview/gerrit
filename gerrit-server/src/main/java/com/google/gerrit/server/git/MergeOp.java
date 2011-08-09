@@ -1298,7 +1298,7 @@ public class MergeOp {
     try {
       hooks.doChangeMergedHook(c, //
           accountCache.get(submitter.getAccountId()).getAccount(), //
-          schema.patchSets().get(c.currentPatchSetId()));
+          schema.patchSets().get(c.currentPatchSetId()), schema);
     } catch (OrmException ex) {
       log.error("Cannot run hook for submitted patch set " + c.getId(), ex);
     }

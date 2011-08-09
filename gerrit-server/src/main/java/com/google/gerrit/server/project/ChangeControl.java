@@ -172,6 +172,14 @@ public class ChangeControl {
     return getRefControl().isVisible();
   }
 
+  /** Can this user see the given patchset? */
+  public boolean isPatchVisible(PatchSet ps, ReviewDb db) throws OrmException {
+    if (ps.isDraft() && !isDraftVisible(db)) {
+      return false;
+    }
+    return isVisible(db);
+  }
+
   /** Can this user abandon this change? */
   public boolean canAbandon() {
     return isOwner() // owner (aka creator) of the change can abandon

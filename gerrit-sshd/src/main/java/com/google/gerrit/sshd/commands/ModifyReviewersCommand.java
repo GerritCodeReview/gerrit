@@ -260,11 +260,13 @@ public class ModifyReviewersCommand extends BaseCommand {
     try {
       if (change != null
           && inProject(change)
-          && changeControlFactory.controlFor(change).isVisible()) {
+          && changeControlFactory.controlFor(change).isVisible(db)) {
         matched.add(change.getId());
       }
     } catch (NoSuchChangeException e) {
       // Ignore this change.
+    } catch (OrmException e) {
+      log.warn("Error reading change " + change.getId(), e);
     }
   }
 

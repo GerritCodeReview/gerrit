@@ -995,7 +995,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       log.error("Cannot send email for new change " + change.getId(), e);
     }
 
-    hooks.doPatchsetCreatedHook(change, ps);
+    hooks.doPatchsetCreatedHook(change, ps, db);
   }
 
   private static boolean isReviewer(final FooterLine candidateFooterLine) {
@@ -1309,7 +1309,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           + repo.getDirectory() + ": " + ru.getResult());
     }
     replication.scheduleUpdate(project.getNameKey(), ru.getName());
-    hooks.doPatchsetCreatedHook(result.change, ps);
+    hooks.doPatchsetCreatedHook(result.change, ps, db);
     request.cmd.setResult(ReceiveCommand.Result.OK);
 
     try {
@@ -1846,8 +1846,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         log.error("Cannot send email for submitted patch set " + psi, e);
       }
 
-      hooks.doChangeMergedHook(result.change, currentUser.getAccount(),
-          result.patchSet);
+      try {
+        hooks.doChangeMergedHook(result.change, currentUser.getAccount(),
+            result.patchSet, db);
+      } catch (OrmException err) {
+        log.error("Cannot open change: " + result.change.getChangeId(), err);
+      }
     }
   }
 

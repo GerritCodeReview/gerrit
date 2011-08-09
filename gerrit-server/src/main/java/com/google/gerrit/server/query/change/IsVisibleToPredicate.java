@@ -55,7 +55,7 @@ class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
     }
     try {
       Change c = cd.change(db);
-      if (c != null && changeControl.controlFor(c, user).isVisible()) {
+      if (c != null && changeControl.controlFor(c, user).isVisible(db.get())) {
         cd.cacheVisibleTo(user);
         return true;
       } else {

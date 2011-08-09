@@ -27,6 +27,7 @@ import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -108,18 +109,18 @@ public class ChangeControl {
     }
 
     public ChangeControl validateFor(final Change.Id id)
-        throws NoSuchChangeException {
-      return validate(controlFor(id));
+        throws NoSuchChangeException, OrmException {
+      return validate(controlFor(id), db.get());
     }
 
     public ChangeControl validateFor(final Change change)
-        throws NoSuchChangeException {
-      return validate(controlFor(change));
+        throws NoSuchChangeException, OrmException {
+      return validate(controlFor(change), db.get());
     }
 
-    private static ChangeControl validate(final ChangeControl c)
-        throws NoSuchChangeException {
-      if (!c.isVisible()) {
+    private static ChangeControl validate(final ChangeControl c, final ReviewDb db)
+        throws NoSuchChangeException, OrmException{
+      if (!c.isVisible(db)) {
         throw new NoSuchChangeException(c.getChange().getId());
       }
       return c;
@@ -159,7 +160,15 @@ public class ChangeControl {
   }
 
   /** Can this user see this change? */
-  public boolean isVisible() {
+  public boolean isVisible(ReviewDb db) throws OrmException {
+    if (change.getStatus() == Change.Status.DRAFT && !isDraftVisible(db)) {
+      return false;
+    }
+    return isRefVisible();
+  }
+
+  /** Can the user see this change? Does not account for draft status */
+  public boolean isRefVisible() {
     return getRefControl().isVisible();
   }
 
@@ -197,6 +206,21 @@ public class ChangeControl {
     if (getCurrentUser() instanceof IdentifiedUser) {
       final IdentifiedUser i = (IdentifiedUser) getCurrentUser();
       return i.getAccountId().equals(change.getOwner());
+    }
+    return false;
+  }
+
+  /** Is this user a reviewer for the change? */
+  public boolean isReviewer(ReviewDb db) throws OrmException {
+    if (getCurrentUser() instanceof IdentifiedUser) {
+      final IdentifiedUser user = (IdentifiedUser) getCurrentUser();
+      ResultSet<PatchSetApproval> results =
+        db.patchSetApprovals().byChange(change.getId());
+      for (PatchSetApproval approval : results) {
+        if (user.getAccountId().equals(approval.getAccountId())) {
+          return true;
+        }
+      }
     }
     return false;
   }
@@ -447,6 +471,10 @@ public class ChangeControl {
         label.appliedBy = new Account.Id(((IntegerTerm) who.arg(0)).intValue());
       }
     }
+  }
+
+  private boolean isDraftVisible(ReviewDb db) throws OrmException {
+    return isOwner() || isReviewer(db);
   }
 
   private static boolean isUser(Term who) {

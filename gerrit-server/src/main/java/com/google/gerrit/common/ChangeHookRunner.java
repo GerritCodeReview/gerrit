@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -219,15 +221,17 @@ public class ChangeHookRunner {
      *
      * @param change The change itself.
      * @param patchSet The Patchset that was created.
+     * @throws OrmException
      */
-    public void doPatchsetCreatedHook(final Change change, final PatchSet patchSet) {
+    public void doPatchsetCreatedHook(final Change change, final PatchSet patchSet,
+          final ReviewDb db) throws OrmException {
         final PatchSetCreatedEvent event = new PatchSetCreatedEvent();
         final AccountState uploader = accountCache.get(patchSet.getUploader());
 
         event.change = eventFactory.asChangeAttribute(change);
         event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
         event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
-        fireEvent(change, event);
+        fireEvent(change, event, db);
 
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
@@ -249,8 +253,11 @@ public class ChangeHookRunner {
      * @param account The gerrit user who commited the change.
      * @param comment The comment given.
      * @param approvals Map of Approval Categories and Scores
+     * @throws OrmException
      */
-    public void doCommentAddedHook(final Change change, final Account account, final PatchSet patchSet, final String comment, final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> approvals) {
+    public void doCommentAddedHook(final Change change, final Account account,
+          final PatchSet patchSet, final String comment, final Map<ApprovalCategory.Id,
+          ApprovalCategoryValue.Id> approvals, final ReviewDb db) throws OrmException {
         final CommentAddedEvent event = new CommentAddedEvent();
 
         event.change = eventFactory.asChangeAttribute(change);
@@ -266,7 +273,7 @@ public class ChangeHookRunner {
             }
         }
 
-        fireEvent(change, event);
+        fireEvent(change, event, db);
 
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
@@ -289,14 +296,16 @@ public class ChangeHookRunner {
      * @param change The change itself.
      * @param account The gerrit user who commited the change.
      * @param patchSet The patchset that was merged.
+     * @throws OrmException
      */
-    public void doChangeMergedHook(final Change change, final Account account, final PatchSet patchSet) {
+    public void doChangeMergedHook(final Change change, final Account account,
+          final PatchSet patchSet, final ReviewDb db) throws OrmException {
         final ChangeMergedEvent event = new ChangeMergedEvent();
 
         event.change = eventFactory.asChangeAttribute(change);
         event.submitter = eventFactory.asAccountAttribute(account);
         event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
-        fireEvent(change, event);
+        fireEvent(change, event, db);
 
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
@@ -315,14 +324,16 @@ public class ChangeHookRunner {
      * @param change The change itself.
      * @param account The gerrit user who abandoned the change.
      * @param reason Reason for abandoning the change.
+     * @throws OrmException
      */
-    public void doChangeAbandonedHook(final Change change, final Account account, final String reason) {
+    public void doChangeAbandonedHook(final Change change, final Account account,
+          final String reason, final ReviewDb db) throws OrmException {
         final ChangeAbandonedEvent event = new ChangeAbandonedEvent();
 
         event.change = eventFactory.asChangeAttribute(change);
         event.abandoner = eventFactory.asAccountAttribute(account);
         event.reason = reason;
-        fireEvent(change, event);
+        fireEvent(change, event, db);
 
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
@@ -341,14 +352,16 @@ public class ChangeHookRunner {
      * @param change The change itself.
      * @param account The gerrit user who restored the change.
      * @param reason Reason for restoring the change.
+     * @throws OrmException
      */
-    public void doChangeRestoreHook(final Change change, final Account account, final String reason) {
+    public void doChangeRestoreHook(final Change change, final Account account,
+          final String reason, final ReviewDb db) throws OrmException {
         final ChangeRestoreEvent event = new ChangeRestoreEvent();
 
         event.change = eventFactory.asChangeAttribute(change);
         event.restorer = eventFactory.asAccountAttribute(account);
         event.reason = reason;
-        fireEvent(change, event);
+        fireEvent(change, event, db);
 
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
@@ -410,9 +423,9 @@ public class ChangeHookRunner {
       }
     }
 
-    private void fireEvent(final Change change, final ChangeEvent event) {
+    private void fireEvent(final Change change, final ChangeEvent event, final ReviewDb db) throws OrmException {
       for (ChangeListenerHolder holder : listeners.values()) {
-          if (isVisibleTo(change, holder.user)) {
+          if (isVisibleTo(change, holder.user, db)) {
               holder.listener.onChangeEvent(event);
           }
       }
@@ -426,13 +439,13 @@ public class ChangeHookRunner {
       }
     }
 
-    private boolean isVisibleTo(Change change, IdentifiedUser user) {
+    private boolean isVisibleTo(Change change, IdentifiedUser user, ReviewDb db) throws OrmException {
         final ProjectState pe = projectCache.get(change.getProject());
         if (pe == null) {
           return false;
         }
         final ProjectControl pc = pe.controlFor(user);
-        return pc.controlFor(change).isVisible();
+        return pc.controlFor(change).isVisible(db);
     }
 
     private boolean isVisibleTo(Branch.NameKey branchName, IdentifiedUser user) {

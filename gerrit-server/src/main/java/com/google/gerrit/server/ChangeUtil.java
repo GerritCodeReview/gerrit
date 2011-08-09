@@ -253,7 +253,7 @@ public class ChangeUtil {
     updatedChange(db, user, updatedChange, cmsg, senderFactory,
         "Change is no longer open or patchset is not latest");
 
-    hooks.doChangeAbandonedHook(updatedChange, user.getAccount(), message);
+    hooks.doChangeAbandonedHook(updatedChange, user.getAccount(), message, db);
   }
 
   public static Change.Id revert(final PatchSet.Id patchSetId,
@@ -351,7 +351,7 @@ public class ChangeUtil {
       cm.setChangeMessage(cmsg);
       cm.send();
 
-      hooks.doPatchsetCreatedHook(change, ps);
+      hooks.doPatchsetCreatedHook(change, ps, db);
 
       return change.getId();
     } finally {
@@ -400,7 +400,7 @@ public class ChangeUtil {
     updatedChange(db, user, updatedChange, cmsg, senderFactory,
        "Change is not abandoned or patchset is not latest");
 
-    hooks.doChangeRestoreHook(updatedChange, user.getAccount(), message);
+    hooks.doChangeRestoreHook(updatedChange, user.getAccount(), message, db);
   }
 
   private static <T extends ReplyToChangeSender> void updatedChange(

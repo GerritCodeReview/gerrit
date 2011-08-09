@@ -474,6 +474,42 @@
       "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//9FY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-09T17:59:57Z",
+      "side": 1,
+      "message": "\u003e The way I did, I tied the value chosen in the combo direct to the returns of the methods (isHidden, isActive and isReadOnly). So, I don\u0027t see any reason for someone to ask if one value implies to another because simply their names are clear, read only means read only and not active nor hidden, etc..\n\nBut they aren\u0027t clear, because they don\u0027t communicate intent.  Yes, they are directly tied to the UI, but the intent of the states is murky and you have to actually read how they are used in this class to figure out for sure what isActive, isReadOnly, and isHidden are doing .  Those are simply names for states, but the way you are interpreting those states is not inherently obvious (to me, my guess is right, but I don\u0027t like guessing).  \n\nI am not sure why you are suggesting canCreate though instead of canWrite since it does not seem like an accurate question to ask in canDelete()?",
+      "parentUuid": "AAABEn//9Fg\u003d",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//9FQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-09T17:59:57Z",
+      "side": 1,
+      "message": "Sasa, could you explain when you think use case 2 would be used?  Do you think Gerrit could even support such a case?  I think that  many places in Gerrit simply attempt to create a ProjectControl for things, and if that fails, they behave as if it does not exist (hidding it).  So, if that is the case, if the project is hidden, I don\u0027t think that there are too many code paths that would be able to continue to operate and actually write to the project.\n\nI could be wrong, and it might be easy, but it would make sense to be sure of this, and have a reason to support this before we support it in the UI.  But, I see no problems storing it that way in the config if that is the desire (hmm, except for the fact, that someone could then backdoor use case 2 if we don\u0027t want it).",
+      "parentUuid": "AAABEn//9Lc\u003d",
+      "revId": "7a7c37ae4b5a98f0b65a50cd4b094c70c93e3345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

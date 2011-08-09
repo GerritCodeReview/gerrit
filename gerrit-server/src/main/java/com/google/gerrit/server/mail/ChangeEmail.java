@@ -399,11 +399,11 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
   }
 
-  protected boolean isVisibleTo(final Account.Id to) {
+  protected boolean isVisibleTo(final Account.Id to) throws OrmException {
     return projectState == null
         || change == null
         || projectState.controlFor(args.identifiedUserFactory.create(to))
-            .controlFor(change).isVisible();
+            .controlFor(change).isVisible(args.db.get());
   }
 
   /** Find all users who are authors of any part of this change. */

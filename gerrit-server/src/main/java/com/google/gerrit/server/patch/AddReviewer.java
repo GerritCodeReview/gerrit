@@ -159,7 +159,9 @@ public class AddReviewer implements Callable<ReviewerResult> {
           if (member.isActive()) {
             final IdentifiedUser user =
                 identifiedUserFactory.create(member.getId());
-            if (control.forUser(user).isVisible()) {
+            // Does not account for draft status as a user might want to let a
+            // reviewer see a draft.
+            if (control.forUser(user).isRefVisible()) {
               reviewerIds.add(member.getId());
             }
           }
@@ -175,7 +177,9 @@ public class AddReviewer implements Callable<ReviewerResult> {
       }
 
       final IdentifiedUser user = identifiedUserFactory.create(account.getId());
-      if (!control.forUser(user).isVisible()) {
+      // Does not account for draft status as a user might want to let a
+      // reviewer see a draft.
+      if (!control.forUser(user).isRefVisible()) {
         result.addError(new ReviewerResult.Error(
             ReviewerResult.Error.Type.CHANGE_NOT_VISIBLE,
             formatUser(account, reviewer)));

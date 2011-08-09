@@ -300,14 +300,14 @@ public class PublishComments implements Callable<VoidResult> {
     }
   }
 
-  private void fireHook() {
+  private void fireHook() throws OrmException {
     final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> changed =
         new HashMap<ApprovalCategory.Id, ApprovalCategoryValue.Id>();
     for (ApprovalCategoryValue.Id v : approvals) {
       changed.put(v.getParentKey(), v);
     }
 
-    hooks.doCommentAddedHook(change, user.getAccount(), patchSet, messageText, changed);
+    hooks.doCommentAddedHook(change, user.getAccount(), patchSet, messageText, changed, db);
   }
 
   private void summarizeInlineComments(StringBuilder in) {

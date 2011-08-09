@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//9AU\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-09T22:20:16Z",
+      "side": 1,
+      "message": "But, does gwtorm use equals when comparing keys to see if there are unique key violations (I don\u0027t know)?  If not, this will not prevent conflicting case entries.\n\nI am also concerned with this from a user perspective.  If I first enter thisLabel and decide I want it to now be ThisLabel, is that possible?  What if someone else on another change likes thisLabel, if I can change it, will it change for them?\n\nYou only need to look at windows filenames to see why making things case insensitive but case aware is usually problematic.  I am questioning the sanity of this approach and whether it would just be better to force labels to be all lowercase?",
+      "parentUuid": "AAABEn//+fs\u003d",
+      "revId": "c9e3637bed7f323543ca29afc489a8c653caf828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8Qw\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
         "patchSetId": 1
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "Martin, I believe the members should return in its array all the fields except the parent key (changeId one). There is an example of it in PatchSetApproval.",
       "parentUuid": "AAABEX//8Qw\u003d",
+      "revId": "c9e3637bed7f323543ca29afc489a8c653caf828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//9AI\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-09T22:20:16Z",
+      "side": 1,
+      "message": "Yup, my bad, looks good.",
+      "parentUuid": "AAABEn//+fk\u003d",
       "revId": "c9e3637bed7f323543ca29afc489a8c653caf828",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

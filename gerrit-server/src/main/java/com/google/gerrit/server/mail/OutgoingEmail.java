@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.EmailHeader.AddressList;
+import com.google.gwtorm.client.OrmException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.VelocityContext;
@@ -297,13 +298,17 @@ public abstract class OutgoingEmail {
 
   /** Schedule delivery of this message to the given account. */
   protected void add(final RecipientType rt, final Account.Id to) {
-    if (!rcptTo.contains(to) && isVisibleTo(to)) {
-      rcptTo.add(to);
-      add(rt, toAddress(to));
+    try {
+      if (!rcptTo.contains(to) && isVisibleTo(to)) {
+        rcptTo.add(to);
+        add(rt, toAddress(to));
+      }
+    } catch (OrmException e) {
+      log.error("Error reading database for account: " + to, e);
     }
   }
 
-  protected boolean isVisibleTo(final Account.Id to) {
+  protected boolean isVisibleTo(final Account.Id to) throws OrmException {
     return true;
   }
 

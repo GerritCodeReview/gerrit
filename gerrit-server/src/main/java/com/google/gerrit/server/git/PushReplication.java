@@ -114,7 +114,7 @@ public class PushReplication implements ReplicationQueue {
       final String urlMatch) {
     for (final ReplicationConfig cfg : configs) {
       for (final URIish uri : cfg.getURIs(project, urlMatch)) {
-        cfg.schedule(project, PushOp.MIRROR_ALL, uri);
+        cfg.schedule(project, PushOp.ALL_REFS, uri);
       }
     }
   }

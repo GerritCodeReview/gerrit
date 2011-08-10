@@ -65,7 +65,7 @@ class PushOp implements ProjectRunnable {
   }
 
   private static final Logger log = PushReplication.log;
-  static final String MIRROR_ALL = "..all..";
+  static final String ALL_REFS = "..all..";
 
   private final GitRepositoryManager repoManager;
   private final SchemaFactory<ReviewDb> schema;
@@ -77,7 +77,7 @@ class PushOp implements ProjectRunnable {
   private final Set<String> delta = new HashSet<String>();
   private final Project.NameKey projectName;
   private final URIish uri;
-  private boolean mirror;
+  private boolean pushAllRefs;
 
   private Repository db;
 
@@ -125,10 +125,10 @@ class PushOp implements ProjectRunnable {
   }
 
   void addRef(final String ref) {
-    if (MIRROR_ALL.equals(ref)) {
+    if (ALL_REFS.equals(ref)) {
       delta.clear();
-      mirror = true;
-    } else if (!mirror) {
+      pushAllRefs = true;
+    } else if (!pushAllRefs) {
       delta.add(ref);
     }
   }
@@ -136,9 +136,9 @@ class PushOp implements ProjectRunnable {
   public Set<String> getRefs() {
     final Set<String> refs;
 
-    if (mirror) {
+    if (pushAllRefs) {
       refs = new HashSet<String>(1);
-      refs.add(MIRROR_ALL);
+      refs.add(ALL_REFS);
     } else {
       refs = delta;
     }
@@ -147,7 +147,7 @@ class PushOp implements ProjectRunnable {
   }
 
   public void addRefs(Set<String> refs) {
-    if (!mirror) {
+    if (!pushAllRefs) {
       for (String ref : refs) {
         addRef(ref);
       }
@@ -216,7 +216,7 @@ class PushOp implements ProjectRunnable {
 
   @Override
   public String toString() {
-    return (mirror ? "mirror " : "push ") + uri;
+    return "push " + uri;
   }
 
   private void runImpl() throws IOException {
@@ -292,7 +292,7 @@ class PushOp implements ProjectRunnable {
 
     Map<String, Ref> local = db.getAllRefs();
     if (!pc.allRefsAreVisible()) {
-      if (!mirror) {
+      if (!pushAllRefs) {
         // If we aren't mirroring, reduce the space we need to filter
         // to only the references we will update during this operation.
         //
@@ -322,7 +322,7 @@ class PushOp implements ProjectRunnable {
 
     final boolean noPerms = !pool.isReplicatePermissions();
     final List<RemoteRefUpdate> cmds = new ArrayList<RemoteRefUpdate>();
-    if (mirror) {
+    if (pushAllRefs) {
       final Map<String, Ref> remote = listRemote(tn);
 
       for (final Ref src : local.values()) {

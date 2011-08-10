@@ -103,6 +103,23 @@
       "revId": "51ffc0f095cfbc323815c5ec52b2fdd8ba65e843",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//8is\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-10T18:51:25Z",
+      "side": 1,
+      "message": "This should probably be done in onSuccess()?  \n\nDoes that remove really work?  It looks like your are attempting to remove a String from a List\u003cChangeLabel.LabelKey\u003e.  Looks like the List remove method can take any Object, not just the List type,  so the compiler will not catch a problem here, argggh java.",
+      "revId": "51ffc0f095cfbc323815c5ec52b2fdd8ba65e843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

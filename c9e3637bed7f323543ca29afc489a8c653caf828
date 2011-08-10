@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//8xE\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-10T12:24:15Z",
+      "side": 1,
+      "message": "About gwtorm, I am not sure, could not find any document saying it, but it seems key comparison is based on equals (Key interface defines equals).\n\nThe way we implemented this feature, if one associates a label to a change, it will insert a new row in ChangeTable, associating the label and the change id. It is \"compound key\". Let\u0027s assume we have changes \u0027a\u0027, \u0027b\u0027, and \u0027c\u0027. To \u0027a\u0027 one adds label \u0027ThisLabel\u0027. To \u0027b\u0027 one also adds \u0027ThisLabel\u0027. To \u0027c\u0027 one adds \u0027thislabel\u0027. There will be 3 rows inserted in table. If one searches using query label:\"thislabel\", it will return changes \u0027a\u0027, \u0027b\u0027, and \u0027c\u0027, since equals is overridden to be case insensitve (and hashCode in the code we internally fixed). \n\nIf you enter \"thisLabel\" to a change and decide to change it to \"ThisLabel\": it would be required to remove \u0027thisLabel\u0027 and then add \u0027ThisLabel\u0027.\n\nWe have overridden equals to centralize label name comparison to help when querying for labels, avoid one to add same label to a change if not considering case sensitive.\n\nConsidering all these points, what do you mean is to consider two options: labels to be case sensitive (a query to \u0027thislabel\u0027 would not retrieve changes having \u0027ThisLabel\u0027) or labels to not accept capital letters? Is that what you meant?",
+      "parentUuid": "AAABEn//9AU\u003d",
+      "revId": "c9e3637bed7f323543ca29afc489a8c653caf828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8Qw\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
         "patchSetId": 1

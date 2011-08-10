@@ -32,6 +32,7 @@ public class CreateProjectArgs {
   public boolean permissionsOnly;
   public String branch;
   public boolean contentMerge;
+  public boolean shortMessageRequired;
   public boolean changeIdRequired;
   public boolean createEmptyCommit;
 

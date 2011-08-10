@@ -37,6 +37,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private Project project;
 
   private Panel projectOptionsPanel;
+  private CheckBox requireShortMessage;
   private CheckBox requireChangeID;
   private ListBox submitType;
   private ListBox state;
@@ -100,6 +101,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     descTxt.setEnabled(canModifyDescription);
     useContributorAgreements.setEnabled(canModifyAgreements);
     useSignedOffBy.setEnabled(canModifyAgreements);
+    requireShortMessage.setEnabled(canModifyMergeType);
     requireChangeID.setEnabled(canModifyMergeType);
   }
 
@@ -145,6 +147,10 @@ public class ProjectInfoScreen extends ProjectScreen {
     useContentMerge = new CheckBox(Util.C.useContentMerge(), true);
     saveEnabler.listenTo(useContentMerge);
     projectOptionsPanel.add(useContentMerge);
+
+    requireShortMessage = new CheckBox(Util.C.requireShortMessage(), true);
+    saveEnabler.listenTo(requireShortMessage);
+    projectOptionsPanel.add(requireShortMessage);
 
     requireChangeID = new CheckBox(Util.C.requireChangeID(), true);
     saveEnabler.listenTo(requireChangeID);
@@ -223,6 +229,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     useContributorAgreements.setValue(project.isUseContributorAgreements());
     useSignedOffBy.setValue(project.isUseSignedOffBy());
     useContentMerge.setValue(project.isUseContentMerge());
+    requireShortMessage.setValue(project.isRequireShortMessage());
     requireChangeID.setValue(project.isRequireChangeID());
     setSubmitType(project.getSubmitType());
     setState(project.getState());
@@ -235,6 +242,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     project.setUseContributorAgreements(useContributorAgreements.getValue());
     project.setUseSignedOffBy(useSignedOffBy.getValue());
     project.setUseContentMerge(useContentMerge.getValue());
+    project.setRequireShortMessage(requireShortMessage.getValue());
     project.setRequireChangeID(requireChangeID.getValue());
     if (submitType.getSelectedIndex() >= 0) {
       project.setSubmitType(Project.SubmitType.valueOf(submitType

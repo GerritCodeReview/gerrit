@@ -71,6 +71,7 @@ public class ProjectConfig extends VersionedMetaData {
 
   private static final String RECEIVE = "receive";
   private static final String KEY_REQUIRE_SIGNED_OFF_BY = "requireSignedOffBy";
+  private static final String KEY_REQUIRE_SHORT_MESSAGE = "requireShortMessage";
   private static final String KEY_REQUIRE_CHANGE_ID = "requireChangeId";
   private static final String KEY_REQUIRE_CONTRIBUTOR_AGREEMENT =
       "requireContributorAgreement";
@@ -266,6 +267,7 @@ public class ProjectConfig extends VersionedMetaData {
 
     p.setUseContributorAgreements(getBoolean(rc, RECEIVE, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, false));
     p.setUseSignedOffBy(getBoolean(rc, RECEIVE, KEY_REQUIRE_SIGNED_OFF_BY, false));
+    p.setRequireShortMessage(getBoolean(rc, RECEIVE, KEY_REQUIRE_SHORT_MESSAGE, false));
     p.setRequireChangeID(getBoolean(rc, RECEIVE, KEY_REQUIRE_CHANGE_ID, false));
 
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
@@ -447,6 +449,7 @@ public class ProjectConfig extends VersionedMetaData {
 
     set(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, p.isUseContributorAgreements());
     set(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, p.isUseSignedOffBy());
+    set(rc, RECEIVE, null, KEY_REQUIRE_SHORT_MESSAGE, p.isRequireShortMessage());
     set(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, p.isRequireChangeID());
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), defaultSubmitAction);

@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//8i0\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-10T20:21:29Z",
+      "side": 1,
+      "message": "Yes, I am suggesting either of the two options you summarised because I am trying to avoid future difficulties, both within Gerrit and with external tools which might use these labels (they will not have access to your equals).  I am not sure that my concern is valid, so don\u0027t take this as something you must change.  I am just trying to evaluate if it really is worth the potential future hassles.  Look at this change, it might help you understand my concern: https://review.source.android.com/#/c/25180/\n\nHowever, if you do chose to keep the case insensitivity, I would still suggest looking at the equals() in StringKey, it deals with many cases which you do not.",
+      "parentUuid": "AAABEn//8xE\u003d",
+      "revId": "c9e3637bed7f323543ca29afc489a8c653caf828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//8Qw\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
         "patchSetId": 1

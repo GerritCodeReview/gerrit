@@ -10,12 +10,12 @@
         token = href.substring(p + 1);
         href = href.substring(0, p);
       } else {
-        token = 'mine';
+        token = '/';
       }
       window.location.replace(href + 'login/' + token);
     </script>
   </head>
   <body>
-    <p>Redirecting to <a href="login/mine">Gerrit Code Review</a>.</p>
+    <p>Redirecting to <a href="login//">Gerrit Code Review</a>.</p>
   </body>
 </html>

@@ -201,6 +201,14 @@ branches may be needed to keep a backup or slave server current.
 +
 By default, true, replicating everything.
 
+[[remote.name.mirror]]remote.<name>.mirror::
++
+If true, replication will remove remote branches that absent locally
+or invisible to the replication (i.e. read access denied via 'authGroup'
+option).
++
+By default, false, do not remove remote branches.
+
 
 [[secure_config]]File `secure.config`
 -----------------------------------------------

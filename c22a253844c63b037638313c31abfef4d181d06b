@@ -123,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//8w8\u003d",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/SuggestServiceImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-10T12:30:17Z",
+      "side": 1,
+      "message": "Yes, there is a client side filtering. If we understood it correctly, the labels suggested is gotten from the server once, and when getting suggestions it filters the labels inserted to the change.",
+      "parentUuid": "AAABEn//9As\u003d",
+      "revId": "c22a253844c63b037638313c31abfef4d181d06b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//+mU\u003d",
         "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/SuggestServiceImplTest.java",
         "patchSetId": 1

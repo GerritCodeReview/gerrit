@@ -156,6 +156,7 @@ public class CreateProject {
           .setUseContributorAgreements(createProjectArgs.contributorAgreements);
       newProject.setUseSignedOffBy(createProjectArgs.signedOffBy);
       newProject.setUseContentMerge(createProjectArgs.contentMerge);
+      newProject.setRequireShortMessage(createProjectArgs.shortMessageRequired);
       newProject.setRequireChangeID(createProjectArgs.changeIdRequired);
       if (createProjectArgs.newParent != null) {
         newProject.setParentName(createProjectArgs.newParent.getProject()

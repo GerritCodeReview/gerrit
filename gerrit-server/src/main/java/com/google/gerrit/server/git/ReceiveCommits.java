@@ -1622,6 +1622,26 @@ public class ReceiveCommits {
       }
     }
 
+    // Check for commit subjects that are too long
+    if (project.isRequireShortMessage() &&
+      (COMMIT_SUBJECT_LENGTH < c.getShortMessage().length())) {
+
+      String errMsg = "first line of commit message is too long";
+      reject(cmd, errMsg);
+
+      StringBuilder sb = new StringBuilder();
+      sb.append("ERROR: ").append(errMsg).append("\n");
+      sb.append("The first line in a commit should be no more than ");
+      sb.append(COMMIT_SUBJECT_LENGTH).append(" characters\n\n");
+
+      sb.append("Please ammend your commit with:\n\n");
+      sb.append("  git commit --amend\n\n");
+      sb.append("and resubmit.\n");
+
+      rp.sendMessage(sb.toString());
+      return false;
+    }
+
     final List<String> idList = c.getFooterLines(CHANGE_ID);
     if ((MagicBranch.isMagicBranch(cmd.getRefName()) || NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
       if (idList.isEmpty()) {

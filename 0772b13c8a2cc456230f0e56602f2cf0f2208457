@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//8R8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_59.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-08-11T13:50:17Z",
+      "side": 1,
+      "message": "In your last reply on patch-set-2 you wrote:\n\n\u003cquote\u003e\n... So I implemented the query and result set processing in my next patch set but I left all messages that don\u0027t fall into format-A or format-B as null ...\n\u003c/quote\u003e\n\nHowever, here you assign the currentPatchSetId to newId and later set it on the change message cm.\n\nI think it is wrong to assign the current patch set number to all messages that don\u0027t fit patternA or patternB.\nLeaving the patchSetId to null would be closer to the truth (which is: we don\u0027t\nknow the patch-set for this message).",
+      "revId": "0772b13c8a2cc456230f0e56602f2cf0f2208457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

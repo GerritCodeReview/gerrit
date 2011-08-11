@@ -16,6 +16,24 @@
       "revId": "7938ba902e5512fdbadff33521561d4a328f06f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//8H4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2011-08-11T20:20:41Z",
+      "side": 1,
+      "message": "It actually *restores* behavior to 2.2.1. I do not know what change caused \"deleting remote refs\" though.\n\nWhere is the ReleaseNotes file for 2.2.2 (or the next release)?",
+      "parentUuid": "AAABEn//8LE\u003d",
+      "revId": "7938ba902e5512fdbadff33521561d4a328f06f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

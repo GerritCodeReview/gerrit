@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//8LE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-11T19:11:02Z",
+      "side": 1,
+      "message": "I think this is correct, but its a change in behavior we\u0027ll have to highlight in the release notes... and fix on a bunch of servers.\n\nPlease update the documentation as you suggested and we\u0027ll submit this.",
+      "revId": "7938ba902e5512fdbadff33521561d4a328f06f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

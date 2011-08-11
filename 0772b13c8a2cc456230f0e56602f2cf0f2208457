@@ -16,6 +16,24 @@
       "revId": "0772b13c8a2cc456230f0e56602f2cf0f2208457",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//8Nc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_59.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006632
+      },
+      "writtenOn": "2011-08-11T18:36:41Z",
+      "side": 1,
+      "message": "Hm... I wrote that earlier because I wanted to take a more conservative approach to assigning patch sets to change messages. In another change https://review.source.android.com/#/c/24823/\nMartin brings up the point that adding data now is easier than removing it later and doing it this way also assigns patchset ids to all of the merged change messages.",
+      "parentUuid": "AAABEn//8R8\u003d",
+      "revId": "0772b13c8a2cc456230f0e56602f2cf0f2208457",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

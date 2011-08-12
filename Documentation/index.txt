@@ -39,6 +39,7 @@ Developer Documentation
 
 * link:dev-readme.html[Developer Setup]
 * link:dev-eclipse.html[Eclipse Setup]
+* link:dev-contributing.html[Contributing to Gerrit]
 * link:dev-design.html[System Design]
 * link:i18n-readme.html[i18n Support]
 

@@ -1,0 +1,161 @@
+Gerrit Code Review - Contributing
+=================================
+
+Gerrit is developed as a self-hosting open source project and
+very much welcomes contributions from anyone with a contributor's
+aggreement on file with AOSP.
+
+* link:https://review.source.android.com/
+
+As Gerrit is a code review tool, naturally contributions will
+be reviewed before they will get submitted to the mainline.  To
+start your contribution, please make a git commit and upload it
+for review as a Gerrit change to the main server.  To help speed
+up the review of your change, review these guidelines befor
+submitting your change.  Once your change is uploaded, you should
+be able to get a feel for the amount of current pending changes
+for review to Gerrit and their statuses here:
+
+* link:https://review.source.android.com/#/q/status:open+project:tools/gerrit,n,z
+
+Depending on the size of that list, it might take a while for
+your change to get reviewed.  Naturally, there are fewer
+approvers than contributors, so anything that you can do to
+ensure that your contribution will undergo fewer revisions
+will speed up the process.  This includes helping out reviewing
+other people's changes to relieve the load from the approvers.
+Even if you are not familiar with Gerrit's internals, if you
+can download and try out and comment on a new feature, that
+would be of tremendous help.  If it works as advertised, say
+so and give it a +1 Verified if you can.  If you would find
+the feature useful, say so and give it a +1 code review.
+
+And finally, the quicker you respond to reviewers comments,
+the quicker your change will get merged!  Try to reply to
+every comment after submitting your new patch, even
+(particularly?) if you decided against making the suggested
+change.  Reviewers don't want to seem like nags and pester
+you if you haven't replied or made a fix, so it helps them
+know if you missed it or decided against it.
+
+Review Criteria
+---------------
+
+Here are some hints as to what approvers may be looking for
+before approving or submitting changes to the Gerrit project.
+We'll start with the simple nit picky stuff.  Your are likely
+excited that your code works, help us share your excitement
+by not making us get distracted by the simple stuff. Thanks to
+Gerrit, problems are often highlighted, and we find it hard to
+look beyond simple spacing issues.  Blame it on our short
+attention spans, we really do want your code.
+
+Style
+-----
+
+The basic coding style is covered by the tools/GoogleFormat.xml
+doc, see the link:dev-eclipse.html#Formatting[Eclipse Setup] for that.
+
+Additional styling notes:
+
+  * Use /** */ style Javadocs for variables.
+  * Review your change in Gerrit to see if it highlights
+    mistakingly deleted/added spaces on lines.
+  * Line length should be 80 or less, unless the code reads
+    better with something slightly longer (some approvers use
+    tablets to review the code, and are thankful for
+    reasonably sized lines).
+
+Additionally, you will notice that most of the newline spacing
+(which is not covered by the XML file above) is fairly
+consistent throughout the code in Gerrit, it helps to stick to
+the blank line conventions.  Here are some specific examples:
+
+  * Keep a blank line between all class and method declarations.
+  * Do not add blank lines at the beginning or end of class/methods.
+  * Put a blank line between external import sources, but not
+    between internal ones.
+
+Code Organization
+-----------------
+
+Do your best to organize classes and methods in a logical way.
+Here are some guidelines that Gerrit uses:
+
+  * Always place loggers first in your class!
+  * Define any static interfaces next in your class.
+  * Define non static interfaces after static interfaces in your
+    class.
+  * Next you should define static types and members.
+  * Finally, instance members, then constuctors and then instance
+    methods.
+  * Some common exceptions are private helper static methods which
+    might appear near the instance methods which they help.
+  * Getters and setters for the same instance field should usually
+    be near each other baring a good reason not to.
+  * If you are using assisted injection, the factory for your class
+    should be before the instance members.
+  * Imports should be mostly aphabetical (uppercase sorts before
+    all lowercase, which mean classes come before packages at the
+    same level).
+
+Wow, that's a lot, but don't worry, you'll get the habit and most
+of the code is organized this way already, so if you pay attention
+to the class you are editing you will likely pick up on it.
+Naturally new classes are a little harder; you may want to come
+back and consult this section when creating them.
+
+Design
+------
+
+Here are some design level ojectives that you should keep in mind
+when coding:
+
+  * ORM entity objects should match exactly one row in the database.
+  * Most client pages should perform only one RPC to load so as to
+    keep latencies down.  Exceptions would apply to RPCs which need
+    to load large data sets, if spliting them out will help the page
+    load faster.  Likely this means when fetching data which is not
+    normally in the cache, and if it makes a page load last longer
+    than 100ms.
+  * @Inject should be used on constructors, not on fields.  The
+    current exceptions are the ssh commands.  These were implemented
+    earlier and to stay consistent new ssh commands should follow
+    this older pattern, but eventually these should get converted to
+    eliminate this exception.
+  * Don't leave repository objects (git or schema) open.  A .close()
+    after every open should be placed in a finally(){} block.
+  * Don't leave UI components, which can cause new actions to occur,
+    enabled during RPCs which update the DB.  This is to prevent
+    people from submitting actions more than once, when operating
+    on slow links.  If the action buttons are disabled, they cannot
+    be resubmitted, and the user can see that Gerrit is still busy.
+  * GWT EventBus is the new way forward.
+
+Tests
+-----
+
+  * Tests for new code will greatly help your change get approved.
+
+Change Size/Number of Files Touched
+-----------------------------------
+
+And finally, I probably cannot say enough about change sizes.
+Generally, the smaller, the better, hopefully within reason.
+
+  * When in doubt, err on the smaller side.
+  * Separate logical features into separate changes.  This
+    is often the hardest part.  Here are some examples.  When
+    adding a new ability, make separate changes for the UI and
+    the ssh commands if possible.
+  * Separate supporting refactoring from feature changes. If your
+    new feature requires some refactoring, it helps to make the
+    refactoring a separate change which your feature change
+    depends on.  This way, reviewers can easily review the refactor
+    change as a something that should not alter the current
+    functionality, and feel more confident they can more easily
+    spot errors this way.  Of course, it also makes it easier to
+    test and locate later on, if an unfortunate error does slip in.
+    Lastly, it helps reviewers understand how your feature changes
+    the current functionality after the refactor.
+  * Use topic branches to link your separate changes together.

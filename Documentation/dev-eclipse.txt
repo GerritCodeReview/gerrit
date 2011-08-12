@@ -16,6 +16,7 @@ Install the Maven Integration plugins:
 http://m2eclipse.codehaus.org/[m2eclipse]
 
 
+[[Formatting]]
 Code Formatter Settings
 -----------------------
 

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//79U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitMergeStatus.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-08-12T14:38:21Z",
+      "side": 1,
+      "message": "Moving these message strings from MergeOp here is nice but not related to the intention of this change to test mergeability of a change and disable the submit button if merge will fail.\n\nYou may leave it like that if you want or you may split this change.\nI will not give -1 only because of that.",
+      "revId": "14246de3c0f81c06bba8d4530e6bf00e918c11b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//79Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1249,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-08-12T14:38:21Z",
+      "side": 1,
+      "message": "I thinks you should write \"ensure\" instead of \"insure\".\nBut, maybe we don\u0027t need this c.setMergeable(true) here at all. See the next comment.",
+      "revId": "14246de3c0f81c06bba8d4530e6bf00e918c11b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//79Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-08-12T14:38:21Z",
+      "side": 1,
+      "message": "Is this really necessary?\n\nIf mergeability of a change was never tested then the Change.lastSha1MergeTested\nis NULL. The value of Change.mergeable is only relevant when the\nChange.lastSha1MergeTested is not NULL.",
+      "revId": "14246de3c0f81c06bba8d4530e6bf00e918c11b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

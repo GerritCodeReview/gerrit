@@ -50,6 +50,24 @@
       "revId": "14246de3c0f81c06bba8d4530e6bf00e918c11b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//78g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-12T15:13:46Z",
+      "side": 1,
+      "message": "The point here is to always have mergeable field with true value to changes merged after this feature integration.",
+      "parentUuid": "AAABEn//79Y\u003d",
+      "revId": "14246de3c0f81c06bba8d4530e6bf00e918c11b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

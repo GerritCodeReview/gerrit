@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//75I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-12T19:38:38Z",
+      "side": 1,
+      "message": "You are resetting the seen set on every iteration, how can it keep track of previous projects?",
+      "revId": "ae9d5f231640c29d7b1dce292d855cd70d74f6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//740\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-12T19:38:38Z",
+      "side": 1,
+      "message": "Why not put this if earlier, say line 117?",
+      "revId": "ae9d5f231640c29d7b1dce292d855cd70d74f6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//748\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-12T19:38:38Z",
+      "side": 1,
+      "message": "I am missing the point of this line since there is a break on line 130.\n\nThe \"else\" would seem unneeded also since there is a break on line 124.",
+      "revId": "ae9d5f231640c29d7b1dce292d855cd70d74f6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//74w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-12T19:38:38Z",
+      "side": 1,
+      "message": "Is this needed, or would 112-116 do this on the next iteration (if you kept 126)?",
+      "revId": "ae9d5f231640c29d7b1dce292d855cd70d74f6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//75E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-12T19:38:38Z",
+      "side": 1,
+      "message": "Comment doesn\u0027t seem accurate anymore.",
+      "revId": "ae9d5f231640c29d7b1dce292d855cd70d74f6ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

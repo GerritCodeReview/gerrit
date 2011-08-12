@@ -140,6 +140,9 @@ public interface ChangeConstants extends Constants {
 
   String buttonPublishPatchSet();
 
+  String buttonDeleteDraftChange();
+  String buttonDeleteDraftPatchSet();
+
   String pagedChangeListPrev();
   String pagedChangeListNext();
 

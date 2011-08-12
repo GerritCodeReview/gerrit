@@ -15,6 +15,7 @@ SYNOPSIS
   [--submit]
   [--abandon | --restore]
   [--publish]
+  [--delete]
   [--verified <N>] [--code-review <N>]
   {COMMIT | CHANGEID,PATCHSET}...
 
@@ -82,7 +83,11 @@ successfully, even if the label could not be changed.
 
 --publish::
 	Publish the specified draft patch set(s).
-	(option is mutually exclusive with --submit, --restore, and --abandon)
+	(option is mutually exclusive with --submit, --restore, --abandon, and --delete)
+
+--delete::
+	Delete the specified draft patch set(s).
+	(option is mutually exclusive with --submit, --restore, --abandon, and --publish)
 
 --code-review::
 --verified::

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//770\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1249,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-08-12T16:23:57Z",
+      "side": 1,
+      "message": "Often I got -1 for such things.\n\nIt is not worth discussing whether it is worth -1 or not. It is Shawn\u0027s policy to give -1 for such things and, until the policy changes, we have to follow it.",
+      "parentUuid": "AAABEn//78o\u003d",
+      "revId": "14246de3c0f81c06bba8d4530e6bf00e918c11b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//79Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 6
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "we thought it would be weird having in the database a change merged with mergeable value different of true.",
       "parentUuid": "AAABEn//79Y\u003d",
+      "revId": "14246de3c0f81c06bba8d4530e6bf00e918c11b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//77o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-08-12T16:23:57Z",
+      "side": 1,
+      "message": "Having\n\n (lastSha1MergeTested, mergeable) \u003d (NULL, false)\n\nin the database for a merged change means \"we didn\u0027t know if it was mergeable at the point of merge (because we never tested it before the merge op was done)\". This reflects the truth. Or?\n\nHowever, I also have no problem if you want to set the mergeable to true to make the truth looks nicer :-)\n\nAnyway, nothing depends on this flag after the change is merged. I will give +1.",
+      "parentUuid": "AAABEn//78I\u003d",
       "revId": "14246de3c0f81c06bba8d4530e6bf00e918c11b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

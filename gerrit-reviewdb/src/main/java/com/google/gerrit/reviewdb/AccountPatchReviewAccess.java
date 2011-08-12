@@ -28,4 +28,6 @@ public interface AccountPatchReviewAccess
   @Query("WHERE key.accountId = ? AND key.patchKey.patchSetId = ?")
   ResultSet<AccountPatchReview> byReviewer(Account.Id who, PatchSet.Id ps) throws OrmException;
 
+  @Query("WHERE key.patchKey.patchSetId = ?")
+  ResultSet<AccountPatchReview> byPatchSet(PatchSet.Id ps) throws OrmException;
 }

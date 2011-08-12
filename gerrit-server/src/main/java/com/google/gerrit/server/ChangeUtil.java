@@ -52,6 +52,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -432,6 +433,96 @@ public class ChangeUtil {
         }
       });
     }
+  }
+
+  public static void deleteDraftChange(final PatchSet.Id patchSetId,
+      GitRepositoryManager gitManager,
+      final ReplicationQueue replication, final ReviewDb db)
+      throws NoSuchChangeException, OrmException, IOException {
+    final Change.Id changeId = patchSetId.getParentKey();
+    final Change change = db.changes().get(changeId);
+    if (change == null || change.getStatus() != Change.Status.DRAFT) {
+      throw new NoSuchChangeException(changeId);
+    }
+
+    for (PatchSet ps : db.patchSets().byChange(changeId)) {
+      // These should all be draft patch sets.
+      deleteOnlyDraftPatchSet(ps, change, gitManager, replication, db);
+    }
+
+    db.changeMessages().delete(db.changeMessages().byChange(changeId));
+    db.starredChanges().delete(db.starredChanges().byChange(changeId));
+    db.trackingIds().delete(db.trackingIds().byChange(changeId));
+    db.changes().delete(Collections.singleton(change));
+  }
+
+  public static void deleteDraftPatchSet(final PatchSet.Id patchSetId,
+      GitRepositoryManager gitManager,
+      final ReplicationQueue replication,
+      final PatchSetInfoFactory patchSetInfoFactory,
+      final ReviewDb db) throws NoSuchChangeException, OrmException,
+      PatchSetInfoNotAvailableException, IOException {
+    final Change.Id changeId = patchSetId.getParentKey();
+    final Change change = db.changes().get(changeId);
+    final PatchSet patch = db.patchSets().get(patchSetId);
+
+    deleteOnlyDraftPatchSet(patch, change, gitManager, replication, db);
+
+    List<PatchSet> restOfPatches = db.patchSets().byChange(changeId).toList();
+    if (restOfPatches.size() == 0) {
+      deleteDraftChange(patchSetId, gitManager, replication, db);
+    } else {
+      PatchSet.Id highestId = null;
+      for (PatchSet ps : restOfPatches) {
+        if (highestId == null || ps.getPatchSetId() > highestId.get()) {
+          highestId = ps.getId();
+        }
+      }
+      if (change.currentPatchSetId().equals(patchSetId)) {
+        change.removeLastPatchSetId();
+        change.setCurrentPatchSet(patchSetInfoFactory.get(change.currPatchSetId()));
+        db.changes().update(Collections.singleton(change));
+      }
+    }
+  }
+
+  private static void deleteOnlyDraftPatchSet(final PatchSet patch,
+      final Change change, GitRepositoryManager gitManager,
+      final ReplicationQueue replication, final ReviewDb db)
+      throws NoSuchChangeException, OrmException, IOException {
+    final PatchSet.Id patchSetId = patch.getId();
+    if (patch == null || !patch.isDraft()) {
+      throw new NoSuchChangeException(patchSetId.getParentKey());
+    }
+
+    Repository repo = gitManager.openRepository(change.getProject());
+    try {
+      RefUpdate update = repo.updateRef(patch.getRefName());
+      update.setForceUpdate(true);
+      update.disableRefLog();
+      switch (update.delete()) {
+        case NEW:
+        case FAST_FORWARD:
+        case FORCED:
+        case NO_CHANGE:
+          // Successful deletion.
+          break;
+        default:
+          throw new IOException("Failed to delete ref " + patch.getRefName() +
+              " in " + repo.getDirectory() + ": " + update.getResult());
+      }
+      replication.scheduleUpdate(change.getProject(), update.getName());
+    } finally {
+      repo.close();
+    }
+
+    db.accountPatchReviews().delete(db.accountPatchReviews().byPatchSet(patchSetId));
+    db.changeMessages().delete(db.changeMessages().byPatchSet(patchSetId));
+    db.patchComments().delete(db.patchComments().byPatchSet(patchSetId));
+    db.patchSetApprovals().delete(db.patchSetApprovals().byPatchSet(patchSetId));
+    db.patchSetAncestors().delete(db.patchSetAncestors().byPatchSet(patchSetId));
+
+    db.patchSets().delete(Collections.singleton(patch));
   }
 
   private static void updatedChange(final ReviewDb db, final IdentifiedUser user,

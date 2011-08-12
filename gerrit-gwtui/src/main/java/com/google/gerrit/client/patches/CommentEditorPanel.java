@@ -289,7 +289,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     cancel.setEnabled(false);
     discard.setEnabled(false);
 
-    PatchUtil.DETAIL_SVC.deleteDraft(comment.getKey(),
+    PatchUtil.DETAIL_SVC.deleteDraftComment(comment.getKey(),
         new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {
             notifyDraftDelta(-1);

@@ -35,8 +35,13 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Patch.Key;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.ReplicationQueue;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -47,6 +52,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +71,9 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final PublishComments.Factory publishCommentsFactory;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final SaveDraft.Factory saveDraftFactory;
+  private final PatchSetInfoFactory patchSetInfoFactory;
+  private final GitRepositoryManager gitManager;
+  private final ReplicationQueue replication;
 
   @Inject
   PatchDetailServiceImpl(final Provider<ReviewDb> schema,
@@ -77,7 +86,10 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final FunctionState.Factory functionStateFactory,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
       final PublishComments.Factory publishCommentsFactory,
-      final SaveDraft.Factory saveDraftFactory) {
+      final SaveDraft.Factory saveDraftFactory,
+      final PatchSetInfoFactory patchSetInfoFactory,
+      final GitRepositoryManager gitManager,
+      final ReplicationQueue replication) {
     super(schema, currentUser);
     this.approvalTypes = approvalTypes;
 
@@ -89,6 +101,9 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.publishCommentsFactory = publishCommentsFactory;
     this.saveDraftFactory = saveDraftFactory;
+    this.patchSetInfoFactory = patchSetInfoFactory;
+    this.gitManager = gitManager;
+    this.replication = replication;
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -106,7 +121,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     saveDraftFactory.create(comment).to(callback);
   }
 
-  public void deleteDraft(final PatchLineComment.Key commentKey,
+  public void deleteDraftComment(final PatchLineComment.Key commentKey,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(ReviewDb db) throws OrmException, Failure {
@@ -121,6 +136,28 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
           throw new Failure(new IllegalStateException("Comment published"));
         }
         db.patchComments().delete(Collections.singleton(comment));
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  public void deleteDraftPatchSet(final PatchSet.Id psid,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(ReviewDb db) throws OrmException, Failure {
+        try {
+          final ChangeControl cc = changeControlFactory.validateFor(psid.getParentKey());
+          if (!cc.isOwner() || !cc.isVisible(db)) {
+            throw new Failure(new NoSuchEntityException());
+          }
+          ChangeUtil.deleteDraftPatchSet(psid, gitManager, replication, patchSetInfoFactory, db);
+        } catch (NoSuchChangeException e) {
+          throw new Failure(new NoSuchChangeException(psid.getParentKey()));
+        } catch (PatchSetInfoNotAvailableException e) {
+          throw new Failure(e);
+        } catch (IOException e) {
+          throw new Failure(e);
+        }
         return VoidResult.INSTANCE;
       }
     });

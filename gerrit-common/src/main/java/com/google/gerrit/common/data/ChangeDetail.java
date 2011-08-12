@@ -30,6 +30,7 @@ public class ChangeDetail {
   protected boolean canAbandon;
   protected boolean canRestore;
   protected boolean canRevert;
+  protected boolean canDeleteDraft;
   protected Change change;
   protected boolean starred;
   protected List<ChangeInfo> dependsOn;
@@ -91,6 +92,14 @@ public class ChangeDetail {
 
   public void setCanSubmit(boolean a) {
     canSubmit = a;
+  }
+
+  public boolean canDeleteDraft() {
+    return canDeleteDraft;
+  }
+
+  public void setCanDeleteDraft(boolean a) {
+    canDeleteDraft = a;
   }
 
   public Change getChange() {

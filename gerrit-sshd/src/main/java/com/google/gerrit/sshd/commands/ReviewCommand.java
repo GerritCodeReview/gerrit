@@ -28,11 +28,15 @@ import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
+import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RestoredSender;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -103,6 +107,9 @@ public class ReviewCommand extends BaseCommand {
   @Option(name = "--publish", usage = "publish a draft patch set")
   private boolean publishPatchSet;
 
+  @Option(name = "--delete", usage = "delete a draft patch set")
+  private boolean deleteDraftPatchSet;
+
   @Inject
   private ReviewDb db;
 
@@ -136,6 +143,15 @@ public class ReviewCommand extends BaseCommand {
   @Inject
   private ChangeHookRunner hooks;
 
+  @Inject
+  private GitRepositoryManager gitManager;
+
+  @Inject
+  private ReplicationQueue replication;
+
+  @Inject
+  private PatchSetInfoFactory patchSetInfoFactory;
+
   private List<ApproveOption> optionList;
 
   private Set<PatchSet.Id> toSubmit = new HashSet<PatchSet.Id>();
@@ -157,6 +173,9 @@ public class ReviewCommand extends BaseCommand {
           if (publishPatchSet) {
             throw error("abandon and publish actions are mutually exclusive");
           }
+          if (deleteDraftPatchSet) {
+            throw error("abandon and delete actions are mutually exclusive");
+          }
         }
         if (publishPatchSet) {
           if (restoreChange) {
@@ -164,6 +183,9 @@ public class ReviewCommand extends BaseCommand {
           }
           if (submitChange) {
             throw error("publish and submit actions are mutually exclusive");
+          }
+          if (deleteDraftPatchSet) {
+            throw error("publish and delete actions are mutually exclusive");
           }
         }
 
@@ -330,6 +352,19 @@ public class ReviewCommand extends BaseCommand {
         ChangeUtil.publishDraftPatchSet(db, patchSetId);
       } else {
         throw error("Not permitted to publish draft patchset");
+      }
+    }
+    if (deleteDraftPatchSet) {
+      if (changeControl.isOwner() && changeControl.isVisible(db)) {
+        try {
+          ChangeUtil.deleteDraftPatchSet(patchSetId, gitManager, replication, patchSetInfoFactory, db);
+        } catch (PatchSetInfoNotAvailableException e) {
+          throw error("Error retrieving draft patchset: " + patchSetId);
+        } catch (IOException e) {
+          throw error("Error deleting draft patchset: " + patchSetId);
+        }
+      } else {
+        throw error("Not permitted to delete draft patchset");
       }
     }
   }

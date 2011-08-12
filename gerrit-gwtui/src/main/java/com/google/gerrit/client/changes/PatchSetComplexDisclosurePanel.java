@@ -17,10 +17,12 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.PatchSetDetail;
@@ -48,10 +50,11 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
+import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
 import java.util.List;
@@ -175,6 +178,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         }
         if (detail.getPatchSet().isDraft()) {
           populatePublishAction();
+        }
+        if (canDeletePatchSet(detail)) {
+          populateDeleteDraftPatchSetAction();
         }
       }
       populateDiffAllActions(detail);
@@ -474,6 +480,29 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       actionsPanel.add(b);
     }
 
+    if (changeDetail.canDeleteDraft()) {
+      final Button b = new Button(Util.C.buttonDeleteDraftChange());
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          b.setEnabled(false);
+          Util.MANAGE_SVC.deleteDraftChange(patchSet.getId(),
+              new GerritCallback<VoidResult>() {
+                public void onSuccess(VoidResult result) {
+                  Gerrit.display(PageLinks.MINE);
+                }
+
+                @Override
+                public void onFailure(Throwable caught) {
+                  b.setEnabled(true);
+                  super.onFailure(caught);
+                }
+              });
+        }
+      });
+      actionsPanel.add(b);
+    }
+
     if (changeDetail.canRestore()) {
       final Button b = new Button(Util.C.buttonRestoreChangeBegin());
       b.addClickHandler(new ClickHandler() {
@@ -543,6 +572,29 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
             new GerritCallback<ChangeDetail>() {
               public void onSuccess(ChangeDetail result) {
                 changeScreen.update(result);
+              }
+
+              @Override
+              public void onFailure(Throwable caught) {
+                b.setEnabled(true);
+                super.onFailure(caught);
+              }
+            });
+      }
+    });
+    actionsPanel.add(b);
+  }
+
+  private void populateDeleteDraftPatchSetAction() {
+    final Button b = new Button(Util.C.buttonDeleteDraftPatchSet());
+    b.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        b.setEnabled(false);
+        PatchUtil.DETAIL_SVC.deleteDraftPatchSet(patchSet.getId(),
+            new GerritCallback<VoidResult>() {
+              public void onSuccess(VoidResult result) {
+                Gerrit.display(PageLinks.MINE);
               }
 
               @Override
@@ -636,6 +688,17 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       }
     }
     changeScreen.update(result);
+  }
+
+  private boolean canDeletePatchSet(PatchSetDetail detail) {
+    if (!detail.getPatchSet().isDraft()) {
+      return false;
+    }
+    // If the draft PS is the only one in a draft change, just delete the change.
+    if (changeDetail.getPatchSets().size() <= 1) {
+      return false;
+    }
+    return true;
   }
 
   public PatchSet getPatchSet() {

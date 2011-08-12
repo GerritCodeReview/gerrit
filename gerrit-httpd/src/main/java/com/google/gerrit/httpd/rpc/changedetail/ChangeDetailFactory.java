@@ -108,8 +108,9 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail.setChange(change);
     detail.setAllowsAnonymous(control.forUser(anonymousUser).isVisible(db));
 
-    detail.setCanAbandon(change.getStatus().isOpen() && control.canAbandon());
+    detail.setCanAbandon(change.getStatus() != Change.Status.DRAFT && change.getStatus().isOpen() && control.canAbandon());
     detail.setCanRestore(change.getStatus() == Change.Status.ABANDONED && control.canRestore());
+    detail.setCanDeleteDraft(change.getStatus() == Change.Status.DRAFT && control.isOwner() && control.isVisible(db));
     detail.setStarred(control.getCurrentUser().getStarredChanges().contains(
         changeId));
 

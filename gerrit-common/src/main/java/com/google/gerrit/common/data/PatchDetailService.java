@@ -42,7 +42,10 @@ public interface PatchDetailService extends RemoteJsonService {
       AsyncCallback<PatchLineComment> callback);
 
   @SignInRequired
-  void deleteDraft(PatchLineComment.Key key, AsyncCallback<VoidResult> callback);
+  void deleteDraftComment(PatchLineComment.Key key, AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void deleteDraftPatchSet(PatchSet.Id psid, AsyncCallback<VoidResult> callback);
 
   @SignInRequired
   void publishComments(PatchSet.Id psid, String message,

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//7zk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1613,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T18:48:16Z",
+      "side": 1,
+      "message": "This appears unused. Why do you need to run it?",
+      "revId": "e22a0075f14f5a033ec75f1da21dccc79f4c3317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7zg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1926,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T18:48:16Z",
+      "side": 1,
+      "message": "We should just make this form of newPrologEnvironment work when childEnv \u003d\u003d null so this entire if-else block isn\u0027t here, but is instead part of newPrologEnvironment.",
+      "revId": "e22a0075f14f5a033ec75f1da21dccc79f4c3317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7zY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1956,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T18:48:16Z",
+      "side": 1,
+      "message": "Underscore here looks ugly.",
+      "revId": "e22a0075f14f5a033ec75f1da21dccc79f4c3317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7zs\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_owner_1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T18:48:16Z",
+      "side": 1,
+      "message": "I don\u0027t think you should do this here. ReceiveCommits could tell you the change owner in the StoredValues and if present that overrides the data on the Change object in StoredValues. If the owner wasn\u0027t set in StoredValues, then you get it from the Change object, or fail.\n\nI don\u0027t like duplicating all of this change lookup logic here. And its not right to say change owner is committer. Its actually the current user, which doesn\u0027t need to be the committer if they have the forge committer permission.",
+      "revId": "e22a0075f14f5a033ec75f1da21dccc79f4c3317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

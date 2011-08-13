@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//7xU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T20:30:27Z",
+      "side": 1,
+      "message": "I don\u0027t think the variable updatedPatchSet if useful here. atomicUpdate returns what the update method of the AtomicUpdate class returns... which here is always null.",
+      "revId": "b5a94a8f0676336d11e59fb157133219b72450a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//7x4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T19:53:12Z",
+      "side": 1,
+      "message": "Style-nit: Indentation is wrong here.",
+      "revId": "4eac46604e58b69338b4a0d9109a09ce90a722a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7x8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T19:53:12Z",
+      "side": 1,
+      "message": "Style-nit: Indentation is wrong right here. The } should match the return on the next line... or the if that opened it.",
+      "revId": "4eac46604e58b69338b4a0d9109a09ce90a722a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

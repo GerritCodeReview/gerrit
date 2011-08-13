@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//7z0\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T18:24:33Z",
+      "side": 1,
+      "message": "Please wrap the right-hand-side of \u0026\u0026 in (). Nobody remembers the order of operations between \u0026\u0026 and || so this statement is ambiguous to most readers.\n\nThe cleaner way to write this might be:\n\n if (newName.equals(\"/COMMIT_MSG\")) {\n   continue;\n  }\n\nsince you would just go to the next file anyway.",
+      "revId": "4ae1f8f354ea52435f61f8a792ac08d8246c0ff2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//7xM\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchDetailService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T20:41:35Z",
+      "side": 1,
+      "message": "Can we avoid this method rename? It breaks the current JSON-RPC interface and that will break the Mylyn plugin for Eclipse.",
+      "revId": "d8e6866550052f1089a6a25a629f8efd51da9f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7xI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T20:41:35Z",
+      "side": 1,
+      "message": "isVisible is already implied here.",
+      "revId": "d8e6866550052f1089a6a25a629f8efd51da9f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7xE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/DeleteDraftChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T20:41:35Z",
+      "side": 1,
+      "message": "s/2009/2011/",
+      "revId": "d8e6866550052f1089a6a25a629f8efd51da9f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7xA\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/DeleteDraftChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T20:41:35Z",
+      "side": 1,
+      "message": "isVisible is already implied by validateFor",
+      "revId": "d8e6866550052f1089a6a25a629f8efd51da9f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7w8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T20:41:35Z",
+      "side": 1,
+      "message": "isVisible is implied by validateFor",
+      "revId": "d8e6866550052f1089a6a25a629f8efd51da9f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7w4\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T20:41:35Z",
+      "side": 1,
+      "message": "This isn\u0027t a good method name. Perhaps \"removeLastPatchSetId\" ?",
+      "revId": "d8e6866550052f1089a6a25a629f8efd51da9f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7w0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T20:41:35Z",
+      "side": 1,
+      "message": "Above you already have the Change object loaded. Pass it in as an argument, to avoid reading the database for every patch set being removed.",
+      "revId": "d8e6866550052f1089a6a25a629f8efd51da9f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7ww\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T20:41:35Z",
+      "side": 1,
+      "message": "Above don\u0027t you already have the PatchSet in question loaded? Pass it in so you don\u0027t read it twice.",
+      "revId": "d8e6866550052f1089a6a25a629f8efd51da9f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7ws\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T20:41:35Z",
+      "side": 1,
+      "message": "Also do update.disableRefLog()",
+      "revId": "d8e6866550052f1089a6a25a629f8efd51da9f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7wo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T20:41:35Z",
+      "side": 1,
+      "message": "A switch is easier to read:\n\n  switch(update.delete()) {\n  case NEW:\n  case FAST_FOWARD:\n  ...\n    // Successful deletion.\n   break;\n default:\n    report the error\n  }",
+      "revId": "d8e6866550052f1089a6a25a629f8efd51da9f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

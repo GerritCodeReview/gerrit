@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//7xg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T20:17:39Z",
+      "side": 1,
+      "message": "Style-nit: Space before (",
+      "revId": "e3a3dbbff44e18ca7059ed8175abcfb7805b5b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7xc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T20:17:39Z",
+      "side": 1,
+      "message": "This is a no-op, the status is already draft just to get here. I would instead put a comment:\n\n  // Leave in draft status.",
+      "revId": "e3a3dbbff44e18ca7059ed8175abcfb7805b5b66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//7zA\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/PatchSet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T19:32:14Z",
+      "side": 1,
+      "message": "call this just draft (drop the is)",
+      "revId": "6612bd1494b131e7d00cdf47dfd9f4cddf20d21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7yc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_59.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-13T19:32:14Z",
+      "side": 1,
+      "message": "If we cannot determine a patch set from the message contents, I don\u0027t think we should be assuming the current one.",
+      "revId": "6612bd1494b131e7d00cdf47dfd9f4cddf20d21c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

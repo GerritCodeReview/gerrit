@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//7tY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-08-15T08:48:52Z",
+      "side": 1,
+      "message": "thanks a lot !!\nMy master coming back from vacation and will push my new patch in which this comments is fixed.",
+      "parentUuid": "AAABEn//9Yk\u003d",
+      "revId": "2ff1c65dca8c67b9f7380be37a8e1b325724e5d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//9Yg\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
         "patchSetId": 4
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "firstly thanks a lot to Sasa  and Edwin  for your comments which let me learn a lot. \nI am creating a new patch and will push it .",
       "parentUuid": "AAABEn//9Yg\u003d",
+      "revId": "2ff1c65dca8c67b9f7380be37a8e1b325724e5d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7tU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-08-15T08:48:52Z",
+      "side": 1,
+      "message": "My master coming back from vacation this week and will push my new patch in which this comments is fixed.",
+      "parentUuid": "AAABEn//9Nk\u003d",
       "revId": "2ff1c65dca8c67b9f7380be37a8e1b325724e5d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -43,5 +43,11 @@ Change subject: $change.subject
 $email.coverLetter
 
 #end
+##
+## It is possible to increase the span of the quoted lines by using the line
+## count parameter when calling $email.inlineComments as a function.
+##
+## Example: #if($email.inlineComments)$email.getInlineComments(5)#end
+##
 #if($email.inlineComments)$email.inlineComments#end
 #end

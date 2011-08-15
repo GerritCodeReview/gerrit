@@ -111,6 +111,35 @@ public class PatchFile {
     }
   }
 
+  /**
+   * Return number of lines in file.
+   *
+   * @param file the file index to extract.
+   * @return number of lines in file.
+   * @throws CorruptEntityException the patch cannot be read.
+   * @throws IOException the patch or complete file content cannot be read.
+   * @throws NoSuchEntityException the file is not exist.
+   */
+  public int getLineCount(final int file)
+      throws CorruptEntityException, IOException, NoSuchEntityException {
+    switch (file) {
+      case 0:
+        if (a == null) {
+          a = load(aTree, entry.getOldName());
+        }
+        return a.size();
+
+      case 1:
+        if (b == null) {
+          b = load(bTree, entry.getNewName());
+        }
+        return b.size();
+
+      default:
+        throw new NoSuchEntityException();
+    }
+  }
+
   private Text load(final ObjectId tree, final String path)
       throws MissingObjectException, IncorrectObjectTypeException,
       CorruptObjectException, IOException {

@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//7Uo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/StoredValues.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-17T02:04:53Z",
+      "side": 1,
+      "message": "AUTHOR_IDENT and COMMITTER_IDENT appear to never be read. Who reads these and pushes them up to Prolog?\n\nPatchSetInfoFactory takes a RevCommit and a PatchSet.Id. Instead of faking the author, committer and such, why not allow PATCH_SET_INFO to be built from either the PATCH_SET_ID or from the REV_COMMIT if PATCH_SET_ID wasn\u0027t supplied (and fake the PatchSet.Id)?\n\nThen you don\u0027t need that mess of code in ReceiveCommits to convert the author/committer to UserIdentity objects, you can reuse the existing code in PatchSetInfoFactory.",
+      "revId": "ca34be5bb458c6be4b9e427fa343bc609919eb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7Uc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/StoredValues.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-17T02:04:53Z",
+      "side": 1,
+      "message": "Since you are now faking the CHANGE, and if you fake the PATCH_SET_INFO like I describe above, this method doesn\u0027t need to change.",
+      "revId": "ca34be5bb458c6be4b9e427fa343bc609919eb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7VA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-17T02:04:53Z",
+      "side": 1,
+      "message": "Do not use an instance member to replace a method parameter. Pass this through to validCommit().",
+      "revId": "ca34be5bb458c6be4b9e427fa343bc609919eb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7U0\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_branch_1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-17T02:04:53Z",
+      "side": 1,
+      "message": "Isn\u0027t this now a pointless change that can be dropped from the commit?",
+      "revId": "ca34be5bb458c6be4b9e427fa343bc609919eb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7U4\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_owner_1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-17T02:04:53Z",
+      "side": 1,
+      "message": "Yet another pointless change.",
+      "revId": "ca34be5bb458c6be4b9e427fa343bc609919eb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7Uw\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_project_1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-17T02:04:53Z",
+      "side": 1,
+      "message": "Yet another pointless change.",
+      "revId": "ca34be5bb458c6be4b9e427fa343bc609919eb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7Us\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_change_topic_1.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-17T02:04:53Z",
+      "side": 1,
+      "message": "Yet another pointless change.",
+      "revId": "ca34be5bb458c6be4b9e427fa343bc609919eb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7UU\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_author_3.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-17T02:04:53Z",
+      "side": 1,
+      "message": "Pointless change if you fake the PATCH_SET_INFO instead.",
+      "revId": "ca34be5bb458c6be4b9e427fa343bc609919eb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7UQ\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_committer_3.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-17T02:04:53Z",
+      "side": 1,
+      "message": "Pointless change if you fake the PATCH_SET_INFO instead.",
+      "revId": "ca34be5bb458c6be4b9e427fa343bc609919eb59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

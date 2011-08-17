@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//7VI\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_commit_delta_4.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-17T01:52:52Z",
+      "side": 1,
+      "message": "This will have the effect of always failing the rule and *never* matching anything.\n\nI really meant continue because we need to run the next file in the patch list.",
+      "revId": "c65799737b3e52d5b61b36ac2c3c15bdc2485e12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

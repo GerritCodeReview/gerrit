@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//7NU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-08-17T15:14:10Z",
+      "side": 1,
+      "message": "Optional: this could be done without the index variable:\n\n for (int i \u003d 0; i \u003c emailPick.getItemCount(); i++) {\n   if (value.equalsIgnoreCase(emailPick.getValue(i))) {\n     return i;\n   }\n }\n return -1",
+      "revId": "21cc6bb47f78c1ee60befaa6218a4af77e3b492d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7NY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-08-17T15:14:10Z",
+      "side": 1,
+      "message": "This method works well only for adding the first email.\n\nIf I add a second email then the drop down list contains:\n\n email1\n ... Register New Email ...\n email2",
+      "revId": "21cc6bb47f78c1ee60befaa6218a4af77e3b492d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7NQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-08-17T15:14:10Z",
+      "side": 1,
+      "message": "If this exception is thrown the user will get no error message on the screen. Actually, absolutely nothing will happen on the screen.\nThe user will not be sure why the \"Register\" button is not working.\n\nWhy not report an error to the user?\n\nActually, you removed handling of the IllegalArgumentException in the registerEmail method that was there in the patch-set 4. Was this done with a good reason?",
+      "revId": "21cc6bb47f78c1ee60befaa6218a4af77e3b492d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

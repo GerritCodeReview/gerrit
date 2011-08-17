@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//7Oc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-17T11:37:42Z",
+      "side": 1,
+      "message": "This is related with another bug: Users may delete a branch several times without being notified. So I will examine the existance of a branch first. If we do have this, I will delete this and use the already existing function.",
+      "parentUuid": "AAABEX//7IM\u003d",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//67I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//7Og\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-17T11:37:42Z",
+      "side": 1,
+      "message": "This is another bug I found. We may delete a branch twice without being notified. Anyway, Ok, I will create another Change:)",
+      "parentUuid": "AAABEX//67I\u003d",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//7H8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2011-07-28T00:14:35Z",
       "side": 1,
       "message": "Nit: Combine with 798?",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7OY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-17T11:37:42Z",
+      "side": 1,
+      "message": "I code like this because in the constructor of my \"BranchEmail\" class, the construct of parent class (OutgoingEmail) should be in the first line, or else the compiler will report an error. So I have to encapsulate the information in one parameter.",
+      "parentUuid": "AAABEX//7H8\u003d",
       "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -291,6 +345,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//7Ok\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/BranchFooter.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-17T11:37:42Z",
+      "side": 1,
+      "message": "Ah, sorry, I have already changed this with real owners",
+      "parentUuid": "AAABEX//7GU\u003d",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//7GY\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteBranch.vm",
         "patchSetId": 1
@@ -302,6 +374,24 @@
       "writtenOn": "2011-07-28T00:14:35Z",
       "side": 1,
       "message": "You likely need an #else section here or you will get a blank email (or move the #end up).",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//7Oo\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteBranch.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-17T11:37:42Z",
+      "side": 1,
+      "message": "I have done this. If we don\u0027t have any watcher, I would like to send the email to the owners",
+      "parentUuid": "AAABEX//7GY\u003d",
       "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

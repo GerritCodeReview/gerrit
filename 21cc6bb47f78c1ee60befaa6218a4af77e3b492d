@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//610\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-08-18T06:03:11Z",
+      "side": 1,
+      "message": "Hi Sasa\nI like your dry code . good comments!!\nI will add a new patch .",
+      "parentUuid": "AAABEn//7NU\u003d",
+      "revId": "21cc6bb47f78c1ee60befaa6218a4af77e3b492d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//7NY\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//61w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-08-18T06:03:11Z",
+      "side": 1,
+      "message": "do you mean I need sort it again ? OK I will let it work in next new patch .that will look better!!",
+      "parentUuid": "AAABEn//7NY\u003d",
+      "revId": "21cc6bb47f78c1ee60befaa6218a4af77e3b492d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//7NQ\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2011-08-17T15:14:10Z",
       "side": 1,
       "message": "If this exception is thrown the user will get no error message on the screen. Actually, absolutely nothing will happen on the screen.\nThe user will not be sure why the \"Register\" button is not working.\n\nWhy not report an error to the user?\n\nActually, you removed handling of the IllegalArgumentException in the registerEmail method that was there in the patch-set 4. Was this done with a good reason?",
+      "revId": "21cc6bb47f78c1ee60befaa6218a4af77e3b492d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//61s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-08-18T06:03:11Z",
+      "side": 1,
+      "message": "thanks a lot for your reminder and detail review for me!!\n I will add it again .",
+      "parentUuid": "AAABEn//7NQ\u003d",
       "revId": "21cc6bb47f78c1ee60befaa6218a4af77e3b492d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

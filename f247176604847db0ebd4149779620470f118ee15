@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//6kY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/StoredValues.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-08-18T23:54:50Z",
+      "side": 1,
+      "message": "Pointless change. You left the \"a\" variable above. I would just revert this line.",
+      "revId": "f247176604847db0ebd4149779620470f118ee15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

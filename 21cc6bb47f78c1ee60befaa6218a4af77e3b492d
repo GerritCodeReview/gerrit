@@ -104,6 +104,24 @@
       "revId": "21cc6bb47f78c1ee60befaa6218a4af77e3b492d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6w0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-08-18T11:30:20Z",
+      "side": 1,
+      "message": "I find the root reason of this issue,  it is the  \u0027onSubmit\u0027 method in ContactPanelShort.java .  I update it and related code in this class to fix this issue and make the code more dry in next patch.",
+      "parentUuid": "AAABEn//7NQ\u003d",
+      "revId": "21cc6bb47f78c1ee60befaa6218a4af77e3b492d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

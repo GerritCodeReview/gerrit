@@ -299,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//6g0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-19T03:16:16Z",
+      "side": 1,
+      "message": "OK, you are right. I will modify code as you told me to. Thanks for your suggestion:)",
+      "parentUuid": "AAABEn//6hA\u003d",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//7HA\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 1

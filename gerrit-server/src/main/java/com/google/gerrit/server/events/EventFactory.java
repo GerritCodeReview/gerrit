@@ -97,6 +97,7 @@ public class EventFactory {
    * @param change
    */
   public void extend(ChangeAttribute a, Change change) {
+    a.createdOn = change.getCreatedOn().getTime() / 1000L;
     a.lastUpdated = change.getLastUpdatedOn().getTime() / 1000L;
     a.sortKey = change.getSortKey();
     a.open = change.getStatus().isOpen();

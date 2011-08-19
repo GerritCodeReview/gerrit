@@ -175,6 +175,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//63M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-19T02:16:47Z",
+      "side": 1,
+      "message": "OK, I have already written some thing about to whom should the email be sent",
+      "parentUuid": "AAABEX//7Go\u003d",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//68E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 1
@@ -186,6 +204,24 @@
       "writtenOn": "2011-07-28T00:14:35Z",
       "side": 1,
       "message": "I don\u0027t see this field being set anywhere? (but it does appear used)",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//62E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-19T02:16:47Z",
+      "side": 1,
+      "message": "Yes, you are totally right. I removed this variable and relative codes now.",
+      "parentUuid": "AAABEX//68E\u003d",
       "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -209,6 +245,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//60o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-19T02:16:47Z",
+      "side": 1,
+      "message": "I tried to use a list because of following reasons:\n1. Both the message class and the branch name should be passed into this class. They are all variables of String type, and I can not use two String variables in Factory.create() method, because @Assisted annotation will not accept two String Type variables. They will be mixed up\n2. Yes, I can use other type of flags as message class. For example, I can translate it from ReceiveCommand.Type. But the obstacle is that the contruct method of super class should be called at the first sentence of contruct function (I mean in BranchEmail() method, super() should be placed at the first sentence), or else the compiler will not pass...\nSo, I can only think out this way to solve these problems. If you have better suggestion, thank you for your greater idea:)",
+      "parentUuid": "AAABEX//7HM\u003d",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//7HA\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 1
@@ -220,6 +274,24 @@
       "writtenOn": "2011-07-28T00:14:35Z",
       "side": 1,
       "message": "Why does bn(0) have to be passed in since it derives from type?",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//60k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-19T02:16:47Z",
+      "side": 1,
+      "message": "I have answered this comments on above. Thank you for your reminding:)",
+      "parentUuid": "AAABEX//7HA\u003d",
       "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -243,6 +315,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//61g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-19T02:16:47Z",
+      "side": 1,
+      "message": "Yes, you are quite right. Most of the code in this class is copied from ChangeEmail. I would like to create a new base class for all the\"git push *** refs/heads/***\" commands, which will not create any change. I think it is necessary to create such kind of class.\nOK, I will double check my code to erase all the unnecessary code into this class.",
+      "parentUuid": "AAABEX//68U\u003d",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//7Gk\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 1
@@ -254,6 +344,24 @@
       "writtenOn": "2011-07-28T00:14:35Z",
       "side": 1,
       "message": "This does not even appear used?",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//60g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-19T02:16:47Z",
+      "side": 1,
+      "message": "You are right, I have already removed this from code. Thanks a lot for your reminding.",
+      "parentUuid": "AAABEX//7Gk\u003d",
       "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -277,6 +385,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//62A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-19T02:16:47Z",
+      "side": 1,
+      "message": "Thanks a lot for your reminding. I have alread changed the watcher\u0027s email to BCC and deleted the \"Gerrit-Watcher\" in email. And also, I am thinking of delete the watcher\u0027s name list from title.",
+      "parentUuid": "AAABEX//7G8\u003d",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//7G4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 1
@@ -288,6 +414,24 @@
       "writtenOn": "2011-07-28T00:14:35Z",
       "side": 1,
       "message": "/Change/Branch ?  Also lines 180,184?",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6y0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-19T02:16:47Z",
+      "side": 1,
+      "message": "Done! Sorry for my stupid mistakes...",
+      "parentUuid": "AAABEX//7G4\u003d",
       "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -311,6 +455,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//6y8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-19T02:16:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEX//7Gw\u003d",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEX//7Gs\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 1
@@ -322,6 +484,24 @@
       "writtenOn": "2011-07-28T00:14:35Z",
       "side": 1,
       "message": "BCC watchers.",
+      "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6y4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-19T02:16:47Z",
+      "side": 1,
+      "message": "Done! Thanks for your reminding.",
+      "parentUuid": "AAABEX//7Gs\u003d",
       "revId": "34dbc0b4b7de09cf1abfbc6299ac3710748e93ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

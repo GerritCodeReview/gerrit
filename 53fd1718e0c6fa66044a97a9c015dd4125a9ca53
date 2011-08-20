@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//6Sc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeManageServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T03:37:00Z",
+      "side": 1,
+      "message": "I think that when I asked Shawn about using factories (like above) for actions, that he said it was the newer preferred pattern, it allows each action to only inject the things it needs instead of injecting a bunch of stuff in here.",
+      "revId": "53fd1718e0c6fa66044a97a9c015dd4125a9ca53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6SQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeManageServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T03:37:00Z",
+      "side": 1,
+      "message": "I think these comments are fairly obvious from the methods invoked in the if statements.",
+      "revId": "53fd1718e0c6fa66044a97a9c015dd4125a9ca53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6SI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeManageServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T03:37:00Z",
+      "side": 1,
+      "message": "I think you should put a return here and throw failures in the other cases instead of ignoring them silently.",
+      "revId": "53fd1718e0c6fa66044a97a9c015dd4125a9ca53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6SE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeManageServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T03:37:00Z",
+      "side": 1,
+      "message": "Same comments as above.",
+      "revId": "53fd1718e0c6fa66044a97a9c015dd4125a9ca53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6RM\u003d",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/changedetail/ChangeManageServiceImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T03:37:00Z",
+      "side": 1,
+      "message": "It seems like there is a lot of room for sharing callbacks amongst many of these tests.",
+      "revId": "53fd1718e0c6fa66044a97a9c015dd4125a9ca53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6RA\u003d",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/changedetail/ChangeManageServiceImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T03:37:00Z",
+      "side": 1,
+      "message": "This feels strangely out of place between these other tests.",
+      "revId": "53fd1718e0c6fa66044a97a9c015dd4125a9ca53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

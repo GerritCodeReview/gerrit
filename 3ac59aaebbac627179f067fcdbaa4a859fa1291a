@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//6QY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T04:49:55Z",
+      "side": 1,
+      "message": "More \u0027arbitrary\u0027 terminology...",
+      "revId": "3ac59aaebbac627179f067fcdbaa4a859fa1291a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6QM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T04:49:55Z",
+      "side": 1,
+      "message": "These need not be added manually, the TextBoxBaseListener does this for you.",
+      "revId": "3ac59aaebbac627179f067fcdbaa4a859fa1291a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6Qc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T04:49:55Z",
+      "side": 1,
+      "message": "You could avoid this test and the error popup if you tested this on line 104.",
+      "revId": "3ac59aaebbac627179f067fcdbaa4a859fa1291a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6QU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T04:49:55Z",
+      "side": 1,
+      "message": "It would probably also be good to clear nameTextBox in here, and then eliminate line 137.",
+      "revId": "3ac59aaebbac627179f067fcdbaa4a859fa1291a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6QQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T04:49:55Z",
+      "side": 1,
+      "message": "I think that just calling this method \u0027contains\u0027 would be clearer.",
+      "revId": "3ac59aaebbac627179f067fcdbaa4a859fa1291a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

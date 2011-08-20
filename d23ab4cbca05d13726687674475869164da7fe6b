@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//6TI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T03:06:15Z",
+      "side": 1,
+      "message": "Since you have access to the size of the resultset, you could seed the hashset constructor with it.",
+      "revId": "d23ab4cbca05d13726687674475869164da7fe6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

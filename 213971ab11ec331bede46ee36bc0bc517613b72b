@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//6QA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelSuggestOracle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T05:15:32Z",
+      "side": 1,
+      "message": "Nit: Remove arbitrary.",
+      "revId": "213971ab11ec331bede46ee36bc0bc517613b72b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6QE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelSuggestOracle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T05:15:32Z",
+      "side": 1,
+      "message": "Seed size with result.size?",
+      "revId": "213971ab11ec331bede46ee36bc0bc517613b72b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6P8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelSuggestOracle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T05:15:32Z",
+      "side": 1,
+      "message": "It might be quicker to avoid the \u0027if\u0027 by first issuing: \n\n   result.removeAll(labelsToExclude)\n\nNit: What does p stand for?",
+      "revId": "213971ab11ec331bede46ee36bc0bc517613b72b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6P4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelSuggestOracle.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T05:15:32Z",
+      "side": 1,
+      "message": "How about removeFromExclude(), or noLongerExclude()? Update is ambiguous.",
+      "revId": "213971ab11ec331bede46ee36bc0bc517613b72b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

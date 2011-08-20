@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//6VU\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T00:57:19Z",
+      "side": 1,
+      "message": "This restriction seems a bit arbitrary, no starting or ending dashes?  I think dashes often make good things to start identifiers with.  I would be curious as to your reasoning.",
+      "revId": "fb1963a657c4e23a70671a4b3fc122346bedd1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6VQ\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-20T00:57:19Z",
+      "side": 1,
+      "message": "I think you really mean hasOnlyValidCharacters?",
+      "revId": "fb1963a657c4e23a70671a4b3fc122346bedd1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//6II\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "s/aggreement/agreement",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6IE\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "Nitpick: \n\n\"for review as a Gerrit change to the main server\"\n\nA bit redundant. If you upload a commit for review, it can\u0027t turn into anything else than a Gerrit change. \n\nIf the user intends to contribute to the project, I think we can expected the that person to have this knowledge.",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6IA\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "s/befor/before",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6H8\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "changes waiting for review",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6H4\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "speed up the contribution process.",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6H0\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "\"Even if...\"\n\nI would probably restructure this sentence to keep the flow:\n\n\"Even if you are not familiar with Gerrit\u0027s internals, it would be of great help if you can download, try out and comment on new features.\"",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6Hs\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "issues.\u003cDouble spacing\u003eBlame it",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6Ho\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "s/mean/means",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6Hk\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "down.\u003cDouble spacing\u003eExceptions",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6Hg\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "s/spliting/splitting",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6Hc\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "I would restructure the sentence. Had to read it twice.",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6HY\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "fields.\u003cDouble spacing\u003eThe",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6HU\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "commands.\u003cDouble spacing\u003eThese",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6HQ\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "earlier/previous to what?",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6HM\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "DB.\u003cDouble spacing\u003eThis",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6HI\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "links.\u003cDouble spacing\u003eIf",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6HE\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-22T19:09:07Z",
+      "side": 1,
+      "message": "Some references would be nice.",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//6N0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-22T03:33:47Z",
+      "side": 1,
+      "message": "I am having a hard time figuring out when your are using strings to represent labelKeys and when you are using the object.  I feel like labelkeys should be used more consistently, that they should be used up until the last opportunity, until a String is actually required. You deconstruct a labelkey to call this function, and you end up constructing one in two places from the string in here (or in a subcall from here), and it should actually be three places.  Passing in a labelkey would also make the buggy remove on line 209 less likely.\n\nLikely the other new methods in this change which take strings should also take labelkeys; you never know when one of those methods will evolve to need a labelkey anyway.",
+      "revId": "63ba8b8c4e42970ebe5929da6c838e7b03935156",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

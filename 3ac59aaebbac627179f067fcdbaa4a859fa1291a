@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//6Ns\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-22T03:26:32Z",
+      "side": 1,
+      "message": "I think that there is still a problem with the remove here, you are removing a String instead of a labelkey",
+      "revId": "3ac59aaebbac627179f067fcdbaa4a859fa1291a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//6QQ\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
         "patchSetId": 2

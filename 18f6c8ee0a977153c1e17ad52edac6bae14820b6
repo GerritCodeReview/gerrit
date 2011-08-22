@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//6MU\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006214
+      },
+      "writtenOn": "2011-08-22T14:07:53Z",
+      "side": 1,
+      "message": "I suppose it\u0027s just a bikeshed discussion over what constitutes a \"normal git push\". I\u0027m not sure I\u0027d count a push to a special ref \"normal\". Anyway, this is just a small detail.",
+      "parentUuid": "AAABEn//9cQ\u003d",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//+BU\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 3
@@ -153,6 +171,24 @@
       "side": 1,
       "message": "Regards passive you\u0027re correct. I\u0027ve fixed that. They is being used not as a plural but as a sexless pronoun. I\u0027ll replace with he / him if you feel that is clearer.",
       "parentUuid": "AAABEn//+BI\u003d",
+      "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//6MM\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1006214
+      },
+      "writtenOn": "2011-08-22T14:07:53Z",
+      "side": 1,
+      "message": "You lost me at \"sexless pronoun\" ;-) Go ahead and keep \"they\".",
+      "parentUuid": "AAABEn//9cI\u003d",
       "revId": "18f6c8ee0a977153c1e17ad52edac6bae14820b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

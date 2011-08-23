@@ -39,6 +39,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.mail.CreateChangeSender;
+import com.google.gerrit.server.mail.BranchEmail;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -119,6 +120,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final ApprovalTypes approvalTypes;
   private final AccountResolver accountResolver;
   private final CreateChangeSender.Factory createChangeSenderFactory;
+  private final BranchEmail.Factory branchEmailFactory;
   private final MergedSender.Factory mergedSenderFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ReplicationQueue replication;
@@ -156,6 +158,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   ReceiveCommits(final ReviewDb db, final ApprovalTypes approvalTypes,
       final AccountResolver accountResolver,
       final CreateChangeSender.Factory createChangeSenderFactory,
+      final BranchEmail.Factory branchEmailFactory,
       final MergedSender.Factory mergedSenderFactory,
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
       final ReplicationQueue replication,
@@ -175,6 +178,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.approvalTypes = approvalTypes;
     this.accountResolver = accountResolver;
     this.createChangeSenderFactory = createChangeSenderFactory;
+    this.branchEmailFactory = branchEmailFactory;
     this.mergedSenderFactory = mergedSenderFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.replication = replication;
@@ -345,6 +349,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final Collection<ReceiveCommand> commands) {
     for (final ReceiveCommand c : commands) {
       if (c.getResult() == Result.OK) {
+        if (isHead(c)) {
+          sendBypassEmail(c);
+        }
         switch (c.getType()) {
           case CREATE:
             if (isHead(c)) {
@@ -598,6 +605,19 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       // Let the core receive process handle it
     } else {
       cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD);
+    }
+  }
+
+  private void sendBypassEmail(final ReceiveCommand cmd) {
+    final String destBranchName = cmd.getRefName();
+    BranchEmail bm =
+        branchEmailFactory.create(project, destBranchName, cmd.getType());
+    bm.setFrom(currentUser.getAccountId());
+    try {
+      bm.send();
+    }
+    catch (EmailException e) {
+      log.error(bm.getMessageClass() + " : ", e);
     }
   }
 

@@ -19,34 +19,24 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /** Caches {@link ProjectControl} objects for the current user of the request. */
 @RequestScoped
 public class PerRequestProjectControlCache {
   private final ProjectCache projectCache;
   private final CurrentUser user;
-  private final Map<Project.NameKey, ProjectControl> controls;
 
   @Inject
   PerRequestProjectControlCache(ProjectCache projectCache,
       CurrentUser userProvider) {
     this.projectCache = projectCache;
     this.user = userProvider;
-    this.controls = new HashMap<Project.NameKey, ProjectControl>();
   }
 
   ProjectControl get(Project.NameKey nameKey) throws NoSuchProjectException {
-    ProjectControl ctl = controls.get(nameKey);
-    if (ctl == null) {
-      ProjectState p = projectCache.get(nameKey);
-      if (p == null) {
-        throw new NoSuchProjectException(nameKey);
-      }
-      ctl = p.controlFor(user);
-      controls.put(nameKey, ctl);
+    ProjectState p = projectCache.get(nameKey);
+    if (p == null) {
+      throw new NoSuchProjectException(nameKey);
     }
-    return ctl;
+    return p.controlFor(user);
   }
 }

@@ -29,4 +29,8 @@ public interface ChangeLabelAccess extends Access<ChangeLabel, ChangeLabel.Key> 
 
   @Query("ORDER BY key.label")
   ResultSet<ChangeLabel> all() throws OrmException;
+
+  @Query("WHERE key.changeId != ?")
+  ResultSet<ChangeLabel> allExcludingOneChange(Change.Id id)
+      throws OrmException;
 }

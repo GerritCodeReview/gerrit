@@ -25,6 +25,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -33,9 +35,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtjsonrpc.client.VoidResult;
 
+import java.util.HashSet;
 import java.util.List;
 
 /** UI Component to edit change labels */
@@ -43,10 +48,13 @@ public class LabelsEditor extends Composite {
   private final HorizontalPanel addPanel;
   private final Button addLabel;
   private HintTextBox nameTxtBox;
+  private SuggestBox nameTxt;
   private FlowPanel changeLabelsPanel;
   private List<ChangeLabel.LabelKey> changeLables;
   private VerticalPanel labelsPanel;
   private final Change.Id changeId;
+  private boolean submitOnSelection;
+  private LabelSuggestOracle labelSuggestOracle;
 
   public LabelsEditor(final Change.Id changeId) {
     this.changeId = changeId;
@@ -82,17 +90,38 @@ public class LabelsEditor extends Composite {
 
   public void initAddLabel() {
     nameTxtBox = new HintTextBox();
+    labelSuggestOracle =
+        new LabelSuggestOracle(changeId, new HashSet<ChangeLabel.LabelKey>(
+            changeLables));
+
+    nameTxt =
+        new SuggestBox(new RPCSuggestOracle(labelSuggestOracle), nameTxtBox);
+
     nameTxtBox.setVisibleLength(40);
     nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
+        submitOnSelection = false;
+
         if (event.getCharCode() == KeyCodes.KEY_ENTER) {
-          doAddNew();
+          if (nameTxt.isSuggestionListShowing()) {
+            submitOnSelection = true;
+          } else {
+            doAddNew();
+          }
         }
       }
     });
 
-    addPanel.add(nameTxtBox);
+    nameTxt.addSelectionHandler(new SelectionHandler<Suggestion>() {
+      @Override
+      public void onSelection(SelectionEvent<Suggestion> event) {
+        if (submitOnSelection) {
+          submitOnSelection = false;
+          doAddNew();
+        }
+      }
+    });
 
     final TextBoxBaseListener validator = new TextBoxBaseListener(nameTxtBox) {
       @Override
@@ -106,6 +135,8 @@ public class LabelsEditor extends Composite {
         }
       }
     };
+
+    addPanel.add(nameTxt);
 
     addPanel.add(addLabel);
   }
@@ -172,6 +203,7 @@ public class LabelsEditor extends Composite {
               @Override
               public void onSuccess(VoidResult result) {
                 changeLables.remove(labelKey);
+                labelSuggestOracle.removeFromExclude(labelKey);
                 g.removeFromParent();
               }
             });

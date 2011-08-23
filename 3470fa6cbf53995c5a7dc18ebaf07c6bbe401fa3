@@ -121,6 +121,23 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//5+w\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-23T06:47:11Z",
+      "side": 1,
+      "message": "I think it must be two blank lines between the different sections. At least this is how it\u0027s done in the other documenation pages like dev-eclipse.txt.",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//6Hs\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1

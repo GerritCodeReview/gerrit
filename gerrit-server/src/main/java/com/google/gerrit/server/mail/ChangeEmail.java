@@ -46,7 +46,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /** Sends an email to one or more interested parties. */
-public abstract class ChangeEmail extends OutgoingEmail {
+public abstract class ChangeEmail extends NotificationEmail {
   protected final Change change;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;

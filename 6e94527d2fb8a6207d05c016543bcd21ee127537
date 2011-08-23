@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//5+g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-23T07:32:03Z",
+      "side": 1,
+      "message": "Why do we need to instantiate an IllegalStateException here? Would it not be enough to do:\n  new ErrorDialog(\"Invalid Email Format!\").center();\n\nAlso the text \"Invalid Email Format!\" shouldn\u0027t be hard-coded here but it should be in a properties file like all the other texts.",
+      "revId": "6e94527d2fb8a6207d05c016543bcd21ee127537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

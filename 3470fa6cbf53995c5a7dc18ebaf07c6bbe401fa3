@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//56Q\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-08-23T18:16:55Z",
+      "side": 1,
+      "message": "I think the idea is to make it as reasonably easy as possible for even new users to contribute. That said, I agree that the statement is redundant. Instead, \"upload it for review to the AOSP Gerrit server.\" would be sufficient for me.",
+      "parentUuid": "AAABEn//6IE\u003d",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//6IA\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1
@@ -81,6 +99,41 @@
       "writtenOn": "2011-08-22T19:09:07Z",
       "side": 1,
       "message": "changes waiting for review",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//56A\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-08-23T18:16:55Z",
+      "side": 1,
+      "message": "No reason this has to be after upload. I\u0027d simplify and say:\n\n You can view the pending Gerrit contributions and their statuses here:",
+      "parentUuid": "AAABEn//6H8\u003d",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//56I\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-08-23T18:16:55Z",
+      "side": 1,
+      "message": "unnecessary comma",
       "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +174,23 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//558\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-08-23T18:16:55Z",
+      "side": 1,
+      "message": "I\u0027d just replace even with particularly here. I think we can agree that it\u0027s sound enough advice to reply when you disagree.",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//5+w\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1
@@ -132,6 +202,57 @@
       "writtenOn": "2011-08-23T06:47:11Z",
       "side": 1,
       "message": "I think it must be two blank lines between the different sections. At least this is how it\u0027s done in the other documenation pages like dev-eclipse.txt.",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//550\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-08-23T18:16:55Z",
+      "side": 1,
+      "message": "s/Your/You/",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//55w\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-08-23T18:16:55Z",
+      "side": 1,
+      "message": "s/,/;/",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//55s\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-08-23T18:16:55Z",
+      "side": 1,
+      "message": "by not distracting us with the simple stuff",
       "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -183,6 +304,24 @@
       "writtenOn": "2011-08-23T06:39:53Z",
       "side": 1,
       "message": "Maybe we should say something about whitespace errors? E.g. have no trailing whitespaces, use spaces for the idention and no tabs... Or is this already covered by the GoogleFormat.xml?",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//55o\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-08-23T18:16:55Z",
+      "side": 1,
+      "message": "And how much of this can be embedded into GoogleFormat.xml? Can it enforce more than it currently is?",
+      "parentUuid": "AAABEn//5/E\u003d",
       "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

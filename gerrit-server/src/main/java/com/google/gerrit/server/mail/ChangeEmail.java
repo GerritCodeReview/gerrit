@@ -46,7 +46,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /** Sends an email to one or more interested parties. */
-public abstract class ChangeEmail extends OutgoingEmail {
+public abstract class ChangeEmail extends NotificationEmail {
   protected final Change change;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
@@ -154,15 +154,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
     setListIdHeader();
     setChangeUrlHeader();
     setCommitIdHeader();
-  }
-
-  private void setListIdHeader() throws EmailException {
-    // Set a reasonable list id so that filters can be used to sort messages
-    setVHeader("Mailing-List", "list $email.listId");
-    setVHeader("List-Id", "<$email.listId.replace('@', '.')>");
-    if (getSettingsUrl() != null) {
-      setVHeader("List-Unsubscribe", "<$email.settingsUrl>");
-    }
   }
 
   public String getListId() throws EmailException {

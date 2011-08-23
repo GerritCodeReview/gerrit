@@ -52,6 +52,24 @@
       "revId": "4685047130e22dc6b0f12469554d2814276a8aff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5+Q\u003d",
+        "filename": "gerrit-common/src/test/java/com/google/gerrit/common/data/ParamertizedStringTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-08-23T09:28:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEn///4k\u003d",
+      "revId": "4685047130e22dc6b0f12469554d2814276a8aff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

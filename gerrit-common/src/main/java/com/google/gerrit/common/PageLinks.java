@@ -90,6 +90,10 @@ public class PageLinks {
     }
   }
 
+  public static String labelQuery(final String labelText) {
+    return "label:" + labelText;
+  }
+
   public static String op(String name, String value) {
     if (value.indexOf(' ') >= 0) {
       return name + ":\"" + value + "\"";

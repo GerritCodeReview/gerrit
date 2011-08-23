@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//5/Q\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-23T06:39:53Z",
+      "side": 1,
+      "message": "The \u0027AOSP\u0027 abbreviation was not known to me, I guess it means \u0027Android Open Source Project\u0027? Maybe better to write the full name here?\n\nIn addition, maybe we should link here to the Contributor License Agreement [1] so that anyone without it, knows how to sign it.\n\n[1] http://source.android.com/source/cla-corporate.html",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//6IE\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 1
@@ -115,6 +132,74 @@
       "writtenOn": "2011-08-22T19:09:07Z",
       "side": 1,
       "message": "issues.\u003cDouble spacing\u003eBlame it",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5/A\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-23T06:39:53Z",
+      "side": 1,
+      "message": "We should definitely say something about the commit message. A good commit message is important to speed up the review. If from the commit message I don\u0027t understand what the change is about and what was the motivation for it, it\u0027s unlikely that I will review it.\n\nIf we talk about the commit message, mabye we can also say that the \u0027Bug\u0027 footer should be included if a particular Gerrit issue is fixed.",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5/E\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-23T06:39:53Z",
+      "side": 1,
+      "message": "Maybe we should say something about whitespace errors? E.g. have no trailing whitespaces, use spaces for the idention and no tabs... Or is this already covered by the GoogleFormat.xml?",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5+4\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-23T06:39:53Z",
+      "side": 1,
+      "message": "There is one common mistake with imports which we should also mention somewhere. Many ORM entity classes have inner classes for Id or NameKey. Those inner classes should not be directly imported but always referenced via the ORM entity class:\n\ncorrect:\n  import com.google.gerrit.reviewdb.Project;\n  ...\n  private Project.NameKey projectKey;\n\nincorrect:\n  import com.google.gerrit.reviewdb.Project.NameKey;\n  ...\n  private NameKey projectKey;",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5/I\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-23T06:39:53Z",
+      "side": 1,
+      "message": "Not sure if it belongs into this section, but we should mention that every Java class must have the license header at the very top.",
       "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -285,6 +370,40 @@
       "writtenOn": "2011-08-22T19:09:07Z",
       "side": 1,
       "message": "Some references would be nice.",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5+8\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-23T06:39:53Z",
+      "side": 1,
+      "message": "Maybe we should explicitly say that every bug-fix / feature should be done in an own Gerrit change?",
+      "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5/U\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-23T06:39:53Z",
+      "side": 1,
+      "message": "I think at the bottom of all other documentation pages we have a section like this to allow back navigation:\n GERRIT\n ------\n Part of link:index.html[Gerrit Code Review]\n\nMaybe you want to include it also here?",
       "revId": "3470fa6cbf53995c5a7dc18ebaf07c6bbe401fa3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

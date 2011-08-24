@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//5vc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-24T08:44:49Z",
+      "side": 1,
+      "message": "Well, I guess this is correct. however I still think that the removal of this check is not related to the feature that is implemented by this change: automatically confirm the e-mail address if DEVELOPMENT_BECOME_ANY_ACCOUNT. Reading the commit message it would be surprising for me, if this change includes changes that apply if the authentication is different from DEVELOPMENT_BECOME_ANY_ACCOUNT. As the ValidateEmailScreen is now actually only used if the authentication is not DEVELOPMENT_BECOME_ANY_ACCOUNT, I think this change should not modifiy its behaviour. Already before this change the e-mail check was done twice, once in ContactPanelShort and once here when the ValidateEmailScreen is opened.\n\nSo I\u0027m not saying that the removal of the e-mail check from this method is incorrect, but I think it just should be done in an own Gerrit change. But in the end I\u0027m also not having a very strong opinion on this and for me it would be ok to leave it as it is.",
+      "parentUuid": "AAABEn//5vs\u003d",
+      "revId": "c4ac24e77103ef84bf6f21aebc7625c8073f73bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//58M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 7

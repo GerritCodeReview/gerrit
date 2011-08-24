@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//5wA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-24T08:18:50Z",
+      "side": 1,
+      "message": "style-nit: this line seems to be too long",
+      "revId": "cfb04e7e3d192ef52d376f9c17f5590d784f24d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5v8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-24T08:18:50Z",
+      "side": 1,
+      "message": "[optional] this method is only used in one place, maybe it should be inlined",
+      "revId": "cfb04e7e3d192ef52d376f9c17f5590d784f24d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5vk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-24T08:18:50Z",
+      "side": 1,
+      "message": "why is control.getRefControl().canWrite() not enough?",
+      "revId": "cfb04e7e3d192ef52d376f9c17f5590d784f24d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5vw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-24T08:18:50Z",
+      "side": 1,
+      "message": "I think it would be better if this method would check for the project state. I think it\u0027s confusing if for example canPerform(Permission.PUSH) returns true but the user still can\u0027t perform a push because the project is in READ_ONLY state. Having this check for the project state in this method would probably make some of the changes above unneeded.",
+      "revId": "cfb04e7e3d192ef52d376f9c17f5590d784f24d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

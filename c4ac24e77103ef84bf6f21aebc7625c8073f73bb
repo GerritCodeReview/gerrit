@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//5vs\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-08-24T08:11:51Z",
+      "side": 1,
+      "message": "to my understanding . the ValidateEmailScreen is triggered only when the user check her/his mail box and open the mail with topic \u0027[Gerrit Code Review] Email Verification\u0027 , click  the link or copy the link to browser with \u0027Enter\u0027.\nthe link is made and send in e-mail by Gerrit under other Authentication method when user register his e-mail address from ContactPanelShort where I have do the e-mail format checking. so I still think it\u0027s done twice. \nam I right ?",
+      "parentUuid": "AAABEn//5wM\u003d",
+      "revId": "c4ac24e77103ef84bf6f21aebc7625c8073f73bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//58M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 7

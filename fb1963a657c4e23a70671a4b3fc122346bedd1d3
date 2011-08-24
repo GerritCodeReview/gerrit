@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABEn//5vI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-24T09:08:35Z",
+      "side": 1,
+      "message": "Why is this change not updating the SchemaVersion? I think if this change introduces new tables it should also take care to update the SchemaVersion.\n\nI would prefer if this change gets squashed with change 24662 (\"New SchemaVersion\") [1].\n\n[1] https://review.source.android.com/24662",
+      "revId": "fb1963a657c4e23a70671a4b3fc122346bedd1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//6VU\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabel.java",
         "patchSetId": 2
@@ -30,6 +47,23 @@
       "writtenOn": "2011-08-20T00:57:19Z",
       "side": 1,
       "message": "I think you really mean hasOnlyValidCharacters?",
+      "revId": "fb1963a657c4e23a70671a4b3fc122346bedd1d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5vM\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeLabelAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-24T09:08:35Z",
+      "side": 1,
+      "message": "For what purpose will this method be used? Maybe this method should better be introduced with the later change that actually needs it.",
       "revId": "fb1963a657c4e23a70671a4b3fc122346bedd1d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

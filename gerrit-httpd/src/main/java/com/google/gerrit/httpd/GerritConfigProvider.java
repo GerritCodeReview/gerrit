@@ -102,6 +102,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setApprovalTypes(approvalTypes);
     config.setDocumentationAvailable(servletContext
         .getResource("/Documentation/index.html") != null);
+    config.setTestChangeMerge(cfg.getBoolean("changeMerge",
+        "test", false));
 
     final Set<Account.FieldName> fields = new HashSet<Account.FieldName>();
     for (final Account.FieldName n : Account.FieldName.values()) {

@@ -25,26 +25,24 @@ import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.TrackingId;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.ReplicationQueue;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.mail.RevertedSender;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmConcurrencyException;
 import com.google.gwtorm.client.OrmException;
-
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -163,6 +161,10 @@ public class ChangeUtil {
 
     db.trackingIds().insert(toInsert);
     db.trackingIds().delete(toDelete);
+  }
+
+  public static void testMerge(MergeOp.Factory opFactory, Change change) {
+    opFactory.create(change.getDest()).verifyMergeability(change);
   }
 
   public static void submit(final PatchSet.Id patchSetId,

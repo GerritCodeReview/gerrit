@@ -24,6 +24,7 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import junit.framework.TestCase;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -44,7 +45,8 @@ public class SchemaCreatorTest extends TestCase {
     super.tearDown();
   }
 
-  public void testGetCauses_CreateSchema() throws OrmException, SQLException {
+  public void testGetCauses_CreateSchema() throws OrmException, SQLException,
+      IOException {
     // Initially the schema should be empty.
     //
     {
@@ -74,7 +76,7 @@ public class SchemaCreatorTest extends TestCase {
     if (sitePath.getName().equals(".")) {
       sitePath = sitePath.getParentFile();
     }
-    assertEquals(sitePath.getAbsolutePath(), db.getSystemConfig().sitePath);
+    assertEquals(sitePath.getCanonicalPath(), db.getSystemConfig().sitePath);
   }
 
   public void testCreateSchema_ApprovalCategory_CodeReview()

@@ -38,6 +38,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,7 +57,8 @@ public class SchemaUpdaterTest extends TestCase {
     super.tearDown();
   }
 
-  public void testUpdate() throws OrmException, FileNotFoundException {
+  public void testUpdate() throws OrmException, FileNotFoundException,
+      IOException {
     db.create();
 
     final File site = new File(UUID.randomUUID().toString());
@@ -110,6 +112,6 @@ public class SchemaUpdaterTest extends TestCase {
 
     db.assertSchemaVersion();
     final SystemConfig sc = db.getSystemConfig();
-    assertEquals(paths.site_path.getAbsolutePath(), sc.sitePath);
+    assertEquals(paths.site_path.getCanonicalPath(), sc.sitePath);
   }
 }

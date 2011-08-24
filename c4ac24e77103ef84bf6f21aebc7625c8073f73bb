@@ -179,6 +179,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//5vQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-08-24T09:21:01Z",
+      "side": 1,
+      "message": "I agree with you from changes view and got back these code which I am sure will not run . may be it is a good way to ask the owner of these code to process these code and keep Gerrit dry. \n\nDone",
+      "parentUuid": "AAABEn//5vc\u003d",
+      "revId": "c4ac24e77103ef84bf6f21aebc7625c8073f73bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//58M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 7

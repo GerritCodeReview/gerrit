@@ -165,8 +165,210 @@ public class ParameterizedStringTest extends TestCase {
   }
 
   public void testUndefinedFunctionName() {
-    ParameterizedString p = new ParameterizedString("${a.anUndefinedMethod}");
+    ParameterizedString p =
+        new ParameterizedString(
+            "hi, ${userName.toUpperCase},your eamil address is '${email.toLowerCase.localPart}'.right?");
+    assertEquals(2, p.getParameterNames().size());
+    assertTrue(p.getParameterNames().contains("userName"));
+    assertTrue(p.getParameterNames().contains("email"));
+
+    final Map<String, String> a = new HashMap<String, String>();
+    a.put("userName", "firstName lastName");
+    a.put("email", "FIRSTNAME.LASTNAME@EXAMPLE.COM");
+    assertNotNull(p.bind(a));
+    assertEquals(2, p.bind(a).length);
+
+    assertEquals("FIRSTNAME LASTNAME", p.bind(a)[0]);
+    assertEquals("firstname.lastname", p.bind(a)[1]);
+    assertEquals("hi, FIRSTNAME LASTNAME,your eamil address is 'firstname.lastname'.right?", p.replace(a));
+  }
+
+  public void testReplaceToUpperCaseToLowerCase() {
+    final ParameterizedString p =
+        new ParameterizedString("${a.toUpperCase.toLowerCase}");
     assertEquals(1, p.getParameterNames().size());
-    assertTrue(p.getParameterNames().contains("a.anUndefinedMethod"));
+    assertTrue(p.getParameterNames().contains("a"));
+
+    final Map<String, String> a = new HashMap<String, String>();
+
+    a.put("a", "FOO@EXAMPLE.COM");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("foo@example.com", p.bind(a)[0]);
+    assertEquals("foo@example.com", p.replace(a));
+
+    a.put("a", "foo@example.com");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("foo@example.com", p.bind(a)[0]);
+    assertEquals("foo@example.com", p.replace(a));
+  }
+
+  public void testReplaceToUpperCaseLocalName() {
+    final ParameterizedString p =
+        new ParameterizedString("${a.toUpperCase.localPart}");
+    assertEquals(1, p.getParameterNames().size());
+    assertTrue(p.getParameterNames().contains("a"));
+
+    final Map<String, String> a = new HashMap<String, String>();
+
+    a.put("a", "foo@example.com");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("FOO", p.bind(a)[0]);
+    assertEquals("FOO", p.replace(a));
+
+    a.put("a", "FOO@EXAMPLE.COM");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("FOO", p.bind(a)[0]);
+    assertEquals("FOO", p.replace(a));
+  }
+
+  public void testReplaceToUpperCaseAnUndefinedMethod() {
+    final ParameterizedString p =
+        new ParameterizedString("${a.toUpperCase.anUndefinedMethod}");
+    assertEquals(1, p.getParameterNames().size());
+    assertTrue(p.getParameterNames().contains("a"));
+
+    final Map<String, String> a = new HashMap<String, String>();
+
+    a.put("a", "foo@example.com");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("FOO@EXAMPLE.COM", p.bind(a)[0]);
+    assertEquals("FOO@EXAMPLE.COM", p.replace(a));
+
+    a.put("a", "FOO@EXAMPLE.COM");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("FOO@EXAMPLE.COM", p.bind(a)[0]);
+    assertEquals("FOO@EXAMPLE.COM", p.replace(a));
+  }
+
+  public void testReplaceLocalNameToUpperCase() {
+    final ParameterizedString p =
+        new ParameterizedString("${a.localPart.toUpperCase}");
+    assertEquals(1, p.getParameterNames().size());
+    assertTrue(p.getParameterNames().contains("a"));
+
+    final Map<String, String> a = new HashMap<String, String>();
+
+    a.put("a", "foo@example.com");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("FOO", p.bind(a)[0]);
+    assertEquals("FOO", p.replace(a));
+
+    a.put("a", "FOO@EXAMPLE.COM");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("FOO", p.bind(a)[0]);
+    assertEquals("FOO", p.replace(a));
+  }
+
+  public void testReplaceLocalNameToLowerCase() {
+    final ParameterizedString p =
+        new ParameterizedString("${a.localPart.toLowerCase}");
+    assertEquals(1, p.getParameterNames().size());
+    assertTrue(p.getParameterNames().contains("a"));
+
+    final Map<String, String> a = new HashMap<String, String>();
+
+    a.put("a", "FOO@EXAMPLE.COM");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("foo", p.bind(a)[0]);
+    assertEquals("foo", p.replace(a));
+
+    a.put("a", "foo@example.com");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("foo", p.bind(a)[0]);
+    assertEquals("foo", p.replace(a));
+  }
+
+  public void testReplaceLocalNameAnUndefinedMethod() {
+    final ParameterizedString p =
+        new ParameterizedString("${a.localPart.anUndefinedMethod}");
+    assertEquals(1, p.getParameterNames().size());
+    assertTrue(p.getParameterNames().contains("a"));
+
+    final Map<String, String> a = new HashMap<String, String>();
+
+    a.put("a", "FOO@EXAMPLE.COM");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("FOO", p.bind(a)[0]);
+    assertEquals("FOO", p.replace(a));
+
+    a.put("a", "foo@example.com");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("foo", p.bind(a)[0]);
+    assertEquals("foo", p.replace(a));
+  }
+
+  public void testReplaceToLowerCaseToUpperCase() {
+    final ParameterizedString p =
+        new ParameterizedString("${a.toLowerCase.toUpperCase}");
+    assertEquals(1, p.getParameterNames().size());
+    assertTrue(p.getParameterNames().contains("a"));
+
+    final Map<String, String> a = new HashMap<String, String>();
+
+    a.put("a", "FOO@EXAMPLE.COM");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("FOO@EXAMPLE.COM", p.bind(a)[0]);
+    assertEquals("FOO@EXAMPLE.COM", p.replace(a));
+
+    a.put("a", "foo@example.com");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("FOO@EXAMPLE.COM", p.bind(a)[0]);
+    assertEquals("FOO@EXAMPLE.COM", p.replace(a));
+  }
+
+  public void testReplaceToLowerCaseLocalName() {
+    final ParameterizedString p =
+        new ParameterizedString("${a.toLowerCase.localPart}");
+    assertEquals(1, p.getParameterNames().size());
+    assertTrue(p.getParameterNames().contains("a"));
+
+    final Map<String, String> a = new HashMap<String, String>();
+
+    a.put("a", "FOO@EXAMPLE.COM");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("foo", p.bind(a)[0]);
+    assertEquals("foo", p.replace(a));
+
+    a.put("a", "foo@example.com");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("foo", p.bind(a)[0]);
+    assertEquals("foo", p.replace(a));
+  }
+
+  public void testReplaceToLowerCaseAnUndefinedMethod() {
+    final ParameterizedString p =
+        new ParameterizedString("${a.toLowerCase.anUndefinedMethod}");
+    assertEquals(1, p.getParameterNames().size());
+    assertTrue(p.getParameterNames().contains("a"));
+
+    final Map<String, String> a = new HashMap<String, String>();
+
+    a.put("a", "foo@example.com");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("foo@example.com", p.bind(a)[0]);
+    assertEquals("foo@example.com", p.replace(a));
+
+    a.put("a", "FOO@EXAMPLE.COM");
+    assertNotNull(p.bind(a));
+    assertEquals(1, p.bind(a).length);
+    assertEquals("foo@example.com", p.bind(a)[0]);
+    assertEquals("foo@example.com", p.replace(a));
   }
 }

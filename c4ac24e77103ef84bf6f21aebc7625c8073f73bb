@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//5wQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-24T07:10:31Z",
+      "side": 1,
+      "message": "Ok, sounds good :-)",
+      "parentUuid": "AAABEn//5xA\u003d",
+      "revId": "c4ac24e77103ef84bf6f21aebc7625c8073f73bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//58c\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
         "patchSetId": 7
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "I had add codes in ContactPanelShort.java ,lines 250-~253 where I think is the right place to do e-mail format checking.  then here the check for the \u0027@\u0027 character will never be run and become redundant so I remove them to keep code dry.\nam I right?",
       "parentUuid": "AAABEn//58k\u003d",
+      "revId": "c4ac24e77103ef84bf6f21aebc7625c8073f73bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5wM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-24T07:10:31Z",
+      "side": 1,
+      "message": "I agree that it\u0027s good to do the e-mail format checking in ContactPanelShort as you have done it. However I think that in addition this check is still needed in this method.\nWhy? Because this method is used from the ValidateEmailScreen. With the removal of this check the e-mail format is now not validated anymore when the ValidateEmailScreen is opened (the check done in ContactPanelShort is not executed in this case). On the other hand the validateEmail method is not even invoked when we are coming from ContactPanelShort, so keeping the check here doesn\u0027t mean that it\u0027s done twice in this case.",
+      "parentUuid": "AAABEn//5ww\u003d",
       "revId": "c4ac24e77103ef84bf6f21aebc7625c8073f73bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

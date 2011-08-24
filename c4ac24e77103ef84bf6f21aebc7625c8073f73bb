@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//5xA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountConstants.properties",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-08-24T06:54:08Z",
+      "side": 1,
+      "message": "for keeping same style with \n\n\n\n\u0027preferredEmail \u003d Email Address\u0027\n\n\n\u0027webIdEmail \u003d Email Address\u0027\n\n\n...\n\n\nI change it to \n\n\n\u0027invalidUserEmail \u003d Email format is wrong.\u0027\n\n\nDone",
+      "parentUuid": "AAABEn//58Y\u003d",
+      "revId": "c4ac24e77103ef84bf6f21aebc7625c8073f73bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//58c\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2011-08-23T14:14:10Z",
       "side": 1,
       "message": "Whenever the user registers a new e-mail address this e-mail address will now automatically get the preferred e-mail address of the user. I think it would be better to do the save only for the first e-mail address that is registered. This means the first registered e-mail address automatically gets the preferred e-mail address, but if any further e-mail address is registered the preferred e-mail address should not be changed unless the user explicitly clicks on the \u0027Save Changes\u0027 button. Basically as it was in patch set 4:\n\nif (emailPick.getItemCount() \u003d\u003d 0) {\n   // the first e-mail address that is registered automatically\n   // becomes the preferred e-mail address\n   onSaveSuccess(currentUser);\n } else {\n   // an additional e-mail address was registered,\n   // the user has to click on \u0027Save Changes\u0027 to make it the\n   // preferred one\n   save.setEnabled(true);\n }",
+      "revId": "c4ac24e77103ef84bf6f21aebc7625c8073f73bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5xM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-08-24T06:54:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEn//58c\u003d",
       "revId": "c4ac24e77103ef84bf6f21aebc7625c8073f73bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABEn//5ww\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-08-24T06:54:08Z",
+      "side": 1,
+      "message": "I had add codes in ContactPanelShort.java ,lines 250-~253 where I think is the right place to do e-mail format checking.  then here the check for the \u0027@\u0027 character will never be run and become redundant so I remove them to keep code dry.\nam I right?",
+      "parentUuid": "AAABEn//58k\u003d",
+      "revId": "c4ac24e77103ef84bf6f21aebc7625c8073f73bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//58M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2011-08-23T14:14:10Z",
       "side": 1,
       "message": "I think this change should be reverted.\n\nThe removal of the check \u0027if (a.getPreferredEmail() \u003d\u003d null) {\u0027 does not only effect the DEVELOPMENT_BECOME_ANY_ACCOUNT, but also changes the behaviour if other authentication methods are used. But even if DEVELOPMENT_BECOME_ANY_ACCOUNT is used the preferred e-mail address should not be updated automatically when an additional e-mail address is registered (see also my inline comment in ContactPanelShort.java).",
+      "revId": "c4ac24e77103ef84bf6f21aebc7625c8073f73bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5xE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2011-08-24T06:54:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABEn//58M\u003d",
       "revId": "c4ac24e77103ef84bf6f21aebc7625c8073f73bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEX//81M\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectConfigSection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-24T17:48:03Z",
+      "side": 1,
+      "message": "Is there a reason to rename this, but not the getter?",
+      "revId": "854fe4b3d8b8ffea49ce2eb13304a4d824b0123f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//80s\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectMergeStrategies.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-24T17:48:03Z",
+      "side": 1,
+      "message": "Maybe name this refsOwnedBy, it was not obvious at first that the Strings represented refs.",
+      "revId": "854fe4b3d8b8ffea49ce2eb13304a4d824b0123f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//80o\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectMergeStrategies.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-24T17:48:03Z",
+      "side": 1,
+      "message": "s/as/ms/  or mss ?",
+      "revId": "854fe4b3d8b8ffea49ce2eb13304a4d824b0123f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//80M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-24T17:48:03Z",
+      "side": 1,
+      "message": "I think the REF_ and _TAB are overkill, maybe just MERGE_STRATEGY?",
+      "revId": "854fe4b3d8b8ffea49ce2eb13304a4d824b0123f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//81E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/RefMergeStrategiesTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-24T17:48:03Z",
+      "side": 1,
+      "message": "Adding Ref to many things here: vars, the class name... make it a little heavy.  I like the way you named MergeStrategySection without the Ref.",
+      "revId": "854fe4b3d8b8ffea49ce2eb13304a4d824b0123f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//80E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeRefMergeStrategies.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-24T17:48:03Z",
+      "side": 1,
+      "message": "It\u0027s hard to tell what the intent of this function is from its name.  Perhaps distinctMergeSections() or something like that (not sure I even got it right).",
+      "revId": "854fe4b3d8b8ffea49ce2eb13304a4d824b0123f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8z8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeRefMergeStrategies.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-24T17:48:03Z",
+      "side": 1,
+      "message": "If you are just attempting to keep uniq (distinct) sections, a HashSet would likely do.  Then you can just add each one, without an \"if\" even?",
+      "revId": "854fe4b3d8b8ffea49ce2eb13304a4d824b0123f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//80I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeRefMergeStrategies.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-24T17:48:03Z",
+      "side": 1,
+      "message": "How about just (the continue does not add anything here):\n\n  if (prior \u003d\u003d null) {\n      map.put(section.getName(), section);\n  }",
+      "revId": "854fe4b3d8b8ffea49ce2eb13304a4d824b0123f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//80A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeRefMergeStrategies.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-24T17:48:03Z",
+      "side": 1,
+      "message": "\"seen\" might be a clearer name then \"prior\".",
+      "revId": "854fe4b3d8b8ffea49ce2eb13304a4d824b0123f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEX//8zk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeRefMergeStrategies.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-24T17:48:03Z",
+      "side": 1,
+      "message": "Is there a reason to return a List instead of a Set?  I believe that any ordering will have been lost at this point.",
+      "revId": "854fe4b3d8b8ffea49ce2eb13304a4d824b0123f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

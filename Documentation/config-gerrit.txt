@@ -1955,7 +1955,7 @@ saved in Gerrit's database.  After making changes to
 this section, existing changes must be reindexed with the
 link:pgm-ScanTrackingIds.html[ScanTrackingIds] program.
 
-The tracking ids are serachable using tr:<tracking id> or
+The tracking ids are searchable using tr:<tracking id> or
 bug:<tracking id>.
 
 ----

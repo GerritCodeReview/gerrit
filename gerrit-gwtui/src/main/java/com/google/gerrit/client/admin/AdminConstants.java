@@ -71,6 +71,9 @@ public interface AdminConstants extends Constants {
   String columnEmailAddress();
   String columnGroupName();
   String columnGroupDescription();
+  String columnGroupType();
+  String columnGroupNotifications();
+  String columnGroupVisibleToAll();
 
   String columnBranchName();
   String columnBranchRevision();

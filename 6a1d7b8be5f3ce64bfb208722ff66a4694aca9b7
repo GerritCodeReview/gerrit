@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABE3///44\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-25T22:26:03Z",
+      "side": 1,
+      "message": "Could you explain what creating a project under a specific sub-project means?",
+      "revId": "6a1d7b8be5f3ce64bfb208722ff66a4694aca9b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///40\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-25T22:26:03Z",
+      "side": 1,
+      "message": "\"other\" is confusing here, it makes it seem like you mean for other projects than the current one (but I don\u0027t think you do).",
+      "revId": "6a1d7b8be5f3ce64bfb208722ff66a4694aca9b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///4g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-25T22:26:03Z",
+      "side": 1,
+      "message": "Is it always a child project?  In the commit message you talk about sub-projects, so the terminology might be a bit confusing, and it does not specify that the new project will become child projects (i.e. do they inherit from the existing project?)",
+      "revId": "6a1d7b8be5f3ce64bfb208722ff66a4694aca9b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///4E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-25T22:26:03Z",
+      "side": 1,
+      "message": "Any reason not to just eliminate this method now (put the content directly in the getter)?",
+      "revId": "6a1d7b8be5f3ce64bfb208722ff66a4694aca9b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///4c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-25T22:26:03Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be done out of (before) the loop?",
+      "revId": "6a1d7b8be5f3ce64bfb208722ff66a4694aca9b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///3s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-25T22:26:03Z",
+      "side": 1,
+      "message": "Hmm, that is confusing.  What do you think about getting an \"--All Projects\" projectState and querying it for canCreateChildProject() instead?",
+      "revId": "6a1d7b8be5f3ce64bfb208722ff66a4694aca9b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

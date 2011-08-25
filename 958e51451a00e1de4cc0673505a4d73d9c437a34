@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABEn//5ms\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-25T16:49:24Z",
+      "side": 1,
+      "message": "I think it is confusing to put this above instead of in doCreateProject (right before the RPC call).  If there ends up being another way to trigger the create (via keyboard...), it will be missed, or have to be duplicated.",
+      "revId": "958e51451a00e1de4cc0673505a4d73d9c437a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABEn//5m0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-25T16:49:24Z",
+      "side": 1,
+      "message": "Nit: this null setting does not seem useful.",
+      "revId": "958e51451a00e1de4cc0673505a4d73d9c437a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

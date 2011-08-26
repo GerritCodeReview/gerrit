@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///zo\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2011-08-26T13:40:12Z",
+      "side": 1,
+      "message": "Hi Martin, creating a project under a specific sub-project means project hierarchy, for example:\n\nParentProject\n     | ChildProject\n           | GrandsonProject\n\nIt means the ability of a group to create a child project under a parent project in a way that it can inherit parent project access rights.\n\nI\u0027ll work on describing better this in commit message. Thanks.",
+      "parentUuid": "AAABE3///44\u003d",
+      "revId": "6a1d7b8be5f3ce64bfb208722ff66a4694aca9b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///40\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
         "patchSetId": 7

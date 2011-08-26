@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABE3///0E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1618,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-26T06:18:53Z",
+      "side": 1,
+      "message": "Hmm, should a misconfiguration allow a rule from --All Projects-- to be bypassed?  If not, I think this should return false here.",
+      "revId": "887c64dd152c6345e1fb8ababfd6fc0b5933a54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///0A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1917,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-26T06:18:53Z",
+      "side": 1,
+      "message": "Should the the user be informed that this is a problem with Gerrit, not their change?  It seems like this change introduces several opportunities to reject uploads because of problematic gerrit configs, I would suggest a consistent error format which makes this clear to users.",
+      "revId": "887c64dd152c6345e1fb8ababfd6fc0b5933a54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

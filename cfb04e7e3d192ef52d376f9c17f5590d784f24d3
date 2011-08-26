@@ -67,6 +67,24 @@
       "revId": "cfb04e7e3d192ef52d376f9c17f5590d784f24d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///uw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-26T19:04:59Z",
+      "side": 1,
+      "message": "I am not sure I agree with this suggestion.  It seems to me that generally in this class there are high level API functions which are asked by external entities, and there are low level internal utility functions used to access/interpret data to help answer some of the questions asked by the API.  This method seems like the latter case, so I am not convinced that it should attempt to answer questions from a higher level API perspective, which sounds like what you are suggesting.\n\nAsking canPerform(Permission.PUSH) internally to this class is not asking whether the user can push, that is after all what canUpdate() is for (?).  I think that this function it is asking, from a PermissionRule standpoint, can the user push?  After all, canUpdate() does some other checks also, should they be pushed into here too?  That is a slippery slope, this would become a large catch all function instead of a simple focused one.  One of the reasons I asked to have simpler lower level canWrite() like functions was so that the high level API functions could combine these various low level functions together in obvious ways.  It the low level functions are no longer simple and focused, then it is harder to make this obvious.\n\nPerhaps I don\u0027t really understand your point or intent?  I admit, I also don\u0027t know why this isn\u0027t private, so my point about the API thing might be weak if this is also somehow part of the API.  Perhaps the external users of canPerform() expect what you are suggesting?",
+      "parentUuid": "AAABEn//5vw\u003d",
+      "revId": "cfb04e7e3d192ef52d376f9c17f5590d784f24d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

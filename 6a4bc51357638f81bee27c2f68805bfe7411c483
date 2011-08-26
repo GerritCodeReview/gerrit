@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABE3///wI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/FastForwardOnly.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-26T17:25:00Z",
+      "side": 1,
+      "message": "I would keep the original comment here:\n// Take the first fast-forward available, if any is available in the set.",
+      "revId": "6a4bc51357638f81bee27c2f68805bfe7411c483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///wQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/FastForwardOnly.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-26T17:25:00Z",
+      "side": 1,
+      "message": "Since this is no longer an \"if\", maybe this comment should read simply \"Abort non fast-forwards\".",
+      "revId": "6a4bc51357638f81bee27c2f68805bfe7411c483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///wM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeIfNecessary.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-26T17:25:00Z",
+      "side": 1,
+      "message": "I would keep the original comment here:\n// Take the first fast-forward available, if any is available in the set.",
+      "revId": "6a4bc51357638f81bee27c2f68805bfe7411c483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///w8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-26T17:25:00Z",
+      "side": 1,
+      "message": "Having merge() and mergeImpl() was not very clear already, but adding runMerge() to he mix just makes it that much more like having just merge1, merge2, merge3.  \n\nI think these 3 functions need names which differentiate what their intent is.  I am sorry I don\u0027t have any great suggestions, perhaps name them related to whether the merge is done in memory, committed to the repo, something related to the mergeStrategy...",
+      "revId": "6a4bc51357638f81bee27c2f68805bfe7411c483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

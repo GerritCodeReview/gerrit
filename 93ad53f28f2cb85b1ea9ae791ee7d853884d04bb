@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABE3///j8\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006968
+      },
+      "writtenOn": "2011-08-27T05:03:08Z",
+      "side": 1,
+      "message": "Expanded this slightly and linked to access control page to make it clear that Gerrit can be used without code review.",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

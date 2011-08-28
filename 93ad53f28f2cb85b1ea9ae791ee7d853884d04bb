@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABE3///hM\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "To others,...",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///hI\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "of this,",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///hE\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "such as may be the case with closed...\n\nEither way, it\u0027s still...",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///hA\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "code, it may be a little...",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///g8\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "to it,",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///j8\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 4
@@ -13,6 +98,210 @@
       "writtenOn": "2011-08-27T05:03:08Z",
       "side": 1,
       "message": "Expanded this slightly and linked to access control page to make it clear that Gerrit can be used without code review.",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///h8\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "that Gerrit is....",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///h4\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "Let\u0027s",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///h0\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "continuing/continue",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///hw\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "by double clicking on the line\n+\n (or clicking on the line number)",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///hs\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "Although these are numeric values, they in no way accumulate; two +1s do not equate to a +2.",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///ho\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "...change, then...",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///hk\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "....commit, then push....",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///hg\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "change,/change:",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///hc\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "lets/let\u0027s",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///hY\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "sign-offs,/sign-offs:",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///hU\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "I might just remove the \"Really\" here.",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///hQ\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-28T18:00:19Z",
+      "side": 1,
+      "message": "others/other checks could be added.",
       "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

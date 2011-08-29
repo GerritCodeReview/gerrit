@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABE3///bQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-29T17:48:47Z",
+      "side": 1,
+      "message": "Style Nit: could probably be wrapped a bit sooner, aim for ~80 chars.",
+      "revId": "de73704047905c658bf18221601781202fd01afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///bM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-29T17:48:47Z",
+      "side": 1,
+      "message": "Style nit: use brackets even for single statement ifs.",
+      "revId": "de73704047905c658bf18221601781202fd01afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///bI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-29T17:48:47Z",
+      "side": 1,
+      "message": "Style nit: add spaces \"a \u003d b\".",
+      "revId": "de73704047905c658bf18221601781202fd01afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///bA\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-29T17:48:47Z",
+      "side": 1,
+      "message": "Style Nit: use braces for if/else.",
+      "revId": "de73704047905c658bf18221601781202fd01afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///a8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-29T17:48:47Z",
+      "side": 1,
+      "message": "Style Nit: use spaces \"a \u003d b\".",
+      "revId": "de73704047905c658bf18221601781202fd01afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

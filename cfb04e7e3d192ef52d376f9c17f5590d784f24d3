@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///cg\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2011-08-29T16:32:40Z",
+      "side": 1,
+      "message": "Hi Edwin!\nThat is because \"canWrite()\" verifies only if the project is in ACTIVE state and for edition  the project needs to be in ACTIVE state and the user needs to be the project owner or the administrator.\n\nDo you think it could be implemented in another way?",
+      "parentUuid": "AAABEn//5vk\u003d",
+      "revId": "cfb04e7e3d192ef52d376f9c17f5590d784f24d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//5vw\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 5

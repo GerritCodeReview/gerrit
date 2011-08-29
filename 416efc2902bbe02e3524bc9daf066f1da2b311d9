@@ -84,6 +84,24 @@
       "revId": "416efc2902bbe02e3524bc9daf066f1da2b311d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///as\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAncestors.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-29T18:07:55Z",
+      "side": 1,
+      "message": "To get them to display in order, an ordered Collection is needed.  Do you have an ordered Set to suggest?   I don\u0027t think a TreeSet would work because it seems to rely on sorting to achieve order, I don\u0027t think it can handle an arbitrary ordering.",
+      "parentUuid": "AAABE3///e8\u003d",
+      "revId": "416efc2902bbe02e3524bc9daf066f1da2b311d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

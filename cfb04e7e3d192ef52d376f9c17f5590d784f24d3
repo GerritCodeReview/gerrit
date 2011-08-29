@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///ak\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2011-08-29T18:08:55Z",
+      "side": 1,
+      "message": "Ops, I made a mistake here. You are right!\nAs Martin said, since anyone who can read the project should be able to review it, checking only if the project is in ACTIVE state is enough. I\u0027ll do that.",
+      "parentUuid": "AAABE3///bY\u003d",
+      "revId": "cfb04e7e3d192ef52d376f9c17f5590d784f24d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//5vw\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 5

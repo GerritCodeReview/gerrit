@@ -55,7 +55,7 @@ import javax.annotation.Nullable;
 public class WebModule extends FactoryModule {
   private final Provider<SshInfo> sshInfoProvider;
   private final Provider<SshKeyCache> sshKeyCacheProvider;
-  private final AuthType authType;
+  private final AuthConfig authConfig;
   private final boolean wantSSL;
   private final GitWebConfig gitWebConfig;
 
@@ -67,7 +67,7 @@ public class WebModule extends FactoryModule {
       final Injector creatingInjector) {
     this.sshInfoProvider = sshInfoProvider;
     this.sshKeyCacheProvider = sshKeyCacheProvider;
-    this.authType = authConfig.getAuthType();
+    this.authConfig=authConfig;
     this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
 
     this.gitWebConfig =
@@ -92,7 +92,7 @@ public class WebModule extends FactoryModule {
       install(new RequireSslFilter.Module());
     }
 
-    switch (authType) {
+    switch (authConfig.getAuthType()) {
       case OPENID:
         install(new OpenIdModule());
         break;
@@ -121,10 +121,10 @@ public class WebModule extends FactoryModule {
         break;
 
       default:
-        throw new ProvisionException("Unsupported loginType: " + authType);
+        throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
     }
 
-    install(new UrlModule());
+    install(new UrlModule(authConfig));
     install(new UiRpcModule());
     install(new GerritRequestModule());
     install(new ProjectServlet.Module());

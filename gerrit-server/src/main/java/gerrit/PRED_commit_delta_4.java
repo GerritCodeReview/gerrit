@@ -101,11 +101,15 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
       Pattern regex = (Pattern)((JavaObjectTerm)a1).object();
       Iterator<PatchListEntry> iter =
         (Iterator<PatchListEntry>)((JavaObjectTerm)a5).object();
-      if (iter.hasNext()) {
+      while (iter.hasNext()) {
         PatchListEntry patch = iter.next();
         String newName = patch.getNewName();
         String oldName = patch.getOldName();
         Patch.ChangeType changeType = patch.getChangeType();
+
+        if (newName.equals("/COMMIT_MSG")) {
+          continue;
+        }
 
         if (regex.matcher(newName).matches() ||
             (oldName != null && regex.matcher(oldName).matches())) {
@@ -117,13 +121,13 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
           }
 
           if (!a2.unify(changeSym, engine.trail)) {
-            return engine.fail();
+            continue;
           }
           if (!a3.unify(newSym, engine.trail)) {
-            return engine.fail();
+            continue;
           }
           if (!a4.unify(oldSym, engine.trail)) {
-            return engine.fail();
+            continue;
           }
           return engine.cont;
         }

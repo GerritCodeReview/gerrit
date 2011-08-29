@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABE3///fU\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAncestors.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-29T09:49:37Z",
+      "side": 1,
+      "message": "New file means (C) 2011",
+      "revId": "416efc2902bbe02e3524bc9daf066f1da2b311d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///fI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAncestors.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-29T09:49:37Z",
+      "side": 1,
+      "message": "Unused",
+      "revId": "416efc2902bbe02e3524bc9daf066f1da2b311d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///fM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAncestors.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-29T09:49:37Z",
+      "side": 1,
+      "message": "Unused",
+      "revId": "416efc2902bbe02e3524bc9daf066f1da2b311d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///fQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAncestors.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-29T09:49:37Z",
+      "side": 1,
+      "message": "Unused",
+      "revId": "416efc2902bbe02e3524bc9daf066f1da2b311d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///e8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAncestors.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-29T09:49:37Z",
+      "side": 1,
+      "message": "Since any ancestors should not be added several times, perhaps a Set will do?\n\nIn that case the seen-logic can be re-factored away?",
+      "revId": "416efc2902bbe02e3524bc9daf066f1da2b311d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

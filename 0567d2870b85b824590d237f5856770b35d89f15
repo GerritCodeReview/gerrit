@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABE3///Aw\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2011-08-30T20:57:17Z",
+      "side": 1,
+      "message": "typo: s/the the/the/",
+      "revId": "0567d2870b85b824590d237f5856770b35d89f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

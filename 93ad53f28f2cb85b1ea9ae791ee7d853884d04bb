@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABE3///C0\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006214
+      },
+      "writtenOn": "2011-08-30T18:48:35Z",
+      "side": 1,
+      "message": "Is \"technological\" really the right word here? Perhaps \"technical\" would sound better?",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///hM\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 4
@@ -98,6 +115,41 @@
       "writtenOn": "2011-08-27T05:03:08Z",
       "side": 1,
       "message": "Expanded this slightly and linked to access control page to make it clear that Gerrit can be used without code review.",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///Cw\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006214
+      },
+      "writtenOn": "2011-08-30T18:48:35Z",
+      "side": 1,
+      "message": "Good, thanks. It\u0027s a bit too much of an advertisement for my taste (value expressions like \"powerful\", \"can even do ...\", ...).",
+      "parentUuid": "AAABE3///j8\u003d",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///Cs\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006214
+      },
+      "writtenOn": "2011-08-30T18:48:35Z",
+      "side": 1,
+      "message": "it\u0027s -\u003e its ?",
       "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

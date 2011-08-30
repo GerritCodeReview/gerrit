@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABE3///KA\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-30T08:59:47Z",
+      "side": 1,
+      "message": "style-nit: trailing whitespace",
+      "revId": "da02d155bcc6478bacfbc13f3e1c367d3b63a75a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///J8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-30T08:59:47Z",
+      "side": 1,
+      "message": "style-nit: unnecessary blank line",
+      "revId": "da02d155bcc6478bacfbc13f3e1c367d3b63a75a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

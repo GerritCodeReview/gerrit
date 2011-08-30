@@ -16,6 +16,24 @@
       "revId": "2ad3f98e21c3417135f74473a23425677d0e43e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///GI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2011-08-30T16:04:54Z",
+      "side": 0,
+      "message": "That\u0027s strange. In gerrit WebUI it looks like this line is not indented. But when you look at the checked out file or go to git-web and inspect this change it is correctly indented. Can you check whether it is incorrectly indented in your local file-system after fetching this proposal?",
+      "parentUuid": "AAABE3///Gg\u003d",
+      "revId": "2ad3f98e21c3417135f74473a23425677d0e43e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

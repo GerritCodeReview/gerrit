@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///fY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-30T09:36:21Z",
+      "side": 1,
+      "message": "I have achieved you comments. But I can not put it here, because here is no Branchmail object. So I moved try ... catch part inside sendBypassEmail. Is that OK?",
+      "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///5o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2
@@ -53,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///f0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-30T09:36:21Z",
+      "side": 1,
+      "message": "OK, more clear. I have already modified.",
+      "parentUuid": "AAABE3///5k\u003d",
+      "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///5g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2
@@ -64,6 +99,24 @@
       "writtenOn": "2011-08-25T21:06:24Z",
       "side": 1,
       "message": "Nit: Can you combine this with line 628 to keep it simple?",
+      "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///fw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-30T09:36:21Z",
+      "side": 1,
+      "message": "Combined. Thanks for your comments",
+      "parentUuid": "AAABE3///5g\u003d",
       "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +140,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///fA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-30T09:36:21Z",
+      "side": 1,
+      "message": "OK, I change the left HashSet to Set, the right one is still HashSet",
+      "parentUuid": "AAABE3///7o\u003d",
+      "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///8Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 2
@@ -104,6 +175,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///e4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-30T09:36:21Z",
+      "side": 1,
+      "message": "Good point! I have changed this code as you told me to:)",
+      "parentUuid": "AAABE3///8Q\u003d",
+      "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///6I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 2
@@ -115,6 +204,24 @@
       "writtenOn": "2011-08-25T21:06:24Z",
       "side": 1,
       "message": "getProjectOwnerNames() ?",
+      "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///Lo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-30T09:36:21Z",
+      "side": 1,
+      "message": "Done! And I also changed the attribute name in the vm files",
+      "parentUuid": "AAABE3///6I\u003d",
       "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +262,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///Lg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-30T09:36:21Z",
+      "side": 1,
+      "message": "OK, you are right. I am deleting this funtion.",
+      "parentUuid": "AAABE3///7Y\u003d",
+      "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///7U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 2
@@ -172,6 +297,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///LE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-30T09:36:21Z",
+      "side": 1,
+      "message": "OK, done!",
+      "parentUuid": "AAABE3///7U\u003d",
+      "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///7Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 2
@@ -183,6 +326,24 @@
       "writtenOn": "2011-08-25T21:06:24Z",
       "side": 1,
       "message": "Is this just email every watcher no matter what they have checked?  I would explain that in the commit message of the change.\n\nDid you deliberately not want watchers from \"-- All Projects --\"?",
+      "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///Jk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-30T09:36:21Z",
+      "side": 1,
+      "message": "Martin, I think for \"git push project local_branch:refs/heads/remote_branch\" command, there will be no change be created. So I think if a user watch a project, no matter what he/she checked, a mail will be send to him/her. \nBut, I think you are right, the watchers who watches parent project will also be notified. I will add this function.",
+      "parentUuid": "AAABE3///7Q\u003d",
       "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -359,6 +520,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///f4\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteBranch.vm",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-30T09:36:21Z",
+      "side": 1,
+      "message": "Yes, you are totally right. I thought of deleting this part last time. But forgot to do so...",
+      "parentUuid": "AAABE3///7s\u003d",
+      "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///6U\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/NewBranch.vm",
         "patchSetId": 2
@@ -370,6 +549,24 @@
       "writtenOn": "2011-08-25T21:06:24Z",
       "side": 1,
       "message": "The previous templates don\u0027t have this blank line, is it intended?",
+      "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///gQ\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/NewBranch.vm",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1007183
+      },
+      "writtenOn": "2011-08-30T09:36:21Z",
+      "side": 1,
+      "message": "Good Eyes, Martin! I have already modified it. Thank you for your reminding!",
+      "parentUuid": "AAABE3///6U\u003d",
       "revId": "da77fa5d276598c502c5e0234a1d592bcfa3783d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

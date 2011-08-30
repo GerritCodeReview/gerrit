@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///M0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-30T06:11:00Z",
+      "side": 1,
+      "message": "Why do we return \u0027true\u0027 here?\n\nIf it was configured to not trust the authentication done by the container, how can this filter then say that the verification was successful? Or should I just read it as \u0027this filter does nothing if Gerrit is not configured to trust the container authentication, so just continue with the next filter\u0027? If yes, I would prefer to move this check into the doFilter(...) method and then not invoke the verify(...) method at all in this case. Also this behaviour should maybe be mentioned in the class comment.",
+      "revId": "de73704047905c658bf18221601781202fd01afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///bI\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
         "patchSetId": 1
@@ -81,6 +98,23 @@
       "writtenOn": "2011-08-29T17:48:47Z",
       "side": 1,
       "message": "Style Nit: use spaces \"a \u003d b\".",
+      "revId": "de73704047905c658bf18221601781202fd01afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///Mw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-30T06:11:00Z",
+      "side": 1,
+      "message": "This new configuration parameter should be documented in gerrit-parent/Documentation/config-gerrit.txt",
       "revId": "de73704047905c658bf18221601781202fd01afc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

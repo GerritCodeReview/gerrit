@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///MU\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2011-08-30T08:37:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///bQ\u003d",
+      "revId": "de73704047905c658bf18221601781202fd01afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///bM\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-08-29T17:48:47Z",
       "side": 1,
       "message": "Style nit: use brackets even for single statement ifs.",
+      "revId": "de73704047905c658bf18221601781202fd01afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///MQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2011-08-30T08:37:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///bM\u003d",
       "revId": "de73704047905c658bf18221601781202fd01afc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///MM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ContainerAuthFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2011-08-30T08:37:01Z",
+      "side": 1,
+      "message": "I used the same pattern as I found in ProjectDigestFilter. All the filtering logic is in the verify() method. If verify() returns true this means: this filter has passed successfully, call the next filter in the chain. If verify returns false this means: this filter wants to stop the execution of further filters (propably this filter found a problem which makes him sure the request can\u0027t be processed).\n\nThis filter returns true here because he has detected he is not responsible (the config params say so). So he wants the rests of the filters to be executed.\n\nMy suggestion: completely drop this if here. This filter is registered (in UrlModule.java) when authConfig.isTrustContainerAuth() is true. Therefore we don\u0027t have to check again at this place.\n\nAnd yes, I\u0027ll add a better class comment",
+      "parentUuid": "AAABE3///M0\u003d",
+      "revId": "de73704047905c658bf18221601781202fd01afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///bI\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2011-08-29T17:48:47Z",
       "side": 1,
       "message": "Style nit: add spaces \"a \u003d b\".",
+      "revId": "de73704047905c658bf18221601781202fd01afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///Lk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2011-08-30T08:37:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///bI\u003d",
       "revId": "de73704047905c658bf18221601781202fd01afc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///Lc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2011-08-30T08:37:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///bA\u003d",
+      "revId": "de73704047905c658bf18221601781202fd01afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///a8\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3///LY\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2011-08-30T08:37:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///a8\u003d",
+      "revId": "de73704047905c658bf18221601781202fd01afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///Mw\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2011-08-30T06:11:00Z",
       "side": 1,
       "message": "This new configuration parameter should be documented in gerrit-parent/Documentation/config-gerrit.txt",
+      "revId": "de73704047905c658bf18221601781202fd01afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///LU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2011-08-30T08:37:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///Mw\u003d",
       "revId": "de73704047905c658bf18221601781202fd01afc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

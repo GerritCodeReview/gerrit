@@ -34,6 +34,24 @@
       "revId": "2ad3f98e21c3417135f74473a23425677d0e43e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///BM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2011-08-30T19:15:20Z",
+      "side": 0,
+      "message": "Don\u0027t ask me why: but now it looks ok also in Gerrit WebUI. Very strange Gerrit rendering bug. Problem now: how to reproduce the bug in order to file a gerrit bug.\nEric, could you again check in Gerrit webui whether it looks ok for you and change your -1.",
+      "parentUuid": "AAABE3///GI\u003d",
+      "revId": "2ad3f98e21c3417135f74473a23425677d0e43e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

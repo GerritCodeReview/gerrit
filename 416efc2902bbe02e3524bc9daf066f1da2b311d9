@@ -102,6 +102,24 @@
       "revId": "416efc2902bbe02e3524bc9daf066f1da2b311d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///MI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAncestors.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-08-30T07:20:38Z",
+      "side": 1,
+      "message": "LinkedHashSet?\n\n\"Hash table and linked list implementation of the Set interface, with predictable iteration order. This implementation differs from HashSet in that it maintains a doubly-linked list running through all of its entries. This linked list defines the iteration ordering, which is the order in which elements were inserted into the set (insertion-order). Note that insertion order is not affected if an element is re-inserted into the set.\"",
+      "parentUuid": "AAABE3///as\u003d",
+      "revId": "416efc2902bbe02e3524bc9daf066f1da2b311d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

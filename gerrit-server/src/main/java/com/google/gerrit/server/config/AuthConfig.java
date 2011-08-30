@@ -35,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class AuthConfig {
   private final AuthType authType;
   private final String httpHeader;
+  private final boolean trustContainerAuth;
   private final String logoutUrl;
   private final List<OpenIdProviderPattern> trustedOpenIDs;
   private final List<OpenIdProviderPattern> allowedOpenIDs;
@@ -54,6 +55,7 @@ public class AuthConfig {
     allowedOpenIDs = toPatterns(cfg, "allowedOpenID");
     cookiePath = cfg.getString("auth", null, "cookiepath");
     cookieSecure = cfg.getBoolean("auth", "cookiesecure", false);
+    trustContainerAuth = cfg.getBoolean("auth", "trustContainerAuth", false);
 
     String key = cfg.getString("auth", null, "registerEmailPrivateKey");
     if (key != null && !key.isEmpty()) {
@@ -123,6 +125,11 @@ public class AuthConfig {
   /** OpenID identities which the server permits for authentication. */
   public List<OpenIdProviderPattern> getAllowedOpenIDs() {
     return allowedOpenIDs;
+  }
+
+  /** Whether git-over-http should trust authentication done by container. */
+  public boolean isTrustContainerAuth() {
+    return trustContainerAuth;
   }
 
   public boolean isIdentityTrustable(final Collection<AccountExternalId> ids) {

@@ -287,6 +287,17 @@ Account users register with the Gerrit server.
 +
 By default, unset/false.
 
+[[auth.trustContainerAuth]]auth.trustContainerAuth::
++
+If true then it is the responsibility of the the container hosting
+Gerrit to authenticate users. In this case Gerrit will blindly trust
+the container.
++
+This parameter only affects git over http traffic. If set to false
+then Gerrit will do the authentication (using DIGEST authentication).
++
+By default this is set to false.
+
 [[cache]]Section cache
 ~~~~~~~~~~~~~~~~~~~~~~
 

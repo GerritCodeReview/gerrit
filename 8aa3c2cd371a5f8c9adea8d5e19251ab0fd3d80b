@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABE3//+zQ\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-08-31T16:29:46Z",
+      "side": 1,
+      "message": "by one or more explanatory paragraphs",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+y0\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2011-08-31T16:29:46Z",
+      "side": 1,
+      "message": "Still hard to read. Perhaps \"(usually this means you\u0027re fetching data from outside the cache)\"?",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABE3//+2o\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectConfigSection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T05:58:25Z",
+      "side": 1,
+      "message": "This is starting to feel like it should be named RefConfigSection, what do you think?",
+      "revId": "c90a4b0172c4c8cbc24ae92d56398c0dd38199bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+2g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectConfigSection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T05:58:25Z",
+      "side": 1,
+      "message": "Hmm, I was thinking that getRef and setRef would actually be better, getName() seems kind of vague.",
+      "revId": "c90a4b0172c4c8cbc24ae92d56398c0dd38199bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+2Y\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectMergeStrategies.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T05:58:25Z",
+      "side": 1,
+      "message": "I would think that the getter and setter should also be clearer?",
+      "revId": "c90a4b0172c4c8cbc24ae92d56398c0dd38199bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

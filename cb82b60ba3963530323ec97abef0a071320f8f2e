@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABE3//+1M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-31T11:23:55Z",
+      "side": 1,
+      "message": "Does this change actually require a database update? If yes, I would prefer to include it into this change.",
+      "revId": "cb82b60ba3963530323ec97abef0a071320f8f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

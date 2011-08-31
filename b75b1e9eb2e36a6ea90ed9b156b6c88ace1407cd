@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3//+ww\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-31T18:34:32Z",
+      "side": 1,
+      "message": "Maybe ProjectBranchSubscription? What do you think?",
+      "parentUuid": "AAABE3///n8\u003d",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///n0\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2011-08-31T04:29:18Z",
       "side": 1,
       "message": "Hmm, source and target seem confusing to me, but I am not familiar with normal gitlink terminology.  Since the comment says \"subscriber\", that sounds better than target to me.  Not sure of a better word for source.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+wM\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-31T18:34:32Z",
+      "side": 1,
+      "message": "The idea is that target (or subscriber) is the project/branch owning the gitlinks (referred as the source, or subscription). I am not involved in this feature since its beginning, the source/target names here seemed even clarify the idea to me, Shawn seems even to be ok with these names in other commits. \n\nHowever, considering we change the class name, it is ok for me to name these fields as subscriber and subscription (instead of target and source).",
+      "parentUuid": "AAABE3///n0\u003d",
       "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3//+wI\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-31T18:34:32Z",
+      "side": 1,
+      "message": "sure",
+      "parentUuid": "AAABE3//+24\u003d",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3//+20\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
         "patchSetId": 11
@@ -98,6 +152,24 @@
       "writtenOn": "2011-08-31T04:29:18Z",
       "side": 1,
       "message": "You are not comparing the paths?",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+v4\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-31T18:34:32Z",
+      "side": 1,
+      "message": "My bad. We should fix it.",
+      "parentUuid": "AAABE3//+20\u003d",
       "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "AAABE3//+v0\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubscriptionAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-31T18:34:32Z",
+      "side": 1,
+      "message": "Agree",
+      "parentUuid": "AAABE3///Os\u003d",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///Oo\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubscriptionAccess.java",
         "patchSetId": 11
@@ -132,6 +222,24 @@
       "writtenOn": "2011-08-31T04:29:18Z",
       "side": 1,
       "message": "bySource()?",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+vw\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubscriptionAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-31T18:34:32Z",
+      "side": 1,
+      "message": "Agree",
+      "parentUuid": "AAABE3///Oo\u003d",
       "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -183,6 +291,24 @@
       "writtenOn": "2011-08-31T04:29:18Z",
       "side": 1,
       "message": "Seems worthy of a class level static final GIT_MODULES_FILE.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+vs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-31T18:34:32Z",
+      "side": 1,
+      "message": "Agree",
+      "parentUuid": "AAABE3///nU\u003d",
       "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -455,6 +581,24 @@
       "writtenOn": "2011-08-31T04:29:18Z",
       "side": 1,
       "message": "Perhaps a small helper method would be useful here to build these submodule sections, something like submodule(name, path, url, rev)?  You might take it further and add a submoduleA(rev) method also, and one for B also.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+vg\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SubmoduleOpTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-08-31T18:34:32Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "AAABE3//+28\u003d",
       "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

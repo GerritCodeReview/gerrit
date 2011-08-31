@@ -1,0 +1,463 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABE3///n8\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "I normally like simple, but I think this may need to be qualified. What kind of subscription? (I can picture many different kinds being added in the future).\nBranchSubscription, SubmoduleSubscription?",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///n0\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Hmm, source and target seem confusing to me, but I am not familiar with normal gitlink terminology.  Since the comment says \"subscriber\", that sounds better than target to me.  Not sure of a better word for source.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///nw\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "No get()/set()?",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///Ow\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Here you do subscriber, my guess is it better than target.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+24\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Would it be possible to instead compare the keys instead of peeking into them?",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+20\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "You are not comparing the paths?",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///Os\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubscriptionAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "No need to mention subscription since everything here returns a subscription.  byTarget() ? Or bySubscriber()?",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///Oo\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubscriptionAccess.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "bySource()?",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///nc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleException.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Nits: a few 2008s to be updated I suspect (the new files).",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///nY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Logger first.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///nU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Seems worthy of a class level static final GIT_MODULES_FILE.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///nI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "These two messages seem like they should be more consistent.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+3E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "If it makes sense I would like to propose creating a \"subModule\" class here (might not be the best name).  This class would be created by passing Bcc and the id.  This class would know how to parse info about itself, perhaps with a few parser methods.  It would also be able to answer various question about the submodule config (more than just returning data values).  This way, there would be no parsing in this method, only higher level logic.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///OM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Could you put some sample input strings and project output names in the comments above each of the cases here?  If it makes sense, 178-192 might be a good candidate for a static parser method.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///OQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Maybe you can just remove the subscription from both the old and the new lists right here?  That would eliminate the extra storage needs (alreadySubscribeds) and it would eliminate the need for lines 214,215.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///mM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "There are a lot of very similar looking strings here, can you consolidate them?",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+3Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Would it be practical to add a test case with a looping subscription to ensure that the code does not loop forever?",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+3Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Nit: pathes/paths.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///lw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "This should probably just use Collections.singletonList(s), maybe even directly in the delete().",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+3U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Could this be done in the if instead of contains() preventing the double lookup?",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///lo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "More duplicated messages.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+3I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Perhaps this comment should warn that it is a possible recursive call.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+3M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Duplicated message, maybe it would be good to make a simple logAndThrowsubmoduleException() method?",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///lk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Could you add a comment with a sample input and output string for this method?  Something as simple as  \"git://server.a.b/foo/bar\" -\u003e \"server\" if that is what it does.  I might also suggest trying to use regexps instead, they are usually easier to read.  Lastly, I suspect there are some standard java utilities to get a parse a Url.  This could probably be static.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///OU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Can this be static?",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3///lQ\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SubmoduleOpTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Tests, way cool! :)",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABE3//+28\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SubmoduleOpTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-08-31T04:29:18Z",
+      "side": 1,
+      "message": "Perhaps a small helper method would be useful here to build these submodule sections, something like submodule(name, path, url, rev)?  You might take it further and add a submoduleA(rev) method also, and one for B also.",
+      "revId": "b75b1e9eb2e36a6ea90ed9b156b6c88ace1407cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

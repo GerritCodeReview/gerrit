@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABE3//+1g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-08-31T11:21:10Z",
+      "side": 1,
+      "message": "2 comments on this:\n\n1. I\u0027ve just tried out the schema migration. It only creates the CHANGE_LABELS table, but it doesn\u0027t add any label change permissions to the APPROVAL_CATEGORIES and APPROVAL_CATEGORY_VALUES tables.\n\n2. This change is just about the ChangeLabel table. The population of APPROVAL_CATEGORIES and APPROVAL_CATEGORY_VALUES with the label change permissions if needed seems to belong to change 24660 [1]. Actually I think APPROVAL_CATEGORIES and APPROVAL_CATEGORY_VALUES don\u0027t need to be updated (see my comment on patch set 3 of change 24660 [1]). Anyway if APPROVAL_CATEGORIES and APPROVAL_CATEGORY_VALUES need to be populated with the label change permissions I would then propose to have another schema migration in change 24660. In this case the commit message above should be adapted.\n\n[1] https://review.source.android.com/24660",
+      "revId": "89c817deafec2d43bc52f97ee05e9d7123173e47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

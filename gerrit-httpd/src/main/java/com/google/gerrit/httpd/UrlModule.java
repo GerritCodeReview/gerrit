@@ -24,6 +24,7 @@ import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.StaticServlet;
 import com.google.gerrit.httpd.raw.ToolServlet;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -37,6 +38,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 class UrlModule extends ServletModule {
+  private final AuthConfig authConfig;
+
+  public UrlModule(AuthConfig authConfig) {
+    this.authConfig = authConfig;
+  }
+
   @Override
   protected void configureServlets() {
     filter("/*").through(Key.get(CacheControlFilter.class));
@@ -54,7 +61,11 @@ class UrlModule extends ServletModule {
     serve("/tools/*").with(ToolServlet.class);
 
     filter("/p/*").through(ProjectAccessPathFilter.class);
-    filter("/p/*").through(ProjectDigestFilter.class);
+    if (authConfig.isTrustContainerAuth()) {
+      filter("/p/*").through(ContainerAuthFilter.class);
+    } else {
+      filter("/p/*").through(ProjectDigestFilter.class);
+    }
     serve("/p/*").with(ProjectServlet.class);
 
     serve("/Main.class").with(notFound());

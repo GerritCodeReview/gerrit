@@ -22,19 +22,16 @@ public class GroupList {
   protected List<GroupDetail> groups;
   protected boolean canCreateGroup;
 
+  public GroupList(final List<GroupDetail> groups, final boolean canCreateGroup) {
+    this.groups = groups;
+    this.canCreateGroup = canCreateGroup;
+  }
+
   public List<GroupDetail> getGroups() {
     return groups;
   }
 
-  public void setGroups(List<GroupDetail> groups) {
-    this.groups = groups;
-  }
-
   public boolean isCanCreateGroup() {
     return canCreateGroup;
-  }
-
-  public void setCanCreateGroup(boolean set) {
-    canCreateGroup = set;
   }
 }

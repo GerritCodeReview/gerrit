@@ -28,7 +28,14 @@ public interface GroupCache {
 
   public Collection<AccountGroup> get(AccountGroup.ExternalNameKey externalName);
 
+  /** @return sorted iteration of groups. */
+  public abstract Iterable<AccountGroup> all();
+
+  /** Notify the cache that a new group was constructed. */
+  public void onCreateGroup(AccountGroup.NameKey newGroupName);
+
   public void evict(AccountGroup group);
 
-  public void evictAfterRename(AccountGroup.NameKey oldName);
+  public void evictAfterRename(final AccountGroup.NameKey oldName,
+      final AccountGroup.NameKey newName);
 }

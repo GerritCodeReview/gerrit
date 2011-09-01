@@ -22,7 +22,7 @@ import com.google.gwtorm.client.StringKey;
 public final class AccountGroup {
   /** Group name key */
   public static class NameKey extends
-      StringKey<com.google.gwtorm.client.Key<?>> {
+      StringKey<com.google.gwtorm.client.Key<?>> implements Comparable<NameKey> {
     private static final long serialVersionUID = 1L;
 
     @Column(id = 1)
@@ -43,6 +43,11 @@ public final class AccountGroup {
     @Override
     protected void set(String newValue) {
       name = newValue;
+    }
+
+    @Override
+    public int compareTo(NameKey other) {
+      return get().compareTo(other.get());
     }
   }
 

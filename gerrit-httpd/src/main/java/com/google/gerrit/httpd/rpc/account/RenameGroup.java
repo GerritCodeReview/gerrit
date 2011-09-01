@@ -105,7 +105,7 @@ class RenameGroup extends Handler<GroupDetail> {
     }
 
     groupCache.evict(group);
-    groupCache.evictAfterRename(old);
+    groupCache.evictAfterRename(old, key);
     renameGroupOpFactory.create( //
         currentUser.newCommitterIdent(new Date(), TimeZone.getDefault()), //
         group.getGroupUUID(), //

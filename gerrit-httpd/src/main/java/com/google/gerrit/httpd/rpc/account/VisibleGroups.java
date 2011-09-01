@@ -14,19 +14,10 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
-import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupList;
 import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.account.PerformVisibleGroups;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 public class VisibleGroups extends Handler<GroupList> {
 
@@ -34,48 +25,15 @@ public class VisibleGroups extends Handler<GroupList> {
     VisibleGroups create();
   }
 
-  private final Provider<IdentifiedUser> identifiedUser;
-  private final GroupCache groupCache;
-  private final GroupControl.Factory groupControlFactory;
-  private final GroupDetailHandler.Factory groupDetailFactory;
+  private final PerformVisibleGroups.Factory performVisibleGroupsFactory;
 
   @Inject
-  VisibleGroups(final Provider<IdentifiedUser> currentUser,
-      final GroupCache groupCache,
-      final GroupControl.Factory groupControlFactory,
-      final GroupDetailHandler.Factory groupDetailFactory) {
-    this.identifiedUser = currentUser;
-    this.groupCache = groupCache;
-    this.groupControlFactory = groupControlFactory;
-    this.groupDetailFactory = groupDetailFactory;
+  VisibleGroups(final PerformVisibleGroups.Factory performVisibleGroupsFactory) {
+    this.performVisibleGroupsFactory = performVisibleGroupsFactory;
   }
 
   @Override
   public GroupList call() throws Exception {
-    final IdentifiedUser user = identifiedUser.get();
-    final List<AccountGroup> list;
-    if (user.getCapabilities().canAdministrateServer()) {
-      list = new LinkedList<AccountGroup>();
-      for (final AccountGroup group : groupCache.all()) {
-        list.add(group);
-      }
-    } else {
-      list = new ArrayList<AccountGroup>();
-      for(final AccountGroup group : groupCache.all()) {
-        final GroupControl c = groupControlFactory.controlFor(group);
-        if (c.isVisible()) {
-          list.add(c.getAccountGroup());
-        }
-      }
-    }
-
-    List<GroupDetail> l = new ArrayList<GroupDetail>();
-    for(AccountGroup group : list) {
-      l.add(groupDetailFactory.create(group.getId()).call());
-    }
-    GroupList res = new GroupList();
-    res.setGroups(l);
-    res.setCanCreateGroup(user.getCapabilities().canCreateGroup());
-    return res;
+    return performVisibleGroupsFactory.create().getVisibleGroups();
   }
 }

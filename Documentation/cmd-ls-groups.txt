@@ -1,0 +1,44 @@
+gerrit ls-groups
+================
+
+NAME
+----
+gerrit ls-groups - List groups visible to caller
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit ls-groups'
+
+DESCRIPTION
+-----------
+Displays the list of group names, one per line, that are visible to
+the account of the calling user.
+
+If the caller is a member of the privileged 'Administrators' group,
+all groups are listed.
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+EXAMPLES
+--------
+
+List visible groups:
+=====
+	$ ssh -p 29418 review.example.com gerrit ls-groups
+	Administrators
+	Anonymous Users
+	MyProject_Committers
+	Project Owners
+	Registered Users
+=====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

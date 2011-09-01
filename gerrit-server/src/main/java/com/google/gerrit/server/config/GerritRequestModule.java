@@ -25,6 +25,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.GroupMembersFactory;
 import com.google.gerrit.server.account.PerformCreateGroup;
+import com.google.gerrit.server.account.PerformVisibleGroups;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -89,6 +90,7 @@ public class GerritRequestModule extends FactoryModule {
     factory(MergeFailSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
     factory(PerformCreateGroup.Factory.class);
+    factory(PerformVisibleGroups.Factory.class);
     factory(GroupDetailFactory.Factory.class);
     factory(GroupMembersFactory.Factory.class);
   }

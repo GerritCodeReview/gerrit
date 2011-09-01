@@ -10,17 +10,16 @@
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
-// limitations under the License.
+// limitations under the License
 
-package com.google.gerrit.httpd.rpc.account;
+package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupList;
-import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupControl;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -30,30 +29,29 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class VisibleGroups extends Handler<GroupList> {
+public class VisibleGroups {
 
-  interface Factory {
+  public interface Factory {
     VisibleGroups create();
   }
 
   private final Provider<IdentifiedUser> identifiedUser;
   private final GroupCache groupCache;
   private final GroupControl.Factory groupControlFactory;
-  private final GroupDetailHandler.Factory groupDetailFactory;
+  private final GroupDetailFactory.Factory groupDetailFactory;
 
   @Inject
   VisibleGroups(final Provider<IdentifiedUser> currentUser,
       final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory,
-      final GroupDetailHandler.Factory groupDetailFactory) {
+      final GroupDetailFactory.Factory groupDetailFactory) {
     this.identifiedUser = currentUser;
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.groupDetailFactory = groupDetailFactory;
   }
 
-  @Override
-  public GroupList call() throws Exception {
+  public GroupList get() throws OrmException, NoSuchGroupException {
     final IdentifiedUser user = identifiedUser.get();
     final List<AccountGroup> list = new LinkedList<AccountGroup>();
     if (user.getCapabilities().canAdministrateServer()) {

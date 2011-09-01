@@ -49,17 +49,20 @@ public class PerformCreateGroup {
   private final GroupIncludeCache groupIncludeCache;
   private final IdentifiedUser currentUser;
   private final PersonIdent serverIdent;
+  private final GroupCache groupCache;
 
   @Inject
   PerformCreateGroup(final ReviewDb db, final AccountCache accountCache,
       final GroupIncludeCache groupIncludeCache,
       final IdentifiedUser currentUser,
-      @GerritPersonIdent final PersonIdent serverIdent) {
+      @GerritPersonIdent final PersonIdent serverIdent,
+      final GroupCache groupCache) {
     this.db = db;
     this.accountCache = accountCache;
     this.groupIncludeCache = groupIncludeCache;
     this.currentUser = currentUser;
     this.serverIdent = serverIdent;
+    this.groupCache = groupCache;
   }
 
   /**
@@ -124,6 +127,8 @@ public class PerformCreateGroup {
     if (initialGroups != null) {
       addGroups(groupId, initialGroups);
     }
+
+    groupCache.onCreateGroup(nameKey);
 
     return groupId;
   }

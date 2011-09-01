@@ -28,7 +28,13 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /** Tracks group objects in memory for efficient access. */
 @Singleton
@@ -37,6 +43,7 @@ public class GroupCacheImpl implements GroupCache {
   private static final String BYNAME_NAME = "groups_byname";
   private static final String BYUUID_NAME = "groups_byuuid";
   private static final String BYEXT_NAME = "groups_byext";
+  private static final String BYNAME_LIST = "groups_byname_list";
 
   public static Module module() {
     return new CacheModule() {
@@ -59,6 +66,10 @@ public class GroupCacheImpl implements GroupCache {
         core(byExternalName, BYEXT_NAME) //
             .populateWith(ByExternalNameLoader.class);
 
+        final TypeLiteral<Cache<ListKey, SortedSet<AccountGroup.NameKey>>> listType =
+          new TypeLiteral<Cache<ListKey, SortedSet<AccountGroup.NameKey>>>() {};
+        core(listType, BYNAME_LIST).populateWith(Lister.class);
+
         bind(GroupCacheImpl.class);
         bind(GroupCache.class).to(GroupCacheImpl.class);
       }
@@ -69,17 +80,22 @@ public class GroupCacheImpl implements GroupCache {
   private final Cache<AccountGroup.NameKey, AccountGroup> byName;
   private final Cache<AccountGroup.UUID, AccountGroup> byUUID;
   private final Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>> byExternalName;
+  private final Cache<ListKey,SortedSet<AccountGroup.NameKey>> list;
+  private final Lock listLock;
 
   @Inject
   GroupCacheImpl(
       @Named(BYID_NAME) Cache<AccountGroup.Id, AccountGroup> byId,
       @Named(BYNAME_NAME) Cache<AccountGroup.NameKey, AccountGroup> byName,
       @Named(BYUUID_NAME) Cache<AccountGroup.UUID, AccountGroup> byUUID,
-      @Named(BYEXT_NAME) Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>> byExternalName) {
+      @Named(BYEXT_NAME) Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>> byExternalName,
+      @Named(BYNAME_LIST) final Cache<ListKey, SortedSet<AccountGroup.NameKey>> list) {
     this.byId = byId;
     this.byName = byName;
     this.byUUID = byUUID;
     this.byExternalName = byExternalName;
+    this.list = list;
+    this.listLock = new ReentrantLock(true /* fair */);
   }
 
   public AccountGroup get(final AccountGroup.Id groupId) {
@@ -93,8 +109,10 @@ public class GroupCacheImpl implements GroupCache {
     byExternalName.remove(group.getExternalNameKey());
   }
 
-  public void evictAfterRename(final AccountGroup.NameKey oldName) {
+  public void evictAfterRename(final AccountGroup.NameKey oldName,
+      final AccountGroup.NameKey newName) {
     byName.remove(oldName);
+    updateGroupList(oldName, newName);
   }
 
   public AccountGroup get(final AccountGroup.NameKey name) {
@@ -108,6 +126,41 @@ public class GroupCacheImpl implements GroupCache {
   public Collection<AccountGroup> get(
       final AccountGroup.ExternalNameKey externalName) {
     return byExternalName.get(externalName);
+  }
+
+  @Override
+  public Iterable<AccountGroup> all() {
+    final List<AccountGroup> groups = new LinkedList<AccountGroup>();
+    for (final AccountGroup.NameKey groupName : list.get(ListKey.ALL)) {
+      final AccountGroup group = get(groupName);
+      if (group != null) {
+        groups.add(group);
+      }
+    }
+    return Collections.unmodifiableList(groups);
+  }
+
+  @Override
+  public void onCreateGroup(final AccountGroup.NameKey newGroupName) {
+    updateGroupList(null, newGroupName);
+  }
+
+  private void updateGroupList(final AccountGroup.NameKey nameToRemove,
+      final AccountGroup.NameKey nameToAdd) {
+    listLock.lock();
+    try {
+      SortedSet<AccountGroup.NameKey> n = list.get(ListKey.ALL);
+      n = new TreeSet<AccountGroup.NameKey>(n);
+      if (nameToRemove != null) {
+        n.remove(nameToRemove);
+      }
+      if (nameToAdd != null) {
+        n.add(nameToAdd);
+      }
+      list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
+    } finally {
+      listLock.unlock();
+    }
   }
 
   static class ByIdLoader extends EntryCreator<AccountGroup.Id, AccountGroup> {
@@ -211,6 +264,40 @@ public class GroupCacheImpl implements GroupCache {
       final ReviewDb db = schema.open();
       try {
         return db.accountGroups().byExternalName(key).toList();
+      } finally {
+        db.close();
+      }
+    }
+  }
+
+  static class ListKey {
+    static final ListKey ALL = new ListKey();
+
+    private ListKey() {
+    }
+  }
+
+  static class Lister extends EntryCreator<ListKey, SortedSet<AccountGroup.NameKey>> {
+    private final SchemaFactory<ReviewDb> schema;
+
+    @Inject
+    Lister(final SchemaFactory<ReviewDb> sf) {
+      schema = sf;
+    }
+
+    @Override
+    public SortedSet<AccountGroup.NameKey> createEntry(ListKey key)
+        throws Exception {
+      final ReviewDb db = schema.open();
+      try {
+        final List<AccountGroupName> groupNames =
+            db.accountGroupNames().all().toList();
+        final SortedSet<AccountGroup.NameKey> groups =
+            new TreeSet<AccountGroup.NameKey>();
+        for (final AccountGroupName groupName : groupNames) {
+          groups.add(groupName.getNameKey());
+        }
+        return Collections.unmodifiableSortedSet(groups);
       } finally {
         db.close();
       }

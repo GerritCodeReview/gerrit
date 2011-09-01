@@ -41,6 +41,14 @@ OPTIONS
 	If the user does not have access to any branch in the project then the
 	whole project is not shown.
 
+--Description::
+--d::
+	Allows listing of projects together with their respective
+	description.
+
+	Line-feeds are escaped to allow ls-project to keep the
+	"one project per line"-style.
+
 --tree::
 -t::
 	Displays project inheritance in a tree-like format.

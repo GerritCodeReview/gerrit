@@ -107,7 +107,7 @@ public class PerformRenameGroup {
     }
 
     groupCache.evict(group);
-    groupCache.evictAfterRename(old);
+    groupCache.evictAfterRename(old, key);
     renameGroupOpFactory.create( //
         currentUser.newCommitterIdent(new Date(), TimeZone.getDefault()), //
         group.getGroupUUID(), //

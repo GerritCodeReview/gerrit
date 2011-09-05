@@ -16,11 +16,11 @@ package com.google.gerrit.common;
 
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.reviewdb.AbstractEntity.Status;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Change.Status;
 import com.google.gwtorm.client.KeyUtil;
 
 public class PageLinks {

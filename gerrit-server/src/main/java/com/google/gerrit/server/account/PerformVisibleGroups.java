@@ -16,9 +16,11 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupList;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -26,6 +28,9 @@ import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class PerformVisibleGroups {
 
@@ -38,6 +43,8 @@ public class PerformVisibleGroups {
   private final GroupControl.Factory groupControlFactory;
   private final GroupDetailFactory.Factory groupDetailFactory;
 
+  private Set<ProjectControl> projects;
+
   @Inject
   PerformVisibleGroups(final Provider<IdentifiedUser> currentUser,
       final GroupCache groupCache,
@@ -49,31 +56,62 @@ public class PerformVisibleGroups {
     this.groupDetailFactory = groupDetailFactory;
   }
 
+  public void setProjects(final Set<ProjectControl> projects) {
+    this.projects = projects;
+  }
+
   public GroupList getVisibleGroups() throws OrmException, NoSuchGroupException {
-    final IdentifiedUser user = identifiedUser.get();
-    final List<AccountGroup> list;
-    if (user.getCapabilities().canAdministrateServer()) {
-      list = new LinkedList<AccountGroup>();
-      for (final AccountGroup group : groupCache.all()) {
-        list.add(group);
-      }
+    final Iterable<AccountGroup> groups;
+    if (projects != null && !projects.isEmpty()) {
+      groups = getGroupsForProjects();
     } else {
-      list = new ArrayList<AccountGroup>();
-      for(final AccountGroup group : groupCache.all()) {
+      groups = groupCache.all();
+    }
+    return createGroupList(filterGroups(groups));
+  }
+
+  private Set<AccountGroup> getGroupsForProjects() throws NoSuchGroupException {
+    final SortedSet<AccountGroup> groups =
+        new TreeSet<AccountGroup>(new GroupComparator());
+    for (final ProjectControl projectControl : projects) {
+      final Set<GroupReference> groupsRefs = projectControl.getAllGroups();
+      for (final GroupReference groupRef : groupsRefs) {
+        final AccountGroup group = groupCache.get(groupRef.getUUID());
+        if (group == null) {
+          throw new NoSuchGroupException(groupRef.getUUID());
+        }
+        groups.add(group);
+      }
+    }
+    return groups;
+  }
+
+  private List<AccountGroup> filterGroups(final Iterable<AccountGroup> groups) {
+    final List<AccountGroup> filteredGroups = new LinkedList<AccountGroup>();
+    final boolean isAdmin =
+        identifiedUser.get().getCapabilities().canAdministrateServer();
+    for (final AccountGroup group : groups) {
+      if (!isAdmin) {
         final GroupControl c = groupControlFactory.controlFor(group);
-        if (c.isVisible()) {
-          list.add(c.getAccountGroup());
+        if (!c.isVisible()) {
+          continue;
         }
       }
+      filteredGroups.add(group);
     }
+    return filteredGroups;
+  }
 
-    List<GroupDetail> l = new ArrayList<GroupDetail>();
-    for(AccountGroup group : list) {
-      l.add(groupDetailFactory.create(group.getId()).call());
+  private GroupList createGroupList(final List<AccountGroup> groups)
+      throws OrmException, NoSuchGroupException {
+    final List<GroupDetail> groupDetailList = new ArrayList<GroupDetail>();
+    for (final AccountGroup group : groups) {
+      groupDetailList.add(groupDetailFactory.create(group.getId()).call());
     }
-    GroupList res = new GroupList();
-    res.setGroups(l);
-    res.setCanCreateGroup(user.getCapabilities().canCreateGroup());
-    return res;
+    final GroupList groupList = new GroupList();
+    groupList.setGroups(groupDetailList);
+    groupList.setCanCreateGroup(identifiedUser.get().getCapabilities()
+        .canCreateGroup());
+    return groupList;
   }
 }

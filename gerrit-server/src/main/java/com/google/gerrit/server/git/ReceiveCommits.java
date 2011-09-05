@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
@@ -1308,7 +1307,7 @@ public class ReceiveCommits {
           destBranch);
       change.setTopic(destTopicName);
 
-      ps = new PatchSet(new PatchSet.Id(change.getId(), INITIAL_PATCH_SET_ID));
+      ps = new PatchSet(new PatchSet.Id(change.getId(), Change.INITIAL_PATCH_SET_ID));
       ps.setCreatedOn(change.getCreatedOn());
       ps.setUploader(change.getOwner());
       ps.setRevision(toRevId(c));

@@ -15,7 +15,7 @@
 ASCIIDOC       ?= asciidoc
 ASCIIDOC_EXTRA ?=
 SVN            ?= svn
-PUB_ROOT       ?= https://gerrit.googlecode.com/svn/documentation
+PUB_ROOT       ?= https://gerrit-documentation.googlecode.com/svn/Documentation
 
 all: html
 

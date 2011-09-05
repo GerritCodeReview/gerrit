@@ -809,12 +809,7 @@ limitations under the License.
 
     <repository>
       <id>gerrit-maven-repository</id>
-      <url>http://gerrit.googlecode.com/svn/mavenrepo/</url>
-    </repository>
-
-    <repository>
-      <id>gerrit-snapshot-repository</id>
-      <url>http://gerrit.googlecode.com/svn/mavenrepo/snapshots/</url>
+      <url>https://gerrit-maven-repository.googlecode.com/svn/</url>
     </repository>
 
     <repository>
@@ -824,7 +819,7 @@ limitations under the License.
 
     <repository>
       <id>gson</id>
-      <url>http://google-gson.googlecode.com/svn/mavenrepo/</url>
+      <url>https://google-gson.googlecode.com/svn/mavenrepo/</url>
     </repository>
 
     <repository>

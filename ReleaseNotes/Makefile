@@ -15,7 +15,7 @@
 ASCIIDOC       ?= asciidoc
 ASCIIDOC_EXTRA ?=
 SVN            ?= svn
-PUB_ROOT       ?= https://gerrit.googlecode.com/svn/ReleaseNotes
+PUB_ROOT       ?= https://gerrit-documentation.googlecode.com/svn/ReleaseNotes
 
 DOC_HTML      := $(patsubst %.txt,%.html,$(wildcard ReleaseNotes*.txt))
 COMMIT        := $(shell git describe HEAD | sed s/^v//)

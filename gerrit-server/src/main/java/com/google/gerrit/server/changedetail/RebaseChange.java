@@ -16,10 +16,10 @@ package com.google.gerrit.server.changedetail;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.reviewdb.client.AbstractEntity.Status;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;

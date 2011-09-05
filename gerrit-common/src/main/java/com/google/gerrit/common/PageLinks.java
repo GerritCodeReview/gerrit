@@ -16,9 +16,9 @@ package com.google.gerrit.common;
 
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.AbstractEntity.Status;
 import com.google.gwtorm.client.KeyUtil;
 
 public class PageLinks {

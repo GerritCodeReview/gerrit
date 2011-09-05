@@ -147,7 +147,7 @@ public final class PatchSetApproval {
   }
 
   public void cache(final Change c) {
-    changeOpen = c.open;
-    changeSortKey = c.sortKey;
+    changeOpen = c.getStatus().isOpen();
+    changeSortKey = c.getSortKey();
   }
 }

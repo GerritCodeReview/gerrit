@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
@@ -251,6 +252,19 @@ public class ProjectControl {
       }
     }
     return Capable.OK;
+  }
+
+  public Set<GroupReference> getAllGroups() {
+    final Set<GroupReference> all = new HashSet<GroupReference>();
+    for (final SectionMatcher matcher : access()) {
+      final AccessSection section = matcher.section;
+      for (final Permission permission : section.getPermissions()) {
+        for (final PermissionRule rule : permission.getRules()) {
+          all.add(rule.getGroup());
+        }
+      }
+    }
+    return all;
   }
 
   private Capable verifyActiveContributorAgreement() throws OrmException {

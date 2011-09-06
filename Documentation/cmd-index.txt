@@ -57,6 +57,9 @@ see link:user-upload.html#test_ssh[Testing Your SSH Connection].
 link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 
+link:cmd-ls-projects.html[gerrit rename-group]::
+	Rename an account group.
+
 link:cmd-set-reviewers.html[gerrit set-reviewers]::
         Add or remove reviewers on a change.
 

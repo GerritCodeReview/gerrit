@@ -1054,9 +1054,10 @@ For example, "?p=$project.git;h=$commit".
 [[gitweb.type]]gitweb.type::
 +
 Optional type of affiliated gitweb service. This allows using
-alternatives to gitweb, such as cgit.
+alternatives to gitweb, such as cgit. If set to disabled there
+is no gitweb hyperlinking support.
 +
-Valid values are `gitweb`, `cgit` or `custom`.
+Valid values are `gitweb`, `cgit`, `disabled` or `custom`.
 
 [[gitweb.type]]gitweb.revision::
 +

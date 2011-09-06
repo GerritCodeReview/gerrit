@@ -22,7 +22,6 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
-import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
 import net.sf.ehcache.CacheManager;
@@ -214,8 +213,8 @@ public class CachePool {
       }
     }
 
-    private void configureDefaultCache() {
-      final CacheConfiguration c = new CacheConfiguration();
+    private CacheConfiguration newConfiguration() {
+      CacheConfiguration c = new CacheConfiguration();
 
       c.setMaxElementsInMemory(1024);
       c.setMemoryStoreEvictionPolicyFromObject(MemoryStoreEvictionPolicy.LFU);
@@ -232,19 +231,17 @@ public class CachePool {
         c.setDiskSpoolBufferSizeMB(5);
         c.setDiskExpiryThreadIntervalSeconds(60 * 60);
       }
+      return c;
+    }
 
-      mgr.setDefaultCacheConfiguration(c);
+    private void configureDefaultCache() {
+      mgr.setDefaultCacheConfiguration(newConfiguration());
     }
 
     private CacheConfiguration newCache(final String name) {
-      try {
-        final CacheConfiguration c;
-        c = mgr.getDefaultCacheConfiguration().clone();
-        c.setName(name);
-        return c;
-      } catch (CloneNotSupportedException e) {
-        throw new ProvisionException("Cannot configure cache " + name, e);
-      }
+      CacheConfiguration c = newConfiguration();
+      c.setName(name);
+      return c;
     }
   }
 }

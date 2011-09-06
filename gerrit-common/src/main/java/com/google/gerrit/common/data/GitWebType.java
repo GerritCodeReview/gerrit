@@ -40,6 +40,9 @@ public class GitWebType {
     } else if (name.equalsIgnoreCase("custom")) {
       type = new GitWebType();
 
+    } else if (name.equalsIgnoreCase("disabled")) {
+      type = null;
+
     } else {
       type = null;
     }

@@ -45,6 +45,7 @@ public class VisibleGroups {
   private final GroupDetailFactory.Factory groupDetailFactory;
 
   private Collection<ProjectControl> projects;
+  private boolean onlyVisibleToAll;
 
   @Inject
   VisibleGroups(final Provider<IdentifiedUser> currentUser,
@@ -59,6 +60,10 @@ public class VisibleGroups {
 
   public void setProjects(final Collection<ProjectControl> projects) {
     this.projects = projects;
+  }
+
+  public void setOnlyVisibleToAll(final boolean onlyVisibleToAll) {
+    this.onlyVisibleToAll = onlyVisibleToAll;
   }
 
   public GroupList get() throws OrmException, NoSuchGroupException {
@@ -97,6 +102,9 @@ public class VisibleGroups {
         if (!c.isVisible()) {
           continue;
         }
+      }
+      if (onlyVisibleToAll && !group.isVisibleToAll()) {
+        continue;
       }
       filteredGroups.add(group);
     }

@@ -10,6 +10,7 @@ SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit ls-groups'
   [--project <NAME>]
+  [--visible-to-all]
 
 DESCRIPTION
 -----------
@@ -37,6 +38,11 @@ OPTIONS
 	Multiple --project options may be specified to specify additional
 	projects. In this case all groups are listed that have a
 	permission for any of the specified projects.
+
+--visible-to-all::
+	Displays only groups that are visible to all registered users
+	(groups that are explicitly marked as visible to all registered
+	users).
 
 EXAMPLES
 --------

@@ -43,6 +43,9 @@ public class ListGroups extends BaseCommand {
     projects.add(project);
   }
 
+  @Option(name = "--visible-to-all", usage = "to list only groups that are visible to all registered users")
+  private boolean visibleToAll;
+
   @Override
   public void start(final Environment env) throws IOException {
     startThread(new CommandRunnable() {
@@ -60,6 +63,7 @@ public class ListGroups extends BaseCommand {
       final PerformVisibleGroups performVisibleGroups =
           performVisibleGroupsFactory.create();
       performVisibleGroups.setProjects(projects);
+      performVisibleGroups.setOnlyVisibleToAll(visibleToAll);
       final GroupList visibleGroups =
           performVisibleGroups.getVisibleGroups();
       for (final GroupDetail groupDetail : visibleGroups.getGroups()) {

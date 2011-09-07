@@ -32,6 +32,13 @@ The `Abandoned.vm` template will determine the contents of the email related
 to a change being abandoned.  It is a `ChangeEmail`: see `ChangeSubject.vm` and
 `ChangeFooter.vm`.
 
+Moved.vm
+~~~~~~~~
+
+The `Moved.vm` template will determine the contents of the email related
+to a change being moved to another destination branch.  It
+is a `ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
+
 ChangeFooter.vm
 ~~~~~~~~~~~~~~~
 

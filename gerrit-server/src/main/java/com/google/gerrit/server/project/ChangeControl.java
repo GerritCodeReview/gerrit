@@ -291,6 +291,13 @@ public class ChangeControl {
     return false;
   }
 
+  /** Can this user change the destination branch of this change
+      to this new branch? */
+  public boolean canMoveTo(final String branch) {
+    return isOwner() &&
+      getProjectControl().controlForRef(branch).canMoveTo();
+  }
+
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet) {
     return canSubmit(db, patchSet, null, false);
   }

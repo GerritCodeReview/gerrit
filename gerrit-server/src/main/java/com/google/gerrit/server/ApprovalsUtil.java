@@ -33,4 +33,11 @@ public class ApprovalsUtil {
     }
     db.patchSetApprovals().update(approvals);
   }
+
+  public static void clearCurrentPatchSetApprovals(final ReviewDb db,
+      final Change change) throws OrmException {
+    final List<PatchSetApproval> approvals =
+        db.patchSetApprovals().byPatchSet(change.currentPatchSetId()).toList();
+    db.patchSetApprovals().delete(approvals);
+  }
 }

@@ -41,6 +41,7 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
+import com.google.gerrit.server.mail.ChangeMovedSender;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MergeFailSender;
@@ -97,6 +98,7 @@ public class GerritRequestModule extends FactoryModule {
     factory(PublishDraft.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
     factory(AbandonedSender.Factory.class);
+    factory(ChangeMovedSender.Factory.class);
     factory(RemoveReviewer.Factory.class);
     factory(RestoreChange.Factory.class);
     factory(RestoredSender.Factory.class);

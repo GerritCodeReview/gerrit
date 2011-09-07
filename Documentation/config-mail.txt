@@ -63,6 +63,13 @@ MergeFail.vm
 The `MergeFail.vm` template will determine the contents of the email related
 to a failure upon attempting to merge a change to the head.  It is a
 
+Moved.vm
+~~~~~~~~
+
+The `Moved.vm` template will determine the contents of the email related
+to a change being moved to another destination branch.  It
+is a `ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
+
 NewChange.vm
 ~~~~~~~~~~~~
 

@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.mail.ChangeMovedSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -50,6 +51,7 @@ public class MoveChange implements Callable<VoidResult> {
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
   private final IdentifiedUser currentUser;
+  private final ChangeMovedSender.Factory senderFactory;
 
   private final PatchSet.Id patchSetId;
   private final String branch;
@@ -58,12 +60,15 @@ public class MoveChange implements Callable<VoidResult> {
 
   @Inject
   MoveChange(final ChangeControl.Factory changeControlFactory, final ReviewDb db,
-      final IdentifiedUser currentUser, @Assisted final PatchSet.Id patchSetId,
+      final IdentifiedUser currentUser,
+      final ChangeMovedSender.Factory senderFactory,
+      @Assisted final PatchSet.Id patchSetId,
       @Assisted("branch") final String branch,
       @Assisted("message") @Nullable final String changeComment) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.currentUser = currentUser;
+    this.senderFactory = senderFactory;
 
     this.patchSetId = patchSetId;
     this.branch = branch;
@@ -122,6 +127,12 @@ public class MoveChange implements Callable<VoidResult> {
     db.changeMessages().insert(Collections.singleton(cmsg));
 
     ApprovalsUtil.clearCurrentPatchSetApprovals(db, updatedChange);
+
+    // Email the reviewers
+    final ChangeMovedSender cm = senderFactory.create(updatedChange);
+    cm.setFrom(currentUser.getAccountId());
+    cm.setChangeMessage(cmsg);
+    cm.send();
 
     return VoidResult.INSTANCE;
   }

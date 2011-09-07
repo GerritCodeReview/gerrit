@@ -273,6 +273,12 @@ public class ChangeControl {
     return false;
   }
 
+  /** Can this user change the destination branch of this change? */
+  public boolean canMoveTo(final String branch) {
+    return isOwner() &&
+      getProjectControl().controlForRef(branch).canUpload();
+  }
+
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet.Id patchSetId) {
     if (change.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();

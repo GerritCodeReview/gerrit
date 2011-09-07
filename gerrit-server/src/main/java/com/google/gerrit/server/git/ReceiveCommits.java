@@ -89,6 +89,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -149,8 +150,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final Map<RevCommit, ReplaceRequest> replaceByCommit =
       new HashMap<RevCommit, ReplaceRequest>();
 
-  private Collection<ObjectId> existingObjects;
   private Map<ObjectId, Ref> refsById;
+  private Map<ObjectId, List<String>> allRefsById;
 
   private String destTopicName;
 
@@ -780,17 +781,51 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     return true;
   }
 
+
+  /**
+   * Compares two references being equal if they are aimed at the same branch,
+   * so for our purposes refs/heads/master == refs/for/master
+   *
+   * @param newRef The new reference that is requested
+   * @param refs List of old references
+   * @return true if there is a match
+   */
+  private static boolean containsChangeOrCommit(String newRef, List<String> refs) {
+    String compareStr = newRef.replaceFirst("/heads/", "/for/");
+    for (String ref : refs) {
+      if (compareStr.equals(ref.replaceFirst("/heads/", "/for/"))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private void createNewChanges() {
     final List<RevCommit> toCreate = new ArrayList<RevCommit>();
     final RevWalk walk = rp.getRevWalk();
     walk.reset();
     walk.sort(RevSort.TOPO);
     walk.sort(RevSort.REVERSE, true);
+
+    boolean changePending = false;
+
     try {
-      walk.markStart(walk.parseCommit(newChange.getNewId()));
-      for (ObjectId id : existingObjects()) {
+      RevCommit cmt =  walk.parseCommit(newChange.getNewId());
+      walk.markStart(cmt);
+      for (ObjectId id : allReferencesById().keySet()) {
         try {
-          walk.markUninteresting(walk.parseCommit(id));
+          // We only check the HEAD commit as all the other commits
+          // that are 'new' in this branch are linked through the
+          // cmt->parent field, hence, marking it as interesting will
+          // also mark it's (new) parents interesting.
+          if (cmt.getId().equals(id)
+              && !(changePending = containsChangeRef(allReferencesById().get(id)))
+              && !containsChangeOrCommit(newChange.getRefName(),
+                  allReferencesById().get(id))) {
+            continue;
+          } else {
+            walk.markUninteresting(walk.parseCommit(id));
+          }
         } catch (IOException e) {
           continue;
         }
@@ -878,7 +913,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     if (toCreate.isEmpty() && replaceByChange.isEmpty()) {
-      reject(newChange, "no new changes");
+      if (changePending) {
+        reject(newChange, "these change(s) are already pending review");
+      } else {
+        reject(newChange, "no new changes");
+      }
       return;
     }
 
@@ -896,6 +935,15 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       }
     }
     newChange.setResult(ReceiveCommand.Result.OK);
+  }
+
+  private static boolean containsChangeRef(List<String> refs) {
+    for (String ref : refs) {
+      if (ref.startsWith("refs/changes/")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private static boolean isValidChangeId(String idStr) {
@@ -1462,7 +1510,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     walk.sort(RevSort.NONE);
     try {
       walk.markStart(walk.parseCommit(cmd.getNewId()));
-      for (ObjectId id : existingObjects()) {
+      for (ObjectId id : allReferencesById().keySet()) {
         try {
           walk.markUninteresting(walk.parseCommit(id));
         } catch (IOException e) {
@@ -1482,15 +1530,22 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
   }
 
-  private Collection<ObjectId> existingObjects() {
-    if (existingObjects == null) {
+  private Map<ObjectId, List<String>> allReferencesById() {
+    if (allRefsById == null) {
       Map<String, Ref> refs = repo.getAllRefs();
-      existingObjects = new ArrayList<ObjectId>(refs.size());
+      allRefsById = new HashMap<ObjectId, List<String>>();
       for (Ref r : refs.values()) {
-        existingObjects.add(r.getObjectId());
+        List<String> existingRefs;
+        if ((existingRefs = allRefsById.get(r.getObjectId())) != null) {
+          existingRefs.add(r.getName());
+        } else {
+          List<String> newRefs = new LinkedList<String>();
+          newRefs.add(r.getName());
+          allRefsById.put(r.getObjectId(), newRefs);
+        }
       }
     }
-    return existingObjects;
+    return allRefsById;
   }
 
   private boolean validCommit(final RefControl ctl, final ReceiveCommand cmd,

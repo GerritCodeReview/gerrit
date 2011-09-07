@@ -115,6 +115,17 @@ public class RefControl {
         && canWrite();
   }
 
+  /**
+   * Determines whether the user can move a change to the ref controlled by
+   * this object.
+   *
+   * @return {@code true} if the user specified can move a change to the Git
+   *         ref
+   */
+  public boolean canMoveTo() {
+    return canUpload();
+  }
+
   /** @return true if this user can submit merge patch sets to this ref */
   public boolean canUploadMerges() {
     return projectControl.controlForRef("refs/for/" + getRefName())

@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.ArrayList;
 
 public class ApprovalsUtil {
   private final ReviewDb db;
@@ -132,5 +133,41 @@ public class ApprovalsUtil {
       cells.add(psa);
     }
     db.patchSetApprovals().insert(cells);
+  }
+
+  /**
+   * Clears the PatchSetApprovals from the current PatchSet on the change while
+   * keeping the vetos.
+   *
+   * @param change Change to update
+   * @throws OrmException
+   */
+  public static void clearCurrentPatchSetNonVetos(final Change change)
+      throws OrmException {
+    List<PatchSetApproval> reviews = getReviews(db.patchSetApprovals()
+        .byPatchSet(change.currentPatchSetId()).toList());
+    for (PatchSetApproval r : reviews) {
+      final ApprovalType type = approvalTypes.byId(r.getCategoryId());
+      if (type.getCategory().isCopyMinScore() && type.isMaxNegative(r)) {
+        // If there was a negative vote, carry it to the new branch.
+        continue;
+      }
+      // Setting to 0 instead of deleting ensures that they are still CCed
+      r.setValue((short) 0);
+    }
+    db.patchSetApprovals().update(reviews);
+  }
+
+  /** Get non-zero approvals from a list of approvals. */
+  public static List<PatchSetApproval> getReviews(List<PatchSetApproval>
+       approvals) {
+    List<PatchSetApproval> reviews = new ArrayList<PatchSetApproval>(
+        approvals.size());
+    for (PatchSetApproval a : approvals) {
+      if (a.getValue() != 0) {
+        reviews.add(a);
+      }
+    }
+    return reviews;
   }
 }

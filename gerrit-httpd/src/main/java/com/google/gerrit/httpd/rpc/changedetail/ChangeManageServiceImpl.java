@@ -25,6 +25,7 @@ class ChangeManageServiceImpl implements ChangeManageService {
   private final SubmitAction.Factory submitAction;
   private final AbandonChangeHandler.Factory abandonChangeHandlerFactory;
   private final RebaseChange.Factory rebaseChangeFactory;
+  private final MoveChangeHandler.Factory moveChangeHandlerFactory;
   private final RestoreChangeHandler.Factory restoreChangeHandlerFactory;
   private final RevertChange.Factory revertChangeFactory;
   private final PublishAction.Factory publishAction;
@@ -34,6 +35,7 @@ class ChangeManageServiceImpl implements ChangeManageService {
   ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction,
       final AbandonChangeHandler.Factory abandonChangeHandlerFactory,
       final RebaseChange.Factory rebaseChangeFactory,
+      final MoveChangeHandler.Factory moveChangeHandlerFactory,
       final RestoreChangeHandler.Factory restoreChangeHandlerFactory,
       final RevertChange.Factory revertChangeFactory,
       final PublishAction.Factory publishAction,
@@ -41,6 +43,7 @@ class ChangeManageServiceImpl implements ChangeManageService {
     this.submitAction = patchSetAction;
     this.abandonChangeHandlerFactory = abandonChangeHandlerFactory;
     this.rebaseChangeFactory = rebaseChangeFactory;
+    this.moveChangeHandlerFactory = moveChangeHandlerFactory;
     this.restoreChangeHandlerFactory = restoreChangeHandlerFactory;
     this.revertChangeFactory = revertChangeFactory;
     this.publishAction = publishAction;
@@ -60,6 +63,11 @@ class ChangeManageServiceImpl implements ChangeManageService {
   public void rebaseChange(final PatchSet.Id patchSetId,
       final AsyncCallback<ChangeDetail> callback) {
     rebaseChangeFactory.create(patchSetId).to(callback);
+  }
+
+  public void moveChange(final PatchSet.Id patchSetId, final String branch,
+      final String message, final AsyncCallback<ChangeDetail> callback) {
+    moveChangeHandlerFactory.create(patchSetId, branch, message).to(callback);
   }
 
   public void revertChange(final PatchSet.Id patchSetId, final String message,

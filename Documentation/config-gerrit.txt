@@ -1735,6 +1735,25 @@ should expire.
 +
 By default, unset, so no Expiry-Date header is generated.
 
+
+[[site]]Section site
+~~~~~~~~~~~~~~~~~~~~
+
+[[site.checkUserAgent]]site.checkUserAgent::
++
+If true the server checks the User-Agent HTTP header and sends the
+correct JavaScript to the client as part of the initial page load.
+This usually reduces a round-trip for the client, allowing the UI to
+start more quickly. If false, a tiny JavaScript loader is sent to the
+client instead to determine the correct code to use. Default is true.
+
+[[site.refreshHeaderFooter]]site.refreshHeaderFooter::
++
+If true the server checks the site header, footer and CSS files for
+updated versions. If false, a server restart is required to change
+any of these resources. Default is true, allowing automatic reloads.
+
+
 [[sshd]] Section sshd
 ~~~~~~~~~~~~~~~~~~~~~
 

@@ -158,13 +158,13 @@ Reference-level access control is also possible.
 
 Permissions can be set on a single reference name to match one
 branch (e.g. `refs/heads/master`), or on a reference namespace
-(e.g. `refs/heads/\*`) to match any branch starting with that
-prefix. So a permission with `refs/heads/\*` will match
+(e.g. `refs/heads/*`) to match any branch starting with that
+prefix. So a permission with `refs/heads/*` will match
 `refs/heads/master` and `refs/heads/experimental`, etc.
 
 Reference names can also be described with a regular expression
-by prefixing the reference name with `\^`.  For example
-`\^refs/heads/[a-z]\{1,8\}` matches all lower case branch names
+by prefixing the reference name with `^`.  For example
+`^refs/heads/[a-z]{1,8}` matches all lower case branch names
 between 1 and 8 characters long.  Within a regular expression `.`
 is a wildcard matching any character, but may be escaped as `\.`.
 The link:http://www.brics.dk/automaton/[dk.brics.automaton library]
@@ -175,7 +175,7 @@ particular regular expression flavor.
 References can have the current user name automatically included,
 creating dynamic access controls that change to match the currently
 logged in user.  For example to provide a personal sandbox space
-to all developers, `refs/heads/sandbox/$\{username\}/*` allowing
+to all developers, `refs/heads/sandbox/${username}/*` allowing
 the user 'joe' to use 'refs/heads/sandbox/joe/foo'.
 
 When evaluating a reference-level access right, Gerrit will use
@@ -298,7 +298,7 @@ member of, just like for any other user.
 Ownership over a particular branch subspace may be delegated by
 entering a branch pattern.  To delegate control over all branches
 that begin with `qa/` to the QA group, add `Owner` category
-for reference `refs/heads/qa/\*`.  Members of the QA group can
+for reference `refs/heads/qa/*`.  Members of the QA group can
 further refine access, but only for references that begin with
 `refs/heads/qa/`.
 
@@ -314,13 +314,13 @@ changes, or any of its data.
 This category has a special behavior, where the per-project ACL is
 evaluated before the global all projects ACL.  If the per-project
 ACL has granted `Read Access -1`, and does not otherwise grant
-`Read Access \+1`, then a `Read Access +1` in the all projects ACL
+`Read Access +1`, then a `Read Access +1` in the all projects ACL
 is ignored.  This behavior is useful to hide a handful of projects
 on an otherwise public server.
 
 For an open source, public Gerrit installation it is common to grant
-`Read Access +1` to `Anonymous Users` in the `\-- All Projects
-\--` ACL, enabling casual browsing of any project's changes,
+`Read Access +1` to `Anonymous Users` in the `-- All Projects
+--` ACL, enabling casual browsing of any project's changes,
 as well as fetching any project's repository over SSH or HTTP.
 New projects can be temporarily hidden from public view by granting
 `Read Access -1` to `Anonymous Users` and granting `Read Access +1`
@@ -349,8 +349,8 @@ Read Access +1 to even develop a change.  Therefore upload access
 implies read access by simply being a higher level of it.
 
 For an open source, public Gerrit installation, it is common to
-grant `Read Access +1..+2` to `Registered Users` in the `\-- All
-Projects \--` ACL.  For more private installations, its common to
+grant `Read Access +1..+2` to `Registered Users` in the `-- All
+Projects --` ACL.  For more private installations, its common to
 simply grant `Read Access +1..+2` to all users of a project.
 
 [[category_READ_3]]
@@ -519,7 +519,7 @@ project, it can be deleted from the database:
 
 If a Gerrit installation wants to modify the description text
 associated with these category values, the text can be updated
-in the `name` column of the `category_id = \'VRIF'` rows in the
+in the `name` column of the `category_id = 'VRIF'` rows in the
 `approval_category_values` table.
 
 Additional values could also be added to this category, to allow it
@@ -594,7 +594,7 @@ project, it can be deleted from the database:
 
 If a Gerrit installation wants to modify the description text
 associated with these category values, the text can be updated
-in the `name` column of the `category_id = \'CRVW'` rows in the
+in the `name` column of the `category_id = 'CRVW'` rows in the
 `approval_category_values` table.
 
 Additional values could be inserted into `approval_category_values`
@@ -637,7 +637,7 @@ Your Category Here
 Gerrit administrators can also make up their own categories.
 
 See above for descriptions of how `Verified` and `Code Review` work,
-and insert your own category with `function_name = \'MaxWithBlock'`
+and insert your own category with `function_name = 'MaxWithBlock'`
 to get the same behavior over your own range of values, in any
 category you desire.
 

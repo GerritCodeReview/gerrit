@@ -68,20 +68,20 @@ tip of the destination branch at submit time.
 
 * Merge If Necessary
 +
-This is the default for a new project (and why `\'M'` is suggested
+This is the default for a new project (and why `'M'` is suggested
 above in the insert statement).
 +
 If the change being submitted is a strict superset of the destination
 branch, then the branch is fast-forwarded to the change.  If not,
 then a merge commit is automatically created.  This is identical
-to the classical `git merge` behavior, or `git merge \--ff`.
+to the classical `git merge` behavior, or `git merge --ff`.
 
 * Always Merge
 +
 Always produce a merge commit, even if the change is a strict
 superset of the destination branch.  This is identical to the
-behavior of `git merge \--no-ff`, and may be useful if the
-project needs to follow submits with `git log \--first-parent`.
+behavior of `git merge --no-ff`, and may be useful if the
+project needs to follow submits with `git log --first-parent`.
 
 * Cherry Pick
 +

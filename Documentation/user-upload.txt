@@ -150,7 +150,7 @@ as arguments to `git receive-pack`:
   git push --receive-pack='git receive-pack --reviewer=a@a.com --cc=b@o.com' tr:kernel/common HEAD:refs/for/experimental
 ====
 
-The `\--reviewer='email'` and `\--cc='email'` options may be
+The `--reviewer='email'` and `--cc='email'` options may be
 specified as many times as necessary to cover all interested
 parties.  Gerrit will automatically avoid sending duplicate email
 notifications, such as if one of the specified reviewers or CC
@@ -323,7 +323,7 @@ Replace Changes
 ~~~~~~~~~~~~~~~
 
 To replace changes, ensure Change-Id lines were created in the
-commit messages, and just use `repo upload` without the `\--replace`
+commit messages, and just use `repo upload` without the `--replace`
 command line flag.  Gerrit Code Review will automatically match
 the commits back to their original changes by taking advantage of
 their Change-Id lines.
@@ -333,7 +333,7 @@ amending the message and copying the line from the change's page
 on the web.
 
 If Change-Id lines are not available, then the user must use the much
-more manual mapping technique offered by `repo upload \--replace`.
+more manual mapping technique offered by `repo upload --replace`.
 
 For more about Change-Ids, see link:user-changeid.html[Change-Id Lines].
 
@@ -345,8 +345,8 @@ As Gerrit implements the entire SSH and Git server stack within its
 own process space, Gerrit maintains complete control over how the
 repository is updated, and what responses are sent to the `git push`
 client invoked by the end-user, or by `repo upload`.  This allows
-Gerrit to provide magical refs, such as `refs/for/\*` for new
-change submission and `refs/changes/\*` for change replacement.
+Gerrit to provide magical refs, such as `refs/for/*` for new
+change submission and `refs/changes/*` for change replacement.
 When a push request is received to create a ref in one of these
 namespaces Gerrit performs its own logic to update the database,
 and then lies to the client about the result of the operation.

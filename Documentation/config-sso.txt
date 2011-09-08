@@ -88,7 +88,7 @@ The auth.httpHeader must always be unset.  If set to any value
 standard `Authorization` HTTP header.
 
 The auth.emailFormat field ('optional') sets the preferred email
-address during first login.  Gerrit will replace `\{0\}` with the
+address during first login.  Gerrit will replace `{0}` with the
 username, as obtained from the Authorization header.  A format such
 as shown in the example would be typical, to add the domain name
 of the organization.
@@ -152,7 +152,7 @@ may differ in your environment.  Please refer to your organization's
 single sign-on or security group to ensure the setting is correct.
 
 The auth.emailFormat field ('optional') sets the user's preferred
-email address when they first login.  Gerrit will replace `\{0\}`
+email address when they first login.  Gerrit will replace `{0}`
 with the username, as supplied by Siteminder.  A format such as
 shown in the example would be typical, to add the domain name of
 the organization.

@@ -181,11 +181,11 @@ denotes a regular expression, but it also has the usual meaning of
 anchoring the match to the start of the string.  To match all Java
 files, use `file:^.*\.java`.
 +
-The entire regular expression pattern, including the `\^` character,
+The entire regular expression pattern, including the `^` character,
 should be double quoted when using more complex construction (like
 ones using a bracket expression). For example, to match all XML
 files named like 'name1.xml', 'name2.xml', and 'name3.xml' use
-`\file:"\^name[1-3].xml"`.
+`file:"^name[1-3].xml"`.
 +
 Currently this operator is only available on a watched project
 and may not be used in the search bar.
@@ -314,8 +314,8 @@ The easiest way to explain these are by example.
 `label:CodeReview=+2`::
 `label:CodeReview+2`::
 +
-Matches changes where there is at least one \+2 score for Code Review.
-The \+ prefix is optional for positive score values.  If the + is used,
+Matches changes where there is at least one +2 score for Code Review.
+The + prefix is optional for positive score values.  If the + is used,
 the = operator is optional.
 
 `label:CodeReview=-2`::

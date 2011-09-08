@@ -100,7 +100,7 @@ Missing Change URLs
 -------------------
 
 If link:config-gerrit.html#gerrit.canonicalWebUrl[gerrit.canonicalWebUrl]
-is not set in `gerrit.config` the `\--change-url` flag may not be
+is not set in `gerrit.config` the `--change-url` flag may not be
 passed to all hooks.  Hooks started out of an SSH context (for example
 the patchset-created hook) don't know the server's web URL, unless
 this variable is configured.

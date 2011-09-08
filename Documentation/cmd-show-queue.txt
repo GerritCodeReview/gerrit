@@ -41,7 +41,7 @@ DISPLAY
 Task::
 	Unique task identifier on this server.	May be passed into
 	link:cmd-kill.html[kill] to cancel or terminate the task.
-	Task identifiers have a period of 2\^32-1, and start from
+	Task identifiers have a period of 2^32-1, and start from
 	a random value.
 
 State::

@@ -20,6 +20,7 @@ import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtexpui.linker.server.Permutation;
@@ -29,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
@@ -70,12 +72,14 @@ public class HostPageServlet extends HttpServlet {
   private final Document template;
   private final String noCacheName;
   private final PermutationSelector selector;
+  private final boolean refreshHeaderFooter;
   private volatile Page page;
 
   @Inject
   HostPageServlet(final Provider<CurrentUser> cu, final Provider<WebSession> w,
       final SitePaths sp, final ThemeFactory themeFactory,
-      final GerritConfig gc, final ServletContext servletContext)
+      final GerritConfig gc, final ServletContext servletContext,
+      @GerritServerConfig final Config cfg)
       throws IOException, ServletException {
     currentUser = cu;
     session = w;
@@ -83,6 +87,7 @@ public class HostPageServlet extends HttpServlet {
     signedOutTheme = themeFactory.getSignedOutTheme();
     signedInTheme = themeFactory.getSignedInTheme();
     site = sp;
+    refreshHeaderFooter = cfg.getBoolean("site", "refreshHeaderFooter", true);
 
     final String pageName = "HostPage.html";
     template = HtmlDomUtil.parseFile(getClass(), pageName);
@@ -99,7 +104,7 @@ public class HostPageServlet extends HttpServlet {
 
     final String src = "gerrit/gerrit.nocache.js";
     selector = new PermutationSelector("gerrit");
-    if (IS_DEV) {
+    if (IS_DEV || !cfg.getBoolean("site", "checkUserAgent", true)) {
       noCacheName = src;
     } else {
       final Element devmode = HtmlDomUtil.find(template, "gerrit_gwtdevmode");
@@ -140,7 +145,7 @@ public class HostPageServlet extends HttpServlet {
 
   private Page get() {
     Page p = page;
-    if (p.isStale()) {
+    if (refreshHeaderFooter && p.isStale()) {
       final Page newPage;
       try {
         newPage = new Page();

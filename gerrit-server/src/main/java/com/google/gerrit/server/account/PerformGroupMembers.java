@@ -26,57 +26,50 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.Callable;
 
-public class GroupMembersFactory implements Callable<Set<Account>> {
+public class PerformGroupMembers {
   public interface Factory {
-    GroupMembersFactory create(Project.NameKey project,
-        AccountGroup.UUID groupUUID);
+    PerformGroupMembers create();
   }
 
-  private GroupCache groupCache;
+  private final GroupCache groupCache;
   private final GroupDetailFactory.Factory groupDetailFactory;
   private final AccountCache accountCache;
   private final ProjectControl.GenericFactory projectControl;
   private final IdentifiedUser currentUser;
 
-  private final Project.NameKey project;
-  private final AccountGroup.UUID groupUUID;
-
+  private Project.NameKey project;
 
   @Inject
-  GroupMembersFactory(final GroupCache groupCache,
+  PerformGroupMembers(final GroupCache groupCache,
       final GroupDetailFactory.Factory groupDetailFactory,
       final AccountCache accountCache,
       final ProjectControl.GenericFactory projectControl,
-      final IdentifiedUser currentUser,
-      @Assisted final Project.NameKey project,
-      @Assisted final AccountGroup.UUID groupUUID) {
+      final IdentifiedUser currentUser) {
     this.groupCache = groupCache;
     this.groupDetailFactory = groupDetailFactory;
     this.accountCache = accountCache;
     this.projectControl = projectControl;
     this.currentUser = currentUser;
-
-    this.project = project;
-    this.groupUUID = groupUUID;
   }
 
-  @Override
-  public Set<Account> call() throws NoSuchGroupException,
-      NoSuchProjectException, OrmException {
+  public void setProject(final Project.NameKey project) {
+    this.project = project;
+  }
+
+  public Set<Account> listAccounts(final AccountGroup.UUID groupUUID)
+      throws NoSuchGroupException, NoSuchProjectException, OrmException {
     return listAccounts(groupUUID, new HashSet<AccountGroup.UUID>());
   }
 
   private Set<Account> listAccounts(final AccountGroup.UUID groupUUID,
-      final Set<AccountGroup.UUID> seen) throws NoSuchGroupException,
-      OrmException, NoSuchProjectException {
-    if (AccountGroup.PROJECT_OWNERS.equals(groupUUID)) {
+      final Set<AccountGroup.UUID> seen)
+      throws NoSuchGroupException, OrmException, NoSuchProjectException {
+  if (AccountGroup.PROJECT_OWNERS.equals(groupUUID)) {
       return getProjectOwners(seen);
     } else {
       return getGroupMembers(groupCache.get(groupUUID), seen);

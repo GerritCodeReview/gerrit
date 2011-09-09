@@ -28,7 +28,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.GroupMembersFactory;
+import com.google.gerrit.server.account.PerformGroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.project.ChangeControl;
@@ -57,7 +57,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
   private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final AccountResolver accountResolver;
   private final GroupCache groupCache;
-  private final GroupMembersFactory.Factory groupMembersFactory;
+  private final PerformGroupMembers.Factory groupMembersFactory;
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
   private final IdentifiedUser currentUser;
@@ -72,7 +72,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
   @Inject
   AddReviewer(final AddReviewerSender.Factory addReviewerSenderFactory,
       final AccountResolver accountResolver, final GroupCache groupCache,
-      final GroupMembersFactory.Factory groupMembersFactory,
+      final PerformGroupMembers.Factory groupMembersFactory,
       final ChangeControl.Factory changeControlFactory, final ReviewDb db,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       final IdentifiedUser currentUser, final ApprovalTypes approvalTypes,
@@ -121,9 +121,10 @@ public class AddReviewer implements Callable<ReviewerResult> {
           continue;
         }
 
+        final PerformGroupMembers groupMembers = groupMembersFactory.create();
+        groupMembers.setProject(control.getProject().getNameKey());
         final Set<Account> members =
-            groupMembersFactory.create(control.getProject().getNameKey(),
-                group.getGroupUUID()).call();
+            groupMembers.listAccounts(group.getGroupUUID());
         if (members == null || members.size() == 0) {
           result.addError(new ReviewerResult.Error(
               ReviewerResult.Error.Type.GROUP_EMPTY, reviewer));

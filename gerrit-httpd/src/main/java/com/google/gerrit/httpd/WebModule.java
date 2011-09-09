@@ -138,8 +138,6 @@ public class WebModule extends FactoryModule {
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
         HttpRemotePeerProvider.class).in(RequestScoped.class);
 
-    install(WebSession.module());
-
     bind(CurrentUser.class).toProvider(HttpCurrentUserProvider.class).in(
         RequestScoped.class);
     bind(IdentifiedUser.class).toProvider(HttpIdentifiedUserProvider.class).in(

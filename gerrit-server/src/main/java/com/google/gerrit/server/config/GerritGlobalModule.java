@@ -127,6 +127,9 @@ public class GerritGlobalModule extends FactoryModule {
         install(new LdapModule());
         break;
 
+      case CUSTOM_EXTENSION:
+        break;
+
       default:
         bind(Realm.class).to(DefaultRealm.class);
         break;

@@ -73,6 +73,9 @@ public enum AuthType {
    */
   LDAP_BIND,
 
+  /** Login is managed by additional, unspecified code. */
+  CUSTOM_EXTENSION,
+
   /** Development mode to enable becoming anyone you want. */
   DEVELOPMENT_BECOME_ANY_ACCOUNT;
 }

@@ -21,7 +21,7 @@ import com.google.inject.Inject;
 import java.util.Collections;
 import java.util.Set;
 
-public final class DefaultRealm implements Realm {
+public class DefaultRealm implements Realm {
   private final EmailExpander emailExpander;
   private final AccountByEmailCache byEmail;
 

@@ -23,11 +23,12 @@ import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
 import java.util.List;
@@ -41,6 +42,16 @@ public class MyPasswordScreen extends SettingsScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
+
+    String url = Gerrit.getConfig().getHttpPasswordUrl();
+    if (url != null) {
+      Anchor link = new Anchor();
+      link.setText(Util.C.linkObtainPassword());
+      link.setHref(url);
+      link.setTarget("_blank");
+      add(link);
+      return;
+    }
 
     password = new CopyableLabel("");
     password.addStyleName(Gerrit.RESOURCES.css().accountPassword());
@@ -83,6 +94,11 @@ public class MyPasswordScreen extends SettingsScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
+
+    if (password == null) {
+      display();
+      return;
+    }
 
     enableUI(false);
     Util.ACCOUNT_SEC

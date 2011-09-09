@@ -246,6 +246,7 @@ public class Gerrit implements EntryPoint {
       case HTTP:
       case HTTP_LDAP:
       case CLIENT_SSL_CERT_LDAP:
+      case CUSTOM_EXTENSION:
         if (!token.startsWith("/")) {
           token = "/" + token;
         }
@@ -563,6 +564,7 @@ public class Gerrit implements EntryPoint {
 
         case LDAP:
         case LDAP_BIND:
+        case CUSTOM_EXTENSION:
           if (cfg.getRegisterUrl() != null) {
             menuRight.add(anchor(C.menuRegister(), cfg.getRegisterUrl()));
           }

@@ -110,6 +110,8 @@ public class WebModule extends FactoryModule {
         });
         break;
 
+      case CUSTOM_EXTENSION:
+        break;
       default:
         throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
     }

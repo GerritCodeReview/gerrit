@@ -30,8 +30,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
-import com.google.gerrit.server.account.GroupMembersFactory;
-import com.google.gerrit.server.account.GroupMembersFactory.Factory;
+import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -60,7 +59,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private final ProjectCache projectCache;
   private final AccountCache accountCache;
   private final GroupControl.Factory groupControlFactory;
-  private final Factory groupMembersFactory;
+  private final GroupMembers.Factory groupMembersFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<CurrentUser> currentUser;
   private final SuggestAccountsEnum suggestAccounts;
@@ -73,7 +72,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       final ProjectControl.Factory projectControlFactory,
       final ProjectCache projectCache, final AccountCache accountCache,
       final GroupControl.Factory groupControlFactory,
-      final GroupMembersFactory.Factory groupMembersFactory,
+      final GroupMembers.Factory groupMembersFactory,
       final IdentifiedUser.GenericFactory userFactory,
       final Provider<CurrentUser> currentUser,
       @GerritServerConfig final Config cfg, final GroupCache groupCache) {
@@ -281,7 +280,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
     try {
       final Set<Account> members =
-          groupMembersFactory.create(project, group.getUUID()).call();
+          groupMembersFactory.create().listAccounts(group.getUUID(), project);
 
       if (members.isEmpty()) {
         return false;

@@ -114,7 +114,7 @@ public class WebModule extends FactoryModule {
         throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
     }
 
-    install(new UrlModule(authConfig));
+    install(new UrlModule());
     install(new UiRpcModule());
     install(new GerritRequestModule());
     install(new ProjectServlet.Module());

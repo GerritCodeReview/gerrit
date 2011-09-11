@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Topic;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.PrimaryKey;
@@ -41,6 +42,9 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
 
   @Query("WHERE dest.projectName = ?")
   ResultSet<Change> byProject(Project.NameKey p) throws OrmException;
+
+  @Query("WHERE topicId = ?")
+  ResultSet<Change> byTopic(Topic.Id id) throws OrmException;
 
   @Query("WHERE owner = ? AND open = true ORDER BY createdOn, changeId")
   ResultSet<Change> byOwnerOpen(Account.Id id) throws OrmException;
@@ -69,6 +73,9 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
 
   @Query("WHERE open = true AND dest = ?")
   ResultSet<Change> byBranchOpenAll(Branch.NameKey p) throws OrmException;
+
+  @Query("WHERE open = true AND topicId = ?")
+  ResultSet<Change> byTopicOpenAll(Topic.Id id) throws OrmException;
 
   @Query("WHERE open = true AND dest.projectName = ? AND sortKey > ?"
       + " ORDER BY sortKey LIMIT ?")

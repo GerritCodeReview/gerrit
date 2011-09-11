@@ -99,6 +99,8 @@ public final class Project {
 
   protected boolean requireChangeID;
 
+  protected boolean allowTopicReview;
+
   protected boolean useContentMerge;
 
   protected Project() {
@@ -146,6 +148,10 @@ public final class Project {
     return requireChangeID;
   }
 
+  public boolean isAllowTopicReview() {
+    return allowTopicReview;
+  }
+
   public void setUseSignedOffBy(final boolean sbo) {
     useSignedOffBy = sbo;
   }
@@ -156,6 +162,10 @@ public final class Project {
 
   public void setRequireChangeID(final boolean cid) {
     requireChangeID = cid;
+  }
+
+  public void setAllowTopicReview(final boolean atr) {
+    allowTopicReview = atr;
   }
 
   public SubmitType getSubmitType() {
@@ -180,6 +190,7 @@ public final class Project {
     useSignedOffBy = update.useSignedOffBy;
     useContentMerge = update.useContentMerge;
     requireChangeID = update.requireChangeID;
+    allowTopicReview = update.allowTopicReview;
     submitType = update.submitType;
     state = update.state;
   }

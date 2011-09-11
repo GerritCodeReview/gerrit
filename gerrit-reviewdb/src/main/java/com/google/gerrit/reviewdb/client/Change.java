@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
+
 import com.google.gwtorm.client.Column;
 
 import java.sql.Timestamp;
@@ -152,6 +153,10 @@ public final class Change extends AbstractEntity {
   @Column(id = 16)
   protected boolean mergeable;
 
+  /** Topic Id which this change belongs to, if any. */
+  @Column(id = 17, notNull = false)
+  protected Topic.Id topicId;
+
   protected Change() {
   }
 
@@ -233,21 +238,24 @@ public final class Change extends AbstractEntity {
     return new PatchSet.Id(changeId, nbrPatchSets);
   }
 
-  public Status getStatus() {
-    return Status.forCode(status);
-  }
-
-  public void setStatus(final Status newStatus) {
-    open = newStatus.isOpen();
-    status = newStatus.getCode();
-  }
-
   public String getTopic() {
     return topic;
   }
 
   public void setTopic(String topic) {
     this.topic = topic;
+  }
+
+  public Topic.Id getTopicId() {
+    return topicId;
+  }
+
+  public void setTopicId(Topic.Id tId) {
+    this.topicId = tId;
+  }
+
+  public boolean belongsToTopic() {
+    return (this.topicId != null);
   }
 
   public RevId getLastSha1MergeTested() {

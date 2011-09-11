@@ -18,7 +18,13 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.ChangeSetAccess;
+import com.google.gerrit.reviewdb.client.ChangeSetApprovalAccess;
+import com.google.gerrit.reviewdb.client.ChangeSetElementAccess;
 import com.google.gerrit.reviewdb.client.SystemConfig;
+import com.google.gerrit.reviewdb.client.Topic;
+import com.google.gerrit.reviewdb.client.TopicAccess;
+import com.google.gerrit.reviewdb.client.TopicMessageAccess;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.Relation;
 import com.google.gwtorm.server.Schema;
@@ -112,6 +118,21 @@ public interface ReviewDb extends Schema {
   @Relation(id = 28)
   SubmoduleSubscriptionAccess submoduleSubscriptions();
 
+  @Relation(id = 29)
+  TopicAccess topics();
+
+  @Relation(id = 30)
+  TopicMessageAccess topicMessages();
+
+  @Relation(id = 31)
+  ChangeSetAccess changeSets();
+
+  @Relation(id = 32)
+  ChangeSetApprovalAccess changeSetApprovals();
+
+  @Relation(id = 33)
+  ChangeSetElementAccess changeSetElements();
+
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)
   int nextAccountId() throws OrmException;
@@ -131,4 +152,8 @@ public interface ReviewDb extends Schema {
    */
   @Sequence
   int nextChangeMessageId() throws OrmException;
+
+  /** Next unique id for a {@link Topic}. */
+  @Sequence
+  int nextTopicId() throws OrmException;
 }

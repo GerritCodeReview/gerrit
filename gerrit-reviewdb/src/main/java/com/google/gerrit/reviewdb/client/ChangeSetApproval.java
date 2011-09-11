@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,13 +17,13 @@ package com.google.gerrit.reviewdb.client;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
 
-/** An approval (or negative approval) on a patch set. */
-public final class PatchSetApproval extends SetApproval<PatchSet.Id> {
-  public static class Key extends CompoundKey<PatchSet.Id> {
+/** An approval (or negative approval) on a change set. */
+public final class ChangeSetApproval extends SetApproval<ChangeSet.Id> {
+  public static class Key extends CompoundKey<ChangeSet.Id> {
     private static final long serialVersionUID = 1L;
 
     @Column(id = 1, name = Column.NONE)
-    protected PatchSet.Id patchSetId;
+    protected ChangeSet.Id changeSetId;
 
     @Column(id = 2)
     protected Account.Id accountId;
@@ -32,29 +32,21 @@ public final class PatchSetApproval extends SetApproval<PatchSet.Id> {
     protected ApprovalCategory.Id categoryId;
 
     protected Key() {
-      patchSetId = new PatchSet.Id();
+      changeSetId = new ChangeSet.Id();
       accountId = new Account.Id();
       categoryId = new ApprovalCategory.Id();
     }
 
-    public Key(final PatchSet.Id ps, final Account.Id a,
+    public Key(final ChangeSet.Id cs, final Account.Id a,
         final ApprovalCategory.Id c) {
-      this.patchSetId = ps;
+      this.changeSetId = cs;
       this.accountId = a;
       this.categoryId = c;
     }
 
     @Override
-    public PatchSet.Id getParentKey() {
-      return patchSetId;
-    }
-
-    public Account.Id getAccountId() {
-      return accountId;
-    }
-
-    public ApprovalCategory.Id getCategoryId() {
-      return categoryId;
+    public ChangeSet.Id getParentKey() {
+      return changeSetId;
     }
 
     @Override
@@ -66,40 +58,41 @@ public final class PatchSetApproval extends SetApproval<PatchSet.Id> {
   @Column(id = 1, name = Column.NONE)
   protected Key key;
 
-  /** <i>Cached copy of Change.open.</i> */
+  /** <i>Cached copy of Topic.open.</i> */
   @Column(id = 4)
-  protected boolean changeOpen;
+  protected boolean topicOpen;
 
-  /** <i>Cached copy of Change.sortKey</i>; only if {@link #changeOpen} = false */
+  /** <i>Cached copy of Topic.sortKey</i>; only if {@link #topicOpen} = false */
   @Column(id = 5, length = 16, notNull = false)
-  protected String changeSortKey;
+  protected String topicSortKey;
 
-  protected PatchSetApproval() {
+  protected ChangeSetApproval() {
   }
 
-  public PatchSetApproval(final PatchSetApproval.Key k, final short v) {
+  public ChangeSetApproval(final ChangeSetApproval.Key k, final short v) {
     key = k;
-    changeOpen = true;
+    topicOpen = true;
     setValue(v);
     setGranted();
   }
 
-  public PatchSetApproval(final PatchSet.Id psId, final PatchSetApproval src) {
+  public ChangeSetApproval(final ChangeSet.Id csId, final ChangeSetApproval src) {
     key =
-        new PatchSetApproval.Key(psId, src.getAccountId(), src.getCategoryId());
-    changeOpen = true;
+        new ChangeSetApproval.Key(csId, src.getAccountId(), src.getCategoryId());
+    topicOpen = true;
     value = src.getValue();
     granted = src.granted;
   }
 
-  public PatchSetApproval.Key getKey() {
+  public ChangeSetApproval.Key getKey() {
     return key;
   }
 
-  public PatchSet.Id getPatchSetId() {
-    return key.patchSetId;
+  public ChangeSet.Id getChangeSetId() {
+    return key.changeSetId;
   }
 
+  @Override
   public Account.Id getAccountId() {
     return key.accountId;
   }
@@ -109,13 +102,13 @@ public final class PatchSetApproval extends SetApproval<PatchSet.Id> {
     return key.categoryId;
   }
 
-  public void cache(final Change c) {
-    changeOpen = c.getStatus().isOpen();
-    changeSortKey = c.getSortKey();
+  public void cache(final Topic t) {
+    topicOpen = t.getStatus().isOpen();
+    topicSortKey = t.getSortKey();
   }
 
   @Override
-  public PatchSet.Id getSetId() {
-    return getPatchSetId();
+  public ChangeSet.Id getSetId() {
+    return getChangeSetId();
   }
 }

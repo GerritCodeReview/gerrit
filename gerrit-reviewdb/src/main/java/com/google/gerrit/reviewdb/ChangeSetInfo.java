@@ -1,0 +1,97 @@
+// Copyright (C) 2011 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.reviewdb;
+
+import java.util.List;
+
+
+/**
+ * Additional data about a {@link ChangeSet} not normally loaded.
+ */
+public final class ChangeSetInfo {
+  public static class ParentInfo {
+    public Topic.Id id;
+    public String shortMessage;
+
+    public ParentInfo(final Topic.Id id, final String shortMessage) {
+      this.id = id;
+      this.shortMessage = shortMessage;
+    }
+
+    protected ParentInfo() {
+    }
+  }
+
+  protected ChangeSet.Id key;
+
+  /** First line of {@link #message}. */
+  protected String subject;
+
+  /** The complete description of the change the change set introduces. */
+  protected String message;
+
+  /** Identity of who wrote the change set. May differ from {@link #committer}. */
+  protected UserIdentity author;
+
+  /** List of parents of the change set. */
+  protected List<ParentInfo> parents;
+
+  protected ChangeSetInfo() {
+  }
+
+  public ChangeSetInfo(final ChangeSet.Id k) {
+    key = k;
+  }
+
+  public ChangeSet.Id getKey() {
+    return key;
+  }
+
+  public String getSubject() {
+    return subject;
+  }
+
+  public void setSubject(final String s) {
+    if (s != null && s.length() > 255) {
+      subject = s.substring(0, 255);
+    } else {
+      subject = s;
+    }
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(final String m) {
+    message = m;
+  }
+
+  public UserIdentity getAuthor() {
+    return author;
+  }
+
+  public void setAuthor(final UserIdentity u) {
+    author = u;
+  }
+
+  public void setParents(final List<ParentInfo> p) {
+    parents = p;
+  }
+
+  public List<ParentInfo> getParents() {
+    return parents;
+  }
+}

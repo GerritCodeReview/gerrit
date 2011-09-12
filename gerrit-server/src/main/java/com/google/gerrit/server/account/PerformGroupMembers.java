@@ -27,9 +27,11 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class PerformGroupMembers {
   public interface Factory {
@@ -38,86 +40,144 @@ public class PerformGroupMembers {
 
   private final GroupCache groupCache;
   private final GroupDetailFactory.Factory groupDetailFactory;
+  private final GroupControl.Factory groupControlFactory;
   private final AccountCache accountCache;
   private final ProjectControl.GenericFactory projectControl;
   private final IdentifiedUser currentUser;
 
-  private Project.NameKey project;
+  private boolean recursive = true;
+  private ProjectControl project;
 
   @Inject
   PerformGroupMembers(final GroupCache groupCache,
       final GroupDetailFactory.Factory groupDetailFactory,
+      final GroupControl.Factory groupControlFactory,
       final AccountCache accountCache,
       final ProjectControl.GenericFactory projectControl,
       final IdentifiedUser currentUser) {
     this.groupCache = groupCache;
     this.groupDetailFactory = groupDetailFactory;
+    this.groupControlFactory = groupControlFactory;
     this.accountCache = accountCache;
     this.projectControl = projectControl;
     this.currentUser = currentUser;
   }
 
-  public void setProject(final Project.NameKey project) {
+  public void setProject(final Project.NameKey projectName)
+      throws NoSuchProjectException {
+    this.project = projectControl.controlFor(projectName, currentUser);
+  }
+
+  public void setProject(final ProjectControl project) {
     this.project = project;
+  }
+
+  public void setRecursive(final boolean recursive) {
+    this.recursive = recursive;
   }
 
   public Set<Account> listAccounts(final AccountGroup.UUID groupUUID)
       throws NoSuchGroupException, NoSuchProjectException, OrmException {
-    return listAccounts(groupUUID, new HashSet<AccountGroup.UUID>());
+    return listMembers(groupUUID).getAllAccounts();
   }
 
-  private Set<Account> listAccounts(final AccountGroup.UUID groupUUID,
-      final Set<AccountGroup.UUID> seen)
+  public GroupMembers listMembers(final AccountGroup.UUID groupUUID)
+      throws NoSuchGroupException, NoSuchProjectException, OrmException {
+    groupControlFactory.validateFor(groupUUID);
+    return listMembers(groupUUID,
+        new HashMap<AccountGroup.UUID, GroupMembers>());
+  }
+
+  private GroupMembers listMembers(final AccountGroup.UUID groupUUID,
+      final Map<AccountGroup.UUID, GroupMembers> seen)
       throws NoSuchGroupException, OrmException, NoSuchProjectException {
-  if (AccountGroup.PROJECT_OWNERS.equals(groupUUID)) {
+    if (AccountGroup.PROJECT_OWNERS.equals(groupUUID)) {
       return getProjectOwners(seen);
     } else {
       return getGroupMembers(groupCache.get(groupUUID), seen);
     }
   }
 
-  private Set<Account> getProjectOwners(final Set<AccountGroup.UUID> seen)
+  private GroupMembers getProjectOwners(
+      final Map<AccountGroup.UUID, GroupMembers> seen)
       throws NoSuchProjectException, NoSuchGroupException, OrmException {
-    seen.add(AccountGroup.PROJECT_OWNERS);
-    if (project == null) {
-      return Collections.emptySet();
-    }
-
-    final Set<AccountGroup.UUID> ownerGroups =
-        projectControl.controlFor(project, currentUser).getProjectState()
-            .getOwners();
-
-    final HashSet<Account> projectOwners = new HashSet<Account>();
-    for (final AccountGroup.UUID ownerGroup : ownerGroups) {
-      if (!seen.contains(ownerGroup)) {
-        projectOwners.addAll(listAccounts(ownerGroup, seen));
+    final SortedSet<GroupMembers> projectOwnerGroupMembers =
+        new TreeSet<GroupMembers>();
+    final AccountGroup projectOwnersGroup =
+        groupCache.get(AccountGroup.PROJECT_OWNERS);
+    final GroupMembers groupMembers =
+        new GroupMembers(projectOwnersGroup, new TreeSet<Account>(),
+            projectOwnerGroupMembers);
+    seen.put(AccountGroup.PROJECT_OWNERS, groupMembers);
+    final GroupControl groupControl =
+        groupControlFactory.controlFor(projectOwnersGroup);
+    if (groupControl.isVisible()) {
+      if (project == null) {
+        return groupMembers;
       }
-    }
-    return projectOwners;
-  }
 
-  private Set<Account> getGroupMembers(final AccountGroup group,
-      final Set<AccountGroup.UUID> seen) throws NoSuchGroupException,
-      OrmException, NoSuchProjectException {
-    seen.add(group.getGroupUUID());
-    final GroupDetail groupDetail =
-        groupDetailFactory.create(group.getId()).call();
-
-    final Set<Account> members = new HashSet<Account>();
-    if (groupDetail.members != null) {
-      for (final AccountGroupMember member : groupDetail.members) {
-        members.add(accountCache.get(member.getAccountId()).getAccount());
-      }
-    }
-    if (groupDetail.includes != null) {
-      for (final AccountGroupInclude groupInclude : groupDetail.includes) {
-        final AccountGroup includedGroup =
-            groupCache.get(groupInclude.getIncludeId());
-        if (!seen.contains(includedGroup.getGroupUUID())) {
-          members.addAll(listAccounts(includedGroup.getGroupUUID(), seen));
+      final Set<AccountGroup.UUID> ownerGroups =
+          project.getProjectState().getOwners();
+      for (final AccountGroup.UUID ownerGroup : ownerGroups) {
+        if (recursive) {
+          if (seen.keySet().contains(ownerGroup)) {
+            projectOwnerGroupMembers.add(seen.get(ownerGroup));
+          } else {
+            projectOwnerGroupMembers.add(listMembers(ownerGroup, seen));
+          }
+        } else {
+          projectOwnerGroupMembers.add(new GroupMembers(groupCache
+              .get(ownerGroup), new TreeSet<Account>(),
+              new TreeSet<GroupMembers>()));
         }
       }
+    } else {
+      groupMembers.setGroupVisible(false);
     }
-    return members;
+    return groupMembers;
+  }
+
+  private GroupMembers getGroupMembers(final AccountGroup group,
+      final Map<AccountGroup.UUID, GroupMembers> seen)
+      throws NoSuchGroupException, OrmException, NoSuchProjectException {
+    final SortedSet<Account> accounts =
+        new TreeSet<Account>(new AccountComparator());
+    final SortedSet<GroupMembers> includedGroupMembers = new TreeSet<GroupMembers>();
+    final GroupMembers groupMembers =
+        new GroupMembers(group, accounts, includedGroupMembers);
+    seen.put(group.getGroupUUID(), groupMembers);
+    final GroupControl groupControl = groupControlFactory.controlFor(group);
+    if (groupControl.isVisible()) {
+      final GroupDetail groupDetail =
+          groupDetailFactory.create(group.getId()).call();
+
+      if (groupDetail.members != null) {
+        for (final AccountGroupMember member : groupDetail.members) {
+          accounts.add(accountCache.get(member.getAccountId()).getAccount());
+        }
+      }
+
+      if (groupDetail.includes != null) {
+        for (final AccountGroupInclude groupInclude : groupDetail.includes) {
+          final AccountGroup includedGroup =
+              groupCache.get(groupInclude.getIncludeId());
+          if (recursive) {
+            if (seen.keySet().contains(includedGroup.getGroupUUID())) {
+              includedGroupMembers.add(seen.get(includedGroup.getGroupUUID()));
+            } else {
+              includedGroupMembers.add(listMembers(includedGroup.getGroupUUID(),
+                  seen));
+            }
+          } else {
+            includedGroupMembers.add(new GroupMembers(includedGroup,
+                new TreeSet<Account>(), new TreeSet<GroupMembers>()));
+          }
+        }
+      }
+    } else {
+      groupMembers.setGroupVisible(false);
+    }
+
+    return groupMembers;
   }
 }

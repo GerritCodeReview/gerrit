@@ -77,6 +77,7 @@ cause it to become approved or rejected.
 Registered users are always permitted to make and publish comments
 on any change in any project they have `Read Access` to.
 
+[[project_owners]]
 Project Owners
 ~~~~~~~~~~~~~~
 

@@ -54,6 +54,9 @@ see link:user-upload.html#test_ssh[Testing Your SSH Connection].
 'gerrit approve'::
 	'Deprecated alias for `gerrit review`.'
 
+link:cmd-ls-members.html[gerrit ls-members]::
+	List group members.
+
 link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 

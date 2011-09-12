@@ -64,6 +64,15 @@ public class GroupControl {
       }
       return c;
     }
+
+    public GroupControl validateFor(final AccountGroup.UUID groupUUID)
+        throws NoSuchGroupException {
+      final GroupControl c = controlFor(groupUUID);
+      if (!c.isVisible()) {
+        throw new NoSuchGroupException(groupUUID);
+      }
+      return c;
+    }
   }
 
   private final GroupCache groupCache;

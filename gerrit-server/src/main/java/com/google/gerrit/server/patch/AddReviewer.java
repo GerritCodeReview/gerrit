@@ -123,7 +123,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
 
         final Set<Account> members =
             groupMembersFactory.create().listAccounts(group.getGroupUUID(),
-                control.getProject().getNameKey());
+                control.getProjectControl(), true);
         if (members == null || members.size() == 0) {
           result.addError(new ReviewerResult.Error(
               ReviewerResult.Error.Type.GROUP_EMPTY, reviewer));

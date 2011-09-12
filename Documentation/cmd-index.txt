@@ -57,6 +57,9 @@ see link:user-upload.html#test_ssh[Testing Your SSH Connection].
 link:cmd-ls-groups.html[gerrit ls-groups]::
 	List groups visible to the caller.
 
+link:cmd-ls-members.html[gerrit ls-members]::
+	List group members.
+
 link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 

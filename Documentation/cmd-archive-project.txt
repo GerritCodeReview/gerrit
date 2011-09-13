@@ -1,0 +1,40 @@
+gerrit archive-project
+======================
+
+NAME
+----
+gerrit archive-project - Move a project from repository to
+archive directory
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit archive-project'
+<PROJECT_NAME>
+
+DESCRIPTION
+-----------
+Archives the given project by moving it's folder out of base
+path to archive path. After a successful move the projects list
+cache is flushed.
+
+Archived projects reside in conf.archivePath directory.
+
+ACCESS
+------
+Only administrators have access to this command.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+EXAMPLES
+--------
+Archive project 'client':
+=====
+	$ ssh -p 29418 review.example.com gerrit archive-project client
+====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

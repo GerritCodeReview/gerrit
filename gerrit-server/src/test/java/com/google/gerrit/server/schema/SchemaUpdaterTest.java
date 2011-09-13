@@ -72,6 +72,7 @@ public class SchemaUpdaterTest extends TestCase {
 
         Config cfg = new Config();
         cfg.setString("gerrit", null, "basePath", "git");
+        cfg.setString("gerrit", null, "archivePath", "archive");
         cfg.setString("user", null, "name", "Gerrit Code Review");
         cfg.setString("user", null, "email", "gerrit@localhost");
 

@@ -1008,6 +1008,13 @@ the path string `"${basePath}/${project_name}.git"`.
 +
 If relative, the path is resolved relative to `'$site_path'`.
 
+[[gerrit.archivePath]]gerrit.archivePath::
++
+Local filesystem directory holding archived Git repositories
+that has been archived via archive-project command.
++
+If relative, the path is resolved relative to `'$site_path'`.
+
 [[gerrit.allProjects]]gerrit.allProjects::
 +
 Name of the permissions-only project defining global server

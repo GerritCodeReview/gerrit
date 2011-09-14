@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.reviewdb.AbstractMessage;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
@@ -24,6 +25,7 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.StarredChange;
+import com.google.gerrit.reviewdb.TopicMessage;
 import com.google.gerrit.reviewdb.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.patch.PatchList;
@@ -50,7 +52,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   protected final Change change;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
-  protected ChangeMessage changeMessage;
+  protected AbstractMessage changeMessage;
 
   protected ProjectState projectState;
   protected ChangeData changeData;
@@ -88,6 +90,10 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   public void setChangeMessage(final ChangeMessage cm) {
+    changeMessage = cm;
+  }
+
+  public void setTopicMessage(final TopicMessage cm) {
     changeMessage = cm;
   }
 

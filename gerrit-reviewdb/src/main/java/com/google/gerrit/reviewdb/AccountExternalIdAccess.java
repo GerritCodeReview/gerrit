@@ -42,4 +42,7 @@ public interface AccountExternalIdAccess extends
   @Query("WHERE emailAddress >= ? AND emailAddress <= ? ORDER BY emailAddress LIMIT ?")
   ResultSet<AccountExternalId> suggestByEmailAddress(String emailA,
       String emailB, int limit) throws OrmException;
+
+  @Query
+  ResultSet<AccountExternalId> all() throws OrmException;
 }

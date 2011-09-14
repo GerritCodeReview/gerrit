@@ -1515,6 +1515,24 @@ Attributes such as `$\{dn\}` or `$\{uidNumber\}` may be useful.
 Default is `(memberUid=$\{username\})` for RFC 2307,
 and unset (disabled) for Active Directory.
 
+[[ldap.localUsernameToLowerCase]]ldap.localUsernameToLowerCase::
++
+Converts the local username, that is used to login into the Gerrit
+WebUI, to lower case before doing the LDAP authentication. By setting
+this parameter to true, a case insensitive login to the Gerrit WebUI
+can be achieved.
++
+If set, it must be ensured that the local usernames for all existing
+accounts are converted to lower case, otherwise a user that has a
+local username that contains upper case characters cannot login
+anymore. The local usernames for the existing accounts can be
+converted to lower case by running the server program
+link:pgm-LocalUsernamesToLowerCase.html[LocalUsernamesToLowerCase].
+Please be aware that the conversion of the local usernames to lower
+case can't be undone. For newly created accounts the local username
+will be directly stored in lower case.
++
+By default, unset/false.
 
 [[mimetype]]Section mimetype
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

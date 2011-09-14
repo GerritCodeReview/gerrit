@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -67,6 +68,7 @@ class LdapRealm implements Realm {
   private final EmailExpander emailExpander;
   private final Cache<String, Account.Id> usernameCache;
   private final Set<Account.FieldName> readOnlyAccountFields;
+  private final Config config;
 
   private final Cache<String, Set<AccountGroup.UUID>> membershipCache;
 
@@ -83,6 +85,7 @@ class LdapRealm implements Realm {
     this.emailExpander = emailExpander;
     this.usernameCache = usernameCache;
     this.membershipCache = membershipCache;
+    this.config = config;
 
     this.readOnlyAccountFields = new HashSet<Account.FieldName>();
 
@@ -181,6 +184,10 @@ class LdapRealm implements Realm {
 
   public AuthRequest authenticate(final AuthRequest who)
       throws AccountException {
+    if (config.getBoolean("ldap", "localUsernameToLowerCase", false)) {
+      who.setLocalUser(who.getLocalUser().toLowerCase(Locale.US));
+    }
+
     final String username = who.getLocalUser();
     try {
       final DirContext ctx;

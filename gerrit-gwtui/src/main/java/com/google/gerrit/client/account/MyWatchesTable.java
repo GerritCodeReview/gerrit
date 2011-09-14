@@ -17,10 +17,8 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
-import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.data.AccountProjectWatchInfo;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
@@ -123,16 +121,8 @@ public class MyWatchesTable extends FancyFlexTable<AccountProjectWatchInfo> {
   }
 
   protected void populate(final int row, final AccountProjectWatchInfo info) {
-    final FlowPanel fp = new FlowPanel();
-    fp.add(new ProjectLink(info.getProject().getNameKey(), Status.NEW));
-    if (info.getWatch().getFilter() != null) {
-      Label filter = new Label(info.getWatch().getFilter());
-      filter.setStyleName(Gerrit.RESOURCES.css().watchedProjectFilter());
-      fp.add(filter);
-    }
-
     table.setWidget(row, 1, new CheckBox());
-    table.setWidget(row, 2, fp);
+    table.setWidget(row, 2, new AccountProjectWatchDisplay(info));
 
     addNotifyButton(AccountProjectWatch.NotifyType.NEW_CHANGES, info, row, 3);
     addNotifyButton(AccountProjectWatch.NotifyType.ALL_COMMENTS, info, row, 4);

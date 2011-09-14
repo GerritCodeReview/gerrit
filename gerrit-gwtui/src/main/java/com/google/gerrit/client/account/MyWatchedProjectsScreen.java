@@ -45,7 +45,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
 
     /* top table */
 
-    editor = new ProjectWatchKeyEditor(true, false) {
+    editor = new ProjectWatchKeyEditor(null, true, false) {
       public void onBrowse() {
         displayPopup();
       }

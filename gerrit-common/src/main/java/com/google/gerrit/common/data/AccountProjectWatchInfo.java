@@ -33,6 +33,10 @@ public final class AccountProjectWatchInfo {
     return watch;
   }
 
+  public void setWatch(AccountProjectWatch w) {
+    watch = w;
+  }
+
   public Project getProject() {
     return project;
   }

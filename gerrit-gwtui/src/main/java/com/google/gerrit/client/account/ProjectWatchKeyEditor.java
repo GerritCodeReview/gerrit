@@ -24,8 +24,8 @@ import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
 import com.google.gerrit.common.data.AccountProjectWatchInfo;
 import com.google.gerrit.common.data.ProjectList;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.AccountProjectWatch;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -53,7 +53,7 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.HidePopupPanelCommand;
 import com.google.gwtexpui.user.client.PluginSafeDialogBox;
 
-public class ProjectWatchKeyEditor extends Composite implements
+class ProjectWatchKeyEditor extends Composite implements
     ResizeHandler {
   private HintTextBox projectTxt, filterTxt;
   private Button save, browse, cancel;
@@ -70,7 +70,10 @@ public class ProjectWatchKeyEditor extends Composite implements
   private PopupPanel.PositionCallback popupPosition;
   private HandlerRegistration regWindowResize;
 
-  public ProjectWatchKeyEditor(boolean enableBrowse, boolean enableCancel) {
+  private AccountProjectWatch.Key key;
+
+  ProjectWatchKeyEditor(AccountProjectWatch.Key key,
+      boolean enableBrowse, boolean enableCancel) {
     projectTxt = new HintTextBox();
      final SuggestBox projectBox =
          new SuggestBox(new ProjectNameSuggestOracle(), projectTxt);
@@ -209,6 +212,7 @@ public class ProjectWatchKeyEditor extends Composite implements
     };
 
     initWidget(editPanel);
+    setWatchKey(key);
   }
 
   protected void setPopupPosition(int offsetWidth, int offsetHeight) {
@@ -247,11 +251,10 @@ public class ProjectWatchKeyEditor extends Composite implements
       newFilter = null;
     }
     setEnabled(false);
-    Util.ACCOUNT_SVC.addProjectWatch(newProject, newFilter,
-        new GerritCallback<AccountProjectWatchInfo>() {
+    GerritCallback<AccountProjectWatchInfo> callback = new GerritCallback<AccountProjectWatchInfo>() {
         public void onSuccess(final AccountProjectWatchInfo result) {
+          setWatchKey(result.getWatch().getKey());
           onUpdate(result);
-          setProjectTxt("");
           setEnabled(true);
         }
         @Override
@@ -259,7 +262,16 @@ public class ProjectWatchKeyEditor extends Composite implements
           setEnabled(true);
           super.onFailure(caught);
         }
-    });
+    };
+    if(key != null) {
+      String oldFilter = key.getFilter().get();
+      if (oldFilter.equals(newFilter) && key.getProjectName().equals(newProject)) {
+        return;
+      }
+      Util.ACCOUNT_SVC.updateProjectWatchKey(key, newProject, newFilter, callback);
+    } else {
+      Util.ACCOUNT_SVC.addProjectWatch(newProject, newFilter, callback);
+    }
   }
 
   protected void setEnabled(boolean enable) {
@@ -267,6 +279,11 @@ public class ProjectWatchKeyEditor extends Composite implements
     cancel.setEnabled(enable);
     projectTxt.setEnabled(enable);
     filterTxt.setEnabled(enable);
+  }
+
+  public void setWatchKey(AccountProjectWatch.Key k) {
+    key = k;
+    display();
   }
 
   public void setSaveTxt(String s) {
@@ -285,9 +302,25 @@ public class ProjectWatchKeyEditor extends Composite implements
   }
 
   public void onCancel() {
+    display();
   }
 
   public void onUpdate(AccountProjectWatchInfo info) {
+  }
+
+  public void display() {
+    if (key == null) {
+      projectTxt.setText("");
+      filterTxt.setText("");
+    } else {
+      projectTxt.setText(key.getProjectName().get());
+      String filter = key.getFilter().get();
+      if ("*".equals(filter)) {
+        filterTxt.setText(null);
+      } else {
+        filterTxt.setText(filter);
+      }
+    }
   }
 
   protected void displayPopup() {

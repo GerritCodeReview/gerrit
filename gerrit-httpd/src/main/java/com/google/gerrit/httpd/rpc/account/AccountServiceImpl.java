@@ -152,13 +152,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
         final ProjectControl ctl = projectControlFactory.validateFor(nameKey);
 
         if (filter != null) {
-          try {
-            ChangeQueryBuilder builder = queryBuilder.create(currentUser.get());
-            builder.setAllowFile(true);
-            builder.parse(filter);
-          } catch (QueryParseException badFilter) {
-            throw new InvalidQueryException(badFilter.getMessage(), filter);
-          }
+          validateFilter(filter);
         }
 
         AccountProjectWatch watch =
@@ -170,6 +164,29 @@ class AccountServiceImpl extends BaseServiceImplementation implements
         } catch (OrmDuplicateKeyException alreadyHave) {
           watch = db.accountProjectWatches().get(watch.getKey());
         }
+        return new AccountProjectWatchInfo(watch, ctl.getProject());
+      }
+    });
+  }
+
+  public void updateProjectWatchKey(final AccountProjectWatch.Key oldKey,
+      final String projectName, final String filter,
+      final AsyncCallback<AccountProjectWatchInfo> callback) {
+    run(callback, new Action<AccountProjectWatchInfo>() {
+      public AccountProjectWatchInfo run(ReviewDb db) throws OrmException,
+          NoSuchProjectException, InvalidQueryException {
+        final Project.NameKey nameKey = new Project.NameKey(projectName);
+        final ProjectControl ctl = projectControlFactory.validateFor(nameKey);
+
+        if (filter != null) {
+          validateFilter(filter);
+        }
+        AccountProjectWatch.Key newKey = new AccountProjectWatch.Key(
+            ((IdentifiedUser) ctl.getCurrentUser()).getAccountId(),nameKey, filter);
+        AccountProjectWatch watch = db.accountProjectWatches().get(oldKey);
+        watch.setKey(newKey);
+        db.accountProjectWatches().insert(Collections.singleton(watch));
+        db.accountProjectWatches().deleteKeys(Collections.singleton(oldKey));
         return new AccountProjectWatchInfo(watch, ctl.getProject());
       }
     });
@@ -208,5 +225,15 @@ class AccountServiceImpl extends BaseServiceImplementation implements
 
   public void myAgreements(final AsyncCallback<AgreementInfo> callback) {
     agreementInfoFactory.create().to(callback);
+  }
+
+  private void validateFilter(String filter) throws InvalidQueryException {
+    try {
+      ChangeQueryBuilder builder = queryBuilder.create(currentUser.get());
+      builder.setAllowFile(true);
+      builder.parse(filter);
+    } catch (QueryParseException badFilter) {
+      throw new InvalidQueryException(badFilter.getMessage(), filter);
+    }
   }
 }

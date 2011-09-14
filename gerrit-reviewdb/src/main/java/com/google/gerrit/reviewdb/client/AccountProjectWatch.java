@@ -120,6 +120,10 @@ public final class AccountProjectWatch {
     return key;
   }
 
+  public void setKey(final AccountProjectWatch.Key k) {
+    key = k;
+  }
+
   public Account.Id getAccountId() {
     return key.accountId;
   }

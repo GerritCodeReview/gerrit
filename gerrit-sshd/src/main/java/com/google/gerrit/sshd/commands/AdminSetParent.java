@@ -132,6 +132,8 @@ final class AdminSetParent extends BaseCommand {
       } catch (ConfigInvalidException e) {
         throw new Failure(1, "Cannot update project " + name, e);
       }
+
+      projectCache.evict(pc.getProject());
     }
 
     if (err.length() > 0) {

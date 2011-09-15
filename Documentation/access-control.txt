@@ -319,9 +319,9 @@ is ignored.  This behavior is useful to hide a handful of projects
 on an otherwise public server.
 
 For an open source, public Gerrit installation it is common to grant
-`Read Access +1` to `Anonymous Users` in the `-- All Projects
---` ACL, enabling casual browsing of any project's changes,
-as well as fetching any project's repository over SSH or HTTP.
+`Read Access +1` to `Anonymous Users` in the `All-Projects` ACL,
+enabling casual browsing of any project's changes, as well as
+fetching any project's repository over SSH or HTTP.
 New projects can be temporarily hidden from public view by granting
 `Read Access -1` to `Anonymous Users` and granting `Read Access +1`
 to the project owner's group within the per-project ACL.
@@ -349,8 +349,8 @@ Read Access +1 to even develop a change.  Therefore upload access
 implies read access by simply being a higher level of it.
 
 For an open source, public Gerrit installation, it is common to
-grant `Read Access +1..+2` to `Registered Users` in the `-- All
-Projects --` ACL.  For more private installations, its common to
+grant `Read Access +1..+2` to `Registered Users` in the
+`All-Projects` ACL.  For more private installations, its common to
 simply grant `Read Access +1..+2` to all users of a project.
 
 [[category_READ_3]]

@@ -64,13 +64,13 @@ link:cmd-query.html[gerrit query]::
 	Query the change database.
 
 'gerrit receive-pack'::
-	'Depreated alias for `git receive-pack`.'
+	'Deprecated alias for `git receive-pack`.'
 
 link:cmd-review.html[gerrit review]::
 	Verify, approve and/or submit a patch set from the command line.
 
 link:cmd-stream-events.html[gerrit stream-events]::
-	Monitor events occuring in real time.
+	Monitor events occurring in real time.
 
 git upload-pack::
 	Standard Git server side command for client side `git fetch`.
@@ -81,7 +81,7 @@ link:cmd-receive-pack.html[git receive-pack]::
 Also implements the magic associated with uploading commits for
 review.  See link:user-upload.html#push_create[Creating Changes].
 
-[[admin_commands]]Adminstrator Commands
+[[admin_commands]]Administrator Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 link:cmd-create-account.html[gerrit create-account]::

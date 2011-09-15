@@ -21,7 +21,7 @@ OPTIONS
 -d::
 --site-path::
 	Location of the gerrit.config file, and all other per-site
-	configuration data, supporting libaries and log files.
+	configuration data, supporting libraries and log files.
 
 --all::
 	Compile rules for all projects.

@@ -26,7 +26,7 @@ OPTIONS
 -d::
 \--site-path::
 	Location of the gerrit.config file, and all other per-site
-	configuration data, supporting libaries and log files.
+	configuration data, supporting libraries and log files.
 
 \--threads::
 	Number of threads to perform the scan work with.  Default: 2.

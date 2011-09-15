@@ -31,14 +31,14 @@ OPTIONS
 
 \--no-auto-start::
 	Don't automatically start the daemon after initializing a
-	newly created site path.  This permits the administartor
+	newly created site path.  This permits the administrator
 	to inspect and modify the configuration before the daemon
 	is started.
 
 -d::
 \--site-path::
 	Location of the gerrit.config file, and all other per-site
-	configuration data, supporting libaries and log files.
+	configuration data, supporting libraries and log files.
 
 CONTEXT
 -------

@@ -37,12 +37,14 @@ import java.util.TimeZone;
 class ReviewNoteHeaderFormatter {
 
   private final DateFormat rfc2822DateFormatter;
+  private final String anonymousCowardName;
   private final StringBuilder sb = new StringBuilder();
 
-  ReviewNoteHeaderFormatter(TimeZone tz) {
+  ReviewNoteHeaderFormatter(TimeZone tz, String anonymousCowardName) {
     rfc2822DateFormatter =
         new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
     rfc2822DateFormatter.setCalendar(Calendar.getInstance(tz, Locale.US));
+    this.anonymousCowardName = anonymousCowardName;
   }
 
   void appendChangeId(Change.Key changeKey) {
@@ -76,7 +78,7 @@ class ReviewNoteHeaderFormatter {
     }
 
     if (!wroteData) {
-      sb.append("Anonymous Coward #").append(user.getId());
+      sb.append(anonymousCowardName).append(" #").append(user.getId());
     }
   }
 

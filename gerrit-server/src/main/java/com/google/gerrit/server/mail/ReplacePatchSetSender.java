@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -39,8 +40,10 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   private final SshInfo sshInfo;
 
   @Inject
-  public ReplacePatchSetSender(EmailArguments ea, SshInfo si, @Assisted Change c) {
-    super(ea, c, "newpatchset");
+  public ReplacePatchSetSender(EmailArguments ea,
+      @AnonymousCowardName String anonymousCowardName, SshInfo si,
+      @Assisted Change c) {
+    super(ea, anonymousCowardName, c, "newpatchset");
     sshInfo = si;
   }
 

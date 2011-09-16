@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -26,9 +27,10 @@ public class AddReviewerSender extends NewChangeSender {
   }
 
   @Inject
-  public AddReviewerSender(EmailArguments ea, SshInfo sshInfo,
+  public AddReviewerSender(EmailArguments ea,
+      @AnonymousCowardName String anonymousCowardName, SshInfo sshInfo,
       @Assisted Change c) {
-    super(ea, sshInfo, c);
+    super(ea, anonymousCowardName, sshInfo, c);
   }
 
   @Override

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
@@ -33,8 +34,9 @@ public class RegisterNewEmailSender extends OutgoingEmail {
 
   @Inject
   public RegisterNewEmailSender(EmailArguments ea, AuthConfig ac,
+      @AnonymousCowardName String anonymousCowardName,
       @Assisted final String address) {
-    super(ea, "registernewemail");
+    super(ea, anonymousCowardName, "registernewemail");
     authConfig = ac;
     addr = address;
   }

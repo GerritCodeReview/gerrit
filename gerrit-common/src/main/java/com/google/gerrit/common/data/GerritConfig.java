@@ -42,6 +42,7 @@ public class GerritConfig implements Cloneable {
   protected List<RegexFindReplace> commentLinks;
   protected boolean documentationAvailable;
   protected boolean testChangeMerge;
+  protected String anonymousCowardName;
 
   public String getRegisterUrl() {
     return registerUrl;
@@ -168,5 +169,13 @@ public class GerritConfig implements Cloneable {
 
   public void setTestChangeMerge(final boolean test) {
     testChangeMerge = test;
+  }
+
+  public String getAnonymousCowardName() {
+    return anonymousCowardName;
+  }
+
+  public void setAnonymousCowardName(final String anonymousCowardName) {
+    this.anonymousCowardName = anonymousCowardName;
   }
 }

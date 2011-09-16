@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
@@ -76,6 +77,7 @@ public class CreateCodeReviewNotes {
   private final AccountCache accountCache;
   private final ApprovalTypes approvalTypes;
   private final String canonicalWebUrl;
+  private final String anonymousCowardName;
   private final Repository db;
   private final RevWalk revWalk;
   private final ObjectInserter inserter;
@@ -95,15 +97,17 @@ public class CreateCodeReviewNotes {
       @GerritPersonIdent final PersonIdent gerritIdent,
       final AccountCache accountCache,
       final ApprovalTypes approvalTypes,
-      @Nullable @CanonicalWebUrl final String canonicalWebUrl,
-      @Assisted  ReviewDb reviewDb,
-      @Assisted final Repository db) {
+      final @Nullable @CanonicalWebUrl String canonicalWebUrl,
+      final @AnonymousCowardName String anonymousCowardName,
+      final @Assisted  ReviewDb reviewDb,
+      final @Assisted  Repository db) {
     schema = reviewDb;
     this.author = gerritIdent;
     this.gerritIdent = gerritIdent;
     this.accountCache = accountCache;
     this.approvalTypes = approvalTypes;
     this.canonicalWebUrl = canonicalWebUrl;
+    this.anonymousCowardName = anonymousCowardName;
     this.db = db;
 
     revWalk = new RevWalk(db);
@@ -185,7 +189,8 @@ public class CreateCodeReviewNotes {
       throws CodeReviewNoteCreationException, IOException {
     try {
       ReviewNoteHeaderFormatter formatter =
-        new ReviewNoteHeaderFormatter(author.getTimeZone());
+          new ReviewNoteHeaderFormatter(author.getTimeZone(),
+              anonymousCowardName);
       final List<String> idList = commit.getFooterLines(CHANGE_ID);
       if (idList.isEmpty())
         formatter.appendChangeId(change.getKey());

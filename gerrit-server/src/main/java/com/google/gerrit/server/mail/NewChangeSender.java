@@ -32,8 +32,9 @@ public abstract class NewChangeSender extends ChangeEmail {
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
 
-  protected NewChangeSender(EmailArguments ea, SshInfo sshInfo, Change c) {
-    super(ea, c, "newchange");
+  protected NewChangeSender(EmailArguments ea, String anonymousCowardName,
+      SshInfo sshInfo, Change c) {
+    super(ea, anonymousCowardName, c, "newchange");
     this.sshInfo = sshInfo;
   }
 

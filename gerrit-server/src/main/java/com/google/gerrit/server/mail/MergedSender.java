@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSetApproval;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -39,8 +40,10 @@ public class MergedSender extends ReplyToChangeSender {
   private final ApprovalTypes approvalTypes;
 
   @Inject
-  public MergedSender(EmailArguments ea, ApprovalTypes at, @Assisted Change c) {
-    super(ea, c, "merged");
+  public MergedSender(EmailArguments ea,
+      @AnonymousCowardName String anonymousCowardName, ApprovalTypes at,
+      @Assisted Change c) {
+    super(ea, anonymousCowardName, c, "merged");
     approvalTypes = at;
   }
 

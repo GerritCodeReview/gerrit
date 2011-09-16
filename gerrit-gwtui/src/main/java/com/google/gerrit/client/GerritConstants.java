@@ -82,7 +82,6 @@ public interface GerritConstants extends Constants {
   String searchButton();
 
   String rpcStatusLoading();
-  String anonymousCoward();
 
   String sectionNavigation();
   String sectionActions();

@@ -2068,6 +2068,13 @@ If not set, Gerrit generates this as "gerrit@`hostname`", where
 +
 By default, not set, generating the value at startup.
 
+[[user.anonymousCoward]]user.anonymousCoward::
++
+Username that this displayed in the Gerrit WebUI and in e-mail
+notifications if the full name of the user is not set.
++
+By default "Anonymous Coward" is used.
+
 
 File `etc/secure.config`
 -------------------------

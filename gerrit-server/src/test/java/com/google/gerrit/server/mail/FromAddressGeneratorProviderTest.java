@@ -47,7 +47,8 @@ public class FromAddressGeneratorProviderTest extends TestCase {
   }
 
   private FromAddressGenerator create() {
-    return new FromAddressGeneratorProvider(config, ident, accountCache).get();
+    return new FromAddressGeneratorProvider(config, "Anonymous Coward", ident,
+        accountCache).get();
   }
 
   private void setFrom(final String newFrom) {

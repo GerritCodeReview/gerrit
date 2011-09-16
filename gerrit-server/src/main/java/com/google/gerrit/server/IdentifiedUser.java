@@ -26,6 +26,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gwtorm.client.OrmException;
@@ -66,6 +67,7 @@ public class IdentifiedUser extends CurrentUser {
   public static class GenericFactory {
     private final CapabilityControl.Factory capabilityControlFactory;
     private final AuthConfig authConfig;
+    private final String anonymousCowardName;
     private final Provider<String> canonicalUrl;
     private final Realm realm;
     private final AccountCache accountCache;
@@ -75,11 +77,13 @@ public class IdentifiedUser extends CurrentUser {
     GenericFactory(
         CapabilityControl.Factory capabilityControlFactory,
         final AuthConfig authConfig,
+        final @AnonymousCowardName String anonymousCowardName,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
         final Realm realm, final AccountCache accountCache,
         final GroupIncludeCache groupIncludeCache) {
       this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;
+      this.anonymousCowardName = anonymousCowardName;
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
       this.accountCache = accountCache;
@@ -92,15 +96,15 @@ public class IdentifiedUser extends CurrentUser {
 
     public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, AccessPath.UNKNOWN,
-          authConfig, canonicalUrl, realm, accountCache, groupIncludeCache,
-          null, db, id);
+          authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
+          groupIncludeCache, null, db, id);
     }
 
     public IdentifiedUser create(AccessPath accessPath,
         Provider<SocketAddress> remotePeerProvider, Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, accessPath,
-          authConfig, canonicalUrl, realm, accountCache, groupIncludeCache,
-          remotePeerProvider, null, id);
+          authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
+          groupIncludeCache, remotePeerProvider, null, id);
     }
   }
 
@@ -114,6 +118,7 @@ public class IdentifiedUser extends CurrentUser {
   public static class RequestFactory {
     private final CapabilityControl.Factory capabilityControlFactory;
     private final AuthConfig authConfig;
+    private final String anonymousCowardName;
     private final Provider<String> canonicalUrl;
     private final Realm realm;
     private final AccountCache accountCache;
@@ -126,6 +131,7 @@ public class IdentifiedUser extends CurrentUser {
     RequestFactory(
         CapabilityControl.Factory capabilityControlFactory,
         final AuthConfig authConfig,
+        final @AnonymousCowardName String anonymousCowardName,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
         final Realm realm, final AccountCache accountCache,
         final GroupIncludeCache groupIncludeCache,
@@ -134,6 +140,7 @@ public class IdentifiedUser extends CurrentUser {
         final Provider<ReviewDb> dbProvider) {
       this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;
+      this.anonymousCowardName = anonymousCowardName;
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
       this.accountCache = accountCache;
@@ -146,8 +153,8 @@ public class IdentifiedUser extends CurrentUser {
     public IdentifiedUser create(final AccessPath accessPath,
         final Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, accessPath,
-          authConfig, canonicalUrl, realm, accountCache, groupIncludeCache,
-          remotePeerProvider, dbProvider, id);
+          authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
+          groupIncludeCache, remotePeerProvider, dbProvider, id);
     }
   }
 
@@ -181,6 +188,7 @@ public class IdentifiedUser extends CurrentUser {
   private final AccountCache accountCache;
   private final GroupIncludeCache groupIncludeCache;
   private final AuthConfig authConfig;
+  private final String anonymousCowardName;
 
   @Nullable
   private final Provider<SocketAddress> remotePeerProvider;
@@ -199,7 +207,9 @@ public class IdentifiedUser extends CurrentUser {
   private IdentifiedUser(
       CapabilityControl.Factory capabilityControlFactory,
       final AccessPath accessPath,
-      final AuthConfig authConfig, final Provider<String> canonicalUrl,
+      final AuthConfig authConfig,
+      final String anonymousCowardName,
+      final Provider<String> canonicalUrl,
       final Realm realm, final AccountCache accountCache,
       final GroupIncludeCache groupIncludeCache,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
@@ -210,6 +220,7 @@ public class IdentifiedUser extends CurrentUser {
     this.accountCache = accountCache;
     this.groupIncludeCache = groupIncludeCache;
     this.authConfig = authConfig;
+    this.anonymousCowardName = anonymousCowardName;
     this.remotePeerProvider = remotePeerProvider;
     this.dbProvider = dbProvider;
     this.accountId = id;
@@ -343,7 +354,7 @@ public class IdentifiedUser extends CurrentUser {
       name = ua.getPreferredEmail();
     }
     if (name == null || name.isEmpty()) {
-      name = "Anonymous Coward";
+      name = anonymousCowardName;
     }
 
     String user = getUserName();
@@ -403,7 +414,7 @@ public class IdentifiedUser extends CurrentUser {
       if (0 < at) {
         name = email.substring(0, at);
       } else {
-        name = "Anonymous Coward";
+        name = anonymousCowardName;
       }
     }
 

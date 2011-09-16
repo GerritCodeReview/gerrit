@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.inject.Inject;
@@ -41,8 +42,9 @@ public class CommentSender extends ReplyToChangeSender {
   private List<PatchLineComment> inlineComments = Collections.emptyList();
 
   @Inject
-  public CommentSender(EmailArguments ea, @Assisted Change c) {
-    super(ea, c, "comment");
+  public CommentSender(EmailArguments ea,
+      @AnonymousCowardName String anonymousCowardName, @Assisted Change c) {
+    super(ea, anonymousCowardName, c, "comment");
   }
 
   public void setPatchLineComments(final List<PatchLineComment> plc) {

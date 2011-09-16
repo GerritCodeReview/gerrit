@@ -109,7 +109,7 @@ public class FormatUtil {
   public static String nameEmail(final AccountInfo acct) {
     String name = acct.getFullName();
     if (name == null) {
-      name = Gerrit.C.anonymousCoward();
+      name = Gerrit.getConfig().getAnonymousCowardName();
     }
 
     final StringBuilder b = new StringBuilder();

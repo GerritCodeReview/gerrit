@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -34,6 +35,7 @@ public class FromAddressGeneratorProvider implements
 
   @Inject
   FromAddressGeneratorProvider(@GerritServerConfig final Config cfg,
+      final @AnonymousCowardName String anonymousCowardName,
       @GerritPersonIdent final PersonIdent myIdent,
       final AccountCache accountCache) {
 
@@ -42,7 +44,9 @@ public class FromAddressGeneratorProvider implements
 
     if (from == null || "MIXED".equalsIgnoreCase(from)) {
       ParameterizedString name = new ParameterizedString("${user} (Code Review)");
-      generator = new PatternGen(srvAddr, accountCache, name, srvAddr.email);
+      generator =
+          new PatternGen(srvAddr, accountCache, anonymousCowardName, name,
+              srvAddr.email);
 
     } else if ("USER".equalsIgnoreCase(from)) {
       generator = new UserGen(accountCache, srvAddr);
@@ -56,7 +60,9 @@ public class FromAddressGeneratorProvider implements
       if (name == null || name.getParameterNames().isEmpty()) {
         generator = new ServerGen(a);
       } else {
-        generator = new PatternGen(srvAddr, accountCache, name, a.email);
+        generator =
+            new PatternGen(srvAddr, accountCache, anonymousCowardName, name,
+                a.email);
       }
     }
   }
@@ -118,13 +124,16 @@ public class FromAddressGeneratorProvider implements
     private final String senderEmail;
     private final Address serverAddress;
     private final AccountCache accountCache;
+    private final String anonymousCowardName;
     private final ParameterizedString namePattern;
 
     PatternGen(final Address serverAddress, final AccountCache accountCache,
+        final String anonymousCowardName,
         final ParameterizedString namePattern, final String senderEmail) {
       this.senderEmail = senderEmail;
       this.serverAddress = serverAddress;
       this.accountCache = accountCache;
+      this.anonymousCowardName = anonymousCowardName;
       this.namePattern = namePattern;
     }
 
@@ -141,7 +150,7 @@ public class FromAddressGeneratorProvider implements
         final Account account = accountCache.get(fromId).getAccount();
         String fullName = account.getFullName();
         if (fullName == null || "".equals(fullName)) {
-          fullName = "Anonymous Coward";
+          fullName = anonymousCowardName;
         }
         senderName = namePattern.replace("user", fullName).toString();
 

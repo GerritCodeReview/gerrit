@@ -256,7 +256,14 @@ class PatchListLoader extends EntryCreator<PatchListKey, PatchList> {
       DirCache dc = DirCache.newInCore();
       m.setDirCache(dc);
 
-      if (m.merge(b.getParents())) {
+      boolean couldMerge = false;
+      try {
+        couldMerge = m.merge(b.getParents());
+      } catch (IOException e) {
+        //
+      }
+
+      if (couldMerge) {
         treeId = m.getResultTreeId();
 
       } else {

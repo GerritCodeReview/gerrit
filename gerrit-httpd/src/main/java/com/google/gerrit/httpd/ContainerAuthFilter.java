@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.gerrit.server.account.AccountCache;
@@ -84,8 +85,11 @@ class ContainerAuthFilter implements Filter {
   private boolean verify(HttpServletRequest req, HttpServletResponseWrapper rsp)
       throws IOException {
     final String username = req.getRemoteUser();
-    final AccountState who =
-        (username == null) ? null : accountCache.getByUsername(username);
+    if (username == null) {
+      rsp.sendError(SC_FORBIDDEN);
+      return false;
+    }
+    final AccountState who = accountCache.getByUsername(username);
     if (who == null || !who.getAccount().isActive()) {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;

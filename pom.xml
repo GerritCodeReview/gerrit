@@ -790,7 +790,7 @@ limitations under the License.
       <dependency>
         <groupId>dk.brics.automaton</groupId>
         <artifactId>automaton</artifactId>
-        <version>1.11.2</version>
+        <version>1.11.8</version>
       </dependency>
 
       <dependency>

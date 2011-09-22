@@ -100,6 +100,9 @@ final class ListProjects extends BaseCommand {
   @Option(name = "--description", aliases = {"-d"}, usage = "include description of project in list")
   private boolean showDescription;
 
+  @Option(name = "--all", usage = "display all projects that are accessible by the calling user")
+  private boolean all;
+
   private String currentTabSeparator = DEFAULT_TAB_SEPARATOR;
 
   @Override
@@ -134,7 +137,7 @@ final class ListProjects extends BaseCommand {
         }
 
         final ProjectControl pctl = e.controlFor(currentUser);
-        final boolean isVisible = pctl.isVisible();
+        final boolean isVisible = pctl.isVisible() || (all && pctl.isOwner());
         if (showTree) {
           treeMap.put(projectName.get(), new TreeNode(pctl.getProject(), isVisible));
           continue;
@@ -252,7 +255,8 @@ final class ListProjects extends BaseCommand {
           Ref ref = git.getRef(showBranch.get(i));
           if (ref != null
             && ref.getObjectId() != null
-            && projectControl.controlForRef(ref.getLeaf().getName()).isVisible()) {
+            && (projectControl.controlForRef(ref.getLeaf().getName()).isVisible())
+                || (all && projectControl.isOwner())) {
             result[i] = ref;
           }
         }

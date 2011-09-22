@@ -20,12 +20,16 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
+
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -54,12 +58,14 @@ class ContainerAuthFilter implements Filter {
 
   private final Provider<WebSession> session;
   private final AccountCache accountCache;
+  private final Config config;
 
   @Inject
-  ContainerAuthFilter(Provider<WebSession> session, AccountCache accountCache)
-      throws XsrfException {
+  ContainerAuthFilter(Provider<WebSession> session, AccountCache accountCache,
+      @GerritServerConfig Config config) throws XsrfException {
     this.session = session;
     this.accountCache = accountCache;
+    this.config = config;
   }
 
   @Override
@@ -84,10 +90,13 @@ class ContainerAuthFilter implements Filter {
 
   private boolean verify(HttpServletRequest req, HttpServletResponseWrapper rsp)
       throws IOException {
-    final String username = req.getRemoteUser();
+    String username = req.getRemoteUser();
     if (username == null) {
       rsp.sendError(SC_FORBIDDEN);
       return false;
+    }
+    if (config.getBoolean("auth", "userNameToLowerCase", false)) {
+      username = username.toLowerCase(Locale.US);
     }
     final AccountState who = accountCache.getByUsername(username);
     if (who == null || !who.getAccount().isActive()) {

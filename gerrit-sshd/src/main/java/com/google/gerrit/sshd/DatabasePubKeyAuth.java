@@ -19,6 +19,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
@@ -33,6 +34,7 @@ import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.util.Buffer;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +49,7 @@ import java.security.PublicKey;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -61,17 +64,20 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
   private final SshLog sshLog;
   private final IdentifiedUser.GenericFactory userFactory;
   private final PeerDaemonUser.Factory peerFactory;
+  private final Config config;
   private final Set<PublicKey> myHostKeys;
   private volatile PeerKeyCache peerKeyCache;
 
   @Inject
   DatabasePubKeyAuth(final SshKeyCacheImpl skc, final SshLog l,
       final IdentifiedUser.GenericFactory uf, final PeerDaemonUser.Factory pf,
-      final SitePaths site, final KeyPairProvider hostKeyProvider) {
+      final SitePaths site, final KeyPairProvider hostKeyProvider,
+      final @GerritServerConfig Config cfg) {
     sshKeyCache = skc;
     sshLog = l;
     userFactory = uf;
     peerFactory = pf;
+    config = cfg;
     myHostKeys = myHostKeys(hostKeyProvider);
     peerKeyCache = new PeerKeyCache(site.peer_keys);
   }
@@ -91,7 +97,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     }
   }
 
-  public boolean authenticate(final String username,
+  public boolean authenticate(String username,
       final PublicKey suppliedKey, final ServerSession session) {
     final SshSession sd = session.getAttribute(SshSession.KEY);
 
@@ -105,6 +111,10 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
         sd.authenticationError(username, "no-matching-key");
         return false;
       }
+    }
+
+    if (config.getBoolean("auth", "userNameToLowerCase", false)) {
+      username = username.toLowerCase(Locale.US);
     }
 
     final Iterable<SshKeyCacheEntry> keyList = sshKeyCache.get(username);

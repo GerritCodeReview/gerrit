@@ -298,6 +298,25 @@ then Gerrit will do the authentication (using DIGEST authentication).
 +
 By default this is set to false.
 
+[[auth.userNameToLowerCase]]auth.userNameToLowerCase::
++
+If set the username that is received to authenticate a git operation
+is converted to lower case for looking up the user account in Gerrit.
++
+By setting this parameter a case insensitive authentication for the
+git operations can be achieved, if it is ensured that the usernames in
+Gerrit (scheme `username`) are stored in lower case (e.g. if the
+parameter link:#ldap.accountSshUserName[ldap.accountSshUserName] is
+set to `${sAMAccountName.toLowerCase}`). It is important that for all
+existing accounts this username is already in lower case. It is not
+possible to convert the usernames of the existing accounts to lower
+case because this would break the access to existing per-user
+branches.
++
+This parameter only affects git over http and git over SSH traffic.
++
+By default this is set to false.
+
 [[cache]]Section cache
 ~~~~~~~~~~~~~~~~~~~~~~
 

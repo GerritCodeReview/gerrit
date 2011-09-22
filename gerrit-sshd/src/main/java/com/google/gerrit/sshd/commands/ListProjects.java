@@ -127,7 +127,7 @@ final class ListProjects extends BaseCommand {
         }
 
         final ProjectControl pctl = e.controlFor(currentUser);
-        final boolean isVisible = pctl.isVisible();
+        final boolean isVisible = pctl.isVisible() || pctl.isOwner();
         if (showTree) {
           treeMap.put(projectName.get(), new TreeNode(pctl.getProject(), isVisible));
           continue;

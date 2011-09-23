@@ -44,8 +44,10 @@ import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.CreateProjectHierarchy;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.inject.servlet.RequestScoped;
@@ -93,5 +95,7 @@ public class GerritRequestModule extends FactoryModule {
     factory(PerformRenameGroup.Factory.class);
     factory(GroupDetailFactory.Factory.class);
     factory(GroupMembersFactory.Factory.class);
+    factory(CreateProjectHierarchy.Factory.class);
+    factory(ProjectNode.Factory.class);
   }
 }

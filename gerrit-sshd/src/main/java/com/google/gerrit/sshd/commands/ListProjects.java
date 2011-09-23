@@ -16,10 +16,11 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.CreateProjectHierarchy;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
@@ -35,10 +36,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.TreeMap;
 
 final class ListProjects extends BaseCommand {
   private static final Logger log = LoggerFactory.getLogger(ListProjects.class);
@@ -84,7 +83,7 @@ final class ListProjects extends BaseCommand {
   private GitRepositoryManager repoManager;
 
   @Inject
-  private AllProjectsName allProjectsName;
+  private CreateProjectHierarchy.Factory createProjectHierarchyFactory;
 
   @Option(name = "--show-branch", aliases = {"-b"}, multiValued = true,
       usage = "displays the sha of each project in the specified branch")
@@ -126,123 +125,139 @@ final class ListProjects extends BaseCommand {
     }
 
     final PrintWriter stdout = toPrintWriter(out);
-    final TreeMap<String, TreeNode> treeMap = new TreeMap<String, TreeNode>();
     try {
-      for (final Project.NameKey projectName : projectCache.all()) {
-        final ProjectState e = projectCache.get(projectName);
-        if (e == null) {
-          // If we can't get it from the cache, pretend its not present.
-          //
-          continue;
-        }
-
-        final ProjectControl pctl = e.controlFor(currentUser);
-        final boolean isVisible = pctl.isVisible() || (all && pctl.isOwner());
-        if (showTree) {
-          treeMap.put(projectName.get(), new TreeNode(pctl.getProject(), isVisible));
-          continue;
-        }
-
-        if (!isVisible) {
-          // Require the project itself to be visible to the user.
-          //
-          continue;
-        }
-
-        try {
-          if (showBranch != null) {
-            Repository git = repoManager.openRepository(projectName);
-            try {
-              if (!type.matches(git)) {
-                continue;
-              }
-
-              List<Ref> refs = getBranchRefs(projectName, pctl);
-              if (!hasValidRef(refs)) {
-               continue;
-              }
-
-              for (Ref ref : refs) {
-                if (ref == null) {
-                  // Print stub (forty '-' symbols)
-                  stdout.print("----------------------------------------");
-                } else {
-                  stdout.print(ref.getObjectId().name());
-                }
-                stdout.print(' ');
-              }
-            } finally {
-              git.close();
-            }
-
-          } else if (type != FilterType.ALL) {
-            Repository git = repoManager.openRepository(projectName);
-            try {
-              if (!type.matches(git)) {
-                continue;
-              }
-            } finally {
-              git.close();
-            }
-          }
-
-        } catch (RepositoryNotFoundException err) {
-          // If the Git repository is gone, the project doesn't actually exist anymore.
-          continue;
-        } catch (IOException err) {
-          log.warn("Unexpected error reading " + projectName, err);
-          continue;
-        }
-
-        stdout.print(projectName.get());
-
-        String desc;
-        if (showDescription && !(desc = e.getProject().getDescription()).isEmpty()) {
-          // We still want to list every project as one-liners, hence escaping \n.
-          stdout.print(" - " + desc.replace("\n", "\\n"));
-        }
-
-        stdout.print("\n");
-      }
-
-      if (showTree && treeMap.size() > 0) {
-        printProjectTree(stdout, treeMap);
+      if (!showTree) {
+        printProjectList(stdout);
+      } else {
+        printProjectTree(stdout);
       }
     } finally {
       stdout.flush();
     }
   }
 
-  private void printProjectTree(final PrintWriter stdout,
-      final TreeMap<String, TreeNode> treeMap) {
-    final List<TreeNode> sortedNodes = new ArrayList<TreeNode>();
-
-    // Builds the inheritance tree using a list.
-    //
-    for (TreeNode key : treeMap.values()) {
-      if (allProjectsName.equals(key.getProject().getNameKey())) {
-        sortedNodes.add(key);
+  private void printProjectList(final PrintWriter stdout) {
+    for (final Project.NameKey projectName : projectCache.all()) {
+      final ProjectState e = projectCache.get(projectName);
+      if (e == null) {
+        // If we can't get it from the cache, pretend its not present.
+        //
+        continue;
+      }
+      final ProjectControl pctl = e.controlFor(currentUser);
+      final boolean isVisible = pctl.isVisible() || (all && pctl.isOwner());
+      if (!isVisible) {
+        // Require the project itself to be visible to the user.
+        //
         continue;
       }
 
-      String parentName = key.getParentName();
-      if (parentName == null) {
-        parentName = allProjectsName.get();
+      try {
+        if (showBranch != null) {
+          Repository git = repoManager.openRepository(projectName);
+          try {
+            if (!type.matches(git)) {
+              continue;
+            }
+
+            List<Ref> refs = getBranchRefs(projectName, pctl);
+            if (!hasValidRef(refs)) {
+              continue;
+            }
+
+            for (Ref ref : refs) {
+              if (ref == null) {
+                // Print stub (forty '-' symbols)
+                stdout.print("----------------------------------------");
+              } else {
+                stdout.print(ref.getObjectId().name());
+              }
+              stdout.print(' ');
+            }
+          } finally {
+            git.close();
+          }
+        } else if (type != FilterType.ALL) {
+          Repository git = repoManager.openRepository(projectName);
+          try {
+            if (!type.matches(git)) {
+              continue;
+            }
+          } finally {
+            git.close();
+          }
+        }
+      } catch (RepositoryNotFoundException err) {
+        // If the Git repository is gone, the project doesn't actually exist
+        // anymore.
+        continue;
+      } catch (IOException err) {
+        log.warn("Unexpected error reading " + projectName, err);
+        continue;
       }
 
-      TreeNode node = treeMap.get(parentName);
-      if (node != null) {
-        node.addChild(key);
-      } else {
-        sortedNodes.add(key);
+      stdout.print(projectName.get());
+
+      String desc;
+      if (showDescription
+          && !(desc = e.getProject().getDescription()).isEmpty()) {
+        // We still want to list every project as one-liners, hence escaping \n.
+        stdout.print(" - " + desc.replace("\n", "\\n"));
+      }
+
+      stdout.print("\n");
+    }
+  }
+
+  private void printProjectTree(final PrintWriter stdout) {
+    final CreateProjectHierarchy createProjectHierarchy =
+        createProjectHierarchyFactory.create();
+    createProjectHierarchy.setAll(all);
+    final List<ProjectNode> rootProjectNodes =
+        createProjectHierarchy.getRootProjectHierarchies();
+    if (!rootProjectNodes.isEmpty()) {
+      for (final ProjectNode rootProjectNode : rootProjectNodes) {
+        // Check if is not the last "root" parent node,
+        // so the "|" separator will not longer be needed.
+        //
+        final boolean isLast = isLast(rootProjectNodes, rootProjectNode);
+        if (!currentTabSeparator.equals(" ") && isLast) {
+          currentTabSeparator = " ";
+        }
+
+        printElement(stdout, rootProjectNode, 0, isLast);
       }
     }
+  }
 
-    // Builds a fake root node, which contains the sorted projects.
-    //
-    final TreeNode fakeRoot = new TreeNode(null, sortedNodes, false);
-    printElement(stdout, fakeRoot, -1, false, sortedNodes.get(sortedNodes.size() - 1));
-    stdout.flush();
+  private void printElement(final PrintWriter stdout,
+      final ProjectNode projectNode, int level, final boolean isLast) {
+    if (level > 0) {
+      stdout.print(String.format("%-" + 4 * level + "s", currentTabSeparator));
+    }
+
+    final String prefix = isLast ? LAST_NODE_PREFIX : NODE_PREFIX;
+    final String printout;
+    if (projectNode.isVisible()) {
+      printout = prefix + projectNode.getProject().getName();
+    } else {
+      printout = prefix + NOT_VISIBLE_PROJECT;
+    }
+    stdout.print(printout + "\n");
+
+    if (projectNode.isLeaf()) {
+      return;
+    } else {
+      final List<ProjectNode> children = projectNode.getChildren();
+      ++level;
+      for (final ProjectNode child : children) {
+        printElement(stdout, child, level, isLast(children, child));
+      }
+    }
+  }
+
+  private static <E> boolean isLast(final List<E> list, final E element) {
+    return list.indexOf(element) == list.size() - 1;
   }
 
   private List<Ref> getBranchRefs(Project.NameKey projectName,
@@ -276,140 +291,5 @@ final class ListProjects extends BaseCommand {
       }
     }
     return false;
-  }
-
-  /** Class created to manipulate the nodes of the project inheritance tree **/
-  private static class TreeNode {
-    private final List<TreeNode> children;
-    private final Project project;
-    private final boolean isVisible;
-
-    /**
-     * Constructor
-     * @param p Project
-     */
-    public TreeNode(Project p, boolean visible) {
-      this.children = new ArrayList<TreeNode>();
-      this.project = p;
-      this.isVisible = visible;
-    }
-
-    /**
-     * Constructor used for creating the fake node
-     * @param p Project
-     * @param c List of nodes
-     */
-    public TreeNode(Project p, List<TreeNode> c, boolean visible) {
-      this.children = c;
-      this.project = p;
-      this.isVisible = visible;
-    }
-
-    /**
-     * Returns if the the node is leaf
-     * @return True if is lead, false, otherwise
-     */
-    public boolean isLeaf() {
-      return children.size() == 0;
-    }
-
-    /**
-     * Returns the project parent name
-     * @return Project parent name
-     */
-    public String getParentName() {
-      if (project.getParent() != null) {
-        return project.getParent().get();
-      }
-
-      return null;
-    }
-
-    /**
-     * Adds a child to the list
-     * @param node TreeNode child
-     */
-    public void addChild(TreeNode node) {
-      children.add(node);
-    }
-
-    /**
-     * Returns the project instance
-     * @return Project instance
-     */
-    public Project getProject() {
-      return project;
-    }
-
-    /**
-     * Returns the list of children nodes
-     * @return List of children nodes
-     */
-    public List<TreeNode> getChildren() {
-      return children;
-    }
-
-    /**
-     * Returns if the project is visible to the user
-     * @return True if is visible, false, otherwise
-     */
-    public boolean isVisible() {
-      return isVisible;
-    }
-  }
-
-  /**
-   * Used to display the project inheritance tree recursively
-   * @param stdout PrintWriter used do print
-   * @param node Tree node
-   * @param level Current level of the tree
-   * @param isLast True, if is the last node of a level, false, otherwise
-   * @param lastParentNode Last "root" parent node
-   */
-  private void printElement(final PrintWriter stdout, TreeNode node, int level, boolean isLast,
-      final TreeNode lastParentNode) {
-    // Checks if is not the "fake" root project.
-    //
-    if (node.getProject() != null) {
-
-      // Check if is not the last "root" parent node,
-      // so the "|" separator will not longer be needed.
-      //
-      if (!currentTabSeparator.equals(" ")) {
-        final String nodeProject = node.getProject().getName();
-        final String lastParentProject = lastParentNode.getProject().getName();
-
-        if (nodeProject.equals(lastParentProject)) {
-          currentTabSeparator = " ";
-        }
-      }
-
-      if (level > 0) {
-        stdout.print(String.format("%-" + 4 * level + "s", currentTabSeparator));
-      }
-
-      final String prefix = isLast ? LAST_NODE_PREFIX : NODE_PREFIX ;
-
-      String printout;
-
-      if (node.isVisible()) {
-        printout = prefix + node.getProject().getName();
-      } else {
-        printout = prefix + NOT_VISIBLE_PROJECT;
-      }
-
-      stdout.print(printout + "\n");
-    }
-
-    if (node.isLeaf()) {
-      return;
-    } else {
-      final List<TreeNode> children = node.getChildren();
-      ++level;
-      for(TreeNode treeNode : children) {
-        final boolean isLastIndex = children.indexOf(treeNode) == children.size() - 1;
-        printElement(stdout, treeNode, level, isLastIndex, lastParentNode);
-      }
-    }
   }
 }

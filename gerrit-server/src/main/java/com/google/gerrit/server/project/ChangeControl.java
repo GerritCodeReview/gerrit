@@ -167,10 +167,11 @@ public class ChangeControl {
 
   /** Can this user abandon this change? */
   public boolean canAbandon() {
-    return isOwner() // owner (aka creator) of the change can abandon
+    return (!change.belongsToTopic()) // If the change does not belong to a Topic
+        && (isOwner() // owner (aka creator) of the change can abandon
         || getRefControl().isOwner() // branch owner can abandon
         || getProjectControl().isOwner() // project owner can abandon
-        || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god
+        || getCurrentUser().getCapabilities().canAdministrateServer()) // site administers are god
     ;
   }
 
@@ -234,6 +235,11 @@ public class ChangeControl {
   }
 
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet.Id patchSetId) {
+    return canSubmit(db, patchSetId, false);
+  }
+
+  public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet.Id patchSetId,
+      boolean fromTopic) {
     if (change.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
@@ -358,7 +364,10 @@ public class ChangeControl {
         return logInvalidResult(submitRule, submitRecord);
       }
 
-      if ("ok".equals(submitRecord.name())) {
+      if ((change.belongsToTopic()) && (!fromTopic)) {
+        rec.status = SubmitRecord.Status.NOT_READY;
+
+      } else if ("ok".equals(submitRecord.name())) {
         rec.status = SubmitRecord.Status.OK;
 
       } else if ("not_ready".equals(submitRecord.name())) {

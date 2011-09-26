@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Topic;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReplicationUser;
@@ -160,6 +161,10 @@ public class ProjectControl {
 
   public ChangeControl controlFor(final Change change) {
     return new ChangeControl(controlForRef(change.getDest()), change);
+  }
+
+  public TopicControl controlFor(final Topic topic) {
+    return new TopicControl(controlForRef(topic.getDest()), topic);
   }
 
   public RefControl controlForRef(Branch.NameKey ref) {

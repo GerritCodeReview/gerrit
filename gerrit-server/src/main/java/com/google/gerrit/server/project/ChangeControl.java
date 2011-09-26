@@ -185,11 +185,12 @@ public class ChangeControl {
 
   /** Can this user abandon this change? */
   public boolean canAbandon() {
-    return isOwner() // owner (aka creator) of the change can abandon
+    return (!change.belongsToTopic()) // If the change does not belong to a Topic
+        && (isOwner() // owner (aka creator) of the change can abandon
         || getRefControl().isOwner() // branch owner can abandon
         || getProjectControl().isOwner() // project owner can abandon
         || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god
-        || getRefControl().canAbandon() // user can abandon a specific ref
+        || getRefControl().canAbandon()) // user can abandon a specific ref
     ;
   }
 
@@ -295,15 +296,24 @@ public class ChangeControl {
   }
 
   public List<SubmitRecord> getSubmitRecords(ReviewDb db, PatchSet patchSet) {
-    return canSubmit(db, patchSet, null, false, true);
+    return canSubmit(db, patchSet, null, false, true, false);
   }
 
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet) {
-    return canSubmit(db, patchSet, null, false, false);
+    return canSubmit(db, patchSet, null, false, false, false);
+  }
+
+  public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,boolean fromTopic) {
+    return canSubmit(db, patchSet, null, false, false, fromTopic);
   }
 
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,
       @Nullable ChangeData cd, boolean fastEvalLabels, boolean allowClosed) {
+    return canSubmit(db, patchSet, cd, fastEvalLabels, allowClosed, false);
+  }
+
+  public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,
+      @Nullable ChangeData cd, boolean fastEvalLabels, boolean allowClosed, boolean fromTopic) {
     if (!allowClosed && change.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
@@ -458,7 +468,10 @@ public class ChangeControl {
         return logInvalidResult(submitRule, submitRecord);
       }
 
-      if ("ok".equals(submitRecord.name())) {
+      if ((change.belongsToTopic()) && (!fromTopic)) {
+        rec.status = SubmitRecord.Status.NOT_READY;
+
+      } else if ("ok".equals(submitRecord.name())) {
         rec.status = SubmitRecord.Status.OK;
 
       } else if ("not_ready".equals(submitRecord.name())) {

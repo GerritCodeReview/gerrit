@@ -18,8 +18,10 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.CreateProjectHierarchy;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
@@ -42,7 +44,15 @@ final class AdminSetParent extends BaseCommand {
   @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "new parent project")
   private ProjectControl newParent;
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "NAME", usage = "projects to modify")
+  @Option(name = "--old-parent", metaVar = "NAME", usage = "old parent project")
+  private ProjectControl oldParent;
+
+  @Option(name = "--exclude", metaVar = "NAME",
+      usage = "child project of old parent project which should not be reparented")
+  private List<ProjectControl> excludedChildren = new ArrayList<ProjectControl>();
+
+  @Argument(index = 0, required = false, multiValued = true, metaVar = "NAME",
+      usage = "projects to modify")
   private List<ProjectControl> children = new ArrayList<ProjectControl>();
 
   @Inject
@@ -53,6 +63,9 @@ final class AdminSetParent extends BaseCommand {
 
   @Inject
   private AllProjectsName allProjectsName;
+
+  @Inject
+  private CreateProjectHierarchy.Factory createProjectHierarchyFactory;
 
   @Override
   public void start(final Environment env) {
@@ -66,6 +79,13 @@ final class AdminSetParent extends BaseCommand {
   }
 
   private void updateParents() throws Failure {
+    if (oldParent == null && children.isEmpty()) {
+      throw new UnloggedFailure(1, "fatal: child projects have to be specified as arguments or the --old-parent option has to be set");
+    }
+    if (oldParent == null && !excludedChildren.isEmpty()) {
+      throw new UnloggedFailure(1, "fatal: --exclude can only be used together with --old-parent");
+    }
+
     final StringBuilder err = new StringBuilder();
     final Set<Project.NameKey> grandParents = new HashSet<Project.NameKey>();
     Project.NameKey newParentKey;
@@ -93,18 +113,41 @@ final class AdminSetParent extends BaseCommand {
       newParentKey = null;
     }
 
+    final List<Project> childProjects = new ArrayList<Project>();
     for (final ProjectControl pc : children) {
-      final Project.NameKey key = pc.getProject().getNameKey();
-      final String name = pc.getProject().getName();
+      childProjects.add(pc.getProject());
+    }
+    if (oldParent != null) {
+      final List<Project.NameKey> excluded =
+          new ArrayList<Project.NameKey>(excludedChildren.size() + 1);
+      if (newParentKey != null) {
+        excluded.add(newParentKey);
+      }
+      for (final ProjectControl excludedChild : excludedChildren) {
+        excluded.add(excludedChild.getProject().getNameKey());
+      }
+      final ProjectNode oldParentProject =
+          createProjectHierarchyFactory.create().getProjectHierarchy(
+              oldParent.getProject().getNameKey());
+      for (final ProjectNode childProject : oldParentProject.getChildren()) {
+        if (!excluded.contains(childProject.getProject().getNameKey())) {
+          childProjects.add(childProject.getProject());
+        }
+      }
+    }
 
-      if (allProjectsName.equals(key)) {
+    for (final Project project : childProjects) {
+      final String name = project.getName();
+      final Project.NameKey nameKey = project.getNameKey();
+
+      if (allProjectsName.equals(nameKey)) {
         // Don't allow the wild card project to have a parent.
         //
         err.append("error: Cannot set parent of '" + name + "'\n");
         continue;
       }
 
-      if (grandParents.contains(key) || key.equals(newParentKey)) {
+      if (grandParents.contains(nameKey) || nameKey.equals(newParentKey)) {
         // Try to avoid creating a cycle in the parent pointers.
         //
         err.append("error: Cycle exists between '" + name + "' and '"
@@ -114,7 +157,7 @@ final class AdminSetParent extends BaseCommand {
       }
 
       try {
-        MetaDataUpdate md = metaDataUpdateFactory.create(key);
+        MetaDataUpdate md = metaDataUpdateFactory.create(nameKey);
         try {
           ProjectConfig config = ProjectConfig.read(md);
           config.getProject().setParentName(newParentKey);
@@ -134,7 +177,7 @@ final class AdminSetParent extends BaseCommand {
         throw new Failure(1, "Cannot update project " + name, e);
       }
 
-      projectCache.evict(pc.getProject());
+      projectCache.evict(project);
     }
 
     if (err.length() > 0) {

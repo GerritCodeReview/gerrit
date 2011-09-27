@@ -36,6 +36,7 @@ public class CreateProjectHierarchy {
 
   private boolean all;
 
+  private Map<NameKey, ProjectNode> projectHierarchies;
   private List<ProjectNode> sortedRootNodes;
 
 
@@ -53,8 +54,7 @@ public class CreateProjectHierarchy {
   }
 
   private void createProjectHierarchies() {
-    final Map<NameKey, ProjectNode> projectHierarchies =
-        new TreeMap<Project.NameKey, ProjectNode>();
+    projectHierarchies = new TreeMap<Project.NameKey, ProjectNode>();
     for (final Project.NameKey projectName : projectCache.all()) {
       final ProjectState e = projectCache.get(projectName);
       if (e == null) {
@@ -89,5 +89,9 @@ public class CreateProjectHierarchy {
 
   public List<ProjectNode> getRootProjectHierarchies() {
     return sortedRootNodes;
+  }
+
+  public ProjectNode getProjectHierarchy(final Project.NameKey project) {
+    return projectHierarchies.get(project);
   }
 }

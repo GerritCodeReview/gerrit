@@ -32,6 +32,7 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -42,7 +43,16 @@ final class AdminSetParent extends BaseCommand {
   @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "new parent project")
   private ProjectControl newParent;
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "NAME", usage = "projects to modify")
+  @Option(name = "--children-of", metaVar = "NAME",
+      usage = "parent project for which the child projects should be reparented")
+  private ProjectControl oldParent;
+
+  @Option(name = "--exclude", metaVar = "NAME",
+      usage = "child project of old parent project which should not be reparented")
+  private List<ProjectControl> excludedChildren = new ArrayList<ProjectControl>();
+
+  @Argument(index = 0, required = false, multiValued = true, metaVar = "NAME",
+      usage = "projects to modify")
   private List<ProjectControl> children = new ArrayList<ProjectControl>();
 
   @Inject
@@ -54,21 +64,37 @@ final class AdminSetParent extends BaseCommand {
   @Inject
   private AllProjectsName allProjectsName;
 
+  private PrintWriter stdout;
+  private Project.NameKey newParentKey = null;
+
   @Override
   public void start(final Environment env) {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
-        parseCommandLine();
-        updateParents();
+        stdout = toPrintWriter(out);
+        try {
+          parseCommandLine();
+          updateParents();
+        } finally {
+          stdout.flush();
+        }
       }
     });
   }
 
   private void updateParents() throws Failure {
+    if (oldParent == null && children.isEmpty()) {
+      throw new UnloggedFailure(1, "fatal: child projects have to be specified as " +
+                                   "arguments or the --children-of option has to be set");
+    }
+    if (oldParent == null && !excludedChildren.isEmpty()) {
+      throw new UnloggedFailure(1, "fatal: --exclude can only be used together " +
+                                   "with --children-of");
+    }
+
     final StringBuilder err = new StringBuilder();
     final Set<Project.NameKey> grandParents = new HashSet<Project.NameKey>();
-    Project.NameKey newParentKey;
 
     grandParents.add(allProjectsName);
 
@@ -87,24 +113,28 @@ final class AdminSetParent extends BaseCommand {
           break;
         }
       }
-    } else {
-      // If no parent was selected, set to NULL to use the default.
-      //
-      newParentKey = null;
     }
 
+    final List<Project> childProjects = new ArrayList<Project>();
     for (final ProjectControl pc : children) {
-      final Project.NameKey key = pc.getProject().getNameKey();
-      final String name = pc.getProject().getName();
+      childProjects.add(pc.getProject());
+    }
+    if (oldParent != null) {
+      childProjects.addAll(getChildrenForReparenting(oldParent));
+    }
 
-      if (allProjectsName.equals(key)) {
+    for (final Project project : childProjects) {
+      final String name = project.getName();
+      final Project.NameKey nameKey = project.getNameKey();
+
+      if (allProjectsName.equals(nameKey)) {
         // Don't allow the wild card project to have a parent.
         //
         err.append("error: Cannot set parent of '" + name + "'\n");
         continue;
       }
 
-      if (grandParents.contains(key) || key.equals(newParentKey)) {
+      if (grandParents.contains(nameKey) || nameKey.equals(newParentKey)) {
         // Try to avoid creating a cycle in the parent pointers.
         //
         err.append("error: Cycle exists between '" + name + "' and '"
@@ -114,7 +144,7 @@ final class AdminSetParent extends BaseCommand {
       }
 
       try {
-        MetaDataUpdate md = metaDataUpdateFactory.create(key);
+        MetaDataUpdate md = metaDataUpdateFactory.create(nameKey);
         try {
           ProjectConfig config = ProjectConfig.read(md);
           config.getProject().setParentName(newParentKey);
@@ -134,7 +164,7 @@ final class AdminSetParent extends BaseCommand {
         throw new Failure(1, "Cannot update project " + name, e);
       }
 
-      projectCache.evict(pc.getProject());
+      projectCache.evict(project);
     }
 
     if (err.length() > 0) {
@@ -143,5 +173,89 @@ final class AdminSetParent extends BaseCommand {
       }
       throw new UnloggedFailure(1, err.toString());
     }
+  }
+
+  /**
+   * Returns the children of the specified parent project that should be
+   * reparented. The returned list of child projects does not contain projects
+   * that were specified to be excluded from reparenting.
+   */
+  private List<Project> getChildrenForReparenting(final ProjectControl parent) {
+    final List<Project> childProjects = new ArrayList<Project>();
+    final List<Project.NameKey> excluded =
+      new ArrayList<Project.NameKey>(excludedChildren.size());
+    for (final ProjectControl excludedChild : excludedChildren) {
+      excluded.add(excludedChild.getProject().getNameKey());
+    }
+    final List<Project.NameKey> automaticallyExcluded =
+      new ArrayList<Project.NameKey>(excludedChildren.size());
+    if (newParentKey != null) {
+      automaticallyExcluded.addAll(getAllParents(newParentKey));
+    }
+    for (final Project child : getChildren(parent.getProject().getNameKey())) {
+      final Project.NameKey childName = child.getNameKey();
+      if (!excluded.contains(childName)) {
+        if (!automaticallyExcluded.contains(childName)) {
+          childProjects.add(child);
+        } else {
+          stdout.println("Automatically excluded '" + childName + "' " +
+                         "from reparenting because it is in the parent " +
+                         "line of the new parent '" + newParentKey + "'.");
+        }
+      }
+    }
+    return childProjects;
+  }
+
+  private List<Project.NameKey> getAllParents(final Project.NameKey projectName) {
+    final List<Project.NameKey> parents = new ArrayList<Project.NameKey>();
+    Project.NameKey p = projectName;
+    while (p != null && !parents.contains(p)) {
+      final ProjectState e = projectCache.get(p);
+      if (e == null) {
+        // If we can't get it from the cache, pretend it's not present.
+        break;
+      }
+
+      p = getParentName(e.getProject());
+      if (p != null) {
+        parents.add(p);
+      }
+    }
+    return parents;
+  }
+
+  private List<Project> getChildren(final Project.NameKey parentName) {
+    final List<Project> childProjects = new ArrayList<Project>();
+    for (final Project.NameKey projectName : projectCache.all()) {
+      final ProjectState e = projectCache.get(projectName);
+      if (e == null) {
+        // If we can't get it from the cache, pretend it's not present.
+        continue;
+      }
+
+      if (parentName.equals(getParentName(e.getProject()))) {
+        childProjects.add(e.getProject());
+      }
+    }
+    return childProjects;
+  }
+
+  /**
+   * Returns the project parent name.
+   *
+   * @return Project parent name, <code>null</code> for the 'All-Projects' root
+   *         project
+   */
+  private Project.NameKey getParentName(final Project project) {
+    if (project.getParent() != null) {
+      return project.getParent();
+    }
+
+    if (project.getNameKey().equals(allProjectsName)) {
+      return null;
+    }
+
+    return allProjectsName;
   }
 }

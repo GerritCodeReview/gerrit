@@ -117,8 +117,9 @@ final class AdminSetParent extends BaseCommand {
         MetaDataUpdate md = metaDataUpdateFactory.create(key);
         try {
           ProjectConfig config = ProjectConfig.read(md);
-          config.getProject().setParentName(newParentKey.get());
-          md.setMessage("Inherit access from " + newParentKey.get() + "\n");
+          config.getProject().setParentName(newParentKey);
+          md.setMessage("Inherit access from "
+              + (newParentKey != null ? newParentKey.get() : allProjectsName.get()) + "\n");
           if (!config.commit(md)) {
             err.append("error: Could not update project " + name + "\n");
           }

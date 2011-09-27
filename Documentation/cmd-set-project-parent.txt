@@ -10,6 +10,8 @@ SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit set-project-parent'
   [--parent <NAME>]
+  [--old-parent <NAME>]
+  [--exclude <NAME>]
   <NAME> ...
 
 DESCRIPTION
@@ -33,12 +35,29 @@ OPTIONS
 	Name of the parent to inherit through. If not specified,
 	the parent is set back to the default `All-Projects`.
 
+--old-parent::
+	Name of the parent project for which all child projects should be
+	reparented. If the new parent project is a child of this parent
+	project it is automatically excluded from reparenting.
+
+--exclude::
+	Name of a child project that should not be reparented. This
+	option can only be used if the option --old-parent is set.
+	Multiple child projects can be excluded from reparenting by
+	specifying the --exclude option multiple times.
+
 EXAMPLES
 --------
 Configure `kernel/omap` to inherit permissions from `kernel/common`:
 
 ====
 	$ ssh -p 29418 review.example.com gerrit set-project-parent --parent kernel/common kernel/omap
+====
+
+Reparent all children of `myParent` to `myOtherParent`:
+
+====
+	$ ssh -p 29418 review.example.com gerrit set-project-parent --old-parent myParent --parent myOtherParent
 ====
 
 SEE ALSO

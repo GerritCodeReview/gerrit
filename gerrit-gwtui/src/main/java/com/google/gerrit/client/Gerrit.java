@@ -241,12 +241,15 @@ public class Gerrit implements EntryPoint {
   }
 
   /** Sign the user into the application. */
-  public static void doSignIn(final String token) {
+  public static void doSignIn(String token) {
     switch (myConfig.getAuthType()) {
       case HTTP:
       case HTTP_LDAP:
       case CLIENT_SSL_CERT_LDAP:
-        Location.assign(Location.getPath() + "login/" + token);
+        if (!token.startsWith("/")) {
+          token = "/" + token;
+        }
+        Location.assign(Location.getPath() + "login" + token);
         break;
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:

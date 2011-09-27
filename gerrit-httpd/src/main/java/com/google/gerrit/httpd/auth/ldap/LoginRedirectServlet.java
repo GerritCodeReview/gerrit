@@ -77,6 +77,8 @@ class LoginRedirectServlet extends HttpServlet {
     String token = req.getPathInfo();
     if (token == null || token.isEmpty()) {
       token = PageLinks.MINE;
+    } else if (!token.startsWith("/")) {
+      token = "/" + token;
     }
     return token;
   }

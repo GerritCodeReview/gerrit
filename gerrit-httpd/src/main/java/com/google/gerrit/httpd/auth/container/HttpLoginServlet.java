@@ -80,7 +80,7 @@ class HttpLoginServlet extends HttpServlet {
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws ServletException, IOException {
     final String token = getToken(req);
-    if ("logout".equals(token) || "signout".equals(token)) {
+    if ("/logout".equals(token) || "/signout".equals(token)) {
       req.getRequestDispatcher("/logout").forward(req, rsp);
       return;
     }
@@ -166,6 +166,8 @@ class HttpLoginServlet extends HttpServlet {
     String token = req.getPathInfo();
     if (token == null || token.isEmpty()) {
       token = PageLinks.MINE;
+    } else if (!token.startsWith("/")) {
+      token = "/" + token;
     }
     return token;
   }

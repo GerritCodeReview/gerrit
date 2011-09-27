@@ -1533,24 +1533,26 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     final List<String> idList = c.getFooterLines(CHANGE_ID);
-    if (idList.isEmpty()) {
-      if (project.isRequireChangeID() && (cmd.getRefName().startsWith(NEW_CHANGE)
-  || NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
-        String errMsg = "missing Change-Id in commit message";
-        reject(cmd, errMsg);
-        rp.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
+    if ((cmd.getRefName().startsWith(NEW_CHANGE) || NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
+      if (idList.isEmpty()) {
+        if (project.isRequireChangeID()) {
+          String errMsg = "missing Change-Id in commit message";
+          reject(cmd, errMsg);
+          rp.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
+          return false;
+        }
+      } else if (idList.size() > 1) {
+        reject(cmd, "multiple Change-Id lines in commit message");
         return false;
-      }
-    } else if (idList.size() > 1) {
-      reject(cmd, "multiple Change-Id lines in commit message");
-      return false;
-    } else {
-      final String v = idList.get(idList.size() - 1).trim();
-      if (!v.matches("^I[0-9a-f]{8,}.*$")) {
-        final String errMsg = "missing or invalid Change-Id line format in commit message";
-        reject(cmd, errMsg);
-        rp.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
-        return false;
+      } else {
+        final String v = idList.get(idList.size() - 1).trim();
+        if (!v.matches("^I[0-9a-f]{8,}.*$")) {
+          final String errMsg =
+              "missing or invalid Change-Id line format in commit message";
+          reject(cmd, errMsg);
+          rp.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
+          return false;
+        }
       }
     }
 

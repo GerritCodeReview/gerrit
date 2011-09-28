@@ -46,8 +46,13 @@ public class ListMembersCommand extends BaseCommand {
       usage = "project to resolve 'Project Owners' group")
   private ProjectControl project;
 
+  @Option(name = "--tree", aliases = {"-t"},
+      usage = "display the group hierarchy in a tree-like format")
+  private boolean showTree;
+
   @Argument(index = 0, required = true, metaVar = "GROUP",
       usage = "name of group for which the members should be listed")
+
   private AccountGroup.UUID groupUUID;
 
   @Inject
@@ -56,12 +61,18 @@ public class ListMembersCommand extends BaseCommand {
   @Inject
   private AccountFormatter accountFormatter;
 
+  @Inject
+  private AccountGroupNode.Factory accountGroupNodeFactory;
+
   @Override
   public void start(final Environment env) throws IOException {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
         parseCommandLine();
+        if (showTree) {
+          recursive = true;
+        }
         try {
           display(groupMembersFactory.create().listMembers(groupUUID, project,
               recursive));
@@ -80,35 +91,56 @@ public class ListMembersCommand extends BaseCommand {
     final PrintWriter stdout = toPrintWriter(out);
     try {
       printWarnings(stdout, groupMembers);
-      final Set<Account> accounts = groupMembers.getAllAccounts();
-      final Set<GroupMembersList> includedGroups =
-          groupMembers.getAllIncludedGroups();
-      if (!accounts.isEmpty()) {
-        stdout.print("Accounts:\n");
-        for (final Account account : accounts) {
-          stdout.print(accountFormatter.formatWithFullnameEmailAndId(account) + "\n");
-        }
-        if (!includedGroups.isEmpty()) {
-          stdout.print("\n");
-        }
-      }
-      if (!includedGroups.isEmpty()) {
-        stdout.print("Included Groups:\n");
-        for (final GroupMembersList includedGroupMembers : includedGroups) {
-          if (includedGroupMembers.isGroupVisible()) {
-            final AccountGroup group = includedGroupMembers.getGroup();
-            stdout.print(group.getName() + " (" + group.getId() + ")\n");
-          }
-        }
+      if (!showTree) {
+        printMemberList(stdout, groupMembers);
+      } else {
+        printMemberTree(stdout, groupMembers);
       }
     } finally {
       stdout.flush();
     }
   }
 
+  private void printMemberList(final PrintWriter stdout,
+      final GroupMembersList groupMembers) {
+    final Set<Account> accounts = groupMembers.getAllAccounts();
+    final Set<GroupMembersList> includedGroups =
+        groupMembers.getAllIncludedGroups();
+    if (!accounts.isEmpty()) {
+      stdout.print("Accounts:\n");
+      for (final Account account : accounts) {
+        stdout.print(accountFormatter.formatWithFullnameEmailAndId(account) + "\n");
+      }
+      if (!includedGroups.isEmpty()) {
+        stdout.print("\n");
+      }
+    }
+    if (!includedGroups.isEmpty()) {
+      stdout.print("Included Groups:\n");
+      for (final GroupMembersList includedGroupMembers : includedGroups) {
+        if (includedGroupMembers.isGroupVisible()) {
+          final AccountGroup group = includedGroupMembers.getGroup();
+          stdout.print(group.getName() + " (" + group.getId() + ")\n");
+        }
+      }
+    }
+  }
+
+  private void printMemberTree(final PrintWriter stdout,
+      final GroupMembersList groupMembers) {
+    final TreeFormatter treeFormatter = new TreeFormatter(stdout);
+    treeFormatter.printTree(accountGroupNodeFactory.create(groupMembers));
+  }
+
   private void printWarnings(final PrintWriter stdout,
       final GroupMembersList groupMembers) {
     boolean hasWarning = false;
+    if (showTree && groupMembers.containsNonVisibleGroup()) {
+      stdout.print("Warning: Some groups are not visible to you and "
+                   + "could not be resolved. They are marked with '"
+                   + TreeFormatter.NOT_VISIBLE_NODE + "'\n");
+      hasWarning = true;
+    }
 
     if (groupMembers.containsNonVisibleGroup()) {
       stdout.print("Warning: Some included groups are not visible to you "

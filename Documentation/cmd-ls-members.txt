@@ -11,6 +11,7 @@ SYNOPSIS
 'ssh' -p <port> <host> 'gerrit ls-members'
   [--recursive]
   [--project <NAME>]
+  [--tree]
   <GROUP>
 
 DESCRIPTION
@@ -35,12 +36,13 @@ OPTIONS
 --recursive::
 -r::
 	If specified the included groups will be resolved
-	recursively.  The command then outputs a flat list with the
-	contained accounts and a flat list with included groups.
-	The flat lists contain all accounts/included groups that are
-	either direct or indirect members of the specified group,
-	but from the flat list it is impossible to discern
-	specifically whether they are direct or indirect members.
+	recursively.  If the --tree option is not specified the
+	command outputs a flat list with the contained accounts and
+	a flat list with included groups.  The flat lists contain
+	all accounts/included groups that are either direct or
+	indirect members of the specified group, but from the flat
+	list it is impossible to discern specifically whether they
+	are direct or indirect members.
 
 --project::
 -p::
@@ -48,6 +50,12 @@ OPTIONS
 	link:access-control.html#project_owners[Project Owners]
 	group will be resolved.  If not specified the
 	'Project Owners' group will not be resolved.
+
+--tree::
+-t::
+	Displays the group hierarchy in a tree-like format.
+	If this option is set the included groups will always be
+	resolved recursively.
 
 EXAMPLES
 --------

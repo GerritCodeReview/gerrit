@@ -11,6 +11,7 @@ SYNOPSIS
 'ssh' -p <port> <host> 'gerrit ls-members'
   [--recursive]
   [--project <NAME>]
+  [--tree]
   <GROUP>
 
 DESCRIPTION
@@ -41,6 +42,12 @@ OPTIONS
 	Name of the project for which the link:access-control.html#project_owners[Project Owners]
 	group will be resolved. If not specified the 'Project Owners'
 	group will not be resolved.
+
+--tree::
+-t::
+	Displays the group hierarchy in a tree-like format.
+	If this option is set the included groups will always be resolved
+	recursively.
 
 EXAMPLES
 --------

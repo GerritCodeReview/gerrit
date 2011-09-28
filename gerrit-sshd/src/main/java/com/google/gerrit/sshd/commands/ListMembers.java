@@ -34,10 +34,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
 
 public class ListMembers extends BaseCommand {
 
+  private static final String NODE_PREFIX = "|-- ";
+  private static final String LAST_NODE_PREFIX = "`-- ";
+  private static final String NO_MEMBERS = "<no-members>";
+  private static final String RECURSIVE_GROUP = "...";
+  private static final String UNRESOLVED_GROUP = "<unresolved>";
   private static final String NOT_VISIBLE_GROUP = "(x)";
 
   @Option(name = "--recursive", aliases = {"-r"}, usage = "to resolve groups recursively")
@@ -45,6 +52,9 @@ public class ListMembers extends BaseCommand {
 
   @Option(name = "--project", aliases = {"-p"}, metaVar = "NAME", usage = "project to resolve 'Project Owners' group")
   private ProjectControl project;
+
+  @Option(name = "--tree", aliases = {"-t"}, usage = "display the group hierarchy in a tree-like format")
+  private boolean showTree;
 
   @Argument(index = 0, required = true, metaVar = "GROUP", usage = "name of group for which the members should be listed")
   private AccountGroup.UUID groupUUID;
@@ -55,12 +65,17 @@ public class ListMembers extends BaseCommand {
   @Inject
   private @AnonymousCowardName String anonymousCowardName;
 
+  private Set<AccountGroup.UUID> unresolvedGroups = new HashSet<AccountGroup.UUID>();
+
   @Override
   public void start(final Environment env) throws IOException {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
         parseCommandLine();
+        if (showTree) {
+          recursive = true;
+        }
         try {
           final PerformGroupMembers performGroupMembers =
               performGroupMembersFactory.create();
@@ -82,26 +97,95 @@ public class ListMembers extends BaseCommand {
     final PrintWriter stdout = toPrintWriter(out);
     try {
       printWarningsForUnresolvedGroups(stdout, groupMembers);
-      final Set<Account> accounts = groupMembers.getAllAccounts();
-      final Set<GroupMembers> includedGroups =
-          groupMembers.getAllIncludedGroups();
-      if (!accounts.isEmpty()) {
-        stdout.print("Accounts:\n");
-        for (final Account account : accounts) {
-          printAccount(stdout, account);
-        }
-        if (!includedGroups.isEmpty()) {
-          stdout.print("\n");
-        }
-      }
-      if (!includedGroups.isEmpty()) {
-        stdout.print("Included Groups:\n");
-        for (final GroupMembers includedGroupMembers : includedGroups) {
-          printGroup(stdout, includedGroupMembers);
-        }
+      if (!showTree) {
+        printMemberList(stdout, groupMembers);
+      } else {
+        printMemberTree(stdout, groupMembers);
       }
     } finally {
       stdout.flush();
+    }
+  }
+
+  private void printMemberList(final PrintWriter stdout,
+      final GroupMembers groupMembers) {
+    final Set<Account> accounts = groupMembers.getAllAccounts();
+    final Set<GroupMembers> includedGroups =
+        groupMembers.getAllIncludedGroups();
+    if (!accounts.isEmpty()) {
+      stdout.print("Accounts:\n");
+      for (final Account account : accounts) {
+        printAccount(stdout, account);
+      }
+      if (!includedGroups.isEmpty()) {
+        stdout.print("\n");
+      }
+    }
+    if (!includedGroups.isEmpty()) {
+      stdout.print("Included Groups:\n");
+      for (final GroupMembers includedGroupMembers : includedGroups) {
+        printGroup(stdout, includedGroupMembers);
+      }
+    }
+  }
+
+  private void printMemberTree(final PrintWriter stdout,
+      final GroupMembers groupMembers) {
+    printMember(stdout, groupMembers, 0, true, new HashSet<AccountGroup.Id>());
+  }
+
+  private void printMember(final PrintWriter stdout,
+      final GroupMembers groupMembers, int level, final boolean isLast,
+      final Set<AccountGroup.Id> seen) {
+    seen.add(groupMembers.getGroup().getId());
+    printIndention(stdout, level);
+    stdout.print(isLast ? LAST_NODE_PREFIX : NODE_PREFIX);
+    printGroup(stdout, groupMembers);
+
+    if (groupMembers.isEmpty() && groupMembers.isGroupVisible()) {
+      printIndention(stdout, level + 1);
+      if (unresolvedGroups.contains(groupMembers.getGroup().getGroupUUID())) {
+        stdout.print(UNRESOLVED_GROUP);
+      } else {
+        stdout.print(NO_MEMBERS);
+      }
+      stdout.print("\n");
+      return;
+    } else {
+      ++level;
+      final SortedSet<Account> accounts = groupMembers.getAccounts();
+      final SortedSet<GroupMembers> groups = groupMembers.getIncludedGroups();
+      for (final Account account : accounts) {
+        final boolean isLastMember =
+            groups.isEmpty() && accounts.last().equals(account);
+        printMember(stdout, account, level, isLastMember);
+      }
+      for (final GroupMembers group : groups) {
+        final boolean isLastMember = groups.last().equals(group);
+        if (!seen.contains(group.getGroup().getId())) {
+          printMember(stdout, group, level, isLastMember, seen);
+        } else {
+          printIndention(stdout, level);
+          stdout.print(isLastMember ? LAST_NODE_PREFIX : NODE_PREFIX);
+          printGroup(stdout, group);
+          printIndention(stdout, level + 1);
+          stdout.print(RECURSIVE_GROUP);
+          stdout.print("\n");
+        }
+      }
+    }
+  }
+
+  private void printMember(final PrintWriter stdout, final Account account,
+      final int level, final boolean isLast) {
+    printIndention(stdout, level);
+    stdout.print(isLast ? LAST_NODE_PREFIX : NODE_PREFIX);
+    printAccount(stdout, account);
+  }
+
+  private void printIndention(final PrintWriter stdout, final int level) {
+    for (int i = 0; i < level; i++) {
+      stdout.print("    ");
     }
   }
 
@@ -137,6 +221,7 @@ public class ListMembers extends BaseCommand {
               + systemGroups.get(AccountGroup.PROJECT_OWNERS).getGroup().getName()
               + "' could not be resolved. It can only be resolved for a concrete project. "
               + "Please specify a project with the '--project' option.\n");
+      unresolvedGroups.add(AccountGroup.PROJECT_OWNERS);
       hasWarning = true;
     }
     systemGroups.remove(AccountGroup.PROJECT_OWNERS);
@@ -144,6 +229,7 @@ public class ListMembers extends BaseCommand {
     for (final GroupMembers systemGroup : systemGroups.values()) {
       stdout.print("Warning: The group '" + systemGroup.getGroup().getName()
           + "' cannot be resolved.\n");
+      unresolvedGroups.add(systemGroup.getGroup().getGroupUUID());
       hasWarning = true;
     }
 

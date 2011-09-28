@@ -66,6 +66,10 @@ public class GroupMembersList {
     return isResolved;
   }
 
+  public SortedSet<Account> getAccounts() {
+    return Collections.unmodifiableSortedSet(accounts);
+  }
+
   public SortedSet<Account> getAllAccounts() {
     return getAllAccounts(new HashSet<AccountGroup.Id>());
   }
@@ -81,6 +85,10 @@ public class GroupMembersList {
       }
     }
     return allAccounts;
+  }
+
+  public SortedSet<GroupMembersList> getIncludedGroups() {
+    return Collections.unmodifiableSortedSet(includedGroupMembers);
   }
 
   public SortedSet<GroupMembersList> getAllIncludedGroups() {
@@ -152,5 +160,9 @@ public class GroupMembersList {
       }
     }
     return false;
+  }
+
+  public boolean isEmpty() {
+    return accounts.isEmpty() && includedGroupMembers.isEmpty();
   }
 }

@@ -18,6 +18,7 @@ import java.util.SortedSet;
 
 public interface TreeNode {
   public String getDisplayName();
+  public String getDetails();
   public boolean isVisible();
   public SortedSet<? extends TreeNode> getChildren();
 }

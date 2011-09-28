@@ -1,0 +1,69 @@
+[1mdiff --git a/Documentation/cmd-ls-members.txt b/Documentation/cmd-ls-members.txt[m
+[1mindex 7c9e850..451ba55 100644[m
+[1m--- a/Documentation/cmd-ls-members.txt[m
+[1m+++ b/Documentation/cmd-ls-members.txt[m
+[36m@@ -36,12 +36,13 @@[m [mOPTIONS[m
+ --recursive::[m
+ -r::[m
+ 	If specified the included groups will be resolved recursively.[m
+[31m-	As output the command then prints a flat list with the contained[m
+[31m-	accounts and a flat list with included groups. The flat lists[m
+[31m-	contain all accounts/included groups that are either direct[m
+[31m-	or indirect member of the specified group. From the flat lists it[m
+[31m-	cannot be seen in which group a account/included group is[m
+[31m-	contained as direct member.[m
+[32m+[m	[32mIf the --tree option is not specified as output the command[m
+[32m+[m	[32mprints a flat list with the contained accounts and a flat list[m
+[32m+[m	[32mwith included groups. The flat lists contain all[m
+[32m+[m	[32maccounts/included groups that are either direct or indirect[m
+[32m+[m	[32mmember of the specified group. From the flat lists it cannot be[m
+[32m+[m	[32mseen in which group a account/included group is contained as[m
+[32m+[m	[32mdirect member.[m
+ [m
+ --project::[m
+ -p::[m
+[1mdiff --git a/gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java b/gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java[m
+[1mindex c87c03c..edde4f9 100644[m
+[1m--- a/gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java[m
+[1m+++ b/gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java[m
+[36m@@ -19,6 +19,18 @@[m [mimport java.util.HashSet;[m
+ import java.util.Set;[m
+ import java.util.SortedSet;[m
+ [m
+[32m+[m[32m/**[m
+[32m+[m[32m * This class formats a hierarchy of objects as a tree. The formatted tree is[m
+[32m+[m[32m * printed to the given {@link PrintWriter}. The object hierarchy that should be[m
+[32m+[m[32m * formatted and printed as tree must be provided as a hierarchy of[m
+[32m+[m[32m * {@link TreeNode}'s. The tree formatter is able to detect recursions in the[m
+[32m+[m[32m * hierarchy of TreeNode's. Recursive nodes will be specially formatted and not[m
+[32m+[m[32m * further expanded. If the hierarchy of TreeNode's can contains different[m
+[32m+[m[32m * instances of TreeNode's that represent the same object, the implementor of[m
+[32m+[m[32m * the TreeNode must take care to implement the {@link Object#equals(Object)}[m
+[32m+[m[32m * and {@link Object#hashCode()} methods. Otherwise the TreeFormatter is not[m
+[32m+[m[32m * able to detect the recursion.[m
+[32m+[m[32m */[m
+ public class TreeFormatter {[m
+ [m
+   public static final String NOT_VISIBLE_NODE = "(x)";[m
+[1mdiff --git a/gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeNode.java b/gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeNode.java[m
+[1mindex ce3c552..6a75ff0 100644[m
+[1m--- a/gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeNode.java[m
+[1m+++ b/gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeNode.java[m
+[36m@@ -16,6 +16,17 @@[m [mpackage com.google.gerrit.sshd.commands;[m
+ [m
+ import java.util.SortedSet;[m
+ [m
+[32m+[m[32m/**[m
+[32m+[m[32m * This interface represents a node in a tree that is formatted by the[m
+[32m+[m[32m * {@link TreeFormatter}. Each TreeNode can have other TreeNode's as children so[m
+[32m+[m[32m * that a hierarchical structure of TreeNode's is represented. It is allowed to[m
+[32m+[m[32m * have recursions within the TreeNode structure since the TreeFormatter can[m
+[32m+[m[32m * handle recursions. However if different TreeNode instances are used to[m
+[32m+[m[32m * represent the same object the implementor of the TreeNode interface has to[m
+[32m+[m[32m * take care to implement the {@link Object#equals(Object)} and[m
+[32m+[m[32m * {@link Object#hashCode()} methods. Otherwise the TreeFormatter is not able to[m
+[32m+[m[32m * detect the recursion.[m
+[32m+[m[32m */[m
+ public interface TreeNode {[m
+   public String getDisplayName();[m
+   public String getDescription();[m

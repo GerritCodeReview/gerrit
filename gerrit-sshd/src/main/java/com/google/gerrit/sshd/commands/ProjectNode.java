@@ -72,6 +72,11 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
   }
 
   @Override
+  public String getDescription() {
+    return null;
+  }
+
+  @Override
   public boolean isVisible() {
     return isVisible;
   }

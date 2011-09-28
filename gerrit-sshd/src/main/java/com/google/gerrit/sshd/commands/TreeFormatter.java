@@ -15,12 +15,37 @@
 package com.google.gerrit.sshd.commands;
 
 import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.SortedSet;
 
+/**
+ * This class formats a graph of objects as a tree. The formatted tree is
+ * printed to the given {@link PrintWriter}. The object graph that should be
+ * formatted and printed as a tree must be provided as a graph of
+ * {@link TreeNode}'s. The tree formatter is able to detect cycles in the graph
+ * of TreeNode's. TreeNode's already printed but reached again via a cycle in
+ * the graph will be specially formatted and not further expanded. If the graph
+ * of TreeNode's can contain different instances of TreeNode's that represent
+ * the same object, the implementor of the TreeNode must take care to implement
+ * the {@link Object#equals(Object)} and {@link Object#hashCode()} methods.
+ * Otherwise the TreeFormatter is not able to detect the cycles.
+ */
 public class TreeFormatter {
 
+  /**
+   * This interface represents a node in a tree that is formatted by the
+   * {@link TreeFormatter}. Each TreeNode can have other TreeNode's as children so
+   * that a graph of TreeNode's is generated. It is allowed to have cycles within
+   * the TreeNode graph since the TreeFormatter can handle cycles. However if
+   * different TreeNode instances are used to represent the same object the
+   * implementor of the TreeNode interface has to take care to implement the
+   * {@link Object#equals(Object)} and {@link Object#hashCode()} methods.
+   * Otherwise the TreeFormatter is not able to detect cycles.
+   */
   public static interface TreeNode {
     public String getDisplayName();
+    public String getDescription();
     public boolean isVisible();
     public SortedSet<? extends TreeNode> getChildren();
   }
@@ -30,6 +55,7 @@ public class TreeFormatter {
   private static final String NODE_PREFIX = "|-- ";
   private static final String LAST_NODE_PREFIX = "`-- ";
   private static final String DEFAULT_TAB_SEPARATOR = "|";
+  private static final String RECURSIVE_NODE_SEPARATOR = "...";
 
   private final PrintWriter stdout;
   private String currentTabSeparator = " ";
@@ -59,18 +85,23 @@ public class TreeFormatter {
   }
 
   public void printTree(final TreeNode rootNode) {
-    printTree(rootNode, 0, true);
+    printTree(rootNode, 0, true, new HashSet<TreeNode>());
   }
 
   private void printTree(final TreeNode node, final int level,
-      final boolean isLast) {
-    printNode(node, level, isLast);
+      final boolean isLast, final Set<TreeNode> seen) {
+    seen.add(node);
+    printNode(node, level, isLast, false);
     final SortedSet<? extends TreeNode> childNodes = node.getChildren();
     int i = 0;
     final int size = childNodes.size();
     for (final TreeNode childNode : childNodes) {
       final boolean isLastChild = ++i == size;
-      printTree(childNode, level + 1, isLastChild);
+      if (!seen.contains(childNode)) {
+        printTree(childNode, level + 1, isLastChild, seen);
+      } else {
+        printNode(childNode, level + 1, isLast, true);
+      }
     }
   }
 
@@ -81,7 +112,7 @@ public class TreeFormatter {
   }
 
   private void printNode(final TreeNode node, final int level,
-      final boolean isLast) {
+      final boolean isLast, final boolean recursive) {
     printIndention(level);
     stdout.print(isLast ? LAST_NODE_PREFIX : NODE_PREFIX);
     if (node.isVisible()) {
@@ -90,5 +121,15 @@ public class TreeFormatter {
       stdout.print(NOT_VISIBLE_NODE);
     }
     stdout.print("\n");
+    if (node.getDescription() != null) {
+      printIndention(level + 1);
+      stdout.print(node.getDescription());
+      stdout.print("\n");
+    }
+    if (recursive) {
+      printIndention(level + 1);
+      stdout.print(RECURSIVE_NODE_SEPARATOR);
+      stdout.print("\n");
+    }
   }
 }

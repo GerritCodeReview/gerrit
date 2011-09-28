@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -60,6 +61,10 @@ public class GroupMembersList implements Comparable<GroupMembersList> {
     return isResolved;
   }
 
+  public SortedSet<Account> getAccounts() {
+    return Collections.unmodifiableSortedSet(accounts);
+  }
+
   public SortedSet<Account> getAllAccounts() {
     return getAllAccounts(new HashSet<AccountGroup.Id>());
   }
@@ -75,6 +80,10 @@ public class GroupMembersList implements Comparable<GroupMembersList> {
       }
     }
     return allAccounts;
+  }
+
+  public SortedSet<GroupMembersList> getIncludedGroups() {
+    return Collections.unmodifiableSortedSet(includedGroupMembers);
   }
 
   public SortedSet<GroupMembersList> getAllIncludedGroups() {
@@ -139,6 +148,10 @@ public class GroupMembersList implements Comparable<GroupMembersList> {
       }
     }
     return false;
+  }
+
+  public boolean isEmpty() {
+    return accounts.isEmpty() && includedGroupMembers.isEmpty();
   }
 
   @Override

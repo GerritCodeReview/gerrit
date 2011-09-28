@@ -28,14 +28,20 @@ public class TopicModule extends RpcServletModule {
     install(new FactoryModule() {
       @Override
       protected void configure() {
+        factory(AbandonTopic.Factory.class);
+        factory(RestoreTopic.Factory.class);
+        factory(RevertTopic.Factory.class);
         factory(AddTopicReviewerHandler.Factory.class);
         factory(ChangeSetDetailFactory.Factory.class);
         factory(ChangeSetPublishDetailFactory.Factory.class);
+        factory(ChangeSetInfoFactory.Factory.class);
         factory(RemoveTopicReviewerHandler.Factory.class);
         factory(TopicDetailFactory.Factory.class);
+        factory(SubmitAction.Factory.class);
         factory(IncludedInDetailHandler.Factory.class);
       }
     });
     rpc(TopicDetailServiceImpl.class);
+    rpc(TopicManageServiceImpl.class);
   }
 }

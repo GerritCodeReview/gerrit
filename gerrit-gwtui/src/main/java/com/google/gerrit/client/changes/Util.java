@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.ChangeDetailService;
 import com.google.gerrit.common.data.ChangeListService;
 import com.google.gerrit.common.data.ChangeManageService;
 import com.google.gerrit.common.data.TopicDetailService;
+import com.google.gerrit.common.data.TopicManageService;
 import com.google.gerrit.reviewdb.AbstractEntity.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
@@ -32,6 +33,7 @@ public class Util {
   public static final ChangeManageService MANAGE_SVC;
 
   public static final TopicDetailService T_DETAIL_SVC;
+  public static final TopicManageService T_MANAGE_SVC;
 
   static {
     DETAIL_SVC = GWT.create(ChangeDetailService.class);
@@ -45,6 +47,9 @@ public class Util {
 
     T_DETAIL_SVC = GWT.create(TopicDetailService.class);
     JsonUtil.bind(T_DETAIL_SVC, "rpc/TopicDetailService");
+
+    T_MANAGE_SVC = GWT.create(TopicManageService.class);
+    JsonUtil.bind(T_MANAGE_SVC, "rpc/TopicManageService");
   }
 
   public static String toLongString(final Status status) {

@@ -228,6 +228,7 @@ public class ListMembersCommand extends BaseCommand {
       hasWarning = true;
     }
     systemGroups.remove(AccountGroup.PROJECT_OWNERS);
+    systemGroups.remove(AccountGroup.REGISTERED_USERS);
 
     for (final GroupMembersList systemGroup : systemGroups.values()) {
       stdout.print("Warning: The group '" + systemGroup.getGroup().getName()

@@ -1613,6 +1613,17 @@ A name of a group which exists in the database. Zero, one or many
 groups are allowed.  Each on its own line.  Groups which don't exist
 in the database are ignored.
 
+[[rules]]Section rules
+~~~~~~~~~~~~~~~~~~~~~~
+
+[[rules.enable]]rules.enable::
++
+If true, Gerrit will load and excute 'rules.pl' files in each
+project's refs/meta/config branch, if present. When set to false,
+only the default internal rules will be used.
++
+Default is true, to execute project specific rules.
+
 [[sendemail]]Section sendemail
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

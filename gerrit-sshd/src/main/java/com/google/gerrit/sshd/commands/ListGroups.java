@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupList;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.account.PerformVisibleGroups;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand;
@@ -46,6 +47,9 @@ public class ListGroups extends BaseCommand {
   @Option(name = "--visible-to-all", usage = "to list only groups that are visible to all registered users")
   private boolean visibleToAll;
 
+  @Option(name = "--type", usage = "type of group")
+  private AccountGroup.Type groupType;
+
   @Override
   public void start(final Environment env) throws IOException {
     startThread(new CommandRunnable() {
@@ -64,6 +68,7 @@ public class ListGroups extends BaseCommand {
           performVisibleGroupsFactory.create();
       performVisibleGroups.setProjects(projects);
       performVisibleGroups.setOnlyVisibleToAll(visibleToAll);
+      performVisibleGroups.setGroupType(groupType);
       final GroupList visibleGroups =
           performVisibleGroups.getVisibleGroups();
       for (final GroupDetail groupDetail : visibleGroups.getGroups()) {

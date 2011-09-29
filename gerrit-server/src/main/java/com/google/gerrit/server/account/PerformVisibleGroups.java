@@ -45,6 +45,7 @@ public class PerformVisibleGroups {
 
   private Set<ProjectControl> projects;
   private boolean onlyVisibleToAll;
+  private AccountGroup.Type groupType;
 
   @Inject
   PerformVisibleGroups(final Provider<IdentifiedUser> currentUser,
@@ -63,6 +64,10 @@ public class PerformVisibleGroups {
 
   public void setOnlyVisibleToAll(final boolean onlyVisibleToAll) {
     this.onlyVisibleToAll = onlyVisibleToAll;
+  }
+
+  public void setGroupType(final AccountGroup.Type groupType) {
+    this.groupType = groupType;
   }
 
   public GroupList getVisibleGroups() throws OrmException, NoSuchGroupException {
@@ -102,7 +107,8 @@ public class PerformVisibleGroups {
           continue;
         }
       }
-      if (onlyVisibleToAll && !group.isVisibleToAll()) {
+      if ((onlyVisibleToAll && !group.isVisibleToAll())
+          || (groupType != null && !groupType.equals(group.getType()))) {
         continue;
       }
       filteredGroups.add(group);

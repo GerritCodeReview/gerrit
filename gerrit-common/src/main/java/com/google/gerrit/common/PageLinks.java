@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Topic;
 import com.google.gwtorm.client.KeyUtil;
 
 public class PageLinks {
@@ -52,6 +53,10 @@ public class PageLinks {
 
   public static String toChange(final PatchSet.Id ps) {
     return "/c/" + ps.getParentKey() + "/" + ps.get();
+  }
+
+  public static String toTopic(final Topic.Id topicId) {
+    return "/t/" + topicId.toString() + "/";
   }
 
   public static String toProjectAcceess(final Project.NameKey p) {

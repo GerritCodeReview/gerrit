@@ -28,6 +28,9 @@ public class Util {
   public static final ChangeMessages M = GWT.create(ChangeMessages.class);
   public static final ChangeResources R = GWT.create(ChangeResources.class);
 
+  public static final TopicMessages TM = GWT.create(TopicMessages.class);
+  public static final TopicConstants TC = GWT.create(TopicConstants.class);
+
   public static final ChangeDetailService DETAIL_SVC;
   public static final ChangeListService LIST_SVC;
   public static final ChangeManageService MANAGE_SVC;

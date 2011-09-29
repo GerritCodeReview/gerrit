@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupInclude;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -44,6 +45,7 @@ public class PerformGroupMembers {
   private final AccountCache accountCache;
   private final ProjectControl.GenericFactory projectControl;
   private final IdentifiedUser currentUser;
+  private final ReviewDb reviewDb;
 
   private boolean recursive = true;
   private ProjectControl project;
@@ -54,13 +56,15 @@ public class PerformGroupMembers {
       final GroupControl.Factory groupControlFactory,
       final AccountCache accountCache,
       final ProjectControl.GenericFactory projectControl,
-      final IdentifiedUser currentUser) {
+      final IdentifiedUser currentUser,
+      final ReviewDb reviewDb) {
     this.groupCache = groupCache;
     this.groupDetailFactory = groupDetailFactory;
     this.groupControlFactory = groupControlFactory;
     this.accountCache = accountCache;
     this.projectControl = projectControl;
     this.currentUser = currentUser;
+    this.reviewDb = reviewDb;
   }
 
   public void setProject(final Project.NameKey projectName)
@@ -93,6 +97,8 @@ public class PerformGroupMembers {
       throws NoSuchGroupException, OrmException, NoSuchProjectException {
     if (AccountGroup.PROJECT_OWNERS.equals(groupUUID)) {
       return getProjectOwners(seen);
+    } if (AccountGroup.REGISTERED_USERS.equals(groupUUID)) {
+      return getRegisteredUsers();
     } else {
       return getGroupMembers(groupCache.get(groupUUID), seen);
     }
@@ -179,5 +185,15 @@ public class PerformGroupMembers {
     }
 
     return groupMembers;
+  }
+
+  private GroupMembers getRegisteredUsers() throws OrmException {
+    final AccountGroup registeredUsersGroup =
+        groupCache.get(AccountGroup.REGISTERED_USERS);
+    final TreeSet<Account> allAccounts =
+        new TreeSet<Account>(new AccountComparator());
+    allAccounts.addAll(reviewDb.accounts().all().toList());
+    return new GroupMembers(registeredUsersGroup, allAccounts,
+        new TreeSet<GroupMembers>());
   }
 }

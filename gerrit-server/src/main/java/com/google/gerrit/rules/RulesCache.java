@@ -90,6 +90,7 @@ public class RulesCache {
     }
   }
 
+  private final boolean enableProjectRules;
   private final File cacheDir;
   private final File rulesDir;
   private final GitRepositoryManager gitMgr;
@@ -99,6 +100,7 @@ public class RulesCache {
   @Inject
   protected RulesCache(@GerritServerConfig Config config, SitePaths site,
       GitRepositoryManager gm) {
+    enableProjectRules = config.getBoolean("rules", null, "enable", true);
     cacheDir = site.resolve(config.getString("cache", null, "directory"));
     rulesDir = cacheDir != null ? new File(cacheDir, "rules") : null;
     gitMgr = gm;
@@ -117,7 +119,7 @@ public class RulesCache {
       Project.NameKey project,
       ObjectId rulesId)
       throws CompileException {
-    if (project == null || rulesId == null) {
+    if (!enableProjectRules || project == null || rulesId == null) {
       return defaultMachine;
     }
 

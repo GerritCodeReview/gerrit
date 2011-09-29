@@ -19,6 +19,9 @@ DESCRIPTION
 Displays the members for a group, if the group is visible to the
 calling user.
 
+Listing the members of the 'Registered Users' group may be time
+consuming and result in a very large result set.
+
 ACCESS
 ------
 Any user who has configured an SSH key.

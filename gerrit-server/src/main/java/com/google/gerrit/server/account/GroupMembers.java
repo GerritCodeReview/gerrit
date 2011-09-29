@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupInclude;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
@@ -40,16 +41,19 @@ public class GroupMembers {
   private final GroupDetailFactory.Factory groupDetailFactory;
   private final GroupControl.Factory groupControlFactory;
   private final AccountCache accountCache;
+  private final ReviewDb reviewDb;
 
   @Inject
   GroupMembers(final GroupCache groupCache,
       final GroupDetailFactory.Factory groupDetailFactory,
       final GroupControl.Factory groupControlFactory,
-      final AccountCache accountCache) {
+      final AccountCache accountCache,
+      final ReviewDb reviewDb) {
     this.groupCache = groupCache;
     this.groupDetailFactory = groupDetailFactory;
     this.groupControlFactory = groupControlFactory;
     this.accountCache = accountCache;
+    this.reviewDb = reviewDb;
   }
 
   public Set<Account> listAccounts(final AccountGroup.UUID groupUUID,
@@ -72,6 +76,8 @@ public class GroupMembers {
       throws NoSuchGroupException, OrmException, NoSuchProjectException {
     if (AccountGroup.PROJECT_OWNERS.equals(groupUUID)) {
       return getProjectOwners(project, recursive, seen);
+    } else if (AccountGroup.REGISTERED_USERS.equals(groupUUID)) {
+      return getRegisteredUsers();
     } else {
       return getGroupMembers(groupCache.get(groupUUID), project, recursive,
           seen);
@@ -168,6 +174,24 @@ public class GroupMembers {
       groupMembers.setGroupVisible(false);
     }
 
+    return groupMembers;
+  }
+
+  private GroupMembersList getRegisteredUsers() throws OrmException,
+      NoSuchGroupException {
+    final GroupControl groupControl =
+        groupControlFactory.controlFor(AccountGroup.REGISTERED_USERS);
+    final AccountGroup registeredUsersGroup = groupControl.getAccountGroup();
+    final TreeSet<Account> allAccounts =
+        new TreeSet<Account>(new AccountComparator());
+    final GroupMembersList groupMembers =
+        new GroupMembersList(registeredUsersGroup, allAccounts,
+            new TreeSet<GroupMembersList>());
+    if (groupControl.isOwner() || registeredUsersGroup.isVisibleToAll()) {
+      allAccounts.addAll(reviewDb.accounts().all().toList());
+    } else {
+      groupMembers.setGroupVisible(false);
+    }
     return groupMembers;
   }
 }

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountComparator;
 import com.google.gerrit.server.account.GroupMembersList;
 import com.google.gerrit.sshd.commands.TreeFormatter.TreeNode;

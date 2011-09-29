@@ -15,7 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.AccountFormatter;
-import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.sshd.commands.TreeFormatter.TreeNode;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;

@@ -11,6 +11,7 @@ SYNOPSIS
 'ssh' -p <port> <host> 'gerrit ls-groups'
   [--project <NAME>]
   [--visible-to-all]
+  [--type {internal | ldap | system}]
 
 DESCRIPTION
 -----------
@@ -43,6 +44,16 @@ OPTIONS
 	Displays only groups that are visible to all registered users
 	(groups that are explicitly marked as visible to all registered
 	users).
+
+--type::
+	Display only groups of the specified type. If not specified,
+	groups of all types are displayed. Supported types:
++
+--
+`internal`:: Any group defined within Gerrit.
+`ldap`:: Any group defined by an external LDAP database.
+`system`:: Any system defined and managed group.
+--
 
 EXAMPLES
 --------

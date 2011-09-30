@@ -161,6 +161,9 @@ public class ChangeScreen extends Screen {
         new ScreenLoadCallback<ChangeDetail>(this) {
           @Override
           protected void preDisplay(final ChangeDetail r) {
+            if (r.getTopicId() != -1) {
+              keysNavigation.add(new UpToTopicKeyCommand(0, 't', Util.C.upToTopic(), r.getTopicId()));
+            }
             display(r);
           }
 
@@ -443,6 +446,19 @@ public class ChangeScreen extends Screen {
     @Override
     public void onKeyPress(final KeyPressEvent event) {
       Gerrit.displayLastChangeList();
+    }
+  }
+
+  public class UpToTopicKeyCommand extends KeyCommand {
+    final private int topic;
+    public UpToTopicKeyCommand(int mask, char key, String help, int topic) {
+      super(mask, key, help);
+      this.topic = topic;
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      Gerrit.display("/t/" + topic + "/");
     }
   }
 

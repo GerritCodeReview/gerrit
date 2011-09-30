@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeTable.ApprovalViewType;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -257,7 +258,7 @@ class ChangeSetComplexDisclosurePanel extends CommonComplexDisclosurePanel {
     b.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
-        // TODO UI integration to redirect to the publish screen
+        Gerrit.display(Dispatcher.toPublish(changeSet.getId()));
       }
     });
     actionsPanel.add(b);

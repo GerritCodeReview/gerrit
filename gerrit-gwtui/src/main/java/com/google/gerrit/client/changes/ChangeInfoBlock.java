@@ -21,9 +21,11 @@ import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.ProjectLink;
+import com.google.gerrit.client.ui.TopicLink;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Topic;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -86,6 +88,8 @@ public class ChangeInfoBlock extends Composite {
 
   public void display(final Change chg, final AccountInfoCache acc) {
     final Branch.NameKey dst = chg.getDest();
+    final String sTopic = chg.getTopic();
+    final Topic.Id topicId = chg.getTopicId();
 
     CopyableLabel changeIdLabel =
         new CopyableLabel("Change-Id: " + chg.getKey().get());
@@ -96,8 +100,12 @@ public class ChangeInfoBlock extends Composite {
     table.setWidget(R_PROJECT, 1, new ProjectLink(chg.getProject(), chg.getStatus()));
     table.setWidget(R_BRANCH, 1, new BranchLink(dst.getShortName(), chg
         .getProject(), chg.getStatus(), dst.get(), null));
-    table.setWidget(R_TOPIC, 1, new BranchLink(chg.getTopic(),
-        chg.getProject(), chg.getStatus(), dst.get(), chg.getTopic()));
+    if (topicId == null) {
+      table.setWidget(R_TOPIC, 1, new BranchLink(sTopic, chg
+          .getProject(), chg.getStatus(), dst.get(), sTopic));
+    } else {
+      table.setWidget(R_TOPIC, 1, new TopicLink(sTopic, topicId));
+    }
     table.setText(R_UPLOADED, 1, mediumFormat(chg.getCreatedOn()));
     table.setText(R_UPDATED, 1, mediumFormat(chg.getLastUpdatedOn()));
     table.setText(R_STATUS, 1, Util.toLongString(chg.getStatus()));

@@ -27,7 +27,7 @@ public class BranchLink extends InlineHyperlink {
 
   public BranchLink(Project.NameKey project, Status status,
       String branch, String topic) {
-    this(text(branch, topic), query(project, status, branch, topic));
+    this(branch + " ", query(project, status, branch, topic));
   }
 
   public BranchLink(String text, Project.NameKey project, Status status,
@@ -47,14 +47,6 @@ public class BranchLink extends InlineHyperlink {
 
   private Screen createScreen() {
     return QueryScreen.forQuery(query);
-  }
-
-  private static String text(String branch, String topic) {
-    if (topic != null && !topic.isEmpty()) {
-      return branch + " (" + topic + ")";
-    } else {
-      return branch;
-    }
   }
 
   private static String query(Project.NameKey project, Status status,

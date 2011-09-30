@@ -198,7 +198,8 @@ public class AddReviewer implements Callable<ReviewerResult> {
       if (!exists(psid, reviewer)) {
         // This reviewer has not entered an approval for this change yet.
         //
-        final PatchSetApproval myca = dummyApproval(psid, reviewer);
+        final PatchSetApproval myca =
+            dummyApproval(control.getChange(), psid, reviewer);
         toInsert.add(myca);
         added.add(reviewer);
       }
@@ -235,10 +236,13 @@ public class AddReviewer implements Callable<ReviewerResult> {
         .iterator().hasNext();
   }
 
-  private PatchSetApproval dummyApproval(final PatchSet.Id patchSetId,
-      final Account.Id reviewerId) {
-    return new PatchSetApproval(new PatchSetApproval.Key(patchSetId,
-        reviewerId, addReviewerCategoryId), (short) 0);
+  private PatchSetApproval dummyApproval(final Change change,
+      final PatchSet.Id patchSetId, final Account.Id reviewerId) {
+    final PatchSetApproval dummyApproval =
+        new PatchSetApproval(new PatchSetApproval.Key(patchSetId, reviewerId,
+            addReviewerCategoryId), (short) 0);
+    dummyApproval.cache(change);
+    return dummyApproval;
   }
 
   public static boolean isLegalReviewerGroup(final AccountGroup.UUID groupUUID) {

@@ -60,14 +60,25 @@ to connect to Gerrit's SSHD port.  By default Gerrit is running on
 port 29418, using the same hostname as the web server:
 
 ====
+..................................................................
   $ ssh -p 29418 sshusername@hostname
-  gerrit: no shell available
+
+    ****    Welcome to Gerrit Code Review    ****
+
+    Hi John Doe, you have successfully connected over SSH.
+
+    Unfortunately, interactive shells are disabled.
+    To clone a hosted Git repository, use:
+
+    git clone ssh://sshusername@hostname:29418/REPOSITORY_NAME.git
+
   Connection to hostname closed.
+..................................................................
 ====
 
-In the command above, `sshusername` was configured on the `SSH Keys`
-tab of the `Settings` screen.  If it is not set, propose a name
-and use `Change Username` to select the name.
+In the command above, `sshusername` was configured as `Username` on
+the `Profile` tab of the `Settings` screen.  If it is not set,
+propose a name and use `Select Username` to select the name.
 
 To determine the port number Gerrit is running on, visit the special
 information URL `http://'hostname'/ssh_info`, and copy the port

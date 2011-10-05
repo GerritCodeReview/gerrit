@@ -320,6 +320,11 @@ class TagSet {
       int flag = refs.size();
       commit.refFlags.set(flag);
       refs.put(ref.getName(), new CachedRef(ref, flag));
+    } catch (IncorrectObjectTypeException notCommit) {
+      // No need to spam the logs.
+      // Quite many refs will point to non-commits.
+      // For instance, refs from refs/cache-automerge
+      // will often end up here.
     } catch (IOException e) {
       log.warn("Error on " + ref.getName() + " of " + projectName, e);
     }

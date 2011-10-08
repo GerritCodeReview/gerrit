@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
@@ -58,6 +59,14 @@ public class WorkQueue {
     @Override
     public void stop() {
       workQueue.stop();
+    }
+  }
+
+  public static class Module extends LifecycleModule {
+    @Override
+    protected void configure() {
+      bind(WorkQueue.class);
+      listener().to(Lifecycle.class);
     }
   }
 

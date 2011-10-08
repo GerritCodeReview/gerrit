@@ -20,8 +20,9 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.EmailHeader.AddressList;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
+import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -346,23 +347,30 @@ public abstract class OutgoingEmail {
   protected String velocify(String template) throws EmailException {
     try {
       StringWriter w = new StringWriter();
-      Velocity.evaluate(velocityContext, w, "OutgoingEmail", template);
+      args.velocityRuntime.evaluate(velocityContext, w, "OutgoingEmail", template);
       return w.toString();
-    } catch(Exception e) {
-      throw new EmailException("Velocity template " + template, e);
+    } catch (Exception e) {
+      throw new EmailException("Cannot format velocity template: " + template, e);
     }
   }
 
   protected String velocifyFile(String name) throws EmailException {
-    if (!Velocity.resourceExists(name)) {
-      name = "com/google/gerrit/server/mail/" + name;
-    }
     try {
+      RuntimeInstance runtime = args.velocityRuntime;
+      Template template;
+      try {
+        template = runtime.getTemplate(name, "UTF-8");
+      } catch (org.apache.velocity.exception.ResourceNotFoundException notFound) {
+        name = "com/google/gerrit/server/mail/" + name;
+        template = runtime.getTemplate(name, "UTF-8");
+      }
       StringWriter w = new StringWriter();
-      Velocity.mergeTemplate(name, "UTF-8", velocityContext, w);
+      template.merge(velocityContext, w);
       return w.toString();
-    } catch(Exception e) {
-      throw new EmailException("Velocity template " + name + ".\n", e);
+    } catch (EmailException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new EmailException("Cannot format velocity template " + name, e);
     }
   }
 }

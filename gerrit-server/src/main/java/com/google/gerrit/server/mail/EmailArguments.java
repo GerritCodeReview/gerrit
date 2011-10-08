@@ -21,7 +21,6 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -30,6 +29,8 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import org.apache.velocity.runtime.RuntimeInstance;
 
 import javax.annotation.Nullable;
 
@@ -49,7 +50,7 @@ class EmailArguments {
   final ChangeQueryBuilder.Factory queryBuilder;
   final Provider<ChangeQueryRewriter> queryRewriter;
   final Provider<ReviewDb> db;
-  final SitePaths site;
+  final RuntimeInstance velocityRuntime;
 
   @Inject
   EmailArguments(GitRepositoryManager server, ProjectCache projectCache,
@@ -61,7 +62,7 @@ class EmailArguments {
       AllProjectsName allProjectsName,
       ChangeQueryBuilder.Factory queryBuilder,
       Provider<ChangeQueryRewriter> queryRewriter, Provider<ReviewDb> db,
-      SitePaths site) {
+      RuntimeInstance velocityRuntime) {
     this.server = server;
     this.projectCache = projectCache;
     this.groupCache = groupCache;
@@ -76,6 +77,6 @@ class EmailArguments {
     this.queryBuilder = queryBuilder;
     this.queryRewriter = queryRewriter;
     this.db = db;
-    this.site = site;
+    this.velocityRuntime = velocityRuntime;
   }
 }

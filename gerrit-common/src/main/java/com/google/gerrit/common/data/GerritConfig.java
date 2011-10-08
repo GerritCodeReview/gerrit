@@ -35,6 +35,7 @@ public class GerritConfig implements Cloneable {
   protected AuthType authType;
   protected Set<DownloadScheme> downloadSchemes;
   protected String gitDaemonUrl;
+  protected String gitHttpUrl;
   protected String sshdAddress;
   protected Project.NameKey wildProject;
   protected ApprovalTypes approvalTypes;
@@ -108,6 +109,17 @@ public class GerritConfig implements Cloneable {
       url += "/";
     }
     gitDaemonUrl = url;
+  }
+
+  public String getGitHttpUrl() {
+    return gitHttpUrl;
+  }
+
+  public void setGitHttpUrl(String url) {
+    if (url != null && !url.endsWith("/")) {
+      url += "/";
+    }
+    gitHttpUrl = url;
   }
 
   public String getSshdAddress() {

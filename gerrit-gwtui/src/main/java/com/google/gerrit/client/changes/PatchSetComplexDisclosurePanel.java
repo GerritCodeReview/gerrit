@@ -204,8 +204,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         && (allowedSchemes.contains(DownloadScheme.ANON_HTTP) ||
             allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
       StringBuilder r = new StringBuilder();
-      r.append(GWT.getHostPageBaseURL());
-      r.append("p/");
+      if (Gerrit.getConfig().getGitHttpUrl() != null) {
+        r.append(Gerrit.getConfig().getGitHttpUrl());
+      } else {
+        r.append(GWT.getHostPageBaseURL());
+        r.append("p/");
+      }
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
@@ -241,24 +245,29 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         && Gerrit.getUserAccount().getUserName().length() > 0
         && (allowedSchemes.contains(DownloadScheme.HTTP) ||
             allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
-      String base = GWT.getHostPageBaseURL();
-      int p = base.indexOf("://");
-      int s = base.indexOf('/', p + 3);
-      if (s < 0) {
-        s = base.length();
-      }
-      String host = base.substring(p + 3, s);
-      if (host.contains("@")) {
-        host = host.substring(host.indexOf('@') + 1);
-      }
-
       final StringBuilder r = new StringBuilder();
-      r.append(base.substring(0, p + 3));
-      r.append(Gerrit.getUserAccount().getUserName());
-      r.append('@');
-      r.append(host);
-      r.append(base.substring(s));
-      r.append("p/");
+      if (Gerrit.getConfig().getGitHttpUrl() != null
+          && changeDetail.isAllowsAnonymous()) {
+        r.append(Gerrit.getConfig().getGitHttpUrl());
+      } else {
+        String base = GWT.getHostPageBaseURL();
+        int p = base.indexOf("://");
+        int s = base.indexOf('/', p + 3);
+        if (s < 0) {
+          s = base.length();
+        }
+        String host = base.substring(p + 3, s);
+        if (host.contains("@")) {
+          host = host.substring(host.indexOf('@') + 1);
+        }
+
+        r.append(base.substring(0, p + 3));
+        r.append(Gerrit.getUserAccount().getUserName());
+        r.append('@');
+        r.append(host);
+        r.append(base.substring(s));
+        r.append("p/");
+      }
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());

@@ -1021,6 +1021,16 @@ By default unset, as the git daemon must be configured externally
 by the system administrator, and might not even be running on the
 same host as Gerrit.
 
+[[gerrit.gitHttpUrl]]gerrit.gitHttpUrl::
++
+Optional base URL for repositories available over the HTTP
+protocol.  For example, set this to `http://mirror.example.com/base/`
+to have Gerrit display URLs from this server, rather than itself.
++
+By default unset, as the HTTP daemon must be configured externally
+by the system administrator, and might not even be running on the
+same host as Gerrit.
+
 [[gerrit.replicateOnStartup]]gerrit.replicateOnStartup::
 +
 If true, replicates to all remotes on startup to ensure they are

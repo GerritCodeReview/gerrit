@@ -49,7 +49,6 @@ import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.git.SecureCredentialsProvider;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
@@ -162,7 +161,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(PermissionCollection.Factory.class);
 
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
-    bind(WorkQueue.class);
     bind(ToolsCatalog.class);
     bind(EventFactory.class);
     bind(TransferConfig.class);
@@ -188,7 +186,6 @@ public class GerritGlobalModule extends FactoryModule {
       @Override
       protected void configure() {
         listener().to(CachePool.Lifecycle.class);
-        listener().to(WorkQueue.Lifecycle.class);
         listener().to(VelocityLifecycle.class);
       }
     });

@@ -22,11 +22,14 @@ import com.google.gerrit.server.mail.EmailHeader.AddressList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
+import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.parser.node.SimpleNode;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -346,9 +349,19 @@ public abstract class OutgoingEmail {
 
   protected String velocify(String template) throws EmailException {
     try {
-      StringWriter w = new StringWriter();
-      args.velocityRuntime.evaluate(velocityContext, w, "OutgoingEmail", template);
-      return w.toString();
+      RuntimeInstance runtime = args.velocityRuntime;
+      String templateName = "OutgoingEmail";
+      SimpleNode tree = runtime.parse(new StringReader(template), templateName);
+      InternalContextAdapterImpl ica = new InternalContextAdapterImpl(velocityContext);
+      ica.pushCurrentTemplateName(templateName);
+      try {
+        tree.init(ica, runtime);
+        StringWriter w = new StringWriter();
+        tree.render(ica, w);
+        return w.toString();
+      } finally {
+        ica.popCurrentTemplateName();
+      }
     } catch (Exception e) {
       throw new EmailException("Cannot format velocity template: " + template, e);
     }

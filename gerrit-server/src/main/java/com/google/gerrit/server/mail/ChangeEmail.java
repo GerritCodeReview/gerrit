@@ -71,7 +71,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
     final IdentifiedUser user =  args.identifiedUserFactory.create(id);
     final Set<AccountGroup.UUID> gids = user.getEffectiveGroups();
     for (final AccountGroup.UUID gid : gids) {
-      if (args.groupCache.get(gid).isEmailOnlyAuthors()) {
+      AccountGroup group = args.groupCache.get(gid);
+      if (group != null && group.isEmailOnlyAuthors()) {
         emailOnlyAuthors = true;
         break;
       }

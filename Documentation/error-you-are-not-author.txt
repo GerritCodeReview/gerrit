@@ -95,7 +95,7 @@ author should be rewritten. When the rebase stops at such a commit
 you have to amend the commit with explicitly setting the author
 before continuing the rebase.
 
-Here is an exmaple that shows how the interactive rebase is used to
+Here is an example that shows how the interactive rebase is used to
 update the author for the last 3 commits:
 
 ----

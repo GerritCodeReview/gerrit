@@ -23,7 +23,7 @@
 ## Gerrit will use templates ending in ".vm" but will ignore templates ending
 ## in ".vm.example".  If a .vm template does not exist, the default internal
 ## gerrit template which is the same as the .vm.example will be used.  If you
-## want to override the default template, copy the .vm.exmaple file to a .vm
+## want to override the default template, copy the .vm.example file to a .vm
 ## file and edit it appropriately.
 ##
 ## This Template:

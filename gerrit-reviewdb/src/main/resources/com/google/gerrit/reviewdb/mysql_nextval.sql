@@ -9,7 +9,6 @@ CREATE FUNCTION nextval_account_id ()
   MODIFIES SQL DATA
 BEGIN
   INSERT INTO account_id (s) VALUES (NULL);
-  DELETE FROM account_id WHERE s = LAST_INSERT_ID();
   RETURN LAST_INSERT_ID();
 END;
 //

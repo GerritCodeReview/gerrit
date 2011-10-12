@@ -100,6 +100,11 @@ cherry-pick mode. Submitters must remember to submit changes in
 the right order since inter-change dependencies will not be
 enforced for them.
 
+When Gerrit tries to do a merge, by default the merge will only
+succeed if there is no path conflict. By selecting the checkbox
+`Automatically resolve conflicts` Gerrit will try do a content merge
+if a path conflict occurs.
+
 
 Registering Additional Branches
 -------------------------------

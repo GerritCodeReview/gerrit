@@ -22,11 +22,15 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AddGroupInclude;
+import com.google.gerrit.server.account.AddGroupMember;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.account.PerformRenameGroup;
+import com.google.gerrit.server.account.RemoveGroupInclude;
+import com.google.gerrit.server.account.RemoveGroupMember;
 import com.google.gerrit.server.account.VisibleGroups;
 import com.google.gerrit.server.changedetail.AbandonChange;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
@@ -111,5 +115,9 @@ public class GerritRequestModule extends FactoryModule {
     factory(CreateProject.Factory.class);
     factory(Submit.Factory.class);
     factory(SuggestParentCandidates.Factory.class);
+    factory(AddGroupMember.Factory.class);
+    factory(AddGroupInclude.Factory.class);
+    factory(RemoveGroupMember.Factory.class);
+    factory(RemoveGroupInclude.Factory.class);
   }
 }

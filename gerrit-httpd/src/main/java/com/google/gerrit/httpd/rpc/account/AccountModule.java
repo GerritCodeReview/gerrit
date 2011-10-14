@@ -29,6 +29,8 @@ public class AccountModule extends RpcServletModule {
     install(new FactoryModule() {
       @Override
       protected void configure() {
+        factory(AddGroupIncludeHandler.Factory.class);
+        factory(AddGroupMemberHandler.Factory.class);
         factory(AgreementInfoFactory.Factory.class);
         factory(CreateGroup.Factory.class);
         factory(DeleteExternalIds.Factory.class);
@@ -36,6 +38,8 @@ public class AccountModule extends RpcServletModule {
         factory(GroupDetailHandler.Factory.class);
         factory(MyGroupsFactory.Factory.class);
         factory(RegisterNewEmailSender.Factory.class);
+        factory(RemoveGroupIncludeHandler.Factory.class);
+        factory(RemoveGroupMemberHandler.Factory.class);
         factory(RenameGroup.Factory.class);
         factory(VisibleGroupsHandler.Factory.class);
       }

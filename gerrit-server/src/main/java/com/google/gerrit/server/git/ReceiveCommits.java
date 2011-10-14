@@ -1746,7 +1746,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       return;
     }
 
-    if (change.getStatus() == Change.Status.MERGED) {
+    if (change.getStatus() == Change.Status.MERGED ||
+        change.getStatus() == Change.Status.ABANDONED) {
       // If its already merged, don't make further updates, it
       // might just be moving from an experimental branch into
       // a more stable branch.

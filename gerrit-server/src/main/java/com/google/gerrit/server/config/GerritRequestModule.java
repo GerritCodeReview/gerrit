@@ -21,10 +21,14 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AddGroupInclude;
+import com.google.gerrit.server.account.AddGroupMember;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.GroupMembersFactory;
 import com.google.gerrit.server.account.PerformCreateGroup;
+import com.google.gerrit.server.account.RemoveGroupInclude;
+import com.google.gerrit.server.account.RemoveGroupMember;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -91,5 +95,9 @@ public class GerritRequestModule extends FactoryModule {
     factory(PerformCreateGroup.Factory.class);
     factory(GroupDetailFactory.Factory.class);
     factory(GroupMembersFactory.Factory.class);
+    factory(AddGroupMember.Factory.class);
+    factory(AddGroupInclude.Factory.class);
+    factory(RemoveGroupMember.Factory.class);
+    factory(RemoveGroupInclude.Factory.class);
   }
 }

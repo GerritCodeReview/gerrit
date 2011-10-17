@@ -598,6 +598,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       // Let the core receive process handle it
     } else {
       cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD);
+      reject(cmd,
+          "For non-fast forward updates, 'Force Push' privilege is needed");
     }
   }
 

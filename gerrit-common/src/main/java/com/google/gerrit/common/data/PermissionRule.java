@@ -23,6 +23,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
 
   protected Action action = Action.ALLOW;
   protected boolean force;
+  public static final String FORCE_PUSH = "Force Push";
   protected int min;
   protected int max;
   protected GroupReference group;

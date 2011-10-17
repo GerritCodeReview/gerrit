@@ -80,14 +80,7 @@ limitations under the License.
 
   <q:Hyperlink ui:field='groupNameLink' styleName='{style.groupName}'/>
   <span ui:field='groupNameSpan' styleName='{style.groupName}'/>
-
-  <g:CheckBox
-      ui:field='force'
-      addStyleNames='{style.forcePush}'
-      text='Force Push'>
-    <ui:attribute name='text'/>
-  </g:CheckBox>
-
+  <g:CheckBox ui:field='force' addStyleNames='{style.forcePush}'/>
   <g:Anchor
       ui:field='deleteRule'
       href='javascript:void'

@@ -137,6 +137,7 @@ public class PermissionRuleEditor extends Composite implements
       String ref = section.getName();
       canForce = !ref.startsWith("refs/for/") && !ref.startsWith("^refs/for/");
     }
+    force.setText(PermissionRule.FORCE_PUSH);
     force.setVisible(canForce);
     force.setEnabled(!readOnly);
 

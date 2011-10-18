@@ -72,6 +72,13 @@ import java.util.concurrent.TimeUnit;
 public class PushReplication implements ReplicationQueue {
   static final Logger log = LoggerFactory.getLogger(PushReplication.class);
 
+  public static class Module extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(ReplicationQueue.class).to(PushReplication.class);
+    }
+  }
+
   static {
     // Install our own factory which always runs in batch mode, as we
     // have no UI available for interactive prompting.

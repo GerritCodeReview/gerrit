@@ -42,9 +42,7 @@ import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.PushAllProjectsOp;
-import com.google.gerrit.server.git.PushReplication;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
-import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.git.SecureCredentialsProvider;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
@@ -128,7 +126,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(EventFactory.class);
     bind(TransferConfig.class);
 
-    bind(ReplicationQueue.class).to(PushReplication.class).in(SINGLETON);
     factory(SecureCredentialsProvider.Factory.class);
     factory(PushAllProjectsOp.Factory.class);
 

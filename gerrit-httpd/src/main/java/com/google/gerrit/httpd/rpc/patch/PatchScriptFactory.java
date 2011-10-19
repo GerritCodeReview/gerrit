@@ -287,7 +287,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
   private void loadPublished(final Map<Patch.Key, Patch> byKey,
       final AccountInfoCacheFactory aic, final String file) throws OrmException {
-    for (PatchLineComment c : db.patchComments().published(changeId, file)) {
+    for (PatchLineComment c : db.patchComments().publishedByChangeFile(changeId, file)) {
       if (comments.include(c)) {
         aic.want(c.getAuthor());
       }
@@ -303,7 +303,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private void loadDrafts(final Map<Patch.Key, Patch> byKey,
       final AccountInfoCacheFactory aic, final Account.Id me, final String file)
       throws OrmException {
-    for (PatchLineComment c : db.patchComments().draft(changeId, file, me)) {
+    for (PatchLineComment c : db.patchComments().draftByChangeFileAuthor(changeId, file, me)) {
       if (comments.include(c)) {
         aic.want(me);
       }

@@ -30,35 +30,39 @@ public interface PatchLineCommentAccess extends
 
   @Query("WHERE key.patchKey = ? AND status = '"
       + PatchLineComment.STATUS_PUBLISHED + "' ORDER BY lineNbr,writtenOn")
-  ResultSet<PatchLineComment> published(Patch.Key patch) throws OrmException;
+  ResultSet<PatchLineComment> publishedByPatch(Patch.Key patch)
+      throws OrmException;
 
   @Query("WHERE key.patchKey.patchSetId.changeId = ?"
       + " AND key.patchKey.fileName = ? AND status = '"
       + PatchLineComment.STATUS_PUBLISHED + "' ORDER BY lineNbr,writtenOn")
-  ResultSet<PatchLineComment> published(Change.Id id, String file)
+  ResultSet<PatchLineComment> publishedByChangeFile(Change.Id id, String file)
       throws OrmException;
 
   @Query("WHERE key.patchKey.patchSetId = ? AND status = '"
       + PatchLineComment.STATUS_PUBLISHED + "'")
-  ResultSet<PatchLineComment> published(PatchSet.Id patchset)
+  ResultSet<PatchLineComment> publishedByPatchSet(PatchSet.Id patchset)
       throws OrmException;
 
   @Query("WHERE key.patchKey.patchSetId = ? AND status = '"
       + PatchLineComment.STATUS_DRAFT
       + "' AND author = ? ORDER BY key.patchKey,lineNbr,writtenOn")
-  ResultSet<PatchLineComment> draft(PatchSet.Id patchset, Account.Id author)
+  ResultSet<PatchLineComment> draftByPatchSetAuthor
+      (PatchSet.Id patchset, Account.Id author)
       throws OrmException;
 
   @Query("WHERE key.patchKey = ? AND status = '"
       + PatchLineComment.STATUS_DRAFT
       + "' AND author = ? ORDER BY lineNbr,writtenOn")
-  ResultSet<PatchLineComment> draft(Patch.Key patch, Account.Id author)
+  ResultSet<PatchLineComment> draftByPatchAuthor
+      (Patch.Key patch, Account.Id author)
       throws OrmException;
 
   @Query("WHERE key.patchKey.patchSetId.changeId = ?"
       + " AND key.patchKey.fileName = ? AND author = ? AND status = '"
       + PatchLineComment.STATUS_DRAFT + "' ORDER BY lineNbr,writtenOn")
-  ResultSet<PatchLineComment> draft(Change.Id id, String file, Account.Id author)
+  ResultSet<PatchLineComment> draftByChangeFileAuthor
+      (Change.Id id, String file, Account.Id author)
       throws OrmException;
 
   @Query("WHERE status = '" + PatchLineComment.STATUS_DRAFT

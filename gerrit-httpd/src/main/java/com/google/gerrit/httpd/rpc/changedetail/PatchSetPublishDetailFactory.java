@@ -84,7 +84,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     final ChangeControl control = changeControlFactory.validateFor(changeId);
     change = control.getChange();
     patchSetInfo = infoFactory.get(patchSetId);
-    drafts = db.patchComments().draft(patchSetId, user.getAccountId()).toList();
+    drafts = db.patchComments().draftByPatchSetAuthor(patchSetId, user.getAccountId()).toList();
 
     aic.want(change.getOwner());
 

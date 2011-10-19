@@ -128,7 +128,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       byKey.put(p.getKey(), p);
     }
 
-    for (final PatchLineComment c : db.patchComments().published(psIdNew)) {
+    for (final PatchLineComment c : db.patchComments().publishedByPatchSet(psIdNew)) {
       final Patch p = byKey.get(c.getKey().getParentKey());
       if (p != null) {
         p.setCommentCount(p.getCommentCount() + 1);
@@ -148,7 +148,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       // quickly locate where they have pending drafts, and review them.
       //
       final Account.Id me = ((IdentifiedUser) user).getAccountId();
-      for (final PatchLineComment c : db.patchComments().draft(psIdNew, me)) {
+      for (final PatchLineComment c : db.patchComments().draftByPatchSetAuthor(psIdNew, me)) {
         final Patch p = byKey.get(c.getKey().getParentKey());
         if (p != null) {
           p.setDraftCount(p.getDraftCount() + 1);

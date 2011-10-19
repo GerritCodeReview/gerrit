@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -26,9 +25,8 @@ public class AddReviewerSender extends NewChangeSender {
   }
 
   @Inject
-  public AddReviewerSender(EmailArguments ea, SshInfo sshInfo,
-      @Assisted Change c) {
-    super(ea, sshInfo, c);
+  public AddReviewerSender(EmailArguments ea, @Assisted Change c) {
+    super(ea, c);
   }
 
   @Override

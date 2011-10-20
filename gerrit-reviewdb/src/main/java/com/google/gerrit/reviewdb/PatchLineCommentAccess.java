@@ -28,11 +28,6 @@ public interface PatchLineCommentAccess extends
   @Query("WHERE key.patchKey.patchSetId.changeId = ?")
   ResultSet<PatchLineComment> byChange(Change.Id id) throws OrmException;
 
-  @Query("WHERE key.patchKey = ? AND status = '"
-      + PatchLineComment.STATUS_PUBLISHED + "' ORDER BY lineNbr,writtenOn")
-  ResultSet<PatchLineComment> publishedByPatch(Patch.Key patch)
-      throws OrmException;
-
   @Query("WHERE key.patchKey.patchSetId.changeId = ?"
       + " AND key.patchKey.fileName = ? AND status = '"
       + PatchLineComment.STATUS_PUBLISHED + "' ORDER BY lineNbr,writtenOn")
@@ -49,13 +44,6 @@ public interface PatchLineCommentAccess extends
       + "' AND author = ? ORDER BY key.patchKey,lineNbr,writtenOn")
   ResultSet<PatchLineComment> draftByPatchSetAuthor
       (PatchSet.Id patchset, Account.Id author)
-      throws OrmException;
-
-  @Query("WHERE key.patchKey = ? AND status = '"
-      + PatchLineComment.STATUS_DRAFT
-      + "' AND author = ? ORDER BY lineNbr,writtenOn")
-  ResultSet<PatchLineComment> draftByPatchAuthor
-      (Patch.Key patch, Account.Id author)
       throws OrmException;
 
   @Query("WHERE key.patchKey.patchSetId.changeId = ?"

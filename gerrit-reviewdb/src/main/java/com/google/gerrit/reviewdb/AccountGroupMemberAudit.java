@@ -49,6 +49,14 @@ public final class AccountGroupMemberAudit {
       return accountId;
     }
 
+    public AccountGroup.Id getGroupId() {
+      return groupId;
+    }
+
+    public Timestamp getAddedOn() {
+      return addedOn;
+    }
+
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
       return new com.google.gwtorm.client.Key<?>[] {groupId};

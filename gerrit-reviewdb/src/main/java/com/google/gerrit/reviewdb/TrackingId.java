@@ -102,6 +102,14 @@ public final class TrackingId {
       return changeId;
     }
 
+    public TrackingId.Id getTrackingId() {
+      return trackingId;
+    }
+
+    public TrackingId.System getTrackingSystem() {
+      return trackingSystem;
+    }
+
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
       return new com.google.gwtorm.client.Key<?>[] {trackingId, trackingSystem};
@@ -121,6 +129,10 @@ public final class TrackingId {
 
   public TrackingId(final Change.Id ch, final String id, final String s) {
     key = new Key(ch, new TrackingId.Id(id), new TrackingId.System(s));
+  }
+
+  public TrackingId.Key getKey() {
+    return key;
   }
 
   public Change.Id getChangeId() {

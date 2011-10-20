@@ -49,6 +49,14 @@ public final class AccountGroupIncludeAudit {
       return groupId;
     }
 
+    public AccountGroup.Id getIncludedId() {
+      return includeId;
+    }
+
+    public Timestamp getAddedOn() {
+      return addedOn;
+    }
+
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
       return new com.google.gwtorm.client.Key<?>[] {includeId};

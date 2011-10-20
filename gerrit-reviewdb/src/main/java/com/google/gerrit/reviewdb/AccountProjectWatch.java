@@ -56,6 +56,14 @@ public final class AccountProjectWatch {
       return accountId;
     }
 
+    public Project.NameKey getProjectName() {
+      return projectName;
+    }
+
+    public Filter getFilter() {
+      return filter;
+    }
+
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
       return new com.google.gwtorm.client.Key<?>[] {projectName, filter};

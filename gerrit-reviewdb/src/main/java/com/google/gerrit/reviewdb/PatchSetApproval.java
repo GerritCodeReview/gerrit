@@ -51,6 +51,14 @@ public final class PatchSetApproval {
       return patchSetId;
     }
 
+    public Account.Id getAccountId() {
+      return accountId;
+    }
+
+    public ApprovalCategory.Id getCategoryId() {
+      return categoryId;
+    }
+
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
       return new com.google.gwtorm.client.Key<?>[] {accountId, categoryId};

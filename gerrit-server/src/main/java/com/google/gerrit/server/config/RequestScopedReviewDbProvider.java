@@ -17,7 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.jdbc.Database;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -26,11 +26,11 @@ import com.google.inject.Singleton;
 /** Provides {@link ReviewDb} database handle live only for this request. */
 @Singleton
 final class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
-  private final Database<ReviewDb> schema;
+  private final SchemaFactory<ReviewDb> schema;
   private final Provider<RequestCleanup> cleanup;
 
   @Inject
-  RequestScopedReviewDbProvider(final Database<ReviewDb> schema,
+  RequestScopedReviewDbProvider(final SchemaFactory<ReviewDb> schema,
       final Provider<RequestCleanup> cleanup) {
     this.schema = schema;
     this.cleanup = cleanup;

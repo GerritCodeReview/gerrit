@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.common.AccountFormatter;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -119,5 +120,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(AddGroupInclude.Factory.class);
     factory(RemoveGroupMember.Factory.class);
     factory(RemoveGroupInclude.Factory.class);
+    factory(AccountFormatter.Factory.class);
   }
 }

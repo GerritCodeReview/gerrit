@@ -15,13 +15,12 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.common.AccountFormatter;
 import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -46,17 +45,17 @@ public class RemoveReviewer implements Callable<ReviewerResult> {
 
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
-  private final AccountCache accountCache;
+  private final AccountFormatter accountFormatter;
   private final Change.Id changeId;
   private final Set<Account.Id> ids;
 
   @Inject
   RemoveReviewer(ReviewDb db, ChangeControl.Factory changeControlFactory,
-      AccountCache accountCache, @Assisted Change.Id changeId,
+      AccountFormatter accountFormatter, @Assisted Change.Id changeId,
       @Assisted Set<Account.Id> ids) {
     this.db = db;
     this.changeControlFactory = changeControlFactory;
-    this.accountCache = accountCache;
+    this.accountFormatter = accountFormatter;
     this.changeId = changeId;
     this.ids = ids;
   }
@@ -73,7 +72,7 @@ public class RemoveReviewer implements Callable<ReviewerResult> {
       if (ids.contains(who) && !ctl.canRemoveReviewer(psa) && rejected.add(who)) {
         result.addError(new ReviewerResult.Error(
             ReviewerResult.Error.Type.REMOVE_NOT_PERMITTED,
-            formatUser(who)));
+            accountFormatter.format(who)));
       }
     }
 
@@ -96,35 +95,10 @@ public class RemoveReviewer implements Callable<ReviewerResult> {
       for (Account.Id who : failed) {
         result.addError(new ReviewerResult.Error(
             ReviewerResult.Error.Type.COULD_NOT_REMOVE,
-            formatUser(who)));
+            accountFormatter.format(who)));
       }
     }
 
     return result;
-  }
-
-  private String formatUser(Account.Id who) {
-    AccountState state = accountCache.get(who);
-    if (state != null) {
-      return formatUser(state.getAccount(), who);
-    } else {
-      return who.toString();
-    }
-  }
-
-  static String formatUser(Account a, Object fallback) {
-    if (a.getFullName() != null && !a.getFullName().isEmpty()) {
-      return a.getFullName();
-    }
-
-    if (a.getPreferredEmail() != null && !a.getPreferredEmail().isEmpty()) {
-      return a.getPreferredEmail();
-    }
-
-    if (a.getUserName() != null && a.getUserName().isEmpty()) {
-      return a.getUserName();
-    }
-
-    return fallback.toString();
   }
 }

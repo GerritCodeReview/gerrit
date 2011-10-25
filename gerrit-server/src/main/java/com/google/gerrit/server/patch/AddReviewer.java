@@ -15,6 +15,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.common.AccountFormatter;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ReviewerResult;
@@ -56,6 +57,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
 
   private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final AccountResolver accountResolver;
+  private final AccountFormatter accountFormatter;
   private final GroupCache groupCache;
   private final GroupMembersFactory.Factory groupMembersFactory;
   private final ChangeControl.Factory changeControlFactory;
@@ -71,7 +73,8 @@ public class AddReviewer implements Callable<ReviewerResult> {
 
   @Inject
   AddReviewer(final AddReviewerSender.Factory addReviewerSenderFactory,
-      final AccountResolver accountResolver, final GroupCache groupCache,
+      final AccountResolver accountResolver,
+      final AccountFormatter accountFormatter, final GroupCache groupCache,
       final GroupMembersFactory.Factory groupMembersFactory,
       final ChangeControl.Factory changeControlFactory, final ReviewDb db,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
@@ -81,6 +84,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
       @Assisted final boolean confirmed) {
     this.addReviewerSenderFactory = addReviewerSenderFactory;
     this.accountResolver = accountResolver;
+    this.accountFormatter = accountFormatter;
     this.groupCache = groupCache;
     this.groupMembersFactory = groupMembersFactory;
     this.db = db;
@@ -223,7 +227,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
 
   private String formatUser(Account account, String nameOrEmail) {
     if (nameOrEmail.matches("^[1-9][0-9]*$")) {
-      return RemoveReviewer.formatUser(account, nameOrEmail);
+      return accountFormatter.format(account, nameOrEmail);
     } else {
       return nameOrEmail;
     }

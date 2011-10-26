@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABMH////Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-26T23:21:57Z",
+      "side": 1,
+      "message": "before this change we were also doing:\n\noutCookie.setSecure(authConfig.getCookieSecure());\n\nWas this removed by mistake? If not, what was the motivation to remove it? This seems to be unrelated to this change and should then probably be done in an own change, shouldn\u0027t it? Also this was the only usage of authConfig.getCookieSecure(), if the auth.cookiesecure config parameter is not needed anymore it should probably be removed completely.",
+      "revId": "f24ac545f6ca07dcd45ab6529664cc72328c5bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

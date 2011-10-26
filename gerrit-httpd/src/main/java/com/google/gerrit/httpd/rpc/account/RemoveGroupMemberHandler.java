@@ -14,40 +14,40 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import com.google.gerrit.common.data.GroupMemberResult;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.server.account.RemoveGroupMember;
-import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import java.util.Set;
+import java.util.Collection;
 
-public class RemoveGroupMemberHandler extends Handler<VoidResult> {
+public class RemoveGroupMemberHandler extends Handler<GroupMemberResult> {
 
   interface Factory {
     RemoveGroupMemberHandler create(AccountGroup.Id groupId,
-        Set<AccountGroupMember.Key> keys);
+        Collection<Account.Id> accountIds);
   }
 
   private final RemoveGroupMember.Factory removeGroupMemberFactory;
 
   private final AccountGroup.Id groupId;
-  private final Set<AccountGroupMember.Key> keys;
+  private final Collection<Account.Id> accountIds;
 
   @Inject
   RemoveGroupMemberHandler(
       final RemoveGroupMember.Factory removeGroupMemberFactory,
       final @Assisted AccountGroup.Id groupId,
-      final @Assisted Set<AccountGroupMember.Key> keys) {
+      final @Assisted Collection<Account.Id> accountIds) {
     this.removeGroupMemberFactory = removeGroupMemberFactory;
     this.groupId = groupId;
-    this.keys = keys;
+    this.accountIds = accountIds;
   }
 
   @Override
-  public VoidResult call() throws Exception {
-    return removeGroupMemberFactory.create(groupId, keys).call();
+  public GroupMemberResult call() throws Exception {
+    return removeGroupMemberFactory.create(groupId, accountIds).call();
   }
 }

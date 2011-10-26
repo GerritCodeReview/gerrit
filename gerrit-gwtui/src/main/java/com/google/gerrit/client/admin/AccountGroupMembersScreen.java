@@ -15,6 +15,7 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
@@ -27,6 +28,7 @@ import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupInfo;
 import com.google.gerrit.common.data.GroupInfoCache;
+import com.google.gerrit.common.data.GroupMemberResult;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupInclude;
@@ -38,10 +40,10 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AccountGroupMembersScreen extends AccountGroupScreen {
 
@@ -244,25 +246,38 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     void deleteChecked() {
-      final HashSet<AccountGroupMember.Key> ids =
-          new HashSet<AccountGroupMember.Key>();
+      final Set<Account.Id> accountIds = new HashSet<Account.Id>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final AccountGroupMember k = getRowItem(row);
         if (k != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {
-          ids.add(k.getKey());
+          accountIds.add(k.getAccountId());
         }
       }
-      if (!ids.isEmpty()) {
-        Util.GROUP_SVC.deleteGroupMembers(getGroupId(), ids,
-            new GerritCallback<VoidResult>() {
-              public void onSuccess(final VoidResult result) {
-                for (int row = 1; row < table.getRowCount();) {
-                  final AccountGroupMember k = getRowItem(row);
-                  if (k != null && ids.contains(k.getKey())) {
-                    table.removeRow(row);
-                  } else {
-                    row++;
+      if (!accountIds.isEmpty()) {
+        Util.GROUP_SVC.deleteGroupMembers(getGroupId(), accountIds,
+            new GerritCallback<GroupMemberResult>() {
+              public void onSuccess(final GroupMemberResult result) {
+                if (result.getErrors().isEmpty()) {
+                  for (int row = 1; row < table.getRowCount();) {
+                    final AccountGroupMember k = getRowItem(row);
+                    if (k != null && accountIds.contains(k.getAccountId())) {
+                      table.removeRow(row);
+                    } else {
+                      row++;
+                    }
                   }
+                } else {
+                  final GroupMemberResult.Error resultError =
+                      result.getErrors().get(0);
+                  String message;
+                  switch (resultError.getType()) {
+                    case REMOVE_NOT_PERMITTED:
+                      message = Util.C.errorGroupMemberRemoveNotPermitted();
+                      break;
+                    default:
+                      message = Util.C.errorCouldNotRemoveGroupMember();
+                  }
+                  new ErrorDialog(message + " " + resultError.getName()).center();
                 }
               }
             });
@@ -322,25 +337,40 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     void deleteChecked() {
-      final HashSet<AccountGroupInclude.Key> keys =
-          new HashSet<AccountGroupInclude.Key>();
+      final Set<AccountGroup.Id> groupIds = new HashSet<AccountGroup.Id>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final AccountGroupInclude k = getRowItem(row);
         if (k != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {
-          keys.add(k.getKey());
+          groupIds.add(k.getKey().getIncludeId());
         }
       }
-      if (!keys.isEmpty()) {
-        Util.GROUP_SVC.deleteGroupIncludes(getGroupId(), keys,
-            new GerritCallback<VoidResult>() {
-              public void onSuccess(final VoidResult result) {
-                for (int row = 1; row < table.getRowCount();) {
-                  final AccountGroupInclude k = getRowItem(row);
-                  if (k != null && keys.contains(k.getKey())) {
-                    table.removeRow(row);
-                  } else {
-                    row++;
+      if (!groupIds.isEmpty()) {
+        Util.GROUP_SVC.deleteGroupIncludes(getGroupId(), groupIds,
+            new GerritCallback<GroupMemberResult>() {
+              public void onSuccess(final GroupMemberResult result) {
+                if (result.getErrors().isEmpty()) {
+                  for (int row = 1; row < table.getRowCount();) {
+                    final AccountGroupInclude k = getRowItem(row);
+                    if (k != null
+                        && groupIds.contains(k.getKey().getIncludeId())) {
+                      table.removeRow(row);
+                    } else {
+                      row++;
+                    }
                   }
+                } else {
+                  final GroupMemberResult.Error resultError =
+                      result.getErrors().get(0);
+                  String message;
+                  switch (resultError.getType()) {
+                    case REMOVE_NOT_PERMITTED:
+                      message = Util.C.errorIncludedGroupRemoveNotPermitted();
+                      break;
+                    default:
+                      message = Util.C.errorCouldNotRemoveIncludedGroup();
+                  }
+                  new ErrorDialog(message + " " + resultError.getName())
+                      .center();
                 }
               }
             });

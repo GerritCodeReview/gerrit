@@ -180,4 +180,8 @@ public final class Project {
   public void setParentName(String n) {
     parent = n != null ? new NameKey(n) : null;
   }
+
+  public void setParentName(NameKey n) {
+    parent = n;
+  }
 }

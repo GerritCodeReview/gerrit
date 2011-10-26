@@ -16,6 +16,24 @@
       "revId": "f24ac545f6ca07dcd45ab6529664cc72328c5bf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABMH////I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-26T23:27:24Z",
+      "side": 1,
+      "message": "I just noticed that setting the secure flag on the cookie is re-done in the next change [1]. Then within this change we should maybe not remove the setting of the secure flag?\n\n[1] https://gerrit-review.googlesource.com/30055",
+      "parentUuid": "AAABMH////Q\u003d",
+      "revId": "f24ac545f6ca07dcd45ab6529664cc72328c5bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

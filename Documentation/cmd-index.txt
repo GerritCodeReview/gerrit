@@ -102,6 +102,9 @@ link:cmd-gsql.html[gerrit gsql]::
 link:cmd-replicate.html[gerrit replicate]::
 	Manually trigger replication, to recover a node.
 
+link:cmd-set-members.html[gerrit set-members]::
+        Set group members.
+
 link:cmd-set-project-parent.html[gerrit set-project-parent]::
 	Change the project permissions are inherited from.
 

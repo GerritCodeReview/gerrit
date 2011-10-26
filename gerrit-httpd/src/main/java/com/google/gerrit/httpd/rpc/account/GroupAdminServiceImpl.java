@@ -17,13 +17,13 @@ package com.google.gerrit.httpd.rpc.account;
 import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupList;
+import com.google.gerrit.common.data.GroupMemberResult;
 import com.google.gerrit.common.data.GroupOptions;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
+import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountGroupInclude;
-import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
@@ -244,15 +244,16 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   }
 
   public void deleteGroupMembers(final AccountGroup.Id groupId,
-      final Set<AccountGroupMember.Key> keys,
-      final AsyncCallback<VoidResult> callback) {
-    removeGroupMemberHandlerFactory.create(groupId, keys).to(callback);
+      final Set<Account.Id> accountIds,
+      final AsyncCallback<GroupMemberResult> callback) {
+    removeGroupMemberHandlerFactory.create(groupId, accountIds).to(callback);
   }
 
   public void deleteGroupIncludes(final AccountGroup.Id groupId,
-      final Set<AccountGroupInclude.Key> keys,
-      final AsyncCallback<VoidResult> callback) {
-    removeGroupIncludeHandlerFactory.create(groupId, keys).to(callback);
+      final Set<AccountGroup.Id> groupsToRemove,
+      final AsyncCallback<GroupMemberResult> callback) {
+    removeGroupIncludeHandlerFactory.create(groupId, groupsToRemove).to(
+        callback);
   }
 
   private void assertAmGroupOwner(final ReviewDb db, final AccountGroup group)

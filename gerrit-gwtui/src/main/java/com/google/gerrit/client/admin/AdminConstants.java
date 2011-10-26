@@ -96,6 +96,10 @@ public interface AdminConstants extends Constants {
   String noGroupSelected();
   String errorNoMatchingGroups();
   String errorNoGitRepository();
+  String errorGroupMemberRemoveNotPermitted();
+  String errorCouldNotRemoveGroupMember();
+  String errorIncludedGroupRemoveNotPermitted();
+  String errorCouldNotRemoveIncludedGroup();
 
   String addPermission();
   Map<String,String> permissionNames();

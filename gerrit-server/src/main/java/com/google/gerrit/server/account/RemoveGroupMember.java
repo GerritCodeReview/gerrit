@@ -14,81 +14,86 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.AccountFormatter;
+import com.google.gerrit.common.data.GroupMemberResult;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
-import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.Set;
 import java.util.concurrent.Callable;
 
-public class RemoveGroupMember implements Callable<VoidResult> {
+public class RemoveGroupMember implements Callable<GroupMemberResult> {
 
   public interface Factory {
     RemoveGroupMember create(AccountGroup.Id groupId,
-        Set<AccountGroupMember.Key> keys);
+        Collection<Account.Id> accountIds);
   }
 
   private final IdentifiedUser currentUser;
   private final GroupControl.Factory groupControlFactory;
+  private final GroupDetailFactory.Factory groupDetailFactory;
   private final AccountCache accountCache;
+  private final AccountFormatter accountFormatter;
   private final ReviewDb db;
 
   private final AccountGroup.Id groupId;
-  private final Set<AccountGroupMember.Key> keys;
+  private final Collection<Account.Id> accountIds;
 
   @Inject
   RemoveGroupMember(final IdentifiedUser currentUser,
       final GroupControl.Factory groupControlFactory,
-      final AccountCache accountCache, final ReviewDb db,
-      final @Assisted AccountGroup.Id groupId,
-      final @Assisted Set<AccountGroupMember.Key> keys) {
+      final GroupDetailFactory.Factory groupDetailFactory,
+      final AccountCache accountCache, final AccountFormatter accountFormatter,
+      final ReviewDb db, final @Assisted AccountGroup.Id groupId,
+      final @Assisted Collection<Account.Id> acoountIds) {
     this.currentUser = currentUser;
     this.groupControlFactory = groupControlFactory;
+    this.groupDetailFactory = groupDetailFactory;
     this.accountCache = accountCache;
+    this.accountFormatter = accountFormatter;
     this.db = db;
     this.groupId = groupId;
-    this.keys = keys;
+    this.accountIds = acoountIds;
   }
 
   @Override
-  public VoidResult call() throws Exception {
+  public GroupMemberResult call() throws Exception {
     final GroupControl control = groupControlFactory.validateFor(groupId);
     if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
       throw new NameAlreadyUsedException();
     }
 
-    for (final AccountGroupMember.Key k : keys) {
-      if (!groupId.equals(k.getAccountGroupId())) {
-        throw new NoSuchEntityException();
-      }
-    }
-
+    final GroupMemberResult result = new GroupMemberResult();
     final Account.Id me = currentUser.getAccountId();
-    for (final AccountGroupMember.Key k : keys) {
-      final AccountGroupMember m = db.accountGroupMembers().get(k);
+    for (final Account.Id accountId : accountIds) {
+      if (!control.canRemoveMember(accountId)) {
+        result.addError(new GroupMemberResult.Error(
+            GroupMemberResult.Error.Type.REMOVE_NOT_PERMITTED,
+            accountFormatter.format(accountId)));
+        continue;
+      }
+
+      AccountGroupMemberAudit audit = null;
+      for (AccountGroupMemberAudit a : db.accountGroupMembersAudit()
+          .byGroupAccount(groupId, accountId)) {
+        if (a.isActive()) {
+          audit = a;
+          break;
+        }
+      }
+
+      final AccountGroupMember m =
+          db.accountGroupMembers().get(
+              new AccountGroupMember.Key(accountId, groupId));
       if (m != null) {
-        if (!control.canRemoveMember(m.getAccountId())) {
-          throw new NoSuchEntityException();
-        }
-
-        AccountGroupMemberAudit audit = null;
-        for (AccountGroupMemberAudit a : db.accountGroupMembersAudit()
-            .byGroupAccount(m.getAccountGroupId(), m.getAccountId())) {
-          if (a.isActive()) {
-            audit = a;
-            break;
-          }
-        }
-
         if (audit != null) {
           audit.removed(me);
           db.accountGroupMembersAudit().update(Collections.singleton(audit));
@@ -99,9 +104,10 @@ public class RemoveGroupMember implements Callable<VoidResult> {
         }
 
         db.accountGroupMembers().delete(Collections.singleton(m));
-        accountCache.evict(m.getAccountId());
+        accountCache.evict(accountId);
       }
     }
-    return VoidResult.INSTANCE;
+    result.setGroup(groupDetailFactory.create(groupId).call());
+    return result;
   }
 }

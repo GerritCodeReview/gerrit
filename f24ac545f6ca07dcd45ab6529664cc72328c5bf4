@@ -34,6 +34,24 @@
       "revId": "f24ac545f6ca07dcd45ab6529664cc72328c5bf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABL3////k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-26T23:48:03Z",
+      "side": 1,
+      "message": "Yes, removing this flag here was a mistake.",
+      "parentUuid": "AAABMH////I\u003d",
+      "revId": "f24ac545f6ca07dcd45ab6529664cc72328c5bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABMH///+8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-26T23:45:13Z",
+      "side": 1,
+      "message": "Is this related to this change? Looks like it should be a change on its own.",
+      "revId": "187f15d01a856f136e8beb90dbbb5fe9c02d0bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "187f15d01a856f136e8beb90dbbb5fe9c02d0bf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABL3////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-26T23:46:39Z",
+      "side": 1,
+      "message": "Oh. I think this is a bug fix for an earlier change in the series. Not sure which one though. :-)",
+      "parentUuid": "AAABMH///+8\u003d",
+      "revId": "187f15d01a856f136e8beb90dbbb5fe9c02d0bf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

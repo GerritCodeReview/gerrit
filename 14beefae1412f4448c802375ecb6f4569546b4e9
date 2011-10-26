@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABMH////w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2011-10-26T22:38:06Z",
+      "side": 1,
+      "message": "I\u0027m not positive that showing \u0027\\n\u0027 in the output is the best solution, but I can\u0027t think of any better options.",
+      "revId": "14beefae1412f4448c802375ecb6f4569546b4e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

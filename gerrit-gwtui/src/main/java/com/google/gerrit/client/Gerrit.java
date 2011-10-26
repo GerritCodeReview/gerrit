@@ -308,6 +308,7 @@ public class Gerrit implements EntryPoint {
         }
         if (result.accountDiffPref != null) {
           myAccountDiffPref = result.accountDiffPref;
+          applyUserPreferences();
         }
         onModuleLoad2();
       }

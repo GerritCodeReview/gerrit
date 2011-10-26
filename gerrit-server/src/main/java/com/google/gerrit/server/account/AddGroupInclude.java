@@ -14,26 +14,25 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.common.data.GroupDetail;
+import com.google.gerrit.common.data.GroupMemberResult;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
-import com.google.gerrit.common.errors.NoSuchEntityException;
-import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupInclude;
 import com.google.gerrit.reviewdb.AccountGroupIncludeAudit;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.Callable;
 
-public class AddGroupInclude implements Callable<GroupDetail> {
+public class AddGroupInclude implements Callable<GroupMemberResult> {
 
   public interface Factory {
-    AddGroupInclude create(AccountGroup.Id groupId, String groupName);
+    AddGroupInclude create(AccountGroup.Id groupId,
+        Collection<AccountGroup.Id> groupsToInclude);
   }
 
   private final IdentifiedUser currentUser;
@@ -44,7 +43,7 @@ public class AddGroupInclude implements Callable<GroupDetail> {
   private final ReviewDb db;
 
   private final AccountGroup.Id groupId;
-  private final String groupName;
+  private final Collection<AccountGroup.Id> groupsToInclude;
 
   @Inject
   AddGroupInclude(final IdentifiedUser currentUser,
@@ -52,7 +51,7 @@ public class AddGroupInclude implements Callable<GroupDetail> {
       final GroupDetailFactory.Factory groupDetailFactory,
       final GroupCache groupCache, final GroupIncludeCache groupIncludeCache,
       final ReviewDb db, final @Assisted AccountGroup.Id groupId,
-      final @Assisted String groupName) {
+      final @Assisted Collection<AccountGroup.Id> groupsToInclude) {
     this.currentUser = currentUser;
     this.groupControlFactory = groupControlFactory;
     this.groupDetailFactory = groupDetailFactory;
@@ -60,42 +59,40 @@ public class AddGroupInclude implements Callable<GroupDetail> {
     this.groupIncludeCache = groupIncludeCache;
     this.db = db;
     this.groupId = groupId;
-    this.groupName = groupName;
+    this.groupsToInclude = groupsToInclude;
   }
 
   @Override
-  public GroupDetail call() throws Exception {
+  public GroupMemberResult call() throws Exception {
     final GroupControl control = groupControlFactory.validateFor(groupId);
     if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
       throw new NameAlreadyUsedException();
     }
 
-    final AccountGroup a = findGroup(groupName);
-    if (!control.canAddGroup(a.getId())) {
-      throw new NoSuchEntityException();
+    final GroupMemberResult result = new GroupMemberResult();
+    for (final AccountGroup.Id groupToInclude : groupsToInclude) {
+      final AccountGroup includedGroup = groupCache.get(groupToInclude);
+      if (!control.canAddGroup(groupToInclude)) {
+        result.addError(new GroupMemberResult.Error(
+            GroupMemberResult.Error.Type.ADD_NOT_PERMITTED, includedGroup
+                .getName()));
+        continue;
+      }
+
+      final AccountGroupInclude.Key key =
+          new AccountGroupInclude.Key(groupId, groupToInclude);
+      AccountGroupInclude m = db.accountGroupIncludes().get(key);
+      if (m == null) {
+        m = new AccountGroupInclude(key);
+        db.accountGroupIncludesAudit().insert(
+            Collections.singleton(new AccountGroupIncludeAudit(m, currentUser
+                .getAccountId())));
+        db.accountGroupIncludes().insert(Collections.singleton(m));
+        groupIncludeCache.evictInclude(includedGroup.getGroupUUID());
+      }
     }
 
-    final AccountGroupInclude.Key key =
-        new AccountGroupInclude.Key(groupId, a.getId());
-    AccountGroupInclude m = db.accountGroupIncludes().get(key);
-    if (m == null) {
-      m = new AccountGroupInclude(key);
-      db.accountGroupIncludesAudit().insert(
-          Collections.singleton(new AccountGroupIncludeAudit(m, currentUser
-              .getAccountId())));
-      db.accountGroupIncludes().insert(Collections.singleton(m));
-      groupIncludeCache.evictInclude(a.getGroupUUID());
-    }
-
-    return groupDetailFactory.create(groupId).call();
-  }
-
-  private AccountGroup findGroup(final String name) throws OrmException,
-      NoSuchGroupException {
-    final AccountGroup g = groupCache.get(new AccountGroup.NameKey(name));
-    if (g == null) {
-      throw new NoSuchGroupException(name);
-    }
-    return g;
+    result.setGroup(groupDetailFactory.create(groupId).call());
+    return result;
   }
 }

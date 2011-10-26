@@ -14,73 +14,75 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.data.GroupMemberResult;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
-import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupInclude;
 import com.google.gerrit.reviewdb.AccountGroupIncludeAudit;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.Callable;
 
-public class RemoveGroupInclude implements Callable<VoidResult> {
+public class RemoveGroupInclude implements Callable<GroupMemberResult> {
 
   public interface Factory {
     RemoveGroupInclude create(AccountGroup.Id groupId,
-        Set<AccountGroupInclude.Key> keys);
+        Collection<AccountGroup.Id> groupsToInclude);
   }
 
   private final IdentifiedUser currentUser;
   private final GroupControl.Factory groupControlFactory;
+  private final GroupDetailFactory.Factory groupDetailFactory;
+  private final GroupCache groupCache;
   private final GroupIncludeCache groupIncludeCache;
   private final ReviewDb db;
 
   private final AccountGroup.Id groupId;
-  private final Set<AccountGroupInclude.Key> keys;
+  private final Collection<AccountGroup.Id> groupsToRemove;
 
   @Inject
   RemoveGroupInclude(final IdentifiedUser currentUser,
       final GroupControl.Factory groupControlFactory,
-      final GroupIncludeCache groupIncludeCache,
+      final GroupDetailFactory.Factory groupDetailFactory,
+      final GroupCache groupCache, final GroupIncludeCache groupIncludeCache,
       final ReviewDb db, final @Assisted AccountGroup.Id groupId,
-      final @Assisted Set<AccountGroupInclude.Key> keys) {
+      final @Assisted Collection<AccountGroup.Id> groupsToInclude) {
     this.currentUser = currentUser;
     this.groupControlFactory = groupControlFactory;
+    this.groupDetailFactory = groupDetailFactory;
+    this.groupCache = groupCache;
     this.groupIncludeCache = groupIncludeCache;
     this.db = db;
     this.groupId = groupId;
-    this.keys = keys;
+    this.groupsToRemove = groupsToInclude;
   }
 
   @Override
-  public VoidResult call() throws Exception {
+  public GroupMemberResult call() throws Exception {
     final GroupControl control = groupControlFactory.validateFor(groupId);
     if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
       throw new NameAlreadyUsedException();
     }
 
-    for (final AccountGroupInclude.Key k : keys) {
-      if (!groupId.equals(k.getGroupId())) {
-        throw new NoSuchEntityException();
-      }
-    }
-
+    final GroupMemberResult result = new GroupMemberResult();
     final Account.Id me = currentUser.getAccountId();
-    final Set<AccountGroup.Id> groupsToEvict = new HashSet<AccountGroup.Id>();
-    for (final AccountGroupInclude.Key k : keys) {
-      final AccountGroupInclude m =
-          db.accountGroupIncludes().get(k);
+    for (final AccountGroup.Id g : groupsToRemove) {
+      final AccountGroup includedGroup = groupCache.get(g);
+      final AccountGroupInclude.Key key =
+          new AccountGroupInclude.Key(groupId, g);
+      final AccountGroupInclude m = db.accountGroupIncludes().get(key);
       if (m != null) {
         if (!control.canRemoveGroup(m.getIncludeId())) {
-          throw new NoSuchEntityException();
+          result.addError(new GroupMemberResult.Error(
+              GroupMemberResult.Error.Type.REMOVE_NOT_PERMITTED,
+              includedGroup.getName()));
+          continue;
         }
 
         AccountGroupIncludeAudit audit = null;
@@ -99,12 +101,10 @@ public class RemoveGroupInclude implements Callable<VoidResult> {
               Collections.singleton(audit));
         }
         db.accountGroupIncludes().delete(Collections.singleton(m));
-        groupsToEvict.add(k.getIncludeId());
+        groupIncludeCache.evictInclude(includedGroup.getGroupUUID());
       }
     }
-    for (AccountGroup group : db.accountGroups().get(groupsToEvict)) {
-      groupIncludeCache.evictInclude(group.getGroupUUID());
-    }
-    return VoidResult.INSTANCE;
+    result.setGroup(groupDetailFactory.create(groupId).call());
+    return result;
   }
 }

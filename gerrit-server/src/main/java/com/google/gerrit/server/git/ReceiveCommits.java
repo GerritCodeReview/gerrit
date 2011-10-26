@@ -1192,9 +1192,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final Ref mergedInto = findMergedInto(change.getDest().get(), c);
       result.mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
     }
+    final PatchSetInfo info = patchSetInfoFactory.get(c, ps.getId());
+    change.setCurrentPatchSet(info);
     result.change = change;
     result.patchSet = ps;
-    result.info = patchSetInfoFactory.get(c, ps.getId());
+    result.info = info;
 
     final Account.Id authorId =
         result.info.getAuthor() != null ? result.info.getAuthor().getAccount()

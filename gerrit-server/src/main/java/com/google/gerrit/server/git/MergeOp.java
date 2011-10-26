@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.PatchSetAncestor;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
@@ -282,7 +283,7 @@ public class MergeOp {
     }
   }
 
-  private void preMerge() throws MergeException {
+  private void preMerge() throws MergeException, OrmException {
     openBranch();
     validateChangeList();
     mergeTip = branchTip;
@@ -674,7 +675,7 @@ public class MergeOp {
     }
   }
 
-  private void cherryPickChanges() throws MergeException {
+  private void cherryPickChanges() throws MergeException, OrmException {
     while (!toMerge.isEmpty()) {
       final CodeReviewCommit n = toMerge.remove(0);
       final ThreeWayMerger m;
@@ -758,7 +759,7 @@ public class MergeOp {
   }
 
   private void writeCherryPickCommit(final Merger m, final CodeReviewCommit n)
-      throws IOException {
+      throws IOException, OrmException {
     rw.parseBody(n);
 
     final List<FooterLine> footers = n.getFooterLines();
@@ -885,12 +886,63 @@ public class MergeOp {
 
     final ObjectId id = commit(m, mergeCommit);
     final CodeReviewCommit newCommit = (CodeReviewCommit) rw.parseCommit(id);
+
+    n.change =
+        schema.changes().atomicUpdate(n.change.getId(),
+            new AtomicUpdate<Change>() {
+              @Override
+              public Change update(Change change) {
+                change.nextPatchSetId();
+                return change;
+              }
+            });
+
+    final PatchSet ps = new PatchSet(n.change.currPatchSetId());
+    ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+    ps.setUploader(submitAudit.getAccountId());
+    ps.setRevision(new RevId(id.getName()));
+    insertAncestors(ps.getId(), newCommit);
+    schema.patchSets().insert(Collections.singleton(ps));
+
+    n.change =
+        schema.changes().atomicUpdate(n.change.getId(),
+            new AtomicUpdate<Change>() {
+              @Override
+              public Change update(Change change) {
+                change.setCurrentPatchSet(patchSetInfoFactory.get(newCommit,
+                    ps.getId()));
+                return change;
+              }
+            });
+
+    for (PatchSetApproval a : schema.patchSetApprovals().byChange(
+        n.change.getId())) {
+      // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
+      if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+        schema.patchSetApprovals().insert(
+            Collections.singleton(new PatchSetApproval(ps.getId(), a)));
+      }
+    }
+
     newCommit.copyFrom(n);
     newCommit.statusCode = CommitMergeStatus.CLEAN_PICK;
     commits.put(newCommit.patchsetId.getParentKey(), newCommit);
-
     mergeTip = newCommit;
     setRefLogIdent(submitAudit);
+  }
+
+  private void insertAncestors(PatchSet.Id id, RevCommit src)
+      throws OrmException {
+    final int cnt = src.getParentCount();
+    List<PatchSetAncestor> toInsert = new ArrayList<PatchSetAncestor>(cnt);
+    for (int p = 0; p < cnt; p++) {
+      PatchSetAncestor a;
+
+      a = new PatchSetAncestor(new PatchSetAncestor.Id(id, p + 1));
+      a.setAncestorRevision(new RevId(src.getParent(p).getId().name()));
+      toInsert.add(a);
+    }
+    schema.patchSetAncestors().insert(toInsert);
   }
 
   private ObjectId commit(final Merger m, final CommitBuilder mergeCommit)
@@ -1238,7 +1290,10 @@ public class MergeOp {
 
   private void setMerged(Change c, ChangeMessage msg) {
     final Change.Id changeId = c.getId();
-    final PatchSet.Id merged = c.currentPatchSetId();
+    // We must pull the patchset out of commits, because the patchset ID is
+    // modified when using the cherry-pick merge strategy.
+    final CodeReviewCommit commit = commits.get(c.getId());
+    final PatchSet.Id merged = commit.change.currentPatchSetId();
 
     try {
       schema.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {

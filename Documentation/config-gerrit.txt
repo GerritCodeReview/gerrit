@@ -985,7 +985,7 @@ downloads are allowed.
 Local filesystem directory holding all Git repositories that
 Gerrit knows about and can process changes for.  A project
 entity in Gerrit maps to a local Git repository by creating
-the path string `"$\{basePath}/$\{project_name}.git"`.
+the path string `"${basePath}/${project_name}.git"`.
 +
 If relative, the path is resolved relative to `'$site_path'`.
 
@@ -1063,23 +1063,23 @@ Valid values are `gitweb`, `cgit` or `custom`.
 Optional pattern to use for constructing the gitweb URL when pointing
 at a specific commit when `custom` is used above.
 +
-Valid replacements are `$\{project\}` for the project name in Gerrit
-and `$\{commit\}` for the SHA1 hash for the commit.
+Valid replacements are `${project}` for the project name in Gerrit
+and `${commit}` for the SHA1 hash for the commit.
 
 [[gitweb.type]]gitweb.project::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
 at a specific project when `custom` is used above.
 +
-Valid replacements are `$\{project\}` for the project name in Gerrit.
+Valid replacements are `${project}` for the project name in Gerrit.
 
 [[gitweb.type]]gitweb.branch::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
 at a specific branch when `custom` is used above.
 +
-Valid replacements are `$\{project\}` for the project name in Gerrit
-and `$\{branch\}` for the name of the branch.
+Valid replacements are `${project}` for the project name in Gerrit
+and `${branch}` for the name of the branch.
 
 
 [[hooks]]Section hooks
@@ -1141,7 +1141,7 @@ The httpd section configures the embedded servlet container.
 [[httpd.listenUrl]]httpd.listenUrl::
 +
 Specifies the URLs the internal HTTP daemon should listen for
-connections on.  The special hostname '\*' may be used to listen
+connections on.  The special hostname '*' may be used to listen
 on all local addresses.  A context path may optionally be included,
 placing Gerrit Code Review's web address within a subdirectory of
 the server.
@@ -1391,17 +1391,17 @@ Default is `subtree` as many directories have several levels.
 Query pattern to use when searching for a user account.  This may be
 any valid LDAP query expression, including the standard `(&...)` and
 `(|...)` operators.  If auth.type is `HTTP_LDAP` then the variable
-`$\{username\}` is replaced with a parameter set to the username
+`${username}` is replaced with a parameter set to the username
 that was supplied by the HTTP server.  If auth.type is `LDAP` then
-the variable `$\{username\}` is replaced by the string entered by
+the variable `${username}` is replaced by the string entered by
 the end user.
 +
 This pattern is used to search the objects contained directly under
 the `ldap.accountBase` tree.  A typical setting for this parameter
-is `(uid=$\{username\})` or `(cn=$\{username\})`, but the proper
+is `(uid=${username})` or `(cn=${username})`, but the proper
 setting depends on the LDAP schema used by the directory server.
 +
-Default is `(uid=$\{username\})` for RFC 2307 servers,
+Default is `(uid=${username})` for RFC 2307 servers,
 and `(&(objectClass=user)(sAMAccountName=${username}))`
 for Active Directory.
 
@@ -1414,7 +1414,7 @@ also be `legalName` or `cn`.
 +
 Attribute values may be concatenated with literal strings, for
 example to join given name and surname together use the pattern
-`$\{givenName\} $\{SN\}`.
+`${givenName} ${SN}`.
 +
 If set, users will be unable to modify their full name field, as
 Gerrit will populate it only from the LDAP data.
@@ -1431,7 +1431,7 @@ LDAP server.
 Attribute values may be concatenated with literal strings,
 for example to set the email address to the lowercase form
 of sAMAccountName followed by a constant domain name, use
-`$\{sAMAccountName.toLowerCase\}@example.com`.
+`${sAMAccountName.toLowerCase}@example.com`.
 +
 If set, the preferred email address will be prefilled from LDAP,
 but users may still be able to register additional email address,
@@ -1449,12 +1449,12 @@ corresponding to the user's workstation username, as this is what
 SSH clients will default to.
 +
 Attribute values may also be forced to lowercase, or to uppercase in
-an expression.  For example, `$\{sAMAccountName.toLowerCase\}` will
+an expression.  For example, `${sAMAccountName.toLowerCase}` will
 force the value of sAMAccountName, if defined, to be all lowercase.
 The suffix `.toUpperCase` can be used for the other direction.
 The suffix `.localPart` can be used to split attribute values of
 the form 'user@example.com' and return only the left hand side, for
-example `$\{userPrincipalName.localPart\}` would provide only 'user'.
+example `${userPrincipalName.localPart}` would provide only 'user'.
 +
 If set, users will be unable to modify their SSH username field, as
 Gerrit will populate it only from the LDAP data.
@@ -1492,11 +1492,11 @@ Default is `subtree` as many directories have several levels.
 Query pattern used when searching for an LDAP group to connect
 to a Gerrit group.  This may be any valid LDAP query expression,
 including the standard `(&...)` and `(|...)` operators.  The variable
-`$\{groupname\}` is replaced with the search term supplied by the
+`${groupname}` is replaced with the search term supplied by the
 group owner.
 +
-Default is `(cn=$\{groupname\})` for RFC 2307,
-and `(&(objectClass=group)(cn=$\{groupname\}))` for Active Directory.
+Default is `(cn=${groupname})` for RFC 2307,
+and `(&(objectClass=group)(cn=${groupname}))` for Active Directory.
 
 [[ldap.groupMemberPattern]]ldap.groupMemberPattern::
 +
@@ -1504,15 +1504,15 @@ Query pattern to use when searching for the groups that a user
 account is currently a member of.  This may be any valid LDAP query
 expression, including the standard `(&...)` and `(|...)` operators.
 +
-If auth.type is `HTTP_LDAP` then the variable `$\{username\}` is
+If auth.type is `HTTP_LDAP` then the variable `${username}` is
 replaced with a parameter set to the username that was supplied
 by the HTTP server.  Other variables appearing in the pattern,
-such as `$\{fooBarAttribute\}`, are replaced with the value of the
+such as `${fooBarAttribute}`, are replaced with the value of the
 corresponding attribute (in this case, `fooBarAttribute`) as read
 from the user's account object matched under `ldap.accountBase`.
-Attributes such as `$\{dn\}` or `$\{uidNumber\}` may be useful.
+Attributes such as `${dn}` or `${uidNumber}` may be useful.
 +
-Default is `(memberUid=$\{username\})` for RFC 2307,
+Default is `(memberUid=${username})` for RFC 2307,
 and unset (disabled) for Active Directory.
 
 
@@ -1524,8 +1524,8 @@ and unset (disabled) for Active Directory.
 If set to true, files with the MIME type `<name>` will be sent as
 direct downloads to the user's browser, rather than being wrapped up
 inside of zipped archives.  The type name may be a complete type
-name, e.g. `image/gif`, a generic media type, e.g. `image/\*`,
-or the wildcard `\*/*` to match all types.
+name, e.g. `image/gif`, a generic media type, e.g. `image/*`,
+or the wildcard `*/*` to match all types.
 +
 By default, false for all MIME types.
 
@@ -1638,7 +1638,7 @@ relay for that domain.
 +
 * `MIXED`
 +
-Shorthand for `$\{user\} (Code Review) <review@example.com>` where
+Shorthand for `${user} (Code Review) <review@example.com>` where
 `review@example.com` is the same as <<user.email,user.email>>.
 See below for a description of how the replacement is handled.
 +
@@ -1654,7 +1654,7 @@ from the local operating system.
 If set to a name and email address in brackets, Gerrit will use
 this name and email address for any messages, overriding the name
 that may have been selected for commits by user.name and user.email.
-Optionally, the name portion may contain the placeholder `$\{user\}`,
+Optionally, the name portion may contain the placeholder `${user}`,
 which is replaced by the Full Name of the current user.
 
 +
@@ -1737,7 +1737,7 @@ default of 29418.
 * 'hostname':'port' (for example `review.example.com:29418`)
 * 'IPv4':'port' (for example `10.0.0.1:29418`)
 * ['IPv6']:'port' (for example `[ff02::1]:29418`)
-* \*:'port' (for example `*:29418`)
+* *:'port' (for example `*:29418`)
 
 +
 If multiple values are supplied, the daemon will listen on all

@@ -57,7 +57,7 @@ For more details, see link:cmd-hook-commit-msg.html[commit-msg].
 Change Upload
 --------------
 
-During upload by pushing to a `refs/for/\*` or `refs/heads/\*`
+During upload by pushing to a `refs/for/*` or `refs/heads/*`
 branch, Gerrit will use the Change-Id line to:
 
 * Create a new change
@@ -103,7 +103,7 @@ commit is complete by executing `git show`.
 Amending a commit
 ~~~~~~~~~~~~~~~~~
 
-When amending a commit with `git commit \--amend`, leave the
+When amending a commit with `git commit --amend`, leave the
 Change-Id line unmodified in the commit message.  This will allow
 Gerrit to automatically update the change with the amended commit.
 

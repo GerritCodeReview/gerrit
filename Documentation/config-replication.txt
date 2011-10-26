@@ -84,7 +84,7 @@ destinations which share the same settings.  Assuming sufficient
 threads in the thread pool, Gerrit pushes to all URLs in parallel,
 using one thread per URL.
 +
-Within each URL value the magic placeholder `$\{name}` is replaced
+Within each URL value the magic placeholder `${name}` is replaced
 with the Gerrit project name.  This is a Gerrit specific extension
 to the otherwise standard Git URL syntax and it must be included
 in each URL so that Gerrit can figure out where each project needs
@@ -123,16 +123,16 @@ Defaults to `git-upload-pack`.
 [[remote.name.push]]remote.<name>.push::
 +
 Standard Git refspec denoting what should be replicated.  Setting this
-to `+refs/heads/\*:refs/heads/\*` would mirror only the active
+to `+refs/heads/*:refs/heads/*` would mirror only the active
 branches, but not the change refs under `refs/changes/`, or the tags
 under `refs/tags/`.
 +
 Multiple push keys can be supplied, to specify multiple patterns
 to match against.  In the example file above, remote "pubmirror"
-uses two push keys to match both `refs/heads/\*` and `refs/tags/*`,
+uses two push keys to match both `refs/heads/*` and `refs/tags/*`,
 but excludes all others, including `refs/changes/*`.
 +
-Defaults to `+refs/\*:refs/*` (all refs) if not specified.
+Defaults to `+refs/*:refs/*` (all refs) if not specified.
 
 [[remote.name.timeout]]remote.<name>.timeout::
 +

@@ -27,7 +27,9 @@ import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.PatchSetAncestor;
 import com.google.gerrit.reviewdb.PatchSetApproval;
+import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -282,7 +284,7 @@ public class MergeOp {
     }
   }
 
-  private void preMerge() throws MergeException {
+  private void preMerge() throws MergeException, OrmException {
     openBranch();
     validateChangeList();
     mergeTip = branchTip;
@@ -674,7 +676,7 @@ public class MergeOp {
     }
   }
 
-  private void cherryPickChanges() throws MergeException {
+  private void cherryPickChanges() throws MergeException, OrmException {
     while (!toMerge.isEmpty()) {
       final CodeReviewCommit n = toMerge.remove(0);
       final ThreeWayMerger m;
@@ -758,7 +760,7 @@ public class MergeOp {
   }
 
   private void writeCherryPickCommit(final Merger m, final CodeReviewCommit n)
-      throws IOException {
+      throws IOException, OrmException {
     rw.parseBody(n);
 
     final List<FooterLine> footers = n.getFooterLines();
@@ -889,8 +891,67 @@ public class MergeOp {
     newCommit.statusCode = CommitMergeStatus.CLEAN_PICK;
     commits.put(newCommit.patchsetId.getParentKey(), newCommit);
 
+    Change change =
+        schema.changes().atomicUpdate(n.change.getId(),
+            new AtomicUpdate<Change>() {
+              @Override
+              public Change update(Change change) {
+                if (change.getStatus().isOpen()) {
+                  change.nextPatchSetId();
+                  change.setLastSha1MergeTested(null);
+                  return change;
+                } else {
+                  return null;
+                }
+              }
+            });
+
+    final PatchSet ps = new PatchSet(n.change.currPatchSetId());
+    ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+    ps.setUploader(submitAudit.getAccountId());
+    ps.setRevision(new RevId(n.getId().name()));
+    insertAncestors(ps.getId(), n);
+    schema.patchSets().insert(Collections.singleton(ps));
+
+    for (PatchSetApproval a : schema.patchSetApprovals().byChange(change.getId())) {
+      // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
+      if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+          schema.patchSetApprovals().insert(
+              Collections.singleton(new PatchSetApproval(ps.getId(), a)));
+      }
+    }
+
+    change =
+      schema.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
+        @Override
+        public Change update(Change change) {
+          if (change.getStatus().isOpen()) {
+            change.setStatus(Change.Status.NEW);
+            change.setCurrentPatchSet(patchSetInfoFactory.get(n, ps.getId()));
+            ChangeUtil.updated(change);
+            return change;
+          } else {
+            return null;
+          }
+        }
+      });
+
     mergeTip = newCommit;
     setRefLogIdent(submitAudit);
+  }
+
+  private void insertAncestors(PatchSet.Id id, RevCommit src)
+      throws OrmException {
+    final int cnt = src.getParentCount();
+    List<PatchSetAncestor> toInsert = new ArrayList<PatchSetAncestor>(cnt);
+    for (int p = 0; p < cnt; p++) {
+      PatchSetAncestor a;
+
+      a = new PatchSetAncestor(new PatchSetAncestor.Id(id, p + 1));
+      a.setAncestorRevision(new RevId(src.getParent(p).getId().name()));
+      toInsert.add(a);
+    }
+    schema.patchSetAncestors().insert(toInsert);
   }
 
   private ObjectId commit(final Merger m, final CommitBuilder mergeCommit)

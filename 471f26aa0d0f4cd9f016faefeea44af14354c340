@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AAABOX////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T16:35:25Z",
+      "side": 1,
+      "message": "Maybe we should just stored the archived projects also hierarchically?",
+      "parentUuid": "AAABOH////s\u003d",
+      "revId": "471f26aa0d0f4cd9f016faefeea44af14354c340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABOH////4\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterCommandModule.java",
         "patchSetId": 1

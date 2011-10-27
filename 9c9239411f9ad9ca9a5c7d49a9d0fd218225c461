@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "AAABNX///+k\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1010009
+      },
+      "writtenOn": "2011-10-27T19:57:16Z",
+      "side": 1,
+      "message": "typo: Requirements",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABNX///+g\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010009
+      },
+      "writtenOn": "2011-10-27T19:57:16Z",
+      "side": 1,
+      "message": "s/at/on/",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABOX///+g\u003d",
         "filename": "Documentation/install.txt",
         "patchSetId": 1
@@ -47,6 +81,108 @@
       "writtenOn": "2011-10-27T19:49:01Z",
       "side": 1,
       "message": "This sentence sounds a little strange to me. Mabye better:\n\"During the init of Gerrit you can decide which database to use.\"\nBut I\u0027m not a native speaker...",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOn////o\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010009
+      },
+      "writtenOn": "2011-10-27T19:57:16Z",
+      "side": 1,
+      "message": "This comma isn\u0027t necessary.",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOn////k\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010009
+      },
+      "writtenOn": "2011-10-27T19:57:16Z",
+      "side": 1,
+      "message": "This comma too.",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABNX///+c\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010009
+      },
+      "writtenOn": "2011-10-27T19:57:16Z",
+      "side": 1,
+      "message": "Perhaps s/gits/git repositories/?",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABNX///+Y\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010009
+      },
+      "writtenOn": "2011-10-27T19:57:16Z",
+      "side": 1,
+      "message": "s/ in //g",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABNX///+U\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010009
+      },
+      "writtenOn": "2011-10-27T19:57:16Z",
+      "side": 1,
+      "message": "s/gits/repositories/, and I think I might use \"an existing history\" instead of \"a previous history\".",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABNX///+Q\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010009
+      },
+      "writtenOn": "2011-10-27T19:57:16Z",
+      "side": 1,
+      "message": "I think you can just leave out the word henceforth.\n\ns/in advance to/in advance of/",
       "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -98,6 +234,23 @@
       "writtenOn": "2011-10-27T19:49:01Z",
       "side": 1,
       "message": "Maybe it\u0027s a bit confusing to speak of \u0027site_path\u0027 and \u0027review_site\u0027? Is \u0027review_site\u0027 not just the default for the site_path?",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOn////s\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1010009
+      },
+      "writtenOn": "2011-10-27T19:57:16Z",
+      "side": 1,
+      "message": "s/setup/set up/ (one word is a noun, two words a verb)",
       "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABOX///+o\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T19:49:01Z",
+      "side": 1,
+      "message": "should be \u0027Requirements\u0027",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOX///+g\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T19:49:01Z",
+      "side": 1,
+      "message": "The bullet is only correctly rendered in the html if you have a blank line before it.",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOX///+k\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T19:49:01Z",
+      "side": 1,
+      "message": "This sentence sounds a little strange to me. Mabye better:\n\"During the init of Gerrit you can decide which database to use.\"\nBut I\u0027m not a native speaker...",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOX///+c\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T19:49:01Z",
+      "side": 1,
+      "message": "Is this needed? I thought, if the site_path / review_site folder does not exist the init will ask whether it should be created?",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOX///+Y\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T19:49:01Z",
+      "side": 1,
+      "message": "What are we gaining by this? If we are now in the site_path, the user has to specify in the next command the full path to the gerrit.war file. \n\nWe actually don\u0027t need to be in the site_path because the full site_path can be provided with the -d to the init command.",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOX///+U\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T19:49:01Z",
+      "side": 1,
+      "message": "Maybe it\u0027s a bit confusing to speak of \u0027site_path\u0027 and \u0027review_site\u0027? Is \u0027review_site\u0027 not just the default for the site_path?",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

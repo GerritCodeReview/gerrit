@@ -70,16 +70,22 @@ public class GroupMembersFactory implements Callable<Set<Account>> {
   @Override
   public Set<Account> call() throws NoSuchGroupException,
       NoSuchProjectException, OrmException {
-    if (AccountGroup.PROJECT_OWNERS.equals(groupUUID)) {
-      return getProjectOwners();
-    }
-
-    return getAllGroupMembers(groupCache.get(groupUUID),
-        new HashSet<AccountGroup.Id>());
+    return listAccounts(groupUUID, new HashSet<AccountGroup.UUID>());
   }
 
-  private Set<Account> getProjectOwners() throws NoSuchProjectException,
-      NoSuchGroupException, OrmException {
+  private Set<Account> listAccounts(final AccountGroup.UUID groupUUID,
+      final Set<AccountGroup.UUID> seen) throws NoSuchGroupException,
+      OrmException, NoSuchProjectException {
+    if (AccountGroup.PROJECT_OWNERS.equals(groupUUID)) {
+      return getProjectOwners(seen);
+    } else {
+      return getGroupMembers(groupCache.get(groupUUID), seen);
+    }
+  }
+
+  private Set<Account> getProjectOwners(final Set<AccountGroup.UUID> seen)
+      throws NoSuchProjectException, NoSuchGroupException, OrmException {
+    seen.add(AccountGroup.PROJECT_OWNERS);
     if (project == null) {
       return Collections.emptySet();
     }
@@ -90,16 +96,17 @@ public class GroupMembersFactory implements Callable<Set<Account>> {
 
     final HashSet<Account> projectOwners = new HashSet<Account>();
     for (final AccountGroup.UUID ownerGroup : ownerGroups) {
-      projectOwners.addAll(getAllGroupMembers(groupCache.get(ownerGroup),
-          new HashSet<AccountGroup.Id>()));
+      if (!seen.contains(ownerGroup)) {
+        projectOwners.addAll(listAccounts(ownerGroup, seen));
+      }
     }
     return projectOwners;
   }
 
-  private Set<Account> getAllGroupMembers(final AccountGroup group,
-      final Set<AccountGroup.Id> seen) throws NoSuchGroupException,
-      OrmException {
-    seen.add(group.getId());
+  private Set<Account> getGroupMembers(final AccountGroup group,
+      final Set<AccountGroup.UUID> seen) throws NoSuchGroupException,
+      OrmException, NoSuchProjectException {
+    seen.add(group.getGroupUUID());
     final GroupDetail groupDetail =
         groupDetailFactory.create(group.getId()).call();
 
@@ -110,10 +117,11 @@ public class GroupMembersFactory implements Callable<Set<Account>> {
       }
     }
     if (groupDetail.includes != null) {
-      for (AccountGroupInclude groupInclude : groupDetail.includes) {
-        if (!seen.contains(groupInclude.getIncludeId())) {
-          members.addAll(getAllGroupMembers(
-              groupCache.get(groupInclude.getIncludeId()), seen));
+      for (final AccountGroupInclude groupInclude : groupDetail.includes) {
+        final AccountGroup includedGroup =
+            groupCache.get(groupInclude.getIncludeId());
+        if (!seen.contains(includedGroup.getGroupUUID())) {
+          members.addAll(listAccounts(includedGroup.getGroupUUID(), seen));
         }
       }
     }

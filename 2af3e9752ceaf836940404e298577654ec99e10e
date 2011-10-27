@@ -16,6 +16,24 @@
       "revId": "2af3e9752ceaf836940404e298577654ec99e10e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABNH////4\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/EditList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2011-10-27T04:02:46Z",
+      "side": 1,
+      "message": "Yeah me neither :-)\n\nThis does work in my test case, and the logic seems to make sense, but I won\u0027t be surprised if I missed something.",
+      "parentUuid": "AAABNX////8\u003d",
+      "revId": "2af3e9752ceaf836940404e298577654ec99e10e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

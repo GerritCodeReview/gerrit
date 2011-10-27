@@ -345,7 +345,7 @@ automate interfaces may make it impossible for non-browser agents
 to be used with the JSON-RPC interface.
 
 * link:http://json-rpc.org/wd/JSON-RPC-1-1-WD-20060807.html[JSON-RPC 1.1]
-* link:http://android.git.kernel.org/?p=tools/gwtjsonrpc.git;a=blob;f=README;hb=HEAD[XSRF JSON-RPC]
+* link:http://code.google.com/p/gerrit/source/browse/README?repo=gwtjsonrpc&name=master[XSRF JSON-RPC]
 
 
 Privacy Considerations

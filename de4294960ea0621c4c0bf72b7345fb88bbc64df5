@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABOX///9A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2011-10-27T23:43:57Z",
+      "side": 1,
+      "message": "If there is a better way to store these variables, let me know",
+      "revId": "de4294960ea0621c4c0bf72b7345fb88bbc64df5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOX///88\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2011-10-27T23:43:57Z",
+      "side": 1,
+      "message": "I don\u0027t like storing Object here.  PatchLine is pretty generic, so I can hack it and have my SkippedLine object extend it, but that isn\u0027t any cleaner imo.\n\nThis array isn\u0027t really necessary, maybe it would be better to just remove it entirely and call setRowItem() inline instead?",
+      "revId": "de4294960ea0621c4c0bf72b7345fb88bbc64df5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOX///80\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2011-10-27T23:43:57Z",
+      "side": 1,
+      "message": "The logic here is a little ugly, because this handles all 3 cases (expand 10 above, 10 below, and the full section).  It might be a little cleaner to keep them separate, but there would be lots of duplicate code.  I\u0027m open to suggestions.",
+      "revId": "de4294960ea0621c4c0bf72b7345fb88bbc64df5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOX///8w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2011-10-27T23:43:57Z",
+      "side": 1,
+      "message": "There might be extra css classes I should be setting here?  If so, how can I do so?",
+      "revId": "de4294960ea0621c4c0bf72b7345fb88bbc64df5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

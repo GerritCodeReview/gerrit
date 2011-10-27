@@ -11,7 +11,7 @@ Get the Source
 Create a new client workspace:
 
 ----
-  git clone git://android.git.kernel.org/tools/gerrit.git
+  git clone https://code.google.com/p/gerrit
   cd gerrit
 ----
 

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABMn////Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSshGlueModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T02:25:45Z",
+      "side": 1,
+      "message": "2011?",
+      "revId": "fdbf814ad542096545b7c1b9a140118033e6fb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABMn////M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSshGlueModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T02:25:45Z",
+      "side": 1,
+      "message": "style-nit: unneeded blank line",
+      "revId": "fdbf814ad542096545b7c1b9a140118033e6fb99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

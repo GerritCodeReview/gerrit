@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,12 +14,37 @@
 
 package com.google.gerrit.client.patches;
 
-import com.google.gwt.i18n.client.Messages;
+public class SkippedLine {
 
-import java.util.Date;
+  private int a;
+  private int b;
+  private int sz;
 
-public interface PatchMessages extends Messages {
-  String expandBefore(int cnt);
-  String expandAfter(int cnt);
-  String draftSaved(Date when);
+  public SkippedLine(int startA, int startB, int size) {
+    a = startA;
+    b = startB;
+    sz = size;
+  }
+
+  public int getStartA() {
+    return a;
+  }
+
+  public int getStartB() {
+    return b;
+  }
+
+  public int getSize() {
+    return sz;
+  }
+
+  public void incrementStart(int n) {
+    a += n;
+    b += n;
+    reduceSize(n);
+  }
+
+  public void reduceSize(int n) {
+    sz -= n;
+  }
 }

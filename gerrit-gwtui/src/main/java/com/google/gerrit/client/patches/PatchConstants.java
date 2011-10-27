@@ -67,4 +67,7 @@ public interface PatchConstants extends Constants {
 
   String fileTypeSymlink();
   String fileTypeGitlink();
+
+  String patchSkipRegionStart();
+  String patchSkipRegionEnd();
 }

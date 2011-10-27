@@ -482,6 +482,18 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         Gerrit.RESOURCES.css().iconCell());
   }
 
+  protected void removeRow(final int row) {
+    table.removeRow(row);
+  }
+
+  protected void setHtml(final int row, final int col, final String html) {
+    table.setHTML(row, col, html);
+  }
+
+  protected void setWidget(final int row, final int col, final Widget widget) {
+    table.setWidget(row, col, widget);
+  }
+
   @Override
   protected void onOpenRow(final int row) {
     final Object item = getRowItem(row);

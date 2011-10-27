@@ -26,10 +26,16 @@ import com.google.gerrit.common.data.PatchScript.FileMode;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.Patch;
-import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.Patch.ChangeType;
+import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
@@ -43,6 +49,11 @@ import java.util.List;
 public class SideBySideTable extends AbstractPatchContentTable {
   private static final int COL_A = 2;
   private static final int COL_B = 4;
+
+  private static final int NUM_ROWS_TO_EXPAND = 10;
+
+  private SparseHtmlFile a;
+  private SparseHtmlFile b;
 
   @Override
   protected void onCellDoubleClick(final int row, int column) {
@@ -78,9 +89,9 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   @Override
   protected void render(final PatchScript script) {
-    final SparseHtmlFile a = script.getSparseHtmlFileA();
-    final SparseHtmlFile b = script.getSparseHtmlFileB();
-    final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
+    a = script.getSparseHtmlFileA();
+    b = script.getSparseHtmlFileB();
+    final ArrayList<Object> lines = new ArrayList<Object>();
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
     final boolean intraline =
         script.getDiffPrefs().isIntralineDifference()
@@ -97,12 +108,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
       lines.add(null);
     }
 
+    int lastA = 0;
     int lastB = 0;
     final boolean ignoreWS = script.isIgnoreWhitespace();
     for (final EditList.Hunk hunk : script.getHunks()) {
       if (!hunk.isStartOfFile()) {
         appendSkipLine(nc, hunk.getCurB() - lastB);
-        lines.add(null);
+        lines.add(new SkippedLine(lastA, lastB, hunk.getCurB() - lastB));
       }
 
       while (hunk.next()) {
@@ -156,16 +168,21 @@ public class SideBySideTable extends AbstractPatchContentTable {
           }
         }
       }
+      lastA = hunk.getCurA();
       lastB = hunk.getCurB();
     }
     if (lastB != b.size()) {
       appendSkipLine(nc, b.size() - lastB);
+      lines.add(new SkippedLine(lastA, lastB, b.size() - lastB));
     }
     resetHtml(nc);
     initScript(script);
 
     for (int row = 0; row < lines.size(); row++) {
       setRowItem(row, lines.get(row));
+      if(lines.get(row) instanceof SkippedLine) {
+        createSkipLine(row, (SkippedLine) lines.get(row));
+      }
     }
   }
 
@@ -315,9 +332,103 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().skipLine());
     m.setAttribute("colspan", 4);
-    m.append(PatchUtil.M.patchSkipRegion(skipCnt));
     m.closeTd();
     m.closeTr();
+  }
+
+  ClickHandler expandAllListener = new ClickHandler() {
+    @Override
+    public void onClick(ClickEvent event) {
+      expand(event, 0);
+    }
+  };
+
+  ClickHandler expandBeforeListener = new ClickHandler() {
+    @Override
+    public void onClick(ClickEvent event) {
+      expand(event, NUM_ROWS_TO_EXPAND);
+    }
+  };
+
+  ClickHandler expandAfterListener = new ClickHandler() {
+    @Override
+    public void onClick(ClickEvent event) {
+      expand(event, -NUM_ROWS_TO_EXPAND);
+    }
+  };
+
+  private void expand(ClickEvent event, final int numRows) {
+    Cell cell = table.getCellForEvent(event);
+    int row = cell.getRowIndex();
+    if(!(getRowItem(row) instanceof SkippedLine)) {
+      return;
+    }
+    SkippedLine line = (SkippedLine) getRowItem(row);
+    int loopTo = numRows;
+    if(numRows == 0) {
+      loopTo = line.getSize();
+    } else if(numRows < 0) {
+      loopTo = -numRows;
+    }
+    int offset = 0;
+    if(numRows < 0) {
+      offset = 1;
+    }
+    for(int i = 0 + offset; i < loopTo + offset; i++) {
+      insertRow(row + i);
+      int lineA = line.getStartA() + i;
+      int lineB = line.getStartB() + i;
+      if(numRows < 0) {
+        lineA = line.getStartA() + line.getSize() + numRows + i - offset;
+        lineB = line.getStartB() + line.getSize() + numRows + i - offset;
+      }
+      setHtml(row + i, 1,
+          "<a href=\"javascript:void(0)\">" + (lineA + 1)
+              + "</a>");
+      setHtml(row + i, 2, a.getSafeHtmlLine(lineA).asString());
+      setHtml(row + i, 3,
+          "<a href=\"javascript:void(0)\">" + (lineB + 1)
+              + "</a>");
+      setHtml(row + i, 4, b.getSafeHtmlLine(lineB).asString());
+      setRowItem(row + i,
+          new PatchLine(CONTEXT, lineA, lineB));
+    }
+
+    if (numRows > 0) {
+      line.incrementStart(numRows);
+      createSkipLine(row + loopTo, line);
+    } else if (numRows < 0) {
+      line.reduceSize(-numRows);
+      createSkipLine(row, line);
+    } else {
+      removeRow(row + loopTo);
+    }
+  }
+
+  private void createSkipLine(int row, SkippedLine line) {
+    FlowPanel p = new FlowPanel();
+    Label l1 = new Label(" " + PatchUtil.C.patchSkipRegionStart() + " ");
+    Anchor all = new Anchor(String.valueOf(line.getSize()));
+    Label l2 = new Label(" " + PatchUtil.C.patchSkipRegionEnd() + " ");
+    all.addClickHandler(expandAllListener);
+    if(line.getSize() > 30) {
+      // We only show the expand before & after links if we skip more than
+      // 30 lines.
+      Anchor before = new Anchor(PatchUtil.M.expandBefore(NUM_ROWS_TO_EXPAND));
+      before.addClickHandler(expandBeforeListener);
+      Anchor after = new Anchor(PatchUtil.M.expandAfter(NUM_ROWS_TO_EXPAND));
+      after.addClickHandler(expandAfterListener);
+      p.add(before);
+      p.add(l1);
+      p.add(all);
+      p.add(l2);
+      p.add(after);
+    } else {
+      p.add(l1);
+      p.add(all);
+      p.add(l2);
+    }
+    setWidget(row, 1, p);
   }
 
   private void openLine(final SafeHtmlBuilder m) {

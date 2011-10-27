@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABMX///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-27T01:32:32Z",
+      "side": 0,
+      "message": "I think this causes the email footer to say $email.sshHost instead of the actual SSH URL. Its the same bug I have in the googlesource service right now.",
+      "revId": "813123b5203882487e1b7c853aa251e032065b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

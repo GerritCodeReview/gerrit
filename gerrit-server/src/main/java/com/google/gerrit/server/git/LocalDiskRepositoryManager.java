@@ -100,8 +100,13 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
 
+    final FileKey loc = FileKey.lenient(gitDirOf(name), FS.DETECTED);
+
+    if (!getProjectName(loc.getFile()).equals(name)) {
+      throw new RepositoryNotFoundException(gitDirOf(name));
+    }
+
     try {
-      final FileKey loc = FileKey.lenient(gitDirOf(name), FS.DETECTED);
       return RepositoryCache.open(loc);
     } catch (IOException e1) {
       final RepositoryNotFoundException e2;
@@ -117,24 +122,30 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
 
-    try {
-      File dir = FileKey.resolve(gitDirOf(name), FS.DETECTED);
-      FileKey loc;
-      if (dir != null) {
-        // Already exists on disk, use the repository we found.
-        //
-        loc = FileKey.exact(dir, FS.DETECTED);
-      } else {
-        // It doesn't exist under any of the standard permutations
-        // of the repository name, so prefer the standard bare name.
-        //
-        String n = name.get();
-        if (!n.endsWith(Constants.DOT_GIT_EXT)) {
-          n = n + Constants.DOT_GIT_EXT;
-        }
-        loc = FileKey.exact(new File(basePath, n), FS.DETECTED);
-      }
+    File dir = FileKey.resolve(gitDirOf(name), FS.DETECTED);
+    FileKey loc;
+    if (dir != null) {
+      // Already exists on disk, use the repository we found.
+      //
+      loc = FileKey.exact(dir, FS.DETECTED);
 
+      final Project.NameKey nameOfExistingProject =
+          getProjectName(loc.getFile());
+      if (!nameOfExistingProject.equals(name)) {
+        throw new RepositoryCaseMismatchException(name, nameOfExistingProject);
+      }
+    } else {
+      // It doesn't exist under any of the standard permutations
+      // of the repository name, so prefer the standard bare name.
+      //
+      String n = name.get();
+      if (!n.endsWith(Constants.DOT_GIT_EXT)) {
+        n = n + Constants.DOT_GIT_EXT;
+      }
+      loc = FileKey.exact(new File(basePath, n), FS.DETECTED);
+    }
+
+    try {
       Repository db = RepositoryCache.open(loc, false);
       db.create(true /* bare */);
 
@@ -256,19 +267,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     for (File f : ls) {
       String fileName = f.getName();
       if (FileKey.isGitRepository(f, FS.DETECTED)) {
-        String projectName;
-        if (fileName.equals(Constants.DOT_GIT)) {
-          projectName = prefix.substring(0, prefix.length() - 1);
-
-        } else if (fileName.endsWith(Constants.DOT_GIT_EXT)) {
-          int newLen = fileName.length() - Constants.DOT_GIT_EXT.length();
-          projectName = prefix + fileName.substring(0, newLen);
-
-        } else {
-          projectName = prefix + fileName;
-        }
-
-        Project.NameKey nameKey = new Project.NameKey(projectName);
+        Project.NameKey nameKey = getProjectName(prefix, fileName);
         if (isUnreasonableName(nameKey)) {
           log.warn("Ignoring unreasonably named repository " + f.getAbsolutePath());
         } else {
@@ -279,5 +278,31 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         scanProjects(f, prefix + f.getName() + "/", names);
       }
     }
+  }
+
+  private Project.NameKey getProjectName(final String prefix,
+      final String fileName) {
+    final String projectName;
+    if (fileName.equals(Constants.DOT_GIT)) {
+      projectName = prefix.substring(0, prefix.length() - 1);
+
+    } else if (fileName.endsWith(Constants.DOT_GIT_EXT)) {
+      int newLen = fileName.length() - Constants.DOT_GIT_EXT.length();
+      projectName = prefix + fileName.substring(0, newLen);
+
+    } else {
+      projectName = prefix + fileName;
+    }
+
+    return new Project.NameKey(projectName);
+  }
+
+  private Project.NameKey getProjectName(final File gitDir) {
+    final String relativeGitPath =
+        getBasePath().toURI().relativize(gitDir.toURI()).getPath();
+    final String prefix =
+        relativeGitPath.substring(0, relativeGitPath.length() - 1
+            - gitDir.getName().length());
+    return getProjectName(prefix, gitDir.getName());
   }
 }

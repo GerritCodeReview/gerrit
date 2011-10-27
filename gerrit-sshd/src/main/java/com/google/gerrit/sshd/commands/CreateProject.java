@@ -29,6 +29,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.ReplicationQueue;
+import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand;
@@ -178,18 +179,9 @@ final class CreateProject extends BaseCommand {
             repo.close();
           }
         } catch (IllegalStateException err) {
-          try {
-            Repository repo = repoManager.openRepository(nameKey);
-            try {
-              if (repo.getObjectDatabase().exists()) {
-                throw new UnloggedFailure(1, "fatal: project \"" + projectName + "\" exists");
-              }
-            } finally {
-              repo.close();
-            }
-          } catch (RepositoryNotFoundException doesNotExist) {
-            throw new Failure(1, "fatal: Cannot create " + projectName, err);
-          }
+          handleRepositoryExistsException(nameKey);
+        } catch (RepositoryCaseMismatchException err) {
+          handleRepositoryExistsException(err.getNameOfExistingProject());
         } catch (RepositoryNotFoundException badName) {
           throw new UnloggedFailure(1, "fatal: " + badName.getMessage());
         } catch (Exception err) {
@@ -295,6 +287,23 @@ final class CreateProject extends BaseCommand {
     }
     if (!Repository.isValidRefName(branch)) {
       throw new Failure(1, "--branch \"" + branch + "\" is not a valid name");
+    }
+  }
+
+  private void handleRepositoryExistsException(final Project.NameKey projectName)
+      throws Failure {
+    try {
+      Repository repo = repoManager.openRepository(projectName);
+      try {
+        if (repo.getObjectDatabase().exists()) {
+          throw new UnloggedFailure(1, "fatal: project \"" + projectName
+              + "\" exists");
+        }
+      } finally {
+        repo.close();
+      }
+    } catch (RepositoryNotFoundException err) {
+      throw new Failure(1, "fatal: Cannot create " + projectName, err);
     }
   }
 }

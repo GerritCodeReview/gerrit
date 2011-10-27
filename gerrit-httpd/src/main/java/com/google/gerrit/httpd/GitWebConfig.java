@@ -41,6 +41,7 @@ public class GitWebConfig {
     final String cfgCgi = cfg.getString("gitweb", null, "cgi");
 
     type = GitWebType.fromName(cfg.getString("gitweb", null, "type"));
+    type.setLinkName(cfg.getString("gitweb", null, "linkname"));
     type.setBranch(cfg.getString("gitweb", null, "branch"));
     type.setProject(cfg.getString("gitweb", null, "project"));
     type.setRevision(cfg.getString("gitweb", null, "revision"));

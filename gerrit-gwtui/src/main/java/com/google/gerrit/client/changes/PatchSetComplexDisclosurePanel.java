@@ -111,7 +111,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     getHeader().add(revtxt);
     if (gw != null) {
       final Anchor revlink =
-          new Anchor("(gitweb)", false, gw.toRevision(detail.getChange()
+          new Anchor(gw.getLinkName(), false, gw.toRevision(detail.getChange()
               .getProject(), ps));
       revlink.addStyleName(Gerrit.RESOURCES.css().patchSetLink());
       getHeader().add(revlink);

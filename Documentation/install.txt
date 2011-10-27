@@ -1,8 +1,15 @@
 Gerrit Code Review - Installation Guide
 =======================================
 
-You need a SQL database to house the review metadata.  Currently H2,
-MySQL and PostgreSQL are the only supported databases.
+[[requirements]]
+Requiremnts
+-----------
+To run the Gerrit service, the following requirements must be met at
+the host:
+* JDK, minimum version 1.6 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
+You'll also need a SQL database to house the review metadata. You have the
+choice of either using the bundled H2 or to host your own MySQL or PostgreSQL.
+
 
 [[download]]
 Download Gerrit
@@ -20,6 +27,7 @@ rename the downloaded file.
 If you would prefer to build Gerrit directly from source, review
 the notes under link:dev-readme.html[developer setup].
 
+
 [[createdb]]
 Database Setup
 --------------
@@ -28,14 +36,21 @@ Database Setup
 H2
 ~~
 
-During init Gerrit will automatically configure the embedded H2
-database.  No additional configuration is necessary.  Using the
-embedded H2 database is the easiest way to get a Gerrit site up
-and running.
+During the init of Gerrit you will have the option of which database to use.
+If you choose H2, Gerrit will automatically setup the embedded H2 database as
+backend so no setup in advance is necessary.  No additional configuration is
+necessary.  Using the embedded H2 database is the easiest way to get a Gerrit
+site up and running for proof of concepts or small team servers.  H2 is not the
+recommended option for large corporate installations.
+
 
 [[createdb_postgres]]
 PostgreSQL
 ~~~~~~~~~~
+
+This option is more complicated than the H2 option, but is recommended
+for larger installations. It's the DB backend with the largest userbase
+in the Gerrit community.
 
 Create a user for the web application within Postgres, assign it a
 password, create a database to store the metadata, and grant the user
@@ -46,9 +61,13 @@ full rights on the newly created database:
   createdb -E UTF-8 -O gerrit2 reviewdb
 ----
 
+
 [[createdb_mysql]]
 MySQL
 ~~~~~
+
+This option is also more complicated than the H2 option, but just as with
+PostgreSQL it's also recommended for larger installations.
 
 Create a user for the web application within the database, assign it a
 password, create a database, and give the newly created user full
@@ -74,15 +93,23 @@ managed Git repositories under a local directory, typically referred
 to as `'$site_path'`.  If the embedded H2 database is being used,
 its data files will also be stored under this directory.
 
+You also have to decide where to store your server side gits. This can either
+be in a relative path under `'$site_path'`, or in an absolute path anywhere on
+your server system. You have to choose a place before commencing your init. If
+you have any gits with a previous history that should be accessed through
+Gerrit henceforth, you may put them under the git directory in advance to the
+init, and Gerrit will offer to import them during the init.
+
 Initialize a new site directory by running the init command, passing
 the path of the site directory to be created as an argument to the
 '-d' option.  Its recommended that Gerrit Code Review be given its
 own user account on the host system:
 
 ----
+  sudo mkdir -p $site_path
   sudo adduser gerrit2
   sudo su gerrit2
-  cd ~gerrit2
+  cd $site_path
 
   java -jar gerrit.war init -d review_site
 ----
@@ -91,7 +118,8 @@ If run from an interactive terminal, 'init' will prompt through a
 series of configuration questions, including gathering information
 about the database created above.  If the terminal is not interactive
 init will make some reasonable default selections, and will use the
-embedded H2 database.
+embedded H2 database. When the init is complete, you can review your
+settings in the file `'$site_path/etc/gerrit.config'`.
 
 Init may need to download additional JARs to support optional selected
 functionality.  If a download fails a URL will be displayed and init
@@ -114,6 +142,14 @@ The first user to sign-in and register an account will be
 automatically placed into the fully privileged Administrators group,
 permitting server management over the web and over SSH.  Subsequent
 users will be automatically registered as unprivileged users.
+
+
+Installation Complete
+---------------------
+
+Your base Gerrit server is now installed and running.  You're now ready to
+either setup more projects, or start working with the projects you've already
+imported.
 
 
 [[project_setup]]

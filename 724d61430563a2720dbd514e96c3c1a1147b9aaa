@@ -16,6 +16,24 @@
       "revId": "724d61430563a2720dbd514e96c3c1a1147b9aaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOn///+c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/HistoryTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010011
+      },
+      "writtenOn": "2011-10-27T21:27:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABOX///+M\u003d",
+      "revId": "724d61430563a2720dbd514e96c3c1a1147b9aaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

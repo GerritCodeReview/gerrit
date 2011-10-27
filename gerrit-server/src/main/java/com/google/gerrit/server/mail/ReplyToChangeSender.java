@@ -22,8 +22,9 @@ public abstract class ReplyToChangeSender extends ChangeEmail {
     public T create(Change change);
   }
 
-  protected ReplyToChangeSender(EmailArguments ea, Change c, String mc) {
-    super(ea, c, mc);
+  protected ReplyToChangeSender(EmailArguments ea, String anonymousCowardName,
+      Change c, String mc) {
+    super(ea, anonymousCowardName, c, mc);
   }
 
   @Override

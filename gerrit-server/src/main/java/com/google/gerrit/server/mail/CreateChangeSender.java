@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -38,9 +39,10 @@ public class CreateChangeSender extends NewChangeSender {
   private final GroupCache groupCache;
 
   @Inject
-  public CreateChangeSender(EmailArguments ea, SshInfo sshInfo,
+  public CreateChangeSender(EmailArguments ea,
+      @AnonymousCowardName String anonymousCowardName, SshInfo sshInfo,
       GroupCache groupCache, @Assisted Change c) {
-    super(ea, sshInfo, c);
+    super(ea, anonymousCowardName, sshInfo, c);
     this.groupCache = groupCache;
   }
 

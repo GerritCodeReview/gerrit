@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.ApprovalAttribute;
@@ -107,6 +108,8 @@ public class ChangeHookRunner {
     /** Filename of the cla signed hook. */
     private final File claSignedHook;
 
+    private final String anonymousCowardName;
+
     /** Repository Manager. */
     private final GitRepositoryManager repoManager;
 
@@ -133,11 +136,12 @@ public class ChangeHookRunner {
     @Inject
     public ChangeHookRunner(final WorkQueue queue,
       final GitRepositoryManager repoManager,
-      @GerritServerConfig final Config config, final SitePaths sitePath,
-      final ProjectCache projectCache,
-      final AccountCache accountCache,
-      final ApprovalTypes approvalTypes,
+      final @GerritServerConfig Config config,
+      final @AnonymousCowardName String anonymousCowardName,
+      final SitePaths sitePath, final ProjectCache projectCache,
+      final AccountCache accountCache, final ApprovalTypes approvalTypes,
       final EventFactory eventFactory) {
+        this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
         this.projectCache = projectCache;
@@ -465,14 +469,14 @@ public class ChangeHookRunner {
      */
     private String getDisplayName(final Account account) {
         if (account != null) {
-            String result = (account.getFullName() == null) ? "Anonymous Coward" : account.getFullName();
+            String result = (account.getFullName() == null) ? anonymousCowardName : account.getFullName();
             if (account.getPreferredEmail() != null) {
                 result += " (" + account.getPreferredEmail() + ")";
             }
             return result;
         }
 
-        return "Anonymous Coward";
+        return anonymousCowardName;
     }
 
   /**

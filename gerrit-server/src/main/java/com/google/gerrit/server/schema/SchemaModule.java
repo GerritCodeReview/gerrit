@@ -21,6 +21,8 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
@@ -39,6 +41,9 @@ public class SchemaModule extends FactoryModule {
     bind(AllProjectsName.class)
       .toProvider(AllProjectsNameProvider.class)
       .in(SINGLETON);
+
+    bind(String.class).annotatedWith(AnonymousCowardName.class).toProvider(
+        AnonymousCowardNameProvider.class);
 
     bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
     install(new LifecycleModule() {

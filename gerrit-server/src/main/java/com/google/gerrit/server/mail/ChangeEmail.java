@@ -57,8 +57,9 @@ public abstract class ChangeEmail extends OutgoingEmail {
   protected Set<Account.Id> authors;
   protected boolean emailOnlyAuthors;
 
-  protected ChangeEmail(EmailArguments ea, final Change c, final String mc) {
-    super(ea, mc);
+  protected ChangeEmail(EmailArguments ea, final String anonymousCowardName,
+      final Change c, final String mc) {
+    super(ea, anonymousCowardName, mc);
     change = c;
     changeData = change != null ? new ChangeData(change) : null;
     emailOnlyAuthors = false;

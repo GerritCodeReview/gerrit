@@ -87,6 +87,9 @@ review.  See link:user-upload.html#push_create[Creating Changes].
 link:cmd-create-account.html[gerrit create-account]::
 	Create a new batch/role account.
 
+link:cmd-deactivate-account.html[gerrit deactivate-account]::
+    Deactivate an account.
+
 link:cmd-create-group.html[gerrit create-group]::
 	Create a new account group.
 

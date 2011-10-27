@@ -97,6 +97,9 @@ final class ListProjects extends BaseCommand {
   @Option(name = "--type", usage = "type of project")
   private FilterType type = FilterType.CODE;
 
+  @Option(name = "--description", aliases = {"-d"}, usage = "include description of project in list")
+  private boolean showDescription;
+
   private String currentTabSeparator = DEFAULT_TAB_SEPARATOR;
 
   @Override
@@ -113,6 +116,10 @@ final class ListProjects extends BaseCommand {
   private void display() throws Failure {
     if (showTree && (showBranch != null)) {
       throw new UnloggedFailure(1, "fatal: --tree and --show-branch options are not compatible.");
+    }
+
+    if (showTree && showDescription) {
+      throw new UnloggedFailure(1, "fatal: --tree and --description options are not compatible.");
     }
 
     final PrintWriter stdout = toPrintWriter(out);
@@ -184,7 +191,15 @@ final class ListProjects extends BaseCommand {
           continue;
         }
 
-        stdout.print(projectName.get() + "\n");
+        stdout.print(projectName.get());
+
+        String desc;
+        if (showDescription && !(desc = e.getProject().getDescription()).isEmpty()) {
+          // We still want to list every project as one-liners, hence escaping \n.
+          stdout.print(" - " + desc.replace("\n", "\\n"));
+        }
+
+        stdout.print("\n");
       }
 
       if (showTree && treeMap.size() > 0) {

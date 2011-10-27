@@ -44,8 +44,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
-import org.eclipse.jgit.lib.Constants;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -318,7 +316,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
       String iconCellStyle = Gerrit.RESOURCES.css().iconCell();
       String dataCellStyle = Gerrit.RESOURCES.css().dataCell();
       if ("refs/meta/config".equals(k.getShortName())
-          || Constants.HEAD.equals(k.getShortName())) {
+          || "HEAD".equals(k.getShortName())) {
         iconCellStyle = Gerrit.RESOURCES.css().specialBranchIconCell();
         dataCellStyle = Gerrit.RESOURCES.css().specialBranchDataCell();
         fmt.setStyleName(row, 0, iconCellStyle);

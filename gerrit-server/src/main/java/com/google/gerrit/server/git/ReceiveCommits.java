@@ -527,7 +527,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
       // Let the core receive process handle it
     } else {
-      reject(cmd);
+      reject(cmd, "can not create new references");
     }
   }
 
@@ -541,7 +541,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       validateNewCommits(ctl, cmd);
       // Let the core receive process handle it
     } else {
-      reject(cmd);
+      reject(cmd, "can not update the reference as a fast forward");
     }
   }
 
@@ -569,7 +569,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     if (ctl.canDelete()) {
       // Let the core receive process handle it
     } else {
-      reject(cmd);
+      reject(cmd, "can not delete references");
     }
   }
 
@@ -665,7 +665,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         destBranchName.substring(0, split));
     destBranchCtl = projectControl.controlForRef(destBranch);
     if (!destBranchCtl.canUpload()) {
-      reject(cmd);
+      reject(cmd, "can not upload a change to this reference");
       return;
     }
 

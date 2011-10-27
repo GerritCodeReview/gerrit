@@ -49,4 +49,6 @@ Change subject: $change.subject
 ......................................................................
 
 $email.changeDetail
+#if($email.sshHost)
   git pull ssh://$email.sshHost/$projectName $patchSet.refName
+#end

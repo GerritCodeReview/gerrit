@@ -308,7 +308,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
       }
 
       if (c != null) {
-        table.setWidget(row, 4, new Anchor("(gitweb)", false, c.toBranch(k
+        table.setWidget(row, 4, new Anchor(c.getLinkName(), false, c.toBranch(k
             .getNameKey())));
       }
 

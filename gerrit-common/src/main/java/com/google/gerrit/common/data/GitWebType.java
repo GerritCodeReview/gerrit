@@ -27,18 +27,22 @@ public class GitWebType {
 
     if (name == null || name.isEmpty() || name.equalsIgnoreCase("gitweb")) {
       type = new GitWebType();
+      type.setLinkName("gitweb");
       type.setProject("?p=${project}.git;a=summary");
       type.setRevision("?p=${project}.git;a=commit;h=${commit}");
       type.setBranch("?p=${project}.git;a=shortlog;h=${branch}");
 
     } else if (name.equalsIgnoreCase("cgit")) {
       type = new GitWebType();
+      type.setLinkName("cgit");
       type.setProject("${project}/summary");
       type.setRevision("${project}/commit/?id=${commit}");
       type.setBranch("${project}/log/?h=${branch}");
 
     } else if (name.equalsIgnoreCase("custom")) {
       type = new GitWebType();
+      // The custom name is not defined, let's keep the old style of using GitWeb
+      type.setLinkName("gitweb");
 
     } else {
       type = null;
@@ -46,6 +50,9 @@ public class GitWebType {
 
     return type;
   }
+
+  /** name of the type. */
+  private String name;
 
   /** String for revision view url. */
   private String revision;
@@ -67,6 +74,15 @@ public class GitWebType {
    */
   public String getBranch() {
     return branch;
+  }
+
+  /**
+   * Get the String for link-name of the type.
+   *
+   * @return The String for link-name of the type
+   */
+  public String getLinkName() {
+    return name;
   }
 
   /**
@@ -95,6 +111,17 @@ public class GitWebType {
   public void setBranch(final String pattern) {
     if (pattern != null && !pattern.isEmpty()) {
       branch = pattern;
+    }
+  }
+
+  /**
+   * Set the pattern for link-name type.
+   *
+   * @param pattern The pattern for link-name type
+   */
+  public void setLinkName(final String name) {
+    if (name != null && !name.isEmpty()) {
+      this.name = name;
     }
   }
 

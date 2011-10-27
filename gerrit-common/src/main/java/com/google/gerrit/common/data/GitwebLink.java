@@ -36,6 +36,10 @@ public class GitwebLink {
     type = gitWebType;
   }
 
+  public String getLinkName() {
+    return "(" + type.getLinkName() + ")";
+  }
+
   public String toRevision(final Project.NameKey project, final PatchSet ps) {
     ParameterizedString pattern = new ParameterizedString(type.getRevision());
 

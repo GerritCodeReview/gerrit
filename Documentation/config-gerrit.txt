@@ -1081,6 +1081,12 @@ at a specific branch when `custom` is used above.
 Valid replacements are `${project}` for the project name in Gerrit
 and `${branch}` for the name of the branch.
 
+[[gitweb.linkname]]gitweb.linkname::
++
+Optional setting for modifying the link name presented to the user
+in the Gerrit web-UI.
++
+Default linkname for custom type is "gitweb".
 
 [[hooks]]Section hooks
 ~~~~~~~~~~~~~~~~~~~~~~~~

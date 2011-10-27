@@ -73,7 +73,7 @@ ships the data to another HTTP server, preferrably over HTTPS.
 Existing open-source server implementations can be found in the
 gerrit-contactstore project.
 
-* link:http://android.git.kernel.org/?p=tools/gerrit-contactstore.git[gerrit-contactstore]
+* link:https://code.google.com/p/gerrit/source/checkout?repo=contactstore[gerrit-contactstore]
 
 Configure `'$site_path'/etc/gerrit.config` with the contact store's
 URL (in `contactstore.url`), and if needed, APPSEC value (in
@@ -149,8 +149,8 @@ Identity: jd15@some-isp.com
 Identity: jdoe@example.com <https://www.google.com/accounts/o8/id?id=AIt18axxafvda821aQZaHDF1k8akbalk218sak>
 Identity: jdoe@example.com <http://jdoe.blogger.com/>
 Address:
-	123 Any Street
-	Any Town, Somewhere
+        123 Any Street
+        Any Town, Somewhere
 Country: USA
 Phone-Number: +1 (555) 555-1212
 Fax-Number: 555.1200

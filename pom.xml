@@ -21,7 +21,7 @@ limitations under the License.
   <groupId>gwtexpui</groupId>
   <artifactId>gwtexpui</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.4</version>
+  <version>1.2.5</version>
   <name>gwtexpui</name>
   <description>Extended UI tools for GWT</description>
   <url>http://android.git.kernel.org/?p=tools/gwtexpui.git</url>

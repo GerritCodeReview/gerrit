@@ -130,6 +130,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
             new GerritCallback<GroupDetail>() {
               public void onSuccess(final GroupDetail groupDetail) {
                 saveName.setEnabled(false);
+                setPageTitle(Util.M.group(groupDetail.group.getName()));
                 display(groupDetail);
               }
             });

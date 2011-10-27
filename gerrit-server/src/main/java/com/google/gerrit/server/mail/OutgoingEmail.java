@@ -369,4 +369,29 @@ public abstract class OutgoingEmail {
       throw new EmailException("Velocity template " + name + ".\n", e);
     }
   }
+
+  public String joinStrings(Collection<Object> in, String joiner) {
+    return joinStrings(in.iterator(), joiner);
+  }
+
+  public String joinStrings(Iterator<Object> in, String joiner) {
+    if (!in.hasNext()) {
+      return "";
+    }
+
+    Object first = in.next();
+    if (!in.hasNext()) {
+      return safeToString(first);
+    }
+
+    StringBuilder r = new StringBuilder();
+    while (in.hasNext()) {
+      r.append(joiner).append(safeToString(in.next()));
+    }
+    return r.toString();
+  }
+
+  private static String safeToString(Object obj) {
+    return obj != null ? obj.toString() : "";
+  }
 }

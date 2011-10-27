@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABNX///88\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectDigestFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-27T23:05:59Z",
+      "side": 1,
+      "message": "If the username is not already lowercase, this will fail because the digest computation below will come up with the wrong value.",
+      "revId": "4b9e5e7fb9380cfadd28d7ffe3dc496dc06f5892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

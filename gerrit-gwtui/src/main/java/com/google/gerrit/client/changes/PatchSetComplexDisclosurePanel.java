@@ -21,6 +21,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.PatchSetDetail;
@@ -436,7 +437,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          new CommentedChangeActionDialog(patchSet.getId(), createCommentedCallback(b),
+          new CommentedChangeActionDialog(patchSet.getId(), createCommentedCallback(b, true),
               Util.C.revertChangeTitle(), Util.C.headingRevertMessage(),
               Util.C.buttonRevertChangeSend(), Util.C.buttonRevertChangeCancel(),
               Gerrit.RESOURCES.css().revertChangeDialog(), Gerrit.RESOURCES.css().revertMessage(),
@@ -456,7 +457,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          new CommentedChangeActionDialog(patchSet.getId(), createCommentedCallback(b),
+          new CommentedChangeActionDialog(patchSet.getId(), createCommentedCallback(b, false),
               Util.C.abandonChangeTitle(), Util.C.headingAbandonMessage(),
               Util.C.buttonAbandonChangeSend(), Util.C.buttonAbandonChangeCancel(),
               Gerrit.RESOURCES.css().abandonChangeDialog(), Gerrit.RESOURCES.css().abandonMessage()) {
@@ -475,7 +476,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          new CommentedChangeActionDialog(patchSet.getId(), createCommentedCallback(b),
+          new CommentedChangeActionDialog(patchSet.getId(), createCommentedCallback(b, false),
               Util.C.restoreChangeTitle(), Util.C.headingRestoreMessage(),
               Util.C.buttonRestoreChangeSend(), Util.C.buttonRestoreChangeCancel(),
               Gerrit.RESOURCES.css().abandonChangeDialog(), Gerrit.RESOURCES.css().abandonMessage()) {
@@ -633,10 +634,14 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     }
   }
 
-  private AsyncCallback<ChangeDetail> createCommentedCallback(final Button b) {
+  private AsyncCallback<ChangeDetail> createCommentedCallback(final Button b, final boolean redirect) {
     return new AsyncCallback<ChangeDetail>() {
       public void onSuccess(ChangeDetail result) {
-        changeScreen.update(result);
+        if (redirect) {
+          Gerrit.display(PageLinks.toChange(result.getChange().getId()));
+        } else {
+          changeScreen.update(result);
+        }
       }
 
       public void onFailure(Throwable caught) {

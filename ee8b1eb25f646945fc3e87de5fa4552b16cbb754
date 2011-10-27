@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABOX////g\u003d",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T17:14:07Z",
+      "side": 1,
+      "message": "cmd-deactivate-account.txt is still not included in this change",
+      "revId": "ee8b1eb25f646945fc3e87de5fa4552b16cbb754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOX////Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterCommandModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T17:14:07Z",
+      "side": 1,
+      "message": "This change seems not to belong to this change.",
+      "revId": "ee8b1eb25f646945fc3e87de5fa4552b16cbb754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOX////c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterCommandModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T17:14:07Z",
+      "side": 1,
+      "message": "DeactivateAccountCommand is still not included in this change",
+      "revId": "ee8b1eb25f646945fc3e87de5fa4552b16cbb754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

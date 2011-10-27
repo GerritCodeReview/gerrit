@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABNX////8\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/EditList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-27T04:01:09Z",
+      "side": 1,
+      "message": "I\u0027ll have to look at this more tomorrow. I\u0027m not convinced it should be this easy. :-)",
+      "revId": "2af3e9752ceaf836940404e298577654ec99e10e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

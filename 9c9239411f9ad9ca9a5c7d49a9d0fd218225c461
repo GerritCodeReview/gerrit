@@ -36,6 +36,42 @@
     },
     {
       "key": {
+        "uuid": "AAABOn////c\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABOX///+o\u003d",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOn////Y\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABNX///+k\u003d",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABNX///+g\u003d",
         "filename": "Documentation/install.txt",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2011-10-27T19:57:16Z",
       "side": 1,
       "message": "s/at/on/",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOn////U\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABNX///+g\u003d",
       "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAABOn////Q\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABOX///+g\u003d",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABOX///+k\u003d",
         "filename": "Documentation/install.txt",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2011-10-27T19:49:01Z",
       "side": 1,
       "message": "This sentence sounds a little strange to me. Mabye better:\n\"During the init of Gerrit you can decide which database to use.\"\nBut I\u0027m not a native speaker...",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOn////M\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "New wording in place.",
+      "parentUuid": "AAABOX///+k\u003d",
       "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAABOn////I\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABOn////o\u003d",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABOn////k\u003d",
         "filename": "Documentation/install.txt",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2011-10-27T19:57:16Z",
       "side": 1,
       "message": "This comma too.",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOn////E\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABOn////k\u003d",
       "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AAABOn////A\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABNX///+c\u003d",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABNX///+Y\u003d",
         "filename": "Documentation/install.txt",
         "patchSetId": 1
@@ -149,6 +293,24 @@
       "writtenOn": "2011-10-27T19:57:16Z",
       "side": 1,
       "message": "s/ in //g",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOn///+8\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABNX///+Y\u003d",
       "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "AAABOn///+4\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABNX///+U\u003d",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABNX///+Q\u003d",
         "filename": "Documentation/install.txt",
         "patchSetId": 1
@@ -183,6 +363,24 @@
       "writtenOn": "2011-10-27T19:57:16Z",
       "side": 1,
       "message": "I think you can just leave out the word henceforth.\n\ns/in advance to/in advance of/",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOn///+0\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABNX///+Q\u003d",
       "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "AAABOn///+k\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "Will have to work on this one further.",
+      "parentUuid": "AAABOX///+c\u003d",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABOX///+Y\u003d",
         "filename": "Documentation/install.txt",
         "patchSetId": 1
@@ -217,6 +433,24 @@
       "writtenOn": "2011-10-27T19:49:01Z",
       "side": 1,
       "message": "What are we gaining by this? If we are now in the site_path, the user has to specify in the next command the full path to the gerrit.war file. \n\nWe actually don\u0027t need to be in the site_path because the full site_path can be provided with the -d to the init command.",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOn///+s\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABOX///+Y\u003d",
       "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -240,6 +474,24 @@
     },
     {
       "key": {
+        "uuid": "AAABOn///+w\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "You\u0027re right. review_site replaced.",
+      "parentUuid": "AAABOX///+U\u003d",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABOn////s\u003d",
         "filename": "Documentation/install.txt",
         "patchSetId": 1
@@ -251,6 +503,24 @@
       "writtenOn": "2011-10-27T19:57:16Z",
       "side": 1,
       "message": "s/setup/set up/ (one word is a noun, two words a verb)",
+      "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOn///+o\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-10-27T20:13:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABOn////s\u003d",
       "revId": "9c9239411f9ad9ca9a5c7d49a9d0fd218225c461",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

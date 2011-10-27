@@ -68,8 +68,7 @@ tip of the destination branch at submit time.
 
 * Merge If Necessary
 +
-This is the default for a new project (and why `'M'` is suggested
-above in the insert statement).
+This is the default for a new project.
 +
 If the change being submitted is a strict superset of the destination
 branch, then the branch is fast-forwarded to the change.  If not,

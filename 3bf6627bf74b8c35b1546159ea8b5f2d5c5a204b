@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABMX////k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-27T01:05:02Z",
+      "side": 1,
+      "message": "This was intentional. But we could add a flag to indicate the caller wants all projects they could possibly have knowledge of, either by isVisible() or isOwner().",
+      "revId": "3bf6627bf74b8c35b1546159ea8b5f2d5c5a204b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

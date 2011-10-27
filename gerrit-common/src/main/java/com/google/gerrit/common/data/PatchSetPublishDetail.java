@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -22,34 +21,10 @@ import com.google.gerrit.reviewdb.PatchSetInfo;
 
 import java.util.List;
 
-public class PatchSetPublishDetail {
-  protected AccountInfoCache accounts;
+public class PatchSetPublishDetail extends CommonPublishDetail<PatchSetApproval> {
   protected PatchSetInfo patchSetInfo;
   protected Change change;
   protected List<PatchLineComment> drafts;
-  protected List<PermissionRange> labels;
-  protected List<PatchSetApproval> given;
-  protected boolean canSubmit;
-
-  public List<PermissionRange> getLabels() {
-    return labels;
-  }
-
-  public void setLabels(List<PermissionRange> labels) {
-    this.labels = labels;
-  }
-
-  public List<PatchSetApproval> getGiven() {
-    return given;
-  }
-
-  public void setGiven(List<PatchSetApproval> given) {
-    this.given = given;
-  }
-
-  public void setAccounts(AccountInfoCache accounts) {
-    this.accounts = accounts;
-  }
 
   public void setPatchSetInfo(PatchSetInfo patchSetInfo) {
     this.patchSetInfo = patchSetInfo;
@@ -63,14 +38,6 @@ public class PatchSetPublishDetail {
     this.drafts = drafts;
   }
 
-  public void setCanSubmit(boolean allowed) {
-    canSubmit = allowed;
-  }
-
-  public AccountInfoCache getAccounts() {
-    return accounts;
-  }
-
   public Change getChange() {
     return change;
   }
@@ -81,27 +48,5 @@ public class PatchSetPublishDetail {
 
   public List<PatchLineComment> getDrafts() {
     return drafts;
-  }
-
-  public PermissionRange getRange(final String permissionName) {
-    for (PermissionRange s : labels) {
-      if (s.getName().equals(permissionName)) {
-        return s;
-      }
-    }
-    return null;
-  }
-
-  public PatchSetApproval getChangeApproval(ApprovalCategory.Id id) {
-    for (PatchSetApproval a : given) {
-      if (a.getCategoryId().equals(id)) {
-        return a;
-      }
-    }
-    return null;
-  }
-
-  public boolean canSubmit() {
-    return canSubmit;
   }
 }

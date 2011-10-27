@@ -43,11 +43,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Creates a {@link IncludedInDetail} of a {@link Change}. */
-class IncludedInDetailFactory extends Handler<IncludedInDetail> {
+public class IncludedInDetailFactory extends Handler<IncludedInDetail> {
   private static final Logger log =
       LoggerFactory.getLogger(IncludedInDetailFactory.class);
 
-  interface Factory {
+  public interface Factory {
     IncludedInDetailFactory create(Change.Id id);
   }
 

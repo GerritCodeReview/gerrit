@@ -57,6 +57,14 @@ OPTIONS
 --type::
 	Display only projects of the specified type.  If not
 	specified, defaults to `code`. Supported types:
+
+--all::
+	Display all projects that are accessible by the calling user
+	account. Besides the projects that the calling user account has
+	been granted 'READ' access to, this includes all projects that
+	are owned by the calling user account (even if for these projects
+	the 'READ' access right is not assigned to the calling user
+	account).
 +
 --
 `code`:: Any project likely to contain user files.

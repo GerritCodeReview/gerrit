@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABOX///94\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/HistoryTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T21:58:50Z",
+      "side": 1,
+      "message": "This doesn\u0027t compile, it says:\n\nsetText(int,int,java.lang.String) in com.google.gwt.user.client.ui.HTMLTable cannot be applied to (int,int,int)\n\nSo I guess it should be:\n\ntable.setText(3, col, Integer.toString(k.getCommentCount()));",
+      "revId": "52cfc9ae7f0ed399e9dc9246e33f6bd181bbbc4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

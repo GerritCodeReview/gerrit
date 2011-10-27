@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABNX///98\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-27T21:44:30Z",
+      "side": 1,
+      "message": "This isn\u0027t stable, is it? We should compare email to \"\" , and the same with full name.",
+      "revId": "29abd7d9ce6729603e0a49922edd6ffc8f25e197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

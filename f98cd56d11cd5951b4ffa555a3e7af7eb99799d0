@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABOX///9E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T23:45:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABNX///90\u003d",
+      "revId": "f98cd56d11cd5951b4ffa555a3e7af7eb99799d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABNX///9w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformGroupMembers.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-10-27T21:51:28Z",
       "side": 1,
       "message": "This needs to be filtered. A user may not be able to see all of these other users on the same server. Maybe restrict to a site administrator feature?",
+      "revId": "f98cd56d11cd5951b4ffa555a3e7af7eb99799d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOX///9c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformGroupMembers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T23:45:56Z",
+      "side": 1,
+      "message": "You are right, I need to do filtering here. My intention was to only resolve the \u0027Registered Users\u0027 group if \n\na) the calling user is owner of the \u0027Registered Users\u0027 group (Administrator or member of the group owning the \u0027Registered User\u0027 group) or \n\nb) the \u0027Registered Users\u0027 is marked as visible for all users\n\nI thought that this would be already covered by groupControl.isVisible() but for the \u0027Registered Users\u0027 group this returns always true, because every user is implicitly member of this group.\n\nI\u0027ve now changed the code to do the check.\n\nIf you think, the resolution should only be done for administrators, I don\u0027t mind to change it again.",
+      "parentUuid": "AAABNX///9w\u003d",
       "revId": "f98cd56d11cd5951b4ffa555a3e7af7eb99799d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

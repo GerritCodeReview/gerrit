@@ -1812,7 +1812,7 @@ pool by a simple FIFO scheduling system.
 +
 By default, 1 plus the number of CPUs available to the JVM.
 
-[sshd.commandStartThreads]]sshd.commandStartThreads::
+[[sshd.commandStartThreads]]sshd.commandStartThreads::
 +
 Number of threads used to parse a command line submitted by a client
 over SSH for execution, create the internal data structures used by

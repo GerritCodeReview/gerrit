@@ -15,7 +15,8 @@ SSH
 
 Each user uploading changes to Gerrit must configure one or more SSH
 public keys.  The per-user SSH key list can be accessed over the web
-within Gerrit by `Settings`, and then accessing the `SSH Keys` tab.
+within Gerrit by `Settings`, and then accessing the `SSH Public Keys`
+tab.
 
 [[configure_ssh]]
 Configuration
@@ -142,8 +143,8 @@ shorter URLs on the command line, such as:
   $ git push tr:kernel/common HEAD:refs/for/experimental
 ====
 
-Specific reviewers can be requested and/or additional ``carbon
-copies'' of the notification message may be sent by including these
+Specific reviewers can be requested and/or additional 'carbon
+copies' of the notification message may be sent by including these
 as arguments to `git receive-pack`:
 
 ====

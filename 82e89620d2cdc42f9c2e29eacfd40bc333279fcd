@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABMH///+c\u003d",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/auth/container/LoginRedirect.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T00:33:33Z",
+      "side": 1,
+      "message": "not sure if I understand why the \u0027mine\u0027 needs to disappear here and in the changed line below",
+      "revId": "82e89620d2cdc42f9c2e29eacfd40bc333279fcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

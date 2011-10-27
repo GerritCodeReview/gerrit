@@ -14,11 +14,11 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
-import com.google.gerrit.common.data.ApprovalDetail;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.common.data.PatchSetApprovalDetail;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -123,7 +123,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail.setStarred(control.getCurrentUser().getStarredChanges().contains(
         changeId));
 
-    detail.setCanRevert(change.getStatus() == Change.Status.MERGED && control.canAddPatchSet());
+    detail.setCanRevert(change.getStatus() == Change.Status.MERGED && control.canAddPatchSet()
+        && !change.belongsToTopic());
 
     if (detail.getChange().getStatus().isOpen()) {
       List<SubmitRecord> submitRecords = control.canSubmit(db, patch.getId());
@@ -147,6 +148,12 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     }
     load();
     detail.setAccounts(aic.create());
+    if (change.belongsToTopic()) {
+      detail.setTopicId(change.getTopicId().get());
+    } else {
+      detail.setTopicId(-1);
+    }
+
     return detail;
   }
 
@@ -180,12 +187,12 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     final boolean canRemoveReviewers = detail.getChange().getStatus().isOpen() //
         && control.getCurrentUser() instanceof IdentifiedUser;
-    final HashMap<Account.Id, ApprovalDetail> ad =
-        new HashMap<Account.Id, ApprovalDetail>();
+    final HashMap<Account.Id, PatchSetApprovalDetail> ad =
+        new HashMap<Account.Id, PatchSetApprovalDetail>();
     for (PatchSetApproval ca : allApprovals) {
-      ApprovalDetail d = ad.get(ca.getAccountId());
+      PatchSetApprovalDetail d = ad.get(ca.getAccountId());
       if (d == null) {
-        d = new ApprovalDetail(ca.getAccountId());
+        d = new PatchSetApprovalDetail(ca.getAccountId());
         d.setCanRemove(canRemoveReviewers);
         ad.put(d.getAccount(), d);
       }

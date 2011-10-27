@@ -16,44 +16,32 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.PatchSetApproval;
+import com.google.gerrit.reviewdb.SetApproval;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-public class ApprovalDetail {
-  public static final Comparator<ApprovalDetail> SORT =
-      new Comparator<ApprovalDetail>() {
-        public int compare(final ApprovalDetail o1, final ApprovalDetail o2) {
-          int cmp;
-          cmp = o2.hasNonZero - o1.hasNonZero;
-          if (cmp != 0) return cmp;
-          return o1.sortOrder.compareTo(o2.sortOrder);
-        }
-      };
-
+public abstract class ApprovalDetail<T extends SetApproval<?>> {
   static final Timestamp EG_0 = new Timestamp(0);
   static final Timestamp EG_D = new Timestamp(Long.MAX_VALUE);
 
   protected Account.Id account;
-  protected List<PatchSetApproval> approvals;
+  protected List<T> approvals;
   protected boolean canRemove;
 
   private transient Set<String> approved;
   private transient Set<String> rejected;
-  private transient int hasNonZero;
-  private transient Timestamp sortOrder = EG_D;
 
   protected ApprovalDetail() {
   }
 
-  public ApprovalDetail(final Account.Id id) {
+  protected ApprovalDetail(final Account.Id id) {
     account = id;
-    approvals = new ArrayList<PatchSetApproval>();
+    approvals = new ArrayList<T>();
   }
 
   public Account.Id getAccount() {
@@ -68,12 +56,16 @@ public class ApprovalDetail {
     canRemove = removeable;
   }
 
-  public List<PatchSetApproval> getPatchSetApprovals() {
+  public List<T> getPatchSetApprovals() {
     return approvals;
   }
 
-  public PatchSetApproval getPatchSetApproval(ApprovalCategory.Id category) {
-    for (PatchSetApproval psa : approvals) {
+  public List<T> getSetApprovals() {
+    return approvals;
+  }
+
+  public T getPatchSetApproval(ApprovalCategory.Id category) {
+    for (T psa : approvals) {
       if (psa.getCategoryId().equals(category)) {
         return psa;
       }
@@ -81,22 +73,9 @@ public class ApprovalDetail {
     return null;
   }
 
-  public void sortFirst() {
-    hasNonZero = 1;
-    sortOrder = ApprovalDetail.EG_0;
-  }
+  public abstract Map<ApprovalCategory.Id, T> getApprovalMap();
 
-  public void add(final PatchSetApproval ca) {
-    approvals.add(ca);
-
-    final Timestamp g = ca.getGranted();
-    if (g != null && g.compareTo(sortOrder) < 0) {
-      sortOrder = g;
-    }
-    if (ca.getValue() != 0) {
-      hasNonZero = 1;
-    }
-  }
+  public abstract void sortFirst();
 
   public void approved(String label) {
     if (approved == null) {
@@ -119,4 +98,6 @@ public class ApprovalDetail {
   public boolean isRejected(String label) {
     return rejected != null && rejected.contains(label);
   }
+
+  public abstract void add(final T ca);
 }

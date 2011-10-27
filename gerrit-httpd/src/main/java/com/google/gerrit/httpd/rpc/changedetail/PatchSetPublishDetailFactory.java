@@ -162,7 +162,8 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
         }
       }
 
-      if (couldSubmit && control.getRefControl().canSubmit()) {
+      if (couldSubmit && control.getRefControl().canSubmit()
+          && (!change.belongsToTopic())) {
         detail.setCanSubmit(true);
       }
     }

@@ -29,6 +29,7 @@ import com.google.gerrit.common.data.ApprovalDetail;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.common.data.PatchSetApprovalDetail;
 import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.Account;
@@ -138,7 +139,7 @@ public class ApprovalTable extends Composite {
     reviewerSuggestOracle.setProject(detail.getChange().getProject());
 
     List<String> columns = new ArrayList<String>();
-    List<ApprovalDetail> rows = detail.getApprovals();
+    List<PatchSetApprovalDetail> rows = detail.getApprovals();
 
     changeId = detail.getChange().getId();
 
@@ -151,9 +152,9 @@ public class ApprovalTable extends Composite {
     if (detail.getSubmitRecords() != null) {
       HashSet<String> reportedMissing = new HashSet<String>();
 
-      HashMap<Account.Id, ApprovalDetail> byUser =
-          new HashMap<Account.Id, ApprovalDetail>();
-      for (ApprovalDetail ad : detail.getApprovals()) {
+      HashMap<Account.Id, PatchSetApprovalDetail> byUser =
+          new HashMap<Account.Id, PatchSetApprovalDetail>();
+      for (PatchSetApprovalDetail ad : detail.getApprovals()) {
         byUser.put(ad.getAccount(), ad);
       }
 
@@ -169,7 +170,7 @@ public class ApprovalTable extends Composite {
 
           switch (lbl.status) {
             case OK: {
-              ApprovalDetail ad = byUser.get(lbl.appliedBy);
+              PatchSetApprovalDetail ad = byUser.get(lbl.appliedBy);
               if (ad != null) {
                 ad.approved(lbl.label);
               }
@@ -177,7 +178,7 @@ public class ApprovalTable extends Composite {
             }
 
             case REJECT: {
-              ApprovalDetail ad = byUser.get(lbl.appliedBy);
+              PatchSetApprovalDetail ad = byUser.get(lbl.appliedBy);
               if (ad != null) {
                 ad.rejected(lbl.label);
               }
@@ -199,7 +200,7 @@ public class ApprovalTable extends Composite {
       missing.setVisible(!reportedMissing.isEmpty());
 
     } else {
-      for (ApprovalDetail ad : rows) {
+      for (PatchSetApprovalDetail ad : rows) {
         for (PatchSetApproval psa : ad.getPatchSetApprovals()) {
           ApprovalType legacyType = types.byId(psa.getCategoryId());
           if (legacyType == null) {
@@ -355,7 +356,7 @@ public class ApprovalTable extends Composite {
         });
   }
 
-  private void displayRow(final int row, final ApprovalDetail ad,
+  private void displayRow(final int row, final PatchSetApprovalDetail ad,
       final Change change, List<String> columns) {
     final CellFormatter fmt = table.getCellFormatter();
     int col = 0;
@@ -421,7 +422,7 @@ public class ApprovalTable extends Composite {
     fmt.addStyleName(row, col - 1, Gerrit.RESOURCES.css().rightmost());
   }
 
-  private void doRemove(final ApprovalDetail ad, final PushButton remove) {
+  private void doRemove(final PatchSetApprovalDetail ad, final PushButton remove) {
     remove.setEnabled(false);
     PatchUtil.DETAIL_SVC.removeReviewer(changeId, ad.getAccount(),
         new GerritCallback<ReviewerResult>() {

@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,20 +18,20 @@ package com.google.gerrit.common.data;
 import java.util.ArrayList;
 
 /**
- * Result from adding or removing a reviewer from a change.
+ * Result from adding or removing a reviewer from a topic.
  */
-public class ReviewerResult extends CommonReviewerResult {
-  protected ChangeDetail change;
+public class TopicReviewerResult extends CommonReviewerResult {
+  protected TopicDetail topic;
 
-  public ReviewerResult() {
+  public TopicReviewerResult() {
     errors = new ArrayList<Error>();
   }
 
-  public ChangeDetail getChange() {
-    return change;
+  public TopicDetail getTopic() {
+    return topic;
   }
 
-  public void setChange(final ChangeDetail d) {
-    change = d;
+  public void setTopic(final TopicDetail d) {
+    topic = d;
   }
 }

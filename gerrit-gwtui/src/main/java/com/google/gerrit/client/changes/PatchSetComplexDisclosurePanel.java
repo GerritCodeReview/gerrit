@@ -21,6 +21,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.PatchSetDetail;
@@ -37,10 +38,12 @@ import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.UserIdentity;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
@@ -436,7 +439,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          new CommentedChangeActionDialog(patchSet.getId(), createCommentedCallback(b),
+          new CommentedChangeActionDialog(patchSet.getId(), createRevertCommentedCallback(b),
               Util.C.revertChangeTitle(), Util.C.headingRevertMessage(),
               Util.C.buttonRevertChangeSend(), Util.C.buttonRevertChangeCancel(),
               Gerrit.RESOURCES.css().revertChangeDialog(), Gerrit.RESOURCES.css().revertMessage(),
@@ -637,6 +640,18 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     return new AsyncCallback<ChangeDetail>() {
       public void onSuccess(ChangeDetail result) {
         changeScreen.update(result);
+      }
+
+      public void onFailure(Throwable caught) {
+        b.setEnabled(true);
+      }
+    };
+  }
+
+  private AsyncCallback<ChangeDetail> createRevertCommentedCallback(final Button b) {
+    return new AsyncCallback<ChangeDetail>() {
+      public void onSuccess(ChangeDetail result) {
+        Gerrit.display(PageLinks.toChange(result.getChange().getId()));
       }
 
       public void onFailure(Throwable caught) {

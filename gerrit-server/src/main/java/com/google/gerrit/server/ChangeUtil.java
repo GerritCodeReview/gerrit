@@ -256,7 +256,7 @@ public class ChangeUtil {
     hooks.doChangeAbandonedHook(updatedChange, user.getAccount(), message);
   }
 
-  public static void revert(final PatchSet.Id patchSetId,
+  public static Change.Id revert(final PatchSet.Id patchSetId,
       final IdentifiedUser user, final String message, final ReviewDb db,
       final RevertedSender.Factory revertedSenderFactory,
       final ChangeHookRunner hooks, GitRepositoryManager gitManager,
@@ -352,6 +352,8 @@ public class ChangeUtil {
       cm.send();
 
       hooks.doPatchsetCreatedHook(change, ps);
+
+      return change.getId();
     } finally {
       revWalk.release();
       git.close();

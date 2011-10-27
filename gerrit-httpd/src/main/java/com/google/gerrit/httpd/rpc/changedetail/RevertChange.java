@@ -105,10 +105,10 @@ class RevertChange extends Handler<ChangeDetail> {
       throw new NoSuchChangeException(changeId);
     }
 
-    ChangeUtil.revert(patchSetId, currentUser, message, db,
+    Change.Id revertedChangeId = ChangeUtil.revert(patchSetId, currentUser, message, db,
         revertedSenderFactory, hooks, gitManager, patchSetInfoFactory,
         replication, myIdent);
 
-    return changeDetailFactory.create(changeId).call();
+    return changeDetailFactory.create(revertedChangeId).call();
   }
 }

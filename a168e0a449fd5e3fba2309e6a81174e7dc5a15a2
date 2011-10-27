@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABOX///9w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitWebConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T22:36:52Z",
+      "side": 1,
+      "message": "can you please explain this new configuration parameter in the documentation -\u003e config-gerrit.txt",
+      "revId": "a168e0a449fd5e3fba2309e6a81174e7dc5a15a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABOH////o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T15:22:23Z",
+      "side": 1,
+      "message": "What does \u0027TOOLS-48\u0027 stand for?",
+      "revId": "471f26aa0d0f4cd9f016faefeea44af14354c340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOH////0\u003d",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T15:22:23Z",
+      "side": 1,
+      "message": "cmd-archive-project.txt is not contained in this change. Did you forget to add it?",
+      "revId": "471f26aa0d0f4cd9f016faefeea44af14354c340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOH////w\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitGitManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T15:22:23Z",
+      "side": 1,
+      "message": "The new configuration parameter \u0027archivePath\u0027 should be described in the Gerrit documentation in config-gerrit.txt",
+      "revId": "471f26aa0d0f4cd9f016faefeea44af14354c340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOH////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T15:22:23Z",
+      "side": 1,
+      "message": "dir.getName() returns just the last segment of the path, since project names can be hierarchical (e.g. a/b/foo) I think this is not enough. We should rather include the full (encoded) project name into the file name.",
+      "revId": "471f26aa0d0f4cd9f016faefeea44af14354c340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOH////4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterCommandModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T15:22:23Z",
+      "side": 1,
+      "message": "The ArchiveProject class is not contained in this change. Did you forget to add it?",
+      "revId": "471f26aa0d0f4cd9f016faefeea44af14354c340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

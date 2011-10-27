@@ -76,6 +76,20 @@ public interface GitRepositoryManager {
   public abstract Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException;
 
+
+  /**
+   * Archive a repository by moving it from basePath to archivePath
+   * the archive is time-stamped in yyyyMMddHHmm format
+   *
+   * @param name the repository name, relative to the base directory.
+   * @return true if and only if the archive succeeded; false otherwise
+   * @throws RepositoryNotFoundException the name does not denote an existing
+   *         repository
+   * @throws SecurityException moving file fails
+   */
+  public abstract boolean archiveRepository(Project.NameKey name)
+      throws RepositoryNotFoundException;
+
   /** @return set of all known projects, sorted by natural NameKey order. */
   public abstract SortedSet<Project.NameKey> list();
 

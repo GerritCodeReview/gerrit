@@ -41,7 +41,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -75,6 +77,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   private final File basePath;
+  private final File archivePath;
 
   @Inject
   LocalDiskRepositoryManager(final SitePaths site,
@@ -82,6 +85,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
+    }
+
+    archivePath = site.resolve(cfg.getString("gerrit", null, "archivePath"));
+    if (archivePath == null) {
+      throw new IllegalStateException("gerrit.archivePath must be configured");
     }
   }
 
@@ -149,6 +157,26 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       e2 = new RepositoryNotFoundException("Cannot create repository " + name);
       e2.initCause(e1);
       throw e2;
+    }
+  }
+
+  public boolean archiveRepository(final Project.NameKey name)
+      throws RepositoryNotFoundException {
+    if (isUnreasonableName(name)) {
+      throw new RepositoryNotFoundException("Invalid name: " + name);
+    }
+
+    File dir = FileKey.resolve(gitDirOf(name), FS.DETECTED);
+    if (dir != null) {
+      String timeStamp =
+          new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
+      File dest =
+          new File(archivePath.getAbsolutePath() + File.separator + timeStamp
+              + "-" + dir.getName());
+      return dir.renameTo(dest);
+    } else {
+      throw new RepositoryNotFoundException("Cannot find the repository "
+          + name);
     }
   }
 

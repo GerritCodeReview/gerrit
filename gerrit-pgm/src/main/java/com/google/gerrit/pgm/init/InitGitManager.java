@@ -38,11 +38,22 @@ class InitGitManager implements InitStep {
     ui.header("Git Repositories");
 
     File d = gerrit.path("Location of Git repositories", "basePath", "git");
+    File b = gerrit.path("Location of archive directory", "archivePath", "archive");
+
     if (d == null) {
       throw die("gerrit.basePath is required");
     }
+
+    if (b == null) {
+      throw die("gerrit.archivePath is required");
+    }
+
     if (!d.exists() && !d.mkdirs()) {
-      throw die("Cannot create " + d);
+      throw die("Cannot create : " + d);
+    }
+
+    if (!b.exists() && !b.mkdirs()) {
+      throw die("Cannot create archive directory : " + b);
     }
   }
 }

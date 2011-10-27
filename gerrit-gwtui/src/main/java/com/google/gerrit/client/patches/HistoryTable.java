@@ -98,7 +98,8 @@ class HistoryTable extends FancyFlexTable<Patch> {
 
       fmt.setStyleName(3, col, Gerrit.RESOURCES.css().dataCell());
       if (k.getCommentCount() > 0) {
-        table.setText(3, col, Util.M.patchTableComments(k.getCommentCount()));
+        table.setText(3, col, k.getCommentCount());
+       // table.setText(3, col, Util.M.patchTableComments(k.getCommentCount()));
       }
       col++;
     }

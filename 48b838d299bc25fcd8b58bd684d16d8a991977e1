@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABMn////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ssh/NoSshInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T02:20:09Z",
+      "side": 1,
+      "message": "2011?",
+      "revId": "48b838d299bc25fcd8b58bd684d16d8a991977e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABMn////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ssh/NoSshKeyCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T02:20:09Z",
+      "side": 1,
+      "message": "2011?",
+      "revId": "48b838d299bc25fcd8b58bd684d16d8a991977e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABMn////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ssh/NoSshModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T02:20:09Z",
+      "side": 1,
+      "message": "2011?",
+      "revId": "48b838d299bc25fcd8b58bd684d16d8a991977e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

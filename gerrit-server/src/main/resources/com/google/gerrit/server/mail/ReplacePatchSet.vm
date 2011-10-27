@@ -33,7 +33,7 @@
 ## ChangeEmail: see ChangeSubject.vm and ChangeFooter.vm.
 ##
 #if($email.reviewerNames)
-Hello $StringUtils.join($email.reviewerNames, ', '),
+Hello $email.joinStrings($email.reviewerNames, ', '),
 
 I'd like you to reexamine a change.#if($email.changeUrl)  Please visit
 

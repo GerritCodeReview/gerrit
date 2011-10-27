@@ -72,13 +72,15 @@ public class EditList {
   private boolean combineA(final int i) {
     final Edit s = edits.get(i);
     final Edit e = edits.get(i - 1);
-    return s.getBeginA() - e.getEndA() <= 2 * context;
+    // + 1 to prevent '... skipping 1 common line ...' messages.
+    return s.getBeginA() - e.getEndA() <= 2 * context + 1;
   }
 
   private boolean combineB(final int i) {
     final int s = edits.get(i).getBeginB();
     final int e = edits.get(i - 1).getEndB();
-    return s - e <= 2 * context;
+    // + 1 to prevent '... skipping 1 common line ...' messages.
+    return s - e <= 2 * context + 1;
   }
 
   public class Hunk {

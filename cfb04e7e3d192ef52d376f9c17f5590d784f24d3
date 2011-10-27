@@ -139,6 +139,24 @@
       "revId": "cfb04e7e3d192ef52d376f9c17f5590d784f24d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOX///9M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T23:25:38Z",
+      "side": 1,
+      "message": "as discussed, please ignore my comment above",
+      "parentUuid": "AAABE3///uw\u003d",
+      "revId": "cfb04e7e3d192ef52d376f9c17f5590d784f24d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

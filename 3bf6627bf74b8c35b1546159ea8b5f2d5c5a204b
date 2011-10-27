@@ -16,6 +16,24 @@
       "revId": "3bf6627bf74b8c35b1546159ea8b5f2d5c5a204b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABOX///+8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-27T18:36:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABMX////k\u003d",
+      "revId": "3bf6627bf74b8c35b1546159ea8b5f2d5c5a204b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

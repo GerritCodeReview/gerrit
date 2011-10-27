@@ -69,7 +69,7 @@ is impossible to recover contact records.
 
 Install a contact store implementation somewhere to receive
 the contact records.  To be really paranoid, Gerrit always
-ships the data to another HTTP server, preferrably over HTTPS.
+ships the data to another HTTP server, preferably over HTTPS.
 Existing open-source server implementations can be found in the
 gerrit-contactstore project.
 

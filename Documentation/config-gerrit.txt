@@ -70,7 +70,7 @@ http://openid.net/[openid.net].
 * `HTTP`
 +
 Gerrit relies upon data presented in the HTTP request.  This includes
-HTTP basic authentication, or some types of commerical single-sign-on
+HTTP basic authentication, or some types of commercial single-sign-on
 solutions.  With this setting enabled the authentication must
 take place in the web server or servlet container, and not from
 within Gerrit.

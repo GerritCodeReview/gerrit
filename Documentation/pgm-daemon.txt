@@ -33,7 +33,7 @@ OPTIONS
 -d::
 \--site-path::
 	Location of the gerrit.config file, and all other per-site
-	configuration data, supporting libaries and log files.
+	configuration data, supporting libraries and log files.
 
 \--enable-httpd::
 \--disable-httpd::
@@ -48,7 +48,7 @@ OPTIONS
 \--slave::
 	Run in slave mode, permitting only read operations
     by clients.  Commands which modify state such as
-    link:cmd-receive-pack.html[recieve-pack] (creates new changes
+    link:cmd-receive-pack.html[receive-pack] (creates new changes
     or updates existing ones) or link:cmd-review.html[review]
     (sets approve marks) are disabled.
 +

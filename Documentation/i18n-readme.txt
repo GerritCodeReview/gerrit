@@ -12,7 +12,7 @@ ApprovalCategory
 The getName() function produces only a single translation of the
 description string.  This name is set by the Gerrit administrator,
 which may cause problems if the site is translated into multiple
-langauges and different users want different translations.
+languages and different users want different translations.
 
 ApprovalCategoryValue
 ---------------------
@@ -20,7 +20,7 @@ ApprovalCategoryValue
 The getName() function produces only a single translation of the
 description string.  This name is set by the Gerrit administrator,
 which may cause problems if the site is translated into multiple
-langauges and different users want different translations.
+languages and different users want different translations.
 
 /Gerrit Gerrit.html
 -------------------

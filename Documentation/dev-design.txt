@@ -113,7 +113,7 @@ change submit function.
 After a change has been scored positively by reviewers, Gerrit
 enables a submit button on the web interface.  Authorized users
 can push the submit button to have the change enter the project
-repository.  The equivilant in Subversion or Perforce would be
+repository.  The equivalent in Subversion or Perforce would be
 that Gerrit is invoking `svn commit` or `p4 submit` on behalf of
 the web user pressing the button.  Due to the way Git audit trails
 are maintained, the user pressing the submit button does not need

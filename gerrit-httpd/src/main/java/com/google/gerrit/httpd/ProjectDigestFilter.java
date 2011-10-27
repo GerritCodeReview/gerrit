@@ -23,11 +23,14 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -35,6 +38,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -67,16 +71,18 @@ class ProjectDigestFilter implements Filter {
   private final Provider<String> urlProvider;
   private final Provider<WebSession> session;
   private final AccountCache accountCache;
+  private final Config config;
   private final SignedToken tokens;
   private ServletContext context;
 
   @Inject
   ProjectDigestFilter(@CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      Provider<WebSession> session, AccountCache accountCache)
-      throws XsrfException {
+      Provider<WebSession> session, AccountCache accountCache,
+      @GerritServerConfig Config config) throws XsrfException {
     this.urlProvider = urlProvider;
     this.session = session;
     this.accountCache = accountCache;
+    this.config = config;
     this.tokens = new SignedToken((int) SECONDS.convert(1, HOURS));
   }
 
@@ -111,7 +117,7 @@ class ProjectDigestFilter implements Filter {
     }
 
     final Map<String, String> p = parseAuthorization(hdr);
-    final String username = p.get("username");
+    final String user = p.get("username");
     final String realm = p.get("realm");
     final String nonce = p.get("nonce");
     final String uri = p.get("uri");
@@ -121,7 +127,7 @@ class ProjectDigestFilter implements Filter {
     final String cnonce = p.get("cnonce");
     final String method = req.getMethod();
 
-    if (username == null //
+    if (user == null //
         || realm == null //
         || nonce == null //
         || uri == null //
@@ -131,6 +137,11 @@ class ProjectDigestFilter implements Filter {
       context.log("Invalid header: " + AUTHORIZATION + ": " + hdr);
       rsp.sendError(SC_FORBIDDEN);
       return false;
+    }
+
+    String username = user;
+    if (config.getBoolean("auth", "userNameToLowerCase", false)) {
+      username = username.toLowerCase(Locale.US);
     }
 
     final AccountState who = accountCache.getByUsername(username);
@@ -145,7 +156,7 @@ class ProjectDigestFilter implements Filter {
       return false;
     }
 
-    final String A1 = username + ":" + realm + ":" + passwd;
+    final String A1 = user + ":" + realm + ":" + passwd;
     final String A2 = method + ":" + uri;
     final String expect =
         KD(H(A1), nonce + ":" + nc + ":" + cnonce + ":" + qop + ":" + H(A2));

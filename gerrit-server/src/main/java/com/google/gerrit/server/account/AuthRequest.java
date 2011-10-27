@@ -52,7 +52,7 @@ public class AuthRequest {
     return r;
   }
 
-  private final String externalId;
+  private String externalId;
   private String password;
   private String displayName;
   private String emailAddress;
@@ -76,6 +76,14 @@ public class AuthRequest {
       return getExternalId().substring(SCHEME_GERRIT.length());
     }
     return null;
+  }
+
+  public void setLocalUser(final String localUser) {
+    if (isScheme(SCHEME_GERRIT)) {
+      final AccountExternalId.Key key =
+          new AccountExternalId.Key(SCHEME_GERRIT, localUser);
+      externalId = key.get();
+    }
   }
 
   public String getPassword() {

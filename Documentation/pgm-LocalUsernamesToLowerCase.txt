@@ -1,0 +1,68 @@
+LocalUsernamesToLowerCase
+=========================
+
+NAME
+----
+LocalUsernamesToLowerCase - Convert the local username of every
+account to lower case
+
+SYNOPSIS
+--------
+[verse]
+'java' -jar gerrit.war 'LocalUsernamesToLowerCase' -d <SITE_PATH>
+
+DESCRIPTION
+-----------
+Converts the local username for every account to lower case. The
+local username is the username that is used to login into the Gerrit
+WebUI.
+
+This task is only intended to be run if the configuration parameter
+link:config-gerrit.html#ldap.localUsernameToLowerCase[ldap.localUsernameToLowerCase]
+was set to true to achieve case insensitive LDAP login to the Gerrit
+WebUI.
+
+Please be aware that the conversion of the local usernames to lower
+case can't be undone.
+
+The program will produce errors if there are accounts that have the
+same local username, but with different case. In this case the local
+username for these accounts is not converted to lower case.
+
+This task can run in the background concurrently to the server if the
+database is MySQL or PostgreSQL. If the database is H2, this task
+must be run by itself.
+
+OPTIONS
+-------
+
+-d::
+\--site-path::
+	Location of the gerrit.config file, and all other per-site
+	configuration data, supporting libraries and log files.
+
+\--threads::
+	Number of threads to perform the scan work with.  Defaults to
+	twice the number of CPUs available.
+
+CONTEXT
+-------
+This command can only be run on a server which has direct
+connectivity to the metadata database.
+
+EXAMPLES
+--------
+To convert the local username of every account to lower case:
+
+====
+	$ java -jar gerrit.war LocalUsernamesToLowerCase -d site_path
+====
+
+See Also
+--------
+
+* Configuration parameter link:config-gerrit.html#ldap.localUsernameToLowerCase[ldap.localUsernameToLowerCase]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

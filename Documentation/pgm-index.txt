@@ -36,6 +36,9 @@ link:pgm-ExportReviewNotes.html[ExportReviewNotes]::
 link:pgm-ScanTrackingIds.html[ScanTrackingIds]::
 	Rescan all changes after configuring trackingids.
 
+link:pgm-LocalUsernamesToLowerCase.html[LocalUsernamesToLowerCase]::
+	Convert the local username of every account to lower case.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

@@ -298,6 +298,25 @@ then Gerrit will do the authentication (using DIGEST authentication).
 +
 By default this is set to false.
 
+[[auth.userNameToLowerCase]]auth.userNameToLowerCase::
++
+If set the username that is received to authenticate a git operation
+is converted to lower case for looking up the user account in Gerrit.
++
+By setting this parameter a case insensitive authentication for the
+git operations can be achieved, if it is ensured that the usernames in
+Gerrit (scheme `username`) are stored in lower case (e.g. if the
+parameter link:#ldap.accountSshUserName[ldap.accountSshUserName] is
+set to `${sAMAccountName.toLowerCase}`). It is important that for all
+existing accounts this username is already in lower case. It is not
+possible to convert the usernames of the existing accounts to lower
+case because this would break the access to existing per-user
+branches.
++
+This parameter only affects git over http and git over SSH traffic.
++
+By default this is set to false.
+
 [[cache]]Section cache
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1521,6 +1540,24 @@ Attributes such as `${dn}` or `${uidNumber}` may be useful.
 Default is `(memberUid=${username})` for RFC 2307,
 and unset (disabled) for Active Directory.
 
+[[ldap.localUsernameToLowerCase]]ldap.localUsernameToLowerCase::
++
+Converts the local username, that is used to login into the Gerrit
+WebUI, to lower case before doing the LDAP authentication. By setting
+this parameter to true, a case insensitive login to the Gerrit WebUI
+can be achieved.
++
+If set, it must be ensured that the local usernames for all existing
+accounts are converted to lower case, otherwise a user that has a
+local username that contains upper case characters cannot login
+anymore. The local usernames for the existing accounts can be
+converted to lower case by running the server program
+link:pgm-LocalUsernamesToLowerCase.html[LocalUsernamesToLowerCase].
+Please be aware that the conversion of the local usernames to lower
+case can't be undone. For newly created accounts the local username
+will be directly stored in lower case.
++
+By default, unset/false.
 
 [[mimetype]]Section mimetype
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

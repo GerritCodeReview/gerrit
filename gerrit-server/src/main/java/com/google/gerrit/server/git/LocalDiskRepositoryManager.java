@@ -298,8 +298,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   private Project.NameKey getProjectName(final File gitDir) {
-    final String relativeGitPath =
+    String relativeGitPath =
         getBasePath().toURI().relativize(gitDir.toURI()).getPath();
+    if (!relativeGitPath.endsWith("/")) {
+      relativeGitPath = relativeGitPath + "/";
+    }
     final String prefix =
         relativeGitPath.substring(0, relativeGitPath.length() - 1
             - gitDir.getName().length());

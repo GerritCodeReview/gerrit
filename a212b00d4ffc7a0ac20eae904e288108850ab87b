@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABPX///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/RequestCleanup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-28T18:55:25Z",
+      "side": 1,
+      "message": "Due to the English language, \"run\" seems ambiguous to me (sounds a bit like a request to run), I would suggest \"done\" or \"ran\" instead.",
+      "revId": "a212b00d4ffc7a0ac20eae904e288108850ab87b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

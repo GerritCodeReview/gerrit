@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABPX////M\u003d",
+        "filename": "Documentation/cmd-set-project-parent.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-28T18:41:38Z",
+      "side": 1,
+      "message": "Perhaps this option should be called \"--children-of\"?  It seems like what you are effectively doing is creating a list of projects to be reparented; you are specifying the list by specify a project (perhaps in the future, this option could be listed more than once?), and the children of that project are the list of projects to then operate on (minus --exclude).",
+      "revId": "5761fef62a2aa5f5ffc9368aff85907278ea9ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABPX////I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-28T18:41:38Z",
+      "side": 1,
+      "message": "This function is starting to get fairly large.  Perhaps the stuff in this block should be put into a sub function since it could be well expressed that way?",
+      "revId": "5761fef62a2aa5f5ffc9368aff85907278ea9ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

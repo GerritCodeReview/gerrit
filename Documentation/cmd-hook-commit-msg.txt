@@ -53,13 +53,24 @@ change viewed on the web.
 
 OBTAINING
 ---------
-To obtain the 'commit-msg' script use scp, wget or curl to copy it
-to your local system:
+To obtain the 'commit-msg' script use scp, wget or curl to download it
+to your local system from your gerrit server.
+
+You can use either of the below commands:
 
 ====
-  $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg .git/hooks/
+  $ scp -p -P 29418 <your username>@<your Gerrit review server>:hooks/commit-msg <local path to your git>/.git/hooks/
 
-  $ curl http://review.example.com/tools/hooks/commit-msg
+  $ curl -o <local path to your git>/.git/hooks/commit-msg <your Gerrit http URL>/tools/hooks/commit-msg
+====
+
+A specific example of this might look something like this:
+
+.Example
+====
+  $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg ~/duhproject/.git/hooks/
+
+  $ curl -o ~/duhproject/.git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
 ====
 
 SEE ALSO

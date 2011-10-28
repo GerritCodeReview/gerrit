@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABPX////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-28T17:47:13Z",
+      "side": 1,
+      "message": "Could you add something like \"for patchSetId: \" + psId.toString() to this message, and any other pertinent detailed info to the other messages if appropriate?",
+      "revId": "a1bd31df2a61f6c2e1432edb7a5f4d096155298e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

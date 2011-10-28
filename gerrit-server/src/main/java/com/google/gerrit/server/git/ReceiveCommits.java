@@ -941,45 +941,55 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     cc.remove(me);
     cc.removeAll(reviewers);
 
-    final Change change =
-        new Change(changeKey, new Change.Id(db.nextChangeId()), me, destBranch);
+    final Change change;
+    final PatchSet ps;
+    final PatchSetInfo info;
+
+    change = new Change(changeKey, new Change.Id(db.nextChangeId()), me, destBranch);
     change.setTopic(destTopicName);
     change.nextPatchSetId();
 
-    final PatchSet ps = new PatchSet(change.currPatchSetId());
-    ps.setCreatedOn(change.getCreatedOn());
-    ps.setUploader(me);
-    ps.setRevision(toRevId(c));
-    insertAncestors(ps.getId(), c);
-    db.patchSets().insert(Collections.singleton(ps));
+    db.changes().beginTransaction(change.getId());
+    try {
+      ps = new PatchSet(change.currPatchSetId());
+      ps.setCreatedOn(change.getCreatedOn());
+      ps.setUploader(me);
+      ps.setRevision(toRevId(c));
+      insertAncestors(ps.getId(), c);
+      db.patchSets().insert(Collections.singleton(ps));
 
-    final PatchSetInfo info = patchSetInfoFactory.get(c, ps.getId());
-    change.setCurrentPatchSet(info);
-    ChangeUtil.updated(change);
-    db.changes().insert(Collections.singleton(change));
+      info = patchSetInfoFactory.get(c, ps.getId());
+      change.setCurrentPatchSet(info);
+      ChangeUtil.updated(change);
+      db.changes().insert(Collections.singleton(change));
+      ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
 
-    final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
-    final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
-    haveApprovals.add(me);
+      final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
+      final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
+      haveApprovals.add(me);
 
-    if (allTypes.size() > 0) {
-      final Account.Id authorId =
-          info.getAuthor() != null ? info.getAuthor().getAccount() : null;
-      final Account.Id committerId =
-          info.getCommitter() != null ? info.getCommitter().getAccount() : null;
-      final ApprovalCategory.Id catId =
-          allTypes.get(allTypes.size() - 1).getCategory().getId();
-      if (authorId != null && haveApprovals.add(authorId)) {
-        insertDummyApproval(change, ps.getId(), authorId, catId, db);
-      }
-      if (committerId != null && haveApprovals.add(committerId)) {
-        insertDummyApproval(change, ps.getId(), committerId, catId, db);
-      }
-      for (final Account.Id reviewer : reviewers) {
-        if (haveApprovals.add(reviewer)) {
-          insertDummyApproval(change, ps.getId(), reviewer, catId, db);
+      if (allTypes.size() > 0) {
+        final Account.Id authorId =
+            info.getAuthor() != null ? info.getAuthor().getAccount() : null;
+        final Account.Id committerId =
+            info.getCommitter() != null ? info.getCommitter().getAccount() : null;
+        final ApprovalCategory.Id catId =
+            allTypes.get(allTypes.size() - 1).getCategory().getId();
+        if (authorId != null && haveApprovals.add(authorId)) {
+          insertDummyApproval(change, ps.getId(), authorId, catId, db);
+        }
+        if (committerId != null && haveApprovals.add(committerId)) {
+          insertDummyApproval(change, ps.getId(), committerId, catId, db);
+        }
+        for (final Account.Id reviewer : reviewers) {
+          if (haveApprovals.add(reviewer)) {
+            insertDummyApproval(change, ps.getId(), reviewer, catId, db);
+          }
         }
       }
+      db.commit();
+    } finally {
+      db.rollback();
     }
 
     final RefUpdate ru = repo.updateRef(ps.getRefName());
@@ -1005,7 +1015,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       log.error("Cannot send email for new change " + change.getId(), e);
     }
 
-    ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
     hooks.doPatchsetCreatedHook(change, ps);
   }
 
@@ -1163,7 +1172,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       }
     }
 
-    change =
+    final PatchSet ps;
+    final ChangeMessage msg;
+    db.changes().beginTransaction(change.getId());
+    try {
+      change =
         db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
@@ -1176,128 +1189,136 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
             }
           }
         });
-    if (change == null) {
-      reject(request.cmd, "change is closed");
-      return null;
-    }
-
-    final PatchSet ps = new PatchSet(change.currPatchSetId());
-    ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-    ps.setUploader(currentUser.getAccountId());
-    ps.setRevision(toRevId(c));
-    insertAncestors(ps.getId(), c);
-    db.patchSets().insert(Collections.singleton(ps));
-
-    if (request.checkMergedInto) {
-      final Ref mergedInto = findMergedInto(change.getDest().get(), c);
-      result.mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
-    }
-    final PatchSetInfo info = patchSetInfoFactory.get(c, ps.getId());
-    change.setCurrentPatchSet(info);
-    result.change = change;
-    result.patchSet = ps;
-    result.info = info;
-
-    final Account.Id authorId =
-        result.info.getAuthor() != null ? result.info.getAuthor().getAccount()
-            : null;
-    final Account.Id committerId =
-        result.info.getCommitter() != null ? result.info.getCommitter()
-            .getAccount() : null;
-
-    boolean haveAuthor = false;
-    boolean haveCommitter = false;
-    final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
-
-    oldReviewers.clear();
-    oldCC.clear();
-
-    for (PatchSetApproval a : db.patchSetApprovals().byChange(change.getId())) {
-      haveApprovals.add(a.getAccountId());
-
-      if (a.getValue() != 0) {
-        oldReviewers.add(a.getAccountId());
-      } else {
-        oldCC.add(a.getAccountId());
+      if (change == null) {
+        reject(request.cmd, "change is closed");
+        return null;
       }
 
-      // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
-      if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-        final ApprovalType type =
-          approvalTypes.byId(a.getCategoryId());
-        if (a.getPatchSetId().equals(priorPatchSet)
-            && type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
-          // If there was a negative vote on the prior patch set, carry it
-          // into this patch set.
-          //
-          db.patchSetApprovals().insert(
-              Collections.singleton(new PatchSetApproval(ps.getId(), a)));
+      ps = new PatchSet(change.currPatchSetId());
+      ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+      ps.setUploader(currentUser.getAccountId());
+      ps.setRevision(toRevId(c));
+      insertAncestors(ps.getId(), c);
+      db.patchSets().insert(Collections.singleton(ps));
+
+      if (request.checkMergedInto) {
+        final Ref mergedInto = findMergedInto(change.getDest().get(), c);
+        result.mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
+      }
+      final PatchSetInfo info = patchSetInfoFactory.get(c, ps.getId());
+      change.setCurrentPatchSet(info);
+      result.change = change;
+      result.patchSet = ps;
+      result.info = info;
+
+      final Account.Id authorId =
+          result.info.getAuthor() != null ? result.info.getAuthor().getAccount()
+              : null;
+      final Account.Id committerId =
+          result.info.getCommitter() != null ? result.info.getCommitter()
+              .getAccount() : null;
+
+      boolean haveAuthor = false;
+      boolean haveCommitter = false;
+      final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
+
+      oldReviewers.clear();
+      oldCC.clear();
+
+      for (PatchSetApproval a : db.patchSetApprovals().byChange(change.getId())) {
+        haveApprovals.add(a.getAccountId());
+
+        if (a.getValue() != 0) {
+          oldReviewers.add(a.getAccountId());
+        } else {
+          oldCC.add(a.getAccountId());
+        }
+
+        // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
+        if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+          final ApprovalType type =
+            approvalTypes.byId(a.getCategoryId());
+          if (a.getPatchSetId().equals(priorPatchSet)
+              && type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
+            // If there was a negative vote on the prior patch set, carry it
+            // into this patch set.
+            //
+            db.patchSetApprovals().insert(
+                Collections.singleton(new PatchSetApproval(ps.getId(), a)));
+          }
+        }
+
+        if (!haveAuthor && authorId != null && a.getAccountId().equals(authorId)) {
+          haveAuthor = true;
+        }
+        if (!haveCommitter && committerId != null
+            && a.getAccountId().equals(committerId)) {
+          haveCommitter = true;
         }
       }
 
-      if (!haveAuthor && authorId != null && a.getAccountId().equals(authorId)) {
-        haveAuthor = true;
+      final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
+      if (allTypes.size() > 0) {
+        final ApprovalCategory.Id catId =
+            allTypes.get(allTypes.size() - 1).getCategory().getId();
+        if (authorId != null && haveApprovals.add(authorId)) {
+          insertDummyApproval(result, authorId, catId, db);
+        }
+        if (committerId != null && haveApprovals.add(committerId)) {
+          insertDummyApproval(result, committerId, catId, db);
+        }
+        for (final Account.Id reviewer : reviewers) {
+          if (haveApprovals.add(reviewer)) {
+            insertDummyApproval(result, reviewer, catId, db);
+          }
+        }
       }
-      if (!haveCommitter && committerId != null
-          && a.getAccountId().equals(committerId)) {
-        haveCommitter = true;
-      }
-    }
 
-    final ChangeMessage msg =
-        new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
-            .messageUUID(db)), me, ps.getCreatedOn());
-    msg.setMessage("Uploaded patch set " + ps.getPatchSetId() + ".");
-    db.changeMessages().insert(Collections.singleton(msg));
-    result.msg = msg;
+      msg =
+          new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
+              .messageUUID(db)), me, ps.getCreatedOn());
+      msg.setMessage("Uploaded patch set " + ps.getPatchSetId() + ".");
+      db.changeMessages().insert(Collections.singleton(msg));
+      ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
+      result.msg = msg;
+
+      if (result.mergedIntoRef == null) {
+        // Change should be new, so it can go through review again.
+        //
+        change =
+            db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
+              @Override
+              public Change update(Change change) {
+                if (change.getStatus().isOpen()) {
+                  if (destTopicName != null) {
+                    change.setTopic(destTopicName);
+                  }
+                  change.setStatus(Change.Status.NEW);
+                  change.setCurrentPatchSet(result.info);
+                  ChangeUtil.updated(change);
+                  return change;
+                } else {
+                  return null;
+                }
+              }
+            });
+        if (change == null) {
+          db.patchSets().delete(Collections.singleton(ps));
+          db.changeMessages().delete(Collections.singleton(msg));
+          reject(request.cmd, "change is closed");
+          return null;
+        }
+      }
+
+      db.commit();
+    } finally {
+      db.rollback();
+    }
 
     if (result.mergedIntoRef != null) {
       // Change was already submitted to a branch, close it.
       //
       markChangeMergedByPush(db, result);
-    } else {
-      // Change should be new, so it can go through review again.
-      //
-      change =
-          db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
-            @Override
-            public Change update(Change change) {
-              if (change.getStatus().isOpen()) {
-                if (destTopicName != null) {
-                  change.setTopic(destTopicName);
-                }
-                change.setStatus(Change.Status.NEW);
-                change.setCurrentPatchSet(result.info);
-                ChangeUtil.updated(change);
-                return change;
-              } else {
-                return null;
-              }
-            }
-          });
-      if (change == null) {
-        db.patchSets().delete(Collections.singleton(ps));
-        db.changeMessages().delete(Collections.singleton(msg));
-        reject(request.cmd, "change is closed");
-        return null;
-      }
-    }
-
-    final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
-    if (allTypes.size() > 0) {
-      final ApprovalCategory.Id catId =
-          allTypes.get(allTypes.size() - 1).getCategory().getId();
-      if (authorId != null && haveApprovals.add(authorId)) {
-        insertDummyApproval(result, authorId, catId, db);
-      }
-      if (committerId != null && haveApprovals.add(committerId)) {
-        insertDummyApproval(result, committerId, catId, db);
-      }
-      for (final Account.Id reviewer : reviewers) {
-        if (haveApprovals.add(reviewer)) {
-          insertDummyApproval(result, reviewer, catId, db);
-        }
-      }
     }
 
     final RefUpdate ru = repo.updateRef(ps.getRefName());
@@ -1326,7 +1347,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       log.error("Cannot send email for new patch set " + ps.getId(), e);
     }
 
-    ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
     sendMergedEmail(result);
     return result != null ? result.info.getKey() : null;
   }

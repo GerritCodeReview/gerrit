@@ -136,7 +136,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
     if (patchSet != null && patchSetInfo == null) {
       try {
-        patchSetInfo = args.patchSetInfoFactory.get(patchSet.getId());
+        patchSetInfo = args.patchSetInfoFactory.get(args.db.get(), patchSet.getId());
       } catch (PatchSetInfoNotAvailableException err) {
         patchSetInfo = null;
       }

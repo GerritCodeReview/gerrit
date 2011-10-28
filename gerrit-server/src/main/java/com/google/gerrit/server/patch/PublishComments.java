@@ -288,7 +288,7 @@ public class PublishComments implements Callable<VoidResult> {
       if (message != null) {
         final CommentSender cm = commentSenderFactory.create(change);
         cm.setFrom(user.getAccountId());
-        cm.setPatchSet(patchSet, patchSetInfoFactory.get(patchSetId));
+        cm.setPatchSet(patchSet, patchSetInfoFactory.get(db, patchSetId));
         cm.setChangeMessage(message);
         cm.setPatchLineComments(drafts);
         cm.send();

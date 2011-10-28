@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABO3///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-28T02:51:14Z",
+      "side": 1,
+      "message": "I would have preferred to put this into PROJECT section, as KEY_STATE. Then we have in the config file:\n\n  [project]\n    state \u003d ACTIVE\n\nwhich matches with what we say when we say \"project state\".",
+      "revId": "a92d41b12bcf8f0a749c6d20501bc73383568f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABO3///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-28T02:51:14Z",
+      "side": 1,
+      "message": "See above.",
+      "revId": "a92d41b12bcf8f0a749c6d20501bc73383568f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

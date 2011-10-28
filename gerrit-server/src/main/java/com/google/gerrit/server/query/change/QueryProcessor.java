@@ -23,6 +23,7 @@ import com.google.gerrit.server.events.ChangeAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.PatchSetAttribute;
 import com.google.gerrit.server.events.QueryStats;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gson.Gson;
@@ -66,6 +67,7 @@ public class QueryProcessor {
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryRewriter queryRewriter;
   private final Provider<ReviewDb> db;
+  private final GitRepositoryManager repoManager;
   private final int maxLimit;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
@@ -73,6 +75,7 @@ public class QueryProcessor {
   private boolean includeCurrentPatchSet;
   private boolean includeApprovals;
   private boolean includeComments;
+  private boolean includeCommitMessage;
 
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
@@ -80,11 +83,13 @@ public class QueryProcessor {
   @Inject
   QueryProcessor(EventFactory eventFactory,
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
-      ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db) {
+      ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db,
+      GitRepositoryManager repoManager) {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
     this.db = db;
+    this.repoManager = repoManager;
     this.maxLimit = currentUser.getCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)
       .getMax();
@@ -104,6 +109,10 @@ public class QueryProcessor {
 
   public void setIncludeComments(boolean on) {
     includeComments = on;
+  }
+
+  public void setIncludeCommitMessage(boolean on) {
+    includeCommitMessage = on;
   }
 
   public void setOutput(OutputStream out, OutputFormat fmt) {
@@ -171,6 +180,10 @@ public class QueryProcessor {
           ChangeAttribute c = eventFactory.asChangeAttribute(d.getChange());
           eventFactory.extend(c, d.getChange());
           eventFactory.addTrackingIds(c, d.trackingIds(db));
+
+          if (includeCommitMessage) {
+            eventFactory.addCommitMessage(c, d.commitMessage(repoManager, db));
+          }
 
           if (includePatchSets) {
             eventFactory.addPatchSets(c, d.patches(db),

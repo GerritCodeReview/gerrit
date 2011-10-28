@@ -110,18 +110,25 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(ReviewDb db) throws OrmException, Failure {
-        final PatchLineComment comment = db.patchComments().get(commentKey);
-        if (comment == null) {
-          throw new Failure(new NoSuchEntityException());
+        Change.Id id = commentKey.getParentKey().getParentKey().getParentKey();
+        db.changes().beginTransaction(id);
+        try {
+          final PatchLineComment comment = db.patchComments().get(commentKey);
+          if (comment == null) {
+            throw new Failure(new NoSuchEntityException());
+          }
+          if (!getAccountId().equals(comment.getAuthor())) {
+            throw new Failure(new NoSuchEntityException());
+          }
+          if (comment.getStatus() != PatchLineComment.Status.DRAFT) {
+            throw new Failure(new IllegalStateException("Comment published"));
+          }
+          db.patchComments().delete(Collections.singleton(comment));
+          db.commit();
+          return VoidResult.INSTANCE;
+        } finally {
+          db.rollback();
         }
-        if (!getAccountId().equals(comment.getAuthor())) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        if (comment.getStatus() != PatchLineComment.Status.DRAFT) {
-          throw new Failure(new IllegalStateException("Comment published"));
-        }
-        db.patchComments().delete(Collections.singleton(comment));
-        return VoidResult.INSTANCE;
       }
     });
   }
@@ -142,14 +149,20 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         Account.Id account = getAccountId();
         AccountPatchReview.Key key =
             new AccountPatchReview.Key(patchKey, account);
-        AccountPatchReview apr = db.accountPatchReviews().get(key);
-        if (apr == null && reviewed) {
-          db.accountPatchReviews().insert(
-              Collections.singleton(new AccountPatchReview(patchKey, account)));
-        } else if (apr != null && !reviewed) {
-          db.accountPatchReviews().delete(Collections.singleton(apr));
+        db.accounts().beginTransaction(account);
+        try {
+          AccountPatchReview apr = db.accountPatchReviews().get(key);
+          if (apr == null && reviewed) {
+            db.accountPatchReviews().insert(
+                Collections.singleton(new AccountPatchReview(patchKey, account)));
+          } else if (apr != null && !reviewed) {
+            db.accountPatchReviews().delete(Collections.singleton(apr));
+          }
+          db.commit();
+          return VoidResult.INSTANCE;
+        } finally {
+          db.rollback();
         }
-        return VoidResult.INSTANCE;
       }
     });
   }

@@ -116,18 +116,25 @@ public class PublishComments implements Callable<VoidResult> {
     }
     drafts = drafts();
 
-    publishDrafts();
+    db.changes().beginTransaction(changeId);
+    try {
+      publishDrafts();
 
-    final boolean isCurrent = patchSetId.equals(change.currentPatchSetId());
-    if (isCurrent && change.getStatus().isOpen()) {
-      publishApprovals(ctl);
-    } else if (! approvals.isEmpty()) {
-      throw new InvalidChangeOperationException("Change is closed");
-    } else {
-      publishMessageOnly();
+      final boolean isCurrent = patchSetId.equals(change.currentPatchSetId());
+      if (isCurrent && change.getStatus().isOpen()) {
+        publishApprovals(ctl);
+      } else if (!approvals.isEmpty()) {
+        throw new InvalidChangeOperationException("Change is closed");
+      } else {
+        publishMessageOnly();
+      }
+
+      touchChange();
+      db.commit();
+    } finally {
+      db.rollback();
     }
 
-    touchChange();
     email();
     fireHook();
     return VoidResult.INSTANCE;

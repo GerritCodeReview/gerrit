@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABO3///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-28T03:08:37Z",
+      "side": 1,
+      "message": "Style-nit: Loggers should be declared first in the class.",
+      "revId": "2035d81f31715d5a05fb8758dd8462b6e6177dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABO3///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-28T02:42:25Z",
+      "side": 1,
+      "message": "use change(db) to ensure you have the Change object loaded and it isn\u0027t null.",
+      "revId": "6bf91efbeab407c2825ec4fc15f5dea6b4b350b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABO3///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-28T02:42:25Z",
+      "side": 1,
+      "message": "The code following must be in a try/finally to ensure the repo is closed.",
+      "revId": "6bf91efbeab407c2825ec4fc15f5dea6b4b350b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABO3///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-28T02:42:25Z",
+      "side": 1,
+      "message": "From here down wrap the code in a try/finally to ensure the walk is released.",
+      "revId": "6bf91efbeab407c2825ec4fc15f5dea6b4b350b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABO3////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 2
@@ -13,6 +64,24 @@
       "writtenOn": "2011-10-28T02:21:08Z",
       "side": 1,
       "message": "I\u0027m not sure what I should do in these cases.  It seems best to just leave commitMessage null, but maybe I should log this somewhere?",
+      "revId": "6bf91efbeab407c2825ec4fc15f5dea6b4b350b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABO3///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-28T02:42:25Z",
+      "side": 1,
+      "message": "Yea, you should setup a Logger and log these errors since its most likely data corruption.",
+      "parentUuid": "AAABO3////E\u003d",
       "revId": "6bf91efbeab407c2825ec4fc15f5dea6b4b350b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

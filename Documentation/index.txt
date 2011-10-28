@@ -19,6 +19,7 @@ Installation
 
 * link:licenses.html[Licenses and Notices]
 * link:install.html[Installation Guide]
+* link:install-quick.html[Quick installation in 10 minutes]
 * link:project-setup.html[Project Setup]
 
 Configuration

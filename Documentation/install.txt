@@ -32,6 +32,7 @@ During init Gerrit will automatically configure the embedded H2
 database.  No additional configuration is necessary.  Using the
 embedded H2 database is the easiest way to get a Gerrit site up
 and running.
+If this option interests you, you might want to consider link:install-quick.txt[the quick guide].
 
 [[createdb_postgres]]
 PostgreSQL

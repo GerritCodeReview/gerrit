@@ -1,0 +1,325 @@
+Gerrit Code Review - Quick get started guide
+============================================
+
+****
+This guide was made with the impatient in mind, ready to try out Gerrit on their
+own server but not prepared to make the full installation procedure yet.
+
+Explanation is sparse and you should not use a server installed this way in a
+live setup, this is made with proof of concept activities in mind.
+
+It is presumed you install it on a Unix based server such as any of the Linux
+flavors or BSD.
+
+It's also presumed that you have access to an OpenID enabled email address.
+Examples of OpenID enable email providers are gmail, yahoo and hotmail.
+It's also possible to register a custom email address with OpenID, but that is
+outside the scope of this quick installation guide. For testing purposes one of
+the above providers should be fine. Please note that network access to the
+OpenID provider you choose is necessary for both you and your Gerrit instance.
+****
+
+
+[[requirements]]
+Requirements
+------------
+
+Most distributions come with Java today. Do you already have Java installed?
+
+----
+  $ java -version
+  java version "1.6.0_26"
+  Java(TM) SE Runtime Environment (build 1.6.0_26-b03-384-10M3425)
+    Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02-384, mixed mode)
+----
+
+If Java isn't installed, get it:
+
+* JDK, minimum version 1.6 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
+
+
+[[user]]
+Create a user to host the Gerrit service
+----------------------------------------
+
+We will run the service as a non privileged user on your system.
+First create the user and then become the user:
+
+----
+  sudo adduser gerrit2
+  sudo su gerrit2
+----
+
+If you don't have root privileges you could skip this step and run gerrit
+as your own user as well.
+
+
+[[download]]
+Download Gerrit
+---------------
+
+It's time to download the archive that contains the gerrit web and ssh service.
+
+You can choose from different versions to download from here:
+
+* http://code.google.com/p/gerrit/downloads/list[A list of releases available]
+
+This tutorial is based on version 2.2.1, and you can download that from this link
+
+* http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.2.1.war[Link to the 2.2.1 war archive]
+
+
+[[initialization]]
+Initialize the Site
+-------------------
+
+It's time to run the initialization, and with the batch switch enabled, we don't have to answer any questions at all:
+
+----
+
+gerrit2@host:~$ java -jar gerrit.war init --batch -d ~/gerrit_testsite
+Generating SSH host key ... rsa(simple)... done
+Initialized /home/gerrit2/gerrit_testsite
+Executing /home/gerrit2/gerrit_testsite/bin/gerrit.sh start
+Starting Gerrit Code Review: OK
+gerrit2@host:~$
+
+----
+
+When the init is complete, you can review your settings in the
+file `'$site_path/etc/gerrit.config'`.
+
+Installation is complete and you're ready to start up Gerrit!
+
+----
+gerrit2@host:~$ $site_path/bin/gerrit.sh start
+Starting Gerrit Code Review: OK
+Waiting for server to start ... OK
+----
+
+[[usersetup]]
+The first user
+--------------
+
+It's time to exit the gerrit2 account as you now have Gerrit running on your
+host and setup your first workspace.
+
+Start a shell with the credentials of the account you will perform
+development under.
+
+Check whether there are any ssh keys already. You're looking for two files,
+id_rsa and id_rsa.pub.
+
+----
+user@host:~$ ls .ssh
+authorized_keys  config  id_rsa  id_rsa.pub  known_hosts
+----
+
+If you have the files, you may skip the key generating step.
+
+If you don't see the files in your listing, your will have to generate rsa
+keys for your ssh sessions:
+
+SSH key generation
+~~~~~~~~~~~~~~~~~~
+
+*Please don't generate new keys if you already have a valid keypair!*
+*They will be overwritten!*
+
+----
+user@host:~$ ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/user/.ssh/id_rsa): 
+Created directory '/home/user/.ssh'.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/user/.ssh/id_rsa.
+Your public key has been saved in /home/user/.ssh/id_rsa.pub.
+The key fingerprint is:
+00:11:22:00:11:22:00:11:44:00:11:22:00:11:22:99 user@host
+The key's randomart image is:
++--[ RSA 2048]----+
+|     ..+.*=+oo.*E|
+|      u.OoB.. . +|
+|       ..*.      |
+|       o         |
+|      . S ..     |
+|                 |
+|                 |
+|          ..     |
+|                 |
++-----------------+
+
+user@host:~$
+----
+
+Registering your key in Gerrit
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Open a browser and enter the canonical url you used above when initializing
+Gerrit.
+
+----
+Canonical URL                  [http://localhost:8080/]: 
+----
+
+Register a new account in Gerrit through the web interface with the
+email address of your choice.
+The first user to sign-in and register an account will be
+automatically placed into the fully privileged Administrators group,
+permitting server management over the web and over SSH.  Subsequent
+users will be automatically registered as unprivileged users.
+
+Once signed in as your user, you find a little wizard to get you started.
+The wizard helps you fill out:
+
+* Real name (visible name in Gerrit)
+* Register your email (it must be confirmed later)
+* Select a username with which to communicate with Gerrit over ssh+git
+
+* The server will ask you for an RSA public key.
+That's the key we generated above, and it's time to make sure that Gerrit knows
+about our new key and can identify us by it.
+
+----
+user@host:~$ cat .ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA5E785mWtMckorP5v40PyFeui9T50dKpaGYw67Mlv2J3aGBG3tS0qBQxKEpiV0J4+W0RgQHbWfNqdUYen9bC5VVH/GatYWkpL9TjjUcHzF1rX3Eyv7PHuHLAyd/8Zdv6R3saF+hNpp1JW0BSa7HXzK7iNCVA3kBuBthxeGh3OoFbaXHn1zwwVQw8I5+Lp9OOIY7sJEsM/kW699XDV6z2zlkByNVEp45j+g26x5rCnGS8GJM7A0uHsaWJddO6TiyR6/2SOBF1VtKw49XLTQcmDInFAZzUsAZSDKlfYloPkpA6YdqeG0eJqau+jtzuigydoVj4j9xidcJ9HtxZcJNuraw== user@host
+----
+
+Copy the string starting with ssh-rsa to your clipboard and then paste it
+into the box for RSA keys. Make *absolutely sure* no extra spaces or line feeds
+are entered in the middle of the RSA string.
+
+Verify that the ssh connection works for you.
+
+----
+ user@host:~$ ssh user@localhost -p 29418
+ The authenticity of host '[localhost]:29418 ([127.0.0.1]:29418)' can't be established.
+ RSA key fingerprint is db:07:3d:c2:94:25:b5:8d:ac:bc:b5:9e:2f:95:5f:4a.
+ Are you sure you want to continue connecting (yes/no)? yes
+ Warning: Permanently added '[localhost]:29418' (RSA) to the list of known hosts.
+
+  ****    Welcome to Gerrit Code Review    ****
+
+  Hi user, you have successfully connected over SSH.
+
+  Unfortunately, interactive shells are disabled.
+    To clone a hosted Git repository, use:
+
+  git clone ssh://user@localhost:29418/REPOSITORY_NAME.git
+
+  user@host:~$
+----
+
+Project creation
+----------------
+
+Your base Gerrit server is now running and you have a user that's ready
+to interact with it.  You now have two options, either you create a new
+test project to work with or you already have a git with history that
+you would like to import into gerrit and try out code review on.
+
+New project from scratch
+~~~~~~~~~~~~~~~~~~~~~~~~
+If you choose to create a new repository from scratch, it's easier for
+you to create a project with an initial commit in it. That way first
+time setup between client and server is easier.
+
+This is done via the SSH port:
+
+----
+  user@host:~$ ssh -p 29418 user@localhost gerrit create-project --empty-commit --name demo-project
+  user@host:~$
+----
+
+This will create a test repository to work with.
+
+Previous project exist
+~~~~~~~~~~~~~~~~~~~~~~
+
+The other alternative is if you already have a git project that you
+want to try out Gerrit on.
+First you have to create the project, this is done via the SSH port:
+
+----
+  user@host:~$ ssh -p 29418 user@localhost gerrit create-project --name demo-project
+  user@host:~$
+----
+
+After that it's time to upload the previous history to the server:
+
+----
+  user@host:~/my-project$ git push ssh://user@localhost:29418/demo-project *:*
+    Counting objects: 2011, done.
+    Writing objects: 100% (2011/2011), 456293 bytes, done.
+    Total 2011 (delta 0), reused 0 (delta 0)
+    * [new branch]      master -> master
+
+----
+
+This will create a test repository to work with.
+
+
+My first change
+---------------
+
+Download a local clone of the repository
+
+----
+  user@host:~$ git clone ssh://user@host:29418/demo-project
+  Cloning into demo-project...
+  remote: Counting objects: 2, done
+  remote: Finding sources: 100% (2/2)
+  remote: Total 2 (delta 0), reused 0 (delta 0)
+  user@host:~$
+----
+
+Then make a change to it and upload it as a reviewable change in Gerrit.
+
+----
+  date > testfile.txt
+  git add testfile.txt
+  git commit -m "My pretty test commit"
+    [master ff643a5] My pretty test commit
+    1 files changed, 1 insertions(+), 0 deletions(-)
+    create mode 100644 testfile.txt
+----
+
+Usually when you push to a remote git, you push to the reference
+`'/refs/heads/branch'`, but when working with Gerrit you have to push to a
+virtual branch representing "code review before submittal to branch".
+This virtual name space is known as /refs/for/<branch>
+
+----
+  git push origin HEAD:refs/for/master
+    Counting objects: 4, done.
+    Writing objects: 100% (3/3), 293 bytes, done.
+    Total 3 (delta 0), reused 0 (delta 0)
+    remote: 
+    remote: New Changes:
+    remote:   http://localhost:8080/1
+    remote: 
+    To ssh://user@localhost:29418/demo-project
+     * [new branch]      HEAD -> refs/for/master
+----
+
+You should now be able to access your change by browsing to the http URL
+suggested above, http://localhost:8080/1
+
+
+Quick Installation Complete
+---------------------------
+
+This covers the scope of getting Gerrit started and your first change uploaded.
+It doesn't give any clue as to how the review workflow works, please find
+link:http://source.android.com/submit-patches/workflow[Default Workflow] to
+learn more about the workflow of Gerrit.
+
+To read more on the installation of Gerrit please read link:install.html[the detailed
+installation page].
+
+
+GERRIT
+------
+
+Part of link:index.html[Gerrit Code Review]

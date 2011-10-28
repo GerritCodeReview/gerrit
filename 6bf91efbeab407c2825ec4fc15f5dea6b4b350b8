@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABO3////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2011-10-28T02:21:08Z",
+      "side": 1,
+      "message": "I\u0027m not sure what I should do in these cases.  It seems best to just leave commitMessage null, but maybe I should log this somewhere?",
+      "revId": "6bf91efbeab407c2825ec4fc15f5dea6b4b350b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

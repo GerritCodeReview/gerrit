@@ -119,6 +119,10 @@ public class EventFactory {
     }
   }
 
+  public void addCommitMessage(ChangeAttribute a, String commitMessage) {
+    a.commitMessage = commitMessage;
+  }
+
   public void addPatchSets(ChangeAttribute a, Collection<PatchSet> ps) {
     addPatchSets(a, ps, null, false, null);
   }

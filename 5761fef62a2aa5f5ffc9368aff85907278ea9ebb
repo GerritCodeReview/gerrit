@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABPH////Q\u003d",
+        "filename": "Documentation/cmd-set-project-parent.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-28T19:42:52Z",
+      "side": 1,
+      "message": "Yes, \u0027--children-of\u0027 sounds better. I didn\u0027t like \u0027--old-parent\u0027 too much, but couldn\u0027t find a better name.\n\nDone.",
+      "parentUuid": "AAABPX////M\u003d",
+      "revId": "5761fef62a2aa5f5ffc9368aff85907278ea9ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABPX////I\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-10-28T18:41:38Z",
       "side": 1,
       "message": "This function is starting to get fairly large.  Perhaps the stuff in this block should be put into a sub function since it could be well expressed that way?",
+      "revId": "5761fef62a2aa5f5ffc9368aff85907278ea9ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABPH////U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-28T19:42:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABPX////I\u003d",
       "revId": "5761fef62a2aa5f5ffc9368aff85907278ea9ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -20,15 +20,23 @@ import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,6 +48,7 @@ import java.util.Map;
 public class ChangeData {
   private final Change.Id legacyId;
   private Change change;
+  private String commitMessage;
   private Collection<PatchSet> patches;
   private Collection<PatchSetApproval> approvals;
   private Map<PatchSet.Id,Collection<PatchSetApproval>> approvalsMap;
@@ -162,6 +171,29 @@ public class ChangeData {
       }
     }
     return r;
+  }
+
+  public String commitMessage(GitRepositoryManager repoManager,
+      Provider<ReviewDb> db) throws IOException, OrmException {
+    if (commitMessage == null) {
+      PatchSet.Id psId = null;
+      String sha1 = null;
+      Project.NameKey name = null;
+      Repository repo = null;
+      psId = change(db).currentPatchSetId();
+      sha1 = db.get().patchSets().get(psId).getRevision().get();
+      name = change.getProject();
+      repo = repoManager.openRepository(name);
+      RevWalk walk = new RevWalk(repo);
+      try {
+        RevCommit c = walk.parseCommit(ObjectId.fromString(sha1));
+        commitMessage = c.getFullMessage();
+      } finally {
+        walk.release();
+        repo.close();
+      }
+    }
+    return commitMessage;
   }
 
   public Collection<PatchSet> patches(Provider<ReviewDb> db)

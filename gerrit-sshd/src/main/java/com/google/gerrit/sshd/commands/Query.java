@@ -56,6 +56,11 @@ class Query extends BaseCommand {
     processor.setIncludeComments(on);
   }
 
+  @Option(name = "--commit-message", usage = "Include the full commit message for a change")
+  void setCommitMessage(boolean on) {
+    processor.setIncludeCommitMessage(on);
+  }
+
   @Argument(index = 0, required = true, multiValued = true, metaVar = "QUERY", usage = "Query to execute")
   private List<String> query;
 

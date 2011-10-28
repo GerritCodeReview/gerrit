@@ -20,15 +20,26 @@ import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,6 +51,7 @@ import java.util.Map;
 public class ChangeData {
   private final Change.Id legacyId;
   private Change change;
+  private String commitMessage;
   private Collection<PatchSet> patches;
   private Collection<PatchSetApproval> approvals;
   private Map<PatchSet.Id,Collection<PatchSetApproval>> approvalsMap;
@@ -49,6 +61,9 @@ public class ChangeData {
   private Collection<TrackingId> trackingIds;
   private CurrentUser visibleTo;
   private List<ChangeMessage> messages;
+
+  private static final Logger log =
+    LoggerFactory.getLogger(QueryProcessor.class);
 
   public ChangeData(final Change.Id id) {
     legacyId = id;
@@ -162,6 +177,31 @@ public class ChangeData {
       }
     }
     return r;
+  }
+
+  public String commitMessage(GitRepositoryManager repoManager, Provider<ReviewDb> db) {
+    if (commitMessage == null) {
+      try {
+        PatchSet.Id psId = change(db).currentPatchSetId();
+        String sha1 = db.get().patchSets().get(psId).getRevision().get();
+        Project.NameKey name = change.getProject();
+        Repository repo = repoManager.openRepository(name);
+        RevWalk walk = new RevWalk(repo);
+        try {
+          RevCommit c = walk.parseCommit(ObjectId.fromString(sha1));
+          commitMessage = c.getFullMessage();
+        } finally {
+          walk.release();
+        }
+      } catch (RepositoryNotFoundException e) {
+        log.error("Problem opening change repository", e);
+      } catch (IOException e) {
+        log.error("Problem finding commit message", e);
+      } catch (OrmException e) {
+        log.error("Problem requesting sha1 from database", e);
+      }
+    }
+    return commitMessage;
   }
 
   public Collection<PatchSet> patches(Provider<ReviewDb> db)

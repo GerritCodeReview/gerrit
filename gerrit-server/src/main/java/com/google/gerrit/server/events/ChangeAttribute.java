@@ -27,6 +27,7 @@ public class ChangeAttribute {
     public String subject;
     public AccountAttribute owner;
     public String url;
+    public String commitMessage;
 
     public Long createdOn;
     public Long lastUpdated;

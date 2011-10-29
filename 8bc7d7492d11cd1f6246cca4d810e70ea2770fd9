@@ -16,6 +16,24 @@
       "revId": "8bc7d7492d11cd1f6246cca4d810e70ea2770fd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABPn////Y\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/ProtoGen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-10-29T00:35:00Z",
+      "side": 1,
+      "message": "Done. Moved to a resource text file.",
+      "parentUuid": "AAABPX///+g\u003d",
+      "revId": "8bc7d7492d11cd1f6246cca4d810e70ea2770fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

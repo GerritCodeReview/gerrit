@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABQX////M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-29T07:03:40Z",
+      "side": 1,
+      "message": "As a general rule, we don\u0027t want internal info in the commit messages (tools -37)",
+      "revId": "50ea21785b7fc2809913070a3fff77000ab7c3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABQX////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-29T07:03:40Z",
+      "side": 1,
+      "message": "I suggest calling this allRefsById (see above).",
+      "revId": "50ea21785b7fc2809913070a3fff77000ab7c3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABP3////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-29T07:03:40Z",
+      "side": 1,
+      "message": "Can be static? Perhaps containsChangeRef() would be a better name?\n\nIdeally this would be placed under the last method which calls it I think.",
+      "revId": "50ea21785b7fc2809913070a3fff77000ab7c3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABP3////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-29T07:03:40Z",
+      "side": 1,
+      "message": "/to/two/",
+      "revId": "50ea21785b7fc2809913070a3fff77000ab7c3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABP3////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-29T07:03:40Z",
+      "side": 1,
+      "message": "Needs way better name. Static?",
+      "revId": "50ea21785b7fc2809913070a3fff77000ab7c3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABP3////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-29T07:03:40Z",
+      "side": 1,
+      "message": "How about \"change(s) already...\"",
+      "revId": "50ea21785b7fc2809913070a3fff77000ab7c3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABQX////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-29T07:03:40Z",
+      "side": 1,
+      "message": "I suspect this is likely to oversize things too much.",
+      "revId": "50ea21785b7fc2809913070a3fff77000ab7c3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABQX////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1513,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-29T07:03:40Z",
+      "side": 1,
+      "message": "You could skip the double lookup by simply calling get() and then checking for null.  This would also allow you to only have the list instantiation/put in the if.",
+      "revId": "50ea21785b7fc2809913070a3fff77000ab7c3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABQX////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1523,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-29T07:03:40Z",
+      "side": 1,
+      "message": "Nit: no trailing blank lines.",
+      "revId": "50ea21785b7fc2809913070a3fff77000ab7c3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

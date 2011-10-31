@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABN3////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformVisibleGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-31T11:36:26Z",
+      "side": 1,
+      "message": "Yes, \"perform\" is not really nice. I just used it because the class \"VisibleGroups\" is already existing in gerrit-httpd and I followed the naming pattern as it was done for \u0027CreateGroup\u0027 (gerrit-httpd) and \u0027PerformCreateGroup\u0027 (gerrit-server). If to change the name I would propose \u0027VisibleGroups\u0027 in gerrit-server and \u0027VisibleGroupsHandler\u0027 in gerrit-httpd to follow the other already existing naming pattern (e.g. used for \u0027AddReviewerHandler\u0027 -\u003e \u0027AddReviewer\u0027). Is that better? I would not like to introduce a third naming pattern for that.",
+      "parentUuid": "AAABQX////s\u003d",
+      "revId": "323ff5b2d75c2a2ed66e63490c19b187bf30d2cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABQX////w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformVisibleGroups.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-10-29T06:18:08Z",
       "side": 1,
       "message": "I think that maybe just get() would do (if this class were named just VisibleGroups)?",
+      "revId": "323ff5b2d75c2a2ed66e63490c19b187bf30d2cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABN3////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformVisibleGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-31T11:36:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABQX////w\u003d",
       "revId": "323ff5b2d75c2a2ed66e63490c19b187bf30d2cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABN3////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformVisibleGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-31T11:36:26Z",
+      "side": 1,
+      "message": "Agreed, this could be simpler. However this change is just moving this code from VisibleGroups into this class. I prefer to improve the code in an own change that gets predecessor of this change. \n\nActually the loop is needed here because groupCache.all() does return an Iterable and not a Collection, but still it can be simplified by using CollectionUtils.addAll(list, iterator).\n\nDone in change 30200 [1].\n\n[1] https://gerrit-review.googlesource.com/30200",
+      "parentUuid": "AAABQX////4\u003d",
+      "revId": "323ff5b2d75c2a2ed66e63490c19b187bf30d2cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABQX////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformVisibleGroups.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAABN3////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformVisibleGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-31T11:36:26Z",
+      "side": 1,
+      "message": "Agreed. However this change is just moving this code from VisibleGroups into this class. I prefer to improve the code in an own change that gets predecessor of this change.\n\nDone in change 30200 [1].\n\n[1] https://gerrit-review.googlesource.com/30200",
+      "parentUuid": "AAABQX////o\u003d",
+      "revId": "323ff5b2d75c2a2ed66e63490c19b187bf30d2cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABQX////0\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListGroups.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2011-10-29T06:18:08Z",
       "side": 1,
       "message": "Does putting this on another thread actually have a benefit, the user is waiting for the answer either way, or is there another reason?",
+      "revId": "323ff5b2d75c2a2ed66e63490c19b187bf30d2cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABN3////U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-31T11:36:26Z",
+      "side": 1,
+      "message": "I\u0027m actually not sure if it brings any benefit. I\u0027ve just did it to be consistent with all the other SSH command implementation.\n\nIf it\u0027s not needed we should probably remove this pattern in all command implementations, should we? I think this should then be done in an own change. But since it\u0027s done in all commands there might be actually a good reason for this, that I\u0027m not aware of. Maybe Shawn can comment on it before we go ahead and remove it everywhere.",
+      "parentUuid": "AAABQX////0\u003d",
       "revId": "323ff5b2d75c2a2ed66e63490c19b187bf30d2cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

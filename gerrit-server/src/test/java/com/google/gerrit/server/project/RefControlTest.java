@@ -280,6 +280,14 @@ public class RefControlTest extends TestCase {
       }
 
       @Override
+      public void addEvictListener(ProjectEvictListener evictListener) {
+      }
+
+      @Override
+      public void removeEvictListener(ProjectEvictListener evictListener) {
+      }
+
+      @Override
       public Iterable<Project.NameKey> all() {
         return Collections.emptySet();
       }

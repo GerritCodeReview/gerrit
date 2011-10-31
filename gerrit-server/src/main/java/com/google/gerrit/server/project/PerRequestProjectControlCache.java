@@ -16,7 +16,9 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.RequestCleanup;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;
 
 import java.util.HashMap;
@@ -30,11 +32,25 @@ public class PerRequestProjectControlCache {
   private final Map<Project.NameKey, ProjectControl> controls;
 
   @Inject
-  PerRequestProjectControlCache(ProjectCache projectCache,
-      CurrentUser userProvider) {
+  PerRequestProjectControlCache(final ProjectCache projectCache,
+      final CurrentUser userProvider, final Provider<RequestCleanup> cleanup) {
     this.projectCache = projectCache;
     this.user = userProvider;
     this.controls = new HashMap<Project.NameKey, ProjectControl>();
+
+    final ProjectEvictListener evictListener = new ProjectEvictListener() {
+      @Override
+      public void projectEvicted(final Project.NameKey projectName) {
+        controls.remove(projectName);
+      }
+    };
+    projectCache.addEvictListener(evictListener);
+    cleanup.get().add(new Runnable() {
+      @Override
+      public void run() {
+        projectCache.removeEvictListener(evictListener);
+      }
+    });
   }
 
   ProjectControl get(Project.NameKey nameKey) throws NoSuchProjectException {

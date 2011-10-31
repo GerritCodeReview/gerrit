@@ -17,5 +17,9 @@ package com.google.gerrit.client.changes;
 import com.google.gwt.i18n.client.Messages;
 
 public interface TopicMessages extends Messages {
+  String changeSetHeader(int id);
+  String topicScreenTitleId(String topicId);
+  String submitChangeSet(int id);
   String publishCommentsOnSet(String commitSetId, String topicName);
+  String revertTopicDefaultMessage(String topic, int id, int changesetid);
 }

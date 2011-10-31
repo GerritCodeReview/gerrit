@@ -17,8 +17,37 @@ package com.google.gerrit.client.changes;
 import com.google.gwt.i18n.client.Constants;
 
 public interface TopicConstants extends Constants {
+  String previousChangeSet();
+  String nextChangeSet();
+
+  String changeSetInfoAuthor();
+  String changeSetInfoDownload();
+
+  String buttonRevertTopicBegin();
+  String buttonRevertTopicSend();
+  String buttonRevertTopicCancel();
+  String headingRevertMessage();
+  String revertTopicTitle();
+
+  String buttonAbandonTopicBegin();
+  String buttonAbandonTopicSend();
+  String buttonAbandonTopicCancel();
+  String headingAbandonMessage();
+  String abandonTopicTitle();
+
+  String buttonRestoreTopicBegin();
+  String restoreTopicTitle();
+  String buttonRestoreTopicCancel();
+  String headingRestoreMessage();
+  String buttonRestoreTopicSend();
+
+  String buttonReview();
   String buttonPublishCommentsSend();
   String buttonPublishSubmitSend();
   String buttonPublishCommentsCancel();
   String headingCoverMessage();
+  String headingChangeComments();
+
+  String changeSetChangeListPrev();
+  String changeSetChangeListNext();
 }

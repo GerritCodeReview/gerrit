@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.data.IncludedInDetail;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Topic;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -31,10 +32,19 @@ public class IncludedInTable extends Composite implements
     OpenHandler<DisclosurePanel> {
   private final Grid table;
   private final Change.Id changeId;
+  private final Topic.Id topicId;
   private boolean loaded = false;
 
   public IncludedInTable(final Change.Id chId) {
     changeId = chId;
+    topicId = null;
+    table = new Grid(1, 1);
+    initWidget(table);
+  }
+
+  public IncludedInTable(final Topic.Id tId) {
+    changeId = null;
+    topicId = tId;
     table = new Grid(1, 1);
     initWidget(table);
   }
@@ -73,13 +83,23 @@ public class IncludedInTable extends Composite implements
   @Override
   public void onOpen(OpenEvent<DisclosurePanel> event) {
     if (!loaded) {
-      Util.DETAIL_SVC.includedInDetail(changeId,
-          new GerritCallback<IncludedInDetail>() {
-            @Override
-            public void onSuccess(final IncludedInDetail result) {
-              loadTable(result);
-            }
-          });
+      if (changeId != null) {
+        Util.DETAIL_SVC.includedInDetail(changeId,
+            new GerritCallback<IncludedInDetail>() {
+              @Override
+              public void onSuccess(final IncludedInDetail result) {
+                loadTable(result);
+              }
+            });
+      } else {
+        Util.T_DETAIL_SVC.includedInDetail(topicId,
+            new GerritCallback<IncludedInDetail>() {
+              @Override
+              public void onSuccess(final IncludedInDetail result) {
+                loadTable(result);
+              }
+            });
+      }
     }
   }
 }

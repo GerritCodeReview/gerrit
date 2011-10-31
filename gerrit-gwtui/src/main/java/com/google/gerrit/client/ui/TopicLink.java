@@ -15,6 +15,7 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.changes.TopicScreen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Topic;
 import com.google.gwt.core.client.GWT;
@@ -38,7 +39,6 @@ public class TopicLink extends InlineHyperlink {
   }
 
   private Screen createScreen() {
-    // TODO It will return a TopicScreen when defined
-    return new Screen() {};
+    return new TopicScreen(topicId);
   }
 }

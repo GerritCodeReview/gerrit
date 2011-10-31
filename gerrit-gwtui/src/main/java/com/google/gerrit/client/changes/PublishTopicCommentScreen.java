@@ -301,7 +301,7 @@ public class PublishTopicCommentScreen extends AccountScreen implements
 
   private void goChangeSet() {
     final Topic.Id ck = changeSetId.getParentKey();
-    // TODO go to the topic screen
+    Gerrit.display(PageLinks.toTopic(ck), new TopicScreen(ck));
   }
 
   private static class ValueRadioButton extends RadioButton {

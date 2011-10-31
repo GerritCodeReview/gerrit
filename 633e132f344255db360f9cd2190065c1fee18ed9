@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABN3///+o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/VisibleGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-31T15:11:51Z",
+      "side": 1,
+      "message": "Actually don\u0027t know how this happened.\n\nDone.",
+      "parentUuid": "AAABQH////k\u003d",
+      "revId": "633e132f344255db360f9cd2190065c1fee18ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABQH////g\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGroup.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-10-31T14:24:06Z",
       "side": 1,
       "message": "hashCode() and equals() are derived from the base StringKey class. There is no need to implement them again.",
+      "revId": "633e132f344255db360f9cd2190065c1fee18ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABN3///+k\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-31T15:11:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABQH////g\u003d",
       "revId": "633e132f344255db360f9cd2190065c1fee18ed9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

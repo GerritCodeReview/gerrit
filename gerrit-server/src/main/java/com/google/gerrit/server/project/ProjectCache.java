@@ -32,6 +32,12 @@ public interface ProjectCache {
   /** Invalidate the cached information about the given project. */
   public void evict(Project p);
 
+  /** Register a listener for project evicts. */
+  public void addEvictListener(ProjectEvictListener evictListener);
+
+  /** Remove project evict listener. */
+  public void removeEvictListener(ProjectEvictListener evictListener);
+
   /** @return sorted iteration of projects. */
   public abstract Iterable<Project.NameKey> all();
 

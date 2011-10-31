@@ -35,6 +35,8 @@ import org.eclipse.jgit.lib.Repository;
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -72,6 +74,8 @@ public class ProjectCacheImpl implements ProjectCache {
   private final Cache<ListKey,SortedSet<Project.NameKey>> list;
   private final Lock listLock;
   private volatile long generation;
+  private final List<ProjectEvictListener> evictListeners =
+      new LinkedList<ProjectEvictListener>();
 
   @Inject
   ProjectCacheImpl(
@@ -136,7 +140,18 @@ public class ProjectCacheImpl implements ProjectCache {
   public void evict(final Project p) {
     if (p != null) {
       byName.remove(p.getNameKey());
+      for (final ProjectEvictListener l : evictListeners) {
+        l.projectEvicted(p.getNameKey());
+      }
     }
+  }
+
+  public void addEvictListener(final ProjectEvictListener evictListener) {
+    evictListeners.add(evictListener);
+  }
+
+  public void removeEvictListener(final ProjectEvictListener evictListener) {
+    evictListeners.remove(evictListener);
   }
 
   @Override

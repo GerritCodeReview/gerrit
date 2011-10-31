@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABRH////k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-31T18:37:08Z",
+      "side": 1,
+      "message": "What\u0027s the value in setting these null here only to reset them below?",
+      "revId": "4b742e9bb707bdde471485f12668a666b62fe9df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

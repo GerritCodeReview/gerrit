@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "AAABN3///+c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformVisibleGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-31T15:14:04Z",
+      "side": 1,
+      "message": "Actually this was introduced by change 30022 [1]. Since this change is still open I\u0027ve fixed it now directly in this change.\n\n[1] https://gerrit-review.googlesource.com/30022",
+      "parentUuid": "AAABN3////k\u003d",
+      "revId": "323ff5b2d75c2a2ed66e63490c19b187bf30d2cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABQX////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformVisibleGroups.java",
         "patchSetId": 1
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "Agreed. However this change is just moving this code from VisibleGroups into this class. I prefer to improve the code in an own change that gets predecessor of this change.\n\nDone in change 30200 [1].\n\n[1] https://gerrit-review.googlesource.com/30200",
       "parentUuid": "AAABQX////o\u003d",
+      "revId": "323ff5b2d75c2a2ed66e63490c19b187bf30d2cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABN3///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformVisibleGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-31T15:14:04Z",
+      "side": 1,
+      "message": "I\u0027ve now fixed this in the predecessor change 30022 [1].\n\n[1] https://gerrit-review.googlesource.com/30022",
+      "parentUuid": "AAABN3////g\u003d",
       "revId": "323ff5b2d75c2a2ed66e63490c19b187bf30d2cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

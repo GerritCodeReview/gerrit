@@ -16,6 +16,24 @@
       "revId": "88d034ed2b8c2f6df04a9a2d8cb274ed500e07b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABN3////s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-10-31T08:40:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABPX///94\u003d",
+      "revId": "88d034ed2b8c2f6df04a9a2d8cb274ed500e07b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

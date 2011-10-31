@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABRH////Q\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-31T19:47:10Z",
+      "side": 1,
+      "message": "I can\u0027t help but wonder if this shouldn\u0027t be pushed to gwtorm StringKey?",
+      "revId": "7eaf92a16b873cebed3ac4bcfbdd7f6a55b9b489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABRH////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-10-31T19:47:10Z",
+      "side": 1,
+      "message": "If list.get(ListKey.ALL) returns a reasonable upper bounds for the size, I think that an ArrayList would likely be faster.",
+      "revId": "7eaf92a16b873cebed3ac4bcfbdd7f6a55b9b489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

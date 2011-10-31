@@ -24,6 +24,8 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,14 +55,10 @@ public class VisibleGroups extends Handler<GroupList> {
   @Override
   public GroupList call() throws Exception {
     final IdentifiedUser user = identifiedUser.get();
-    final List<AccountGroup> list;
+    final List<AccountGroup> list = new LinkedList<AccountGroup>();
     if (user.getCapabilities().canAdministrateServer()) {
-      list = new LinkedList<AccountGroup>();
-      for (final AccountGroup group : groupCache.all()) {
-        list.add(group);
-      }
+      CollectionUtils.addAll(list, groupCache.all().iterator());
     } else {
-      list = new ArrayList<AccountGroup>();
       for(final AccountGroup group : groupCache.all()) {
         final GroupControl c = groupControlFactory.controlFor(group);
         if (c.isVisible()) {
@@ -73,9 +71,6 @@ public class VisibleGroups extends Handler<GroupList> {
     for(AccountGroup group : list) {
       l.add(groupDetailFactory.create(group.getId()).call());
     }
-    GroupList res = new GroupList();
-    res.setGroups(l);
-    res.setCanCreateGroup(user.getCapabilities().canCreateGroup());
-    return res;
+    return new GroupList(l, user.getCapabilities().canCreateGroup());
   }
 }

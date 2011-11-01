@@ -100,6 +100,10 @@ public class ReviewCommand extends BaseCommand {
   @Option(name = "--submit", aliases = "-s", usage = "submit the patch set")
   private boolean submitChange;
 
+  @Option(name = "--force-message", usage = "publish the message, "
+      + "even if the label score cannot be applied")
+  private boolean forceMessage = false;
+
   @Inject
   private ReviewDb db;
 
@@ -227,7 +231,7 @@ public class ReviewCommand extends BaseCommand {
     }
 
     try {
-      publishCommentsFactory.create(patchSetId, changeComment, aps).call();
+      publishCommentsFactory.create(patchSetId, changeComment, aps, forceMessage).call();
 
       if (abandonChange) {
         if (changeControl.canAbandon()) {

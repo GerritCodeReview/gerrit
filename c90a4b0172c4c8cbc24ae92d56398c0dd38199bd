@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAABSX///90\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectConfigSection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-01T16:50:11Z",
+      "side": 1,
+      "message": "Ignore then.",
+      "parentUuid": "AAABE3//+z4\u003d",
+      "revId": "c90a4b0172c4c8cbc24ae92d56398c0dd38199bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3//+2Y\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectMergeStrategies.java",
         "patchSetId": 4
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "Do you mean  the method names?",
       "parentUuid": "AAABE3//+2Y\u003d",
+      "revId": "c90a4b0172c4c8cbc24ae92d56398c0dd38199bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABSX///9s\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectMergeStrategies.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-01T16:50:11Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "AAABE3//+z0\u003d",
       "revId": "c90a4b0172c4c8cbc24ae92d56398c0dd38199bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

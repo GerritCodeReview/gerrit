@@ -382,12 +382,12 @@ case "$ACTION" in
           JAVA='$JAVA' ; export JAVA ;
           $RUN_EXEC $RUN_Arg1 '$RUN_Arg2' $RUN_Arg3 $RUN_ARGS &
           PID=\$! ;
-          disown \$PID ;
+          disown ;
           echo \$PID >\"$GERRIT_PID\""
       else
         $RUN_EXEC $RUN_Arg1 "$RUN_Arg2" $RUN_Arg3 $RUN_ARGS &
         PID=$!
-        type disown >/dev/null 2>&1 && disown $PID
+        type disown >/dev/null 2>&1 && disown
         echo $PID >"$GERRIT_PID"
       fi
     fi

@@ -57,7 +57,7 @@ public class PublishComments implements Callable<VoidResult> {
 
   public interface Factory {
     PublishComments create(PatchSet.Id patchSetId, String messageText,
-        Set<ApprovalCategoryValue.Id> approvals);
+        Set<ApprovalCategoryValue.Id> approvals, boolean forceMessage);
   }
 
   private final ReviewDb db;
@@ -72,6 +72,7 @@ public class PublishComments implements Callable<VoidResult> {
   private final PatchSet.Id patchSetId;
   private final String messageText;
   private final Set<ApprovalCategoryValue.Id> approvals;
+  private final boolean forceMessage;
 
   private Change change;
   private PatchSet patchSet;
@@ -89,7 +90,8 @@ public class PublishComments implements Callable<VoidResult> {
 
       @Assisted final PatchSet.Id patchSetId,
       @Assisted final String messageText,
-      @Assisted final Set<ApprovalCategoryValue.Id> approvals) {
+      @Assisted final Set<ApprovalCategoryValue.Id> approvals,
+      @Assisted final boolean forceMessage) {
     this.db = db;
     this.user = user;
     this.types = approvalTypes;
@@ -102,6 +104,7 @@ public class PublishComments implements Callable<VoidResult> {
     this.patchSetId = patchSetId;
     this.messageText = messageText;
     this.approvals = approvals;
+    this.forceMessage = forceMessage;
   }
 
   @Override
@@ -123,10 +126,10 @@ public class PublishComments implements Callable<VoidResult> {
       final boolean isCurrent = patchSetId.equals(change.currentPatchSetId());
       if (isCurrent && change.getStatus().isOpen()) {
         publishApprovals(ctl);
-      } else if (!approvals.isEmpty()) {
-        throw new InvalidChangeOperationException("Change is closed");
-      } else {
+      } else if (approvals.isEmpty() || forceMessage) {
         publishMessageOnly();
+      } else {
+        throw new InvalidChangeOperationException("Change is closed");
       }
 
       touchChange();

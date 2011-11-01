@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABS3////8\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010009
+      },
+      "writtenOn": "2011-11-01T22:42:28Z",
+      "side": 1,
+      "message": "How about \"During Gerrit\u0027s init process you will need ...\" instead? Strikes me as a little more fluid, although I don\u0027t feel strongly about it.",
+      "revId": "2dd303302bfa048e2f79277a70012960babecca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABS3////4\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010009
+      },
+      "writtenOn": "2011-11-01T22:42:28Z",
+      "side": 1,
+      "message": "s/setup/set up/ (one word is noun form)",
+      "revId": "2dd303302bfa048e2f79277a70012960babecca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABS3////0\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010009
+      },
+      "writtenOn": "2011-11-01T22:42:28Z",
+      "side": 1,
+      "message": "s/setup/set up/",
+      "revId": "2dd303302bfa048e2f79277a70012960babecca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABS3////w\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010009
+      },
+      "writtenOn": "2011-11-01T22:42:28Z",
+      "side": 1,
+      "message": "s/, but j/. J/\n\n(That is, I feel this should be two sentences. Again, I don\u0027t feel strongly.)",
+      "revId": "2dd303302bfa048e2f79277a70012960babecca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

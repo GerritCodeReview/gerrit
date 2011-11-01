@@ -16,6 +16,24 @@
       "revId": "4b742e9bb707bdde471485f12668a666b62fe9df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABSH////8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-01T00:36:13Z",
+      "side": 1,
+      "message": "None. We shouldn\u0027t do this. Ick. Yet another rebase on this patch. :-)",
+      "parentUuid": "AAABRH////k\u003d",
+      "revId": "4b742e9bb707bdde471485f12668a666b62fe9df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

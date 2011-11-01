@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABSX///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformVisibleGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-01T05:47:44Z",
+      "side": 1,
+      "message": "It might be worth moving this if outside the for loop and adding all the groups as one in the admin case.",
+      "revId": "68e14e56c2d6ad066565c06c6234e88f55de62da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

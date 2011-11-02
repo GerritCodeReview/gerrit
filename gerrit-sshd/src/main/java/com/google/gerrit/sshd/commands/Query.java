@@ -56,6 +56,11 @@ class Query extends BaseCommand {
     processor.setIncludeComments(on);
   }
 
+  @Option(name = "--files", usage = "Include file list on patch sets")
+  void setFiles(boolean on) {
+    processor.setIncludeFiles(on);
+  }
+
   @Argument(index = 0, required = true, multiValued = true, metaVar = "QUERY", usage = "Query to execute")
   private List<String> query;
 

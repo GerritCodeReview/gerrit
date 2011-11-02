@@ -16,6 +16,23 @@
       "revId": "68e14e56c2d6ad066565c06c6234e88f55de62da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABTH////8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-02T04:18:34Z",
+      "side": 1,
+      "message": "You might be able to do this (get multiple projects) without defining a function, take a look here:\n https://gerrit-review.googlesource.com/#/c/22871/5/gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParents.java",
+      "revId": "68e14e56c2d6ad066565c06c6234e88f55de62da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

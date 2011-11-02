@@ -30,7 +30,7 @@ import javax.servlet.ServletResponse;
 
 /** Set the WebSession to {@link AccessPath#GIT}. */
 @Singleton
-class ProjectAccessPathFilter implements Filter {
+public class ProjectAccessPathFilter implements Filter {
   private final Provider<WebSession> session;
 
   @Inject

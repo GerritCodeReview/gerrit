@@ -216,7 +216,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @Override
   public synchronized void start() {
-    if (acceptor == null) {
+    if (acceptor == null && !listen.isEmpty()) {
       checkConfig();
 
       acceptor = createAcceptor();
@@ -257,6 +257,10 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private List<HostKey> computeHostKeys() {
+    if (listen.isEmpty()) {
+      return Collections.emptyList();
+    }
+
     final List<PublicKey> keys = myHostKeys();
     final ArrayList<HostKey> r = new ArrayList<HostKey>();
     for (final PublicKey pub : keys) {
@@ -348,6 +352,10 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       return bind;
     }
 
+    if (want.length == 1 && isOff(want[0])) {
+      return bind;
+    }
+
     for (final String desc : want) {
       try {
         bind.add(SocketUtil.resolve(desc, DEFAULT_PORT));
@@ -356,6 +364,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       }
     }
     return bind;
+  }
+
+  private static boolean isOff(String listenHostname) {
+    return "off".equalsIgnoreCase(listenHostname)
+        || "none".equalsIgnoreCase(listenHostname)
+        || "no".equalsIgnoreCase(listenHostname);
   }
 
   @SuppressWarnings("unchecked")

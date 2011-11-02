@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.AccountDiffPreference;
 public class HostPageData {
   public Account account;
   public AccountDiffPreference accountDiffPref;
+  public String xsrfToken;
   public GerritConfig config;
   public Theme theme;
 

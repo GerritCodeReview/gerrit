@@ -49,7 +49,6 @@ class SaveDraft extends Handler<PatchLineComment> {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.currentUser = currentUser;
-
     this.comment = comment;
   }
 
@@ -62,42 +61,50 @@ class SaveDraft extends Handler<PatchLineComment> {
     final Patch.Key patchKey = comment.getKey().getParentKey();
     final PatchSet.Id patchSetId = patchKey.getParentKey();
     final Change.Id changeId = patchKey.getParentKey().getParentKey();
-    changeControlFactory.validateFor(changeId);
-    if (db.patchSets().get(patchSetId) == null) {
-      throw new NoSuchChangeException(changeId);
-    }
 
-    final Account.Id me = currentUser.getAccountId();
-    if (comment.getKey().get() == null) {
-      if (comment.getLine() < 1) {
-        throw new IllegalStateException("Comment line must be >= 1, not "
-            + comment.getLine());
-      }
-
-      if (comment.getParentUuid() != null) {
-        final PatchLineComment parent =
-            db.patchComments().get(
-                new PatchLineComment.Key(patchKey, comment.getParentUuid()));
-        if (parent == null || parent.getSide() != comment.getSide()) {
-          throw new IllegalStateException("Parent comment must be on same side");
-        }
-      }
-
-      final PatchLineComment nc =
-          new PatchLineComment(new PatchLineComment.Key(patchKey, ChangeUtil
-              .messageUUID(db)), comment.getLine(), me, comment.getParentUuid());
-      nc.setSide(comment.getSide());
-      nc.setMessage(comment.getMessage());
-      db.patchComments().insert(Collections.singleton(nc));
-      return nc;
-
-    } else {
-      if (!me.equals(comment.getAuthor())) {
+    db.changes().beginTransaction(changeId);
+    try {
+      changeControlFactory.validateFor(changeId);
+      if (db.patchSets().get(patchSetId) == null) {
         throw new NoSuchChangeException(changeId);
       }
-      comment.updated();
-      db.patchComments().update(Collections.singleton(comment));
-      return comment;
+
+      final Account.Id me = currentUser.getAccountId();
+      if (comment.getKey().get() == null) {
+        if (comment.getLine() < 1) {
+          throw new IllegalStateException("Comment line must be >= 1, not "
+              + comment.getLine());
+        }
+
+        if (comment.getParentUuid() != null) {
+          final PatchLineComment parent =
+              db.patchComments().get(
+                  new PatchLineComment.Key(patchKey, comment.getParentUuid()));
+          if (parent == null || parent.getSide() != comment.getSide()) {
+            throw new IllegalStateException("Parent comment must be on same side");
+          }
+        }
+
+        final PatchLineComment nc =
+            new PatchLineComment(new PatchLineComment.Key(patchKey, ChangeUtil
+                .messageUUID(db)), comment.getLine(), me, comment.getParentUuid());
+        nc.setSide(comment.getSide());
+        nc.setMessage(comment.getMessage());
+        db.patchComments().insert(Collections.singleton(nc));
+        db.commit();
+        return nc;
+
+      } else {
+        if (!me.equals(comment.getAuthor())) {
+          throw new NoSuchChangeException(changeId);
+        }
+        comment.updated();
+        db.patchComments().update(Collections.singleton(comment));
+        db.commit();
+        return comment;
+      }
+    } finally {
+      db.rollback();
     }
   }
 }

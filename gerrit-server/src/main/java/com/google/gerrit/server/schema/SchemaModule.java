@@ -16,7 +16,6 @@ package com.google.gerrit.server.schema;
 
 import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -24,8 +23,6 @@ import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.FactoryModule;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -44,13 +41,5 @@ public class SchemaModule extends FactoryModule {
 
     bind(String.class).annotatedWith(AnonymousCowardName.class).toProvider(
         AnonymousCowardNameProvider.class);
-
-    bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
-    install(new LifecycleModule() {
-      @Override
-      protected void configure() {
-        listener().to(LocalDiskRepositoryManager.Lifecycle.class);
-      }
-    });
   }
 }

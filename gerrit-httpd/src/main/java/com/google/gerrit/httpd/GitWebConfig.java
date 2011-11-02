@@ -41,6 +41,15 @@ public class GitWebConfig {
     final String cfgCgi = cfg.getString("gitweb", null, "cgi");
 
     type = GitWebType.fromName(cfg.getString("gitweb", null, "type"));
+    if (type == null) {
+      url = null;
+      gitweb_cgi = null;
+      gitweb_css = null;
+      gitweb_js = null;
+      git_logo_png = null;
+      return;
+    }
+
     type.setLinkName(cfg.getString("gitweb", null, "linkname"));
     type.setBranch(cfg.getString("gitweb", null, "branch"));
     type.setProject(cfg.getString("gitweb", null, "project"));
@@ -58,7 +67,7 @@ public class GitWebConfig {
     }
 
     if ((cfgUrl != null && cfgUrl.isEmpty())
-        || (cfgCgi != null && cfgCgi.isEmpty()) || type == null) {
+        || (cfgCgi != null && cfgCgi.isEmpty())) {
       // Either setting was explicitly set to the empty string disabling
       // gitweb for this server. Disable the configuration.
       //

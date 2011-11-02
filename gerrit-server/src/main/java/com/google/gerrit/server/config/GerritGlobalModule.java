@@ -17,7 +17,6 @@ package com.google.gerrit.server.config;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.rules.PrologModule;
@@ -43,17 +42,13 @@ import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.PushAllProjectsOp;
-import com.google.gerrit.server.git.PushReplication;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
-import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.git.SecureCredentialsProvider;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
-import com.google.gerrit.server.mail.SmtpEmailSender;
+import com.google.gerrit.server.mail.VelocityRuntimeProvider;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.AccessControlModule;
@@ -68,50 +63,13 @@ import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.inject.Inject;
 
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.lib.Config;
-
-import java.util.Properties;
 
 
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
   private final AuthType loginType;
-
-  public static class VelocityLifecycle implements LifecycleListener {
-    private final SitePaths site;
-
-    @Inject
-    VelocityLifecycle(final SitePaths site) {
-      this.site = site;
-    }
-
-    @Override
-    public void start() {
-      String rl = "resource.loader";
-      String pkg = "org.apache.velocity.runtime.resource.loader";
-      Properties p = new Properties();
-
-      p.setProperty(rl, "file, class");
-      p.setProperty("file." + rl + ".class", pkg + ".FileResourceLoader");
-      p.setProperty("file." + rl + ".path", site.mail_dir.getAbsolutePath());
-      p.setProperty("class." + rl + ".class", pkg + ".ClasspathResourceLoader");
-      p.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
-              "org.apache.velocity.runtime.log.SimpleLog4JLogSystem" );
-      p.setProperty("runtime.log.logsystem.log4j.category", "velocity");
-
-      try {
-        Velocity.init(p);
-      } catch(Exception e) {
-        throw new RuntimeException(e);
-      }
-    }
-
-    @Override
-    public void stop() {
-    }
-  }
 
   @Inject
   GerritGlobalModule(final AuthConfig authConfig,
@@ -127,6 +85,9 @@ public class GerritGlobalModule extends FactoryModule {
       case LDAP_BIND:
       case CLIENT_SSL_CERT_LDAP:
         install(new LdapModule());
+        break;
+
+      case CUSTOM_EXTENSION:
         break;
 
       default:
@@ -161,21 +122,21 @@ public class GerritGlobalModule extends FactoryModule {
     bind(PermissionCollection.Factory.class);
 
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
-    bind(WorkQueue.class);
     bind(ToolsCatalog.class);
     bind(EventFactory.class);
     bind(TransferConfig.class);
 
-    bind(ReplicationQueue.class).to(PushReplication.class).in(SINGLETON);
     factory(SecureCredentialsProvider.Factory.class);
     factory(PushAllProjectsOp.Factory.class);
 
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
     factory(ReloadSubmitQueueOp.Factory.class);
 
+    bind(RuntimeInstance.class)
+        .toProvider(VelocityRuntimeProvider.class)
+        .in(SINGLETON);
     bind(FromAddressGenerator.class).toProvider(
         FromAddressGeneratorProvider.class).in(SINGLETON);
-    bind(EmailSender.class).to(SmtpEmailSender.class).in(SINGLETON);
 
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
@@ -188,8 +149,6 @@ public class GerritGlobalModule extends FactoryModule {
       @Override
       protected void configure() {
         listener().to(CachePool.Lifecycle.class);
-        listener().to(WorkQueue.Lifecycle.class);
-        listener().to(VelocityLifecycle.class);
       }
     });
   }

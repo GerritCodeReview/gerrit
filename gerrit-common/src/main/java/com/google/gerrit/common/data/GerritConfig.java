@@ -26,6 +26,7 @@ import java.util.Set;
 
 public class GerritConfig implements Cloneable {
   protected String registerUrl;
+  protected String httpPasswordUrl;
   protected List<OpenIdProviderPattern> allowedOpenIDs;
 
   protected GitwebLink gitweb;
@@ -35,6 +36,7 @@ public class GerritConfig implements Cloneable {
   protected AuthType authType;
   protected Set<DownloadScheme> downloadSchemes;
   protected String gitDaemonUrl;
+  protected String gitHttpUrl;
   protected String sshdAddress;
   protected Project.NameKey wildProject;
   protected ApprovalTypes approvalTypes;
@@ -50,6 +52,14 @@ public class GerritConfig implements Cloneable {
 
   public void setRegisterUrl(final String u) {
     registerUrl = u;
+  }
+
+  public String getHttpPasswordUrl() {
+    return httpPasswordUrl;
+  }
+
+  public void setHttpPasswordUrl(String url) {
+    httpPasswordUrl = url;
   }
 
   public List<OpenIdProviderPattern> getAllowedOpenIDs() {
@@ -109,6 +119,17 @@ public class GerritConfig implements Cloneable {
       url += "/";
     }
     gitDaemonUrl = url;
+  }
+
+  public String getGitHttpUrl() {
+    return gitHttpUrl;
+  }
+
+  public void setGitHttpUrl(String url) {
+    if (url != null && !url.endsWith("/")) {
+      url += "/";
+    }
+    gitHttpUrl = url;
   }
 
   public String getSshdAddress() {

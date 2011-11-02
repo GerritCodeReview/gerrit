@@ -72,7 +72,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
     final IdentifiedUser user =  args.identifiedUserFactory.create(id);
     final Set<AccountGroup.UUID> gids = user.getEffectiveGroups();
     for (final AccountGroup.UUID gid : gids) {
-      if (args.groupCache.get(gid).isEmailOnlyAuthors()) {
+      AccountGroup group = args.groupCache.get(gid);
+      if (group != null && group.isEmailOnlyAuthors()) {
         emailOnlyAuthors = true;
         break;
       }
@@ -136,7 +137,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
     if (patchSet != null && patchSetInfo == null) {
       try {
-        patchSetInfo = args.patchSetInfoFactory.get(patchSet.getId());
+        patchSetInfo = args.patchSetInfoFactory.get(args.db.get(), patchSet.getId());
       } catch (PatchSetInfoNotAvailableException err) {
         patchSetInfo = null;
       }

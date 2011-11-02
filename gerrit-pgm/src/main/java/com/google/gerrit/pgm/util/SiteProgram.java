@@ -20,6 +20,7 @@ import static com.google.inject.Stage.PRODUCTION;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
@@ -164,6 +165,7 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(new GerritServerConfigModule());
     modules.add(new DatabaseModule());
     modules.add(new SchemaModule());
+    modules.add(new LocalDiskRepositoryManager.Module());
 
     try {
       return Guice.createInjector(PRODUCTION, modules);

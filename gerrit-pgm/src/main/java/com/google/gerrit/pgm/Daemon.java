@@ -16,8 +16,11 @@ package com.google.gerrit.pgm;
 
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
+import com.google.gerrit.httpd.CacheBasedWebSession;
+import com.google.gerrit.httpd.GitOverHttpModule;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
 import com.google.gerrit.httpd.WebModule;
+import com.google.gerrit.httpd.WebSshGlueModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
@@ -31,7 +34,11 @@ import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
+import com.google.gerrit.server.git.PushReplication;
+import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
+import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
 import com.google.gerrit.sshd.commands.SlaveCommandModule;
@@ -114,10 +121,6 @@ public class Daemon extends SiteProgram {
     if (slave && httpd) {
       throw die("Cannot combine --slave and --enable-httpd");
     }
-    if (httpd && !sshd) {
-      // TODO Support HTTP without SSH.
-      throw die("--enable-httpd currently requires --enable-sshd");
-    }
 
     if (consoleLog) {
     } else {
@@ -188,7 +191,10 @@ public class Daemon extends SiteProgram {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(SchemaVersionCheck.module());
     modules.add(new LogFileCompressor.Module());
+    modules.add(new WorkQueue.Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    modules.add(new SmtpEmailSender.Module());
+    modules.add(new PushReplication.Module());
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {
         @Override
@@ -217,11 +223,15 @@ public class Daemon extends SiteProgram {
 
   private Injector createSshInjector() {
     final List<Module> modules = new ArrayList<Module>();
-    modules.add(new SshModule());
-    if (slave) {
-      modules.add(new SlaveCommandModule());
+    if (sshd) {
+      modules.add(new SshModule());
+      if (slave) {
+        modules.add(new SlaveCommandModule());
+      } else {
+        modules.add(new MasterCommandModule());
+      }
     } else {
-      modules.add(new MasterCommandModule());
+      modules.add(new NoSshModule());
     }
     return sysInjector.createChildInjector(modules);
   }
@@ -240,7 +250,12 @@ public class Daemon extends SiteProgram {
   private Injector createWebInjector() {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(sshInjector.getInstance(WebModule.class));
-    modules.add(sshInjector.getInstance(ProjectQoSFilter.Module.class));
+    modules.add(sysInjector.getInstance(GitOverHttpModule.class));
+    modules.add(sshInjector.getInstance(WebSshGlueModule.class));
+    modules.add(CacheBasedWebSession.module());
+    if (sshd) {
+      modules.add(sshInjector.getInstance(ProjectQoSFilter.Module.class));
+    }
     return sysInjector.createChildInjector(modules);
   }
 

@@ -45,6 +45,10 @@ public final class AccountAgreement implements AbstractAgreement {
       return accountId;
     }
 
+    public ContributorAgreement.Id getContributorAgreementId() {
+      return claId;
+    }
+
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
       return new com.google.gwtorm.client.Key<?>[] {claId};

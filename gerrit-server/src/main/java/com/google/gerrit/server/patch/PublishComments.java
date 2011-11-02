@@ -116,18 +116,25 @@ public class PublishComments implements Callable<VoidResult> {
     }
     drafts = drafts();
 
-    publishDrafts();
+    db.changes().beginTransaction(changeId);
+    try {
+      publishDrafts();
 
-    final boolean isCurrent = patchSetId.equals(change.currentPatchSetId());
-    if (isCurrent && change.getStatus().isOpen()) {
-      publishApprovals(ctl);
-    } else if (! approvals.isEmpty()) {
-      throw new InvalidChangeOperationException("Change is closed");
-    } else {
-      publishMessageOnly();
+      final boolean isCurrent = patchSetId.equals(change.currentPatchSetId());
+      if (isCurrent && change.getStatus().isOpen()) {
+        publishApprovals(ctl);
+      } else if (!approvals.isEmpty()) {
+        throw new InvalidChangeOperationException("Change is closed");
+      } else {
+        publishMessageOnly();
+      }
+
+      touchChange();
+      db.commit();
+    } finally {
+      db.rollback();
     }
 
-    touchChange();
     email();
     fireHook();
     return VoidResult.INSTANCE;
@@ -280,7 +287,7 @@ public class PublishComments implements Callable<VoidResult> {
   }
 
   private List<PatchLineComment> drafts() throws OrmException {
-    return db.patchComments().draft(patchSetId, user.getAccountId()).toList();
+    return db.patchComments().draftByPatchSetAuthor(patchSetId, user.getAccountId()).toList();
   }
 
   private void email() {
@@ -288,7 +295,7 @@ public class PublishComments implements Callable<VoidResult> {
       if (message != null) {
         final CommentSender cm = commentSenderFactory.create(change);
         cm.setFrom(user.getAccountId());
-        cm.setPatchSet(patchSet, patchSetInfoFactory.get(patchSetId));
+        cm.setPatchSet(patchSet, patchSetInfoFactory.get(db, patchSetId));
         cm.setChangeMessage(message);
         cm.setPatchLineComments(drafts);
         cm.send();

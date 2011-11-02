@@ -51,7 +51,7 @@ public final class StoredValues {
       PatchSetInfoFactory patchInfoFactory =
           env.getInjector().getInstance(PatchSetInfoFactory.class);
       try {
-        return patchInfoFactory.get(patchSetId);
+        return patchInfoFactory.get(REVIEW_DB.get(engine), patchSetId);
       } catch (PatchSetInfoNotAvailableException e) {
         throw new SystemException(e.getMessage());
       }

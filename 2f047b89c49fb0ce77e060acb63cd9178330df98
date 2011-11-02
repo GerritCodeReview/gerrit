@@ -16,6 +16,40 @@
       "revId": "2f047b89c49fb0ce77e060acb63cd9178330df98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABTn////0\u003d",
+        "filename": "Documentation/cmd-hook-commit-msg.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-02T08:31:36Z",
+      "side": 1,
+      "message": "maybe better: s/the path/local path",
+      "revId": "2f047b89c49fb0ce77e060acb63cd9178330df98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABTn////w\u003d",
+        "filename": "Documentation/cmd-hook-commit-msg.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-02T08:31:36Z",
+      "side": 1,
+      "message": "What for we have \u0027****\u0027 here? Should it do any asciidoc formatting?",
+      "revId": "2f047b89c49fb0ce77e060acb63cd9178330df98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -156,6 +156,24 @@
       "revId": "2dd303302bfa048e2f79277a70012960babecca5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABTX////o\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-02T08:14:51Z",
+      "side": 1,
+      "message": "How could I miss that?! Whoa, thanks.\n\nDone.",
+      "parentUuid": "AAABTn////8\u003d",
+      "revId": "2dd303302bfa048e2f79277a70012960babecca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

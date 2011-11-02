@@ -26,6 +26,9 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.patch.PatchList;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -43,14 +46,17 @@ public class EventFactory {
   private final AccountCache accountCache;
   private final Provider<String> urlProvider;
   private final ApprovalTypes approvalTypes;
+  private final PatchListCache patchListCache;
 
   @Inject
   EventFactory(AccountCache accountCache,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      ApprovalTypes approvalTypes) {
+      ApprovalTypes approvalTypes,
+      PatchListCache patchListCache) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.approvalTypes = approvalTypes;
+    this.patchListCache = patchListCache;
   }
 
   /**
@@ -114,11 +120,18 @@ public class EventFactory {
   }
 
   public void addPatchSets(ChangeAttribute a, Collection<PatchSet> ps) {
-    addPatchSets(a, ps, null);
+    addPatchSets(a, ps, null, false, null);
   }
 
   public void addPatchSets(ChangeAttribute ca, Collection<PatchSet> ps,
       Map<PatchSet.Id,Collection<PatchSetApproval>> approvals) {
+    addPatchSets(ca, ps, approvals, false, null);
+  }
+
+  public void addPatchSets(ChangeAttribute ca, Collection<PatchSet> ps,
+      Map<PatchSet.Id,Collection<PatchSetApproval>> approvals,
+      boolean includeFiles, Change change) {
+
     if (!ps.isEmpty()) {
       ca.patchSets = new ArrayList<PatchSetAttribute>(ps.size());
       for (PatchSet p : ps) {
@@ -127,6 +140,9 @@ public class EventFactory {
           addApprovals(psa, p.getId(), approvals);
         }
         ca.patchSets.add(psa);
+        if (includeFiles && change != null) {
+          addPatchSetFileNames(psa, change, p);
+        }
       }
     }
   }
@@ -142,6 +158,21 @@ public class EventFactory {
         }
         patchSetAttribute.comments.add(asPatchSetLineAttribute(comment));
       }
+    }
+  }
+
+  public void addPatchSetFileNames(PatchSetAttribute patchSetAttribute,
+      Change change, PatchSet patchSet) {
+    PatchList patchList = patchListCache.get(change, patchSet);
+    for (PatchListEntry patch : patchList.getPatches()) {
+      if (patchSetAttribute.files == null) {
+        patchSetAttribute.files = new ArrayList<PatchAttribute>();
+      }
+
+      PatchAttribute p = new PatchAttribute();
+      p.file = patch.getNewName();
+      p.type = patch.getChangeType();
+      patchSetAttribute.files.add(p);
     }
   }
 

@@ -73,6 +73,7 @@ public class QueryProcessor {
   private boolean includeCurrentPatchSet;
   private boolean includeApprovals;
   private boolean includeComments;
+  private boolean includeFiles;
 
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
@@ -104,6 +105,10 @@ public class QueryProcessor {
 
   public void setIncludeComments(boolean on) {
     includeComments = on;
+  }
+
+  public void setIncludeFiles(boolean on) {
+    includeFiles = on;
   }
 
   public void setOutput(OutputStream out, OutputFormat fmt) {
@@ -173,8 +178,14 @@ public class QueryProcessor {
           eventFactory.addTrackingIds(c, d.trackingIds(db));
 
           if (includePatchSets) {
-            eventFactory.addPatchSets(c, d.patches(db),
-              includeApprovals ? d.approvalsMap(db) : null);
+            if (includeFiles) {
+              eventFactory.addPatchSets(c, d.patches(db),
+                includeApprovals ? d.approvalsMap(db) : null,
+                includeFiles, d.change(db));
+            } else {
+              eventFactory.addPatchSets(c, d.patches(db),
+                  includeApprovals ? d.approvalsMap(db) : null);
+            }
           }
 
           if (includeCurrentPatchSet) {
@@ -183,6 +194,11 @@ public class QueryProcessor {
               c.currentPatchSet = eventFactory.asPatchSetAttribute(current);
               eventFactory.addApprovals(c.currentPatchSet, //
                   d.approvalsFor(db, current.getId()));
+
+              if (includeFiles) {
+                eventFactory.addPatchSetFileNames(c.currentPatchSet,
+                    d.change(db), d.currentPatchSet(db));
+              }
             }
           }
 

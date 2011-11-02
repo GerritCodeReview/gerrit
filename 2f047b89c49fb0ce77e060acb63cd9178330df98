@@ -104,6 +104,24 @@
       "revId": "2f047b89c49fb0ce77e060acb63cd9178330df98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABTn////Y\u003d",
+        "filename": "Documentation/cmd-hook-commit-msg.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-02T11:13:02Z",
+      "side": 1,
+      "message": "Yes, I also find it sometimes hard to predict how asciidoc will render it in the end.\n\nI tried several things to get this formatting working and in the end I found one way. It\u0027s not really nice but I think it renders as you want it to render:\n\n\u003d\u003d\u003d\u003d\n\n`$ scp -p -P 29418` ***john.doe@review.example.com***`:hooks/commit-msg ~/duhproject/.git/hooks/`\n\n`$ curl` ***http://review.example.com***`/tools/hooks/commit-msg`\n\n\u003d\u003d\u003d\u003d\n\n(without blank lines after and before \u0027\u003d\u003d\u003d\u003d\u0027)",
+      "parentUuid": "AAABTX////g\u003d",
+      "revId": "2f047b89c49fb0ce77e060acb63cd9178330df98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

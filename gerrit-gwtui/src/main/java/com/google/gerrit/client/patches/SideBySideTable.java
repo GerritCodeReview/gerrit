@@ -180,7 +180,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
     for (int row = 0; row < lines.size(); row++) {
       setRowItem(row, lines.get(row));
-      if (lines.get(row) instanceof SkippedLine) {
+      if (lines.get(row) instanceof SkippedLine && script.containsWholeFiles()) {
         createSkipLine(row, (SkippedLine) lines.get(row));
       }
     }
@@ -332,6 +332,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().skipLine());
     m.setAttribute("colspan", 4);
+    m.append(PatchUtil.C.patchSkipRegionStart() + " " + skipCnt + " "
+        + PatchUtil.C.patchSkipRegionEnd());
     m.closeTd();
     m.closeTr();
   }
@@ -386,7 +388,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
           + "</a>");
       addStyle(row + i, 1, Gerrit.RESOURCES.css().lineNumber());
 
-      setHtml(row + i, 2, a.getSafeHtmlLine(lineA).asString());
+      String lineText;
+      if(a.contains(lineA)) {
+        lineText = a.getSafeHtmlLine(lineA).asString();
+      } else {
+        lineText = b.getSafeHtmlLine(lineB).asString();
+      }
+      setHtml(row + i, 2, lineText);
       addStyle(row + i, 2, Gerrit.RESOURCES.css().fileLine());
       addStyle(row + i, 2, Gerrit.RESOURCES.css().fileLineCONTEXT());
 
@@ -394,7 +402,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
           + "</a>");
       addStyle(row + i, 3, Gerrit.RESOURCES.css().lineNumber());
 
-      setHtml(row + i, 4, b.getSafeHtmlLine(lineB).asString());
+      setHtml(row + i, 4, lineText);
       addStyle(row + i, 4, Gerrit.RESOURCES.css().fileLine());
       addStyle(row + i, 4, Gerrit.RESOURCES.css().fileLineCONTEXT());
 

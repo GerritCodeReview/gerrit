@@ -197,6 +197,10 @@ public class PatchScript {
     return f;
   }
 
+  public boolean containsWholeFiles() {
+    return a.isWholeFile() || b.isWholeFile();
+  }
+
   public List<Edit> getEdits() {
     return edits;
   }

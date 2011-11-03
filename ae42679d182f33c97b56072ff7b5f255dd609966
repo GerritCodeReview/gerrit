@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABTn///9c\u003d",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-11-03T23:34:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABTH///8Q\u003d",
+      "revId": "ae42679d182f33c97b56072ff7b5f255dd609966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABTH///8M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-11-03T23:15:07Z",
       "side": 1,
       "message": "Should be d.change(db) just in case it wasn\u0027t loaded by the query.",
+      "revId": "ae42679d182f33c97b56072ff7b5f255dd609966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABTn///9g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-11-03T23:34:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABTH///8M\u003d",
       "revId": "ae42679d182f33c97b56072ff7b5f255dd609966",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

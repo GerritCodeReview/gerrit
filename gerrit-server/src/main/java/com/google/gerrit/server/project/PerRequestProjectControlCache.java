@@ -49,4 +49,8 @@ public class PerRequestProjectControlCache {
     }
     return ctl;
   }
+
+  public void evict(Project.NameKey nameKey) {
+    controls.remove(nameKey);
+  }
 }

@@ -21,11 +21,13 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmConcurrencyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -43,6 +45,7 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
   private final ProjectCache projectCache;
   private final GitRepositoryManager mgr;
   private final MetaDataUpdate.User metaDataUpdateFactory;
+  private final Provider<PerRequestProjectControlCache> userCache;
 
   private final Project update;
 
@@ -52,11 +55,13 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
       final ProjectControl.Factory projectControlFactory,
       final ProjectCache projectCache, final GitRepositoryManager mgr,
       final MetaDataUpdate.User metaDataUpdateFactory,
+      final Provider<PerRequestProjectControlCache> uc,
       @Assisted final Project update) {
     this.projectDetailFactory = projectDetailFactory;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
     this.mgr = mgr;
+    this.userCache = uc;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
 
     this.update = update;
@@ -84,6 +89,7 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
       if (config.commit(md)) {
         mgr.setProjectDescription(projectName, update.getDescription());
         projectCache.evict(config.getProject());
+        userCache.get().evict(projectName);
       } else {
         throw new OrmConcurrencyException("Cannot update " + projectName);
       }

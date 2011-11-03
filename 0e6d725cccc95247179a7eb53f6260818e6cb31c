@@ -16,6 +16,24 @@
       "revId": "0e6d725cccc95247179a7eb53f6260818e6cb31c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABTn///90\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitWebType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-03T12:42:15Z",
+      "side": 1,
+      "message": "I believe it must be: \u0027${project}/log/${file}?h\u003d${branch}\u0027 !",
+      "parentUuid": "AAABEX//+cY\u003d",
+      "revId": "0e6d725cccc95247179a7eb53f6260818e6cb31c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

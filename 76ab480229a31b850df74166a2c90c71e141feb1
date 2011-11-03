@@ -86,6 +86,24 @@
       "revId": "76ab480229a31b850df74166a2c90c71e141feb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABUX////4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2011-11-03T21:28:08Z",
+      "side": 1,
+      "message": "\u0027If the line isn\u0027t available, you can\u0027t expand. Don\u0027t try to steal from the other side.\u0027\n\nHow should I handle this from a UI perspective?  Is it possible for a line to be available in one side but not the other?  That is what I was assuming, because in my test one side said the whole file was available but the other side was not.\n\nI think this code is similar to what is done on line 123:\n\n final SafeHtml ctx \u003d a.getSafeHtmlLine(hunk.getCurA());\n appendLineText(nc, hunk.getCurA(), CONTEXT, ctx, false, false);\n if (ignoreWS \u0026\u0026 b.contains(hunk.getCurB())) {\n      appendLineText(nc, hunk.getCurB(), CONTEXT, b, hunk.getCurB(),\n       false);\n } else {\n      appendLineText(nc, hunk.getCurB(), CONTEXT, ctx, false, false);\n }",
+      "parentUuid": "AAABTH///88\u003d",
+      "revId": "76ab480229a31b850df74166a2c90c71e141feb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

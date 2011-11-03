@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABLH////8\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-03T21:08:39Z",
+      "side": 1,
+      "message": "Link needs to be updated. :-)",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABTn///+A\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 2
@@ -13,6 +30,23 @@
       "writtenOn": "2011-11-03T10:00:01Z",
       "side": 1,
       "message": "URL must be adapted to new Gerrit server",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABLH////0\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-03T21:08:39Z",
+      "side": 1,
+      "message": "reviewer\u0027s?",
       "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -36,6 +70,57 @@
     },
     {
       "key": {
+        "uuid": "AAABLH////w\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-03T21:08:39Z",
+      "side": 1,
+      "message": "Include",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABLH////s\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-03T21:08:39Z",
+      "side": 1,
+      "message": "Include",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABLH////o\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-03T21:08:39Z",
+      "side": 1,
+      "message": "More important is to look at the code nearby and match its same style. Especially within the same file.",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3//+y0\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 2
@@ -47,6 +132,23 @@
       "writtenOn": "2011-08-31T16:29:46Z",
       "side": 1,
       "message": "Still hard to read. Perhaps \"(usually this means you\u0027re fetching data from outside the cache)\"?",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABLH////k\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-03T21:08:39Z",
+      "side": 1,
+      "message": "finally doesn\u0027t have ().",
       "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

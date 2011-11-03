@@ -140,6 +140,24 @@
       "revId": "76ab480229a31b850df74166a2c90c71e141feb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABTH///8Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-03T23:01:31Z",
+      "side": 1,
+      "message": "Hmm, with this feature enabled now in the client, yea, it may make sense to also adjust the server to return the B lines that differ from A exactly, but don\u0027t differ with the whitespace setting. That way you can still expand context on those. But your test needs to be:\n\n  if (b.contains(lineB)) {\n    .. use B\n  } else {\n    .. use A\n  }",
+      "parentUuid": "AAABUX////w\u003d",
+      "revId": "76ab480229a31b850df74166a2c90c71e141feb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

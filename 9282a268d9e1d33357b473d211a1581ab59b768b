@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABTH///+M\u003d",
+        "filename": "Documentation/cmd-hook-commit-msg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-03T03:53:38Z",
+      "side": 1,
+      "message": "Does this actually put the file in the right place?",
+      "revId": "9282a268d9e1d33357b473d211a1581ab59b768b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

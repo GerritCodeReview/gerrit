@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABTH///9s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-03T05:04:08Z",
+      "side": 1,
+      "message": "This looks costly, not because it happens a lot, but because it effectively calls every single PeRequestProjectCache making the large higher hit sites suffer more, and yes, now with the synchronized, every register/unegister will incur a hit.\n\nI cannot help but think that perhaps this is overkill.  Is there some way that the evict could get a hold of the PerRequestProjectCache of the evicting thread, and to evict the project just from that PerRequestProjectCache?  After all, there is no real need for the other requests to be instantly updated.",
+      "revId": "fd6b587db9cf67a3e5b11dc01301d2e353aab9b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

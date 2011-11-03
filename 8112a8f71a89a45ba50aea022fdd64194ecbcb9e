@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABTH///9k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessEditor.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-03T20:58:12Z",
+      "side": 1,
+      "message": "The text of this anchor should be customized. See commit a07d2e7e39476f4c46a9a49afed4213603e865e3 for details.",
+      "revId": "8112a8f71a89a45ba50aea022fdd64194ecbcb9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

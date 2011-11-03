@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABTH///9A\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchScript.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-03T21:15:20Z",
+      "side": 1,
+      "message": "IIRC the server only sends both as a whole file if both are whole files. So this may be OK.",
+      "parentUuid": "AAABTH///+0\u003d",
+      "revId": "76ab480229a31b850df74166a2c90c71e141feb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABTH///+w\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2011-11-02T22:54:30Z",
       "side": 1,
       "message": "The lines are identical, so try grabbing them from one source or the other.\n\nQuestion - is this a good policy if the user has enabled \u0027ignore whitespace\u0027?",
+      "revId": "76ab480229a31b850df74166a2c90c71e141feb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABTH///88\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-03T21:15:20Z",
+      "side": 1,
+      "message": "No. When ignore whitespace is set the lines are not identical, but they were claimed to be. Don\u0027t copy from the other side. IIRC the server should have given you the line when this happens for each side so the UI looks right.\n\nIf the line isn\u0027t available, you can\u0027t expand. Don\u0027t try to steal from the other side.",
+      "parentUuid": "AAABTH///+s\u003d",
       "revId": "76ab480229a31b850df74166a2c90c71e141feb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

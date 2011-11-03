@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABTH///+k\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-03T03:48:56Z",
+      "side": 1,
+      "message": "I think you should use embedded instead of bundled.",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABTH///+g\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-03T03:48:56Z",
+      "side": 1,
+      "message": "I think you need to reference unit below if you are going to use it here.\n\nAlso, it would great to make all the references to init consistent, some places it is prefixed by \u0027the\u0027, sometimes not, sometimes it is in quotes...\n\nInit feels a bit weird to me, I might suggest the term \"the init phase\" to be generally used everywhere.  Although frankly, I think that the init command should actually be changed to setup, not just in the docs, but in the code too!",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABTH///+c\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-03T03:48:56Z",
+      "side": 1,
+      "message": "...running+, making it ideal for +...\n\n+On the flip side, + H2 is not....\n\n/not the/not a/",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABTH///+U\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-03T03:48:56Z",
+      "side": 1,
+      "message": "/when the init is complete/Once init completes/",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

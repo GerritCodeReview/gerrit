@@ -104,6 +104,24 @@
       "revId": "76ab480229a31b850df74166a2c90c71e141feb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABTH///80\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-03T21:35:38Z",
+      "side": 1,
+      "message": "Urrrgh. You are right. When ignoreWS \u003d false the server assumes the client will use the line from A on B side when the lines are common context lines. Because that makes for a smaller download to the client.\n\nWhen ignoreWS \u003d true, the server also includes lines from B that are in the context region set by the user, are \"identical\", but are still different in B.\n\nBut either way, B is still not a whole file.\n\nSo just like with big files, we may have a problem when ignoreWS \u003d true. B is not complete and showing more context may show the wrong indentation on B side because the client does not have those sections of the file.\n\nYou might have to disable the expand feature if:\n\n  a.isWholeFile() \u003d\u003d false\n  || ignoreWS \u003d\u003d true",
+      "parentUuid": "AAABUX////4\u003d",
+      "revId": "76ab480229a31b850df74166a2c90c71e141feb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

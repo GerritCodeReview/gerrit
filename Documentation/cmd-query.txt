@@ -12,6 +12,7 @@ SYNOPSIS
   [--format {TEXT | JSON}]
   [--current-patch-set]
   [--patch-sets | --all-approvals]
+  [--files]
   [--comments]
   [--]
   <query>
@@ -58,6 +59,10 @@ OPTIONS
 	approval information for each patch set.  If combined with
 	the --current-patch-set flag then the current patch set
 	information will be output twice, once in each field.
+
+--files::
+	Support for listing files with patch sets and their
+	attributes (ADDED, MODIFIED, DELETED, RENAMED, COPIED).
 
 --comments::
 	Include comments for all changes. If combined with the

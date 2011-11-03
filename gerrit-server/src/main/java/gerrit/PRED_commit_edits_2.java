@@ -14,8 +14,6 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.PatchSetInfo;
-import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -28,7 +26,6 @@ import com.googlecode.prolog_cafe.lang.PInstantiationException;
 import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.PrologException;
-import com.googlecode.prolog_cafe.lang.SystemException;
 import com.googlecode.prolog_cafe.lang.Term;
 
 import org.eclipse.jgit.diff.Edit;
@@ -75,8 +72,6 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
     Pattern fileRegex = getRegexParameter(a1);
     Pattern editRegex = getRegexParameter(a2);
 
-    PrologEnvironment env = (PrologEnvironment) engine.control;
-    PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
     PatchList pl = StoredValues.PATCH_LIST.get(engine);
     Repository repo = StoredValues.REPOSITORY.get(engine);
 

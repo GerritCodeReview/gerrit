@@ -403,11 +403,11 @@ public class ChangeUtil {
     hooks.doChangeRestoreHook(updatedChange, user.getAccount(), message);
   }
 
-  private static void updatedChange(final ReviewDb db, final IdentifiedUser user,
-      final Change change, final ChangeMessage cmsg,
-      ReplyToChangeSender.Factory senderFactory, final String err)
-      throws NoSuchChangeException, InvalidChangeOperationException,
-      EmailException, OrmException {
+  private static <T extends ReplyToChangeSender> void updatedChange(
+      final ReviewDb db, final IdentifiedUser user, final Change change,
+      final ChangeMessage cmsg, ReplyToChangeSender.Factory<T> senderFactory,
+      final String err) throws NoSuchChangeException,
+      InvalidChangeOperationException, EmailException, OrmException {
     if (change == null) {
       throw new InvalidChangeOperationException(err);
     }

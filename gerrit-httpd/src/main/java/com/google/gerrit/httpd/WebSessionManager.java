@@ -99,7 +99,6 @@ class WebSessionManager {
       // If we don't yet have a token for this session, establish one.
       //
       final int nonceLen = 20;
-      final ByteArrayOutputStream buf;
       final byte[] rnd = new byte[nonceLen];
       prng.nextBytes(rnd);
       xsrfToken = CookieBase64.encode(rnd);

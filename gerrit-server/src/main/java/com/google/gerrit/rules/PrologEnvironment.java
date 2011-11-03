@@ -82,6 +82,7 @@ public class PrologEnvironment extends BufferingPrologControl {
    * @param sv unique key.
    * @return the value; null if not stored.
    */
+  @SuppressWarnings("unchecked")
   public <T> T get(StoredValue<T> sv) {
     return (T) storedValues.get(sv);
   }
@@ -93,6 +94,7 @@ public class PrologEnvironment extends BufferingPrologControl {
    * @param sv unique key.
    * @param obj the value to store under {@code sv}.
    */
+  @SuppressWarnings("unchecked")
   public <T> void set(StoredValue<T> sv, T obj) {
     storedValues.put((StoredValue<Object>) sv, obj);
   }

@@ -195,7 +195,7 @@ public final class CacheBasedWebSession implements WebSession {
     String path = authConfig.getCookiePath();
     if (path == null || path.isEmpty()) {
       path = request.getContextPath();
-      if (path.isEmpty()) {
+      if (path == null || path.isEmpty()) {
         path = "/";
       }
     }

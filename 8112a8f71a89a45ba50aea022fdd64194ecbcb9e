@@ -16,6 +16,24 @@
       "revId": "8112a8f71a89a45ba50aea022fdd64194ecbcb9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABVn////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessEditor.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-04T08:53:05Z",
+      "side": 1,
+      "message": "The correct text for the anchor is now set in ProjectAccessEditor.\n\nDone.",
+      "parentUuid": "AAABTH///9k\u003d",
+      "revId": "8112a8f71a89a45ba50aea022fdd64194ecbcb9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

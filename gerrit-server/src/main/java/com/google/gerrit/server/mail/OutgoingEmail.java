@@ -374,13 +374,10 @@ public abstract class OutgoingEmail {
   protected String velocifyFile(String name) throws EmailException {
     try {
       RuntimeInstance runtime = args.velocityRuntime;
-      Template template;
-      try {
-        template = runtime.getTemplate(name, "UTF-8");
-      } catch (org.apache.velocity.exception.ResourceNotFoundException notFound) {
+      if (runtime.getLoaderNameForResource(name) == null) {
         name = "com/google/gerrit/server/mail/" + name;
-        template = runtime.getTemplate(name, "UTF-8");
       }
+      Template template = runtime.getTemplate(name, "UTF-8");
       StringWriter w = new StringWriter();
       template.merge(velocityContext, w);
       return w.toString();

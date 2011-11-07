@@ -173,6 +173,24 @@
       "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABV3////k\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-07T15:09:50Z",
+      "side": 1,
+      "message": "Just you. The code we use from H2 to launch a web browser doesn\u0027t always work on all platforms all of the time. It works some of the time. If it fails it should give you a hyperlink and ask you to open that in your browser.\n\nIt makes sense the daemon doesn\u0027t automatically start on Windows, we really don\u0027t have a good story for executing the WAR on Windows in a service sort of way the way Windows people want it to work.",
+      "parentUuid": "AAABVn////E\u003d",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAABTn///9k\u003d",
+        "filename": "Documentation/cmd-hook-commit-msg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-07T07:51:41Z",
+      "side": 1,
+      "message": "Hmm, you\u0027re right, I should probably show them the option that you can decide where to save the file.",
+      "parentUuid": "AAABTH///+M\u003d",
+      "revId": "9282a268d9e1d33357b473d211a1581ab59b768b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABTH///9M\u003d",
         "filename": "Documentation/cmd-hook-commit-msg.txt",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2011-11-03T21:06:38Z",
       "side": 1,
       "message": "Same as curl above.",
+      "revId": "9282a268d9e1d33357b473d211a1581ab59b768b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABVn////c\u003d",
+        "filename": "Documentation/cmd-hook-commit-msg.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-07T07:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABTH///9M\u003d",
       "revId": "9282a268d9e1d33357b473d211a1581ab59b768b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

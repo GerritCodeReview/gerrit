@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABVn////U\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-07T08:40:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABTH///+k\u003d",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABTH///+g\u003d",
         "filename": "Documentation/install.txt",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Hey, I\u0027m open to a change that renames Init to Setup. :-)",
       "parentUuid": "AAABTH///+g\u003d",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABVn////Q\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-07T08:40:37Z",
+      "side": 1,
+      "message": "I will fix Martins review comments of inconsistency. However, I will aim at making the sentences flow better, and I think it isn\u0027t feasible to write out \"the init phase\" in all places. Sometimes it suits better to write \"the init command\" instead, I think it will become clear once you see the changes.\n\nHowever, I find Shawns suggestion to go about and change stuff in the code to go \u0027slightly\u0027 outside of my own scope for this change. :^)\nSo, rejected. :-( (at least by me..)",
+      "parentUuid": "AAABTH///8s\u003d",
       "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -99,6 +135,23 @@
       "writtenOn": "2011-11-03T03:48:56Z",
       "side": 1,
       "message": "/when the init is complete/Once init completes/",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABVn////E\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-07T08:40:37Z",
+      "side": 1,
+      "message": "Is it just me, or doesn\u0027t it do this anymore? When I ran a test init over here, there was no browser starting, not even the output was the same. But I could be wrong, could someone help me confirm?",
       "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

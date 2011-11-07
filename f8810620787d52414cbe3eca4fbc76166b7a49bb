@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABVn///+Y\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-07T15:41:42Z",
+      "side": 1,
+      "message": "Have added a newline between line 10 and 11 to make it generate ok.",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABTH///+k\u003d",
         "filename": "Documentation/install.txt",
         "patchSetId": 3
@@ -107,6 +124,58 @@
     },
     {
       "key": {
+        "uuid": "AAABVn///+o\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-07T15:41:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABTH///+c\u003d",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABVn///+U\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-07T15:41:42Z",
+      "side": 1,
+      "message": "Got a suggestion to add a short reason why this isn\u0027t recommended. Included in the next patch set.",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABVn///+Q\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-07T15:41:42Z",
+      "side": 1,
+      "message": "s/DB/database/",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABTH///8o\u003d",
         "filename": "Documentation/install.txt",
         "patchSetId": 3
@@ -124,6 +193,41 @@
     },
     {
       "key": {
+        "uuid": "AAABVn///+k\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-07T15:41:42Z",
+      "side": 1,
+      "message": "Done. Cut out the last sentence: \"If you have [...] the init.\"",
+      "parentUuid": "AAABTH///8o\u003d",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABVn///+M\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-07T15:41:42Z",
+      "side": 1,
+      "message": "The variable was deemed too nerdy.\n\ns#$site_path#/path/to/your/gitstore#",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABTH///+U\u003d",
         "filename": "Documentation/install.txt",
         "patchSetId": 3
@@ -135,6 +239,24 @@
       "writtenOn": "2011-11-03T03:48:56Z",
       "side": 1,
       "message": "/when the init is complete/Once init completes/",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABVn///+g\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-07T15:41:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABTH///+U\u003d",
       "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -206,6 +328,24 @@
       "side": 1,
       "message": "For me (ubuntu) it only starts the first time you run init for a site, perhaps you are rerunning it?",
       "parentUuid": "AAABVn////E\u003d",
+      "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABVn///+c\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-07T15:41:42Z",
+      "side": 1,
+      "message": "IIRC, it didn\u0027t start on my Macbook, but my memory could be failing me. I\u0027ll try it again. So, no need to change anything here then at least.",
+      "parentUuid": "AAABVH////o\u003d",
       "revId": "f8810620787d52414cbe3eca4fbc76166b7a49bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

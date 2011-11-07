@@ -60,6 +60,10 @@ public class VisibleRefFilter implements RefFilter {
 
   @Override
   public Map<String, Ref> filter(Map<String, Ref> refs) {
+    return filter(refs, false);
+  }
+
+  public Map<String, Ref> filter(Map<String, Ref> refs, boolean filterTagsSeperately) {
     final Set<Change.Id> visibleChanges = visibleChanges();
     final Map<String, Ref> result = new HashMap<String, Ref>();
     final List<Ref> deferredTags = new ArrayList<Ref>();
@@ -91,8 +95,9 @@ public class VisibleRefFilter implements RefFilter {
     // If we have tags that were deferred, we need to do a revision walk
     // to identify what tags we can actually reach, and what we cannot.
     //
-    if (!deferredTags.isEmpty() && !result.isEmpty()) {
-      TagMatcher tags = tagCache.get(projectName).matcher(db, result.values());
+    if (!deferredTags.isEmpty() && (!result.isEmpty() || filterTagsSeperately)) {
+      TagMatcher tags = tagCache.get(projectName).
+          matcher(db, filterTagsSeperately ? filter(db.getAllRefs()).values() : result.values());
       for (Ref tag : deferredTags) {
         if (tags.isReachable(tag)) {
           result.put(tag.getName(), tag);

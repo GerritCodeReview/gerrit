@@ -53,7 +53,6 @@ import java.util.Set;
 
 class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
-  private final Provider<IdentifiedUser> identifiedUser;
   private final AccountCache accountCache;
   private final AccountResolver accountResolver;
   private final Realm accountRealm;
@@ -64,6 +63,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   private final CreateGroup.Factory createGroupFactory;
   private final RenameGroup.Factory renameGroupFactory;
   private final GroupDetailHandler.Factory groupDetailFactory;
+  private final VisibleGroups.Factory visibleGroupsFactory;
 
   @Inject
   GroupAdminServiceImpl(final Provider<ReviewDb> schema,
@@ -75,9 +75,9 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final GroupControl.Factory groupControlFactory,
       final CreateGroup.Factory createGroupFactory,
       final RenameGroup.Factory renameGroupFactory,
-      final GroupDetailHandler.Factory groupDetailFactory) {
+      final GroupDetailHandler.Factory groupDetailFactory,
+      final VisibleGroups.Factory visibleGroupsFactory) {
     super(schema, currentUser);
-    this.identifiedUser = currentUser;
     this.accountCache = accountCache;
     this.groupIncludeCache = groupIncludeCache;
     this.accountResolver = accountResolver;
@@ -87,41 +87,11 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     this.createGroupFactory = createGroupFactory;
     this.renameGroupFactory = renameGroupFactory;
     this.groupDetailFactory = groupDetailFactory;
+    this.visibleGroupsFactory = visibleGroupsFactory;
   }
 
   public void visibleGroups(final AsyncCallback<GroupList> callback) {
-    run(callback, new Action<GroupList>() {
-      public GroupList run(ReviewDb db) throws OrmException,
-          NoSuchGroupException {
-        final IdentifiedUser user = identifiedUser.get();
-        final List<AccountGroup> list;
-        if (user.getCapabilities().canAdministrateServer()) {
-          list = db.accountGroups().all().toList();
-        } else {
-          list = new ArrayList<AccountGroup>();
-          for(final AccountGroup group : db.accountGroups().all().toList()) {
-            final GroupControl c = groupControlFactory.controlFor(group);
-            if (c.isVisible()) {
-              list.add(c.getAccountGroup());
-            }
-          }
-        }
-        Collections.sort(list, new Comparator<AccountGroup>() {
-          public int compare(final AccountGroup a, final AccountGroup b) {
-            return a.getName().compareTo(b.getName());
-          }
-        });
-
-        List<GroupDetail> l = new ArrayList<GroupDetail>();
-        for(AccountGroup group : list) {
-          l.add(groupDetailFactory.create(group.getId()).call());
-        }
-        GroupList res = new GroupList();
-        res.setGroups(l);
-        res.setCanCreateGroup(user.getCapabilities().canCreateGroup());
-        return res;
-      }
-    });
+    visibleGroupsFactory.create().to(callback);
   }
 
   public void createGroup(final String newName,

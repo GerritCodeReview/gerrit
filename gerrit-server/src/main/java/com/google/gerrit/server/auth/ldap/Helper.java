@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
 import com.google.inject.Inject;
@@ -32,6 +33,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.naming.CompositeName;
 import javax.naming.Context;
@@ -53,6 +55,7 @@ import javax.net.ssl.SSLSocketFactory;
   private final String referral;
   private final boolean sslVerify;
   private volatile LdapSchema ldapSchema;
+  private final String readTimeOutMillis;
 
   @Inject
   Helper(@GerritServerConfig final Config config, final GroupCache groupCache) {
@@ -63,6 +66,14 @@ import javax.net.ssl.SSLSocketFactory;
     this.password = LdapRealm.optional(config, "password");
     this.referral = LdapRealm.optional(config, "referral");
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
+    String timeout = LdapRealm.optional(config, "readTimeout");
+    if (timeout != null) {
+      readTimeOutMillis =
+          Long.toString(ConfigUtil.getTimeUnit(timeout, 0,
+              TimeUnit.MILLISECONDS));
+    } else {
+      readTimeOutMillis = null;
+    }
   }
 
   private Properties createContextProperties() {
@@ -72,6 +83,9 @@ import javax.net.ssl.SSLSocketFactory;
     if (server.startsWith("ldaps:") && !sslVerify) {
       Class<? extends SSLSocketFactory> factory = BlindSSLSocketFactory.class;
       env.put("java.naming.ldap.factory.socket", factory.getName());
+    }
+    if (readTimeOutMillis != null) {
+      env.put("com.sun.jndi.ldap.read.timeout", readTimeOutMillis);
     }
     return env;
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABVH////g\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-07T21:12:45Z",
+      "side": 1,
+      "message": "Hmm, is gitstore really correct here?  I thought that this would be gerritsite and that the gitstore would be under here?",
+      "revId": "ada96808f49f88edb999cb0b1da16d1707c2ec98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

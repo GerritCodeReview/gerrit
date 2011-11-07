@@ -16,6 +16,24 @@
       "revId": "bb3f1aa3cca545651919862a133c7b886ef73d4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABVn////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerRequestProjectControlCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-07T08:07:25Z",
+      "side": 1,
+      "message": "Good idea.\n\nDone.",
+      "parentUuid": "AAABVH////w\u003d",
+      "revId": "bb3f1aa3cca545651919862a133c7b886ef73d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

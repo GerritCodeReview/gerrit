@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABXX////k\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-07T21:55:35Z",
+      "side": 1,
+      "message": "This mention of a tutorial confuses me.  Are you trying to say that the stuff below is a simple tutorial that the user can run for fun?",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABXX////c\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-07T21:55:35Z",
+      "side": 1,
+      "message": "Any reason for the newline?",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

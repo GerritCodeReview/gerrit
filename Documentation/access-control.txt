@@ -254,7 +254,6 @@ would be needed:
 |Foo Leads       |refs/heads/qa |Code Review| -2..+2
 |=====================================================
 
-
 OpenID Authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -272,14 +271,16 @@ is automatically inherited by every other project in the same
 Gerrit instance.  These rights can be seen, but not modified,
 in any other project's `Access` administration tab.
 
-Only members of the group `Administrators` may edit the access
-control list for `All-Projects`.
+Only members of the groups with the `Administrate Server` capability
+may edit the access control list for `All-Projects`. By default this
+capability is given to the group `Administrators`, but can be given
+to more groups.
 
 Ownership of this project cannot be delegated to another group.
 This restriction is by design.  Granting ownership to another
 group gives nearly the same level of access as membership in
 `Administrators` does, as group members would be able to alter
-permissions for every managed project.
+permissions for every managed project including global capabilities.
 
 Per-Project
 ~~~~~~~~~~~

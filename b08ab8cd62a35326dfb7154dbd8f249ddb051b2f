@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "AAABYX///+8\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T14:49:00Z",
+      "side": 1,
+      "message": "For me both is fine.",
+      "parentUuid": "AAABYn////U\u003d",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABYX////o\u003d",
         "filename": "Documentation/install-quick.txt",
         "patchSetId": 1
@@ -293,6 +311,24 @@
       "side": 1,
       "message": "But this complicates the whole thing. In this quick-n-dirty I think the goal is to explain the middle road. That means to look for the default names. It is dirty after all.\n\nAlso, if they have different names than default, there shouldn\u0027t be any risk of overwriting them, right?",
       "parentUuid": "AAABYX////c\u003d",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYX///+4\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T14:49:00Z",
+      "side": 1,
+      "message": "I guess you are right.",
+      "parentUuid": "AAABYn////0\u003d",
       "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

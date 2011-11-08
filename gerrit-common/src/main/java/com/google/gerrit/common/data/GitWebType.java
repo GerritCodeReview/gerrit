@@ -71,6 +71,10 @@ public class GitWebType {
   /** ParamertizedString for file history view url. */
   private String fileHistory;
 
+  /** Character to substitute the standard path separator '/' in branch and
+    * project names */
+  private char pathSeparator = '/';
+
   /** Private default constructor for gson. */
   protected GitWebType() {
   }
@@ -173,5 +177,16 @@ public class GitWebType {
     if (pattern != null && !pattern.isEmpty()) {
       fileHistory = pattern;
     }
+  }
+
+  public String replacePathSeparator(String newSeparator) {
+    if ('/' != pathSeparator) {
+      return newSeparator.replace('/', pathSeparator);
+    }
+    return newSeparator;
+  }
+
+  public void setPathSeparator(char separator) {
+    this.pathSeparator = separator;
   }
 }

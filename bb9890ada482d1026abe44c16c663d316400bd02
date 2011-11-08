@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABYH////4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListMembersCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-08T04:47:40Z",
+      "side": 1,
+      "message": "I can\u0027t help but wonder if there wouldn\u0027t be some obvious sharing of this tree code and the code to print project trees?  I wouldn\u0027t bother if you had to go through pains to get there, but if the two approaches could easily share code, maybe it would make things easier to maintain/understand?",
+      "revId": "bb9890ada482d1026abe44c16c663d316400bd02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

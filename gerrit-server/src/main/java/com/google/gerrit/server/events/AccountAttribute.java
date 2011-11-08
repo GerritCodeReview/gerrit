@@ -17,4 +17,5 @@ package com.google.gerrit.server.events;
 public class AccountAttribute {
     public String name;
     public String email;
+    public String username;
 }

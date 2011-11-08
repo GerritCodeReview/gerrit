@@ -44,16 +44,20 @@ public class GitwebLink {
     ParameterizedString pattern = new ParameterizedString(type.getRevision());
 
     final Map<String, String> p = new HashMap<String, String>();
-    p.put("project", URL.encodeQueryString(project.get()));
-    p.put("commit", URL.encodeQueryString(ps.getRevision().get()));
+    p.put("project", encode(project.get()));
+    p.put("commit", encode(ps.getRevision().get()));
     return baseUrl + pattern.replace(p);
+  }
+
+  String encode(String segment) {
+    return URL.encodeQueryString(type.replacePathSeparator(segment));
   }
 
   public String toProject(final Project.NameKey project) {
     ParameterizedString pattern = new ParameterizedString(type.getProject());
 
     final Map<String, String> p = new HashMap<String, String>();
-    p.put("project", URL.encodeQueryString(project.get()));
+    p.put("project", URL.encode(project.get()));
     return baseUrl + pattern.replace(p);
   }
 
@@ -61,8 +65,8 @@ public class GitwebLink {
     ParameterizedString pattern = new ParameterizedString(type.getBranch());
 
     final Map<String, String> p = new HashMap<String, String>();
-    p.put("project", URL.encodeQueryString(branch.getParentKey().get()));
-    p.put("branch", URL.encodeQueryString(branch.get()));
+    p.put("project", encode(branch.getParentKey().get()));
+    p.put("branch", encode(branch.get()));
     return baseUrl + pattern.replace(p);
   }
 

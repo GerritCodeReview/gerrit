@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABVH////8\u003d",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-08T04:40:52Z",
+      "side": 1,
+      "message": "When did this typo slip in? :)",
+      "revId": "8f4ce3e89b2468ceb20611df62bff39aee1e81a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABVH////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountComparator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-08T04:40:52Z",
+      "side": 1,
+      "message": "One way I like to simplify these null/empty checks for strings is to just do ! \"\".equals(...email). If you like the pattern...",
+      "revId": "8f4ce3e89b2468ceb20611df62bff39aee1e81a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

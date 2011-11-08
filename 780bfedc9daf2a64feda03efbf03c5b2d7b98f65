@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABYH////s\u003d",
+        "filename": "Documentation/cmd-set-members.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-08T05:28:07Z",
+      "side": 1,
+      "message": "I think this option should be called removeGroup.  As is, it almost sounds like you can add an \"excludeGroup\" which, of course, does not exist.",
+      "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYH////U\u003d",
+        "filename": "Documentation/cmd-set-members.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-08T05:28:07Z",
+      "side": 1,
+      "message": "It might be worth describing the order which these options will be parsed in, since it may affect whether the user is actually able to perform these adjustments.",
+      "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYH////o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-08T05:28:07Z",
+      "side": 1,
+      "message": "I would prefer to not have a popup dialog, could you use Gerrit\u0027s normal error reporting mechanism instead?",
+      "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYH////k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AddGroupIncludeHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-08T05:28:07Z",
+      "side": 1,
+      "message": "Nit: above 2 lines woulde be nice as one.",
+      "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYH////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/RemoveGroupMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-08T05:28:07Z",
+      "side": 1,
+      "message": "/acoountIds/accountIds/",
+      "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYH////c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-08T05:28:07Z",
+      "side": 1,
+      "message": "These comments seem to simply repeat what is being done below, they don\u0027t add much value.",
+      "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYH////Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-08T05:28:07Z",
+      "side": 1,
+      "message": "With a simple add/remove flag to this function, these 2 functions could be combined into one function with a larger switch statement.  Ignore if you think that would be ugly.",
+      "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

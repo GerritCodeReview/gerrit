@@ -2,6 +2,159 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABYX////8\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T06:44:21Z",
+      "side": 1,
+      "message": "it looks like one \u0027-\u0027 is missing",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYX////4\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T06:44:21Z",
+      "side": 1,
+      "message": "maybe better: \"create a user that runs Gerrit\"?",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYX////0\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T06:44:21Z",
+      "side": 1,
+      "message": "incomplete sentence?",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYX////w\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T06:44:21Z",
+      "side": 1,
+      "message": "Maybe better to give \u0027http://code.google.com/p/gerrit/downloads/list\u0027 as link here? Then we don\u0027t need to remember to update the link to the latest war here whenever a new release is created. I think it would likely be forgotten.",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYX////o\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T06:44:21Z",
+      "side": 1,
+      "message": "If we take for all options the default value, then it may be easier to call the init with the \u0027--batch\u0027 option. Then it would automatically take the default for everything.",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYX////g\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T06:44:21Z",
+      "side": 1,
+      "message": "not sure if \u0027-d .\u0027 is good here, maybe better to make it the same as in https://gerrit-review.googlesource.com/30142 ?",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYX////s\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T06:44:21Z",
+      "side": 1,
+      "message": "style-nit: here and below, please remove trailing whitespaces",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYX////k\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T06:44:21Z",
+      "side": 1,
+      "message": "for me it looks like this:\n\n Download and install it now [Y/n]?\n Downloading http://www.bouncycastle.org/download/bcprov-jdk16-144.jar ... OK\n Checksum bcprov-jdk16-144.jar OK",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYX////c\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T06:44:21Z",
+      "side": 1,
+      "message": "maybe better: s/You\u0027re looking for two files/Normally you\u0027re looking for the following two files\n\nThe key files may have different names.",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABXX////k\u003d",
         "filename": "Documentation/install-quick.txt",
         "patchSetId": 1
@@ -13,6 +166,57 @@
       "writtenOn": "2011-11-07T21:55:35Z",
       "side": 1,
       "message": "This mention of a tutorial confuses me.  Are you trying to say that the stuff below is a simple tutorial that the user can run for fun?",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYX////Y\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T06:44:21Z",
+      "side": 1,
+      "message": "... and confirm it",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYX////U\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T06:44:21Z",
+      "side": 1,
+      "message": "s/host/localhost",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYX////Q\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T06:44:21Z",
+      "side": 1,
+      "message": "some \u0027-\u0027 seem to be missing",
       "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

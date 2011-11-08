@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABY3////4\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T18:32:24Z",
+      "side": 1,
+      "message": "s/corrspondingly/correspondingly",
+      "revId": "347f920fd52754e5d52521b202f3211031e4579f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABY3////8\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T18:32:24Z",
+      "side": 1,
+      "message": "s/Vaid/Valid",
+      "revId": "347f920fd52754e5d52521b202f3211031e4579f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABY3////0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitWebType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T18:32:24Z",
+      "side": 1,
+      "message": "Can we find a better name for the parameter? The method seems to expect a project name or branch name as parameter for which the separator should be replaced.",
+      "revId": "347f920fd52754e5d52521b202f3211031e4579f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABY3////s\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitwebLink.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T18:32:24Z",
+      "side": 1,
+      "message": "[optional] maybe this method can be static and should be moved to end of the class",
+      "revId": "347f920fd52754e5d52521b202f3211031e4579f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABY3////w\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitwebLink.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T18:32:24Z",
+      "side": 1,
+      "message": "I think you need to do the encoding also in this method.",
+      "revId": "347f920fd52754e5d52521b202f3211031e4579f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABY3////o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GitWebConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-08T18:32:24Z",
+      "side": 1,
+      "message": "Maybe we should include the actual value into this warning, just as it is done for the other warning above?",
+      "revId": "347f920fd52754e5d52521b202f3211031e4579f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

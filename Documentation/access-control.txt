@@ -254,6 +254,34 @@ would be needed:
 |Foo Leads       |refs/heads/qa |Code Review| -2..+2
 |=====================================================
 
+The rights are stored on the server side git itself under the
+reference `refs/meta/config`, in the file `project.config`.  The
+format is in a human readable format, and with read permission to
+that reference, it is possible to download this to a local
+repository.  A nice side effect is that you can also upload changes
+to your permissions and review them just like with regular changes.
+
+Below you will find an example of the format:
+
+----
+[project]
+	description = Rights inherited by all other projects
+[access "refs/*"]
+	permission = group Administrators
+[capability]
+	administrateServer = group Administrators
+----
+
+As you can see, there are three kinds of sections. The `project`
+section only appears once per config, and today it only consists of
+one key, `description`.  The `access` section appear once per
+reference pattern, such as `refs/*` or `refs/heads/*`. Only one
+access section per pattern is allowed. You will find examples of keys
+and values in each category section <<access_category,below>>.
+The `capability` section only appears once, and only in the
+`All-Projects` repository. It controls core features that are
+configured on a global level. You can find examples of these too
+<<capability_category,below>>.
 
 OpenID Authentication
 ~~~~~~~~~~~~~~~~~~~~~
@@ -272,14 +300,16 @@ is automatically inherited by every other project in the same
 Gerrit instance.  These rights can be seen, but not modified,
 in any other project's `Access` administration tab.
 
-Only members of the group `Administrators` may edit the access
-control list for `All-Projects`.
+Only members of the groups with the `administrateServer` capability
+may edit the access control list for `All-Projects`. By default this
+capability is given to the group `Administrators`, but can be given
+to more groups.
 
 Ownership of this project cannot be delegated to another group.
 This restriction is by design.  Granting ownership to another
 group gives nearly the same level of access as membership in
 `Administrators` does, as group members would be able to alter
-permissions for every managed project.
+permissions for every managed project including global capabilities.
 
 Per-Project
 ~~~~~~~~~~~

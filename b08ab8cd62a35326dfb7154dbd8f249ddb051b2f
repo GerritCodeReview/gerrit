@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABYn////g\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-08T12:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABYX////8\u003d",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABYX////4\u003d",
         "filename": "Documentation/install-quick.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-11-08T06:44:21Z",
       "side": 1,
       "message": "maybe better: \"create a user that runs Gerrit\"?",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYn////c\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-08T12:09:09Z",
+      "side": 1,
+      "message": "I forgot to prefix with TODO here, it was for my own notes. There will be command examples stolen from install.txt.",
+      "parentUuid": "AAABYX////4\u003d",
       "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABYn////Y\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-08T12:09:09Z",
+      "side": 1,
+      "message": "Again, missed the TODO prefix. Will expand or remove.",
+      "parentUuid": "AAABYX////0\u003d",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABYX////w\u003d",
         "filename": "Documentation/install-quick.txt",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAABYn////U\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-08T12:09:09Z",
+      "side": 1,
+      "message": "Perhaps it is. On the other hand, since this is quick and dirty, the instructions could break with newer versions. Perhaps it is more future proof to direct link a specific war that we have tested these instructions with? I\u0027m in doubt on this.",
+      "parentUuid": "AAABYX////w\u003d",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABYX////o\u003d",
         "filename": "Documentation/install-quick.txt",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2011-11-08T06:44:21Z",
       "side": 1,
       "message": "If we take for all options the default value, then it may be easier to call the init with the \u0027--batch\u0027 option. Then it would automatically take the default for everything.",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYn////Q\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-08T12:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABYX////o\u003d",
       "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "AAABYn////4\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-08T12:09:09Z",
+      "side": 1,
+      "message": "I was drawn between removing them, and preserving out exactly as it appears from Gerrit init. I chose the latter.\n\nBut as pointed out by you above, it\u0027s probably better to just call with the --batch option (which I didn\u0027t know about, thanks!) instead.",
+      "parentUuid": "AAABYX////s\u003d",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABYX////k\u003d",
         "filename": "Documentation/install-quick.txt",
         "patchSetId": 1
@@ -132,6 +240,24 @@
       "writtenOn": "2011-11-08T06:44:21Z",
       "side": 1,
       "message": "for me it looks like this:\n\n Download and install it now [Y/n]?\n Downloading http://www.bouncycastle.org/download/bcprov-jdk16-144.jar ... OK\n Checksum bcprov-jdk16-144.jar OK",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYn////M\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-08T12:09:09Z",
+      "side": 1,
+      "message": "Thank you!\nDone",
+      "parentUuid": "AAABYX////k\u003d",
       "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "AAABYn////0\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-08T12:09:09Z",
+      "side": 1,
+      "message": "But this complicates the whole thing. In this quick-n-dirty I think the goal is to explain the middle road. That means to look for the default names. It is dirty after all.\n\nAlso, if they have different names than default, there shouldn\u0027t be any risk of overwriting them, right?",
+      "parentUuid": "AAABYX////c\u003d",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABXX////k\u003d",
         "filename": "Documentation/install-quick.txt",
         "patchSetId": 1
@@ -166,6 +310,24 @@
       "writtenOn": "2011-11-07T21:55:35Z",
       "side": 1,
       "message": "This mention of a tutorial confuses me.  Are you trying to say that the stuff below is a simple tutorial that the user can run for fun?",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYn////w\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-08T12:09:09Z",
+      "side": 1,
+      "message": "I should probably switch wording to wizard here, then.\nDone.",
+      "parentUuid": "AAABXX////k\u003d",
       "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "AAABYn////s\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-08T12:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABYX////Y\u003d",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABYX////U\u003d",
         "filename": "Documentation/install-quick.txt",
         "patchSetId": 1
@@ -200,6 +380,24 @@
       "writtenOn": "2011-11-08T06:44:21Z",
       "side": 1,
       "message": "s/host/localhost",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYn////o\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-08T12:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABYX////U\u003d",
       "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +421,24 @@
     },
     {
       "key": {
+        "uuid": "AAABYn////k\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-08T12:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABYX////Q\u003d",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABXX////c\u003d",
         "filename": "Documentation/install.txt",
         "patchSetId": 1
@@ -234,6 +450,24 @@
       "writtenOn": "2011-11-07T21:55:35Z",
       "side": 1,
       "message": "Any reason for the newline?",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABYn////8\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-08T12:09:09Z",
+      "side": 1,
+      "message": "The below text isn\u0027t really about H2 itself, whereas the above is.",
+      "parentUuid": "AAABXX////c\u003d",
       "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

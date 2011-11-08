@@ -342,6 +342,7 @@ public class EventFactory {
     AccountAttribute who = new AccountAttribute();
     who.name = account.getFullName();
     who.email = account.getPreferredEmail();
+    who.username = account.getUserName();
     return who;
   }
 

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABZn////k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-11-09T10:10:03Z",
+      "side": 1,
+      "message": "s/all child/all direct child",
+      "revId": "5091b6a08240b0e76c31db8520268b7a3909c70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABZn////g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-11-09T10:10:03Z",
+      "side": 1,
+      "message": "s/all child/all direct child",
+      "revId": "5091b6a08240b0e76c31db8520268b7a3909c70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABZn////c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-11-09T10:10:03Z",
+      "side": 1,
+      "message": "Does the reusing mean that you are going to build complete project hierarchy in order to find immediate children of a project?\n\nWould it make more sense to reuse the iteration algorithm instead of pre-building the tree in memory?",
+      "revId": "5091b6a08240b0e76c31db8520268b7a3909c70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABZn////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectHierarchy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-11-09T10:10:03Z",
+      "side": 1,
+      "message": "The caller of this method still has to do the tree walk on its own.\nActually every caller has to implement the walk over this structure again and again.\n\nHaving a reusable tree walk algorithm, instead of returning a pre-built tree, would probably make the code more reusable.\nThe tree walk algorithm should be configurable so that the caller\ncan control the order of iteration (for example depth-first or breadth-first).\n\nWhat do you think?",
+      "revId": "5091b6a08240b0e76c31db8520268b7a3909c70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABZn////I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-11-09T10:10:03Z",
+      "side": 1,
+      "message": "If we would have a reusable (project) tree walk algorithm then this method wouldn\u0027t be needed. The walk would provide us the project nodes in the order we need them.",
+      "revId": "5091b6a08240b0e76c31db8520268b7a3909c70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABan////8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GitwebLink.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-09T21:19:58Z",
+      "side": 1,
+      "message": "I think the file path should be encoded as well, shouldn\u0027t it?",
+      "revId": "b0ba8567bf5b0972c5455a7eb07167a024cff138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABan////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-09T21:19:58Z",
+      "side": 1,
+      "message": "Was this accidentally included into this change?",
+      "revId": "b0ba8567bf5b0972c5455a7eb07167a024cff138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABan////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-09T21:19:58Z",
+      "side": 1,
+      "message": "This change seems to be unrelated. Was it accidentally included?",
+      "revId": "b0ba8567bf5b0972c5455a7eb07167a024cff138",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

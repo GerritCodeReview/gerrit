@@ -119,6 +119,9 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     final FileKey loc = FileKey.lenient(gitDirOf(name), FS.DETECTED);
 
     if (!getProjectName(loc.getFile()).equals(name)) {
+      System.out.println("getProjectName(loc.getFile()): "  + getProjectName(loc.getFile()));
+      System.out.println("loc.getFile()                : "  + loc.getFile());
+      System.out.println("name                         : "  + name);
       throw new RepositoryNotFoundException(gitDirOf(name));
     }
 
@@ -314,8 +317,12 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   private Project.NameKey getProjectName(final File gitDir) {
-    String relativeGitPath =
-        getBasePath().toURI().relativize(gitDir.toURI()).getPath();
+    String relativeGitPath;
+    try {
+      relativeGitPath = getBasePath().getCanonicalFile().toURI().relativize(gitDir.getCanonicalFile().toURI()).getPath();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     if (!relativeGitPath.endsWith("/")) {
       relativeGitPath = relativeGitPath + "/";
     }

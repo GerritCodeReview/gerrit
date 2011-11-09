@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABZn///+8\u003d",
+        "filename": "Documentation/cmd-set-members.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-09T12:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABYH////s\u003d",
+      "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABYH////U\u003d",
         "filename": "Documentation/cmd-set-members.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-11-08T05:28:07Z",
       "side": 1,
       "message": "It might be worth describing the order which these options will be parsed in, since it may affect whether the user is actually able to perform these adjustments.",
+      "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABZn///+4\u003d",
+        "filename": "Documentation/cmd-set-members.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-09T12:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABYH////U\u003d",
       "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABZn///+0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-09T12:16:19Z",
+      "side": 1,
+      "message": "Actually this is the normal error reporting mechanism, isn\u0027t it? Althought it\u0027s called ErrorDialog it isn\u0027t opening a real popup dialog, but it greys out the complete screen and displays the error message in the left upper corner.",
+      "parentUuid": "AAABYH////o\u003d",
+      "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABYH////k\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AddGroupIncludeHandler.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2011-11-08T05:28:07Z",
       "side": 1,
       "message": "Nit: above 2 lines woulde be nice as one.",
+      "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABZn////U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AddGroupIncludeHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-09T12:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABYH////k\u003d",
       "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAABZn////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/RemoveGroupMember.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-09T12:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABYH////g\u003d",
+      "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABYH////c\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAABZn////M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-09T12:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABYH////c\u003d",
+      "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABYH////Y\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2011-11-08T05:28:07Z",
       "side": 1,
       "message": "With a simple add/remove flag to this function, these 2 functions could be combined into one function with a larger switch statement.  Ignore if you think that would be ugly.",
+      "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABZn////A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-09T12:16:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABYH////Y\u003d",
       "revId": "780bfedc9daf2a64feda03efbf03c5b2d7b98f65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

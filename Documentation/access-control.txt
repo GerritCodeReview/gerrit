@@ -292,27 +292,34 @@ useful on the `Read Access` category when granting `-1 No Access`
 within a specific project to deny access to a group.
 
 
-Categories
-----------
+[[access_category]]
+Access Categories
+-----------------
 
 Gerrit comes pre-configured with several default categories that
 can be granted to groups within projects, enabling functionality
 for that group's members.
 
-[[category_VRIF]]
-Verified
-~~~~~~~~
 
-The verified category can have any meaning the project desires.
-It was originally invented by the Android Open Source Project to
-mean 'compiles, passes basic unit tests'.
+[[category_label-Verified]]
+Label: Verified
+~~~~~~~~~~~~~~~
+
+The verified category is one of two default categories that is
+configured upon the creation of a Gerrit instance. It may have
+any meaning the project desires.  It was originally invented by
+the Android Open Source Project to mean
+'compiles, passes basic unit tests'.
 
 The range of values is:
 
 * -1 Fails
 +
 Tried to compile, but got a compile error, or tried to run tests,
-but one or more tests did not pass.
+but one or more tests did not pass.  This value is valid
+across all patch sets in the same change, i.e. the reviewer must
+actively change his/her review to something else before the change
+is submittable.
 +
 *Any -1 blocks submit.*
 
@@ -326,8 +333,8 @@ Compiled (and ran tests) successfully.
 +
 *Any +1 enables submit.*
 
-In order to submit a change, the change must have a `+1 Verified` in
-this category from at least one authorized user, and no `-1 Fails`
+For a change to be submittable, the change must have a `+1 Verified`
+in this category from at least one authorized user, and no `-1 Fails`
 from an authorized user.  Thus, `-1 Fails` can block a submit,
 while `+1 Verified` enables a submit.
 

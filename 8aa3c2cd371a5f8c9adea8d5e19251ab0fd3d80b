@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAABZn////w\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-09T07:49:42Z",
+      "side": 1,
+      "message": "\"[...] respond to the comments of your reviewers, [...]\"",
+      "parentUuid": "AAABTH///8g\u003d",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3//+zQ\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 2

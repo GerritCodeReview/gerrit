@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABZX////0\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1417,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-09T00:37:52Z",
+      "side": 1,
+      "message": "Suggested wording:\n\n\"By default there is no timeout and Gerrit will wait for the LDAP server to respond until the TCP connection times out.",
+      "revId": "7faf6c3cd56f0f5fba946a9b34eb00dad48e53da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABZX////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-09T00:37:52Z",
+      "side": 1,
+      "message": "Nit: \"this\" not really needed on line 75 or 71.",
+      "revId": "7faf6c3cd56f0f5fba946a9b34eb00dad48e53da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

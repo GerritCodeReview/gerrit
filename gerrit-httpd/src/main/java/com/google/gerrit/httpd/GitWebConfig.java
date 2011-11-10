@@ -54,6 +54,19 @@ public class GitWebConfig {
     type.setBranch(cfg.getString("gitweb", null, "branch"));
     type.setProject(cfg.getString("gitweb", null, "project"));
     type.setRevision(cfg.getString("gitweb", null, "revision"));
+    String pathSeparator = cfg.getString("gitweb", null, "pathSeparator");
+    if (pathSeparator != null) {
+      if (pathSeparator.length() == 1) {
+        char c = pathSeparator.charAt(0);
+        if (isValidPathSeparator(c)) {
+          type.setPathSeparator(c);
+        } else {
+          log.warn("Invalid value specified for gitweb.pathSeparator: " + c);
+        }
+      } else {
+        log.warn("Value specified for gitweb.pathSeparator is not a single character:" + pathSeparator);
+      }
+    }
 
     if (type.getBranch() == null) {
       log.warn("No Pattern specified for gitweb.branch, disabling.");
@@ -181,5 +194,32 @@ public class GitWebConfig {
   /** @return local path of the {@code git-logo.png} for the CGI. */
   public File getGitLogoPNG() {
     return git_logo_png;
+  }
+
+  /**
+   * Determines if a given character can be used unencoded in an URL as a
+   * replacement for the path separator '/'.
+   *
+   * Reasoning: http://www.ietf.org/rfc/rfc1738.txt § 2.2:
+   *
+   * ... only alphanumerics, the special characters "$-_.+!*'(),", and
+   *  reserved characters used for their reserved purposes may be used
+   * unencoded within a URL.
+   *
+   * The following characters might occur in file names, however:
+   *
+   * alphanumeric characters,
+   *
+   * "$-_.+!',"
+   */
+  static boolean isValidPathSeparator(char c) {
+    switch (c) {
+      case '*':
+      case '(':
+      case ')':
+        return true;
+      default:
+        return false;
+    }
   }
 }

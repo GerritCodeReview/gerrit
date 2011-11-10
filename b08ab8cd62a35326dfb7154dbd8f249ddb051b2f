@@ -507,6 +507,24 @@
       "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABb3////8\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-10T21:12:02Z",
+      "side": 1,
+      "message": "If you want to make it a separate paragraph, you should add another newline.  A single newline makes it strange (not quite a new paragraph).",
+      "parentUuid": "AAABYn////8\u003d",
+      "revId": "b08ab8cd62a35326dfb7154dbd8f249ddb051b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

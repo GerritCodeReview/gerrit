@@ -19,6 +19,57 @@
     },
     {
       "key": {
+        "uuid": "AAABcn////c\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-11-11T15:57:12Z",
+      "side": 1,
+      "message": "s/format is in a human readable format/format is human readable/",
+      "revId": "eae5b3d9b4451cf2f4914e09938342db7505fc6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcn////Y\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-11-11T15:57:12Z",
+      "side": 1,
+      "message": "s/download this/fetch the \u0027refs/meta/config\u0027 reference/",
+      "revId": "eae5b3d9b4451cf2f4914e09938342db7505fc6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcn////U\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-11-11T15:57:12Z",
+      "side": 1,
+      "message": "s/your/project\n\nor\n\ns/your permissions/your project permissions",
+      "revId": "eae5b3d9b4451cf2f4914e09938342db7505fc6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABcX////c\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -83,6 +134,23 @@
       "writtenOn": "2011-11-11T06:55:28Z",
       "side": 1,
       "message": "It\u0027s not just three kind of sections. The project options are also persisted in this file in sections named \u0027submit\u0027 and \u0027receive\u0027, e.g.:\n\n [submit]\n         action \u003d cherry pick\n         mergeContent \u003d true\n [receive]\n         requireSignedOffBy \u003d true\n         requireChangeId \u003d true",
+      "revId": "eae5b3d9b4451cf2f4914e09938342db7505fc6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcn////Q\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-11-11T15:57:12Z",
+      "side": 1,
+      "message": "s/today//\n\nif this changes (one day) the docs should also change",
       "revId": "eae5b3d9b4451cf2f4914e09938342db7505fc6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

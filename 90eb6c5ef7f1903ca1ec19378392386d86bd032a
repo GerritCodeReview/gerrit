@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABcX////8\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-11T06:26:34Z",
+      "side": 1,
+      "message": "maybe the URL can just be: \n http://code.google.com/p/gerrit/downloads/detail?name\u003dgerrit-2.2.1.war",
+      "revId": "90eb6c5ef7f1903ca1ec19378392386d86bd032a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

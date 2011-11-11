@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABc3////Q\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-11T12:43:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABb3////0\u003d",
+      "revId": "595965b677f96fae3800606ccbe01ae6c2c67d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABb3////w\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAABc3////M\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-11T12:43:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABb3////w\u003d",
+      "revId": "595965b677f96fae3800606ccbe01ae6c2c67d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABcX////Q\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2011-11-11T07:07:13Z",
       "side": 1,
       "message": "Why not having this table already now, with the first entry for \u0027Verified\u0027?",
+      "revId": "595965b677f96fae3800606ccbe01ae6c2c67d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABc3////U\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-11T12:43:32Z",
+      "side": 1,
+      "message": "Magnus Bäck have already produced such a table, I was hoping he could put it in here if I just left the headline for him to put it under.\n\nI\u0027ll see if I can make him upload a change for this shortly with the entire table.",
+      "parentUuid": "AAABcX////Q\u003d",
       "revId": "595965b677f96fae3800606ccbe01ae6c2c67d2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

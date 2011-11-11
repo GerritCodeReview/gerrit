@@ -238,7 +238,7 @@ class LdapRealm implements Realm {
       }
     } catch (NamingException e) {
       log.error("Cannot query LDAP to autenticate user", e);
-      throw new AccountException("Cannot query LDAP for account", e);
+      throw new LdapQueryException("Cannot query LDAP for account", e);
     }
   }
 

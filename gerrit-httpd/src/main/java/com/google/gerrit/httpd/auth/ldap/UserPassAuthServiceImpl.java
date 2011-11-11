@@ -22,6 +22,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountUserNameException;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.auth.ldap.LdapQueryException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -43,7 +44,7 @@ class UserPassAuthServiceImpl implements UserPassAuthService {
     LoginResult result = new LoginResult();
     if (username == null || "".equals(username.trim()) //
         || password == null || "".equals(password)) {
-      result.success = false;
+      result.setError(LoginResult.Error.INVALID_LOGIN);
       callback.onSuccess(result);
       return;
     }
@@ -62,8 +63,12 @@ class UserPassAuthServiceImpl implements UserPassAuthService {
       // error screen with error message should be shown to the user
       callback.onFailure(e);
       return;
+    } catch (LdapQueryException e) {
+      result.setError(LoginResult.Error.LDAP_SERVER_UNAVAILABLE);
+      callback.onSuccess(result);
+      return;
     } catch (AccountException e) {
-      result.success = false;
+      result.setError(LoginResult.Error.INVALID_LOGIN);
       callback.onSuccess(result);
       return;
     }

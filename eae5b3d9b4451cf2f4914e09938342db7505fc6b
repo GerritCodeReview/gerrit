@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAABc3////Y\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-11T12:44:16Z",
+      "side": 1,
+      "message": "Ouch. I think you\u0027re right on this.\n\nSo, in conclusion, I should remove all examples or references to file format here,\nand then I will introduce links and text for this in a separate change.\n\nGood approach?",
+      "parentUuid": "AAABcX////c\u003d",
+      "revId": "eae5b3d9b4451cf2f4914e09938342db7505fc6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABcX////g\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1

@@ -16,6 +16,24 @@
       "revId": "fcade30ef64f603be9aeba13d65548e16ed83ecc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcX////I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-11T08:13:43Z",
+      "side": 1,
+      "message": "I was already doubting if this multi character alias would be ok. I think it\u0027s not too important to have an alias for this option. Since there isn\u0027t an obvious alias, I will rather remove it.\n\nDone.",
+      "parentUuid": "AAABcH////g\u003d",
+      "revId": "fcade30ef64f603be9aeba13d65548e16ed83ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

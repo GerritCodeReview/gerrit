@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.auth.userpass;
+package com.google.gerrit.server.auth;
 
-import com.google.gerrit.reviewdb.AuthType;
-import com.google.gwt.i18n.client.Messages;
+import com.google.gerrit.server.account.AccountException;
 
-public interface UserPassMessages extends Messages {
-  String signInAt(String hostname);
-  String authenticationUnavailable(AuthType authType);
+/** A query to the authentication server failed */
+public class AuthenticationUnavailableException extends AccountException {
+  private static final long serialVersionUID = 1L;
+
+  public AuthenticationUnavailableException(final String message, final Throwable why) {
+    super(message, why);
+  }
 }

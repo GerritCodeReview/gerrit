@@ -14,7 +14,29 @@
 
 package com.google.gerrit.common.auth.userpass;
 
+import com.google.gerrit.reviewdb.AuthType;
+
 public class LoginResult {
   public boolean success;
   public boolean isNew;
+  public AuthType authType;
+
+  private Error error = null;
+
+  public void setError(final Error error) {
+    this.error = error;
+    success = error == null;
+  }
+
+  public Error getError() {
+    return error;
+  }
+
+  public static enum Error {
+    /** Username or password are invalid */
+    INVALID_LOGIN,
+
+    /** The authentication server is unavailable or the query to it timed out */
+    AUTHENTICATION_UNAVAILABLE
+  }
 }

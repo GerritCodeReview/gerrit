@@ -27,6 +27,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.EntryCreator;
@@ -238,7 +239,7 @@ class LdapRealm implements Realm {
       }
     } catch (NamingException e) {
       log.error("Cannot query LDAP to autenticate user", e);
-      throw new AccountException("Cannot query LDAP for account", e);
+      throw new AuthenticationUnavailableException("Cannot query LDAP for account", e);
     }
   }
 

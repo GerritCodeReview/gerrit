@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABcH////g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetMembersCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-11T06:03:25Z",
+      "side": 1,
+      "message": "Sorry to make that one hard, I suspect that Shawn does not want multi character short options.  One way would be to use +u -u +g -g, but I suspect that would not be inline with normal Gerrit use cases either. You could use a -d, or -g, or maybe dispense with the short options for groups.",
+      "revId": "fcade30ef64f603be9aeba13d65548e16ed83ecc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

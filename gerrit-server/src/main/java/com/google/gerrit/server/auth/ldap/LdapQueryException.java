@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,28 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.auth.userpass;
+package com.google.gerrit.server.auth.ldap;
 
-public class LoginResult {
-  public boolean success;
-  public boolean isNew;
+import com.google.gerrit.server.account.AccountException;
 
-  private Error error = null;
+/** A query to the LDAP server failed */
+public class LdapQueryException extends AccountException {
+  private static final long serialVersionUID = 1L;
 
-  public void setError(final Error error) {
-    this.error = error;
-    success = error == null;
-  }
-
-  public Error getError() {
-    return error;
-  }
-
-  public static enum Error {
-    /** Username or password are invalid */
-    INVALID_LOGIN,
-
-    /** The LDAP server is unavailable or the query to LDAP timed out */
-    LDAP_SERVER_UNAVAILABLE
+  public LdapQueryException(final String message, final Throwable why) {
+    super(message, why);
   }
 }

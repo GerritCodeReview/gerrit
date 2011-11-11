@@ -209,7 +209,16 @@ public class UserPassSignInDialog extends SignInDialog {
           }
           Location.replace(Location.getPath() + "login" + to);
         } else {
-          showError(Util.C.invalidLogin());
+          final String message;
+          switch (result.getError()) {
+            case LDAP_SERVER_UNAVAILABLE:
+              message = Util.C.ldapServerUnavailable();
+              break;
+            case INVALID_LOGIN:
+            default:
+              message = Util.C.invalidLogin();
+          }
+          showError(message);
           enable(true);
           password.selectAll();
           Scheduler.get().scheduleDeferred(new ScheduledCommand() {

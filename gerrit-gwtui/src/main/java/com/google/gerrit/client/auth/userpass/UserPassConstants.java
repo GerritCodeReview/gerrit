@@ -21,6 +21,7 @@ public interface UserPassConstants extends Constants {
   String username();
   String password();
   String invalidLogin();
+  String ldapServerUnavailable();
   String usernameRequired();
   String passwordRequired();
 }

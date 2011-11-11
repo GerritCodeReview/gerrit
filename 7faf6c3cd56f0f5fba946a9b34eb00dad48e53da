@@ -69,6 +69,24 @@
       "revId": "7faf6c3cd56f0f5fba946a9b34eb00dad48e53da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcH////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-11T05:29:04Z",
+      "side": 1,
+      "message": "Yeah, sorry.  You probably should have left it that way.",
+      "parentUuid": "AAABZn////4\u003d",
+      "revId": "7faf6c3cd56f0f5fba946a9b34eb00dad48e53da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

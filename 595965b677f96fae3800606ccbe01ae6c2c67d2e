@@ -33,6 +33,23 @@
       "revId": "595965b677f96fae3800606ccbe01ae6c2c67d2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcX////Q\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-11T07:07:13Z",
+      "side": 1,
+      "message": "Why not having this table already now, with the first entry for \u0027Verified\u0027?",
+      "revId": "595965b677f96fae3800606ccbe01ae6c2c67d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

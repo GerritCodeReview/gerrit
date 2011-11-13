@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABcH///+8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/auth/userpass/UserPassConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-13T06:40:30Z",
+      "side": 1,
+      "message": "I am wondering if it makes sense to make the whole reporting mechanism more generic so that it could report this error for any authentication method (not just ldap).  I am not suggesting that you implement this error catching for the others, just that seeing ldap in the constant seems too specific here, and it should be possible for the others to share this mechanism.  Perhaps you need a message here instead of a constant, a message which takes the auth server type as a parameter.",
+      "revId": "bc384810768b3cec0c2cacaa202aa71a46bbb0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

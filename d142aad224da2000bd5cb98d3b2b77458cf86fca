@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABc3////o\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-14T21:01:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABcX////o\u003d",
+      "revId": "d142aad224da2000bd5cb98d3b2b77458cf86fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABb3////Y\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-11-10T21:24:02Z",
       "side": 1,
       "message": "I would reference how to do this (the Owner category below) here.",
+      "revId": "d142aad224da2000bd5cb98d3b2b77458cf86fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABc3////g\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-14T21:01:29Z",
+      "side": 1,
+      "message": "I\u0027ve only really moved this section from below. But you\u0027re right, it should be fixed. :)\n\nDone",
+      "parentUuid": "AAABb3////Y\u003d",
       "revId": "d142aad224da2000bd5cb98d3b2b77458cf86fca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABc3////k\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-14T21:01:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABb3////g\u003d",
+      "revId": "d142aad224da2000bd5cb98d3b2b77458cf86fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABb3////c\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2011-11-10T21:24:02Z",
       "side": 1,
       "message": "How about putting a reference to the new Project Owners section here? (in this section)",
+      "revId": "d142aad224da2000bd5cb98d3b2b77458cf86fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABc3////c\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-14T21:01:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABb3////c\u003d",
       "revId": "d142aad224da2000bd5cb98d3b2b77458cf86fca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

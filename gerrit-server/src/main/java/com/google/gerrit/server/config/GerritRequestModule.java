@@ -23,7 +23,7 @@ import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupDetailFactory;
-import com.google.gerrit.server.account.GroupMembersFactory;
+import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.account.PerformRenameGroup;
 import com.google.gerrit.server.account.VisibleGroups;
@@ -94,6 +94,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(PerformRenameGroup.Factory.class);
     factory(VisibleGroups.Factory.class);
     factory(GroupDetailFactory.Factory.class);
-    factory(GroupMembersFactory.Factory.class);
+    factory(GroupMembers.Factory.class);
   }
 }

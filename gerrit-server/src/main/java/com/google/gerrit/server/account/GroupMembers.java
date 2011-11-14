@@ -26,65 +26,54 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.Callable;
 
-public class GroupMembersFactory implements Callable<Set<Account>> {
+public class GroupMembers {
   public interface Factory {
-    GroupMembersFactory create(Project.NameKey project,
-        AccountGroup.UUID groupUUID);
+    GroupMembers create();
   }
 
-  private GroupCache groupCache;
+  private final GroupCache groupCache;
   private final GroupDetailFactory.Factory groupDetailFactory;
   private final AccountCache accountCache;
   private final ProjectControl.GenericFactory projectControl;
   private final IdentifiedUser currentUser;
 
-  private final Project.NameKey project;
-  private final AccountGroup.UUID groupUUID;
-
-
   @Inject
-  GroupMembersFactory(final GroupCache groupCache,
+  GroupMembers(final GroupCache groupCache,
       final GroupDetailFactory.Factory groupDetailFactory,
       final AccountCache accountCache,
       final ProjectControl.GenericFactory projectControl,
-      final IdentifiedUser currentUser,
-      @Assisted final Project.NameKey project,
-      @Assisted final AccountGroup.UUID groupUUID) {
+      final IdentifiedUser currentUser) {
     this.groupCache = groupCache;
     this.groupDetailFactory = groupDetailFactory;
     this.accountCache = accountCache;
     this.projectControl = projectControl;
     this.currentUser = currentUser;
-
-    this.project = project;
-    this.groupUUID = groupUUID;
   }
 
-  @Override
-  public Set<Account> call() throws NoSuchGroupException,
+  public Set<Account> listAccounts(final AccountGroup.UUID groupUUID,
+      final Project.NameKey project) throws NoSuchGroupException,
       NoSuchProjectException, OrmException {
-    return listAccounts(groupUUID, new HashSet<AccountGroup.UUID>());
+    return listAccounts(groupUUID, project, new HashSet<AccountGroup.UUID>());
   }
 
   private Set<Account> listAccounts(final AccountGroup.UUID groupUUID,
-      final Set<AccountGroup.UUID> seen) throws NoSuchGroupException,
-      OrmException, NoSuchProjectException {
+      final Project.NameKey project, final Set<AccountGroup.UUID> seen)
+      throws NoSuchGroupException, OrmException, NoSuchProjectException {
     if (AccountGroup.PROJECT_OWNERS.equals(groupUUID)) {
-      return getProjectOwners(seen);
+      return getProjectOwners(project, seen);
     } else {
-      return getGroupMembers(groupCache.get(groupUUID), seen);
+      return getGroupMembers(groupCache.get(groupUUID), project, seen);
     }
   }
 
-  private Set<Account> getProjectOwners(final Set<AccountGroup.UUID> seen)
-      throws NoSuchProjectException, NoSuchGroupException, OrmException {
+  private Set<Account> getProjectOwners(final Project.NameKey project,
+      final Set<AccountGroup.UUID> seen) throws NoSuchProjectException,
+      NoSuchGroupException, OrmException {
     seen.add(AccountGroup.PROJECT_OWNERS);
     if (project == null) {
       return Collections.emptySet();
@@ -97,15 +86,15 @@ public class GroupMembersFactory implements Callable<Set<Account>> {
     final HashSet<Account> projectOwners = new HashSet<Account>();
     for (final AccountGroup.UUID ownerGroup : ownerGroups) {
       if (!seen.contains(ownerGroup)) {
-        projectOwners.addAll(listAccounts(ownerGroup, seen));
+        projectOwners.addAll(listAccounts(ownerGroup, project, seen));
       }
     }
     return projectOwners;
   }
 
   private Set<Account> getGroupMembers(final AccountGroup group,
-      final Set<AccountGroup.UUID> seen) throws NoSuchGroupException,
-      OrmException, NoSuchProjectException {
+      final Project.NameKey project, final Set<AccountGroup.UUID> seen)
+      throws NoSuchGroupException, OrmException, NoSuchProjectException {
     seen.add(group.getGroupUUID());
     final GroupDetail groupDetail =
         groupDetailFactory.create(group.getId()).call();
@@ -121,7 +110,7 @@ public class GroupMembersFactory implements Callable<Set<Account>> {
         final AccountGroup includedGroup =
             groupCache.get(groupInclude.getIncludeId());
         if (!seen.contains(includedGroup.getGroupUUID())) {
-          members.addAll(listAccounts(includedGroup.getGroupUUID(), seen));
+          members.addAll(listAccounts(includedGroup.getGroupUUID(), project, seen));
         }
       }
     }

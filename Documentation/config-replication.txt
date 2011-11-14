@@ -28,8 +28,8 @@ with the command line:
   sudo su -c 'ssh mirror1.us.some.org echo' gerrit2
 ====
 
-Next, create `'$site_path'/replication.config` as a Git-style config
-file, and restart Gerrit.
+Next, create `'$site_path'/etc/replication.config` as a Git-style
+config file, and restart Gerrit.
 
 Example `replication.config` to replicate in parallel to four
 different hosts:
@@ -55,8 +55,9 @@ link:cmd-replicate.html[gerrit replicate].
 [[replication_config]]File `replication.config`
 -----------------------------------------------
 
-The optional file `'$site_path'/replication.config` is a Git-style
-config file that controls the replication settings for Gerrit.
+The optional file `'$site_path'/etc/replication.config` is a
+Git-style config file that controls the replication settings for
+Gerrit.
 
 The file is composed of one or more `remote` sections, each remote
 section provides common configuration settings for one or more

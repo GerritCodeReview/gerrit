@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAABd3////U\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-14T23:22:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABcn////c\u003d",
+      "revId": "eae5b3d9b4451cf2f4914e09938342db7505fc6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABcn////Y\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAABd3////Q\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-14T23:22:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABcn////Y\u003d",
+      "revId": "eae5b3d9b4451cf2f4914e09938342db7505fc6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABcn////U\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2011-11-11T15:57:12Z",
       "side": 1,
       "message": "s/your/project\n\nor\n\ns/your permissions/your project permissions",
+      "revId": "eae5b3d9b4451cf2f4914e09938342db7505fc6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABd3////M\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-14T23:22:41Z",
+      "side": 1,
+      "message": "s/your/project\n\nDone",
+      "parentUuid": "AAABcn////U\u003d",
       "revId": "eae5b3d9b4451cf2f4914e09938342db7505fc6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -123,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "AAABd3////Y\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-14T23:22:41Z",
+      "side": 1,
+      "message": "This is the part you can see I have really done..\n\nDone",
+      "parentUuid": "AAABcX///+4\u003d",
+      "revId": "eae5b3d9b4451cf2f4914e09938342db7505fc6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABcX////g\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -140,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "AAABd3////c\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-14T23:22:41Z",
+      "side": 1,
+      "message": "I\u0027ve made these changes, and will bring them with me to the new change.\n\nDone.",
+      "parentUuid": "AAABcX////g\u003d",
+      "revId": "eae5b3d9b4451cf2f4914e09938342db7505fc6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABcn////Q\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -151,6 +241,24 @@
       "writtenOn": "2011-11-11T15:57:12Z",
       "side": 1,
       "message": "s/today//\n\nif this changes (one day) the docs should also change",
+      "revId": "eae5b3d9b4451cf2f4914e09938342db7505fc6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABd3////g\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-14T23:22:41Z",
+      "side": 1,
+      "message": "And even more importantly, the day it get\u0027s changed but not the docs, \"today\" won\u0027t be true either. So \"today\" doesn\u0027t make any difference, and it sounds better without. \n\nDone.",
+      "parentUuid": "AAABcn////Q\u003d",
       "revId": "eae5b3d9b4451cf2f4914e09938342db7505fc6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABdH////k\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-11-14T12:19:07Z",
+      "side": 1,
+      "message": "I think you should have implemented this method non-recursive as simple while\nloop. The parent line is linear and it should be quite simple.\n\nIn addition, the non-recursive implementation would avoid creation of a new\nArrayList for each level in the parent line.",
+      "revId": "4d09a64be3df99a6fbb2cf43d59ed93b1434a648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

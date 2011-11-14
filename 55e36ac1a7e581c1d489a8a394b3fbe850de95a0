@@ -34,6 +34,24 @@
       "revId": "55e36ac1a7e581c1d489a8a394b3fbe850de95a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcH///+I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-14T20:03:22Z",
+      "side": 1,
+      "message": "Yes, cycles in the inheritance tree can happen despite the checks to prevent them.  For example, they can sneak in through refs/meta/config, and they can be temporary in nature (I think while things are changing in other threads).  Shawn has insisted on these checks in the ProjectState objects (note the \"seen\" sets all over in there).",
+      "parentUuid": "AAABd3////8\u003d",
+      "revId": "55e36ac1a7e581c1d489a8a394b3fbe850de95a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

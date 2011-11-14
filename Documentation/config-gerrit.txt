@@ -1406,6 +1406,16 @@ referrals.
 +
 By default, `ignore`.
 
+[[ldap.readTimeout]]ldap.readTimeout::
++
+_(Optional)_ The read timeout for an LDAP operation. The value is
+in the usual time-unit format like "1 s", "100 ms", etc...
+A timeout can be used to avoid blocking all of the SSH command start
+threads in case when the LDAP server becomes slow.
++
+By default there is no timeout and Gerrit will wait for the LDAP
+server to respond until the TCP connection times out.
+
 [[ldap.accountBase]]ldap.accountBase::
 +
 Root of the tree containing all user accounts.  This is typically

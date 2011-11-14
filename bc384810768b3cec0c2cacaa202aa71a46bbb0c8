@@ -16,6 +16,24 @@
       "revId": "bc384810768b3cec0c2cacaa202aa71a46bbb0c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcX///+w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/auth/userpass/UserPassConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-14T07:57:17Z",
+      "side": 1,
+      "message": "Makes sense to me.\n\nDone.",
+      "parentUuid": "AAABcH///+8\u003d",
+      "revId": "bc384810768b3cec0c2cacaa202aa71a46bbb0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

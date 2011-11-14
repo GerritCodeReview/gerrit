@@ -16,6 +16,24 @@
       "revId": "3b038a60214103b9976fe6ea2c61a3c48ab2eaca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABd3////w\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/auth/userpass/LoginResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-14T19:36:01Z",
+      "side": 1,
+      "message": "I was thinking about this, but I believe a non-argument constructor would anyway be required for this class so that it can be sent to the client via JSON. I can verify this tomorrow.",
+      "parentUuid": "AAABcH///+Y\u003d",
+      "revId": "3b038a60214103b9976fe6ea2c61a3c48ab2eaca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

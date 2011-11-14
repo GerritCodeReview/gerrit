@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABcX///+g\u003d",
+        "filename": "Documentation/cmd-set-project-parent.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-14T11:40:15Z",
+      "side": 1,
+      "message": "I have to admin that I was not explicitly thinking about this case, but looking at it I would say that in this case B should be automatically excluded from reparenting so that the result looks like this:\n\n A\n |\n B\n |\n C\n |\n D\n\nGenerally speaking, the new parent project (C) and all projects in it\u0027s line of parent projects (B, A) should be automatically excluded from reparenting. I\u0027ve updated the documentation and coding accordingly. Also the set-project-parent command will now print out a message if a project was not reparented because it was automatically excluded.\n\nDone.",
+      "parentUuid": "AAABcn////0\u003d",
+      "revId": "32aa71d05793a09588ada0b92cdc3ead31b9d5d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABcn////w\u003d",
         "filename": "Documentation/cmd-set-project-parent.txt",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2011-11-11T15:33:30Z",
       "side": 1,
       "message": "What happens if and --exclude project is not a child of the --children-of project?",
+      "revId": "32aa71d05793a09588ada0b92cdc3ead31b9d5d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcX///+c\u003d",
+        "filename": "Documentation/cmd-set-project-parent.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-14T11:40:15Z",
+      "side": 1,
+      "message": "This has no effect.\n\nI\u0027ve updated the documentation.\n\nDone.",
+      "parentUuid": "AAABcn////w\u003d",
       "revId": "32aa71d05793a09588ada0b92cdc3ead31b9d5d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABcX///+o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-14T11:40:15Z",
+      "side": 1,
+      "message": "No. \n\nDone.",
+      "parentUuid": "AAABcn////s\u003d",
+      "revId": "32aa71d05793a09588ada0b92cdc3ead31b9d5d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABcn////o\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2011-11-11T15:33:30Z",
       "side": 1,
       "message": "Could this method body be a bit short by rewriting it as:\n\n if (project.getNameKey().equals(allProjectsName)) {\n \treturn null;\n }\n \n return project.getParent();\n\nBtw, what does project.getParent() return for the \u0027All-Projects\u0027 instance?",
+      "revId": "32aa71d05793a09588ada0b92cdc3ead31b9d5d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcX///+k\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-14T11:40:15Z",
+      "side": 1,
+      "message": "project.getParent() for the \u0027All-Projects\u0027 project should return null.\n\nThis short version that you propose does not work, because for projects that are children of the root project project.getParent() may either return null or  \u0027All-Projects\u0027. The purpose of this method is actually to ensure that in this case always \u0027All-Projects\u0027 is returned.",
+      "parentUuid": "AAABcn////o\u003d",
       "revId": "32aa71d05793a09588ada0b92cdc3ead31b9d5d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

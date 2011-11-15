@@ -22,7 +22,7 @@ public class GroupList {
   protected List<GroupDetail> groups;
   protected boolean canCreateGroup;
 
-  public GroupList() {
+  protected GroupList() {
   }
 
   public GroupList(final List<GroupDetail> groups, final boolean canCreateGroup) {

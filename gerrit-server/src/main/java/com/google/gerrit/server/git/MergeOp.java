@@ -21,6 +21,8 @@ import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.common.data.MergeStrategySection;
+import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
@@ -46,6 +48,8 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.util.MostSpecificComparator;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.AtomicUpdate;
@@ -238,6 +242,9 @@ public class MergeOp {
     } catch (IOException e) {
       log.error("Test merge attempt for change: " + change.getId()
           + " failed", e);
+    } catch (InvalidNameException e) {
+      log.error("Test merge attempt for change: " + change.getId()
+          + " failed", e);
     } finally {
       if (schema != null) {
         schema.close();
@@ -260,7 +267,7 @@ public class MergeOp {
     }
   }
 
-  public void merge() throws MergeException {
+  public void merge() throws MergeException, InvalidNameException {
     setDestProject();
     try {
       openSchema();
@@ -283,24 +290,64 @@ public class MergeOp {
     }
   }
 
-  private void preMerge() throws MergeException, OrmException {
+  private void preMerge() throws MergeException, OrmException, InvalidNameException {
     openBranch();
     validateChangeList();
     mergeTip = branchTip;
-    switch (destProject.getSubmitType()) {
-      case CHERRY_PICK:
-        cherryPickChanges();
-        break;
 
-      case FAST_FORWARD_ONLY:
-      case MERGE_ALWAYS:
-      case MERGE_IF_NECESSARY:
-      default:
-        reduceToMinimalMerge();
-        mergeTopics();
-        markCleanMerges();
-        break;
+    final List<MergeStrategySection> refStrategies =
+        new ArrayList<MergeStrategySection>(projectCache.get(
+            destProject.getNameKey()).getLocalMergeStrategySections());
+    refStrategies.addAll(projectCache.get(destProject.getNameKey())
+        .getInheritedMergeStrategySections());
+
+    final List<MergeStrategySection> refStrategiesMatchers =
+        extractNonMatchersRefStrategies(refStrategies, destBranch.get());
+
+    if (refStrategiesMatchers.size() == 0) {
+      throw new MergeException("No Reference Pattern matches : "
+          + destBranch.get());
+    } else {
+      Collections.sort(refStrategies, new Comparator<MergeStrategySection>() {
+        @Override
+        public int compare(MergeStrategySection a, MergeStrategySection b) {
+          MostSpecificComparator regexComparator =
+              new MostSpecificComparator(destBranch.get());
+          return regexComparator.compare(a.getName(), b.getName());
+        }
+      });
+
+      final MergeStrategySection mostSpecific = refStrategies.get(0);
+      MergeStrategySection.SubmitType submitType = mostSpecific.getSubmitType();
+
+      switch (submitType) {
+        case CHERRY_PICK:
+          cherryPickChanges();
+          break;
+
+        case FAST_FORWARD_ONLY:
+        case MERGE_ALWAYS:
+        case MERGE_IF_NECESSARY:
+        default:
+          reduceToMinimalMerge();
+          mergeTopics(submitType);
+          markCleanMerges();
+          break;
+      }
     }
+  }
+
+  private List<MergeStrategySection> extractNonMatchersRefStrategies(
+      final List<MergeStrategySection> refStrategies, final String destBranch)
+      throws InvalidNameException {
+    final List<MergeStrategySection> matchers =
+        new ArrayList<MergeStrategySection>();
+
+    for (MergeStrategySection refMerge : refStrategies) {
+      RefControl.validateRefPattern(refMerge.getName());
+      matchers.add(refMerge);
+    }
+    return matchers;
   }
 
   private void openRepository() throws MergeException {
@@ -456,10 +503,11 @@ public class MergeOp {
     });
   }
 
-  private void mergeTopics() throws MergeException {
+  private void mergeTopics(final MergeStrategySection.SubmitType submitType)
+      throws MergeException {
     // Take the first fast-forward available, if any is available in the set.
     //
-    if (destProject.getSubmitType() != Project.SubmitType.MERGE_ALWAYS) {
+    if (submitType != MergeStrategySection.SubmitType.MERGE_ALWAYS) {
       for (final Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext();) {
         try {
           final CodeReviewCommit n = i.next();
@@ -474,7 +522,7 @@ public class MergeOp {
       }
     }
 
-    if (destProject.getSubmitType() == Project.SubmitType.FAST_FORWARD_ONLY) {
+    if (submitType == MergeStrategySection.SubmitType.FAST_FORWARD_ONLY) {
       // If this project only permits fast-forwards, abort everything else.
       //
       while (!toMerge.isEmpty()) {
@@ -857,8 +905,7 @@ public class MergeOp {
         } else if (VRIF.equals(a.getCategoryId())) {
           tag = "Tested-by";
         } else {
-          final ApprovalType at =
-              approvalTypes.byId(a.getCategoryId());
+          final ApprovalType at = approvalTypes.byId(a.getCategoryId());
           if (at == null) {
             // A deprecated/deleted approval type, ignore it.
             continue;
@@ -1022,7 +1069,8 @@ public class MergeOp {
                 .getName());
 
             Account account = null;
-            final PatchSetApproval submitter = getSubmitter(mergeTip.patchsetId);
+            final PatchSetApproval submitter =
+                getSubmitter(mergeTip.patchsetId);
             if (submitter != null) {
               account = accountCache.get(submitter.getAccountId()).getAccount();
             }

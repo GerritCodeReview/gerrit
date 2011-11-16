@@ -51,6 +51,24 @@
       "revId": "8f4ce3e89b2468ceb20611df62bff39aee1e81a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABZn////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountComparator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-16T13:53:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABVH////0\u003d",
+      "revId": "8f4ce3e89b2468ceb20611df62bff39aee1e81a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

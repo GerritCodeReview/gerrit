@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABcH///9M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-16T19:43:22Z",
+      "side": 1,
+      "message": "I think that perhaps you could avoid the  repo !\u003d null checks by scoping your trys a bit differently (you may need a third one).  Typically the way I see Shawn doing this with repos is that he will open the repo (like line 192), and then open a try with a finally that closes the repo after the original open.  In your case, it might make some of the scopes of the trys and the catches a bit more obvious.?  If you don\u0027t think so, ignore my comment. :)",
+      "revId": "759bee3a3a3dac08105ef27a6d87f03b32e5a996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

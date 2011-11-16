@@ -39,6 +39,7 @@ import com.google.gerrit.sshd.args4j.PatchSetIdHandler;
 import com.google.gerrit.sshd.args4j.ProjectControlHandler;
 import com.google.gerrit.sshd.args4j.SocketAddressHandler;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
+import com.google.gerrit.sshd.commands.ProjectNode;
 import com.google.gerrit.sshd.commands.QueryShell;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlerFactory;
@@ -80,6 +81,7 @@ public class SshModule extends FactoryModule {
     bind(QueueProvider.class).to(CommandExecutorQueueProvider.class).in(SINGLETON);
     bind(AccountManager.class);
     factory(ChangeUserName.Factory.class);
+    factory(ProjectNode.Factory.class);
 
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
     bind(KeyPairProvider.class).toProvider(HostKeyProvider.class).in(SINGLETON);

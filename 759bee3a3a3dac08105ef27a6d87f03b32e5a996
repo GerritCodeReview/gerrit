@@ -16,6 +16,24 @@
       "revId": "759bee3a3a3dac08105ef27a6d87f03b32e5a996",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcH///84\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2011-11-16T21:31:31Z",
+      "side": 1,
+      "message": "Looking through the rest of the methods in this class, it seems pretty popular to just pass the exceptions on up.  That really cleans up this block - let me know if that is acceptable and I\u0027ll upload a new patch.",
+      "parentUuid": "AAABcH///9M\u003d",
+      "revId": "759bee3a3a3dac08105ef27a6d87f03b32e5a996",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

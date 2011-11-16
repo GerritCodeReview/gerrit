@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.ProjectConfigSection;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -114,7 +115,8 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
     rules = ListEditor.of(new RuleEditorSource());
 
     exclusiveGroup.setEnabled(!readOnly);
-    exclusiveGroup.setVisible(AccessSection.isAccessSection(section.getName()));
+    exclusiveGroup.setVisible(ProjectConfigSection
+        .isValidReferenceSection(section.getName()));
 
     if (readOnly) {
       addContainer.removeFromParent();

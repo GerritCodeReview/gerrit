@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.common.data.AccessSection.isAccessSection;
+import static com.google.gerrit.common.data.ProjectConfigSection.isValidReferenceSection;
 import static com.google.gerrit.common.data.Permission.isPermission;
 
 import com.google.gerrit.common.data.AccessSection;
@@ -220,7 +220,7 @@ public class ProjectConfig extends VersionedMetaData {
 
     accessSections = new HashMap<String, AccessSection>();
     for (String refName : rc.getSubsections(ACCESS)) {
-      if (isAccessSection(refName)) {
+      if (isValidReferenceSection(refName)) {
         AccessSection as = getAccessSection(refName, true);
 
         for (String varName : rc.getStringList(ACCESS, refName, KEY_GROUP_PERMISSIONS)) {
@@ -414,7 +414,7 @@ public class ProjectConfig extends VersionedMetaData {
     }
 
     for (String name : rc.getSubsections(ACCESS)) {
-      if (isAccessSection(name) && !accessSections.containsKey(name)) {
+      if (isValidReferenceSection(name) && !accessSections.containsKey(name)) {
         rc.unsetSection(ACCESS, name);
       }
     }

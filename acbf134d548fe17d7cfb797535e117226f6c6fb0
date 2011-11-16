@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABcH///8o\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-16T23:24:32Z",
+      "side": 1,
+      "message": "I can\u0027t help but wonder if active will be the wrong default in the future?  Would it make more sense for projects to be assumed to be hidden until explicitly made otherwise?",
+      "revId": "acbf134d548fe17d7cfb797535e117226f6c6fb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

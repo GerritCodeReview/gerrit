@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABcH///8g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2011-11-16T23:13:03Z",
+      "side": 1,
+      "message": "Well I guess I can clean this up a bit too now that I don\u0027t have all the try blocks... ugh sorry for the spam.  Standby...",
+      "revId": "2ab96e97ca86946ddb640d6dc512b9d819a03aba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

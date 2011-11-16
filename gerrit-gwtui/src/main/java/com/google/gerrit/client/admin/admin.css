@@ -51,3 +51,12 @@
 .deleteSectionHover {
   background-color: selectionColor !important;
 }
+
+.deleteMergeStrategyButton {
+  width: 1px;
+  vertical-align: middle;
+  margin-right: 0.4em;
+  cursor: hand;
+  cursor: pointer;
+  border: none;
+}

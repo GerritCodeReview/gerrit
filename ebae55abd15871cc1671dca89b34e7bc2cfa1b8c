@@ -16,6 +16,24 @@
       "revId": "ebae55abd15871cc1671dca89b34e7bc2cfa1b8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcX///98\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-16T08:37:30Z",
+      "side": 1,
+      "message": "Good idea. But I think parents must be a Set for this and it should be parents.add(p) because it returns true if the set did not already contain the element. Means as long as a new parent is added, we want to go on with the loop.\n\nDone.",
+      "parentUuid": "AAABcH///9w\u003d",
+      "revId": "ebae55abd15871cc1671dca89b34e7bc2cfa1b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

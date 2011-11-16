@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABd3////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-11-16T01:58:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABO3///+o\u003d",
+      "revId": "a92d41b12bcf8f0a749c6d20501bc73383568f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABO3///+k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2011-10-28T02:51:14Z",
       "side": 1,
       "message": "See above.",
+      "revId": "a92d41b12bcf8f0a749c6d20501bc73383568f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABd3////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-11-16T01:58:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABO3///+k\u003d",
       "revId": "a92d41b12bcf8f0a749c6d20501bc73383568f77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

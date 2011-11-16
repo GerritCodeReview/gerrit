@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABcH///8U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-16T23:40:26Z",
+      "side": 1,
+      "message": "I am concerned that this is still unsafe, what if this throws a runtime exception, the repo will not get closed.",
+      "revId": "6d5d13ba7646567876ad9827a67d06f115bb36f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

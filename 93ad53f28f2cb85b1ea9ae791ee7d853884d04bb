@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABbn////8\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-16T09:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///C0\u003d",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///hM\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2011-08-28T18:00:19Z",
       "side": 1,
       "message": "To others,...",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABbn////4\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-16T09:05:37Z",
+      "side": 1,
+      "message": "I got some bashing from Augie recently with putting too many commas in my texts. I think this is another case of that, so I will reject it this time. If you persist that I\u0027m wrong I will go ahead and adjust it.",
+      "parentUuid": "AAABE3///hM\u003d",
       "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABbn////0\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-16T09:05:37Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "AAABE3///hI\u003d",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///hE\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2011-08-28T18:00:19Z",
       "side": 1,
       "message": "such as may be the case with closed...\n\nEither way, it\u0027s still...",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABbn////s\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-16T09:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///hE\u003d",
       "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAABbn////w\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-16T09:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///hA\u003d",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///g8\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2011-08-28T18:00:19Z",
       "side": 1,
       "message": "to it,",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABbn////o\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-16T09:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///g8\u003d",
       "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AAABbn////k\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-16T09:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///Cs\u003d",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///h8\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 4
@@ -167,6 +293,24 @@
       "writtenOn": "2011-08-28T18:00:19Z",
       "side": 1,
       "message": "that Gerrit is....",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABbn////g\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-16T09:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///h8\u003d",
       "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -190,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "AAABbn////c\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-16T09:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///h4\u003d",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///h0\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 4
@@ -201,6 +363,24 @@
       "writtenOn": "2011-08-28T18:00:19Z",
       "side": 1,
       "message": "continuing/continue",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABbn////Y\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-16T09:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///h0\u003d",
       "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -224,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "AAABbn////U\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-16T09:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///hw\u003d",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///hs\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 4
@@ -241,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AAABbn////Q\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-16T09:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///hs\u003d",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///ho\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 4
@@ -252,6 +468,24 @@
       "writtenOn": "2011-08-28T18:00:19Z",
       "side": 1,
       "message": "...change, then...",
+      "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABbn////M\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-16T09:05:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3///ho\u003d",
       "revId": "93ad53f28f2cb85b1ea9ae791ee7d853884d04bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

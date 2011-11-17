@@ -69,6 +69,24 @@
       "revId": "9395a4e83671e120c49549a961a15b51a7707313",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABe3///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-11-17T11:30:05Z",
+      "side": 1,
+      "message": "\"I am not sure what exactly the filterTagsSeparately flag means. When it is \"true\" do you want to unconditionally push the tag(s)?\"\n\nNo, only if the tags are reachable through the branches visible to the replication user.",
+      "parentUuid": "AAABdH///+o\u003d",
+      "revId": "9395a4e83671e120c49549a961a15b51a7707313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAABdX////U\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-17T14:36:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABcH///7o\u003d",
+      "revId": "3789e4593f26fb193bc8ae0bccd7a4edb6dc4019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABcH///7g\u003d",
         "filename": "Documentation/install-quick.txt",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2011-11-17T02:29:05Z",
       "side": 1,
       "message": "/under/as/",
+      "revId": "3789e4593f26fb193bc8ae0bccd7a4edb6dc4019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABdX////Y\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-17T14:36:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABcH///7g\u003d",
       "revId": "3789e4593f26fb193bc8ae0bccd7a4edb6dc4019",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAABdX////c\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-17T14:36:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABcH///7k\u003d",
+      "revId": "3789e4593f26fb193bc8ae0bccd7a4edb6dc4019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABe3////0\u003d",
         "filename": "Documentation/install-quick.txt",
         "patchSetId": 3
@@ -81,6 +135,24 @@
       "writtenOn": "2011-11-17T06:07:08Z",
       "side": 1,
       "message": "Generally I don\u0027t like if TODOs are submitted. \n\nIt\u0027s ok to have the documentation as it is now and to have another change later to describe it with the \u0027--batch\u0027 option. Can you just remove this TODO from the documentation?",
+      "revId": "3789e4593f26fb193bc8ae0bccd7a4edb6dc4019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABdX////g\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-17T14:36:20Z",
+      "side": 1,
+      "message": "You\u0027re right, I missed to fix this TODO.\n\nWe shouldn\u0027t submit TODOs, I should get to work and insert the correct output instead.",
+      "parentUuid": "AAABe3////0\u003d",
       "revId": "3789e4593f26fb193bc8ae0bccd7a4edb6dc4019",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

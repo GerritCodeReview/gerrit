@@ -16,6 +16,24 @@
       "revId": "acbf134d548fe17d7cfb797535e117226f6c6fb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcX///9g\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-11-17T00:02:51Z",
+      "side": 1,
+      "message": "In this case, it feels more of a discussion for a future (and separate) change.\n\nOn a pure personal level, I feel that \"Active\" is the state I would have expected as a default. Mostly because a project today (without this feature) really is equivalent to the new \"Active\"-state.\n\nThinking further about it, defaulting to hidden could probably confuse some new users to Gerrit. E.g. \"Why is not my project visible?\"\n\nWe can bring it up to discussion in the mailing list, and if the the general consensus is that a project should be hidden as a default, I think a behavior change like that should be carried out as a new trackable commit.\n\nIf you would agree on that, can we go ahead and merge this change? It has already been +2 once, and Shawn stated he liked the implementation (minus the very last KEY-STATE change).",
+      "parentUuid": "AAABcH///8o\u003d",
+      "revId": "acbf134d548fe17d7cfb797535e117226f6c6fb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

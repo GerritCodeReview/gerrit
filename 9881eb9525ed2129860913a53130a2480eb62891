@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABcH///8A\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-17T02:04:06Z",
+      "side": 1,
+      "message": "...from [++ the ones made by ++] the interactive /ones/users/.\n\n(although sometimes more wordy, it is good to keep the clauses parallel)",
+      "revId": "9881eb9525ed2129860913a53130a2480eb62891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcH///78\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-17T02:04:06Z",
+      "side": 1,
+      "message": "I see now that you just moved these, so feel free to ignore this suggestion.  This:\n\n\"... context of a project and are resolved to access rights for all users which own the project.\"\n\nmight be nicer as:\n\n\"...context of the project to which the access rights apply.  These rights therefore apply to all the users who are owners of this project.\"",
+      "revId": "9881eb9525ed2129860913a53130a2480eb62891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

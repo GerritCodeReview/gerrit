@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABe3///+8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-11-17T11:26:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABdH///+s\u003d",
+      "revId": "9395a4e83671e120c49549a961a15b51a7707313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABdH///+o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-11-17T10:29:49Z",
       "side": 1,
       "message": "I am not sure what exactly the filterTagsSeparately flag means.\nWhen it is \"true\" do you want to unconditionally push the tag(s)?\n\nIf yes, could it be achieved by a (new) TagMatcher implementation rather than by providing all the refs from the Git repository to the matcher?",
+      "revId": "9395a4e83671e120c49549a961a15b51a7707313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABe3////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2011-11-17T11:26:34Z",
+      "side": 1,
+      "message": "Before this patch, tags were only included/returned by the filter()-method if they are placed on one of the branches that where ALSO available in the very same ref-list we intended to filter down. Sure. This works great for ls-remote and similar commands, where the original list contains all refs (both branches and tags): E.g. filter down all refs -\u003e which tags are still reachable?\n\nHowever, when a replication push is started, the filter()-function will only be applied to the refs the user pushed. This is of course a problem, because some times a user only pushes a tag (or a few refs + a tag located on a totally different ref). Which means that the tag cannot be reached from/among the incoming refs. In these few situations, I wanted to first filter down the refs and then separately check if the tags are reachable through refs visible to the replication user (or \"authgroup\" if you\u0027d like).\n\nI though this was a quite elegant solution, to a otherwise nasty issue. I\u0027m not sure how I can use a TagMatcher can solve this issue or why it is a better way to attack the problem. \n\nIf you are not happy with my patch, I think I need some help or hints regarding an appropriate alternative solution.",
+      "parentUuid": "AAABdH///+o\u003d",
       "revId": "9395a4e83671e120c49549a961a15b51a7707313",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

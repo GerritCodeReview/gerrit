@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABe3////c\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/InvalidNameException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-17T06:41:47Z",
+      "side": 1,
+      "message": "maybe the parameter should be better named \"invalidName\"?",
+      "revId": "8c359f4b57fdac1c9a4d2841a5bf3f0f2500e3c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABe3////Y\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/InvalidNameException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-17T06:41:47Z",
+      "side": 1,
+      "message": "better have \": \" after MESSAGE",
+      "revId": "8c359f4b57fdac1c9a4d2841a5bf3f0f2500e3c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABe3////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-17T06:41:47Z",
+      "side": 1,
+      "message": "style-nit: newline between methods is missing",
+      "revId": "8c359f4b57fdac1c9a4d2841a5bf3f0f2500e3c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABe3////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MostSpecificComparator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-17T06:41:47Z",
+      "side": 1,
+      "message": "It looks like this class was copied from SectionSortCache. I think this class should only exists once. If we have it now here to make it reusable it should be removed from SectionSortCache.",
+      "revId": "8c359f4b57fdac1c9a4d2841a5bf3f0f2500e3c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

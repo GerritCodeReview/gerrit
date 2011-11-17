@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.State;
 import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.account.GroupCache;
 
@@ -66,9 +67,12 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String SUBMIT = "submit";
   private static final String KEY_ACTION = "action";
   private static final String KEY_MERGE_CONTENT = "mergeContent";
+  private static final String KEY_STATE = "state";
 
   private static final SubmitType defaultSubmitAction =
       SubmitType.MERGE_IF_NECESSARY;
+  private static final State defaultStateValue =
+      State.ACTIVE;
 
   private Project.NameKey projectName;
   private Project project;
@@ -217,6 +221,7 @@ public class ProjectConfig extends VersionedMetaData {
 
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
     p.setUseContentMerge(getBoolean(rc, SUBMIT, KEY_MERGE_CONTENT, false));
+    p.setState(getEnum(rc, PROJECT, null, KEY_STATE, defaultStateValue));
 
     accessSections = new HashMap<String, AccessSection>();
     for (String refName : rc.getSubsections(ACCESS)) {
@@ -340,6 +345,8 @@ public class ProjectConfig extends VersionedMetaData {
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), defaultSubmitAction);
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.isUseContentMerge());
+
+    set(rc, PROJECT, null, KEY_STATE, p.getState(), null);
 
     Set<AccountGroup.UUID> keepGroups = new HashSet<AccountGroup.UUID>();
     AccessSection capability = accessSections.get(AccessSection.GLOBAL_CAPABILITIES);

@@ -63,6 +63,10 @@ public interface AdminConstants extends Constants {
   String projectSubmitType_MERGE_IF_NECESSARY();
   String projectSubmitType_CHERRY_PICK();
 
+  String projectState_ACTIVE();
+  String projectState_READ_ONLY();
+  String projectState_HIDDEN();
+
   String groupType_SYSTEM();
   String groupType_INTERNAL();
   String groupType_LDAP();

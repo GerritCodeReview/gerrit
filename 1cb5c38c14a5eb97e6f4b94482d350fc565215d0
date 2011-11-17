@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABe3///+s\u003d",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-17T14:06:55Z",
+      "side": 1,
+      "message": "The last two paragraphs are strangely formatted by asciidoc. I think instead of the empty line that seperates the paragraphs you need to have a line which only contains \u0027+\u0027. In addition the last two paragraphs must then not be indented. Have a look at \u0027cmd-receive-pack.txt\u0027 -\u003e option \u0027--reviewer\u0027 for an example how it should look like to be formatted correctly.",
+      "revId": "1cb5c38c14a5eb97e6f4b94482d350fc565215d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

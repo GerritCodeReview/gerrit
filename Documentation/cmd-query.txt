@@ -14,6 +14,7 @@ SYNOPSIS
   [--patch-sets | --all-approvals]
   [--files]
   [--comments]
+  [--commit-message]
   [--]
   <query>
   [limit:<n>]
@@ -68,6 +69,9 @@ OPTIONS
 	Include comments for all changes. If combined with the
 	--patch-sets flag then all in-line comments are included for
 	each patch set.
+
+--commit-message::
+	Include the full commit message in the change description.
 
 limit:<n>::
 	Maximum number of results to return.  This is actually a

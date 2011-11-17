@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABcH///7c\u003d",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-17T02:29:05Z",
+      "side": 1,
+      "message": "/ins/Ins/   /min/Min/\n\nor:\n\n\"Quick 10 Minute Installation Guide\"",
+      "revId": "3789e4593f26fb193bc8ae0bccd7a4edb6dc4019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcH///7o\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-17T02:29:05Z",
+      "side": 1,
+      "message": "\"..to host [++ the ++] Gerrit service\"\n\nor:\n\n \"...to host Gerrit\"  (no service)",
+      "revId": "3789e4593f26fb193bc8ae0bccd7a4edb6dc4019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcH///7g\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-17T02:29:05Z",
+      "side": 1,
+      "message": "/under/as/",
+      "revId": "3789e4593f26fb193bc8ae0bccd7a4edb6dc4019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABcH///7k\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-17T02:29:05Z",
+      "side": 1,
+      "message": "/under/as/",
+      "revId": "3789e4593f26fb193bc8ae0bccd7a4edb6dc4019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

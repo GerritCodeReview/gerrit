@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABdH///+4\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-11-17T09:25:57Z",
+      "side": 1,
+      "message": "Again, I would suggest replacing:\n\n format is in a human readable format,\n\nwith\n\n format is human readable,",
+      "revId": "3437d7e974177181337d77f2d097bd1f6f90008e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABdH///+0\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-11-17T09:25:57Z",
+      "side": 1,
+      "message": "Additionally, you may want to mention that the format of the project.config file is actually git-config like format i.e. \"git config\" command can be used to read and modify it.",
+      "revId": "3437d7e974177181337d77f2d097bd1f6f90008e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

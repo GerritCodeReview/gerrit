@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABdH///+s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-11-17T10:29:49Z",
+      "side": 1,
+      "message": "The reference to the issue should go in the last paragraph of the commit message, like:\n\n Bug: issue 807\n Change-Id: ...",
+      "revId": "9395a4e83671e120c49549a961a15b51a7707313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABdH///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-11-17T10:29:49Z",
+      "side": 1,
+      "message": "I am not sure what exactly the filterTagsSeparately flag means.\nWhen it is \"true\" do you want to unconditionally push the tag(s)?\n\nIf yes, could it be achieved by a (new) TagMatcher implementation rather than by providing all the refs from the Git repository to the matcher?",
+      "revId": "9395a4e83671e120c49549a961a15b51a7707313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

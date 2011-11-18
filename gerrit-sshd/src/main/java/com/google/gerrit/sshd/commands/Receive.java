@@ -85,6 +85,7 @@ final class Receive extends AbstractGitCommand {
     final ReceivePack rp = receive.getReceivePack();
     rp.setRefLogIdent(currentUser.newRefLogIdent());
     rp.setTimeout(config.getTimeout());
+    rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());
     try {
       receive.advertiseHistory();
       rp.receive(in, out, err);

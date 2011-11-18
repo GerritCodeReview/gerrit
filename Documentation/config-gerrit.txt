@@ -1653,14 +1653,16 @@ By default, 1.
 
 [[receive]]Section receive
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-Sets the group of users allowed to execute 'receive-pack' on the
-server, 'receive-pack' is what runs on the server during a user's
-push or repo upload command.
+This section is used to set who can execute the 'receive-pack' and
+to limit the maximum Git object size that 'receive-pack' will accept.
+'receive-pack' is what runs on the server during a user's push or
+repo upload command.
 
 ----
 [receive]
   allowGroup = GROUP_ALLOWED_TO_EXECUTE
   allowGroup = YET_ANOTHER_GROUP_ALLOWED_TO_EXECUTE
+  maxObjectSizeLimit = 40 m
 ----
 
 [[receive.allowGroup]]receive.allowGroup::
@@ -1670,6 +1672,20 @@ Name of the groups of users that are allowed to execute
 +
 If no groups are added, any user will be allowed to execute
 'receive-pack' on the server.
+
+[[receive.maxObjectSizeLimit]]receive.maxObjectSizeLimit::
++
+Maximum allowed Git object size that 'receive-pack' will accept.
+If an object is larger than the given size the pack-parsing will abort
+and the push operation will fail. If set to zero then there is no
+limit.
++
+Gerrit administrator can use this setting to prevent developers
+from pushing objects which are too large to Gerrit.
++
+Default is zero.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
 
 
 [[repository]]Section repository

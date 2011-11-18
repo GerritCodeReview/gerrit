@@ -39,7 +39,10 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.JschConfigSessionFactory;
 import org.eclipse.jgit.transport.OpenSshConfig;
@@ -54,6 +57,7 @@ import org.eclipse.jgit.util.io.StreamCopyThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -270,15 +274,43 @@ public class PushReplication implements ReplicationQueue {
   }
 
   private void replicateProject(final URIish replicateURI, final String head) {
+    if (!replicateURI.isRemote()) {
+      replicateProjectLocally(replicateURI, head);
+    } else if (usingSSH(replicateURI)) {
+      replicateProjectOverSsh(replicateURI, head);
+    } else {
+      log.warn("Cannot create new project on remote site since neither the "
+          + "connection method is SSH nor the replication target is local: "
+          + replicateURI.toString());
+      return;
+    }
+  }
+
+  private void replicateProjectLocally(final URIish replicateURI, final String head) {
+    final FileKey loc =
+        FileKey.exact(new File(replicateURI.getPath()), FS.DETECTED);
+    try {
+      final Repository repo = RepositoryCache.open(loc, false);
+      try {
+        repo.create(true /* bare */);
+
+        final RefUpdate u = repo.updateRef(Constants.HEAD);
+        u.disableRefLog();
+        u.link(head);
+      } finally {
+        repo.close();
+      }
+    } catch (IOException e) {
+      log.error("Failed to replicate project locally: "
+          + replicateURI.getPath());
+    }
+  }
+
+  private void replicateProjectOverSsh(final URIish replicateURI,
+      final String head) {
     SshSessionFactory sshFactory = SshSessionFactory.getInstance();
     RemoteSession sshSession;
     String projectPath = QuotedString.BOURNE.quote(replicateURI.getPath());
-
-    if (!usingSSH(replicateURI)) {
-      log.warn("Cannot create new project on remote site since the connection "
-          + "method is not SSH: " + replicateURI.toString());
-      return;
-    }
 
     OutputStream errStream = createErrStream();
     String cmd =

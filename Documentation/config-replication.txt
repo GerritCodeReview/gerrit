@@ -14,7 +14,10 @@ Typically replication should be done over SSH, with a passwordless
 public/private key pair.  On a trusted network it is also possible to
 use replication over the insecure (but much faster) git:// protocol,
 by enabling the `receive-pack` service on the receiving system, but
-this configuration is not recommended.
+this configuration is not recommended.  It is also possible to
+specify a local path as replication target. This makes e.g. sense if
+a network share is mounted to which the repositories should be
+replicated.
 
 Enabling Replication
 --------------------

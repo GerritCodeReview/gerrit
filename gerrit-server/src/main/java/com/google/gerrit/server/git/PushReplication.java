@@ -34,6 +34,7 @@ import com.google.inject.servlet.RequestScoped;
 
 import com.jcraft.jsch.Session;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -54,6 +55,7 @@ import org.eclipse.jgit.util.io.StreamCopyThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -251,7 +253,7 @@ public class PushReplication implements ReplicationQueue {
           if (replacedPath != null) {
             adminURI = adminURI.setPath(replacedPath);
             if (usingSSH(adminURI)) {
-              replicateProject(adminURI, head);
+              replicateProject(projectName, adminURI, head);
               adminURLUsed = true;
             } else {
               log.error("The adminURL '" + url
@@ -263,22 +265,50 @@ public class PushReplication implements ReplicationQueue {
 
       if (!adminURLUsed) {
         for (URIish uri : uriList) {
-          replicateProject(uri, head);
+          replicateProject(projectName, uri, head);
         }
       }
     }
   }
 
-  private void replicateProject(final URIish replicateURI, final String head) {
+  private void replicateProject(final Project.NameKey projectName,
+      final URIish replicateURI, final String head) {
+    if (!replicateURI.isRemote()) {
+      replicateProjectLocally(projectName, replicateURI, head);
+    } else if (usingSSH(replicateURI)) {
+      replicateProjectOverSsh(replicateURI, head);
+    } else {
+      log.warn("Cannot create new project on remote site since neither the "
+          + "connection method is SSH nor the replication target is local: "
+          + replicateURI.toString());
+      return;
+    }
+  }
+
+  private void replicateProjectLocally(final Project.NameKey projectName,
+      final URIish replicateURI, final String head) {
+    Repository repo = null;
+    try {
+      repo = gitRepositoryManager.openRepository(projectName);
+      FileUtils.copyDirectory(repo.getDirectory(), new File(replicateURI.getPath()));
+    } catch (RepositoryNotFoundException e) {
+      log.error("Failed to replicate project locally: "
+          + replicateURI.toString());
+    } catch (IOException e) {
+      log.error("Failed to replicate project locally: "
+          + replicateURI.toString());
+    } finally {
+      if (repo != null) {
+        repo.close();
+      }
+    }
+  }
+
+  private void replicateProjectOverSsh(final URIish replicateURI,
+      final String head) {
     SshSessionFactory sshFactory = SshSessionFactory.getInstance();
     RemoteSession sshSession;
     String projectPath = QuotedString.BOURNE.quote(replicateURI.getPath());
-
-    if (!usingSSH(replicateURI)) {
-      log.warn("Cannot create new project on remote site since the connection "
-          + "method is not SSH: " + replicateURI.toString());
-      return;
-    }
 
     OutputStream errStream = createErrStream();
     String cmd =

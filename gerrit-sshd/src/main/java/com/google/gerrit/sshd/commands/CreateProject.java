@@ -164,11 +164,11 @@ final class CreateProject extends BaseCommand {
           String head = permissionsOnly ? GitRepositoryManager.REF_CONFIG : branch;
           final Repository repo = repoManager.createRepository(nameKey);
           try {
-            rq.replicateNewProject(nameKey, head);
-
             RefUpdate u = repo.updateRef(Constants.HEAD);
             u.disableRefLog();
             u.link(head);
+
+            rq.replicateNewProject(nameKey, head);
 
             createProjectConfig();
 

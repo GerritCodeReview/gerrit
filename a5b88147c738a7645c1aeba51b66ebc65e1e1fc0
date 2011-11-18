@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABfX////U\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1657,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-18T17:56:33Z",
+      "side": 1,
+      "message": "/pushing too large objects/pushing objects which are too large/",
+      "revId": "a5b88147c738a7645c1aeba51b66ebc65e1e1fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABfX////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-18T18:03:42Z",
+      "side": 1,
+      "message": "I think that if you move this before the try, then you can eliminate the null check on 301.",
+      "revId": "9391eb684bbab0ec620340e97547fa623a96cd99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX////I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-18T18:03:42Z",
+      "side": 1,
+      "message": "Could you explain this change? (I am not familiar with this code)",
+      "revId": "9391eb684bbab0ec620340e97547fa623a96cd99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

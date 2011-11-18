@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABfX////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-18T16:01:18Z",
+      "side": 1,
+      "message": "What will happen when the change is still open but applying the approvals fails for another reason (permissions)?  Will the message be skipped then?",
+      "revId": "305463c21ab6fb2ee4fc997f2d5379c897881bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-18T16:01:18Z",
+      "side": 1,
+      "message": "Nit: it might be more readable now and flow better to make this if(approvals.isEmpty() ¦¦ forceMessage) and then put line 130 in here and make line 128 the new else.  (Not a requirement)",
+      "revId": "305463c21ab6fb2ee4fc997f2d5379c897881bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

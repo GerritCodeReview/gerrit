@@ -28,11 +28,13 @@ import java.util.concurrent.TimeUnit;
 public class TransferConfig {
   private final int timeout;
   private final PackConfig packConfig;
+  private final long maxObjectSizeLimit;
 
   @Inject
   TransferConfig(@GerritServerConfig final Config cfg) {
     timeout = (int) ConfigUtil.getTimeUnit(cfg, "transfer", null, "timeout", //
         0, TimeUnit.SECONDS);
+    maxObjectSizeLimit = cfg.getLong("receive", "maxObjectSizeLimit", 0);
 
     packConfig = new PackConfig();
     packConfig.setDeltaCompress(false);
@@ -47,5 +49,9 @@ public class TransferConfig {
 
   public PackConfig getPackConfig() {
     return packConfig;
+  }
+
+  public long getMaxObjectSizeLimit() {
+    return maxObjectSizeLimit;
   }
 }

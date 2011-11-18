@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABfX////A\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectConfigSection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-18T18:54:11Z",
+      "side": 1,
+      "message": "This still feels like it should be called RefConfigSection?  Did you change your mind?",
+      "revId": "8c359f4b57fdac1c9a4d2841a5bf3f0f2500e3c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX///+8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectConfigSection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-18T18:54:11Z",
+      "side": 1,
+      "message": "If you do change the name to RefConfigSection, this method might then be simpler as isValid().  Since it is static, it will then be invoked as RefConfigSection.isValid() which seems to already convey the extra \"ReferenceSection\" part of the current name.",
+      "revId": "8c359f4b57fdac1c9a4d2841a5bf3f0f2500e3c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABe3////c\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/InvalidNameException.java",
         "patchSetId": 1
@@ -36,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AAABfX///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-18T18:54:11Z",
+      "side": 1,
+      "message": "If you do change the name to RefConfigSection.isValid(), I might consider only importing the class, not the function name here.",
+      "revId": "8c359f4b57fdac1c9a4d2841a5bf3f0f2500e3c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABe3////s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 1
@@ -47,6 +98,23 @@
       "writtenOn": "2011-11-17T06:41:47Z",
       "side": 1,
       "message": "style-nit: newline between methods is missing",
+      "revId": "8c359f4b57fdac1c9a4d2841a5bf3f0f2500e3c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-18T18:54:11Z",
+      "side": 1,
+      "message": "Any reason not to include the refPattern here like on 421 and 424?",
       "revId": "8c359f4b57fdac1c9a4d2841a5bf3f0f2500e3c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

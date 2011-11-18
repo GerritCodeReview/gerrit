@@ -1,0 +1,84 @@
+// Copyright (C) 2011 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.sshd.commands;
+
+import java.io.PrintWriter;
+import java.util.SortedSet;
+
+public class TreeFormatter {
+
+  public static final String NOT_VISIBLE_NODE = "(x)";
+
+  private static final String NODE_PREFIX = "|-- ";
+  private static final String LAST_NODE_PREFIX = "`-- ";
+  private static final String DEFAULT_TAB_SEPARATOR = "|";
+
+  private final PrintWriter stdout;
+  private String currentTabSeparator = " ";
+
+  public TreeFormatter(final PrintWriter stdout) {
+    this.stdout = stdout;
+  }
+
+  public void printTree(final SortedSet<? extends TreeNode> rootNodes) {
+    if (rootNodes.isEmpty()) {
+      return;
+    }
+    if (rootNodes.size() == 1) {
+      printTree(rootNodes.first());
+    } else {
+      currentTabSeparator = DEFAULT_TAB_SEPARATOR;
+      for (final TreeNode rootNode : rootNodes) {
+        final boolean isLastRoot = rootNodes.last().equals(rootNode);
+        if (isLastRoot) {
+          currentTabSeparator = " ";
+        }
+        printTree(rootNode);
+      }
+    }
+  }
+
+  public void printTree(final TreeNode rootNode) {
+    printTree(rootNode, 0, true);
+  }
+
+  private void printTree(final TreeNode node, final int level,
+      final boolean isLast) {
+    printNode(node, level, isLast);
+    final SortedSet<? extends TreeNode> childNodes = node.getChildren();
+    for (final TreeNode childNode : childNodes) {
+      final boolean isLastChild = childNodes.last().equals(childNode);
+      printTree(childNode, level + 1, isLastChild);
+    }
+  }
+
+  private void printIndention(final int level) {
+    if (level > 0) {
+      stdout.print(String.format("%-" + 4 * level + "s", currentTabSeparator));
+    }
+  }
+
+  private void printNode(final TreeNode node, final int level,
+      final boolean isLast) {
+    printIndention(level);
+    stdout.print(isLast ? LAST_NODE_PREFIX : NODE_PREFIX);
+    if (node.isVisible()) {
+      stdout.print(node.getDisplayName());
+    } else {
+      stdout.print(NOT_VISIBLE_NODE);
+    }
+    stdout.println();
+  }
+}

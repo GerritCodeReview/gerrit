@@ -33,6 +33,24 @@
       "revId": "9391eb684bbab0ec620340e97547fa623a96cd99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn////0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-18T19:56:54Z",
+      "side": 1,
+      "message": "Sure.\n\nHave a look at the commands that are executed on the remote \nsite in case the new project is replicated over ssh (in \nPushReplication#replicateProjectOverSsh(...)):\n  mkdir -p \u003cprojectPath\u003e\n  cd \u003cprojectPath\u003e\n  git init --bare \n  git symbolic-ref HEAD \u003chead\u003e\n\nTo do \"git init --bare\" with jgit one would do:\n  Repository db \u003d RepositoryCache.open(loc, false);\n  db.create(true /* bare */);\nThis is what is done above when we call \nrepoManager.createRepository(nameKey).\n\nTo do \"git symbolic-ref HEAD \u003chead\u003e\" with jgit one would do:\n  RefUpdate u \u003d repo.updateRef(Constants.HEAD);\n  u.link(head);\nThis basically makes HEAD point to the default branch (\u0027refs/heads\n/master\u0027). Since it\u0027a a bare repository it only has the effect that this\nis the branch that is automatically checked out on client side after \ncloning this repository.\n\nSo my first version of PushReplication#replicateProjectLocally(...) was doing excatly those jgit calls, but then I was thinking that it is easier to simply copy the complete git directory. This has the advantage that if anything changes in the project creation, the code in PushReplication#replicateProjectLocally(...) doesn\u0027t need to be adapted. So the above change was needed to ensure that the jgit equivalent for \u0027git symbolic-ref HEAD \u003chead\u003e\u0027 happens before PushReplication#replicateProjectLocally(...) copies the repository. Only then the behaviour is consistent with PushReplication#replicateProjectOverSsh(...).\n\nSay if I explained it not well enough.",
+      "parentUuid": "AAABfX////I\u003d",
+      "revId": "9391eb684bbab0ec620340e97547fa623a96cd99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

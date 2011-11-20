@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhH////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-20T18:29:10Z",
+      "side": 1,
+      "message": "It appears that you are waiting for a keyup event to deduce that a project name has been supplied, and to thereafter enable the create button.  However, in my experience it is possible for users to paste text into boxes without ever triggering the keyup event, in particular, users on Unix may simply middle click text into the the field, and I think that there are a few other subtle cases which depend on which browser the user is using.  In those cases, the user will have pasted a project name and the create button will stay disabled. \n\nRead more here(ps1):\nhttps://gerrit-review.googlesource.com/#/c/24667/1/gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LabelsEditor.java",
+      "parentUuid": "AAABfn////8\u003d",
+      "revId": "b7360f13cb7353999f4a7a2de586044de116f090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABPX////0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
         "patchSetId": 7

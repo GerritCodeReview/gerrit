@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AAABfn///+c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-21T15:12:41Z",
+      "side": 1,
+      "message": "Is it a good idea to remove the UI for setting the merge strategy on project level if the new UI only comes with a follow-up change? This would mean that both changes should be submitted only together. I think it\u0027s a good idea to seperate this into two changes to make the change smaller and the reviewing easier. But for this change I would propose to keep the old UI and simply persist a change of the merge strategy on project level as merge strategy for \u0027refs/*\u0027. Then this change can be accepted without loosing the possibility to change the merge strategy on project level.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH////g\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeMergeStrategies.java",
         "patchSetId": 5
@@ -87,6 +104,24 @@
     },
     {
       "key": {
+        "uuid": "AAABfn///+4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeMergeStrategies.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-21T15:12:41Z",
+      "side": 1,
+      "message": "I would agree with Martin. Maybe a simple \u0027continue;\u0027 would be enough, at least this is how similar cases are handled in ChangeProjectAccess.",
+      "parentUuid": "AAABhH////g\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH////Y\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeMergeStrategies.java",
         "patchSetId": 5
@@ -98,6 +133,24 @@
       "writtenOn": "2011-11-21T08:00:48Z",
       "side": 1,
       "message": "I think that getSectionNames might be clearer.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///+8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeMergeStrategies.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-21T15:12:41Z",
+      "side": 1,
+      "message": "First I also wanted to make the same comment, but then I noticed that the current name is consistent with ChangeProjectAccess#scanSectionNames(ProjectConfig).",
+      "parentUuid": "AAABhH////Y\u003d",
       "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +208,24 @@
     },
     {
       "key": {
+        "uuid": "AAABfn///+0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectMergeStrategiesFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-21T15:12:41Z",
+      "side": 1,
+      "message": "The same code can be found in ProjectAccessFactory#call().\n\nI agree with Martin, that it would be nice to have this version check only in one central place and to just call it from here. Though I\u0027m not sure where it would be placed best...",
+      "parentUuid": "AAABgn////0\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABgn////A\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectMergeStrategiesFactory.java",
         "patchSetId": 5
@@ -200,6 +271,23 @@
       "writtenOn": "2011-11-21T08:00:48Z",
       "side": 1,
       "message": "You created a method on Project state which if you make the fix I suggested there, would already provide this for you.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-21T15:12:41Z",
+      "side": 1,
+      "message": "Shouldn\u0027t there be a default merge strategy that applies in this case?\n\nMaybe the wild project should always provide \u0027Merge If Necessarry\u0027 for any ref if no merge strategy is configured for this ref so that this exception here can never happen?",
       "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -257,6 +345,24 @@
     },
     {
       "key": {
+        "uuid": "AAABfn///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-21T15:12:41Z",
+      "side": 1,
+      "message": "I\u0027m not sure that the check on 244 can be removed. Actually this else branch is only entered when the project points to a parent project that does not exist, isn\u0027t it (parent !\u003d null \u0026\u0026 projectCache.get(parent) \u003d\u003d null)? \n\nFor projects that are children of the wild project \u0027s.getProject().getParent()\u0027 may either return \u0027All-Projects\u0027 or null. In the second case the while loop would end and the merge strategies for the wild project are not added to the \u0027inherited\u0027 list. I think for this case the check on 244 is still needed.",
+      "parentUuid": "AAABhH////s\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 5
@@ -285,6 +391,23 @@
       "writtenOn": "2011-11-21T08:00:48Z",
       "side": 1,
       "message": "Suggestion: do a Project project \u003d config.project() here and there will be fewer changes to this function and some of the lines will stay shorter.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-21T15:12:41Z",
+      "side": 1,
+      "message": "You should not hard code the name of the wild project, but get it injected. Actually this name is now \u0027All-Projects\u0027 and not \u0027-- All Projects --\u0027 anymore.",
       "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -336,6 +459,40 @@
       "writtenOn": "2011-11-21T08:00:48Z",
       "side": 1,
       "message": "@Override",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-21T15:12:41Z",
+      "side": 1,
+      "message": "Looks like you\u0027re adding a merge strategy for \u0027refs/*\u0027 only if there is a \u0027submit\u0027 section in the project.config file.\n\nFor some projects (e.g. for newly created projects) there is no \u0027submit\u0027 section in the project.config, which means that the default merge strategy (Merge If Necessarry) applies.\n\nAt least for the wild project this needs to be handled, other projects can then inherit the default merge strategy.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-21T15:12:41Z",
+      "side": 1,
+      "message": "If you set the merge strategy for a project back to the default merge strategy \u0027Merge If Necessarry\u0027 this results in an empty \u0027submit\u0027 section in the project.config file. This case isn\u0027t handled here. I think it at least needs to be handled for the wild projects, other projects can then inherit the default merge strategy.",
       "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

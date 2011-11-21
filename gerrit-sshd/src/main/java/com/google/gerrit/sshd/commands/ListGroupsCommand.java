@@ -18,7 +18,9 @@ import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupList;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.server.account.VisibleGroups;
+import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmException;
@@ -37,6 +39,8 @@ public class ListGroupsCommand extends BaseCommand {
   @Inject
   private VisibleGroups.Factory visibleGroupsFactory;
 
+  @Inject
+  private IdentifiedUser.GenericFactory userFactory;
 
   @Option(name = "--project", aliases = {"-p"},
       usage = "projects for which the groups should be listed")
@@ -47,6 +51,10 @@ public class ListGroupsCommand extends BaseCommand {
 
   @Option(name = "--type", usage = "type of group")
   private AccountGroup.Type groupType;
+
+  @Option(name = "--user", aliases = {"-u"},
+      usage = "user for which the groups should be listed")
+  private Account.Id user;
 
   @Override
   public void start(final Environment env) throws IOException {
@@ -62,12 +70,18 @@ public class ListGroupsCommand extends BaseCommand {
   private void display() throws Failure {
     final PrintWriter stdout = toPrintWriter(out);
     try {
+      if (user != null && !projects.isEmpty()) {
+        throw new UnloggedFailure(1, "fatal: --user and --project options are not compatible.");
+      }
+
       final VisibleGroups visibleGroups = visibleGroupsFactory.create();
       visibleGroups.setOnlyVisibleToAll(visibleToAll);
       visibleGroups.setGroupType(groupType);
       final GroupList groupList;
       if (!projects.isEmpty()) {
         groupList = visibleGroups.get(projects);
+      } else if (user != null) {
+        groupList = visibleGroups.get(userFactory.create(user));
       } else {
         groupList = visibleGroups.get();
       }

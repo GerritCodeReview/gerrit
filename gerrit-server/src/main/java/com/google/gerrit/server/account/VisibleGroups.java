@@ -47,6 +47,7 @@ public class VisibleGroups {
   private Collection<ProjectControl> projects;
   private boolean onlyVisibleToAll;
   private AccountGroup.Type groupType;
+  private IdentifiedUser user;
 
   @Inject
   VisibleGroups(final Provider<IdentifiedUser> currentUser,
@@ -60,7 +61,19 @@ public class VisibleGroups {
   }
 
   public void setProjects(final Collection<ProjectControl> projects) {
+    if (user != null) {
+      throw new IllegalArgumentException(
+          "Projects can't be set if user is set.");
+    }
     this.projects = projects;
+  }
+
+  public void setUser(final IdentifiedUser user) {
+    if (projects != null && !projects.isEmpty()) {
+      throw new IllegalArgumentException(
+          "User can't be set if projects are set.");
+    }
+    this.user = user;
   }
 
   public void setOnlyVisibleToAll(final boolean onlyVisibleToAll) {
@@ -75,6 +88,8 @@ public class VisibleGroups {
     final Iterable<AccountGroup> groups;
     if (projects != null && !projects.isEmpty()) {
       groups = getGroupsForProjects();
+    } else if (user != null) {
+      groups = getGroupsForUser();
     } else {
       groups = groupCache.all();
     }
@@ -95,6 +110,22 @@ public class VisibleGroups {
       }
     }
     return groups;
+  }
+
+  private Set<AccountGroup> getGroupsForUser() throws NoSuchGroupException {
+    if (identifiedUser.get().getAccountId().equals(user.getAccountId())
+        || identifiedUser.get().getCapabilities().canAdministrateServer()) {
+      final Set<AccountGroup.UUID> effective = user.getEffectiveGroups();
+      final SortedSet<AccountGroup> groups =
+          new TreeSet<AccountGroup>(new GroupComparator());
+      for (final AccountGroup.UUID groupId : effective) {
+        groups.add(groupCache.get(groupId));
+      }
+      return groups;
+    } else {
+      throw new NoSuchGroupException("Groups of user '" + user.getAccountId()
+          + "' are not visible.");
+    }
   }
 
   private List<AccountGroup> filterGroups(final Iterable<AccountGroup> groups) {

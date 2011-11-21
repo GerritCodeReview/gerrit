@@ -63,10 +63,14 @@ public class ListGroupsCommand extends BaseCommand {
     final PrintWriter stdout = toPrintWriter(out);
     try {
       final VisibleGroups visibleGroups = visibleGroupsFactory.create();
-      visibleGroups.setProjects(projects);
       visibleGroups.setOnlyVisibleToAll(visibleToAll);
       visibleGroups.setGroupType(groupType);
-      final GroupList groupList = visibleGroups.get();
+      final GroupList groupList;
+      if (!projects.isEmpty()) {
+        groupList = visibleGroups.get(projects);
+      } else {
+        groupList = visibleGroups.get();
+      }
       for (final GroupDetail groupDetail : groupList.getGroups()) {
         stdout.print(groupDetail.group.getName() + "\n");
       }

@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhX////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2011-11-21T18:52:19Z",
+      "side": 1,
+      "message": "Ops, sorry I meant project.config, not project.config.java",
+      "parentUuid": "AAABhX////4\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH////g\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeMergeStrategies.java",
         "patchSetId": 5

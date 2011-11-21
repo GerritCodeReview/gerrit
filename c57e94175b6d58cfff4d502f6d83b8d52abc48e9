@@ -2,6 +2,380 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABgn////I\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectAdminService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "Seems like this should go on line 49, and should have a SignInRequired annotation.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABgn////w\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectMergeStrategies.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "Sections, or mergeStrategies, or mss would probably be better.  Local sounds like a scope, but of what?",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABgn////k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectMergeStrategies.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "Maybe use rev (name seems odd)?",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABgn////g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectMergeStrategies.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "Nit: no trailing nls in class or method blocks.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH////g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeMergeStrategies.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "That seems a little extreme? Just because someone isn\u0027t the owner does it mean they shouldn\u0027t even be able to see a ref? (It appears that you are attempting to obfuscate its existence which I think is usually reserved for things the user isn\u0027t allowed to see.)",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH////Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeMergeStrategies.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "I think that getSectionNames might be clearer.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH////U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeMergeStrategies.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "See my note on the previous patch set, HashSet constructors can take a collection, this method is unneeded.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABgn////E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAdminServiceImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "Put this on line 79 to be more consistent?",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABgn////0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectMergeStrategiesFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "I am not sure it is appropriate to work around (doubt) the cache here?  And if so, it seems like the code to do the version check should live somewhere else?  But I admit I don\u0027t know, can someone step in and help here, or could you point me to some similar examples already in Gerrit?",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABgn////A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectMergeStrategiesFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "Detail seems counterintuitive, for something short, how about strategies?",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABgn///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "It feels wrong to be doing this sort of checking in this class, it is huge already.  I suspect that passing in the appropriate merge strategy via the factory would be cleaner.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "You created a method on Project state which if you make the fix I suggested there, would already provide this for you.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "What is a nonMatcherRefStartegy?  Does it just mean an invalid entry?  If so, maybe it would be better to push the validation to a lower level, perhaps down at the ProjectMergeStrategies level, or even at the mss level (prevent invalid sections from even being created)?",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "This seems like it should be plural.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "I suspect that in this case you would still want to at least add the allprojects rules?  Perhaps the check on 244 should just be eliminated?",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "I suspect that you want to preserve order here and return a List?",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "Suggestion: do a Project project \u003d config.project() here and there will be fewer changes to this function and some of the lines will stay shorter.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "This is kind of confusing, why bother with a flag when these two ifs could just be one?  It only seems to add a layer of indirection making it harder to figure out when and why the second if will be executed.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "I noticed that schema53 which you modified did not use any constants to represent strings.  I suspect that is to ensure that the schema update is \"frozen\" to the value of the strings at the time the update was written so that it is possible to update the string constants in normal Gerrit classes without having to worry about messing up the old conversions.  I suspect that the same should apply to this class for the many string constants that are used below.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABgn////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "@Override",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABgn////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "Mypref(feel free to ignore):  Since this is the only place that this flag is being set, it might be simpler to put an active slant on the setting by using a var named saveSubmitSection instead.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABgn////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T08:00:48Z",
+      "side": 1,
+      "message": "56?",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABe3////M\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
         "patchSetId": 5

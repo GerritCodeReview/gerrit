@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABfn////s\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-21T08:02:42Z",
+      "side": 1,
+      "message": "use\n  link:http://gitblit.com[Gitblit] \nto render \u0027Gitblit\u0027 as a link to http://gitblit.com",
+      "revId": "e41aad91eae9e75b99e8bd5b04936cf7d989c845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn////o\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-21T08:02:42Z",
+      "side": 1,
+      "message": "style-nit: trailing spaces in this paragraph, should be removed",
+      "revId": "e41aad91eae9e75b99e8bd5b04936cf7d989c845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn////k\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-21T08:02:42Z",
+      "side": 1,
+      "message": "Better use single quotes to surround the property name to get this string formatted by asciidoc. This is the usual formatting that is used in the Gerrit documentation for such cases. Even better format it as link as proposed by the next comment.",
+      "revId": "e41aad91eae9e75b99e8bd5b04936cf7d989c845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn////g\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-21T08:02:42Z",
+      "side": 1,
+      "message": "again: better make web.forwardSlashCharacter a link:\n  link:http://gitblit.com/properties.html[web.forwardSlashCharacter]",
+      "revId": "e41aad91eae9e75b99e8bd5b04936cf7d989c845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn////c\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-21T08:02:42Z",
+      "side": 1,
+      "message": "Maybe surround gitweb.pathSeparator with single quotes to get it formatted.",
+      "revId": "e41aad91eae9e75b99e8bd5b04936cf7d989c845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

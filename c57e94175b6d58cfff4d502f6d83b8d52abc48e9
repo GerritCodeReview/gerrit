@@ -414,6 +414,24 @@
     },
     {
       "key": {
+        "uuid": "AAABh3////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T18:00:45Z",
+      "side": 1,
+      "message": "Edwin, see my comment on schema_59.  When did the All-Projects name change?  This update has to deal with the name that it would be on a Gerrit running Schema_52, not the current name!",
+      "parentUuid": "AAABfn///+g\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH////w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
         "patchSetId": 5

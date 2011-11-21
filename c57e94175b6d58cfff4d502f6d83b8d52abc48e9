@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhX////4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2011-11-21T18:51:11Z",
+      "side": 1,
+      "message": "Hi Edwin, I\u0027ll do this. But just to remind you that in project.config.java the old section for submitType does not exists anymore and the user will set the merge strategy in the new section [mergeStrategy \u003crefs\u003e],  introduced by this change. Is it ok?",
+      "parentUuid": "AAABfn///+c\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH////g\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeMergeStrategies.java",
         "patchSetId": 5

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAABfn////E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-11-21T09:45:17Z",
+      "side": 1,
+      "message": "Martin \nthank a lot !!\nI have add \u0027addClickHandler()\u0027 method . is it what you expected to?\n but if user right click mouse , OS pop a menu having a \u0027Paste\u0027 option. if user click it .  content is pasted to the  \u0027projectName\u0027 Textbox .  here Gerrit can not got any event .  now user  needs to click some place ,  else the button will still cannot work. should we also take this in account?\n\nthanks again for your detail direction!!\n//Bruce",
+      "parentUuid": "AAABhH////8\u003d",
+      "revId": "b7360f13cb7353999f4a7a2de586044de116f090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABPX////0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
         "patchSetId": 7

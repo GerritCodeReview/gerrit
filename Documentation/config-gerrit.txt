@@ -1118,6 +1118,23 @@ in the Gerrit web-UI.
 +
 Default linkname for custom type is "gitweb".
 
+[[gitweb.pathSeparator]]gitweb.pathSeparator::
++
+Optional character to substitute the standard path separator (slash) in
+project names and branch names.
++
+By default, Gerrit will use hexadecimal encoding for slashes in project and
+branch names. Some web servers, such as Tomcat, reject this hexadecimal
+encoding in the URL.
++
+Some alternative gitweb services, such as link:http://gitblit.com[Gitblit],
+allow using an alternative path separator character. In Gitblit, this can be
+configured through the property link:http://gitblit.com/properties.html[web.forwardSlashCharacter].
+In Gerrit, the alternative path separator can be configured correspondingly
+using the property 'gitweb.pathSeparator'.
++
+Valid values are the characters '*', '(' and ')'.
+
 [[hooks]]Section hooks
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

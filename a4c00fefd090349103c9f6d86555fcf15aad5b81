@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABh3////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VisibleGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-21T17:30:39Z",
+      "side": 1,
+      "message": "I think that perhaps it would be more straightforward to eliminate setProjects(), setUser() and the functionality to deal with them from the get() method.  Instead, I would expose the getFoupsForProjects() and getGroupsForUser() methods and add the appropriate parameters to them.  Alternatively, you could just overload the get() method and add two new get() methods, one which takes projects, and one which takes a user.",
+      "revId": "a4c00fefd090349103c9f6d86555fcf15aad5b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

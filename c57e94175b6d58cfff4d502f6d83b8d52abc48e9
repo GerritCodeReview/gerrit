@@ -280,6 +280,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhX////M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectMergeStrategiesFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-11-22T13:01:38Z",
+      "side": 1,
+      "message": "Would you refer to the verification if the revision is out of date? If yes, what about if we create a new method in ProjectState, as below?\n\n  public boolean isRevisionOutOfDate(final ProjectConfig projectConfig) {\n    return !config.getRevision().equals(projectConfig.getRevision());\n  }\n\nAnd then, modify here and ProjectAccessFactory#call to use this method?",
+      "parentUuid": "AAABfn///+0\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABgn////A\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectMergeStrategiesFactory.java",
         "patchSetId": 5

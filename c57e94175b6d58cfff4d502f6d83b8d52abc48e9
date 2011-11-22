@@ -141,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "AAABiX////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2011-11-22T14:02:11Z",
+      "side": 1,
+      "message": "Hi Edwin, doing this I noticed a problem: using the old UI user will be allowed to select only one mergeStrategy. But in the project.config file(s) he can add more than one. So if the user adds more than one mergeStrategy by modifying project.config file, which one should I load in the UI? Should I block anything different from \"refs/*\" in the project.config?",
+      "parentUuid": "AAABfn///+Q\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH////g\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeMergeStrategies.java",
         "patchSetId": 5

@@ -123,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "AAABfn///+Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-22T07:47:55Z",
+      "side": 1,
+      "message": "Yes, this is exactly what I\u0027ve meant. Keep the old UI, but persist the merge strategy in the new format.",
+      "parentUuid": "AAABhX////w\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH////g\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeMergeStrategies.java",
         "patchSetId": 5
@@ -462,6 +480,24 @@
       "side": 1,
       "message": "Edwin, see my comment on schema_59.  When did the All-Projects name change?  This update has to deal with the name that it would be on a Gerrit running Schema_52, not the current name!",
       "parentUuid": "AAABfn///+g\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-22T07:47:55Z",
+      "side": 1,
+      "message": "Sorry. Martin, you are of course right!\n\nThe rename was done with change 23551 [1]. This change introduced schema version 55. Means all migrations for schema version \u003c\u003d 55 have to deal with the old name.\n\n[1] https://gerrit-review.googlesource.com/23551",
+      "parentUuid": "AAABh3////s\u003d",
       "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

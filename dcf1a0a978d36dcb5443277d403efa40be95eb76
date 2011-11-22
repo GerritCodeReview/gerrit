@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABh3////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-22T18:11:14Z",
+      "side": 1,
+      "message": "I am concerned that \u0027Force Push\u0027 may not always be called \u0027Force Push\u0027 (we have talked about simply calling it push at some, or overwrite or something else...), so if we make a change to the ACLs, I suspect that we will forget to update this message.  I suspect that the best way to deal with this is to use a constant from the ACL code instead of hardcoding \u0027Force Push\u0027 here.",
+      "revId": "dcf1a0a978d36dcb5443277d403efa40be95eb76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

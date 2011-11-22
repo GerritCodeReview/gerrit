@@ -159,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAABfn///9g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-22T14:15:53Z",
+      "side": 1,
+      "message": "I would not put too much effort into this since the new UI is already prepared in another change.\n\nFrom my point of view it would be enough if the old UI just works for the straightforward case that only one merge strategy is defined for \u0027refs/*\u0027.\n\nIf merge strategies for other refs are configured by directly modifying the project.config file, I think it\u0027s ok if the UI doesn\u0027t work anymore (e.g. it doesn\u0027t display the merge strategy anymore). In this case it should be acceptable that all further modifications to the merge strategies have to be done by editing the project.config file again.",
+      "parentUuid": "AAABiX////8\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH////g\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeMergeStrategies.java",
         "patchSetId": 5

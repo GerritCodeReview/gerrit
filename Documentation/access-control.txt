@@ -44,6 +44,7 @@ approval or submit rights in projects.  This is a feature designed
 to permit administrative users to otherwise access Gerrit as any
 other normal user would, without needing two different accounts.
 
+[[anonymous_users]]
 Anonymous Users
 ~~~~~~~~~~~~~~~
 
@@ -58,6 +59,39 @@ without requiring sign in first.  Currently it is only worthwhile
 to grant `Read Access` to this group as Gerrit requires an account
 identity for all other operations.
 
+[[non-interactive_users]]
+Non-Interactive Users
+~~~~~~~~~~~~~~~~~~~~~
+
+This is an internal user group, members of this group are not expected
+to perform interactive operations on the Gerrit web frontend.
+
+However, sometimes such a user may need a separate thread pool in
+order to prevent it from grabbing threads from the interactive users.
+
+These users live in a second thread pool, which separates operations
+made by the non-interactive users from the ones made by the interactive
+users. This ensures that the interactive users can keep working when
+resources are tight.
+
+[[project_owners]]
+Project Owners
+~~~~~~~~~~~~~~
+
+Access rights assigned to this group are always evaluated within the
+context of a project to which the access rights apply. These rights
+therefore apply to all the users who are owners of this project.
+
+By assigning access rights to this group on a parent project Gerrit
+administrators can define a set of default access rights for
+<<category_OWN,project owners>>. Child projects inherit these
+access rights where they are resolved to the users that own the child
+project.  Having default access rights for
+<<category_OWN,project owners>> assigned on a parent project may
+avoid the need to initially configure access rights for
+newly created child projects.
+
+[[registered_users]]
 Registered Users
 ~~~~~~~~~~~~~~~~
 
@@ -77,21 +111,6 @@ cause it to become approved or rejected.
 Registered users are always permitted to make and publish comments
 on any change in any project they have `Read Access` to.
 
-Project Owners
-~~~~~~~~~~~~~~
-
-Access rights assigned to this group are always evaluated within the
-context of a project and are resolved to access rights for all users
-which own the project.
-
-By assigning access rights to this group on a parent project Gerrit
-administrators can define a set of default access rights for project
-owners. Child projects inherit these access rights where they are
-resolved to the users that own the child project.
-Having default access rights for projects owners assigned on a parent
-project may avoid the need to initially configure access rights for
-newly created child projects.
-
 
 Account Groups
 --------------
@@ -103,8 +122,8 @@ a group member is given any access rights granted to the group.
 Every group has one other group designated as its owner.  Users who
 are members of the owner group can:
 
-* Add users to this group
-* Remove users from this group
+* Add users and other groups to this group
+* Remove users and other groups from this group
 * Change the name of this group
 * Change the description of this group
 * Change the owner of this group, to another group
@@ -476,7 +495,9 @@ entering a branch pattern.  To delegate control over all branches
 that begin with `qa/` to the QA group, add `Owner` category
 for reference `refs/heads/qa/\*`.  Members of the QA group can
 further refine access, but only for references that begin with
-`refs/heads/qa/`.
+`refs/heads/qa/`. See <<project_owners,project owners>> to find
+out more about this role.
+
 
 [[category_pHD]]
 Push Branch

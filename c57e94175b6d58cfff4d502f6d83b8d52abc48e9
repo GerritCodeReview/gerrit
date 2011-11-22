@@ -471,6 +471,24 @@
     },
     {
       "key": {
+        "uuid": "AAABfn///9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-22T12:45:03Z",
+      "side": 1,
+      "message": "Yes, it\u0027s enough to fix it here. The handling in MergeOp can then stay as it is.",
+      "parentUuid": "AAABhX////U\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH////s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 5

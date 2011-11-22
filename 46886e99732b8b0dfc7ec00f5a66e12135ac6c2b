@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABfn///9I\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-22T15:09:23Z",
+      "side": 1,
+      "message": "[optional] Maybe it\u0027s sufficient to say here that the access rights are persisted in the server side git repositories and not to mention that it\u0027s under the \u0027refs/meta/config\u0027 ref?",
+      "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhn////I\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 3
@@ -13,6 +30,41 @@
       "writtenOn": "2011-11-22T11:27:10Z",
       "side": 1,
       "message": "I\u0027m not sure this is a good name of the new page, comments appreciated!",
+      "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///9E\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-22T15:09:23Z",
+      "side": 1,
+      "message": "What about just naming it \u0027project-config.html\u0027?\n\nI would actually not put it under the \u0027config-\u0027 namespace because all those page describe the configuration of the Gerrit server that you do before starting Gerrit. What we want to describe in the new page is the persistence format for the project configuration, it has not really something to do with the global Gerrit server configuration.\n\nDo you plan to include this new page into this change? Or will it be a change on its own?",
+      "parentUuid": "AAABhn////I\u003d",
+      "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///9M\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-22T15:09:23Z",
+      "side": 1,
+      "message": "Actually this is not fully true. As owner of the \u0027All-Projects\u0027 project [1] I can also change its access rights (and assign the \u0027administrateServer\u0027 capability to myself...). \n\n[1] member of a group to which the OWNER privilege for the \u0027All-Project\u0027 is assigned",
       "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

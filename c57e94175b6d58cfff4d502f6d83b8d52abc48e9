@@ -366,6 +366,24 @@
     },
     {
       "key": {
+        "uuid": "AAABfn///98\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-22T12:32:22Z",
+      "side": 1,
+      "message": "I\u0027m not yet convinced that this exception cannot happen (see my comment in ProjectConfig.java). \n\nIn fact I was getting this exception when I was trying this change out. I should have a closer look to understand how I got here. I hope I can reproduce it.\n\nAnyway, if in the end it\u0027s really like this that this exception should not happen, I\u0027m fine with leaving this check here.",
+      "parentUuid": "AAABhX////k\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH////A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 5
@@ -412,6 +430,23 @@
       "writtenOn": "2011-11-21T08:00:48Z",
       "side": 1,
       "message": "This seems like it should be plural.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///9w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-22T12:32:22Z",
+      "side": 1,
+      "message": "Currently this default merge strategy is only added for the wild project if for the wild project there is no merge strategy defined for any ref pattern. I think this default merge strategy must be added for the wild project if there is no merge strategy set for \u0027refs/*\u0027.\n\nE.g. if on the wild project I set \u0027Fast Foward Only\u0027 as merge strategy for \u0027refs/heads/release/*\u0027. What would happen then if I try to submit a change for \u0027refs/heads/test\u0027? If the child project doesn\u0027t define own merge strategies, there would be no merge strategy for this ref and the submit would fail with the MergeException in MergeOp -\u003e line 308, wouldn\u0027t it?",
       "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -644,6 +679,24 @@
     },
     {
       "key": {
+        "uuid": "AAABfn///94\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-22T12:32:22Z",
+      "side": 1,
+      "message": "Ok I see, then this looks good here.",
+      "parentUuid": "AAABhX////c\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfn///+k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
         "patchSetId": 5
@@ -655,6 +708,24 @@
       "writtenOn": "2011-11-21T15:12:41Z",
       "side": 1,
       "message": "If you set the merge strategy for a project back to the default merge strategy \u0027Merge If Necessarry\u0027 this results in an empty \u0027submit\u0027 section in the project.config file. This case isn\u0027t handled here. I think it at least needs to be handled for the wild projects, other projects can then inherit the default merge strategy.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///90\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-22T12:32:22Z",
+      "side": 1,
+      "message": "I guess this is then also covered by line 301 of ProjectConfig.java.",
+      "parentUuid": "AAABfn///+k\u003d",
       "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

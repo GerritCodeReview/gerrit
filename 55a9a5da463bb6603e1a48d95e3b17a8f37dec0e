@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABhn////A\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-22T12:42:17Z",
+      "side": 1,
+      "message": "I just realized that this section (line 347-359) also should be extracted to the new filed referenced in https://gerrit-review.googlesource.com/#/c/30380/.\n\nPatch set coming up..",
+      "revId": "55a9a5da463bb6603e1a48d95e3b17a8f37dec0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

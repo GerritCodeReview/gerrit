@@ -16,6 +16,24 @@
       "revId": "a4c00fefd090349103c9f6d86555fcf15aad5b81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/VisibleGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-22T10:40:14Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. What you propose I also like more :-) Looking at it now after your comment it\u0027s kind of obvious to better do it like this.\n\nDone.",
+      "parentUuid": "AAABh3////0\u003d",
+      "revId": "a4c00fefd090349103c9f6d86555fcf15aad5b81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

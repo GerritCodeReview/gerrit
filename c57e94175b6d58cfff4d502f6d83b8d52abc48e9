@@ -453,6 +453,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhX////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-11-22T12:40:23Z",
+      "side": 1,
+      "message": "I am sorry I missed it. You are absolutely right. We should fix it. Would it be ok if we fix it here, without \"inserting\" this default strategy in MergeOp (if none is found, what should not occur with this fix) ?",
+      "parentUuid": "AAABfn///9w\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH////s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 5

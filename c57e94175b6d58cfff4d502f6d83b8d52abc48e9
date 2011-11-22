@@ -348,6 +348,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhX////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-11-22T11:40:52Z",
+      "side": 1,
+      "message": "This exception should not happen. This is just a security check. Current implementation inserts \u0027Merge if Necessary\u0027 strategy to \u0027All Projects\u0027 when opening a project config of it if none exists. Would you agree to maintain this check here?",
+      "parentUuid": "AAABfn///+s\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH////A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 5
@@ -359,6 +377,24 @@
       "writtenOn": "2011-11-21T08:00:48Z",
       "side": 1,
       "message": "What is a nonMatcherRefStartegy?  Does it just mean an invalid entry?  If so, maybe it would be better to push the validation to a lower level, perhaps down at the ProjectMergeStrategies level, or even at the mss level (prevent invalid sections from even being created)?",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhX////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-11-22T11:40:52Z",
+      "side": 1,
+      "message": "We should improve this method name. A better name would be \"filterRefStrategies\", maybe. When determining the most specific strategy applied to a branch, the first step is to determine all the strategies to all ref patterns. The following step is to call this method so it can filter the ones applying to the branch, based on the ref pattern they have.",
+      "parentUuid": "AAABhH////A\u003d",
       "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -428,6 +464,24 @@
       "writtenOn": "2011-11-21T08:00:48Z",
       "side": 1,
       "message": "I suspect that you want to preserve order here and return a List?",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhX////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-11-22T11:40:52Z",
+      "side": 1,
+      "message": "Yes, sure.",
+      "parentUuid": "AAABhH////o\u003d",
       "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -566,6 +620,24 @@
       "writtenOn": "2011-11-21T15:12:41Z",
       "side": 1,
       "message": "Looks like you\u0027re adding a merge strategy for \u0027refs/*\u0027 only if there is a \u0027submit\u0027 section in the project.config file.\n\nFor some projects (e.g. for newly created projects) there is no \u0027submit\u0027 section in the project.config, which means that the default merge strategy (Merge If Necessarry) applies.\n\nAt least for the wild project this needs to be handled, other projects can then inherit the default merge strategy.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhX////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-11-22T11:40:52Z",
+      "side": 1,
+      "message": "Yes, it is already handled. Please, look at the line 301 of ProjectConfig.java .",
+      "parentUuid": "AAABfn///+o\u003d",
       "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

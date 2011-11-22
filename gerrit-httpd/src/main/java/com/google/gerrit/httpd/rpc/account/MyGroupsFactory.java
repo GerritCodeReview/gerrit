@@ -14,46 +14,33 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import com.google.gerrit.common.data.GroupDetail;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.VisibleGroups;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
-class MyGroupsFactory extends Handler<List<AccountGroup>> {
+class MyGroupsFactory extends Handler<List<GroupDetail>> {
   interface Factory {
     MyGroupsFactory create();
   }
 
-  private final GroupCache groupCache;
+  private final VisibleGroups.Factory visibleGroupsFactory;
   private final IdentifiedUser user;
 
   @Inject
-  MyGroupsFactory(final GroupCache groupCache, final IdentifiedUser user) {
-    this.groupCache = groupCache;
+  MyGroupsFactory(final VisibleGroups.Factory visibleGroupsFactory, final IdentifiedUser user) {
+    this.visibleGroupsFactory = visibleGroupsFactory;
     this.user = user;
   }
 
   @Override
-  public List<AccountGroup> call() {
-    final Set<AccountGroup.UUID> effective = user.getEffectiveGroups();
-    final int cnt = effective.size();
-    final List<AccountGroup> groupList = new ArrayList<AccountGroup>(cnt);
-    for (final AccountGroup.UUID groupId : effective) {
-      groupList.add(groupCache.get(groupId));
-    }
-    Collections.sort(groupList, new Comparator<AccountGroup>() {
-      @Override
-      public int compare(AccountGroup a, AccountGroup b) {
-        return a.getName().compareTo(b.getName());
-      }
-    });
-    return groupList;
+  public List<GroupDetail> call() throws OrmException, NoSuchGroupException {
+    final VisibleGroups visibleGroups = visibleGroupsFactory.create();
+    return visibleGroups.get(user).getGroups();
   }
 }

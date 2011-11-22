@@ -30,7 +30,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class VisibleGroups {
@@ -44,7 +43,6 @@ public class VisibleGroups {
   private final GroupControl.Factory groupControlFactory;
   private final GroupDetailFactory.Factory groupDetailFactory;
 
-  private Collection<ProjectControl> projects;
   private boolean onlyVisibleToAll;
   private AccountGroup.Type groupType;
 
@@ -59,10 +57,6 @@ public class VisibleGroups {
     this.groupDetailFactory = groupDetailFactory;
   }
 
-  public void setProjects(final Collection<ProjectControl> projects) {
-    this.projects = projects;
-  }
-
   public void setOnlyVisibleToAll(final boolean onlyVisibleToAll) {
     this.onlyVisibleToAll = onlyVisibleToAll;
   }
@@ -72,17 +66,13 @@ public class VisibleGroups {
   }
 
   public GroupList get() throws OrmException, NoSuchGroupException {
-    final Iterable<AccountGroup> groups;
-    if (projects != null && !projects.isEmpty()) {
-      groups = getGroupsForProjects();
-    } else {
-      groups = groupCache.all();
-    }
+    final Iterable<AccountGroup> groups = groupCache.all();
     return createGroupList(filterGroups(groups));
   }
 
-  private Set<AccountGroup> getGroupsForProjects() throws NoSuchGroupException {
-    final SortedSet<AccountGroup> groups =
+  public GroupList get(final Collection<ProjectControl> projects)
+      throws OrmException, NoSuchGroupException {
+    final Set<AccountGroup> groups =
         new TreeSet<AccountGroup>(new GroupComparator());
     for (final ProjectControl projectControl : projects) {
       final Set<GroupReference> groupsRefs = projectControl.getAllGroups();
@@ -94,7 +84,24 @@ public class VisibleGroups {
         groups.add(group);
       }
     }
-    return groups;
+    return createGroupList(filterGroups(groups));
+  }
+
+  public GroupList get(final IdentifiedUser user) throws OrmException,
+      NoSuchGroupException {
+    if (identifiedUser.get().getAccountId().equals(user.getAccountId())
+        || identifiedUser.get().getCapabilities().canAdministrateServer()) {
+      final Set<AccountGroup.UUID> effective = user.getEffectiveGroups();
+      final Set<AccountGroup> groups =
+          new TreeSet<AccountGroup>(new GroupComparator());
+      for (final AccountGroup.UUID groupId : effective) {
+        groups.add(groupCache.get(groupId));
+      }
+      return createGroupList(filterGroups(groups));
+    } else {
+      throw new NoSuchGroupException("Groups of user '" + user.getAccountId()
+          + "' are not visible.");
+    }
   }
 
   private List<AccountGroup> filterGroups(final Iterable<AccountGroup> groups) {

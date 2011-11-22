@@ -10,6 +10,7 @@ SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit ls-groups'
   [--project <NAME>]
+  [--user <NAME>]
   [--visible-to-all]
   [--type {internal | ldap | system}]
 
@@ -39,6 +40,19 @@ OPTIONS
 	Multiple --project options may be specified to specify additional
 	projects. In this case all groups are listed that have a
 	permission for any of the specified projects.
++
+This option can't be used together with the '--user' option.
+
+--user::
+-u::
+	User for which the groups should be listed. Only groups are
+	listed that contain this user as a member.
++
+The calling user can list the groups for the own user or must be a
+member of the privileged 'Administrators' group to list the groups
+for other users.
++
+This option can't be used together with the '--project' option.
 
 --visible-to-all::
 	Displays only groups that are visible to all registered users

@@ -27,7 +27,6 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountAgreement;
 import com.google.gerrit.reviewdb.AccountExternalId;
-import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountSshKey;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.ContactInformation;
@@ -43,7 +42,6 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.ClearPassword;
 import com.google.gerrit.server.account.GeneratePassword;
-import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.contact.ContactStore;
@@ -63,7 +61,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -88,7 +85,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final DeleteExternalIds.Factory deleteExternalIdsFactory;
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
   private final MyGroupsFactory.Factory myGroupsFactory;
-  private final GroupDetailFactory.Factory groupDetailFactory;
 
   private final ChangeHookRunner hooks;
 
@@ -105,7 +101,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
       final MyGroupsFactory.Factory myGroupsFactory,
-      final GroupDetailFactory.Factory groupDetailFactory,
       final ChangeHookRunner hooks) {
     super(schema, currentUser);
     contactStore = cs;
@@ -126,7 +121,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     this.deleteExternalIdsFactory = deleteExternalIdsFactory;
     this.externalIdDetailFactory = externalIdDetailFactory;
     this.myGroupsFactory = myGroupsFactory;
-    this.groupDetailFactory = groupDetailFactory;
     this.hooks = hooks;
   }
 
@@ -215,11 +209,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     run(callback, new Action<List<GroupDetail>>() {
       public List<GroupDetail> run(final ReviewDb db) throws OrmException,
           NoSuchGroupException, Failure {
-        List<GroupDetail> groupDetails = new ArrayList<GroupDetail>();
-        for(AccountGroup group : myGroupsFactory.create().call()) {
-          groupDetails.add(groupDetailFactory.create(group.getId()).call());
-        }
-        return groupDetails;
+        return myGroupsFactory.create().call();
       }
     });
   }

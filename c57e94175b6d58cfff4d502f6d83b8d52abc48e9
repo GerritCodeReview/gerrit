@@ -334,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "AAABfn///9Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectMergeStrategiesFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-22T14:29:10Z",
+      "side": 1,
+      "message": "This would already improve the situation a bit, but I was hoping that this code here could be even more simplified, e.g. add the following method to ProjectControl.Factory: \n\n  validateFor(Project.NameKey nameKey, int need, boolean refreshConfig)\n\nIf this method would ensure that the ProjectControl that is returned contains the latest project config, all this code could disappear here and we could simply have:\n\n  pc \u003d projectControlFactory.validateFor(projectName, ProjectControl.OWNER | ProjectControl.VISIBLE, true);\n\nBut I\u0027m not sure if this can be done easily. If not, I\u0027m not insisting on a change here.",
+      "parentUuid": "AAABhX////M\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABgn////A\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectMergeStrategiesFactory.java",
         "patchSetId": 5

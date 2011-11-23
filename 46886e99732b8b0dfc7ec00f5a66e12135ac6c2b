@@ -140,6 +140,24 @@
       "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///7I\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T20:18:42Z",
+      "side": 1,
+      "message": "Hmm, actually I tried it out today and the owner privilege could be assigned on the All-Projects and as far as I remember it was also working (a owner could change the access rights and capabilities without being administrator). I actually wasn\u0027t convinced that this is good, but I thought if it\u0027s like this, it should be at least documented. I can verify this tomorrow once again.",
+      "parentUuid": "AAABh3///+4\u003d",
+      "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

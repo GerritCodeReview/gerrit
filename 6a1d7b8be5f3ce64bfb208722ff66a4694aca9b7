@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhH///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-23T06:33:18Z",
+      "side": 1,
+      "message": "No, I think that the current name is likely ok, but I was concerned that perhaps there was a new type of project relationship being introduced here and that I did not really understand the intent of this change.  I suggest that if you mean a Gerrit child project that you stick to that wording everywhere in the code/docs and avoid the term subproject.\nCould you add some documentation explaining the new functionality? I think that I am making too many assumptions about this change\u0027s intentions. The commit message is a bit sparse and doesn\u0027t help much on that front.  Thanks.",
+      "parentUuid": "AAABin////8\u003d",
+      "revId": "6a1d7b8be5f3ce64bfb208722ff66a4694aca9b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///4E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 7

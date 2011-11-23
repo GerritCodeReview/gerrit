@@ -508,6 +508,23 @@
     },
     {
       "key": {
+        "uuid": "AAABfn///8w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T11:23:03Z",
+      "side": 1,
+      "message": "This condition always evaluates to false, because it compares projectName which is of type Project.NameKey with AllProjectsNameProvider.DEFAULT which is a String. I think it must either be\n\n  projectName.get().equals(AllProjectsNameProvider.DEFAULT)\n\nor you need to get an instance of AllProjectsNameProvider and do\n\n  projectName.equals(allProjectsNameProvider.get())",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfn///9w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 5
@@ -625,6 +642,23 @@
       "side": 1,
       "message": "Yes, sure.",
       "parentUuid": "AAABhH////o\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///84\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T11:23:03Z",
+      "side": 1,
+      "message": "this import is not used and should be removed",
       "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

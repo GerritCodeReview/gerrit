@@ -189,6 +189,12 @@ public abstract class PatchScreen extends Screen implements
   }
 
   private void update(AccountDiffPreference dp) {
+    // Did the user just turn on auto-review?
+    if (!reviewed.getValue() && !dp.isManualReview()) {
+      reviewed.setValue(true);
+      setReviewedByCurrentUser(true);
+    }
+
     if (lastScript != null && canReuse(dp, lastScript)) {
       lastScript.setDiffPrefs(dp);
       RpcStatus.INSTANCE.onRpcStart(null);
@@ -450,10 +456,19 @@ public abstract class PatchScreen extends Screen implements
       bottomNav.display(patchIndex, getPatchScreenType(), fileList);
     }
 
-    // Mark this file reviewed as soon we display the diff screen
-    if (Gerrit.isSignedIn() && isFirst) {
-      reviewed.setValue(true);
-      setReviewedByCurrentUser(true /* reviewed */);
+    if (Gerrit.isSignedIn()) {
+      boolean revd = false;
+      if (isFirst && !prefs.get().isManualReview()) {
+        revd = true;
+        setReviewedByCurrentUser(revd);
+      } else {
+        for (Patch p : patchSetDetail.getPatches()) {
+          if (p.getKey().equals(patchKey)) {
+            revd = p.isReviewedByCurrentUser();
+          }
+        }
+      }
+      reviewed.setValue(revd);
     }
 
     intralineFailure = isFirst && script.hasIntralineFailure();

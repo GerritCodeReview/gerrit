@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAABin////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2011-11-23T05:58:53Z",
+      "side": 1,
+      "message": "Hi, Martin. I have taken over this feature from Monica. I think for all the project, user (no matter admin or other common users) will create it under an existing project. At least under \"All-Projects\", because no orphan project exists.\nBut to my understanding, you mean we should change the name of this method to \"canCreateSubProject()\", to make it consolidate with commit message. Am I right? If yes, I will change it immediately. \nThanks a lot for your valuable comments:)",
+      "parentUuid": "AAABE3///4g\u003d",
+      "revId": "6a1d7b8be5f3ce64bfb208722ff66a4694aca9b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3///4E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 7

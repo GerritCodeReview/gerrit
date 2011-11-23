@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABfn///8c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategiesTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T12:24:49Z",
+      "side": 1,
+      "message": "I think the merge strategies should be sorted by ref name before displaying them.",
+      "revId": "e2d69ce2ccbe7a3416914156e88444a5e79a46d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///8k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategiesTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T12:24:49Z",
+      "side": 1,
+      "message": "When comparing this new UI with the UI to edit the access rights I\u0027ve noticed that if a row in the merge strategies table is removed, it is gone, but if a row in the access rights table is removed, it is marked as deleted and the user can restore it by clicking on the restore icon. I think it would be nice to have the same restore functionility here in the merge strategies table.",
+      "revId": "e2d69ce2ccbe7a3416914156e88444a5e79a46d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///8g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategyScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T12:24:49Z",
+      "side": 1,
+      "message": "I think next to the save button there should be a second cancel button (just like it\u0027s done in the project access screen when editing the access rights).",
+      "revId": "e2d69ce2ccbe7a3416914156e88444a5e79a46d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///8Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategyScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T12:24:49Z",
+      "side": 1,
+      "message": "I think the error should be displayed in the same way as all the other errors in Gerrit are displayed:\n\n  new ErrorDialog(Util.C.errorPatternHasStrategy()).center();",
+      "revId": "e2d69ce2ccbe7a3416914156e88444a5e79a46d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///8U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategyScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T12:24:49Z",
+      "side": 1,
+      "message": "I think the input fields should be only reset if the add was successful. If the add failed, the user should be able to correct the data that he had already typed.",
+      "revId": "e2d69ce2ccbe7a3416914156e88444a5e79a46d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///8o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategyScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T12:24:49Z",
+      "side": 1,
+      "message": "I think the merge strategies table should only be visible if there are merge strategies to display. Have a look at the ProjectAccessScreen, there the table with the access rights is also only displayed if there are access rights defined on the project, but otherwise it\u0027s hidden. I think it should be the same with the merge strategies table.",
+      "revId": "e2d69ce2ccbe7a3416914156e88444a5e79a46d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

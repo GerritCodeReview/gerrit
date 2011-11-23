@@ -65,6 +65,7 @@ public class AccountDiffPreference {
     p.setIntralineDifference(true);
     p.setShowTabs(true);
     p.setContext(DEFAULT_CONTEXT);
+    p.setManualReview(false);
     return p;
   }
 
@@ -108,6 +109,9 @@ public class AccountDiffPreference {
   @Column(id = 13)
   protected boolean retainHeader;
 
+  @Column(id = 14)
+  protected boolean manualReview;
+
   protected AccountDiffPreference() {
   }
 
@@ -129,6 +133,7 @@ public class AccountDiffPreference {
     this.expandAllComments = p.expandAllComments;
     this.context = p.context;
     this.retainHeader = p.retainHeader;
+    this.manualReview = p.manualReview;
   }
 
   public Account.Id getAccountId() {
@@ -232,5 +237,13 @@ public class AccountDiffPreference {
 
   public void setRetainHeader(boolean retain) {
     retainHeader = retain;
+  }
+
+  public boolean isManualReview() {
+    return manualReview;
+  }
+
+  public void setManualReview(boolean manual) {
+    manualReview = manual;
   }
 }

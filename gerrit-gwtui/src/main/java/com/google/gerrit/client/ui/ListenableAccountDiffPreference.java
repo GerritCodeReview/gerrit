@@ -21,7 +21,7 @@ import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 public class ListenableAccountDiffPreference
-    extends ListenableValue<AccountDiffPreference> {
+    extends ListenableOldValue<AccountDiffPreference> {
 
   public ListenableAccountDiffPreference() {
     reset();

@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABfn///74\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeArguments.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T14:32:07Z",
+      "side": 1,
+      "message": "I would prefer to remove these two fields from this class and rather pass Branch.NameKey in addition to MergeArguments to the constructor of MergeOp. See also my inline comment in MergeOpFactory about this.",
+      "revId": "b5ab48f31c36782c0c07901227d6c4e70ccd2aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///70\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T14:32:07Z",
+      "side": 1,
+      "message": "style-nit: line is too long",
+      "revId": "b5ab48f31c36782c0c07901227d6c4e70ccd2aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///7w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T14:32:07Z",
+      "side": 1,
+      "message": "style-nit: wrong indention",
+      "revId": "b5ab48f31c36782c0c07901227d6c4e70ccd2aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///8A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T14:32:07Z",
+      "side": 1,
+      "message": "Maybe it would be better to throw an exception in this case.",
+      "revId": "b5ab48f31c36782c0c07901227d6c4e70ccd2aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///78\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T14:32:07Z",
+      "side": 1,
+      "message": "I would prefer if all this code until here goes into a method in MergeArguments:\n\n  setBranch(BranchName.NameKey branch)\n\nwhich then sets destBranch and destProject.\n\nEven more I would prefer to have this coding in the constructor of MergeOp and then to pass \u0027branch\u0027 in addition to \u0027mergeArguments\u0027 to the constructor below that forward it then to the MergeOp constructor. Somehow it feels strange to get MergeArguments injected here, and we need to fill in additional data before passing it to the constructors below.",
+      "revId": "b5ab48f31c36782c0c07901227d6c4e70ccd2aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///8E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T14:32:07Z",
+      "side": 1,
+      "message": "Is it a good idea to return here null?\n\nI think it would better to return one merge strategy as default or to fail with an exception.",
+      "revId": "b5ab48f31c36782c0c07901227d6c4e70ccd2aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

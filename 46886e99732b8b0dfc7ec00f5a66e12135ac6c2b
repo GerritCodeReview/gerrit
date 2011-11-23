@@ -158,6 +158,24 @@
       "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///7A\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T20:31:40Z",
+      "side": 1,
+      "message": "I just tried it again and it\u0027s working as I said. If this shouldn\u0027\u0027t work, then it\u0027s a bug and we have to fix it.",
+      "parentUuid": "AAABfn///7I\u003d",
+      "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

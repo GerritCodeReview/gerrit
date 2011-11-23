@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhn///+4\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-23T19:00:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABfn///9I\u003d",
+      "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhn////I\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 3
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhn///+0\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-23T19:00:49Z",
+      "side": 1,
+      "message": "It will be it\u0027s own change. I initially considered not filling it out at all, or name it TODO.html as a placeholder. But then I decided against it at tried to suggest a name. I preferred to chose a name in a pre-existing category rather than creating my own, but perhaps I didn\u0027t consider the meaning of config enough.\n\nDone",
+      "parentUuid": "AAABfn///9E\u003d",
+      "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfn///9M\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 3
@@ -65,6 +101,24 @@
       "writtenOn": "2011-11-22T15:09:23Z",
       "side": 1,
       "message": "Actually this is not fully true. As owner of the \u0027All-Projects\u0027 project [1] I can also change its access rights (and assign the \u0027administrateServer\u0027 capability to myself...). \n\n[1] member of a group to which the OWNER privilege for the \u0027All-Project\u0027 is assigned",
+      "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhn///+o\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-11-23T19:00:49Z",
+      "side": 1,
+      "message": "I remember Shawn said something about this as well, since owner allowed you to add groups to the administrateServer capability. Can\u0027t quite remember the actual details though. Hmm.",
+      "parentUuid": "AAABfn///9M\u003d",
       "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

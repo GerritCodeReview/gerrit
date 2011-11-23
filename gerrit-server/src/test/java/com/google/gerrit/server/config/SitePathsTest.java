@@ -76,7 +76,7 @@ public class SitePathsTest extends TestCase {
     }
   }
 
-  public void testResolve() throws FileNotFoundException {
+  public void testResolve() throws IOException {
     final File root = random();
     final SitePaths site = new SitePaths(root);
 
@@ -84,11 +84,11 @@ public class SitePathsTest extends TestCase {
     assertNull(site.resolve(""));
 
     assertNotNull(site.resolve("a"));
-    assertEquals(new File(root, "a"), site.resolve("a"));
+    assertEquals(new File(root, "a").getCanonicalFile(), site.resolve("a"));
 
     final String pfx = HostPlatform.isWin32() ? "C:/" : "/";
     assertNotNull(site.resolve(pfx + "a"));
-    assertEquals(new File(pfx + "a"), site.resolve(pfx + "a"));
+    assertEquals(new File(pfx + "a").getCanonicalFile(), site.resolve(pfx + "a"));
   }
 
   private File random() {

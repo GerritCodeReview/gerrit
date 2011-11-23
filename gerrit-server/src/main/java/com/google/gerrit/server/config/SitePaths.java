@@ -19,6 +19,7 @@ import com.google.inject.Singleton;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /** Important paths within a {@link SitePath}. */
 @Singleton
@@ -112,7 +113,11 @@ public final class SitePaths {
       if (!loc.isAbsolute()) {
         loc = new File(site_path, path);
       }
-      return loc;
+      try {
+        return loc.getCanonicalFile();
+      } catch (IOException e) {
+        return loc.getAbsoluteFile();
+      }
     }
     return null;
   }

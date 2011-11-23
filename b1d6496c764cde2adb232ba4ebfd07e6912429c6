@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABfn///7k\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T15:22:40Z",
+      "side": 1,
+      "message": "s/Fit In/fit in",
+      "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///7o\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T15:22:40Z",
+      "side": 1,
+      "message": "/s/does it get/it gets",
+      "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///7g\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T15:22:40Z",
+      "side": 1,
+      "message": "s/how Gerrit works it/how Gerrit works is",
+      "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///7c\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T15:22:40Z",
+      "side": 1,
+      "message": "s/another review/another commit",
+      "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///7Y\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T15:22:40Z",
+      "side": 1,
+      "message": "s/reworked review/reworked commit",
+      "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///7U\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T15:22:40Z",
+      "side": 1,
+      "message": "s/pull/fetch",
+      "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfn///7Q\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-23T15:22:40Z",
+      "side": 1,
+      "message": "Actually I think the \u0027Publish and submit\u0027 button is always displayed if you have \u0027submit\u0027 privileges. If the preconditions for submit are not fulfilled, clicking on it will simply result in an error.",
+      "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

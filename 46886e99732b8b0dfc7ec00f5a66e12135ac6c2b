@@ -122,6 +122,24 @@
       "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABh3///+4\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-23T20:02:20Z",
+      "side": 1,
+      "message": "Edwin, I never intended for owner right to be granted in All-Projects because as you state, having owner in All-Projects means you can edit the access control list, including the capabilities, and add a group you are a member of to the administrateServer and thus elevate your privileges beyond just editing the ACL. So owner is approximately server administrator, so we should not have owner in All-Projects.\n\nIf you can set owner in All-Projects through the web UI, that is a bug (but I don\u0027t think its allowed). I think if you dig through the ProjectControl code you find that the owner permission is ignored in the All-Projects case, instead using isAdministrator() (the administrateServer capability).\n\nIts worth mentioning in the access control documentation this special corner case. I think these two paragraphs do that nicely.",
+      "parentUuid": "AAABhn///+o\u003d",
+      "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

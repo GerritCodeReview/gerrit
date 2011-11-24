@@ -56,6 +56,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   private static final String UNNAMED =
       "Unnamed repository; edit this file to name it for gitweb.";
 
+  private static final boolean IS_WINDOWS = File.separatorChar == '\\';
+
   public static class Module extends AbstractModule {
     @Override
     protected void configure() {
@@ -117,11 +119,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
 
     final FileKey loc = FileKey.lenient(gitDirOf(name), FS.DETECTED);
-
-    if (!getProjectName(loc.getFile()).equals(name)) {
-      throw new RepositoryNotFoundException(gitDirOf(name));
-    }
-
+    checkCaseOfProjectName(loc, name, false);
     try {
       return RepositoryCache.open(loc);
     } catch (IOException e1) {
@@ -144,12 +142,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       // Already exists on disk, use the repository we found.
       //
       loc = FileKey.exact(dir, FS.DETECTED);
-
-      final Project.NameKey nameOfExistingProject =
-          getProjectName(loc.getFile());
-      if (!nameOfExistingProject.equals(name)) {
-        throw new RepositoryCaseMismatchException(name, nameOfExistingProject);
-      }
+      checkCaseOfProjectName(loc, name, true);
     } else {
       // It doesn't exist under any of the standard permutations
       // of the repository name, so prefer the standard bare name.
@@ -313,15 +306,28 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     return new Project.NameKey(projectName);
   }
 
-  private Project.NameKey getProjectName(final File gitDir) {
-    String relativeGitPath =
-        getBasePath().toURI().relativize(gitDir.toURI()).getPath();
-    if (!relativeGitPath.endsWith("/")) {
-      relativeGitPath = relativeGitPath + "/";
+  private void checkCaseOfProjectName(final FileKey loc,
+      final Project.NameKey name, final boolean onCreate)
+      throws RepositoryNotFoundException {
+    if (IS_WINDOWS) {
+      String relativeGitPath =
+          getBasePath().toURI().relativize(loc.getFile().toURI()).getPath();
+      if (!relativeGitPath.endsWith("/")) {
+        relativeGitPath = relativeGitPath + "/";
+      }
+      final String prefix =
+          relativeGitPath.substring(0, relativeGitPath.length() - 1
+              - loc.getFile().getName().length());
+      final Project.NameKey nameOfExistingProject =
+          getProjectName(prefix, loc.getFile().getName());
+
+      if (!nameOfExistingProject.equals(name)) {
+        if (onCreate) {
+          throw new RepositoryCaseMismatchException(name, nameOfExistingProject);
+        } else {
+          throw new RepositoryNotFoundException(gitDirOf(name));
+        }
+      }
     }
-    final String prefix =
-        relativeGitPath.substring(0, relativeGitPath.length() - 1
-            - gitDir.getName().length());
-    return getProjectName(prefix, gitDir.getName());
   }
 }

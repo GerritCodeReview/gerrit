@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABhH///9o\u003d",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/rpc/SuggestServiceImplTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-24T06:08:03Z",
+      "side": 1,
+      "message": "From the name of this test I would expect ch1 to have some labels?",
+      "revId": "7b55bed9a1e4e2a8bcad4b759292a785bfbdfbdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

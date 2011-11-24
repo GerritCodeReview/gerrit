@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABhH///+A\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PageLinks.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-24T04:14:44Z",
+      "side": 1,
+      "message": "It might be worth pushing the labelkey all the way to this function.  (Note how even the function above takes a project.namekey.)",
+      "revId": "945d7d4e1c8de871a459b73c1666c91e56818a8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

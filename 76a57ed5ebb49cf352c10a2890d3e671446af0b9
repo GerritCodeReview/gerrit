@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAABin////s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2011-11-24T06:07:11Z",
+      "side": 1,
+      "message": "Hi, Martin. Thanks for your explanation. Let me tell you my understanding of your meaning. Please tell me I am right or not. Thanks in advance:)\n\n1. For creating a branch : Send notification mail to the person who watch the whole project (without specifying the branch) and the person who watch a wildcarded branch (such as refs/* or refs/heads/*) contains the created branch \n\n2. For deleting a branch : Send the notification mail to the person who watches the certain branch and the person who watches a wildcarded branch (such as refs/* or refs/heads/*) contains the deleted branch. But notification mail will not be sent to the person who watch the whole project (without specifying branches)\n\n3. For updating a branch with \"push refs/heads/branch\" : I should add a column named \"Directly Pushed\" in \"Email Notifications\" table for \"/settings/projects\" page.Of course, I should also modify the structure of \"ACCOUNT_PROJECT_WATCHES\" table. The notification mail will only be sent to the person who watches the updated branch and checked the \"Directly Pushed\" checkbox. \n\n4. For all the push head operations, owners of the project will not be notified by this mail.\n\n5. I will also have to modify the schema accordingly, since I have to modify the structure of \"ACCOUNT_PROJECT_WATCHES\"\n\nIf there is something wrong with my understanding, would you please tell me? Thanks a lot in advance:)",
+      "parentUuid": "AAABhH///98\u003d",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///+k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3

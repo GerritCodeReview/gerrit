@@ -16,6 +16,24 @@
       "revId": "04127bb35dcfaa17878f3c4f866e4c969c03b156",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhn///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T15:37:43Z",
+      "side": 1,
+      "message": "My first implementation actually was using JGit to create an empty repository. The idea behind copying the repo was indeed to include the repository configuration (e.g. the configuration that all ref updates should be logged that we do in LocalDiskRepositoryManager in lines 168 to 171).\n\nBut you are right, if we don\u0027t copy in the SSH case, we should also not copy in the local case.\n\nDone.",
+      "parentUuid": "AAABfX///+k\u003d",
+      "revId": "04127bb35dcfaa17878f3c4f866e4c969c03b156",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

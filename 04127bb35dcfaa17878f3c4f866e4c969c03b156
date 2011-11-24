@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABfX///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-24T09:31:05Z",
+      "side": 1,
+      "message": "Why use FileUtils? Why not just create an empty repository here using JGit\u0027s repository creation support and allow the normal replication code to populate in any content to the relevant branches?\n\nIf its to allow copying over things like $GIT_DIR/config, uh, ok, but then why not copy those to the remote SSH server by doing an scp or sftp or rsync? We don\u0027t, we run git init remotely. So I think we should use JGit\u0027s FileRepository class to create the bare repository in the replication target URI.",
+      "revId": "04127bb35dcfaa17878f3c4f866e4c969c03b156",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

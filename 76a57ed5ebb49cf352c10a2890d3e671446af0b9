@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "AAABjH///+w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "This conclusion sounds good to me.",
+      "parentUuid": "AAABhH///9g\u003d",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///+k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3
@@ -120,6 +138,23 @@
       "side": 1,
       "message": "OK, I have already changed this to one line.",
       "parentUuid": "AAABhH///+k\u003d",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjH////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "What about the type \u0027UPDATE_NONFASTFORWARD\u0027?",
       "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -266,6 +301,74 @@
     },
     {
       "key": {
+        "uuid": "AAABjH////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "Can projectState be null? In other places in this class there is always a check for null.",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjH////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "Why not to fetch the groups from the group cache (args.groupCache)?",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjH///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "Why not to fetch the accounts from the account cache (args.accountCache)?",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjH///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "A group may also include other groups. This is not handled by this code. You may want to use the GroupMembers class to retrieve the project owners:\n\n  groupMembers.listAccounts(AccountGroup.PROJECT_OWNERS, projectState.getProject().getName());",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///+Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 3
@@ -301,6 +404,125 @@
     },
     {
       "key": {
+        "uuid": "AAABjH////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "What about the type \u0027UPDATE_NONFASTFORWARD\u0027? No e-mail in this case?",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjH////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "Can it actually happen that args.projectCache is null? If yes, probably we have to have the same check in line 119 and 230?",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjH///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "[optional] Looks like this method also exists in ChangeEmail. Maybe it can be pulled up into NotificationEmail?",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjH////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "What is this linked BranchMessage class?",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjH////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "Can this line and the line above be merged and get one line?\n\nWhy do we have to fetch the project again from the cache? Can\u0027t we just use \u0027projectState\u0027?",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjH////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NotificationEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "It somehow feels stange to have this variable here and it\u0027s only being set in the constructors of some subclasses (NewChangeSender, BranchEmail).\n\nMaybe it would be better to set this variable here in the NotificationEmail constructor and the subclasses may either provide the ssh info or null when they call the super constructor.\n\nThen this member can be also private.",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjH////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NotificationEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "style-nit: this line seems to be too long",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///9w\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/BranchSubject.vm",
         "patchSetId": 3
@@ -330,6 +552,74 @@
       "side": 1,
       "message": "Right! I have already changed \"is\" to \"was\"",
       "parentUuid": "AAABhH///9w\u003d",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjH////U\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteBranch.vm",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "s/a branch/the branch",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjH////Q\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ModifyBranch.vm",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "s/a branch/the branch",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjH////M\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ModifyBranch.vm",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "s/pull/fetch\n\nWe try hard to teach our users that it\u0027s better to use fetch + rebase when working with Gerrit, rather than pull. The problem with pull is that it can result in unwanted merge commits.",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjH////I\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/NewBranch.vm",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-24T19:52:39Z",
+      "side": 1,
+      "message": "s/pull/fetch\n\nWe try hard to teach our users that it\u0027s better to use fetch + rebase when working with Gerrit, rather than pull. The problem with pull is that it can result in unwanted merge commits.",
       "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

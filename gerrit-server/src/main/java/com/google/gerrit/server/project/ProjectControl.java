@@ -114,6 +114,15 @@ public class ProjectControl {
       }
       throw new NoSuchProjectException(nameKey);
     }
+
+    public ProjectControl validateFor(final Project project,
+        final int need, boolean needsRefreshing) throws NoSuchProjectException {
+      if (needsRefreshing) {
+        userCache.get().evict(project);
+      }
+
+      return validateFor(project.getNameKey(), need);
+    }
   }
 
   interface AssistedFactory {

@@ -155,7 +155,7 @@ public class PublishComments implements Callable<VoidResult> {
     final List<PatchSetApproval> ins = new ArrayList<PatchSetApproval>();
     final List<PatchSetApproval> upd = new ArrayList<PatchSetApproval>();
     final Collection<PatchSetApproval> all =
-        db.patchSetApprovals().byPatchSet(patchSetId).toList();
+        new ArrayList<PatchSetApproval>(db.patchSetApprovals().byPatchSet(patchSetId).toList());
     final Map<ApprovalCategory.Id, PatchSetApproval> mine = mine(all);
 
     // Ensure any new approvals are stored properly.

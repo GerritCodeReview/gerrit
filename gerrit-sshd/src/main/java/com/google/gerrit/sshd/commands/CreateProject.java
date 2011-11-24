@@ -20,7 +20,6 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
@@ -82,18 +81,11 @@ final class CreateProject extends BaseCommand {
   @Option(name = "--description", aliases = {"-d"}, metaVar = "DESCRIPTION", usage = "description of project")
   private String projectDescription = "";
 
-  @Option(name = "--submit-type", aliases = {"-t"}, usage = "project submit type\n"
-      + "(default: MERGE_IF_NECESSARY)")
-  private SubmitType submitType = SubmitType.MERGE_IF_NECESSARY;
-
   @Option(name = "--use-contributor-agreements", aliases = {"--ca"}, usage = "if contributor agreement is required")
   private boolean contributorAgreements;
 
   @Option(name = "--use-signed-off-by", aliases = {"--so"}, usage = "if signed-off-by is required")
   private boolean signedOffBy;
-
-  @Option(name = "--use-content-merge", usage = "allow automatic conflict resolving within files")
-  private boolean contentMerge;
 
   @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
   private boolean requireChangeID;
@@ -231,10 +223,8 @@ final class CreateProject extends BaseCommand {
 
       Project newProject = config.getProject();
       newProject.setDescription(projectDescription);
-      newProject.setSubmitType(submitType);
       newProject.setUseContributorAgreements(contributorAgreements);
       newProject.setUseSignedOffBy(signedOffBy);
-      newProject.setUseContentMerge(contentMerge);
       newProject.setRequireChangeID(requireChangeID);
       if (newParent != null) {
         newProject.setParentName(newParent.getProject().getName());

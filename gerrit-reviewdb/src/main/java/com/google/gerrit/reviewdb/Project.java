@@ -65,15 +65,7 @@ public final class Project {
     }
   }
 
-  public static enum SubmitType {
-    FAST_FORWARD_ONLY,
-
-    MERGE_IF_NECESSARY,
-
-    MERGE_ALWAYS,
-
-    CHERRY_PICK;
-  }
+  private static final String defaultSubmitType = "MERGE_IF_NECESSARY";
 
   protected NameKey name;
 
@@ -83,7 +75,7 @@ public final class Project {
 
   protected boolean useSignedOffBy;
 
-  protected SubmitType submitType;
+  protected String submitType;
 
   protected NameKey parent;
 
@@ -96,7 +88,7 @@ public final class Project {
 
   public Project(Project.NameKey nameKey) {
     name = nameKey;
-    submitType = SubmitType.MERGE_IF_NECESSARY;
+    submitType = defaultSubmitType;
   }
 
   public Project.NameKey getNameKey() {
@@ -147,11 +139,11 @@ public final class Project {
     requireChangeID = cid;
   }
 
-  public SubmitType getSubmitType() {
+  public String getSubmitType() {
     return submitType;
   }
 
-  public void setSubmitType(final SubmitType type) {
+  public void setSubmitType(final String type) {
     submitType = type;
   }
 

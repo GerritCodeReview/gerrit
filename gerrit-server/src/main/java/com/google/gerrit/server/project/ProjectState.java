@@ -17,8 +17,11 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.common.CollectionsUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.MergeStrategySection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.errors.InvalidNameException;
+import com.google.gerrit.common.errors.NoSuchRefPatternMatches;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.rules.PrologEnvironment;
@@ -28,6 +31,7 @@ import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.util.MostSpecificComparator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -41,6 +45,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -139,6 +144,10 @@ public class ProjectState {
     }
   }
 
+  public boolean isRevisionOutOfDate(final ProjectConfig projectConfig) {
+    return !config.getRevision().equals(projectConfig.getRevision());
+  }
+
   /**
    * @return cached computation of all global capabilities. This should only be
    *         invoked on the state from {@link ProjectCache#getAllProjects()}.
@@ -211,6 +220,87 @@ public class ProjectState {
     } while (s != null);
     all.addAll(projectCache.getAllProjects().getLocalAccessSections());
     return all;
+  }
+
+  /** Get the merge strategies that pertain only to this project. */
+  public Collection<MergeStrategySection> getLocalMergeStrategySections() {
+    return getConfig().getMergeStrategySections();
+  }
+
+  /** Get the merge strategies this project inherits. */
+  public Collection<MergeStrategySection> getInheritedMergeStrategySections() {
+    if (isAllProjects) {
+      return Collections.emptyList();
+    }
+
+    List<MergeStrategySection> inherited =
+        new ArrayList<MergeStrategySection>();
+    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
+    Project.NameKey parent = getProject().getParent();
+
+    while (parent != null && seen.add(parent)) {
+      ProjectState s = projectCache.get(parent);
+      if (s != null) {
+        inherited.addAll(s.getLocalMergeStrategySections());
+        parent = s.getProject().getParent();
+      } else {
+        break;
+      }
+    }
+
+    // Wild project is the parent, or the root of the tree
+    if (parent == null) {
+      ProjectState s = projectCache.get(allProjectsName);
+      if (s != null) {
+        inherited.addAll(s.getLocalMergeStrategySections());
+      }
+    }
+
+    return inherited;
+  }
+
+  /** Get both local and inherited merge strategies sections. */
+  public List<MergeStrategySection> getAllMergeStrategySections() {
+    List<MergeStrategySection> all = new ArrayList<MergeStrategySection>();
+    all.addAll(getLocalMergeStrategySections());
+    all.addAll(getInheritedMergeStrategySections());
+    return all;
+  }
+
+  public MergeStrategySection getMostSpecificMergeStrategy(final String destBranch)
+      throws NoSuchRefPatternMatches, InvalidNameException {
+    final List<MergeStrategySection> refStrategies =
+        new ArrayList<MergeStrategySection>(getAllMergeStrategySections());
+
+    final List<MergeStrategySection> refStrategiesMatchers =
+        filterRefStrategies(refStrategies);
+
+    if (refStrategiesMatchers.size() == 0) {
+      throw new NoSuchRefPatternMatches(destBranch);
+    } else {
+      Collections.sort(refStrategies, new Comparator<MergeStrategySection>() {
+        @Override
+        public int compare(MergeStrategySection a, MergeStrategySection b) {
+          MostSpecificComparator regexComparator =
+              new MostSpecificComparator(destBranch);
+          return regexComparator.compare(a.getName(), b.getName());
+        }
+      });
+      return refStrategies.get(0);
+    }
+  }
+
+  private List<MergeStrategySection> filterRefStrategies(
+      final List<MergeStrategySection> refStrategies)
+      throws InvalidNameException {
+    final List<MergeStrategySection> matchers =
+        new ArrayList<MergeStrategySection>();
+
+    for (MergeStrategySection refMerge : refStrategies) {
+      RefControl.validateRefPattern(refMerge.getName());
+      matchers.add(refMerge);
+    }
+    return matchers;
   }
 
   /**

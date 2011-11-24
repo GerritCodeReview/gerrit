@@ -28,6 +28,7 @@ import static com.google.gerrit.common.data.Permission.SUBMIT;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.MergeStrategySection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -169,7 +170,7 @@ class Schema_53 extends SchemaVersion {
         md.getCommitBuilder().setCommitter(serverUser);
 
         ProjectConfig config = ProjectConfig.read(md);
-        loadProject(rs, config.getProject());
+        loadProject(rs, config);
         config.getAccessSections().clear();
         convertRights(config);
 
@@ -197,33 +198,47 @@ class Schema_53 extends SchemaVersion {
     stmt.close();
   }
 
-  private void loadProject(ResultSet rs, Project project) throws SQLException,
-      OrmException {
+  private void loadProject(ResultSet rs, ProjectConfig config) throws SQLException, OrmException {
+    final Project project = config.getProject();
     project.setDescription(rs.getString("description"));
     project.setUseContributorAgreements("Y".equals(rs
         .getString("use_contributor_agreements")));
 
-    switch (rs.getString("submit_type").charAt(0)) {
-      case 'F':
-        project.setSubmitType(Project.SubmitType.FAST_FORWARD_ONLY);
-        break;
-      case 'M':
-        project.setSubmitType(Project.SubmitType.MERGE_IF_NECESSARY);
-        break;
-      case 'A':
-        project.setSubmitType(Project.SubmitType.MERGE_ALWAYS);
-        break;
-      case 'C':
-        project.setSubmitType(Project.SubmitType.CHERRY_PICK);
-        break;
-      default:
-        throw new OrmException("Unsupported submit_type="
-            + rs.getString("submit_type") + " on project " + project.getName());
+    final char submitType = rs.getString("submit_type").charAt(0);
+    // MERGE_IF_NECESSARY is default value to "All-Projects" and it will be
+    // inherited by all the other projects. So, in this case, we don't
+    // need to include the new strategy section to the other projects.
+    final String name = rs.getString("name");
+
+    if (!(!name.equals("-- All Projects --") && submitType == 'M')) {
+      final MergeStrategySection section =
+          config.getMergeStrategySection("refs/*", true);
+
+      switch (submitType) {
+        case 'F':
+          section
+              .setSubmitType(MergeStrategySection.SubmitType.FAST_FORWARD_ONLY);
+          break;
+        case 'M':
+          section
+              .setSubmitType(MergeStrategySection.SubmitType.MERGE_IF_NECESSARY);
+          break;
+        case 'A':
+          section.setSubmitType(MergeStrategySection.SubmitType.MERGE_ALWAYS);
+          break;
+        case 'C':
+          section.setSubmitType(MergeStrategySection.SubmitType.CHERRY_PICK);
+          break;
+        default:
+          throw new OrmException("Unsupported submit_type="
+              + rs.getString("submit_type") + " on project "
+              + project.getName());
+      }
+      section.setUseContentMerge("Y".equals(rs.getString("use_content_merge")));
     }
 
     project.setUseSignedOffBy("Y".equals(rs.getString("use_signed_off_by")));
     project.setRequireChangeID("Y".equals(rs.getString("require_change_id")));
-    project.setUseContentMerge("Y".equals(rs.getString("use_content_merge")));
     project.setParentName(rs.getString("parent_name"));
   }
 
@@ -385,8 +400,7 @@ class Schema_53 extends SchemaVersion {
     return config.getAccessSection(name, true).getPermission(PUSH, true);
   }
 
-  private static Permission newMergePermission(ProjectConfig config,
-      String name) {
+  private static Permission newMergePermission(ProjectConfig config, String name) {
     if (name.startsWith(AccessSection.REGEX_PREFIX)) {
       name = AccessSection.REGEX_PREFIX
           + "refs/for/"

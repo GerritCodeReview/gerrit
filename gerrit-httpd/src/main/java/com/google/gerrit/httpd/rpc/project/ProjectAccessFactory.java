@@ -83,13 +83,12 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   @Override
   public ProjectAccess call() throws NoSuchProjectException, IOException,
       ConfigInvalidException {
-    pc = open();
-
     // Load the current configuration from the repository, ensuring its the most
     // recent version available. If it differs from what was in the project
     // state, force a cache flush now.
     //
-    ProjectConfig config;
+    ProjectConfig config = null;
+    boolean cacheNeedsRefreshing = false;
     MetaDataUpdate md = metaDataUpdateFactory.create(projectName);
     try {
       config = ProjectConfig.read(md);
@@ -97,17 +96,23 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       if (config.updateGroupNames(groupCache)) {
         md.setMessage("Update group names\n");
         if (config.commit(md)) {
-          projectCache.evict(config.getProject());
-          pc = open();
+          cacheNeedsRefreshing = true;
         }
       } else if (config.getRevision() != null
-          && !config.getRevision().equals(
-              pc.getProjectState().getConfig().getRevision())) {
-        projectCache.evict(config.getProject());
-        pc = open();
+          && projectCache.get(projectName).isRevisionOutOfDate(config)) {
+        cacheNeedsRefreshing = true;
       }
     } finally {
       md.close();
+      if (config != null) {
+        pc =
+            projectControlFactory.validateFor(config.getProject(),
+                ProjectControl.OWNER | ProjectControl.VISIBLE,
+                cacheNeedsRefreshing);
+      } else {
+        pc = projectControlFactory.validateFor(projectName, //
+            ProjectControl.OWNER | ProjectControl.VISIBLE);
+      }
     }
 
     List<AccessSection> local = new ArrayList<AccessSection>();
@@ -200,11 +205,5 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     detail.setConfigVisible(pc.isOwner()
         || pc.controlForRef(GitRepositoryManager.REF_CONFIG).isVisible());
     return detail;
-  }
-
-  private ProjectControl open() throws NoSuchProjectException {
-    return projectControlFactory.validateFor( //
-        projectName, //
-        ProjectControl.OWNER | ProjectControl.VISIBLE);
   }
 }

@@ -13,10 +13,8 @@ SYNOPSIS
   [--parent <NAME> | -p <NAME> ]
   [--permissions-only]
   [--description <DESC> | -d <DESC>]
-  [--submit-type <TYPE> |  -t <TYPE>]
   [--use-contributor-agreements | --ca]
   [--use-signed-off-by | --so]
-  [--use-content-merge]
   [--require-change-id | --id]
   [--branch <REF> | -b <REF>]
   [--empty-commit]
@@ -88,27 +86,6 @@ in gerrit.config.
 Description values containing spaces should be quoted in single quotes
 (').  This most likely requires double quoting the value, for example
 `--description "'A description string'"`.
-
---submit-type::
--t::
-	Action used by Gerrit to submit an approved change to its
-	destination branch.  Supported options are:
-+
-* FAST_FORWARD_ONLY: produces a strictly linear history.
-* MERGE_IF_NECESSARY: create a merge commit when required.
-* MERGE_ALWAYS: always create a merge commit.
-* CHERRY_PICK: always cherry-pick the commit.
-
-+
-Defaults to MERGE_IF_NECESSARY.  For more details see
-link:project-setup.html#submit_type[Change Submit Actions].
-
---use-content-merge::
-	If enabled, Gerrit will try to perform a 3-way merge of text
-	file content when a file has been modified by both the
-	destination branch and the change being submitted.  This
-	option only takes effect if submit type is not
-	FAST_FORWARD_ONLY.  Disabled by default.
 
 --use-contributor-agreements::
 --ca::

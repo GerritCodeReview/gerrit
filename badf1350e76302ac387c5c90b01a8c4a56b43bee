@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABhH///9Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-24T07:21:56Z",
+      "side": 1,
+      "message": "Suggestion: name this getProjectCapabilities() and rename the one above getGlobalCapabilities?",
+      "revId": "badf1350e76302ac387c5c90b01a8c4a56b43bee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///9Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-24T07:21:56Z",
+      "side": 1,
+      "message": "This is confusing, why are we adding something called GLOBAL_CAPABILITIES for each project, is it because that constant is no longer appropriately named?",
+      "revId": "badf1350e76302ac387c5c90b01a8c4a56b43bee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

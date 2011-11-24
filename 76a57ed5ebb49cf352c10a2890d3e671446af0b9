@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "AAABin////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2011-11-24T08:00:26Z",
+      "side": 1,
+      "message": "OK, I have already changed this to one line.",
+      "parentUuid": "AAABhH///+k\u003d",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///+g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 3
@@ -119,6 +137,24 @@
       "writtenOn": "2011-11-24T03:00:52Z",
       "side": 1,
       "message": "You can seed the size since it it known.",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABin////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2011-11-24T08:00:26Z",
+      "side": 1,
+      "message": "I have seeded the size with watchers.size(). Thank you!",
+      "parentUuid": "AAABhH///+g\u003d",
       "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -142,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "AAABin////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2011-11-24T08:00:26Z",
+      "side": 1,
+      "message": "Yes, you are right. The watchers should be only related to the certain project. I have changed this.\nBy the way, what does ACL mean? Thank you!",
+      "parentUuid": "AAABhH///+Y\u003d",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///+c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 3
@@ -153,6 +207,24 @@
       "writtenOn": "2011-11-24T03:00:52Z",
       "side": 1,
       "message": "You need to detect inheritance loops and abort, see the \"seen\" set in the ProjectState class.",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABin////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2011-11-24T08:00:26Z",
+      "side": 1,
+      "message": "OK! Anyway I will take a look in ProjectState.\nBut as this part is deleted, I will not do any change here:)",
+      "parentUuid": "AAABhH///+c\u003d",
       "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -176,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "AAABin////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2011-11-24T08:00:26Z",
+      "side": 1,
+      "message": "I have changed it in get Watchers(). \nFor here, as we discussed, no notification mail will be sent to project owners. So I deleted this part:)",
+      "parentUuid": "AAABhH///+U\u003d",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///+Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 3
@@ -193,6 +283,24 @@
     },
     {
       "key": {
+        "uuid": "AAABin////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2011-11-24T08:00:26Z",
+      "side": 1,
+      "message": "Yes, you are right. I have deleted this part.",
+      "parentUuid": "AAABhH///+Q\u003d",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///9w\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/BranchSubject.vm",
         "patchSetId": 3
@@ -204,6 +312,24 @@
       "writtenOn": "2011-11-24T06:25:15Z",
       "side": 1,
       "message": "/is/was/",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABin////k\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/BranchSubject.vm",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2011-11-24T08:00:26Z",
+      "side": 1,
+      "message": "Right! I have already changed \"is\" to \"was\"",
+      "parentUuid": "AAABhH///9w\u003d",
       "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

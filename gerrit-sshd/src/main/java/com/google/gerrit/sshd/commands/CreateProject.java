@@ -179,9 +179,24 @@ final class CreateProject extends BaseCommand {
             repo.close();
           }
         } catch (IllegalStateException err) {
-          handleRepositoryExistsException(nameKey);
+          try {
+            Repository repo = repoManager.openRepository(nameKey);
+            try {
+              if (repo.getObjectDatabase().exists()) {
+                throw new UnloggedFailure(1, "fatal: project \"" + projectName
+                    + "\" exists");
+              }
+            } finally {
+              repo.close();
+            }
+          } catch (RepositoryNotFoundException e) {
+            throw new Failure(1, "fatal: Cannot create " + projectName, e);
+          }
         } catch (RepositoryCaseMismatchException err) {
-          handleRepositoryExistsException(err.getNameOfExistingProject());
+          throw new UnloggedFailure(1, "fatal: Cannot create " + projectName
+              + " because the name is already occupied by another project."
+              + " The other project has the same name, only spelled in a"
+              + " different case.", err);
         } catch (RepositoryNotFoundException badName) {
           throw new UnloggedFailure(1, "fatal: " + badName.getMessage());
         } catch (Exception err) {
@@ -287,23 +302,6 @@ final class CreateProject extends BaseCommand {
     }
     if (!Repository.isValidRefName(branch)) {
       throw new Failure(1, "--branch \"" + branch + "\" is not a valid name");
-    }
-  }
-
-  private void handleRepositoryExistsException(final Project.NameKey projectName)
-      throws Failure {
-    try {
-      Repository repo = repoManager.openRepository(projectName);
-      try {
-        if (repo.getObjectDatabase().exists()) {
-          throw new UnloggedFailure(1, "fatal: project \"" + projectName
-              + "\" exists");
-        }
-      } finally {
-        repo.close();
-      }
-    } catch (RepositoryNotFoundException err) {
-      throw new Failure(1, "fatal: Cannot create " + projectName, err);
     }
   }
 }

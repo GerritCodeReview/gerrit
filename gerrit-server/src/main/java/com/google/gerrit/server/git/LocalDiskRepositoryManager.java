@@ -91,6 +91,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   private final File basePath;
+  private SortedSet<Project.NameKey> projectNames;
 
   @Inject
   LocalDiskRepositoryManager(final SitePaths site,
@@ -115,13 +116,10 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
-
-    final FileKey loc = FileKey.lenient(gitDirOf(name), FS.DETECTED);
-
-    if (!getProjectName(loc.getFile()).equals(name)) {
+    if (!doesProjectExist(name)) {
       throw new RepositoryNotFoundException(gitDirOf(name));
     }
-
+    final FileKey loc = FileKey.lenient(gitDirOf(name), FS.DETECTED);
     try {
       return RepositoryCache.open(loc);
     } catch (IOException e1) {
@@ -145,10 +143,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       //
       loc = FileKey.exact(dir, FS.DETECTED);
 
-      final Project.NameKey nameOfExistingProject =
-          getProjectName(loc.getFile());
-      if (!nameOfExistingProject.equals(name)) {
-        throw new RepositoryCaseMismatchException(name, nameOfExistingProject);
+      if (!doesProjectExist(name)) {
+        throw new RepositoryCaseMismatchException(name);
       }
     } else {
       // It doesn't exist under any of the standard permutations
@@ -268,9 +264,18 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   @Override
   public SortedSet<Project.NameKey> list() {
-    SortedSet<Project.NameKey> names = new TreeSet<Project.NameKey>();
-    scanProjects(basePath, "", names);
-    return Collections.unmodifiableSortedSet(names);
+    return list(true);
+  }
+
+  private SortedSet<Project.NameKey> list(boolean refresh) {
+    if (projectNames == null) {
+      projectNames = new TreeSet<Project.NameKey>();
+      refresh = true;
+    }
+    if (refresh) {
+      scanProjects(basePath, "", projectNames);
+    }
+    return Collections.unmodifiableSortedSet(projectNames);
   }
 
   private void scanProjects(final File dir, final String prefix,
@@ -313,15 +318,19 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     return new Project.NameKey(projectName);
   }
 
-  private Project.NameKey getProjectName(final File gitDir) {
-    String relativeGitPath =
-        getBasePath().toURI().relativize(gitDir.toURI()).getPath();
-    if (!relativeGitPath.endsWith("/")) {
-      relativeGitPath = relativeGitPath + "/";
+  /**
+   * Checks if a project with the given name exists.
+   *
+   * @return only returns true if a project exists that exactly matches the
+   *         given name (case sensitive)
+   */
+  private boolean doesProjectExist(final Project.NameKey name) {
+    SortedSet<Project.NameKey> projectNames = list(false);
+    if (projectNames.contains(name)) {
+      return true;
     }
-    final String prefix =
-        relativeGitPath.substring(0, relativeGitPath.length() - 1
-            - gitDir.getName().length());
-    return getProjectName(prefix, gitDir.getName());
+    // reload the project list, maybe the project was created in the meantime
+    projectNames = list(true);
+    return projectNames.contains(name);
   }
 }

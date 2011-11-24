@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABfX///98\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-24T23:46:56Z",
+      "side": 1,
+      "message": "Mac OS HFS+ is also case insensitive by default. So Windows is not the only OS that would suffer from the bug the original change was trying to fix.",
+      "revId": "167b9dd47927fdaf8dd2484d2816934c0c0d9875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX///94\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-24T23:46:56Z",
+      "side": 1,
+      "message": "Style-nit: Missing blank line before this line?",
+      "revId": "167b9dd47927fdaf8dd2484d2816934c0c0d9875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX///90\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-24T23:46:56Z",
+      "side": 1,
+      "message": "Instead of relying on IS_WINDOWS I would check to see if the filesystem is case insensitive by looking to see if All-Projects is available as all-projects or ALL-PROJECTS. This would also catch installations on Mac OS HFS+ that are case insensitive volumes.\n\nOn a case insensitive filesystem, instead of possibly following the symlink, just grab the full list of all projects and check the input name actually appears in that set. That unfortunately means the name list has to be cached, but it could be locally cached between the list calls so the cached list can be used for this case insensitive filesystem check.\n\nActually, it may be cheap enough to just cache the list all of the time and check the project name against the cached list on all filesystem types.",
+      "revId": "167b9dd47927fdaf8dd2484d2816934c0c0d9875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

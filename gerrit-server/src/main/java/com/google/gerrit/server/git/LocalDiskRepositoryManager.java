@@ -46,6 +46,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /** Manages Git repositories stored on the local filesystem. */
 @Singleton
@@ -91,6 +93,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   private final File basePath;
+  private SortedSet<Project.NameKey> projectNames;
+  private final Lock listLock;
 
   @Inject
   LocalDiskRepositoryManager(final SitePaths site,
@@ -99,6 +103,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }
+    this.projectNames = list();
+    this.listLock = new ReentrantLock(true /* fair */);
   }
 
   /** @return base directory under which all projects are stored. */
@@ -115,13 +121,10 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
-
-    final FileKey loc = FileKey.lenient(gitDirOf(name), FS.DETECTED);
-
-    if (!getProjectName(loc.getFile()).equals(name)) {
+    if (!projectNames.contains(name)) {
       throw new RepositoryNotFoundException(gitDirOf(name));
     }
-
+    final FileKey loc = FileKey.lenient(gitDirOf(name), FS.DETECTED);
     try {
       return RepositoryCache.open(loc);
     } catch (IOException e1) {
@@ -145,10 +148,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       //
       loc = FileKey.exact(dir, FS.DETECTED);
 
-      final Project.NameKey nameOfExistingProject =
-          getProjectName(loc.getFile());
-      if (!nameOfExistingProject.equals(name)) {
-        throw new RepositoryCaseMismatchException(name, nameOfExistingProject);
+      if (!projectNames.contains(name)) {
+        throw new RepositoryCaseMismatchException(name);
       }
     } else {
       // It doesn't exist under any of the standard permutations
@@ -170,12 +171,25 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         null, ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
       config.save();
 
+      onCreateProject(name);
+
       return db;
     } catch (IOException e1) {
       final RepositoryNotFoundException e2;
       e2 = new RepositoryNotFoundException("Cannot create repository " + name);
       e2.initCause(e1);
       throw e2;
+    }
+  }
+
+  private void onCreateProject(final Project.NameKey newProjectName) {
+    listLock.lock();
+    try {
+      SortedSet<Project.NameKey> n = new TreeSet<Project.NameKey>(projectNames);
+      n.add(newProjectName);
+      projectNames = Collections.unmodifiableSortedSet(n);
+    } finally {
+      listLock.unlock();
     }
   }
 
@@ -268,9 +282,9 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   @Override
   public SortedSet<Project.NameKey> list() {
-    SortedSet<Project.NameKey> names = new TreeSet<Project.NameKey>();
-    scanProjects(basePath, "", names);
-    return Collections.unmodifiableSortedSet(names);
+    final TreeSet<Project.NameKey> projectNames = new TreeSet<Project.NameKey>();
+    scanProjects(basePath, "", projectNames);
+    return Collections.unmodifiableSortedSet(projectNames);
   }
 
   private void scanProjects(final File dir, final String prefix,
@@ -311,17 +325,5 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
 
     return new Project.NameKey(projectName);
-  }
-
-  private Project.NameKey getProjectName(final File gitDir) {
-    String relativeGitPath =
-        getBasePath().toURI().relativize(gitDir.toURI()).getPath();
-    if (!relativeGitPath.endsWith("/")) {
-      relativeGitPath = relativeGitPath + "/";
-    }
-    final String prefix =
-        relativeGitPath.substring(0, relativeGitPath.length() - 1
-            - gitDir.getName().length());
-    return getProjectName(prefix, gitDir.getName());
   }
 }

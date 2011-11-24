@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABin////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2011-11-24T03:35:27Z",
+      "side": 1,
+      "message": "Hi, Martin. Thanks for your thorough idea first. Should I understand your meaning like following: You would like to send this kind of notification email to the person who has explicitly tell Gerrit he/she want to this kind of email, but not send this mail to all the owners of the project. Or else, this feature will send a lot of junk mails. Am I right?\nSo, I am thinking of just send this notification mail only to the watcher, not to the project owner. If some owner want to receive this kind of notification mail, he/she also have to watch this certain project and this certain branch(es). I mean that watching this project (with branches) means subscribing the mail, only the subscriber will be notified. Do you think I am right?",
+      "parentUuid": "AAABhH///+M\u003d",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///+k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3

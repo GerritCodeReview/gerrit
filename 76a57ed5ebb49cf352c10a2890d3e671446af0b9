@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhH///98\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-24T04:22:27Z",
+      "side": 1,
+      "message": "For creates it seems reasonable to send it to anyone watching the whole project, and for branch deletes, only the watchers of that branch.  But for updates, it still seems like it will be too much to send to all those subscribing to the branch, I think you should add a new notification type (like the existing \"new changes\", \"all comments\" and \"changes submitted\") for these, perhaps called \"direct pushes\".",
+      "parentUuid": "AAABin////0\u003d",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///+k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3

@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhH///9g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-24T06:25:15Z",
+      "side": 1,
+      "message": "After further consideration, I see no reason to not send delete emails to those watching the entire project.  Everything else sounds right on.",
+      "parentUuid": "AAABin////s\u003d",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///+k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3
@@ -169,6 +187,23 @@
       "writtenOn": "2011-11-24T03:00:52Z",
       "side": 1,
       "message": "I am not sure this is valuable?  Would anyone care who the project/branch owners are?  Is that info perhaps sensitive even?",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///9w\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/BranchSubject.vm",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-24T06:25:15Z",
+      "side": 1,
+      "message": "/is/was/",
       "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

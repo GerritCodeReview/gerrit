@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABhH///+M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-24T03:00:52Z",
+      "side": 1,
+      "message": "I think this feature needs to be seriously rethought.  The list of potential receivers of these emails is huge.  I could see why owners might (but I am not convinced that they will always) want this info, and since owners are always specified by groups, this could easily be much larger than expected.  Unlike change owners, I do not think that it is reasonable to send email to project owners without giving them an option to decline.  Without introducing a new category to watch projects by, I am also not convinced that all project watchers want this info.  I suspect that we are not alone in having some branches which we push external contributions too all the time (in our case, hourly); the amount \nof undesired email that this would generate if I understand this correctly is enormous.",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-24T03:00:52Z",
+      "side": 1,
+      "message": "Is there something missing here?  Any reason these 3 lines couldn\u0027t be one?",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-24T03:00:52Z",
+      "side": 1,
+      "message": "You can seed the size since it it known.",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-24T03:00:52Z",
+      "side": 1,
+      "message": "I don\u0027t think that project inheritance was meant to apply to watchers, so far it is only an ACL concept.",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///+c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-24T03:00:52Z",
+      "side": 1,
+      "message": "You need to detect inheritance loops and abort, see the \"seen\" set in the ProjectState class.",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-24T03:00:52Z",
+      "side": 1,
+      "message": "Use interfaces (Set) when possible.",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///+Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-24T03:00:52Z",
+      "side": 1,
+      "message": "I am not sure this is valuable?  Would anyone care who the project/branch owners are?  Is that info perhaps sensitive even?",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

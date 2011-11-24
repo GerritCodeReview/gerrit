@@ -33,6 +33,24 @@
       "revId": "badf1350e76302ac387c5c90b01a8c4a56b43bee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABin////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2011-11-24T10:12:42Z",
+      "side": 1,
+      "message": "Hi, Martin. I know this is confusing. So do you mean we should change this name to PROJECT_CAPABILITIES for all the project? Or should we remain GLOBAL_CAPABILITIES in \"All-Project\" while change this variable name to PROJECT_CAPABILITIES in other projects?",
+      "parentUuid": "AAABhH///9Q\u003d",
+      "revId": "badf1350e76302ac387c5c90b01a8c4a56b43bee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

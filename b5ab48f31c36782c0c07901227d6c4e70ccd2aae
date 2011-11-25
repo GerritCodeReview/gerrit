@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhX////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-11-25T13:41:14Z",
+      "side": 1,
+      "message": "Ok, we can do it.",
+      "parentUuid": "AAABfn///8A\u003d",
+      "revId": "b5ab48f31c36782c0c07901227d6c4e70ccd2aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfn///78\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
         "patchSetId": 5
@@ -81,6 +99,24 @@
       "writtenOn": "2011-11-23T14:32:07Z",
       "side": 1,
       "message": "I would prefer if all this code until here goes into a method in MergeArguments:\n\n  setBranch(BranchName.NameKey branch)\n\nwhich then sets destBranch and destProject.\n\nEven more I would prefer to have this coding in the constructor of MergeOp and then to pass \u0027branch\u0027 in addition to \u0027mergeArguments\u0027 to the constructor below that forward it then to the MergeOp constructor. Somehow it feels strange to get MergeArguments injected here, and we need to fill in additional data before passing it to the constructors below.",
+      "revId": "b5ab48f31c36782c0c07901227d6c4e70ccd2aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhX////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-11-25T13:41:14Z",
+      "side": 1,
+      "message": "Edwin, notice each MergeOp subclass expect set of arguments in a MergeArguments instance and in this method, here, it is required to get a Project instance (to determine the submit type). I am also not sure if it is a good idea to throw an exception from a constructor (if we move this code to the constructor, we can face this approach, based on your comment in 44th line).\n\nConsider all these points, would you agree on letting the code as it is, without adding Branch.NameKey as a parameter expected by MergeOp subclasses constructors.",
+      "parentUuid": "AAABfn///78\u003d",
       "revId": "b5ab48f31c36782c0c07901227d6c4e70ccd2aae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

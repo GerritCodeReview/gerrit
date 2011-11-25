@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "AAABiH////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-11-25T11:31:15Z",
+      "side": 1,
+      "message": "Hi Martin\n\n\n   I add 4 handlers of \u0027Click\u0027, \u0027MouseDown\u0027, \u0027MouseUp\u0027, and \u0027MouseOver\u0027 event  .\n  after  do some test and find \n \n  I add System.out.println(). on some lines for test and got below output .(because  \n  eclipse  beakpoints on these lines in GWT debug mode not always work.)\n\n\n...\n -----------MouseOver--------------\n ----------createTxt.getAbsoluteLeft(): [0]-------------\n ----------createTxt.getValue(): []-------------\n ----------createTxt.getText(): []-------------\n -----------MouseDown--------------\n ----------createTxt.getAbsoluteLeft(): [0]-------------\n ----------createTxt.getValue(): []-------------\n ----------createTxt.getText(): []-------------\n -----------MouseUp--------------\n ----------createTxt.getAbsoluteLeft(): [0]-------------\n ----------createTxt.getValue(): []-------------\n ----------createTxt.getText(): []-------------\n -----------MouseClick--------------\n ----------createTxt.getAbsoluteLeft(): [0]-------------\n ----------createTxt.getValue(): []-------------\n ----------createTxt.getText(): []-------------\n\n [Bruce: here is the place that fist click is over ]\n\n -----------MouseDown--------------\n ----------createTxt.getAbsoluteLeft(): [22]-------------\n ----------createTxt.getValue(): [projectnameprojectname]-------------\n ----------createTxt.getText(): [projectnameprojectname]-------------\n -----------MouseUp--------------\n ----------createTxt.getAbsoluteLeft(): [22]-------------\n ----------createTxt.getValue(): [projectnameprojectname]-------------\n ----------createTxt.getText(): [projectnameprojectname]-------------\n -----------MouseClick--------------\n ----------createTxt.getAbsoluteLeft(): [22]-------------\n ----------createTxt.getValue(): [projectnameprojectname]-------------\n ----------createTxt.getText(): [projectnameprojectname]-------------\n....\n\n \n\n   we can see first click on mouse button (include middle button) createTxt.getText() will return empty string.\n\nseems \u0027Click\u0027, \u0027MouseDown\u0027, \u0027MouseUp\u0027, and \u0027MouseOver\u0027 events are handler before GWT set value to \u0027 createTxt\u0027 .\n\n from the second click it will work.\n\n\n also  if user right click mouse , OS\n will feedback a menu with a option \u0027paste\u0027 , now if user click this\n option . GWT Web UI can not catch this click event, but this event can be catch\n by OS. I do not know if we should catch this event.\n\n and take different browser , OS ...into account.\n\n so  I want to know if we must have this function . or can we do this in the same way of \"Create Branch\" --The button is never disabled and the string checking can be done on button click event.\n\n  I think it will be much easier than make a check for all the events. I am not clear  \n the background about why we need disabling the button .  I think handling all this \n events is not necessary except that you really expect to this way. \n \n\nthanks in advance!!\n\n  //Bruce",
+      "parentUuid": "AAABhH////8\u003d",
+      "revId": "b7360f13cb7353999f4a7a2de586044de116f090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABPX////0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
         "patchSetId": 7

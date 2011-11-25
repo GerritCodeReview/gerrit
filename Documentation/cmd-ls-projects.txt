@@ -45,9 +45,9 @@ OPTIONS
 --d::
 	Allows listing of projects together with their respective
 	description.
-
-	Line-feeds are escaped to allow ls-project to keep the
-	"one project per line"-style.
++
+Line-feeds are escaped to allow ls-project to keep the
+"one project per line"-style.
 
 --tree::
 -t::

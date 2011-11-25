@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABin///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2011-11-25T05:23:03Z",
+      "side": 1,
+      "message": "Done. I have already renamed the two functions. And I have also modified the code where call these two functions.",
+      "parentUuid": "AAABhH///9Y\u003d",
+      "revId": "badf1350e76302ac387c5c90b01a8c4a56b43bee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///9Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 8
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "To be honest, I don\u0027t know, but it is clear to me that the current approach is very hard to track and understand, I suspect it is because of the mixing of global with project level capabilities.  Perhaps simply using the term CAPABILITIES alone would at least not seem conflicting here?",
       "parentUuid": "AAABin////E\u003d",
+      "revId": "badf1350e76302ac387c5c90b01a8c4a56b43bee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABin///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2011-11-25T05:23:03Z",
+      "side": 1,
+      "message": "Yes, you are right. I think CAPABILITIES include both global capabilities and local ones within a project. I have already changed the name of this variable.",
+      "parentUuid": "AAABhH///9A\u003d",
       "revId": "badf1350e76302ac387c5c90b01a8c4a56b43bee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

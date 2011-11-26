@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABh3///+k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-26T02:02:16Z",
+      "side": 1,
+      "message": "Does this change provide any functionality which is useful on its own?  It\u0027s ok if it doesn\u0027t, but then this message should explain what it is leading up to.",
+      "revId": "b99bba9565d56ac1d61302b77c6ef1f8e3273483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABh3///+w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-26T02:02:16Z",
+      "side": 1,
+      "message": "I am not familiar with the term manifest with respect to Gerrit, is it a git submodule term (of course, I know that repo uses it)?  If not, I suggest not using it in this summary because it might just confuse people, or force them to make assumptions (or innacurate comparisons to repo?)",
+      "revId": "b99bba9565d56ac1d61302b77c6ef1f8e3273483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///8k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-26T02:02:16Z",
+      "side": 1,
+      "message": "Suggested wording (if accurate): Create a SubmoduleSubscription table which tracks the contents of superprojects\u0027 .gitmodules files.  Update this table whenever superprojects update this file.",
+      "revId": "b99bba9565d56ac1d61302b77c6ef1f8e3273483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABh3///+s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-26T02:02:16Z",
+      "side": 1,
+      "message": "I am not sure I fully understand the intent of this part, where are the gitlinks being updated, and when which branch is updated (the submodule\u0027s)?  It sounds like this recursive process works its way up from a Submodules update to a superproject?  If so, then \"submodules of submodules\" seems misleading, superprojects of superprojects seems to better describe the flow (if I understand what this is supposed to do, I admit, I am guessing, I could use a bit more guidance from this commit message).",
+      "revId": "b99bba9565d56ac1d61302b77c6ef1f8e3273483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABh3///+o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-26T02:02:16Z",
+      "side": 1,
+      "message": "Is this new feature something that everyone would want?  If not, is this something that should perhaps have a config switch to turn off an a per project basis?",
+      "revId": "b99bba9565d56ac1d61302b77c6ef1f8e3273483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///80\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubmoduleSubscription.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-26T02:02:16Z",
+      "side": 1,
+      "message": "If I understand this class\u0027 purpose, it describes the relation between super project branches and submodule branches?  Is the subscriber always the super project branch, and the subscription always the submodules branch?  If so, maybe better names for these 2 fields would just be superproject and submodule, or super and submodule, or superBranch and submoduleBranch, or supermodule and submodule.  While those names may not be so related to the subscription analogy, if they are accurate, I think that those names might make it more obvious what is being tracked here.",
+      "revId": "b99bba9565d56ac1d61302b77c6ef1f8e3273483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///8o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-26T02:02:16Z",
+      "side": 1,
+      "message": "Could you put a sample of the text which will be parsed as a java comment here?",
+      "revId": "b99bba9565d56ac1d61302b77c6ef1f8e3273483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///8s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-26T02:02:16Z",
+      "side": 1,
+      "message": "Perhaps this function should take an id (or a Submodule section of BBC) as an arg and return a SubmoduleSubscription instead?\n\nThen you could create parseAll() which returns a List of SubmoduleSubscriptions (perhaps it would also be called parse() and take an entire BBC).",
+      "revId": "b99bba9565d56ac1d61302b77c6ef1f8e3273483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///8w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-26T02:02:16Z",
+      "side": 1,
+      "message": "I think this would be clearer if you inverted most of the tests above and simply return false (or null, or threw an exception) immediately on finding an error.  It would mean a whole lot less indentation and since the error detection will be closer to the resolution, some of these comments might be unneeded, or they will simply be more in context.",
+      "revId": "b99bba9565d56ac1d61302b77c6ef1f8e3273483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

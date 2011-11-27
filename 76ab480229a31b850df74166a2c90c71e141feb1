@@ -176,6 +176,24 @@
       "revId": "76ab480229a31b850df74166a2c90c71e141feb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX///8U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-27T00:40:56Z",
+      "side": 1,
+      "message": "I would probably prefer using a new RPC to get the region of the file that we don\u0027t have dynamically when the user clicks the expand buttons. That way we aren\u0027t sending large sections of B to the client.\n\nIf that is going to be too much work, maybe we disable the expand feature when ignore whitespace is enabled?",
+      "parentUuid": "AAABcH///7U\u003d",
+      "revId": "76ab480229a31b850df74166a2c90c71e141feb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

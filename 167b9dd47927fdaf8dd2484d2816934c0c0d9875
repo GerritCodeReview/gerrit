@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABin///9s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-11-27T14:03:04Z",
+      "side": 1,
+      "message": "I think to put these information  in a configure file and cache them is better. as there are many kinds OS now and in the future.",
+      "parentUuid": "AAABfX///98\u003d",
+      "revId": "167b9dd47927fdaf8dd2484d2816934c0c0d9875",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfX///94\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

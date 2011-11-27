@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABfX///8o\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PermissionRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-27T00:36:44Z",
+      "side": 1,
+      "message": "Why is this declared in the middle of the instance variables?  ICK.\n\nPlease declare constants at the start of the class.",
+      "revId": "d04c9f7d8ee7371eb0866b7e9692c4ed5dea8323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX///8g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PermissionRuleEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-27T00:36:44Z",
+      "side": 1,
+      "message": "I think this is really quite unnecessary. Just leave the constant alone in the UI XML.",
+      "revId": "d04c9f7d8ee7371eb0866b7e9692c4ed5dea8323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX///8c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-27T00:36:44Z",
+      "side": 1,
+      "message": "This line is now unnecessary. reject() will set the status of the reference to indicate its a non-standard error type and then include the text. The text is really long, which is going to make the status display created by the Git client big.\n\nI\u0027m rather negative on this change. The Git native protocol has a specific way to tell the client the server does not want to accept a non-fast-forward push, and you are bypassing that to \"improve\" the error message.\n\nI would prefer to see a change to the Git client that elaborated on the server using the standard non-fast-forward error code. Or just some description text printed out through the ReceivePack message stream that tells the user why their push is failing.",
+      "revId": "d04c9f7d8ee7371eb0866b7e9692c4ed5dea8323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

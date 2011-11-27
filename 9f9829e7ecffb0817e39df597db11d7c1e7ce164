@@ -16,6 +16,24 @@
       "revId": "9f9829e7ecffb0817e39df597db11d7c1e7ce164",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABi3////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PermissionRuleEditor.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-11-27T16:25:55Z",
+      "side": 0,
+      "message": "please reference to Martin comments on patch set 1.\n    command feedback message should use same name (here is  \u0027Force Push\u0027 ) with \n that of  WEB UI page. thus let user and Admin easily communicate related issue.\n  and \" use a constant from the ACL code instead of hardcoding \u0027Force Push\u0027 here.\"\n  because \" that \u0027Force Push\u0027 may not always be called \u0027Force Push\u0027 (we have talked  \n about simply calling it push at some, or overwrite or something else...), so if we \n  make  a change to the ACLs, I suspect that we will forget to update this \n  message.......\"",
+      "parentUuid": "AAABfX///8k\u003d",
+      "revId": "9f9829e7ecffb0817e39df597db11d7c1e7ce164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

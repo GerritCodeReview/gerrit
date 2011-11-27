@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABfX///9E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-27T00:18:19Z",
+      "side": 0,
+      "message": "You need to continue to support submit.action in project.config, so don\u0027t remove this key.",
+      "revId": "8c359f4b57fdac1c9a4d2841a5bf3f0f2500e3c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX///88\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-27T00:18:19Z",
+      "side": 0,
+      "message": "Why did this space get removed here?",
+      "revId": "8c359f4b57fdac1c9a4d2841a5bf3f0f2500e3c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX///9A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-27T00:18:19Z",
+      "side": 0,
+      "message": "If submit.action is defined in the configuration file, it should be used for any reference which does not have a reference specific submit type declared for it. This allows the code to have the same behavior with existing projects.",
+      "revId": "8c359f4b57fdac1c9a4d2841a5bf3f0f2500e3c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

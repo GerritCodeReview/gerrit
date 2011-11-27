@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAABfX///9U\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectMergeStrategies.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-27T00:18:19Z",
+      "side": 1,
+      "message": "I think they are trying to match with the access control section data, which uses local because it used to also have the inherited rules from parent projects, and the local rules were in their own collection so the UI could tell them apart.",
+      "parentUuid": "AAABgn////w\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABgn////k\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectMergeStrategies.java",
         "patchSetId": 5
@@ -491,6 +509,23 @@
     },
     {
       "key": {
+        "uuid": "AAABfX///84\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-27T00:18:19Z",
+      "side": 1,
+      "message": "I dislike the new naming:\n\n  [mergeStrategy \"refs/heads/foo\"]\n    strategy \u003d MERGE_IF_NECESSARY\n\nWe should stick with the current submit.action, but allow a per-reference entry to override the default:\n\n  [submit]\n    action \u003d CHERRY_PICK\n\n  [submit \"refs/heads/maint\"]\n    action \u003d MERGE_IF_NECESSARY\n\nNote that we should then also be able to support mergeContent within the per-reference submit setting, in addition to the submit type (aka action).",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfX///+o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 5
@@ -502,6 +537,24 @@
       "writtenOn": "2011-11-21T08:00:48Z",
       "side": 1,
       "message": "This seems like it should be plural.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX///9I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-27T00:18:19Z",
+      "side": 1,
+      "message": "As Martin requested, this name should be plural.",
+      "parentUuid": "AAABfX///+o\u003d",
       "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -607,6 +660,24 @@
       "side": 1,
       "message": "I\u0027m not sure that the check on 244 can be removed. Actually this else branch is only entered when the project points to a parent project that does not exist, isn\u0027t it (parent !\u003d null \u0026\u0026 projectCache.get(parent) \u003d\u003d null)? \n\nFor projects that are children of the wild project \u0027s.getProject().getParent()\u0027 may either return \u0027All-Projects\u0027 or null. In the second case the while loop would end and the merge strategies for the wild project are not added to the \u0027inherited\u0027 list. I think for this case the check on 244 is still needed.",
       "parentUuid": "AAABhH////s\u003d",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX///9Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-27T00:18:19Z",
+      "side": 1,
+      "message": "What Edwin said. :-)",
+      "parentUuid": "AAABfn///+w\u003d",
       "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -746,6 +817,23 @@
       "writtenOn": "2011-11-21T08:00:48Z",
       "side": 1,
       "message": "This is kind of confusing, why bother with a flag when these two ifs could just be one?  It only seems to add a layer of indirection making it harder to figure out when and why the second if will be executed.",
+      "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX///9M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-11-27T00:18:19Z",
+      "side": 1,
+      "message": "Please don\u0027t use a schema version to update the refs/meta/config of projects. The schema version in the SQL database is not related to the configuration version that appears in the refs/meta/config. We cannot rely on the database schema version to tell us how to interpret every project\u0027s refs/meta/config in this server.\n\nAdditionally, gerrit-review.googlesource.com is now this weird special case where I cannot do a schema upgrade other than the default gwtorm logic of adding new fields with Java default values like false / 0 / \"\". If Gerrit Code Review forces me to do a data upgrade through a SchemaVersion subclass, I have thus far estimated it will cost me a man-week worth of effort *and* require I shutdown the site for up to 24 hours. Please consider carefully how important a schema upgrade is, because it has a very high cost to me now.\n\nUnfortunately this sort of logic must be in the read code path of ProjectConfig, where the behavior of the project is based around the variables that actually exist in the refs/meta/config branch. If there are no reference specific submit actions than the default submit.action must be used.",
       "revId": "c57e94175b6d58cfff4d502f6d83b8d52abc48e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

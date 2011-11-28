@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhX///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2011-11-28T15:21:05Z",
+      "side": 0,
+      "message": "Hi Shawn, and what about UI? The new UI will be in a fourth tab. Considering that with this feature, merge strategies are now applied to branchs, keeping the submit.action in the default way, how should we handle this in the UI?",
+      "parentUuid": "AAABfX///9E\u003d",
+      "revId": "8c359f4b57fdac1c9a4d2841a5bf3f0f2500e3c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfX///88\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 5

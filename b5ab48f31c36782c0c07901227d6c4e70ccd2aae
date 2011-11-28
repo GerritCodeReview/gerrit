@@ -123,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhn///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-28T10:05:28Z",
+      "side": 1,
+      "message": "Yes, you are right, I\u0027ve missed that we need the project instance below to determine the submit type. Then I agree to keep this code here.\n\n[optional] I think in this case I would prefer to have branch and destProject as own parameters for the constructors below, rather than having them as fields in MergeArguments. As said, to me it feels a little strange to get MergeArguments injected here, and we need to fill in additional data before passing it to the constructors below. But that\u0027s just my preference, please ignore it, if you like it more as it is now.",
+      "parentUuid": "AAABhX////A\u003d",
+      "revId": "b5ab48f31c36782c0c07901227d6c4e70ccd2aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfn///8E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
         "patchSetId": 5

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhH///8g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-28T18:45:39Z",
+      "side": 0,
+      "message": "I sugessest that you want treat the following 2 submit sections: [submit] or [submit \"refs/*\"], the same as far as \"action\" (and \"mergeContent\") are concerned.  In particular in this config class, you could simply interpret a read from an old style [submit] as [submit \"ref/*], and I don\u0027t think that you should ever have to write and an old style [submit] config from here.  That should allow your new UI to seemlessly read the old style config just fine, but it would always then write new style configs.\n\nAs far as the old UI, if you were to keep it working in this class (as Edwin was suggesting, which I was hoping you would too), it could simply always look at, and write to \"ref/*\".",
+      "parentUuid": "AAABhX///+w\u003d",
+      "revId": "8c359f4b57fdac1c9a4d2841a5bf3f0f2500e3c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfX///88\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 5

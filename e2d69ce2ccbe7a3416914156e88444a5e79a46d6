@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAABiX////k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategiesTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-11-28T20:45:40Z",
+      "side": 1,
+      "message": "Great. I agree.",
+      "parentUuid": "AAABjH///+g\u003d",
+      "revId": "e2d69ce2ccbe7a3416914156e88444a5e79a46d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfn///8k\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategiesTable.java",
         "patchSetId": 1

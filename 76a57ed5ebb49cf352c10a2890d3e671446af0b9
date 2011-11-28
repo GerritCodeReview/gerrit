@@ -599,6 +599,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhn///+Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-28T09:54:00Z",
+      "side": 1,
+      "message": "Yes, then it should be protected.",
+      "parentUuid": "AAABin///94\u003d",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABjH////w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 3
@@ -698,6 +716,24 @@
       "side": 1,
       "message": "Do you mean I should move this sshInfo to subclasses? As private member? I will try. Thank you for your advice!",
       "parentUuid": "AAABjH////0\u003d",
+      "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhn///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NotificationEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-28T09:54:00Z",
+      "side": 1,
+      "message": "No, I think it\u0027s ok to have sshInfo in this class, I would just prefer that this class then also takes care to set it. My proposal was to extend the constructor below to also require the SSH info as parameter:\n\n  protected NotificationEmail(EmailArguments ea, final String anonymousCowardName, String mc, SshInfo sshInfo) {\n    super(ea, anonymousCowardName, mc);\n    this.sshInfo \u003d sshInfo;\n  }\n\nSubclasses can then either provide the SSH info when they call the super constructor or pass null for sshInfo.\n\nAlternatively you can also have a second constructor in this class for the case that SSH info is not needed:\n\n  protected NotificationEmail(EmailArguments ea, final String anonymousCowardName, String mc) {\n    this(ea, anonymousCowardName, mc, null);\n  }",
+      "parentUuid": "AAABin///90\u003d",
       "revId": "76a57ed5ebb49cf352c10a2890d3e671446af0b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

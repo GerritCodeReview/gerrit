@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "AAABiX////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-11-28T12:36:07Z",
+      "side": 1,
+      "message": "Martin, I can address your comments, try to improve variable names and the commit message.\n\nI assume you could see the feature running, or have talked about it directly with Ulrik/Gustaf and gittogether. Please, if it is not the case, let me know so I can try go get you a tutorial of how have it running, since https://git.wiki.kernel.org/index.php/Gerrit_Submodules_Support is offline. Ulrik wrote it last year.\n\nMaybe it would be good to also have other reviewer comments here, Shawn pointed many issues in the past.\n\nI do not think it is required to have config option to disable the feature. It acts on commits having .gitmodule file, or on commits of registered submodules. The feature can work alone.",
+      "parentUuid": "AAABh3///+o\u003d",
+      "revId": "b99bba9565d56ac1d61302b77c6ef1f8e3273483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///80\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubmoduleSubscription.java",
         "patchSetId": 12

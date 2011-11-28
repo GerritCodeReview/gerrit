@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhH///8Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-28T19:18:05Z",
+      "side": 1,
+      "message": "I agree, other reviewers would be great!  That is at least one good reason to ensure that your commit message does not assume too much off-line discussion and understanding from others.  \n\nAlso, while a bigger picture review of your intended changes is helpful (although, perhaps it should be in the gerrit issue tracker?), it is good to strive to make changes self explanatory via the commit message as much as possible.  A link in a commit message to support why a change does something is fine, but what the change does definitely could to be a bit clearer from the commit message.  I admit, as a reviewer, I know very little about so much Gerrit stuff, and some reviewers will know a lot less than I do.  So, unlike in the old days where you could assume Shawn knew at least the code you were touching (and soooo much about git), now you may sometimes have to educate your reviewers more (in small doses). :)\n\nHow would I be able to see the feature running if I do not quite know what to look for?  Yes, a tutorial, or docs would be great.  I review most changes at home on a 7\" android tablet, so the more I can understand without taking the time to compile and try out a feature, the more likely (and faster) I am to review a change.  I suspect that most non approvers would be even less likely to compile and try out a feature than me, and we really want to encourage more reviewers. \n\nSo don\u0027t take this personally, I really am just trying to raise the bar (to lower the bar for reviewers) in a way that will hopefully help grow the community.\n\nThanks!",
+      "parentUuid": "AAABiX////0\u003d",
+      "revId": "b99bba9565d56ac1d61302b77c6ef1f8e3273483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///80\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubmoduleSubscription.java",
         "patchSetId": 12

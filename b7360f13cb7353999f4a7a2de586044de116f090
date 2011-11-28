@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhX///+4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2011-11-28T13:31:12Z",
+      "side": 1,
+      "message": "What about having the button always enabled and, after it is clicked, check if the name is a valid one? This way all the events handlers would be not necessary. I think it will make it simpler.",
+      "parentUuid": "AAABgH////g\u003d",
+      "revId": "b7360f13cb7353999f4a7a2de586044de116f090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABPX////0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
         "patchSetId": 7

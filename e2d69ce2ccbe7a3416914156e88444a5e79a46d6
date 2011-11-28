@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABiX////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategiesTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-11-28T15:33:23Z",
+      "side": 1,
+      "message": "Edwin, please notice we have refs patterns, it is not so simple to sort them (imagine all them being the set compound of refs/heads/m[a-z]* and refs/heads/m[a-z,A-Z]*, for instance). Considering this difficulty we are not sorting the merge strategies. However, if you agree, we could sort it based on the length of refs patterns strings or even sorting them lexically (sorting the refs patterns according to String.compareTo results).",
+      "parentUuid": "AAABfn///8c\u003d",
+      "revId": "e2d69ce2ccbe7a3416914156e88444a5e79a46d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfn///8k\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategiesTable.java",
         "patchSetId": 1

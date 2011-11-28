@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhH///8Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-28T19:56:39Z",
+      "side": 1,
+      "message": "This change would be great, even if the button is always enabled, it is better than having it be real flaky, and I def think it would be bad to add a whole bunch of listeners here.  Do the validation on the server side (you always need to do that anyway since browsers can be bypassed).\n\nIf you want to follow this change up with one which validates on the client and enables/disables the create button, and uses a common framework which will deal with most of the problems which we pointed out, then great (but I wouldn\u0027t require it)!\n\n\nMy objective was to make the TextBoxBaseListener.java become a single place where all the listeners could be handled.  It may not be perfect, but it likely deals already with more cases than most people will likely think of when submitting other UI changes.  And, by having a common place to do this, it would be enhanced/fixed in a single place when more issues pop up (they likely will).  So, I would say, any change which does validation its own way should be rejected in favor of adding a new common way.",
+      "parentUuid": "AAABhX///+4\u003d",
+      "revId": "b7360f13cb7353999f4a7a2de586044de116f090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABPX////0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
         "patchSetId": 7

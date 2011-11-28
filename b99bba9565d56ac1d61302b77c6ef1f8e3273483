@@ -123,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "AAABiX////c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-11-28T20:53:04Z",
+      "side": 1,
+      "message": "I agree with your point, Martin. It was not easy for me to understand it when I first got involved on it (I was not on it since the beginning), I can imagine how difficult it would be to someone not familiar with git submodules concept.\n\nAbout having other reviewers, I meant I am also concerned if the last modifications I did could really solve past comments of other reviewers.\n\nThanks a lot for helping us reviewing it and all the effort on trying to get it easier to understand.",
+      "parentUuid": "AAABhH///8Y\u003d",
+      "revId": "b99bba9565d56ac1d61302b77c6ef1f8e3273483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhH///80\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubmoduleSubscription.java",
         "patchSetId": 12

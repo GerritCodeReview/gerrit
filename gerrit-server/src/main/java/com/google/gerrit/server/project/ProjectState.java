@@ -95,20 +95,24 @@ public class ProjectState {
       ? new CapabilityCollection(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
       : null;
 
-    HashSet<AccountGroup.UUID> groups = new HashSet<AccountGroup.UUID>();
-    AccessSection all = config.getAccessSection(AccessSection.ALL);
-    if (all != null) {
-      Permission owner = all.getPermission(Permission.OWNER);
-      if (owner != null) {
-        for (PermissionRule rule : owner.getRules()) {
-          GroupReference ref = rule.getGroup();
-          if (ref.getUUID() != null) {
-            groups.add(ref.getUUID());
+    if (isAllProjects && !Permission.canBeOnWildProject(Permission.OWNER)) {
+      localOwners = Collections.emptySet();
+    } else {
+      HashSet<AccountGroup.UUID> groups = new HashSet<AccountGroup.UUID>();
+      AccessSection all = config.getAccessSection(AccessSection.ALL);
+      if (all != null) {
+        Permission owner = all.getPermission(Permission.OWNER);
+        if (owner != null) {
+          for (PermissionRule rule : owner.getRules()) {
+            GroupReference ref = rule.getGroup();
+            if (ref.getUUID() != null) {
+              groups.add(ref.getUUID());
+            }
           }
         }
       }
+      localOwners = Collections.unmodifiableSet(groups);
     }
-    localOwners = Collections.unmodifiableSet(groups);
   }
 
   boolean needsRefresh(long generation) {
@@ -175,6 +179,14 @@ public class ProjectState {
       Collection<AccessSection> fromConfig = config.getAccessSections();
       sm = new ArrayList<SectionMatcher>(fromConfig.size());
       for (AccessSection section : fromConfig) {
+        if (isAllProjects) {
+          for (final String permissionName : Permission.getPermissionNames()) {
+            if (!Permission.canBeOnWildProject(permissionName)) {
+              section.removePermission(permissionName);
+            }
+          }
+        }
+
         SectionMatcher matcher = SectionMatcher.wrap(section);
         if (matcher != null) {
           sm.add(matcher);

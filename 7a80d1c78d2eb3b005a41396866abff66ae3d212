@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABhn///9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-29T12:40:32Z",
+      "side": 1,
+      "message": "Would it not be enough to only catch MergeException here?",
+      "revId": "7a80d1c78d2eb3b005a41396866abff66ae3d212",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhn///9s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-29T12:40:32Z",
+      "side": 1,
+      "message": "I would prefer if the Logger is defined as static member in this class:\n\n  private static final Logger log \u003d LoggerFactory.getLogger(ChangeUtil.class);\n\nand then to use it here:\n\n  log.error(\"Merge test attempt for change \" + change.getChangeId() + \" failed\", e);\n\nAt least this is how the logging is done in most places in Gerrit.",
+      "revId": "7a80d1c78d2eb3b005a41396866abff66ae3d212",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

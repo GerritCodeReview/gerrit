@@ -156,6 +156,7 @@ public class SmtpEmailSender implements EmailSender {
         new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z").format(expiry));
     }
 
+    StringBuffer rejected = new StringBuffer();
     try {
       final SMTPClient client = open();
       try {
@@ -164,11 +165,18 @@ public class SmtpEmailSender implements EmailSender {
               + " rejected from address " + from.email);
         }
 
+        /* Do not prevent the email from being sent to "good" users simply
+         * because some users get rejected.  If not, a single rejected
+         * project watcher could prevent email for most actions on a project
+         * from being sent to any user!  Instead, queue up the errors, and
+         * throw an exception after sending the email to get the rejected
+         * error(s) logged.
+         */
         for (Address addr : rcpt) {
           if (!client.addRecipient(addr.email)) {
             String error = client.getReplyString();
-            throw new EmailException("Server " + smtpHost
-                + " rejected recipient " + addr + ": " + error);
+            rejected.append("Server " + smtpHost + " rejected recipient "
+                + addr + ": " + error);
           }
         }
 
@@ -197,6 +205,9 @@ public class SmtpEmailSender implements EmailSender {
         }
 
         client.logout();
+        if (rejected.length() > 0) {
+          throw new EmailException(rejected.toString());
+        }
       } finally {
         client.disconnect();
       }

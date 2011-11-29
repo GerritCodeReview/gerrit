@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABjX////4\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParameterizedString.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-11-29T02:26:17Z",
+      "side": 1,
+      "message": "\u0027names\u0027  is not better.   \n parameter name /function name . with out the line 170 will make user at least me confused. \n as it has not precise meaning ,how about \u0027slices\u0027",
+      "revId": "b51ea9665a628f1ee1cc922412545521c41ff793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABjX////8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParameterizedString.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-11-29T02:26:17Z",
+      "side": 1,
+      "message": "I think line line 176 will not have chance to run.",
+      "revId": "b51ea9665a628f1ee1cc922412545521c41ff793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

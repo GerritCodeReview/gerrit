@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABiX////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-11-29T12:55:38Z",
+      "side": 1,
+      "message": "My concern is about having it logged in case one administrator faces an unexpected series of tests errors. This could simplify the tracking of the root cause of a problem like that. What do you think about it? Could we maintain the log here?",
+      "parentUuid": "AAABhn///9o\u003d",
+      "revId": "7a80d1c78d2eb3b005a41396866abff66ae3d212",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhn///9s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 6

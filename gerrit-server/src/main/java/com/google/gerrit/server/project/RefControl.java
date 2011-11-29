@@ -154,7 +154,14 @@ public class RefControl {
       // rules. Allowing this to be done by a non-project-owner opens
       // a security hole enabling editing of access rules, and thus
       // granting of powers beyond pushing to the configuration.
-      return false;
+
+      // On the wild project the owner access right cannot be assigned,
+      // this why for the wild project we allow administrators to push
+      // configuration changes if they have push without being project owner.
+      if (!(projectControl.getProjectState().isWild() &&
+          getCurrentUser().getCapabilities().canAdministrateServer())) {
+        return false;
+      }
     }
     return canPerform(Permission.PUSH)
         && canWrite();

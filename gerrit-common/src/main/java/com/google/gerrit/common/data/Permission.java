@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -71,6 +72,20 @@ public class Permission implements Comparable<Permission> {
   /** @return permission name for the given review label. */
   public static String forLabel(String labelName) {
     return LABEL + labelName;
+  }
+
+  public static boolean canBeOnWildProject(String ref, String permissionName) {
+    if (AccessSection.ALL.equals(ref)) {
+      return !OWNER.equals(permissionName);
+    }
+    if (AccessSection.REF_CONFIG.equals(ref)) {
+      return !PUSH.equals(permissionName);
+    }
+    return true;
+  }
+
+  public static List<String> getPermissionNames() {
+    return Collections.unmodifiableList(NAMES_LC);
   }
 
   protected String name;

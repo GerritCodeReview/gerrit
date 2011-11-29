@@ -223,22 +223,16 @@ public class AccessSectionEditor extends Composite implements
 
     if (AccessSection.GLOBAL_CAPABILITIES.equals(value.getName())) {
       for (String varName : Util.C.capabilityNames().keySet()) {
-        if (value.getPermission(varName) == null) {
-          perms.add(varName);
-        }
+        addPermission(varName, perms);
       }
     } else if (RefConfigSection.isValid(value.getName())) {
       for (ApprovalType t : Gerrit.getConfig().getApprovalTypes()
           .getApprovalTypes()) {
         String varName = Permission.LABEL + t.getCategory().getLabelName();
-        if (value.getPermission(varName) == null) {
-          perms.add(varName);
-        }
+        addPermission(varName, perms);
       }
       for (String varName : Util.C.permissionNames().keySet()) {
-        if (value.getPermission(varName) == null) {
-          perms.add(varName);
-        }
+        addPermission(varName, perms);
       }
     }
     if (perms.isEmpty()) {
@@ -249,6 +243,19 @@ public class AccessSectionEditor extends Composite implements
       permissionSelector.setValue(Util.C.addPermission());
       permissionSelector.setAcceptableValues(perms);
     }
+  }
+
+  private void addPermission(final String permissionName,
+      final List<String> permissionList) {
+    if (value.getPermission(permissionName) != null) {
+      return;
+    }
+    if (Gerrit.getConfig().getWildProject()
+        .equals(projectAccess.getProjectName())
+        && !Permission.canBeOnWildProject(value.getName(), permissionName)) {
+      return;
+    }
+    permissionList.add(permissionName);
   }
 
   @Override

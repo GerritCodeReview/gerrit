@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhn///9g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-29T13:03:07Z",
+      "side": 1,
+      "message": "Ok, I don\u0027t have a strong opinion about this. If everybody else is fine with it we can leave it as it is.",
+      "parentUuid": "AAABiX////U\u003d",
+      "revId": "7a80d1c78d2eb3b005a41396866abff66ae3d212",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABhn///9s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 6

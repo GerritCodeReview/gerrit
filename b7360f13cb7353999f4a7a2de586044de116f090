@@ -216,6 +216,24 @@
     },
     {
       "key": {
+        "uuid": "AAABjX////o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-11-29T08:26:25Z",
+      "side": 1,
+      "message": "you are right  that \"OnEditEnabler class is only good for detecting a  \n change\" and now I got your idea  which is really cool!\n\n with \"OnEditEnabler \" I think now  the topic is not which event we \n should catch . it  turns to what the common validation function will  \n looks like in the coming new class which you name it TextBoxBaseListener) .\n\n so  I will check below case for similar code and get the concrete \n content of \"common validation function\" then let OnEditEnabler extends it.\n  -- those 3 cases where the OnEditEnabler has been applied to\n  -- create branch case \n  -- current situation.  \n \n  do you think I am on the right way? welcome more commends.",
+      "parentUuid": "AAABfX///70\u003d",
+      "revId": "b7360f13cb7353999f4a7a2de586044de116f090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABPX////0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
         "patchSetId": 7

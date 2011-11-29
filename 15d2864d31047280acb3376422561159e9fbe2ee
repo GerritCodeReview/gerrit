@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABfX///8A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-29T07:07:25Z",
+      "side": 1,
+      "message": "Any clue what would cause either of these conditions?  If so, it would be great to capture that domain knowledge now and fill this in with an error message.",
+      "revId": "15d2864d31047280acb3376422561159e9fbe2ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

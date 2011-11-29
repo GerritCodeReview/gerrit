@@ -198,6 +198,24 @@
     },
     {
       "key": {
+        "uuid": "AAABfX///70\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-11-29T07:42:35Z",
+      "side": 1,
+      "message": "If I remeber correctly, the OnEditEnabler class is only good for detecting a change, but it is not useful for validation.  I took the ideas from there and expanded upon them to be able to do validation and created TextBoxBaseListener.  So much of the code is similar, but the latter has the easy method for overriding during validation (and I think that it has been improved to capture more cases).  I figured that once the latter class is merged, it would likely be possible to base the OnEditEnabler class on it so that modifications/fixes to the one would then apply to the other.",
+      "parentUuid": "AAABjX////w\u003d",
+      "revId": "b7360f13cb7353999f4a7a2de586044de116f090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABPX////0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
         "patchSetId": 7

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABkn////0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AccountGroupNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-11-30T05:51:06Z",
+      "side": 1,
+      "message": "NO_GROUP_MEMBERS \u003d \"\u003cno-group-members/\u003e\" will be better.",
+      "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABkn////w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AccountGroupNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-11-30T05:51:06Z",
+      "side": 1,
+      "message": "I prefer to \"\u003cunresolved-group/\u003e\"",
+      "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABkn////4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-11-30T05:51:06Z",
+      "side": 1,
+      "message": "the name will be be better , like \u0027RECURSIVE_NODE_SEPARATOR\u0027",
+      "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABkn////s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-11-30T05:51:06Z",
+      "side": 1,
+      "message": "just my option:\ngetDetails() let me confused with getChildren() and getDisplayName();\ngetPrintTag() will be better ,if this method will only used for print. it should be moved to TreeFormatter.java.",
+      "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

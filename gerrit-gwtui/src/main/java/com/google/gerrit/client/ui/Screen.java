@@ -18,12 +18,24 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.PageLinks;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.user.client.View;
 
+/**
+  *  A Screen layout with a header and a body.
+  *
+  * The header is mainly a text title, but it can be decorated
+  * in the West, the East, and the FarEast by any Widget.  The
+  * West and East decorations will 'surround" the text on the
+  * left and right respectively, and the FarEast will be right
+  * justified to the right edge of the screen.  The East
+  * decoration will expand to take up any extra space.
+  */
 public abstract class Screen extends View {
-  private FlowPanel header;
+  private Grid header;
   private InlineLabel headerText;
   private FlowPanel body;
   private String token;
@@ -46,13 +58,31 @@ public abstract class Screen extends View {
   public void registerKeys() {
   }
 
+  private static enum Cols {
+    West(0), Title(1), East(2), FarEast(3);
+
+    public final int num;
+
+    Cols(int col) {
+      num = col;
+    }
+  }
+
   protected void onInitUI() {
     final FlowPanel me = (FlowPanel) getWidget();
-    me.add(header = new FlowPanel());
+    me.add(header = new Grid(1, Cols.values().length));
     me.add(body = new FlowPanel());
 
+    FlowPanel title = new FlowPanel();
+    title.add(headerText = new InlineLabel());
+    title.setStyleName(Gerrit.RESOURCES.css().screenHeader());
+    header.setWidget(0, Cols.Title.num, title);
+
     header.setStyleName(Gerrit.RESOURCES.css().screenHeader());
-    header.add(headerText = new InlineLabel());
+    header.getCellFormatter().setHorizontalAlignment(0, Cols.FarEast.num,
+      HasHorizontalAlignment.ALIGN_RIGHT);
+    // force FarEast all the way to the right
+    header.getCellFormatter().setWidth(0, Cols.FarEast.num, "99%");
   }
 
   protected void setWindowTitle(final String text) {
@@ -73,8 +103,16 @@ public abstract class Screen extends View {
     }
   }
 
-  protected void insertTitleWidget(final Widget w) {
-    header.insert(w, 0);
+  protected void setTitleEast(final Widget w) {
+    header.setWidget(0, Cols.East.num, w);
+  }
+
+  protected void setTitleFarEast(final Widget w) {
+    header.setWidget(0, Cols.FarEast.num, w);
+  }
+
+  protected void setTitleWest(final Widget w) {
+    header.setWidget(0, Cols.West.num, w);
   }
 
   protected void add(final Widget w) {

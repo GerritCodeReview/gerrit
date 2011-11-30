@@ -79,9 +79,6 @@ public class PatchScriptSettingsPanel extends Composite implements
   CheckBox showTabs;
 
   @UiField
-  CheckBox reviewed;
-
-  @UiField
   CheckBox skipDeleted;
 
   @UiField
@@ -119,7 +116,6 @@ public class PatchScriptSettingsPanel extends Composite implements
     initIgnoreWhitespace(ignoreWhitespace);
     initContext(context);
     if (!Gerrit.isSignedIn()) {
-      reviewed.setVisible(false);
       save.setVisible(false);
     }
 
@@ -186,10 +182,6 @@ public class PatchScriptSettingsPanel extends Composite implements
     final String title =
         enableSmallFileFeatures ? null : PatchUtil.C.disabledOnLargeFiles();
     syntaxHighlighting.setTitle(title);
-  }
-
-  public CheckBox getReviewedCheckBox() {
-    return reviewed;
   }
 
   public AccountDiffPreference getValue() {

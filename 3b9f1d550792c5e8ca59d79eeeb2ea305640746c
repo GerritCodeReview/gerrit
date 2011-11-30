@@ -67,6 +67,24 @@
       "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABk3////8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-11-30T07:01:28Z",
+      "side": 1,
+      "message": "Not sure, if I understand why and how this method should be moved to TreeFormatter. \n\nThis method returns details for the node that should be printed for the node in addition to the display name. So every node can return different details here. I agree the name is not really good. Maybe the method should be better named \u0027getDescription\u0027?",
+      "parentUuid": "AAABkn////s\u003d",
+      "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

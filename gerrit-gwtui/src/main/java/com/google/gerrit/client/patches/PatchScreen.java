@@ -39,7 +39,9 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
@@ -105,6 +107,7 @@ public abstract class PatchScreen extends Screen implements
   protected PatchScriptSettingsPanel settingsPanel;
   protected TopView topView;
 
+  private CheckBox reviewed;
   private HistoryTable historyTable;
   private FlowPanel topPanel;
   private FlowPanel contentPanel;
@@ -151,6 +154,15 @@ public abstract class PatchScreen extends Screen implements
     idSideB = diffSideB != null ? diffSideB : id.getParentKey();
     this.patchIndex = patchIndex;
 
+    reviewed = new CheckBox(Util.C.reviewed());
+    reviewed.addValueChangeHandler(
+        new ValueChangeHandler<Boolean>() {
+          @Override
+          public void onValueChange(ValueChangeEvent<Boolean> event) {
+            setReviewedByCurrentUser(event.getValue());
+          }
+        });
+
     prefs = fileList != null ? fileList.getPreferences() :
                                new ListenableAccountDiffPreference();
     if (Gerrit.isSignedIn()) {
@@ -165,13 +177,6 @@ public abstract class PatchScreen extends Screen implements
         });
 
     settingsPanel = new PatchScriptSettingsPanel(prefs);
-    settingsPanel.getReviewedCheckBox().addValueChangeHandler(
-        new ValueChangeHandler<Boolean>() {
-          @Override
-          public void onValueChange(ValueChangeEvent<Boolean> event) {
-            setReviewedByCurrentUser(event.getValue());
-          }
-        });
   }
 
   @Override
@@ -233,6 +238,10 @@ public abstract class PatchScreen extends Screen implements
   @Override
   protected void onInitUI() {
     super.onInitUI();
+
+    if (Gerrit.isSignedIn()) {
+      setTitleFarEast(reviewed);
+    }
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysNavigation.add(new UpToChangeCommand(patchKey.getParentKey(), 0, 'u'));
@@ -444,7 +453,7 @@ public abstract class PatchScreen extends Screen implements
 
     // Mark this file reviewed as soon we display the diff screen
     if (Gerrit.isSignedIn() && isFirst) {
-      settingsPanel.getReviewedCheckBox().setValue(true);
+      reviewed.setValue(true);
       setReviewedByCurrentUser(true /* reviewed */);
     }
 

@@ -164,15 +164,6 @@ limitations under the License.
         <ui:attribute name='text'/>
       </g:Button>
     </td>
-
-    <td>
-      <g:CheckBox
-          ui:field='reviewed'
-          text='Reviewed'
-          tabIndex='15'>
-        <ui:attribute name='text'/>
-      </g:CheckBox>
-    </td>
   </tr>
 
   <tr valign='top'>

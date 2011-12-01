@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABlH////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOpFactory.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-01T13:56:21Z",
+      "side": 1,
+      "message": "style-nit: static members should be declared before other members, so log should be declared before mergeArguments",
+      "revId": "9d480b3805806c3bd2d735f5d411471c92d4b448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

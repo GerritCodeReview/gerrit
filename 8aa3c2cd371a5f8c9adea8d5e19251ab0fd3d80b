@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhH///8I\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-01T20:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABLH////8\u003d",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABTn///+A\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2011-11-03T10:00:01Z",
       "side": 1,
       "message": "URL must be adapted to new Gerrit server",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABl3////w\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-01T20:34:18Z",
+      "side": 1,
+      "message": "Darn, I forgot to eliminate the tools...  I will resubmit.",
+      "parentUuid": "AAABTn///+A\u003d",
       "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -89,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhH///8E\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-01T20:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABZn////w\u003d",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABE3//+zQ\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 2
@@ -100,6 +154,24 @@
       "writtenOn": "2011-08-31T16:29:46Z",
       "side": 1,
       "message": "by one or more explanatory paragraphs",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///8A\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-01T20:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3//+zQ\u003d",
       "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -123,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhH///78\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-01T20:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABLH////w\u003d",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABLH////s\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 2
@@ -134,6 +224,24 @@
       "writtenOn": "2011-11-03T21:08:39Z",
       "side": 1,
       "message": "Include",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///74\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-01T20:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABLH////s\u003d",
       "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -157,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhH///70\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-01T20:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABLH////o\u003d",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABcH////U\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 2
@@ -168,6 +294,24 @@
       "writtenOn": "2011-11-11T06:08:28Z",
       "side": 1,
       "message": "s!class/methods!blocks!",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///7w\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-01T20:34:18Z",
+      "side": 1,
+      "message": "Ignored since this is not always true for ifs or fors where the extra space may be welcome (especially for some elses).",
+      "parentUuid": "AAABcH////U\u003d",
       "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -191,6 +335,24 @@
     },
     {
       "key": {
+        "uuid": "AAABhH///7o\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-01T20:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABE3//+y0\u003d",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABLH////k\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 2
@@ -202,6 +364,24 @@
       "writtenOn": "2011-11-03T21:08:39Z",
       "side": 1,
       "message": "finally doesn\u0027t have ().",
+      "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABhH///7s\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-01T20:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABLH////k\u003d",
       "revId": "8aa3c2cd371a5f8c9adea8d5e19251ab0fd3d80b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

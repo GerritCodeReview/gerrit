@@ -109,6 +109,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
 
     public void start(final Environment env) throws IOException {
       this.env = env;
+      final Context ctx = this.ctx;
       startExecutor.execute(new Runnable() {
         public void run() {
           try {

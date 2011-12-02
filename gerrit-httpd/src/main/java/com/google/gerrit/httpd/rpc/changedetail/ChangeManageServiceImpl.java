@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc.changedetail;
 
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeManageService;
+import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -28,6 +29,7 @@ class ChangeManageServiceImpl implements ChangeManageService {
   private final RevertChange.Factory revertChangeFactory;
   private final PublishAction.Factory publishAction;
   private final DeleteDraftChange.Factory deleteDraftChangeFactory;
+  private final AssignChange.Factory assignChangeFactory;
 
   @Inject
   ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction,
@@ -35,13 +37,15 @@ class ChangeManageServiceImpl implements ChangeManageService {
       final RestoreChange.Factory restoreChangeFactory,
       final RevertChange.Factory revertChangeFactory,
       final PublishAction.Factory publishAction,
-      final DeleteDraftChange.Factory deleteDraftChangeFactory) {
+      final DeleteDraftChange.Factory deleteDraftChangeFactory,
+      final AssignChange.Factory assignChangeFactory) {
     this.submitAction = patchSetAction;
     this.abandonChangeFactory = abandonChangeFactory;
     this.restoreChangeFactory = restoreChangeFactory;
     this.revertChangeFactory = revertChangeFactory;
     this.publishAction = publishAction;
     this.deleteDraftChangeFactory = deleteDraftChangeFactory;
+    this.assignChangeFactory = assignChangeFactory;
   }
 
   public void submit(final PatchSet.Id patchSetId,
@@ -72,5 +76,10 @@ class ChangeManageServiceImpl implements ChangeManageService {
   public void deleteDraftChange(final PatchSet.Id patchSetId,
       final AsyncCallback<VoidResult> callback) {
     deleteDraftChangeFactory.create(patchSetId).to(callback);
+  }
+
+  public void assignChange(final PatchSet.Id patchSetId, final Account.Id toId,
+      final String message, final AsyncCallback<ChangeDetail> callback) {
+    assignChangeFactory.create(patchSetId, toId, message).to(callback);
   }
 }

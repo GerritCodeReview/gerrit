@@ -17,11 +17,19 @@ package com.google.gerrit.httpd.rpc.project;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+
+import java.io.IOException;
 
 class ProjectDetailFactory extends Handler<ProjectDetail> {
   interface Factory {
@@ -29,15 +37,16 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
   }
 
   private final ProjectControl.Factory projectControlFactory;
+  private final GitRepositoryManager gitRepositoryManager;
 
   private final Project.NameKey projectName;
 
   @Inject
   ProjectDetailFactory(final ProjectControl.Factory projectControlFactory,
-
+      final GitRepositoryManager gitRepositoryManager,
       @Assisted final Project.NameKey name) {
     this.projectControlFactory = projectControlFactory;
-
+    this.gitRepositoryManager = gitRepositoryManager;
     this.projectName = name;
   }
 
@@ -58,6 +67,26 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     detail.setCanModifyDescription(userIsOwner);
     detail.setCanModifyMergeType(userIsOwner);
     detail.setCanModifyState(userIsOwner);
+
+    final Project.NameKey projectName = projectState.getProject().getNameKey();
+    Repository git;
+    try {
+      git = gitRepositoryManager.openRepository(projectName);
+    } catch (RepositoryNotFoundException err) {
+      throw new NoSuchProjectException(projectName);
+    }
+    try {
+      Ref head = git.getRef(Constants.HEAD);
+      if (head != null && head.isSymbolic()
+          && GitRepositoryManager.REF_CONFIG.equals(head.getLeaf().getName())) {
+        detail.setPermissionOnly(true);
+      }
+    } catch (IOException err) {
+      throw new NoSuchProjectException(projectName);
+    } finally {
+      git.close();
+    }
+
     return detail;
   }
 }

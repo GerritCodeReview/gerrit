@@ -99,7 +99,7 @@ public interface ChangeConstants extends Constants {
   String changeInfoBlockCanMerge();
   String changeInfoBlockCanMergeYes();
   String changeInfoBlockCanMergeNo();
-
+  String changeInfoBlockAssignedTo();
   String includedInTableBranch();
   String includedInTableTag();
 
@@ -116,6 +116,11 @@ public interface ChangeConstants extends Constants {
   String initialCommit();
 
   String buttonRebaseChange();
+
+  String buttonAssignChangeBegin();
+  String buttonAssignChangeSend();
+  String headingAssignChangeMessage();
+  String assignChangeTitle();
 
   String buttonRevertChangeBegin();
   String buttonRevertChangeSend();

@@ -583,6 +583,47 @@ public class ChangeUtil {
     db.patchSets().delete(Collections.singleton(patch));
   }
 
+  public static void assign(final Change.Id changeId, final IdentifiedUser user,
+      final Account.Id toId, final String message, final ReviewDb db)
+      throws NoSuchChangeException, InvalidChangeOperationException,
+      OrmException {
+    final ChangeMessage cmsg =
+        new ChangeMessage(new ChangeMessage.Key(changeId, ChangeUtil
+            .messageUUID(db)), user.getAccountId());
+
+    final StringBuilder msgBuf = new StringBuilder();
+    if (toId != null) {
+      msgBuf.append("Assigned Change to " + ChangeMessage.formatUser(toId));
+    } else {
+      msgBuf.append("Unassigned Change");
+    }
+
+    if (message != null && message.length() > 0) {
+      msgBuf.append("\n\n");
+      msgBuf.append(message);
+    }
+    cmsg.setMessage(msgBuf.toString());
+
+    final Change updatedChange = db.changes().atomicUpdate(changeId,
+        new AtomicUpdate<Change>() {
+      @Override
+      public Change update(Change change) {
+        if (change.getStatus().isOpen()) {
+          change.setAssigned(toId);
+          ChangeUtil.updated(change);
+          return change;
+        } else {
+          return null;
+        }
+      }
+    });
+
+    if (updatedChange == null) {
+      throw new InvalidChangeOperationException("Change is no longer open");
+    }
+    db.changeMessages().insert(Collections.singleton(cmsg));
+  }
+
   public static <T extends ReplyToChangeSender> void updatedChange(
       final ReviewDb db, final IdentifiedUser user, final Change change,
       final ChangeMessage cmsg, ReplyToChangeSender.Factory<T> senderFactory,

@@ -386,6 +386,9 @@ public final class Change {
   @Column(id = 16)
   protected boolean mergeable;
 
+  @Column(id = 17, notNull = false, name = "assigned_account_id")
+  protected Account.Id assigned;
+
   protected Change() {
   }
 
@@ -526,5 +529,13 @@ public final class Change {
 
   public void setMergeable(boolean mergeable) {
     this.mergeable = mergeable;
+  }
+
+  public Account.Id getAssigned() {
+    return assigned;
+  }
+
+  public void setAssigned(Account.Id assigned) {
+    this.assigned = assigned;
   }
 }

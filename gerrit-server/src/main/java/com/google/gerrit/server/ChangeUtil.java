@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
 
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -529,6 +530,47 @@ public class ChangeUtil {
     db.patchSetAncestors().delete(db.patchSetAncestors().byPatchSet(patchSetId));
 
     db.patchSets().delete(Collections.singleton(patch));
+  }
+
+  public static void assign(final Change.Id changeId, final IdentifiedUser user,
+      final Account.Id toId, final String message, final ReviewDb db)
+      throws NoSuchChangeException, InvalidChangeOperationException,
+      OrmException {
+    final ChangeMessage cmsg =
+        new ChangeMessage(new ChangeMessage.Key(changeId, ChangeUtil
+            .messageUUID(db)), user.getAccountId());
+
+    final StringBuilder msgBuf = new StringBuilder();
+    if (toId != null) {
+      msgBuf.append("Assigned Change to " + ChangeMessage.formatUser(toId));
+    } else {
+      msgBuf.append("Unassigned Change");
+    }
+
+    if (message != null && message.length() > 0) {
+      msgBuf.append("\n\n");
+      msgBuf.append(message);
+    }
+    cmsg.setMessage(msgBuf.toString());
+
+    final Change updatedChange = db.changes().atomicUpdate(changeId,
+        new AtomicUpdate<Change>() {
+      @Override
+      public Change update(Change change) {
+        if (change.getStatus().isOpen()) {
+          change.setAssigned(toId);
+          ChangeUtil.updated(change);
+          return change;
+        } else {
+          return null;
+        }
+      }
+    });
+
+    if (updatedChange == null) {
+      throw new InvalidChangeOperationException("Change is no longer open");
+    }
+    db.changeMessages().insert(Collections.singleton(cmsg));
   }
 
   private static <T extends ReplyToChangeSender> void updatedChange(

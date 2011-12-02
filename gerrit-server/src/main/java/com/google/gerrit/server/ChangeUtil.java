@@ -583,13 +583,14 @@ public class ChangeUtil {
     db.patchSets().delete(Collections.singleton(patch));
   }
 
-  public static void assign(final Change.Id changeId, final IdentifiedUser user,
+  public static void assign(final PatchSet.Id patchSetId, final IdentifiedUser user,
       final Account.Id toId, final String message, final ReviewDb db)
       throws NoSuchChangeException, InvalidChangeOperationException,
       OrmException {
+    final Change.Id changeId = patchSetId.getParentKey();
     final ChangeMessage cmsg =
         new ChangeMessage(new ChangeMessage.Key(changeId, ChangeUtil
-            .messageUUID(db)), user.getAccountId());
+            .messageUUID(db)), user.getAccountId(), patchSetId);
 
     final StringBuilder msgBuf = new StringBuilder();
     if (toId != null) {

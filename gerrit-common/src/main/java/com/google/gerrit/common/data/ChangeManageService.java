@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.auth.SignInRequired;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
@@ -47,4 +48,8 @@ public interface ChangeManageService extends RemoteJsonService {
 
   @SignInRequired
   void rebaseChange(PatchSet.Id patchSetId, AsyncCallback<ChangeDetail> callback);
+
+  @SignInRequired
+  void assignChange(PatchSet.Id patchSetId, final Account.Id toId,
+      String message, AsyncCallback<ChangeDetail> callback);
 }

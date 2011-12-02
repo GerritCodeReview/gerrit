@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABnX////w\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-12-02T13:25:54Z",
+      "side": 1,
+      "message": "I believe I first saw those numbers in \"gerrit-publish\" (https://github.com/jaysoffian/gerrit-publish), but they make sense to me:\n- first line \u003c\u003d 65 characters,\n- each subsquent line wrapped to 70 characters.",
+      "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABnX////4\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1005804
+      },
+      "writtenOn": "2011-12-02T13:25:54Z",
+      "side": 1,
+      "message": "Maybe we could add sample good-looking commit message (i.e. https://github.com/torvalds/subsurface/blob/master/README#L161)?",
+      "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABnH////8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PermissionRule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-02T06:08:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABfX///8o\u003d",
+      "revId": "d04c9f7d8ee7371eb0866b7e9692c4ed5dea8323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfX///8g\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PermissionRuleEditor.java",
         "patchSetId": 2
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "I agree with you idea \"a change to the Git client ....... Or just some description text printed out through the ReceivePack message stream that tells the user why their push is failing.\"\n\n\n  first:  \u0027a change to the Git......\u0027\n  yes  \"The Git native protocol has a specific way to tell the client the \n  server does not want to accept a non-fast-forward push\". \n  but I am not sure Git can let user know which \n  reason of below is there:\n  -----------------------------------------------------------------------------------------------------------\n 1\u003e \t\t\n                 \t\tif (ref !\u003d null \u0026\u0026 !isAllowNonFastForwards()) {\n\t\t\t\t\t// Creation over an existing ref is certainly not going\n\t\t\t\t\t// to be a fast-forward update. We can reject it early.\n\t\t\t\t\t//\n\t\t\t\t\tcmd.setResult(Result.REJECTED_NONFASTFORWARD);\n\t\t\t\t\tcontinue;\n\t\t\t\t}\n             [line 942 of ReceivePack]\n              currently I find Gerrit always \u0027setAllowNonFastForwards(true);\u0027\n             [line 199 of ReceiveCommits] . even though  user do not know this.\n\n 2\u003e user have not the \u0027Force Push\u0027  privilege.\n   \n    this is the case related with this feature. to let the user and Admin know what they\n    should  to do to fix the issue quickly.\n\n 3\u003e \t\t       case REJECTED:\n\t\t\tcmd.setResult(Result.REJECTED_NONFASTFORWARD);\n\t\t\tbreak;\n                     [line 1098 of ReceivePack].\n                     I am not sure  if this is also a  case  of .\n\n   ---------------------------------------------------------------------------------------------\n\n second :\u0027 just some description text printed out through the ReceivePack message\n stream that tells the user why their push is failing.\"\u0027\n\n  in fact . at first I want  here just to be like :\n        cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD,\n          \"\u003cdescription text\u003e\");\n   but I find on line 1161 of  ReceivePack which is a  jgit class out of control of \n  Gerrit\n     \t\t\tcase REJECTED_NONFASTFORWARD:\n\t\t\t\tr.append(\"non-fast forward\");\n\t\t\t\tbreak;\n\n           it never check commond  message. so I think Git will never know which reason is going on.\n\n   \n so  quickly fix way I think is like\n    -- jgit update:  ReceivePack \n           +r.append(cmd.getMessage)\n\n    -- Gerri updatet:       cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD,\n          \"\u003cdescription text\u003e\");\n\n\ndoes this sounds sense?",
       "parentUuid": "AAABfX///8c\u003d",
+      "revId": "d04c9f7d8ee7371eb0866b7e9692c4ed5dea8323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABnH////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-02T06:08:43Z",
+      "side": 1,
+      "message": "Hi Shawn\n  I will create a patch set to do what we can do in Gerrit scope according \n  to your idea \"just some description text printed out through the ReceivePack \n  message stream that tells the user why their push is failing.\u0027 .\n\nnow out put is still as same as before :\n\n\" ! [remote rejected] HEAD -\u003e master (non-fast forward) \"\n\nonce jgit class ReceivePack was updated \n line 1163+  r.append(cmd.getMessage) \n\n this feature will have effect and the out put will become\n\n\" ! [remote rejected] HEAD -\u003e master (non-fast forward need \u0027Force Push\u0027 privilege\u0027) \"\n\n  make user and Admin handle it easily. :)",
+      "parentUuid": "AAABi3////0\u003d",
       "revId": "d04c9f7d8ee7371eb0866b7e9692c4ed5dea8323",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

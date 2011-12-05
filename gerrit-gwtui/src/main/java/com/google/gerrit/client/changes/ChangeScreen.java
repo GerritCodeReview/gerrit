@@ -389,7 +389,7 @@ public class ChangeScreen extends Screen {
       }
 
       final CommentPanel cp =
-          new CommentPanel(author, msg.getWrittenOn(), msg.getMessage());
+          new CommentPanel(author, msg.getWrittenOn(), msg.getMessage(), accts);
       cp.setRecent(isRecent);
       cp.addStyleName(Gerrit.RESOURCES.css().commentPanelBorder());
       if (i == msgList.size() - 1) {

@@ -40,6 +40,8 @@ import com.google.inject.name.Named;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.http.server.GitServlet;
+import org.eclipse.jgit.http.server.GitSmartHttpTools;
+import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -51,8 +53,6 @@ import org.eclipse.jgit.transport.resolver.RepositoryResolver;
 import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -76,8 +76,6 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class ProjectServlet extends GitServlet {
   private static final long serialVersionUID = 1L;
-  private static final Logger log =
-      LoggerFactory.getLogger(ProjectServlet.class);
 
   private static final String ATT_CONTROL = ProjectControl.class.getName();
   private static final String ATT_RC = ReceiveCommits.class.getName();
@@ -87,8 +85,9 @@ public class ProjectServlet extends GitServlet {
     @Override
     protected void configure() {
       bind(Resolver.class);
-      bind(Upload.class);
-      bind(Receive.class);
+      bind(UploadFactory.class);
+      bind(UploadFilter.class);
+      bind(ReceiveFactory.class);
       bind(ReceiveFilter.class);
       install(new CacheModule() {
         @Override
@@ -103,28 +102,21 @@ public class ProjectServlet extends GitServlet {
     }
   }
 
-  static ProjectControl getProjectControl(ServletRequest req)
-      throws ServiceNotEnabledException {
-    ProjectControl pc = (ProjectControl) req.getAttribute(ATT_CONTROL);
-    if (pc == null) {
-      log.error("No " + ATT_CONTROL + " in request", new Exception("here"));
-      throw new ServiceNotEnabledException();
-    }
-    return pc;
-  }
-
   private final Provider<String> urlProvider;
 
   @Inject
-  ProjectServlet(final Resolver resolver, final Upload upload,
-      final Receive receive,
-      final ReceiveFilter receiveFilter,
+  ProjectServlet(final Resolver resolver,
+      final UploadFactory upload, final UploadFilter uploadFilter,
+      final ReceiveFactory receive, final ReceiveFilter receiveFilter,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider) {
     this.urlProvider = urlProvider;
 
     setRepositoryResolver(resolver);
     setAsIsFileService(AsIsFileService.DISABLED);
+
     setUploadPackFactory(upload);
+    addUploadPackFilter(uploadFilter);
+
     setReceivePackFactory(receive);
     addReceivePackFilter(receiveFilter);
   }
@@ -133,20 +125,13 @@ public class ProjectServlet extends GitServlet {
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
 
-    serveRegex("^/(.*?)/?$").with(new HttpServlet() {
+    serve("*").with(new HttpServlet() {
       private static final long serialVersionUID = 1L;
 
       @Override
       protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
           throws IOException {
-        ProjectControl pc;
-        try {
-          pc = getProjectControl(req);
-        } catch (ServiceNotEnabledException e) {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-          return;
-        }
-
+        ProjectControl pc = (ProjectControl) req.getAttribute(ATT_CONTROL);
         Project.NameKey dst = pc.getProject().getNameKey();
         StringBuilder r = new StringBuilder();
         r.append(urlProvider.get());
@@ -198,8 +183,7 @@ public class ProjectServlet extends GitServlet {
 
       final ProjectControl pc;
       try {
-        final Project.NameKey nameKey = new Project.NameKey(projectName);
-        pc = projectControlFactory.controlFor(nameKey);
+        pc = projectControlFactory.controlFor(new Project.NameKey(projectName));
       } catch (NoSuchProjectException err) {
         throw new RepositoryNotFoundException(projectName);
       }
@@ -216,75 +200,86 @@ public class ProjectServlet extends GitServlet {
     }
   }
 
-  static class Upload implements UploadPackFactory<HttpServletRequest> {
-    private final Provider<ReviewDb> db;
+  static class UploadFactory implements UploadPackFactory<HttpServletRequest> {
     private final PackConfig packConfig;
-    private final TagCache tagCache;
 
     @Inject
-    Upload(final Provider<ReviewDb> db, final TransferConfig tc,
-        final TagCache tagCache) {
-      this.db = db;
+    UploadFactory(final TransferConfig tc) {
       this.packConfig = tc.getPackConfig();
-      this.tagCache = tagCache;
     }
 
     @Override
-    public UploadPack create(HttpServletRequest req, Repository repo)
-        throws ServiceNotEnabledException, ServiceNotAuthorizedException {
-      ProjectControl pc = getProjectControl(req);
-      if (!pc.canRunUploadPack()) {
-        throw new ServiceNotAuthorizedException();
-      }
-
-      // The Resolver above already checked READ access for us.
-      //
+    public UploadPack create(HttpServletRequest req, Repository repo) {
       UploadPack up = new UploadPack(repo);
       up.setPackConfig(packConfig);
-      if (!pc.allRefsAreVisible()) {
-        up.setRefFilter(new VisibleRefFilter(tagCache, repo, pc, db.get(), true));
-      }
       return up;
     }
   }
 
-  static class Receive implements ReceivePackFactory<HttpServletRequest> {
+  static class UploadFilter implements Filter {
+    private final Provider<ReviewDb> db;
+    private final TagCache tagCache;
+
+    @Inject
+    UploadFilter(Provider<ReviewDb> db, TagCache tagCache) {
+      this.db = db;
+      this.tagCache = tagCache;
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+        FilterChain next) throws IOException, ServletException {
+      // The Resolver above already checked READ access for us.
+      Repository repo = ServletUtils.getRepository(request);
+      ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
+      UploadPack up = (UploadPack) request.getAttribute(ServletUtils.ATTRIBUTE_HANDLER);
+
+      if (!pc.canRunUploadPack()) {
+        GitSmartHttpTools.sendError((HttpServletRequest) request,
+            (HttpServletResponse) response, HttpServletResponse.SC_FORBIDDEN,
+            "upload-pack not permitted on this server");
+        return;
+      }
+
+      if (!pc.allRefsAreVisible()) {
+        up.setRefFilter(new VisibleRefFilter(tagCache, repo, pc, db.get(), true));
+      }
+
+      next.doFilter(request, response);
+    }
+
+    @Override
+    public void init(FilterConfig config) {
+    }
+
+    @Override
+    public void destroy() {
+    }
+  }
+
+  static class ReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
     private final ReceiveCommits.Factory factory;
 
     @Inject
-    Receive(final ReceiveCommits.Factory factory) {
+    ReceiveFactory(final ReceiveCommits.Factory factory) {
       this.factory = factory;
     }
 
     @Override
     public ReceivePack create(HttpServletRequest req, Repository db)
-        throws ServiceNotEnabledException, ServiceNotAuthorizedException {
-      final ProjectControl pc = getProjectControl(req);
-      if (!pc.canRunReceivePack()) {
+        throws ServiceNotAuthorizedException {
+      final ProjectControl pc = (ProjectControl) req.getAttribute(ATT_CONTROL);
+
+      if (!(pc.getCurrentUser() instanceof IdentifiedUser)) {
+        // Anonymous users are not permitted to push.
         throw new ServiceNotAuthorizedException();
       }
 
-      if (pc.getCurrentUser() instanceof IdentifiedUser) {
-        final IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
-        final ReceiveCommits rc = factory.create(pc, db);
-        final Capable s = rc.canUpload();
-        if (s != Capable.OK) {
-          // TODO We should alert the user to this message on the HTTP
-          // response channel, assuming Git will even report it to them.
-          //
-          final String who = user.getUserName();
-          final String why = s.getMessage();
-          log.warn("Rejected push from " + who + ": " + why);
-          throw new ServiceNotEnabledException();
-        }
-
-        rc.getReceivePack().setRefLogIdent(user.newRefLogIdent());
-        req.setAttribute(ATT_RC, rc);
-        return rc.getReceivePack();
-
-      } else {
-        throw new ServiceNotAuthorizedException();
-      }
+      final IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
+      final ReceiveCommits rc = factory.create(pc, db);
+      rc.getReceivePack().setRefLogIdent(user.newRefLogIdent());
+      req.setAttribute(ATT_RC, rc);
+      return rc.getReceivePack();
     }
   }
 
@@ -305,15 +300,24 @@ public class ProjectServlet extends GitServlet {
 
       ReceiveCommits rc = (ReceiveCommits) request.getAttribute(ATT_RC);
       ReceivePack rp = rc.getReceivePack();
-      ProjectControl pc;
-      try {
-        pc = getProjectControl(request);
-      } catch (ServiceNotEnabledException e) {
-        // This shouldn't occur, the parent should have stopped processing.
-        throw new ServletException(e);
+      ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
+      IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
+      Project.NameKey projectName = pc.getProject().getNameKey();
+
+      if (!pc.canRunReceivePack()) {
+        GitSmartHttpTools.sendError((HttpServletRequest) request,
+            (HttpServletResponse) response, HttpServletResponse.SC_FORBIDDEN,
+            "receive-pack not permitted on this server");
+        return;
       }
 
-      Project.NameKey projectName = pc.getProject().getNameKey();
+      final Capable s = rc.canUpload();
+      if (s != Capable.OK) {
+        GitSmartHttpTools.sendError((HttpServletRequest) request,
+            (HttpServletResponse) response, HttpServletResponse.SC_FORBIDDEN,
+            s.getMessage());
+        return;
+      }
 
       if (!rp.isCheckReferencedObjectsAreReachable()) {
         if (isGet) {
@@ -352,7 +356,7 @@ public class ProjectServlet extends GitServlet {
     }
 
     @Override
-    public void init(FilterConfig arg0) throws ServletException {
+    public void init(FilterConfig arg0) {
     }
 
     @Override

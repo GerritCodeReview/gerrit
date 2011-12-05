@@ -60,6 +60,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** Creates a {@link ChangeDetail} from a {@link Change}. */
 public class ChangeDetailFactory extends Handler<ChangeDetail> {
@@ -199,7 +201,18 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail.setMessages(msgList);
     for (final ChangeMessage m : detail.getMessages()) {
       aic.want(m.getAuthor());
+      aic.want(getChangeMessageAccountIds(m));
     }
+  }
+
+  private static Set<Account.Id> getChangeMessageAccountIds(ChangeMessage msg) {
+    Set<Account.Id> ids = new HashSet();
+    Pattern p = Pattern.compile(ChangeMessage.formatUserRE(null));
+    Matcher m = p.matcher(msg.getMessage());
+    while (m.find()) {
+      ids.add(new Account.Id(Integer.valueOf(m.group(1))));
+    }
+    return ids;
   }
 
   private void load() throws OrmException, NoSuchChangeException {

@@ -19,6 +19,10 @@ import com.google.gwtorm.client.StringKey;
 
 import java.sql.Timestamp;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 /** A message attached to a {@link Change}. */
 public final class ChangeMessage {
   public static class Key extends StringKey<Change.Id> {
@@ -124,5 +128,37 @@ public final class ChangeMessage {
 
   public void setPatchSetId(PatchSet.Id id) {
     patchset = id;
+  }
+
+  public static Map<Account.Id,String> formatUsersRE(Set<Account.Id> ids) {
+    Map<Account.Id,String> formats =
+        new HashMap<Account.Id,String>(ids.size());
+    for (Account.Id id : ids) {
+      formats.put(id, formatUserRE(id));
+    }
+    return formats;
+  }
+
+  /** Get the RexExp to find a user entry in a ChangeMessage
+    * created by formatUser(). Supplying a null Account.Id
+    * will get the RexExp needed to find any embedded user
+    * entry. Group 1 of the RegExp match will represent the
+    * matched Account.Id.
+    */
+  public static String formatUserRE(Account.Id aid) {
+    String id = aid != null ? aid.toString() : "[0-9]+";
+    return "\\[\\[user: *(" + id + ")\\]\\]";
+  }
+
+  /** Format a user as pseudo wiki link, based on their ID,
+    * suitable for embedding in a ChangeMessage.  This only
+    * embeds the user id since embedding additional user
+    * info could become stale if it later changes.
+    * Naturally, this id should be replaced with appropriate
+    * user data on retrieval before being dispalyed.  The
+    * formatUserRE() method can help with this task.
+    */
+  public static String formatUser(Account.Id id) {
+    return "[[user: " + id + "]]";
   }
 }

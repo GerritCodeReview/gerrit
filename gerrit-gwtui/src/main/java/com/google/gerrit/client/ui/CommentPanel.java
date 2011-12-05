@@ -17,6 +17,9 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.AccountInfo;
+import com.google.gerrit.common.data.AccountInfoCache;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -44,6 +47,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.Date;
+import java.util.Map;
 
 public class CommentPanel extends Composite implements HasDoubleClickHandlers,
     HasFocusHandlers, FocusHandler, HasBlurHandlers, BlurHandler {
@@ -57,9 +61,14 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
   private boolean recent;
 
   public CommentPanel(final AccountInfo author, final Date when, String message) {
+    this(author, when, message, null);
+  }
+
+  public CommentPanel(final AccountInfo author, final Date when, String message,
+      AccountInfoCache accountInfoCache) {
     this();
 
-    setMessageText(message);
+    setMessageText(message, accountInfoCache);
     setAuthorNameText(FormatUtil.name(author));
     setDateText(FormatUtil.shortFormatDayTime(when));
 
@@ -110,16 +119,34 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
   }
 
   protected void setMessageText(String message) {
+    setMessageText(message, null);
+  }
+
+  protected void setMessageText(String message, AccountInfoCache accountInfoCache) {
     if (message == null) {
       message = "";
     } else {
       message = message.trim();
+      if (accountInfoCache != null) {
+        message = formatUsers(message, ChangeMessage.formatUsersRE(
+            accountInfoCache.getAccountIds()), accountInfoCache);
+      }
     }
 
     messageSummary.setText(summarize(message));
     SafeHtml buf = new SafeHtmlBuilder().append(message).wikify();
     buf = CommentLinkProcessor.apply(buf);
     SafeHtml.set(messageText, buf);
+  }
+
+  private static String formatUsers(String message,
+      Map<Account.Id,String> formatsById, AccountInfoCache accountInfoCache) {
+
+    for (Account.Id id : formatsById.keySet()) {
+      message = message.replaceAll(formatsById.get(id),
+          FormatUtil.nameEmail(accountInfoCache.get(id)));
+    }
+    return message;
   }
 
   public void setAuthorNameText(final String nameText) {

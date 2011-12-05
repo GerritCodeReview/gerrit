@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /** In-memory table of {@link AccountInfo}, indexed by {@link Account.Id}. */
 public class AccountInfoCache {
@@ -75,5 +76,9 @@ public class AccountInfoCache {
   public void merge(final AccountInfoCache other) {
     assert this != EMPTY;
     accounts.putAll(other.accounts);
+  }
+
+  public Set<Account.Id> getAccountIds() {
+    return accounts.keySet();
   }
 }

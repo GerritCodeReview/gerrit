@@ -27,6 +27,7 @@ import java.util.List;
 public class CommentLinkProcessor {
   public static SafeHtml apply(SafeHtml buf) {
     try {
+
       return buf.replaceAll(Gerrit.getConfig().getCommentLinks());
 
     } catch (RuntimeException err) {

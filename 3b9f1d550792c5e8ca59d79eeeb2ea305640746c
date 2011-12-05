@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "AAABm3///+8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-05T13:31:14Z",
+      "side": 1,
+      "message": "I know this line is not from this change but I just saw that TreeNode subclasses AccountNode and ProjectNode don\u0027t implement own equals method.\nThis means you are here relying on object identity.. and you have to make sure you don\u0027t have two in memory instances of the same AccountNode and ProjectNode.",
+      "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABkn////s\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeNode.java",
         "patchSetId": 4

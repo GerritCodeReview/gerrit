@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABm3///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-05T17:03:09Z",
+      "side": 1,
+      "message": "Is this method really meant to be public?\nLooks like it should be protected.",
+      "revId": "11a64f459db502a673b4d26b50c226076f4d4584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABm3///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-05T17:03:09Z",
+      "side": 1,
+      "message": "Should this method be final?\nI prefer if abstract classes clearly indicate what subclasses have to implement and what they cannot override.",
+      "revId": "11a64f459db502a673b4d26b50c226076f4d4584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABm3///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-05T17:03:09Z",
+      "side": 1,
+      "message": "Should this method be final?",
+      "revId": "11a64f459db502a673b4d26b50c226076f4d4584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABm3///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-05T17:03:09Z",
+      "side": 1,
+      "message": "Should subclasses be allowed to override this method?",
+      "revId": "11a64f459db502a673b4d26b50c226076f4d4584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABm3///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-05T17:03:09Z",
+      "side": 1,
+      "message": "Should subclasses be allowed to override this method?",
+      "revId": "11a64f459db502a673b4d26b50c226076f4d4584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABm3///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-05T17:03:09Z",
+      "side": 1,
+      "message": "Should subclasses be allowed to override this method?",
+      "revId": "11a64f459db502a673b4d26b50c226076f4d4584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABm3///+c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-05T17:03:09Z",
+      "side": 1,
+      "message": "Should subclasses be allowed to override this method?",
+      "revId": "11a64f459db502a673b4d26b50c226076f4d4584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABm3///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-05T17:03:09Z",
+      "side": 1,
+      "message": "Should subclasses be allowed to override this method?",
+      "revId": "11a64f459db502a673b4d26b50c226076f4d4584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABm3///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-05T17:03:09Z",
+      "side": 1,
+      "message": "Should subclasses be allowed to override this method?",
+      "revId": "11a64f459db502a673b4d26b50c226076f4d4584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

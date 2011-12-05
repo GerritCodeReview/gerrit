@@ -85,6 +85,24 @@
       "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABnX////g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-05T06:17:41Z",
+      "side": 1,
+      "message": "base on existing code I think  it is only for print.  \nanyway \u0027getDescription\u0027 sounds better.",
+      "parentUuid": "AAABk3////8\u003d",
+      "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

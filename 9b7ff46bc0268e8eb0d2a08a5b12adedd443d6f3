@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABm3////Y\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-05T12:35:07Z",
+      "side": 1,
+      "message": "Suggestion: s/mainline/code base/\n\nI think I have heard Shawn using the term \"code base\" and:\n\n git grep \"code base\"\n\nwill find a few uses.",
+      "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABnX////w\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 4
@@ -13,6 +30,23 @@
       "writtenOn": "2011-12-02T13:25:54Z",
       "side": 1,
       "message": "I believe I first saw those numbers in \"gerrit-publish\" (https://github.com/jaysoffian/gerrit-publish), but they make sense to me:\n- first line \u003c\u003d 65 characters,\n- each subsquent line wrapped to 70 characters.",
+      "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABm3////U\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-05T12:35:07Z",
+      "side": 1,
+      "message": "The last two must be in the last paragraph i.e. after the last empty line.",
       "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -48,6 +82,40 @@
       "side": 1,
       "message": "Yeah, a sample with some of the Gerrit specifics (like Bug: Issue # and Change-Id) would be good.",
       "parentUuid": "AAABnX////4\u003d",
+      "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABm3////Q\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-05T12:35:07Z",
+      "side": 1,
+      "message": "Also other Gerrit contributors are thankful because they can open several editors next to each other and still see complete lines when the line width doesn\u0027t exceed 80 characters.",
+      "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABm3////M\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-05T12:35:07Z",
+      "side": 1,
+      "message": "Maybe another thing to add would be:\n\n* Do only what the commit message describes. In other words, nothing that is not strictly related to the commit message shouldn\u0027t be part of this change even if it would be a trivial thing like externalizing a string somewhere or fixing a typo on some other place. This help keep \"git blame\" more useful in the future and it also makes \"git revert\" more useful.",
       "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

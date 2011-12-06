@@ -41,6 +41,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
@@ -133,6 +134,25 @@ public class PatchList implements Serializable {
       r.add(e.toPatch(setId));
     }
     return r;
+  }
+
+  /**
+   * Check each Patch in result of {@link #toPatchList()}, those not in the @param
+   * range will be filtered.
+   *
+   * @param setId
+   * @param range
+   * @return filtered Patch list
+   */
+  public List<Patch> toPatchList(final PatchSet.Id setId,
+      final Set<String> range) {
+    final ArrayList<Patch> pList = new ArrayList<Patch>();
+    for (final PatchListEntry e : patches) {
+      if (range.contains(e.getNewName()) || range.contains(e.getOldName())) {
+        pList.add(e.toPatch(setId));
+      }
+    }
+    return pList;
   }
 
   /** Find an entry by name, returning an empty entry if not present. */

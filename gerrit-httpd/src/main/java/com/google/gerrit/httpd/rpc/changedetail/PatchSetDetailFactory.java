@@ -30,6 +30,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -44,8 +45,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -107,6 +110,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     }
 
     final PatchList list;
+    final List<Patch> patches;
 
     if (psIdBase != null) {
       oldId = toObjectId(psIdBase);
@@ -115,14 +119,15 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       projectKey = control.getProject().getNameKey();
 
       list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));
+      patches = list.toPatchList(psIdNew, getCurrentFileList());
     } else { // OK, means use base to compare
       list = patchListCache.get(control.getChange(), patchSet);
       if (list == null) {
         throw new NoSuchEntityException();
       }
+      patches = list.toPatchList(psIdNew);
     }
 
-    final List<Patch> patches = list.toPatchList(patchSet.getId());
     final Map<Patch.Key, Patch> byKey = new HashMap<Patch.Key, Patch>();
     for (final Patch p : patches) {
       byKey.put(p.getKey(), p);
@@ -187,5 +192,34 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
   private PatchList listFor(final PatchListKey key) {
     return patchListCache.get(key);
+  }
+
+  private Set<String> getCurrentFileList() throws NoSuchChangeException,
+      OrmException, NoSuchEntityException {
+    // Get the modified file set by comparing active patch to 'Base'
+    Set<String> fileList = getFileListBy(psIdNew);
+    // Get the modified file set by comparing the old patch to 'Base'
+    fileList.addAll(getFileListBy(psIdBase));
+    return fileList;
+  }
+
+  private Set<String> getFileListBy(final PatchSet.Id id)
+      throws NoSuchChangeException, NoSuchEntityException, OrmException {
+    final Set<String> fileList = new HashSet<String>();
+    ChangeControl control = changeControlFactory.validateFor(id.getParentKey());
+    PatchList patchListComparedToBase =
+        patchListCache.get(control.getChange(), db.patchSets().get(id));
+    if (patchListComparedToBase == null) {
+      throw new NoSuchEntityException();
+    }
+    for (PatchListEntry pEntry : patchListComparedToBase.getPatches()) {
+      if (pEntry.getNewName() != null) {
+        fileList.add(pEntry.getNewName());
+      }
+      if (pEntry.getOldName() != null) {
+        fileList.add(pEntry.getOldName());
+      }
+    }
+    return fileList;
   }
 }

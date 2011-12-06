@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABp3////k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-06T22:28:02Z",
+      "side": 1,
+      "message": "My preference would have been to keep simpler shorter names and to not include the Type in the name (since these are private internal names, not interfaces for other classes to see) unless you had some difficult conflicts and it really was simpler (but I would not reject for this).",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABp3////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-06T22:28:02Z",
+      "side": 1,
+      "message": "A little unusal, would setCreateEmptyCommit() be clearer?",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABp3////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectParamsException.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-06T22:28:02Z",
+      "side": 1,
+      "message": "This feels a bit like it should be an internal class of whatever class creates the project (PerformCreateProject or PerformCreateProjectImpl?)  We probably don\u0027t have any precedent for this, but since this exception is not something very generic, or even Gerrit generic, I can\u0027t see any other class ever throwing it.  It seems like it does not deserve its own file.",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABp3////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-06T22:28:02Z",
+      "side": 1,
+      "message": "Could you explain why you need an interface here?  Is this a new pattern which we should be all using?",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABp3////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-06T22:28:02Z",
+      "side": 1,
+      "message": "I personally don\u0027t like the Perform... pattern but I realize that we may have used it in a few places already.  Unfortunately, we have not been very consistent about naming (I guess things evolve).  I wish that we could come up with a pattern that is more generic.  Edwin might be able to help here, he has made improvements before. \n\nIf I look a the RemoveReviewer action, I see the following convention:\n\n Name             Use                  Example\n ...Command       Ssh                  SetReviewersCommand\n ...Service       RPC Interface        PatchDetailService\n ...ServiceImpl   RPC Implementation   PatchDetailServiceImpl\n ...Handler       RPC Handler          RemoveReviewerHandler\n ...              Main Implementation  RemoveReviewer\n\nI am not sure this is great, but I understand it better than what you\u0027ve got here and it seems a bit less wordy (simpler).\n\nIf I were to adapt it to your code, I would suggest the following changes.\n\n Name             Use                  Example\n ...Command       Ssh                  CreateProject -\u003e CreateProjectCommand\n ...Handler       RPC Handler          CreateNewProject -\u003e CreateProjectHandler\n ...              Main Implementation  PerformCreateProjectImpl -\u003e CreateProject\n\n\n\n\nI would not reject this change for this naming convention (especially since you likely copied an existing one) I am just trying to get the naming convention discussion started, eventually this could go in our contributing guidelines document.",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABp3////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-06T22:28:02Z",
+      "side": 1,
+      "message": "Separating this code out into a separate file/service away from the ssh command is the type of refactoring that would be nice if it were in a separate change leading up to this one (which would mainly add the UI).",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABp3////s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-06T22:28:02Z",
+      "side": 1,
+      "message": "While I am usually all for smaller functions, the content of this one feels a bit like it belongs inside the try on line 155.  As is, is just seems obfuscated without making the run() function clearer (just a thought/suggestion...not a required change).",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

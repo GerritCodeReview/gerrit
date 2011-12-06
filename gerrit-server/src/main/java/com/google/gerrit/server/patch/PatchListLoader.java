@@ -57,10 +57,13 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 class PatchListLoader extends EntryCreator<PatchListKey, PatchList> {
   private final GitRepositoryManager repoManager;
@@ -97,7 +100,35 @@ class PatchListLoader extends EntryCreator<PatchListKey, PatchList> {
     }
   }
 
-  private PatchList readPatchList(final PatchListKey key,
+  private PatchList readPatchList(final PatchListKey key, final Repository repo)
+      throws IOException {
+    final PatchList pList = get(key, repo);
+    if (key.isRebaseTransparent() && key.getOldId() != null) {
+      final ObjectReader reader = repo.newObjectReader();
+      try {
+        final RevWalk rw = new RevWalk(reader);
+        final RevCommit b = rw.parseCommit(key.getNewId());
+        final RevCommit a = rw.parseCommit(key.getOldId());
+        if (Collections.disjoint(Arrays.asList(a.getParents()),
+            Arrays.asList(b.getParents()))) {
+          final Set<String> patchfileList =
+              get(
+                  new PatchListKey(key.projectKey, null, key.getNewId(),
+                      key.getWhitespace()), repo).toPatchFileList();
+          patchfileList.addAll(get(
+              new PatchListKey(key.projectKey, null, key.getOldId(), key
+                  .getWhitespace()), repo).toPatchFileList());
+          pList.retainAll(patchfileList);
+          return pList;
+        }
+      } finally {
+        reader.release();
+      }
+    }
+    return pList;
+  }
+
+  private PatchList get(final PatchListKey key,
       final Repository repo) throws IOException {
     final RawTextComparator cmp = comparatorFor(key.getWhitespace());
     final ObjectReader reader = repo.newObjectReader();

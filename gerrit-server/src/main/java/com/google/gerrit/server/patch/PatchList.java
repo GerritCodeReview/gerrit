@@ -40,7 +40,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
@@ -133,6 +135,29 @@ public class PatchList implements Serializable {
       r.add(e.toPatch(setId));
     }
     return r;
+  }
+
+  public void retainAll(final Set<String> set) {
+    List<PatchListEntry> ps = new ArrayList<PatchListEntry>();
+    for (PatchListEntry e : patches) {
+      if (set.contains(e.getNewName()) || set.contains(e.getOldName())) {
+        ps.add(e);
+      }
+    }
+    patches = ps.toArray(new PatchListEntry[ps.size()]);
+  }
+
+  public Set<String> toPatchFileList() {
+    final Set<String> fileList = new HashSet<String>();
+    for (PatchListEntry pEntry : this.getPatches()) {
+      if (pEntry.getNewName() != null) {
+        fileList.add(pEntry.getNewName());
+      }
+      if (pEntry.getOldName() != null) {
+        fileList.add(pEntry.getOldName());
+      }
+    }
+    return fileList;
   }
 
   /** Find an entry by name, returning an empty entry if not present. */

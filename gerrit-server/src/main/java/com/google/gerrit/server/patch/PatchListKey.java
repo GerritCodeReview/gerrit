@@ -40,15 +40,28 @@ public class PatchListKey implements Serializable {
   private transient ObjectId oldId;
   private transient ObjectId newId;
   private transient Whitespace whitespace;
+  //if rebase happens, let rebase be transparent or not to user.
+  private transient Boolean isRebaseTransparent;
 
   transient Project.NameKey projectKey; // not required to form the key
 
   public PatchListKey(final Project.NameKey pk, final AnyObjectId a,
       final AnyObjectId b, final Whitespace ws) {
+    init(pk, a, b, ws, false);
+  }
+
+  public PatchListKey(final Project.NameKey pk, final AnyObjectId a,
+      final AnyObjectId b, final Whitespace ws, final Boolean makeRebaseTransparent) {
+    init(pk, a, b, ws, makeRebaseTransparent);
+  }
+
+  private void init(final Project.NameKey pk, final AnyObjectId a,
+      final AnyObjectId b, final Whitespace ws, final Boolean rebaseTransparent) {
     projectKey = pk;
     oldId = a != null ? a.copy() : null;
     newId = b.copy();
     whitespace = ws;
+    isRebaseTransparent = rebaseTransparent;
   }
 
   /** Old side commit, or null to assume ancestor or combined merge. */
@@ -66,6 +79,10 @@ public class PatchListKey implements Serializable {
     return whitespace;
   }
 
+  public Boolean isRebaseTransparent() {
+    return isRebaseTransparent;
+  }
+
   @Override
   public int hashCode() {
     int h = 0;
@@ -76,6 +93,7 @@ public class PatchListKey implements Serializable {
 
     h = h * 31 + newId.hashCode();
     h = h * 31 + whitespace.name().hashCode();
+    h = h * 31 + isRebaseTransparent.hashCode();
 
     return h;
   }
@@ -86,7 +104,8 @@ public class PatchListKey implements Serializable {
       final PatchListKey k = (PatchListKey) o;
       return eq(oldId, k.oldId) //
           && eq(newId, k.newId) //
-          && whitespace == k.whitespace;
+          && whitespace == k.whitespace
+          && isRebaseTransparent == k.isRebaseTransparent();
     }
     return false;
   }
@@ -104,6 +123,7 @@ public class PatchListKey implements Serializable {
     n.append(newId.name());
     n.append(" ");
     n.append(whitespace.name());
+    n.append(isRebaseTransparent.toString() );
     n.append("]");
     return n.toString();
   }
@@ -119,11 +139,13 @@ public class PatchListKey implements Serializable {
     writeCanBeNull(out, oldId);
     writeNotNull(out, newId);
     writeEnum(out, whitespace);
+    out.writeBoolean(isRebaseTransparent);
   }
 
   private void readObject(final ObjectInputStream in) throws IOException {
     oldId = readCanBeNull(in);
     newId = readNotNull(in);
     whitespace = readEnum(in, Whitespace.values());
+    isRebaseTransparent = in.readBoolean();
   }
 }

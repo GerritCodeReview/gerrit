@@ -156,6 +156,24 @@
       "revId": "3789e4593f26fb193bc8ae0bccd7a4edb6dc4019",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABo3////s\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-07T09:49:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABdX////g\u003d",
+      "revId": "3789e4593f26fb193bc8ae0bccd7a4edb6dc4019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

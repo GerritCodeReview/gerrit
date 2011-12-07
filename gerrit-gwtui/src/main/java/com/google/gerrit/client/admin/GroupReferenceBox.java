@@ -57,7 +57,7 @@ public class GroupReferenceBox extends Composite implements
         suggestions);
     initWidget(suggestBox);
 
-    suggestBox.addKeyPressHandler(new KeyPressHandler() {
+    textBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
         submitOnSelection = false;

@@ -31,6 +31,7 @@ public class GeneralPreferencesInfo {
     CHECKOUT,
     CHERRY_PICK,
     FORMAT_PATCH,
+    DIFFTOOL,
     BRANCH,
     RESET,
   }

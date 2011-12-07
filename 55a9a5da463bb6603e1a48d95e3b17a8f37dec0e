@@ -16,6 +16,23 @@
       "revId": "55a9a5da463bb6603e1a48d95e3b17a8f37dec0e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABo3////Y\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-07T13:51:37Z",
+      "side": 1,
+      "message": "Section moved to  separate change",
+      "revId": "55a9a5da463bb6603e1a48d95e3b17a8f37dec0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABpn////4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-07T08:03:58Z",
+      "side": 1,
+      "message": "Great ! I will keep this rule in mind and follow it in future.\n\n Done.",
+      "parentUuid": "AAABp3////k\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABp3////8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAABpn////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-07T08:03:58Z",
+      "side": 1,
+      "message": "yes.\n\nDone.",
+      "parentUuid": "AAABp3////8\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABp3////4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectParamsException.java",
         "patchSetId": 8
@@ -47,6 +83,24 @@
       "writtenOn": "2011-12-06T22:28:02Z",
       "side": 1,
       "message": "This feels a bit like it should be an internal class of whatever class creates the project (PerformCreateProject or PerformCreateProjectImpl?)  We probably don\u0027t have any precedent for this, but since this exception is not something very generic, or even Gerrit generic, I can\u0027t see any other class ever throwing it.  It seems like it does not deserve its own file.",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABpn////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectParamsException.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-07T08:03:58Z",
+      "side": 1,
+      "message": "I agree with your rule completely. \n\nwhen I try to move it into PerformCreateProject I find it is also be used on \n\nline 116 of com/google/gerrit/sshd/commands/CreateProject.java, \n\nso I left it here.\n\nI will keep this rule in mind and follow it in future.",
+      "parentUuid": "AAABp3////4\u003d",
       "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "AAABpn////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-07T08:03:58Z",
+      "side": 1,
+      "message": "I learn a lot from this detailed/valued comments\n thanks a lot!!\n Done.",
+      "parentUuid": "AAABp3////0\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABp3////w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java",
         "patchSetId": 8
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAABpn////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-07T08:03:58Z",
+      "side": 1,
+      "message": "I agree with you completely. \n \nI will keep this rule in my mind and apply it in future.",
+      "parentUuid": "AAABp3////w\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABp3////s\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
         "patchSetId": 8
@@ -115,6 +205,24 @@
       "writtenOn": "2011-12-06T22:28:02Z",
       "side": 1,
       "message": "While I am usually all for smaller functions, the content of this one feels a bit like it belongs inside the try on line 155.  As is, is just seems obfuscated without making the run() function clearer (just a thought/suggestion...not a required change).",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABpn////o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-07T08:03:58Z",
+      "side": 1,
+      "message": "Great! That will be fine.\n\nDone",
+      "parentUuid": "AAABp3////s\u003d",
       "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

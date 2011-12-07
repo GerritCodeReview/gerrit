@@ -194,6 +194,24 @@
       "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABo3////g\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-07T12:30:59Z",
+      "side": 1,
+      "message": "And so, my statement remains in the docs. Thank you for the patch, Edwin!\n\n\"Done\"",
+      "parentUuid": "AAABhn///90\u003d",
+      "revId": "46886e99732b8b0dfc7ec00f5a66e12135ac6c2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -736,6 +736,22 @@ and `-1 Do not have copyright` will block submit, while `+1 Copyright
 clear` is required to enable submit.
 
 
+[[conversion_table]]
+Conversion table from 2.1.x series to 2.2.x series
+--------------------------------------------------
+
+[options="header"]
+|===========================================
+|Gerrit 2.1.x      |Gerrit 2.2.x
+|Code review       |Label: Code review
+|Verify            |Label: Verify
+|Forge Identity +1 |Forge author identity
+|Forge Identity +2 |Forge committer identity
+|Forge Identity +3 |Forge server identity
+|Owner             |Owner
+|===========================================
+
+
 [[restart_changes]]
 [NOTE]
 Restart the Gerrit web application and reload all browsers after

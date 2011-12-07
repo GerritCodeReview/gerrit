@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABo3////E\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-07T15:53:58Z",
+      "side": 1,
+      "message": "I suspect there was a higher meaning by camel casing the Fit In phrase. But I agree the words are a bit on the small side to be camel cased.\n\nDone",
+      "parentUuid": "AAABfn///7k\u003d",
+      "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfn///7o\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2011-11-23T15:22:40Z",
       "side": 1,
       "message": "/s/does it get/it gets",
+      "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABo3////I\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-07T15:53:58Z",
+      "side": 1,
+      "message": "I think \"does it get\" is a lot more correct than your suggested phrase. However, I agree that the sentence is a bit difficult. Rewritten.\n\nDone",
+      "parentUuid": "AAABfn///7o\u003d",
       "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABo3////A\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-07T15:53:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABfn///7g\u003d",
+      "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfn///7c\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2011-11-23T15:22:40Z",
       "side": 1,
       "message": "s/another review/another commit",
+      "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABo3///+8\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-07T15:53:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABfn///7c\u003d",
       "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAABo3///+4\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-07T15:53:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABfn///7Y\u003d",
+      "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfn///7U\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 5
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAABo3///+0\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-07T15:53:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABfn///7U\u003d",
+      "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfn///7Q\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 5
@@ -115,6 +223,24 @@
       "writtenOn": "2011-11-23T15:22:40Z",
       "side": 1,
       "message": "Actually I think the \u0027Publish and submit\u0027 button is always displayed if you have \u0027submit\u0027 privileges. If the preconditions for submit are not fulfilled, clicking on it will simply result in an error.",
+      "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABo3///+w\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-07T15:53:58Z",
+      "side": 1,
+      "message": "I\u0027ve made an attempt at rewriting this sentence to make more sense.",
+      "parentUuid": "AAABfn///7Q\u003d",
       "revId": "b1d6496c764cde2adb232ba4ebfd07e6912429c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

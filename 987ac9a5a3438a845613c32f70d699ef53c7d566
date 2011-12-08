@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABo3///+Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-08T13:06:55Z",
+      "side": 1,
+      "message": "This commit message looks a bit sloopy, and I\u0027ve rewritten it, ready for upload.",
+      "revId": "987ac9a5a3438a845613c32f70d699ef53c7d566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

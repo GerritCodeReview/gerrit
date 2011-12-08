@@ -16,6 +16,40 @@
       "revId": "987ac9a5a3438a845613c32f70d699ef53c7d566",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABqX////0\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-08T14:05:52Z",
+      "side": 1,
+      "message": "except for \u0027DEVELOPMENT_BECOME_ANY_ACCOUNT\u0027 mode",
+      "revId": "987ac9a5a3438a845613c32f70d699ef53c7d566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABqX////w\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-08T14:05:52Z",
+      "side": 1,
+      "message": "should we add some description about :if we do not use \"--empty-commit\" ......",
+      "revId": "987ac9a5a3438a845613c32f70d699ef53c7d566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

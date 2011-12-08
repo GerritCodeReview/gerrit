@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABo3///+g\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-08T11:24:21Z",
+      "side": 1,
+      "message": "Table isn\u0027t complete yet (as you can see).\n\nLooking for comments on the format, should 2.1 or 2.2 be to the left should something else be included in this table, any other opinions?",
+      "revId": "c27ce00e51ba4939749f31e20d74f0e9c493927d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

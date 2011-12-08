@@ -109,8 +109,7 @@ Registering Additional Branches
 -------------------------------
 
 Branches can be created over the SSH port by any `git push` client,
-if the user has been granted the `Push Branch` > `Create Branch`
-(or higher) access right.
+if the user has been granted the `Create Reference` access right.
 
 Additional branches can also be created through the web UI, assuming
 at least one commit already exists in the project repository.

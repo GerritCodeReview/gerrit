@@ -19,6 +19,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
@@ -597,7 +598,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     if (ctl.canForceUpdate()) {
       // Let the core receive process handle it
     } else {
-      cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD);
+      cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD, " need '"
+          + PermissionRule.FORCE_PUSH + "' privilege.");
     }
   }
 

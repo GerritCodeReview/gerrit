@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 public class PermissionRule implements Comparable<PermissionRule> {
+  public static final String FORCE_PUSH = "Force Push";
   public static enum Action {
     ALLOW, DENY, BLOCK,
 

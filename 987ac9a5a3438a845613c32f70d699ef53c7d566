@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAABo3///+I\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-08T14:40:16Z",
+      "side": 1,
+      "message": "From line 5-9 in document:\n\u003csnip\u003e\nThis guide was made with the impatient in mind, ready to try out Gerrit on their own server but not prepared to make the full installation procedure yet. \nExplanation is sparse and you should not use a server installed this way in a live setup, this is made with proof of concept activities in mind.\n\u003c/snip\u003e\n\nAs this document only focuses on first time startup of Gerrit in a try-it-out mode, I\u0027m not sure I think it\u0027s relevant to mention the \u0027DEVELOPMENT_BECOME_ANY_ACCOUNT\u0027 mode. This is because that particular configuration is mostly interesting for development, and this quick guide doesn\u0027t cover how to set up the development environment around gerrit.\n\nIf we have or make a similar document how to quickly startup gerrit development, I think this mode should be mentioned.\n\nPlease let me know if you do not agree, or have other feedback. Thanks!",
+      "parentUuid": "AAABqX////0\u003d",
+      "revId": "987ac9a5a3438a845613c32f70d699ef53c7d566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABqX////w\u003d",
         "filename": "Documentation/install-quick.txt",
         "patchSetId": 5
@@ -47,6 +65,24 @@
       "writtenOn": "2011-12-08T14:05:52Z",
       "side": 1,
       "message": "should we add some description about :if we do not use \"--empty-commit\" ......",
+      "revId": "987ac9a5a3438a845613c32f70d699ef53c7d566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABo3///+E\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-08T14:40:16Z",
+      "side": 1,
+      "message": "I don\u0027t like introducing too many options in a quick and dirty startup documentation like this, but I agree that the --empty-commit also can be a problem if the user already has a project to try out with.\n\nSo I think it\u0027s a valid concern. I\u0027ll try to make two ways to run this command, one way with no pre-existing project, and one way with a pre-existing git that you want to use for testnig and another way with no previous git, starting from zero.\n\nThanks for your feedback, patch set coming!",
+      "parentUuid": "AAABqX////w\u003d",
       "revId": "987ac9a5a3438a845613c32f70d699ef53c7d566",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

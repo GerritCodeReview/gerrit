@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABo3///90\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-08T15:07:24Z",
+      "side": 1,
+      "message": "Are you suggesting we change in the software, or are you suggesting I change i this document?\nI aim to mention the exact name of the capability here, that way I think is most clear explanation.\n\nI have no opinion on what the capability should be named, but since there\u0027s no space in the name today I suspect the config file doesn\u0027t accept spaces in the values written to it, and therefore the UI transparently write sthe exact name of the property as is found in the file.",
+      "parentUuid": "AAABqX////g\u003d",
+      "revId": "9fda0c52ce5dc211fd40380bc88bf47fdde1a4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABqX////c\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2011-12-08T14:32:14Z",
       "side": 1,
       "message": "which is better for user?\n\nglobal capabilities /GLOBAL_CAPABILITIES / \u0027Global Capabilities\u0027",
+      "revId": "9fda0c52ce5dc211fd40380bc88bf47fdde1a4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABo3///9w\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-08T15:07:24Z",
+      "side": 1,
+      "message": "I reference the global capabilities configured in All-Projects as a group of entities here. So \"global capabilities\" is not a name of them or any variable. I believe it should remain as is.\n\nIf anyone disagrees, please let me know and I\u0027ll adjust.",
+      "parentUuid": "AAABqX////c\u003d",
       "revId": "9fda0c52ce5dc211fd40380bc88bf47fdde1a4c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -365,20 +365,25 @@ rows into the `approval_category_values` with `category_id` set to
 A restart is required after making database changes.
 See <<restart_changes,below>>.
 
-[[category_CVRW]]
-Code Review
-~~~~~~~~~~~
+[[category_label-Code-Review]]
+Label: Code Review
+~~~~~~~~~~~~~~~~~~
 
-The code review category can have any meaning the project desires.
-It was originally invented by the Android Open Source Project to
-mean 'I read the code and it seems reasonably correct'.
+The code review category is the second of two default categories that
+is configured upon the creation of a Gerrit instance. It may have
+any meaning the project desires.  It was originally invented by the
+Android Open Source Project to mean 'I read the code and it seems
+reasonably correct'.
 
 The range of values is:
 
 * -2 Do not submit
 +
 The code is so horribly incorrect/buggy/broken that it must not be
-submitted to this project, or to this branch.
+submitted to this project, or to this branch.  This value is valid
+across all patch sets in the same change, i.e. the reviewer must
+actively change his/her review to something else before the change
+is submittable.
 +
 *Any -2 blocks submit.*
 
@@ -413,10 +418,11 @@ how the project will develop.
 +
 *Any +2 enables submit.*
 
-In order to submit a change, the change must have a `+2 Looks good to
-me, approved` in this category from at least one authorized user,
-and no `-2 Do not submit` from an authorized user.  Thus `-2`
-can block a submit, while `+2` can enable it.
+For a change to be submittable, the latest patch set must have a
+`+2 Looks good to me, approved` in this category from at least one
+authorized user, and no `-2 Do not submit` from an authorized user.
+Thus `-2` on any patch set can block a submit, while `+2` on the
+latest patch set can enable it.
 
 If a Gerrit installation does not wish to use this category in any
 project, it can be deleted from the database:

@@ -16,6 +16,24 @@
       "revId": "84f954f13bf2ff45e866cf221fe912d23dae8623",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABo3///+Q\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-08T13:58:51Z",
+      "side": 1,
+      "message": "refs/changes/ only takes a number and not a branch as argument.\n\nSo, it\u0027s either refs/for/branch, or it\u0027s refs/changes/change-id-number\n\nIf you don\u0027t use your change-id commit message hook, you have to use refs/changes/change-id-number to upload new patchsets. With the hook installed, it\u0027s a matter of personal preference. Usually it\u0027s more convenient to upload to a static reference, i.e. refs/for/branch.\n\nDo you think there\u0027s something missing in the documentation to show this? If so, we should probably improve upon it.",
+      "parentUuid": "AAABqX////8\u003d",
+      "revId": "84f954f13bf2ff45e866cf221fe912d23dae8623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

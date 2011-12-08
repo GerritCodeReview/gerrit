@@ -455,6 +455,41 @@ have false-negatives that shouldn't block the change.
 A restart is required after making database changes.
 See <<restart_changes,below>>.
 
+[[category_create]]
+Create reference
+~~~~~~~~~~~~~~~~
+
+The create reference category controls whether it is possible to
+create new references, branches or tags.  This implies that the
+reference must not already exist, it's not a destructive permission
+in that you can't overwrite or remove any previosuly existing
+references (and also discard any commits in the process).
+
+It's probably most common to either permit the creation of a single
+branch in many gits (by granting permission on a parent project), or
+to grant this permission to a name pattern of branches.
+
+This permission is often given in conjunction with regular push
+branch permissions, allowing the holder of both to create new branches
+as well as bypass review for new commits on that branch.
+
+To push lightweight (non annotated) tags, grant
+`Create Reference` for reference name `refs/tags/*`, as lightweight
+tags are implemented just like branches in Git.
+
+For example, to grant the possibility to create new branches under the
+namespace `foo`, you have to grant this permission on
+`refs/heads/foo/*` for the group that should have it.
+Finally, if you plan to grant each user a personal namespace in
+where they are free to create as many branches as they wish, you
+should grant the create reference permission so it's possible
+to create new branches. This is done by using the special
+`${username}` keyword in the reference pattern, e.g.
+`refs/heads/sandbox/${username}/*`. If you do, it's also recommended
+you grant the users the push force permission to be able to clean up
+stale branches.
+
+
 [[category_FORG]]
 Forge Identity
 ~~~~~~~~~~~~~~
@@ -758,6 +793,7 @@ Conversion table from 2.1.x series to 2.2.x series
 |Push branch +3               |Push (with force) & Create reference
 |Push tag +1 & Push Branch +2 |No support to limit to push signed tag
 |Push tag +2 & Push Branch +2 |Push annotated tag
+|Push tag +3 & Push Branch +2 |Create reference
 |Read +1                      |Read
 |Read +2                      |Read & Push branch (refs/for/refs/...)
 |Read +3                      |Read & Push branch (refs/for/refs/...) & Push merge

@@ -315,7 +315,7 @@ public class ProjectServlet extends GitServlet {
       if (s != Capable.OK) {
         GitSmartHttpTools.sendError((HttpServletRequest) request,
             (HttpServletResponse) response, HttpServletResponse.SC_FORBIDDEN,
-            s.getMessage());
+            "\n" + s.getMessage());
         return;
       }
 

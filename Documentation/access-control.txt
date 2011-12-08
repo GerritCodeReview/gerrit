@@ -455,6 +455,20 @@ have false-negatives that shouldn't block the change.
 A restart is required after making database changes.
 See <<restart_changes,below>>.
 
+[[category_create]]
+Create reference
+~~~~~~~~~~~~~~~~
+
+The create reference category controls whether it is possible to
+create new references, branches or a tags.  This implies that the
+reference doesn't already exist, it's not a destructive permission
+in that you can't overwrite or remove any previosuly existing
+references (and also discard any commits in the process).
+
+This permission is often given in conjunction with regular push
+branch permissions, allowing the holder of both to create new branches
+as well as bypassing review for new commits on that branch.
+
 [[category_FORG]]
 Forge Identity
 ~~~~~~~~~~~~~~

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABpH////o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-08T14:37:32Z",
+      "side": 1,
+      "message": "Actually they have a cloneable git repository (with Gerrit 2.2.x). It\u0027s just that this repository doesn\u0027t contain sources, but only the refs/meta/config branch in which the project metadata is stored.",
+      "revId": "fc686a426362b59abadb0d532ffd4681355d7acc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

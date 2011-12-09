@@ -159,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAABqn////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-09T21:41:46Z",
+      "side": 1,
+      "message": "Yes, unfortunately the naming is not completely consistent.\n\n+1 from my side to NOT liking the Perform... pattern\n\nIn some of my recent changes I first followed the Perform... pattern because I saw it elsewhere, but in the end I changed the names after comments from Martin.\n\nThe new names follow now the naming pattern that is described by Martin above. I like this naming pattern and would be happy to see this as the new standard naming pattern. If we agree on this, it\u0027s a good idea to describe it in the contributor guidelines. We should then also spend the effort to once cleanup the code and make the naming consistent.\n\nThanks Martin for starting this discussion. I think it\u0027s really needed to get some agreement here.",
+      "parentUuid": "AAABpn////g\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABp3////w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java",
         "patchSetId": 8

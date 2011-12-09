@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AAABrH////8\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-09T13:43:46Z",
+      "side": 1,
+      "message": "The UI actually displays \"Administrate Server\" and the refs/meta/config:project.config contains \"administrateServer\".\nWe should try to consistently use either what is displayed in the UI or what is persisted in the project.config file.\n\nSince most of the access permission administration will be done through UI I would prefer to use the names displayed in the UI, which in this case means \"Administrate Server\"",
+      "parentUuid": "AAABo3///90\u003d",
+      "revId": "9fda0c52ce5dc211fd40380bc88bf47fdde1a4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABqX////c\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 4

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAABo3///9g\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-09T07:52:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABp3///+Y\u003d",
+      "revId": "84f954f13bf2ff45e866cf221fe912d23dae8623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABpX////Y\u003d",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 6
@@ -83,6 +101,24 @@
       "writtenOn": "2011-12-09T07:34:44Z",
       "side": 1,
       "message": "If the talk is about a single reviewer then it shouldn\u0027t be \u0027they\u0027 here.",
+      "revId": "84f954f13bf2ff45e866cf221fe912d23dae8623",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABo3///9k\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-09T07:52:16Z",
+      "side": 1,
+      "message": "since I think it looks ugly to write he/she or (s)he here (and there is no gender neutral singularity really, i think that\u0027s probably why we see \u0027they\u0027 here), perhaps I could make reviwer into several reviewerS instead to keep the generic \u0027they\u0027?",
+      "parentUuid": "AAABpX////Y\u003d",
       "revId": "84f954f13bf2ff45e866cf221fe912d23dae8623",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -162,7 +162,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     util.tick(5);
     util.setAuthorAndCommitter(md.getCommitBuilder());
     md.setMessage("Edit\n");
-    assertTrue("commit finished", cfg.commit(md));
+    cfg.commit(md);
 
     Ref ref = db.getRef(GitRepositoryManager.REF_CONFIG);
     return util.getRevWalk().parseCommit(ref.getObjectId());

@@ -68,6 +68,9 @@ public class ProjectAccessScreen extends ProjectScreen {
   @UiField
   Button commit;
 
+  @UiField
+  Button review;
+
   private Driver driver;
 
   private ProjectAccess access;
@@ -158,9 +161,48 @@ public class ProjectAccessScreen extends ProjectScreen {
         });
   }
 
+  @UiHandler("review")
+  void onReview(ClickEvent event) {
+    ProjectAccess access = driver.flush();
+
+    if (driver.hasErrors()) {
+      Window.alert(Util.C.errorsMustBeFixed());
+      return;
+    }
+
+    String message = commitMessage.getText().trim();
+    if ("".equals(message)) {
+      message = null;
+    }
+
+    enable(false);
+    Util.PROJECT_SVC.reviewChangeProjectAccess( //
+        getProjectKey(), //
+        access.getRevision(), //
+        message, //
+        access.getLocal(), //
+        new GerritCallback<ProjectAccess>() {
+          @Override
+          public void onSuccess(ProjectAccess access) {
+            enable(true);
+            commitMessage.setText("");
+            // TODO: here we probably want to show the change
+            displayReadOnly(access);
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            enable(true);
+            super.onFailure(caught);
+          }
+        });
+
+  }
+
   private void enable(boolean enabled) {
     commitMessage.setEnabled(enabled);
     commit.setEnabled(enabled);
+    review.setEnabled(enabled);
     cancel1.setEnabled(enabled);
     cancel2.setEnabled(enabled);
   }

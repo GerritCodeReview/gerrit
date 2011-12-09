@@ -95,9 +95,12 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
       if (config.updateGroupNames(groupCache)) {
         md.setMessage("Update group names\n");
-        if (config.commit(md)) {
+        try {
+          config.commit(md);
           projectCache.evict(config.getProject());
           pc = open();
+        } catch (IOException e) {
+          // TODO: handle
         }
       } else if (config.getRevision() != null
           && !config.getRevision().equals(

@@ -23,25 +23,41 @@ import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.Branch;
+import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.PatchSet.Id;
+import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.RevId;
+import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.client.OrmConcurrencyException;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -62,6 +78,10 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
   private final ProjectCache projectCache;
   private final GroupCache groupCache;
   private final MetaDataUpdate.User metaDataUpdateFactory;
+  private final ReviewDb db;
+  private final IdentifiedUser user;
+  private final PatchSetInfoFactory patchSetInfoFactory;
+  private final GitRepositoryManager repoManager;
 
   private final Project.NameKey projectName;
   private final ObjectId base;
@@ -73,6 +93,9 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
       final ProjectControl.Factory projectControlFactory,
       final ProjectCache projectCache, final GroupCache groupCache,
       final MetaDataUpdate.User metaDataUpdateFactory,
+      final ReviewDb db, final IdentifiedUser user,
+      final PatchSetInfoFactory patchSetInfoFactory,
+      final GitRepositoryManager repoManager,
 
       @Assisted final Project.NameKey projectName,
       @Assisted final ObjectId base, @Assisted List<AccessSection> sectionList,
@@ -82,6 +105,10 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
     this.projectCache = projectCache;
     this.groupCache = groupCache;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.db = db;
+    this.user = user;
+    this.patchSetInfoFactory = patchSetInfoFactory;
+    this.repoManager = repoManager;
 
     this.projectName = projectName;
     this.base = base;
@@ -92,7 +119,7 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
   @Override
   public ProjectAccess call() throws NoSuchProjectException, IOException,
       ConfigInvalidException, InvalidNameException, NoSuchGroupException,
-      OrmConcurrencyException {
+      OrmException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
 
@@ -162,12 +189,56 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
         md.setMessage("Modify access rules\n");
       }
 
-      if (config.commit(md)) {
-        projectCache.evict(config.getProject());
-        return projectAccessFactory.create(projectName).call();
+      int nextChangeId = db.nextChangeId();
+      Id patchSetId = new PatchSet.Id(new Change.Id(nextChangeId), 1);
+      final PatchSet ps = new PatchSet(patchSetId);
+      String changeRef = ps.getRefName();
+      // Create the changeRef before calling config.commit
+      // as config.commit will set non-zero expected-old-object-id
+      // because config.revision is the commit id of the commit
+      // that contains the edited project.config file
+      Repository repository = repoManager.openRepository(projectName);
+      try {
+        RefUpdate ru = repository.updateRef(changeRef);
+        ru.setExpectedOldObjectId(ObjectId.zeroId());
+        ru.setNewObjectId(base);
+        Result result = ru.update();
+        switch (result) {
+          case NEW:
+            break;
+          default:
+            throw new IOException("Cannot update " + ru.getName() + " in "
+                + repository.getDirectory() + ": " + ru.getResult());
+        }
+        config.setRefName(changeRef);
+        try {
+          RevCommit commit = config.commit(md);
+          Change.Key changeKey = new Change.Key("I" + commit.name());
+          final Change change =
+              new Change(changeKey, new Change.Id(nextChangeId),
+                  user.getAccountId(), new Branch.NameKey(config.getProject()
+                      .getNameKey(), GitRepositoryManager.REF_CONFIG));
+          change.nextPatchSetId();
 
-      } else {
-        throw new OrmConcurrencyException("Cannot update " + projectName);
+          ps.setCreatedOn(change.getCreatedOn());
+          ps.setUploader(user.getAccountId());
+          ps.setRevision(new RevId(commit.name()));
+
+          db.patchSets().insert(Collections.singleton(ps));
+
+          final PatchSetInfo info = patchSetInfoFactory.get(commit, ps.getId());
+          change.setCurrentPatchSet(info);
+          ChangeUtil.updated(change);
+
+          db.changes().insert(Collections.singleton(change));
+
+          projectCache.evict(config.getProject());
+          return projectAccessFactory.create(projectName).call();
+        } catch (IOException e) {
+          throw new OrmConcurrencyException("Cannot update " + projectName, e);
+        }
+      } finally {
+        repository.close();
       }
     } finally {
       md.close();

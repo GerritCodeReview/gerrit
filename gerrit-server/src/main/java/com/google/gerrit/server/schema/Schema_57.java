@@ -134,9 +134,7 @@ public class Schema_57 extends SchemaVersion {
         }
 
         md.setMessage("Upgrade to Gerrit Code Review schema 57\n");
-        if (!config.commit(md)) {
-          throw new OrmException("Cannot update " + allProjects);
-        }
+        config.commit(md);
       } finally {
         git.close();
       }

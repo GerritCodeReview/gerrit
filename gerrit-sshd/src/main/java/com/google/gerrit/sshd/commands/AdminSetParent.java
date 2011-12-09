@@ -150,9 +150,7 @@ final class AdminSetParent extends BaseCommand {
           config.getProject().setParentName(newParentKey);
           md.setMessage("Inherit access from "
               + (newParentKey != null ? newParentKey.get() : allProjectsName.get()) + "\n");
-          if (!config.commit(md)) {
-            err.append("error: Could not update project " + name + "\n");
-          }
+          config.commit(md);
         } finally {
           md.close();
         }

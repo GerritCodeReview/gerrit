@@ -83,10 +83,11 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
       config.getProject().copySettingsFrom(update);
 
       md.setMessage("Modified project settings\n");
-      if (config.commit(md)) {
+      try {
+        config.commit(md);
         mgr.setProjectDescription(projectName, update.getDescription());
         userCache.get().evict(config.getProject());
-      } else {
+      } catch (IOException e) {
         throw new OrmConcurrencyException("Cannot update " + projectName);
       }
     } catch (ConfigInvalidException err) {

@@ -80,6 +80,7 @@ public class ProjectConfig extends VersionedMetaData {
   private Map<String, AccessSection> accessSections;
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
+  private String refName;
 
   public static ProjectConfig read(MetaDataUpdate update) throws IOException,
       ConfigInvalidException {
@@ -197,7 +198,14 @@ public class ProjectConfig extends VersionedMetaData {
 
   @Override
   protected String getRefName() {
-    return GitRepositoryManager.REF_CONFIG;
+    if (refName == null) {
+      return GitRepositoryManager.REF_CONFIG;
+    }
+    return refName;
+  }
+
+  public void setRefName(String refName) {
+    this.refName = refName;
   }
 
   @Override

@@ -251,9 +251,7 @@ public class SchemaCreator {
           .add(rule(config, owners));
 
       md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
-      if (!config.commit(md)) {
-        throw new IOException("Cannot create " + allProjectsName.get());
-      }
+      config.commit(md);
     } finally {
       git.close();
     }

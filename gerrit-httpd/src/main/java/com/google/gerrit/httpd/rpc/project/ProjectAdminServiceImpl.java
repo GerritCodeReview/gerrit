@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 
@@ -83,6 +84,14 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
 
   @Override
   public void changeProjectAccess(Project.NameKey projectName,
+      String baseRevision, String msg, List<AccessSection> sections,
+      AsyncCallback<ProjectAccess> cb) {
+    ObjectId base = ObjectId.fromString(baseRevision);
+    changeProjectAccessFactory.create(projectName, base, sections, msg).to(cb);
+  }
+
+  @Override
+  public void reviewChangeProjectAccess(NameKey projectName,
       String baseRevision, String msg, List<AccessSection> sections,
       AsyncCallback<ProjectAccess> cb) {
     ObjectId base = ObjectId.fromString(baseRevision);

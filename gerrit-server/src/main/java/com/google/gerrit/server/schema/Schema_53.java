@@ -182,9 +182,7 @@ class Schema_53 extends SchemaVersion {
         }
 
         md.setMessage("Import project configuration from SQL\n");
-        if (!config.commit(md)) {
-          throw new OrmException("Cannot export project " + name);
-        }
+        config.commit(md);
       } catch (ConfigInvalidException err) {
         throw new OrmException("Cannot read project " + name, err);
       } catch (IOException err) {

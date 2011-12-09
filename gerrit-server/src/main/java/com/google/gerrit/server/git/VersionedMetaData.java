@@ -149,7 +149,7 @@ public abstract class VersionedMetaData {
    * @throws IOException if there is a storage problem and the update cannot be
    *         executed as requested.
    */
-  public boolean commit(MetaDataUpdate update) throws IOException {
+  public RevCommit commit(MetaDataUpdate update) throws IOException {
     final Repository db = update.getRepository();
     final CommitBuilder commit = update.getCommitBuilder();
 
@@ -162,7 +162,7 @@ public abstract class VersionedMetaData {
 
       if (res.equals(src)) {
         // If there are no changes to the content, don't create the commit.
-        return true;
+        return revision != null ? revision : null;
       }
 
       commit.setTreeId(res);
@@ -185,10 +185,10 @@ public abstract class VersionedMetaData {
         case FAST_FORWARD:
           revision = rw.parseCommit(ru.getNewObjectId());
           update.replicate(ru.getName());
-          return true;
+          return revision;
 
         case LOCK_FAILURE:
-          return false;
+          throw new IOException("Lock Failure");
 
         default:
           throw new IOException("Cannot update " + ru.getName() + " in "

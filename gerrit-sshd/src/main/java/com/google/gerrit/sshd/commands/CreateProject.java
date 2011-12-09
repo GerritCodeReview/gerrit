@@ -251,9 +251,7 @@ final class CreateProject extends BaseCommand {
       }
 
       md.setMessage("Created project\n");
-      if (!config.commit(md)) {
-        throw new IOException("Cannot create " + projectName);
-      }
+      config.commit(md);
     } finally {
       md.close();
     }

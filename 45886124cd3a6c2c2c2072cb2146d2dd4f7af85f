@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABqn////E\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectList.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-09T22:39:21Z",
+      "side": 1,
+      "message": "[optional] I would prefer to rename the method to \u0027canCreateProject()\u0027",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABp3////k\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
         "patchSetId": 8
@@ -31,6 +48,125 @@
       "side": 1,
       "message": "Great ! I will keep this rule in mind and follow it in future.\n\n Done.",
       "parentUuid": "AAABp3////k\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABqn///+4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-09T22:39:21Z",
+      "side": 1,
+      "message": "Would be nice to also have an option to create permission only projects from the WebUI. It would just be another checkbox.",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABqn////M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-09T22:39:21Z",
+      "side": 1,
+      "message": "[optional] you might remove this check here because it\u0027s anyway done in the doCreateProject() method",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABqn////I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-09T22:39:21Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we trim here too?",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABqn////Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-09T22:39:21Z",
+      "side": 1,
+      "message": "I think trim() is not needed here because it\u0027s already done in line 119",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABqn////A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/CreateNewProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-09T22:39:21Z",
+      "side": 1,
+      "message": "Is this needed? Isn\u0027t the newParent by default set to null?",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABqn///+8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/CreateNewProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-09T22:39:21Z",
+      "side": 1,
+      "message": "I haven\u0027t tried this change out, but I expect that this results in an ugly \u0027Application Error - Internal Server Error\u0027 screen, isn\u0027t it?\n\nThis screen always looks like something unexpected had happened and there is something really broken in Gerrit. It scares the user.\n\nIf I understand it correctly we also throw this exception here if there is just a minor problem like the project name is already taken. Would be nice if this could be a simple error message without this \u0027Application Error - Internal Server Error\u0027.\n\nAnother problem is that the text of this exception is not translatable, but it will just be displayed as it is.\n\nI know that the exception handling in Gerrit isn\u0027t really nice, but I think there are some examples how to handle this. Though it\u0027s not really easy to do. Let me know if you need help with this, then I can lookup some further details how to do this.",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABqn///+0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-09T22:39:21Z",
+      "side": 1,
+      "message": "[optional] remove blank lines from this method",
       "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -107,6 +243,24 @@
     },
     {
       "key": {
+        "uuid": "AAABqn///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectParamsException.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-09T22:39:21Z",
+      "side": 1,
+      "message": "We may need this exception as own class if we want to improve the exception handling (see my comment in CreateNewProject [1]). But then it should be moved to gerrit-common into the com.google.gerrit.common.errors package.\n\n[1] https://gerrit-review.googlesource.com/#/c/17380/8/gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/CreateNewProject.java",
+      "parentUuid": "AAABpn////0\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABp3////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
         "patchSetId": 8
@@ -118,6 +272,24 @@
       "writtenOn": "2011-12-06T22:28:02Z",
       "side": 1,
       "message": "Could you explain why you need an interface here?  Is this a new pattern which we should be all using?",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABqn///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-09T22:39:21Z",
+      "side": 1,
+      "message": "We should have no interface here to be consistent with the other classes. I think I remember that I once saw such a interface somewhere in a change or in the code, but it was found to be unneeded and was removed.",
+      "parentUuid": "AAABp3////o\u003d",
       "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -206,6 +378,40 @@
       "side": 1,
       "message": "I agree with you completely. \n \nI will keep this rule in my mind and apply it in future.",
       "parentUuid": "AAABp3////w\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABqn///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-09T22:39:21Z",
+      "side": 1,
+      "message": "styel-nit: s/this.projectCache\u003dprojectCache/this.projectCache \u003d projectCache;",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABqn///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-09T22:39:21Z",
+      "side": 1,
+      "message": "[optional] maybe it would be nicer to just throw one exception type from here? e.g. rename CreateProjectParamsException to ProjectCreationFailedException and then only throw this exception from here",
       "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

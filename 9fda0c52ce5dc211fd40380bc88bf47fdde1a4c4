@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAABqn////o\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-09T14:21:18Z",
+      "side": 1,
+      "message": "Sweet. Thanks!",
+      "parentUuid": "AAABq3////w\u003d",
+      "revId": "9fda0c52ce5dc211fd40380bc88bf47fdde1a4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABqX////g\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 4
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "The UI actually displays \"Administrate Server\" and the refs/meta/config:project.config contains \"administrateServer\".\nWe should try to consistently use either what is displayed in the UI or what is persisted in the project.config file.\n\nSince most of the access permission administration will be done through UI I would prefer to use the names displayed in the UI, which in this case means \"Administrate Server\"",
       "parentUuid": "AAABo3///90\u003d",
+      "revId": "9fda0c52ce5dc211fd40380bc88bf47fdde1a4c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABqn////s\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-09T14:21:18Z",
+      "side": 1,
+      "message": "Ahh, now I understand what Bruce probably meant too.\nThanks Sasa, that\u0027s a valid point. I\u0027ve taken the name from the wrong place.\n\nPatch set coming up with \u0027Administrate Server\u0027.\n\nDone",
+      "parentUuid": "AAABrH////8\u003d",
       "revId": "9fda0c52ce5dc211fd40380bc88bf47fdde1a4c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

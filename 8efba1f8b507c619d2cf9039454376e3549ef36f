@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAABpX////M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-09T07:38:04Z",
+      "side": 1,
+      "message": "As already commented on the first patch set:\nPermission-Only projects actually have a cloneable git repository (with Gerrit 2.2.x). It\u0027s just that this repository doesn\u0027t contain sources, but only the refs/meta/config branch in which the project metadata is stored. I would simply change the commit message to \"... to filter out projects that only define permissions\".",
+      "revId": "8efba1f8b507c619d2cf9039454376e3549ef36f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABp3///+s\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjectDetails.java",
         "patchSetId": 3

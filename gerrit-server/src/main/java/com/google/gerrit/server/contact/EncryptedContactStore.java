@@ -37,7 +37,6 @@ import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPUtil;
-import org.eclipse.jgit.util.IO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +46,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -70,13 +68,16 @@ class EncryptedContactStore implements ContactStore {
   private final SecureRandom prng;
   private final URL storeUrl;
   private final String storeAPPSEC;
+  private final ContactStoreConnection.Factory connFactory;
 
   EncryptedContactStore(final URL storeUrl, final String storeAPPSEC,
-      final File pubKey, final SchemaFactory<ReviewDb> schema) {
+      final File pubKey, final SchemaFactory<ReviewDb> schema,
+      final ContactStoreConnection.Factory connFactory) {
     this.storeUrl = storeUrl;
     this.storeAPPSEC = storeAPPSEC;
     this.schema = schema;
     this.dest = selectKey(readPubRing(pubKey));
+    this.connFactory = connFactory;
 
     final String prngName = "SHA1PRNG";
     try {
@@ -157,33 +158,7 @@ class EncryptedContactStore implements ContactStore {
       }
       u.put("account_id", String.valueOf(account.getId().get()));
       u.put("data", encStr);
-      final byte[] body = u.toString().getBytes("UTF-8");
-
-      final HttpURLConnection c = (HttpURLConnection) storeUrl.openConnection();
-      c.setRequestMethod("POST");
-      c.setRequestProperty("Content-Type",
-          "application/x-www-form-urlencoded; charset=UTF-8");
-      c.setDoOutput(true);
-      c.setFixedLengthStreamingMode(body.length);
-      final OutputStream out = c.getOutputStream();
-      out.write(body);
-      out.close();
-
-      if (c.getResponseCode() == 200) {
-        final byte[] dst = new byte[2];
-        final InputStream in = c.getInputStream();
-        try {
-          IO.readFully(in, dst, 0, 2);
-        } finally {
-          in.close();
-        }
-        if (dst[0] != 'O' || dst[1] != 'K') {
-          throw new IOException("Store failed: " + c.getResponseCode());
-        }
-      } else {
-        throw new IOException("Store failed: " + c.getResponseCode());
-      }
-
+      connFactory.open(storeUrl).store(u.toString().getBytes("UTF-8"));
     } catch (IOException e) {
       log.error("Cannot store encrypted contact information", e);
       throw new ContactInformationStoreException(e);

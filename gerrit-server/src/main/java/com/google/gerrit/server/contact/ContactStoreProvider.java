@@ -36,13 +36,16 @@ public class ContactStoreProvider implements Provider<ContactStore> {
   private final Config config;
   private final SitePaths site;
   private final SchemaFactory<ReviewDb> schema;
+  private final ContactStoreConnection.Factory connFactory;
 
   @Inject
   ContactStoreProvider(@GerritServerConfig final Config config,
-      final SitePaths site, final SchemaFactory<ReviewDb> schema) {
+      final SitePaths site, final SchemaFactory<ReviewDb> schema,
+      final ContactStoreConnection.Factory connFactory) {
     this.config = config;
     this.site = site;
     this.schema = schema;
+    this.connFactory = connFactory;
   }
 
   @Override
@@ -70,7 +73,8 @@ public class ContactStoreProvider implements Provider<ContactStore> {
       throw new ProvisionException("PGP public key file \""
           + pubkey.getAbsolutePath() + "\" not found");
     }
-    return new EncryptedContactStore(storeUrl, storeAPPSEC, pubkey, schema);
+    return new EncryptedContactStore(storeUrl, storeAPPSEC, pubkey, schema,
+        connFactory);
   }
 
   private static boolean havePGP() {

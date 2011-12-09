@@ -25,6 +25,7 @@ import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.PushReplication;
 import com.google.gerrit.server.git.WorkQueue;
@@ -208,6 +209,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sshInjector.getInstance(WebSshGlueModule.class));
     modules.add(CacheBasedWebSession.module());
+    modules.add(HttpContactStoreConnection.module());
     return sysInjector.createChildInjector(modules);
   }
 

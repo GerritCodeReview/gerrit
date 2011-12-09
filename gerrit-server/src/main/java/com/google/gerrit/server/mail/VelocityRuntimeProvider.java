@@ -21,6 +21,10 @@ import com.google.inject.ProvisionException;
 
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.log.LogChute;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
@@ -39,7 +43,7 @@ public class VelocityRuntimeProvider implements Provider<RuntimeInstance> {
 
     Properties p = new Properties();
     p.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
-        "org.apache.velocity.runtime.log.SimpleLog4JLogSystem" );
+        Slf4jLogChute.class.getName());
     p.setProperty("runtime.log.logsystem.log4j.category", "velocity");
 
     if (site.mail_dir.isDirectory()) {
@@ -59,5 +63,53 @@ public class VelocityRuntimeProvider implements Provider<RuntimeInstance> {
       throw new ProvisionException("Cannot configure Velocity templates", err);
     }
     return ri;
+  }
+
+  /** Connects Velocity to sfl4j. */
+  public static class Slf4jLogChute implements LogChute {
+    private static final Logger log = LoggerFactory.getLogger("velocity");
+
+    @Override
+    public void init(RuntimeServices rs) {
+    }
+
+    @Override
+    public boolean isLevelEnabled(int level) {
+      switch (level) {
+        default:
+        case DEBUG_ID:
+          return log.isDebugEnabled();
+        case INFO_ID:
+          return log.isInfoEnabled();
+        case WARN_ID:
+          return log.isWarnEnabled();
+        case ERROR_ID:
+          return log.isErrorEnabled();
+      }
+    }
+
+    @Override
+    public void log(int level, String message) {
+      log(level, message, null);
+    }
+
+    @Override
+    public void log(int level, String msg, Throwable err) {
+      switch (level) {
+        default:
+        case DEBUG_ID:
+          log.debug(msg, err);
+          break;
+        case INFO_ID:
+          log.info(msg, err);
+          break;
+        case WARN_ID:
+          log.warn(msg, err);
+          break;
+        case ERROR_ID:
+          log.error(msg, err);
+          break;
+      }
+    }
   }
 }

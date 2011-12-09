@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABrX////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-09T17:18:47Z",
+      "side": 1,
+      "message": "Although \"only define refs/meta/config\" (if that really is the test) might even be more accurate since that branch might eventually(already?) hold other stuff besides permissions.  But, then explaining that these types of repos are typically considered \"permission only\".",
+      "parentUuid": "AAABpX////M\u003d",
+      "revId": "8efba1f8b507c619d2cf9039454376e3549ef36f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABp3///+s\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjectDetails.java",
         "patchSetId": 3

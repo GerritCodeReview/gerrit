@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABp3///+g\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-09T03:03:34Z",
+      "side": 1,
+      "message": "2.2 on right is good.  It would probably also be good to explain how/where the ref mappings have changed(refs/heads/* -\u003e ref/for/refs/heads/*).",
+      "parentUuid": "AAABo3///+g\u003d",
+      "revId": "c27ce00e51ba4939749f31e20d74f0e9c493927d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABqX////U\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1

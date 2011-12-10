@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABr3////s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006368
+      },
+      "writtenOn": "2011-12-10T17:29:51Z",
+      "side": 1,
+      "message": "why doesn\u0027t this work for the wild project? For the wild projects HEAD points to refs/heads/master, for manually created permission-only projects HEAD points to refs/meta/config. What is the difference?",
+      "revId": "49e3004b1957200dfd44302a03b505e29efc5817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

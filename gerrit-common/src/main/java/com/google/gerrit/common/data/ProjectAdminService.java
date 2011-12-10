@@ -29,6 +29,8 @@ import java.util.Set;
 public interface ProjectAdminService extends RemoteJsonService {
   void visibleProjects(AsyncCallback<List<Project>> callback);
 
+  void visibleProjectDetails(AsyncCallback<List<ProjectDetail>> callback);
+
   void projectDetail(Project.NameKey projectName,
       AsyncCallback<ProjectDetail> callback);
 

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAABr3////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006368
+      },
+      "writtenOn": "2011-12-10T17:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABrX////8\u003d",
+      "revId": "8efba1f8b507c619d2cf9039454376e3549ef36f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABp3///+s\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjectDetails.java",
         "patchSetId": 3
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAABr3////4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjectDetails.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006368
+      },
+      "writtenOn": "2011-12-10T17:28:11Z",
+      "side": 1,
+      "message": "projectCache.all() returns only iterator. I don\u0027t in advance how many projects will be added.",
+      "parentUuid": "AAABp3///+s\u003d",
+      "revId": "8efba1f8b507c619d2cf9039454376e3549ef36f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABp3///+o\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjectDetails.java",
         "patchSetId": 3
@@ -65,6 +101,24 @@
       "writtenOn": "2011-12-09T02:56:44Z",
       "side": 1,
       "message": "Not really needed, empty catch would work.",
+      "revId": "8efba1f8b507c619d2cf9039454376e3549ef36f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABr3////0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjectDetails.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006368
+      },
+      "writtenOn": "2011-12-10T17:28:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABp3///+o\u003d",
       "revId": "8efba1f8b507c619d2cf9039454376e3549ef36f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

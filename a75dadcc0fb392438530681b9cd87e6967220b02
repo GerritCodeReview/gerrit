@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABsn////k\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-12T19:10:51Z",
+      "side": 1,
+      "message": "I\u0027m afraid that pushing the previous history to the server will not work right away after creating the project, but one first needs to set the access rights accordingly (allow direct push to master bypassing code review). For a Gerrit beginner (which is the target audience for this doc) this would not be obvious and therefore I think it should be mentioned. Alternatively I would be fine with just describing the straight-forward case of creating a test project without describing in this document how to import an existing project.",
+      "revId": "a75dadcc0fb392438530681b9cd87e6967220b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

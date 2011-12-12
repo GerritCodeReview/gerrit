@@ -33,6 +33,8 @@ public class MergeStrategySection extends RefConfigSection {
   protected SubmitType submitType;
 
   protected boolean useContentMerge;
+  
+  protected boolean isDeleted;
 
   public MergeStrategySection() {
   }
@@ -52,9 +54,17 @@ public class MergeStrategySection extends RefConfigSection {
   public void setSubmitType(final SubmitType type) {
     submitType = type;
   }
-
+  
   public void setUseContentMerge(final boolean cm) {
     useContentMerge = cm;
+  }
+
+  public boolean isDeleted() {
+    return isDeleted;
+  }
+
+  public void setDeleted(boolean isDeleted) {
+    this.isDeleted = isDeleted;
   }
 
   public String toString() {

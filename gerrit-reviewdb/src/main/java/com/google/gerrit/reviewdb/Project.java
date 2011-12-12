@@ -65,8 +65,6 @@ public final class Project {
     }
   }
 
-  private static final String defaultSubmitType = "MERGE_IF_NECESSARY";
-
   protected NameKey name;
 
   protected String description;
@@ -75,20 +73,15 @@ public final class Project {
 
   protected boolean useSignedOffBy;
 
-  protected String submitType;
-
   protected NameKey parent;
 
   protected boolean requireChangeID;
-
-  protected boolean useContentMerge;
 
   protected Project() {
   }
 
   public Project(Project.NameKey nameKey) {
     name = nameKey;
-    submitType = defaultSubmitType;
   }
 
   public Project.NameKey getNameKey() {
@@ -119,10 +112,6 @@ public final class Project {
     return useSignedOffBy;
   }
 
-  public boolean isUseContentMerge() {
-    return useContentMerge;
-  }
-
   public boolean isRequireChangeID() {
     return requireChangeID;
   }
@@ -131,29 +120,15 @@ public final class Project {
     useSignedOffBy = sbo;
   }
 
-  public void setUseContentMerge(final boolean cm) {
-    useContentMerge = cm;
-  }
-
   public void setRequireChangeID(final boolean cid) {
     requireChangeID = cid;
-  }
-
-  public String getSubmitType() {
-    return submitType;
-  }
-
-  public void setSubmitType(final String type) {
-    submitType = type;
   }
 
   public void copySettingsFrom(final Project update) {
     description = update.description;
     useContributorAgreements = update.useContributorAgreements;
     useSignedOffBy = update.useSignedOffBy;
-    useContentMerge = update.useContentMerge;
     requireChangeID = update.requireChangeID;
-    submitType = update.submitType;
   }
 
   public Project.NameKey getParent() {

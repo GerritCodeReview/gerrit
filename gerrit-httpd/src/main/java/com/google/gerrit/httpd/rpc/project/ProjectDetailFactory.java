@@ -14,9 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-import com.google.gerrit.common.data.MergeStrategySection;
 import com.google.gerrit.common.data.ProjectDetail;
-import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -50,26 +48,7 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
             | ProjectControl.VISIBLE);
     final ProjectState projectState = pc.getProjectState();
     final ProjectDetail detail = new ProjectDetail();
-
-    // This block of code will be removed when integrating Merge Strategy UI change.
-    final Project p = projectState.getProject();
-
-    boolean setDefaultMergeStrategy = true;
-    for (MergeStrategySection section : projectState.getLocalMergeStrategySections()) {
-      if (section.getName().equals(RefConfigSection.ALL)) {
-        p.setSubmitType(section.getSubmitType().name());
-        p.setUseContentMerge(section.isUseContentMerge());
-        setDefaultMergeStrategy = false;
-        break;
-      }
-    }
-
-    // if there is no mergeStrategySection to refs/* set default value
-    if (setDefaultMergeStrategy) {
-      p.setSubmitType(MergeStrategySection.SubmitType.MERGE_IF_NECESSARY.name());
-    }
-
-    detail.setProject(p);
+    detail.setProject(projectState.getProject());
 
     final boolean userIsOwner = pc.isOwner();
     final boolean userIsOwnerAnyRef = pc.isOwnerAnyRef();

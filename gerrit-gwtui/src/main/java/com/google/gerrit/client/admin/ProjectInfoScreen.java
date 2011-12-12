@@ -20,15 +20,11 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.ProjectDetail;
-import com.google.gerrit.common.data.MergeStrategySection.SubmitType;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
@@ -38,8 +34,6 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private Panel projectOptionsPanel;
   private CheckBox requireChangeID;
-  private ListBox submitType;
-  private CheckBox useContentMerge;
 
   private Panel agreementsPanel;
   private CheckBox useContributorAgreements;
@@ -91,8 +85,6 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private void enableForm(final boolean canModifyAgreements,
       final boolean canModifyDescription, final boolean canModifyMergeType) {
-    submitType.setEnabled(canModifyMergeType);
-    useContentMerge.setEnabled(canModifyMergeType);
     descTxt.setEnabled(canModifyDescription);
     useContributorAgreements.setEnabled(canModifyAgreements);
     useSignedOffBy.setEnabled(canModifyAgreements);
@@ -117,44 +109,11 @@ public class ProjectInfoScreen extends ProjectScreen {
     projectOptionsPanel = new VerticalPanel();
     projectOptionsPanel.add(new SmallHeading(Util.C.headingProjectOptions()));
 
-    submitType = new ListBox();
-    for (final SubmitType type : SubmitType.values()) {
-      submitType.addItem(Util.toLongString(type), type.name());
-    }
-    submitType.addChangeHandler(new ChangeHandler() {
-      @Override
-      public void onChange(ChangeEvent event) {
-        setEnabledForUseContentMerge();
-      }
-    });
-    saveEnabler.listenTo(submitType);
-    projectOptionsPanel.add(submitType);
-
-    useContentMerge = new CheckBox(Util.C.useContentMerge(), true);
-    saveEnabler.listenTo(useContentMerge);
-    projectOptionsPanel.add(useContentMerge);
-
     requireChangeID = new CheckBox(Util.C.requireChangeID(), true);
     saveEnabler.listenTo(requireChangeID);
     projectOptionsPanel.add(requireChangeID);
 
     add(projectOptionsPanel);
-  }
-
-  /**
-   * Enables the {@link #useContentMerge} checkbox if the selected submit type
-   * allows the usage of content merge.
-   * If the submit type (currently only 'Fast Forward Only') does not allow
-   * content merge the useContentMerge checkbox gets disabled.
-   */
-  private void setEnabledForUseContentMerge() {
-    if (SubmitType.FAST_FORWARD_ONLY.equals(SubmitType
-        .valueOf(submitType.getValue(submitType.getSelectedIndex())))) {
-      useContentMerge.setEnabled(false);
-      useContentMerge.setValue(false);
-    } else {
-      useContentMerge.setEnabled(submitType.isEnabled());
-    }
   }
 
   private void initAgreements() {
@@ -172,20 +131,6 @@ public class ProjectInfoScreen extends ProjectScreen {
     add(agreementsPanel);
   }
 
-  private void setSubmitType(final SubmitType newSubmitType) {
-    int index = -1;
-    if (submitType != null) {
-      for (int i = 0; i < submitType.getItemCount(); i++) {
-        if (newSubmitType.name().equals(submitType.getValue(i))) {
-          index = i;
-          break;
-        }
-      }
-      submitType.setSelectedIndex(index);
-      setEnabledForUseContentMerge();
-    }
-  }
-
   void display(final ProjectDetail result) {
     project = result.project;
 
@@ -199,9 +144,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     descTxt.setText(project.getDescription());
     useContributorAgreements.setValue(project.isUseContributorAgreements());
     useSignedOffBy.setValue(project.isUseSignedOffBy());
-    useContentMerge.setValue(project.isUseContentMerge());
     requireChangeID.setValue(project.isRequireChangeID());
-    setSubmitType(SubmitType.valueOf(project.getSubmitType()));
 
     saveProject.setEnabled(false);
   }
@@ -210,11 +153,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     project.setDescription(descTxt.getText().trim());
     project.setUseContributorAgreements(useContributorAgreements.getValue());
     project.setUseSignedOffBy(useSignedOffBy.getValue());
-    project.setUseContentMerge(useContentMerge.getValue());
     project.setRequireChangeID(requireChangeID.getValue());
-    if (submitType.getSelectedIndex() >= 0) {
-      project.setSubmitType(submitType.getValue(submitType.getSelectedIndex()));
-    }
 
     enableForm(false, false, false);
 

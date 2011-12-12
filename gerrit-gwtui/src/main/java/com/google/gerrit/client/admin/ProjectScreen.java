@@ -24,6 +24,7 @@ public abstract class ProjectScreen extends MenuScreen {
   public static final String INFO = "info";
   public static final String BRANCH = "branches";
   public static final String ACCESS = "access";
+  public static final String MERGE_STRATEGY = "merge_strategies";
 
   private final Project.NameKey name;
 
@@ -37,6 +38,8 @@ public abstract class ProjectScreen extends MenuScreen {
       link(Util.C.projectAdminTabBranches(), toProjectAdmin(name, BRANCH));
     }
     link(Util.C.projectAdminTabAccess(), toProjectAdmin(name, ACCESS));
+    link(Util.C.projectAdminTabRefMergeStrategy(), toProjectAdmin(name,
+        MERGE_STRATEGY));
   }
 
   protected Project.NameKey getProjectKey() {

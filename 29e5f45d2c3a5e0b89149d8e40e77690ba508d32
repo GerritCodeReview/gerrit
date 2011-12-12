@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABsn////I\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-12T19:41:48Z",
+      "side": 1,
+      "message": "Is it called \u0027Push branch\u0027 in Gerrit 2.2.x? I thought it was just \u0027Push\u0027 now.\n\nSame in the two lines below.",
+      "revId": "29e5f45d2c3a5e0b89149d8e40e77690ba508d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABsn////Q\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-12T19:41:48Z",
+      "side": 1,
+      "message": "This should actually map to \u0027Push signed tag\u0027. Unfortunately \u0027Push signed tag\u0027 does not exist and the possibility to assign this privilege got lost when the access rights were changed. See comment from Shawn about this on the mailing list [1]. Until there is a bug-fix we should maybe just mention here that it\u0027s not supported.\n\n[1] http://groups.google.com/group/repo-discuss/browse_thread/thread/2bf7bae386532543/c49ea8d4fff97265?lnk\u003dgst\u0026q\u003dpush+signed+tag#c49ea8d4fff97265",
+      "revId": "29e5f45d2c3a5e0b89149d8e40e77690ba508d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABsn////U\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-12T19:41:48Z",
+      "side": 1,
+      "message": "Did push tag +3 really exist? I think it was just Push tag +1 and push tag +2",
+      "revId": "29e5f45d2c3a5e0b89149d8e40e77690ba508d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABtn////8\u003d",
+        "filename": "Documentation/cmd-create-project.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-12T22:07:43Z",
+      "side": 0,
+      "message": "I can\u0027t help but think that it might still be convenient to leave these options in, some may still want to create projects simply without having to create \"ACLs\".  It would simplify things for those who don\u0027t plan to take advantage of this new ability.",
+      "revId": "341c10e88102029f2003cc2aa6ee679b6cbd617a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

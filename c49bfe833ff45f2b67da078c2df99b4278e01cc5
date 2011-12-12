@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABtn////M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-12T22:07:43Z",
+      "side": 1,
+      "message": "I think it would be better to say that this change adds the ability to chose the merge strategy based on a ref (since the old way is still supported).",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABtn////I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-12T22:07:43Z",
+      "side": 1,
+      "message": "/User will/users may/   /a a/a/",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABtn////E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-12T22:07:43Z",
+      "side": 1,
+      "message": "/Inheritance of ref merge strategies exists/This change also adds inheritance to the merge strategies/",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABtn////g\u003d",
+        "filename": "Documentation/merge-strategy.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-12T22:07:43Z",
+      "side": 1,
+      "message": "s/to/for/",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABtn////k\u003d",
+        "filename": "Documentation/merge-strategy.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-12T22:07:43Z",
+      "side": 1,
+      "message": "s/enabling it to/to enable it for a/",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABtn////4\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/MergeStrategySection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-12T22:07:43Z",
+      "side": 1,
+      "message": "Is it OK to assume that neither of these can be null?  Couldn\u0027t a user easily create a ref entry which only has one of these defined?  Perhaps you don\u0027t really support this case in the code, but perhaps it should be supported?  I can easily see a project wanting to override one without overriding/specifying the other.",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABtn////0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/NoSuchRefPatternMatches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-12T22:07:43Z",
+      "side": 1,
+      "message": "Nit: I think the \":\" should stick to \"matches\"",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABtn////w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-12T22:07:43Z",
+      "side": 1,
+      "message": "Why not just replace line 57 with line 69 and eliminate line 62 and 68?",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABtn////s\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-12T22:07:43Z",
+      "side": 1,
+      "message": "Do we really need to keep these here for backwards compatibility (i haven\u0027t checked)?  It seems like even if we support the old mode of having this set on the entire project that this would be represented by a \u0027refs/*\u0027 entry instead?  Perhaps this is just needed until the new UI is merged?",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABtn////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-12T22:07:43Z",
+      "side": 1,
+      "message": "Is this a mistake?  I am not sure how this relates to this change?",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABtn////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-12T22:07:43Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to do this since until now inheritance did not exist.  If I understand what you are trying to do, I would word it as: you are factoring our MERGE_IF_NECESSARY from all sub projects and deciding that such projects will no longer have an explicit strategy, but instead they will now inherit their strategy from \"-- All Projects --\".  Did I get that right?\n\nI so, I do not think that this is a good assumption.  None of the other strategy styles will suddenly inherit their merge strategies after this conversion.  I think that it would be better to provide a script to perform this type of conversion if it is deemed valuable than to simply assume that admins want this conversion and to provide it only for the M case.\n\nAlso, I don\u0027t like the idea of tweaking an old schema to alter functionality.  I think that the only valid reason to alter an older schema is likely because the code base has changed and it prevents the old schema update from working (perhaps even compiling) exactly the way it used to work.  As is, users who have  already upgraded past schema53 before this change ever gets merged will not see the above functionality and their upgrade would be quite different than if they had waited until this change got merged as is.",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

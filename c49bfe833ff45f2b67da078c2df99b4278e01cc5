@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAABu3////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-13T18:49:23Z",
+      "side": 1,
+      "message": "I am not proposing that gerrit still be able to save a submit type without specifying refs/*.\n\nI am merely trying to make your commit message more clear, and I think the fact that you have had to explain in your reply what this change actually does and doesn\u0027t do, indicates that you yourself likely feel that you have not explained it enough, or completely in your change message.\n\nBut, I still think that my comment is correct (but perhaps also incomplete) since this change still allows Gerrit to support the old way if it is specified that way via refs/meta/config, and the UI effectively still (only) supports project level definitions, even if it translates those to refs/* definitions in the config.   These are the types of details that I would expect your commit message to explain.  Reviewers should be able to gather from your commit message what the change does without having to search through review comments on previous patch sets (or changes, past or future) to figure this out.  \n\nRemember, once this change is merged, the commit message will stand alone in git to explain what it does, the review comments will not be there.  But, also updating the commit message to reflect the new decisions which you have implemented also helps reviewers familiar with the history of your patch set series know what to expect out of the new patch set, perhaps an implementation deviates from the intent described in the previous patch set\u0027s comments (for good reason).",
+      "parentUuid": "AAABun////4\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABtn////I\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -142,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "AAABu3////0\u003d",
+        "filename": "Documentation/merge-strategy.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-13T18:49:23Z",
+      "side": 1,
+      "message": "yes",
+      "parentUuid": "AAABun////o\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABtn////k\u003d",
         "filename": "Documentation/merge-strategy.txt",
         "patchSetId": 6
@@ -206,6 +242,24 @@
       "side": 1,
       "message": "I should confirm with Monica, but our idea is to not have a section without one of these informations. The UI has even been constructed to not support only one of these informations available. Would it not be ok, in the scenario you mention, to the user override it providing the merge strategy?",
       "parentUuid": "AAABtn////4\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABu3////w\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/MergeStrategySection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-13T18:49:23Z",
+      "side": 1,
+      "message": "The problem is that you cannot rely on the UI enforcing this everywhere since users can supply configurations via ref/meta/config thus subverting any restrictions the UI attempts to enforce.\n\nImagine a user doing the following (project A\u0026B both direct descendants of All-Projects):\n\nIn \u0027All-Projects`\n  [submit refs/*]\n    action \u003d cherryPick\n    mergeContent \u003d true\n\nand in project \u0027A\u0027:\n  [submit refs/*]\n    mergeContent \u003d false\n\nand in project \u0027B\u0027:\n  [submit refs/*]\n    action \u003d mergeIfNecessary\n\nI think that they will be very disappointed if this means that project A is actually set to the default merge strategey of mergeIfNecessary.  Also, I suspect they will be surprised if this means that the mergeContent for B is set to the default of false.\n\nI understand that coding this to work intuitively is not easy. I am open to alternate suggestions.  But I don\u0027t think that you can assume that users will not contrive scenarios similar to the ones above.  If we have learned anything from the ACLs is Gerrit, it\u0027s that we need to do our best to avoid surprising users.  So in these cases, we need some way to not make unexpected things happen, and I don\u0027t think that simply documenting that this shouldn\u0027t be done would be enough.",
+      "parentUuid": "AAABun////g\u003d",
       "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -352,6 +406,23 @@
     },
     {
       "key": {
+        "uuid": "AAABtn///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-13T18:49:23Z",
+      "side": 1,
+      "message": "The check above does not seem like it is \"runtime\" related, it seems like it should be done when the refStrategies are loaded from/into the config?  \n\nWhich makes me wonder why we have two different types of validation on refsConfigs, that one and the simpler isValid() on RefConfigSection?",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABtn////Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
         "patchSetId": 6
@@ -381,6 +452,24 @@
       "side": 1,
       "message": "Ok. Anyway we should modify this file since Project.SubmitType is dropped, but, of course, without forcing inheritance of \"All Projects\".",
       "parentUuid": "AAABtn////Q\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABu3////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-13T18:49:23Z",
+      "side": 1,
+      "message": "Makes sense.",
+      "parentUuid": "AAABun////Q\u003d",
       "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

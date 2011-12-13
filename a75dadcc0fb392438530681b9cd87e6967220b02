@@ -34,6 +34,24 @@
       "revId": "a75dadcc0fb392438530681b9cd87e6967220b02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABrn////M\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-13T14:48:20Z",
+      "side": 1,
+      "message": "Would be feasible, but if you want to push from another machine to the Gerrit server with bypassing Gerrit then you need to have an SSH deamon running on the Gerrit server (assuming you want to push over SSH). For this to work you first have to setup everything for SSH (e.g. make your public key available). So I think this would be even more difficult to describe and it would be confusing because it\u0027s not the normal way how to work with Gerrit.\n\nSo I would vote for going the easy way and just limit this descrition to the creation of a test project and not to describe how to import an existing project. If this is needed, it can still be added later.",
+      "parentUuid": "AAABsX////s\u003d",
+      "revId": "a75dadcc0fb392438530681b9cd87e6967220b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

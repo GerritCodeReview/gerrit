@@ -38,6 +38,7 @@ import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectDescendants;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -67,6 +68,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private final Config cfg;
   private final GroupCache groupCache;
   private final boolean suggestAccounts;
+  private final ProjectDescendants.Factory projectDescendantsFactory;
 
   @Inject
   SuggestServiceImpl(final Provider<ReviewDb> schema,
@@ -77,7 +79,8 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       final IdentifiedUser.GenericFactory userFactory,
       final Provider<CurrentUser> currentUser,
       final AccountControl.Factory accountControlFactory,
-      @GerritServerConfig final Config cfg, final GroupCache groupCache) {
+      @GerritServerConfig final Config cfg, final GroupCache groupCache,
+      final ProjectDescendants.Factory projectDescendantsFactory) {
     super(schema, currentUser);
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
@@ -88,6 +91,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     this.accountControlFactory = accountControlFactory;
     this.cfg = cfg;
     this.groupCache = groupCache;
+    this.projectDescendantsFactory = projectDescendantsFactory;
 
     if ("OFF".equals(cfg.getString("suggest", null, "accounts"))) {
       this.suggestAccounts = false;
@@ -121,6 +125,37 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       r.add(ctl.getProject().getNameKey());
       if (r.size() == n) {
         break;
+      }
+    }
+    callback.onSuccess(r);
+  }
+
+  public void suggestParentProjectNameKey(final Project.NameKey project,
+      final String query, final int limit,
+      final AsyncCallback<List<Project.NameKey>> callback) {
+    Set<Project.NameKey> descendants;
+    try {
+      descendants = projectDescendantsFactory.create().get(project);
+    } catch (NoSuchProjectException e) {
+      descendants = Collections.emptySet();
+    }
+
+    final int max = 10;
+    final int n = limit <= 0 ? max : Math.min(limit, max);
+
+    final List<Project.NameKey> r = new ArrayList<Project.NameKey>(n);
+    for (final Project.NameKey nameKey : projectCache.byName(query)) {
+      try {
+        projectControlFactory.validateFor(nameKey);
+      } catch (NoSuchProjectException e) {
+        continue;
+      }
+
+      if (!nameKey.equals(project) && !descendants.contains(nameKey)) {
+        r.add(nameKey);
+        if (r.size() == n) {
+          break;
+        }
       }
     }
     callback.onSuccess(r);

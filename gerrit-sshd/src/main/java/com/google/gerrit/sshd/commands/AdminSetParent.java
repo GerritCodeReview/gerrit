@@ -30,6 +30,8 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,6 +42,8 @@ import java.util.Set;
 
 @AdminCommand
 final class AdminSetParent extends BaseCommand {
+  private static final Logger log = LoggerFactory.getLogger(AdminSetParent.class);
+
   @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "new parent project")
   private ProjectControl newParent;
 
@@ -159,9 +163,13 @@ final class AdminSetParent extends BaseCommand {
       } catch (RepositoryNotFoundException notFound) {
         err.append("error: Project " + name + " not found\n");
       } catch (IOException e) {
-        throw new Failure(1, "Cannot update project " + name, e);
+        final String msg = "Cannot update project " + name;
+        log.error(msg, e);
+        err.append("error: " + msg + "\n");
       } catch (ConfigInvalidException e) {
-        throw new Failure(1, "Cannot update project " + name, e);
+        final String msg = "Cannot update project " + name;
+        log.error(msg, e);
+        err.append("error: " + msg + "\n");
       }
 
       projectCache.evict(project);

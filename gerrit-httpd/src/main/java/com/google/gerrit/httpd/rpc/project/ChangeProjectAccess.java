@@ -21,16 +21,20 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.common.errors.UpdateParentsFailedException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.project.UpdateParents;
 import com.google.gwtorm.client.OrmConcurrencyException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -42,6 +46,7 @@ import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -52,8 +57,10 @@ import javax.annotation.Nullable;
 
 class ChangeProjectAccess extends Handler<ProjectAccess> {
   interface Factory {
-    ChangeProjectAccess create(@Assisted Project.NameKey projectName,
+    ChangeProjectAccess create(
+        @Assisted("projectName") Project.NameKey projectName,
         @Assisted ObjectId base, @Assisted List<AccessSection> sectionList,
+        @Nullable @Assisted("parentProjectName") Project.NameKey parentProjectName,
         @Nullable @Assisted String message);
   }
 
@@ -62,10 +69,13 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
   private final ProjectCache projectCache;
   private final GroupCache groupCache;
   private final MetaDataUpdate.User metaDataUpdateFactory;
+  private final UpdateParents.Factory updateParentsFactory;
 
   private final Project.NameKey projectName;
+  private final boolean isWild;
   private final ObjectId base;
   private List<AccessSection> sectionList;
+  final Project.NameKey parentProjectName;
   private String message;
 
   @Inject
@@ -73,26 +83,32 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
       final ProjectControl.Factory projectControlFactory,
       final ProjectCache projectCache, final GroupCache groupCache,
       final MetaDataUpdate.User metaDataUpdateFactory,
+      final UpdateParents.Factory updateParentsFactory,
+      final AllProjectsName allProjectsName,
 
-      @Assisted final Project.NameKey projectName,
+      @Assisted("projectName") final Project.NameKey projectName,
       @Assisted final ObjectId base, @Assisted List<AccessSection> sectionList,
+      @Nullable @Assisted("parentProjectName") final Project.NameKey parentProjectName,
       @Nullable @Assisted String message) {
     this.projectAccessFactory = projectAccessFactory;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
     this.groupCache = groupCache;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.updateParentsFactory = updateParentsFactory;
 
     this.projectName = projectName;
+    this.isWild = allProjectsName.equals(projectName);
     this.base = base;
     this.sectionList = sectionList;
+    this.parentProjectName = parentProjectName;
     this.message = message;
   }
 
   @Override
   public ProjectAccess call() throws NoSuchProjectException, IOException,
       ConfigInvalidException, InvalidNameException, NoSuchGroupException,
-      OrmConcurrencyException {
+      OrmConcurrencyException, UpdateParentsFailedException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
 
@@ -151,6 +167,10 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
         } else if (projectControl.controlForRef(name).isOwner()) {
           config.remove(config.getAccessSection(name));
         }
+      }
+
+      if (!isWild) {
+        updateParentProject(config);
       }
 
       if (message != null && !message.isEmpty()) {
@@ -220,5 +240,22 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
       }
       ref.setUUID(group.getGroupUUID());
     }
+  }
+
+  private void updateParentProject(final ProjectConfig config)
+      throws UpdateParentsFailedException, NoSuchProjectException {
+    final Project parentProject;
+    if (parentProjectName != null) {
+      final ProjectState parentState = projectCache.get(parentProjectName);
+      if (parentState == null) {
+        throw new NoSuchProjectException(parentProjectName);
+      }
+      parentProject = parentState.getProject();
+    } else {
+      parentProject = null;
+    }
+    updateParentsFactory.create(Collections.singleton(config.getProject()),
+        parentProject).validateParentUpdate();
+    config.getProject().setParentName(parentProjectName);
   }
 }

@@ -142,6 +142,7 @@ public class ProjectAccessScreen extends ProjectScreen {
         access.getRevision(), //
         message, //
         access.getLocal(), //
+        access.getInheritsFrom(), //
         new GerritCallback<ProjectAccess>() {
           @Override
           public void onSuccess(ProjectAccess access) {

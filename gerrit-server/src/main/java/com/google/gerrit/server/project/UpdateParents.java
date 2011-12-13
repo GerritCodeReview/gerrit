@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.common.errors.UpdateParentsFailedException;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -143,12 +144,15 @@ public class UpdateParents {
       projectCache.evict(childProject);
     }
 
-    if (err.length() > 0) {
-      while (err.charAt(err.length() - 1) == '\n') {
-        err.setLength(err.length() - 1);
-      }
-      throw new UpdateParentsFailedException(err.toString());
+    failOnError(err);
+  }
+
+  public void validateParentUpdate() throws UpdateParentsFailedException {
+    final StringBuilder err = new StringBuilder();
+    for (final Project childProject : children) {
+      validateParentUpdate(err, childProject);
     }
+    failOnError(err);
   }
 
   private boolean validateParentUpdate(final StringBuilder err,
@@ -171,5 +175,15 @@ public class UpdateParents {
     }
 
     return true;
+  }
+
+  private static void failOnError(final StringBuilder err)
+      throws UpdateParentsFailedException {
+    if (err.length() > 0) {
+      while (err.charAt(err.length() - 1) == '\n') {
+        err.setLength(err.length() - 1);
+      }
+      throw new UpdateParentsFailedException(err.toString());
+    }
   }
 }

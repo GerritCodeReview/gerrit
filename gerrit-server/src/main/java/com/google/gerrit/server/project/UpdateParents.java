@@ -50,7 +50,8 @@ public class UpdateParents {
   private final IdentifiedUser currentUser;
 
   private final Collection<Project> children;
-  private final Project newParent;
+  private final Project.NameKey newParentKey;
+  private final Set<Project.NameKey> ancestors;
 
   @Inject
   UpdateParents(final ProjectCache projectCache,
@@ -64,7 +65,28 @@ public class UpdateParents {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.currentUser = currentUser;
     this.children = children;
-    this.newParent = newParent;
+
+    ancestors = new HashSet<Project.NameKey>();
+    ancestors.add(allProjectsName);
+
+    if (newParent != null) {
+      newParentKey = newParent.getNameKey();
+
+      // Catalog all ancestors of the "parent", we want to
+      // catch a cycle in the parent pointers before it occurs.
+      //
+      Project.NameKey ancestor = newParent.getParent();
+      while (ancestor != null && ancestors.add(ancestor)) {
+        final ProjectState s = projectCache.get(ancestor);
+        if (s != null) {
+          ancestor = s.getProject().getParent();
+        } else {
+          break;
+        }
+      }
+    } else {
+      newParentKey = allProjectsName;
+    }
   }
 
   /**
@@ -85,55 +107,19 @@ public class UpdateParents {
     }
 
     final StringBuilder err = new StringBuilder();
-    final Set<Project.NameKey> grandParents = new HashSet<Project.NameKey>();
-
-    grandParents.add(allProjectsName);
-
-    Project.NameKey newParentKey = null;
-    if (newParent != null) {
-      newParentKey = newParent.getNameKey();
-
-      // Catalog all grandparents of the "parent", we want to
-      // catch a cycle in the parent pointers before it occurs.
-      //
-      Project.NameKey gp = newParent.getParent();
-      while (gp != null && grandParents.add(gp)) {
-        final ProjectState s = projectCache.get(gp);
-        if (s != null) {
-          gp = s.getProject().getParent();
-        } else {
-          break;
-        }
-      }
-    }
-
     for (final Project childProject : children) {
-      final String name = childProject.getName();
-      final Project.NameKey nameKey = childProject.getNameKey();
-
-      if (allProjectsName.equals(nameKey)) {
-        // Don't allow the wild card project to have a parent.
-        //
-        err.append("error: Cannot set parent of '" + name + "'\n");
+      if (!validateParentUpdate(err, childProject)) {
         continue;
       }
 
-      if (grandParents.contains(nameKey) || nameKey.equals(newParentKey)) {
-        // Try to avoid creating a cycle in the parent pointers.
-        //
-        err.append("error: Cycle exists between '" + name + "' and '"
-            + (newParentKey != null ? newParentKey.get() : allProjectsName.get())
-            + "'\n");
-        continue;
-      }
-
+      final Project.NameKey name = childProject.getNameKey();
       try {
-        MetaDataUpdate md = metaDataUpdateFactory.create(nameKey);
+        MetaDataUpdate md =
+            metaDataUpdateFactory.create(childProject.getNameKey());
         try {
           ProjectConfig config = ProjectConfig.read(md);
           config.getProject().setParentName(newParentKey);
-          md.setMessage("Inherit access from "
-              + (newParentKey != null ? newParentKey.get() : allProjectsName.get()) + "\n");
+          md.setMessage("Inherit access from " + newParentKey.get() + "\n");
           if (!config.commit(md)) {
             err.append("error: Could not update project " + name + "\n");
           }
@@ -155,6 +141,47 @@ public class UpdateParents {
       projectCache.evict(childProject);
     }
 
+    failOnError(err);
+  }
+
+  /**
+   * Checks if for all child projects the parent project can be updated.
+   *
+   * @throws UpdateParentsFailedException thrown if updating the parent project
+   *         would fail for any child project
+   */
+  public void validateParentUpdate() throws UpdateParentsFailedException {
+    final StringBuilder err = new StringBuilder();
+    for (final Project childProject : children) {
+      validateParentUpdate(err, childProject);
+    }
+    failOnError(err);
+  }
+
+  private boolean validateParentUpdate(final StringBuilder err,
+      final Project childProject) {
+    final Project.NameKey name = childProject.getNameKey();
+
+    if (allProjectsName.equals(name)) {
+      // Don't allow the wild card project to have a parent.
+      //
+      err.append("error: Cannot set parent of '" + name + "'\n");
+      return false;
+    }
+
+    if (ancestors.contains(name) || name.equals(newParentKey)) {
+      // Try to avoid creating a cycle in the parent pointers.
+      //
+      err.append("error: Cycle exists between '" + name + "' and '"
+          + newParentKey.get() + "'\n");
+      return false;
+    }
+
+    return true;
+  }
+
+  private static void failOnError(final StringBuilder err)
+      throws UpdateParentsFailedException {
     if (err.length() > 0) {
       while (err.charAt(err.length() - 1) == '\n') {
         err.setLength(err.length() - 1);

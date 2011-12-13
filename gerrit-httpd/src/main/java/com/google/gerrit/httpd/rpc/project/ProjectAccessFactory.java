@@ -198,6 +198,8 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     detail.setOwnerOf(ownerOf);
     detail.setConfigVisible(pc.isOwner()
         || pc.controlForRef(GitRepositoryManager.REF_CONFIG).isVisible());
+    detail.setCanChangeParent(pc.getCurrentUser().getCapabilities()
+        .canAdministrateServer());
     return detail;
   }
 

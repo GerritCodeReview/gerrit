@@ -24,4 +24,10 @@ public interface GerritMessages extends Messages {
   String noSuchAccountMessage(String who);
 
   String noSuchGroupMessage(String who);
+
+  String updateParentProjectNotPermitted(String childProject);
+  String noSuchParentProject(String parentProject);
+  String parentProjectCannotBeSet(String childProject);
+  String cycleExistsInParentPointers(String childProject);
+  String projectUpdateFailed(String projectName);
 }

@@ -14,13 +14,13 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.errors.UpdateParentsFailedException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.UpdateParents;
-import com.google.gerrit.server.project.UpdateParentsFailedException;
 import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;

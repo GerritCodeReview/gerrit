@@ -50,7 +50,7 @@ public interface ProjectAdminService extends RemoteJsonService {
 
   @SignInRequired
   void changeProjectAccess(Project.NameKey projectName, String baseRevision,
-      String message, List<AccessSection> sections,
+      String message, List<AccessSection> sections, Project.NameKey parentProjectName,
       AsyncCallback<ProjectAccess> callback);
 
   void listBranches(Project.NameKey projectName,

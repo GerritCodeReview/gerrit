@@ -26,6 +26,7 @@ public class ProjectAccess {
   protected List<AccessSection> local;
   protected Set<String> ownerOf;
   protected boolean isConfigVisible;
+  protected boolean canChangeParent;
 
   public ProjectAccess() {
   }
@@ -93,5 +94,13 @@ public class ProjectAccess {
 
   public void setConfigVisible(boolean isConfigVisible) {
     this.isConfigVisible = isConfigVisible;
+  }
+
+  public boolean canChangeParent() {
+    return canChangeParent;
+  }
+
+  public void setCanChangeParent(final boolean canChangeParent) {
+    this.canChangeParent = canChangeParent;
   }
 }

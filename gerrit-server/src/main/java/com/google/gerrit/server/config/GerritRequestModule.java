@@ -54,6 +54,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectDescendants;
 import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.gerrit.server.project.UpdateParents;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -113,5 +114,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(Submit.Factory.class);
     factory(SuggestParentCandidates.Factory.class);
     factory(UpdateParents.Factory.class);
+    factory(ProjectDescendants.Factory.class);
   }
 }

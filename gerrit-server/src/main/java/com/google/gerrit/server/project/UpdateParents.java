@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.common.errors.UpdateParentsFailedException;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -141,6 +142,14 @@ public class UpdateParents {
       projectCache.evict(childProject);
     }
 
+    failOnError(err);
+  }
+
+  public void validateParentUpdate() throws UpdateParentsFailedException {
+    final StringBuilder err = new StringBuilder();
+    for (final Project childProject : children) {
+      validateParentUpdate(err, childProject);
+    }
     failOnError(err);
   }
 

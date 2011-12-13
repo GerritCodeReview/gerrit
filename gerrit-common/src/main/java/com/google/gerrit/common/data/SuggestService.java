@@ -28,6 +28,9 @@ public interface SuggestService extends RemoteJsonService {
   void suggestProjectNameKey(String query, int limit,
       AsyncCallback<List<Project.NameKey>> callback);
 
+  void suggestParentProjectNameKey(Project.NameKey project, String query,
+      int limit, AsyncCallback<List<Project.NameKey>> callback);
+
   void suggestAccount(String query, Boolean enabled, int limit,
       AsyncCallback<List<AccountInfo>> callback);
 

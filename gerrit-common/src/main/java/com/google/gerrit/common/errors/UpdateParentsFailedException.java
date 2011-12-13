@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.common.errors;
 
 public class UpdateParentsFailedException extends Exception {
   private static final long serialVersionUID = 1L;

@@ -56,6 +56,10 @@ public class ProjectAccessEditor extends Composite implements
   Hyperlink parentProject;
 
   @UiField
+  @Editor.Ignore
+  ParentProjectBox parentProjectBox;
+
+  @UiField
   DivElement history;
 
   @UiField
@@ -106,6 +110,11 @@ public class ProjectAccessEditor extends Composite implements
       parentProject.setText(parent.get());
       parentProject.setTargetHistoryToken( //
           Dispatcher.toProjectAdmin(parent, ProjectScreen.ACCESS));
+
+      parentProjectBox.setVisible(editing && value.canChangeParent());
+      parentProjectBox.setProjectName(value.getProjectName());
+      parentProjectBox.setParentProjectName(value.getInheritsFrom());
+      parentProject.setVisible(!parentProjectBox.isVisible());
     } else {
       inheritsFrom.getStyle().setDisplay(Display.NONE);
     }
@@ -135,6 +144,7 @@ public class ProjectAccessEditor extends Composite implements
       }
     }
     value.setLocal(keep);
+    value.setInheritsFrom(parentProjectBox.getParentProjectName());
   }
 
   @Override

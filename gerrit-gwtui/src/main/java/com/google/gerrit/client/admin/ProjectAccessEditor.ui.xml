@@ -18,6 +18,7 @@ limitations under the License.
   xmlns:ui='urn:ui:com.google.gwt.uibinder'
   xmlns:g='urn:import:com.google.gwt.user.client.ui'
   xmlns:q='urn:import:com.google.gerrit.client.ui'
+  xmlns:my='urn:import:com.google.gerrit.client.admin'
   ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
   ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
   ui:generateLocales='default,en'
@@ -56,6 +57,10 @@ limitations under the License.
   <div ui:field='inheritsFrom' class='{style.inheritsFrom}'>
     <span class='{style.parentTitle}'><ui:msg>Rights Inherit From:</ui:msg></span>
     <q:Hyperlink ui:field='parentProject' styleName='{style.parentLink}'/>
+    <my:ParentProjectBox
+      ui:field='parentProjectBox'
+      visibleLength='30'
+      visible='false'/>
   </div>
   <div ui:field='history' class='{style.history}'>
     <span class='{style.historyTitle}'><ui:msg>History:</ui:msg></span>

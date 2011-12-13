@@ -16,6 +16,24 @@
       "revId": "a75dadcc0fb392438530681b9cd87e6967220b02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABsX////s\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-13T10:14:49Z",
+      "side": 1,
+      "message": "Would it be feasible to push the current history \"behind\" gerrit just to get started? How much cheating is ok? :-)\n\nOtherwise I think it\u0027s probably better to skip permissions and the entire alternative. Easy is good here.",
+      "parentUuid": "AAABsn////k\u003d",
+      "revId": "a75dadcc0fb392438530681b9cd87e6967220b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

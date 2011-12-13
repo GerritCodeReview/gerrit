@@ -142,7 +142,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private Branch.NameKey destBranch;
   private RefControl destBranchCtl;
 
-  private final List<Change.Id> allNewChanges = new ArrayList<Change.Id>();
+  private final List<Change> allNewChanges = new ArrayList<Change>();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
       new HashMap<Change.Id, ReplaceRequest>();
   private final Map<RevCommit, ReplaceRequest> replaceByCommit =
@@ -370,8 +370,13 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final String url = canonicalWebUrl;
       rp.sendMessage("");
       rp.sendMessage("New Changes:");
-      for (final Change.Id c : allNewChanges) {
-        rp.sendMessage("  " + url + c.get());
+      for (final Change c : allNewChanges) {
+        if (c.getStatus() == Change.Status.DRAFT) {
+          rp.sendMessage("  " + url + c.getChangeId() + " [DRAFT]");
+        }
+        else {
+          rp.sendMessage("  " + url + c.getChangeId());
+        }
       }
       rp.sendMessage("");
     }
@@ -985,7 +990,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
     replication.scheduleUpdate(project.getNameKey(), ru.getName());
 
-    allNewChanges.add(change.getId());
+    allNewChanges.add(change);
 
     try {
       final CreateChangeSender cm;

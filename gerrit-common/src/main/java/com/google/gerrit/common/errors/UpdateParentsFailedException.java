@@ -14,10 +14,14 @@
 
 package com.google.gerrit.common.errors;
 
+import com.google.gerrit.common.data.UpdateParentsResult;
+
 public class UpdateParentsFailedException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  public UpdateParentsFailedException(final String message) {
-    super(message);
+  public static final String MESSAGE = "Update Parent Project Failed: ";
+
+  public UpdateParentsFailedException(final UpdateParentsResult.Error error) {
+    super(MESSAGE + error.getType().toString());
   }
 }

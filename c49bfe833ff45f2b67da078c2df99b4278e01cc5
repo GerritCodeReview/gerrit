@@ -423,6 +423,24 @@
     },
     {
       "key": {
+        "uuid": "AAABvH////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-13T20:32:44Z",
+      "side": 1,
+      "message": "Could you submit this as separate change, a simple bug fix (maybe even make \"all\" a list instead of a collection)?  \n\nEven if an update to gwtorm does not make this a problem, I wonder if we should assume that the list returned from the db is not writable?  It might even be worth auditing all the toList() calls from the db to see if the same assumption isn\u0027t being made elsewhere?\n\nThoughts?\n\nSee: https://gerrit-review.googlesource.com/#/c/30580/",
+      "parentUuid": "AAABun////8\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABtn///+4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 6

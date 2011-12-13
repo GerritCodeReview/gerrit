@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABun////4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-13T11:13:35Z",
+      "side": 1,
+      "message": "This is something that is really confusing us. In latest patchset, considering all community comments, we understood that in this change we would be able to read a project.config file using old/existing approach but saving it set to refs/*. \n\nPlease, could you clarify us if what you mean is to still being able to save a submit type project.config file in the existing way (without specifying refs/*) ?",
+      "parentUuid": "AAABtn////M\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABtn////I\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2011-12-12T22:07:43Z",
       "side": 1,
       "message": "/User will/users may/   /a a/a/",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABun////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-13T11:13:35Z",
+      "side": 1,
+      "message": "We should fix it.",
+      "parentUuid": "AAABtn////I\u003d",
       "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABun////w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-13T11:13:35Z",
+      "side": 1,
+      "message": "We should fix it.",
+      "parentUuid": "AAABtn////E\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABtn////g\u003d",
         "filename": "Documentation/merge-strategy.txt",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2011-12-12T22:07:43Z",
       "side": 1,
       "message": "s/to/for/",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABun////o\u003d",
+        "filename": "Documentation/merge-strategy.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-13T11:13:35Z",
+      "side": 1,
+      "message": "Do you mean \"If enabled for a merge strategy, ...\" ?",
+      "parentUuid": "AAABtn////g\u003d",
       "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAABun////k\u003d",
+        "filename": "Documentation/merge-strategy.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-13T11:13:35Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "AAABtn////k\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABtn////4\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/MergeStrategySection.java",
         "patchSetId": 6
@@ -98,6 +188,24 @@
       "writtenOn": "2011-12-12T22:07:43Z",
       "side": 1,
       "message": "Is it OK to assume that neither of these can be null?  Couldn\u0027t a user easily create a ref entry which only has one of these defined?  Perhaps you don\u0027t really support this case in the code, but perhaps it should be supported?  I can easily see a project wanting to override one without overriding/specifying the other.",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABun////g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/MergeStrategySection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-13T11:13:35Z",
+      "side": 1,
+      "message": "I should confirm with Monica, but our idea is to not have a section without one of these informations. The UI has even been constructed to not support only one of these informations available. Would it not be ok, in the scenario you mention, to the user override it providing the merge strategy?",
+      "parentUuid": "AAABtn////4\u003d",
       "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAABun////c\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/NoSuchRefPatternMatches.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-13T11:13:35Z",
+      "side": 1,
+      "message": "Yes, you are right.",
+      "parentUuid": "AAABtn////0\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABtn////w\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
         "patchSetId": 6
@@ -132,6 +258,24 @@
       "writtenOn": "2011-12-12T22:07:43Z",
       "side": 1,
       "message": "Why not just replace line 57 with line 69 and eliminate line 62 and 68?",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABun////Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-13T11:13:35Z",
+      "side": 1,
+      "message": "Sure.",
+      "parentUuid": "AAABtn////w\u003d",
       "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAABun////U\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Project.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-13T11:13:35Z",
+      "side": 1,
+      "message": "The idea is to have it only until new UI is merged. I should confirm with Monica, though.",
+      "parentUuid": "AAABtn////s\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABtn////c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
         "patchSetId": 6
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "AAABun////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-13T11:13:35Z",
+      "side": 1,
+      "message": "Yes, it is a mistake. Sorry :-( In our local tests we did not update gwtorm and we modified this portion to be able to publish comments.",
+      "parentUuid": "AAABtn////c\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABtn////Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
         "patchSetId": 6
@@ -183,6 +363,24 @@
       "writtenOn": "2011-12-12T22:07:43Z",
       "side": 1,
       "message": "I don\u0027t think we want to do this since until now inheritance did not exist.  If I understand what you are trying to do, I would word it as: you are factoring our MERGE_IF_NECESSARY from all sub projects and deciding that such projects will no longer have an explicit strategy, but instead they will now inherit their strategy from \"-- All Projects --\".  Did I get that right?\n\nI so, I do not think that this is a good assumption.  None of the other strategy styles will suddenly inherit their merge strategies after this conversion.  I think that it would be better to provide a script to perform this type of conversion if it is deemed valuable than to simply assume that admins want this conversion and to provide it only for the M case.\n\nAlso, I don\u0027t like the idea of tweaking an old schema to alter functionality.  I think that the only valid reason to alter an older schema is likely because the code base has changed and it prevents the old schema update from working (perhaps even compiling) exactly the way it used to work.  As is, users who have  already upgraded past schema53 before this change ever gets merged will not see the above functionality and their upgrade would be quite different than if they had waited until this change got merged as is.",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABun////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-13T11:13:35Z",
+      "side": 1,
+      "message": "Ok. Anyway we should modify this file since Project.SubmitType is dropped, but, of course, without forcing inheritance of \"All Projects\".",
+      "parentUuid": "AAABtn////Q\u003d",
       "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

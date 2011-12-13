@@ -16,6 +16,24 @@
       "revId": "341c10e88102029f2003cc2aa6ee679b6cbd617a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABun////s\u003d",
+        "filename": "Documentation/cmd-create-project.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-13T11:13:35Z",
+      "side": 0,
+      "message": "Ok. But when using these options, would we apply them to [submit refs/*] ? This is something related to my question on the commit message comments (if should we still be able to save a submit section without specifying refs pattern).",
+      "parentUuid": "AAABtn////8\u003d",
+      "revId": "341c10e88102029f2003cc2aa6ee679b6cbd617a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

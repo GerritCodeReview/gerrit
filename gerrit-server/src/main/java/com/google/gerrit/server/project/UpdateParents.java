@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.common.errors.UpdateParentsFailedException;
+import com.google.gerrit.common.data.UpdateParentsResult;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -97,19 +97,23 @@ public class UpdateParents {
    *        should be set as new parent
    * @param newParent the project which should be set as new parent, if
    *        <code>null</code> the wild project will be set as new parent
-   * @throws UpdateParentsFailedException thrown if updating the parent project
-   *         fails for any child project. It is ensured that all child projects
-   *         that can be updated without problems are updated, even if this
-   *         exception is thrown.
+   * @return result of the parent update that contains information about errors
+   *         that occurred during the update
    */
-  public void updateParents() throws UpdateParentsFailedException {
+  public UpdateParentsResult updateParents() {
+    final UpdateParentsResult result = new UpdateParentsResult();
+
     if (!currentUser.getCapabilities().canAdministrateServer()) {
-      throw new UpdateParentsFailedException("Not a Gerrit administrator");
+      for (final Project childProject : children) {
+        result.addError(new UpdateParentsResult.Error(
+            UpdateParentsResult.Error.Type.UPDATE_NOT_PERMITTED,
+            childProject.getNameKey(), newParentKey));
+      }
+      return result;
     }
 
-    final StringBuilder err = new StringBuilder();
     for (final Project childProject : children) {
-      if (!validateParentUpdate(err, childProject)) {
+      if (!validateParentUpdate(result, childProject)) {
         continue;
       }
 
@@ -122,72 +126,70 @@ public class UpdateParents {
           config.getProject().setParentName(newParentKey);
           md.setMessage("Inherit access from " + newParentKey.get() + "\n");
           if (!config.commit(md)) {
-            err.append("error: Could not update project " + name + "\n");
+            result.addError(new UpdateParentsResult.Error(
+                UpdateParentsResult.Error.Type.PROJECT_UPDATE_FAILED, name,
+                newParentKey));
           }
         } finally {
           md.close();
         }
       } catch (RepositoryNotFoundException notFound) {
-        err.append("error: Project " + name + " not found\n");
+        result.addError(new UpdateParentsResult.Error(
+            UpdateParentsResult.Error.Type.PROJECT_NOT_FOUND, name,
+            newParentKey));
       } catch (IOException e) {
-        final String msg = "Cannot update project " + name;
-        log.error(msg, e);
-        err.append("error: " + msg + "\n");
+        final UpdateParentsResult.Error error =
+            (new UpdateParentsResult.Error(
+                UpdateParentsResult.Error.Type.PROJECT_UPDATE_FAILED, name,
+                newParentKey));
+        log.error(error.toString(), e);
+        result.addError(error);
       } catch (ConfigInvalidException e) {
-        final String msg = "Cannot update project " + name;
-        log.error(msg, e);
-        err.append("error: " + msg + "\n");
+        final UpdateParentsResult.Error error =
+            (new UpdateParentsResult.Error(
+                UpdateParentsResult.Error.Type.PROJECT_UPDATE_FAILED, name,
+                newParentKey));
+        log.error(error.toString(), e);
+        result.addError(error);
       }
 
       projectCache.evict(childProject);
     }
 
-    failOnError(err);
+    return result;
   }
 
   /**
    * Checks if for all child projects the parent project can be updated.
    *
-   * @throws UpdateParentsFailedException thrown if updating the parent project
-   *         would fail for any child project
+   * @return potential result of the parent update that contains information
+   *         about errors that would occur during the update
    */
-  public void validateParentUpdate() throws UpdateParentsFailedException {
-    final StringBuilder err = new StringBuilder();
+  public UpdateParentsResult validateParentUpdate() {
+    final UpdateParentsResult result = new UpdateParentsResult();
     for (final Project childProject : children) {
-      validateParentUpdate(err, childProject);
+      validateParentUpdate(result, childProject);
     }
-    failOnError(err);
+    return result;
   }
 
-  private boolean validateParentUpdate(final StringBuilder err,
+  private boolean validateParentUpdate(final UpdateParentsResult result,
       final Project childProject) {
     final Project.NameKey name = childProject.getNameKey();
 
     if (allProjectsName.equals(name)) {
-      // Don't allow the wild card project to have a parent.
-      //
-      err.append("error: Cannot set parent of '" + name + "'\n");
+      result.addError(new UpdateParentsResult.Error(
+          UpdateParentsResult.Error.Type.PARENT_CANNOT_BE_SET, name,
+          newParentKey));
       return false;
     }
 
     if (ancestors.contains(name) || name.equals(newParentKey)) {
-      // Try to avoid creating a cycle in the parent pointers.
-      //
-      err.append("error: Cycle exists between '" + name + "' and '"
-          + newParentKey.get() + "'\n");
+      result.addError(new UpdateParentsResult.Error(
+          UpdateParentsResult.Error.Type.CYCLE_EXISTS, name, newParentKey));
       return false;
     }
 
     return true;
-  }
-
-  private static void failOnError(final StringBuilder err)
-      throws UpdateParentsFailedException {
-    if (err.length() > 0) {
-      while (err.charAt(err.length() - 1) == '\n') {
-        err.setLength(err.length() - 1);
-      }
-      throw new UpdateParentsFailedException(err.toString());
-    }
   }
 }

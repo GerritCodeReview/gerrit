@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.errors.UpdateParentsFailedException;
+import com.google.gerrit.common.data.UpdateParentsResult;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.ProjectCache;
@@ -29,7 +29,9 @@ import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -98,11 +100,34 @@ final class AdminSetParent extends BaseCommand {
       childProjects.addAll(getChildrenForReparenting(oldParent));
     }
 
-    try {
-      updateParentsFactory.create(childProjects, newParent.getProject())
-          .updateParents();
-    } catch (UpdateParentsFailedException e) {
-      throw new UnloggedFailure(1, e.getMessage());
+    final UpdateParentsResult result =
+        updateParentsFactory.create(childProjects, newParent.getProject())
+            .updateParents();
+    for (final UpdateParentsResult.Error error : result.getErrors()) {
+      String message;
+      switch (error.getType()) {
+        case UPDATE_NOT_PERMITTED:
+          message = "not permitted to update the parent project of {0}";
+          break;
+        case PROJECT_NOT_FOUND:
+          message = "project {0} not found";
+          break;
+        case PARENT_CANNOT_BE_SET:
+          message = "parent project for {0} cannot be set";
+          break;
+        case CYCLE_EXISTS:
+          message = "cycle exists between {0} and {1}";
+          break;
+        case PROJECT_UPDATE_FAILED:
+        default:
+          message = "updating project {0} failed";
+      }
+      try {
+        err.write(("error: "
+            + MessageFormat.format(message, error.getProjectName().get(),
+              error.getParentProjectName().get()) + "\n").getBytes(ENC));
+      } catch (IOException e) {
+      }
     }
   }
 

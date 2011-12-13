@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.ProjectAccess;
+import com.google.gerrit.common.data.UpdateParentsResult;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.common.errors.UpdateParentsFailedException;
@@ -244,17 +245,23 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
   }
 
   private void updateParentProject(final ProjectConfig config)
-      throws UpdateParentsFailedException, NoSuchProjectException {
+      throws UpdateParentsFailedException {
     Project parentProject = null;
     if (parentProjectName != null) {
       final ProjectState parentState = projectCache.get(parentProjectName);
       if (parentState == null) {
-        throw new NoSuchProjectException(parentProjectName);
+        throw new UpdateParentsFailedException(new UpdateParentsResult.Error(
+            UpdateParentsResult.Error.Type.PARENT_PROJECT_NOT_FOUND, config
+                .getProject().getNameKey(), parentProjectName));
       }
       parentProject = parentState.getProject();
     }
-    updateParentsFactory.create(Collections.singleton(config.getProject()),
-        parentProject).validateParentUpdate();
+    final UpdateParentsResult result =
+        updateParentsFactory.create(Collections.singleton(config.getProject()),
+            parentProject).validateParentUpdate();
     config.getProject().setParentName(parentProjectName);
+    if (!result.getErrors().isEmpty()) {
+      throw new UpdateParentsFailedException(result.getErrors().get(0));
+    }
   }
 }

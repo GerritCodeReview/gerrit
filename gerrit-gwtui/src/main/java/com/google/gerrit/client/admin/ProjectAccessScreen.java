@@ -14,11 +14,14 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ProjectAccess;
+import com.google.gerrit.common.data.UpdateParentsResult;
+import com.google.gerrit.common.errors.UpdateParentsFailedException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
@@ -32,6 +35,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 public class ProjectAccessScreen extends ProjectScreen {
   interface Binder extends UiBinder<HTMLPanel, ProjectAccessScreen> {
@@ -124,7 +128,7 @@ public class ProjectAccessScreen extends ProjectScreen {
 
   @UiHandler("commit")
   void onCommit(ClickEvent event) {
-    ProjectAccess access = driver.flush();
+    final ProjectAccess access = driver.flush();
 
     if (driver.hasErrors()) {
       Window.alert(Util.C.errorsMustBeFixed());
@@ -154,7 +158,38 @@ public class ProjectAccessScreen extends ProjectScreen {
           @Override
           public void onFailure(Throwable caught) {
             enable(true);
-            super.onFailure(caught);
+            if (caught instanceof RemoteJsonException
+                && caught.getMessage().startsWith(
+                    UpdateParentsFailedException.MESSAGE)) {
+              final String name = access.getProjectName().get();
+              final String parentName = access.getInheritsFrom().get();
+              final String type =
+                  caught.getMessage().substring(
+                      UpdateParentsFailedException.MESSAGE.length());
+              final UpdateParentsResult.Error.Type errorType =
+                  UpdateParentsResult.Error.Type.valueOf(type);
+              final String message;
+              switch (errorType) {
+                case UPDATE_NOT_PERMITTED:
+                  message = Gerrit.M.updateParentProjectNotPermitted(name);
+                  break;
+                case PARENT_PROJECT_NOT_FOUND:
+                  message = Gerrit.M.noSuchParentProject(parentName);
+                  break;
+                case PARENT_CANNOT_BE_SET:
+                  message = Gerrit.M.parentProjectCannotBeSet(name);
+                  break;
+                case CYCLE_EXISTS:
+                  message = Gerrit.M.cycleExistsInParentPointers(name);
+                  break;
+                case PROJECT_UPDATE_FAILED:
+                default:
+                  message = Gerrit.M.projectUpdateFailed(name);
+              }
+              new ErrorDialog(message).center();
+            } else {
+              super.onFailure(caught);
+            }
           }
         });
   }

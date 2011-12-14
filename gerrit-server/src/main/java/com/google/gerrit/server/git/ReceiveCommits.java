@@ -1791,6 +1791,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       return;
     }
 
+    if (!cmd.getRefName().equals(change.getDest().get())) {
+      // if the branch names are not equal treat them as
+      // different commits
+      return;
+    }
+
     final ReplaceResult result = new ReplaceResult();
     result.change = change;
     result.patchSet = ps;

@@ -48,6 +48,7 @@ public interface AdminConstants extends Constants {
   String descriptionNotifications();
   String buttonSaveGroupOptions();
   String suggestedGroupLabel();
+  String parentSuggestions();
 
   String headingGroupUUID();
   String headingOwner();

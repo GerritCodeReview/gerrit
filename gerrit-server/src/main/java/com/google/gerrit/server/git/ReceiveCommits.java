@@ -1729,7 +1729,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         final Ref ref = byCommit.get(c.copy());
         if (ref != null) {
           rw.parseBody(c);
-          closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
+          final PatchSet.Id id = PatchSet.Id.fromRef(ref.getName());
+          final Change change = db.changes().get(id.getParentKey());
+          if(cmd.getRefName().equals(change.getDest().get())) {
+            closeChange(cmd, id, c);
+          }
           continue;
         }
 

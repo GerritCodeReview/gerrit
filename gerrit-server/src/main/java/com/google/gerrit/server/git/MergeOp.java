@@ -341,7 +341,7 @@ public class MergeOp {
       }
 
       for (final Ref r : db.getAllRefs().values()) {
-        if (r.getName().startsWith(Constants.R_HEADS)
+        if ((r.getName().startsWith(Constants.R_HEADS) && r.getName().startsWith(destBranch.get()))
             || r.getName().startsWith(Constants.R_TAGS)) {
           try {
             alreadyAccepted.add(rw.parseCommit(r.getObjectId()));

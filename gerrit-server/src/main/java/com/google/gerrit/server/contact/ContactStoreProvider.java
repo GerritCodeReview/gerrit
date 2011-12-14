@@ -22,12 +22,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.Security;
 
 /** Creates the {@link ContactStore} based on the configuration. */
 public class ContactStoreProvider implements Provider<ContactStore> {
@@ -74,6 +76,7 @@ public class ContactStoreProvider implements Provider<ContactStore> {
   private static boolean havePGP() {
     try {
       Class.forName(PGPPublicKey.class.getName());
+      Security.addProvider(new BouncyCastleProvider());
       return true;
     } catch (NoClassDefFoundError noBouncyCastle) {
       return false;

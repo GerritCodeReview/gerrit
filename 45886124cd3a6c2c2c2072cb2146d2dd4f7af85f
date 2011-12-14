@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABrn////0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectList.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-14T09:14:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABqn////E\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABp3////k\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
         "patchSetId": 8
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABvX////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-14T09:14:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABqn///+4\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABqn////M\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
         "patchSetId": 8
@@ -82,6 +118,24 @@
       "writtenOn": "2011-12-09T22:39:21Z",
       "side": 1,
       "message": "[optional] you might remove this check here because it\u0027s anyway done in the doCreateProject() method",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABr3////k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-14T09:14:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABqn////M\u003d",
       "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAABrn////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-14T09:14:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABqn////I\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABqn////Q\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
         "patchSetId": 8
@@ -116,6 +188,24 @@
       "writtenOn": "2011-12-09T22:39:21Z",
       "side": 1,
       "message": "I think trim() is not needed here because it\u0027s already done in line 119",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABrn////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-14T09:14:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABqn////Q\u003d",
       "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -139,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAABvX////4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/CreateNewProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-14T09:14:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABqn////A\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABqn///+8\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/CreateNewProject.java",
         "patchSetId": 8
@@ -156,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AAABr3////Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/CreateNewProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-14T09:14:07Z",
+      "side": 1,
+      "message": "Hi Edwin:\n\nthanks a lot for your detail and warm-hearted help!!\n\nin coming patch I donot let Gerrit display\"Application Error - Server Error\u0027 \" and only display words easy understand by user. which I think is what you want.\n\nDone.",
+      "parentUuid": "AAABqn///+8\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABqn///+0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
         "patchSetId": 8
@@ -167,6 +293,24 @@
       "writtenOn": "2011-12-09T22:39:21Z",
       "side": 1,
       "message": "[optional] remove blank lines from this method",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABrn////o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/VisibleProjects.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-14T09:14:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABqn///+0\u003d",
       "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -261,6 +405,24 @@
     },
     {
       "key": {
+        "uuid": "AAABr3////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectParamsException.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-14T09:14:07Z",
+      "side": 1,
+      "message": "great idea!\n\nreference to comments on line 100 of \nhttps://gerrit-review.googlesource.com/#/c/17380/8/gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java\n\n\n\nso I change it\u0027s name and path.\n\nDone",
+      "parentUuid": "AAABqn///+s\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABp3////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
         "patchSetId": 8
@@ -290,6 +452,24 @@
       "side": 1,
       "message": "We should have no interface here to be consistent with the other classes. I think I remember that I once saw such a interface somewhere in a change or in the code, but it was found to be unneeded and was removed.",
       "parentUuid": "AAABp3////o\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABrn////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-14T09:14:07Z",
+      "side": 1,
+      "message": "to keep consistent with framework/ the other classes is important.\n\nDone",
+      "parentUuid": "AAABqn///+o\u003d",
       "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -349,6 +529,24 @@
     },
     {
       "key": {
+        "uuid": "AAABrn////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProject.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-14T09:14:07Z",
+      "side": 1,
+      "message": "the naming pattern is really good . \n\nexpect to finding it in the contributor guidelines .\n\nit is really a good idea and expect to \"spend the effort to once \n\ncleanup the code and make the naming consistent.\" \n\nand I want to do it very very much if all of you and my master agree with it :).\n\nDone.",
+      "parentUuid": "AAABqn////Y\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABp3////w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java",
         "patchSetId": 8
@@ -384,6 +582,24 @@
     },
     {
       "key": {
+        "uuid": "AAABvn////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-14T09:14:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABpn////s\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABqn///+g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java",
         "patchSetId": 8
@@ -401,6 +617,24 @@
     },
     {
       "key": {
+        "uuid": "AAABr3////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-14T09:14:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABqn///+g\u003d",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABqn///+k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java",
         "patchSetId": 8
@@ -412,6 +646,24 @@
       "writtenOn": "2011-12-09T22:39:21Z",
       "side": 1,
       "message": "[optional] maybe it would be nicer to just throw one exception type from here? e.g. rename CreateProjectParamsException to ProjectCreationFailedException and then only throw this exception from here",
+      "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABrn////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/PerformCreateProjectImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-14T09:14:07Z",
+      "side": 1,
+      "message": "this is a great Idea!!  \n\n\n\nDone.",
+      "parentUuid": "AAABqn///+k\u003d",
       "revId": "45886124cd3a6c2c2c2072cb2146d2dd4f7af85f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

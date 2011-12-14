@@ -68,4 +68,14 @@ public class RetrieveParentCandidates {
     Collections.sort(r);
     return r;
   }
+
+  public List<Project> getParentCandidates() throws OrmException,
+      NoSuchProjectException {
+    List<Project.NameKey> r = get();
+    List<Project> result = new ArrayList<Project>(r.size());
+    for (Project.NameKey k : r) {
+      result.add(projectControlFactory.controlFor(k).getProject());
+    }
+    return result;
+  }
 }

@@ -38,10 +38,10 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final DeleteBranches.Factory deleteBranchesFactory;
   private final ListBranches.Factory listBranchesFactory;
   private final VisibleProjects.Factory visibleProjectsFactory;
-  private final VisibleProjectDetails.Factory visibleProjectDetailsFactory;
   private final ProjectAccessFactory.Factory projectAccessFactory;
   private final CreateProjectHandler.Factory createProjectHandlerFactory;
   private final ProjectDetailFactory.Factory projectDetailFactory;
+  private final RetrieveParentCandidatesHandler.Factory RetrieveParentCandidatesHandlerFactory;
 
   @Inject
   ProjectAdminServiceImpl(final AddBranch.Factory addBranchFactory,
@@ -50,20 +50,20 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final DeleteBranches.Factory deleteBranchesFactory,
       final ListBranches.Factory listBranchesFactory,
       final VisibleProjects.Factory visibleProjectsFactory,
-      final VisibleProjectDetails.Factory visibleProjectDetailsFactory,
       final ProjectAccessFactory.Factory projectAccessFactory,
       final ProjectDetailFactory.Factory projectDetailFactory,
-      final CreateProjectHandler.Factory createNewProjectFactory) {
+      final CreateProjectHandler.Factory createNewProjectFactory,
+      final RetrieveParentCandidatesHandler.Factory parentCandidatesFactory) {
     this.addBranchFactory = addBranchFactory;
     this.changeProjectAccessFactory = changeProjectAccessFactory;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
     this.deleteBranchesFactory = deleteBranchesFactory;
     this.listBranchesFactory = listBranchesFactory;
     this.visibleProjectsFactory = visibleProjectsFactory;
-    this.visibleProjectDetailsFactory = visibleProjectDetailsFactory;
     this.projectAccessFactory = projectAccessFactory;
     this.projectDetailFactory = projectDetailFactory;
     this.createProjectHandlerFactory = createNewProjectFactory;
+    this.RetrieveParentCandidatesHandlerFactory = parentCandidatesFactory;
   }
 
   @Override
@@ -72,8 +72,8 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   }
 
   @Override
-  public void visibleProjectDetails(final AsyncCallback<List<ProjectDetail>> callback) {
-    visibleProjectDetailsFactory.create().to(callback);
+  public void suggestParentCandidates(AsyncCallback<List<Project>> callback) {
+    RetrieveParentCandidatesHandlerFactory.create().to(callback);
   }
 
   @Override

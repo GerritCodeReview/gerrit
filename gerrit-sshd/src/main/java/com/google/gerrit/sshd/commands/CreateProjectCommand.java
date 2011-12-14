@@ -34,7 +34,6 @@ import org.kohsuke.args4j.Option;
 import java.io.PrintWriter;
 
 import java.util.List;
-import java.util.Set;
 
 /** Create a new project. **/
 final class CreateProjectCommand extends BaseCommand {
@@ -143,7 +142,7 @@ final class CreateProjectCommand extends BaseCommand {
                 CreateProjectFactory.create(args);
             createProject.createProject();
           } else {
-            Set<Project.NameKey> parentCandidates =
+            List<Project.NameKey> parentCandidates =
                 retrieveParentCandidatesFactory.create().get();
 
             for (Project.NameKey parent : parentCandidates) {

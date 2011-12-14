@@ -19,6 +19,8 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -39,25 +41,34 @@ public class RetrieveParentCandidates {
     this.allProject = allProject;
   }
 
-  public Set<Project.NameKey> get() throws OrmException {
-    final Set<Project.NameKey> r = new TreeSet<Project.NameKey>();
+  public List<Project.NameKey> get() throws OrmException,
+      NoSuchProjectException {
+    final List<Project.NameKey> result = new ArrayList<Project.NameKey>();
+    List<Project> pList = getParentCandidates();
+    for (Project p : pList) {
+      result.add(p.getNameKey());
+    }
+    return result;
+  }
 
+  public List<Project> getParentCandidates() throws OrmException,
+      NoSuchProjectException {
+    Set<Project> result = new TreeSet<Project>();
     for (Project.NameKey p : projectCache.all()) {
       try {
-        final ProjectControl project = projectControlFactory.controlFor(p);
-        final Project.NameKey parent = project.getProject().getParent();
-
-        if (parent != null) {
-          ProjectControl c = projectControlFactory.controlFor(parent);
-          if (c.isVisible() || c.isOwner()) {
-              r.add(parent);
+        final ProjectControl control = projectControlFactory.controlFor(p);
+        final Project.NameKey parentK = control.getProject().getParent();
+        if (parentK != null) {
+          ProjectControl pControl = projectControlFactory.controlFor(parentK);
+          if (pControl.isVisible() || pControl.isOwner()) {
+            result.add(pControl.getProject());
           }
         }
       } catch (NoSuchProjectException e) {
         continue;
       }
     }
-    r.add(allProject);
-    return r;
+    result.add(projectControlFactory.controlFor(allProject).getProject());
+    return new ArrayList<Project>(result);
   }
 }

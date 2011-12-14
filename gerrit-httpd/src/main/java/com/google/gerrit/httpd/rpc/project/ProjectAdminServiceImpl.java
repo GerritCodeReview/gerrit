@@ -19,9 +19,11 @@ import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.common.data.ProjectList;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -37,6 +39,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ListBranches.Factory listBranchesFactory;
   private final VisibleProjects.Factory visibleProjectsFactory;
   private final ProjectAccessFactory.Factory projectAccessFactory;
+  private final CreateProjectHandler.Factory createProjectHandlerFactory;
   private final ProjectDetailFactory.Factory projectDetailFactory;
 
   @Inject
@@ -47,7 +50,8 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final ListBranches.Factory listBranchesFactory,
       final VisibleProjects.Factory visibleProjectsFactory,
       final ProjectAccessFactory.Factory projectAccessFactory,
-      final ProjectDetailFactory.Factory projectDetailFactory) {
+      final ProjectDetailFactory.Factory projectDetailFactory,
+      final CreateProjectHandler.Factory createNewProjectFactory) {
     this.addBranchFactory = addBranchFactory;
     this.changeProjectAccessFactory = changeProjectAccessFactory;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
@@ -56,10 +60,11 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
     this.visibleProjectsFactory = visibleProjectsFactory;
     this.projectAccessFactory = projectAccessFactory;
     this.projectDetailFactory = projectDetailFactory;
+    this.createProjectHandlerFactory = createNewProjectFactory;
   }
 
   @Override
-  public void visibleProjects(final AsyncCallback<List<Project>> callback) {
+  public void visibleProjects(final AsyncCallback<ProjectList> callback) {
     visibleProjectsFactory.create().to(callback);
   }
 
@@ -108,5 +113,13 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final AsyncCallback<ListBranchesResult> callback) {
     addBranchFactory.create(projectName, branchName, startingRevision).to(
         callback);
+  }
+
+  @Override
+  public void createNewProject(String projectName, String parentName,
+      boolean emptyCommit, boolean permissionsOnly,
+      AsyncCallback<VoidResult> callback) {
+    createProjectHandlerFactory.create(projectName, parentName, emptyCommit,
+        permissionsOnly).to(callback);
   }
 }

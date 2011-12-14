@@ -29,9 +29,9 @@ import java.util.Set;
 class MergeSorter {
   private final RevWalk rw;
   private final RevFlag CAN_MERGE;
-  private final Set<RevCommit> accepted;
+  private final RevCommit accepted;
 
-  MergeSorter(final RevWalk walk, final Set<RevCommit> alreadyAccepted,
+  MergeSorter(final RevWalk walk, final RevCommit alreadyAccepted,
       final RevFlag flagCAN_MERGE) {
     rw = walk;
     CAN_MERGE = flagCAN_MERGE;
@@ -47,8 +47,8 @@ class MergeSorter {
 
       rw.resetRetain(CAN_MERGE);
       rw.markStart(n);
-      for (RevCommit c : accepted) {
-        rw.markUninteresting(c);
+      if (accepted != null) {
+        rw.markUninteresting(accepted);
       }
 
       RevCommit c;

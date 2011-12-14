@@ -156,7 +156,6 @@ public class MergeOp {
   private RevFlag CAN_MERGE;
   private CodeReviewCommit branchTip;
   private CodeReviewCommit mergeTip;
-  private Set<RevCommit> alreadyAccepted;
   private RefUpdate branchUpdate;
 
   private final ChangeHooks hooks;
@@ -328,27 +327,13 @@ public class MergeOp {
   }
 
   private void openBranch() throws MergeException {
-    alreadyAccepted = new HashSet<RevCommit>();
-
     try {
       branchUpdate = db.updateRef(destBranch.get());
       if (branchUpdate.getOldObjectId() != null) {
         branchTip =
             (CodeReviewCommit) rw.parseCommit(branchUpdate.getOldObjectId());
-        alreadyAccepted.add(branchTip);
       } else {
         branchTip = null;
-      }
-
-      for (final Ref r : db.getAllRefs().values()) {
-        if (r.getName().startsWith(Constants.R_HEADS)
-            || r.getName().startsWith(Constants.R_TAGS)) {
-          try {
-            alreadyAccepted.add(rw.parseCommit(r.getObjectId()));
-          } catch (IncorrectObjectTypeException iote) {
-            // Not a commit? Skip over it.
-          }
-        }
       }
     } catch (IOException e) {
       throw new MergeException("Cannot open branch", e);
@@ -446,7 +431,7 @@ public class MergeOp {
   private void reduceToMinimalMerge() throws MergeException {
     final Collection<CodeReviewCommit> heads;
     try {
-      heads = new MergeSorter(rw, alreadyAccepted, CAN_MERGE).sort(toMerge);
+      heads = new MergeSorter(rw, branchTip, CAN_MERGE).sort(toMerge);
     } catch (IOException e) {
       throw new MergeException("Branch head sorting failed", e);
     }
@@ -654,8 +639,8 @@ public class MergeOp {
       rw.sort(RevSort.TOPO);
       rw.sort(RevSort.REVERSE, true);
       rw.markStart(mergeTip);
-      for (RevCommit c : alreadyAccepted) {
-        rw.markUninteresting(c);
+      if (branchTip != null) {
+        rw.markUninteresting(branchTip);
       }
 
       CodeReviewCommit c;
@@ -758,7 +743,7 @@ public class MergeOp {
     // as the merge sorter checks the dependency chain as part of
     // its logic trying to find a minimal merge path.
     //
-    return new MergeSorter(rw, alreadyAccepted, CAN_MERGE).sort(
+    return new MergeSorter(rw, branchTip, CAN_MERGE).sort(
         Collections.singleton(n)).contains(n);
   }
 

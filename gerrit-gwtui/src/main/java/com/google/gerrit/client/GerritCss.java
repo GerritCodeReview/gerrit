@@ -80,6 +80,8 @@ public interface GerritCss extends CssResource {
   String contributorAgreementLegal();
   String contributorAgreementShortDescription();
   String coverMessage();
+  String createProjectLink();
+  String createProjectPanel();
   String dataCell();
   String dataHeader();
   String diffLinkCell();

@@ -20,6 +20,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
+import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,6 +29,8 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
@@ -36,6 +39,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
+import java.util.List;
+
 public class CreateProjectScreen extends Screen {
   private NpTextBox project;
   private Button create;
@@ -43,6 +48,8 @@ public class CreateProjectScreen extends Screen {
   private SuggestBox sugestParent;
   private CheckBox emptyCommit;
   private CheckBox permissionsOnly;
+  private VerticalPanel vp;
+  private ProjectsTable suggestedParentsTab;
 
   public CreateProjectScreen() {
     super();
@@ -60,6 +67,7 @@ public class CreateProjectScreen extends Screen {
     super.onInitUI();
     setPageTitle(Util.C.createProjectTitle());
 
+    vp = new VerticalPanel();
     addCreateProjectPanel();
   }
 
@@ -78,7 +86,10 @@ public class CreateProjectScreen extends Screen {
     fp.add(emptyCommit);
     fp.add(permissionsOnly);
     fp.add(create);
-    add(fp);
+    vp.add(fp);
+    initSuggestedParents();
+    add(vp);
+
   }
 
   private void initCreateTxt() {
@@ -109,6 +120,49 @@ public class CreateProjectScreen extends Screen {
     sugestParent =
         new SuggestBox(new ProjectNameSuggestOracle(), parent);
     parent.setVisibleLength(50);
+  }
+
+  private void initSuggestedParents() {
+    suggestedParentsTab = new ProjectsTable() {
+      {
+        table.setText(0, 1, Util.C.parentSuggestions());
+      }
+
+      @Override
+      protected void populate(final int row, final Project k) {
+        final Anchor projectLink = new Anchor(k.getName());
+        projectLink.addClickHandler(new ClickHandler() {
+
+          @Override
+          public void onClick(ClickEvent event) {
+            sugestParent.setText(getRowItem(row).getName());
+          }
+        });
+
+        table.setWidget(row, 1, projectLink);
+        table.setText(row, 2, k.getDescription());
+
+        setRowItem(row, k);
+      }
+    };
+    suggestedParentsTab.setVisible(false);
+    vp.add(suggestedParentsTab);
+
+    Util.PROJECT_SVC
+        .suggestParentCandidates(new AsyncCallback<List<Project>>() {
+          @Override
+          public void onSuccess(List<Project> result) {
+            if (result != null && !result.isEmpty()) {
+              suggestedParentsTab.setVisible(true);
+              suggestedParentsTab.display(result);
+              suggestedParentsTab.finishDisplay();
+            }
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+          }
+        });
   }
 
   private void addGrid(final VerticalPanel fp) {

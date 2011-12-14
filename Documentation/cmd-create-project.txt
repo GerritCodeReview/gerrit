@@ -11,6 +11,7 @@ SYNOPSIS
 'ssh' -p <port> <host> 'gerrit create-project'
   [--owner <GROUP> ... | -o <GROUP> ...]
   [--parent <NAME> | -p <NAME> ]
+  [--suggest-parents | -S ]
   [--permissions-only]
   [--description <DESC> | -d <DESC>]
   [--submit-type <TYPE> |  -t <TYPE>]
@@ -74,6 +75,13 @@ in gerrit.config.
 	Name of the parent project to inherit access rights
 	through. If not specified, the parent is set to the default
 	project `All-Projects`.
+
+--suggest-parents::
+-S::
+	Suggest parent candidates. This option cannot be used with
+	other arguments. Print out a list of projects that are
+	already parents to other projects, thus it can help the user
+	find a suitable parent for the new project.
 
 --permissions-only::
 	Create the project only to serve as a parent for other

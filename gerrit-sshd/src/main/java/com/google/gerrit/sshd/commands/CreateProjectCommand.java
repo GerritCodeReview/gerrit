@@ -16,11 +16,13 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RetrieveParentCandidates;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
@@ -29,7 +31,10 @@ import org.eclipse.jgit.lib.Constants;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
+import java.io.PrintWriter;
+
 import java.util.List;
+import java.util.Set;
 
 /** Create a new project. **/
 final class CreateProjectCommand extends BaseCommand {
@@ -41,6 +46,10 @@ final class CreateProjectCommand extends BaseCommand {
       projectName = name;
     }
   }
+
+  @Option(name = "--suggest-parents", aliases = {"-S"}, usage = "suggest parent candidates, "
+      + "if this option is used all other options and arguments are ignored")
+  private boolean suggestParent;
 
   @Option(name = "--owner", aliases = {"-o"}, usage = "owner(s) of project")
   private List<AccountGroup.UUID> ownerIds;
@@ -94,6 +103,9 @@ final class CreateProjectCommand extends BaseCommand {
   @Inject
   private CreateProject.Factory CreateProjectFactory;
 
+  @Inject
+  private RetrieveParentCandidates.Factory retrieveParentCandidatesFactory;
+
   @Override
   public void start(final Environment env) {
     startThread(new CommandRunnable() {
@@ -106,31 +118,42 @@ final class CreateProjectCommand extends BaseCommand {
                   currentUser.getUserName());
           throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
         }
-
+        PrintWriter p = toPrintWriter(out);
         parseCommandLine();
-        if (projectName == null) {
-          throw new UnloggedFailure(1, "fatal: Project name is required.");
-        }
-
         try {
-          final CreateProjectArgs args = new CreateProjectArgs();
-          args.setProjectName(projectName);
-          args.ownerIds = ownerIds;
-          args.newParent = newParent;
-          args.permissionsOnly = permissionsOnly;
-          args.projectDescription = projectDescription;
-          args.submitType = submitType;
-          args.contributorAgreements = contributorAgreements;
-          args.signedOffBy = signedOffBy;
-          args.contentMerge = contentMerge;
-          args.changeIdRequired = requireChangeID;
-          args.branch = branch;
-          args.createEmptyCommit = createEmptyCommit;
+          if (!suggestParent) {
+            if (projectName == null) {
+              throw new UnloggedFailure(1, "fatal: Project name is required.");
+            }
+            final CreateProjectArgs args = new CreateProjectArgs();
+            args.setProjectName(projectName);
+            args.ownerIds = ownerIds;
+            args.newParent = newParent;
+            args.permissionsOnly = permissionsOnly;
+            args.projectDescription = projectDescription;
+            args.submitType = submitType;
+            args.contributorAgreements = contributorAgreements;
+            args.signedOffBy = signedOffBy;
+            args.contentMerge = contentMerge;
+            args.changeIdRequired = requireChangeID;
+            args.branch = branch;
+            args.createEmptyCommit = createEmptyCommit;
 
-          final CreateProject createProject = CreateProjectFactory.create(args);
-          createProject.createProject();
+            final CreateProject createProject =
+                CreateProjectFactory.create(args);
+            createProject.createProject();
+          } else {
+            Set<Project.NameKey> parentCandidates =
+                retrieveParentCandidatesFactory.create().get();
+
+            for (Project.NameKey parent : parentCandidates) {
+              p.print(parent + "\n");
+            }
+          }
         } catch (ProjectCreationFailedException err) {
           throw new UnloggedFailure(1, "fatal: " + err.getMessage(), err);
+        } finally {
+          p.flush();
         }
       }
     });

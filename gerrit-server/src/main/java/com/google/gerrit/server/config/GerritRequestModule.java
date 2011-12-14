@@ -48,6 +48,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RetrieveParentCandidates;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.inject.servlet.RequestScoped;
@@ -97,5 +98,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(GroupDetailFactory.Factory.class);
     factory(GroupMembers.Factory.class);
     factory(CreateProject.Factory.class);
+    factory(RetrieveParentCandidates.Factory.class);
   }
 }

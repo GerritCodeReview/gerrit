@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAABv3////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-14T11:07:22Z",
+      "side": 1,
+      "message": "I see your point Martin. Thanks for clarifying it for us.",
+      "parentUuid": "AAABu3////8\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABtn////I\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -136,6 +154,24 @@
       "writtenOn": "2011-12-13T19:22:37Z",
       "side": 1,
       "message": "s/txt/html",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABv3////4\u003d",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-14T11:07:22Z",
+      "side": 1,
+      "message": "Should fix it.",
+      "parentUuid": "AAABtH////I\u003d",
       "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -277,6 +313,24 @@
       "side": 1,
       "message": "The problem is that you cannot rely on the UI enforcing this everywhere since users can supply configurations via ref/meta/config thus subverting any restrictions the UI attempts to enforce.\n\nImagine a user doing the following (project A\u0026B both direct descendants of All-Projects):\n\nIn \u0027All-Projects`\n  [submit refs/*]\n    action \u003d cherryPick\n    mergeContent \u003d true\n\nand in project \u0027A\u0027:\n  [submit refs/*]\n    mergeContent \u003d false\n\nand in project \u0027B\u0027:\n  [submit refs/*]\n    action \u003d mergeIfNecessary\n\nI think that they will be very disappointed if this means that project A is actually set to the default merge strategey of mergeIfNecessary.  Also, I suspect they will be surprised if this means that the mergeContent for B is set to the default of false.\n\nI understand that coding this to work intuitively is not easy. I am open to alternate suggestions.  But I don\u0027t think that you can assume that users will not contrive scenarios similar to the ones above.  If we have learned anything from the ACLs is Gerrit, it\u0027s that we need to do our best to avoid surprising users.  So in these cases, we need some way to not make unexpected things happen, and I don\u0027t think that simply documenting that this shouldn\u0027t be done would be enough.",
       "parentUuid": "AAABun////g\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABv3////0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/MergeStrategySection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-14T11:07:22Z",
+      "side": 1,
+      "message": "I completely agree with you about the issue on relying only in UI to validate the merge strategies edition. I will return on this later.",
+      "parentUuid": "AAABu3////w\u003d",
       "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -441,6 +495,24 @@
     },
     {
       "key": {
+        "uuid": "AAABv3////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-14T11:07:22Z",
+      "side": 1,
+      "message": "Martin, notice I have already suggested this on the past, with this fix: http://code.google.com/p/gerrit/issues/detail?id\u003d1189 . As I understood, there is already a fix to be provided through gwtorm and it seems gwtorm is supposed to return writable lists in this case. However, if you prefer, I can upload this, I see no problem and agree with you that it could be a good idea to not assume that. \n\nBut I really wonder if it is a good idea to get a list instance and then allocate another list with same content here. As I said, this code was meant for local use only in order to test our feature.",
+      "parentUuid": "AAABvH////4\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABtn///+4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 6
@@ -452,6 +524,24 @@
       "writtenOn": "2011-12-13T18:49:23Z",
       "side": 1,
       "message": "The check above does not seem like it is \"runtime\" related, it seems like it should be done when the refStrategies are loaded from/into the config?  \n\nWhich makes me wonder why we have two different types of validation on refsConfigs, that one and the simpler isValid() on RefConfigSection?",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABv3////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-14T11:07:22Z",
+      "side": 1,
+      "message": "This check should really be removed. We should do it according to the code in 2nd patchset. Thanks for noticing it :-)",
+      "parentUuid": "AAABtn///+4\u003d",
       "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

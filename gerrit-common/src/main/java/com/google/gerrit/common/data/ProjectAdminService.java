@@ -31,6 +31,7 @@ public interface ProjectAdminService extends RemoteJsonService {
   void visibleProjects(AsyncCallback<ProjectList> callback);
 
   void visibleProjectDetails(AsyncCallback<List<ProjectDetail>> callback);
+  void suggestParentCandidates(AsyncCallback<List<Project>> callback);
 
   void projectDetail(Project.NameKey projectName,
       AsyncCallback<ProjectDetail> callback);

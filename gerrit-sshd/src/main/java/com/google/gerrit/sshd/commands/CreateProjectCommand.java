@@ -22,7 +22,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.RetrieveParentCandidates;
+import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
@@ -34,7 +34,6 @@ import org.kohsuke.args4j.Option;
 import java.io.PrintWriter;
 
 import java.util.List;
-import java.util.Set;
 
 /** Create a new project. **/
 final class CreateProjectCommand extends BaseCommand {
@@ -104,7 +103,7 @@ final class CreateProjectCommand extends BaseCommand {
   private CreateProject.Factory CreateProjectFactory;
 
   @Inject
-  private RetrieveParentCandidates.Factory retrieveParentCandidatesFactory;
+  private SuggestParentCandidates.Factory suggestParentCandidatesFactory;
 
   @Override
   public void start(final Environment env) {
@@ -143,8 +142,8 @@ final class CreateProjectCommand extends BaseCommand {
                 CreateProjectFactory.create(args);
             createProject.createProject();
           } else {
-            Set<Project.NameKey> parentCandidates =
-                retrieveParentCandidatesFactory.create().get();
+            List<Project.NameKey> parentCandidates =
+                suggestParentCandidatesFactory.create().getNameKeys();
 
             for (Project.NameKey parent : parentCandidates) {
               p.print(parent + "\n");

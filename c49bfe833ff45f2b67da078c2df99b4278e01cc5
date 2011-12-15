@@ -337,6 +337,24 @@
     },
     {
       "key": {
+        "uuid": "AAABxH////8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/MergeStrategySection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-15T13:52:45Z",
+      "side": 1,
+      "message": "After an internal discussion, here it is our idea.\n\nWe accept a project.config file to be edited how you showed us and, in that case, we consider an info to be null if not available (action or mergeContent). When running getMostSpecificMergeStrategy (merging a change), we choose the most specific mergeContent and action values. This way we can handle an hypothetical situation when one suppress only mergeContent value of a project to a refs regex and this ref regex does not appear on parent project neither on AllProjects.\n\nAbout UI: when adding a new merge strategy section, one would still need to specify action and mergeContent values, although we show sections without one of these values if they exist (edited and commit by pushing to refs/meta/config).\n\nWhat do you think about this approach?",
+      "parentUuid": "AAABv3////0\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABtn////0\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/NoSuchRefPatternMatches.java",
         "patchSetId": 6

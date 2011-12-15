@@ -81,20 +81,34 @@ import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
   public static String toPatchSideBySide(final Patch.Key id) {
-    return toPatch("", id);
+    return toPatch("", null, id);
+  }
+
+  public static String toPatchSideBySide(PatchSet.Id diffBase, Patch.Key id) {
+    return toPatch("", diffBase, id);
   }
 
   public static String toPatchUnified(final Patch.Key id) {
-    return toPatch("unified", id);
+    return toPatch("unified", null, id);
   }
 
-  private static String toPatch(String type, final Patch.Key id) {
+  public static String toPatchUnified(PatchSet.Id diffBase, Patch.Key id) {
+    return toPatch("unified", diffBase, id);
+  }
+
+  private static String toPatch(String type, PatchSet.Id diffBase, Patch.Key id) {
     PatchSet.Id ps = id.getParentKey();
     Change.Id c = ps.getParentKey();
-    if (type != null && !type.isEmpty()) {
-      type = "," + type;
+    StringBuilder p = new StringBuilder();
+    p.append("/c/").append(c).append("/");
+    if (diffBase != null) {
+      p.append(diffBase.get()).append("..");
     }
-    return "/c/" + c + "/" + ps.get() + "/" + KeyUtil.encode(id.get()) + type;
+    p.append(ps.get()).append("/").append(KeyUtil.encode(id.get()));
+    if (type != null && !type.isEmpty()) {
+      p.append(",").append(type);
+    }
+    return p.toString();
   }
 
   public static String toPatch(final PatchScreen.Type type, final Patch.Key id) {
@@ -387,10 +401,20 @@ public class Dispatcher {
       rest = "";
     }
 
-    PatchSet.Id ps = new PatchSet.Id(id, Integer.parseInt(psIdStr));
+    PatchSet.Id base;
+    PatchSet.Id ps;
+    int dotdot = psIdStr.indexOf("..");
+    if (1 <= dotdot) {
+      base = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(0, dotdot)));
+      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr.substring(dotdot + 2)));
+    } else {
+      base = null;
+      ps = new PatchSet.Id(id, Integer.parseInt(psIdStr));
+    }
+
     if (!rest.isEmpty()) {
       Patch.Key p = new Patch.Key(ps, rest);
-      patch(token, p, 0, null, null, panel);
+      patch(token, base, p, 0, null, null, panel);
     } else {
       if (panel == null) {
         Gerrit.display(token, new ChangeScreen(ps));
@@ -415,24 +439,23 @@ public class Dispatcher {
     }.onSuccess();
   }
 
-  public static void patch(String token, final Patch.Key id,
-      final int patchIndex, final PatchSetDetail patchSetDetail,
-      final PatchTable patchTable, final PatchScreen.TopView topView) {
-    patch(token, id, patchIndex, patchSetDetail, patchTable, topView, null);
+  public static void patch(String token, PatchSet.Id base, Patch.Key id,
+      int patchIndex, PatchSetDetail patchSetDetail,
+      PatchTable patchTable, PatchScreen.TopView topView) {
+    patch(token, base, id, patchIndex, patchSetDetail, patchTable, topView, null);
   }
 
-  public static void patch(String token, final Patch.Key id,
-      final int patchIndex, final PatchSetDetail patchSetDetail,
-      final PatchTable patchTable, final String panelType) {
-    patch(token, id, patchIndex, patchSetDetail, patchTable,
+  public static void patch(String token, PatchSet.Id base, Patch.Key id,
+      int patchIndex, PatchSetDetail patchSetDetail,
+      PatchTable patchTable, String panelType) {
+    patch(token, base, id, patchIndex, patchSetDetail, patchTable,
         null, panelType);
   }
 
-  public static void patch(String token, final Patch.Key id,
+  public static void patch(String token, final PatchSet.Id baseId, final Patch.Key id,
       final int patchIndex, final PatchSetDetail patchSetDetail,
       final PatchTable patchTable, final PatchScreen.TopView topView,
       final String panelType) {
-
     final PatchScreen.TopView top =  topView == null ?
         Gerrit.getPatchScreenTopView() : topView;
 
@@ -455,7 +478,8 @@ public class Dispatcher {
                 patchIndex, //
                 patchSetDetail, //
                 patchTable, //
-                top //
+                top, //
+                baseId //
             );
           } else if ("unified".equals(panel)) {
             return new PatchScreen.Unified( //
@@ -463,7 +487,8 @@ public class Dispatcher {
                 patchIndex, //
                 patchSetDetail, //
                 patchTable, //
-                top //
+                top, //
+                baseId //
             );
           }
         }

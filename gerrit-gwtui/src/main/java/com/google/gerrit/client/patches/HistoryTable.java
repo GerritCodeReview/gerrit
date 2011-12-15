@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.ui.FancyFlexTable;
@@ -43,19 +44,28 @@ class HistoryTable extends FancyFlexTable<Patch> {
   }
 
   void onClick(final HistoryRadio b) {
+    PatchSet.Id sideA = screen.idSideA;
+    PatchSet.Id sideB = screen.idSideB;
     switch (b.file) {
       case 0:
-        screen.setSideA(b.patchSetId);
+        sideA = b.patchSetId;
         break;
       case 1:
-        screen.setSideB(b.patchSetId);
+        sideB = b.patchSetId;
         break;
       default:
         return;
     }
-
     enableAll(false);
-    screen.refresh(false);
+    Patch.Key k = new Patch.Key(sideB, screen.getPatchKey().get());
+    switch (screen.getPatchScreenType()) {
+      case SIDE_BY_SIDE:
+        Gerrit.display(Dispatcher.toPatchSideBySide(sideA, k));
+        break;
+      case UNIFIED:
+        Gerrit.display(Dispatcher.toPatchUnified(sideA, k));
+        break;
+    }
   }
 
   void enableAll(final boolean on) {

@@ -55,14 +55,13 @@ public class PatchTable extends Composite {
   private Command onLoadCommand;
   private MyTable myTable;
   private String savePointerId;
+  private PatchSet.Id base;
   private List<Patch> patchList;
   private ListenableAccountDiffPreference listenablePrefs;
 
   private List<ClickHandler> clickHandlers;
   private boolean active;
   private boolean registerKeys;
-
-  private PatchSet.Id patchSetIdToCompareWith;
 
   public PatchTable(ListenableAccountDiffPreference prefs) {
     listenablePrefs = prefs;
@@ -83,12 +82,13 @@ public class PatchTable extends Composite {
     return -1;
   }
 
-  public void display(PatchSetDetail detail) {
+  public void display(PatchSet.Id base, PatchSetDetail detail) {
+    this.base = base;
     this.detail = detail;
     this.patchList = detail.getPatches();
     myTable = null;
 
-    final DisplayCommand cmd = new DisplayCommand(patchList, patchSetIdToCompareWith);
+    final DisplayCommand cmd = new DisplayCommand(patchList, base);
     if (cmd.execute()) {
       cmd.initMeter();
       Scheduler.get().scheduleIncremental(cmd);
@@ -223,9 +223,9 @@ public class PatchTable extends Composite {
     PatchLink link;
     if (patchType == PatchScreen.Type.SIDE_BY_SIDE
         && patch.getPatchType() == Patch.PatchType.UNIFIED) {
-      link = new PatchLink.SideBySide("", thisKey, index, detail, this);
+      link = new PatchLink.SideBySide("", base, thisKey, index, detail, this);
     } else {
-      link = new PatchLink.Unified("", thisKey, index, detail, this);
+      link = new PatchLink.Unified("", base, thisKey, index, detail, this);
     }
     SafeHtmlBuilder text = new SafeHtmlBuilder();
     text.append(before);
@@ -273,14 +273,6 @@ public class PatchTable extends Composite {
 
   public void setPreferences(ListenableAccountDiffPreference prefs) {
     listenablePrefs = prefs;
-  }
-
-  public PatchSet.Id getPatchSetIdToCompareWith() {
-    return patchSetIdToCompareWith;
-  }
-
-  public void setPatchSetIdToCompareWith(final PatchSet.Id psId) {
-    patchSetIdToCompareWith = psId;
   }
 
   private class MyTable extends NavigationTable<Patch> {
@@ -381,13 +373,11 @@ public class PatchTable extends Composite {
 
       Widget nameCol;
       if (patch.getPatchType() == Patch.PatchType.UNIFIED) {
-        nameCol =
-            new PatchLink.SideBySide(getDisplayFileName(patch), patch.getKey(),
-                row - 1, detail, PatchTable.this);
+        nameCol = new PatchLink.SideBySide(getDisplayFileName(patch), base,
+            patch.getKey(), row - 1, detail, PatchTable.this);
       } else {
-        nameCol =
-            new PatchLink.Unified(getDisplayFileName(patch), patch.getKey(),
-                row - 1, detail, PatchTable.this);
+        nameCol = new PatchLink.Unified(getDisplayFileName(patch), base,
+            patch.getKey(), row - 1, detail, PatchTable.this);
       }
       if (patch.getSourceFileName() != null) {
         final String text;
@@ -409,16 +399,15 @@ public class PatchTable extends Composite {
 
       int C_UNIFIED = C_SIDEBYSIDE + 1;
       if (patch.getPatchType() == Patch.PatchType.UNIFIED) {
-        table.setWidget(row, C_SIDEBYSIDE, new PatchLink.SideBySide(Util.C
-            .patchTableDiffSideBySide(), patch.getKey(), row - 1, detail,
-            PatchTable.this));
-
+        table.setWidget(row, C_SIDEBYSIDE, new PatchLink.SideBySide(
+            Util.C.patchTableDiffSideBySide(), base, patch.getKey(), row - 1,
+            detail, PatchTable.this));
       } else if (patch.getPatchType() == Patch.PatchType.BINARY) {
         C_UNIFIED = C_SIDEBYSIDE + 2;
       }
-      table.setWidget(row, C_UNIFIED, new PatchLink.Unified(Util.C
-          .patchTableDiffUnified(), patch.getKey(), row - 1, detail,
-          PatchTable.this));
+      table.setWidget(row, C_UNIFIED, new PatchLink.Unified(
+          Util.C.patchTableDiffUnified(), base, patch.getKey(), row - 1,
+          detail, PatchTable.this));
     }
 
     void appendHeader(final SafeHtmlBuilder m) {

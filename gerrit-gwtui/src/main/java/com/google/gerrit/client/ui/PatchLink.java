@@ -19,8 +19,10 @@ import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Patch;
+import com.google.gerrit.reviewdb.PatchSet;
 
 public class PatchLink extends InlineHyperlink {
+  protected PatchSet.Id base;
   protected Patch.Key patchKey;
   protected int patchIndex;
   protected PatchSetDetail patchSetDetail;
@@ -29,17 +31,19 @@ public class PatchLink extends InlineHyperlink {
 
   /**
    * @param text The text of this link
+   * @param base optional base to compare against.
    * @param patchKey The key for this patch
    * @param patchIndex The index of the current patch in the patch set
    * @param historyToken The history token
    * @param patchSetDetail Detailed information about the patch set.
    * @param parentPatchTable The table used to display this link
    */
-  protected PatchLink(final String text, final Patch.Key patchKey,
-      final int patchIndex, final String historyToken,
-      final PatchSetDetail patchSetDetail, final PatchTable parentPatchTable,
-      final PatchScreen.TopView topView) {
+  protected PatchLink(String text, PatchSet.Id base, Patch.Key patchKey,
+      int patchIndex, String historyToken,
+      PatchSetDetail patchSetDetail, PatchTable parentPatchTable,
+      PatchScreen.TopView topView) {
     super(text, historyToken);
+    this.base = base;
     this.patchKey = patchKey;
     this.patchIndex = patchIndex;
     this.patchSetDetail = patchSetDetail;
@@ -53,9 +57,9 @@ public class PatchLink extends InlineHyperlink {
    * @param type The type of the link to create (unified/side-by-side)
    * @param patchScreen The patchScreen to grab contents to link to from
    */
-  public PatchLink(final String text, final PatchScreen.Type type,
-      final PatchScreen patchScreen) {
+  public PatchLink(String text, PatchScreen.Type type, PatchScreen patchScreen) {
     this(text, //
+        patchScreen.getSideA(), //
         patchScreen.getPatchKey(), //
         patchScreen.getPatchIndex(), //
         Dispatcher.toPatch(type, patchScreen.getPatchKey()), //
@@ -69,6 +73,7 @@ public class PatchLink extends InlineHyperlink {
   public void go() {
     Dispatcher.patch( //
         getTargetHistoryToken(), //
+        base, //
         patchKey, //
         patchIndex, //
         patchSetDetail, //
@@ -78,19 +83,21 @@ public class PatchLink extends InlineHyperlink {
   }
 
   public static class SideBySide extends PatchLink {
-    public SideBySide(final String text, final Patch.Key patchKey,
-        final int patchIndex, PatchSetDetail patchSetDetail,
+    public SideBySide(String text, PatchSet.Id base, Patch.Key patchKey,
+        int patchIndex, PatchSetDetail patchSetDetail,
         PatchTable parentPatchTable) {
-      super(text, patchKey, patchIndex, Dispatcher.toPatchSideBySide(patchKey),
+      super(text, base, patchKey, patchIndex,
+          Dispatcher.toPatchSideBySide(base, patchKey),
           patchSetDetail, parentPatchTable, null);
     }
   }
 
   public static class Unified extends PatchLink {
-    public Unified(final String text, final Patch.Key patchKey,
-        final int patchIndex, PatchSetDetail patchSetDetail,
+    public Unified(String text, PatchSet.Id base, final Patch.Key patchKey,
+        int patchIndex, PatchSetDetail patchSetDetail,
         PatchTable parentPatchTable) {
-      super(text, patchKey, patchIndex, Dispatcher.toPatchUnified(patchKey),
+      super(text, base, patchKey, patchIndex,
+          Dispatcher.toPatchUnified(base, patchKey),
           patchSetDetail, parentPatchTable, null);
     }
   }

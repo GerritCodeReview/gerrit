@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABxH////w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-15T16:57:38Z",
+      "side": 1,
+      "message": "\"into a dedicated class\" maybe would be better? I do not really now, just a suggestion.",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABxH////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-15T16:57:38Z",
+      "side": 1,
+      "message": "2011",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABxH////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-15T16:57:38Z",
+      "side": 1,
+      "message": "Question: is it ok to have return tag since it is a void method?",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABxH////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParentsFailedException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-15T16:57:38Z",
+      "side": 1,
+      "message": "2011",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

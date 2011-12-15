@@ -51,11 +51,23 @@ public abstract class PatchScreen extends Screen implements
     CommentEditorContainer {
   static final PrettyFactory PRETTY = ClientSideFormatter.FACTORY;
 
-  public static class SideBySide extends PatchScreen {
+  public abstract static class DiffPatchScreen extends PatchScreen {
+
+    public DiffPatchScreen(final Patch.Key id, final int patchIndex,
+        final PatchSetDetail patchSetDetail, final PatchTable patchTable,
+        final TopView topView, final PatchSet.Id baseId) {
+      super(id, patchIndex, patchSetDetail, patchTable, topView);
+      if (baseId != null) {
+        setSideA(baseId);
+      }
+    }
+  }
+
+  public static class SideBySide extends DiffPatchScreen {
     public SideBySide(final Patch.Key id, final int patchIndex,
         final PatchSetDetail patchSetDetail, final PatchTable patchTable,
-        final TopView topView) {
-      super(id, patchIndex, patchSetDetail, patchTable, topView);
+        final TopView topView, final PatchSet.Id baseId) {
+       super(id, patchIndex, patchSetDetail, patchTable, topView, baseId);
     }
 
     @Override
@@ -69,11 +81,11 @@ public abstract class PatchScreen extends Screen implements
     }
   }
 
-  public static class Unified extends PatchScreen {
+  public static class Unified extends DiffPatchScreen {
     public Unified(final Patch.Key id, final int patchIndex,
         final PatchSetDetail patchSetDetail, final PatchTable patchTable,
-        final TopView topView) {
-      super(id, patchIndex, patchSetDetail, patchTable, topView);
+        final TopView topView, final PatchSet.Id baseId) {
+      super(id, patchIndex, patchSetDetail, patchTable, topView, baseId);
     }
 
     @Override
@@ -438,7 +450,9 @@ public abstract class PatchScreen extends Screen implements
       contentTable = new UnifiedDiffTable();
       contentTable.fileList = fileList;
       contentPanel.add(contentTable);
-      setToken(Dispatcher.toPatchUnified(patchKey));
+      setToken((fileList == null || fileList.getPatchSetIdToCompareWith() == null)
+          ? Dispatcher.toPatchUnified(patchKey) : Dispatcher.toPatchUnified(
+              patchKey, fileList.getPatchSetIdToCompareWith().get()));
     }
 
     if (hasDifferences) {

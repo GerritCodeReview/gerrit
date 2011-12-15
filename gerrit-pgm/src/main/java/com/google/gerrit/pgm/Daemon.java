@@ -34,6 +34,7 @@ import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
+import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.PushReplication;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.SmtpEmailSender;
@@ -253,6 +254,7 @@ public class Daemon extends SiteProgram {
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(sshInjector.getInstance(WebSshGlueModule.class));
     modules.add(CacheBasedWebSession.module());
+    modules.add(HttpContactStoreConnection.module());
     if (sshd) {
       modules.add(sshInjector.getInstance(ProjectQoSFilter.Module.class));
     }

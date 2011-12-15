@@ -22,25 +22,30 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.Security;
 
 /** Creates the {@link ContactStore} based on the configuration. */
 public class ContactStoreProvider implements Provider<ContactStore> {
   private final Config config;
   private final SitePaths site;
   private final SchemaFactory<ReviewDb> schema;
+  private final ContactStoreConnection.Factory connFactory;
 
   @Inject
   ContactStoreProvider(@GerritServerConfig final Config config,
-      final SitePaths site, final SchemaFactory<ReviewDb> schema) {
+      final SitePaths site, final SchemaFactory<ReviewDb> schema,
+      final ContactStoreConnection.Factory connFactory) {
     this.config = config;
     this.site = site;
     this.schema = schema;
+    this.connFactory = connFactory;
   }
 
   @Override
@@ -68,12 +73,14 @@ public class ContactStoreProvider implements Provider<ContactStore> {
       throw new ProvisionException("PGP public key file \""
           + pubkey.getAbsolutePath() + "\" not found");
     }
-    return new EncryptedContactStore(storeUrl, storeAPPSEC, pubkey, schema);
+    return new EncryptedContactStore(storeUrl, storeAPPSEC, pubkey, schema,
+        connFactory);
   }
 
   private static boolean havePGP() {
     try {
       Class.forName(PGPPublicKey.class.getName());
+      Security.addProvider(new BouncyCastleProvider());
       return true;
     } catch (NoClassDefFoundError noBouncyCastle) {
       return false;

@@ -62,6 +62,7 @@ import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.patches.PatchScreen;
+import com.google.gerrit.client.patches.PatchScreen.DiffPatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
@@ -432,6 +433,16 @@ public class Dispatcher {
       final int patchIndex, final PatchSetDetail patchSetDetail,
       final PatchTable patchTable, final PatchScreen.TopView topView,
       final String panelType) {
+    final String parametersUrl;
+    if (token.indexOf(DiffPatchScreen.URL_PARAMETER_MARK_START) != -1) {
+      parametersUrl =
+          token.substring(token.indexOf(DiffPatchScreen.URL_PARAMETER_MARK_START)+1);
+      token =
+          token.substring(0,
+              token.indexOf(DiffPatchScreen.URL_PARAMETER_MARK_START));
+    }else{
+      parametersUrl=null;
+    }
 
     final PatchScreen.TopView top =  topView == null ?
         Gerrit.getPatchScreenTopView() : topView;
@@ -455,7 +466,8 @@ public class Dispatcher {
                 patchIndex, //
                 patchSetDetail, //
                 patchTable, //
-                top //
+                top,//
+                parametersUrl//
             );
           } else if ("unified".equals(panel)) {
             return new PatchScreen.Unified( //
@@ -463,7 +475,8 @@ public class Dispatcher {
                 patchIndex, //
                 patchSetDetail, //
                 patchTable, //
-                top //
+                top,//
+                parametersUrl//
             );
           }
         }
@@ -700,7 +713,13 @@ public class Dispatcher {
   }
 
   private static String skip(String token) {
-    return token.substring(prefixlen);
+    if (token.indexOf(DiffPatchScreen.URL_PARAMETER_MARK_START) != -1) {
+      return token.substring(0,
+          token.indexOf(DiffPatchScreen.URL_PARAMETER_MARK_START)).substring(
+          prefixlen);
+    } else {
+      return token.substring(prefixlen);
+    }
   }
 
   private static abstract class AsyncSplit implements RunAsyncCallback {

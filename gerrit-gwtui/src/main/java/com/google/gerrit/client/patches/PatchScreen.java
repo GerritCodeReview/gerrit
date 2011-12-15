@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+ // Copyright (C) 2008 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -51,11 +51,29 @@ public abstract class PatchScreen extends Screen implements
     CommentEditorContainer {
   static final PrettyFactory PRETTY = ClientSideFormatter.FACTORY;
 
-  public static class SideBySide extends PatchScreen {
+  public abstract static class DiffPatchScreen extends PatchScreen {
+    public static final String URL_PARAMETER_MARK_START = "?";
+    public static final String URL_PARAMETER_MARK_BETWWEN_KEY_AND_VALUE = "=";
+    public static final String URL_PARAMETER_KEY_OF_PATCHSET_TO_DIFF_WITH =
+        "patchSetToDiffWith";
+
+    public DiffPatchScreen(final Patch.Key id, final int patchIndex,
+        final PatchSetDetail patchSetDetail, final PatchTable patchTable,
+        final TopView topView, final String parametersUrl) {
+      super(id, patchIndex, patchSetDetail, patchTable, topView);
+      if (parametersUrl != null) {
+        setSideA(PatchSet.Id.parse(parametersUrl
+            .substring(URL_PARAMETER_KEY_OF_PATCHSET_TO_DIFF_WITH.length()
+                + URL_PARAMETER_MARK_BETWWEN_KEY_AND_VALUE.length())));
+      }
+    }
+  }
+
+  public static class SideBySide extends DiffPatchScreen {
     public SideBySide(final Patch.Key id, final int patchIndex,
         final PatchSetDetail patchSetDetail, final PatchTable patchTable,
-        final TopView topView) {
-      super(id, patchIndex, patchSetDetail, patchTable, topView);
+        final TopView topView, final String parametersUrl) {
+      super(id, patchIndex, patchSetDetail, patchTable, topView, parametersUrl);
     }
 
     @Override
@@ -69,11 +87,11 @@ public abstract class PatchScreen extends Screen implements
     }
   }
 
-  public static class Unified extends PatchScreen {
+  public static class Unified extends DiffPatchScreen {
     public Unified(final Patch.Key id, final int patchIndex,
         final PatchSetDetail patchSetDetail, final PatchTable patchTable,
-        final TopView topView) {
-      super(id, patchIndex, patchSetDetail, patchTable, topView);
+        final TopView topView, final String parametersUrl) {
+      super(id, patchIndex, patchSetDetail, patchTable, topView, parametersUrl);
     }
 
     @Override

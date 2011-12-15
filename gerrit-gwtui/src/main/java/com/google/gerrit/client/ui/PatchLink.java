@@ -44,7 +44,6 @@ public class PatchLink extends InlineHyperlink {
     this.patchIndex = patchIndex;
     this.patchSetDetail = patchSetDetail;
     this.parentPatchTable = parentPatchTable;
-    this.parentPatchTable = parentPatchTable;
     this.topView = topView;
   }
 

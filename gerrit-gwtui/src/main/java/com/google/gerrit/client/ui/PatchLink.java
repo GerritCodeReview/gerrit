@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Patch;
 
 public class PatchLink extends InlineHyperlink {
+  public static String DIFF_WITH = "..";
   protected Patch.Key patchKey;
   protected int patchIndex;
   protected PatchSetDetail patchSetDetail;
@@ -43,7 +44,6 @@ public class PatchLink extends InlineHyperlink {
     this.patchKey = patchKey;
     this.patchIndex = patchIndex;
     this.patchSetDetail = patchSetDetail;
-    this.parentPatchTable = parentPatchTable;
     this.parentPatchTable = parentPatchTable;
     this.topView = topView;
   }
@@ -81,7 +81,11 @@ public class PatchLink extends InlineHyperlink {
     public SideBySide(final String text, final Patch.Key patchKey,
         final int patchIndex, PatchSetDetail patchSetDetail,
         PatchTable parentPatchTable) {
-      super(text, patchKey, patchIndex, Dispatcher.toPatchSideBySide(patchKey),
+      super(text, patchKey, patchIndex,
+          (parentPatchTable == null || parentPatchTable
+              .getPatchSetIdToCompareWith() == null) ? Dispatcher
+              .toPatchSideBySide(patchKey) : Dispatcher.toPatchSideBySide(
+              patchKey, parentPatchTable.getPatchSetIdToCompareWith().get()),
           patchSetDetail, parentPatchTable, null);
     }
   }
@@ -90,8 +94,13 @@ public class PatchLink extends InlineHyperlink {
     public Unified(final String text, final Patch.Key patchKey,
         final int patchIndex, PatchSetDetail patchSetDetail,
         PatchTable parentPatchTable) {
-      super(text, patchKey, patchIndex, Dispatcher.toPatchUnified(patchKey),
+      super(text, patchKey, patchIndex,
+          (parentPatchTable == null || parentPatchTable
+              .getPatchSetIdToCompareWith() == null) ? Dispatcher
+              .toPatchUnified(patchKey) : Dispatcher.toPatchUnified(patchKey,
+              parentPatchTable.getPatchSetIdToCompareWith().get()),
           patchSetDetail, parentPatchTable, null);
+
     }
   }
 }

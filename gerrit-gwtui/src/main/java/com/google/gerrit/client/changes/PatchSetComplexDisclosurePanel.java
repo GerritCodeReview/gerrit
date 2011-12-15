@@ -22,6 +22,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
+import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.GitwebLink;
@@ -55,6 +56,7 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 
 import java.util.HashSet;
 import java.util.List;
@@ -74,6 +76,10 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
 
   private Grid infoTable;
   private Panel actionsPanel;
+  private Button diffAllSideBySide;
+  private HandlerRegistration hOfdiffAllSideBySide;
+  private Button diffAllUnified;
+  private HandlerRegistration hOfdiffAllUnified;
   private PatchTable patchTable;
   private final Set<ClickHandler> registeredClickHandler =  new HashSet<ClickHandler>();
 
@@ -546,31 +552,47 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
   }
 
   private void populateDiffAllActions(final PatchSetDetail detail) {
-    final Button diffAllSideBySide = new Button(Util.C.buttonDiffAllSideBySide());
-    diffAllSideBySide.addClickHandler(new ClickHandler() {
-
-      @Override
-      public void onClick(ClickEvent event) {
-        for (Patch p : detail.getPatches()) {
-          Window.open(Window.Location.getPath() + "#"
-              + Dispatcher.toPatchSideBySide(p.getKey()), "_blank", null);
-        }
-      }
-    });
+    diffAllSideBySide = new Button(Util.C.buttonDiffAllSideBySide());
+    diffAllUnified = new Button(Util.C.buttonDiffAllUnified());
+    addHandlerForDiffButton(detail);
     actionsPanel.add(diffAllSideBySide);
+    actionsPanel.add(diffAllUnified);
+  }
 
-    final Button diffAllUnified = new Button(Util.C.buttonDiffAllUnified());
-    diffAllUnified.addClickHandler(new ClickHandler() {
+  private void addHandlerForDiffButton(final PatchSetDetail detail) {
+    hOfdiffAllSideBySide =
+        diffAllSideBySide.addClickHandler(new ClickHandler() {
+
+          @Override
+          public void onClick(ClickEvent event) {
+            for (Patch p : detail.getPatches()) {
+              Window.open(getUrl(p,Dispatcher.toPatchSideBySide(p.getKey())), "_blank", null);
+            }
+          }
+        });
+
+    hOfdiffAllUnified = diffAllUnified.addClickHandler(new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
         for (Patch p : detail.getPatches()) {
-          Window.open(Window.Location.getPath() + "#"
-              + Dispatcher.toPatchUnified(p.getKey()), "_blank", null);
+          Window.open(getUrl(p,Dispatcher.toPatchUnified(p.getKey())), "_blank", null);
         }
       }
     });
-    actionsPanel.add(diffAllUnified);
+  }
+
+  private String getUrl(final Patch p, String style) {
+    StringBuffer url = new StringBuffer();
+    url.append(Window.Location.getPath());
+    url.append("#");
+    url.append(style);
+    if (diffBaseId != null) {
+      String part = p.getKey().getParentKey().toString().replace(",", "/");
+      return url.toString().replace(part, part + PatchLink.DIFF_WITH + diffBaseId.get());
+
+    }
+    return url.toString();
   }
 
   private void populateReviewAction() {
@@ -664,6 +686,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
                 patchTable.addClickHandler(clickHandler);
               }
             }
+            hOfdiffAllSideBySide.removeHandler();
+            hOfdiffAllUnified.removeHandler();
+            addHandlerForDiffButton(result);
           }
         });
   }

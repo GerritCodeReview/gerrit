@@ -63,6 +63,7 @@ import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.SignInMode;
@@ -84,8 +85,26 @@ public class Dispatcher {
     return toPatch("", id);
   }
 
+  public static String toPatchSideBySide(final Patch.Key id,
+      final int patchSetIdToDiffWith) {
+    return toPatch("", id, patchSetIdToDiffWith);
+  }
+
   public static String toPatchUnified(final Patch.Key id) {
     return toPatch("unified", id);
+  }
+
+  public static String toPatchUnified(final Patch.Key id,
+      final int patchSetIdToDiffWith) {
+    return toPatch("unified", id, patchSetIdToDiffWith);
+  }
+
+  private static String toPatch(String type, final Patch.Key id,
+      final int diffBaseId) {
+    String diffIds =
+        "/" + id.getParentKey().get() + PatchLink.DIFF_WITH + diffBaseId + "/";
+    return toPatch(type, id).replace(
+        "/" + String.valueOf(id.getParentKey().get() + "/"), diffIds);
   }
 
   private static String toPatch(String type, final Patch.Key id) {
@@ -378,9 +397,14 @@ public class Dispatcher {
     }
 
     String psIdStr;
-    s = rest.indexOf('/');
+    if (rest.contains(PatchLink.DIFF_WITH)) {
+      s = rest.indexOf(PatchLink.DIFF_WITH);
+    } else {
+      s = rest.indexOf('/');
+    }
     if (0 <= s) {
       psIdStr = rest.substring(0, s);
+      s = rest.indexOf('/');
       rest = rest.substring(s + 1);
     } else {
       psIdStr = rest;
@@ -432,6 +456,16 @@ public class Dispatcher {
       final int patchIndex, final PatchSetDetail patchSetDetail,
       final PatchTable patchTable, final PatchScreen.TopView topView,
       final String panelType) {
+    final PatchSet.Id baseId;
+    if (token.contains(PatchLink.DIFF_WITH)) {
+      String tailPart = token.substring(token.indexOf(PatchLink.DIFF_WITH) + 2);
+      baseId =
+          new PatchSet.Id(id.getParentKey().getParentKey(), Integer.valueOf(
+              tailPart.substring(0, tailPart.indexOf("/"))).intValue());
+
+    } else {
+      baseId = null;
+    }
 
     final PatchScreen.TopView top =  topView == null ?
         Gerrit.getPatchScreenTopView() : topView;
@@ -455,7 +489,8 @@ public class Dispatcher {
                 patchIndex, //
                 patchSetDetail, //
                 patchTable, //
-                top //
+                top,//
+                baseId//
             );
           } else if ("unified".equals(panel)) {
             return new PatchScreen.Unified( //
@@ -463,7 +498,8 @@ public class Dispatcher {
                 patchIndex, //
                 patchSetDetail, //
                 patchTable, //
-                top //
+                top,//
+                baseId//
             );
           }
         }

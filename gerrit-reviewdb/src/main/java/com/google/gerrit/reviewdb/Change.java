@@ -179,6 +179,52 @@ public final class Change {
     }
   }
 
+  /** The change's group id, if it belongs to one. */
+  public static class GroupKey extends StringKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
+    @Column(id = 1, length = 60)
+    protected String id;
+
+    protected GroupKey() {
+    }
+
+    public GroupKey(final String id) {
+      this.id = id;
+    }
+
+    @Override
+    public String get() {
+      return id;
+    }
+
+    @Override
+    protected void set(String newValue) {
+      id = newValue;
+    }
+
+    /** Construct a key that is after all keys prefixed by this key. */
+    public GroupKey max() {
+      final StringBuilder revEnd = new StringBuilder(get().length() + 1);
+      revEnd.append(get());
+      revEnd.append('\u9fa5');
+      return new GroupKey(revEnd.toString());
+    }
+
+    /** Obtain a shorter version of this key string, using a leading prefix. */
+    public String abbreviate() {
+      final String s = get();
+      return s.substring(0, Math.min(s.length(), 9));
+    }
+
+    /** Parse a Change.GroupKey out of a string representation. */
+    public static GroupKey parse(final String str) {
+      final GroupKey r = new GroupKey();
+      r.fromString(str);
+      return r;
+    }
+  }
+
   /** Minimum database status constant for an open change. */
   private static final char MIN_OPEN = 'a';
   /** Database constant for {@link Status#NEW}. */
@@ -386,6 +432,9 @@ public final class Change {
   @Column(id = 16)
   protected boolean mergeable;
 
+  @Column(id = 17, notNull = false)
+  protected GroupKey groupKey;
+
   protected Change() {
   }
 
@@ -418,6 +467,14 @@ public final class Change {
 
   public void setKey(final Change.Key k) {
     changeKey = k;
+  }
+
+  public Change.GroupKey getGroupKey() {
+    return groupKey;
+  }
+
+  public void setGroupKey(final Change.GroupKey k) {
+    groupKey = k;
   }
 
   public Timestamp getCreatedOn() {

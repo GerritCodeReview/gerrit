@@ -133,17 +133,17 @@ public final class Change {
     }
   }
 
-  /** Globally unique identification of this change. */
-  public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
+  /** Represents a sha1 id */
+  public static abstract class IdKey extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
     @Column(id = 1, length = 60)
     protected String id;
 
-    protected Key() {
+    protected IdKey() {
     }
 
-    public Key(final String id) {
+    public IdKey(final String id) {
       this.id = id;
     }
 
@@ -157,25 +157,63 @@ public final class Change {
       id = newValue;
     }
 
-    /** Construct a key that is after all keys prefixed by this key. */
-    public Key max() {
-      final StringBuilder revEnd = new StringBuilder(get().length() + 1);
-      revEnd.append(get());
+    protected static String revEnd(IdKey key) {
+      final StringBuilder revEnd = new StringBuilder(key.get().length() + 1);
+      revEnd.append(key.get());
       revEnd.append('\u9fa5');
-      return new Key(revEnd.toString());
+      return revEnd.toString();
     }
+    /** Construct a key that is after all keys prefixed by this key. */
+    public abstract IdKey max();
 
     /** Obtain a shorter version of this key string, using a leading prefix. */
     public String abbreviate() {
       final String s = get();
       return s.substring(0, Math.min(s.length(), 9));
     }
+  }
 
-    /** Parse a Change.Key out of a string representation. */
+  /** Globally unique identification of this change. */
+  public static class Key extends IdKey {
+    private static final long serialVersionUID = 1L;
+
+    protected Key() {
+    }
+
+    public Key(final String id) {
+      super(id);
+    }
+
+    public Key max() {
+      return new Key(revEnd(this));
+    }
+
     public static Key parse(final String str) {
       final Key r = new Key();
       r.fromString(str);
       return r;
+    }
+  }
+
+  /** The change's group id, if it belongs to one. */
+  public static class GroupKey extends IdKey {
+    private static final long serialVersionUID = 1L;
+
+    protected GroupKey() {
+    }
+
+    public GroupKey(final String id) {
+      super(id);
+    }
+
+    public GroupKey max() {
+      return new GroupKey(revEnd(this));
+    }
+
+    public static GroupKey parse(final String str) {
+      final GroupKey g = new GroupKey();
+      g.fromString(str);
+      return g;
     }
   }
 
@@ -386,6 +424,9 @@ public final class Change {
   @Column(id = 16)
   protected boolean mergeable;
 
+  @Column(id = 17, notNull = false)
+  protected GroupKey groupKey;
+
   protected Change() {
   }
 
@@ -418,6 +459,14 @@ public final class Change {
 
   public void setKey(final Change.Key k) {
     changeKey = k;
+  }
+
+  public Change.GroupKey getGroupKey() {
+    return groupKey;
+  }
+
+  public void setGroupKey(final Change.GroupKey k) {
+    groupKey = k;
   }
 
   public Timestamp getCreatedOn() {

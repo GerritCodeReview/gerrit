@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABwn////Q\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-12-16T00:21:39Z",
+      "side": 1,
+      "message": "s/Change.Key/Change.GroupKey/",
+      "revId": "71dab4f45e3053621e7d13644a8ba023c1136ed2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "revId": "9816be1e4fb48242e64bcf618ea08d823aa4927f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3////s\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-16T02:17:51Z",
+      "side": 1,
+      "message": "I think it is fine to live in here since it only is used here.",
+      "parentUuid": "AAABwn///+o\u003d",
+      "revId": "9816be1e4fb48242e64bcf618ea08d823aa4927f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -355,6 +355,24 @@
     },
     {
       "key": {
+        "uuid": "AAABx3////k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/MergeStrategySection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-16T02:24:56Z",
+      "side": 1,
+      "message": "I am not sure about the UI yet since I haven\u0027t really looked at it yet, but the other stuff sounds good.",
+      "parentUuid": "AAABxH////8\u003d",
+      "revId": "c49bfe833ff45f2b67da078c2df99b4278e01cc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABtn////0\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/NoSuchRefPatternMatches.java",
         "patchSetId": 6

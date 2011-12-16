@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABwn////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-12-16T00:23:59Z",
+      "side": 1,
+      "message": "During replacement you accept multiple Group-Id lines, and use the last one as the identity string. Should we allow multiple ids here too? Or should we always reject multiple lines?",
+      "revId": "bc59eff28b4be5d7ebe15eb3cb53aa225e37ea34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

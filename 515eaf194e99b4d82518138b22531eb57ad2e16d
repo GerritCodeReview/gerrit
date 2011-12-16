@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABwn///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-16T01:27:06Z",
+      "side": 1,
+      "message": "This function does not seem to do what it is called, it is confusingly named.",
+      "revId": "515eaf194e99b4d82518138b22531eb57ad2e16d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

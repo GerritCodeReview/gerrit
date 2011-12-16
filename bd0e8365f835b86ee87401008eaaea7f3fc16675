@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABx3////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-16T04:52:17Z",
+      "side": 1,
+      "message": "I know that you weren\u0027t introducing this name here, but I think that this variable should actually be called ancestors, because I belive that you have more than just grandparents here (of course, this note applies to all the other uses of GPs in here also).",
+      "revId": "bd0e8365f835b86ee87401008eaaea7f3fc16675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

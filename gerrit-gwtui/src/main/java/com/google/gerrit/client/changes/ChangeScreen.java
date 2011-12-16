@@ -74,6 +74,7 @@ public class ChangeScreen extends Screen {
   private ChangeTable dependencies;
   private ChangeTable.Section dependsOn;
   private ChangeTable.Section neededBy;
+  private ChangeTable.Section codependentWith;
 
   private PatchSetsBlock patchSetsBlock;
 
@@ -226,8 +227,10 @@ public class ChangeScreen extends Screen {
     };
     dependsOn = new ChangeTable.Section(Util.C.changeScreenDependsOn());
     neededBy = new ChangeTable.Section(Util.C.changeScreenNeededBy());
+    codependentWith = new ChangeTable.Section(Util.C.changeScreenCodependentWith());
     dependencies.addSection(dependsOn);
     dependencies.addSection(neededBy);
+    dependencies.addSection(codependentWith);
 
     dependenciesPanel = new ComplexDisclosurePanel(
         Util.C.changeScreenDependencies(), false);
@@ -310,6 +313,7 @@ public class ChangeScreen extends Screen {
         .getCurrentPatchSetDetail().getInfo(), detail.getAccounts());
     dependsOn.display(detail.getDependsOn());
     neededBy.display(detail.getNeededBy());
+    codependentWith.display(detail.getCodependentWith());
     approvals.display(detail);
 
     for (PatchSet pId : detail.getPatchSets()) {
@@ -327,9 +331,11 @@ public class ChangeScreen extends Screen {
     addComments(detail);
 
     // If any dependency change is still open, or is outdated,
-    // show our dependency list.
+    // show the dependency panel; but if the change is part of
+    // a group, then always open the dependency panel to show
+    // its codependent changes
     //
-    boolean depsOpen = false;
+    boolean depsOpen = (detail.getCodependentWith() != null);
     int outdated = 0;
     if (!detail.getChange().getStatus().isClosed()
         && detail.getDependsOn() != null) {

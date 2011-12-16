@@ -35,6 +35,7 @@ public class ChangeDetail {
   protected boolean starred;
   protected List<ChangeInfo> dependsOn;
   protected List<ChangeInfo> neededBy;
+  protected List<ChangeInfo> codependentWith;
   protected List<PatchSet> patchSets;
   protected List<ApprovalDetail> approvals;
   protected List<SubmitRecord> submitRecords;
@@ -134,6 +135,14 @@ public class ChangeDetail {
 
   public void setNeededBy(List<ChangeInfo> d) {
     neededBy = d;
+  }
+
+  public List<ChangeInfo> getCodependentWith() {
+    return codependentWith;
+  }
+
+  public void setCodependentWith(List<ChangeInfo> d) {
+    codependentWith = d;
   }
 
   public List<ChangeMessage> getMessages() {

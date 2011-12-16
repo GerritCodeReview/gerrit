@@ -33,6 +33,24 @@
       "revId": "a8a307930003fa723e349b01f105a3bdd9e4a069",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///+I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-16T16:49:11Z",
+      "side": 1,
+      "message": "No, because I believe the intent of the function is actually hasNoMoreThanOneGroupFooterLine() since it is not actually required to have a groupFooter line.   And if that truly is the case, is seems almost silly to have this function since the name of the function is almost longer and more confusing than the test itself.  However, if some extra validation were also done in here...",
+      "parentUuid": "AAAByH////0\u003d",
+      "revId": "a8a307930003fa723e349b01f105a3bdd9e4a069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABwn////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/ContactStoreProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2011-12-16T00:07:52Z",
+      "side": 1,
+      "message": "Why doesn\u0027t this line also cause similar failures?",
+      "revId": "3650d0ef37715f2c38576c48c5a214b5f116d931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

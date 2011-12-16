@@ -34,6 +34,24 @@
       "revId": "3650d0ef37715f2c38576c48c5a214b5f116d931",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABxn////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/ContactStoreProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2011-12-16T00:41:45Z",
+      "side": 1,
+      "message": "I *think* from reading JLS 3rd ed. chapter 12[1] that it is actually implementation-defined whether or not a referenced class is *loaded* when this class is loaded (12.3). For all I know it may be a compiler-specific optimization to inline the value here. Perhaps we should find someone more familiar with the JLS.\n\nI\u0027m pretty sure this does *not* cause class initialization; cf. (12.4.1).\n\nI think the safest approach, if you would prefer, would be to use string literals rather than .class.getName() here.\n\nI did actually test the behavior of this on an empty site with and without BouncyCastle installed, and it performs as expected. In any case, this change certainly won\u0027t increase the incidence of NoClassDefFoundErrors.\n\n[1] http://java.sun.com/docs/books/jls/third_edition/html/execution.html",
+      "parentUuid": "AAABxn////8\u003d",
+      "revId": "3650d0ef37715f2c38576c48c5a214b5f116d931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

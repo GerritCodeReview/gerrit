@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABx3////Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-16T04:50:11Z",
+      "side": 1,
+      "message": "Passing in a null here should probably be allowed as a way to clear this box.",
+      "revId": "f39f4549bb33fa2d013027d05584752baaf41621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3////M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-16T04:50:11Z",
+      "side": 1,
+      "message": "This could just be done on line 247 avoiding the need for an else.",
+      "revId": "f39f4549bb33fa2d013027d05584752baaf41621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-16T04:50:11Z",
+      "side": 1,
+      "message": "This function probably should have been thrown in with the previous refactor since it is sorta part of making the validate reusable, I didn\u0027t understand the previous change until I looked here.  What I don\u0027t like about this is that these objects can\u0027t really be called more than once since they hold so much state and this state will likely no longer be accurate after the first use.  I am not sure I have any great suggestions for how to fix it.  It seems like the server handlers often do stuff like this, but perhaps their framework inherently prevents object reuse?",
+      "revId": "f39f4549bb33fa2d013027d05584752baaf41621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

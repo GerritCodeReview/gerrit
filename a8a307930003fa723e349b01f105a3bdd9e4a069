@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABx3////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-16T02:16:11Z",
+      "side": 1,
+      "message": "I was mostly referring to the fact that this function will return true even if  there are no lines, which now would be in direct contradiction to the question which the name purpots to answer.",
+      "revId": "a8a307930003fa723e349b01f105a3bdd9e4a069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

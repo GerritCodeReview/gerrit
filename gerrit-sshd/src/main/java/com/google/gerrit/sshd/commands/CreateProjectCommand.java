@@ -16,11 +16,13 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RetrieveParentCandidates;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
@@ -28,6 +30,8 @@ import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.lib.Constants;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
+
+import java.io.PrintWriter;
 
 import java.util.List;
 
@@ -41,6 +45,10 @@ final class CreateProjectCommand extends BaseCommand {
       projectName = name;
     }
   }
+
+  @Option(name = "--suggest-parents", aliases = {"-S"}, usage = "suggest parent candidates, "
+      + "it cannot be used with other arguments")
+  private boolean suggestParent;
 
   @Option(name = "--owner", aliases = {"-o"}, usage = "owner(s) of project")
   private List<AccountGroup.UUID> ownerIds;
@@ -93,6 +101,9 @@ final class CreateProjectCommand extends BaseCommand {
   @Inject
   private CreateProject.Factory CreateProjectFactory;
 
+  @Inject
+  private RetrieveParentCandidates.Factory retrieveParentCandidatesFactory;
+
   @Override
   public void start(final Environment env) {
     startThread(new CommandRunnable() {
@@ -106,26 +117,42 @@ final class CreateProjectCommand extends BaseCommand {
         }
 
         parseCommandLine();
+        if (!suggestParent) {
+          // hard-coding this, to not make "suggest-parent" option requiring
+          // "--name"
+          //
+          if (projectName == null) {
+            throw new Failure(1, "fatal: Option \"--name (-n)\" is required");
+          }
+          try {
+            final CreateProjectArgs args = new CreateProjectArgs();
+            args.setProjectName(projectName);
+            args.setOwnerIds(ownerIds);
+            args.setNewParent(newParent);
+            args.setPermissionsOnly(permissionsOnly);
+            args.setProjectDescription(projectDescription);
+            args.setSubmitType(submitType);
+            args.setContributorAgreements(contributorAgreements);
+            args.setSignedOffBy(signedOffBy);
+            args.setContentMerge(contentMerge);
+            args.setChangeIdRequired(requireChangeID);
+            args.setBranch(branch);
+            args.setCreateEmptyCommit(createEmptyCommit);
 
-        try {
-          final CreateProjectArgs args = new CreateProjectArgs();
-          args.setProjectName(projectName);
-          args.setOwnerIds(ownerIds);
-          args.setNewParent(newParent);
-          args.setPermissionsOnly(permissionsOnly);
-          args.setProjectDescription(projectDescription);
-          args.setSubmitType(submitType);
-          args.setContributorAgreements(contributorAgreements);
-          args.setSignedOffBy(signedOffBy);
-          args.setContentMerge(contentMerge);
-          args.setChangeIdRequired(requireChangeID);
-          args.setBranch(branch);
-          args.setCreateEmptyCommit(createEmptyCommit);
-
-          final CreateProject createProject = CreateProjectFactory.create(args);
-          createProject.createProject();
-        } catch (ProjectCreationFailedException err) {
-          throw new UnloggedFailure(1, "fatal: " + err.getMessage(), err);
+            final CreateProject createProject =
+                CreateProjectFactory.create(args);
+            createProject.createProject();
+          } catch (ProjectCreationFailedException err) {
+            throw new UnloggedFailure(1, "fatal: " + err.getMessage(), err);
+          }
+        } else {
+          List<Project> parentCandidates =
+            retrieveParentCandidatesFactory.create().getParentCandidates();
+          PrintWriter p = toPrintWriter(out);
+          for (Project parent : parentCandidates) {
+            p.print(parent.getNameKey() + "\n");
+          }
+          p.flush();
         }
       }
     });

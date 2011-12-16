@@ -107,6 +107,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private static final FooterKey REVIEWED_BY = new FooterKey("Reviewed-by");
   private static final FooterKey TESTED_BY = new FooterKey("Tested-by");
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
+  private static final FooterKey GROUP_ID = new FooterKey("Group-Id");
 
   public interface Factory {
     ReceiveCommits create(ProjectControl projectControl, Repository repository);
@@ -856,6 +857,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           }
         }
 
+        if (c.getFooterLines(GROUP_ID).size() > 1) {
+          reject(newChange, "multiple Group-Ids");
+          return;
+        }
+
         toCreate.add(c);
       }
     } catch (IOException e) {
@@ -896,6 +902,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     return idStr.matches("^I[0-9a-fA-F]{40}$") && !idStr.matches("^I00*$");
   }
 
+  private static boolean isValidGroupId(String idStr) {
+    return idStr.matches("^G[0-9a-fA-F]{40}$");
+  }
+
   private void createChange(final RevWalk walk, final RevCommit c)
       throws OrmException, IOException {
     walk.parseBody(c);
@@ -903,6 +913,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     final Account.Id me = currentUser.getAccountId();
     Change.Key changeKey = new Change.Key("I" + c.name());
+    // A change is not in a group by default
+    Change.GroupKey groupKey = null;
     final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
     final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
     final List<FooterLine> footerLines = c.getFooterLines();
@@ -917,6 +929,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           reviewers.add(toAccountId(footerLine.getValue().trim()));
         } else if (footerLine.matches(FooterKey.CC)) {
           cc.add(toAccountId(footerLine.getValue().trim()));
+        } else if (footerLine.matches(GROUP_ID)) {
+          final String v = footerLine.getValue().trim();
+          if (isValidGroupId(v)) {
+            groupKey = new Change.GroupKey(v);
+          }
         }
       } catch (NoSuchAccountException e) {
         continue;
@@ -933,6 +950,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     change = new Change(changeKey, new Change.Id(db.nextChangeId()), me, destBranch);
     change.setTopic(destTopicName);
     change.nextPatchSetId();
+    change.setGroupKey(groupKey);
 
     db.changes().beginTransaction(change.getId());
     try {
@@ -1045,6 +1063,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     final Account.Id me = currentUser.getAccountId();
     final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
     final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
+
+    Change.GroupKey groupKey = null;
+    if (c.getFooterLines(GROUP_ID).size() > 1) {
+      reject(request.cmd, "multiple Group-Ids");
+    }
+
     final List<FooterLine> footerLines = c.getFooterLines();
     for (final FooterLine footerLine : footerLines) {
       try {
@@ -1052,6 +1076,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           reviewers.add(toAccountId(footerLine.getValue().trim()));
         } else if (footerLine.matches(FooterKey.CC)) {
           cc.add(toAccountId(footerLine.getValue().trim()));
+        } else if (footerLine.matches(GROUP_ID)) {
+          final String v = footerLine.getValue().trim();
+          if (isValidGroupId(v)) {
+            groupKey = new Change.GroupKey(v);
+          }
         }
       } catch (NoSuchAccountException e) {
         continue;
@@ -1163,6 +1192,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     final PatchSet ps;
     final ChangeMessage msg;
+    final Change.GroupKey newGroupKey = groupKey;
     db.changes().beginTransaction(change.getId());
     try {
       change =
@@ -1172,6 +1202,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
             if (change.getStatus().isOpen()) {
               change.nextPatchSetId();
               change.setLastSha1MergeTested(null);
+              change.setGroupKey(newGroupKey);
               return change;
             } else {
               return null;

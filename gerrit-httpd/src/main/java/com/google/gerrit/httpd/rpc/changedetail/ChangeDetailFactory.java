@@ -146,6 +146,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       detail.setSubmitRecords(submitRecords);
     }
 
+    loadCodependencies(change);
     patchsetsById = new HashMap<PatchSet.Id, PatchSet>();
     loadPatchSets();
     loadMessages();
@@ -155,6 +156,18 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     load();
     detail.setAccounts(aic.create());
     return detail;
+  }
+
+  private void loadCodependencies(final Change change) throws OrmException {
+    final ResultSet<Change> inGroup = db.changes().byGroupKey(change.getGroupKey());
+    final List<ChangeInfo> codependencies = new ArrayList<ChangeInfo>();
+    // don't show self as codependent on self
+    for (Change c : inGroup) {
+      if (!c.getId().equals(changeId)) {
+        codependencies.add(newChangeInfo(c, null));
+      }
+    }
+    detail.setCodependentWith(codependencies);
   }
 
   private void loadPatchSets() throws OrmException {

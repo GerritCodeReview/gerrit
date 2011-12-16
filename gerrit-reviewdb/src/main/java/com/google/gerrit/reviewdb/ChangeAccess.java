@@ -27,6 +27,9 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE changeKey = ?")
   ResultSet<Change> byKey(Change.Key key) throws OrmException;
 
+  @Query("WHERE groupKey = ?")
+  ResultSet<Change> byGroupKey(Change.GroupKey key) throws OrmException;
+
   @Query("WHERE changeKey >= ? AND changeKey <= ?")
   ResultSet<Change> byKeyRange(Change.Key reva, Change.Key revb)
       throws OrmException;

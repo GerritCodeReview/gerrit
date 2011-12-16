@@ -74,6 +74,7 @@ public class ChangeScreen extends Screen {
   private ChangeTable dependencies;
   private ChangeTable.Section dependsOn;
   private ChangeTable.Section neededBy;
+  private ChangeTable.Section codependentWith;
 
   private PatchSetsBlock patchSetsBlock;
 
@@ -226,8 +227,10 @@ public class ChangeScreen extends Screen {
     };
     dependsOn = new ChangeTable.Section(Util.C.changeScreenDependsOn());
     neededBy = new ChangeTable.Section(Util.C.changeScreenNeededBy());
+    codependentWith = new ChangeTable.Section(Util.C.changeScreenCodependentWith());
     dependencies.addSection(dependsOn);
     dependencies.addSection(neededBy);
+    dependencies.addSection(codependentWith);
 
     dependenciesPanel = new ComplexDisclosurePanel(
         Util.C.changeScreenDependencies(), false);
@@ -310,6 +313,7 @@ public class ChangeScreen extends Screen {
         .getCurrentPatchSetDetail().getInfo(), detail.getAccounts());
     dependsOn.display(detail.getDependsOn());
     neededBy.display(detail.getNeededBy());
+    codependentWith.display(detail.getCodependentWith());
     approvals.display(detail);
 
     for (PatchSet pId : detail.getPatchSets()) {

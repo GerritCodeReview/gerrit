@@ -23,6 +23,7 @@ public class ProjectDetail {
   public boolean canModifyAgreements;
   public boolean canModifyAccess;
   public boolean canModifyState;
+  public boolean isPermissionOnly;
 
   public ProjectDetail() {
   }
@@ -49,5 +50,9 @@ public class ProjectDetail {
 
   public void setCanModifyAccess(final boolean cma) {
     canModifyAccess = cma;
+  }
+
+  public void setPermissionOnly(final boolean ipo) {
+    isPermissionOnly = ipo;
   }
 }

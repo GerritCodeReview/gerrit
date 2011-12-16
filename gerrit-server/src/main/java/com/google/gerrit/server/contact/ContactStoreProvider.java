@@ -27,6 +27,8 @@ import org.bouncycastle.openpgp.PGPPublicKey;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Security;
@@ -80,12 +82,32 @@ public class ContactStoreProvider implements Provider<ContactStore> {
   private static boolean havePGP() {
     try {
       Class.forName(PGPPublicKey.class.getName());
-      Security.addProvider(new BouncyCastleProvider());
+      addBouncyCastleProvider();
       return true;
     } catch (NoClassDefFoundError noBouncyCastle) {
       return false;
     } catch (ClassNotFoundException noBouncyCastle) {
       return false;
+    } catch (SecurityException noBouncyCastle) {
+      return false;
+    } catch (NoSuchMethodException noBouncyCastle) {
+      return false;
+    } catch (InstantiationException noBouncyCastle) {
+      return false;
+    } catch (IllegalAccessException noBouncyCastle) {
+      return false;
+    } catch (InvocationTargetException noBouncyCastle) {
+      return false;
+    } catch (ClassCastException noBouncyCastle) {
+      return false;
     }
+  }
+
+  private static void addBouncyCastleProvider() throws ClassNotFoundException,
+          SecurityException, NoSuchMethodException, InstantiationException,
+          IllegalAccessException, InvocationTargetException {
+    Class<?> clazz = Class.forName(BouncyCastleProvider.class.getName());
+    Constructor<?> constructor = clazz.getConstructor();
+    Security.addProvider((java.security.Provider) constructor.newInstance());
   }
 }

@@ -16,6 +16,24 @@
       "revId": "9816be1e4fb48242e64bcf618ea08d823aa4927f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///+o\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2011-12-16T01:19:27Z",
+      "side": 1,
+      "message": "That sounds reasonable. Should the IdKey class live inside Change, or should it exist as its own file/class?",
+      "parentUuid": "AAABwn///+w\u003d",
+      "revId": "9816be1e4fb48242e64bcf618ea08d823aa4927f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

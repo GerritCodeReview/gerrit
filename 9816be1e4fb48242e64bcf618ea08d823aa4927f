@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAByH////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-16T16:36:40Z",
+      "side": 1,
+      "message": "Please add the motivation in the commit message... explain that this is a preparation for the CRD feature and provide some basic info about it.",
+      "revId": "9816be1e4fb48242e64bcf618ea08d823aa4927f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///+w\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
         "patchSetId": 3

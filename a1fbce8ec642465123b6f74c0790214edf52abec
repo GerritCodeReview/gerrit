@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABwn///88\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-17T00:32:04Z",
+      "side": 1,
+      "message": "Hmm, I am not sure if my comment is correct, or whether yours is correct either.  I thought that sha1s were only 40chars?  If so, then while this may hold sha1s, it would not be that tightly tied to them.",
+      "parentUuid": "AAABwn///9Q\u003d",
+      "revId": "a1fbce8ec642465123b6f74c0790214edf52abec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///9U\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
         "patchSetId": 4

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABwn///9E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-17T00:30:05Z",
+      "side": 1,
+      "message": "I don\u0027t think you need the !idStr.matches(\"^G00*$\") on this one.  I think that is a hack for an old bug in eclipse or something where it used to create such change ids.  But since groupids aren\u0027t used yet, I think you should be fine without this hack (you might wanna check with Shawn).",
+      "revId": "dcd451dced95e7873886b60bb43d3d339bfa5baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

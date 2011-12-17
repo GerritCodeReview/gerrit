@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABwn///9Q\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-17T00:24:53Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t realize that this key did not store the I or G?  A better name might be SHA1Key or Sha1Key?",
+      "revId": "a1fbce8ec642465123b6f74c0790214edf52abec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///9U\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-17T00:24:53Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem needed on this class?  It might be better to not over specify.  Any other reason to make the class abstract?",
+      "revId": "a1fbce8ec642465123b6f74c0790214edf52abec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///9M\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-17T00:24:53Z",
+      "side": 1,
+      "message": "You might be able to make this piece a generic? Although I suspect the compiler wouldn\u0027t let it compile if IdKey were generic and you extended it with:\n\n Key extends IdKey\u003cKey\u003e\n\nso, probably just ignore this unless you can think of a better way.",
+      "revId": "a1fbce8ec642465123b6f74c0790214edf52abec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

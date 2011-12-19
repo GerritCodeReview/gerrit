@@ -52,6 +52,24 @@
       "revId": "a75dadcc0fb392438530681b9cd87e6967220b02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABw3////o\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-19T13:38:52Z",
+      "side": 1,
+      "message": "Actually, if you are able to set up the Gerrit service, I think we must assume you already have access to a server, either by SSH or by VNC/console. Since you have such access, it should be easy to instruct the user to download/clone the git to their server, and then push it locally to the location of the git serviced. No new SSH service will be required, and keep in mind that the vast majority of the *nix-servers already have sshd running.\nThat is an easy enough solution I think, because the user would have to clone or keep it somewhere on their own client to even work with it, so that should be \"preassumed knowledge\" more or less. And it\u0027d be a guide about quite a lot more than gerrit if we can\u0027t assume such knowledge. Can I tweak the current text with the above information?\n\nIf there\u0027s any flaw to my reasoning, please tell me. I\u0027ll follow your advice to cut it if I can see that it isn\u0027t as obvious as I would like to make it look like.. :)",
+      "parentUuid": "AAABrn////M\u003d",
+      "revId": "a75dadcc0fb392438530681b9cd87e6967220b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -109,6 +109,10 @@ class SubmitAction extends Handler<ChangeDetail> {
       case CLOSED:
         throw new IllegalStateException("Change is closed");
 
+      case GROUP_NOT_READY:
+        throw new IllegalStateException(
+            "Change is part of a group, and not all changes in the group are submittable");
+
       case RULE_ERROR:
         if (result.get(0).errorMessage != null) {
           throw new IllegalStateException(result.get(0).errorMessage);

@@ -32,6 +32,9 @@ public class SubmitRecord {
     /** The change has been closed. */
     CLOSED,
 
+    /** The change is part of a group and not all changes in the group are ready */
+    GROUP_NOT_READY,
+
     /**
      * An internal server error occurred preventing computation.
      * <p>

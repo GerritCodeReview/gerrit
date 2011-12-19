@@ -340,6 +340,10 @@ public class ReviewCommand extends BaseCommand {
         case CLOSED:
           throw error("change " + changeId + " is closed");
 
+        case GROUP_NOT_READY:
+          throw error("change " + changeId
+              + " is codependent on other changes that are not submittable at this moment");
+
         case RULE_ERROR:
           if (result.get(0).errorMessage != null) {
             throw error("change " + changeId + ": " + result.get(0).errorMessage);

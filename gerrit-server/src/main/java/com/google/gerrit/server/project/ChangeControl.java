@@ -102,10 +102,21 @@ public class ChangeControl {
         throws NoSuchChangeException {
       try {
         final Project.NameKey projectKey = change.getProject();
-        return projectControl.validateFor(projectKey).controlFor(change);
+        ChangeControl ctl = projectControl.validateFor(projectKey).controlFor(change);
+        ctl.factory = this;
+        return ctl;
       } catch (NoSuchProjectException e) {
         throw new NoSuchChangeException(change.getId(), e);
       }
+    }
+
+    private List<ChangeControl> controlsFor(Iterable<Change> changes)
+        throws NoSuchChangeException {
+      final List<ChangeControl> controls = new ArrayList<ChangeControl>();
+      for (Change c : changes) {
+        controls.add(controlFor(c));
+      }
+      return controls;
     }
 
     public ChangeControl validateFor(final Change.Id id)
@@ -129,6 +140,7 @@ public class ChangeControl {
 
   private final RefControl refControl;
   private final Change change;
+  public Factory factory;
 
   ChangeControl(final RefControl r, final Change c) {
     this.refControl = r;
@@ -264,6 +276,55 @@ public class ChangeControl {
   }
 
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet.Id patchSetId) {
+    if (change.getGroupKey() == null) {
+      return canSubmitAlone(db, patchSetId);
+    }
+
+    ResultSet<Change> groupChanges = null;
+    try {
+      groupChanges = db.changes().byGroupKey(change.getGroupKey());
+    } catch (OrmException err) {
+      return logRuleError(
+          "Cannot read group " + change.getGroupKey().toString()
+              + " for change " + change.getChangeId(), err);
+    }
+
+    final List<SubmitRecord> allSubmitRecords = new ArrayList<SubmitRecord>();
+    boolean groupNotReady = false;
+
+    try {
+      for (ChangeControl ctl : factory.controlsFor(groupChanges)) {
+        final List<SubmitRecord> submitRecords =
+            ctl.canSubmitAlone(db, ctl.change.currentPatchSetId());
+        allSubmitRecords.addAll(submitRecords);
+        for (SubmitRecord sr : submitRecords) {
+          // It is possible that an earlier change was already submitted and
+          // merged, even though it is part of the group, but it does not
+          // adversely affect the submittability of the other changes in the group
+          if (sr.status != SubmitRecord.Status.OK &&
+              sr.status != SubmitRecord.Status.CLOSED) {
+            groupNotReady = true;
+          }
+        }
+      }
+    } catch (NoSuchChangeException err) {
+      return logRuleError("You may not have permissions to all the changes in the group");
+    }
+
+    // If any change is unsubmittable in the group, we will rewrite all OK
+    // statuses to GROUP_NOT_READY
+    if (groupNotReady) {
+      for (SubmitRecord sr : allSubmitRecords) {
+        if (sr.status == SubmitRecord.Status.OK) {
+          sr.status = SubmitRecord.Status.GROUP_NOT_READY;
+        }
+      }
+    }
+
+    return allSubmitRecords;
+  }
+
+  public List<SubmitRecord> canSubmitAlone(ReviewDb db, PatchSet.Id patchSetId) {
     if (change.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;

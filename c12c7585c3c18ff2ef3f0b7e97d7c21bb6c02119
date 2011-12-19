@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABwn///7w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-19T23:41:29Z",
+      "side": 1,
+      "message": "Suggestions:\n\ns/A patchset is submittable/Make a patchset submittable/\n\ns/every other change/all changes/  -\u003e s/is/are/\n\n\"every other\" has a second meaning in English which probably should be avoided here.",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///8c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-19T23:41:29Z",
+      "side": 1,
+      "message": "Perhaps this should read something like: \"Change is codependent on changes which are not submittable\"",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///8I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-19T23:41:29Z",
+      "side": 1,
+      "message": "Do we really want this to be public?",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///8Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-19T23:41:29Z",
+      "side": 1,
+      "message": "nit: add 2 more space before the \u0027throws\" here.",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///8Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-19T23:41:29Z",
+      "side": 1,
+      "message": "I wouldn\u0027t bother with an else if you are returning in the if.",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///8M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-19T23:41:29Z",
+      "side": 1,
+      "message": "It might be nice to have the GroupKey in this message.",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///78\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-19T23:41:29Z",
+      "side": 1,
+      "message": "How about calling this allSubmitRecords instead?",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///74\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-19T23:41:29Z",
+      "side": 1,
+      "message": "Maybe groupNotReady would be better?",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///8A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-19T23:41:29Z",
+      "side": 1,
+      "message": "How about calling this submitRecords instead?",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///70\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-19T23:41:29Z",
+      "side": 1,
+      "message": "Should the closed ones remain in the allOutcomes?",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///8E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-19T23:41:29Z",
+      "side": 1,
+      "message": "I don\u0027t believe that this is true.  I think that if you have changes which are not visible to the current user you will get here (that is what validateFor() on line 105 checks).  I am not sure what the proper response is here if a user cannot see all the changes.  Perhaps it should still be viewed as submittable to them if it is (this should not really disclose sensitive info about changes he can\u0027t view, would it?).  Of course, it does not mean that the user should actually be able to submit it themselves.",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///8U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-19T23:41:29Z",
+      "side": 1,
+      "message": "See my suggestion on SubmitAction.",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

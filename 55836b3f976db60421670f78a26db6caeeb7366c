@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAByH////I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-19T17:23:13Z",
+      "side": 1,
+      "message": "Does really everyone wants this automatic update?\nCan we image a superproject that wants to manage its submodules explicitly?\n\nI would still prefer to have this behavior configurable per project or even per branch.",
+      "revId": "55836b3f976db60421670f78a26db6caeeb7366c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH////E\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubmoduleSubscription.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-19T17:23:13Z",
+      "side": 1,
+      "message": "why not name the second parameter simply \"submodule\" or \"newSubmodule\" if you want to stick with the \"new\" prefix?\n\nI prefer skipping the \"new\" prefix for all 3 parameters:\n\n public SubmoduleSubscription(final Branch.NameKey superProject,\n     final Branch.NameKey submodule, final String path)",
+      "revId": "55836b3f976db60421670f78a26db6caeeb7366c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///+8\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubmoduleSubscription.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-19T17:23:13Z",
+      "side": 1,
+      "message": "You should also implement hashCode method here to maintain the contract that two equals objects must produce the same hashCode.",
+      "revId": "55836b3f976db60421670f78a26db6caeeb7366c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-19T17:23:13Z",
+      "side": 1,
+      "message": "Using a Set here may be better as a few lines down the oldSubscriptions.contains(s) method is used and is usually faster with sets than with lists.",
+      "revId": "55836b3f976db60421670f78a26db6caeeb7366c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

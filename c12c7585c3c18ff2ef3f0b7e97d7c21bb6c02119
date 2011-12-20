@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABx3///9M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2011-12-20T18:30:06Z",
+      "side": 1,
+      "message": "I generally like the \"invariant\" style for comments when the change intends to enforce a new invariant on the state of the program, but I do agree with my sloppy use of \"every other.\" It is clear from the context, but is not careful language. I have fixed it as suggested.",
+      "parentUuid": "AAABwn///7w\u003d",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///8c\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2011-12-19T23:41:29Z",
       "side": 1,
       "message": "Perhaps this should read something like: \"Change is codependent on changes which are not submittable\"",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3///94\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2011-12-20T18:30:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABwn///8c\u003d",
       "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAABx3///9w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2011-12-20T18:30:06Z",
+      "side": 1,
+      "message": "I don\u0027t see why being able to get many ChangeControls at once is undesirable outside of this class, but I have changed this to be private for now.",
+      "parentUuid": "AAABwn///8I\u003d",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///8Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2011-12-19T23:41:29Z",
       "side": 1,
       "message": "nit: add 2 more space before the \u0027throws\" here.",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3///90\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2011-12-20T18:30:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABwn///8Y\u003d",
       "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAABx3///9s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2011-12-20T18:30:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABwn///8Q\u003d",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///8M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2011-12-19T23:41:29Z",
       "side": 1,
       "message": "It might be nice to have the GroupKey in this message.",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3///9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2011-12-20T18:30:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABwn///8M\u003d",
       "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAABx3///9k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2011-12-20T18:30:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABwn///78\u003d",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///74\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3
@@ -132,6 +258,24 @@
       "writtenOn": "2011-12-19T23:41:29Z",
       "side": 1,
       "message": "Maybe groupNotReady would be better?",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3///9g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2011-12-20T18:30:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABwn///74\u003d",
       "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAABx3///9c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2011-12-20T18:30:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABwn///8A\u003d",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///70\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3
@@ -166,6 +328,24 @@
       "writtenOn": "2011-12-19T23:41:29Z",
       "side": 1,
       "message": "Should the closed ones remain in the allOutcomes?",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3///9Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2011-12-20T18:30:06Z",
+      "side": 1,
+      "message": "It depends if having CLOSED outcomes somehow affects the UI. I am not sure what the side effects here are. I don\u0027t think being \"closed\" should affect the submittability of the other changes in the group; the submit action will have to be smarter about submitting an entire group and omitting changes that are already closed.",
+      "parentUuid": "AAABwn///70\u003d",
       "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAABx3///9U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2011-12-20T18:30:06Z",
+      "side": 1,
+      "message": "I don\u0027t think we should care too much about the case where a user is somehow not privileged enough to see the total contents of the entire group. It would suggest that making changes without the context of the other changes is a valid developer workflow, which seems silly. I have changed the message though because I agree with your point about validateFor.",
+      "parentUuid": "AAABwn///8E\u003d",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///8U\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 3
@@ -200,6 +398,24 @@
       "writtenOn": "2011-12-19T23:41:29Z",
       "side": 1,
       "message": "See my suggestion on SubmitAction.",
+      "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3///9Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2011-12-20T18:30:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABwn///8U\u003d",
       "revId": "c12c7585c3c18ff2ef3f0b7e97d7c21bb6c02119",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

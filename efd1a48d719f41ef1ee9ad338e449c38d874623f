@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABx3///+4\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-20T20:32:06Z",
+      "side": 1,
+      "message": "I suggest simplifying this paragraph to just: \n\"Note: Access rights for each project are actually link:project-config.html[stored] in the git repositories for the projects themselves.\"\n\nDoes this page even exist yet?  If not, I would just strip this new paragraph out until we get the new page, that way we can at least merges something for capabilities for 2.2.2-rc1",
+      "revId": "efd1a48d719f41ef1ee9ad338e449c38d874623f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

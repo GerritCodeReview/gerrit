@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAByH///+M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-21T12:59:37Z",
+      "side": 1,
+      "message": "I suppose you persist this submodule subscription in the DB only because of the performance reasons i.e. to be able to quickly find all subscriber for particular submodule without having to traverse all projects?",
+      "revId": "55836b3f976db60421670f78a26db6caeeb7366c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH////I\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -31,6 +48,24 @@
       "side": 1,
       "message": "Would you mean to have a project field to enable/disable this feature to situations having the project as a \"super project\" ?\n\nThe situation I explicitly see not having this update automatically done as it is implemented here is when there are a group of changes from different repos and the repos being submodules of same super project. This situation is the one the feature \"atomic commits\" handle (right now the latest patchset is outdated because we prefer to focus first on git submodules support feature).",
       "parentUuid": "AAAByH////I\u003d",
+      "revId": "55836b3f976db60421670f78a26db6caeeb7366c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///+k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-21T12:59:37Z",
+      "side": 1,
+      "message": "Yes I meant having control over enabling this feature. However, if I look at the standard format of the .gitmodules file it doesn\u0027t contains \"revision\" property for the \"submodule\" section.\n\nThis means that inclusion/exclusion of the \"revision\" property in the .gitmodules file actually enables/disables automatic update of the super-project when this submodule changes. Is this true?",
+      "parentUuid": "AAAByX////8\u003d",
       "revId": "55836b3f976db60421670f78a26db6caeeb7366c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -136,6 +171,57 @@
       "side": 1,
       "message": "Ok.",
       "parentUuid": "AAAByH////A\u003d",
+      "revId": "55836b3f976db60421670f78a26db6caeeb7366c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///+I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-21T12:59:37Z",
+      "side": 1,
+      "message": "newSubscrioptions is only used inside this method.. make it a local variable",
+      "revId": "55836b3f976db60421670f78a26db6caeeb7366c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-21T12:59:37Z",
+      "side": 1,
+      "message": "updatedSubscribers is only used inside this method.\nIt shouldn\u0027t be an instance member but a local variable.",
+      "revId": "55836b3f976db60421670f78a26db6caeeb7366c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-21T12:59:37Z",
+      "side": 1,
+      "message": "s/pathes/paths",
       "revId": "55836b3f976db60421670f78a26db6caeeb7366c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

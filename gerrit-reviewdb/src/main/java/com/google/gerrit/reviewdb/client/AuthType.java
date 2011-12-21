@@ -18,6 +18,9 @@ public enum AuthType {
   /** Login relies upon the OpenID standard: {@link "http://openid.net/"} */
   OPENID,
 
+  /** Login relies upon the OpenID standard: {@link "http://openid.net/"} in Single Sign On mode */
+  OPENID_SSO,
+
   /**
    * Login relies upon the container/web server security.
    * <p>

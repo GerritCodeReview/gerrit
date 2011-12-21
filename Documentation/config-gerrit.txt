@@ -88,6 +88,12 @@ The default setting.  Gerrit uses any valid OpenID
 provider chosen by the end-user.  For more information see
 http://openid.net/[openid.net].
 +
+* `OpenID_SSO`
++
+Supports OpenID from a single provider.  There is no registration
+link, and the "Sign In" link sends the user directly to the provider's
+SSO entry point.
++
 * `HTTP`
 +
 Gerrit relies upon data presented in the HTTP request.  This includes
@@ -228,6 +234,13 @@ order to validate their email address expires.
 
 +
 Default is 12 hours.
+
+[[auth.openIdSsoUrl]]auth.openIdSsoUrl::
++
+The SSO entry point URL.  Only used if `auth.type` was set to
+set to OpenID_SSO.
++
+The "Sign In" link will send users directly to this URL.
 
 [[auth.httpHeader]]auth.httpHeader::
 +

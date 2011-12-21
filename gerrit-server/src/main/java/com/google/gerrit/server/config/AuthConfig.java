@@ -37,6 +37,7 @@ public class AuthConfig {
   private final String httpHeader;
   private final boolean trustContainerAuth;
   private final String logoutUrl;
+  private final String openIdSsoUrl;
   private final List<OpenIdProviderPattern> trustedOpenIDs;
   private final List<OpenIdProviderPattern> allowedOpenIDs;
   private final String cookiePath;
@@ -51,6 +52,7 @@ public class AuthConfig {
     authType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
     logoutUrl = cfg.getString("auth", null, "logouturl");
+    openIdSsoUrl = cfg.getString("auth", null, "openidssourl");
     trustedOpenIDs = toPatterns(cfg, "trustedOpenID");
     allowedOpenIDs = toPatterns(cfg, "allowedOpenID");
     cookiePath = cfg.getString("auth", null, "cookiepath");
@@ -106,6 +108,10 @@ public class AuthConfig {
     return logoutUrl;
   }
 
+  public String getOpenIdSsoUrl() {
+    return openIdSsoUrl;
+  }
+
   public String getCookiePath() {
     return cookiePath;
   }
@@ -144,6 +150,10 @@ public class AuthConfig {
         // Its safe to assume yes for an HTTP authentication type, as the
         // only way in is through some external system that the admin trusts
         //
+        return true;
+
+      case OPENID_SSO:
+	// There's only one provider in SSO mode, so it must be okay.
         return true;
 
       case OPENID:

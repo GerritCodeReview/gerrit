@@ -16,6 +16,24 @@
       "revId": "efd1a48d719f41ef1ee9ad338e449c38d874623f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByn////w\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2011-12-21T17:01:26Z",
+      "side": 1,
+      "message": "That... sort of removes half the change. But ok.\n\nIt\u0027s removed.\n\n(I\u0027m not sure I understand the above suggested sentence, I think it confuses a lot more than how I write it. So I\u0027d rather not shorten it like suggested.)",
+      "parentUuid": "AAABx3///+4\u003d",
+      "revId": "efd1a48d719f41ef1ee9ad338e449c38d874623f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

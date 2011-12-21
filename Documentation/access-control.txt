@@ -300,6 +300,11 @@ Gerrit comes pre-configured with several default categories that
 can be granted to groups within projects, enabling functionality
 for that group's members.
 
+With the release of the Gerrit 2.2.x series, the web GUI for ACL
+configuration was rewritten from scratch.  Use this
+<<conversion_table,table>> to better understand the access rights
+conversions from the Gerrit 2.1.x to the Gerrit 2.2.x series.
+
 
 [[category_label-Verified]]
 Label: Verified
@@ -727,6 +732,39 @@ like `Verified`, but has different names/labels:
 The new column will appear at the end of the table (in position 3),
 and `-1 Do not have copyright` will block submit, while `+1 Copyright
 clear` is required to enable submit.
+
+
+[[conversion_table]]
+Conversion table from 2.1.x series to 2.2.x series
+--------------------------------------------------
+
+[options="header"]
+|=================================================================================
+|Gerrit 2.1.x                 |Gerrit 2.2.x
+|Code review                  |Label: Code review
+|Verify                       |Label: Verify
+|Forge Identity +1            |Forge author identity
+|Forge Identity +2            |Forge committer & author identity
+|Forge Identity +3            |Forge server & committer & author identity
+|Owner                        |Owner
+|Push branch +1               |Push
+|Push branch +2               |Create reference & Push
+|Push branch +3               |Push (with force) & Create reference
+|Push tag +1 & Push Branch +2 |No support to limit to push signed tag
+|Push tag +2 & Push Branch +2 |Push annotated tag
+|Read +1                      |Read
+|Read +2                      |Read & Push branch (refs/for/refs/...)
+|Read +3                      |Read & Push branch (refs/for/refs/...) & Push merge
+|Submit                       |Submit
+|=================================================================================
+
+[NOTE]
+In Gerrit 2.2.x, the way to set permissions for upload has changed entirely.
+To upload a change for review is no longer a separate permission type,
+instead you grant ordinary push permissions to the actual
+recieving reference. In practice this means that you set push permissions
+on `refs/for/refs/heads/<branch>` rather than permissions to upload changes
+on `refs/heads/<branch>`.
 
 [[restart_changes]]
 [NOTE]

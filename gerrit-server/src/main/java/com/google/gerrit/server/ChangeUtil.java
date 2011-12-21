@@ -173,24 +173,45 @@ public class ChangeUtil {
       final MergeOp.Factory opFactory, final MergeQueue merger)
       throws OrmException {
     final Change.Id changeId = patchSetId.getParentKey();
-    final PatchSetApproval approval = createSubmitApproval(patchSetId, user, db);
+    final Change.GroupKey groupKey = db.changes().get(changeId).getGroupKey();
+    final List<Change.Id> changeIds = new ArrayList<Change.Id>();
+    final List<PatchSet.Id> patchSetIds = new ArrayList<PatchSet.Id>();
 
-    db.patchSetApprovals().upsert(Collections.singleton(approval));
-
-    final Change updatedChange = db.changes().atomicUpdate(changeId,
-        new AtomicUpdate<Change>() {
-      @Override
-      public Change update(Change change) {
-        if (change.getStatus() == Change.Status.NEW) {
-          change.setStatus(Change.Status.SUBMITTED);
-          ChangeUtil.updated(change);
-        }
-        return change;
+    if (groupKey == null) {
+      changeIds.add(changeId);
+      patchSetIds.add(patchSetId);
+    } else {
+      for (Change c : db.changes().byGroupKey(groupKey)) {
+        changeIds.add(c.getId());
+        patchSetIds.add(c.currentPatchSetId());
       }
-    });
+    }
 
-    if (updatedChange.getStatus() == Change.Status.SUBMITTED) {
-      merger.merge(opFactory, updatedChange.getDest());
+    final List<PatchSetApproval> approvals = new ArrayList<PatchSetApproval>();
+    for (PatchSet.Id psid : patchSetIds) {
+      approvals.add(createSubmitApproval(psid, user, db));
+    }
+    db.patchSetApprovals().upsert(approvals);
+
+    final List<Change> updatedChanges = new ArrayList<Change>();
+    for (Change.Id cid : changeIds) {
+      updatedChanges.add(db.changes().atomicUpdate(cid,
+          new AtomicUpdate<Change>() {
+            @Override
+            public Change update(Change change) {
+              if (change.getStatus() == Change.Status.NEW) {
+                change.setStatus(Change.Status.SUBMITTED);
+                ChangeUtil.updated(change);
+              }
+              return change;
+            }
+          }));
+    }
+
+    for (Change c : updatedChanges) {
+      if (c.getStatus() == Change.Status.SUBMITTED) {
+        merger.merge(opFactory, c.getDest());
+      }
     }
   }
 

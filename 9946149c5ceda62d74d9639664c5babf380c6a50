@@ -69,6 +69,24 @@
       "revId": "9946149c5ceda62d74d9639664c5babf380c6a50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///6o\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-21T20:53:43Z",
+      "side": 1,
+      "message": "Sure.",
+      "parentUuid": "AAAByn////g\u003d",
+      "revId": "9946149c5ceda62d74d9639664c5babf380c6a50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

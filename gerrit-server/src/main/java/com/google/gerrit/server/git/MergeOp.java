@@ -1150,10 +1150,8 @@ public class MergeOp {
     final long now = System.currentTimeMillis();
     final long waitUntil = c.getLastUpdatedOn().getTime() + DEPENDENCY_DELAY;
     if (submitStillPossible && now < waitUntil) {
-      // If we waited a short while we might still be able to get
-      // this change submitted. Reschedule an attempt in a bit.
-      //
-      mergeQueue.recheckAfter(destBranch, waitUntil - now, MILLISECONDS);
+      // This shouldn't happen because a contending branch was rescheduled
+      // by the merge queue
       capable = Capable.OK;
     } else if (submitStillPossible) {
       // It would be possible to submit the change if the missing

@@ -16,12 +16,13 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.Branch;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public interface MergeQueue {
-  void merge(MergeOp.Factory mof, Branch.NameKey branch);
+  //void merge(MergeOp.Factory mof, Branch.NameKey branch);
+  void merge(MergeOp.Factory mof, Set<Branch.NameKey> branches);
 
-  void schedule(Branch.NameKey branch);
-
-  void recheckAfter(Branch.NameKey branch, long delay, TimeUnit delayUnit);
+  //void schedule(Branch.NameKey branch);
+  void schedule(Set<Branch.NameKey> branches);
 }

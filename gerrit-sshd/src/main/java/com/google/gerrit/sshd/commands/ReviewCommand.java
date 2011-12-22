@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Branch;
+import com.google.gerrit.reviewdb.Branch.NameKey;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.MergeOp.Factory;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.mail.AbandonedSender;
@@ -214,31 +216,27 @@ public class ReviewCommand extends BaseCommand {
         }
 
         if (!toSubmit.isEmpty()) {
-          final Set<Branch.NameKey> toMerge = new HashSet<Branch.NameKey>();
+          // A change not concerned with groups can be considered a singleton in a set
+          final Set<Set<Branch.NameKey>> toMerge = new HashSet<Set<Branch.NameKey>>();
           try {
             for (PatchSet.Id patchSetId : toSubmit) {
               ChangeUtil.submit(patchSetId, currentUser, db, opFactory,
                   new MergeQueue() {
                     @Override
-                    public void merge(MergeOp.Factory mof, Branch.NameKey branch) {
-                      toMerge.add(branch);
+                    public void merge(Factory mof, Set<NameKey> branches) {
+                      toMerge.add(branches);
                     }
 
                     @Override
-                    public void schedule(Branch.NameKey branch) {
-                      toMerge.add(branch);
-                    }
-
-                    @Override
-                    public void recheckAfter(Branch.NameKey branch, long delay,
-                        TimeUnit delayUnit) {
-                      toMerge.add(branch);
+                    public void schedule(Set<NameKey> branches) {
+                      toMerge.add(branches);
                     }
                   });
             }
-            for (Branch.NameKey branch : toMerge) {
-              merger.merge(opFactory, branch);
+            for (Set<Branch.NameKey> branches : toMerge) {
+              merger.merge(opFactory, branches);
             }
+
           } catch (OrmException updateError) {
             throw new Failure(1, "one or more submits failed", updateError);
           }

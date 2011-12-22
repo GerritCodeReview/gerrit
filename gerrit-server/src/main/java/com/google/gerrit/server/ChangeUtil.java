@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
 
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -208,11 +209,14 @@ public class ChangeUtil {
           }));
     }
 
+    final Set<Branch.NameKey> targets = new HashSet<Branch.NameKey>();
     for (Change c : updatedChanges) {
       if (c.getStatus() == Change.Status.SUBMITTED) {
-        merger.merge(opFactory, c.getDest());
+        targets.add(c.getDest());
       }
     }
+
+    merger.merge(opFactory, targets);
   }
 
   public static PatchSetApproval createSubmitApproval(

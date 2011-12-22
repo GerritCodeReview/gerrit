@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.HashSet;
 
 public class ReloadSubmitQueueOp extends DefaultQueueOp {
@@ -61,7 +62,7 @@ public class ReloadSubmitQueueOp extends DefaultQueueOp {
     }
 
     for (final Branch.NameKey branch : pending) {
-      mergeQueue.schedule(branch);
+      mergeQueue.schedule(Collections.singleton(branch));
     }
   }
 

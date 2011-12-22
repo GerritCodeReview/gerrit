@@ -15,10 +15,8 @@
 package com.google.gerrit.server.git;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.reviewdb.Branch;
-import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
@@ -37,20 +35,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.SocketAddress;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
 public class ChangeMergeQueue implements MergeQueue {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeMergeQueue.class);
 
-  private final Map<Branch.NameKey, MergeEntry> active =
-      new HashMap<Branch.NameKey, MergeEntry>();
-  private final Map<Branch.NameKey, RecheckJob> recheck =
-      new HashMap<Branch.NameKey, RecheckJob>();
+  private final Map<Set<Branch.NameKey>, NormalizedLockRequest> requests =
+      new HashMap<Set<Branch.NameKey>, NormalizedLockRequest>();
+  private final Map<Branch.NameKey, NormalizedLockRequest> active =
+      new HashMap<Branch.NameKey, NormalizedLockRequest>();
 
   private final WorkQueue workQueue;
   private final Provider<MergeOp.Factory> bgFactory;
@@ -91,103 +94,106 @@ public class ChangeMergeQueue implements MergeQueue {
   }
 
   @Override
-  public void merge(MergeOp.Factory mof, Branch.NameKey branch) {
-    if (start(branch)) {
-      mergeImpl(mof, branch);
+  public void schedule(Set<Branch.NameKey> branches) {
+    // Attempt to go now, as start will reschedule us if necessary
+    if (start(branches)) {
+      mergeImpl(branches);
     }
   }
 
-  private synchronized boolean start(final Branch.NameKey branch) {
-    final MergeEntry e = active.get(branch);
-    if (e == null) {
+  @Override
+  public void merge(MergeOp.Factory mof, Set<Branch.NameKey> branches) {
+    if (start(branches)) {
+      mergeImpl(mof, branches);
+    }
+  }
+
+  /** A merge can be started if we can acquire all the locks in order. If we can't
+   * then we get rescheduled to try again later. This method should only be called
+   * once. Use restart for rescheduled jobs. */
+  private synchronized boolean start(final Set<Branch.NameKey> branches) {
+    final NormalizedLockRequest req = new NormalizedLockRequest(branches);
+    if (requests.get(branches) != null) {
+      // whoa, another group composed of the exact same branches was requested
+      // to be merged while we were in flight. This is super rare, so we'll
+      // take the easy way out and reschedule it.
+      reschedule(req, 2, TimeUnit.MINUTES);
+      return false;
+    }
+
+    // Any other set of the same branches is necessarily excluded until we're
+    // done
+    requests.put(branches, req);
+
+    if (req.requestAgainst(active)) {
       // Let the caller attempt this merge, its the only one interested
-      // in processing this branch right now.
+      // in processing these branches right now.
       //
-      active.put(branch, new MergeEntry(branch));
       return true;
     } else {
       // Request that the job queue handle this merge later.
       //
-      e.needMerge = true;
+      reschedule(req, 2, TimeUnit.MINUTES);
       return false;
     }
   }
 
-  @Override
-  public synchronized void schedule(final Branch.NameKey branch) {
-    MergeEntry e = active.get(branch);
-    if (e == null) {
-      e = new MergeEntry(branch);
-      active.put(branch, e);
+  private synchronized boolean restart(final NormalizedLockRequest req) {
+    if (req.requestAgainst(active)) {
+      // Let the caller attempt this merge, its the only one interested
+      // in processing these branches right now.
+      //
+      return true;
+    } else {
+      // Request that the job queue handle this merge later.
+      //
+      reschedule(req, 2, TimeUnit.MINUTES);
+      return false;
     }
-    e.needMerge = true;
-    scheduleJob(e);
   }
 
-  @Override
-  public synchronized void recheckAfter(final Branch.NameKey branch,
-      final long delay, final TimeUnit delayUnit) {
+  private synchronized void reschedule(final NormalizedLockRequest req, final long delay, final TimeUnit delayUnit) {
     final long now = System.currentTimeMillis();
     final long at = now + MILLISECONDS.convert(delay, delayUnit);
-    RecheckJob e = recheck.get(branch);
-    if (e == null) {
-      e = new RecheckJob(branch);
-      workQueue.getDefaultQueue().schedule(e, now - at, MILLISECONDS);
-      recheck.put(branch, e);
-    }
-    e.recheckAt = Math.max(at, e.recheckAt);
+
+    workQueue.getDefaultQueue().schedule(req, now - at, MILLISECONDS);
+    req.recheckAt = Math.max(at, req.recheckAt);
   }
 
-  private synchronized void finish(final Branch.NameKey branch) {
-    final MergeEntry e = active.get(branch);
-    if (e == null) {
+  private synchronized void finish(final Set<Branch.NameKey> branches) {
+    final NormalizedLockRequest req = requests.get(branches);
+    if (req == null) {
       // Not registered? Shouldn't happen but ignore it.
       //
       return;
     }
 
-    if (!e.needMerge) {
-      // No additional merges are in progress, we can delete it.
-      //
-      active.remove(branch);
-      return;
-    }
-
-    scheduleJob(e);
+    req.releaseAgainst(active);
+    requests.remove(branches);
   }
 
-  private void scheduleJob(final MergeEntry e) {
-    if (!e.jobScheduled) {
-      // No job has been scheduled to execute this branch, but it needs
-      // to run a merge again.
-      //
-      e.jobScheduled = true;
-      workQueue.getDefaultQueue().schedule(e, 0, TimeUnit.SECONDS);
-    }
-  }
-
-  private synchronized void unschedule(final MergeEntry e) {
-    e.jobScheduled = false;
-    e.needMerge = false;
-  }
-
-  private void mergeImpl(MergeOp.Factory opFactory, Branch.NameKey branch) {
+  /** Precondition: all relevant locks have been acquired */
+  private void mergeImpl(MergeOp.Factory opFactory, Set<Branch.NameKey> branches) {
     try {
-      opFactory.create(branch).merge();
+      for (Branch.NameKey b : branches) {
+        opFactory.create(b).merge();
+      }
     } catch (Throwable e) {
-      log.error("Merge attempt for " + branch + " failed", e);
+      log.error("Merge attempt for " + branchNames(branches) + " failed", e);
     } finally {
-      finish(branch);
+      finish(branches);
     }
   }
 
-  private void mergeImpl(Branch.NameKey branch) {
+  private void mergeImpl(Set<Branch.NameKey> branches) {
     try {
       PerThreadRequestScope ctx = new PerThreadRequestScope();
       PerThreadRequestScope old = PerThreadRequestScope.set(ctx);
       try {
         try {
-          bgFactory.get().create(branch).merge();
+          for (Branch.NameKey b : branches) {
+            bgFactory.get().create(b).merge();
+          }
         } finally {
           ctx.cleanup.run();
         }
@@ -195,67 +201,79 @@ public class ChangeMergeQueue implements MergeQueue {
         PerThreadRequestScope.set(old);
       }
     } catch (Throwable e) {
-      log.error("Merge attempt for " + branch + " failed", e);
+      log.error("Merge attempt for " + branchNames(branches) + " failed", e);
     } finally {
-      finish(branch);
+      finish(branches);
     }
   }
 
-  private synchronized void recheck(final RecheckJob e) {
-    final long remainingDelay = e.recheckAt - System.currentTimeMillis();
-    if (MILLISECONDS.convert(10, SECONDS) < remainingDelay) {
-      // Woke up too early, the job deadline was pushed back.
-      // Reschedule for the new deadline. We allow for a small
-      // amount of fuzz due to multiple reschedule attempts in
-      // a short period of time being caused by MergeOp.
-      //
-      workQueue.getDefaultQueue().schedule(e, remainingDelay, MILLISECONDS);
-    } else {
-      // Schedule a merge attempt on this branch to see if we can
-      // actually complete it this time.
-      //
-      schedule(e.dest);
+  private static String branchNames(Set<Branch.NameKey> branches) {
+    StringBuilder ret = new StringBuilder();
+    for (Branch.NameKey branch : branches) {
+      ret.append(branch).append(", ");
     }
+    return ret.reverse().deleteCharAt(0).deleteCharAt(0).reverse().toString();
   }
 
-  private class MergeEntry implements Runnable {
-    final Branch.NameKey dest;
-    boolean needMerge;
-    boolean jobScheduled;
-
-    MergeEntry(final Branch.NameKey d) {
-      dest = d;
-    }
-
-    public void run() {
-      unschedule(this);
-      mergeImpl(dest);
-    }
-
-    @Override
-    public String toString() {
-      final Project.NameKey project = dest.getParentKey();
-      return "submit " + project.get() + " " + dest.getShortName();
-    }
-  }
-
-  private class RecheckJob implements Runnable {
-    final Branch.NameKey dest;
+  /** Represents a sequence of branch locks that are requested simultaneously,
+   * but which are automatically normalized to a known sequence and acquired in
+   * order to prevent deadlocks.
+   */
+  private class NormalizedLockRequest implements Runnable {
+    final Set<Branch.NameKey> targets;
+    final List<Branch.NameKey> acquired;
+    final List<Branch.NameKey> pending;
     long recheckAt;
 
-    RecheckJob(final Branch.NameKey d) {
-      dest = d;
+    NormalizedLockRequest(final Set<Branch.NameKey> branches) {
+      targets = branches;
+      acquired = new ArrayList<Branch.NameKey>();
+      pending = new ArrayList<Branch.NameKey>();
+
+      final SortedSet<Branch.NameKey> normalized = new TreeSet<Branch.NameKey>(
+          new Comparator<Branch.NameKey>() {
+            @Override
+            public int compare(Branch.NameKey b1, Branch.NameKey b2) {
+              return (b1.getParentKey().get() + b1.get()).compareTo(b2.getParentKey().get() + b2.get());
+            }
+          });
+
+      for (Branch.NameKey branch : normalized) {
+        pending.add(branch);
+      }
     }
 
-    @Override
+    /** Returns true iff all the locks were acquired in order. Subsequent calls
+     * continue to try to acquire pending locks where the previous call left off.
+     */
+    public boolean requestAgainst(Map<Branch.NameKey, NormalizedLockRequest> currentRequests) {
+      for (Branch.NameKey b : pending) {
+        if (currentRequests.get(b) == null) {
+          acquired.add(b);
+          pending.remove(0);
+          currentRequests.put(b, this);
+        }
+        else {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    // release all requests we have in the reverse order
+    public void releaseAgainst(Map<Branch.NameKey, NormalizedLockRequest> currentRequests) {
+      final List<Branch.NameKey> reverse = new ArrayList<Branch.NameKey>(acquired);
+      Collections.reverse(reverse);
+      for (Branch.NameKey b : reverse) {
+        currentRequests.remove(b);
+        pending.add(0, b);
+      }
+    }
+
     public void run() {
-      recheck(this);
-    }
-
-    @Override
-    public String toString() {
-      final Project.NameKey project = dest.getParentKey();
-      return "recheck " + project.get() + " " + dest.getShortName();
+      if (restart(this)) {
+        mergeImpl(targets);
+      }
     }
   }
 }

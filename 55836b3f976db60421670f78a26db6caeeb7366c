@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByX////M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-22T13:35:13Z",
+      "side": 1,
+      "message": "Ok. Thanks.",
+      "parentUuid": "AAAByH///+A\u003d",
+      "revId": "55836b3f976db60421670f78a26db6caeeb7366c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH////E\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubmoduleSubscription.java",
         "patchSetId": 13
@@ -295,6 +313,24 @@
       "side": 1,
       "message": "Ok.",
       "parentUuid": "AAAByH///+g\u003d",
+      "revId": "55836b3f976db60421670f78a26db6caeeb7366c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByX////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2011-12-22T13:35:13Z",
+      "side": 1,
+      "message": "I am sorry updatedSubscribers should really be an instance member. I did not notice it immediately, but after modifying it one of the unit tests failed and them I noticed it should be an instance member because updateSuperProjects can be \"reccursevily called\" from updateGitlinks method (line 347).",
+      "parentUuid": "AAAByX////g\u003d",
       "revId": "55836b3f976db60421670f78a26db6caeeb7366c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

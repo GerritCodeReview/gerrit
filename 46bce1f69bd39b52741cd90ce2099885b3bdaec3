@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAByH///90\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-23T11:40:31Z",
+      "side": 1,
+      "message": "Hmm.... if I see it well you introduced that reference in the patch-set-4 but removed it in the patch-set-6.\nDo you want to fix the commit message?",
+      "revId": "46bce1f69bd39b52741cd90ce2099885b3bdaec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

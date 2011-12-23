@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABwn///6A\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T08:13:59Z",
+      "side": 1,
+      "message": "This summary line feels missleading to me.  I don\u0027t think that Gerrit did not support submodules before this, it just happened to not do anything with them.  If I understand your explanation below, you are not adding support for a standard git submodule feature, but rather you are adding a Gerrit specific enhancement to make the use of Submodules more easy for a certain use case.  Perhpas a good summary would be:  Allow superprojects to subscribe to submodules updates.",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///58\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T08:13:59Z",
+      "side": 1,
+      "message": "Like the summary line, this statement feels missleading.",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///54\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T08:13:59Z",
+      "side": 1,
+      "message": "You say \"also\" here, what other scope are subscriptions managed in?",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///50\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T08:13:59Z",
+      "side": 1,
+      "message": "Is the revision field something that you are inventing here, sounds like it (I know that replo supports this)?  If so, have you discussed this idea at all with the git submodule authors to ensure that it does not conflict with any of their plans?  If this is a custom field, then you should probably make that more explicit here, and the documentation should probably be updated to explain how Gerrit supports the field: what it will do with it, and how to define it (sample format).",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///6g\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubmoduleSubscription.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T08:13:59Z",
+      "side": 1,
+      "message": "Was that meant to be Submodule instead of subscription?",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///6c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T08:13:59Z",
+      "side": 1,
+      "message": "I think this belongs right before the try (you don\u0027t want to close if the open fails, it might be null).",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///6Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T08:13:59Z",
+      "side": 1,
+      "message": "It\u0027s not obvious to me when you are choosing to log exceptions and when you aren\u0027t in this class? And when you do log them, they might get relogged by the calling class.",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///6U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T08:13:59Z",
+      "side": 1,
+      "message": "This does not appear to be an efficient use of a StringBuffer, you only append the input string to a blank buffer just to only then call toString() on it below.",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///6Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T08:13:59Z",
+      "side": 1,
+      "message": "This doesn\u0027t really feel like a rollback. Deleting a subscription because it couldn\u0027t be updated seems a bit extreme. Perhaps the error was just temporary, perhaps it was even just due to a race in this new feature.",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///6M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T08:13:59Z",
+      "side": 1,
+      "message": "This could replace the contains() in the if on line 223 preventing a double lookup.\n\nI am having a hard time seing how this even works?  I know that you have a test case for loops, but how does this prevent a loop since it is added after the recursive call?",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///6I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T08:13:59Z",
+      "side": 1,
+      "message": "I think we are at 60 already on the tip.",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///6E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T08:13:59Z",
+      "side": 1,
+      "message": "It would be simpler to simply return here and you could then eliminate the parsedSubscription variable. Then you could simplify even further by pushing this line below 116, further allowing the submoduleBranch variable to be eliminated or at least localized to a much smaller block...Further simplifications would push this logic into the if on line 108, elimintaing the need for an else there, and many of the null checks would also become uneeded.",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

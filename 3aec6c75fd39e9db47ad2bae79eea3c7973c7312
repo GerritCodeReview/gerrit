@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "AAABwn///5E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T19:12:27Z",
+      "side": 1,
+      "message": "Sounds better, maybe s/to a branch/by a branch/",
+      "parentUuid": "AAAByX///+8\u003d",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///50\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "I was not involved in the original implementation of this feature, I would need to ask Ulrik if revision field was discussed with git submodule authors. As far as I know this is something introduced in this feature for gerrit use only, not compromising git submodule working. We also had Shawn reviewing it (the original implementation patchsets, that already had this revision field) and there was no concern about it, so I believe introducing this field is not quite a problem.\n\nI am very concerned I could have written a short text, but not sure if it would be so clear as this sounds to me. So I thought about only discussing revision field in this and the 2 following paragraphs. Would you mean to emphasize it is something for gerrit use?\n\nAbout documentation, I can add some to the current one.",
       "parentUuid": "AAABwn///50\u003d",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///5A\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T19:12:27Z",
+      "side": 1,
+      "message": "Yes, I would emphaisize that this is a custom submodule feature that you are introducing.",
+      "parentUuid": "AAAByX///+4\u003d",
       "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -212,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "AAABwn///5U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T19:12:27Z",
+      "side": 1,
+      "message": "Sure, if you really want to convert the exception.",
+      "parentUuid": "AAAByX///+w\u003d",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///6Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 14
@@ -276,6 +330,24 @@
       "side": 1,
       "message": "Yes. The point here is that if the if block of 204th line is executed, msgbuf can append more text. The idea here is to make use of msgbuf content in 236th line either the if or the else block is executed.",
       "parentUuid": "AAABwn///6U\u003d",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///5Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T19:12:27Z",
+      "side": 1,
+      "message": "Well then perhaps you forgot the append, because the only thing you do in the if block is create new text, you never append it to msg?\n\nBut, even if you were it would likely be more efficient (and definitely more readable) if you simply made msg non final.  Then you could constrain the StringBuffer use (and thus creation overhead) to the appending if block, or even better would be to just create the new string by using + if it is a single line append since you then save the copy cost of creating the buffer.\n\nAgain, I am having a hard time seing any justification for this buffer unless you were to do more appending or to pass the buffer on to other functions.",
+      "parentUuid": "AAAByX///+o\u003d",
       "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -387,6 +459,24 @@
     },
     {
       "key": {
+        "uuid": "AAABwn///5I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T19:12:27Z",
+      "side": 1,
+      "message": "Sure",
+      "parentUuid": "AAAByX///+c\u003d",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///6E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
         "patchSetId": 14
@@ -416,6 +506,24 @@
       "side": 1,
       "message": "Yes, I agree it would be simpler. Just to confirm if I followed you: do you mean to have more returns (return null whenever it finds incorrect data)?",
       "parentUuid": "AAABwn///6E\u003d",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///5M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-23T19:12:27Z",
+      "side": 1,
+      "message": "Not quite, I think that you would end up with a single successful return on line 108, and all the failure cases could simply fall through to a final return null at the end of the function.",
+      "parentUuid": "AAAByX///+Y\u003d",
       "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

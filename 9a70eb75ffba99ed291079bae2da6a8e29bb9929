@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAByH///9Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-23T15:40:33Z",
+      "side": 1,
+      "message": "\"to update parent projects\" sounds ambiguous to me. Someone may understand it as updating those projects which are parents of others. What is actually meant is to update parent project property of a (child) project.\n\nI know it may be too late to fix this terminology as I see that in the source code we already used the \"updateParents\" method name.",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABxH////w\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -53,6 +70,58 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///9c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-23T15:40:33Z",
+      "side": 1,
+      "message": "good question :-)",
+      "parentUuid": "AAABxH////o\u003d",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///9U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-23T15:40:33Z",
+      "side": 1,
+      "message": "Maybe you also want to add: \"Leaving the parent of ... unchanged\"",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///9Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-23T15:40:33Z",
+      "side": 1,
+      "message": "theoretically this code will fail for the \"\\n\" string as wold call charAt(-1) in the second iteration.\n\nHowever, it seems unlikely that err will every consist of only \"\\n\".\n\nOn the other side I don\u0027t know if this while loop pulls its weight.\nThis piece of code is not in a performance critical section and I would see nothing bad into simplifying it with just:\n\n if (err.length() \u003e 0) {\n   throw new UpdateParentsFailedException(err.toString().trim());\n }",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABxH////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParentsFailedException.java",
         "patchSetId": 1
@@ -64,6 +133,23 @@
       "writtenOn": "2011-12-15T16:57:38Z",
       "side": 1,
       "message": "2011",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///9M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParentsFailedException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2011-12-23T15:40:33Z",
+      "side": 1,
+      "message": "This class could actually provide the set of projects for which updating of the parent property failed. The calling command would then have more flexibility into formatting the (error) output.",
       "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

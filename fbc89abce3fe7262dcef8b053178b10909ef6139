@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABwn///4c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-25T05:09:27Z",
+      "side": 1,
+      "message": "Is it even necessary to exclude them, feels like that might penalize them?",
+      "revId": "fbc89abce3fe7262dcef8b053178b10909ef6139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3///9A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-25T05:09:27Z",
+      "side": 1,
+      "message": "I am not sure that using a rescheduling approach is good enough here because I don\u0027t think that it is a good idea to sleep while potentially holding locks (30 seconds!).  I would suggest using a map of waiting request lists by ref.  This way as soon as a ref is unlocked, you could get the first request in the list of requests waiting on that ref and schedule it for immediate execution (you could even pass it the lock).  This should decrease wait time per ref and actually decrease spurious thread wakeups and lock retries only to be redenied a lock, all while increasing fairness amongst requests.",
+      "revId": "fbc89abce3fe7262dcef8b053178b10909ef6139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///4o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-25T05:09:27Z",
+      "side": 1,
+      "message": "I don\u0027t see this actually being used anywhere.",
+      "revId": "fbc89abce3fe7262dcef8b053178b10909ef6139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///4s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-25T05:09:27Z",
+      "side": 1,
+      "message": "Did you forget to populate normalized?",
+      "revId": "fbc89abce3fe7262dcef8b053178b10909ef6139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///4g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-25T05:09:27Z",
+      "side": 1,
+      "message": "Why is this being added to pending here?",
+      "revId": "fbc89abce3fe7262dcef8b053178b10909ef6139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///4w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-25T05:09:27Z",
+      "side": 1,
+      "message": "I am not sure you are aware that changes can end up here when their dependencies have not yet been submitted.  The idea is to allow changes to be submitted out of order but to not fail them right away, but rather wait for 15(?)min and then try again because the parent may be submitted soon.",
+      "revId": "fbc89abce3fe7262dcef8b053178b10909ef6139",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///7Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AccountGroupNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T15:10:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABkn////0\u003d",
+      "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABkn////w\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AccountGroupNode.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///7U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AccountGroupNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T15:10:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABkn////w\u003d",
+      "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABkn////4\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2011-11-30T05:51:06Z",
       "side": 1,
       "message": "the name will be be better , like \u0027RECURSIVE_NODE_SEPARATOR\u0027",
+      "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///7Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T15:10:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABkn////4\u003d",
       "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -135,6 +189,24 @@
       "side": 1,
       "message": "base on existing code I think  it is only for print.  \nanyway \u0027getDescription\u0027 sounds better.",
       "parentUuid": "AAABk3////8\u003d",
+      "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///7M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T15:10:23Z",
+      "side": 1,
+      "message": "I\u0027ve now renamed it to \u0027getDescription\u0027.\n\nIt\u0027s true that it is only used for printing, but that\u0027s true for all the other the methods too.\n\nThe method just returns some additional info, if the returned info is used for printing or something else depends on the caller. So I think the method name should not include \u0027print\u0027 just because the only caller that we have right now prints out this info.",
+      "parentUuid": "AAABnX////g\u003d",
       "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

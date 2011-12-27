@@ -70,6 +70,24 @@
       "revId": "a75dadcc0fb392438530681b9cd87e6967220b02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///7w\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T13:54:26Z",
+      "side": 1,
+      "message": "Ok, I\u0027m fine with your reasoning to leave it as it is.",
+      "parentUuid": "AAABw3////o\u003d",
+      "revId": "a75dadcc0fb392438530681b9cd87e6967220b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -490,43 +490,58 @@ you grant the users the push force permission to be able to clean up
 stale branches.
 
 
-[[category_FORG]]
-Forge Identity
-~~~~~~~~~~~~~~
+
+[[category_forge_author]]
+Forge Author
+~~~~~~~~~~~~
 
 Normally Gerrit requires the author and the committer identity
 lines in a Git commit object (or tagger line in an annotated tag) to
 match one of the registered email addresses of the uploading user.
-This permission allows users to bypass that validation, which may
-be necessary when mirroring changes from an upstream project.
+This permission allows users to bypass parts of that validation, which
+may be necessary when mirroring changes from an upstream project.
 
-* +1 Forge Author Identity
-+
 Permits the use of an unverified author line in commit objects.
 This can be useful when applying patches received by email from
 3rd parties, when cherry-picking changes written by others across
 branches, or when amending someone else's commit to fix up a minor
 problem before submitting.
-+
+
 By default this is granted to `Registered Users` in all projects,
 but a site administrator may disable it if verified authorship
 is required.
 
-* +2 Forge Committer or Tagger Identity
-+
-Implies 'Forge Author Identity', but also allows the use of an
-unverified committer line in commit objects, or an unverified tagger
-line in annotated tag objects.  Typically this is only required
-when mirroring commits from an upstream project repository.
 
-* +3 Forge Gerrit Code Review Server Identity
-+
-Implies 'Forge Committer or Tagger Identity' as well as 'Forge
-Author Identity', but additionally allows the use of the server's
-own name and email on the committer line of a new commit object.
-This should only be necessary when force pushing a commit history
-which has been rewritten by 'git filter-branch' and that contains
-merge commits previously created by this Gerrit Code Review server.
+[[category_forge_committer]]
+Forge Committer
+~~~~~~~~~~~~~~~
+
+Normally Gerrit requires the author and the committer identity
+lines in a Git commit object (or tagger line in an annotated tag) to
+match one of the registered email addresses of the uploading user.
+This permission allows users to bypass parts of that validation, which
+may be necessary when mirroring changes from an upstream project.
+
+Allows the use of an unverified committer line in commit objects, or an
+unverified tagger line in annotated tag objects.  Typically this is only
+required when mirroring commits from an upstream project repository.
+
+
+[[category_forge_server]]
+Forge Server
+~~~~~~~~~~~~
+
+Normally Gerrit requires the author and the committer identity
+lines in a Git commit object (or tagger line in an annotated tag) to
+match one of the registered email addresses of the uploading user.
+This permission allows users to bypass parts of that validation, which
+may be necessary when mirroring changes from an upstream project.
+
+Allows the use of the server's own name and email on the committer
+line of a new commit object.  This should only be necessary when force
+pushing a commit history which has been rewritten by 'git filter-branch'
+and that contains merge commits previously created by this Gerrit Code
+Review server.
 
 [[category_OWN]]
 Owner

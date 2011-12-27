@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABzH////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/PatchLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-27T09:33:08Z",
+      "side": 1,
+      "message": "line 47 is same with line 46\n\nI plan fix it in my change: Fix: bugs of \u0027Diff All Side-by-Side\u0027 and \u0027Diff All Unified\u0027 \n\nwhich is under inner review  now.",
+      "revId": "cc4604ea517028478bed18cdcf3cdbeadd33c1bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

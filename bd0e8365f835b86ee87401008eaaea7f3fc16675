@@ -16,6 +16,24 @@
       "revId": "bd0e8365f835b86ee87401008eaaea7f3fc16675",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///8M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T13:42:14Z",
+      "side": 1,
+      "message": "I agree, \u0027ancestors\u0027 is a better name and this is a good chance to fix it.\n\nDone.",
+      "parentUuid": "AAABx3////U\u003d",
+      "revId": "bd0e8365f835b86ee87401008eaaea7f3fc16675",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

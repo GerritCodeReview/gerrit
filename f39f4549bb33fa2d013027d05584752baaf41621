@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///8E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T13:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABx3////Q\u003d",
+      "revId": "f39f4549bb33fa2d013027d05584752baaf41621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABx3////M\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectAccess.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///8A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T13:43:10Z",
+      "side": 1,
+      "message": "I just wanted to keep it as final, but ok, it looks nicer without the else.\n\nDone.",
+      "parentUuid": "AAABx3////M\u003d",
+      "revId": "f39f4549bb33fa2d013027d05584752baaf41621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABx3////I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2011-12-16T04:50:11Z",
       "side": 1,
       "message": "This function probably should have been thrown in with the previous refactor since it is sorta part of making the validate reusable, I didn\u0027t understand the previous change until I looked here.  What I don\u0027t like about this is that these objects can\u0027t really be called more than once since they hold so much state and this state will likely no longer be accurate after the first use.  I am not sure I have any great suggestions for how to fix it.  It seems like the server handlers often do stuff like this, but perhaps their framework inherently prevents object reuse?",
+      "revId": "f39f4549bb33fa2d013027d05584752baaf41621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///8I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T13:43:10Z",
+      "side": 1,
+      "message": "Ok, I\u0027ve moved the \u0027failOnError(...)\u0027 function into the previous commit.\n\nI see that I didn\u0027t explain the motivation for the previous change that did the refactoring to make the validation code reusable. This is why I\u0027ve now updated the commit message of the previous commit to explain the motivation.\n\nYes, the object currently can\u0027t be reused because it holds some information. I think it can be made reusable, but this would mean that both public methods (updateParents() and validateParentUpdate()) would require to get the child projects and the new parent project as parameters. In addition we would need a (private) method to calculate the grand parents/ancestors. To avoid recalculation of the grand parents/ancestors we would then need to pass the calculated grand parents/ancestors as parameter to the  internal validateParentUpdate(...) method. In the end I think the current code is a bit easier and more readable as it would be with the modifications above. Ok, the object is not reusable (same as with other handlers), but there is also no use-case where we would like to reuse it. This is why I prefered the simpler solution, but I would be also fine which changing it, if you think it\u0027s worth it.",
+      "parentUuid": "AAABx3////I\u003d",
       "revId": "f39f4549bb33fa2d013027d05584752baaf41621",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -7,8 +7,8 @@ author, committer or uploader. If for a project a Signed-off-by is
 required and the commit message does not contain it, Gerrit rejects
 to push the commit with this error message.
 
-This policy can be bypassed by having the access right '+2 Forge
-Committer or Tagger Identity' in the link:access-control.html#category_FORG['Forge Identity'] category.
+This policy can be bypassed by having the access right
+link:access-control.html#category_forge_committer['Forge Committer'].
 
 This error may happen for different reasons if you do not have the
 access right to forge the committer identity:

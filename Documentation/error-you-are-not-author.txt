@@ -5,8 +5,8 @@ Gerrit verifies for every pushed commit that the e-mail address of
 the author matches one of the registered e-mail addresses of the
 pushing user. If this is not the case pushing the commit fails with
 the error message "you are not author ...". This policy can be
-bypassed by having the access right '+1 Forge Author Identity' in the
-link:access-control.html#category_FORG['Forge Identity'] category.
+bypassed by having the access right
+link:access-control.html#category_forge_author['Forge Author'].
 
 This error may happen for two reasons:
 

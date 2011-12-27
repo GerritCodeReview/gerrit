@@ -16,6 +16,24 @@
       "revId": "dcd451dced95e7873886b60bb43d3d339bfa5baf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///7o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T14:03:21Z",
+      "side": 1,
+      "message": "Right, EGit uses \u0027I00...\u0027 as placeholder for the Change-Id in the commit message. Once there was a bug that the placeholder was not properly replaced on commit so that it stayed unchanged in the commit message. Also there were some users which copied this placeholder as Change-Id into the commit message when working with git command line (because they were thinking that\u0027s the way to generate a Change-Id). As result there were quite a lot of changes with \u0027I00...\u0027 as Change-Id and Shawn added this check to reject these changes.\n\nSo I agree with Martin that for the Group-Id this check should not be needed.",
+      "parentUuid": "AAABwn///9E\u003d",
+      "revId": "dcd451dced95e7873886b60bb43d3d339bfa5baf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

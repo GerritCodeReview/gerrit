@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///8Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T13:33:34Z",
+      "side": 1,
+      "message": "I agree that this is a bit ambiguous. I\u0027ve fixed it in the text below, but I would leave the summary line as it is because otherwise it gets too long. \n\nIf you have a good proposal for a short name that is better than \u0027updateParents\u0027, let me know. I\u0027m would then make another change to fix this terminology.",
+      "parentUuid": "AAAByH///9Y\u003d",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABxH////w\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///8U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T13:33:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABxH////w\u003d",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABxH////s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2011-12-15T16:57:38Z",
       "side": 1,
       "message": "2011",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///8s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T13:33:34Z",
+      "side": 1,
+      "message": "Actually 2010 is correct. This is when I started this change. You may find this class already in patch set 1 of change 18454 [1] (which is from 2010). Only at that point it was named \u0027PerformUpdateParentsImpl\u0027. Now it only got renamed and the change was split into several changes for being better reviewable.\n\n[1] https://gerrit-review.googlesource.com/#/c/18454/",
+      "parentUuid": "AAABxH////s\u003d",
       "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///8g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T13:33:34Z",
+      "side": 1,
+      "message": "No, this is wrong here and I will correct it.\n\nDone.",
+      "parentUuid": "AAAByH///9c\u003d",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///9U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
         "patchSetId": 1
@@ -99,6 +171,24 @@
       "writtenOn": "2011-12-23T15:40:33Z",
       "side": 1,
       "message": "Maybe you also want to add: \"Leaving the parent of ... unchanged\"",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///8c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T13:33:34Z",
+      "side": 1,
+      "message": "This is a good idea, but I don\u0027t want to do it in this change, as this change is only doing refactoring (moving the existing code from the AdminSetParent class into this class). Everything that changes the functionality should be in an own change.",
+      "parentUuid": "AAAByH///9U\u003d",
       "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///8Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T13:33:34Z",
+      "side": 1,
+      "message": "Yes, you are right, but I don\u0027t want to change this in this change, as this change is only doing refactoring (moving the existing code from the AdminSetParent class into this class).\n\nI\u0027m not sure if it\u0027s worth to correct this in an own change since this coding will anyway disappear with change 30603 [1] which improves the exception handling.\n\n[1] https://gerrit-review.googlesource.com/30603",
+      "parentUuid": "AAAByH///9Q\u003d",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABxH////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParentsFailedException.java",
         "patchSetId": 1
@@ -139,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///8o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParentsFailedException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T13:33:34Z",
+      "side": 1,
+      "message": "Actually 2010 is correct. This is when I started this change. You may find this class already in patch set 1 of change 18454 [1] (which is from 2010). Now the change was only split into several changes for being better reviewable.\n\n[1] https://gerrit-review.googlesource.com/#/c/18454/",
+      "parentUuid": "AAABxH////k\u003d",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///9M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParentsFailedException.java",
         "patchSetId": 1
@@ -150,6 +276,24 @@
       "writtenOn": "2011-12-23T15:40:33Z",
       "side": 1,
       "message": "This class could actually provide the set of projects for which updating of the parent property failed. The calling command would then have more flexibility into formatting the (error) output.",
+      "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///8k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParentsFailedException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-27T13:33:34Z",
+      "side": 1,
+      "message": "Yes, I was thinking about doing this but then I decided against this. \n\nWhy? \n\nThere will be 2 places from where the update-parent functionality\nwill be called and where we want to have this flexibility in \nformatting the error output:\n 1) in the \u0027set-project-parent\u0027 SSH command\n 2) in the WebUI\n\nFor the SSH command there is no problem, but from the WebUI we would not be able to access the projects from this exception.\n\nWhy? \n\nBecause when an exception reaches the Gerrit client via JSON we don\u0027t have the original exception class anymore but we only have a RemoteJsonException. From this exception we can only get the exception message.\n\nThis is why I followed another solution, which I implemented in a later change [1]. The idea is to not throw an exception from the UpdateParents class anymore, but to return explicitly an UpdateParentsResult object which contains all the details about errors which occurred. Actually this is not a new concept but it is already used in several other places (e.g. see SetReviewersCommand and ReviewerResult classes).\n\nAs you can see in change 30603 [1] this solution required to touch quite a lot of classes which is why I decided to seperate it out into an own change. \n\n[1] https://gerrit-review.googlesource.com/30603",
+      "parentUuid": "AAAByH///9M\u003d",
       "revId": "9a70eb75ffba99ed291079bae2da6a8e29bb9929",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

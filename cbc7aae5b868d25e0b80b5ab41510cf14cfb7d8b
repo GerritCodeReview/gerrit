@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABwn///3E\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-28T19:55:18Z",
+      "side": 1,
+      "message": "s/or a tags/or tags/",
+      "revId": "cbc7aae5b868d25e0b80b5ab41510cf14cfb7d8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///3A\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-28T19:55:18Z",
+      "side": 1,
+      "message": "s/reference doesn\u0027t already exist/reference cannot already exist/\n\nor maybe even:\n\ns/reference doesn\u0027t already exist/reference cannot already exist in order to create it/",
+      "revId": "cbc7aae5b868d25e0b80b5ab41510cf14cfb7d8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///28\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-28T19:55:18Z",
+      "side": 1,
+      "message": "s/bypassing/bypass/",
+      "revId": "cbc7aae5b868d25e0b80b5ab41510cf14cfb7d8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

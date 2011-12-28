@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAByH///6Y\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-28T11:41:10Z",
+      "side": 1,
+      "message": "In the tip of gwtexpui the version of gwtexpui in the pom.xml is still 1.2.4. Was it forgotten to push and submit the commit that increased the version of gwtexpui?",
+      "revId": "80f3cea612c00348514079260d6415f45cf27563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

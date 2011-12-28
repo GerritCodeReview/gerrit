@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABwn///7g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-28T05:48:34Z",
+      "side": 1,
+      "message": "Which owners does it send email to?  I think that sending email to project owners is too much.\n\nPerhaps this \"owner\" statement is just out of date?",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///7c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-28T05:48:34Z",
+      "side": 1,
+      "message": "\"owner\" out of date?",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///7A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-28T05:48:34Z",
+      "side": 1,
+      "message": "It doesn\u0027t make sense to me that this getter cannot function unless watchers has been initialized.  I would either make it able to initialize itself, or make it a static which the watchers are passed into as a parameter.",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3///8s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-28T05:48:34Z",
+      "side": 1,
+      "message": "Why the distinction between watchers and subscribers?  It doesn\u0027t look like you use watchers, perhaps you should just stick with watchers to mean what you call subscribers (I think that is what we mean by watchers on changes)?",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3///80\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-28T05:48:34Z",
+      "side": 1,
+      "message": "Why special case this here instead of in branchMatchWithFilter?",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3///8w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-28T05:48:34Z",
+      "side": 1,
+      "message": "These 3 lines seem unneeded?",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3///84\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-28T05:48:34Z",
+      "side": 1,
+      "message": "Nit: I would dispense with the elses since you return in the ifs.",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3///8o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-28T05:48:34Z",
+      "side": 1,
+      "message": "Did you not want this extra condition on BranchEmails?  If so, then perhaps this method should go on NotificationEmail?",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABx3///8k\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteBranch.vm",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-28T05:48:34Z",
+      "side": 1,
+      "message": "I believe that in most of the other templates we just don\u0027t bother with the Hello part if there are no addresses, that might be simpler here.",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

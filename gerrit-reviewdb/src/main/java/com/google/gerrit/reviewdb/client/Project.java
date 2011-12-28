@@ -184,8 +184,34 @@ public final class Project {
     state = update.state;
   }
 
+  /**
+   * Returns the name key of the parent project.
+   *
+   * @return name key of the parent project, <code>null</code> if this project
+   *         is the wild project, <code>null</code> or the name key of the wild
+   *         project if this project is a direct child of the wild project
+   */
   public Project.NameKey getParent() {
     return parent;
+  }
+
+  /**
+   * Returns the name key of the parent project.
+   *
+   * @param allProjectsName name key of the wild project
+   * @return name key of the parent project, <code>null</code> if this project
+   *         is the wild project
+   */
+  public Project.NameKey getParent(final Project.NameKey allProjectsName) {
+    if (parent != null) {
+      return parent;
+    }
+
+    if (name.equals(allProjectsName)) {
+      return null;
+    }
+
+    return allProjectsName;
   }
 
   public String getParentName() {

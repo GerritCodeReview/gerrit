@@ -224,7 +224,7 @@ final class AdminSetParent extends BaseCommand {
         // If we can't get it from the cache, pretend it's not present.
         break;
       }
-      p = getParentName(e.getProject());
+      p = e.getProject().getParent(allProjectsName);
     }
     return parents;
   }
@@ -238,28 +238,10 @@ final class AdminSetParent extends BaseCommand {
         continue;
       }
 
-      if (parentName.equals(getParentName(e.getProject()))) {
+      if (parentName.equals(e.getProject().getParent(projectName))) {
         childProjects.add(e.getProject());
       }
     }
     return childProjects;
-  }
-
-  /**
-   * Returns the project parent name.
-   *
-   * @return Project parent name, <code>null</code> for the 'All-Projects' root
-   *         project
-   */
-  private Project.NameKey getParentName(final Project project) {
-    if (project.getParent() != null) {
-      return project.getParent();
-    }
-
-    if (project.getNameKey().equals(allProjectsName)) {
-      return null;
-    }
-
-    return allProjectsName;
   }
 }

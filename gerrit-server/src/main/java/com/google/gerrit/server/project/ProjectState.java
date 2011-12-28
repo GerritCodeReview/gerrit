@@ -269,10 +269,6 @@ public class ProjectState {
     if (isAllProjects) {
       return null;
     }
-    Project.NameKey parentName = getProject().getParent();
-    if (parentName == null) {
-      parentName = allProjectsName;
-    }
-    return projectCache.get(parentName);
+    return projectCache.get(getProject().getParent(allProjectsName));
   }
 }

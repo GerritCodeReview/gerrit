@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.project.ParentProjectResolver;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -29,6 +30,7 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
   }
 
   private final AllProjectsName allProjectsName;
+  private final ParentProjectResolver parentResolver;
 
   private final Project project;
   private final boolean isVisible;
@@ -37,8 +39,10 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
 
   @Inject
   public ProjectNode(final AllProjectsName allProjectsName,
+      final ParentProjectResolver parentResolver,
       @Assisted final Project project, @Assisted final boolean isVisible) {
     this.allProjectsName = allProjectsName;
+    this.parentResolver = parentResolver;
     this.project = project;
     this.isVisible = isVisible;
   }
@@ -50,15 +54,7 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
    *         project
    */
   public Project.NameKey getParentName() {
-    if (project.getParent() != null) {
-      return project.getParent();
-    }
-
-    if (project.getNameKey().equals(allProjectsName)) {
-      return null;
-    }
-
-    return allProjectsName;
+    return parentResolver.get(project);
   }
 
   public boolean isAllProjects() {

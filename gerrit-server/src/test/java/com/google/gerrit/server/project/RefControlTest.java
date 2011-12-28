@@ -247,6 +247,7 @@ public class RefControlTest extends TestCase {
 
   private final Map<Project.NameKey, ProjectState> all;
   private final AllProjectsName allProjectsName = new AllProjectsName("parent");
+  private final ParentProjectResolver parentResolver = new ParentProjectResolver(allProjectsName);
   private final ProjectCache projectCache;
 
   private ProjectConfig local;
@@ -396,10 +397,10 @@ public class RefControlTest extends TestCase {
     RulesCache rulesCache = null;
     all.put(local.getProject().getNameKey(), new ProjectState(
         projectCache, allProjectsName, projectControlFactory,
-        envFactory, mgr, rulesCache, local));
+        envFactory, mgr, rulesCache, parentResolver, local));
     all.put(parent.getProject().getNameKey(), new ProjectState(
         projectCache, allProjectsName, projectControlFactory,
-        envFactory, mgr, rulesCache, parent));
+        envFactory, mgr, rulesCache, parentResolver, parent));
     return all.get(local.getProject().getNameKey());
   }
 

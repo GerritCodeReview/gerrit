@@ -29,6 +29,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ParentProjectResolver;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
@@ -56,6 +57,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   private final GroupControl.Factory groupControlFactory;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final AllProjectsName allProjectsName;
+  private final ParentProjectResolver parentResolver;
 
   private final Project.NameKey projectName;
   private ProjectControl pc;
@@ -67,6 +69,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       final GroupControl.Factory groupControlFactory,
       final MetaDataUpdate.Server metaDataUpdateFactory,
       final AllProjectsName allProjectsName,
+      final ParentProjectResolver parentResolver,
 
       @Assisted final Project.NameKey name) {
     this.groupCache = groupCache;
@@ -75,6 +78,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     this.groupControlFactory = groupControlFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allProjectsName = allProjectsName;
+    this.parentResolver = parentResolver;
 
     this.projectName = name;
   }
@@ -180,18 +184,12 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     final ProjectAccess detail = new ProjectAccess();
     detail.setProjectName(projectName);
     detail.setRevision(config.getRevision().name());
+    detail.setInheritsFrom(parentResolver.get(config.getProject()));
 
     if (projectName.equals(allProjectsName)) {
       if (pc.isOwner()) {
         ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);
       }
-      detail.setInheritsFrom(null);
-
-    } else if (config.getProject().getParent() != null) {
-      detail.setInheritsFrom(config.getProject().getParent());
-
-    } else {
-      detail.setInheritsFrom(allProjectsName);
     }
 
     detail.setLocal(local);

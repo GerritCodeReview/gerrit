@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ParentProjectResolver;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
@@ -67,6 +68,9 @@ final class AdminSetParent extends BaseCommand {
 
   @Inject
   private AllProjectsName allProjectsName;
+
+  @Inject
+  private ParentProjectResolver parentResolver;
 
   private PrintWriter stdout;
   private Project.NameKey newParentKey = null;
@@ -224,7 +228,7 @@ final class AdminSetParent extends BaseCommand {
         // If we can't get it from the cache, pretend it's not present.
         break;
       }
-      p = getParentName(e.getProject());
+      p = parentResolver.get(e.getProject());
     }
     return parents;
   }
@@ -238,28 +242,10 @@ final class AdminSetParent extends BaseCommand {
         continue;
       }
 
-      if (parentName.equals(getParentName(e.getProject()))) {
+      if (parentName.equals(parentResolver.get(e.getProject()))) {
         childProjects.add(e.getProject());
       }
     }
     return childProjects;
-  }
-
-  /**
-   * Returns the project parent name.
-   *
-   * @return Project parent name, <code>null</code> for the 'All-Projects' root
-   *         project
-   */
-  private Project.NameKey getParentName(final Project project) {
-    if (project.getParent() != null) {
-      return project.getParent();
-    }
-
-    if (project.getNameKey().equals(allProjectsName)) {
-      return null;
-    }
-
-    return allProjectsName;
   }
 }

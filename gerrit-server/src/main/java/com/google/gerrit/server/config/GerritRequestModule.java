@@ -45,6 +45,7 @@ import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ParentProjectResolver;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -61,6 +62,7 @@ public class GerritRequestModule extends FactoryModule {
     bind(IdentifiedUser.RequestFactory.class).in(SINGLETON);
     bind(MetaDataUpdate.User.class).in(RequestScoped.class);
     bind(AccountResolver.class);
+    bind(ParentProjectResolver.class);
     bind(ChangeQueryRewriter.class);
 
     bind(AnonymousUser.class).in(RequestScoped.class);

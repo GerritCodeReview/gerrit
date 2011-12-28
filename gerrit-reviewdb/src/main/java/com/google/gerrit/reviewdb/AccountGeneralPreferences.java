@@ -43,7 +43,10 @@ public final class AccountGeneralPreferences {
     US("MM/dd", "MM/dd/yy"),
 
     /** ISO style dates: 2010-02-14 */
-    ISO("MM-dd", "yyyy-MM-dd");
+    ISO("MM-dd", "yyyy-MM-dd"),
+
+    /** European style dates: 27. Apr, 27.04.2010 */
+    EURO("d. MMM", "dd.MM.yyyy");
 
     private final String shortFormat;
     private final String longFormat;

@@ -52,12 +52,12 @@ public class ProjectState {
   }
 
   private final boolean isAllProjects;
-  private final AllProjectsName allProjectsName;
   private final ProjectCache projectCache;
   private final ProjectControl.AssistedFactory projectControlFactory;
   private final PrologEnvironment.Factory envFactory;
   private final GitRepositoryManager gitMgr;
   private final RulesCache rulesCache;
+  private final ParentProjectResolver parentResolver;
 
   private final ProjectConfig config;
   private final Set<AccountGroup.UUID> localOwners;
@@ -82,14 +82,15 @@ public class ProjectState {
       final PrologEnvironment.Factory envFactory,
       final GitRepositoryManager gitMgr,
       final RulesCache rulesCache,
+      final ParentProjectResolver parentResolver,
       @Assisted final ProjectConfig config) {
     this.projectCache = projectCache;
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
-    this.allProjectsName = allProjectsName;
     this.projectControlFactory = projectControlFactory;
     this.envFactory = envFactory;
     this.gitMgr = gitMgr;
     this.rulesCache = rulesCache;
+    this.parentResolver = parentResolver;
     this.config = config;
     this.capabilities = isAllProjects
       ? new CapabilityCollection(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
@@ -269,10 +270,6 @@ public class ProjectState {
     if (isAllProjects) {
       return null;
     }
-    Project.NameKey parentName = getProject().getParent();
-    if (parentName == null) {
-      parentName = allProjectsName;
-    }
-    return projectCache.get(parentName);
+    return projectCache.get(parentResolver.get(getProject()));
   }
 }

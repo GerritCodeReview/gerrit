@@ -16,6 +16,24 @@
       "revId": "49e3004b1957200dfd44302a03b505e29efc5817",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///6g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-28T09:32:10Z",
+      "side": 1,
+      "message": "This seems to be a bug when the wild project is created. I\u0027ve pushed a change for review to fix this [1].\n\n[1] https://gerrit-review.googlesource.com/30710",
+      "parentUuid": "AAABr3////s\u003d",
+      "revId": "49e3004b1957200dfd44302a03b505e29efc5817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

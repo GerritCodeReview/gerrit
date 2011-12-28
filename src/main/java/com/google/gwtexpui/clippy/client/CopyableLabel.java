@@ -166,6 +166,7 @@ public class CopyableLabel extends Composite implements HasText {
 
   public void setText(final String newText) {
     text = newText;
+    visibleLen = newText.length();
 
     if (textLabel != null) {
       textLabel.setText(getText());

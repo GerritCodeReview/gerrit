@@ -122,6 +122,24 @@
       "revId": "f39f4549bb33fa2d013027d05584752baaf41621",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///7E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/UpdateParents.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-28T07:26:35Z",
+      "side": 1,
+      "message": "I\u0027ve now also moved validateParentUpdate() to the previous change.",
+      "parentUuid": "AAABwn///4Q\u003d",
+      "revId": "f39f4549bb33fa2d013027d05584752baaf41621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

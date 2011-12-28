@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAByH///68\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/MergeStrategySection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-28T08:43:11Z",
+      "side": 1,
+      "message": "style-nit: whitespace error",
+      "revId": "9f40b2bc0c9e984955ea81aa7c553f6d2b8f3073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///64\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/MergeStrategySection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-28T08:43:11Z",
+      "side": 1,
+      "message": "style-nit: whitespace error",
+      "revId": "9f40b2bc0c9e984955ea81aa7c553f6d2b8f3073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///6w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategiesTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-28T08:43:11Z",
+      "side": 1,
+      "message": "Cool that it\u0027s now possible to undo the deletion of a merge strategy.\n\n[optional] Just one small thing, I think that the formatting of the deleted line can be improved a bit. At the moment you highlight a deleted line by applying the \u0027deletedMergeStrategy\u0027 css style. That\u0027s good, but the content of the line stays unchanged. Looking at the access rights table I see, that for a deleted line the content of the line actually changes, e.g. if you delete a reference the deleted line will show the text \u0027Reference refs/heads/* was deleted\u0027 instead of the original content. Would something similar be possible here? E.g. would it be possible to display \u0027Merge strategy for refs/foo/* was deleted\u0027? I\u0027m not sure how difficult that would be, if it\u0027s too difficult, just ignore this idea.",
+      "revId": "9f40b2bc0c9e984955ea81aa7c553f6d2b8f3073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///6s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategiesTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-28T08:43:11Z",
+      "side": 1,
+      "message": "[optional] If the deleted line shows the original content (if the comment above is ignored) I would prefer not to change the alignment in the cells, but just to keep everything left aligned as it is. To me somehow it looks strange when the alignment changes when I delete a line or undo the deletion.",
+      "revId": "9f40b2bc0c9e984955ea81aa7c553f6d2b8f3073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///60\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategyScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-28T08:43:11Z",
+      "side": 1,
+      "message": "You also need to call the center() method of the ErrorDialog in order to display the error:\n\n new ErrorDialog(Util.C.errorPatternHasStrategy()).center();",
+      "revId": "9f40b2bc0c9e984955ea81aa7c553f6d2b8f3073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

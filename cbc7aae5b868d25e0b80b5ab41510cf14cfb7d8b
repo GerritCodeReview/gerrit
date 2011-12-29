@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///5o\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T06:43:59Z",
+      "side": 1,
+      "message": "[optional] maybe to mention that this access right is normally granted on a regular expression for references (if it\u0027s granted on a concrete ref, the user can only once create it and afterwards this access right gets useless)",
+      "revId": "cbc7aae5b868d25e0b80b5ab41510cf14cfb7d8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///28\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -47,6 +64,23 @@
       "writtenOn": "2011-12-28T19:55:18Z",
       "side": 1,
       "message": "s/bypassing/bypass/",
+      "revId": "cbc7aae5b868d25e0b80b5ab41510cf14cfb7d8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///5s\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T06:43:59Z",
+      "side": 1,
+      "message": "[optional] maybe it would be nice to give some few examples how this permission can be used, e.g.:\n\n  1. To allow pushing of tags: grant on refs/tags/*\n  2. To allow creation of branches in namespace \u0027foo\u0027: grant on refs/heads/foo/*\n  3. To allow creation of branches for every user in its own sandbox: grant on refs/sandbox/${username}/*",
       "revId": "cbc7aae5b868d25e0b80b5ab41510cf14cfb7d8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

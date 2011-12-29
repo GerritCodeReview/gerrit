@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAABzn////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-29T14:27:28Z",
+      "side": 1,
+      "message": "I think the gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProject.java in change 30461 [1] \nwill merge with \u0027gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java\u0027 here, not this CreateProject.java class.\n\nso I have reference the way of how to handle the RepositoryCaseMismatchException  in change 30461 and keep it here.",
+      "parentUuid": "AAAByH///3M\u003d",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///3o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 9
@@ -200,6 +218,24 @@
       "writtenOn": "2011-12-29T08:59:03Z",
       "side": 1,
       "message": "[optional] I do not understand why this is needed. If createProjectArgs.getOwnerIds() already returns the list with the ownerIds why a new list needs to be created to overwrite the existing list in createProjectArgs?\n\nI actually think this if part can simply be removed and only the else part should stay, but I see that it was already like this in the original \u0027CreateProject\u0027 class. So I\u0027m also ok with leaving it as it is.",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzn////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2011-12-29T14:27:28Z",
+      "side": 1,
+      "message": "I think so  and also want to know the reason, it will be very helpful if anyone can help out its history and background .",
+      "parentUuid": "AAAByH///3k\u003d",
       "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -8,15 +8,17 @@ privileges.
 In particular this error occurs:
 
 1. if you push a commit for code review to a branch for which you
-   don't have upload permissions (access right '+2 Upload permission'
-   in the link:access-control.html#category_READ['Read Access'] category)
-2. if you bypass code review without sufficient privileges in the
-   link:access-control.html#category_pHD['Push Branch'] category
+   don't have upload permissions (access right
+   link:access-control.html#category_push_review['Push'] on
+   `refs/for/refs/heads/*`)
+2. if you bypass code review without
+   link:access-control.html#category_push_direct['Push'] privileges
+   on `refs/heads/*`
 3. if you push a signed or annotated tag without sufficient
-   privileges in the link:access-control.html#category_pTAG['Push Tag'] category
-4. if you push a lightweight tag without the access right '+2 Create
-   Branch' for the reference name 'refs/tags/*' in the link:access-control.html#category_pHD['Push Branch']
+   privileges in the link:access-control.html#category_pTAG['Push Tag']
    category
+4. if you push a lightweight tag without the access right link:access-control.html#category_create['Create
+   Reference'] for the reference name 'refs/tags/*'
 
 For new users it happens often that they accidentally try to bypass
 code review. The push then fails with the error message 'prohibited

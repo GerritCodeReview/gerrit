@@ -47,7 +47,9 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.File;
@@ -209,6 +211,8 @@ public class SchemaCreator {
       // inheritable permissions. For example 'All-Projects'.
       try {
         git = mgr.createRepository(allProjectsName);
+        final RefUpdate u = git.updateRef(Constants.HEAD);
+        u.link(GitRepositoryManager.REF_CONFIG);
       } catch (RepositoryNotFoundException err) {
         final String name = allProjectsName.get();
         throw new IOException("Cannot create repository " + name, err);

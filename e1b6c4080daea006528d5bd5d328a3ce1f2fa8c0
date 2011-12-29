@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAByH///5g\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T06:54:48Z",
+      "side": 1,
+      "message": "There are 3 links in the rest of the documentation that are using \u0027category_FORG\u0027. They should be adapted to either \u0027category_forge_author\u0027, \u0027category_forge_committer\u0027 or \u0027category_forge_server\u0027 (whatever makes sense):\n\nThe links that need to be adapted are in the following pages:\n  1. error-not-signed-off-by.txt\n  2. error-you-are-not-author.txt\n  3. error-you-are-not-committer.txt",
+      "revId": "e1b6c4080daea006528d5bd5d328a3ce1f2fa8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///5c\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T06:54:48Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \u0027Forge Author\u0027 now?",
+      "revId": "e1b6c4080daea006528d5bd5d328a3ce1f2fa8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///5Y\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T06:54:48Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \u0027Forge Committer\u0027 now?",
+      "revId": "e1b6c4080daea006528d5bd5d328a3ce1f2fa8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///5U\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T06:54:48Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \u0027Forge Server\u0027 now?",
+      "revId": "e1b6c4080daea006528d5bd5d328a3ce1f2fa8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///5Q\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T06:54:48Z",
+      "side": 1,
+      "message": "style-nit: one empty line too much",
+      "revId": "e1b6c4080daea006528d5bd5d328a3ce1f2fa8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

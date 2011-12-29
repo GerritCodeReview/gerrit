@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABzH///+I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T13:06:09Z",
+      "side": 1,
+      "message": "s/suggestion/suggestions",
+      "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH///+E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T13:06:09Z",
+      "side": 1,
+      "message": "s/on UI/in the UI\n\ns/for the project/for the new project",
+      "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH///+M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T13:06:09Z",
+      "side": 1,
+      "message": "s/another/other",
+      "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH///94\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T13:06:09Z",
+      "side": 1,
+      "message": "Maybe this should become rather an own change? It looks like this feature is independent of suggesting the parents.",
+      "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH///98\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T13:06:09Z",
+      "side": 1,
+      "message": "this comment doesn\u0027t say anything and could be removed",
+      "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH///+A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T13:06:09Z",
+      "side": 1,
+      "message": "I would expect the browse button to be right next to the input field for the parent project. Otherwise it\u0027s not intuitive that pressing this button actually allows to populate the parent project field.",
+      "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH///9w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T13:06:09Z",
+      "side": 1,
+      "message": "Is this correct if the ProjectListPopup is now used outside of the MyWatchedProjectsScreen?",
+      "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

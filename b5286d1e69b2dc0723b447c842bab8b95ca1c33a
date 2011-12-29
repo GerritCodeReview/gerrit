@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABzH///+k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T12:04:38Z",
+      "side": 1,
+      "message": "is this really related to issue 203 \u0027Create projects though web interface\u0027 [1]?\n\n[1] http://code.google.com/p/gerrit/issues/detail?id\u003d203",
+      "revId": "b5286d1e69b2dc0723b447c842bab8b95ca1c33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH////E\u003d",
+        "filename": "Documentation/cmd-create-project.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T12:04:38Z",
+      "side": 1,
+      "message": "s/user/the user",
+      "revId": "b5286d1e69b2dc0723b447c842bab8b95ca1c33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T12:04:38Z",
+      "side": 1,
+      "message": "[optional] maybe to call the method just \u0027get\u0027, the class name is already saying what you will get",
+      "revId": "b5286d1e69b2dc0723b447c842bab8b95ca1c33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T12:04:38Z",
+      "side": 1,
+      "message": "Not sure, is this check actually safe? Can it be that there are several instances of Project for the same project (e.g. if caches are flushed in between)? Maybe it would be safer to check via the Project.Name if we have already added this project.",
+      "revId": "b5286d1e69b2dc0723b447c842bab8b95ca1c33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T12:04:38Z",
+      "side": 1,
+      "message": "Why to exclude the \u0027All-Projects\u0027? \u0027All-Projects\u0027 is a valid parent candidate as well. I rather think the wild project should be always included into the parent candidates.\n\nAlso this equals call will not work because you are comparing a Project.NameKey with a String which will be always false.\n\nIn addition it is wrong to use AllProjectsNameProvider.DEFAULT since this is just the default name of the wild project. Via the gerrit configuration you may actually configure another name for the wild project and then this check here would not work anymore. If you want to keep this check you should rather get AllProjectsName injected.",
+      "revId": "b5286d1e69b2dc0723b447c842bab8b95ca1c33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T12:04:38Z",
+      "side": 1,
+      "message": "maybe it would be good to sort the parents by name before returning them",
+      "revId": "b5286d1e69b2dc0723b447c842bab8b95ca1c33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH///+4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T12:04:38Z",
+      "side": 1,
+      "message": "maybe better: s/it cannot be used with other arguments/if this option is used all other options and arguments are ignored\n\nHow it\u0027s written currently I would expect that the command fails with an error if I use -S together with any other option, but it doesn\u0027t.",
+      "revId": "b5286d1e69b2dc0723b447c842bab8b95ca1c33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH///+w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T12:04:38Z",
+      "side": 1,
+      "message": "[optional] I would remove this comment",
+      "revId": "b5286d1e69b2dc0723b447c842bab8b95ca1c33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH///+s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T12:04:38Z",
+      "side": 1,
+      "message": "Not sure if I see how adding this check is related to the feature that is implemented by this change.",
+      "revId": "b5286d1e69b2dc0723b447c842bab8b95ca1c33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH///+g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T12:04:38Z",
+      "side": 1,
+      "message": "it would be nice to sort the parent candidates by name before printing them out, ideally the sorting should be done in RetrieveParentCandidates so that we have them here already sorted",
+      "revId": "b5286d1e69b2dc0723b447c842bab8b95ca1c33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzH///+o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T12:04:38Z",
+      "side": 1,
+      "message": "[optional] having the flush in a finally block might be safer",
+      "revId": "b5286d1e69b2dc0723b447c842bab8b95ca1c33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

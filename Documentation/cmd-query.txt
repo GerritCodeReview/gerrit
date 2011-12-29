@@ -64,6 +64,8 @@ OPTIONS
 --files::
 	Support for listing files with patch sets and their
 	attributes (ADDED, MODIFIED, DELETED, RENAMED, COPIED).
+	Note that this option requires either the --current-patch-set
+	or the --patch-sets option in order to give any file information.
 
 --comments::
 	Include comments for all changes. If combined with the

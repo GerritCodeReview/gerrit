@@ -84,10 +84,10 @@ therefore apply to all the users who are owners of this project.
 
 By assigning access rights to this group on a parent project Gerrit
 administrators can define a set of default access rights for
-<<category_OWN,project owners>>. Child projects inherit these
+<<category_owner,project owners>>. Child projects inherit these
 access rights where they are resolved to the users that own the child
 project.  Having default access rights for
-<<category_OWN,project owners>> assigned on a parent project may
+<<category_owner,project owners>> assigned on a parent project may
 avoid the need to initially configure access rights for
 newly created child projects.
 
@@ -543,7 +543,8 @@ pushing a commit history which has been rewritten by 'git filter-branch'
 and that contains merge commits previously created by this Gerrit Code
 Review server.
 
-[[category_OWN]]
+
+[[category_owner]]
 Owner
 ~~~~~
 
@@ -568,60 +569,66 @@ further refine access, but only for references that begin with
 out more about this role.
 
 
-[[category_pHD]]
-Push Branch
-~~~~~~~~~~~
+[[category_push]]
+Push
+~~~~
 
-This category permits users to push directly into a branch over SSH,
-bypassing any code review process that would otherwise be used.
+This category controls how users are allowed to upload new commits
+to projects in Gerrit. It can either give permission to push
+directly into a branch, bypassing any code review process
+that would otherwise be used. Or it may give permission to upload
+new changes for code review, this depends on which namespace the
+permission is granted to.
 
-This category has several possible values:
 
-* +1 Update Branch
-+
+[[category_push_direct]]
+Direct Push
+^^^^^^^^^^^
+
 Any existing branch can be fast-forwarded to a new commit.
-Creation of new branches is rejected.  Deletion of existing branches
-is rejected.  This is the safest mode as commits cannot be discarded.
+Creation of new branches is controlled by the 
+link:access-control.html#category_create['Create Reference']
+category.  Deletion of existing branches is rejected.  This is the
+safest mode as commits cannot be discarded.
 
-* +2 Create Branch
+* Force option
 +
-Implies 'Update Branch', but also allows the creation of a new branch
-if the name does not not already designate an existing branch name.
-Like update branch, existing commits cannot be discarded.
+Allows an existing branch to be deleted. Since a force push is
+effectively a delete immediately followed by a create, but performed
+atomically on the server and logged, this option also permits forced
+push updates to branches.  Enabling this option allows existing commits
+to be discarded from a project history.
 
-* +3 Force Push Branch; Delete Branch
-+
-Implies both 'Update Branch' and 'Create Branch', but also allows an
-existing branch to be deleted. Since a force push is effectively a
-delete immediately followed by a create, but performed atomically on
-the server and logged, this level also permits forced push updates
-to branches.  This level may allow existing commits to be discarded
-from a project history.
-
-This category is primarily useful for projects that only want to
+The push category is primarily useful for projects that only want to
 take advantage of Gerrit's access control features and do not need
 its code review functionality.  Projects that need to require code
 reviews should not grant this category.
 
-[[category_READ_2]]
-Upload Access
-~~~~~~~~~~~~~
 
-The `Read Access +2` permits the user to upload a non-merge commit
-to the project's `refs/for/BRANCH` namespace, creating a new change
-for code review.
+[[category_push_review]]
+Upload To Code Review
+^^^^^^^^^^^^^^^^^^^^^
 
-Rather than place this permission in its own category, its chained
-into the Read Access category as a higher level of access.  A user
-must be able to clone or fetch the project in order to create a new
-commit on their local system, so in practice they must also have
-Read Access +1 to even develop a change.  Therefore upload access
-implies read access by simply being a higher level of it.
+The `Push` access right granted on the namespace
+`refs/for/refs/heads/BRANCH` permits the user to upload a non-merge
+commit to the project's `refs/for/BRANCH` namespace, creating a new
+change for code review.
+
+A user must be able to clone or fetch the project in order to create
+a new commit on their local system, so in practice they must also
+have the `Read` access granted to upload a change.
 
 For an open source, public Gerrit installation, it is common to
-grant `Read Access +1..+2` to `Registered Users` in the `\-- All
-Projects \--` ACL.  For more private installations, its common to
-simply grant `Read Access +1..+2` to all users of a project.
+grant `Read` and `Push` for `refs/for/refs/heads/*`
+to `Registered Users` in the `All-Projects` ACL.  For more
+private installations, its common to simply grant `Read` and
+`Push` for `refs/for/refs/heads/*` to all users of a project.
+
+* Force option
++
+The force option has no function when granted to a branch in the
+`refs/for/refs/heads/*` namespace.
+
 
 [[category_READ_3]]
 Upload Merge Access

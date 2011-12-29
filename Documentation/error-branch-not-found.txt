@@ -25,8 +25,8 @@ If it was your intention to create a new branch you can either
   'Admin' -> 'Projects' and browse your project, in the 'Branches'
   tab you can then create a new branch).
 
-Please note that you need the access right '+2 Create Branch' in the
-link:access-control.html#category_pHD['Push Branch'] category to create new branches.
+Please note that you need to be granted the
+link:access-control.html#category_create['Create reference'] access to create new branches.
 
 
 GERRIT

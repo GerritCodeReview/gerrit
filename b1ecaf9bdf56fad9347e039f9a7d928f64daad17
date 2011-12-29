@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAByH///4A\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/ProjectCreationFailedException.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T08:59:03Z",
+      "side": 1,
+      "message": "licence header is missing",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///3Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T08:59:03Z",
+      "side": 1,
+      "message": "[optional] maybe createProjectArgs.getProjectName() should directly return a Project.NameKey and not just a String?",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///3M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T08:59:03Z",
+      "side": 1,
+      "message": "The exception handling here is already like it is proposed by change 30461 [1]. The problem is that this change is still in review.\n\nSince this change is only supposed to do refactoring, I think you should either stay with the exception handling as it is in the current master or this change should depend on change 30461 [1]. Otherwise it seems bad if a part of a not yet merged other change sneaks in via this refactoring change.\n\n[1] https://gerrit-review.googlesource.com/30461",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///3o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T08:59:03Z",
+      "side": 1,
+      "message": "Why do you need to return a StringBuilder here? If you want to return the error message a simple String should be enough. Since the caller just checks if the returned StringBuilder is empty and if not throws a ProjectCreationFailedException, I would prefer if this method here would directly throw the ProjectCreationFailedException in case of any validation error so that the return type can just be void.",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///3Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T08:59:03Z",
+      "side": 1,
+      "message": "As proposed above I would not use a StringBuilder here, but just directly throw the ProjectCreationFailedException on the first error that is found. However if you want to collect multiple errors in the StringBuilder you should take care to separate the single error messages by a new line, otherwise the formatting will look strange.",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///30\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T08:59:03Z",
+      "side": 1,
+      "message": "This error message is only suitable if the caller is the \u0027CreateProjectCommand\u0027, for any other caller it does not make sense, e.g. there is no NAME argument if the caller is the web UI.\n\nNot sure, but maybe this check should just stay in \u0027CreateProjectCommand\u0027. I think in \u0027CreateProjectCommand\u0027 it is only needed to support the deprecated \u0027--name\u0027 option. In addition you may keep the same check here but with a more generic error message.",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///34\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T08:59:03Z",
+      "side": 1,
+      "message": "This is a new check that did not exist in the \u0027CreateProject\u0027 class. Since this change claims to be refactoring only, I think it should really do only refactoring and not add additional logic. If you want this check to be added I think it should be an own change. Anyway I\u0027m not sure why this check is needed? Until now projects with whitespaces in the name were allowed, why do we have to disallow it now (e.g. until recently even the wild project contained spaces in the name, remember \u0027-- All Projects --\u0027).",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///3w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T08:59:03Z",
+      "side": 1,
+      "message": "I think it is not necessary to verify that the project name is not empty. If you already have the Project in hand I think it\u0027s save to assume that it also has a name. At least we are not checking for this in any other place in the Gerrit code.",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///3s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T08:59:03Z",
+      "side": 1,
+      "message": "It is not needed to retrieve the ProjectState from the project cache as\nyou already have it in hand. You can simply retrieve it from the\nProjectControl:\n\n  ProjectState state \u003d createProjectArgs.getNewParent().getProjectState();\n\nThen also the below check for state \u003d\u003d null is not needed anymore.\n\nIf it is just to verify that the project indeed exists, I think you can savely skip this check because you have the ProjectControl already in hand. I guess the creation of the ProjectControl would have failed if there is no such project.",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///3c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T08:59:03Z",
+      "side": 1,
+      "message": "I would remove the \u0027fatal: \u0027 here, because in \u0027CreateProjectCommand\u0027 another \u0027fatal: \u0027 is added in front of the error message when the ProjectCreationFailedException is handled.",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///3U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T08:59:03Z",
+      "side": 1,
+      "message": "[optional] maybe the error message as it was in CreateProject was more explicit and easier to understand:\n\n  String.format(\"%s does not have \\\"Create Project\\\" capability.\", currentUser.getUserName())",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///3k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T08:59:03Z",
+      "side": 1,
+      "message": "[optional] I do not understand why this is needed. If createProjectArgs.getOwnerIds() already returns the list with the ownerIds why a new list needs to be created to overwrite the existing list in createProjectArgs?\n\nI actually think this if part can simply be removed and only the else part should stay, but I see that it was already like this in the original \u0027CreateProject\u0027 class. So I\u0027m also ok with leaving it as it is.",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///3E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T08:59:03Z",
+      "side": 1,
+      "message": "[optional] since all the getter and setter do not any logic, it would maybe be nicer to just make all the fields public here and to remove all the getters and setters (similar as it is done in EmailArguments)",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///3I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-29T08:59:03Z",
+      "side": 1,
+      "message": "[optional] maybe better to return Project.NameKey here",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

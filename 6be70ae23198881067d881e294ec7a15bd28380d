@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABwn///y4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1266,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2011-12-30T21:40:26Z",
+      "side": 1,
+      "message": "It\u0027d be nice to just call this rather than re-implement the loop at line 1343...",
+      "revId": "6be70ae23198881067d881e294ec7a15bd28380d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///zA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1345,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2011-12-30T21:40:26Z",
+      "side": 1,
+      "message": "If we don\u0027t add the submit category when cherry-picking, we never find the submitter here.  So submitter stays as null, which causes an NPE lower down.\n\nOne option I considered - this code is nearly identical to the private getSubmitter() method on line 1267, except getSubmitter() doesn\u0027t match up the patch set IDs, and it also doesn\u0027t call a.cache(c).  I\u0027d like to remove the duplication and just call getSubmitter() here, but I\u0027m not sure what the a.cache(c) call does.",
+      "revId": "6be70ae23198881067d881e294ec7a15bd28380d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABwn///y8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1386,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2011-12-30T21:40:26Z",
+      "side": 1,
+      "message": "We get an NPE here when using cherry-pick mode.",
+      "revId": "6be70ae23198881067d881e294ec7a15bd28380d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

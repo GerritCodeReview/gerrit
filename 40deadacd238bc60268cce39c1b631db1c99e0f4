@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABwn///zE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2011-12-30T21:40:26Z",
+      "side": 0,
+      "message": "sop, I don\u0027t remember why we did this.  Does it ring a bell for you?\n\nSkipping the submit category causes us to not find the submitter down below...",
+      "revId": "40deadacd238bc60268cce39c1b631db1c99e0f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

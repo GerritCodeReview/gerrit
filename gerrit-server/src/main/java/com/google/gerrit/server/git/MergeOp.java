@@ -800,8 +800,9 @@ public class MergeOp {
     }
 
     PatchSetApproval submitAudit = null;
+    List<PatchSetApproval> approvalList = null;
     try {
-      final List<PatchSetApproval> approvalList =
+      approvalList =
           schema.patchSetApprovals().byPatchSet(n.patchsetId).toList();
       Collections.sort(approvalList, new Comparator<PatchSetApproval>() {
         public int compare(final PatchSetApproval a, final PatchSetApproval b) {
@@ -915,10 +916,8 @@ public class MergeOp {
               }
             });
 
-    for (PatchSetApproval a : schema.patchSetApprovals().byChange(
-        n.change.getId())) {
-      // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
-      if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+    if (approvalList != null) {
+      for (PatchSetApproval a : approvalList) {
         schema.patchSetApprovals().insert(
             Collections.singleton(new PatchSetApproval(ps.getId(), a)));
       }

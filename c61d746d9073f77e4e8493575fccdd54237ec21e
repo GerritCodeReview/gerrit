@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABzH///9c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2011-12-30T11:13:40Z",
+      "side": 1,
+      "message": "I think if the change is open and there are codependent changes the dependencies panel should always be automatically opened / expanded (similar as it done for open changes that depend on other non merged changes). This way the user can immediately see that there are codependent changes.",
+      "revId": "c61d746d9073f77e4e8493575fccdd54237ec21e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -917,11 +917,8 @@ public class MergeOp {
 
     for (PatchSetApproval a : schema.patchSetApprovals().byChange(
         n.change.getId())) {
-      // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
-      if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-        schema.patchSetApprovals().insert(
-            Collections.singleton(new PatchSetApproval(ps.getId(), a)));
-      }
+      schema.patchSetApprovals().insert(
+          Collections.singleton(new PatchSetApproval(ps.getId(), a)));
     }
 
     newCommit.copyFrom(n);

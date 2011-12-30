@@ -70,7 +70,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
   private static final int R_DOWNLOAD = 3;
   private static final int R_CNT = 4;
 
-  private final ChangeScreen changeScreen;
+  private final ChangeDetailCache detailCache;
   private final ChangeDetail changeDetail;
   private final PatchSet patchSet;
   private final FlowPanel body;
@@ -86,27 +86,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
    * Creates a closed complex disclosure panel for a patch set.
    * The patch set details are loaded when the complex disclosure panel is opened.
    */
-  PatchSetComplexDisclosurePanel(final ChangeScreen parent, final ChangeDetail detail,
-      final PatchSet ps) {
-    this(parent, detail, ps, false);
-    addOpenHandler(this);
-  }
-
-  /**
-   * Creates an open complex disclosure panel for a patch set.
-   */
-  PatchSetComplexDisclosurePanel(final ChangeScreen parent, final ChangeDetail detail,
-      final PatchSetDetail psd) {
-    this(parent, detail, psd.getPatchSet(), true);
-    ensureLoaded(psd);
-  }
-
-  private PatchSetComplexDisclosurePanel(final ChangeScreen parent, final ChangeDetail detail,
-      final PatchSet ps, boolean isOpen) {
+  public PatchSetComplexDisclosurePanel(final PatchSet ps, boolean isOpen) {
     super(Util.M.patchSetHeader(ps.getPatchSetId()), isOpen);
-    changeScreen = parent;
-    changeDetail = detail;
+    detailCache = ChangeCache.get(ps.getId().getParentKey()).getChangeDetailCache();
+    changeDetail = detailCache.get();
     patchSet = ps;
+
     body = new FlowPanel();
     setContent(body);
 
@@ -117,7 +102,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     getHeader().add(revtxt);
     if (gw != null) {
       final Anchor revlink =
-          new Anchor(gw.getLinkName(), false, gw.toRevision(detail.getChange()
+          new Anchor(gw.getLinkName(), false, gw.toRevision(changeDetail.getChange()
               .getProject(), ps));
       revlink.addStyleName(Gerrit.RESOURCES.css().patchSetLink());
       getHeader().add(revlink);
@@ -127,6 +112,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       final InlineLabel draftLabel = new InlineLabel(Util.C.draftPatchSetLabel());
       draftLabel.addStyleName(Gerrit.RESOURCES.css().patchSetRevision());
       getHeader().add(draftLabel);
+    }
+
+    if (isOpen) {
+      ensureLoaded(changeDetail.getCurrentPatchSetDetail());
+    } else {
+      addOpenHandler(this);
     }
   }
 
@@ -611,7 +602,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         Util.MANAGE_SVC.publish(patchSet.getId(),
             new GerritCallback<ChangeDetail>() {
               public void onSuccess(ChangeDetail result) {
-                changeScreen.update(result);
+                detailCache.set(result);
               }
 
               @Override
@@ -635,7 +626,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
             new GerritCallback<ChangeDetail>() {
               public void onSuccess(final ChangeDetail result) {
                 if (result != null) {
-                  changeScreen.update(result);
+                  detailCache.set(result);
                 } else {
                   Gerrit.display(PageLinks.MINE);
                 }
@@ -728,7 +719,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         new SubmitFailureDialog(result, msg).center();
       }
     }
-    changeScreen.update(result);
+    detailCache.set(result);
   }
 
   public PatchSet getPatchSet() {
@@ -757,13 +748,13 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
   private abstract class ActionDialog extends CommentedActionDialog<ChangeDetail> {
     public ActionDialog(final FocusWidget enableOnFailure, final boolean redirect,
         String dialogTitle, String dialogHeading) {
-      super(dialogTitle, dialogHeading, new AsyncCallback<ChangeDetail>() {
+      super(dialogTitle, dialogHeading, new ChangeDetailCache.IgnoreErrorCallback() {
           @Override
           public void onSuccess(ChangeDetail result) {
             if (redirect) {
               Gerrit.display(PageLinks.toChange(result.getChange().getId()));
             } else {
-              changeScreen.update(result);
+              super.onSuccess(result);
             }
           }
 

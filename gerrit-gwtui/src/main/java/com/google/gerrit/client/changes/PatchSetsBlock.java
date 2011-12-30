@@ -43,11 +43,9 @@ import java.util.Map;
  * that keyboard navigation to each changed file in all patch sets is possible.
  */
 public class PatchSetsBlock extends Composite {
-
   private final Map<PatchSet.Id, PatchSetComplexDisclosurePanel> patchSetPanels =
       new HashMap<PatchSet.Id, PatchSetComplexDisclosurePanel>();
 
-  private final ChangeScreen parent;
   private final FlowPanel body;
   private HandlerRegistration regNavigation;
 
@@ -65,8 +63,7 @@ public class PatchSetsBlock extends Composite {
   /** Patch sets on this change, in order. */
   private List<PatchSet> patchSets;
 
-  PatchSetsBlock(final ChangeScreen parent) {
-    this.parent = parent;
+  PatchSetsBlock() {
     body = new FlowPanel();
     initWidget(body);
   }
@@ -90,18 +87,12 @@ public class PatchSetsBlock extends Composite {
     patchSetPanelsList = new ArrayList<PatchSetComplexDisclosurePanel>();
 
     for (final PatchSet ps : patchSets) {
-      final PatchSetComplexDisclosurePanel p;
-      if (ps == currps) {
-        p = new PatchSetComplexDisclosurePanel(parent, detail, detail
-            .getCurrentPatchSetDetail());
-        if (diffBaseId != null) {
-          p.setDiffBaseId(diffBaseId);
+      final PatchSetComplexDisclosurePanel p =
+          new PatchSetComplexDisclosurePanel(ps, ps == currps);
+      if (diffBaseId != null) {
+        p.setDiffBaseId(diffBaseId);
+        if (ps == currps) {
           p.refresh();
-        }
-      } else {
-        p = new PatchSetComplexDisclosurePanel(parent, detail, ps);
-        if (diffBaseId != null) {
-          p.setDiffBaseId(diffBaseId);
         }
       }
       add(p);

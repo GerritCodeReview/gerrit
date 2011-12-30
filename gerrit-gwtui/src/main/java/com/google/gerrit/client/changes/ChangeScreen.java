@@ -251,7 +251,7 @@ public class ChangeScreen extends Screen
     patchesGrid.setWidget(0, 1, patchesList);
     add(patchesGrid);
 
-    patchSetsBlock = new PatchSetsBlock(this);
+    patchSetsBlock = new PatchSetsBlock();
     add(patchSetsBlock);
 
     comments = new FlowPanel();
@@ -282,10 +282,6 @@ public class ChangeScreen extends Screen
     if (isAttached()) {
       display(event.getValue());
     }
-  }
-
-  void update(final ChangeDetail detail) {
-    detailCache.set(detail);
   }
 
   private void display(final ChangeDetail detail) {

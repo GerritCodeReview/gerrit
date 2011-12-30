@@ -39,6 +39,8 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -59,9 +61,11 @@ import java.sql.Timestamp;
 import java.util.List;
 
 
-public class ChangeScreen extends Screen {
+public class ChangeScreen extends Screen
+    implements ValueChangeHandler<ChangeDetail> {
   private final Change.Id changeId;
   private final PatchSet.Id openPatchSetId;
+  private ChangeDetailCache detailCache;
 
   private Image starChange;
   private boolean starred;
@@ -130,7 +134,7 @@ public class ChangeScreen extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    refresh();
+    detailCache.refresh();
   }
 
   @Override
@@ -156,21 +160,6 @@ public class ChangeScreen extends Screen {
     }
   }
 
-  public void refresh() {
-    Util.DETAIL_SVC.changeDetail(changeId,
-        new ScreenLoadCallback<ChangeDetail>(this) {
-          @Override
-          protected void preDisplay(final ChangeDetail r) {
-            display(r);
-          }
-
-          @Override
-          protected void postDisplay() {
-            patchSetsBlock.setRegisterKeys(true);
-          }
-        });
-  }
-
   private void setStarred(final boolean s) {
     if (s) {
       starChange.setResource(Gerrit.RESOURCES.starFilled());
@@ -183,6 +172,12 @@ public class ChangeScreen extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
+
+    ChangeCache cache = ChangeCache.get(changeId);
+
+    detailCache = cache.getChangeDetailCache();
+    detailCache.addValueChangeHandler(this);
+
     addStyleName(Gerrit.RESOURCES.css().changeScreen());
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
@@ -284,9 +279,15 @@ public class ChangeScreen extends Screen {
     setPageTitle(titleBuf.toString());
   }
 
+  @Override
+  public void onValueChange(ValueChangeEvent<ChangeDetail> event) {
+    if (isAttached()) {
+      display(event.getValue());
+    }
+  }
+
   void update(final ChangeDetail detail) {
-    display(detail);
-    patchSetsBlock.setRegisterKeys(true);
+    detailCache.set(detail);
   }
 
   private void display(final ChangeDetail detail) {
@@ -348,6 +349,11 @@ public class ChangeScreen extends Screen {
       dependenciesPanel.getHeader().add(new InlineLabel(
         Util.M.outdatedHeader(outdated)));
     }
+
+    if (!isCurrentView()) {
+      display();
+    }
+    patchSetsBlock.setRegisterKeys(true);
   }
 
   private void addComments(final ChangeDetail detail) {

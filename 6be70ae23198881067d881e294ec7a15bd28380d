@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAABwn///yw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1345,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2011-12-31T19:31:55Z",
+      "side": 1,
+      "message": "I believe that approvals cache the state of a change in them (open/merged...).  I guess this is for dashboards: someone recently had a dashboard which claimed the change was merged, but it showed up in their dash in the middle section as if it were open, this was because the approval change status did not match what the change said, he filed an issue for it last week I think.  So, I suspect the a.cache(c) simply updates the change merged status in the approval, but I haven\u0027t looked at the code, I just thought it might help you figure it out to have that background info.\n\nAs for the patchset Id, note that 1279 searches by patchset, whereas 1339 grabs all the approvals for the entire change.",
+      "parentUuid": "AAABwn///zA\u003d",
+      "revId": "6be70ae23198881067d881e294ec7a15bd28380d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///y8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1

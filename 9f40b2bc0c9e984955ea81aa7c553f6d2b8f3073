@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAABzX///+w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategiesTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2012-01-02T18:26:29Z",
+      "side": 1,
+      "message": "Hi Edwin,\n\nInitially I tried to do this way, but since this is a table, it is difficult to merge cells of single rows and manage the content of the rows without removing and adding lines, or making it invisible. The UI was not so good and I was wasting a lot of time on this.\n\nSince this is optional for you, I will ignore this modification and do as you said in line 190.",
+      "parentUuid": "AAAByH///6w\u003d",
+      "revId": "9f40b2bc0c9e984955ea81aa7c553f6d2b8f3073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///6s\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategiesTable.java",
         "patchSetId": 2

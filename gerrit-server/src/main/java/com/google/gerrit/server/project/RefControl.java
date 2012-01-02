@@ -18,6 +18,8 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -26,6 +28,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import dk.brics.automaton.RegExp;
 
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
@@ -400,7 +403,7 @@ public class RefControl {
     return mine;
   }
 
-  static boolean isRE(String refPattern) {
+  public static boolean isRE(String refPattern) {
     return refPattern.startsWith(AccessSection.REGEX_PREFIX);
   }
 
@@ -414,10 +417,28 @@ public class RefControl {
     }
   }
 
-  static RegExp toRegExp(String refPattern) {
+  public static RegExp toRegExp(String refPattern) {
     if (isRE(refPattern)) {
       refPattern = refPattern.substring(1);
     }
     return new RegExp(refPattern, RegExp.NONE);
+  }
+
+  public static void validateRefPattern(String refPattern)
+      throws InvalidNameException {
+    if (refPattern.startsWith(RefConfigSection.REGEX_PREFIX)) {
+      if (!Repository.isValidRefName(RefControl.shortestExample(refPattern))) {
+        throw new InvalidNameException(refPattern);
+      }
+    } else if (refPattern.equals(RefConfigSection.ALL)) {
+      // This is a special case we have to allow, it fails below.
+    } else if (refPattern.endsWith("/*")) {
+      String prefix = refPattern.substring(0, refPattern.length() - 2);
+      if (!Repository.isValidRefName(prefix)) {
+        throw new InvalidNameException(refPattern);
+      }
+    } else if (!Repository.isValidRefName(refPattern)) {
+      throw new InvalidNameException(refPattern);
+    }
   }
 }

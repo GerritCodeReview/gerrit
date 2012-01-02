@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.common.data.AccessSection.isAccessSection;
 import static com.google.gerrit.common.data.Permission.isPermission;
 
 import com.google.gerrit.common.data.AccessSection;
@@ -27,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.State;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.common.data.RefConfigSection;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -225,7 +225,7 @@ public class ProjectConfig extends VersionedMetaData {
 
     accessSections = new HashMap<String, AccessSection>();
     for (String refName : rc.getSubsections(ACCESS)) {
-      if (isAccessSection(refName)) {
+      if (RefConfigSection.isValid(refName)) {
         AccessSection as = getAccessSection(refName, true);
 
         for (String varName : rc.getStringList(ACCESS, refName, KEY_GROUP_PERMISSIONS)) {
@@ -421,7 +421,7 @@ public class ProjectConfig extends VersionedMetaData {
     }
 
     for (String name : rc.getSubsections(ACCESS)) {
-      if (isAccessSection(name) && !accessSections.containsKey(name)) {
+      if (RefConfigSection.isValid(name) && !accessSections.containsKey(name)) {
         rc.unsetSection(ACCESS, name);
       }
     }

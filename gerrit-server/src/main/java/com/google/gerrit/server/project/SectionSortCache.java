@@ -14,24 +14,18 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.gerrit.server.project.RefControl.isRE;
-import static com.google.gerrit.server.project.RefControl.shortestExample;
-import static com.google.gerrit.server.project.RefControl.toRegExp;
-
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.util.MostSpecificComparator;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.IdentityHashMap;
 import java.util.List;
 
@@ -161,103 +155,5 @@ public class SectionSortCache {
     }
   }
 
-  /**
-   * Order the Ref Pattern by the most specific. This sort is done by:
-   * <ul>
-   * <li>1 - The minor value of Levenshtein string distance between the branch
-   * name and the regex string shortest example. A shorter distance is a more
-   * specific match.
-   * <li>2 - Finites first, infinities after.
-   * <li>3 - Number of transitions.
-   * <li>4 - Length of the expression text.
-   * </ul>
-   *
-   * Levenshtein distance is a measure of the similarity between two strings.
-   * The distance is the number of deletions, insertions, or substitutions
-   * required to transform one string into another.
-   *
-   * For example, if given refs/heads/m* and refs/heads/*, the distances are 5
-   * and 6. It means that refs/heads/m* is more specific because it's closer to
-   * refs/heads/master than refs/heads/*.
-   *
-   * Another example could be refs/heads/* and refs/heads/[a-zA-Z]*, the
-   * distances are both 6. Both are infinite, but refs/heads/[a-zA-Z]* has more
-   * transitions, which after all turns it more specific.
-   */
-  private static final class MostSpecificComparator implements
-      Comparator<AccessSection> {
-    private final String refName;
 
-    MostSpecificComparator(String refName) {
-      this.refName = refName;
-    }
-
-    public int compare(AccessSection a, AccessSection b) {
-      return compare(a.getName(), b.getName());
-    }
-
-    private int compare(final String pattern1, final String pattern2) {
-      int cmp = distance(pattern1) - distance(pattern2);
-      if (cmp == 0) {
-        boolean p1_finite = finite(pattern1);
-        boolean p2_finite = finite(pattern2);
-
-        if (p1_finite && !p2_finite) {
-          cmp = -1;
-        } else if (!p1_finite && p2_finite) {
-          cmp = 1;
-        } else /* if (f1 == f2) */{
-          cmp = 0;
-        }
-      }
-      if (cmp == 0) {
-        cmp = transitions(pattern1) - transitions(pattern2);
-      }
-      if (cmp == 0) {
-        cmp = pattern2.length() - pattern1.length();
-      }
-      return cmp;
-    }
-
-    private int distance(String pattern) {
-      String example;
-      if (isRE(pattern)) {
-        example = shortestExample(pattern);
-
-      } else if (pattern.endsWith("/*")) {
-        example = pattern.substring(0, pattern.length() - 1) + '1';
-
-      } else if (pattern.equals(refName)) {
-        return 0;
-
-      } else {
-        return Math.max(pattern.length(), refName.length());
-      }
-      return StringUtils.getLevenshteinDistance(example, refName);
-    }
-
-    private boolean finite(String pattern) {
-      if (isRE(pattern)) {
-        return toRegExp(pattern).toAutomaton().isFinite();
-
-      } else if (pattern.endsWith("/*")) {
-        return false;
-
-      } else {
-        return true;
-      }
-    }
-
-    private int transitions(String pattern) {
-      if (isRE(pattern)) {
-        return toRegExp(pattern).toAutomaton().getNumberOfTransitions();
-
-      } else if (pattern.endsWith("/*")) {
-        return pattern.length();
-
-      } else {
-        return pattern.length();
-      }
-    }
-  }
 }

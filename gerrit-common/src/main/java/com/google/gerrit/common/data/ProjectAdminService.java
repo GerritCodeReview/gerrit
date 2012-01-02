@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.RpcImpl;
+import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
 import java.util.List;
@@ -34,12 +35,20 @@ public interface ProjectAdminService extends RemoteJsonService {
   void projectDetail(Project.NameKey projectName,
       AsyncCallback<ProjectDetail> callback);
 
+  void projectMergeStrategies(Project.NameKey projectName,
+      AsyncCallback<ProjectMergeStrategies> callback);
+
   void projectAccess(Project.NameKey projectName,
       AsyncCallback<ProjectAccess> callback);
 
   @SignInRequired
   void changeProjectSettings(Project update,
       AsyncCallback<ProjectDetail> callback);
+
+  @SignInRequired
+  void changeMergeStrategies(Project.NameKey projectName, String baseRevision,
+      String message, List<MergeStrategySection> sections,
+      AsyncCallback<VoidResult> callback);
 
   @SignInRequired
   void changeProjectAccess(Project.NameKey projectName, String baseRevision,

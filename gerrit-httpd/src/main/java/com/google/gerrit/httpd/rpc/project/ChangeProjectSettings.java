@@ -14,7 +14,10 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.data.MergeStrategySection;
 import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.data.MergeStrategySection.SubmitType;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -81,6 +84,14 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
       //
       ProjectConfig config = ProjectConfig.read(md);
       config.getProject().copySettingsFrom(update);
+
+      // This block of code will be removed when integrating Merge Strategy UI change.
+      final MergeStrategySection mss = new MergeStrategySection(RefConfigSection.ALL);
+      mss.setSubmitType(SubmitType.valueOf(update.getSubmitType()));
+      mss.setUseContentMerge(update.isUseContentMerge()
+          ? MergeStrategySection.UseContentMerge.TRUE
+          : MergeStrategySection.UseContentMerge.FALSE);
+      config.replace(mss);
 
       md.setMessage("Modified project settings\n");
       if (config.commit(md)) {

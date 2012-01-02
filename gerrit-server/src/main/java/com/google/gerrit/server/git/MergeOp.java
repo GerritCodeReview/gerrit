@@ -21,6 +21,9 @@ import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.common.data.MergeStrategySection;
+import com.google.gerrit.common.errors.InvalidNameException;
+import com.google.gerrit.common.errors.NoSuchRefPatternMatches;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
@@ -238,6 +241,9 @@ public class MergeOp {
     } catch (IOException e) {
       log.error("Test merge attempt for change: " + change.getId()
           + " failed", e);
+    } catch (InvalidNameException e) {
+      log.error("Test merge attempt for change: " + change.getId()
+          + " failed", e);
     } finally {
       if (schema != null) {
         schema.close();
@@ -260,7 +266,7 @@ public class MergeOp {
     }
   }
 
-  public void merge() throws MergeException {
+  public void merge() throws MergeException, InvalidNameException {
     setDestProject();
     try {
       openSchema();
@@ -283,23 +289,33 @@ public class MergeOp {
     }
   }
 
-  private void preMerge() throws MergeException, OrmException {
+  private void preMerge() throws MergeException, OrmException,
+      InvalidNameException {
     openBranch();
     validateChangeList();
     mergeTip = branchTip;
-    switch (destProject.getSubmitType()) {
-      case CHERRY_PICK:
-        cherryPickChanges();
-        break;
 
-      case FAST_FORWARD_ONLY:
-      case MERGE_ALWAYS:
-      case MERGE_IF_NECESSARY:
-      default:
-        reduceToMinimalMerge();
-        mergeTopics();
-        markCleanMerges();
-        break;
+    try {
+      final MergeStrategySection mostSpecific =
+          projectCache.get(destProject.getNameKey())
+              .getMostSpecificMergeStrategy(destBranch.get());
+      switch (mostSpecific.getSubmitType()) {
+        case CHERRY_PICK:
+          cherryPickChanges(mostSpecific.isUseContentMerge() == MergeStrategySection.UseContentMerge.TRUE);
+          break;
+
+        case FAST_FORWARD_ONLY:
+        case MERGE_ALWAYS:
+        case MERGE_IF_NECESSARY:
+        default:
+          reduceToMinimalMerge();
+          mergeTopics(mostSpecific.getSubmitType(), mostSpecific
+              .isUseContentMerge() == MergeStrategySection.UseContentMerge.TRUE);
+          markCleanMerges();
+          break;
+      }
+    } catch (NoSuchRefPatternMatches e) {
+      throw new MergeException(e.getMessage());
     }
   }
 
@@ -456,10 +472,11 @@ public class MergeOp {
     });
   }
 
-  private void mergeTopics() throws MergeException {
+  private void mergeTopics(final MergeStrategySection.SubmitType submitType,
+      final boolean useContentMerge) throws MergeException {
     // Take the first fast-forward available, if any is available in the set.
     //
-    if (destProject.getSubmitType() != Project.SubmitType.MERGE_ALWAYS) {
+    if (submitType != MergeStrategySection.SubmitType.MERGE_ALWAYS) {
       for (final Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext();) {
         try {
           final CodeReviewCommit n = i.next();
@@ -474,7 +491,7 @@ public class MergeOp {
       }
     }
 
-    if (destProject.getSubmitType() == Project.SubmitType.FAST_FORWARD_ONLY) {
+    if (submitType == MergeStrategySection.SubmitType.FAST_FORWARD_ONLY) {
       // If this project only permits fast-forwards, abort everything else.
       //
       while (!toMerge.isEmpty()) {
@@ -486,14 +503,15 @@ public class MergeOp {
       // For every other commit do a pair-wise merge.
       //
       while (!toMerge.isEmpty()) {
-        mergeOneCommit(toMerge.remove(0));
+        mergeOneCommit(toMerge.remove(0), useContentMerge);
       }
     }
   }
 
-  private void mergeOneCommit(final CodeReviewCommit n) throws MergeException {
+  private void mergeOneCommit(final CodeReviewCommit n,
+      final boolean useContentMerge) throws MergeException {
     final ThreeWayMerger m;
-    if (destProject.isUseContentMerge()) {
+    if (useContentMerge) {
       // Settings for this project allow us to try and
       // automatically resolve conflicts within files if needed.
       // Use ResolveMerge and instruct to operate in core.
@@ -675,12 +693,13 @@ public class MergeOp {
     }
   }
 
-  private void cherryPickChanges() throws MergeException, OrmException {
+  private void cherryPickChanges(final boolean useContentMerge)
+      throws MergeException, OrmException {
     while (!toMerge.isEmpty()) {
       final CodeReviewCommit n = toMerge.remove(0);
       final ThreeWayMerger m;
 
-      if (destProject.isUseContentMerge()) {
+      if (useContentMerge) {
         // Settings for this project allow us to try and
         // automatically resolve conflicts within files if needed.
         // Use ResolveMerge and instruct to operate in core.
@@ -729,7 +748,7 @@ public class MergeOp {
             if (rw.isMergedInto(mergeTip, n)) {
               mergeTip = n;
             } else {
-              mergeOneCommit(n);
+              mergeOneCommit(n, useContentMerge);
             }
             markCleanMerges();
 
@@ -857,8 +876,7 @@ public class MergeOp {
         } else if (VRIF.equals(a.getCategoryId())) {
           tag = "Tested-by";
         } else {
-          final ApprovalType at =
-              approvalTypes.byId(a.getCategoryId());
+          final ApprovalType at = approvalTypes.byId(a.getCategoryId());
           if (at == null) {
             // A deprecated/deleted approval type, ignore it.
             continue;
@@ -1022,7 +1040,8 @@ public class MergeOp {
                 .getName());
 
             Account account = null;
-            final PatchSetApproval submitter = getSubmitter(mergeTip.patchsetId);
+            final PatchSetApproval submitter =
+                getSubmitter(mergeTip.patchsetId);
             if (submitter != null) {
               account = accountCache.get(submitter.getAccountId()).getAccount();
             }

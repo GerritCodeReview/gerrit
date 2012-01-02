@@ -16,11 +16,11 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.MergeStrategySection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
@@ -84,7 +84,7 @@ final class CreateProject extends BaseCommand {
 
   @Option(name = "--submit-type", aliases = {"-t"}, usage = "project submit type\n"
       + "(default: MERGE_IF_NECESSARY)")
-  private SubmitType submitType = SubmitType.MERGE_IF_NECESSARY;
+  private MergeStrategySection.SubmitType submitType = MergeStrategySection.SubmitType.MERGE_IF_NECESSARY;
 
   @Option(name = "--use-contributor-agreements", aliases = {"--ca"}, usage = "if contributor agreement is required")
   private boolean contributorAgreements;
@@ -231,7 +231,7 @@ final class CreateProject extends BaseCommand {
 
       Project newProject = config.getProject();
       newProject.setDescription(projectDescription);
-      newProject.setSubmitType(submitType);
+      newProject.setSubmitType(submitType.toString());
       newProject.setUseContributorAgreements(contributorAgreements);
       newProject.setUseSignedOffBy(signedOffBy);
       newProject.setUseContentMerge(contentMerge);

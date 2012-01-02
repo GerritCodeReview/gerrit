@@ -23,4 +23,8 @@ public class InvalidNameException extends Exception {
   public InvalidNameException() {
     super(MESSAGE);
   }
+
+  public InvalidNameException(String invalidName) {
+    super(MESSAGE + ": " + invalidName);
+  }
 }

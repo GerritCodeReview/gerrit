@@ -38,7 +38,6 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -117,28 +116,12 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
           }
           replace(config, toDelete, section);
 
-        } else if (AccessSection.isAccessSection(name)) {
+        } else if (AccessSection.isValid(name)) {
           if (!projectControl.controlForRef(name).isOwner()) {
             continue;
           }
 
-          if (name.startsWith(AccessSection.REGEX_PREFIX)) {
-            if (!Repository.isValidRefName(RefControl.shortestExample(name))) {
-              throw new InvalidNameException();
-            }
-
-          } else if (name.equals(AccessSection.ALL)) {
-            // This is a special case we have to allow, it fails below.
-
-          } else if (name.endsWith("/*")) {
-            String prefix = name.substring(0, name.length() - 2);
-            if (!Repository.isValidRefName(prefix)) {
-              throw new InvalidNameException();
-            }
-
-          } else if (!Repository.isValidRefName(name)) {
-            throw new InvalidNameException();
-          }
+          RefControl.validateRefPattern(name);
 
           replace(config, toDelete, section);
         }

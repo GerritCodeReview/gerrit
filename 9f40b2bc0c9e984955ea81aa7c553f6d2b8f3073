@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAABy3////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategiesTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-02T19:37:24Z",
+      "side": 1,
+      "message": "Ok, fine. I already though that it would be difficult to change this. Let\u0027s keep it simple then.",
+      "parentUuid": "AAABzX///+w\u003d",
+      "revId": "9f40b2bc0c9e984955ea81aa7c553f6d2b8f3073",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///6s\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/MergeStrategiesTable.java",
         "patchSetId": 2

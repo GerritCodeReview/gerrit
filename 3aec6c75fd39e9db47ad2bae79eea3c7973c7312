@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "AAABxH////Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-02T10:22:06Z",
+      "side": 1,
+      "message": "Agree.",
+      "parentUuid": "AAABwn///5E\u003d",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///50\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14
@@ -354,6 +372,24 @@
     },
     {
       "key": {
+        "uuid": "AAABxH////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-02T10:22:06Z",
+      "side": 1,
+      "message": "msgbuf.append occurs at lines 212 and 213. Its string value is used on line 236. \n\nConsidering your comments, we should consider msgbuf as a String instance then.",
+      "parentUuid": "AAABwn///5Q\u003d",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///6Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 14
@@ -524,6 +560,24 @@
       "side": 1,
       "message": "Not quite, I think that you would end up with a single successful return on line 108, and all the failure cases could simply fall through to a final return null at the end of the function.",
       "parentUuid": "AAAByX///+Y\u003d",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABxH////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-02T10:22:06Z",
+      "side": 1,
+      "message": "Ok, I see your point. Thanks for clarifying it to me.",
+      "parentUuid": "AAABwn///5M\u003d",
       "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

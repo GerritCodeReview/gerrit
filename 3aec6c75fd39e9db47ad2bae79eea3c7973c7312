@@ -408,6 +408,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByX///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-03T17:33:48Z",
+      "side": 1,
+      "message": "I believe it was originally implemented this way to avoid ending msgbuf content with a \\n. I believe it because msgbuf would contain all commit messages of submitted list separated by \\n (212 is inside the loop written on 208).\n\nThe msgbuf string is used on line 236 (on updateGitLinks call). updateGitLinks method use the \"compound\" of submitted commit messages on line 275. The commit created on super project will have in its commit message two \\n before the submitted messages. \n\nConsidering all that and that I could follow you, we could let it as it is or modify the code to trim \\n at the beginning of message (due first loop iteration).\n\nMartin, I have already provided a new internal patchset solving your comments and asked Gustaf to push it. If it is not a problem for you, I will let this to be solved after your comments on the patchset to come. Please, let me know if I could follow you on this.",
+      "parentUuid": "AAABwn///yk\u003d",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///6Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 14

@@ -81,6 +81,6 @@ public class TreeFormatter {
     } else {
       stdout.print(NOT_VISIBLE_NODE);
     }
-    stdout.println();
+    stdout.print("\n");
   }
 }

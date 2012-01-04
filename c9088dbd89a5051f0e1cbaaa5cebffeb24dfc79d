@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAB03////4\u003d",
+        "filename": "Documentation/dev-integration-tests.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2012-01-04T22:13:18Z",
+      "side": 1,
+      "message": "s/interfaces. This can be/interfaces either/",
+      "revId": "c9088dbd89a5051f0e1cbaaa5cebffeb24dfc79d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB03////8\u003d",
+        "filename": "Documentation/dev-integration-tests.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2012-01-04T22:13:18Z",
+      "side": 1,
+      "message": "typo: s/effect/affect/",
+      "revId": "c9088dbd89a5051f0e1cbaaa5cebffeb24dfc79d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB03////0\u003d",
+        "filename": "gerrit-integration-tests/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2012-01-04T22:13:18Z",
+      "side": 1,
+      "message": "s/Integrations/Integration/",
+      "revId": "c9088dbd89a5051f0e1cbaaa5cebffeb24dfc79d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB03////w\u003d",
+        "filename": "gerrit-integration-tests/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2012-01-04T22:13:18Z",
+      "side": 1,
+      "message": "I think the version should be defined in the parent pom as mina is also used in other modules.",
+      "revId": "c9088dbd89a5051f0e1cbaaa5cebffeb24dfc79d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB03////s\u003d",
+        "filename": "gerrit-integration-tests/src/test/java/com/google/gerrit/test/pageobjects/PageObject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2012-01-04T22:13:18Z",
+      "side": 1,
+      "message": "creates what ?",
+      "revId": "c9088dbd89a5051f0e1cbaaa5cebffeb24dfc79d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB03////o\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2012-01-04T22:13:18Z",
+      "side": 1,
+      "message": "in the mean time 2.15.0 is available [1] so we should try to use the latest release instead of a release candidate. Maybe the latest release also fixed some of the problems we were facing with Selenium\n\n[1] http://search.maven.org/#artifactdetails%7Corg.seleniumhq.selenium%7Cselenium-java%7C2.15.0%7Cjar",
+      "revId": "c9088dbd89a5051f0e1cbaaa5cebffeb24dfc79d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

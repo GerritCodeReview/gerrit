@@ -496,6 +496,24 @@
     },
     {
       "key": {
+        "uuid": "AAABwn///yg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-04T22:28:11Z",
+      "side": 1,
+      "message": "I think you might have slightly misunderstood what I was suggesting.  I think that you should be doing the add(), but that it should be inside the if on line 222 where you currently do the contains() check.  Since add() will return a true or false depending on whether the element was already in the set, you can use this return value (from the add) in the if just as if you had called contains().",
+      "parentUuid": "AAAByX///+g\u003d",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///6I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
         "patchSetId": 14

@@ -426,6 +426,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB2H////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-05T04:57:35Z",
+      "side": 1,
+      "message": "I am so sorry, I totally missread this whole msgbuf thing, I missed the for loop on line 208!!!  Either way, this was never something that I would have rejected this change for.  So, do what you want with this, you can leave it as you have updated it, or you can revert it to the way it was here if you even want... I hope you can forget my mistake.",
+      "parentUuid": "AAAByX///+M\u003d",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///6Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
         "patchSetId": 14

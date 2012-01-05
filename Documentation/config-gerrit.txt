@@ -319,6 +319,18 @@ then Gerrit will do the authentication (using DIGEST authentication).
 +
 By default this is set to false.
 
+[[auth.gitBasicAuth]]auth.gitBasicAuth::
++
+If true then Git over HTTP and HTTP/S traffic is authenticated using
+standard BasicAuth and credentials validated using the same auth
+method configured for Gerrit Web UI.
++
+This parameter only affects git over http traffic. If set to false
+then Gerrit will authenticate through DIGEST authentication and
+the randomly generated HTTP password in Gerrit DB.
++
+By default this is set to false.
+
 [[auth.userNameToLowerCase]]auth.userNameToLowerCase::
 +
 If set the username that is received to authenticate a git operation

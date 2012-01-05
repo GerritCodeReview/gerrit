@@ -40,6 +40,8 @@ public class MergeStrategySection extends RefConfigSection {
 
   protected UseContentMerge useContentMerge;
 
+  protected boolean isDeleted;
+
   public MergeStrategySection() {
   }
 
@@ -61,6 +63,14 @@ public class MergeStrategySection extends RefConfigSection {
 
   public void setUseContentMerge(final UseContentMerge cm) {
     useContentMerge = cm;
+  }
+
+  public boolean isDeleted() {
+    return isDeleted;
+  }
+
+  public void setDeleted(boolean isDeleted) {
+    this.isDeleted = isDeleted;
   }
 
   public String toString() {

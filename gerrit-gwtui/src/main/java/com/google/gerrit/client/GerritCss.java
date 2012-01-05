@@ -73,6 +73,7 @@ public interface GerritCss extends CssResource {
   String commentPanelMenuBar();
   String commentPanelSummary();
   String commentPanelSummaryCell();
+  String commitMessagePanel();
   String complexHeader();
   String content();
   String contributorAgreementAlreadySubmitted();
@@ -145,6 +146,7 @@ public interface GerritCss extends CssResource {
   String menuBarUserName();
   String menuItem();
   String menuScreenMenuBar();
+  String editMergeStrategiesPanel();
   String missingApproval();
   String missingApprovalList();
   String monospace();

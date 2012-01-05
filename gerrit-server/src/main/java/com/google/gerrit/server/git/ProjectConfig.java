@@ -323,15 +323,11 @@ public class ProjectConfig extends VersionedMetaData {
 
     if (rc.getSections().contains(SUBMIT)
         && !rc.getSubsections(SUBMIT).contains(RefConfigSection.ALL)) {
-      // Setting submitType and useMergeContent in Project will be removed when
-      // integrating Merge Strategy UI change.
       final SubmitType type =
           getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction);
 
-      p.setSubmitType(type.name());
       final boolean useContentMerge =
           getBoolean(rc, SUBMIT, null, KEY_MERGE_CONTENT, false);
-      p.setUseContentMerge(useContentMerge);
 
       final MergeStrategySection mss =
           getMergeStrategySection(RefConfigSection.ALL, true);

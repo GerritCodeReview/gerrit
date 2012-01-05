@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-public abstract class RefConfigSection {
+public abstract class RefConfigSection implements Comparable<RefConfigSection> {
   /** Pattern that matches all references in a project. */
   public static final String ALL = "refs/*";
 
@@ -44,5 +44,17 @@ public abstract class RefConfigSection {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  @Override
+  public int compareTo(RefConfigSection o) {
+    return comparePattern().compareTo(o.comparePattern());
+  }
+
+  private String comparePattern() {
+    if (getName().startsWith(REGEX_PREFIX)) {
+      return getName().substring(REGEX_PREFIX.length());
+    }
+    return getName();
   }
 }

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB2X////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-05T08:20:25Z",
+      "side": 1,
+      "message": "The test stuff is in an early stage and requires still some work. I don\u0027t expect it to go in soon, so I wouldn\u0027t wait for it here. But you are right, if the tests get it, it would be nice to cover this functionality by a test case.",
+      "parentUuid": "AAAB2H////4\u003d",
+      "revId": "6be70ae23198881067d881e294ec7a15bd28380d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB1n////0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1

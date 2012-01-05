@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "AAAB3H////4\u003d",
+        "filename": "Documentation/dev-integration-tests.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2012-01-05T13:56:32Z",
+      "side": 1,
+      "message": "s/addionally/additionally/",
+      "revId": "c9088dbd89a5051f0e1cbaaa5cebffeb24dfc79d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB3H////0\u003d",
+        "filename": "Documentation/dev-integration-tests.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1006276
+      },
+      "writtenOn": "2012-01-05T13:56:32Z",
+      "side": 1,
+      "message": "You could add a short sentence here that the property values can be defined in Preferences \u003e Run/Debug \u003e String Substitution; I think this is not well known to everybody.",
+      "revId": "c9088dbd89a5051f0e1cbaaa5cebffeb24dfc79d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB03////8\u003d",
         "filename": "Documentation/dev-integration-tests.txt",
         "patchSetId": 1

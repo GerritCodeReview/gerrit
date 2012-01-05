@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB0X////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:56:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABzH////Q\u003d",
+      "revId": "ecf4b2a13f228d96c48bfbe925a9261827a69898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABzH////M\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-12-29T10:49:28Z",
       "side": 1,
       "message": "At the moment this screen can be accessed by everybody, even by users which are not signed in (they just have to know the URL of this page http://host:port/admin/create-project/ and access it directly):\n\nI would propose to add the following constructor so that at least users who are not signed in can\u0027t see this screen:\n\n  public CreateProjectScreen() {\n    super();\n    setRequiresSignIn(true);\n  }\n\nI\u0027m not sure if it is an issue that users without \u0027Create Project\u0027 capability can see this screen. I guess that\u0027s maybe ok, since the project creation will fail without this capability.",
+      "revId": "ecf4b2a13f228d96c48bfbe925a9261827a69898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB0X////4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:56:11Z",
+      "side": 1,
+      "message": "Good comments!\n\nDone.",
+      "parentUuid": "AAABzH////M\u003d",
       "revId": "ecf4b2a13f228d96c48bfbe925a9261827a69898",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

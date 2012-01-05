@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB13////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T09:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABzH///+I\u003d",
+      "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABzH///+E\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-12-29T13:06:09Z",
       "side": 1,
       "message": "s/on UI/in the UI\n\ns/for the project/for the new project",
+      "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB13////w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T09:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABzH///+E\u003d",
       "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB13////k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T09:14:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABzH///+M\u003d",
+      "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABzH///94\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2011-12-29T13:06:09Z",
       "side": 1,
       "message": "Maybe this should become rather an own change? It looks like this feature is independent of suggesting the parents.",
+      "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB13////o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T09:14:40Z",
+      "side": 1,
+      "message": "Right!\n\nDone",
+      "parentUuid": "AAABzH///94\u003d",
       "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB1X////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T09:14:40Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "AAABzH///98\u003d",
+      "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABzH///+A\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
         "patchSetId": 1
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB13////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T09:14:40Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "AAABzH///+A\u003d",
+      "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABzH///9w\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2011-12-29T13:06:09Z",
       "side": 1,
       "message": "Is this correct if the ProjectListPopup is now used outside of the MyWatchedProjectsScreen?",
+      "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB13////4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T09:14:40Z",
+      "side": 1,
+      "message": "not correct.\nDone.",
+      "parentUuid": "AAABzH///9w\u003d",
       "revId": "d932e121a382b08c1ccc219b45c72ff1c94be34f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

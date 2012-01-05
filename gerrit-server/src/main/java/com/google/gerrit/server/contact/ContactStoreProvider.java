@@ -25,6 +25,7 @@ import com.google.inject.ProvisionException;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.util.StringUtils;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -53,7 +54,7 @@ public class ContactStoreProvider implements Provider<ContactStore> {
   @Override
   public ContactStore get() {
     final String url = config.getString("contactstore", null, "url");
-    if (url == null) {
+    if (StringUtils.isEmptyOrNull(url)) {
       return new NoContactStore();
     }
 

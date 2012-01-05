@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAB1n////M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/auth/openid/OpenIdSignInDialog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-05T03:29:00Z",
+      "side": 1,
+      "message": "The second message text if non null, non-empty string, should go into its own widget, on the line below the primary error message. This way in a localized display we can get the second message text to appear in a way that makes sense relative to the primary message of noProvider().",
+      "revId": "15d2864d31047280acb3376422561159e9fbe2ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB1n////Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-05T03:29:00Z",
+      "side": 1,
+      "message": "please add a space before (",
+      "revId": "15d2864d31047280acb3376422561159e9fbe2ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB1n////U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-05T03:29:00Z",
+      "side": 1,
+      "message": "What are the possible messages that come inside an AccountException? I\u0027m a bit hesitant to expose all of these to an end-user.",
+      "revId": "15d2864d31047280acb3376422561159e9fbe2ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABfX///8A\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
         "patchSetId": 3
@@ -13,6 +64,24 @@
       "writtenOn": "2011-11-29T07:07:25Z",
       "side": 1,
       "message": "Any clue what would cause either of these conditions?  If so, it would be great to capture that domain knowledge now and fill this in with an error message.",
+      "revId": "15d2864d31047280acb3376422561159e9fbe2ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB1n////Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/openid/OpenIdServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-05T03:29:00Z",
+      "side": 1,
+      "message": "I agree, we should have more detail here than just \"\".\n\nIts been a very long time since I last dug down that deep into the openid4java discovery code. This conditional may be impossible and just defensive programming on my part, since it wasn\u0027t clear from openid4java\u0027s documentation or implementation whether or not this failure can happen.\n\nIt might be enough to say \"No OpenID service available\". Nothing in the list implies there is no endpoint to communicate with. I think.",
+      "parentUuid": "AAABfX///8A\u003d",
       "revId": "15d2864d31047280acb3376422561159e9fbe2ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

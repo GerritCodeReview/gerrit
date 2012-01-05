@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB2X////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-05T15:27:16Z",
+      "side": 1,
+      "message": "Right.\n\nWith the new patch set, this code change was reverted.",
+      "parentUuid": "AAAB1n////A\u003d",
+      "revId": "7ece7fec51f1682977277803eb191831221c317a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB1n////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-05T03:33:26Z",
       "side": 1,
       "message": "Ick. This is expensive on probing attacks from a client that is guessing at project names. We will keep rescanning the local filesystem, recursively from the root, which is not cheap.",
+      "revId": "7ece7fec51f1682977277803eb191831221c317a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB2X////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-05T15:27:16Z",
+      "side": 1,
+      "message": "Yes, this is indeed bad :-(\n\nI\u0027ve now changed the code so that the cached project name list is updated whenever a new project is created. If we do this, we don\u0027t need to rescan the filesystem anymore.\n\nHowever I\u0027m not really satisfied with having the list of projects names cached here within LocalDiskRepositoryManager and then having the project names again cached in ProjectCacheImpl. In ProjectCacheImpl we have a real cache for the project names that lives in the CachePool. This means the SSH commands \u0027flush-caches\u0027 and \u0027show-caches\u0027 are aware of this cache and it\u0027s possible to flush and see the cache. The list of project names cached in LocalDiskRepositoryManager can\u0027t be flushed. Any idea how to make this better?\n\nI already tried to factor out the project name list cache so that it can be used from both places (from ProjectCacheImpl and LocalDiskRepositoryManager) but this failed (in order to use the project list cache in LocalDiskRepositoryManager it needs to be known to Guice quite early and then the CachePool got started with just this one cache and all other caches were missing).",
+      "parentUuid": "AAAB1n////E\u003d",
       "revId": "7ece7fec51f1682977277803eb191831221c317a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

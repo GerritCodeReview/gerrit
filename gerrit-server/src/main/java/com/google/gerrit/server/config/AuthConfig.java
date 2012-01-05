@@ -36,6 +36,7 @@ public class AuthConfig {
   private final AuthType authType;
   private final String httpHeader;
   private final boolean trustContainerAuth;
+  private final boolean gitBasicAuth;
   private final String logoutUrl;
   private final List<OpenIdProviderPattern> trustedOpenIDs;
   private final List<OpenIdProviderPattern> allowedOpenIDs;
@@ -56,6 +57,7 @@ public class AuthConfig {
     cookiePath = cfg.getString("auth", null, "cookiepath");
     cookieSecure = cfg.getBoolean("auth", "cookiesecure", false);
     trustContainerAuth = cfg.getBoolean("auth", "trustContainerAuth", false);
+    gitBasicAuth = cfg.getBoolean("auth", "gitBasicAuth", false);
 
     String key = cfg.getString("auth", null, "registerEmailPrivateKey");
     if (key != null && !key.isEmpty()) {
@@ -130,6 +132,11 @@ public class AuthConfig {
   /** Whether git-over-http should trust authentication done by container. */
   public boolean isTrustContainerAuth() {
     return trustContainerAuth;
+  }
+
+  /** Whether git-over-http should use Gerrit basic authentication scheme. */
+  public boolean isGitBasichAuth() {
+    return gitBasicAuth;
   }
 
   public boolean isIdentityTrustable(final Collection<AccountExternalId> ids) {

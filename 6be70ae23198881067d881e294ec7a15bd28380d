@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB2H////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-01-05T04:13:37Z",
+      "side": 1,
+      "message": "Ugh, you are exactly right.  I\u0027m disappointed I missed this... I\u0027ll upload a fixed patch set tomorrow.  Edwin, maybe this is a good test for me to add once your test stuff gets in?\n\nBy the same token, is it odd to have the submit approval on patch set 2 and the cherry-picked patch set 3?  I can remove that approval from ps n-1 during the same loop if that makes sense.",
+      "parentUuid": "AAAB1n////w\u003d",
+      "revId": "6be70ae23198881067d881e294ec7a15bd28380d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB1n////0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-05T03:19:14Z",
       "side": 1,
       "message": "This is a really inefficient loop, but I agree we should at least make sure we copy over everything. So lets apply this change and worry about improving the performance of this loop later.\n\n(FWIW loops like this are probably why submit on gerrit-review.googlesource.com are so slow. Each iteration takes on the order of 200+ milliseconds. Copy 5 approvals and its suddenly a full second.)",
+      "revId": "6be70ae23198881067d881e294ec7a15bd28380d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB2H////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-01-05T04:13:37Z",
+      "side": 1,
+      "message": "Is there much we can do to improve this within the current orm?  I believe none of the projects on gerrit-review.googlesource.com uses cherry-pick merge strategy, so this particular loop shouldn\u0027t be impacting performance there, right?",
+      "parentUuid": "AAAB1n////0\u003d",
       "revId": "6be70ae23198881067d881e294ec7a15bd28380d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

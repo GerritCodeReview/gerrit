@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///2M\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/ProjectCreationFailedException.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAByH///4A\u003d",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///3Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2011-12-29T08:59:03Z",
       "side": 1,
       "message": "[optional] maybe createProjectArgs.getProjectName() should directly return a Project.NameKey and not just a String?",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzn////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAByH///3Q\u003d",
       "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB0H////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:45:34Z",
+      "side": 1,
+      "message": "As  change 30461 is stil in review,  at last I select \u0027stay with the exception handling as it is in the current master\u0027 , so to make it easy to review, no confused.\n\nDone.",
+      "parentUuid": "AAABzn////0\u003d",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///3o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 9
@@ -82,6 +136,24 @@
       "writtenOn": "2011-12-29T08:59:03Z",
       "side": 1,
       "message": "Why do you need to return a StringBuilder here? If you want to return the error message a simple String should be enough. Since the caller just checks if the returned StringBuilder is empty and if not throws a ProjectCreationFailedException, I would prefer if this method here would directly throw the ProjectCreationFailedException in case of any validation error so that the return type can just be void.",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB0H////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:45:34Z",
+      "side": 1,
+      "message": "I prefer to \"directly throw the ProjectCreationFailedException\".\n\nDone.",
+      "parentUuid": "AAAByH///3o\u003d",
       "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB0H////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:45:34Z",
+      "side": 1,
+      "message": "\"directly throw the ProjectCreationFailedException\".\n\nDone.",
+      "parentUuid": "AAAByH///3Y\u003d",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///30\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 9
@@ -116,6 +206,24 @@
       "writtenOn": "2011-12-29T08:59:03Z",
       "side": 1,
       "message": "This error message is only suitable if the caller is the \u0027CreateProjectCommand\u0027, for any other caller it does not make sense, e.g. there is no NAME argument if the caller is the web UI.\n\nNot sure, but maybe this check should just stay in \u0027CreateProjectCommand\u0027. I think in \u0027CreateProjectCommand\u0027 it is only needed to support the deprecated \u0027--name\u0027 option. In addition you may keep the same check here but with a more generic error message.",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///14\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:45:34Z",
+      "side": 1,
+      "message": "I seletct  to let this check \"just stay in \u0027CreateProjectCommand\u0027\" and \"keep the same check here but with a more generic error message.\"\n\nDone.",
+      "parentUuid": "AAAByH///30\u003d",
       "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -139,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///18\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:45:34Z",
+      "side": 1,
+      "message": "wild project name is \u0027ALL-Projects\u0027 now.\n\nany way this check should be in another feature.\n\nDone.",
+      "parentUuid": "AAAByH///34\u003d",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///3w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 9
@@ -150,6 +276,24 @@
       "writtenOn": "2011-12-29T08:59:03Z",
       "side": 1,
       "message": "I think it is not necessary to verify that the project name is not empty. If you already have the Project in hand I think it\u0027s save to assume that it also has a name. At least we are not checking for this in any other place in the Gerrit code.",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAByH///2I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:45:34Z",
+      "side": 1,
+      "message": "After test,  \u0027it is not necessary to verify\u0027 is right.\n\nDone.",
+      "parentUuid": "AAAByH///3w\u003d",
       "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -173,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///2E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:45:34Z",
+      "side": 1,
+      "message": "Please reference to Line 222 comments.\n\nDone.",
+      "parentUuid": "AAAByH///3s\u003d",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///3c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 9
@@ -190,6 +352,24 @@
     },
     {
       "key": {
+        "uuid": "AAAByH///2A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:45:34Z",
+      "side": 1,
+      "message": "Please reference to Line 222 comments.\n\nDone.",
+      "parentUuid": "AAAByH///3c\u003d",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///3U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 9
@@ -201,6 +381,24 @@
       "writtenOn": "2011-12-29T08:59:03Z",
       "side": 1,
       "message": "[optional] maybe the error message as it was in CreateProject was more explicit and easier to understand:\n\n  String.format(\"%s does not have \\\"Create Project\\\" capability.\", currentUser.getUserName())",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB0H////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAByH///3U\u003d",
       "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -242,6 +440,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB0H////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:45:34Z",
+      "side": 1,
+      "message": "Right, it is already in the original \u0027CreateProject\u0027 class. So let\u0027s leave it as it is.\n\nDone.",
+      "parentUuid": "AAABzn////w\u003d",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///3E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
         "patchSetId": 9
@@ -259,6 +475,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB0H////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAByH///3E\u003d",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///3I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
         "patchSetId": 9
@@ -270,6 +504,24 @@
       "writtenOn": "2011-12-29T08:59:03Z",
       "side": 1,
       "message": "[optional] maybe better to return Project.NameKey here",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB0H////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-05T08:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAByH///3I\u003d",
       "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

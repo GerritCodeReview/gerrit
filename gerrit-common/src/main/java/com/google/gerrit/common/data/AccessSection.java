@@ -23,8 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 /** Portion of a {@link Project} describing access rules. */
-public class AccessSection extends RefConfigSection implements
-    Comparable<AccessSection> {
+public class AccessSection extends RefConfigSection {
   /** Special name given to the global capabilities; not a valid reference. */
   public static final String GLOBAL_CAPABILITIES = "GLOBAL_CAPABILITIES";
 
@@ -100,18 +99,6 @@ public class AccessSection extends RefConfigSection implements
         permissions.add(dst);
       }
     }
-  }
-
-  @Override
-  public int compareTo(AccessSection o) {
-    return comparePattern().compareTo(o.comparePattern());
-  }
-
-  private String comparePattern() {
-    if (getName().startsWith(REGEX_PREFIX)) {
-      return getName().substring(REGEX_PREFIX.length());
-    }
-    return getName();
   }
 
   @Override

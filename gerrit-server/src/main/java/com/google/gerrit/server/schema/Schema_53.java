@@ -31,8 +31,6 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.MergeStrategySection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.RefConfigSection;
-import com.google.gerrit.common.data.MergeStrategySection.SubmitType;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
@@ -172,17 +170,9 @@ class Schema_53 extends SchemaVersion {
         md.getCommitBuilder().setCommitter(serverUser);
 
         ProjectConfig config = ProjectConfig.read(md);
-        loadProject(rs, config.getProject());
+        loadProject(rs, config);
         config.getAccessSections().clear();
         convertRights(config);
-
-        // Set the merge strategy associated with the project.
-        final MergeStrategySection mss = new MergeStrategySection(RefConfigSection.ALL);
-        mss.setSubmitType(SubmitType.valueOf(config.getProject().getSubmitType()));
-        mss.setUseContentMerge(config.getProject().isUseContentMerge()
-            ? MergeStrategySection.UseContentMerge.TRUE
-            : MergeStrategySection.UseContentMerge.FALSE);
-        config.replace(mss);
 
         // Grant out read on the config branch by default.
         //
@@ -208,38 +198,40 @@ class Schema_53 extends SchemaVersion {
     stmt.close();
   }
 
-  private void loadProject(ResultSet rs, Project project) throws SQLException,
+  private void loadProject(ResultSet rs, ProjectConfig config) throws SQLException,
       OrmException {
+    final Project project = config.getProject();
     project.setDescription(rs.getString("description"));
     project.setUseContributorAgreements("Y".equals(rs
         .getString("use_contributor_agreements")));
 
+    final MergeStrategySection section = config.getMergeStrategySection("refs/*", true);
+
     switch (rs.getString("submit_type").charAt(0)) {
       case 'F':
-        project.setSubmitType(MergeStrategySection.SubmitType.FAST_FORWARD_ONLY
-            .toString());
+        section.setSubmitType(MergeStrategySection.SubmitType.FAST_FORWARD_ONLY);
         break;
       case 'M':
-        project
-            .setSubmitType(MergeStrategySection.SubmitType.MERGE_IF_NECESSARY
-                .toString());
+        section
+            .setSubmitType(MergeStrategySection.SubmitType.MERGE_IF_NECESSARY);
         break;
       case 'A':
-        project.setSubmitType(MergeStrategySection.SubmitType.MERGE_ALWAYS
-            .toString());
+        section.setSubmitType(MergeStrategySection.SubmitType.MERGE_ALWAYS);
         break;
       case 'C':
-        project.setSubmitType(MergeStrategySection.SubmitType.CHERRY_PICK
-            .toString());
+        section.setSubmitType(MergeStrategySection.SubmitType.CHERRY_PICK);
         break;
       default:
         throw new OrmException("Unsupported submit_type="
             + rs.getString("submit_type") + " on project " + project.getName());
     }
 
+    section.setUseContentMerge("Y".equals(rs.getString("use_content_merge"))
+        ? MergeStrategySection.UseContentMerge.TRUE
+        : MergeStrategySection.UseContentMerge.FALSE);
+
     project.setUseSignedOffBy("Y".equals(rs.getString("use_signed_off_by")));
     project.setRequireChangeID("Y".equals(rs.getString("require_change_id")));
-    project.setUseContentMerge("Y".equals(rs.getString("use_content_merge")));
     project.setParentName(rs.getString("parent_name"));
   }
 

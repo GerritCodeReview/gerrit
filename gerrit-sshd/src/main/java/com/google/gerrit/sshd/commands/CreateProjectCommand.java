@@ -14,7 +14,6 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.data.MergeStrategySection.SubmitType;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
@@ -63,18 +62,11 @@ final class CreateProjectCommand extends BaseCommand {
   @Option(name = "--description", aliases = {"-d"}, metaVar = "DESCRIPTION", usage = "description of project")
   private String projectDescription = "";
 
-  @Option(name = "--submit-type", aliases = {"-t"}, usage = "project submit type\n"
-      + "(default: MERGE_IF_NECESSARY)")
-  private SubmitType submitType = SubmitType.MERGE_IF_NECESSARY;
-
   @Option(name = "--use-contributor-agreements", aliases = {"--ca"}, usage = "if contributor agreement is required")
   private boolean contributorAgreements;
 
   @Option(name = "--use-signed-off-by", aliases = {"--so"}, usage = "if signed-off-by is required")
   private boolean signedOffBy;
-
-  @Option(name = "--use-content-merge", usage = "allow automatic conflict resolving within files")
-  private boolean contentMerge;
 
   @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
   private boolean requireChangeID;
@@ -131,10 +123,8 @@ final class CreateProjectCommand extends BaseCommand {
             args.newParent = newParent;
             args.permissionsOnly = permissionsOnly;
             args.projectDescription = projectDescription;
-            args.submitType = submitType.toString();
             args.contributorAgreements = contributorAgreements;
             args.signedOffBy = signedOffBy;
-            args.contentMerge = contentMerge;
             args.changeIdRequired = requireChangeID;
             args.branch = branch;
             args.createEmptyCommit = createEmptyCommit;

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-import com.google.gerrit.common.data.MergeStrategySection.SubmitType;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
@@ -73,7 +72,6 @@ public class CreateProjectHandler extends Handler<VoidResult> {
       }
     }
     args.projectDescription = "";
-    args.submitType = SubmitType.MERGE_IF_NECESSARY.toString();
     args.branch = Constants.MASTER;
     args.createEmptyCommit = emptyCommit;
     args.permissionsOnly = permissionsOnly;

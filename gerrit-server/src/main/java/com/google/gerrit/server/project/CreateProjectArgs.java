@@ -25,12 +25,10 @@ public class CreateProjectArgs {
   public List<AccountGroup.UUID> ownerIds;
   public ProjectControl newParent;
   public String projectDescription;
-  public String submitType;
   public boolean contributorAgreements;
   public boolean signedOffBy;
   public boolean permissionsOnly;
   public String branch;
-  public boolean contentMerge;
   public boolean changeIdRequired;
   public boolean createEmptyCommit;
 

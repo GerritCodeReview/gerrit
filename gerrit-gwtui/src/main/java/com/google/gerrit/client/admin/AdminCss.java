@@ -21,7 +21,10 @@ public interface AdminCss extends CssResource {
   String undoIcon();
 
   String deleted();
+  String deletedMergeStrategy();
   String deletedBorder();
 
   String deleteSectionHover();
+  String deleteMergeStrategyButton();
+  String useContentMerge();
 }

@@ -135,11 +135,9 @@ public class CreateProject {
 
       Project newProject = config.getProject();
       newProject.setDescription(createProjectArgs.projectDescription);
-      newProject.setSubmitType(createProjectArgs.submitType);
       newProject
           .setUseContributorAgreements(createProjectArgs.contributorAgreements);
       newProject.setUseSignedOffBy(createProjectArgs.signedOffBy);
-      newProject.setUseContentMerge(createProjectArgs.contentMerge);
       newProject.setRequireChangeID(createProjectArgs.changeIdRequired);
       if (createProjectArgs.newParent != null) {
         newProject.setParentName(createProjectArgs.newParent.getProject()

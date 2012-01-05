@@ -111,10 +111,9 @@ class ProjectDigestFilter implements Filter {
       throws IOException {
     final String hdr = req.getHeader(AUTHORIZATION);
     if (hdr == null) {
-      // Allow an anonymous connection through, or it might be using a
-      // session cookie instead of digest authentication.
-      //
-      return true;
+      // DISALLOW anonymous connection through
+      rsp.sendError(SC_UNAUTHORIZED);
+      return false;
     }
 
     final Map<String, String> p = parseAuthorization(hdr);

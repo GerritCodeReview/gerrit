@@ -568,6 +568,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB23////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-05T12:03:58Z",
+      "side": 1,
+      "message": "Sorry, I could see your point. I should fix it and ask Gustaf to push a new patchset.",
+      "parentUuid": "AAAB23////4\u003d",
+      "revId": "3aec6c75fd39e9db47ad2bae79eea3c7973c7312",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///6I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
         "patchSetId": 14

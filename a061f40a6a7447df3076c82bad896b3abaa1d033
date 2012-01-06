@@ -16,6 +16,24 @@
       "revId": "a061f40a6a7447df3076c82bad896b3abaa1d033",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB3X////k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-06T17:45:20Z",
+      "side": 1,
+      "message": "Yes, the valid names are branch names. I am not sure if it would make sense to apply subscribe a superproject/branch to a submodule/tag, since tag does not move.\n\nSince when Shawn was reviewing it there was no disagreement about the term \"revision\", as far as I know. In the past he even talked about not considering tags to subscription with automatic update. Anyway, the term definition is something I was not involved when defined :-( \n\nConsidering all the existing implementation, unit tests, reviews, discussions (Ulrik even provided a wiki page on kernel.org in the past about this feature), I think \u0027revision\u0027 should continue as the name used. However, if you and the other reviewers really think it should change, I can try to modify it.",
+      "parentUuid": "AAAB3n///+s\u003d",
+      "revId": "a061f40a6a7447df3076c82bad896b3abaa1d033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,12 +14,15 @@
 
 package com.google.gerrit.common;
 
+import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Branch.NameKey;
 import com.google.gerrit.server.IdentifiedUser;
@@ -77,5 +80,11 @@ public final class DisabledChangeHooks implements ChangeHooks {
 
   @Override
   public void removeChangeListener(ChangeListener listener) {
+  }
+
+  @Override
+  public HookResult doRefUpdateHook(Project project, String refName,
+      Account uploader, ObjectId oldId, ObjectId newId) {
+    return null;
   }
 }

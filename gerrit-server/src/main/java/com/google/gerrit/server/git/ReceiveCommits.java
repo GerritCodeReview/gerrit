@@ -411,6 +411,19 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         continue;
       }
 
+      // Run the update hook, if it returns output then reject the push
+      // passing the output back to the user
+      String output = hooks.doUpdateHook(project,
+                                         cmd.getRefName(),
+                                         currentUser.getAccount(),
+                                         cmd.getOldId(),
+                                         cmd.getNewId());
+      if(output != null)
+      {
+        reject(cmd, output);
+        continue;
+      }
+
       if (MagicBranch.isMagicBranch(cmd.getRefName())) {
         parseNewChangeCommand(cmd);
         continue;

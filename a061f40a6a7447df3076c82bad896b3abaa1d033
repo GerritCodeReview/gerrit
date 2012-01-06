@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAB3n///+s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-01-06T16:48:47Z",
+      "side": 1,
+      "message": "What are the valid values of the revision field? Could one use a SHA-1 or a tag name here? If this is only intended for branches (which is the only use case that makes sense to me), should this be renamed to \u0027branch\u0027?",
+      "revId": "a061f40a6a7447df3076c82bad896b3abaa1d033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -66,7 +66,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /** Spawns local executables when a hook action occurs. */
 @Singleton
@@ -117,6 +124,9 @@ public class ChangeHookRunner implements ChangeHooks {
     /** Filename of the cla signed hook. */
     private final File claSignedHook;
 
+    /** Filename of the update hook. */
+    private final File updateHook;
+
     private final String anonymousCowardName;
 
     /** Repository Manager. */
@@ -132,6 +142,12 @@ public class ChangeHookRunner implements ChangeHooks {
     private final ApprovalTypes approvalTypes;
 
     private final EventFactory eventFactory;
+
+ 	/** Thread pool used to monitor sync hooks */
+	private final ExecutorService syncHookThreadPool = Executors.newCachedThreadPool();
+
+	/** Timeout value for synchronous hooks */
+	private final int syncHookTimeout;
 
     /**
      * Create a new ChangeHookRunner.
@@ -167,6 +183,8 @@ public class ChangeHookRunner implements ChangeHooks {
         changeRestoredHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeRestoredHook", "change-restored")).getPath());
         refUpdatedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdatedHook", "ref-updated")).getPath());
         claSignedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "claSignedHook", "cla-signed")).getPath());
+        updateHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "updateHook", "update")).getPath());
+        syncHookTimeout = config.getInt("hooks", "syncHookTimeout", 30);
     }
 
     public void addChangeListener(ChangeListener listener, IdentifiedUser user) {
@@ -223,6 +241,43 @@ public class ChangeHookRunner implements ChangeHooks {
         }
     }
 
+    /**
+     * Fire the update hook
+     *
+     */
+    public String doUpdateHook(final Project project, final String refname,
+        final Account uploader, final ObjectId oldId, final ObjectId newId) {
+
+      final List<String> args = new ArrayList<String>();
+      addArg(args, "--project", project.getName());
+      addArg(args, "--refname", refname);
+      addArg(args, "--uploader", getDisplayName(uploader));
+      addArg(args, "--oldrev", oldId.getName());
+      addArg(args, "--newrev", newId.getName());
+
+      HookResult hookResult = null;
+      String result = null;
+
+      try {
+        hookResult = runSyncHook(openRepository(project.getNameKey()), updateHook, args);
+      } catch (TimeoutException e) {
+        result = "Synchronous hook timed out";
+      }
+
+       if(hookResult != null && hookResult.getExitValue() != 0) {
+        result = hookResult.getOutput();
+      }
+
+      return result;
+    }
+
+    /**
+     * Fire the Patchset Created Hook.
+     *
+     * @param change The change itself.
+     * @param patchSet The Patchset that was created.
+     * @throws OrmException
+     */
     public void doPatchsetCreatedHook(final Change change, final PatchSet patchSet,
           final ReviewDb db) throws OrmException {
         final PatchSetCreatedEvent event = new PatchSetCreatedEvent();
@@ -466,6 +521,115 @@ public class ChangeHookRunner implements ChangeHooks {
   private synchronized void runHook(File hook, List<String> args) {
     if (hook.exists()) {
       hookQueue.execute(new HookTask(null, hook, args));
+    }
+  }
+
+  private HookResult runSyncHook(Repository repo, File hook, List<String> args) throws TimeoutException {
+    if (hook.exists()) {
+
+      SyncHookTask syncHook = new SyncHookTask(repo, hook, args);
+      FutureTask<HookResult> task = new FutureTask<HookResult>(syncHook);
+
+      syncHookThreadPool.execute(task);
+
+      try {
+        return task.get(syncHookTimeout, TimeUnit.SECONDS);
+      } catch (InterruptedException e) {
+        log.error("Error running hook " + hook.getAbsolutePath(), e);
+      } catch (ExecutionException e) {
+        log.error("Error running hook " + hook.getAbsolutePath(), e);
+      } catch (TimeoutException e) {
+        log.error("Synchronous hook timed out "  + hook.getAbsolutePath());
+        throw e;
+      }
+    }
+
+    return null;
+  }
+
+  /** Container class used to hold the return code and output of script hook exection */
+  public final class HookResult
+  {
+    private int exitValue;
+    private String output;
+
+    private HookResult(int exitValue, String output) {
+      this.exitValue = exitValue;
+      this.output = output;
+    }
+
+    public int getExitValue() {
+      return exitValue;
+    }
+    public String getOutput() {
+      return output;
+    }
+  }
+
+  /** Callable type used to run synchronous hooks ( pre-receive ) */
+  private final class SyncHookTask implements Callable<HookResult> {
+    private final Repository repo;
+    private final File hook;
+    private final List<String> args;
+
+    private SyncHookTask(Repository repo, File hook, List<String> args) {
+      this.repo = repo;
+      this.hook = hook;
+      this.args = args;
+    }
+
+    @Override
+    public HookResult call() throws Exception {
+      HookResult result = null;
+      StringBuilder output = new StringBuilder();
+
+      try {
+        final List<String> argv = new ArrayList<String>(1 + args.size());
+        argv.add(hook.getAbsolutePath());
+        argv.addAll(args);
+
+        final ProcessBuilder pb = new ProcessBuilder(argv);
+        pb.redirectErrorStream(true);
+        if (repo != null) {
+          pb.directory(repo.getDirectory());
+
+          final Map<String, String> env = pb.environment();
+          env.put("GIT_DIR", repo.getDirectory().getAbsolutePath());
+        }
+
+        Process ps = pb.start();
+        ps.getOutputStream().close();
+
+        BufferedReader br =
+            new BufferedReader(new InputStreamReader(ps.getInputStream()));
+        try {
+          String line = br.readLine();
+          while (line != null) {
+            output.append(line);
+            line = br.readLine();
+
+            if(line != null) {
+              output.append(System.getProperty("line.separator"));
+            }
+          }
+        } finally {
+          try {
+            br.close();
+          } catch (IOException closeErr) {
+          }
+          ps.waitFor();
+
+          result = new HookResult(ps.exitValue(), output.toString());
+        }
+      } catch (Throwable err) {
+        log.error("Error running hook " + hook.getAbsolutePath(), err);
+      } finally {
+        if (repo != null) {
+          repo.close();
+        }
+      }
+
+      return result;
     }
   }
 

@@ -35,6 +35,7 @@ public class ChangeCache {
 
   private Change.Id changeId;
   private ChangeDetailCache detail;
+  private StarCache starred;
 
   protected ChangeCache(Change.Id chg) {
     changeId = chg;
@@ -49,5 +50,12 @@ public class ChangeCache {
       detail = new ChangeDetailCache(changeId);
     }
     return detail;
+  }
+
+  public StarCache getStarCache() {
+    if (starred == null) {
+      starred = new StarCache(changeId);
+    }
+    return starred;
   }
 }

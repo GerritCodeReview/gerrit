@@ -1164,6 +1164,10 @@ Optional filename for the change merged hook, if not specified then
 Optional filename for the change abandoned hook, if not specified then
 `change-abandoned` will be used.
 
+[[hooks.syncHookTimeout]]hooks.syncHookTimeout::
++ Optional timeout value in seconds for synchronous hooks, if not specified
+then 30 seconds will be used.
+
 [[http]]Section http
 ~~~~~~~~~~~~~~~~~~~~
 

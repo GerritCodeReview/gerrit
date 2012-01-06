@@ -61,6 +61,10 @@ public class StarCache implements HasValueChangeHandlers<Boolean> {
     if (detail != null) {
       return detail.isStarred();
     }
+    ChangeInfo info = cache.getChangeInfoCache().get();
+    if (info != null) {
+      return info.isStarred();
+    }
     return false;
   }
 
@@ -82,6 +86,10 @@ public class StarCache implements HasValueChangeHandlers<Boolean> {
     ChangeDetail detail = cache.getChangeDetailCache().get();
     if (detail != null) {
       detail.setStarred(s);
+    }
+    ChangeInfo info = cache.getChangeInfoCache().get();
+    if (info != null) {
+      info.setStarred(s);
     }
   }
 
@@ -109,6 +117,7 @@ public class StarCache implements HasValueChangeHandlers<Boolean> {
       };
 
     cache.getChangeDetailCache().addValueChangeHandler(starUpdater);
+    cache.getChangeInfoCache().addValueChangeHandler(starUpdater);
 
     this.addValueChangeHandler(starUpdater);
 

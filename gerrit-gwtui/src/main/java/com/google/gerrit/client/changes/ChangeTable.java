@@ -136,7 +136,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
           return;
         }
         if (cell.getCellIndex() == C_STAR) {
-          onStarClick(cell.getRowIndex());
+          // Don't do anything (handled by star itself).
         } else if (cell.getCellIndex() == C_OWNER) {
           // Don't do anything.
         } else if (getRowItem(cell.getRowIndex()) != null) {
@@ -149,23 +149,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   protected void onStarClick(final int row) {
     final ChangeInfo c = getRowItem(row);
     if (c != null && Gerrit.isSignedIn()) {
-      final boolean prior = c.isStarred();
-      c.setStarred(!prior);
-      setStar(row, c);
-
-      final ToggleStarRequest req = new ToggleStarRequest();
-      req.toggle(c.getId(), c.isStarred());
-      Util.LIST_SVC.toggleStars(req, new GerritCallback<VoidResult>() {
-        public void onSuccess(final VoidResult result) {
-        }
-
-        @Override
-        public void onFailure(final Throwable caught) {
-          super.onFailure(caught);
-          c.setStarred(prior);
-          setStar(row, c);
-        }
-      });
+       ChangeCache.get(c.getId()).getStarCache().toggleStar();
     }
   }
 
@@ -212,10 +196,13 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   }
 
   private void populateChangeRow(final int row, final ChangeInfo c) {
+    ChangeCache cache = ChangeCache.get(c.getId());
+    cache.getChangeInfoCache().set(c);
+
     final String idstr = c.getKey().abbreviate();
     table.setWidget(row, C_ARROW, null);
     if (Gerrit.isSignedIn()) {
-      setStar(row, c);
+      table.setWidget(row, C_STAR, cache.getStarCache().createStar());
     }
     table.setWidget(row, C_ID, new TableChangeLink(idstr, c));
 
@@ -242,22 +229,6 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
   private AccountDashboardLink link(final Account.Id id) {
     return AccountDashboardLink.link(accountCache, id);
-  }
-
-  private void setStar(final int row, final ChangeInfo c) {
-    final ImageResource star;
-    if (c.isStarred()) {
-      star = Gerrit.RESOURCES.starFilled();
-    } else {
-      star = Gerrit.RESOURCES.starOpen();
-    }
-
-    final Widget i = table.getWidget(row, C_STAR);
-    if (i instanceof Image) {
-      ((Image) i).setResource(star);
-    } else {
-      table.setWidget(row, C_STAR, new Image(star));
-    }
   }
 
   public void addSection(final Section s) {

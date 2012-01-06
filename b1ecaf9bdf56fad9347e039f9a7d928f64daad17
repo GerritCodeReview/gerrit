@@ -458,6 +458,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB3X////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1004024
+      },
+      "writtenOn": "2012-01-06T12:55:11Z",
+      "side": 1,
+      "message": "Hi,\n\nWhat happended here is that when we did the refactor and created the CreateProjectArgs.java we changed the ownerIds from \"Set\" to \"List\" because it was being used as list so we made a mistake here trying to keep the old code that received a set and then get a list. Now we already have the list. So you are right Edwin.",
+      "parentUuid": "AAAB0H////c\u003d",
+      "revId": "b1ecaf9bdf56fad9347e039f9a7d928f64daad17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///3E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
         "patchSetId": 9

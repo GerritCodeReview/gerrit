@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.ui.ListenableValue;
+import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.reviewdb.client.Change;
 
 import java.util.HashMap;
@@ -35,6 +37,7 @@ public class ChangeCache {
 
   private Change.Id changeId;
   private ChangeDetailCache detail;
+  private ListenableValue<ChangeInfo> info;
   private StarCache starred;
 
   protected ChangeCache(Change.Id chg) {
@@ -50,6 +53,13 @@ public class ChangeCache {
       detail = new ChangeDetailCache(changeId);
     }
     return detail;
+  }
+
+  public ListenableValue<ChangeInfo> getChangeInfoCache() {
+    if (info == null) {
+      info = new ListenableValue<ChangeInfo>();
+    }
+    return info;
   }
 
   public StarCache getStarCache() {

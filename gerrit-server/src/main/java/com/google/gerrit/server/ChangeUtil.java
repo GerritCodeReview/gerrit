@@ -189,8 +189,19 @@ public class ChangeUtil {
       }
     });
 
-    if (updatedChange.getStatus() == Change.Status.SUBMITTED) {
+    // We can try to merge a change as soon as it's submitted if it doesn't
+    // belong to a group; otherwise, we should only attempt the merge if the entire
+    // group (i.e. every change in the group) has been marked as SUBMITTED
+    if (updatedChange.getStatus() == Change.Status.SUBMITTED &&
+          updatedChange.getGroupKey() == null) {
       merger.merge(opFactory, updatedChange.getDest());
+    } else if (isGroupSubmittable(db, updatedChange.getGroupKey())) {
+      // NOTE: The unsafe merging below will be fixed in the next change, which
+      // will allow ChangeMergeQueue to understand group merges. This is just a
+      // temporary placeholder.
+      for (Change c : db.changes().byGroupKey(updatedChange.getGroupKey())) {
+        merger.merge(opFactory, c.getDest());
+      }
     }
   }
 
@@ -586,5 +597,15 @@ public class ChangeUtil {
     while (o >= p) {
       dst.setCharAt(o--, '0');
     }
+  }
+
+  private static boolean isGroupSubmittable(final ReviewDb db,
+      final Change.GroupKey key) throws OrmException {
+    for (Change c : db.changes().byGroupKey(key)) {
+      if (c.getStatus() != Change.Status.SUBMITTED) {
+        return false;
+      }
+    }
+    return true;
   }
 }

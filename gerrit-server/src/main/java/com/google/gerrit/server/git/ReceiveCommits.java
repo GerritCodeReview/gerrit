@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalType;
@@ -410,6 +411,20 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           || cmd.getRefName().contains("//")) {
         reject(cmd, "not valid ref");
         continue;
+      }
+
+      HookResult result = hooks.doRefUpdateHook(project,
+                                                cmd.getRefName(),
+                                                currentUser.getAccount(),
+                                                cmd.getOldId(),
+                                                cmd.getNewId());
+
+      if (result != null) {
+        if (result.getExitValue() != 0) {
+          reject(cmd, result.toString());
+          continue;
+        }
+        rp.sendMessage(result.toString());
       }
 
       if (MagicBranch.isMagicBranch(cmd.getRefName())) {

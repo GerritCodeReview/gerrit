@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common;
 
+import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
@@ -21,6 +22,7 @@ import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.client.OrmException;
@@ -116,4 +118,17 @@ public interface ChangeHooks {
       ObjectId newId, Account account);
 
   public void doClaSignupHook(Account account, ContributorAgreement cla);
+
+  /**
+   * Fire the Ref update Hook
+   *
+   * @param project The target project
+   * @param refName The Branch.NameKey of the ref provided by client
+   * @param uploader The gerrit user running the command
+   * @param oldId The ref's old id
+   * @param newId The ref's new id
+   * @param account The gerrit user who moved the ref
+   */
+  public HookResult doRefUpdateHook(Project project,  String refName,
+       Account uploader, ObjectId oldId, ObjectId newId);
 }

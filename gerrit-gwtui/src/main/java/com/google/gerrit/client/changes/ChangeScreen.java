@@ -65,9 +65,9 @@ public class ChangeScreen extends Screen
   private final Change.Id changeId;
   private final PatchSet.Id openPatchSetId;
   private ChangeDetailCache detailCache;
+  private StarCache starred;
 
   private Image starChange;
-  private boolean starred;
   private ChangeDescriptionBlock descriptionBlock;
   private ApprovalTable approvals;
 
@@ -159,15 +159,6 @@ public class ChangeScreen extends Screen
     }
   }
 
-  private void setStarred(final boolean s) {
-    if (s) {
-      starChange.setResource(Gerrit.RESOURCES.starFilled());
-    } else {
-      starChange.setResource(Gerrit.RESOURCES.starOpen());
-    }
-    starred = s;
-  }
-
   @Override
   protected void onInitUI() {
     super.onInitUI();
@@ -177,6 +168,8 @@ public class ChangeScreen extends Screen
     detailCache = cache.getChangeDetailCache();
     detailCache.addValueChangeHandler(this);
 
+    starred = cache.getStarCache();
+
     addStyleName(Gerrit.RESOURCES.css().changeScreen());
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
@@ -185,19 +178,12 @@ public class ChangeScreen extends Screen
     keysNavigation.add(new ExpandCollapseDependencySectionKeyCommand(0, 'd', Util.C.expandCollapseDependencies()));
 
     if (Gerrit.isSignedIn()) {
-      keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));
+      keysAction.add(starred.new KeyCommand(0, 's', Util.C.changeTableStar()));
       keysAction.add(new PublishCommentsKeyCommand(0, 'r', Util.C
           .keyPublishComments()));
 
-      starChange = new Image(Gerrit.RESOURCES.starOpen());
+      starChange = starred.createStar();
       starChange.setStyleName(Gerrit.RESOURCES.css().changeScreenStarIcon());
-      starChange.setVisible(Gerrit.isSignedIn());
-      starChange.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(final ClickEvent event) {
-          toggleStar();
-        }
-      });
       setTitleWest(starChange);
     }
 
@@ -286,10 +272,6 @@ public class ChangeScreen extends Screen
 
   private void display(final ChangeDetail detail) {
     displayTitle(detail.getChange().getKey(), detail.getChange().getSubject());
-
-    if (starChange != null) {
-      setStarred(detail.isStarred());
-    }
 
     if (Status.MERGED == detail.getChange().getStatus()) {
       includedInPanel.setVisible(true);
@@ -422,24 +404,6 @@ public class ChangeScreen extends Screen
     return menuBar;
   }
 
-  private void toggleStar() {
-    final boolean prior = starred;
-    setStarred(!prior);
-
-    final ToggleStarRequest req = new ToggleStarRequest();
-    req.toggle(changeId, starred);
-    Util.LIST_SVC.toggleStars(req, new GerritCallback<VoidResult>() {
-      public void onSuccess(final VoidResult result) {
-      }
-
-      @Override
-      public void onFailure(final Throwable caught) {
-        super.onFailure(caught);
-        setStarred(prior);
-      }
-    });
-  }
-
   public class UpToListKeyCommand extends KeyCommand {
     public UpToListKeyCommand(int mask, char key, String help) {
       super(mask, key, help);
@@ -459,17 +423,6 @@ public class ChangeScreen extends Screen
     @Override
     public void onKeyPress(KeyPressEvent event) {
       dependenciesPanel.setOpen(!dependenciesPanel.isOpen());
-    }
-  }
-
-  public class StarKeyCommand extends NeedsSignInKeyCommand {
-    public StarKeyCommand(int mask, char key, String help) {
-      super(mask, key, help);
-    }
-
-    @Override
-    public void onKeyPress(final KeyPressEvent event) {
-      toggleStar();
     }
   }
 

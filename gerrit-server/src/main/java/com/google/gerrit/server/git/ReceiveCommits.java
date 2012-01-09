@@ -87,8 +87,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -108,6 +110,34 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private static final FooterKey REVIEWED_BY = new FooterKey("Reviewed-by");
   private static final FooterKey TESTED_BY = new FooterKey("Tested-by");
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
+
+  private static final String COMMAND_REJECTION_MESSAGE_FOOTER =
+      "Please read the documentation and contact an administrator\n"
+          + "if you feel the configuration is incorrect";
+
+  private Map<Error, List<String>> errors = new EnumMap<Error, List<String>>(Error.class);
+
+  private enum Error {
+        CONFIG_UPDATE("You are not allowed to perform this operation.\n"
+        + "Configuration changes can only be pushed by project owners\n"
+        + "who also have 'Push' rights on " + GitRepositoryManager.REF_CONFIG),
+        UPDATE("You are not allowed to perform this operation.\n"
+        + "To push into this reference you need 'Push' rights."),
+        DELETE("You need 'Push' rights with the 'Force Push'\n"
+            + "flag set to delete references."),
+        CODE_REVIEW("You need 'Push' rights to upload code review requests.\n"
+            + "Verify that you are pushing to the right branch.");
+
+    private String value;
+
+    Error(String value) {
+      this.value = value;
+    }
+
+    public String get() {
+      return value;
+    }
+  }
 
   public interface Factory {
     ReceiveCommits create(ProjectControl projectControl, Repository repository);
@@ -323,6 +353,26 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       createNewChanges();
     }
     doReplaces();
+    if(!errors.isEmpty()) {
+      for (Map.Entry<Error, List<String>> error : errors.entrySet()) {
+        rp.sendMessage(buildError(error.getKey(), error.getValue()));
+      }
+      rp.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
+    }
+  }
+
+  private String buildError(Error error, List<String> branches) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(error.get());
+    if(branches.size() > 0) {
+      sb.append("\nIn branch(es): ");
+    }
+    String delimiter = "";
+    for (String branch : branches) {
+      sb.append(delimiter).append(branch);
+      delimiter = ", ";
+    }
+    return sb.toString();
   }
 
   @Override
@@ -531,7 +581,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       validateNewCommits(ctl, cmd);
       // Let the core receive process handle it
     } else {
-      reject(cmd, "can not update the reference as a fast forward");
+      if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
+        errors.put(Error.CONFIG_UPDATE, Collections.<String> emptyList());
+      } else {
+        addError(Error.UPDATE, ctl.getRefName());
+      }
+      reject(cmd, String.format("%s cannot update the reference as a fast forward", displayName(ctl)));
     }
   }
 
@@ -559,7 +614,23 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     if (ctl.canDelete()) {
       // Let the core receive process handle it
     } else {
-      reject(cmd, "can not delete references");
+      if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
+        reject(cmd, "Cannot delete project configuration");
+      } else {
+        addError(Error.DELETE, ctl.getRefName());
+        reject(cmd, String.format("%s cannot delete references", displayName(ctl)));
+      }
+    }
+  }
+
+  private void addError(Error error, String refname) {
+    List<String> branches;
+    if((branches = errors.get(error)) != null) {
+      branches.add(refname);
+    } else {
+      branches = new LinkedList<String>();
+      branches.add(refname);
+      errors.put(error, branches);
     }
   }
 
@@ -656,7 +727,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         destBranchName.substring(0, split));
     destBranchCtl = projectControl.controlForRef(destBranch);
     if (!destBranchCtl.canUpload()) {
-      reject(cmd, "can not upload a change to this reference");
+      errors.put(Error.CODE_REVIEW, Collections.singletonList(cmd.getRefName()));
+      reject(cmd, String.format("%s cannot upload review", displayName(destBranchCtl)));
       return;
     }
 
@@ -1906,6 +1978,17 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private static void reject(final ReceiveCommand cmd) {
     reject(cmd, "prohibited by Gerrit");
+  }
+
+  private static String displayName(RefControl ctl) {
+    String displayName;
+    if((displayName = ctl.getCurrentUser().getUserName()) != null) {
+      return displayName;
+    }
+    if(ctl.getCurrentUser() instanceof IdentifiedUser) {
+      return ((IdentifiedUser)ctl.getCurrentUser()).getAccount().getPreferredEmail();
+    }
+    return "Current user";
   }
 
   private static void reject(final ReceiveCommand cmd, final String why) {

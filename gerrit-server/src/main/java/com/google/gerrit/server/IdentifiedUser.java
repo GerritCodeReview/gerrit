@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -247,6 +248,14 @@ public class IdentifiedUser extends CurrentUser {
       emailAddresses = state().getEmailAddresses();
     }
     return emailAddresses;
+  }
+
+  public String getName() {
+    return new AccountInfo(getAccount()).getName(anonymousCowardName);
+  }
+
+  public String getNameEmail() {
+    return new AccountInfo(getAccount()).getNameEmail(anonymousCowardName);
   }
 
   @Override

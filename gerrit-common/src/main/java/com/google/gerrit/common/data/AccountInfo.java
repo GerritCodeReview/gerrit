@@ -65,4 +65,51 @@ public class AccountInfo {
   public void setPreferredEmail(final String email) {
     preferredEmail = email;
   }
+
+  /**
+   * Formats an account name.
+   * <p>
+   * If the account has a full name, it returns only the full name. Otherwise it
+   * returns a longer form that includes the email address.
+   */
+  public String getName(String anonymousCowardName) {
+    if (getFullName() != null) {
+      return getFullName();
+    }
+    if (getPreferredEmail() != null) {
+      return getPreferredEmail();
+    }
+    return getNameEmail(anonymousCowardName);
+  }
+
+  /**
+   * Formats an account as an name and an email address.
+   * <p>
+   * Example output:
+   * <ul>
+   * <li><code>A U. Thor &lt;author@example.com&gt;</code>: full populated</li>
+   * <li><code>A U. Thor (12)</code>: missing email address</li>
+   * <li><code>Anonymous Coward &lt;author@example.com&gt;</code>: missing name</li>
+   * <li><code>Anonymous Coward (12)</code>: missing name and email address</li>
+   * </ul>
+   */
+  public String getNameEmail(String anonymousCowardName) {
+    String name = getFullName();
+    if (name == null) {
+      name = anonymousCowardName;
+    }
+
+    final StringBuilder b = new StringBuilder();
+    b.append(name);
+    if (getPreferredEmail() != null) {
+      b.append(" <");
+      b.append(getPreferredEmail());
+      b.append(">");
+    } else if (getId() != null) {
+      b.append(" (");
+      b.append(getId().get());
+      b.append(")");
+    }
+    return b.toString();
+  }
 }

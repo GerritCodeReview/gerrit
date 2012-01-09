@@ -1209,7 +1209,6 @@ a:hover.downloadLink {
 
 
 /** PublishCommentsScreen **/
-
 .publishCommentsScreen .smallHeading {
   font-size: small;
   font-weight: bold;
@@ -1259,56 +1258,28 @@ a:hover.downloadLink {
 }
 
 
-/** AbandonChangeDialog **/
-
-.abandonChangeDialog .gwt-DisclosurePanel .header td {
+/** CommentedActionDialog **/
+.commentedActionDialog .gwt-DisclosurePanel .header td {
   font-weight: bold;
   white-space: nowrap;
 }
-
-.abandonChangeDialog .smallHeading {
+.commentedActionDialog .smallHeading {
   font-size: small;
   font-weight: bold;
   white-space: nowrap;
 }
-.abandonChangeDialog .abandonMessage {
+.commentedActionDialog .commentedActionMessage {
   margin-left: 10px;
   background: trimColor;
   padding: 5px 5px 5px 5px;
 }
-.abandonChangeDialog .abandonMessage textarea {
+.commentedActionDialog .commentedActionMessage textarea {
   font-size: small;
 }
-.abandonChangeDialog .gwt-Hyperlink {
+.commentedActionDialog .gwt-Hyperlink {
   white-space: nowrap;
   font-size: small;
 }
-
-/** RevertChangeDialog **/
-
-.revertChangeDialog .gwt-DisclosurePanel .header td {
-  font-weight: bold;
-  white-space: nowrap;
-}
-
-.revertChangeDialog .smallHeading {
-  font-size: small;
-  font-weight: bold;
-  white-space: nowrap;
-}
-.revertChangeDialog .revertMessage {
-  margin-left: 10px;
-  background: trimColor;
-  padding: 5px 5px 5px 5px;
-}
-.revertChangeDialog .revertMessage textarea {
-  font-size: small;
-}
-.revertChangeDialog .gwt-Hyperlink {
-  white-space: nowrap;
-  font-size: small;
-}
-
 
 /** PatchBrowserPopup **/
 .patchBrowserPopup {

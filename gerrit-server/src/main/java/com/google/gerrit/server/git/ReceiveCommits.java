@@ -108,6 +108,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private static final FooterKey REVIEWED_BY = new FooterKey("Reviewed-by");
   private static final FooterKey TESTED_BY = new FooterKey("Tested-by");
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
+  private static final String MESSAGE_FOOTER =
+      "\nPlease read the documentation and contact an administrator\n"
+          + "if you feel the configuration is incorrect";
 
   public interface Factory {
     ReceiveCommits create(ProjectControl projectControl, Repository repository);
@@ -531,7 +534,17 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       validateNewCommits(ctl, cmd);
       // Let the core receive process handle it
     } else {
-      reject(cmd, "can not update the reference as a fast forward");
+      if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
+        rp.sendMessage("You are not allowed to perform this operation.\n"
+            + "Configuration changes can only be pushed by project owners\n"
+            + "who also have 'Push' rights");
+      } else {
+        rp.sendMessage("You are not allowed to perform this operation.\n"
+            + "To push into this reference you need 'Push' rights."
+            + MESSAGE_FOOTER);
+      }
+      reject(cmd, "Current user '" + ctl.getCurrentUser().getUserName()
+          + "' can not update the reference as a fast forward");
     }
   }
 
@@ -559,7 +572,14 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     if (ctl.canDelete()) {
       // Let the core receive process handle it
     } else {
-      reject(cmd, "can not delete references");
+      if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
+        reject(cmd, "Deleting the project configuration is not allowed");
+      } else {
+        rp.sendMessage("You need 'Push' rights with the 'Force Push' flag set to delete references."
+            + MESSAGE_FOOTER);
+        reject(cmd, "Current user '" + ctl.getCurrentUser().getUserName()
+            + "' can not delete references");
+      }
     }
   }
 
@@ -656,7 +676,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         destBranchName.substring(0, split));
     destBranchCtl = projectControl.controlForRef(destBranch);
     if (!destBranchCtl.canUpload()) {
-      reject(cmd, "can not upload a change to this reference");
+      rp.sendMessage("You need 'Push' rights to upload code review requests.\n"
+          + "Verify that you are pushing to the right branch." + MESSAGE_FOOTER);
+      reject(cmd, "Current user '" + destBranchCtl.getCurrentUser().getUserName()
+          + "' can not upload a change to this reference");
       return;
     }
 

@@ -22,6 +22,7 @@ import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AgreementInfo;
+import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountAgreement;
 import com.google.gerrit.reviewdb.AccountGroupAgreement;
 import com.google.gerrit.reviewdb.ContributorAgreement;
@@ -33,6 +34,7 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -213,8 +215,22 @@ public class NewAgreementScreen extends AccountScreen {
     }
 
     if (contactGroup.isVisible()) {
-      contactPanel.doSave();
+      contactPanel.doSave(new AsyncCallback<Account>() {
+        @Override
+        public void onSuccess(Account result) {
+          doEnterAgreement();
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+      });
+    } else {
+      doEnterAgreement();
     }
+  }
+
+  private void doEnterAgreement() {
     Util.ACCOUNT_SEC.enterAgreement(current.getId(),
         new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {

@@ -28,6 +28,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -118,7 +119,7 @@ class ContactPanelShort extends Composite {
     save.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
-        doSave();
+        doSave(null);
       }
     });
     new OnEditEnabler(save, nameTxt);
@@ -309,7 +310,7 @@ class ContactPanelShort extends Composite {
     inEmail.setFocus(true);
   }
 
-  void doSave() {
+  void doSave(final AsyncCallback<Account> onSave) {
     String newName = canEditFullName() ? nameTxt.getText() : null;
     if ("".equals(newName)) {
       newName = null;
@@ -336,6 +337,9 @@ class ContactPanelShort extends Composite {
           public void onSuccess(final Account result) {
             registerNewEmail.setEnabled(true);
             onSaveSuccess(result);
+            if (onSave != null) {
+              onSave.onSuccess(result);
+            }
           }
 
           @Override

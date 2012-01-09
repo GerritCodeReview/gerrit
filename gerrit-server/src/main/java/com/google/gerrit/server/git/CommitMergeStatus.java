@@ -51,7 +51,12 @@ enum CommitMergeStatus {
   /** */
   NOT_FAST_FORWARD("Project policy requires all submissions to be a fast-forward.\n"
                   + "\n"
-                  + "Please rebase the change locally and upload again for review.");
+                  + "Please rebase the change locally and upload again for review."),
+
+  /** */
+  CANNOT_MERGE_GROUP("The group cannot be merged cleanly as a whole.\n"
+                  + "\n"
+                  + "Please make sure all member changes are mergeable.");
 
   private String message;
 

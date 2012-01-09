@@ -52,7 +52,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -194,14 +193,13 @@ public class ChangeUtil {
     // group (i.e. every change in the group) has been marked as SUBMITTED
     if (updatedChange.getStatus() == Change.Status.SUBMITTED &&
           updatedChange.getGroupKey() == null) {
-      merger.merge(opFactory, updatedChange.getDest());
+      merger.merge(opFactory, updatedChange);
     } else if (isGroupSubmittable(db, updatedChange.getGroupKey())) {
-      // NOTE: The unsafe merging below will be fixed in the next change, which
-      // will allow ChangeMergeQueue to understand group merges. This is just a
-      // temporary placeholder.
+      final Set<Change> group = new HashSet<Change>();
       for (Change c : db.changes().byGroupKey(updatedChange.getGroupKey())) {
-        merger.merge(opFactory, c.getDest());
+        group.add(c);
       }
+      merger.merge(opFactory, group);
     }
   }
 

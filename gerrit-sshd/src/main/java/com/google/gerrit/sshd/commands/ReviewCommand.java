@@ -20,7 +20,6 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
-import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -30,6 +29,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.MergeOp.Factory;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.mail.AbandonedSender;
@@ -214,30 +214,40 @@ public class ReviewCommand extends BaseCommand {
         }
 
         if (!toSubmit.isEmpty()) {
-          final Set<Branch.NameKey> toMerge = new HashSet<Branch.NameKey>();
+          final Set<Change> toMerge = new HashSet<Change>();
           try {
             for (PatchSet.Id patchSetId : toSubmit) {
               ChangeUtil.submit(patchSetId, currentUser, db, opFactory,
                   new MergeQueue() {
                     @Override
-                    public void merge(MergeOp.Factory mof, Branch.NameKey branch) {
-                      toMerge.add(branch);
+                    public void merge(Factory mof, Change change) {
+                      toMerge.add(change);
                     }
 
                     @Override
-                    public void schedule(Branch.NameKey branch) {
-                      toMerge.add(branch);
+                    public void merge(Factory mof, Set<Change> changes) {
+                      toMerge.addAll(changes);
                     }
 
                     @Override
-                    public void recheckAfter(Branch.NameKey branch, long delay,
+                    public void schedule(Change change) {
+                      toMerge.add(change);
+                    }
+
+                    @Override
+                    public void schedule(Set<Change> group) {
+                      toMerge.addAll(group);
+                    }
+
+                    @Override
+                    public void recheckAfter(Change change, long delay,
                         TimeUnit delayUnit) {
-                      toMerge.add(branch);
+                      toMerge.add(change);
                     }
                   });
             }
-            for (Branch.NameKey branch : toMerge) {
-              merger.merge(opFactory, branch);
+            for (Change change : toMerge) {
+              merger.merge(opFactory, change);
             }
           } catch (OrmException updateError) {
             throw new Failure(1, "one or more submits failed", updateError);

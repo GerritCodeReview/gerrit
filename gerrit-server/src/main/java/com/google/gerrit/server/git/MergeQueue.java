@@ -14,14 +14,26 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.Branch;
+import com.google.gerrit.reviewdb.Change;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public interface MergeQueue {
-  void merge(MergeOp.Factory mof, Branch.NameKey branch);
+  void merge(MergeOp.Factory mof, Change change);
 
-  void schedule(Branch.NameKey branch);
+  void merge(MergeOp.Factory mof, Set<Change> changes);
 
-  void recheckAfter(Branch.NameKey branch, long delay, TimeUnit delayUnit);
+  void schedule(Change change);
+
+  void schedule(Set<Change> group);
+
+  /**
+   * If the merge failed because of a missing dependency that might be submitted
+   * in the near future, a caller may request a recheck to retry the merge after
+   * the specified time. Note that rechecking only applies to non-group changes,
+   * since for group changes we verify mergeability and fail immediately unless
+   * the entire group is mergeable as a whole.
+   */
+  void recheckAfter(Change change, long delay, TimeUnit delayUnit);
 }

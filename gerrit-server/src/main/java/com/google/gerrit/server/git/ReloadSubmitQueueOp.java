@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
@@ -46,12 +45,12 @@ public class ReloadSubmitQueueOp extends DefaultQueueOp {
   }
 
   public void run() {
-    final HashSet<Branch.NameKey> pending = new HashSet<Branch.NameKey>();
+    final HashSet<Change> pending = new HashSet<Change>();
     try {
       final ReviewDb c = schema.open();
       try {
         for (final Change change : c.changes().allSubmitted()) {
-          pending.add(change.getDest());
+          pending.add(change);
         }
       } finally {
         c.close();
@@ -60,8 +59,8 @@ public class ReloadSubmitQueueOp extends DefaultQueueOp {
       log.error("Cannot reload MergeQueue", e);
     }
 
-    for (final Branch.NameKey branch : pending) {
-      mergeQueue.schedule(branch);
+    for (final Change change : pending) {
+      mergeQueue.schedule(change);
     }
   }
 

@@ -1153,7 +1153,7 @@ public class MergeOp {
       // If we waited a short while we might still be able to get
       // this change submitted. Reschedule an attempt in a bit.
       //
-      mergeQueue.recheckAfter(destBranch, waitUntil - now, MILLISECONDS);
+      mergeQueue.recheckAfter(c, waitUntil - now, MILLISECONDS);
       capable = Capable.OK;
     } else if (submitStillPossible) {
       // It would be possible to submit the change if the missing

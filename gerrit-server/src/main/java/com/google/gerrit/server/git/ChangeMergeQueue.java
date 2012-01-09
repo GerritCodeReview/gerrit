@@ -18,7 +18,9 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.reviewdb.Branch;
+import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
@@ -37,20 +39,49 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.SocketAddress;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Attempt to merge a change or a group of changes by merging the branch or
+ * branches they represent.
+ *
+ * In order to prevent concurrency problems between groups of changes that
+ * overlap in their branch requests, locks for the destination refs must be
+ * acquired simultaneously or queued fairly. The bookkeeping used by this
+ * {@link MergeQueue} is implemented by a map between refs and a list of
+ * requests for that ref, satisfying the following invariants:
+ *
+ * <li>The list head for any given ref is the next in line to lock that ref</li>
+ * <li>The union of all the refs represented by waiting requests is equal to the
+ * union of all the refs currently existing as keys of the map; i.e. all refs
+ * represented in merge requests are exactly those refs known to the map</li>
+ * <li>A lock request is <em>satisfied</em> iff it is the head item of every
+ * requested ref's list</li>
+ * <li>The next request <code>R</code> that becomes unblocked as a result of a
+ * satisfied request <code>S</code> finishing is defined as that request which
+ * is next in line for the most contended lock affected by <code>S</code>,
+ * assuming <code>R</code> would then be made satisfiable; otherwise, the next
+ * request may be <code>null</code>. See {@link MergeRequest#next()} for an
+ * illustrated example.</li>
+ *
+ */
 public class ChangeMergeQueue implements MergeQueue {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeMergeQueue.class);
 
-  private final Map<Branch.NameKey, MergeEntry> active =
-      new HashMap<Branch.NameKey, MergeEntry>();
-  private final Map<Branch.NameKey, RecheckJob> recheck =
-      new HashMap<Branch.NameKey, RecheckJob>();
+  private final Map<Branch.NameKey, List<MergeRequest>> active =
+      new HashMap<Branch.NameKey, List<MergeRequest>>();
+  private final Map<Change, RecheckJob> recheck = new HashMap<Change, RecheckJob>();
 
   private final WorkQueue workQueue;
   private final Provider<MergeOp.Factory> bgFactory;
@@ -91,103 +122,101 @@ public class ChangeMergeQueue implements MergeQueue {
   }
 
   @Override
-  public void merge(MergeOp.Factory mof, Branch.NameKey branch) {
-    if (start(branch)) {
-      mergeImpl(mof, branch);
-    }
+  public synchronized void merge(MergeOp.Factory mof, Change change) {
+    merge(mof, Collections.singleton(change));
   }
 
-  private synchronized boolean start(final Branch.NameKey branch) {
-    final MergeEntry e = active.get(branch);
-    if (e == null) {
-      // Let the caller attempt this merge, its the only one interested
-      // in processing this branch right now.
-      //
-      active.put(branch, new MergeEntry(branch));
-      return true;
-    } else {
-      // Request that the job queue handle this merge later.
-      //
-      e.needMerge = true;
-      return false;
+  @Override
+  public synchronized void merge(MergeOp.Factory mof, Set<Change> group) {
+    final MergeRequest req = new MergeRequest(group);
+    // If we can satisfy the request right now, then we don't have to wait
+    if (req.acquireAll()) {
+      mergeImpl(mof, req);
     }
   }
 
   @Override
-  public synchronized void schedule(final Branch.NameKey branch) {
-    MergeEntry e = active.get(branch);
-    if (e == null) {
-      e = new MergeEntry(branch);
-      active.put(branch, e);
-    }
-    e.needMerge = true;
-    scheduleJob(e);
+  public synchronized void schedule(final Change change) {
+    schedule(Collections.singleton(change));
   }
 
   @Override
-  public synchronized void recheckAfter(final Branch.NameKey branch,
-      final long delay, final TimeUnit delayUnit) {
+  public synchronized void schedule(final Set<Change> group) {
+    MergeRequest req = new MergeRequest(group);
+    scheduleJob(req);
+  }
+
+  @Override
+  public synchronized void recheckAfter(final Change change, final long delay,
+      final TimeUnit delayUnit) {
     final long now = System.currentTimeMillis();
     final long at = now + MILLISECONDS.convert(delay, delayUnit);
-    RecheckJob e = recheck.get(branch);
+    RecheckJob e = recheck.get(change);
     if (e == null) {
-      e = new RecheckJob(branch);
+      e = new RecheckJob(change);
       workQueue.getDefaultQueue().schedule(e, now - at, MILLISECONDS);
-      recheck.put(branch, e);
+      recheck.put(change, e);
     }
     e.recheckAt = Math.max(at, e.recheckAt);
   }
 
-  private synchronized void finish(final Branch.NameKey branch) {
-    final MergeEntry e = active.get(branch);
-    if (e == null) {
-      // Not registered? Shouldn't happen but ignore it.
-      //
-      return;
+  private synchronized void finish(final MergeRequest req) {
+    final MergeRequest next = req.next();
+    if (next != null) {
+      scheduleJob(next);
     }
-
-    if (!e.needMerge) {
-      // No additional merges are in progress, we can delete it.
-      //
-      active.remove(branch);
-      return;
-    }
-
-    scheduleJob(e);
+    req.finish();
   }
 
-  private void scheduleJob(final MergeEntry e) {
-    if (!e.jobScheduled) {
-      // No job has been scheduled to execute this branch, but it needs
-      // to run a merge again.
-      //
-      e.jobScheduled = true;
-      workQueue.getDefaultQueue().schedule(e, 0, TimeUnit.SECONDS);
+  private synchronized void scheduleJob(final MergeRequest req) {
+    if (req.acquireAll()) {
+      workQueue.getDefaultQueue().schedule(req, 0, TimeUnit.SECONDS);
+    }
+    // If we couldn't request all the locks just now, we'll get picked up at
+    // the earliest opportunity (i.e. when we become the next request after
+    // a finished request) and no scheduling is necessary.
+  }
+
+  private void mergeImpl(MergeOp.Factory opFactory, final MergeRequest req) {
+    // If only one ref matters, we can proceed as usual; otherwise, we
+    // should ensure that the entire group is mergeable first.
+    if (req.targets.size() == 1) {
+      for (Branch.NameKey b : req.targets) {
+        try {
+          opFactory.create(b).merge();
+        } catch (Throwable e) {
+          log.error("Merge attempt for " + b.getShortName() + " failed", e);
+        } finally {
+          finish(req);
+        }
+      }
+    } else {
+      try {
+        for (Change c : req.group) {
+          ChangeUtil.testMerge(opFactory, c);
+          if (!c.isMergeable()) {
+            throw new MergeException("Group not mergeable due to change: " + c.getChangeId());
+          }
+        }
+
+        for (Branch.NameKey b : req.targets) {
+          opFactory.create(b).merge();
+        }
+      } catch (Throwable e) {
+        log.error("Could not merge group with Group-Id: " + req.groupKey, e);
+      } finally {
+        finish(req);
+      }
     }
   }
 
-  private synchronized void unschedule(final MergeEntry e) {
-    e.jobScheduled = false;
-    e.needMerge = false;
-  }
-
-  private void mergeImpl(MergeOp.Factory opFactory, Branch.NameKey branch) {
-    try {
-      opFactory.create(branch).merge();
-    } catch (Throwable e) {
-      log.error("Merge attempt for " + branch + " failed", e);
-    } finally {
-      finish(branch);
-    }
-  }
-
-  private void mergeImpl(Branch.NameKey branch) {
+  private void mergeImpl(final MergeRequest req) {
     try {
       PerThreadRequestScope ctx = new PerThreadRequestScope();
       PerThreadRequestScope old = PerThreadRequestScope.set(ctx);
       try {
         try {
-          bgFactory.get().create(branch).merge();
+          mergeImpl(bgFactory.get(), req);
         } finally {
           ctx.cleanup.run();
         }
@@ -195,9 +224,7 @@ public class ChangeMergeQueue implements MergeQueue {
         PerThreadRequestScope.set(old);
       }
     } catch (Throwable e) {
-      log.error("Merge attempt for " + branch + " failed", e);
-    } finally {
-      finish(branch);
+      log.error("Rescheduled merge attempt " + req + " failed", e);
     }
   }
 
@@ -214,37 +241,170 @@ public class ChangeMergeQueue implements MergeQueue {
       // Schedule a merge attempt on this branch to see if we can
       // actually complete it this time.
       //
-      schedule(e.dest);
+      MergeRequest req = new MergeRequest(Collections.singleton(e.change));
+      scheduleJob(req);
     }
   }
 
-  private class MergeEntry implements Runnable {
-    final Branch.NameKey dest;
-    boolean needMerge;
-    boolean jobScheduled;
+  // A set of branches that we are requesting be merged
+  private class MergeRequest implements Runnable {
+    final Set<Branch.NameKey> targets;
+    final SortedSet<Change> group;
+    Change.GroupKey groupKey;
+    boolean satisfied;
 
-    MergeEntry(final Branch.NameKey d) {
-      dest = d;
+    MergeRequest(final Set<Change> g) {
+      // Crude emulation of topological sort (assumes lower-id changes are
+      // ancestors, but this is not strictly true)
+      group = new TreeSet<Change>(new Comparator<Change>() {
+        @Override
+        public int compare(Change c1, Change c2) {
+          return new Integer(c1.getId().get()).compareTo(c2.getId().get());
+        }
+      });
+      for (Change c : g) {
+        group.add(c);
+        if (groupKey == null) {
+          groupKey = c.getGroupKey();
+        }
+      }
+      targets = new HashSet<Branch.NameKey>();
+      for (Change c : group) {
+        targets.add(c.getDest());
+      }
+      satisfied = false;
+
+      // Declare/queue our requests
+      for (Branch.NameKey b : targets) {
+        final List<MergeRequest> currentReqs = active.get(b);
+        if (currentReqs == null) {
+          final List<MergeRequest> queue = new ArrayList<MergeRequest>();
+          queue.add(this);
+          active.put(b, queue);
+        } else {
+          currentReqs.add(this);
+        }
+      }
     }
 
+    public boolean acquireAll() {
+      for (Branch.NameKey b : targets) {
+        final List<MergeRequest> reqs = active.get(b);
+        if (reqs == null || reqs.get(0).equals(this)) {
+          satisfied = false;
+          return false;
+        }
+      }
+
+      satisfied = true;
+      return true;
+    }
+
+    /**
+     * Returns the next MergeRequest (if any) that becomes unblocked as a result
+     * of us finishing.
+     *
+     * Consider the following hypothetical sequence of events seen by the
+     * request queue:
+     *
+     * <pre>
+     *                        Refs
+     *           A    B    C    D    E    F    G
+     * Req X     X    X    X    X
+     * Req Y                         Y    Y    Y
+     * Req Z               Z    Z    Z
+     * Req O                    O         O
+     * Req P                    P
+     * Req Q               Q
+     * Req R          R
+     * </pre>
+     *
+     * Then the request lists will look like this:
+     *
+     * <pre>
+     *                        Refs
+     *           A    B    C    D    E    F    G
+     *           X    X    X    X    Y    Y    Y
+     *                R    Z    Z    Z    O
+     *                     Q    O
+     *                          P
+     * </pre>
+     *
+     * Assuming the requests came in the order listed above (X, Y, Z, O, P, Q,
+     * R), and the current request that just finished is X, then the only X.next
+     * candidates will be Z and R. Z will be tried first since it is on the most
+     * contended Ref (D). Z is not guaranteed, however, since Y must have
+     * finished first independently, allowing Z to be satisfied (Z is blocking
+     * on Y for the Ref E). In this latter case, we unblock R and return R as
+     * X.next, and let Z be returned by Y.next when Y finishes.
+     */
+    public MergeRequest next() {
+      // Sort refs by order of contention
+      final SortedSet<Branch.NameKey> refs = new TreeSet<Branch.NameKey>(
+          new Comparator<Branch.NameKey>() {
+            @Override
+            public int compare(Branch.NameKey b1, Branch.NameKey b2) {
+              // Sorts by list length DESC
+              return new Integer(active.get(b2).size()).compareTo(active.get(b1).size());
+            }
+          });
+
+      for (Branch.NameKey b : targets) {
+        refs.add(b);
+      }
+
+      for (Branch.NameKey b : refs) {
+        final List<MergeRequest> reqs = active.get(b);
+        if (reqs.size() > 1) {
+          final MergeRequest candidate = reqs.get(1); // reqs.get(0) is ours
+          if (candidate.acquireAll()) {
+            return candidate;
+          }
+        }
+      }
+      return null;
+    }
+
+    public void finish() {
+      if (!satisfied) {
+        return;
+      }
+
+      for (Branch.NameKey b : targets) {
+        active.get(b).remove(0);
+      }
+      satisfied = false;
+    }
+
+    @Override
     public void run() {
-      unschedule(this);
-      mergeImpl(dest);
+      mergeImpl(this);
     }
 
     @Override
     public String toString() {
-      final Project.NameKey project = dest.getParentKey();
-      return "submit " + project.get() + " " + dest.getShortName();
+      if (groupKey != null) {
+        return "submit " + groupKey;
+      } else {
+        return "submit " + targets.iterator().next().getShortName();
+      }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+      if (other.getClass() != MergeRequest.class) {
+        return false;
+      }
+      return group.equals((MergeRequest)other);
     }
   }
 
   private class RecheckJob implements Runnable {
-    final Branch.NameKey dest;
+    final Change change;
     long recheckAt;
 
-    RecheckJob(final Branch.NameKey d) {
-      dest = d;
+    RecheckJob(final Change c) {
+      change = c;
     }
 
     @Override
@@ -254,8 +414,8 @@ public class ChangeMergeQueue implements MergeQueue {
 
     @Override
     public String toString() {
-      final Project.NameKey project = dest.getParentKey();
-      return "recheck " + project.get() + " " + dest.getShortName();
+      final Project.NameKey project = change.getDest().getParentKey();
+      return "recheck " + project.get() + " " + change.getDest().getShortName();
     }
   }
 }

@@ -16,6 +16,8 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalType;
@@ -111,6 +113,34 @@ public class ReceiveCommits {
   private static final FooterKey REVIEWED_BY = new FooterKey("Reviewed-by");
   private static final FooterKey TESTED_BY = new FooterKey("Tested-by");
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
+
+  private static final String COMMAND_REJECTION_MESSAGE_FOOTER =
+      "Please read the documentation and contact an administrator\n"
+          + "if you feel the configuration is incorrect";
+
+  private enum Error {
+        CONFIG_UPDATE("You are not allowed to perform this operation.\n"
+        + "Configuration changes can only be pushed by project owners\n"
+        + "who also have 'Push' rights on " + GitRepositoryManager.REF_CONFIG),
+        UPDATE("You are not allowed to perform this operation.\n"
+        + "To push into this reference you need 'Push' rights."),
+        DELETE("You need 'Push' rights with the 'Force Push'\n"
+            + "flag set to delete references."),
+        CODE_REVIEW("You need 'Push' rights to upload code review requests.\n"
+            + "Verify that you are pushing to the right branch."),
+        CREATE("You are not allowed to perform this operation.\n"
+            + "To create new references you need 'Create Reference' rights.");
+
+    private final String value;
+
+    Error(String value) {
+      this.value = value;
+    }
+
+    public String get() {
+      return value;
+    }
+  }
 
   interface Factory {
     ReceiveCommits create(ProjectControl projectControl, Repository repository);
@@ -215,6 +245,7 @@ public class ReceiveCommits {
   private final SubmoduleOp.Factory subOpFactory;
 
   private final List<Message> messages = new ArrayList<Message>();
+  private ListMultimap<Error, String> errors = LinkedListMultimap.create();
   private Task newProgress;
   private Task replaceProgress;
   private Task closeProgress;
@@ -438,6 +469,14 @@ public class ReceiveCommits {
     doReplaces();
     replaceProgress.end();
 
+    if (!errors.isEmpty()) {
+      for (Error error : errors.keySet()) {
+        rp.sendMessage(buildError(error, errors.get(error)));
+      }
+      rp.sendMessage(String.format("User: %s", displayName(currentUser)));
+      rp.sendMessage(COMMAND_REJECTION_MESSAGE_FOOTER);
+    }
+
     for (final ReceiveCommand c : commands) {
       if (c.getResult() == Result.OK) {
         switch (c.getType()) {
@@ -500,6 +539,30 @@ public class ReceiveCommits {
       }
       addMessage("");
     }
+  }
+
+  private String buildError(Error error, List<String> branches) {
+    StringBuilder sb = new StringBuilder();
+    if (branches.size() == 1) {
+      sb.append("Branch ").append(branches.get(0)).append(":\n");
+      sb.append(error.get());
+      return sb.toString();
+    }
+    sb.append("Branches");
+    String delim = " ";
+    for (String branch : branches) {
+      sb.append(delim).append(branch);
+      delim = ", ";
+    }
+    return sb.append(":\n").append(error.get()).toString();
+  }
+
+  private static String displayName(IdentifiedUser user) {
+    String displayName = user.getUserName();
+    if (displayName == null) {
+      displayName = user.getAccount().getPreferredEmail();
+    }
+    return displayName;
   }
 
   private Account.Id toAccountId(final String nameOrEmail) throws OrmException,
@@ -630,6 +693,7 @@ public class ReceiveCommits {
       validateNewCommits(ctl, cmd);
       cmd.execute(rp);
     } else {
+      errors.put(Error.CREATE, ctl.getRefName());
       reject(cmd, "can not create new references");
     }
   }
@@ -644,6 +708,11 @@ public class ReceiveCommits {
       validateNewCommits(ctl, cmd);
       cmd.execute(rp);
     } else {
+      if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
+        errors.put(Error.CONFIG_UPDATE, GitRepositoryManager.REF_CONFIG);
+      } else {
+        errors.put(Error.UPDATE, ctl.getRefName());
+      }
       reject(cmd, "can not update the reference as a fast forward");
     }
   }
@@ -672,7 +741,12 @@ public class ReceiveCommits {
     if (ctl.canDelete()) {
       cmd.execute(rp);
     } else {
-      reject(cmd, "can not delete references");
+      if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
+        reject(cmd, "cannot delete project configuration");
+      } else {
+        errors.put(Error.DELETE, ctl.getRefName());
+        reject(cmd, "can not delete references");
+      }
     }
   }
 
@@ -769,7 +843,8 @@ public class ReceiveCommits {
         destBranchName.substring(0, split));
     destBranchCtl = projectControl.controlForRef(destBranch);
     if (!destBranchCtl.canUpload()) {
-      reject(cmd, "can not upload a change to this reference");
+      errors.put(Error.CODE_REVIEW, cmd.getRefName());
+      reject(cmd, "can not upload review");
       return;
     }
 

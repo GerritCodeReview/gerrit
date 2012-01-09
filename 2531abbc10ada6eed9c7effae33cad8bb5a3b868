@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABzn////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2012-01-09T10:25:52Z",
+      "side": 1,
+      "message": "Yes, sorry for forgetting to change the message here...",
+      "parentUuid": "AAABwn///7g\u003d",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///7c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2011-12-28T05:48:34Z",
       "side": 1,
       "message": "\"owner\" out of date?",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABzn////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2012-01-09T10:25:52Z",
+      "side": 1,
+      "message": "Yes, I changed it. Thank you for your reminding:)",
+      "parentUuid": "AAABwn///7c\u003d",
       "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB4n////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2012-01-09T10:25:52Z",
+      "side": 1,
+      "message": "OK, as you suggested, we don\u0027t need to show any watcher\u0027s name, so I deleted this function. Originally, this function is used in velocity only. Now, it is of no used, so I removed it.",
+      "parentUuid": "AAABwn///7A\u003d",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABx3///8s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2011-12-28T05:48:34Z",
       "side": 1,
       "message": "Why the distinction between watchers and subscribers?  It doesn\u0027t look like you use watchers, perhaps you should just stick with watchers to mean what you call subscribers (I think that is what we mean by watchers on changes)?",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB4n////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2012-01-09T10:25:52Z",
+      "side": 1,
+      "message": "You are right! As we do not need to show the watchers\u0027 names in the notification email, we just need to get the receivers\u0027 email is enough.",
+      "parentUuid": "AAABx3///8s\u003d",
       "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB4n////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2012-01-09T10:25:52Z",
+      "side": 1,
+      "message": "Ah, sorry, I have already put it back to branchMatchWithFilter.",
+      "parentUuid": "AAABx3///80\u003d",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABx3///8w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2011-12-28T05:48:34Z",
       "side": 1,
       "message": "These 3 lines seem unneeded?",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB4n////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2012-01-09T10:25:52Z",
+      "side": 1,
+      "message": "Yes, Thanks:) I have already deleted them.",
+      "parentUuid": "AAABx3///8w\u003d",
       "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB4n////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2012-01-09T10:25:52Z",
+      "side": 1,
+      "message": "So you mean I should ruturn a value out of if else clause, am I right?",
+      "parentUuid": "AAABx3///84\u003d",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABx3///8o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
         "patchSetId": 4
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB4n////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2012-01-09T10:25:52Z",
+      "side": 1,
+      "message": "Martin, as you suggested we should not put watchers\u0027 names into BranchEmail. So for BranchEmail, only subscribers will be got. And subscribers condition is not totally same as watchers. \nI don\u0027t think we should put this function into Notification email. Is that right? \nAnyway, thanks a lot for your kindly help:)",
+      "parentUuid": "AAABx3///8o\u003d",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABx3///8k\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteBranch.vm",
         "patchSetId": 4
@@ -149,6 +293,24 @@
       "writtenOn": "2011-12-28T05:48:34Z",
       "side": 1,
       "message": "I believe that in most of the other templates we just don\u0027t bother with the Hello part if there are no addresses, that might be simpler here.",
+      "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB4n////k\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/DeleteBranch.vm",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2012-01-09T10:25:52Z",
+      "side": 1,
+      "message": "OK, I have changed it only to \"Hi\"",
+      "parentUuid": "AAABx3///8k\u003d",
       "revId": "2531abbc10ada6eed9c7effae33cad8bb5a3b868",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -93,7 +93,12 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   public void changeProjectAccess(Project.NameKey projectName,
       String baseRevision, String msg, List<AccessSection> sections,
       AsyncCallback<ProjectAccess> cb) {
-    ObjectId base = ObjectId.fromString(baseRevision);
+    ObjectId base;
+    if (baseRevision != null && !baseRevision.isEmpty()) {
+      base = ObjectId.fromString(baseRevision);
+    } else {
+      base = null;
+    }
     changeProjectAccessFactory.create(projectName, base, sections, msg).to(cb);
   }
 

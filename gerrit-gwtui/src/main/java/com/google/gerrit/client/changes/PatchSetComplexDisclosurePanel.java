@@ -20,6 +20,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
+import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.common.PageLinks;
@@ -49,6 +50,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
@@ -468,15 +470,22 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          new CommentedChangeActionDialog(patchSet.getId(), createCommentedCallback(b, true),
-              Util.C.revertChangeTitle(), Util.C.headingRevertMessage(),
-              Util.C.buttonRevertChangeSend(), Util.C.buttonRevertChangeCancel(),
-              Gerrit.RESOURCES.css().revertChangeDialog(), Gerrit.RESOURCES.css().revertMessage(),
-              Util.M.revertChangeDefaultMessage(detail.getInfo().getSubject(), detail.getPatchSet().getRevision().get())) {
-                public void onSend() {
-                  Util.MANAGE_SVC.revertChange(getPatchSetId() , getMessageText(), createCallback());
-                }
-              }.center();
+          new ActionDialog(b, true, Util.C.revertChangeTitle(),
+              Util.C.headingRevertMessage()) {
+            {
+              sendButton.setText(Util.C.buttonRevertChangeSend());
+              message.setText(Util.M.revertChangeDefaultMessage(
+                  detail.getInfo().getSubject(),
+                  detail.getPatchSet().getRevision().get())
+              );
+            }
+
+            @Override
+            public void onSend() {
+              Util.MANAGE_SVC.revertChange(patchSet.getId(), getMessageText(),
+                 createCallback());
+            }
+          }.center();
         }
       });
       actionsPanel.add(b);
@@ -488,14 +497,18 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          new CommentedChangeActionDialog(patchSet.getId(), createCommentedCallback(b, false),
-              Util.C.abandonChangeTitle(), Util.C.headingAbandonMessage(),
-              Util.C.buttonAbandonChangeSend(), Util.C.buttonAbandonChangeCancel(),
-              Gerrit.RESOURCES.css().abandonChangeDialog(), Gerrit.RESOURCES.css().abandonMessage()) {
-                public void onSend() {
-                  Util.MANAGE_SVC.abandonChange(getPatchSetId() , getMessageText(), createCallback());
-                }
-              }.center();
+          new ActionDialog(b, false, Util.C.abandonChangeTitle(),
+              Util.C.headingAbandonMessage()) {
+            {
+              sendButton.setText(Util.C.buttonAbandonChangeSend());
+            }
+
+            @Override
+            public void onSend() {
+              Util.MANAGE_SVC.abandonChange(patchSet.getId(), getMessageText(),
+                  createCallback());
+            }
+          }.center();
         }
       });
       actionsPanel.add(b);
@@ -531,14 +544,18 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          new CommentedChangeActionDialog(patchSet.getId(), createCommentedCallback(b, false),
-              Util.C.restoreChangeTitle(), Util.C.headingRestoreMessage(),
-              Util.C.buttonRestoreChangeSend(), Util.C.buttonRestoreChangeCancel(),
-              Gerrit.RESOURCES.css().abandonChangeDialog(), Gerrit.RESOURCES.css().abandonMessage()) {
-                public void onSend() {
-                  Util.MANAGE_SVC.restoreChange(getPatchSetId(), getMessageText(), createCallback());
-                }
-              }.center();
+          new ActionDialog(b, false, Util.C.restoreChangeTitle(),
+              Util.C.headingRestoreMessage()) {
+            {
+              sendButton.setText(Util.C.buttonRestoreChangeSend());
+            }
+
+            @Override
+            public void onSend() {
+              Util.MANAGE_SVC.restoreChange(patchSet.getId(), getMessageText(),
+                  createCallback());
+            }
+          }.center();
         }
       });
       actionsPanel.add(b);
@@ -739,19 +756,24 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     }
   }
 
-  private AsyncCallback<ChangeDetail> createCommentedCallback(final Button b, final boolean redirect) {
-    return new AsyncCallback<ChangeDetail>() {
-      public void onSuccess(ChangeDetail result) {
-        if (redirect) {
-          Gerrit.display(PageLinks.toChange(result.getChange().getId()));
-        } else {
-          changeScreen.update(result);
-        }
-      }
+  public abstract class ActionDialog extends CommentedActionDialog<ChangeDetail> {
+    public ActionDialog(final FocusWidget enableOnFailure, final boolean redirect,
+        String dialogTitle, String dialogHeading) {
+      super(dialogTitle, dialogHeading, new AsyncCallback<ChangeDetail>() {
+          @Override
+          public void onSuccess(ChangeDetail result) {
+            if (redirect) {
+              Gerrit.display(PageLinks.toChange(result.getChange().getId()));
+            } else {
+              changeScreen.update(result);
+            }
+          }
 
-      public void onFailure(Throwable caught) {
-        b.setEnabled(true);
-      }
-    };
+          @Override
+          public void onFailure(Throwable caught) {
+            enableOnFailure.setEnabled(true);
+          }
+        });
+    }
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -267,6 +268,14 @@ public class IdentifiedUser extends CurrentUser {
       emailAddresses = state().getEmailAddresses();
     }
     return emailAddresses;
+  }
+
+  public String getName() {
+    return new AccountInfo(getAccount()).getName(anonymousCowardName);
+  }
+
+  public String getNameEmail() {
+    return new AccountInfo(getAccount()).getNameEmail(anonymousCowardName);
   }
 
   @Override

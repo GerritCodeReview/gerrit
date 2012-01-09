@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAB43////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-09T09:35:14Z",
+      "side": 1,
+      "message": "[optional] Maybe you should also mention in the commit message that now only the approvals of the cherry-picked patch set are copied to the final patch set, and not anymore all approvals of the change. Otherwise one might later think that this was changed accidentally when looking at this commit message.",
+      "revId": "028843b8b3bd17971a7c2707d2949354c3fcf68a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

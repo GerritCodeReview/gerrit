@@ -53,7 +53,8 @@ import javax.annotation.Nullable;
 class ChangeProjectAccess extends Handler<ProjectAccess> {
   interface Factory {
     ChangeProjectAccess create(@Assisted Project.NameKey projectName,
-        @Assisted ObjectId base, @Assisted List<AccessSection> sectionList,
+        @Nullable @Assisted ObjectId base,
+        @Assisted List<AccessSection> sectionList,
         @Nullable @Assisted String message);
   }
 
@@ -75,7 +76,8 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
       final MetaDataUpdate.User metaDataUpdateFactory,
 
       @Assisted final Project.NameKey projectName,
-      @Assisted final ObjectId base, @Assisted List<AccessSection> sectionList,
+      @Nullable @Assisted final ObjectId base,
+      @Assisted List<AccessSection> sectionList,
       @Nullable @Assisted String message) {
     this.projectAccessFactory = projectAccessFactory;
     this.projectControlFactory = projectControlFactory;

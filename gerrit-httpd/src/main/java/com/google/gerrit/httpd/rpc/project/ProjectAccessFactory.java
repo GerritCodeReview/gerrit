@@ -177,7 +177,11 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     }
 
     final ProjectAccess detail = new ProjectAccess();
-    detail.setRevision(config.getRevision().name());
+    detail.setProjectName(projectName);
+
+    if (config.getRevision() != null) {
+      detail.setRevision(config.getRevision().name());
+    }
 
     if (projectName.equals(allProjectsName)) {
       if (pc.isOwner()) {

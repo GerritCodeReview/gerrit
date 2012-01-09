@@ -113,13 +113,11 @@ public interface ChangeConstants extends Constants {
 
   String buttonRevertChangeBegin();
   String buttonRevertChangeSend();
-  String buttonRevertChangeCancel();
   String headingRevertMessage();
   String revertChangeTitle();
 
   String buttonAbandonChangeBegin();
   String buttonAbandonChangeSend();
-  String buttonAbandonChangeCancel();
   String headingAbandonMessage();
   String abandonChangeTitle();
   String oldVersionHistory();
@@ -134,7 +132,6 @@ public interface ChangeConstants extends Constants {
 
   String buttonRestoreChangeBegin();
   String restoreChangeTitle();
-  String buttonRestoreChangeCancel();
   String headingRestoreMessage();
   String buttonRestoreChangeSend();
 

@@ -12,12 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.SmallHeading;
-import com.google.gerrit.common.data.ChangeDetail;
-import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -31,81 +29,70 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 
-public abstract class CommentedChangeActionDialog extends AutoCenterDialogBox implements CloseHandler<PopupPanel>{
-  private final FlowPanel panel;
-  private final NpTextArea message;
-  private final Button sendButton;
-  private final Button cancelButton;
-  private final PatchSet.Id psid;
-  private final AsyncCallback<ChangeDetail> callback;
+public abstract class CommentedActionDialog<T> extends AutoCenterDialogBox
+    implements CloseHandler<PopupPanel> {
+  protected final FlowPanel panel;
+  protected final NpTextArea message;
+  protected final Button sendButton;
+  protected final Button cancelButton;
+  protected final FlowPanel buttonPanel;
+  protected AsyncCallback<T> callback;
 
-  private boolean buttonClicked = false;
+  protected boolean sent = false;
 
-  public CommentedChangeActionDialog(final PatchSet.Id psi,
-      final AsyncCallback<ChangeDetail> callback, final String dialogTitle,
-      final String dialogHeading, final String buttonSend,
-      final String buttonCancel, final String dialogStyle,
-      final String messageStyle) {
-     this(psi, callback, dialogTitle, dialogHeading, buttonSend, buttonCancel, dialogStyle, messageStyle, null);
-  }
-
-  public CommentedChangeActionDialog(final PatchSet.Id psi,
-      final AsyncCallback<ChangeDetail> callback, final String dialogTitle,
-      final String dialogHeading, final String buttonSend,
-      final String buttonCancel, final String dialogStyle,
-      final String messageStyle, final String defaultMessage) {
+  public CommentedActionDialog(final String title, final String heading,
+      AsyncCallback<T> callback) {
     super(/* auto hide */false, /* modal */true);
-    setGlassEnabled(true);
-
-    psid = psi;
     this.callback = callback;
-    addStyleName(dialogStyle);
-    setText(dialogTitle);
 
-    panel = new FlowPanel();
-    add(panel);
+    setGlassEnabled(true);
+    setText(title);
 
-    panel.add(new SmallHeading(dialogHeading));
-
-    final FlowPanel mwrap = new FlowPanel();
-    mwrap.setStyleName(messageStyle);
-    panel.add(mwrap);
+    addStyleName(Gerrit.RESOURCES.css().commentedActionDialog());
 
     message = new NpTextArea();
     message.setCharacterWidth(60);
     message.setVisibleLines(10);
-    message.setText(defaultMessage);
     DOM.setElementPropertyBoolean(message.getElement(), "spellcheck", true);
-    mwrap.add(message);
 
-    final FlowPanel buttonPanel = new FlowPanel();
-    panel.add(buttonPanel);
-    sendButton = new Button(buttonSend);
+    sendButton = new Button(Util.C.commentedActionButtonSend());
     sendButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
-        sendButton.setEnabled(false);
-        cancelButton.setEnabled(false);
+        enableButtons(false);
         onSend();
       }
     });
-    buttonPanel.add(sendButton);
 
-    cancelButton = new Button(buttonCancel);
+    cancelButton = new Button(Util.C.commentedActionButtonCancel());
     DOM.setStyleAttribute(cancelButton.getElement(), "marginLeft", "300px");
     cancelButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
-        buttonClicked = true;
-        if (callback != null) {
-          callback.onFailure(null);
-        }
         hide();
       }
     });
+
+    final FlowPanel mwrap = new FlowPanel();
+    mwrap.setStyleName(Gerrit.RESOURCES.css().commentedActionMessage());
+    mwrap.add(message);
+
+    buttonPanel = new FlowPanel();
+    buttonPanel.add(sendButton);
     buttonPanel.add(cancelButton);
 
+    panel = new FlowPanel();
+    panel.add(new SmallHeading(heading));
+    panel.add(mwrap);
+    panel.add(buttonPanel);
+    add(panel);
+
     addCloseHandler(this);
+  }
+
+  public void enableButtons(boolean enable) {
+    sendButton.setEnabled(enable);
+    cancelButton.setEnabled(enable);
   }
 
   @Override
@@ -117,30 +104,27 @@ public abstract class CommentedChangeActionDialog extends AutoCenterDialogBox im
 
   @Override
   public void onClose(CloseEvent<PopupPanel> event) {
-    if (!buttonClicked) {
-      // the dialog was closed without one of the buttons being pressed
-      // e.g. the user pressed ESC to close the dialog
+    if (!sent) {
+      // the dialog was closed without the send button being pressed
+      // e.g. the user pressed Cancel or ESC to close the dialog
       if (callback != null) {
         callback.onFailure(null);
       }
     }
+    sent = false;
   }
 
   public abstract void onSend();
-
-  public PatchSet.Id getPatchSetId() {
-    return psid;
-  }
 
   public String getMessageText() {
     return message.getText().trim();
   }
 
-  public GerritCallback<ChangeDetail> createCallback() {
-    return new GerritCallback<ChangeDetail>(){
+  public AsyncCallback<T> createCallback() {
+    return new GerritCallback<T>(){
       @Override
-      public void onSuccess(ChangeDetail result) {
-        buttonClicked = true;
+      public void onSuccess(T result) {
+        sent = true;
         if (callback != null) {
           callback.onSuccess(result);
         }
@@ -149,8 +133,7 @@ public abstract class CommentedChangeActionDialog extends AutoCenterDialogBox im
 
       @Override
       public void onFailure(Throwable caught) {
-        sendButton.setEnabled(true);
-        cancelButton.setEnabled(true);
+        enableButtons(true);
         super.onFailure(caught);
       }
     };

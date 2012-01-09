@@ -17,5 +17,5 @@ package com.google.gerrit.client.ui;
 import com.google.gwt.core.client.GWT;
 
 public class Util {
-  public static final ProjectConstants C = GWT.create(ProjectConstants.class);
+  public static final UIConstants C = GWT.create(UIConstants.class);
 }

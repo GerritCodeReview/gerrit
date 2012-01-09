@@ -18,10 +18,6 @@ import com.google.gwt.resources.client.CssResource;
 
 public interface GerritCss extends CssResource {
   String greenCheckClass();
-  String abandonChangeDialog();
-  String abandonMessage();
-  String revertChangeDialog();
-  String revertMessage();
   String accountContactOnFile();
   String accountContactPrivacyDetails();
   String accountDashboard();
@@ -58,6 +54,8 @@ public interface GerritCss extends CssResource {
   String changeTypeCell();
   String changeid();
   String closedstate();
+  String commentedActionDialog();
+  String commentedActionMessage();
   String commentCell();
   String commentEditorPanel();
   String commentHolder();

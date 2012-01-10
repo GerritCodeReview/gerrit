@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAB7H////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-10T18:56:06Z",
+      "side": 1,
+      "message": "Does it make sense to also forward the exception to the onSave callback if it is available?\n\n  if (onSave !\u003d null) {\n    onSave.onFailure(caught);\n  }",
+      "revId": "f8fdb7be80c92f5b5371c1759c86184901af102a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB7H////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/NewAgreementScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-10T18:56:06Z",
+      "side": 1,
+      "message": "Maybe to display an error message here?",
+      "revId": "f8fdb7be80c92f5b5371c1759c86184901af102a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

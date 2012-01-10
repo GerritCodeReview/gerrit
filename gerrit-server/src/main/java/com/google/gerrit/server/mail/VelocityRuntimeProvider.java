@@ -42,6 +42,7 @@ public class VelocityRuntimeProvider implements Provider<RuntimeInstance> {
     String pkg = "org.apache.velocity.runtime.resource.loader";
 
     Properties p = new Properties();
+    p.setProperty(RuntimeConstants.VM_PERM_INLINE_LOCAL, "false");
     p.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
         Slf4jLogChute.class.getName());
     p.setProperty("runtime.log.logsystem.log4j.category", "velocity");

@@ -34,6 +34,24 @@
       "revId": "a061f40a6a7447df3076c82bad896b3abaa1d033",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB53////E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-10T20:52:24Z",
+      "side": 1,
+      "message": "I think revision is too vague to use here, branch is a better term since it doesn\u0027t make sense to subscribe to a tag or a commit SHA-1, as tags usually don\u0027t move and commit SHA-1s definitely do not move.",
+      "parentUuid": "AAAB3X////k\u003d",
+      "revId": "a061f40a6a7447df3076c82bad896b3abaa1d033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

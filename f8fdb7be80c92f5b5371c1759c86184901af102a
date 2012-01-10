@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB53////o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ContactPanelShort.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-10T19:28:12Z",
+      "side": 1,
+      "message": "I didn\u0027t think it was really worth the effort right now. The new agreement callback doesn\u0027t want to show an error as super.onFaiulre() will display the standard error dialog for you. And this whole set of code is a giant hack. If someone really wants to improve it, we should start by making it a single AJAX call not 2 back-to-back. Its always been a dark corner of Gerrit. Most sites don\u0027t need the CLA processing, and its very underdocumented on how to configure it.",
+      "parentUuid": "AAAB7H////w\u003d",
+      "revId": "f8fdb7be80c92f5b5371c1759c86184901af102a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB7H////s\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/NewAgreementScreen.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-10T18:56:06Z",
       "side": 1,
       "message": "Maybe to display an error message here?",
+      "revId": "f8fdb7be80c92f5b5371c1759c86184901af102a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB53////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/NewAgreementScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-10T19:28:12Z",
+      "side": 1,
+      "message": "Error is already shown by contactPanel.doSave(). The callback it uses is a GerritCallback, which displays an error if one happens.",
+      "parentUuid": "AAAB7H////s\u003d",
       "revId": "f8fdb7be80c92f5b5371c1759c86184901af102a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

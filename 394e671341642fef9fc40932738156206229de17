@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB7H///+s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010034
+      },
+      "writtenOn": "2012-01-10T20:57:08Z",
+      "side": 1,
+      "message": "Ok. Thanks for explanation. The replacement of \"the\" to \"they\" was clear but I never saw this style before :-).",
+      "parentUuid": "AAAB5n///+0\u003d",
+      "revId": "394e671341642fef9fc40932738156206229de17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB6X////g\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "writtenOn": "2012-01-10T18:48:09Z",
       "side": 1,
       "message": "Since issue 1231 [1] describes the problem that is fixed by this change, it would be good to add the following footer to the commit message:\n\n Bug: issue 1231\n\n\n[1] http://code.google.com/p/gerrit/issues/detail?id\u003d1231",
+      "revId": "394e671341642fef9fc40932738156206229de17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB7H///+o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010034
+      },
+      "writtenOn": "2012-01-10T20:57:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAB6X////g\u003d",
       "revId": "394e671341642fef9fc40932738156206229de17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

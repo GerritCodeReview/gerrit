@@ -16,6 +16,142 @@
       "revId": "7d62464bc22c40fae95e49df1dab4176bea5e3fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB5n////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-10T07:22:25Z",
+      "side": 1,
+      "message": "See 354, I think this can be simpler.",
+      "revId": "7d62464bc22c40fae95e49df1dab4176bea5e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB5n////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-10T07:22:25Z",
+      "side": 1,
+      "message": "This is not thread safe, two threads could be attempting to add a new queue to the active map at the same time.",
+      "revId": "7d62464bc22c40fae95e49df1dab4176bea5e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB5n////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-10T07:22:25Z",
+      "side": 1,
+      "message": "Also, I don\u0027t believe that you are using thread safe lists as queues.",
+      "revId": "7d62464bc22c40fae95e49df1dab4176bea5e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB5n////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-10T07:22:25Z",
+      "side": 1,
+      "message": "Could you explain these conditions, it appears that this will only return true if the request is not at the front of the queue?",
+      "revId": "7d62464bc22c40fae95e49df1dab4176bea5e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB5n////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-10T07:22:25Z",
+      "side": 1,
+      "message": "If I understand your intent properly, I believe that this approach is still deadlock prone.  It appears that you are adding each request to its target queues unordered (targets is a hashset).  This means that in the simple two request case of X \u0026 Y for refs a and b, since the queues may get populated in any order, they could end up populated as a:X,Y and b:Y,X.  Would that not cause a deadlock?\n\nI suspect that even if you ordered the queuing, since it is a race, you could still end up with the same queuing outcome.\n\nMy suggestion is to ignore trying to be clever about contention ordering, use a set order such as alpha, and only add each request to a single queue until it reaches 0 in the queue (locked), at which point I believe it may be safely added to the queue for its next target.",
+      "revId": "7d62464bc22c40fae95e49df1dab4176bea5e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB5n////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-10T07:22:25Z",
+      "side": 1,
+      "message": "You should be able to replace this loop with simply refs.addAll(targets).",
+      "revId": "7d62464bc22c40fae95e49df1dab4176bea5e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB5n////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-10T07:22:25Z",
+      "side": 1,
+      "message": "group is a set, other is a MergeRequest?",
+      "revId": "7d62464bc22c40fae95e49df1dab4176bea5e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB5n////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-10T07:22:25Z",
+      "side": 1,
+      "message": "Why not reschedule failed groups also since the failure could be due to a currently unmerged depedency which is not in the group?",
+      "revId": "7d62464bc22c40fae95e49df1dab4176bea5e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

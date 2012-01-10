@@ -104,6 +104,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB6H////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2012-01-10T18:02:04Z",
+      "side": 1,
+      "message": "I added \"synchronized\" to each of the interface methods intentionally, but now realize that it doesn\u0027t do exactly what I intended. Instead, I believe that if I synchronize around active inside the MergeRequest class, I will be ok (since I moved all interactions with active inside there). Assuming this is eventually implemented correctly, I don\u0027t think the deadlock can occur, since only one MergeRequest would be able to interact with the active map at any given time, thus preserving relative ordering between requests in any given ref\u0027s list of waiting requests.\n\nThe mutex\u0027ed type of behavior around active is what I originally intended, and I will upload a new patchset that is less bad in that respect. I think as long as only one thread can interact with active at any given time, there shouldn\u0027t be any issues. In fact, with the \"unblocking cascade\" of finishing requests, wouldn\u0027t it be the most responsive implementation possible?",
+      "parentUuid": "AAAB5n////M\u003d",
+      "revId": "7d62464bc22c40fae95e49df1dab4176bea5e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB5n////U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 1

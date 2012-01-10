@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAB6H////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010022
+      },
+      "writtenOn": "2012-01-10T04:12:16Z",
+      "side": 1,
+      "message": "This exception will always be thrown if one of the repos has a series of changes that are chain-dependent. Suppose we had two repos R1 and R2 with some changes all part of a group. R1 has changes A and B, while R2 has change C. The problem seems to be that B will be marked unmergeable because A is not present during the test.\n\nThe fix would require some additional capabilities in MergeOp to let us check the mergeability of an entire group of changes, but there is change https://gerrit-review.googlesource.com/23582 waiting out there that needs to be merged first to make this easier and avoid duplication.",
+      "revId": "7d62464bc22c40fae95e49df1dab4176bea5e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

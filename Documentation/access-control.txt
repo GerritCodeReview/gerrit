@@ -716,7 +716,7 @@ like `Verified`, but has different names/labels:
   VALUES
     ('Copyright Check'
     ,3
-    'MaxWithBlock'
+    ,'MaxWithBlock'
     ,'copy');
 
   INSERT INTO approval_category_values

@@ -122,6 +122,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB7X////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-11T05:13:38Z",
+      "side": 1,
+      "message": "Ok, I think I understand your intent now.  It probably won\u0027t deadlock since by sychronizing everything you will effectively be acquiring a global lock before acquiring the other locks.  This might work, but remember that you will also have to lock branches this way when users push to refs (bypassing review) also.  For this last reason, you may want to reconsider making your requests tied to the mergequeue or to any sort of scheduling.  Instead, you may be better of designing an independent lock structure which threads make blocking lock requests to.  On blocks, threads would be put to sleep and they would be woken up on lock releases with notify() if they can unblock.   I suspect that this might be easier and allow you to leave the mergequeue scheduling alone and it should allow Gerrit pushes to use this reflocker also.\n\nWith this approach you could wake up all the threads which would be unblocked by a release in a single pass.  Since you have a global lock for the locker, I suspect that there are actually some further optimizations which you could use to reduce contention by allowing certain requests to be prioritized differently than what the queues reflect.  If you distinguished between locked and the front of the queue, it would be possible to safely move entire requests from anywhere in the queues to the locked state on the fly. \n\nOne case where this might be important is to give pushers priority over mergers since pushers are always going to be a single fast ref update without a merge.  The next, but likely way less valuable case, would be to give the first request in the contention queue the first shot at attempting to acquire all its locks.  To make this more likely, you could also prevent any locks which would contend with that request from being acquired, even if that request cannot yet be satisfied.  This could really help prevent hot spots from getting too hot.  But this is risky, you\u0027d have to ensure that what you consider the contention queue is considered to be the same until this request is satisfied, and to be honest I am having a hard time picturing a hot spot which would actually benefit from priority treatment.",
+      "parentUuid": "AAAB6H////k\u003d",
+      "revId": "7d62464bc22c40fae95e49df1dab4176bea5e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB5n////U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 1

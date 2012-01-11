@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAB7n///+4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/AssignChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-11T18:40:14Z",
+      "side": 1,
+      "message": "nit: use \u0027final\u0027 for all parameters or none",
+      "revId": "deee925db4710d9e9ed6b5105946f92b4b4faeaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB7n///+8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/AssignChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-11T18:40:14Z",
+      "side": 1,
+      "message": "Is @Nullable needed here if the \u0027message\u0027 parameter in the constructor is already annotated with @Nullable?\n\nIf it is needed, why is it then not needed for \u0027toId\u0027 above, which is also nullable if to look at the constructor?",
+      "revId": "deee925db4710d9e9ed6b5105946f92b4b4faeaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

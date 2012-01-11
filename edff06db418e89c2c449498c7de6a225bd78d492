@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAB73////Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-11T13:35:11Z",
+      "side": 1,
+      "message": "s/Fatal/fatal",
+      "revId": "edff06db418e89c2c449498c7de6a225bd78d492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

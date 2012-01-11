@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAB73///+s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-11T15:19:37Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be either\n\n  This is useful when Gerrit needs to comment about users other than the user performing the action. \n\nor\n\n  This is useful when Gerrit needs to comment about users other than the user creating the comment.\n\n?\n\nAlso when does Gerrit actually need to comment about a user other than the user creating the comment? Can you include an example?",
+      "revId": "a7547a4efcaf7cddda0b89e337ec4cebc8558119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB73///+0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-11T15:19:37Z",
+      "side": 1,
+      "message": "You should mention that this replacement is only done for summary comments, but not for inline comments (at least it was not working for inline comments when I tried it).",
+      "revId": "a7547a4efcaf7cddda0b89e337ec4cebc8558119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB73///+4\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountInfoCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-11T15:19:37Z",
+      "side": 1,
+      "message": "maybe better:\n\n  return Collections.unmodifiableSet(accounts.keySet());",
+      "revId": "a7547a4efcaf7cddda0b89e337ec4cebc8558119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB8X////8\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CommentLinkProcessor.java",
         "patchSetId": 1
@@ -64,6 +115,23 @@
       "writtenOn": "2012-01-11T12:15:22Z",
       "side": 1,
       "message": "Insert whitespace before \"String\": 133, 134, 135.",
+      "revId": "a7547a4efcaf7cddda0b89e337ec4cebc8558119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB73///+w\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-11T15:19:37Z",
+      "side": 1,
+      "message": "[optional] I\u0027m not sure I like that we again and again create this map just to have the format strings for all users. Instead you could maybe implement a Map that just wraps the account Set and have this Map compute the format string for an account id on the fly whenever a value from the Map is accessed.",
       "revId": "a7547a4efcaf7cddda0b89e337ec4cebc8558119",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

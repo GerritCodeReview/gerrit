@@ -250,13 +250,15 @@ public class Daemon extends SiteProgram {
 
   private Injector createWebInjector() {
     final List<Module> modules = new ArrayList<Module>();
-    modules.add(sshInjector.getInstance(WebModule.class));
+    modules.add(sysInjector.getInstance(WebModule.class));
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
-    modules.add(sshInjector.getInstance(WebSshGlueModule.class));
     modules.add(CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
     if (sshd) {
+      modules.add(sshInjector.getInstance(WebSshGlueModule.class));
       modules.add(sshInjector.getInstance(ProjectQoSFilter.Module.class));
+    } else {
+      modules.add(new NoSshModule());
     }
     return sysInjector.createChildInjector(modules);
   }

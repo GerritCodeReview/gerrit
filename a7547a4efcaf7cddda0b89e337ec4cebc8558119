@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAB8X////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CommentLinkProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-11T12:15:22Z",
+      "side": 1,
+      "message": "Suggestion: remove this empty line inserted.",
+      "revId": "a7547a4efcaf7cddda0b89e337ec4cebc8558119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB8X////4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CommentPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-11T12:15:22Z",
+      "side": 1,
+      "message": "Whitespace missing before \"String\".",
+      "revId": "a7547a4efcaf7cddda0b89e337ec4cebc8558119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB8X////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CommentPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-11T12:15:22Z",
+      "side": 1,
+      "message": "Martin, I could not test the feature. My question here is: does it only replace the id, so the message string would be something like \"comments ... [[user \u003cuser@email.com\u003e]]\"?  I mean, does it not replace the strings \"[[\" and \"]]\" around the id?",
+      "revId": "a7547a4efcaf7cddda0b89e337ec4cebc8558119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB8X////0\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-11T12:15:22Z",
+      "side": 1,
+      "message": "Insert whitespace before \"String\": 133, 134, 135.",
+      "revId": "a7547a4efcaf7cddda0b89e337ec4cebc8558119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB8X////w\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-11T12:15:22Z",
+      "side": 1,
+      "message": "s/dispalyed/displayed",
+      "revId": "a7547a4efcaf7cddda0b89e337ec4cebc8558119",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

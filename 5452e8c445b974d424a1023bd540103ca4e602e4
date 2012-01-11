@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAB5n///+c\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-11T05:30:14Z",
+      "side": 1,
+      "message": "I suggest adding an intro paragraph along the lines off:\n\nGerrit supports a custom git superproject feature for tracking submodules.  This feature is useful for... (1 or 2 sentences) To take advantage of this feature, you should...... (1 or 2 sentences)",
+      "revId": "5452e8c445b974d424a1023bd540103ca4e602e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB7X////w\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-11T05:30:14Z",
+      "side": 1,
+      "message": "The section titles need more caps.  You don\u0027t need to be perfect like this\n but probably at least get the nouns an verbs.\n\nhttp://www.writersblock.ca/tips/monthtip/tipmar98.htm",
+      "revId": "5452e8c445b974d424a1023bd540103ca4e602e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB7X////0\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-11T05:30:14Z",
+      "side": 1,
+      "message": "Was this section meant to be blank?",
+      "revId": "5452e8c445b974d424a1023bd540103ca4e602e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

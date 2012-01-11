@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB7n////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-11T08:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAB7H///+8\u003d",
+      "revId": "75fcbd25b39540c46a7a935e31eb57868eb34ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB7H////M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-10T19:42:46Z",
       "side": 1,
       "message": "[optional] I think you can have \u0027nameKey\u0027 just as local variable here instead of having it as class member variable. For the createProjectConfig method you can then simply pass it as parameter (same as it\u0027s already done for the createEmptyCommit method).",
+      "revId": "75fcbd25b39540c46a7a935e31eb57868eb34ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB7n////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-11T08:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAB7H////M\u003d",
       "revId": "75fcbd25b39540c46a7a935e31eb57868eb34ae8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB7n////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-11T08:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAB7H////E\u003d",
+      "revId": "75fcbd25b39540c46a7a935e31eb57868eb34ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB7H////Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 10
@@ -64,6 +118,24 @@
       "writtenOn": "2012-01-10T19:42:46Z",
       "side": 1,
       "message": "I would remove the \u0027fatal: \u0027 here. It\u0027s also not included for any other thrown exception.",
+      "revId": "75fcbd25b39540c46a7a935e31eb57868eb34ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB7n////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-11T08:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAB7H////Y\u003d",
       "revId": "75fcbd25b39540c46a7a935e31eb57868eb34ae8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB7n////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-11T08:35:04Z",
+      "side": 1,
+      "message": "Sorry !\n\nDone.",
+      "parentUuid": "AAAB7H////U\u003d",
+      "revId": "75fcbd25b39540c46a7a935e31eb57868eb34ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB7H////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
         "patchSetId": 10
@@ -98,6 +188,24 @@
       "writtenOn": "2012-01-10T19:42:46Z",
       "side": 1,
       "message": "style-nit: Project.NameKey should not be imported, but below you should always use \u0027Project.NameKey\u0027 instead of just \u0027NameKey\u0027",
+      "revId": "75fcbd25b39540c46a7a935e31eb57868eb34ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB7n////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-11T08:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAB7H////k\u003d",
       "revId": "75fcbd25b39540c46a7a935e31eb57868eb34ae8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB7n////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-11T08:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAB7H////g\u003d",
+      "revId": "75fcbd25b39540c46a7a935e31eb57868eb34ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB7H////c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
         "patchSetId": 10
@@ -132,6 +258,24 @@
       "writtenOn": "2012-01-10T19:42:46Z",
       "side": 1,
       "message": "s/NameKey/Project.NameKey",
+      "revId": "75fcbd25b39540c46a7a935e31eb57868eb34ae8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB7n////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProjectArgs.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-11T08:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAB7H////c\u003d",
       "revId": "75fcbd25b39540c46a7a935e31eb57868eb34ae8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

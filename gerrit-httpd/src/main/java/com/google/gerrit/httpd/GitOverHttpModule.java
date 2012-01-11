@@ -31,6 +31,8 @@ public class GitOverHttpModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
+    install(new ProjectServlet.Module());
+
     filter("/p/*").through(ProjectAccessPathFilter.class);
     if (authConfig.isTrustContainerAuth()) {
       filter("/p/*").through(ContainerAuthFilter.class);

@@ -74,6 +74,8 @@ $(DOC_HTML): %.html : %.txt
 	@echo "FORMAT $@"
 	@rm -f $@+ $@
 	@$(ASCIIDOC) -a toc \
+		-a data-uri \
+		-a icons \
 		-a 'revision=$(REVISION)' \
 		-b xhtml11 \
 		-f asciidoc.conf \

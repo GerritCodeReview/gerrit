@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB8X////k\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-11T12:18:58Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "AAAB5n///+c\u003d",
+      "revId": "5452e8c445b974d424a1023bd540103ca4e602e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB7X////w\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB8X////g\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-11T12:18:58Z",
+      "side": 1,
+      "message": "Thanks for the hint!",
+      "parentUuid": "AAAB7X////w\u003d",
+      "revId": "5452e8c445b974d424a1023bd540103ca4e602e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB7X////0\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-01-11T05:30:14Z",
       "side": 1,
       "message": "Was this section meant to be blank?",
+      "revId": "5452e8c445b974d424a1023bd540103ca4e602e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB8X////c\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-11T12:18:58Z",
+      "side": 1,
+      "message": "My idea here is to have it empty with, what I thought, to be the subsections below (Defining the submodule branch and Detecting and subscribing subscriptions). \n\nI should modify the caps, and last subsection should actually be \"Detecting and Subscribing Submodules\".",
+      "parentUuid": "AAAB7X////0\u003d",
       "revId": "5452e8c445b974d424a1023bd540103ca4e602e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

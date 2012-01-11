@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAB73////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-11T13:15:58Z",
+      "side": 1,
+      "message": "Before this change, there was a distinction in com.google.gerrit.sshd.commands.CreateProject between real errors that should be logged (something unexpected happened) and non critical errors (user gave incorrect input and then it failed as expected). For real errors a Failure was thrown and for non critical errors a UnloggedFailure was thrown. The intention was to only log the real errors. If I look at the CreateProjectCommand now, a ProjectCreationFailedException is now always converted into an UnloggedFailure, which means that no error is logged. I think this is fine, if we ensure in this class to log all real errors. I think if we come into this catch block, there was such a real error and we should log it. This is why I would propose to change the above line to:\n\n  final String msg \u003d \"Cannot create \" + createProjectArgs.getProject();\n  log.error(msg, e);\n  throw new ProjectCreationFailedException(msg, e);",
+      "revId": "3ee652b47272199e82252ecf41c84afe0d381269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB73////o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateProjectCommand.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-11T13:15:58Z",
+      "side": 1,
+      "message": "To be consistent with the other error output, I would replcae \u0027Error:\u0027 with \u0027fatal:\u0027. Sorry to have missed this before.",
+      "revId": "3ee652b47272199e82252ecf41c84afe0d381269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

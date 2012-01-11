@@ -52,6 +52,24 @@
       "revId": "a061f40a6a7447df3076c82bad896b3abaa1d033",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB8X////U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-11T12:20:42Z",
+      "side": 1,
+      "message": "Ok. I will modify the code and documentation to consider the branch term (instead of revision).",
+      "parentUuid": "AAAB53////E\u003d",
+      "revId": "a061f40a6a7447df3076c82bad896b3abaa1d033",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

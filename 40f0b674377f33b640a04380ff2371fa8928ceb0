@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACAn////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-12T17:15:13Z",
+      "side": 1,
+      "message": "Nice, thanks, that was unclear.",
+      "parentUuid": "AAAB+n////0\u003d",
+      "revId": "40f0b674377f33b640a04380ff2371fa8928ceb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB+n////8\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-12T08:23:40Z",
       "side": 1,
       "message": "This import seems not to be used and can be removed.",
+      "revId": "40f0b674377f33b640a04380ff2371fa8928ceb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACAn////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-12T17:15:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAB+n////8\u003d",
       "revId": "40f0b674377f33b640a04380ff2371fa8928ceb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

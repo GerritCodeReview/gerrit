@@ -16,6 +16,24 @@
       "revId": "28adb6250c1b72029e50394d36dca5fcfce4979d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACAn////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-12T17:14:10Z",
+      "side": 1,
+      "message": "No quotes even better.",
+      "parentUuid": "AAAB7n////Y\u003d",
+      "revId": "28adb6250c1b72029e50394d36dca5fcfce4979d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

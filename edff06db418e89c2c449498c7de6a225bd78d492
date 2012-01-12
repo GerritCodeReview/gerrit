@@ -34,6 +34,24 @@
       "revId": "edff06db418e89c2c449498c7de6a225bd78d492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB+n////k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectAdminService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-12T09:51:31Z",
+      "side": 0,
+      "message": "Yes, this method is not used within the Gerrit Server, but it is used by the Gerrit Connector to retrieve the projects from the Gerrit Server. The Gerrit Connector is an Eclipse Plugin that implements a Mylyn Connector for Gerrit.",
+      "parentUuid": "AAAB7n///+g\u003d",
+      "revId": "edff06db418e89c2c449498c7de6a225bd78d492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

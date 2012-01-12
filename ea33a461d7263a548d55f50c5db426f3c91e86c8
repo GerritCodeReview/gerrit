@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAB7n////U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-12T09:46:15Z",
+      "side": 1,
+      "message": "[optional] Would be nice to include already in the title line that this is related to project creation, e.g.\n\n  On project creation allow chosing parent from popup with all projects\n\nor, if this is too long, maybe just:\n\n    On project creation allow chosing parent from popup",
+      "revId": "ea33a461d7263a548d55f50c5db426f3c91e86c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB7n////Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-12T09:46:15Z",
+      "side": 1,
+      "message": "s/user can browser/a user can now browse",
+      "revId": "ea33a461d7263a548d55f50c5db426f3c91e86c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

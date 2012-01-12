@@ -16,6 +16,24 @@
       "revId": "39a3592119338886014c9053fea7dee14991acc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB/3////0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-12T19:23:27Z",
+      "side": 1,
+      "message": "Yes, center() takes care to display the error dialog. But looking at this code now, I think that the setText(...) method is not needed. It can be just\n\n  new ErrorDialog(caught.getMessage()).center()",
+      "parentUuid": "AAACAn///+4\u003d",
+      "revId": "39a3592119338886014c9053fea7dee14991acc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

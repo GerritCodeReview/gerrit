@@ -16,6 +16,24 @@
       "revId": "edff06db418e89c2c449498c7de6a225bd78d492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB7n///+g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectAdminService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-12T09:38:39Z",
+      "side": 0,
+      "message": "Excuse me, I can not find this method ever been used in [1].\n\neven though I should have kept it as it is not about current feature. Sorry for that!\n\n\nDone.",
+      "parentUuid": "AAAB73////Q\u003d",
+      "revId": "edff06db418e89c2c449498c7de6a225bd78d492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

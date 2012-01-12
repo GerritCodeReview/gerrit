@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACAn////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-12T17:55:39Z",
+      "side": 1,
+      "message": "nit: I know this came from the original, but \"rq\" is kind of tiny for a class level field (would be fine as a function var name).",
+      "revId": "b1a1d21d464a61eeb6b25249e45583c1236589d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACAn////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-12T17:55:39Z",
+      "side": 1,
+      "message": "You are using two different types of Injection, field Injection is not reliable, please use constructor injection instead.\n\nSomeday I might actually finish this, and then it might help: https://gerrit-review.googlesource.com/#/c/25622/4/Documentation/dev-contributing.txt",
+      "revId": "b1a1d21d464a61eeb6b25249e45583c1236589d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

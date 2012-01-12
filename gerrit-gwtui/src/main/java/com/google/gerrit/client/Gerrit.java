@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.CommandMenuItem;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.MorphingTabPanel;
@@ -42,6 +43,7 @@ import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
@@ -247,14 +249,14 @@ public class Gerrit implements EntryPoint {
       case HTTP_LDAP:
       case CLIENT_SSL_CERT_LDAP:
       case CUSTOM_EXTENSION:
-        if (!token.startsWith("/")) {
-          token = "/" + token;
+        if (token.startsWith("/")) {
+          token = token.substring(1);
         }
-        Location.assign(Location.getPath() + "login" + token);
+        Location.assign(selfRedirect("/login/" + token));
         break;
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-        Location.assign(Location.getPath() + "become");
+        Location.assign(selfRedirect("/become"));
         break;
 
       case OPENID:
@@ -266,6 +268,42 @@ public class Gerrit implements EntryPoint {
         new UserPassSignInDialog(token, null).center();
         break;
     }
+  }
+
+  private static String selfRedirect(String suffix) {
+    // Clean up the path. Users seem to like putting extra slashes into the URL
+    // which can break redirections by misinterpreting at either client or server.
+    String path = Location.getPath();
+    if (path == null || path.isEmpty()) {
+      path = "/";
+    } else {
+      while (path.startsWith("//")) {
+        path = path.substring(1);
+      }
+      while (path.endsWith("//")) {
+        path = path.substring(0, path.length() - 1);
+      }
+      if (!path.endsWith("/")) {
+        path = path + "/";
+      }
+    }
+
+    if (suffix != null) {
+      while (suffix.startsWith("/")) {
+        suffix = suffix.substring(1);
+      }
+      path += suffix;
+    }
+
+    UrlBuilder builder = new UrlBuilder();
+    builder.setProtocol(Location.getProtocol());
+    builder.setHost(Location.getHost());
+    String port = Location.getPort();
+    if (port != null && !port.isEmpty()) {
+      builder.setPort(Integer.parseInt(port));
+    }
+    builder.setPath(path);
+    return builder.buildString();
   }
 
   static void deleteSessionCookie() {
@@ -539,7 +577,7 @@ public class Gerrit implements EntryPoint {
       whoAmI();
       addLink(menuRight, C.menuSettings(), PageLinks.SETTINGS);
       if (cfg.getAuthType() != AuthType.CLIENT_SSL_CERT_LDAP) {
-        menuRight.add(anchor(C.menuSignOut(), "logout"));
+        menuRight.add(anchor(C.menuSignOut(), selfRedirect("/logout")));
       }
     } else {
       switch (cfg.getAuthType()) {
@@ -568,15 +606,18 @@ public class Gerrit implements EntryPoint {
           if (cfg.getRegisterUrl() != null) {
             menuRight.add(anchor(C.menuRegister(), cfg.getRegisterUrl()));
           }
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
+          CommandMenuItem signIn = new CommandMenuItem(C.menuSignIn(),
+              new Command() {
+                public void execute() {
+                  doSignIn(History.getToken());
+                }
+              });
+          signIn.setHref(selfRedirect("/login/"));
+          menuRight.addItem(signIn);
           break;
 
         case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-          menuRight.add(anchor("Become", "become"));
+          menuRight.add(anchor("Become", selfRedirect("/become")));
           break;
       }
     }
@@ -647,7 +688,7 @@ public class Gerrit implements EntryPoint {
 
   private static void addDocLink(final LinkMenuBar m, final String text,
       final String href) {
-    final Anchor atag = anchor(text, "Documentation/" + href);
+    final Anchor atag = anchor(text, selfRedirect("/Documentation/" + href));
     atag.setTarget("_blank");
     m.add(atag);
   }

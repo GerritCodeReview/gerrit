@@ -20,19 +20,18 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
-import com.google.inject.servlet.RequestScoped;
 
-@RequestScoped
 class HttpIdentifiedUserProvider implements Provider<IdentifiedUser> {
-  private final CurrentUser user;
+  private final WebSession session;
 
   @Inject
-  HttpIdentifiedUserProvider(final CurrentUser u) {
-    user = u;
+  HttpIdentifiedUserProvider(WebSession session) {
+    this.session = session;
   }
 
   @Override
   public IdentifiedUser get() {
+    CurrentUser user = session.getCurrentUser();
     if (user instanceof IdentifiedUser) {
       return (IdentifiedUser) user;
     }

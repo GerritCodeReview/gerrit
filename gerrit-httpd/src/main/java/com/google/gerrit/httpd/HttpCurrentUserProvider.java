@@ -17,9 +17,7 @@ package com.google.gerrit.httpd;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.servlet.RequestScoped;
 
-@RequestScoped
 class HttpCurrentUserProvider implements Provider<CurrentUser> {
   private final WebSession session;
 

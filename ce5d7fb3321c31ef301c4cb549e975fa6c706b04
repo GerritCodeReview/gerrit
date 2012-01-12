@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACAn///+s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-12T18:33:36Z",
+      "side": 1,
+      "message": "I would have used REs here for this stuff, but I guess that\u0027s just my background. :)",
+      "revId": "ce5d7fb3321c31ef301c4cb549e975fa6c706b04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

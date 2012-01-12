@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAB+n////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-12T08:23:40Z",
+      "side": 1,
+      "message": "[optional] \u0027review button\u0027 first confused me because I was thinking of the \u0027Review\u0027 button on the ChangeScreen which allows you to comment and vote on a patch set. Maybe better:\n\n  Move checkbox to mark a file as reviewed into title bar",
+      "revId": "40f0b674377f33b640a04380ff2371fa8928ceb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB+n////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-12T08:23:40Z",
+      "side": 1,
+      "message": "This import seems not to be used and can be removed.",
+      "revId": "40f0b674377f33b640a04380ff2371fa8928ceb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

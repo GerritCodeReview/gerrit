@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB+n///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-13T07:46:32Z",
+      "side": 1,
+      "message": "No, I think Martin\u0027s proposal is not related to line 54.\n\nAt the moment you are suggesting all projects as parent project that are already a parent of another project. Martin\u0027s idea is to suggest all permission-only projects in addition (independent of whether they have already child projects below them or not). This makes sense because permission-only projects only have the purpose to serve as parent project.\n\nTo implement this you would need to check for every project whether it is a permission-only project (maybe at the beginning of the for loop at line 46). If yes, simply add it to r. What is a bit tricky is to find out whether a project is a permission-only project. At the moment this is found out by checking if HEAD points to the \u0027refs/meta/config\u0027 branch (because a permission-only project has no \u0027master\u0027 branch but only the \u0027refs/meta/config\u0027 branch). How this check is done you can see at [1].\n\nBut as suggested by Martin, I think it\u0027s better to do this in an own change and not to do it already in this change.\n\n[1] https://gerrit-review.googlesource.com/#/c/30550/4/gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectDetailFactory.java",
+      "parentUuid": "AAACBH////s\u003d",
+      "revId": "85fce862d56b3f2795f5cf860726217c2390a9ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACAn///74\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
         "patchSetId": 4

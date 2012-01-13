@@ -29,7 +29,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-class UserPassAuthServiceImpl implements UserPassAuthService {
+public class UserPassAuthServiceImpl implements UserPassAuthService {
   private final Provider<WebSession> webSession;
   private final AccountManager accountManager;
   private final AuthType authType;

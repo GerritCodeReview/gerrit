@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.auth.internal.InternalRegisterDialog;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.ChangeConstants;
@@ -54,10 +55,10 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtexpui.user.client.ViewSite;
@@ -265,6 +266,7 @@ public class Gerrit implements EntryPoint {
 
       case LDAP:
       case LDAP_BIND:
+      case INTERNAL:
         new UserPassSignInDialog(token, null).center();
         break;
     }
@@ -614,6 +616,20 @@ public class Gerrit implements EntryPoint {
               });
           signIn.setHref(selfRedirect("/login/"));
           menuRight.addItem(signIn);
+          break;
+
+        case INTERNAL:
+          menuRight.addItem(C.menuRegister(), new Command() {
+            public void execute() {
+              final String to = History.getToken();
+              new InternalRegisterDialog(SignInMode.REGISTER, to, null).center();
+            }
+          });
+          menuRight.addItem(C.menuSignIn(), new Command() {
+            public void execute() {
+              doSignIn(History.getToken());
+            }
+          });
           break;
 
         case DEVELOPMENT_BECOME_ANY_ACCOUNT:

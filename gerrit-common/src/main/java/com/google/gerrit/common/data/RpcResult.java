@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.rpc.project;
+package com.google.gerrit.common.data;
 
-public class BranchCreationNotAllowedException extends Exception {
+public class RpcResult<R, E extends RpcError<?>> {
 
-  private static final long serialVersionUID = 1L;
+  public static <R, E extends RpcError<?>> RpcResult<R, E> result(final R result) {
+    final RpcResult<R, E> r = new RpcResult<R, E>();
+    r.result = result;
+    return r;
+  }
 
-  public static final String MESSAGE = "Branch creation is not allowed under: ";
+  public static <R, E extends RpcError<?>> RpcResult<R, E> error(final E error) {
+    final RpcResult<R, E> r = new RpcResult<R, E>();
+    r.error = error;
+    return r;
+  }
 
-  public BranchCreationNotAllowedException(final String refnamePrefix) {
-    super(MESSAGE + refnamePrefix);
+  public R result;
+  public E error;
+
+  protected RpcResult() {
   }
 }

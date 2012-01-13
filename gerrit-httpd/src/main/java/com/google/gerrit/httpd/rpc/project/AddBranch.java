@@ -15,8 +15,9 @@
 package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.data.AddBranchError;
 import com.google.gerrit.common.data.ListBranchesResult;
-import com.google.gerrit.common.errors.InvalidNameException;
+import com.google.gerrit.common.data.RpcResult;
 import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -46,7 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-class AddBranch extends Handler<ListBranchesResult> {
+class AddBranch extends Handler<RpcResult<ListBranchesResult, AddBranchError>> {
   private static final Logger log = LoggerFactory.getLogger(AddBranch.class);
 
   interface Factory {
@@ -90,9 +91,8 @@ class AddBranch extends Handler<ListBranchesResult> {
   }
 
   @Override
-  public ListBranchesResult call() throws NoSuchProjectException,
-      InvalidNameException, InvalidRevisionException, IOException,
-      BranchCreationNotAllowedException {
+  public RpcResult<ListBranchesResult, AddBranchError> call()
+      throws NoSuchProjectException, IOException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
 
@@ -104,10 +104,12 @@ class AddBranch extends Handler<ListBranchesResult> {
       refname = Constants.R_HEADS + refname;
     }
     if (!Repository.isValidRefName(refname)) {
-      throw new InvalidNameException();
+      return RpcResult.error(new AddBranchError(AddBranchError.Type.INVALID_NAME, refname));
     }
     if (MagicBranch.isMagicBranch(refname)) {
-      throw new BranchCreationNotAllowedException(refname);
+      return RpcResult.error(new AddBranchError(
+          AddBranchError.Type.BRANCH_CREATION_NOT_ALLOWED_UNDER_REFNAME_PREFIX,
+          refname));
     }
 
     final Branch.NameKey name = new Branch.NameKey(projectName, refname);
@@ -147,6 +149,19 @@ class AddBranch extends Handler<ListBranchesResult> {
             replication.scheduleUpdate(name.getParentKey(), refname);
             hooks.doRefUpdatedHook(name, u, identifiedUser.getAccount());
             break;
+          case LOCK_FAILURE:
+            if (repo.getRef(refname) != null) {
+              return RpcResult.error(new AddBranchError(
+                  AddBranchError.Type.BRANCH_ALREADY_EXISTS, refname));
+            }
+            String refPrefix = getRefPrefix(refname);
+            while (!Constants.R_HEADS.equals(refPrefix)) {
+              if (repo.getRef(refPrefix) != null) {
+                return RpcResult.error(new AddBranchError(
+                    AddBranchError.Type.BRANCH_CREATION_CONFLICT, refname));
+              }
+              refPrefix = getRefPrefix(refPrefix);
+            }
           default: {
             throw new IOException(result.name());
           }
@@ -155,11 +170,22 @@ class AddBranch extends Handler<ListBranchesResult> {
         log.error("Cannot create branch " + name, err);
         throw err;
       }
+    } catch (InvalidRevisionException e) {
+      return RpcResult.error(new AddBranchError(
+          AddBranchError.Type.INVALID_REVISION, refname));
     } finally {
       repo.close();
     }
 
-    return listBranchesFactory.create(projectName).call();
+    return RpcResult.result(listBranchesFactory.create(projectName).call());
+  }
+
+  private static String getRefPrefix(final String refName) {
+    final int i = refName.lastIndexOf('/');
+    if (i > Constants.R_HEADS.length() - 1) {
+      return refName.substring(0, i);
+    }
+    return Constants.R_HEADS;
   }
 
   private ObjectId parseStartingRevision(final Repository repo)

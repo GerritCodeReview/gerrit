@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.AddBranchResult;
 import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.ProjectAdminService;
@@ -131,7 +132,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   @Override
   public void addBranch(final Project.NameKey projectName,
       final String branchName, final String startingRevision,
-      final AsyncCallback<ListBranchesResult> callback) {
+      final AsyncCallback<AddBranchResult> callback) {
     addBranchFactory.create(projectName, branchName, startingRevision).to(
         callback);
   }

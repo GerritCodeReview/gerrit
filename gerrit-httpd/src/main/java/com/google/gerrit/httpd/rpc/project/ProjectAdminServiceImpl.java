@@ -15,13 +15,16 @@
 package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.AddBranchError;
 import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.common.data.ProjectList;
+import com.google.gerrit.common.data.RpcResult;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.inject.Inject;
@@ -129,12 +132,12 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   }
 
   @Override
-  public void addBranch(final Project.NameKey projectName,
-      final String branchName, final String startingRevision,
-      final AsyncCallback<ListBranchesResult> callback) {
-    addBranchFactory.create(projectName, branchName, startingRevision).to(
-        callback);
+  public void addBranch(NameKey projectName, String branchName,
+      String startingRevision,
+      AsyncCallback<RpcResult<ListBranchesResult, AddBranchError>> callback) {
+    addBranchFactory.create(projectName, branchName, startingRevision).to(callback);
   }
+
 
   @Override
   public void createNewProject(String projectName, String parentName,

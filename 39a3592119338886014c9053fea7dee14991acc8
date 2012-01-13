@@ -34,6 +34,24 @@
       "revId": "39a3592119338886014c9053fea7dee14991acc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACBH////g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-13T07:32:33Z",
+      "side": 1,
+      "message": "there is a commit of Edwin, for reference it I  spent a lot of time to find but failed maybe rebase get it away, not sure.\n\n  directly, Edwin\u0027s commit is about to keep the error message on UI clean without  \n  scaring user by \u0027Application Error\u0027\u0027\n\n  that is why I create this method  \n  with this setText() method the UI will display only the error message .  e.g. \n\n \u0027parent project \"abc\" does not exist.\u0027\n\n without it the UI will display \n\n  \u0027Application Error\u0027\n  \u0027parent project \"abc\" does not exist.wo test\u0027\n\n   I think keep this method is better.  ok ?",
+      "parentUuid": "AAAB/3////0\u003d",
+      "revId": "39a3592119338886014c9053fea7dee14991acc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

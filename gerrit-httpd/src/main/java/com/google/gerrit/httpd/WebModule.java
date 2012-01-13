@@ -119,6 +119,7 @@ public class WebModule extends FactoryModule {
     install(new UrlModule());
     install(new UiRpcModule());
     install(new GerritRequestModule());
+    install(new ProjectServlet.Module());
 
     bind(GitWebConfig.class).toInstance(gitWebConfig);
     if (gitWebConfig.getGitwebCGI() != null) {

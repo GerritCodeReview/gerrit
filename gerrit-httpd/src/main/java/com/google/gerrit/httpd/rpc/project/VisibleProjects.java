@@ -14,9 +14,10 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-
+import com.google.gerrit.common.data.ProjectList;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -27,23 +28,32 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-class VisibleProjects extends Handler<List<Project>> {
+class VisibleProjects extends Handler<ProjectList> {
   interface Factory {
     VisibleProjects create();
   }
 
   private final ProjectControl.Factory projectControlFactory;
   private final ProjectCache projectCache;
+  private final CurrentUser user;
 
   @Inject
   VisibleProjects(final ProjectControl.Factory projectControlFactory,
-       final ProjectCache projectCache) {
+      final ProjectCache projectCache, final CurrentUser user) {
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
+    this.user = user;
   }
 
   @Override
-  public List<Project> call() {
+  public ProjectList call() {
+    ProjectList result = new ProjectList();
+    result.setProjects(getProjects());
+    result.setCanCreateProject(user.getCapabilities().canCreateProject());
+    return result;
+  }
+
+  private List<Project> getProjects() {
     List<Project> result = new ArrayList<Project>();
     for (Project.NameKey p : projectCache.all()) {
       try {

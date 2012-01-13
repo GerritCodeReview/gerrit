@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAACBH////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-13T06:52:57Z",
+      "side": 1,
+      "message": "Excuse me,  I want confirm with you about \"A suggestion for a follow on change  \n would be to add any permissions only projects as candidates even if they are not yet  \n parents since that is likely their sole purpose: to become parents.\"\n\n here can I understand  \"to add any permissions only projects as candidates \" as to \n delete Line 54?",
+      "revId": "85fce862d56b3f2795f5cf860726217c2390a9ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACAn///74\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
         "patchSetId": 4

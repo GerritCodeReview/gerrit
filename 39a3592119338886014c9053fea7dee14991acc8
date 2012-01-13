@@ -70,6 +70,24 @@
       "revId": "39a3592119338886014c9053fea7dee14991acc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACBH///+s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-13T09:57:11Z",
+      "side": 1,
+      "message": "oh . \"have it here since we have it for all the other error message as well\", right!\n\nDone",
+      "parentUuid": "AAAB+n///+s\u003d",
+      "revId": "39a3592119338886014c9053fea7dee14991acc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

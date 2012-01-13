@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAACCX///8k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-13T19:02:11Z",
+      "side": 1,
+      "message": "nit: you could combine the above 2 lines to eliminate pList.",
+      "revId": "c9229686e6d9f9443939a2d04f8dd50fe97a25ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACCH////w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
         "patchSetId": 5

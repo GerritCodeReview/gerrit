@@ -52,6 +52,24 @@
       "revId": "39a3592119338886014c9053fea7dee14991acc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAB+n///+s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-13T08:13:43Z",
+      "side": 1,
+      "message": "Yes, I remember this comment and it took me also some time to find it [1]. Actually I\u0027m fine with \u0027Application Error\u0027 and I think we should have it here since we have it for all the other error message as well. What I was complaining about was \u0027Application Error - Internal Server Error\u0027 as it was before. Sorry, I think I was not really clear in that comment, but actually I disliked only the \u0027Internal Server Error\u0027 part of the error message, because \u0027Internal Server Error\u0027 really means that something unexpected happened in the server. I would propose to remove the setText(..) method and just do:\n\n  new ErrorDialog(caught.getMessage()).center()\n\n[1] https://gerrit-review.googlesource.com/#/c/17380/8/gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/CreateNewProject.java",
+      "parentUuid": "AAACBH////g\u003d",
+      "revId": "39a3592119338886014c9053fea7dee14991acc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

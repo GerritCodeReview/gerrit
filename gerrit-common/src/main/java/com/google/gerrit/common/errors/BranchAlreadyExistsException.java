@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.rpc.project;
+package com.google.gerrit.common.errors;
 
-public class BranchCreationNotAllowedException extends Exception {
+public class BranchAlreadyExistsException extends Exception {
 
   private static final long serialVersionUID = 1L;
 
-  public static final String MESSAGE = "Branch creation is not allowed under: ";
+  public static final String MESSAGE = "Branch already exists: ";
 
-  public BranchCreationNotAllowedException(final String refnamePrefix) {
-    super(MESSAGE + refnamePrefix);
+  public BranchAlreadyExistsException(final String refname) {
+    super(MESSAGE + refname);
   }
 }

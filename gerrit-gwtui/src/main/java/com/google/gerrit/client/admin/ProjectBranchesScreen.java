@@ -16,6 +16,7 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.ConfirmationCallback;
 import com.google.gerrit.client.ConfirmationDialog;
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -23,6 +24,9 @@ import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.ListBranchesResult;
+import com.google.gerrit.common.errors.BranchAlreadyExistsException;
+import com.google.gerrit.common.errors.BranchCreationNotAllowedUnderExistingBranch;
+import com.google.gerrit.common.errors.BranchCreationNotAllowedUnderRefnamePrefixException;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.reviewdb.Branch;
@@ -42,6 +46,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 import java.util.HashSet;
@@ -160,13 +165,13 @@ public class ProjectBranchesScreen extends ProjectScreen {
   }
 
   private void doAddNewBranch() {
-    String branchName = nameTxtBox.getText();
+    final String branchName = nameTxtBox.getText();
     if ("".equals(branchName)) {
       nameTxtBox.setFocus(true);
       return;
     }
 
-    String rev = irevTxtBox.getText();
+    final String rev = irevTxtBox.getText();
     if ("".equals(rev)) {
       irevTxtBox.setText("HEAD");
       Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -177,10 +182,6 @@ public class ProjectBranchesScreen extends ProjectScreen {
         }
       });
       return;
-    }
-
-    if (!branchName.startsWith(Branch.R_REFS)) {
-      branchName = Branch.R_HEADS + branchName;
     }
 
     addBranch.setEnabled(false);
@@ -195,23 +196,56 @@ public class ProjectBranchesScreen extends ProjectScreen {
 
           @Override
           public void onFailure(final Throwable caught) {
-            if (caught instanceof InvalidNameException
-                || caught instanceof RemoteJsonException
-                && caught.getMessage().equals(InvalidNameException.MESSAGE)) {
-              nameTxtBox.selectAll();
-              nameTxtBox.setFocus(true);
-
-            } else if (caught instanceof InvalidRevisionException
-                || caught instanceof RemoteJsonException
-                && caught.getMessage().equals(InvalidRevisionException.MESSAGE)) {
-              irevTxtBox.selectAll();
-              irevTxtBox.setFocus(true);
-            }
-
             addBranch.setEnabled(true);
+
+            if (caught instanceof RemoteJsonException) {
+              final String msg = caught.getMessage();
+              String userMsg = null;
+              if (InvalidNameException.MESSAGE.equals(msg)) {
+                selectAllAndFocus(nameTxtBox);
+                userMsg = Gerrit.M.invalidBranchName(branchName);
+
+              } else if (InvalidRevisionException.MESSAGE.equals(msg)) {
+                selectAllAndFocus(irevTxtBox);
+                userMsg = Gerrit.M.invalidRevision(rev);
+
+              } else if (msg.startsWith(BranchCreationNotAllowedUnderRefnamePrefixException.MESSAGE)) {
+                selectAllAndFocus(nameTxtBox);
+                final String refnamePrefix =
+                    caught.getMessage().substring(
+                        BranchCreationNotAllowedUnderRefnamePrefixException.MESSAGE.length());
+                userMsg = Gerrit.M.branchCreationNotAllowedUnderRefnamePrefix(refnamePrefix);
+
+              } else if (msg.startsWith(BranchAlreadyExistsException.MESSAGE)) {
+                selectAllAndFocus(nameTxtBox);
+                final String existingBranchName =
+                    caught.getMessage().substring(
+                        BranchAlreadyExistsException.MESSAGE.length());
+                userMsg = Gerrit.M.branchAlreadyExists(existingBranchName);
+
+              } else if (msg.startsWith(BranchCreationNotAllowedUnderExistingBranch.MESSAGE)) {
+                selectAllAndFocus(nameTxtBox);
+                final String existingBranchName =
+                    caught.getMessage().substring(
+                        BranchCreationNotAllowedUnderExistingBranch.MESSAGE.length());
+                userMsg =
+                    Gerrit.M.branchCreationNotAllowedUnderExistingBranch(
+                        branchName, existingBranchName);
+              }
+
+              if (userMsg != null) {
+                new ErrorDialog(userMsg).center();
+                return;
+              }
+            }
             super.onFailure(caught);
           }
         });
+  }
+
+  private static void selectAllAndFocus(final TextBox textBox) {
+    textBox.selectAll();
+    textBox.setFocus(true);
   }
 
   private class BranchesTable extends FancyFlexTable<Branch> {

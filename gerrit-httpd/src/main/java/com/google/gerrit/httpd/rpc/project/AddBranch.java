@@ -16,6 +16,9 @@ package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ListBranchesResult;
+import com.google.gerrit.common.errors.BranchAlreadyExistsException;
+import com.google.gerrit.common.errors.BranchCreationNotAllowedUnderExistingBranch;
+import com.google.gerrit.common.errors.BranchCreationNotAllowedUnderRefnamePrefixException;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -92,7 +95,8 @@ class AddBranch extends Handler<ListBranchesResult> {
   @Override
   public ListBranchesResult call() throws NoSuchProjectException,
       InvalidNameException, InvalidRevisionException, IOException,
-      BranchCreationNotAllowedException {
+      BranchCreationNotAllowedUnderRefnamePrefixException,
+      BranchAlreadyExistsException, BranchCreationNotAllowedUnderExistingBranch {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
 
@@ -107,7 +111,8 @@ class AddBranch extends Handler<ListBranchesResult> {
       throw new InvalidNameException();
     }
     if (MagicBranch.isMagicBranch(refname)) {
-      throw new BranchCreationNotAllowedException(refname);
+      throw new BranchCreationNotAllowedUnderRefnamePrefixException(
+          MagicBranch.getMagicRefNamePrefix(refname));
     }
 
     final Branch.NameKey name = new Branch.NameKey(projectName, refname);
@@ -147,6 +152,17 @@ class AddBranch extends Handler<ListBranchesResult> {
             replication.scheduleUpdate(name.getParentKey(), refname);
             hooks.doRefUpdatedHook(name, u, identifiedUser.getAccount());
             break;
+          case LOCK_FAILURE:
+            if (repo.getRef(refname) != null) {
+              throw new BranchAlreadyExistsException(refname);
+            }
+            String refPrefix = getRefPrefix(refname);
+            while (!Constants.R_HEADS.equals(refPrefix)) {
+              if (repo.getRef(refPrefix) != null) {
+                throw new BranchCreationNotAllowedUnderExistingBranch(refPrefix);
+              }
+              refPrefix = getRefPrefix(refPrefix);
+            }
           default: {
             throw new IOException(result.name());
           }
@@ -160,6 +176,14 @@ class AddBranch extends Handler<ListBranchesResult> {
     }
 
     return listBranchesFactory.create(projectName).call();
+  }
+
+  private String getRefPrefix(final String refName) {
+    int i = refName.lastIndexOf('/');
+    if (i > Constants.R_HEADS.length() - 1) {
+      return refName.substring(0, i);
+    }
+    return Constants.R_HEADS;
   }
 
   private ObjectId parseStartingRevision(final Repository repo)

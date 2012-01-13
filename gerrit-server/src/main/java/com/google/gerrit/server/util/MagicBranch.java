@@ -54,6 +54,20 @@ public final class MagicBranch {
     return false;
   }
 
+  /** Returns the ref name prefix for a magic branch, <code>null</code> if the branch is not magic */
+  public static String getMagicRefNamePrefix(String refName) {
+    if (refName.startsWith(NEW_DRAFT_CHANGE)) {
+      return NEW_DRAFT_CHANGE;
+    }
+    if (refName.startsWith(NEW_PUBLISH_CHANGE)) {
+      return NEW_PUBLISH_CHANGE;
+    }
+    if (refName.startsWith(NEW_CHANGE)) {
+      return NEW_CHANGE;
+    }
+    return null;
+  }
+
   /**
    * Checks if a (magic branch)/branch_name reference exists in the
    * destination repository and only returns Capable.OK if it does not match any.

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACCX///7A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-13T23:24:18Z",
+      "side": 1,
+      "message": "Wasn\u0027t aware of ordinal(), great, thx!",
+      "parentUuid": "AAACAX////c\u003d",
+      "revId": "04af5c7a2e774b75214468006c0eaff9071e9164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACAX////U\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-13T08:35:20Z",
       "side": 1,
       "message": "It does work but I wonder what was the reason for 99% over 100%?\nThere must be some CSS trick you are applying here?",
+      "revId": "04af5c7a2e774b75214468006c0eaff9071e9164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACCX///7E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-13T23:24:18Z",
+      "side": 1,
+      "message": "Old habit, 100% on table widths sometimes just outright missbehaves on some browsers (as if you never specified a width).  I saw it as problems recently too, but in this particular case is seems to work, so I updated it.",
+      "parentUuid": "AAACAX////U\u003d",
       "revId": "04af5c7a2e774b75214468006c0eaff9071e9164",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -69,6 +69,24 @@
       "revId": "85fce862d56b3f2795f5cf860726217c2390a9ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACBH///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-13T09:43:12Z",
+      "side": 1,
+      "message": "Interesting idea!\n\nDone.",
+      "parentUuid": "AAACAn///74\u003d",
+      "revId": "85fce862d56b3f2795f5cf860726217c2390a9ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

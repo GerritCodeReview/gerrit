@@ -24,6 +24,7 @@ import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.StaticServlet;
 import com.google.gerrit.httpd.raw.ToolServlet;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -66,6 +67,7 @@ class UrlModule extends ServletModule {
     serveRegex("^/settings/?$").with(screen(PageLinks.SETTINGS));
     serveRegex("^/register/?$").with(screen(PageLinks.REGISTER + "/"));
     serveRegex("^/([1-9][0-9]*)/?$").with(directChangeById());
+    serveRegex("^/p/(.*)$").with(queryProjectNew());
     serveRegex("^/r/(.+)/?$").with(DirectChangeByCommit.class);
   }
 
@@ -119,6 +121,30 @@ class UrlModule extends ServletModule {
         } catch (IllegalArgumentException err) {
           rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
+      }
+    });
+  }
+
+  private Key<HttpServlet> queryProjectNew() {
+    return key(new HttpServlet() {
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
+          throws IOException {
+        String name = req.getPathInfo();
+        while (name.endsWith("/")) {
+          name = name.substring(0, name.length() - 1);
+        }
+        if (name.endsWith(".git")) {
+          name = name.substring(0, name.length() - 4);
+        }
+        while (name.endsWith("/")) {
+          name = name.substring(0, name.length() - 1);
+        }
+        Project.NameKey project = new Project.NameKey(name);
+        toGerrit(PageLinks.toChangeQuery(PageLinks.projectQuery(project,
+            Change.Status.NEW)), req, rsp);
       }
     });
   }

@@ -14,16 +14,14 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.Capable;
-import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.TagCache;
@@ -39,7 +37,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.http.server.GitServlet;
+import org.eclipse.jgit.http.server.GitFilter;
 import org.eclipse.jgit.http.server.GitSmartHttpTools;
 import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
@@ -60,26 +58,27 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Nullable;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 /** Serves Git repositories over HTTP. */
 @Singleton
-public class ProjectServlet extends GitServlet {
+public class GitOverHttpFilter extends GitFilter {
   private static final long serialVersionUID = 1L;
 
   private static final String ATT_CONTROL = ProjectControl.class.getName();
   private static final String ATT_RC = ReceiveCommits.class.getName();
   private static final String ID_CACHE = "adv_bases";
+
+  public static final String URL_REGEX =
+      "^/.*/(?:info/refs|git-upload-pack|git-receive-pack)$";
 
   static class Module extends AbstractModule {
     @Override
@@ -102,15 +101,10 @@ public class ProjectServlet extends GitServlet {
     }
   }
 
-  private final Provider<String> urlProvider;
-
   @Inject
-  ProjectServlet(final Resolver resolver,
-      final UploadFactory upload, final UploadFilter uploadFilter,
-      final ReceiveFactory receive, final ReceiveFilter receiveFilter,
-      @CanonicalWebUrl @Nullable Provider<String> urlProvider) {
-    this.urlProvider = urlProvider;
-
+  GitOverHttpFilter(Resolver resolver,
+      UploadFactory upload, UploadFilter uploadFilter,
+      ReceiveFactory receive, ReceiveFilter receiveFilter) {
     setRepositoryResolver(resolver);
     setAsIsFileService(AsIsFileService.DISABLED);
 
@@ -121,27 +115,28 @@ public class ProjectServlet extends GitServlet {
     addReceivePackFilter(receiveFilter);
   }
 
-  @Override
-  public void init(ServletConfig config) throws ServletException {
-    super.init(config);
 
-    serve("*").with(new HttpServlet() {
-      private static final long serialVersionUID = 1L;
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response,
+      FilterChain chain) throws IOException, ServletException {
+    // JGit doesn't handle parsing the request as-is. It assumes
+    // the relevant data is available in getPathInfo(), but this
+    // isn't true in GuiceFilter. Massage the request for JGit.
+    final HttpServletRequest req = (HttpServletRequest) request;
+    HttpServletRequestWrapper wrapped = new HttpServletRequestWrapper(req) {
+      @Override
+      public String getPathInfo() {
+        return req.getRequestURI().substring(1);
+      }
 
       @Override
-      protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
-          throws IOException {
-        ProjectControl pc = (ProjectControl) req.getAttribute(ATT_CONTROL);
-        Project.NameKey dst = pc.getProject().getNameKey();
-        StringBuilder r = new StringBuilder();
-        r.append(urlProvider.get());
-        r.append('#');
-        r.append(PageLinks.toChangeQuery(PageLinks.projectQuery(dst,
-            Change.Status.NEW)));
-        rsp.sendRedirect(r.toString());
+      public String getServletPath() {
+        return "/";
       }
-    });
+    };
+    super.doFilter(wrapped, response, chain);
   }
+
 
   static class Resolver implements RepositoryResolver<HttpServletRequest> {
     private final GitRepositoryManager manager;
@@ -158,6 +153,9 @@ public class ProjectServlet extends GitServlet {
     public Repository open(HttpServletRequest req, String projectName)
         throws RepositoryNotFoundException, ServiceNotAuthorizedException,
         ServiceNotEnabledException {
+      if (projectName.startsWith("p/")) {
+        projectName = projectName.substring(2);
+      }
       while (projectName.endsWith("/")) {
         projectName = projectName.substring(0, projectName.length() - 1);
       }
@@ -202,16 +200,19 @@ public class ProjectServlet extends GitServlet {
 
   static class UploadFactory implements UploadPackFactory<HttpServletRequest> {
     private final PackConfig packConfig;
+    private final Provider<WebSession> session;
 
     @Inject
-    UploadFactory(final TransferConfig tc) {
+    UploadFactory(TransferConfig tc, Provider<WebSession> session) {
       this.packConfig = tc.getPackConfig();
+      this.session = session;
     }
 
     @Override
     public UploadPack create(HttpServletRequest req, Repository repo) {
       UploadPack up = new UploadPack(repo);
       up.setPackConfig(packConfig);
+      session.get().setAccessPath(AccessPath.GIT);
       return up;
     }
   }
@@ -259,10 +260,12 @@ public class ProjectServlet extends GitServlet {
 
   static class ReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
     private final ReceiveCommits.Factory factory;
+    private final Provider<WebSession> session;
 
     @Inject
-    ReceiveFactory(final ReceiveCommits.Factory factory) {
+    ReceiveFactory(ReceiveCommits.Factory factory, Provider<WebSession> session) {
       this.factory = factory;
+      this.session = session;
     }
 
     @Override
@@ -279,6 +282,7 @@ public class ProjectServlet extends GitServlet {
       final ReceiveCommits rc = factory.create(pc, db);
       rc.getReceivePack().setRefLogIdent(user.newRefLogIdent());
       req.setAttribute(ATT_RC, rc);
+      session.get().setAccessPath(AccessPath.GIT);
       return rc.getReceivePack();
     }
   }
@@ -301,7 +305,6 @@ public class ProjectServlet extends GitServlet {
       ReceiveCommits rc = (ReceiveCommits) request.getAttribute(ATT_RC);
       ReceivePack rp = rc.getReceivePack();
       ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
-      IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
       Project.NameKey projectName = pc.getProject().getNameKey();
 
       if (!pc.canRunReceivePack()) {

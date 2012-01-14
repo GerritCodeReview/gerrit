@@ -217,6 +217,11 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
           .anonymousDownload("Git"), r.toString()));
     }
 
+    String hostPageUrl = GWT.getHostPageBaseURL();
+    if (!hostPageUrl.endsWith("/")) {
+      hostPageUrl += "/";
+    }
+
     if (changeDetail.isAllowsAnonymous()
         && (allowedSchemes.contains(DownloadScheme.ANON_HTTP) ||
             allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
@@ -224,8 +229,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       if (Gerrit.getConfig().getGitHttpUrl() != null) {
         r.append(Gerrit.getConfig().getGitHttpUrl());
       } else {
-        r.append(GWT.getHostPageBaseURL());
-        r.append("p/");
+        r.append(hostPageUrl);
       }
       r.append(projectName);
       r.append(" ");
@@ -267,7 +271,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
           && changeDetail.isAllowsAnonymous()) {
         r.append(Gerrit.getConfig().getGitHttpUrl());
       } else {
-        String base = GWT.getHostPageBaseURL();
+        String base = hostPageUrl;
         int p = base.indexOf("://");
         int s = base.indexOf('/', p + 3);
         if (s < 0) {
@@ -283,7 +287,6 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         r.append('@');
         r.append(host);
         r.append(base.substring(s));
-        r.append("p/");
       }
       r.append(projectName);
       r.append(" ");

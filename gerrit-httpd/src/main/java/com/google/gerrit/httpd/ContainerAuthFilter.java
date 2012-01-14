@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.http.server.GitSmartHttpTools;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
@@ -48,7 +49,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
  * <p>
  * This filter should only be configured to run, when authentication is
  * configured to trust container authentication. This filter is intended only to
- * protect the {@link ProjectServlet} and its handled URLs, which provide remote
+ * protect the {@link GitOverHttpFilter} and its handled URLs, which provide remote
  * repository access over HTTP.
  */
 @Singleton
@@ -79,6 +80,11 @@ class ContainerAuthFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response,
       FilterChain chain) throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
+    if (!GitSmartHttpTools.isGitClient(req)) {
+      chain.doFilter(request, response);
+      return;
+    }
+
     HttpServletResponseWrapper rsp =
         new HttpServletResponseWrapper((HttpServletResponse) response);
 

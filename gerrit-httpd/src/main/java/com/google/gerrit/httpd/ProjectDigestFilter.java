@@ -30,6 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.http.server.GitSmartHttpTools;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
@@ -58,7 +59,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
  * <p>
  * The current HTTP request is authenticated by looking up the username from the
  * Authorization header and checking the digest response against the stored
- * password. This filter is intended only to protect the {@link ProjectServlet}
+ * password. This filter is intended only to protect the {@link GitOverHttpFilter}
  * and its handled URLs, which provide remote repository access over HTTP.
  *
  * @see <a href="http://www.ietf.org/rfc/rfc2617.txt">RFC 2617</a>
@@ -99,6 +100,11 @@ class ProjectDigestFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response,
       FilterChain chain) throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
+    if (!GitSmartHttpTools.isGitClient(req)) {
+      chain.doFilter(request, response);
+      return;
+    }
+
     Response rsp = new Response((HttpServletResponse) response);
 
     if (verify(req, rsp)) {

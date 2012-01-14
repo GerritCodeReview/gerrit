@@ -18,9 +18,9 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.servlet.ServletModule;
 
-/**
- * Configures Git access over {@code "/p/PROJECT_NAME"} URLs.
- */
+import javax.servlet.Filter;
+
+/** Configures Git access over HTTP with authentication. */
 public class GitOverHttpModule extends ServletModule {
   private final AuthConfig authConfig;
 
@@ -31,12 +31,15 @@ public class GitOverHttpModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
-    filter("/p/*").through(ProjectAccessPathFilter.class);
+    Class<? extends Filter> authFilter;
     if (authConfig.isTrustContainerAuth()) {
-      filter("/p/*").through(ContainerAuthFilter.class);
+      authFilter = ContainerAuthFilter.class;
     } else {
-      filter("/p/*").through(ProjectDigestFilter.class);
+      authFilter = ProjectDigestFilter.class;
     }
-    serve("/p/*").with(ProjectServlet.class);
+
+    String git = GitOverHttpFilter.URL_REGEX;
+    filterRegex(git).through(authFilter);
+    filterRegex(git).through(GitOverHttpFilter.class);
   }
 }

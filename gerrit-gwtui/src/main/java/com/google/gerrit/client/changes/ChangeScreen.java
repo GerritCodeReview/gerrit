@@ -204,7 +204,7 @@ public class ChangeScreen extends Screen {
           toggleStar();
         }
       });
-      insertTitleWidget(starChange);
+      setTitleWest(starChange);
     }
 
     descriptionBlock = new ChangeDescriptionBlock();

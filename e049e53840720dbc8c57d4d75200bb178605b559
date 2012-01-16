@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACBn////I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-16T18:09:58Z",
+      "side": 1,
+      "message": "[optional] maybe include in the title line that this is about the \u0027query\u0027 SSH command",
+      "revId": "e049e53840720dbc8c57d4d75200bb178605b559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACBn////Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-16T18:09:58Z",
+      "side": 1,
+      "message": "nit: this line seems to be too long",
+      "revId": "e049e53840720dbc8c57d4d75200bb178605b559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACBn////M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-16T18:09:58Z",
+      "side": 1,
+      "message": "Can you add this information also to the documenation of the \u0027--files\u0027 option in \u0027Documentation/cmd-query.txt\u0027?",
+      "revId": "e049e53840720dbc8c57d4d75200bb178605b559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

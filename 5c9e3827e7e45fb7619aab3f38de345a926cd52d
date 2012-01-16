@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH////0\u003d",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX////U\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX////A\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "a branch",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH////w\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX////A\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH////s\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+8\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX///+4\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "a .gitmodules\nwith the required",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH////o\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+4\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH////k\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+0\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX///+w\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "s/one/a/",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH////g\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+w\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH////c\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+s\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX///+o\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "the above\nnotice that",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH////Y\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+o\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH////U\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+k\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX///+g\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "see the",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH////Q\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+g\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH////M\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+c\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX///+Y\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -200,6 +398,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "s/not need to be even/not even need to be/",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH////I\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+Y\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH////E\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+U\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX///+Q\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -234,6 +468,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "add a branch\n\ns/for/to/",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH////A\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+Q\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH///+8\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+M\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX///+I\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -268,6 +538,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "Suggestion: The branch field is not filled in by the git submodule command.  The branch field value...",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH///+4\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+I\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -291,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH///+0\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+E\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX///+A\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -302,6 +608,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "s/that/as/\n\nof the commit\n\nhaving the",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH///+w\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///+A\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -325,6 +649,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH///+s\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///98\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX///90\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -336,6 +678,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "s/Git submodules added and not having/Any git submodules which are added which do not have/",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH///+o\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///90\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -359,6 +719,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH///+g\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///94\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX///9w\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -370,6 +748,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "the superproject",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH///+k\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///9w\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -393,6 +789,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH///+c\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX////8\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX///9s\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -404,6 +818,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "a .gitmodules",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH///+Y\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///9s\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -427,6 +859,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH///+U\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX////4\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX////0\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -438,6 +888,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "s/of superproject/to this superproject/\n\ns/ to submodule/ to the submodule/",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH///+Q\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX////0\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -461,6 +929,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH///+M\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX////w\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX////s\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -472,6 +958,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "s/superproject is updated/superprojects are updated/",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH///+I\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX////s\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -495,6 +999,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH///+E\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX////o\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX////k\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -512,6 +1034,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEH///+A\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX////k\u003d",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX////g\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 2
@@ -523,6 +1063,24 @@
       "writtenOn": "2012-01-14T05:11:09Z",
       "side": 1,
       "message": "drops",
+      "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACEH///98\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-16T11:07:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX////g\u003d",
       "revId": "5c9e3827e7e45fb7619aab3f38de345a926cd52d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACBH///9k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/BranchCreationNotAllowedUnderExistingBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-01-17T16:04:40Z",
+      "side": 1,
+      "message": "Perhaps you should suffix \"BranchCreationNotAllowedUnderExistingBranch\" with \"Exception\" for the sake of consistency.",
+      "revId": "51030e374dd015fc00d2b653058b0ec60d04fff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

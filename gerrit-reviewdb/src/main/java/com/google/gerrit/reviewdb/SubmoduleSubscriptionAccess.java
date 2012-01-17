@@ -25,14 +25,11 @@ public interface SubmoduleSubscriptionAccess extends
   @PrimaryKey("key")
   SubmoduleSubscription get(SubmoduleSubscription.Key key) throws OrmException;
 
-  @Query("ORDER BY key.superProject.projectName")
-  ResultSet<SubmoduleSubscription> all() throws OrmException;
-
   @Query("WHERE key.superProject = ?")
   ResultSet<SubmoduleSubscription> bySuperProject(Branch.NameKey superProject)
       throws OrmException;
 
-  @Query("WHERE key.submodule = ?")
+  @Query("WHERE submodule = ?")
   ResultSet<SubmoduleSubscription> bySubmodule(Branch.NameKey submodule)
       throws OrmException;
 }

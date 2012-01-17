@@ -15,7 +15,7 @@
 package com.google.gerrit.reviewdb;
 
 import com.google.gwtorm.client.Column;
-import com.google.gwtorm.client.CompoundKey;
+import com.google.gwtorm.client.StringKey;
 
 /**
  * Defining a project/branch subscription to a project/branch project.
@@ -27,7 +27,7 @@ import com.google.gwtorm.client.CompoundKey;
  */
 public final class SubmoduleSubscription {
   /** Subscription key */
-  public static class Key extends CompoundKey<Branch.NameKey> {
+  public static class Key extends StringKey<Branch.NameKey> {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -37,22 +37,16 @@ public final class SubmoduleSubscription {
     @Column(id = 1)
     protected Branch.NameKey superProject;
 
-    /**
-     * Indicates the submodule, aka subscription: the project the subscriber's
-     * gitlink is pointed to.
-     */
     @Column(id = 2)
-    protected Branch.NameKey submodule;
+    protected String submodulePath;
 
     protected Key() {
       superProject = new Branch.NameKey();
-      submodule = new Branch.NameKey();
     }
 
-    protected Key(final Branch.NameKey superProject,
-        final Branch.NameKey submodule) {
+    protected Key(Branch.NameKey superProject, String path) {
       this.superProject = superProject;
-      this.submodule = submodule;
+      this.submodulePath = path;
     }
 
     @Override
@@ -61,51 +55,53 @@ public final class SubmoduleSubscription {
     }
 
     @Override
-    public com.google.gwtorm.client.Key<?>[] members() {
-      return new com.google.gwtorm.client.Key<?>[] {submodule};
+    public String get() {
+      return submodulePath;
     }
 
+    @Override
+    protected void set(String newValue) {
+      this.submodulePath = newValue;
+    }
   }
 
   @Column(id = 1, name = Column.NONE)
   protected Key key;
 
   @Column(id = 2)
-  protected String path;
+  protected Branch.NameKey submodule;
 
   protected SubmoduleSubscription() {
   }
 
-  public SubmoduleSubscription(final Branch.NameKey superProject,
-      final Branch.NameKey submodule, final String path) {
-    key = new Key(superProject, submodule);
-    this.path = path;
+  public SubmoduleSubscription(Branch.NameKey superProject,
+      Branch.NameKey submodule,
+      String path) {
+    this.key = new Key(superProject, path);
+    this.submodule = submodule;
   }
 
-  @Override
-  public String toString() {
-    return key.superProject.getParentKey().get() + " " + key.superProject.get()
-        + ", " + key.submodule.getParentKey().get() + " "
-        + key.submodule.get() + ", " + path;
+  public Key getKey() {
+    return key;
   }
 
   public Branch.NameKey getSuperProject() {
     return key.superProject;
   }
 
-  public Branch.NameKey getSubmodule() {
-    return key.submodule;
+  public String getPath() {
+    return key.get();
   }
 
-  public String getPath() {
-    return path;
+  public Branch.NameKey getSubmodule() {
+    return submodule;
   }
 
   @Override
   public boolean equals(Object o) {
     if (o instanceof SubmoduleSubscription) {
       return key.equals(((SubmoduleSubscription) o).key)
-          && path.equals(((SubmoduleSubscription) o).path);
+          && submodule.equals(((SubmoduleSubscription) o).submodule);
     }
     return false;
   }
@@ -113,5 +109,14 @@ public final class SubmoduleSubscription {
   @Override
   public int hashCode() {
     return key.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(getSuperProject()).append(':').append(getPath());
+    sb.append(" follows ");
+    sb.append(getSubmodule());
+    return sb.toString();
   }
 }

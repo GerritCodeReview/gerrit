@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAACEn////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-17T11:14:10Z",
+      "side": 1,
+      "message": "Question: Why is there no call to setReviewedByCurrentUser method here?",
+      "parentUuid": "AAACCH////I\u003d",
+      "revId": "2a2d9c5f9caa2f0dfef2e657de9fde9e0a12484c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACCH////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_62.java",
         "patchSetId": 1

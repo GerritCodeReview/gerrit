@@ -41,8 +41,9 @@ public class TreeFormatter {
     } else {
       currentTabSeparator = DEFAULT_TAB_SEPARATOR;
       int i = 0;
+      final int size = rootNodes.size();
       for (final TreeNode rootNode : rootNodes) {
-        final boolean isLastRoot = ++i == rootNodes.size();
+        final boolean isLastRoot = ++i == size;
         if (isLastRoot) {
           currentTabSeparator = " ";
         }
@@ -60,8 +61,9 @@ public class TreeFormatter {
     printNode(node, level, isLast);
     final SortedSet<? extends TreeNode> childNodes = node.getChildren();
     int i = 0;
+    final int size = childNodes.size();
     for (final TreeNode childNode : childNodes) {
-      final boolean isLastChild = ++i == childNodes.size();
+      final boolean isLastChild = ++i == size;
       printTree(childNode, level + 1, isLastChild);
     }
   }

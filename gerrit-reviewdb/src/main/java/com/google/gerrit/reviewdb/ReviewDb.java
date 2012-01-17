@@ -120,10 +120,6 @@ public interface ReviewDb extends Schema {
   @Sequence(startWith = 1000000)
   int nextAccountId() throws OrmException;
 
-  /** Create the next unique id for a {@link ContributorAgreement}. */
-  @Sequence
-  int nextContributorAgreementId() throws OrmException;
-
   /** Next unique id for a {@link AccountGroup}. */
   @Sequence
   int nextAccountGroupId() throws OrmException;

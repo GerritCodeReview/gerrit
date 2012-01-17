@@ -16,6 +16,24 @@
       "revId": "51030e374dd015fc00d2b653058b0ec60d04fff7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACBH///9c\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/BranchCreationNotAllowedUnderExistingBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-17T16:16:54Z",
+      "side": 1,
+      "message": "Yes, you are right. I\u0027ll fix it.",
+      "parentUuid": "AAACBH///9k\u003d",
+      "revId": "51030e374dd015fc00d2b653058b0ec60d04fff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

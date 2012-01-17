@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.ReviewDb;
 
 import java.util.Set;
 
@@ -24,6 +25,9 @@ public interface Realm {
   public boolean allowsEdit(Account.FieldName field);
 
   public AuthRequest authenticate(AuthRequest who) throws AccountException;
+
+  public AuthRequest link(ReviewDb db, Account.Id to, AuthRequest who)
+      throws AccountException;
 
   public void onCreateAccount(AuthRequest who, Account account);
 

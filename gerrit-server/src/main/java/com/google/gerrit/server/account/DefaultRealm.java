@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.inject.Inject;
 
 import java.util.Collections;
@@ -43,6 +44,11 @@ public class DefaultRealm implements Realm {
         && emailExpander.canExpand(who.getLocalUser())) {
       who.setEmailAddress(emailExpander.expand(who.getLocalUser()));
     }
+    return who;
+  }
+
+  @Override
+  public AuthRequest link(ReviewDb db, Account.Id to, AuthRequest who) {
     return who;
   }
 

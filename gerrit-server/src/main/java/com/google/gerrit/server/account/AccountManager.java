@@ -382,11 +382,13 @@ public class AccountManager {
    * @throws AccountException the identity belongs to a different account, or it
    *         cannot be linked at this time.
    */
-  public AuthResult link(final Account.Id to, final AuthRequest who)
+  public AuthResult link(final Account.Id to, AuthRequest who)
       throws AccountException {
     try {
       final ReviewDb db = schema.open();
       try {
+        who = realm.link(db, to, who);
+
         final AccountExternalId.Key key = id(who);
         AccountExternalId extId = db.accountExternalIds().get(key);
         if (extId != null) {

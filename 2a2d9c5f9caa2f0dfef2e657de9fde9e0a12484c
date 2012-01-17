@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACCH////M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-17T10:19:45Z",
+      "side": 1,
+      "message": "Not sure if this is the correct place to comment about this.\n\nI noticed a change in the behaviour when the reviewed-flag is automatically set, which I think is related to the below code being done even if isFirst \u003d\u003d false (I\u0027m not really sure, I\u0027m just guessing here).\n\nI understand that this code sets the reviewed-flag in case the auto-review was just switched on. I think this is the expected behaviour.\n\nBut I see a problem when I do the following:\n* auto-review is switched on\n* I come to a file diff for the first time -\u003e the reviewed-flag is automatically set\n* I decide to manually unset the reviewed-flag for this file\n* I navigate to the next file diff\n* I navigate up the the change\n* now I see that reviewed-flag was set for the file for which I actually unset the reviewed-flag, before your change this was not the case",
+      "revId": "2a2d9c5f9caa2f0dfef2e657de9fde9e0a12484c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACCH////I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-17T10:19:45Z",
+      "side": 1,
+      "message": "Maybe add a \u0027break\u0027 here? I think we can stop the for loop as soon as we found our patch.",
+      "revId": "2a2d9c5f9caa2f0dfef2e657de9fde9e0a12484c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACCH////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_62.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-17T10:19:45Z",
+      "side": 1,
+      "message": "Is 2011 correct or should it be 2012?",
+      "revId": "2a2d9c5f9caa2f0dfef2e657de9fde9e0a12484c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

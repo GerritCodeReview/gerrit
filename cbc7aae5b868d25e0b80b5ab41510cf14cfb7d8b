@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACBH///+M\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-17T08:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABwn///3E\u003d",
+      "revId": "cbc7aae5b868d25e0b80b5ab41510cf14cfb7d8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///3A\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-12-28T19:55:18Z",
       "side": 1,
       "message": "s/reference doesn\u0027t already exist/reference cannot already exist/\n\nor maybe even:\n\ns/reference doesn\u0027t already exist/reference cannot already exist in order to create it/",
+      "revId": "cbc7aae5b868d25e0b80b5ab41510cf14cfb7d8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACBH///+I\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-17T08:04:01Z",
+      "side": 1,
+      "message": "/reference must not/\n\nDone",
+      "parentUuid": "AAABwn///3A\u003d",
       "revId": "cbc7aae5b868d25e0b80b5ab41510cf14cfb7d8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAACBH///+E\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-17T08:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAByH///5o\u003d",
+      "revId": "cbc7aae5b868d25e0b80b5ab41510cf14cfb7d8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABwn///28\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAACBH///+A\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-17T08:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABwn///28\u003d",
+      "revId": "cbc7aae5b868d25e0b80b5ab41510cf14cfb7d8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///5s\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2011-12-29T06:43:59Z",
       "side": 1,
       "message": "[optional] maybe it would be nice to give some few examples how this permission can be used, e.g.:\n\n  1. To allow pushing of tags: grant on refs/tags/*\n  2. To allow creation of branches in namespace \u0027foo\u0027: grant on refs/heads/foo/*\n  3. To allow creation of branches for every user in its own sandbox: grant on refs/sandbox/${username}/*",
+      "revId": "cbc7aae5b868d25e0b80b5ab41510cf14cfb7d8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACBH///98\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-17T08:04:01Z",
+      "side": 1,
+      "message": "${username}, is it really stable enough to recommend in the docs? \n\nAnyway, I\u0027ve added a part including your examples. I wasn\u0027t sure if you meant for me to include your own actual text or not, so I wrote something that tried to implement your examples. Please let me know what you think.",
+      "parentUuid": "AAAByH///5s\u003d",
       "revId": "cbc7aae5b868d25e0b80b5ab41510cf14cfb7d8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

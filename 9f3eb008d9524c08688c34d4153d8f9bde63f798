@@ -1,0 +1,276 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACG3///+Q\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "s/to to/to",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///+M\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "If you grant the permission to bypass code review this is valid for all protocols and not limited to SSH. I would just remove \u0027over SSH\u0027 from the sentence above.",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///+I\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "maybe make \u0027create reference category\u0027 a link to the section where this category is explained",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///+E\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "it\u0027s not really a level anymore this is why I would propose: s/level/option",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///+A\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "s/allow/allows",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///98\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "s/push category/force option of the push category\n\nOtherwise the sentence is not true. If you want to use code review you need to grant push on \u0027refs/for/*\u0027 (or a more concrete ref).",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///90\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "I think it\u0027s just \u0027Push\u0027 and not \u0027Push Branch\u0027 anymore.\n\nDo we actually use the term \u0027permission\u0027? I thought in the context of Gerrit we always call it \u0027access right\u0027. Would be nice to stay consistent here.",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///9w\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "I think it\u0027s now only \u0027Read\u0027 without any \u0027+1\u0027.\n\n\u0027upload access\u0027 doesn\u0027t exist anymore, it\u0027s now called \u0027Push\u0027, but \u0027Push\u0027 isn\u0027t a higher level of read access anymore. This is why I would propose to drop this last sentence.",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///9s\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "\u0027Read Access\u0027 is now called \u0027Read\u0027\n\n\u0027Push Branch\u0027 is now just called \u0027Push\u0027\n\n\u0027refs/for/refs/heads\u0027 should be \u0027refs/for/refs/heads/*\u0027",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///94\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "I know this is still wrong in the current master, but maybe it\u0027s not worth to make an own change for this and you can directly fix it here if you are already touching these line.\n\n1. \u0027--\u0027 does need to be escaped anymore\n\n2. the root project is now called \u0027All-Projects\u0027",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///9o\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "\u0027Read Access\u0027 is now called \u0027Read\u0027",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///9k\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "\u0027Push Branch\u0027 is now just called \u0027Push\u0027\n\n\u0027refs/for/refs/heads\u0027 should be \u0027refs/for/refs/heads/*\u0027",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///9g\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "\u0027refs/for/refs/heads\u0027 should be \u0027refs/for/refs/heads/*\u0027",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///9c\u003d",
+        "filename": "Documentation/error-branch-not-found.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "s/ito/to",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///9Y\u003d",
+        "filename": "Documentation/error-prohibited-by-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "maybe just make it:\n  access right link:access-control.html#category_push_review[\u0027Push\u0027])\n\nThere is no need to repeat the name of the access right twice. Isn\u0027t it just \u0027Push\u0027 and not \u0027Push Branch\u0027?",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///9U\u003d",
+        "filename": "Documentation/error-prohibited-by-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T15:43:17Z",
+      "side": 1,
+      "message": "I think the sentence should be rewritten. \u0027sufficient privileges in the Push category\u0027 sounds like there are different levels in this category which is not true anymore.\n\ns/Push Branch/Push",
+      "revId": "9f3eb008d9524c08688c34d4153d8f9bde63f798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

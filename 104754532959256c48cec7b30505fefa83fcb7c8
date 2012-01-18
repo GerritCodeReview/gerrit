@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACFH///+Q\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-18T23:52:28Z",
+      "side": 1,
+      "message": "This may need single quotes around it:\n\n\n    [java] ** operator expected after expression  **\n     [java] get_commit_labels(Rs) :-   _load_commit_labels(Rs),   set_commit_labels(Rs).{SYNTAX ERROR}\n     [java] ** operator expected after expression  **",
+      "revId": "104754532959256c48cec7b30505fefa83fcb7c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

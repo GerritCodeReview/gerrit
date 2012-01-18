@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAACGH////w\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.2.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T11:51:37Z",
+      "side": 1,
+      "message": "remove \u0027[1]\u0027",
+      "revId": "1e69408df78274dc909017d9a224f792c11506ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACGH////s\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.2.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T11:51:37Z",
+      "side": 1,
+      "message": "Maybe you can also mention change 24586 [1] in this section. It allows you in DEVELOPMENT_BECOME_ANY_ACCOUNT mode to register an e-mail address without need to confirm it by clicking on the link in the confirmation e-mail.\n\n[1] https://gerrit-review.googlesource.com/24586",
+      "revId": "1e69408df78274dc909017d9a224f792c11506ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACFX////w\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.2.2.txt",
         "patchSetId": 1

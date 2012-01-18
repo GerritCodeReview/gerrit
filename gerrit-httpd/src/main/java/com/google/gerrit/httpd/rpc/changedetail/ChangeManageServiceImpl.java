@@ -23,7 +23,7 @@ import com.google.inject.Inject;
 
 class ChangeManageServiceImpl implements ChangeManageService {
   private final SubmitAction.Factory submitAction;
-  private final AbandonChange.Factory abandonChangeFactory;
+  private final AbandonChangeHandler.Factory abandonChangeHandlerFactory;
   private final RestoreChange.Factory restoreChangeFactory;
   private final RevertChange.Factory revertChangeFactory;
   private final PublishAction.Factory publishAction;
@@ -31,13 +31,13 @@ class ChangeManageServiceImpl implements ChangeManageService {
 
   @Inject
   ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction,
-      final AbandonChange.Factory abandonChangeFactory,
+      final AbandonChangeHandler.Factory abandonChangeHandlerFactory,
       final RestoreChange.Factory restoreChangeFactory,
       final RevertChange.Factory revertChangeFactory,
       final PublishAction.Factory publishAction,
       final DeleteDraftChange.Factory deleteDraftChangeFactory) {
     this.submitAction = patchSetAction;
-    this.abandonChangeFactory = abandonChangeFactory;
+    this.abandonChangeHandlerFactory = abandonChangeHandlerFactory;
     this.restoreChangeFactory = restoreChangeFactory;
     this.revertChangeFactory = revertChangeFactory;
     this.publishAction = publishAction;
@@ -51,7 +51,7 @@ class ChangeManageServiceImpl implements ChangeManageService {
 
   public void abandonChange(final PatchSet.Id patchSetId, final String message,
       final AsyncCallback<ChangeDetail> callback) {
-    abandonChangeFactory.create(patchSetId, message).to(callback);
+    abandonChangeHandlerFactory.create(patchSetId, message).to(callback);
   }
 
   public void revertChange(final PatchSet.Id patchSetId, final String message,

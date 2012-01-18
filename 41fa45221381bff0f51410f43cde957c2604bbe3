@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "AAACFX////8\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-18T10:48:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACCX///4k\u003d",
+      "revId": "41fa45221381bff0f51410f43cde957c2604bbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACFX////g\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-18T10:48:48Z",
+      "side": 1,
+      "message": "Edwin, which kind of tag did you have in mind here, signed, or lightweight? annotated tags have their own category, so I\u0027m fairly sure it isn\u0027t them, right?",
+      "revId": "41fa45221381bff0f51410f43cde957c2604bbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACCX///4g\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 2
@@ -30,6 +65,24 @@
       "writtenOn": "2012-01-17T19:50:01Z",
       "side": 1,
       "message": "Since this is probably outdated, could you perhaps remove it also in this change, or just mark it as 2.1.x  here and then remove it in another change later?",
+      "revId": "41fa45221381bff0f51410f43cde957c2604bbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACFX////c\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-18T10:48:48Z",
+      "side": 1,
+      "message": "I see what you\u0027re saying, but as I\u0027ve fixed it now in change 31180, I\u0027ll ask you one more time whether you still want me to fix that here? (Yes, it\u0027s a bit lazy to ask, you\u0027ll have to forgive me. I\u0027ll be happy to fix it if you still think so.)",
+      "parentUuid": "AAACCX///4g\u003d",
       "revId": "41fa45221381bff0f51410f43cde957c2604bbe3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACFX////w\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.2.2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-18T09:32:01Z",
+      "side": 1,
+      "message": "Nit: Too long line, needs reformat?",
+      "revId": "1e69408df78274dc909017d9a224f792c11506ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

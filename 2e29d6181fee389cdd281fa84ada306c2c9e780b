@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACF3////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-01-18T13:09:29Z",
+      "side": 1,
+      "message": "The javadoc of GWT.getHostPageBaseURL() says that the base URL is guaranteed to end with a slash if it is non-empty.\nWith that in mind this if statement could only check for an empty string case:\n\n if (hostPageUrl.isEmpty()) {\n   hostPageUrl \u003d \"/\";\n }\n\nHowever, I am undecided on what is more readable.",
+      "revId": "2e29d6181fee389cdd281fa84ada306c2c9e780b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAACFX////M\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-18T13:55:53Z",
+      "side": 1,
+      "message": "But it seems so smart to allow one category of tags as the create reference.. if you say there should be a specific signed-category, then create reference could be interpreted as allowing all three kinds of tags, including light weight?\n\nMaybe that in contrast deserves a separate paragraph.. ?\n\nHmm. Hard to decide really. Anyone know what the code says about this? What happens if I grant Create Reference in refs/tags/... ?",
+      "parentUuid": "AAACG3///+g\u003d",
+      "revId": "41fa45221381bff0f51410f43cde957c2604bbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACCX///4g\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 2

@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAACG3///+g\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-18T12:59:34Z",
+      "side": 1,
+      "message": "Oh right, I guess I confused here something. You are right that there is the special category for creation of annotated tags. For creation of signed tags there should be also an own category (which is still missing).\n\nI would propose to simply remove this example for assigning the \u0027Create Reference\u0027 privilege on \u0027refs/tags/*\u0027. It seems to make not much sense (maybe it does for leightweight tags, but even if it does I\u0027m not sure that this case deserves to be explicitly mention here).\n\nSorry for the confusion.",
+      "parentUuid": "AAACFX////g\u003d",
+      "revId": "41fa45221381bff0f51410f43cde957c2604bbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACCX///4g\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 2

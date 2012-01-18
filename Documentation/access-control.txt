@@ -630,14 +630,17 @@ The force option has no function when granted to a branch in the
 `refs/for/refs/heads/*` namespace.
 
 
-[[category_READ_3]]
-Upload Merge Access
-~~~~~~~~~~~~~~~~~~~
-The `Read Access +3` permits the user to upload merge commits, but is
-otherwise identical to `Read Access +2`. Some projects wish to
-restrict merges to being created by Gerrit. By granting,
-`Read Access +1..+2`, the only merges that enter the system will be
-those created by Gerrit, or those pushed directly.
+[[category_push_merge]]
+Upload Merge Commits
+~~~~~~~~~~~~~~~~~~~~
+
+The `Push Merge` permits the user to upload merge commits. It's an
+addon to the `Push` permission, and so it won't be sufficient
+with only `Push Merge` granted for a push to happen.  Some projects
+wish to restrict merges to being created by Gerrit. By granting
+`Push` without `Push Merge`, the only merges that enter the
+system will be those created by Gerrit.
+
 
 [[category_pTAG]]
 Push Tag

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACFX////U\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-18T10:55:44Z",
+      "side": 1,
+      "message": "error-not-signed-off-by.txt:\n\nI\u0027m not sure which of forge [author,committer,server] that\u0027s needed to bypass when Signed-Off-By is needed in a git.. ?\nWhere should I link now?\n\nQuote from the file:\nThis policy can be bypassed by having the access right \u0027+2 Forge\nCommitter or Tagger Identity\u0027 in the link:access-control.html#category_FORG[\u0027Forge Identity\u0027] category.",
+      "parentUuid": "AAAByH///5g\u003d",
+      "revId": "e1b6c4080daea006528d5bd5d328a3ce1f2fa8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///5c\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2011-12-29T06:54:48Z",
       "side": 1,
       "message": "Shouldn\u0027t this be \u0027Forge Author\u0027 now?",
+      "revId": "e1b6c4080daea006528d5bd5d328a3ce1f2fa8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACBH///90\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-18T10:55:44Z",
+      "side": 1,
+      "message": "Doh x 3\n\nDone",
+      "parentUuid": "AAAByH///5c\u003d",
       "revId": "e1b6c4080daea006528d5bd5d328a3ce1f2fa8c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAACBH///9o\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-18T10:55:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAByH///5Y\u003d",
+      "revId": "e1b6c4080daea006528d5bd5d328a3ce1f2fa8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///5U\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAACBH///9s\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-18T10:55:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAByH///5U\u003d",
+      "revId": "e1b6c4080daea006528d5bd5d328a3ce1f2fa8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAByH///5Q\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2011-12-29T06:54:48Z",
       "side": 1,
       "message": "style-nit: one empty line too much",
+      "revId": "e1b6c4080daea006528d5bd5d328a3ce1f2fa8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACBH///9w\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-18T10:55:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAByH///5Q\u003d",
       "revId": "e1b6c4080daea006528d5bd5d328a3ce1f2fa8c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

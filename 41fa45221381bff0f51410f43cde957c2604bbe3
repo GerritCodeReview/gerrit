@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AAACJH////w\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-19T13:09:15Z",
+      "side": 1,
+      "message": "Oh, wait, I found this in the old Push Tag section:\n\u003e To push lightweight (non annotated) tags, grant `Push Branch +2\n\u003e Create Branch` for reference name `refs/tags/*`, as lightweight\n\u003e tags are implemented just like branches in Git.\n\nWould it make sense if I would transfer the above to this create reference section.. ?\n(And also include a reference from push annotated tag to this information for light weight tags as well perhaps.)",
+      "parentUuid": "AAACFX////M\u003d",
+      "revId": "41fa45221381bff0f51410f43cde957c2604bbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACCX///4g\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 2

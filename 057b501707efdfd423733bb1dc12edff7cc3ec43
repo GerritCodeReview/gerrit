@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACJ3////8\u003d",
+        "filename": "Documentation/cmd-ls-members.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-01-19T15:18:17Z",
+      "side": 1,
+      "message": "From the output above I see that the list of accounts is a flat list even when\nthe accounts are found by recursively resolving included groups. This should be\nmentioned above in the documentation of the \"--recursive\" option or in the DESCRIPTION\nsection.\n\nThe list of the included groups is also a flat list. Right?\n\nIt could also be mentioned that from the flat account list we cannot see from\nwhich group which account was listed.",
+      "revId": "057b501707efdfd423733bb1dc12edff7cc3ec43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACJ3////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembersList.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-01-19T15:18:17Z",
+      "side": 1,
+      "message": "this implementation is OK if instances are short lived.\nIf the instances would be cached and reused and compared to newly loaded instance then this implementation may bring wrong results as the (recursive) structure may change over time.\n\nThis may be documented in the javadoc of this class.",
+      "revId": "057b501707efdfd423733bb1dc12edff7cc3ec43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACJ3////w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListMembersCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-01-19T15:18:17Z",
+      "side": 1,
+      "message": "If I understand it well we should use print(\"\\n\") instead of println() in order not to break the tests which parse the output of the commands. On Windows the println() would print \"\\r\\n\".\n\nThere are a few more println usages in this class.",
+      "revId": "057b501707efdfd423733bb1dc12edff7cc3ec43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACJ3////0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListMembersCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-01-19T15:18:17Z",
+      "side": 1,
+      "message": "the code in the else branch is longer and harder to read than the code in the \"then\" branch although, semantically, they are doing the same thing: populate the unresolvedGroups map.\n\nActually the else branch is the non-recursive case which should even be simpler than the recursive case.\n\nThe code works properly but the interface of the GroupMemberList could better support the non-recursive case.",
+      "revId": "057b501707efdfd423733bb1dc12edff7cc3ec43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

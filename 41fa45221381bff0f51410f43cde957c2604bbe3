@@ -140,6 +140,24 @@
       "revId": "41fa45221381bff0f51410f43cde957c2604bbe3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACJn////M\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-19T16:44:47Z",
+      "side": 1,
+      "message": "Either way is fine.",
+      "parentUuid": "AAACFX////c\u003d",
+      "revId": "41fa45221381bff0f51410f43cde957c2604bbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

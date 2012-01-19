@@ -34,6 +34,24 @@
       "revId": "e14a54e40fb38901f76c4d86eb69d0af6bf96a2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACLX////o\u003d",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-01-19T22:45:36Z",
+      "side": 1,
+      "message": "My bad, I thought this class was in gerrit-httpd due to the package name, but right, it\u0027s in gerrit-war.",
+      "parentUuid": "AAACLn////8\u003d",
+      "revId": "e14a54e40fb38901f76c4d86eb69d0af6bf96a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

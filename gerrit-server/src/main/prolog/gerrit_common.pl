@@ -70,7 +70,7 @@ get_commit_labels(Rs) :-
   hash_get(commit_labels, '$all', Rs)
   .
 get_commit_labels(Rs) :-
-  '$load_commit_labels'(Rs),
+  '_load_commit_labels'(Rs),
   set_commit_labels(Rs).
 
 set_commit_labels(Rs) :-
@@ -101,7 +101,7 @@ user_label_range(Label, Who, Min, Max) :-
   Who = user(_), !,
   atom(Label),
   current_user(Who, User),
-  '$user_label_range'(Label, User, Min, Max).
+  '_user_label_range'(Label, User, Min, Max).
 user_label_range(Label, test_user(Name), Min, Max) :-
   clause(user:test_grant(Label, test_user(Name), range(Min, Max)), _)
   .

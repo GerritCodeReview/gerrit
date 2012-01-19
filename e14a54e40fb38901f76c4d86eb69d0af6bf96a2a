@@ -16,6 +16,24 @@
       "revId": "e14a54e40fb38901f76c4d86eb69d0af6bf96a2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACLn////8\u003d",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-19T22:39:12Z",
+      "side": 1,
+      "message": "The goal of the series is to remove the compile-time dependency if you don\u0027t need to compile gerrit-pgm or gerrit-war.\n\nGoogle\u0027s environment doesn\u0027t build these modules. Hence, dependency eliminated.",
+      "parentUuid": "AAACLX////w\u003d",
+      "revId": "e14a54e40fb38901f76c4d86eb69d0af6bf96a2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

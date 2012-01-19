@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "AAACG3///9M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-01-19T08:29:35Z",
+      "side": 1,
+      "message": "\u003e any other instance of the same AccountNode and ProjectNode that is also contained in the set\n\nThis is not possible when the equals is implemented (properly).\nBy definition a Set contains no pair of elements e1 and e2 such that\ne1.equals(e2).",
+      "parentUuid": "AAAByH///7g\u003d",
+      "revId": "3b9f1d550792c5e8ca59d79eeeb2ea305640746c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABkn////s\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeNode.java",
         "patchSetId": 4

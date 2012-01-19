@@ -12,9 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.ehcache;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
+
+import com.google.gerrit.server.cache.Cache;
+import com.google.gerrit.server.cache.EntryCreator;
 
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.Ehcache;

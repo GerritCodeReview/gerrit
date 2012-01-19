@@ -17,6 +17,7 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.ehcache.EhcachePoolImpl;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -27,7 +28,6 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.cache.CachePool;
-import com.google.gerrit.server.cache.EhcachePoolImpl;
 import com.google.gerrit.server.config.ApprovalTypesProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAACG3///80\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/errors/BranchCreationNotAllowedUnderExistingBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-19T09:39:06Z",
+      "side": 1,
+      "message": "Not applicable to new patch set, since this class got deleted.",
+      "parentUuid": "AAACBH///9c\u003d",
+      "revId": "51030e374dd015fc00d2b653058b0ec60d04fff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACBX///9U\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritMessages.properties",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2012-01-17T18:37:51Z",
       "side": 1,
       "message": "This wording makes it sound a bit like a permission problem.\n\nI suggest something more like:\nCannot create branch {0}  since it conflicts with branch {1}.",
+      "revId": "51030e374dd015fc00d2b653058b0ec60d04fff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACG3///84\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritMessages.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-19T09:39:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACBX///9U\u003d",
       "revId": "51030e374dd015fc00d2b653058b0ec60d04fff7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

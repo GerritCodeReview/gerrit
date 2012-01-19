@@ -17,6 +17,7 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.ehcache.EhcachePoolImpl;
 import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.httpd.GitOverHttpModule;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
@@ -32,7 +33,6 @@ import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.AuthType;
-import com.google.gerrit.server.cache.EhcachePoolImpl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;

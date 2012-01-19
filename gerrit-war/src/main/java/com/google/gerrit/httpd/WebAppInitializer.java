@@ -18,11 +18,11 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.ehcache.EhcachePoolImpl;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.AuthType;
-import com.google.gerrit.server.cache.EhcachePoolImpl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;

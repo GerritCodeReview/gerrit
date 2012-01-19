@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACG3///9E\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-01-19T08:30:03Z",
+      "side": 1,
+      "message": "At least here it is clear that the equals method of the implementors of TreeNode is important. The \"seen\" Set will definitely rely on the equals method of its elements.\n\nThe TreeFormatter and the TreeNode should document the expectations for the implementors of the TreeNode with regard to equality.",
+      "revId": "5566afeeaedb18028588ca9b97fb1d837ae3bc06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

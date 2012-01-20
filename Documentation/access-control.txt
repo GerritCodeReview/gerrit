@@ -56,7 +56,7 @@ Any access rights assigned to this group are inherited by all users.
 Administrators and project owners can grant access rights to this
 group in order to permit anonymous users to view project changes,
 without requiring sign in first.  Currently it is only worthwhile
-to grant `Read Access` to this group as Gerrit requires an account
+to grant `Read` access to this group as Gerrit requires an account
 identity for all other operations.
 
 [[non-interactive_users]]
@@ -109,7 +109,7 @@ allowing signed-in users to vote on a change, but not actually
 cause it to become approved or rejected.
 
 Registered users are always permitted to make and publish comments
-on any change in any project they have `Read Access` to.
+on any change in any project they have `Read` access to.
 
 
 Account Groups
@@ -287,9 +287,8 @@ Per-Project
 
 The per-project ACL is evaluated before the global `All-Projects` ACL,
 permitting some limited override capability to project owners. This
-behavior is generally only useful on the `Read Access` category when
-granting `-1 No Access` within a specific project to deny access to
-a group.
+behavior is generally only useful on the `Read` category when
+granting 'DENY' within a specific project to deny a group access.
 
 
 [[access_category]]
@@ -676,38 +675,40 @@ To delete or overwrite an existing tag, grant `Push` with the force
 option enabled for reference name `refs/tags/*`, as deleting a tag
 requires the same permission as deleting a branch.
 
-[[category_READ]]
-Read Access
-~~~~~~~~~~~
 
-The `Read Access` category controls visibility to the project's
+[[category_read]]
+Read
+~~~~
+
+The `Read` category controls visibility to the project's
 changes, comments, code diffs, and Git access over SSH or HTTP.
-A user must have `Read Access +1` in order to see a project, its
+A user must have this access granted in order to see a project, its
 changes, or any of its data.
 
 This category has a special behavior, where the per-project ACL is
 evaluated before the global all projects ACL.  If the per-project
-ACL has granted `Read Access -1`, and does not otherwise grant
-`Read Access \+1`, then a `Read Access +1` in the all projects ACL
+ACL has granted `Read` with 'DENY', and does not otherwise grant
+`Read` with 'ALLOW', then a `Read` in the all projects ACL
 is ignored.  This behavior is useful to hide a handful of projects
 on an otherwise public server.
 
 For an open source, public Gerrit installation it is common to grant
-`Read Access +1` to `Anonymous Users` in the `\-- All Projects
-\--` ACL, enabling casual browsing of any project's changes,
-as well as fetching any project's repository over SSH or HTTP.
-New projects can be temporarily hidden from public view by granting
-`Read Access -1` to `Anonymous Users` and granting `Read Access +1`
-to the project owner's group within the per-project ACL.
+`Read` to `Anonymous Users` in the `All-Projects` ACL, enabling
+casual browsing of any project's changes, as well as fetching any
+project's repository over SSH or HTTP.  New projects can be
+temporarily hidden from public view by granting `Read` with 'DENY'
+to `Anonymous Users` and granting `Read` to the project owner's
+group within the per-project ACL.
 
 For a private Gerrit installation using a trusted HTTP authentication
-source, granting `Read Access +1` to `Registered Users` may be more
+source, granting `Read` to `Registered Users` may be more
 typical, enabling read access only to those users who have been
 able to authenticate through the HTTP access controls.  This may
 be suitable in a corporate deployment if the HTTP access control
 is already restricted to the correct set of users.
 
-[[category_SUBM]]
+
+[[category_submit]]
 Submit
 ~~~~~~
 

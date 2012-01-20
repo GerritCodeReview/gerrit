@@ -252,8 +252,8 @@ public class Daemon extends SiteProgram {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
-    modules.add(sysInjector.getInstance(WebModule.class));
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
+    modules.add(sysInjector.getInstance(WebModule.class));
     if (sshd) {
       modules.add(sshInjector.getInstance(WebSshGlueModule.class));
       modules.add(new ProjectQoSFilter.Module());

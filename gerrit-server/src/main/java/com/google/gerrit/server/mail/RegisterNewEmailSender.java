@@ -14,30 +14,30 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.config.AuthConfig;
-import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.util.Base64;
-
-import java.io.UnsupportedEncodingException;
 
 public class RegisterNewEmailSender extends OutgoingEmail {
   public interface Factory {
     public RegisterNewEmailSender create(String address);
   }
 
-  private final AuthConfig authConfig;
+  private final EmailTokenVerifier tokenVerifier;
+  private final IdentifiedUser user;
   private final String addr;
+  private String emailToken;
 
   @Inject
-  public RegisterNewEmailSender(EmailArguments ea, AuthConfig ac,
+  public RegisterNewEmailSender(EmailArguments ea,
+      EmailTokenVerifier etv,
       @AnonymousCowardName String anonymousCowardName,
+      IdentifiedUser callingUser,
       @Assisted final String address) {
     super(ea, anonymousCowardName, "registernewemail");
-    authConfig = ac;
+    tokenVerifier = etv;
+    user = callingUser;
     addr = address;
   }
 
@@ -58,14 +58,29 @@ public class RegisterNewEmailSender extends OutgoingEmail {
     appendText(velocifyFile("RegisterNewEmail.vm"));
   }
 
-  public String getEmailRegistrationToken() {
-    try {
-      return authConfig.getEmailRegistrationToken().newToken(
-          Base64.encodeBytes(addr.getBytes("UTF-8")));
-    } catch (XsrfException e) {
-      throw new IllegalArgumentException(e);
-    } catch (UnsupportedEncodingException e) {
-      throw new IllegalArgumentException(e);
+  public String getUserNameEmail() {
+    String name = user.getAccount().getFullName();
+    String email = user.getAccount().getPreferredEmail();
+
+    if (name != null && email != null) {
+      return name + " <" + email + ">";
+    } else if (email != null) {
+      return email;
+    } else if (name != null) {
+      return name;
+    } else {
+      String username = user.getUserName();
+      if (username != null) {
+        return username;
+      }
     }
+    return null;
+  }
+
+  public String getEmailRegistrationToken() {
+    if (emailToken == null) {
+      emailToken = tokenVerifier.encode(user.getAccountId(), addr);
+    }
+    return emailToken;
   }
 }

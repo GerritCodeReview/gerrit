@@ -34,12 +34,12 @@
 Welcome to Gerrit Code Review at ${email.gerritHost}.
 
 To add a verified email address to your user account, please
-click on the following link:
+click on the following link#if($email.userNameEmail) while signed in as $email.userNameEmail#end:
 
 $email.gerritUrl#/VE/$email.emailRegistrationToken
 
 If you have received this mail in error, you do not need to take any
-action to cancel the account.  The account will not be activated, and
+action to cancel the account.  The address will not be activated, and
 you will not receive any further emails.
 
 If clicking the link above does not work, copy and paste the URL in a

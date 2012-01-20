@@ -61,7 +61,7 @@ public class AuthConfig {
     if (key != null && !key.isEmpty()) {
       int age = (int) ConfigUtil.getTimeUnit(cfg,
           "auth", null, "maxRegisterEmailTokenAge",
-          TimeUnit.SECONDS.convert(5, TimeUnit.DAYS),
+          TimeUnit.SECONDS.convert(12, TimeUnit.HOURS),
           TimeUnit.SECONDS);
       emailReg = new SignedToken(age, key);
     } else {

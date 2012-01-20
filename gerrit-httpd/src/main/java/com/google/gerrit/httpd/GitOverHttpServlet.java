@@ -37,7 +37,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.http.server.GitFilter;
+import org.eclipse.jgit.http.server.GitServlet;
 import org.eclipse.jgit.http.server.GitSmartHttpTools;
 import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
@@ -65,20 +65,27 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 /** Serves Git repositories over HTTP. */
 @Singleton
-public class GitOverHttpFilter extends GitFilter {
+public class GitOverHttpServlet extends GitServlet {
   private static final long serialVersionUID = 1L;
 
   private static final String ATT_CONTROL = ProjectControl.class.getName();
   private static final String ATT_RC = ReceiveCommits.class.getName();
   private static final String ID_CACHE = "adv_bases";
 
-  public static final String URL_REGEX =
-      "^/.*/(?:info/refs|git-upload-pack|git-receive-pack)$";
+  public static final String URL_REGEX;
+  static {
+    StringBuilder url = new StringBuilder();
+    url.append("^(?:/p/|/)(.*/(?:info/refs");
+    for (String name : GitSmartHttpTools.VALID_SERVICES) {
+      url.append('|').append(name);
+    }
+    url.append("))$");
+    URL_REGEX = url.toString();
+  }
 
   static class Module extends AbstractModule {
     @Override
@@ -102,7 +109,7 @@ public class GitOverHttpFilter extends GitFilter {
   }
 
   @Inject
-  GitOverHttpFilter(Resolver resolver,
+  GitOverHttpServlet(Resolver resolver,
       UploadFactory upload, UploadFilter uploadFilter,
       ReceiveFactory receive, ReceiveFilter receiveFilter) {
     setRepositoryResolver(resolver);
@@ -114,29 +121,6 @@ public class GitOverHttpFilter extends GitFilter {
     setReceivePackFactory(receive);
     addReceivePackFilter(receiveFilter);
   }
-
-
-  @Override
-  public void doFilter(ServletRequest request, ServletResponse response,
-      FilterChain chain) throws IOException, ServletException {
-    // JGit doesn't handle parsing the request as-is. It assumes
-    // the relevant data is available in getPathInfo(), but this
-    // isn't true in GuiceFilter. Massage the request for JGit.
-    final HttpServletRequest req = (HttpServletRequest) request;
-    HttpServletRequestWrapper wrapped = new HttpServletRequestWrapper(req) {
-      @Override
-      public String getPathInfo() {
-        return req.getRequestURI().substring(1);
-      }
-
-      @Override
-      public String getServletPath() {
-        return "/";
-      }
-    };
-    super.doFilter(wrapped, response, chain);
-  }
-
 
   static class Resolver implements RepositoryResolver<HttpServletRequest> {
     private final GitRepositoryManager manager;
@@ -153,9 +137,6 @@ public class GitOverHttpFilter extends GitFilter {
     public Repository open(HttpServletRequest req, String projectName)
         throws RepositoryNotFoundException, ServiceNotAuthorizedException,
         ServiceNotEnabledException {
-      if (projectName.startsWith("p/")) {
-        projectName = projectName.substring(2);
-      }
       while (projectName.endsWith("/")) {
         projectName = projectName.substring(0, projectName.length() - 1);
       }
@@ -168,15 +149,6 @@ public class GitOverHttpFilter extends GitFilter {
         while (projectName.endsWith("/")) {
           projectName = projectName.substring(0, projectName.length() - 1);
         }
-      }
-
-      while (projectName.startsWith("/")) {
-        // Be nice and drop the leading "/" if supplied by an absolute path.
-        // We don't have a file system hierarchy, just a flat namespace in
-        // the database's Project entities. We never encode these with a
-        // leading '/' but users might accidentally include them in Git URLs.
-        //
-        projectName = projectName.substring(1);
       }
 
       final ProjectControl pc;

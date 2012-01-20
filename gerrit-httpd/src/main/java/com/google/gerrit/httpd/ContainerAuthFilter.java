@@ -49,7 +49,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
  * <p>
  * This filter should only be configured to run, when authentication is
  * configured to trust container authentication. This filter is intended only to
- * protect the {@link GitOverHttpFilter} and its handled URLs, which provide remote
+ * protect the {@link GitOverHttpServlet} and its handled URLs, which provide remote
  * repository access over HTTP.
  */
 @Singleton

@@ -59,7 +59,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
  * <p>
  * The current HTTP request is authenticated by looking up the username from the
  * Authorization header and checking the digest response against the stored
- * password. This filter is intended only to protect the {@link GitOverHttpFilter}
+ * password. This filter is intended only to protect the {@link GitOverHttpServlet}
  * and its handled URLs, which provide remote repository access over HTTP.
  *
  * @see <a href="http://www.ietf.org/rfc/rfc2617.txt">RFC 2617</a>

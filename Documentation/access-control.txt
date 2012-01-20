@@ -1,17 +1,6 @@
 Gerrit Code Review - Access Controls
 ====================================
 
-.Disclaimer
-****
-This documentation is outdated.
-
-In Gerrit 2.2.x the way how the access rights are configured has
-changed, but this documentation was not updated yet.
-
-This documentation still describes the access rights configuration as
-it was in Gerrit 2.1.8 and before.
-****
-
 Access controls in Gerrit are group based.  Every user account is a
 member of one or more groups, and access and privileges are granted
 to those groups.  Access rights cannot be granted to individual
@@ -96,7 +85,7 @@ Registered Users
 ~~~~~~~~~~~~~~~~
 
 All signed-in users are automatically a member of this group (and
-also 'Anonymous Users', see above).
+also <<anonymous_users,'Anonymous Users'>>, see above).
 
 Any access rights assigned to this group are inherited by all
 users as soon as they sign-in to Gerrit.  If OpenID authentication
@@ -205,12 +194,12 @@ the `refs/heads/qa` branch, and the following ACLs are granted
 on the project:
 
 [options="header"]
-|=====================================================
-|Group            |Reference Name|Category   |Range
-|Registered Users |refs/heads/*  |Code Review| -1..+1
-|Foo Leads        |refs/heads/*  |Code Review| -2..+2
-|QA Leads         |refs/heads/qa |Code Review| -2..+2
-|=====================================================
+|===============================================================
+|Group            |Reference Name|Category   |Range   |Exclusive
+|Registered Users |refs/heads/*  |Code Review| -1..+1 |
+|Foo Leads        |refs/heads/*  |Code Review| -2..+2 |
+|QA Leads         |refs/heads/qa |Code Review| -2..+2 |
+|===============================================================
 
 Then the effective range permitted to be used by the user is
 `-2..+2`, as the user's membership of `Foo Leads` effectively grant
@@ -220,20 +209,21 @@ Gerrit also supports exclusive reference-level access control.
 
 It is possible to configure Gerrit to grant an exclusive ref level
 access control so that only users of a specific group can perform
-an operation on a project/reference pair. This is done by prefixing
-the reference specified with a `'-'`.
+an operation on a project/reference pair. This is done by ticking
+the exclusive flag when setting the permission for the
+`refs/heads/qa` branch.
 
 For example, if a user who is a member of `Foo Leads` tries to
 review a change destined for branch `refs/heads/qa` in a project,
 and the following ACLs are granted:
 
 [options="header"]
-|=====================================================
-|Group           |Reference Name|Category   |Range
-|Registered Users|refs/heads/*  |Code Review| -1..+1
-|Foo Leads       |refs/heads/*  |Code Review| -2..+2
-|QA Leads        |-refs/heads/qa|Code Review| -2..+2
-|=====================================================
+|==============================================================
+|Group           |Reference Name|Category   |Range   |Exclusive
+|Registered Users|refs/heads/*  |Code Review| -1..+1 |
+|Foo Leads       |refs/heads/*  |Code Review| -2..+2 |
+|QA Leads        |refs/heads/qa |Code Review| -2..+2 |X
+|==============================================================
 
 Then this user will not have `Code Review` rights on that change,
 since there is an exclusive access right in place for the
@@ -246,13 +236,13 @@ In order to grant the ability to `Code Review` to the members of
 would be needed:
 
 [options="header"]
-|=====================================================
-|Group           |Reference Name|Category   |Range
-|Registered Users|refs/heads/*  |Code Review| -1..+1
-|Foo Leads       |refs/heads/*  |Code Review| -2..+2
-|QA Leads        |-refs/heads/qa|Code Review| -2..+2
-|Foo Leads       |refs/heads/qa |Code Review| -2..+2
-|=====================================================
+|==============================================================
+|Group           |Reference Name|Category   |Range   |Exclusive
+|Registered Users|refs/heads/*  |Code Review| -1..+1 |
+|Foo Leads       |refs/heads/*  |Code Review| -2..+2 |
+|QA Leads        |refs/heads/qa |Code Review| -2..+2 |X
+|Foo Leads       |refs/heads/qa |Code Review| -2..+2 |
+|==============================================================
 
 OpenID Authentication
 ~~~~~~~~~~~~~~~~~~~~~
@@ -487,7 +477,6 @@ to create new branches. This is done by using the special
 `refs/heads/sandbox/${username}/*`. If you do, it's also recommended
 you grant the users the push force permission to be able to clean up
 stale branches.
-
 
 
 [[category_forge_author]]
@@ -729,17 +718,15 @@ Your Category Here
 
 Gerrit administrators can also make up their own categories.
 
-See above for descriptions of how `Verified` and `Code Review` work,
-and insert your own category with `function_name = 'MaxWithBlock'`
-to get the same behavior over your own range of values, in any
-category you desire.
+See above for descriptions of how <<category_verified,`Verified`>>
+and <<category_review,`Code Review`>> work, and insert your own
+category with `function_name = 'MaxWithBlock'` to get the same
+behavior over your own range of values, in any category you desire.
 
 Ensure `category_id` is unique within your `approval_categories`
 table.  The default values `VRIF` and `CVRF` used for the categories
 described above are simply that, defaults, and have no special
-meaning to Gerrit.  The other standard category_id values like
-`OWN`, `READ`, `SUBM`, `pTAG` and `pHD` have special meaning and
-should not be modified or reused.
+meaning to Gerrit.
 
 The `position` column of `approval_categories` controls which column
 of the 'Approvals' table the category appears in, providing some

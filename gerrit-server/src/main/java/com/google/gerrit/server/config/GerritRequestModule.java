@@ -27,6 +27,7 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.account.PerformRenameGroup;
 import com.google.gerrit.server.account.VisibleGroups;
+import com.google.gerrit.server.changedetail.AbandonChange;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -80,6 +81,7 @@ public class GerritRequestModule extends FactoryModule {
     // Not really per-request, but dammit, I don't know where else to
     // easily park this stuff.
     //
+    factory(AbandonChange.Factory.class);
     factory(AddReviewer.Factory.class);
     factory(AddReviewerSender.Factory.class);
     factory(CreateChangeSender.Factory.class);

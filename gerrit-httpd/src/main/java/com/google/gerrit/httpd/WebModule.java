@@ -21,7 +21,6 @@ import com.google.gerrit.httpd.auth.become.BecomeAnyAccountLoginServlet;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
-import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.server.CurrentUser;
@@ -83,10 +82,6 @@ public class WebModule extends FactoryModule {
     }
 
     switch (authConfig.getAuthType()) {
-      case OPENID:
-        install(new OpenIdModule());
-        break;
-
       case HTTP:
       case HTTP_LDAP:
         install(new HttpAuthModule());

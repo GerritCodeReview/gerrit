@@ -25,11 +25,11 @@ limitations under the License.
     <version>2.2-SNAPSHOT</version>
   </parent>
 
-  <artifactId>gerrit-httpd</artifactId>
-  <name>Gerrit Code Review - HTTPd</name>
+  <artifactId>gerrit-openid</artifactId>
+  <name>Gerrit Code Review - OpenID servlet and RPC</name>
 
   <description>
-    Servlet context for components run inside of an HTTP environment.
+    OpenID
   </description>
 
   <dependencies>
@@ -50,40 +50,25 @@ limitations under the License.
     </dependency>
 
     <dependency>
-      <groupId>org.eclipse.jgit</groupId>
-      <artifactId>org.eclipse.jgit.junit</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-servlet</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>eu.medsea.mimeutil</groupId>
-      <artifactId>mime-util</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>gwtjsonrpc</groupId>
-      <artifactId>gwtjsonrpc</artifactId>
+      <groupId>org.openid4java</groupId>
+      <artifactId>openid4java-consumer</artifactId>
+      <type>pom</type>
     </dependency>
 
     <dependency>
       <groupId>com.google.gerrit</groupId>
-      <artifactId>gerrit-launcher</artifactId>
+      <artifactId>gerrit-httpd</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-server</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.gerrit</groupId>
-      <artifactId>gerrit-prettify</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

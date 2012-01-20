@@ -77,6 +77,7 @@ limitations under the License.
     <module>gerrit-httpd</module>
     <module>gerrit-launcher</module>
     <module>gerrit-main</module>
+    <module>gerrit-openid</module>
     <module>gerrit-pgm</module>
     <module>gerrit-prettify</module>
     <module>gerrit-reviewdb</module>

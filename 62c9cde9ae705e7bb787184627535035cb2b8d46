@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACOn////4\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountExternalId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-01-20T19:29:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACMX////g\u003d",
+      "revId": "62c9cde9ae705e7bb787184627535035cb2b8d46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACMX////Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/internal/InternalPasswordHasher.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-20T03:57:16Z",
       "side": 1,
       "message": "Fortunately, cyptography has advanced quite a bit since the idea of SHA1(salt + password) came about. For example, we could use PBKDF2:\n\n - http://en.wikipedia.org/wiki/PBKDF2\n - http://stackoverflow.com/questions/2375541/password-verification-with-pbkdf2-in-java\n\nThis will make it harder for an attacker to brute force any password from the database, which may be important if the end-user shared the same password across services/sites.",
+      "revId": "62c9cde9ae705e7bb787184627535035cb2b8d46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACOn////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/internal/InternalPasswordHasher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-01-20T19:29:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACMX////Y\u003d",
       "revId": "62c9cde9ae705e7bb787184627535035cb2b8d46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAACOn////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/internal/InternalRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-01-20T19:29:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACMX////k\u003d",
+      "revId": "62c9cde9ae705e7bb787184627535035cb2b8d46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACMX////c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/internal/InternalRealm.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAACOn////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/internal/InternalRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-01-20T19:29:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACMX////c\u003d",
+      "revId": "62c9cde9ae705e7bb787184627535035cb2b8d46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACMX////o\u003d",
         "filename": "pom.xml",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2012-01-20T03:57:16Z",
       "side": 1,
       "message": "Why is this version bump required as part of this feature?",
+      "revId": "62c9cde9ae705e7bb787184627535035cb2b8d46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACOn////8\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-01-20T19:29:41Z",
+      "side": 1,
+      "message": "It was merged by mistake, I\u0027ll revert it",
+      "parentUuid": "AAACMX////o\u003d",
       "revId": "62c9cde9ae705e7bb787184627535035cb2b8d46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

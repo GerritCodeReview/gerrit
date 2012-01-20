@@ -642,9 +642,9 @@ wish to restrict merges to being created by Gerrit. By granting
 system will be those created by Gerrit.
 
 
-[[category_pTAG]]
-Push Tag
-~~~~~~~~
+[[category_push_annotated]]
+Push Annotated Tag
+~~~~~~~~~~~~~~~~~~
 
 This category permits users to push an annotated tag object over
 SSH into the project's repository.  Typically this would be done
@@ -660,29 +660,21 @@ should exist in the `refs/tags/` namespace, and should be new.
 This category is intended to be used to publish tags when a project
 reaches a stable release point worth remembering in history.
 
-The range of values is:
-
-* +1 Create Signed Tag
-+
-A new signed tag may be created.  The tagger email address must be
-verified for the current user.
-
-* +2 Create Annotated Tag
-+
-A new annotated (unsigned) tag may be created.  The tagger email
-address must be verified for the current user.
+It allows for a new annotated (unsigned) tag to be created.  The
+tagger email address must be verified for the current user.
 
 To push tags created by users other than the current user (such
-as tags mirrored from an upstream project), `Forge Identity +2`
-must be also granted in addition to `Push Tag >= +1`.
+as tags mirrored from an upstream project), `Forge Committer Identity`
+must be also granted in addition to `Push Annotated Tag`.
 
-To push lightweight (non annotated) tags, grant `Push Branch +2
-Create Branch` for reference name `refs/tags/*`, as lightweight
-tags are implemented just like branches in Git.
+To push lightweight (non annotated) tags, grant
+<<category_create,`Create Reference`>> for reference name
+`refs/tags/*`, as lightweight tags are implemented just like
+branches in Git.
 
-To delete or overwrite an existing tag, grant `Push Branch +3
-Force Push Branch; Delete Branch` for reference name `refs/tags/*`,
-as deleting a tag requires the same permission as deleting a branch.
+To delete or overwrite an existing tag, grant `Push` with the force
+option enabled for reference name `refs/tags/*`, as deleting a tag
+requires the same permission as deleting a branch.
 
 [[category_READ]]
 Read Access

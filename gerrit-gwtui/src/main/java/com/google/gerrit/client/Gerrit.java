@@ -20,7 +20,6 @@ import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.CommandMenuItem;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.MorphingTabPanel;
@@ -190,13 +189,7 @@ public class Gerrit implements EntryPoint {
    */
   public static void updateImpl(final String token) {
     History.newItem(token, false);
-
-    if (historyHooks != null) {
-      // Because we blocked firing the event our history hooks won't be
-      // informed of the current token. Manually fire the event to them.
-      //
-      dispatchHistoryHooks(token);
-    }
+    dispatchHistoryHooks(token);
   }
 
   public static void setQueryString(String query) {
@@ -249,10 +242,7 @@ public class Gerrit implements EntryPoint {
       case HTTP_LDAP:
       case CLIENT_SSL_CERT_LDAP:
       case CUSTOM_EXTENSION:
-        if (token.startsWith("/")) {
-          token = token.substring(1);
-        }
-        Location.assign(selfRedirect("/login/" + token));
+        Location.assign(loginRedirect(token));
         break;
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
@@ -268,6 +258,15 @@ public class Gerrit implements EntryPoint {
         new UserPassSignInDialog(token, null).center();
         break;
     }
+  }
+
+  private static String loginRedirect(String token) {
+    if (token == null) {
+      token = "";
+    } else if (token.startsWith("/")) {
+      token = token.substring(1);
+    }
+    return selfRedirect("/login/" + token);
   }
 
   private static String selfRedirect(String suffix) {
@@ -376,6 +375,7 @@ public class Gerrit implements EntryPoint {
   }
 
   private static ArrayList<JavaScriptObject> historyHooks;
+  private static Anchor signInAnchor;
 
   private static native void initHistoryHooks()
   /*-{ $wnd['gerrit_addHistoryHook'] = function(h) { @com.google.gerrit.client.Gerrit::addHistoryHook(Lcom/google/gwt/core/client/JavaScriptObject;)(h); }; }-*/;
@@ -397,9 +397,14 @@ public class Gerrit implements EntryPoint {
   /*-{ hook(url); }-*/;
 
   private static void dispatchHistoryHooks(final String historyToken) {
-    final String url = Location.getPath() + "#" + historyToken;
-    for (final JavaScriptObject hook : historyHooks) {
-      callHistoryHook(hook, url);
+    if (signInAnchor != null) {
+      signInAnchor.setHref(loginRedirect(historyToken));
+    }
+    if (historyHooks != null) {
+      final String url = Location.getPath() + "#" + historyToken;
+      for (final JavaScriptObject hook : historyHooks) {
+        callHistoryHook(hook, url);
+      }
     }
   }
 
@@ -464,9 +469,7 @@ public class Gerrit implements EntryPoint {
         final String token = view.getToken();
         if (!token.equals(History.getToken())) {
           History.newItem(token, false);
-          if (historyHooks != null) {
-            dispatchHistoryHooks(token);
-          }
+          dispatchHistoryHooks(token);
         }
 
         if (view instanceof ChangeListScreen) {
@@ -606,14 +609,8 @@ public class Gerrit implements EntryPoint {
           if (cfg.getRegisterUrl() != null) {
             menuRight.add(anchor(C.menuRegister(), cfg.getRegisterUrl()));
           }
-          CommandMenuItem signIn = new CommandMenuItem(C.menuSignIn(),
-              new Command() {
-                public void execute() {
-                  doSignIn(History.getToken());
-                }
-              });
-          signIn.setHref(selfRedirect("/login/"));
-          menuRight.addItem(signIn);
+          signInAnchor = anchor(C.menuSignIn(), loginRedirect(""));
+          menuRight.add(signInAnchor);
           break;
 
         case DEVELOPMENT_BECOME_ANY_ACCOUNT:

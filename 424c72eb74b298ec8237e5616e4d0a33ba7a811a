@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACLX///+I\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-20T16:07:28Z",
+      "side": 1,
+      "message": "Should we add a note here about exclusive since it was different in 2.1.x?",
+      "revId": "424c72eb74b298ec8237e5616e4d0a33ba7a811a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

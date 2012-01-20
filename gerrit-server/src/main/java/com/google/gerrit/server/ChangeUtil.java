@@ -33,7 +33,6 @@ import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
-import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -315,49 +314,6 @@ public class ChangeUtil {
       revWalk.release();
       git.close();
     }
-  }
-
-  public static void restore(final PatchSet.Id patchSetId,
-      final IdentifiedUser user, final String message, final ReviewDb db,
-      final RestoredSender.Factory senderFactory,
-      final ChangeHooks hooks) throws NoSuchChangeException,
-      InvalidChangeOperationException, EmailException, OrmException {
-    final Change.Id changeId = patchSetId.getParentKey();
-    final PatchSet patch = db.patchSets().get(patchSetId);
-    if (patch == null) {
-      throw new NoSuchChangeException(changeId);
-    }
-
-    final ChangeMessage cmsg =
-        new ChangeMessage(new ChangeMessage.Key(changeId, ChangeUtil
-            .messageUUID(db)), user.getAccountId(), patchSetId);
-    final StringBuilder msgBuf =
-        new StringBuilder("Patch Set " + patchSetId.get() + ": Restored");
-    if (message != null && message.length() > 0) {
-      msgBuf.append("\n\n");
-      msgBuf.append(message);
-    }
-    cmsg.setMessage(msgBuf.toString());
-
-    final Change updatedChange = db.changes().atomicUpdate(changeId,
-        new AtomicUpdate<Change>() {
-      @Override
-      public Change update(Change change) {
-        if (change.getStatus() == Change.Status.ABANDONED
-            && change.currentPatchSetId().equals(patchSetId)) {
-          change.setStatus(Change.Status.NEW);
-          ChangeUtil.updated(change);
-          return change;
-        } else {
-          return null;
-        }
-      }
-    });
-
-    updatedChange(db, user, updatedChange, cmsg, senderFactory,
-       "Change is not abandoned or patchset is not latest");
-
-    hooks.doChangeRestoreHook(updatedChange, user.getAccount(), message, db);
   }
 
   public static void publishDraftPatchSet(final ReviewDb db,
